@@ -43,6 +43,10 @@ export function isImageObject(mxObject: MxObject): boolean {
     return (window as any).mx.meta.getEntity(mxObject.getEntity()).isA("System.Image");
 }
 
+export function fetchDocumentUrl(mxObject: MxObject): string {
+    return (window as any).mx.data.getDocumentUrl(mxObject.getGuid(), mxObject.get("changedDate"), false);
+}
+
 export function fetchImageThumbnail(mxObject: MxObject): Promise<string> {
     const docUrl = (window as any).mx.data.getDocumentUrl(mxObject.getGuid(), mxObject.get("changedDate"), true);
     return new Promise<string>((resolve, reject) => {

@@ -172,6 +172,14 @@
                 </translations>
             </property>
 
+            <property key="downloadButtonTextMessage" type="textTemplate">
+                <caption>Download button</caption>
+                <description />
+                <translations>
+                    <translation lang="en_US">Download this file</translation>
+                </translations>
+            </property>
+
             <property key="removeButtonTextMessage" type="textTemplate">
                 <caption>Remove button</caption>
                 <description />

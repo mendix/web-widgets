@@ -4,7 +4,15 @@ import { action, computed, makeObservable, observable, runInAction } from "mobx"
 import mimeTypes from "mime-types";
 
 import { FileUploaderStore } from "./FileUploaderStore";
-import { fetchImageThumbnail, fetchMxObject, isImageObject, MxObject, removeObject, saveFile } from "../utils/mx-data";
+import {
+    fetchDocumentUrl,
+    fetchImageThumbnail,
+    fetchMxObject,
+    isImageObject,
+    MxObject,
+    removeObject,
+    saveFile
+} from "../utils/mx-data";
 
 export type FileStatus =
     | "existingFile"
@@ -151,6 +159,12 @@ export class FileStore {
             runInAction(() => {
                 this._thumbnailUrl = url;
             });
+        }
+    }
+
+    get downloadUrl(): string | undefined {
+        if (this._mxObject) {
+            return fetchDocumentUrl(this._mxObject);
         }
     }
 

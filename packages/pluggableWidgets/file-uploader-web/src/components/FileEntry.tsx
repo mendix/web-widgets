@@ -27,6 +27,7 @@ export const FileEntryContainer = observer(({ store }: FileEntryContainerProps):
             errorMessage={store.errorDescription}
             canRemove={store.canRemove}
             onRemove={onRemove}
+            downloadUrl={store.downloadUrl}
         />
     );
 });
@@ -42,10 +43,17 @@ interface FileEntryProps {
 
     canRemove: boolean;
     onRemove: () => void;
+
+    downloadUrl?: string;
 }
 
 function FileEntry(props: FileEntryProps): ReactElement {
     const translations = useTranslationsStore();
+
+    const onView = useCallback(() => {
+        onDownloadClick(props.downloadUrl);
+    }, [props.downloadUrl]);
+
     return (
         <div
             className={classNames("file-entry", {
@@ -73,14 +81,24 @@ function FileEntry(props: FileEntryProps): ReactElement {
 
                 <div className={"entry-details-actions"}>
                     <button
-                        className={classNames("remove-button", {
+                        className={classNames("action-button", {
+                            disabled: !props.downloadUrl
+                        })}
+                        onClick={onView}
+                        role={"button"}
+                        title={translations.get("downloadButtonTextMessage")}
+                    >
+                        <div className={"download-icon"} />
+                    </button>
+                    <button
+                        className={classNames("action-button", {
                             disabled: !props.canRemove
                         })}
                         onClick={props.onRemove}
                         role={"button"}
                         title={translations.get("removeButtonTextMessage")}
                     >
-                        &nbsp;
+                        <div className={"remove-icon"} />
                     </button>
                 </div>
             </div>
@@ -92,4 +110,12 @@ function FileEntry(props: FileEntryProps): ReactElement {
             </div>
         </div>
     );
+}
+
+function onDownloadClick(fileUrl: string | undefined): void {
+    if (!fileUrl) {
+        return;
+    }
+    const url = `${fileUrl}&target=window`;
+    window.open(url, "mendix_file");
 }
