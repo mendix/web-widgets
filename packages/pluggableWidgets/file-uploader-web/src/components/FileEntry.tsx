@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ProgressBar } from "./ProgressBar";
 import { UploadInfo } from "./UploadInfo";
-import { createElement, ReactElement, useCallback, MouseEvent } from "react";
+import { createElement, ReactElement, useCallback, MouseEvent, KeyboardEvent } from "react";
 import { FileStatus, FileStore } from "../stores/FileStore";
 import { observer } from "mobx-react-lite";
 import fileSize from "filesize.js";
@@ -61,6 +61,17 @@ function FileEntry(props: FileEntryProps): ReactElement {
         [downloadUrl]
     );
 
+    const onKeyDown = useCallback(
+        (e: KeyboardEvent<HTMLDivElement>) => {
+            if (e.code === "Enter" || e.code === "Space") {
+                e.stopPropagation();
+                e.preventDefault();
+                onDownloadClick(downloadUrl);
+            }
+        },
+        [downloadUrl]
+    );
+
     const onRemoveClick = useCallback(
         (e: MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation();
@@ -77,6 +88,7 @@ function FileEntry(props: FileEntryProps): ReactElement {
             })}
             tabIndex={0}
             onClick={onViewClick}
+            onKeyDown={onKeyDown}
         >
             <div className={"entry-details"}>
                 <div

@@ -109,7 +109,7 @@ Place your custom CSS here
             border-radius: 4px;
             padding: 10px;
 
-            &:not(.removed):not(.invalid):hover {
+            &:not(.removed):not(.invalid):hover:not(:has(.action-button:hover)) {
                 pointer-events: all;
                 cursor: pointer;
                 background-color: var(--bg-color-default);
@@ -120,7 +120,7 @@ Place your custom CSS here
                 }
             }
 
-            &:not(.removed):not(.invalid):active {
+            &:not(.removed):not(.invalid):active:not(:has(.action-button:active)) {
                 .download-icon {
                     background-image: url(../assets/view-icon-active.svg);
                 }
@@ -277,12 +277,18 @@ Place your custom CSS here
                 .download-icon {
                     visibility: hidden;
                 }
+                .entry-details-actions {
+                    display: none;
+                }
             }
 
             &.invalid {
                 opacity: 0.7;
                 .download-icon {
                     visibility: hidden;
+                }
+                .entry-details-actions {
+                    display: none;
                 }
             }
         }
