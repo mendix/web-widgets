@@ -109,9 +109,29 @@ Place your custom CSS here
             border-radius: 4px;
             padding: 10px;
 
-            &:hover {
+            &:not(.removed):not(.invalid):hover {
+                pointer-events: all;
+                cursor: pointer;
                 background-color: var(--bg-color-default);
                 border-color: var(--border-color-active);
+
+                .download-icon {
+                    background-image: url(../assets/view-icon-hover.svg);
+                }
+            }
+
+            &:not(.removed):not(.invalid):active {
+                .download-icon {
+                    background-image: url(../assets/view-icon-active.svg);
+                }
+            }
+
+            .download-icon {
+                height: 24px;
+                width: 24px;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-image: url(../assets/view-icon.svg);
             }
 
             .entry-details {
@@ -171,6 +191,8 @@ Place your custom CSS here
 
                     display: flex;
 
+                    align-items: center;
+
                     .action-button {
                         width: 32px;
                         text-decoration: none;
@@ -191,26 +213,6 @@ Place your custom CSS here
 
                         &:active {
                             background-image: url(../assets/remove-icon-active.svg);
-                        }
-
-                        &.disabled {
-                            display: none;
-                        }
-                    }
-
-                    .download-icon {
-                        height: 24px;
-                        width: 24px;
-                        background-repeat: no-repeat;
-                        background-position: center;
-                        background-image: url(../assets/view-icon.svg);
-
-                        &:hover {
-                            background-image: url(../assets/view-icon-hover.svg);
-                        }
-
-                        &:active {
-                            background-image: url(../assets/view-icon-active.svg);
                         }
 
                         &.disabled {
@@ -272,10 +274,16 @@ Place your custom CSS here
 
             &.removed {
                 opacity: 0.4;
+                .download-icon {
+                    visibility: hidden;
+                }
             }
 
             &.invalid {
                 opacity: 0.7;
+                .download-icon {
+                    visibility: hidden;
+                }
             }
         }
     }

@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ProgressBar } from "./ProgressBar";
 import { UploadInfo } from "./UploadInfo";
-import { createElement, ReactElement, useCallback } from "react";
+import { createElement, ReactElement, useCallback, MouseEvent } from "react";
 import { FileStatus, FileStore } from "../stores/FileStore";
 import { observer } from "mobx-react-lite";
 import fileSize from "filesize.js";
@@ -50,9 +50,24 @@ interface FileEntryProps {
 function FileEntry(props: FileEntryProps): ReactElement {
     const translations = useTranslationsStore();
 
-    const onView = useCallback(() => {
-        onDownloadClick(props.downloadUrl);
-    }, [props.downloadUrl]);
+    const { downloadUrl, onRemove } = props;
+
+    const onViewClick = useCallback(
+        (e: MouseEvent<HTMLDivElement>) => {
+            e.stopPropagation();
+            e.preventDefault();
+            onDownloadClick(downloadUrl);
+        },
+        [downloadUrl]
+    );
+
+    const onRemoveClick = useCallback(
+        (e: MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+            onRemove();
+        },
+        [onRemove]
+    );
 
     return (
         <div
@@ -60,6 +75,8 @@ function FileEntry(props: FileEntryProps): ReactElement {
                 removed: props.fileStatus === "removedFile",
                 invalid: props.fileStatus === "validationError"
             })}
+            tabIndex={0}
+            onClick={onViewClick}
         >
             <div className={"entry-details"}>
                 <div
@@ -80,21 +97,12 @@ function FileEntry(props: FileEntryProps): ReactElement {
                 </div>
 
                 <div className={"entry-details-actions"}>
-                    <button
-                        className={classNames("action-button", {
-                            disabled: !props.downloadUrl
-                        })}
-                        onClick={onView}
-                        role={"button"}
-                        title={translations.get("downloadButtonTextMessage")}
-                    >
-                        <div className={"download-icon"} />
-                    </button>
+                    <div className={"download-icon"} />
                     <button
                         className={classNames("action-button", {
                             disabled: !props.canRemove
                         })}
-                        onClick={props.onRemove}
+                        onClick={onRemoveClick}
                         role={"button"}
                         title={translations.get("removeButtonTextMessage")}
                     >
