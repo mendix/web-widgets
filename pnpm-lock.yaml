@@ -29,6 +29,9 @@ overrides:
 pnpmfileChecksum: rkt4ji2ixse7sofi3lgft3ue7y
 
 patchedDependencies:
+  mime-types:
+    hash: krzc23z4ogcsphuakq2jjc37ce
+    path: patches/mime-types.patch
   mobx-react-lite@4.0.7:
     hash: ziuwsdtojeszsu4w5zqfcs745m
     path: patches/mobx-react-lite@4.0.7.patch
@@ -286,7 +289,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.16.0
-        version: 10.16.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)
+        version: 10.16.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@20.12.12)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -307,7 +310,7 @@ importers:
         version: 6.7.3(webpack@5.94.0)
       fork-ts-checker-webpack-plugin:
         specifier: ^7.3.0
-        version: 7.3.0(typescript@5.1.6)(webpack@5.94.0)
+        version: 7.3.0(typescript@5.0.4)(webpack@5.94.0)
       mendix-client:
         specifier: ^7.15.8
         version: 7.15.8
@@ -325,7 +328,7 @@ importers:
         version: 1.2.0
       ts-loader:
         specifier: ^9.4.2
-        version: 9.4.2(typescript@5.1.6)(webpack@5.94.0)
+        version: 9.4.2(typescript@5.0.4)(webpack@5.94.0)
       webpack:
         specifier: ^5.75.0
         version: 5.94.0(@swc/core@1.7.26)(webpack-cli@4.10.0)
@@ -776,7 +779,7 @@ importers:
         version: 7.0.3
       mime-types:
         specifier: ^2.1.35
-        version: 2.1.35
+        version: 2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce)
       postcss:
         specifier: ^8.4.21
         version: 8.4.31
@@ -1328,13 +1331,13 @@ importers:
         version: 2.0.0
       mime-types:
         specifier: ^2.1.35
-        version: 2.1.35
+        version: 2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce)
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       mobx-react-lite:
         specifier: 4.0.7
-        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
       react-dropzone:
         specifier: ^14.2.3
         version: 14.2.9(react@18.2.0)
@@ -1347,7 +1350,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 10.16.0
-        version: 10.16.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@20.12.12)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)(tslib@2.7.0)
+        version: 10.16.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -13195,7 +13198,7 @@ snapshots:
       sort-object: 3.0.3
       tinyqueue: 3.0.0
 
-  '@mendix/pluggable-widgets-tools@10.16.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@20.12.12)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)(tslib@2.7.0)':
+  '@mendix/pluggable-widgets-tools@10.16.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@20.12.12)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)(tslib@2.7.0)':
     dependencies:
       '@babel/core': 7.25.8
       '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.25.8)
@@ -13220,7 +13223,7 @@ snapshots:
       '@testing-library/user-event': 14.5.1(@testing-library/dom@8.20.1)
       '@types/react': 18.2.36
       '@types/react-dom': 18.2.14
-      '@types/react-native': 0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))
+      '@types/react-native': 0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))
       '@types/testing-library__jest-dom': 5.14.9
       '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.0.4))(eslint@7.32.0)(typescript@5.0.4)
       '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
@@ -13277,110 +13280,6 @@ snapshots:
       shx: 0.3.4
       ts-jest: 29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@20.12.12)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)))(typescript@5.0.4)
       ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@20.12.12)(typescript@5.0.4)
-      typescript: 5.0.4
-      xml2js: 0.6.2
-      zip-a-folder: 0.0.12
-    transitivePeerDependencies:
-      - '@jest/types'
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/babel__core'
-      - '@types/node'
-      - babel-plugin-macros
-      - bufferutil
-      - canvas
-      - encoding
-      - esbuild
-      - node-notifier
-      - react
-      - react-dom
-      - react-native
-      - supports-color
-      - tslib
-      - utf-8-validate
-
-  '@mendix/pluggable-widgets-tools@10.16.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)(tslib@2.7.0)':
-    dependencies:
-      '@babel/core': 7.25.8
-      '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.25.8)
-      '@babel/plugin-proposal-private-methods': 7.18.6(@babel/core@7.25.8)
-      '@babel/plugin-transform-react-jsx': 7.25.7(@babel/core@7.25.8)
-      '@babel/preset-env': 7.23.2(@babel/core@7.25.8)
-      '@babel/preset-react': 7.22.15(@babel/core@7.25.8)
-      '@cfaester/enzyme-adapter-react-18': 0.6.0(enzyme@3.11.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@prettier/plugin-xml': 1.2.0
-      '@rollup/plugin-alias': 3.1.9(rollup@2.79.2)
-      '@rollup/plugin-babel': 5.3.1(@babel/core@7.25.8)(@types/babel__core@7.20.3)(rollup@2.79.2)
-      '@rollup/plugin-commonjs': 22.0.2(rollup@2.79.2)
-      '@rollup/plugin-image': 2.1.1(rollup@2.79.2)
-      '@rollup/plugin-json': 4.1.0(rollup@2.79.2)
-      '@rollup/plugin-node-resolve': 13.3.0(rollup@2.79.2)
-      '@rollup/plugin-typescript': 8.5.0(rollup@2.79.2)(tslib@2.7.0)(typescript@5.0.4)
-      '@rollup/plugin-url': 6.1.0(rollup@2.79.2)
-      '@rollup/pluginutils': 4.2.1
-      '@testing-library/dom': 8.20.1
-      '@testing-library/jest-dom': 5.17.0
-      '@testing-library/react': 13.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@testing-library/user-event': 14.5.1(@testing-library/dom@8.20.1)
-      '@types/react': 18.2.36
-      '@types/react-dom': 18.2.14
-      '@types/react-native': 0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))
-      '@types/testing-library__jest-dom': 5.14.9
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.0.4))(eslint@7.32.0)(typescript@5.0.4)
-      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.0.4)
-      ansi-colors: 4.1.1
-      babel-eslint: 10.1.0(eslint@7.32.0)
-      babel-jest: 29.7.0(@babel/core@7.25.8)
-      big.js: 6.2.2
-      concurrently: 6.5.1
-      core-js: 3.33.2
-      dotenv: 8.6.0
-      enzyme: 3.11.0
-      enzyme-to-json: 3.6.2(enzyme@3.11.0)
-      eslint: 7.32.0
-      eslint-config-prettier: 8.10.0(eslint@7.32.0)
-      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.0.4))(eslint@7.32.0)(typescript@5.0.4))(eslint@7.32.0)(typescript@5.0.4)
-      eslint-plugin-prettier: 3.4.1(eslint-config-prettier@8.10.0(eslint@7.32.0))(eslint@7.32.0)(prettier@2.8.8)
-      eslint-plugin-promise: 4.3.1
-      eslint-plugin-react: 7.28.0(eslint@7.32.0)
-      eslint-plugin-react-hooks: 4.6.0(eslint@7.32.0)
-      fast-glob: 3.3.2
-      find-free-port: 2.0.0
-      fs-extra: 9.1.0
-      identity-obj-proxy: 3.0.0
-      jasmine: 3.99.0
-      jasmine-core: 3.99.1
-      jest: 29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
-      jest-environment-jsdom: 29.7.0
-      jest-jasmine2: 29.7.0
-      jest-junit: 13.2.0
-      jest-react-hooks-shallow: 1.5.1
-      make-dir: 3.1.0
-      mendix: 10.16.49747
-      metro-react-native-babel-preset: 0.74.1(@babel/core@7.25.8)
-      mime: 3.0.0
-      node-fetch: 2.7.0
-      postcss: 8.4.47
-      postcss-import: 14.1.0(postcss@8.4.47)
-      postcss-url: 10.1.3(postcss@8.4.47)
-      prettier: 2.8.8
-      react-test-renderer: 18.2.0(react@18.2.0)
-      recursive-copy: 2.0.14
-      resolve: 1.22.8
-      rollup: 2.79.2
-      rollup-plugin-clear: 2.0.7
-      rollup-plugin-command: 1.1.3
-      rollup-plugin-license: 2.9.1(rollup@2.79.2)
-      rollup-plugin-livereload: 2.0.5
-      rollup-plugin-postcss: 4.0.2(postcss@8.4.47)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4))
-      rollup-plugin-re: 1.0.7
-      rollup-plugin-terser: 7.0.2(rollup@2.79.2)
-      sass: 1.58.3
-      semver: 7.6.3
-      shelljs: 0.8.5
-      shx: 0.3.4
-      ts-jest: 29.1.1(@babel/core@7.25.8)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.8))(jest@29.7.0(@types/node@22.7.5)(ts-node@10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)))(typescript@5.0.4)
-      ts-node: 10.9.1(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.0.4)
       typescript: 5.0.4
       xml2js: 0.6.2
       zip-a-folder: 0.0.12
@@ -14217,17 +14116,11 @@ snapshots:
 
   '@react-native/normalize-colors@0.75.3': {}
 
-  '@react-native/virtualized-lists@0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))':
+  '@react-native/virtualized-lists@0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))':
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
-      react-native: 0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6)
-
-  '@react-native/virtualized-lists@0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))':
-    dependencies:
-      invariant: 2.2.4
-      nullthrows: 1.1.1
-      react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4)
+      react-native: 0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4)
 
   '@react-native/virtualized-lists@0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))':
     dependencies:
@@ -14241,21 +14134,12 @@ snapshots:
       nullthrows: 1.1.1
       react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)
 
-  '@react-native/virtualized-lists@0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)':
+  '@react-native/virtualized-lists@0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)':
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
       react: 18.2.0
-      react-native: 0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6)
-    optionalDependencies:
-      '@types/react': 18.2.36
-
-  '@react-native/virtualized-lists@0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)':
-    dependencies:
-      invariant: 2.2.4
-      nullthrows: 1.1.1
-      react: 18.2.0
-      react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4)
+      react-native: 0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4)
     optionalDependencies:
       '@types/react': 18.2.36
 
@@ -14787,16 +14671,9 @@ snapshots:
     dependencies:
       '@types/react': 18.2.36
 
-  '@types/react-native@0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))':
+  '@types/react-native@0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))':
     dependencies:
-      '@react-native/virtualized-lists': 0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))
-      '@types/react': 18.2.36
-    transitivePeerDependencies:
-      - react-native
-
-  '@types/react-native@0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))':
-    dependencies:
-      '@react-native/virtualized-lists': 0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))
+      '@react-native/virtualized-lists': 0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))
       '@types/react': 18.2.36
     transitivePeerDependencies:
       - react-native
@@ -15319,7 +15196,7 @@ snapshots:
 
   accepts@1.3.8:
     dependencies:
-      mime-types: 2.1.35
+      mime-types: 2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce)
       negotiator: 0.6.3
 
   ace-builds@1.33.1: {}
@@ -17655,7 +17532,7 @@ snapshots:
     dependencies:
       is-callable: 1.2.7
 
-  fork-ts-checker-webpack-plugin@7.3.0(typescript@5.1.6)(webpack@5.94.0):
+  fork-ts-checker-webpack-plugin@7.3.0(typescript@5.0.4)(webpack@5.94.0):
     dependencies:
       '@babel/code-frame': 7.22.5
       chalk: 4.1.2
@@ -17669,20 +17546,20 @@ snapshots:
       schema-utils: 3.3.0
       semver: 7.5.1
       tapable: 2.2.1
-      typescript: 5.1.6
+      typescript: 5.0.4
       webpack: 5.94.0(@swc/core@1.7.26)(webpack-cli@4.10.0)
 
   form-data@3.0.1:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
-      mime-types: 2.1.35
+      mime-types: 2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce)
 
   form-data@4.0.0:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
-      mime-types: 2.1.35
+      mime-types: 2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce)
 
   fresh@0.5.2: {}
 
@@ -19775,7 +19652,7 @@ snapshots:
       metro-symbolicate: 0.80.12
       metro-transform-plugins: 0.80.12
       metro-transform-worker: 0.80.12
-      mime-types: 2.1.35
+      mime-types: 2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce)
       nullthrows: 1.1.1
       serialize-error: 2.1.0
       source-map: 0.5.7
@@ -19802,7 +19679,7 @@ snapshots:
 
   mime-db@1.53.0: {}
 
-  mime-types@2.1.35:
+  mime-types@2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce):
     dependencies:
       mime-db: 1.52.0
 
@@ -19855,15 +19732,6 @@ snapshots:
       minimist: 1.2.8
 
   mkdirp@1.0.4: {}
-
-  mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0):
-    dependencies:
-      mobx: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
-      react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
-    optionalDependencies:
-      react-dom: 18.2.0(react@18.2.0)
-      react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4)
 
   mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0):
     dependencies:
@@ -21202,10 +21070,10 @@ snapshots:
 
   react-lifecycles-compat@3.0.4: {}
 
-  react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6):
+  react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4):
     dependencies:
       '@jest/create-cache-key-function': 29.7.0
-      '@react-native-community/cli': 14.1.0(typescript@5.1.6)
+      '@react-native-community/cli': 14.1.0(typescript@5.0.4)
       '@react-native-community/cli-platform-android': 14.1.0
       '@react-native-community/cli-platform-ios': 14.1.0
       '@react-native/assets-registry': 0.75.3
@@ -21214,7 +21082,7 @@ snapshots:
       '@react-native/gradle-plugin': 0.75.3
       '@react-native/js-polyfills': 0.75.3
       '@react-native/normalize-colors': 0.75.3
-      '@react-native/virtualized-lists': 0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)
+      '@react-native/virtualized-lists': 0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)
       abort-controller: 3.0.0
       anser: 1.4.10
       ansi-regex: 5.0.1
@@ -21268,59 +21136,6 @@ snapshots:
       '@react-native/js-polyfills': 0.75.3
       '@react-native/normalize-colors': 0.75.3
       '@react-native/virtualized-lists': 0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
-      abort-controller: 3.0.0
-      anser: 1.4.10
-      ansi-regex: 5.0.1
-      base64-js: 1.5.1
-      chalk: 4.1.2
-      commander: 9.5.0
-      event-target-shim: 5.0.1
-      flow-enums-runtime: 0.0.6
-      glob: 7.2.3
-      invariant: 2.2.4
-      jest-environment-node: 29.7.0
-      jsc-android: 250231.0.0
-      memoize-one: 5.2.1
-      metro-runtime: 0.80.12
-      metro-source-map: 0.80.12
-      mkdirp: 0.5.6
-      nullthrows: 1.1.1
-      pretty-format: 26.6.2
-      promise: 8.3.0
-      react: 18.2.0
-      react-devtools-core: 5.3.2
-      react-refresh: 0.14.2
-      regenerator-runtime: 0.13.11
-      scheduler: 0.24.0-canary-efb381bbf-20230505
-      semver: 7.6.3
-      stacktrace-parser: 0.1.10
-      whatwg-fetch: 3.6.20
-      ws: 6.2.3
-      yargs: 17.7.2
-    optionalDependencies:
-      '@types/react': 18.2.36
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@babel/preset-env'
-      - bufferutil
-      - encoding
-      - supports-color
-      - typescript
-      - utf-8-validate
-
-  react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4):
-    dependencies:
-      '@jest/create-cache-key-function': 29.7.0
-      '@react-native-community/cli': 14.1.0(typescript@5.0.4)
-      '@react-native-community/cli-platform-android': 14.1.0
-      '@react-native-community/cli-platform-ios': 14.1.0
-      '@react-native/assets-registry': 0.75.3
-      '@react-native/codegen': 0.75.3(@babel/preset-env@7.23.2(@babel/core@7.25.8))
-      '@react-native/community-cli-plugin': 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))
-      '@react-native/gradle-plugin': 0.75.3
-      '@react-native/js-polyfills': 0.75.3
-      '@react-native/normalize-colors': 0.75.3
-      '@react-native/virtualized-lists': 0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)
       abort-controller: 3.0.0
       anser: 1.4.10
       ansi-regex: 5.0.1
@@ -22621,6 +22436,15 @@ snapshots:
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.25.8)
 
+  ts-loader@9.4.2(typescript@5.0.4)(webpack@5.94.0):
+    dependencies:
+      chalk: 4.1.2
+      enhanced-resolve: 5.15.0
+      micromatch: 4.0.5
+      semver: 7.5.1
+      typescript: 5.0.4
+      webpack: 5.94.0(@swc/core@1.7.26)(webpack-cli@4.10.0)
+
   ts-loader@9.4.2(typescript@5.1.6)(webpack@5.94.0):
     dependencies:
       chalk: 4.1.2
@@ -22628,7 +22452,7 @@ snapshots:
       micromatch: 4.0.5
       semver: 7.5.1
       typescript: 5.1.6
-      webpack: 5.94.0(@swc/core@1.7.26)(webpack-cli@4.10.0)
+      webpack: 5.94.0(@swc/core@1.7.26)(webpack-cli@5.0.1)
 
   ts-loader@9.4.2(typescript@5.1.6)(webpack@5.96.1):
     dependencies:
@@ -23075,7 +22899,7 @@ snapshots:
       graceful-fs: 4.2.11
       json-parse-even-better-errors: 2.3.1
       loader-runner: 4.3.0
-      mime-types: 2.1.35
+      mime-types: 2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce)
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
@@ -23107,7 +22931,7 @@ snapshots:
       graceful-fs: 4.2.11
       json-parse-even-better-errors: 2.3.1
       loader-runner: 4.3.0
-      mime-types: 2.1.35
+      mime-types: 2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce)
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
@@ -23139,7 +22963,7 @@ snapshots:
       graceful-fs: 4.2.11
       json-parse-even-better-errors: 2.3.1
       loader-runner: 4.3.0
-      mime-types: 2.1.35
+      mime-types: 2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce)
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
@@ -23169,7 +22993,7 @@ snapshots:
       graceful-fs: 4.2.11
       json-parse-even-better-errors: 2.3.1
       loader-runner: 4.3.0
-      mime-types: 2.1.35
+      mime-types: 2.1.35(patch_hash=krzc23z4ogcsphuakq2jjc37ce)
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
