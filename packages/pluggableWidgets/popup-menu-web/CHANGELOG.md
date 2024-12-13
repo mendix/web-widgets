@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.0.1] - 2024-12-13
+
 ### Breaking changes
 
 -   "The area to open or close the menu" field is now required.
