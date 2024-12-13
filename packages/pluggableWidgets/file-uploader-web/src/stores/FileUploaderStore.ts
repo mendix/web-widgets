@@ -8,18 +8,6 @@ import { FileRejection } from "react-dropzone";
 import { FileCheckFormat } from "../utils/predefinedFormats";
 import { TranslationsStore } from "./TranslationsStore";
 
-// interface FileSizeError {
-//     type: "file-too-big";
-//     limitSize: number;
-// }
-//
-// interface FileTypeError {
-//     type: "invalid-file-type";
-//     supportedTypesDescription: string;
-// }
-
-// type FileError = FileSizeError | FileTypeError;
-
 export class FileUploaderStore {
     files: FileStore[] = [];
     lastSeenItems: Set<ObjectItem["id"]> = new Set<ObjectItem["id"]>();
@@ -143,24 +131,7 @@ export class FileUploaderStore {
         this.errorMessage = msg;
     }
 
-    // async checkFile(file: File): FileError | undefined {
-    //     // check file size
-    //     if (file.size > this._maxFileSize) {
-    //         return {
-    //             type: "file-too-big",
-    //             limitSize: this._maxFileSize
-    //         };
-    //     }
-    //
-    //     // todo: check on mime types and extensions
-    //     // file type is already here
-    //     if (file.type) {
-    //         mimeTypes;
-    //     }
-    //     // check file type
-    // }
-
-    async processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): Promise<void> {
+    processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
         if (!this._createObjectAction || !this._createObjectAction.canExecute) {
             console.error(
                 `'Action to create new files' is not available or can't be executed. Please check if '${this._widgetName}' widget is configured correctly.`
@@ -210,7 +181,7 @@ export class FileUploaderStore {
             this.files.unshift(newFileStore);
 
             if (newFileStore.validate()) {
-                await newFileStore.upload();
+                newFileStore.upload();
             }
         }
     }
