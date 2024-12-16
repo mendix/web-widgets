@@ -37,7 +37,8 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         onLoad,
         readOnlyStyle,
         toolbarOptions,
-        enableStatusBar
+        enableStatusBar,
+        tabIndex
     } = props;
     const isFirstLoad = useRef<boolean>(false);
     const quillRef = useRef<Quill>(null);
@@ -100,7 +101,6 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                 if (!isFocus) {
                     setIsFocus(true);
                     executeAction(onFocus);
-
                     editorValueRef.current = quillRef.current?.getText() || "";
                 }
             } else {
@@ -145,24 +145,17 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                 }
             }}
             spellCheck={props.spellCheck}
+            tabIndex={tabIndex}
         >
             {toolbarLocation === "auto" && <StickySentinel />}
             <div
                 className={classNames(
                     "flexcontainer",
-                    toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column"
+                    toolbarLocation === "top" ? "flex-column-reverse" : "flex-column"
                 )}
             >
-                <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
-                    <Toolbar
-                        ref={toolbarRef}
-                        id={toolbarId}
-                        preset={preset}
-                        quill={quillRef.current}
-                        toolbarContent={toolbarPreset}
-                    />
-                </If>
                 <Editor
+                    tabIndex={tabIndex}
                     theme={"snow"}
                     ref={quillRef}
                     defaultValue={stringAttribute.value}
@@ -178,6 +171,15 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                     readOnly={stringAttribute.readOnly}
                     key={`${toolbarId}_${stringAttribute.readOnly}`}
                 />
+                <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
+                    <Toolbar
+                        ref={toolbarRef}
+                        id={toolbarId}
+                        preset={preset}
+                        quill={quillRef.current}
+                        toolbarContent={toolbarPreset}
+                    />
+                </If>
             </div>
             {enableStatusBar && (
                 <div className="widget-rich-text-footer">
