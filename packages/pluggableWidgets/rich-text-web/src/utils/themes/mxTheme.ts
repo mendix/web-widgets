@@ -37,21 +37,23 @@ export default class MendixTheme extends SnowTheme {
 
     /** updating font picker selected item based on current's selection font */
     updateFontPicker(range: Range): void {
-        const currentRange = range || { index: 0, length: 0 };
-        if (!this.fontPicker) {
-            this.fontPicker = this.pickers.find(picker => picker.container.classList.contains("ql-font"));
-        }
+        if (this.pickers) {
+            const currentRange = range || { index: 0, length: 0 };
+            if (!this.fontPicker) {
+                this.fontPicker = this.pickers.find(picker => picker.container.classList.contains("ql-font"));
+            }
 
-        const format = this.quill.getFormat(currentRange.index, currentRange.length);
-        let font = format ? (format.font as string) : undefined;
-        if (!font) {
-            // default font
-            font = "helvetica";
-        }
+            const format = this.quill.getFormat(currentRange.index, currentRange.length);
+            let font = format ? (format.font as string) : undefined;
+            if (!font) {
+                // default font
+                font = "helvetica";
+            }
 
-        const currentOption = this.fontPicker?.container.querySelector(`[data-value=${font}]`);
-        if (currentOption) {
-            this.fontPicker?.selectItem(currentOption as HTMLElement, false);
+            const currentOption = this.fontPicker?.container.querySelector(`[data-value=${font}]`);
+            if (currentOption) {
+                this.fontPicker?.selectItem(currentOption as HTMLElement, false);
+            }
         }
     }
 }
