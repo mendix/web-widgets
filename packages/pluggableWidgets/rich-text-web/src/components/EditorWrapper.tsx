@@ -181,7 +181,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             </div>
             {enableStatusBar && (
                 <div className="widget-rich-text-footer">
-                    {wordCount} word{wordCount > 1 ? "s" : ""}
+                    {wordCount} word{wordCount == 1 ? "" : "s"}
                 </div>
             )}
         </div>
