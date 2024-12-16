@@ -97,6 +97,7 @@ export interface MapsContainerProps {
     zoom: ZoomEnum;
     mapProvider: MapProviderEnum;
     googleMapId: string;
+    geoJSON?: DynamicValue<string>;
 }
 
 export interface MapsPreviewProps {
@@ -133,4 +134,5 @@ export interface MapsPreviewProps {
     zoom: ZoomEnum;
     mapProvider: MapProviderEnum;
     googleMapId: string;
+    geoJSON: string;
 }

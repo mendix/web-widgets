@@ -260,5 +260,12 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
+        <propertyGroup caption="GeoJSON">
+            <property key="geoJSON" type="expression" required="false">
+                <caption>GeoJSON String</caption>
+                <description>When used this will display the geoJSON on the map and zoom to the boundaries of the geoJSON</description>
+                <returnType type="String" />
+            </property>
+        </propertyGroup>
     </properties>
 </widget>

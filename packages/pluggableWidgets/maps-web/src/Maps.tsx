@@ -49,6 +49,7 @@ export default function Maps(props: MapsContainerProps): ReactNode {
             width={props.width}
             widthUnit={props.widthUnit}
             zoomLevel={translateZoom(props.zoom)}
+            geoJSON={typeof props.geoJSON === "string" ? props.geoJSON : props.geoJSON?.value}
         />
     );
 }
