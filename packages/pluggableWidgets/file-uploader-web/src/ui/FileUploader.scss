@@ -1,18 +1,22 @@
-.widget-file-uploader {
-    --bg-color-default: #f8f8f8;
-    --border-color-default: #ced0d3;
+$file-bg-color: #f8f8f8;
+$file-border-color-default: #ced0d3;
+$file-color-primary-light: #e6eaff;
+$file-brand-primary: #264ae5;
+$file-color-warning-light: #fbedd2;
+$file-brand-warning: #eca51c;
+$file-color-danger-light: #f9d9dc;
+$file-brand-danger: #e33f4e;
+$file-gray-light: #6c7180;
+$file-brand-success: #3cb33d;
 
-    --bg-color-active: #e6eaff;
-    --border-color-active: #264ae5;
-
-    --bg-color-warning: #fbedd2;
-    --border-color-warning: #eca51c;
-
-    --bg-color-error: #f9d9dc;
-    --border-color-error: #e33f4e;
-
-    --grey-text: #6c7180;
-}
+$file-icon: url(../assets/file-icon.svg);
+$file-warning-icon: url(../assets/warning-icon.svg);
+$file-view-icon: url(../assets/view-icon.svg);
+$file-view-icon-hover: url(../assets/view-icon-hover.svg);
+$file-view-icon-active: url(../assets/view-icon-active.svg);
+$file-remove-icon: url(../assets/remove-icon.svg);
+$file-remove-icon-hover: url(../assets/remove-icon-hover.svg);
+$file-remove-icon-active: url(../assets/remove-icon-active.svg);
 
 /*
 Place your custom CSS here
@@ -32,13 +36,14 @@ Place your custom CSS here
         height: 106px;
 
         border-radius: 5px;
-        border: 1.5px dashed var(--border-color-default);
-        background-color: var(--bg-color-default);
+        border: 1.5px dashed var(--border-color-default, $file-border-color-default);
+        background-color: var(--bg-color, $file-bg-color);
 
-        &:hover {
-            border: 1.5px dashed var(--border-color-active);
+        &:hover,
+        &:focus {
+            border: 1.5px dashed var(--brand-primary, $file-brand-primary);
             .upload-text {
-                color: var(--border-color-active);
+                color: var(--brand-primary, $file-brand-primary);
                 text-decoration: underline;
             }
         }
@@ -52,21 +57,17 @@ Place your custom CSS here
         }
 
         &.warning {
-            border: 1.5px dashed var(--border-color-warning);
-            background-color: var(--bg-color-warning);
+            border: 1.5px dashed var(--brand-warning, $file-brand-warning);
+            background-color: var(--color-warning-light, $file-color-warning-light);
         }
         &.error {
-            border: 1.5px dashed var(--border-color-error);
-            background-color: var(--bg-color-error);
-        }
-        &.active {
-            border: 1.5px solid var(--border-color-active);
-            background-color: var(--bg-color-active);
+            border: 1.5px dashed var(--brand-danger, $file-brand-danger);
+            background-color: var(--color-danger-light, $file-color-danger-light);
         }
 
         .file-icon {
             flex: 0 0 34px;
-            background-image: url(../assets/file-icon.svg);
+            background-image: var(--file-icon, $file-icon);
             background-repeat: no-repeat;
             height: 34px;
             width: 28px;
@@ -77,7 +78,7 @@ Place your custom CSS here
             font-size: 12px;
             line-height: 17px;
             font-weight: 400;
-            color: var(--grey-text);
+            color: var(--gray-light, $file-gray-light);
         }
     }
 
@@ -89,7 +90,7 @@ Place your custom CSS here
         padding-left: 18px;
         margin-bottom: 1em;
 
-        background-image: url(../assets/warning-icon.svg);
+        background-image: var(--file-warning-icon, $file-warning-icon);
         background-repeat: no-repeat;
         background-position-x: left;
         background-position-y: center;
@@ -105,24 +106,29 @@ Place your custom CSS here
             flex-direction: column;
             margin-bottom: 1em;
 
-            border: 1px solid var(--border-color-default);
+            border: 1px solid var(--border-color-default, $file-border-color-default);
             border-radius: 4px;
             padding: 10px;
 
-            &:not(.removed):not(.invalid):hover:not(:has(.action-button:hover)) {
-                pointer-events: all;
-                cursor: pointer;
-                background-color: var(--bg-color-default);
-                border-color: var(--border-color-active);
+            &:not(.removed):not(.invalid) {
+                &:hover,
+                &:focus {
+                    &:not(:has(.action-button:hover)) {
+                        pointer-events: all;
+                        cursor: pointer;
+                        background-color: var(--bg-color, $file-bg-color);
+                        border-color: var(--brand-primary, $file-brand-primary);
 
-                .download-icon {
-                    background-image: url(../assets/view-icon-hover.svg);
+                        .download-icon {
+                            background-image: var(--file-view-icon-hover, $file-view-icon-hover);
+                        }
+                    }
                 }
             }
 
             &:not(.removed):not(.invalid):active:not(:has(.action-button:active)) {
                 .download-icon {
-                    background-image: url(../assets/view-icon-active.svg);
+                    background-image: var(--file-view-icon-active, $file-view-icon-active);
                 }
             }
 
@@ -131,7 +137,7 @@ Place your custom CSS here
                 width: 24px;
                 background-repeat: no-repeat;
                 background-position: center;
-                background-image: url(../assets/view-icon.svg);
+                background-image: var(--file-view-icon, $file-view-icon);
             }
 
             .entry-details {
@@ -152,8 +158,8 @@ Place your custom CSS here
 
                     &.preview-icon {
                         border-radius: 4px;
-                        border: 1px solid var(--bg-color-active);
-                        background-color: var(--bg-color-active);
+                        border: 1px solid var(--color-primary-light, $file-color-primary-light);
+                        background-color: var(--color-primary-light, $file-color-primary-light);
                     }
 
                     .image-preview {
@@ -179,7 +185,7 @@ Place your custom CSS here
                     .entry-details-main-size {
                         flex: 1;
                         font-weight: 400;
-                        color: var(--grey-text);
+                        color: var(--gray-light, $file-gray-light);
                     }
                 }
 
@@ -198,6 +204,25 @@ Place your custom CSS here
                         text-decoration: none;
                         border-color: transparent;
                         background-color: transparent;
+
+                        &:hover,
+                        &:focus {
+                            .remove-icon {
+                                background-image: var(--file-remove-icon-hover, $file-remove-icon-hover);
+                            }
+                        }
+
+                        &:active {
+                            .remove-icon {
+                                background-image: var(--file-remove-icon-active, $file-remove-icon-active);
+                            }
+                        }
+
+                        &.disabled {
+                            .remove-icon {
+                                display: none;
+                            }
+                        }
                     }
 
                     .remove-icon {
@@ -205,19 +230,7 @@ Place your custom CSS here
                         width: 24px;
                         background-repeat: no-repeat;
                         background-position: center;
-                        background-image: url(../assets/remove-icon.svg);
-
-                        &:hover {
-                            background-image: url(../assets/remove-icon-hover.svg);
-                        }
-
-                        &:active {
-                            background-image: url(../assets/remove-icon-active.svg);
-                        }
-
-                        &.disabled {
-                            display: none;
-                        }
+                        background-image: var(--file-remove-icon, $file-remove-icon);
                     }
                 }
             }
@@ -237,7 +250,7 @@ Place your custom CSS here
                     .progress-bar-indicator {
                         height: 4px;
                         border-radius: 2px;
-                        background-color: var(--border-color-active);
+                        background-color: var(--brand-primary, $file-brand-primary);
                         transition: width 0.5s;
                     }
 
@@ -260,14 +273,14 @@ Place your custom CSS here
                 flex: 0;
                 line-height: 15px;
                 .upload-status {
-                    color: var(--grey-text);
+                    color: var(--gray-light, $file-gray-light);
                     font-size: 10px;
 
                     &.success {
-                        color: #3cb33d;
+                        color: var(--brand-success, $file-brand-success);
                     }
                     &.error {
-                        color: #e33f4e;
+                        color: var(--brand-danger, $file-brand-danger);
                     }
                 }
             }

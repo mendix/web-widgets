@@ -8,4 +8,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
--   Added File uploader widget.
+-   The file uploader widget enables you to upload files by dragging and dropping them onto the widget or by using the file selection dialog.
