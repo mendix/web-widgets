@@ -21,8 +21,15 @@ export class StringInputFilterStore
 {
     readonly storeType = "input";
     readonly type = "string";
+    private storeFilterValue: boolean;
+    private storeOperatorValue: boolean;
 
-    constructor(attributes: Array<ListAttributeValue<string>>, initCond: FilterCondition | null) {
+    constructor(
+        attributes: Array<ListAttributeValue<string>>,
+        initCond: FilterCondition | null,
+        filter: boolean,
+        operator: boolean
+    ) {
         const { formatter } = attributes[0];
         super(new StringArgument(formatter), new StringArgument(formatter), "equal", attributes);
         makeObservable(this, {
@@ -33,6 +40,8 @@ export class StringInputFilterStore
         if (initCond) {
             this.fromViewState(initCond);
         }
+        this.storeFilterValue = filter;
+        this.storeOperatorValue = operator;
     }
 
     updateProps(attributes: ListAttributeValue[]): void {
@@ -45,7 +54,11 @@ export class StringInputFilterStore
     }
 
     toJSON(): InputData {
-        return [this.filterFunction, this.arg1.value ?? null, this.arg2.value ?? null];
+        return [
+            this.storeOperatorValue ? this.filterFunction : this.defaultState[0],
+            this.storeFilterValue ? this.arg1.value ?? null : null,
+            this.storeFilterValue ? this.arg2.value ?? null : null
+        ];
     }
 
     fromJSON(data: FilterData): void {

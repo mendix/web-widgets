@@ -31,9 +31,14 @@ export class LegacyPv implements LegacyProvider {
     filterMap: FilterMap;
     filterList: FilterList;
 
-    constructor(attrs: ListAttributeValue[], dsViewState: Array<FilterCondition | undefined> | null) {
+    constructor(
+        attrs: ListAttributeValue[],
+        dsViewState: Array<FilterCondition | undefined> | null,
+        storeFilterValues: boolean,
+        storeOperatorValues: boolean
+    ) {
         this._attrs = attrs;
-        const map = (this.filterMap = createMap(attrs, dsViewState));
+        const map = (this.filterMap = createMap(attrs, dsViewState, storeFilterValues, storeOperatorValues));
         this.filterList = [map[Ft.STRING], map[Ft.NUMBER], map[Ft.DATE], map[Ft.ENUMERATION]];
         makeObservable<this, "_attrs">(this, {
             _attrs: observable.ref,
@@ -90,12 +95,17 @@ export class LegacyPv implements LegacyProvider {
     }
 }
 
-function createMap(attrs: ListAttributeValue[], dsViewState: Array<FilterCondition | undefined> | null): FilterMap {
+function createMap(
+    attrs: ListAttributeValue[],
+    dsViewState: Array<FilterCondition | undefined> | null,
+    filter: boolean,
+    operator: boolean
+): FilterMap {
     const [ini1 = null, ini2 = null, ini3 = null, ini4 = null] = dsViewState ?? [];
     const [str, num, dte, enm] = groupByType(attrs);
 
     const r: FilterMap = {
-        [Ft.STRING]: str.length > 0 ? new StringInputFilterStore(str, ini1) : null,
+        [Ft.STRING]: str.length > 0 ? new StringInputFilterStore(str, ini1, filter, operator) : null,
         [Ft.NUMBER]: num.length > 0 ? new NumberInputFilterStore(num, ini2) : null,
         [Ft.DATE]: dte.length > 0 ? new DateInputFilterStore(dte, ini3) : null,
         [Ft.ENUMERATION]: enm.length > 0 ? new StaticSelectFilterStore(enm, ini4) : null

@@ -61,7 +61,7 @@ const Container = observer((props: Props): ReactElement => {
         onClickTrigger: props.onClickTrigger,
         onClick: props.onClick
     });
-    useOnResetFiltersEvent(props.rootStore.staticInfo.name, props.rootStore.staticInfo.filtersChannelName);
+    useOnResetFiltersEvent(rootStore.staticInfo.name, rootStore.staticInfo.filtersChannelName);
 
     const visibleColumnsCount = selectActionHelper.showCheckboxColumn
         ? columnsStore.visibleColumns.length + 1
