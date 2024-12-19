@@ -1,8 +1,8 @@
-import { ListValue, ObjectItem } from "mendix";
+import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
+import Big from "big.js";
+import { ListValue, ObjectItem, ValueStatus } from "mendix";
 import { Emitter, Unsubscribe, createNanoEvents } from "nanoevents";
 import { ColumnsType, ShowContentAsEnum } from "../../../typings/DatagridProps";
-import Big from "big.js";
-import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 
 type RowData = Array<string | number | boolean>;
 
@@ -51,10 +51,12 @@ export class DSExportRequest {
     private columns: ColumnsType[];
     private offset = 0;
     private loaded = 0;
-    private limit = 100;
+    private limit = 10;
     private totalCount: number | undefined = undefined;
     private shouldSendHeaders = false;
     private emitter: Emitter<ExportRequestEvents>;
+    private getters: Array<{ get: (item: unknown) => { status: ValueStatus } }> = [];
+    private readController: AbortController | undefined;
 
     constructor(params: RequestParams) {
         const { ds, columns, withHeaders = false, limit = 0 } = params;
@@ -63,6 +65,7 @@ export class DSExportRequest {
         this.datasource = ds;
         this.totalCount = ds.totalCount;
         this.columns = columns;
+        this.getters = this.getGetters(columns);
         this.shouldSendHeaders = withHeaders;
     }
 
@@ -122,6 +125,7 @@ export class DSExportRequest {
 
     abort = (): void => {
         this._status = "aborted";
+        this.readController?.abort();
         this.emitAbort();
         this.emitLoadEnd();
         this.dispose();
@@ -142,6 +146,7 @@ export class DSExportRequest {
     onpropertieschange = (columns: ColumnsType[]): void => {
         if (this._status === "reading") {
             this.columns = columns;
+            this.getters = this.getGetters(columns);
             this.read();
         }
     };
@@ -157,31 +162,47 @@ export class DSExportRequest {
         this.emitHeaders(headers);
     }
 
-    private read(): void {
+    private async read(): Promise<void> {
         this._status = "reading";
-        const { items = [] } = this.datasource;
-        const isReady = items.every(item => {
-            return this.columns.every(column => {
-                let status: string | undefined;
-                if (column.showContentAs === "attribute") {
-                    status = column.attribute?.get(item).status;
-                } else if (column.showContentAs === "dynamicText") {
-                    status = column.dynamicText?.get(item).status;
-                } else if (column.exportValue) {
-                    status = column.exportValue.get(item).status;
-                } else {
-                    status = "available";
-                }
-                return status !== "loading";
-            });
-        });
 
-        if (!isReady) {
+        if (this.readController) {
+            this.readController.abort();
+            this.readController = undefined;
+        }
+
+        const { items = [] } = this.datasource;
+        const scheduler = createScheduler();
+        const controller = new AbortController();
+        this.readController = controller;
+
+        const batchSize = 100;
+        const len = items.length;
+        let isReady = true;
+        let index = 0;
+
+        while (index < len && !controller.signal.aborted) {
+            const end = Math.min(index + batchSize, len);
+
+            for (; index < end; index++) {
+                for (const prop of this.getters) {
+                    isReady &&= prop.get(items[index]).status !== "loading";
+                }
+            }
+
+            await scheduler.yield();
+        }
+
+        this.readController = undefined;
+
+        if (!isReady || controller.signal.aborted) {
             return;
         }
 
-        const chunk = readChunk(items, this.columns);
+        this.finalizeRead(items);
+    }
 
+    private finalizeRead(items: ObjectItem[]): void {
+        const chunk = readChunk(items, this.columns);
         this.sendChunk(chunk);
 
         if (this.datasource.hasMoreItems) {
@@ -213,6 +234,19 @@ export class DSExportRequest {
 
     private dispose(): void {
         this.emitter.events = {};
+    }
+
+    private getGetters(columns: ColumnsType[]): Array<{ get: (item: unknown) => { status: ValueStatus } }> {
+        return columns.map(col => {
+            let prop =
+                col.showContentAs === "attribute"
+                    ? col.attribute
+                    : col.showContentAs === "dynamicText"
+                    ? col.dynamicText
+                    : col.exportValue;
+            prop ??= { get: () => ({ status: ValueStatus.Available, value: "n/a" }) };
+            return prop;
+        });
     }
 }
 
@@ -270,4 +304,27 @@ function createRowReader(columns: ColumnsType[]): RowReader {
 
 function readChunk(data: ObjectItem[], columns: ColumnsType[]): RowData[] {
     return data.map(createRowReader(columns));
+}
+
+declare global {
+    interface Window {
+        scheduler: {
+            yield(): Promise<void>;
+        };
+    }
+}
+
+function createScheduler(): { yield(): Promise<void> } {
+    if ("scheduler" in window) {
+        return {
+            async yield() {
+                return window.scheduler.yield();
+            }
+        };
+    }
+    return {
+        async yield() {
+            return new Promise<void>(res => setTimeout(res));
+        }
+    };
 }
