@@ -20,7 +20,7 @@ export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputC
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption}
                     value={props.filterFn}
-                    onChange={props.onFilterChange}
+                    onSelect={props.onFilterChange}
                     options={props.filterFnList}
                 />
             )}

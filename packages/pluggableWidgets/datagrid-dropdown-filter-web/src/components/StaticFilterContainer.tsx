@@ -1,11 +1,12 @@
 import { StaticFilterController } from "@mendix/widget-plugin-filtering/controllers/StaticFilterController";
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { Select } from "@mendix/widget-plugin-filtering/controls";
+import { SelectPanel } from "@mendix/widget-plugin-filtering/controls";
+import { Select } from "@mendix/widget-plugin-filtering/controls/select-next/Select";
 import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+// import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
+import { createElement, CSSProperties, useEffect, useState } from "react";
 import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 
@@ -26,7 +27,7 @@ export interface StaticFilterContainerProps {
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
-    const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
+    // const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
     const [controller] = useState(() => new StaticFilterController(props));
 
     useEffect(() => controller.setup(), [controller]);
@@ -43,19 +44,19 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
         listener: controller.handleSetValue
     });
 
+    const USE_SELECT = true;
+
+    if (USE_SELECT) {
+        return <Select options={controller.options} onSelect={controller.onSelect} value={controller.inputValue} />;
+    }
+
     return (
-        <Select
+        <SelectPanel
+            searchValue={controller.searchValue}
             options={controller.options}
-            empty={controller.empty}
+            value={controller.inputValue}
             onSelect={controller.onSelect}
-            multiSelect={controller.multiselect}
-            inputValue={controller.inputValue}
-            id={id}
-            ariaLabel={props.ariaLabel}
-            className={props.className}
-            tabIndex={props.tabIndex}
-            placeholder={controller.empty.caption}
-            styles={props.styles}
+            onSearch={controller.onSearch}
         />
     );
 }
