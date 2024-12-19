@@ -1,0 +1,65 @@
+{
+    "name": "@mendix/file-uploader-web",
+    "widgetName": "FileUploader",
+    "version": "1.0.0",
+    "description": "",
+    "copyright": "© Mendix Technology BV 2024. All rights reserved.",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "mxpackage": {
+        "name": "FileUploader",
+        "type": "widget",
+        "mpkName": "com.mendix.widget.web.FileUploader.mpk"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "fileuploader-web"
+    },
+    "marketplace": {
+        "minimumMXVersion": "9.24.0.2965",
+        "appName": "File Uploader"
+    },
+    "engines": {
+        "node": ">=16"
+    },
+    "license": "Apache-2.0",
+    "config": {},
+    "packagePath": "com.mendix.widget.web",
+    "scripts": {
+        "start": "pluggable-widgets-tools start:server",
+        "dev": "pluggable-widgets-tools start:web",
+        "build": "pluggable-widgets-tools build:web",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "test": "pluggable-widgets-tools test:unit:web",
+        "e2e": "echo \"Skipping this e2e test\"",
+        "e2edev": "run-e2e dev --with-preps",
+        "release": "pluggable-widgets-tools release:web",
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-widget",
+        "create-translation": "rui-create-translation"
+    },
+    "dependencies": {
+        "classnames": "^2.2.6",
+        "filesize.js": "^2.0.0",
+        "mime-types": "^2.1.35",
+        "mobx": "6.12.3",
+        "mobx-react-lite": "4.0.7",
+        "react-dropzone": "^14.2.3"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "10.16.0",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*",
+        "@rollup/plugin-json": "^6.1.0",
+        "@types/big.js": "^6.2.2",
+        "@types/mime-types": "^2.1.4",
+        "cross-env": "^7.0.3"
+    }
+}
