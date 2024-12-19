@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed the sorting to display the multi-selected items in selection order.
+
 ## [2.1.4] - 2025-01-29
 
 ### Fixed
