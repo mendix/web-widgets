@@ -14,6 +14,8 @@ export interface FilterListType {
 export interface HeaderFiltersStoreProps {
     filterList: FilterListType[];
     parentChannelName?: string;
+    storeFilterValues: boolean;
+    storeOperatorValues: boolean;
 }
 
 export interface StaticInfo {
@@ -24,7 +26,6 @@ export interface StaticInfo {
 export class HeaderFiltersStore {
     private provider: Result<LegacyPv, APIError>;
     context: FilterAPIv2;
-
     constructor(
         props: HeaderFiltersStoreProps,
         info: StaticInfo,
@@ -65,7 +66,9 @@ export class HeaderFiltersStore {
         return value(
             new LegacyPv(
                 props.filterList.map(f => f.filter),
-                dsViewState
+                dsViewState,
+                props.storeFilterValues,
+                props.storeOperatorValues
             )
         );
     }

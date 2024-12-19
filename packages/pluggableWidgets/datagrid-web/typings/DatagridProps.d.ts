@@ -131,6 +131,8 @@ export interface DatagridContainerProps {
     columnsHidable: boolean;
     configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute?: EditableValue<string>;
+    storeFilterValues: boolean;
+    storeOperatorValues: boolean;
     filterList: FilterListType[];
     filtersPlaceholder?: ReactNode;
     filterSectionTitle?: DynamicValue<string>;
@@ -177,6 +179,8 @@ export interface DatagridPreviewProps {
     configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute: string;
     onConfigurationChange: {} | null;
+    storeFilterValues: boolean;
+    storeOperatorValues: boolean;
     filterList: FilterListPreviewType[];
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     filterSectionTitle: string;
