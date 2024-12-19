@@ -12,19 +12,39 @@ export class AssociationMultiSelector
     selectedItemsStyle: SelectedItemsStyleEnum = "text";
     selectionMethod: SelectionMethodEnum = "checkbox";
     selectAllButton = false;
+    private orderedSelections: string[] = [];
+
     updateProps(props: ComboboxContainerProps): void {
         super.updateProps(props);
         this.selectedItemsStyle = props.selectedItemsStyle;
         this.selectionMethod = props.selectionMethod;
         this.selectAllButton = props.selectAllButton;
-        this.currentId = this._attr?.value?.map(v => v.id) ?? null;
+
+        const newValues = this._attr?.value ?? null;
+        if (newValues) {
+            const newValueIds = newValues.map(v => v.id.toString());
+            this.orderedSelections = [
+                ...this.orderedSelections.filter(id => newValueIds.includes(id.toString())),
+                ...newValueIds.filter(id => !this.orderedSelections.includes(id))
+            ];
+            this.currentId = this.orderedSelections;
+        } else {
+            this.orderedSelections = [];
+            this.currentId = null;
+        }
+
         if (this.selectionMethod === "rowclick" || this.customContentType === "yes") {
             this.selectedItemsStyle = "boxes";
         }
     }
 
     setValue(value: string[] | null): void {
-        const newValue = value?.map(v => this.options._optionToValue(v)!);
+        if (value === null) {
+            this.orderedSelections = [];
+        } else {
+            this.orderedSelections = value;
+        }
+        const newValue = this.orderedSelections.map(v => this.options._optionToValue(v)!);
         this._attr?.setValue(newValue);
         super.setValue(value);
     }
