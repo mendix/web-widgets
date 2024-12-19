@@ -213,11 +213,16 @@ jobs:
                   --chunks ${{ matrix.chunks }}
                   --index ${{ matrix.index }}
                   --event-name ${{ github.event_name }}
+            - name: Check file existence
+              id: check_files
+              uses: andstor/file-existence-action@v3
+              with:
+                  files: "./automation/run-e2e/ctrf/*"
             - name: "Generating Github Test Summary"
+              if: steps.check_files.outputs.files_exists == 'true'
               run: |
                   pnpm --filter run-e2e run report:merge
                   pnpm dlx github-actions-ctrf custom ./automation/run-e2e/ctrf/merged-report.json ./automation/run-e2e/ctrf-custom-template/custom-summary.hbs
-              if: always()
             - name: "Fixing files permissions"
               if: failure()
               run: |
