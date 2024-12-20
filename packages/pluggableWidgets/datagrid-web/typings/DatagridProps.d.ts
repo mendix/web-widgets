@@ -36,6 +36,7 @@ export interface ColumnsType {
     filterAssociationOptions?: ListValue;
     fetchOptionsLazy: boolean;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
+    filterAssociationSearchAttribute?: ListAttributeValue<string>;
     visible: DynamicValue<boolean>;
     sortable: boolean;
     resizable: boolean;
@@ -80,6 +81,7 @@ export interface ColumnsPreviewType {
     filterAssociationOptions: {} | { caption: string } | { type: string } | null;
     fetchOptionsLazy: boolean;
     filterAssociationOptionLabel: string;
+    filterAssociationSearchAttribute: string;
     visible: string;
     sortable: boolean;
     resizable: boolean;

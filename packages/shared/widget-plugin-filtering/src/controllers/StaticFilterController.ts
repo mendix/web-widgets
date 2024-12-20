@@ -1,8 +1,8 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
-import { makeObservable, computed, autorun, observable, reaction, action } from "mobx";
-import { OptionListFilterInterface, Option } from "../typings/OptionListFilterInterface";
+import { action, autorun, computed, makeObservable, observable, reaction } from "mobx";
 import { OptionsSerializer } from "../stores/OptionsSerializer";
+import { OptionListFilterInterface, OptionWithState } from "../typings/OptionListFilterInterface";
 
 interface CustomOption<T> {
     caption: T;
@@ -24,7 +24,7 @@ export class StaticFilterController {
     private onChange?: ActionValue;
     private savedValueAttribute?: EditableValue<string>;
     private serializer: OptionsSerializer;
-    readonly empty: Option;
+    readonly empty: OptionWithState;
     readonly initValue: string | undefined;
     multiselect = false;
     _filterOptions: Array<CustomOption<DynamicValue<string>>>;
@@ -57,8 +57,12 @@ export class StaticFilterController {
         return this.store.options.flatMap(opt => (opt.selected ? [opt.caption] : [])).join(",");
     }
 
-    get options(): Option[] {
+    get options(): OptionWithState[] {
         return [...this.store.options];
+    }
+
+    get searchValue(): string {
+        return this.store.searchBuffer;
     }
 
     get customOptions(): Array<CustomOption<string>> {
@@ -93,6 +97,10 @@ export class StaticFilterController {
             )
         );
 
+        if (this.store.setup) {
+            disposers.push(this.store.setup());
+        }
+
         return () => disposers.forEach(unsub => unsub());
     }
 
@@ -102,9 +110,10 @@ export class StaticFilterController {
         this.savedValueAttribute = props.valueAttribute;
     }
 
-    onSelect = (value: string): void => {
-        if (value === this.empty.value) {
+    onSelect = (value: string | null): void => {
+        if (value === this.empty.value || value === null) {
             this.store.replace([]);
+            this.store.setSearch("");
         } else if (this.multiselect) {
             this.store.toggle(value);
         } else {
@@ -112,11 +121,16 @@ export class StaticFilterController {
         }
     };
 
+    onSearch = (search: string): void => {
+        this.store.setSearch(search);
+    };
+
     handleResetValue = (useDefaultValue: boolean): void => {
         if (useDefaultValue) {
             this.store.reset();
             return;
         }
+
         this.store.clear();
     };
 

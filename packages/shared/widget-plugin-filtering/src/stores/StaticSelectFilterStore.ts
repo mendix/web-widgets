@@ -1,40 +1,36 @@
 import { ListAttributeValue } from "mendix";
-import { makeObservable, computed, observable, action, comparer } from "mobx";
-import { OptionListFilterInterface, Option, CustomOption } from "../typings/OptionListFilterInterface";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
-import { equals, literal, attribute, or } from "mendix/filters/builders";
-import { FilterData } from "../typings/settings";
+import { attribute, equals, literal, or } from "mendix/filters/builders";
+import { makeAutoObservable, observable } from "mobx";
 import { selectedFromCond } from "../condition-utils";
+import { OptionWithState } from "../typings/BaseSelectStore";
+import { FilterData } from "../typings/settings";
+import { SearchStore } from "./SearchStore";
+import { SelectedItemsStore } from "./SelectedItemsStore";
 
-export class StaticSelectFilterStore implements OptionListFilterInterface {
-    readonly storeType = "optionlist";
+interface CustomOption {
+    caption: string;
+    value: string;
+}
+
+export class StaticSelectFilterStore {
+    readonly disposers = [] as Array<() => void>;
     readonly type = "select";
-    readonly isLoading = false;
-    readonly hasMore = false;
-    readonly hasSearch = false;
-    defaultValue: string[] | undefined = undefined;
-    isInitialized = false;
-
-    _selected = new Set<string>();
     _attributes: ListAttributeValue[] = [];
     _customOptions: CustomOption[] = [];
+    search: SearchStore;
+    stateHasBeenSet = false;
+
+    private selectState: SelectedItemsStore;
 
     constructor(attributes: ListAttributeValue[], initCond: FilterCondition | null) {
+        this.search = new SearchStore();
+        this.selectState = new SelectedItemsStore();
         this._attributes = attributes;
 
-        makeObservable(this, {
-            _attributes: observable.ref,
-            _selected: observable,
-            _customOptions: observable.ref,
-
-            options: computed,
-            universe: computed,
-            replace: action,
-            toggle: action,
-            updateProps: action,
-            fromJSON: action,
-            fromViewState: action,
-            setCustomOptions: action
+        makeAutoObservable(this, {
+            _attributes: observable.struct,
+            _customOptions: observable.struct
         });
 
         if (initCond) {
@@ -42,9 +38,11 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         }
     }
 
-    get options(): Option[] {
+    get allOptions(): OptionWithState[] {
+        const selected = this.selectState.selected;
+
         if (this._customOptions.length > 0) {
-            return this._customOptions.map(opt => ({ ...opt, selected: this._selected.has(opt.value) }));
+            return this._customOptions.map(opt => ({ ...opt, selected: selected.has(opt.value) }));
         }
 
         const options = this._attributes.flatMap(attr =>
@@ -53,7 +51,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
                 return {
                     caption: attr.formatter.format(value),
                     value: stringValue,
-                    selected: this._selected.has(stringValue)
+                    selected: selected.has(stringValue)
                 };
             })
         );
@@ -61,53 +59,59 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         return options;
     }
 
+    get options(): OptionWithState[] {
+        if (!this.search.value) {
+            return this.allOptions;
+        }
+
+        return this.allOptions.filter(opt => opt.caption.toLowerCase().includes(this.search.value.toLowerCase()));
+    }
+
     get universe(): Set<string> {
         return new Set(this._attributes.flatMap(attr => Array.from(attr.universe ?? [], value => `${value}`)));
     }
 
     get condition(): FilterCondition | undefined {
+        const selected = this.selectState.selected;
         const conditions = this._attributes.flatMap(attr => {
-            const cond = getFilterCondition(attr, this._selected);
+            const cond = getFilterCondition(attr, selected);
             return cond ? [cond] : [];
         });
         return conditions.length > 1 ? or(...conditions) : conditions[0];
     }
 
-    UNSAFE_setDefaults = (value?: string[]): void => {
-        this.defaultValue ??= value;
-        if (this.isInitialized === false && this.defaultValue !== undefined) {
-            this.replace(this.defaultValue);
-            this.isInitialized = true;
+    get selected(): Set<string> {
+        return this.selectState.selected;
+    }
+
+    setup(): () => void {
+        this.disposers.push(this.search.setup());
+        return () => {
+            this.disposers.forEach(dispose => dispose());
+            this.disposers.length = 0;
+        };
+    }
+
+    setDefaultSelected(defaultSelected?: Iterable<string>): void {
+        if (!this.stateHasBeenSet && defaultSelected) {
+            this.selectState.setDefaultSelected(defaultSelected);
+            this.selectState.reset();
+            this.stateHasBeenSet = true;
         }
-    };
+    }
 
-    reset = (): void => {
-        this.replace(this.defaultValue !== undefined ? this.defaultValue : []);
-    };
+    setCustomOptions(options: CustomOption[]): void {
+        this._customOptions = options;
+    }
 
-    /** Just to have uniform clear method on all filter stores. */
-    clear = (): void => {
-        this.replace([]);
-    };
+    clear = (): void => this.selectState.clear();
+
+    reset = (): void => this.selectState.reset();
+
+    toggle = (value: string): void => this.selectState.toggle(value);
 
     updateProps(attributes: ListAttributeValue[]): void {
-        if (!comparer.shallow(this._attributes, attributes)) {
-            this._attributes = attributes;
-        }
-    }
-
-    replace(value: string[] | Set<string>): void {
-        const _value = new Set(value);
-        if (comparer.structural(this._selected, _value)) {
-            return;
-        }
-        this._selected = _value;
-    }
-
-    toggle(value: string): void {
-        if (this._selected.delete(value) === false) {
-            this._selected.add(value);
-        }
+        this._attributes = attributes;
     }
 
     checkAttrs(): TypeError | null {
@@ -124,23 +128,15 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         return this.universe.has(value);
     }
 
-    loadMore(): void {
-        console.warn("StaticSelectFilterStore: calling loadMore has no effect.");
-    }
-
-    setSearch(): void {
-        console.warn("StaticSelectFilterStore: calling setSearch has no effect.");
-    }
-
     toJSON(): string[] {
-        return [...this._selected];
+        return [...this.selectState.selected];
     }
 
     fromJSON(data: FilterData): void {
         if (Array.isArray(data) && data.every(item => typeof item === "string")) {
-            this.replace(data as string[]);
+            this.selectState.setSelected(data as string[]);
         }
-        this.isInitialized = true;
+        this.stateHasBeenSet = true;
     }
 
     fromViewState(cond: FilterCondition): void {
@@ -155,14 +151,12 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
 
         const selected = selectedFromCond(cond, val);
 
-        if (selected.length > 0) {
-            this.replace(selected);
-            this.isInitialized = true;
+        if (selected.length < 1) {
+            return;
         }
-    }
 
-    setCustomOptions(options: CustomOption[]): void {
-        this._customOptions = options;
+        this.selectState.setSelected(selected);
+        this.stateHasBeenSet = true;
     }
 }
 

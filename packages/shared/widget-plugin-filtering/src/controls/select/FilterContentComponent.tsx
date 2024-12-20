@@ -1,15 +1,15 @@
 import classNames from "classnames";
 import { Fragment, UIEventHandler, createElement } from "react";
-import { Option } from "../../typings/OptionListFilterInterface";
+import { OptionWithState } from "../../typings/OptionListFilterInterface";
 
 interface FilterContentProps {
     footer?: JSX.Element;
     id?: string;
-    options: Option[];
-    empty: Option;
+    options: OptionWithState[];
+    empty: OptionWithState;
     multiSelect: boolean;
     onContentScroll?: UIEventHandler<HTMLUListElement>;
-    onOptionClick: (option: Option) => void;
+    onOptionClick: (option: OptionWithState) => void;
     onBlur: () => void;
     position: DOMRect | undefined;
     width?: number;
