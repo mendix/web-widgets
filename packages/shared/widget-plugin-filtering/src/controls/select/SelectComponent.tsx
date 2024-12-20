@@ -4,11 +4,11 @@ import classNames from "classnames";
 import { createElement, CSSProperties, ReactElement, UIEventHandler, useCallback, useRef, useState } from "react";
 import { FilterContentComponent } from "./FilterContentComponent";
 import { FormControlComponent } from "./FormControlComponent";
-import { Option } from "../../typings/OptionListFilterInterface";
+import { OptionWithState } from "../../typings/OptionListFilterInterface";
 
 interface SelectProps {
-    options: Option[];
-    empty: Option;
+    options: OptionWithState[];
+    empty: OptionWithState;
     inputValue: string;
     multiSelect: boolean;
     placeholder?: string;
@@ -47,7 +47,7 @@ export function Select(props: SelectProps): ReactElement {
     const position = usePositionObserver(componentRef.current || null, show);
 
     const onClick = useCallback(
-        (option: Option) => {
+        (option: OptionWithState) => {
             onSelect(option.value);
             if (!multiSelect) {
                 setShow(false);

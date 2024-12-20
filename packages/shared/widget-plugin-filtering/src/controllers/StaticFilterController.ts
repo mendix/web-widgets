@@ -2,7 +2,7 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { action, autorun, computed, makeObservable, observable, reaction } from "mobx";
 import { OptionsSerializer } from "../stores/OptionsSerializer";
-import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { OptionListFilterInterface, OptionWithState } from "../typings/OptionListFilterInterface";
 
 interface CustomOption<T> {
     caption: T;
@@ -24,7 +24,7 @@ export class StaticFilterController {
     private onChange?: ActionValue;
     private savedValueAttribute?: EditableValue<string>;
     private serializer: OptionsSerializer;
-    readonly empty: Option;
+    readonly empty: OptionWithState;
     readonly initValue: string | undefined;
     multiselect = false;
     _filterOptions: Array<CustomOption<DynamicValue<string>>>;
@@ -57,7 +57,7 @@ export class StaticFilterController {
         return this.store.options.flatMap(opt => (opt.selected ? [opt.caption] : [])).join(",");
     }
 
-    get options(): Option[] {
+    get options(): OptionWithState[] {
         return [...this.store.options];
     }
 

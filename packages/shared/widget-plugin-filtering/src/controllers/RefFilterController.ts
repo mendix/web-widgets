@@ -1,7 +1,7 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue } from "mendix";
 import { computed, makeObservable } from "mobx";
-import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { OptionListFilterInterface, OptionWithState } from "../typings/OptionListFilterInterface";
 import { Dispose } from "../typings/type-utils";
 
 type Params = {
@@ -14,7 +14,7 @@ type Params = {
 export class RefFilterController {
     private store: OptionListFilterInterface;
     private isDataFetched = false;
-    readonly empty: Option;
+    readonly empty: OptionWithState;
     multiselect = false;
     private onChange?: ActionValue;
 
@@ -58,7 +58,7 @@ export class RefFilterController {
         return this.store.searchBuffer;
     }
 
-    get options(): Option[] {
+    get options(): OptionWithState[] {
         return [...this.store.options];
     }
 
