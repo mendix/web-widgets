@@ -46,9 +46,11 @@
     "devDependencies": {
         "@mendix/pluggable-widgets-tools": "10.16.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@mendix/run-e2e": "workspace:^*"
+        "@mendix/run-e2e": "workspace:^*",
+        "@types/plotly.js": "^2.12.0"
     },
     "dependencies": {
-        "classnames": "^2.3.2"
+        "classnames": "^2.3.2",
+        "plotly.js-dist": "^2.35.2"
     }
 }
