@@ -1,4 +1,4 @@
-import { PlotlyHTMLElement, Data, Layout, Config, newPlot, react, purge } from "plotly.js-dist";
+import { PlotlyHTMLElement, Data, Layout, Config, newPlot, react, purge } from "plotly.js-dist-min";
 
 export interface ChartProps {
     data: Data[];
