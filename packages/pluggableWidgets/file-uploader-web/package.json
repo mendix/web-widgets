@@ -23,7 +23,7 @@
         "appName": "File Uploader"
     },
     "engines": {
-        "node": ">=16"
+        "node": ">=16.20.2"
     },
     "license": "Apache-2.0",
     "config": {},
