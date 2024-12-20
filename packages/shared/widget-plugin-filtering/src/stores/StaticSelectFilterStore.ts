@@ -1,46 +1,45 @@
 import { ListAttributeValue } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
-import { action, comparer, computed, makeObservable, observable, reaction, runInAction } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { selectedFromCond } from "../condition-utils";
-import { CustomOption, Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { BaseSelectStore } from "../typings/BaseSelectStore";
+import { CustomOption, OptionWithState } from "../typings/OptionListFilterInterface";
 import { FilterData } from "../typings/settings";
+import { SearchStore } from "./SearchStore";
 
-export class StaticSelectFilterStore implements OptionListFilterInterface {
+export class StaticSelectFilterStore implements BaseSelectStore {
+    readonly disposers = [] as Array<() => void>;
     readonly storeType = "optionlist";
     readonly type = "select";
-    readonly isLoading = false;
-    readonly hasMore = false;
-    readonly canSearch = false;
     defaultValue: string[] | undefined = undefined;
     isInitialized = false;
-
-    _selected = new Set<string>();
+    selected = new Set<string>();
     _attributes: ListAttributeValue[] = [];
     _customOptions: CustomOption[] = [];
-    _search = "";
-    _searchBuffer = "";
+    search: SearchStore;
 
     constructor(attributes: ListAttributeValue[], initCond: FilterCondition | null) {
         this._attributes = attributes;
+        this.search = new SearchStore();
 
         makeObservable(this, {
-            _attributes: observable.ref,
-            _selected: observable,
-            _customOptions: observable.ref,
-            _search: observable,
-            _searchBuffer: observable,
+            selected: observable.struct,
+            _attributes: observable.struct,
+            _customOptions: observable.struct,
 
             allOptions: computed,
-            options: computed,
             universe: computed,
-            replace: action,
+            options: computed,
+
+            setSelected: action,
             toggle: action,
+            reset: action,
+            clear: action,
             updateProps: action,
             fromJSON: action,
             fromViewState: action,
-            setCustomOptions: action,
-            setSearch: action
+            setCustomOptions: action
         });
 
         if (initCond) {
@@ -49,19 +48,16 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
     }
 
     setup(): () => void {
-        return reaction(
-            () => this._searchBuffer.trim(),
-            search =>
-                runInAction(() => {
-                    this._search = search;
-                }),
-            { delay: 300 }
-        );
+        this.disposers.push(this.search.setup());
+        return () => {
+            this.disposers.forEach(dispose => dispose());
+            this.disposers.length = 0;
+        };
     }
 
-    get allOptions(): Option[] {
+    get allOptions(): OptionWithState[] {
         if (this._customOptions.length > 0) {
-            return this._customOptions.map(opt => ({ ...opt, selected: this._selected.has(opt.value) }));
+            return this._customOptions.map(opt => ({ ...opt, selected: this.selected.has(opt.value) }));
         }
 
         const options = this._attributes.flatMap(attr =>
@@ -70,7 +66,7 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
                 return {
                     caption: attr.formatter.format(value),
                     value: stringValue,
-                    selected: this._selected.has(stringValue)
+                    selected: this.selected.has(stringValue)
                 };
             })
         );
@@ -78,13 +74,12 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         return options;
     }
 
-    get options(): Option[] {
-        const options = this.allOptions;
-        if (!this._search) {
-            return options;
+    get options(): OptionWithState[] {
+        if (!this.search.value) {
+            return this.allOptions;
         }
 
-        return options.filter(opt => opt.caption.toLowerCase().includes(this._search.toLowerCase()));
+        return this.allOptions.filter(opt => opt.caption.toLowerCase().includes(this.search.value.toLowerCase()));
     }
 
     get universe(): Set<string> {
@@ -93,51 +88,48 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
 
     get condition(): FilterCondition | undefined {
         const conditions = this._attributes.flatMap(attr => {
-            const cond = getFilterCondition(attr, this._selected);
+            const cond = getFilterCondition(attr, this.selected);
             return cond ? [cond] : [];
         });
         return conditions.length > 1 ? or(...conditions) : conditions[0];
     }
 
-    get searchBuffer(): string {
-        return this._searchBuffer;
-    }
-
-    UNSAFE_setDefaults = (value?: string[]): void => {
-        this.defaultValue ??= value;
-        if (this.isInitialized === false && this.defaultValue !== undefined) {
-            this.replace(this.defaultValue);
-            this.isInitialized = true;
-        }
+    setSelected = (value: Iterable<string>): void => {
+        this.selected = new Set(value);
     };
 
     reset = (): void => {
-        this.replace(this.defaultValue !== undefined ? this.defaultValue : []);
+        this.setSelected(this.defaultValue ?? []);
     };
 
     /** Just to have uniform clear method on all filter stores. */
     clear = (): void => {
-        this.replace([]);
+        this.setSelected([]);
     };
 
-    updateProps(attributes: ListAttributeValue[]): void {
-        if (!comparer.shallow(this._attributes, attributes)) {
-            this._attributes = attributes;
+    toggle(value: string): void {
+        const selected = new Set(this.selected);
+        if (selected.delete(value) === false) {
+            selected.add(value);
         }
+        this.selected = selected;
     }
 
-    replace(value: string[] | Set<string>): void {
-        const _value = new Set(value);
-        if (comparer.structural(this._selected, _value)) {
+    UNSAFE_setDefaults = (value?: string[]): void => {
+        if (this.isInitialized || !value) {
             return;
         }
-        this._selected = _value;
+        this.defaultValue ??= value;
+        this.isInitialized = true;
+        this.reset();
+    };
+
+    setCustomOptions(options: CustomOption[]): void {
+        this._customOptions = options;
     }
 
-    toggle(value: string): void {
-        if (this._selected.delete(value) === false) {
-            this._selected.add(value);
-        }
+    updateProps(attributes: ListAttributeValue[]): void {
+        this._attributes = attributes;
     }
 
     checkAttrs(): TypeError | null {
@@ -154,21 +146,13 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         return this.universe.has(value);
     }
 
-    loadMore(): void {
-        console.warn("StaticSelectFilterStore: calling loadMore has no effect.");
-    }
-
-    setSearch(value: string | undefined | null): void {
-        this._searchBuffer = value ?? "";
-    }
-
     toJSON(): string[] {
-        return [...this._selected];
+        return [...this.selected];
     }
 
     fromJSON(data: FilterData): void {
         if (Array.isArray(data) && data.every(item => typeof item === "string")) {
-            this.replace(data as string[]);
+            this.setSelected(data as string[]);
         }
         this.isInitialized = true;
     }
@@ -186,13 +170,9 @@ export class StaticSelectFilterStore implements OptionListFilterInterface {
         const selected = selectedFromCond(cond, val);
 
         if (selected.length > 0) {
-            this.replace(selected);
+            this.setSelected(selected);
             this.isInitialized = true;
         }
-    }
-
-    setCustomOptions(options: CustomOption[]): void {
-        this._customOptions = options;
     }
 }
 
