@@ -544,6 +544,9 @@ importers:
       classnames:
         specifier: ^2.3.2
         version: 2.3.2
+      plotly.js-dist-min:
+        specifier: ^2.35.3
+        version: 2.35.3
     devDependencies:
       '@mendix/pluggable-widgets-tools':
         specifier: 10.16.0
@@ -554,6 +557,15 @@ importers:
       '@mendix/run-e2e':
         specifier: workspace:^*
         version: link:../../../automation/run-e2e
+      '@types/plotly.js':
+        specifier: ^2.12.0
+        version: 2.12.30
+      '@types/plotly.js-dist-min':
+        specifier: ^2.3.4
+        version: 2.3.4
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
 
   packages/pluggableWidgets/area-chart-web:
     dependencies:
@@ -4472,6 +4484,9 @@ packages:
 
   '@types/pbf@3.0.5':
     resolution: {integrity: sha512-j3pOPiEcWZ34R6a6mN07mUkM4o4Lwf6hPNt8eilOeZhTFbxFXmKhvXl9Y28jotFPaI1bpPDJsbCprUoNke6OrA==}
+
+  '@types/plotly.js-dist-min@2.3.4':
+    resolution: {integrity: sha512-ISwLFV6Zs/v3DkaRFLyk2rvYAfVdnYP2VVVy7h+fBDWw52sn7sMUzytkWiN4M75uxr1uz1uiBioePTDpAfoFIg==}
 
   '@types/plotly.js@2.12.30':
     resolution: {integrity: sha512-/yeGIFTrh5e5Q9HUCVZWDwwxqGyWHYsi4IVhG/1YKaOScslMlimLBIoce/F/Tjw7YahRTbh4xHNDfGxvq51w7Q==}
@@ -8593,6 +8608,9 @@ packages:
     resolution: {integrity: sha512-VYL8zLoNTBxVOrJBbDuRgDWa3i+mfQgDTrL8Ah9QXZ7ax4Dsj0MSq5bYgytRnDVVe+njoKnfsYkH3HzqVj5UZA==}
     engines: {node: '>=18'}
     hasBin: true
+
+  plotly.js-dist-min@2.35.3:
+    resolution: {integrity: sha512-sz2HLP8gkysLx/BanM2PtJTtZ1PLPwdHwMWNri2YxLBy3IOeuDsVQtlmWa4hoK3j/fi4naaD3uZJqH5ozM3zGg==}
 
   plotly.js@2.35.2:
     resolution: {integrity: sha512-s0knlWzRvLQXxzf3JQ6qbm8FpwKuMjkr+6r04f8/yCEByAQ+I0jkUzY/hSGRGb+u7iljTh9hgpEiiJP90vjyeQ==}
@@ -14626,6 +14644,10 @@ snapshots:
 
   '@types/pbf@3.0.5': {}
 
+  '@types/plotly.js-dist-min@2.3.4':
+    dependencies:
+      '@types/plotly.js': 2.12.30
+
   '@types/plotly.js@2.12.30': {}
 
   '@types/prop-types@15.7.9': {}
@@ -20170,6 +20192,8 @@ snapshots:
       playwright-core: 1.49.1
     optionalDependencies:
       fsevents: 2.3.2
+
+  plotly.js-dist-min@2.35.3: {}
 
   plotly.js@2.35.2(mapbox-gl@1.10.1)(webpack@5.96.1(@swc/core@1.7.26)):
     dependencies:
