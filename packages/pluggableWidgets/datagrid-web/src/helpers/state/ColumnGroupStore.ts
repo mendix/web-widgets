@@ -43,7 +43,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     isResizing: boolean = false;
 
     constructor(
-        props: Pick<DatagridContainerProps, "columns" | "datasource">,
+        props: Pick<DatagridContainerProps, "columns" | "datasource" | "storeFilterValues" | "storeOperatorValues">,
         info: StaticInfo,
         dsViewState: Array<FilterCondition | undefined> | null
     ) {
@@ -55,7 +55,13 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             const column = new ColumnStore(i, columnProps, this);
             this._allColumnsById.set(column.columnId, column);
             this._allColumns[i] = column;
-            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, initCond);
+            this.columnFilters[i] = new ColumnFilterStore(
+                columnProps,
+                info,
+                initCond,
+                props.storeFilterValues,
+                props.storeOperatorValues
+            );
         });
 
         this.sorting = new ColumnsSortingStore(
