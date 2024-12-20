@@ -84,7 +84,9 @@ describe("Datagrid", () => {
             filterList: [],
             configurationStorageType: "attribute",
             configurationAttribute: undefined,
-            loadingType: "spinner"
+            loadingType: "spinner",
+            storeFilterValues: true,
+            storeOperatorValues: true
         };
         const user = userEvent.setup();
         let renderCount = 0;

@@ -23,11 +23,21 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _widget: ReactNode;
     private _filterStore: FilterStore | null = null;
     private _context: FilterAPIv2;
+    private storeFilterValue: boolean;
+    private storeOperatorValue: boolean;
 
-    constructor(props: ColumnsType, info: StaticInfo, dsViewState: FilterCondition | null) {
+    constructor(
+        props: ColumnsType,
+        info: StaticInfo,
+        dsViewState: FilterCondition | null,
+        storeFilterValue: boolean,
+        storeOperatorValue: boolean
+    ) {
         this._widget = props.filter;
         this._filterStore = this.createFilterStore(props, dsViewState);
         this._context = this.createContext(this._filterStore, info);
+        this.storeFilterValue = storeFilterValue;
+        this.storeOperatorValue = storeOperatorValue;
 
         makeObservable<this, "_updateStore">(this, {
             _updateStore: action,
@@ -96,7 +106,29 @@ export class ColumnFilterStore implements IColumnFilterStore {
     }
 
     get settings(): FilterData | undefined {
-        return this._filterStore?.toJSON();
+        switch (this._filterStore?.type) {
+            case "date":
+            case "number":
+            case "string":
+                const settings = this._filterStore?.toJSON();
+                if (settings && !this.storeOperatorValue) {
+                    settings[0] = this._filterStore?.defaultState[0];
+                }
+
+                if (settings && !this.storeFilterValue) {
+                    settings[1] = null;
+                    settings[2] = null;
+                }
+                return settings;
+            case "refselect":
+            case "select":
+                if (!this.storeFilterValue) {
+                    return [];
+                }
+                return this._filterStore?.toJSON();
+            default:
+                return undefined;
+        }
     }
 
     set settings(data: FilterData | undefined) {
