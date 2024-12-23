@@ -1,13 +1,13 @@
-import { action, comparer, computed, makeObservable, observable, reaction } from "mobx";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { LegacyProvider, FilterType as Ft } from "../context";
+import { action, comparer, computed, makeObservable, observable, reaction } from "mobx";
+import { FilterType as Ft, LegacyProvider } from "../context";
 import { DateInputFilterStore } from "../stores/DateInputFilterStore";
 import { NumberInputFilterStore } from "../stores/NumberInputFilterStore";
 import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
 import { StringInputFilterStore } from "../stores/StringInputFilterStore";
 import { InputFilterInterface } from "../typings/InputFilterInterface";
-import { OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { PickerFilterStore } from "../typings/PickerFilterStore";
 import { FiltersSettingsMap } from "../typings/settings";
 
 type FilterMap = {
@@ -54,7 +54,7 @@ export class LegacyPv implements LegacyProvider {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     set settings(_: unknown) {}
 
-    get = (type: Ft): InputFilterInterface | OptionListFilterInterface | null => {
+    get = (type: Ft): InputFilterInterface | PickerFilterStore | null => {
         return this.filterMap[type];
     };
 

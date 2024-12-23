@@ -1,11 +1,11 @@
 import { useRef } from "react";
-import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
+import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { Result, error, value } from "../result-meta";
-import { OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { PickerFilterStore } from "../typings/PickerFilterStore";
 
 export interface Select_FilterAPIv2 {
-    filterStore: OptionListFilterInterface;
+    filterStore: PickerFilterStore;
     parentChannelName?: string;
 }
 
@@ -33,7 +33,7 @@ export function useSelectFilterAPI(key: string): Result<Select_FilterAPIv2, APIE
         return error(EMISSINGSTORE);
     }
 
-    if (store.storeType !== "optionlist") {
+    if (store.storeType !== "select" && store.storeType !== "refselect") {
         return error(EStoreTypeMisMatch("dropdown filter", store.arg1.type));
     }
 

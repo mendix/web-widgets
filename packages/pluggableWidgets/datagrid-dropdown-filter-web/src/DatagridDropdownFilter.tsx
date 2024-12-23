@@ -17,7 +17,7 @@ function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAP
         name: props.name
     };
 
-    if (props.filterStore.type === "refselect") {
+    if (props.filterStore.storeType === "refselect") {
         return (
             <RefFilterContainer
                 {...commonProps}

@@ -1,10 +1,10 @@
 import { createElement, Fragment, useCallback } from "react";
 import cn from "classnames";
-import { Option } from "../../typings/OptionListFilterInterface";
+import { OptionWithState } from "../../typings/OptionListFilterInterface";
 import { useCombobox, UseComboboxState, UseComboboxStateChangeOptions } from "downshift";
 
 interface ListSearchProps {
-    options: Option[];
+    options: OptionWithState[];
     onSelect: (value: string) => void;
     onSearch: (search: string) => void;
     searchValue: string;
@@ -41,7 +41,7 @@ export function ListSearch(props: ListSearchProps): React.ReactElement {
             [onSearch]
         ),
         onSelectedItemChange: useCallback(
-            ({ selectedItem }: { selectedItem: Option }) => {
+            ({ selectedItem }: { selectedItem: OptionWithState }) => {
                 console.log("selectedItem (ListBox)", selectedItem);
                 onSelect(selectedItem.value);
             },
@@ -97,12 +97,12 @@ export function ListSearch(props: ListSearchProps): React.ReactElement {
     );
 }
 
-const itemToString = (item: Option | null): string => (item ? item.caption : "");
+const itemToString = (item: OptionWithState | null): string => (item ? item.caption : "");
 
 function stateReducer(
-    state: UseComboboxState<Option>,
-    actionAndChanges: UseComboboxStateChangeOptions<Option>
-): Partial<UseComboboxState<Option>> {
+    state: UseComboboxState<OptionWithState>,
+    actionAndChanges: UseComboboxStateChangeOptions<OptionWithState>
+): Partial<UseComboboxState<OptionWithState>> {
     const { changes, type } = actionAndChanges;
 
     console.log("change type", type, `'${state.inputValue}'` + " -> " + `'${changes.inputValue}'`);

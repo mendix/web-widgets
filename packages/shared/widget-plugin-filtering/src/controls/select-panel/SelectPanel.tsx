@@ -9,12 +9,12 @@ import {
     FloatingFocusManager,
     FloatingContext
 } from "@floating-ui/react";
-import { Option } from "../../typings/OptionListFilterInterface";
+import { OptionWithState } from "../../typings/OptionListFilterInterface";
 import { ListSearch } from "./ListSearch";
 import { SelectControl } from "../kit/SelectControl";
 
 interface SelectPanelProps {
-    options: Option[];
+    options: OptionWithState[];
     value: string;
     placeholder?: string;
     onSelect: (value: string | null) => void;
