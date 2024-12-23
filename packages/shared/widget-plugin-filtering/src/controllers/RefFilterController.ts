@@ -1,20 +1,21 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue } from "mendix";
 import { computed, makeObservable } from "mobx";
-import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { RefFilterStore } from "../stores/RefFilterStore";
+import { OptionWithState } from "../typings/BaseSelectStore";
 import { Dispose } from "../typings/type-utils";
 
 type Params = {
-    store: OptionListFilterInterface;
+    store: RefFilterStore;
     multiselect: boolean;
     emptyCaption?: string;
     onChange?: ActionValue;
 };
 
 export class RefFilterController {
-    private store: OptionListFilterInterface;
+    private store: RefFilterStore;
     private isDataFetched = false;
-    readonly empty: Option;
+    readonly empty: OptionWithState;
     multiselect = false;
     private onChange?: ActionValue;
 
@@ -36,7 +37,7 @@ export class RefFilterController {
 
     get inputValue(): string {
         const captions = this.store.options.flatMap(opt => (opt.selected ? [opt.caption] : []));
-        const size = this.store.selectedCount ?? 0;
+        const size = 0;
 
         if (size === 0) {
             return "";
@@ -55,10 +56,10 @@ export class RefFilterController {
     }
 
     get searchValue(): string {
-        return this.store.searchBuffer;
+        return "";
     }
 
-    get options(): Option[] {
+    get options(): OptionWithState[] {
         return [...this.store.options];
     }
 

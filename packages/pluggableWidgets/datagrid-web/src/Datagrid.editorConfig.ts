@@ -1,14 +1,4 @@
 import {
-    container,
-    datasource,
-    dropzone,
-    rowLayout,
-    selectable,
-    StructurePreviewProps,
-    text,
-    structurePreviewPalette
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import {
     changePropertyIn,
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -16,6 +6,16 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import {
+    container,
+    datasource,
+    dropzone,
+    rowLayout,
+    selectable,
+    structurePreviewPalette,
+    StructurePreviewProps,
+    text
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridProps";
 
@@ -205,6 +205,7 @@ export const getPreview = (
                   filterAssociation: "",
                   filterAssociationOptionLabel: "",
                   filterAssociationOptions: {},
+                  filterAssociationSearchAttribute: "",
                   header: "Column",
                   hidable: "no",
                   resizable: false,
