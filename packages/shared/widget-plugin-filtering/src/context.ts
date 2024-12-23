@@ -1,8 +1,8 @@
-import { Result, error, value } from "./result-meta.js";
 import { Context, createContext, useContext } from "react";
-import { InputFilterInterface } from "./typings/InputFilterInterface.js";
-import { OptionListFilterInterface } from "./typings/OptionListFilterInterface.js";
 import { APIError, ENOCONTEXT } from "./errors.js";
+import { Result, error, value } from "./result-meta.js";
+import { InputFilterInterface } from "./typings/InputFilterInterface.js";
+import { PickerFilterStore } from "./typings/PickerFilterStore.js";
 
 export interface FilterAPIv2 {
     version: 2;
@@ -20,7 +20,7 @@ export enum FilterType {
 
 export type FilterStoreProvider = DirectProvider | KeyProvider | LegacyProvider;
 
-export type FilterStore = InputFilterInterface | OptionListFilterInterface;
+export type FilterStore = InputFilterInterface | PickerFilterStore;
 
 interface DirectProvider {
     type: "direct";

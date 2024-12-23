@@ -1,19 +1,29 @@
 import { createElement, Fragment } from "react";
-import { DropdownInput, DropdownMenu, DropdownRoot, DropdownToggle } from "./primitives";
+import { useSelect, UseSelectProps } from "downshift";
+import { DropdownButton, DropdownMenu, DropdownRoot, DropdownToggle } from "./primitives";
+import { OptionWithState } from "../typings/OptionListFilterInterface";
 
 interface DropdownProps {
-    inputValue: string;
-    onInputChange: (value: string) => void;
+    triggerValue: string;
+    items: OptionWithState[];
+    getHookProps: () => UseSelectProps<OptionWithState>;
 }
 
 export function Dropdown(props: DropdownProps): React.ReactElement {
+    const { getToggleButtonProps, getMenuProps, getItemProps } = useSelect(props.getHookProps());
     return (
         <Fragment>
             <DropdownRoot className="v-classic">
-                <DropdownInput />
-                <DropdownToggle />
+                <DropdownButton {...getToggleButtonProps()}>{props.triggerValue}</DropdownButton>
+                <DropdownToggle {...getToggleButtonProps()} />
             </DropdownRoot>
-            <DropdownMenu />
+            <DropdownMenu {...getMenuProps()}>
+                {props.items.map((item, index) => (
+                    <li key={index} {...getItemProps({ item, index })}>
+                        {item.caption}
+                    </li>
+                ))}
+            </DropdownMenu>
         </Fragment>
     );
 }

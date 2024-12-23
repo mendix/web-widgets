@@ -1,45 +1,36 @@
 import { ListAttributeValue } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
-import { action, computed, makeObservable, observable } from "mobx";
+import { makeAutoObservable, observable } from "mobx";
 import { selectedFromCond } from "../condition-utils";
-import { BaseSelectStore } from "../typings/BaseSelectStore";
-import { CustomOption, OptionWithState } from "../typings/OptionListFilterInterface";
+import { OptionWithState } from "../typings/BaseSelectStore";
 import { FilterData } from "../typings/settings";
 import { SearchStore } from "./SearchStore";
+import { SelectedItemsStore } from "./SelectedItemsStore";
 
-export class StaticSelectFilterStore implements BaseSelectStore {
+interface CustomOption {
+    caption: string;
+    value: string;
+}
+
+export class StaticSelectFilterStore {
     readonly disposers = [] as Array<() => void>;
-    readonly storeType = "optionlist";
-    readonly type = "select";
-    defaultValue: string[] | undefined = undefined;
-    isInitialized = false;
-    selected = new Set<string>();
+    readonly storeType = "select";
     _attributes: ListAttributeValue[] = [];
     _customOptions: CustomOption[] = [];
     search: SearchStore;
+    stateHasBeenSet = false;
+
+    private selectState: SelectedItemsStore;
 
     constructor(attributes: ListAttributeValue[], initCond: FilterCondition | null) {
-        this._attributes = attributes;
         this.search = new SearchStore();
+        this.selectState = new SelectedItemsStore();
+        this._attributes = attributes;
 
-        makeObservable(this, {
-            selected: observable.struct,
+        makeAutoObservable(this, {
             _attributes: observable.struct,
-            _customOptions: observable.struct,
-
-            allOptions: computed,
-            universe: computed,
-            options: computed,
-
-            setSelected: action,
-            toggle: action,
-            reset: action,
-            clear: action,
-            updateProps: action,
-            fromJSON: action,
-            fromViewState: action,
-            setCustomOptions: action
+            _customOptions: observable.struct
         });
 
         if (initCond) {
@@ -47,17 +38,11 @@ export class StaticSelectFilterStore implements BaseSelectStore {
         }
     }
 
-    setup(): () => void {
-        this.disposers.push(this.search.setup());
-        return () => {
-            this.disposers.forEach(dispose => dispose());
-            this.disposers.length = 0;
-        };
-    }
-
     get allOptions(): OptionWithState[] {
+        const selected = this.selectState.selected;
+
         if (this._customOptions.length > 0) {
-            return this._customOptions.map(opt => ({ ...opt, selected: this.selected.has(opt.value) }));
+            return this._customOptions.map(opt => ({ ...opt, selected: selected.has(opt.value) }));
         }
 
         const options = this._attributes.flatMap(attr =>
@@ -66,7 +51,7 @@ export class StaticSelectFilterStore implements BaseSelectStore {
                 return {
                     caption: attr.formatter.format(value),
                     value: stringValue,
-                    selected: this.selected.has(stringValue)
+                    selected: selected.has(stringValue)
                 };
             })
         );
@@ -87,46 +72,47 @@ export class StaticSelectFilterStore implements BaseSelectStore {
     }
 
     get condition(): FilterCondition | undefined {
+        const selected = this.selectState.selected;
         const conditions = this._attributes.flatMap(attr => {
-            const cond = getFilterCondition(attr, this.selected);
+            const cond = getFilterCondition(attr, selected);
             return cond ? [cond] : [];
         });
         return conditions.length > 1 ? or(...conditions) : conditions[0];
     }
 
-    setSelected = (value: Iterable<string>): void => {
-        this.selected = new Set(value);
-    };
-
-    reset = (): void => {
-        this.setSelected(this.defaultValue ?? []);
-    };
-
-    /** Just to have uniform clear method on all filter stores. */
-    clear = (): void => {
-        this.setSelected([]);
-    };
-
-    toggle(value: string): void {
-        const selected = new Set(this.selected);
-        if (selected.delete(value) === false) {
-            selected.add(value);
-        }
-        this.selected = selected;
+    get selected(): Set<string> {
+        return this.selectState.selected;
     }
 
-    UNSAFE_setDefaults = (value?: string[]): void => {
-        if (this.isInitialized || !value) {
-            return;
+    setup(): () => void {
+        this.disposers.push(this.search.setup());
+        return () => {
+            this.disposers.forEach(dispose => dispose());
+            this.disposers.length = 0;
+        };
+    }
+
+    setDefaultSelected(defaultSelected?: Iterable<string>): void {
+        if (!this.stateHasBeenSet && defaultSelected) {
+            this.selectState.setDefaultSelected(defaultSelected);
+            this.selectState.reset();
+            this.stateHasBeenSet = true;
         }
-        this.defaultValue ??= value;
-        this.isInitialized = true;
-        this.reset();
-    };
+    }
 
     setCustomOptions(options: CustomOption[]): void {
         this._customOptions = options;
     }
+
+    clear = (): void => this.selectState.clear();
+
+    reset = (): void => this.selectState.reset();
+
+    toggle = (value: string): void => this.selectState.toggle(value);
+
+    setSelected = (value: string[]): void => {
+        this.selectState.setSelected(value);
+    };
 
     updateProps(attributes: ListAttributeValue[]): void {
         this._attributes = attributes;
@@ -147,14 +133,14 @@ export class StaticSelectFilterStore implements BaseSelectStore {
     }
 
     toJSON(): string[] {
-        return [...this.selected];
+        return [...this.selectState.selected];
     }
 
     fromJSON(data: FilterData): void {
         if (Array.isArray(data) && data.every(item => typeof item === "string")) {
-            this.setSelected(data as string[]);
+            this.selectState.setSelected(data as string[]);
         }
-        this.isInitialized = true;
+        this.stateHasBeenSet = true;
     }
 
     fromViewState(cond: FilterCondition): void {
@@ -169,10 +155,12 @@ export class StaticSelectFilterStore implements BaseSelectStore {
 
         const selected = selectedFromCond(cond, val);
 
-        if (selected.length > 0) {
-            this.setSelected(selected);
-            this.isInitialized = true;
+        if (selected.length < 1) {
+            return;
         }
+
+        this.selectState.setSelected(selected);
+        this.stateHasBeenSet = true;
     }
 }
 

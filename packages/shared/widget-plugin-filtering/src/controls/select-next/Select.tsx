@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { Fragment, createElement } from "react";
-import { Option } from "../../typings/OptionListFilterInterface";
+import { OptionWithState } from "../../typings/OptionListFilterInterface";
 import { SelectControl } from "../kit/SelectControl";
 import { useSelect } from "../kit/useSelect";
 
 interface SelectProps {
-    options: Option[];
+    options: OptionWithState[];
     value: string;
     onSelect: (value: string | null) => void;
 }

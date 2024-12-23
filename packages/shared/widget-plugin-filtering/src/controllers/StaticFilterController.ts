@@ -2,7 +2,8 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { action, autorun, computed, makeObservable, observable, reaction } from "mobx";
 import { OptionsSerializer } from "../stores/OptionsSerializer";
-import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
+import { OptionWithState } from "../typings/BaseSelectStore";
 
 interface CustomOption<T> {
     caption: T;
@@ -10,7 +11,7 @@ interface CustomOption<T> {
 }
 
 interface Props {
-    filterStore: OptionListFilterInterface;
+    filterStore: StaticSelectFilterStore;
     multiselect: boolean;
     defaultValue?: string;
     valueAttribute?: EditableValue<string>;
@@ -20,11 +21,11 @@ interface Props {
 }
 
 export class StaticFilterController {
-    private store: OptionListFilterInterface;
+    private store: StaticSelectFilterStore;
     private onChange?: ActionValue;
     private savedValueAttribute?: EditableValue<string>;
     private serializer: OptionsSerializer;
-    readonly empty: Option;
+    readonly empty: OptionWithState;
     readonly initValue: string | undefined;
     multiselect = false;
     _filterOptions: Array<CustomOption<DynamicValue<string>>>;
@@ -57,12 +58,12 @@ export class StaticFilterController {
         return this.store.options.flatMap(opt => (opt.selected ? [opt.caption] : [])).join(",");
     }
 
-    get options(): Option[] {
+    get options(): OptionWithState[] {
         return [...this.store.options];
     }
 
     get searchValue(): string {
-        return this.store.searchBuffer;
+        return "";
     }
 
     get customOptions(): Array<CustomOption<string>> {
@@ -74,8 +75,6 @@ export class StaticFilterController {
 
     setup(): () => void {
         const disposers: Array<() => void> = [];
-
-        this.store.UNSAFE_setDefaults(this.serializer.fromStorableValue(this.initValue));
 
         disposers.push(
             autorun(() => {
@@ -110,19 +109,19 @@ export class StaticFilterController {
         this.savedValueAttribute = props.valueAttribute;
     }
 
-    onSelect = (value: string | null): void => {
-        if (value === this.empty.value || value === null) {
-            this.store.replace([]);
-            this.store.setSearch("");
-        } else if (this.multiselect) {
-            this.store.toggle(value);
-        } else {
-            this.store.replace([value]);
-        }
+    onSelect = (_: string | null): void => {
+        // if (value === this.empty.value || value === null) {
+        //     this.store.replace([]);
+        //     this.store.setSearch("");
+        // } else if (this.multiselect) {
+        //     this.store.toggle(value);
+        // } else {
+        //     this.store.replace([value]);
+        // }
     };
 
-    onSearch = (search: string): void => {
-        this.store.setSearch(search);
+    onSearch = (_: string): void => {
+        // this.store.setSearch(search);
     };
 
     handleResetValue = (useDefaultValue: boolean): void => {
@@ -146,6 +145,6 @@ export class StaticFilterController {
         if (params.operators) {
             this._filterOptions = params.operators;
         }
-        this.store.replace(value);
+        this.store.setSelected(value);
     };
 }
