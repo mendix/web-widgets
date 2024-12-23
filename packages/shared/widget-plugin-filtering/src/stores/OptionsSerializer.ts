@@ -1,12 +1,12 @@
 import { computed, makeObservable } from "mobx";
-import { OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { PickerFilterStore } from "../typings/PickerFilterStore";
 
 interface Params {
-    store: OptionListFilterInterface;
+    store: PickerFilterStore;
 }
 
 export class OptionsSerializer {
-    private store: OptionListFilterInterface;
+    private store: PickerFilterStore;
 
     constructor(params: Params) {
         makeObservable(this, {

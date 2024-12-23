@@ -2,16 +2,16 @@ import { RefFilterController } from "@mendix/widget-plugin-filtering/controllers
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { Select } from "@mendix/widget-plugin-filtering/controls";
 import { SelectPanel } from "@mendix/widget-plugin-filtering/controls/select-panel/SelectPanel";
-import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ActionValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
+import { RefFilterStore } from "@mendix/widget-plugin-filtering/stores/RefFilterStore";
 export interface RefFilterContainerProps {
     name: string;
     parentChannelName?: string;
-    filterStore: OptionListFilterInterface;
+    filterStore: RefFilterStore;
     multiselect: boolean;
     emptyCaption?: string;
     ariaLabel?: string;

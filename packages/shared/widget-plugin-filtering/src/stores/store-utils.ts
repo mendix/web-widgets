@@ -1,9 +1,5 @@
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { DateInputFilterStore } from "./DateInputFilterStore";
-import { NumberInputFilterStore } from "./NumberInputFilterStore";
-import { StaticSelectFilterStore } from "./StaticSelectFilterStore";
-import { StringInputFilterStore } from "./StringInputFilterStore";
 import {
     Date_InputFilterInterface,
     InputFilterInterface,
@@ -11,6 +7,10 @@ import {
     String_InputFilterInterface
 } from "../typings/InputFilterInterface";
 import { InputData } from "../typings/settings";
+import { DateInputFilterStore } from "./DateInputFilterStore";
+import { NumberInputFilterStore } from "./NumberInputFilterStore";
+import { StaticSelectFilterStore } from "./StaticSelectFilterStore";
+import { StringInputFilterStore } from "./StringInputFilterStore";
 
 export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
 

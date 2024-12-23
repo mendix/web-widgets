@@ -8,9 +8,9 @@ import {
 } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
-import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
+import { action, computed, makeObservable, observable, reaction } from "mobx";
 import { flattenRefCond, selectedFromCond } from "../condition-utils";
-import { Option, OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { OptionWithState } from "../typings/BaseSelectStore";
 import { FilterData } from "../typings/settings";
 import { Dispose } from "../typings/type-utils";
 import { isInputData } from "./store-utils";
@@ -19,24 +19,26 @@ type ListAttributeId = ListAttributeValue["id"];
 
 export type RefFilterStoreProps = {
     ref: ListReferenceValue | ListReferenceSetValue;
-    refOptions: ListValue;
+    datasource: ListValue;
     caption: ListExpressionValue;
     searchAttrId?: ListAttributeId;
     fetchOptionsLazy?: boolean;
 };
 
-export class RefFilterStore implements OptionListFilterInterface {
-    private _selectedDraft = new Set<string>();
+export class RefFilterStore {
     readonly disposers: Dispose[] = [];
-    readonly storeType = "optionlist";
+    readonly storeType = "refselect";
     readonly type = "refselect";
+    readonly _searchAttrId: ListAttributeId | undefined = undefined;
     defaultValue: string[] | undefined = undefined;
     isInitialized = false;
+    _search = "";
+    _selected = new Set<string>();
+
     lazyMode: boolean;
     _ref: ListReferenceValue | ListReferenceSetValue;
-    _refOptions: ListValue;
+    _datasource: ListValue;
     _caption: ListExpressionValue;
-    readonly _searchAttrId: ListAttributeId | undefined = undefined;
     /**
      * As Ref filter fetch options lazily,
      * we just keep condition and
@@ -44,28 +46,24 @@ export class RefFilterStore implements OptionListFilterInterface {
      */
     readonly _initCond: FilterCondition | undefined;
     readonly _initCondArray: Array<EqualsCondition | ContainsCondition>;
-    _search = "";
-    _searchBuffer = "";
 
     constructor(props: RefFilterStoreProps, initCond: FilterCondition | null) {
         this._ref = props.ref;
-        this._refOptions = props.refOptions;
+        this._datasource = props.datasource;
         this._caption = props.caption;
         this._searchAttrId = props.searchAttrId;
         this._initCondArray = initCond ? flattenRefCond(initCond) : [];
         this.lazyMode = props.fetchOptionsLazy ?? true;
 
         if (this.lazyMode) {
-            this._refOptions.setLimit(0);
+            this._datasource.setLimit(0);
         }
 
-        makeObservable<this, "_selectedDraft" | "selected">(this, {
+        makeObservable(this, {
             _ref: observable.ref,
-            _refOptions: observable.ref,
+            _datasource: observable.ref,
             _caption: observable.ref,
-            _selectedDraft: observable,
             _search: observable,
-            _searchBuffer: observable,
 
             selected: computed,
             options: computed,
@@ -74,7 +72,6 @@ export class RefFilterStore implements OptionListFilterInterface {
             canSearch: computed,
             canSearchInPlace: computed,
             isLoading: computed,
-            allIds: computed.struct,
             replace: action,
             toggle: action,
             updateProps: action,
@@ -96,14 +93,14 @@ export class RefFilterStore implements OptionListFilterInterface {
     }
 
     get hasMore(): boolean {
-        return this._refOptions.hasMoreItems ?? false;
+        return this._datasource.hasMoreItems ?? false;
     }
 
     get isLoading(): boolean {
-        return this._refOptions.status === "loading";
+        return this._datasource.status === "loading";
     }
 
-    get options(): Option[] {
+    get options(): OptionWithState[] {
         const options = this.allOptions;
 
         if (!this._search) {
@@ -117,8 +114,8 @@ export class RefFilterStore implements OptionListFilterInterface {
         return options;
     }
 
-    get allOptions(): Option[] {
-        const items = this._refOptions.items ?? [];
+    get allOptions(): OptionWithState[] {
+        const items = this._datasource.items ?? [];
         return items.map(obj => ({
             caption: `${this._caption.get(obj).value}`,
             value: `${obj.id}`,
@@ -132,7 +129,7 @@ export class RefFilterStore implements OptionListFilterInterface {
         }
 
         const exp = (guid: string): FilterCondition[] => {
-            const items = this._refOptions.items ?? [];
+            const items = this._datasource.items ?? [];
             const obj = items.find(o => o.id === guid);
 
             if (obj && this._ref.type === "Reference") {
@@ -165,46 +162,11 @@ export class RefFilterStore implements OptionListFilterInterface {
         return cond[0];
     }
 
-    private get selected(): Set<string> {
-        let selected = this._selectedDraft;
-        if (this.allIds.size > 0) {
-            selected = new Set([...selected].filter(id => this.allIds.has(id)));
-        }
-        return selected;
-    }
-
-    get selectedCount(): number {
-        return this.selected.size;
-    }
-
-    /**
-     * Compute list of all ids.
-     * Return empty set if full list is not available.
-     */
-    get allIds(): Set<string> {
-        const hasMore = this._refOptions.hasMoreItems ?? true;
-        const isLoading = this._refOptions.status === "loading";
-
-        if (hasMore || isLoading) {
-            return new Set<string>();
-        }
-
-        const items = this._refOptions.items ?? [];
-        return new Set(items.map(item => item.id));
+    get selected(): Set<string> {
+        return this._selected;
     }
 
     setup(): Dispose {
-        this.disposers.push(
-            reaction(
-                () => this._searchBuffer.trim(),
-                search =>
-                    runInAction(() => {
-                        this._search = search;
-                    }),
-                { delay: 300 }
-            )
-        );
-
         this.disposers.push(
             reaction(
                 () => this._search,
@@ -216,7 +178,7 @@ export class RefFilterStore implements OptionListFilterInterface {
                         typeof term === "string" && term !== ""
                             ? contains(attribute(this._searchAttrId), literal(term))
                             : undefined;
-                    this._refOptions.setFilter(search);
+                    this._datasource.setFilter(search);
                 }
             )
         );
@@ -227,8 +189,20 @@ export class RefFilterStore implements OptionListFilterInterface {
         };
     }
 
-    get searchBuffer(): string {
-        return this._searchBuffer;
+    searchChangeReaction(): Parameters<typeof reaction> {
+        const expression = (): string => this._search;
+        const effect = (term: string): void => {
+            if (!this._searchAttrId || this.canSearchInPlace) {
+                return;
+            }
+            const search =
+                typeof term === "string" && term !== ""
+                    ? contains(attribute(this._searchAttrId), literal(term))
+                    : undefined;
+            this._datasource.setFilter(search);
+        };
+
+        return [expression, effect, { delay: 300 }];
     }
 
     UNSAFE_setDefaults = (_: string[]): void => {
@@ -245,30 +219,24 @@ export class RefFilterStore implements OptionListFilterInterface {
 
     updateProps(props: RefFilterStoreProps): void {
         this._ref = props.ref;
-        this._refOptions = props.refOptions;
+        this._datasource = props.datasource;
         this._caption = props.caption;
     }
 
-    replace(value: string[] | Set<string>): void {
-        this._selectedDraft = new Set(value);
-    }
+    replace(_: string[] | Set<string>): void {}
 
-    toggle(value: string): void {
-        if (this._selectedDraft.delete(value) === false) {
-            this._selectedDraft.add(value);
-        }
-    }
+    toggle(_: string): void {}
 
     isValidValue(value: unknown): boolean {
         return typeof value === "string";
     }
 
     loadMore(): void {
-        this._refOptions.setLimit(this._refOptions.limit + 30);
+        this._datasource.setLimit(this._datasource.limit + 30);
     }
 
     setSearch(value: string | undefined | null): void {
-        this._searchBuffer = value ?? "";
+        this._search = value ?? "";
     }
 
     toJSON(): string[] {
