@@ -1,6 +1,7 @@
+import { observer } from "mobx-react-lite";
 import { createElement, Fragment } from "react";
 import { useSelect, UseSelectProps } from "downshift";
-import { DropdownButton, DropdownMenu, DropdownRoot, DropdownToggle } from "./primitives";
+import { ValueButton, Menu, Root, Toggle } from "./primitives";
 import { OptionWithState } from "../typings/OptionListFilterInterface";
 
 interface DropdownProps {
@@ -9,21 +10,22 @@ interface DropdownProps {
     getHookProps: () => UseSelectProps<OptionWithState>;
 }
 
-export function Dropdown(props: DropdownProps): React.ReactElement {
+// eslint-disable-next-line prefer-arrow-callback
+export const Select = observer(function Select(props: DropdownProps): React.ReactElement {
     const { getToggleButtonProps, getMenuProps, getItemProps } = useSelect(props.getHookProps());
     return (
         <Fragment>
-            <DropdownRoot className="v-classic">
-                <DropdownButton {...getToggleButtonProps()}>{props.triggerValue}</DropdownButton>
-                <DropdownToggle {...getToggleButtonProps()} />
-            </DropdownRoot>
-            <DropdownMenu {...getMenuProps()}>
+            <Root className="v-classic">
+                <ValueButton {...getToggleButtonProps()}>{props.triggerValue}</ValueButton>
+                <Toggle {...getToggleButtonProps()} />
+            </Root>
+            <Menu {...getMenuProps()}>
                 {props.items.map((item, index) => (
                     <li key={index} {...getItemProps({ item, index })}>
                         {item.caption}
                     </li>
                 ))}
-            </DropdownMenu>
+            </Menu>
         </Fragment>
     );
-}
+});

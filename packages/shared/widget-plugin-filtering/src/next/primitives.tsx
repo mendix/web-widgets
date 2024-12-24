@@ -4,35 +4,26 @@ import cn from "classnames";
 
 const rootName = "dropdown-filter";
 
-export const DropdownRoot = forwardRef<HTMLDivElement, JSX.IntrinsicElements["div"]>(function DropdownRoot(props, ref) {
+export const Root = forwardRef<HTMLDivElement, JSX.IntrinsicElements["div"]>(function Root(props, ref) {
     return <div {...props} className={cn("form-control", rootName, props.className)} ref={ref} />;
 });
 
-export const DropdownButton = forwardRef<HTMLButtonElement, JSX.IntrinsicElements["button"]>(function DropdownButton(
+export const ValueButton = forwardRef<HTMLButtonElement, JSX.IntrinsicElements["button"]>(function ValueButton(
     props,
     ref
 ) {
     return <button {...props} className={`${rootName}-button`} ref={ref} />;
 });
 
-export const DropdownInput = forwardRef<HTMLInputElement, JSX.IntrinsicElements["input"]>(function DropdownInput(
-    props,
-    ref
-) {
+export const Input = forwardRef<HTMLInputElement, JSX.IntrinsicElements["input"]>(function Input(props, ref) {
     return <input {...props} className={cn(`${rootName}-input`, props.className)} ref={ref} />;
 });
 
-export const DropdownClear = forwardRef<HTMLButtonElement, JSX.IntrinsicElements["button"]>(function DropdownClear(
-    props,
-    ref
-) {
+export const Clear = forwardRef<HTMLButtonElement, JSX.IntrinsicElements["button"]>(function Clear(props, ref) {
     return <button {...props} className={`${rootName}-clear`} ref={ref} />;
 });
 
-export const DropdownToggle = forwardRef<HTMLButtonElement, JSX.IntrinsicElements["button"]>(function DropdownToggle(
-    props,
-    ref
-) {
+export const Toggle = forwardRef<HTMLButtonElement, JSX.IntrinsicElements["button"]>(function Toggle(props, ref) {
     const isOpen = true;
     return (
         <button {...props} className={`${rootName}-toggle`} tabIndex={-1} ref={ref}>
@@ -41,10 +32,7 @@ export const DropdownToggle = forwardRef<HTMLButtonElement, JSX.IntrinsicElement
     );
 });
 
-export const DropdownMenu = forwardRef<HTMLUListElement, JSX.IntrinsicElements["ul"]>(function DropdownMenu(
-    props,
-    ref
-) {
+export const Menu = forwardRef<HTMLUListElement, JSX.IntrinsicElements["ul"]>(function Menu(props, ref) {
     return (
         <ul {...props} ref={ref}>
             {props.children}
