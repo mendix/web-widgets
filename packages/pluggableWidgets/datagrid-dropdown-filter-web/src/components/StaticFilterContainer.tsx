@@ -1,7 +1,8 @@
 import { StaticFilterController } from "@mendix/widget-plugin-filtering/controllers/StaticFilterController";
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { SelectPanel } from "@mendix/widget-plugin-filtering/controls";
-import { ComboDropdown } from "@mendix/widget-plugin-filtering/next/ComboDropdown";
+import { StaticSelectController } from "@mendix/widget-plugin-filtering/adapters/StaticSelectController";
+import { Select } from "@mendix/widget-plugin-filtering/next/Dropdown";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useEffect, useState } from "react";
@@ -28,6 +29,7 @@ export interface StaticFilterContainerProps {
 function Container(props: StaticFilterContainerProps): React.ReactElement {
     // const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
     const [controller] = useState(() => new StaticFilterController(props));
+    const [ctrl2] = useState(() => new StaticSelectController({ filterStore: props.filterStore }));
 
     useEffect(() => controller.setup(), [controller]);
     useEffect(() => controller.updateProps(props));
@@ -46,7 +48,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     const USE_SELECT = true;
 
     if (USE_SELECT) {
-        return <ComboDropdown inputValue={"foo"} onStateChange={changes => console.log("changes", changes)} />;
+        return <Select triggerValue={ctrl2.triggerValue()} getHookProps={ctrl2.getSelectProps} items={ctrl2.options} />;
     }
 
     return (
