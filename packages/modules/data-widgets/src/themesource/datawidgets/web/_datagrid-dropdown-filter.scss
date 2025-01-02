@@ -1,0 +1,80 @@
+$df-spacing: 4px;
+$df-highlight-bg-color: #f5f6f6;
+$df-selected-bg-color: #e6eaff;
+
+$df-menu-outer-padding: 10px;
+$df-menu-border-radius: 7px;
+$df-menu-max-height: 96px;
+$df-menu-padding: 10px 0;
+$df-menu-shadow-color: rgba(0, 0, 0, 0.2);
+$df-menu-item-padding: 6px 10px;
+
+$df-popover-padding: 10px 0;
+$df-popover-bg: #ffffff;
+
+.widget-dropdown-filter {
+    --pf8: 8px;
+
+    &-popover {
+        z-index: 50;
+        border-radius: var(--dropdown-border-radius, $df-menu-border-radius);
+        box-shadow: 0px 0px var(--dropdown-outer-padding, $df-menu-outer-padding) 0px
+            var(--shadow-color-border, $df-menu-shadow-color);
+        margin: var(--spacing-smaller, $df-spacing) 0 var(--spacing-smaller, $df-spacing) 0;
+        padding: var(--df3-popover-spacing, $df-popover-padding);
+        background-color: var(--label-info-color, $df-popover-bg);
+    }
+
+    &-menu {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        max-height: var(--dropdown-menu-max-height, $df-menu-max-height);
+        overflow-y: auto;
+    }
+
+    &-menu-item {
+        display: flex;
+        flex-flow: row nowrap;
+        align-content: center;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        padding: var(--df3-menu-item-padding, $df-menu-item-padding);
+        height: fit-content;
+        overflow: hidden;
+        font-weight: normal;
+
+        &:where([data-selected]) {
+            background-color: var(--color-primary-lighter, $df-selected-bg-color);
+        }
+
+        &:where([data-highlighted]) {
+            background-color: var(--color-default-light, $df-highlight-bg-color);
+        }
+    }
+
+    &-value-button,
+    &-clear,
+    &-toggle {
+        background-color: transparent;
+        border: none;
+    }
+
+    &-value-button {
+        padding: var(--pf8);
+        flex: 1;
+        text-align: left;
+    }
+
+    &-value-button,
+    &-input {
+        color: var(--gray-dark, black);
+        font-weight: normal;
+    }
+}
+
+.widget-dropdown-filter:where(.form-control) {
+    padding: 0;
+    position: relative;
+}
