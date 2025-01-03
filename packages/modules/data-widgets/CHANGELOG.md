@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.28.3] DataWidgets - 2025-01-03
+
+### [2.28.3] Datagrid
+
+#### Changed
+
+-   We have optimized some internal workings to improve export to Excel performance.
+
 ## [2.28.2] DataWidgets - 2024-12-12
 
 ### [2.28.2] Datagrid
