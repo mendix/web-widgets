@@ -1,35 +1,49 @@
-$df-spacing: 4px;
-$df-highlight-bg-color: #f5f6f6;
-$df-selected-bg-color: #e6eaff;
+@mixin scroll-shadow {
+    background:
+    /* Shadow Cover TOP */ linear-gradient(white 30%, rgba(255, 255, 255, 0)) center top,
+        /* Shadow Cover BOTTOM */ linear-gradient(rgba(255, 255, 255, 0), white 70%) center bottom,
+        /* Shadow TOP */ linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center top,
+        /* Shadow BOTTOM */ linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center bottom;
 
-$df-menu-outer-padding: 10px;
-$df-menu-border-radius: 7px;
-$df-menu-max-height: 96px;
-$df-menu-padding: 10px 0;
-$df-menu-shadow-color: rgba(0, 0, 0, 0.2);
-$df-menu-item-padding: 6px 10px;
-
-$df-popover-padding: 10px 0;
-$df-popover-bg: #ffffff;
+    background-repeat: no-repeat;
+    background-size: 100% 70px, 100% 70px, 100% 35px, 100% 35px;
+    background-attachment: local, local, scroll, scroll;
+}
 
 .widget-dropdown-filter {
-    --pf8: 8px;
+    --wdf-outer-spacing: var(--dropdown-outer-spacing, 10px);
+    --wdf-spacing: var(--spacing-smaller, 4px);
+    --wdf-popover-spacing: 0;
+    --wdf-popover-z-index: 50;
+    --wdf-popover-shadow: 0px 0px var(--wdf-outer-spacing) 0px var(--shadow-color-border, rgba(0, 0, 0, 0.2));
+    --wdf-bd-radius: var(--dropdown-border-radius, 7px);
+    --wdf-menu-bg-color: var(--label-info-color, #ffffff);
+    --wdf-menu-max-height: var(--dropdown-menu-max-height, 320px);
+    --wdf-menu-item-padding: 6px 10px;
+    --wdf-highlighted-bg-color: var(--color-default-light, #e6eaff);
+    --wdf-selected-bg-color: var(--color-primary-lighter, #f5f6f6);
+    --wdf-button-spacing: 8px;
+    --wdf-color: var(--gray-dark, black);
 
     &-popover {
-        z-index: 50;
-        border-radius: var(--dropdown-border-radius, $df-menu-border-radius);
-        box-shadow: 0px 0px var(--dropdown-outer-padding, $df-menu-outer-padding) 0px
-            var(--shadow-color-border, $df-menu-shadow-color);
-        margin: var(--spacing-smaller, $df-spacing) 0 var(--spacing-smaller, $df-spacing) 0;
-        padding: var(--df3-popover-spacing, $df-popover-padding);
-        background-color: var(--label-info-color, $df-popover-bg);
+        z-index: var(--wdf-popover-z-index);
+        box-shadow: var(--wdf-popover-shadow);
+        margin-top: var(--wdf-spacing);
+        border-radius: var(--wdf-bd-radius);
+    }
+
+    &-menu-slot {
+        border-radius: inherit;
+        background-color: var(--wdf-menu-bg-color);
     }
 
     &-menu {
+        border-radius: inherit;
+        @include scroll-shadow;
         margin: 0;
         padding: 0;
         list-style-type: none;
-        max-height: var(--dropdown-menu-max-height, $df-menu-max-height);
+        max-height: var(--wdf-menu-max-height);
         overflow-y: auto;
     }
 
@@ -40,17 +54,18 @@ $df-popover-bg: #ffffff;
         align-items: center;
         cursor: pointer;
         user-select: none;
-        padding: var(--df3-menu-item-padding, $df-menu-item-padding);
+        padding: var(--wdf-menu-item-padding);
         height: fit-content;
         overflow: hidden;
         font-weight: normal;
+        color: var(--wdf-color);
 
         &:where([data-selected]) {
-            background-color: var(--color-primary-lighter, $df-selected-bg-color);
+            background-color: var(--wdf-selected-bg-color);
         }
 
         &:where([data-highlighted]) {
-            background-color: var(--color-default-light, $df-highlight-bg-color);
+            background-color: var(--wdf-highlighted-bg-color);
         }
     }
 
@@ -62,15 +77,32 @@ $df-popover-bg: #ffffff;
     }
 
     &-value-button {
-        padding: var(--pf8);
         flex: 1;
         text-align: left;
+        padding: var(--wdf-button-spacing);
+        &:not(:last-of-type) {
+            padding-right: 0;
+        }
+    }
+
+    &-toggle {
+        padding: var(--wdf-button-spacing);
+        padding-left: var(--wdf-spacing);
+        display: flex;
+        align-items: center;
     }
 
     &-value-button,
     &-input {
-        color: var(--gray-dark, black);
+        color: var(--wdf-color);
         font-weight: normal;
+    }
+
+    &-state-icon {
+        transition: transform 0.2s;
+        [data-expanded="true"] & {
+            transform: rotate(180deg);
+        }
     }
 }
 
