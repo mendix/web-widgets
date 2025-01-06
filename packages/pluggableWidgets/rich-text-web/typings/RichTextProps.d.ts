@@ -13,7 +13,13 @@ export type ReadOnlyStyleEnum = "text" | "bordered" | "readPanel";
 
 export type WidthUnitEnum = "percentage" | "pixels";
 
-export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent";
+export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type MinHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type MaxHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type OverflowYEnum = "auto" | "scroll" | "hidden";
 
 export type OnChangeTypeEnum = "onLeave" | "onDataChange";
 
@@ -42,7 +48,11 @@ export interface RichTextContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
+    minHeightUnit: MinHeightUnitEnum;
     minHeight: number;
+    maxHeightUnit: MaxHeightUnitEnum;
+    maxHeight: number;
+    OverflowY: OverflowYEnum;
     onChange?: ActionValue;
     onFocus?: ActionValue;
     onBlur?: ActionValue;
@@ -76,7 +86,11 @@ export interface RichTextPreviewProps {
     width: number | null;
     heightUnit: HeightUnitEnum;
     height: number | null;
+    minHeightUnit: MinHeightUnitEnum;
     minHeight: number | null;
+    maxHeightUnit: MaxHeightUnitEnum;
+    maxHeight: number | null;
+    OverflowY: OverflowYEnum;
     onChange: {} | null;
     onFocus: {} | null;
     onBlur: {} | null;
