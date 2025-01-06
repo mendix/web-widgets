@@ -64,7 +64,7 @@
             <propertyGroup caption="Dimensions">
                 <property key="widthUnit" type="enumeration" defaultValue="percentage">
                     <caption>Width unit</caption>
-                    <description>Percentage: portion of parent size. Pixels: absolute amount of pixels.</description>
+                    <description />
                     <enumerationValues>
                         <enumerationValue key="percentage">Percentage</enumerationValue>
                         <enumerationValue key="pixels">Pixels</enumerationValue>
@@ -78,18 +78,52 @@
                     <caption>Height unit</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="percentageOfWidth">Percentage of width</enumerationValue>
+                        <enumerationValue key="percentageOfWidth">Auto</enumerationValue>
                         <enumerationValue key="pixels">Pixels</enumerationValue>
-                        <enumerationValue key="percentageOfParent">Percentage of parent</enumerationValue>
+                        <enumerationValue key="percentageOfParent">Percentage</enumerationValue>
+                        <enumerationValue key="percentageOfView">Viewport</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="height" type="integer" defaultValue="250">
                     <caption>Height</caption>
                     <description />
                 </property>
+                <property key="minHeightUnit" type="enumeration" defaultValue="none">
+                    <caption>Minimum Height unit</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="none">None</enumerationValue>
+                        <enumerationValue key="pixels">Pixels</enumerationValue>
+                        <enumerationValue key="percentageOfParent">Percentage</enumerationValue>
+                        <enumerationValue key="percentageOfView">Viewport</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="minHeight" type="integer" defaultValue="250">
                     <caption>Minimum height</caption>
-                    <description>Editor's minimum height. The number value is in pixels.</description>
+                    <description />
+                </property>
+                <property key="maxHeightUnit" type="enumeration" defaultValue="none">
+                    <caption>Maximum Height unit</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="none">None</enumerationValue>
+                        <enumerationValue key="pixels">Pixels</enumerationValue>
+                        <enumerationValue key="percentageOfParent">Percentage</enumerationValue>
+                        <enumerationValue key="percentageOfView">Viewport</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="maxHeight" type="integer" defaultValue="250">
+                    <caption>Maximum height</caption>
+                    <description />
+                </property>
+                <property key="OverflowY" type="enumeration" defaultValue="auto">
+                    <caption>Vertical Overflow</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="auto">Auto</enumerationValue>
+                        <enumerationValue key="scroll">Scroll</enumerationValue>
+                        <enumerationValue key="hidden">Hidden</enumerationValue>
+                    </enumerationValues>
                 </property>
             </propertyGroup>
         </propertyGroup>

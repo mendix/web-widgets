@@ -1,5 +1,4 @@
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
-import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import classNames from "classnames";
 import { createElement, Fragment, useEffect, useState } from "react";
 import { RichTextContainerProps } from "../typings/RichTextProps";
@@ -8,15 +7,9 @@ import "./ui/RichText.scss";
 import { constructWrapperStyle } from "./utils/helpers";
 
 export default function RichText(props: RichTextContainerProps): JSX.Element {
-    const { stringAttribute, width: w, height: h, widthUnit, heightUnit, readOnlyStyle } = props;
+    const { stringAttribute, readOnlyStyle } = props;
 
-    const { width, height } = getDimensions({
-        width: w,
-        widthUnit,
-        height: h,
-        heightUnit
-    });
-    const wrapperStyle = constructWrapperStyle(props, { width, height });
+    const wrapperStyle = constructWrapperStyle(props);
     const [isIncubator, setIsIncubator] = useState(true);
 
     useEffect(() => {

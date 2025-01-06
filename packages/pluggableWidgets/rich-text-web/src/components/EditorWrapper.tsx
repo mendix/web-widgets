@@ -132,16 +132,17 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                 "flex-column",
                 `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`
             )}
-            style={{
-                maxWidth: style?.maxWidth
-            }}
+            style={{ width: style?.width }}
             onClick={e => {
                 // click on other parts of editor, such as the toolbar, should also set focus
-                if (
-                    toolbarRef.current === (e.target as HTMLDivElement) ||
-                    toolbarRef.current?.contains(e.target as Node)
-                ) {
-                    quillRef?.current?.focus();
+                if (!quillRef?.current?.hasFocus()) {
+                    if (
+                        toolbarRef.current === (e.target as HTMLDivElement) ||
+                        toolbarRef.current?.contains(e.target as Node) ||
+                        e.target === quillRef?.current?.container.parentElement
+                    ) {
+                        quillRef?.current?.focus();
+                    }
                 }
             }}
             spellCheck={props.spellCheck}
@@ -159,10 +160,12 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                     theme={"snow"}
                     ref={quillRef}
                     defaultValue={stringAttribute.value}
+                    // style={{height: style?.height}}
                     style={{
                         height: style?.height,
                         minHeight: style?.minHeight,
-                        maxHeight: style?.maxHeight
+                        maxHeight: style?.maxHeight,
+                        overflowY: style?.overflowY
                     }}
                     toolbarId={shouldHideToolbar ? undefined : toolbarOptions ? toolbarOptions : toolbarId}
                     onTextChange={onTextChange}
