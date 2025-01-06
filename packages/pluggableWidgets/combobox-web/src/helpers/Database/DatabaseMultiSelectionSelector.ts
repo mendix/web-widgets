@@ -30,6 +30,8 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
     type = "multi" as const;
     protected lazyLoader: LazyLoadProvider = new LazyLoadProvider();
     private _objectsMap: Map<string, ObjectItem> = new Map();
+    selectedItemsSorting: "caption" | "value" | "none" = "value";
+    private orderedSelections: string[] = [];
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
@@ -119,10 +121,40 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         this.selectedItemsStyle = props.selectedItemsStyle;
         this.selection = props.optionsSourceDatabaseItemSelection as SelectionMultiValue;
         this.selectionMethod = props.selectionMethod;
-        this.currentId = this.selection?.selection.map(v => v.id) ?? null;
+        this.selectedItemsSorting = props.databaseSelectedItemsSorting;
+
+        const newValues = this.selection?.selection ?? null;
+        if (newValues) {
+            const newValueIds = newValues.map(v => v.id.toString());
+
+            if (this.selectedItemsSorting === "none") {
+                this.orderedSelections = [
+                    ...this.orderedSelections.filter(id => newValueIds.includes(id)),
+                    ...newValueIds.filter(id => !this.orderedSelections.includes(id))
+                ];
+            } else if (this.selectedItemsSorting === "caption") {
+                this.orderedSelections = newValueIds.sort((a, b) => {
+                    const captionA = this.caption.get(a)?.toString() ?? "";
+                    const captionB = this.caption.get(b)?.toString() ?? "";
+                    return captionA.localeCompare(captionB);
+                });
+            } else {
+                this.orderedSelections = newValueIds.sort();
+            }
+
+            this.currentId = this.orderedSelections;
+        } else {
+            this.orderedSelections = [];
+            this.currentId = null;
+        }
     }
 
     setValue(value: string[] | null): void {
+        if (value === null) {
+            this.orderedSelections = [];
+        } else {
+            this.orderedSelections = value;
+        }
         const newValue = value?.map(v => this.options._optionToValue(v)!);
         if (newValue) {
             this.selection?.setSelection(newValue);

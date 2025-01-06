@@ -12,6 +12,7 @@ export class AssociationMultiSelector
     selectedItemsStyle: SelectedItemsStyleEnum = "text";
     selectionMethod: SelectionMethodEnum = "checkbox";
     selectAllButton = false;
+    selectedItemsSorting: "caption" | "value" | "none" = "value";
     private orderedSelections: string[] = [];
 
     updateProps(props: ComboboxContainerProps): void {
@@ -19,14 +20,27 @@ export class AssociationMultiSelector
         this.selectedItemsStyle = props.selectedItemsStyle;
         this.selectionMethod = props.selectionMethod;
         this.selectAllButton = props.selectAllButton;
+        this.selectedItemsSorting = props.selectedItemsSorting;
 
         const newValues = this._attr?.value ?? null;
         if (newValues) {
             const newValueIds = newValues.map(v => v.id.toString());
-            this.orderedSelections = [
-                ...this.orderedSelections.filter(id => newValueIds.includes(id.toString())),
-                ...newValueIds.filter(id => !this.orderedSelections.includes(id))
-            ];
+
+            if (this.selectedItemsSorting === "none") {
+                this.orderedSelections = [
+                    ...this.orderedSelections.filter(id => newValueIds.includes(id)),
+                    ...newValueIds.filter(id => !this.orderedSelections.includes(id))
+                ];
+            } else if (this.selectedItemsSorting === "caption") {
+                this.orderedSelections = newValueIds.sort((a, b) => {
+                    const captionA = this.caption.get(a)?.toString() ?? "";
+                    const captionB = this.caption.get(b)?.toString() ?? "";
+                    return captionA.localeCompare(captionB);
+                });
+            } else {
+                this.orderedSelections = newValueIds.sort();
+            }
+
             this.currentId = this.orderedSelections;
         } else {
             this.orderedSelections = [];
