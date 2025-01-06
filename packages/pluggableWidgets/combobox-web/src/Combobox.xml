@@ -129,8 +129,19 @@
                     <description />
                     <returnType assignableTo="databaseAttributeString" />
                 </property>
-                <!-- END DATABASE / STRING -->
             </propertyGroup>
+            <propertyGroup caption="Multiple-selection">
+                <property key="databaseSelectedItemsSorting" type="enumeration" defaultValue="value" required="true">
+                    <caption>Selected items sorting</caption>
+                    <description>How selected items should be sorted.</description>
+                    <enumerationValues>
+                        <enumerationValue key="caption">Caption</enumerationValue>
+                        <enumerationValue key="value">Value</enumerationValue>
+                        <enumerationValue key="none">None (Selection order)</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+            <!-- END DATABASE / STRING -->
             <propertyGroup caption="Attribute">
                 <!-- ASSOCIATION -->
                 <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true" setLabel="true">
@@ -287,6 +298,15 @@
                         <translation lang="en_US">Select all</translation>
                         <translation lang="nl_NL">Selecteer alles</translation>
                     </translations>
+                </property>
+                <property key="selectedItemsSorting" type="enumeration" defaultValue="value" required="true">
+                    <caption>Selected items sorting</caption>
+                    <description>How selected items should be sorted.</description>
+                    <enumerationValues>
+                        <enumerationValue key="caption">Caption</enumerationValue>
+                        <enumerationValue key="value">Value</enumerationValue>
+                        <enumerationValue key="none">None (Selection order)</enumerationValue>
+                    </enumerationValues>
                 </property>
             </propertyGroup>
             <!-- END MULTI SELECTION (REFERENCE SET) -->

@@ -42,7 +42,8 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "staticAttribute",
             "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
-            ...DATABASE_SOURCE_CONFIG
+            ...DATABASE_SOURCE_CONFIG,
+            "databaseSelectedItemsSorting"
         ]);
         if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
             hidePropertiesIn(defaultProperties, values, [
@@ -101,7 +102,8 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "selectAllButton",
             "selectAllButtonCaption",
             "onChangeEvent",
-            ...ASSOCIATION_SOURCE_CONFIG
+            ...ASSOCIATION_SOURCE_CONFIG,
+            "selectedItemsSorting"
         ]);
         if (values.optionsSourceDatabaseDataSource === null) {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionType"]);
@@ -132,6 +134,9 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
                 "optionsSourceDatabaseDefaultValue"
             ]);
         }
+        if (values.optionsSourceDatabaseItemSelection !== "Multi") {
+            hidePropertiesIn(defaultProperties, values, ["databaseSelectedItemsSorting"]);
+        }
     } else if (values.source === "static") {
         hidePropertiesIn(defaultProperties, values, [
             "attributeEnumeration",
@@ -143,7 +148,9 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "selectAllButtonCaption",
             ...ASSOCIATION_SOURCE_CONFIG,
             ...DATABASE_SOURCE_CONFIG,
-            ...LAZY_LOADING_CONFIG
+            ...LAZY_LOADING_CONFIG,
+            "selectedItemsSorting",
+            "databaseSelectedItemsSorting"
         ]);
     }
 

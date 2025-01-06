@@ -15,6 +15,8 @@ export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression"
 
 export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
 
+export type DatabaseSelectedItemsSortingEnum = "caption" | "value" | "none";
+
 export interface OptionsSourceStaticDataSourceType {
     staticDataSourceValue: DynamicValue<string | Big | boolean | Date>;
     staticDataSourceCustomContent: ReactNode;
@@ -32,6 +34,8 @@ export type StaticDataSourceCustomContentTypeEnum = "yes" | "listItem" | "no";
 export type SelectionMethodEnum = "checkbox" | "rowclick";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
+
+export type SelectedItemsSortingEnum = "caption" | "value" | "none";
 
 export type ReadOnlyStyleEnum = "bordered" | "text";
 
@@ -62,6 +66,7 @@ export interface ComboboxContainerProps {
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
     databaseAttributeString?: EditableValue<string | Big>;
     optionsSourceDatabaseDefaultValue?: DynamicValue<string | Big>;
+    databaseSelectedItemsSorting: DatabaseSelectedItemsSortingEnum;
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     staticAttribute: EditableValue<string | Big | boolean | Date>;
@@ -81,6 +86,7 @@ export interface ComboboxContainerProps {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectAllButton: boolean;
     selectAllButtonCaption: DynamicValue<string>;
+    selectedItemsSorting: SelectedItemsSortingEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
@@ -113,6 +119,7 @@ export interface ComboboxPreviewProps {
     optionsSourceDatabaseValueAttribute: string;
     databaseAttributeString: string;
     optionsSourceDatabaseDefaultValue: string;
+    databaseSelectedItemsSorting: DatabaseSelectedItemsSortingEnum;
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     staticAttribute: string;
@@ -132,6 +139,7 @@ export interface ComboboxPreviewProps {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectAllButton: boolean;
     selectAllButtonCaption: string;
+    selectedItemsSorting: SelectedItemsSortingEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent: {} | null;
     onChangeDatabaseEvent: {} | null;
