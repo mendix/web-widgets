@@ -1,7 +1,8 @@
-import { ReactElement, createElement, useEffect, useRef, useState } from "react";
+import { ReactElement, createElement, useEffect, useRef, useState, useMemo } from "react";
 import { AnyChartContainerProps } from "../typings/AnyChartProps";
 import { PlotlyChart } from "./components/PlotlyChart";
 import { ChartDataProcessor } from "./utils/ChartDataProcessor";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 
 export default function AnyChart(props: AnyChartContainerProps): ReactElement {
     const chartRef = useRef<HTMLDivElement>(null);
@@ -9,10 +10,18 @@ export default function AnyChart(props: AnyChartContainerProps): ReactElement {
     const [containerDimensions, setContainerDimensions] = useState<{ width?: number; height?: number }>({});
     const dataProcessor = useRef(new ChartDataProcessor());
 
+    const [setContainerDimensionsDebounced, abortDimensionsDebounce] = useMemo(
+        () =>
+            debounce((width: number, height: number) => {
+                setContainerDimensions({ width, height });
+            }, 100),
+        []
+    );
+
     useEffect(() => {
         const resizeObserver = new ResizeObserver(entries => {
             const { width, height } = entries[0].contentRect;
-            setContainerDimensions({ width, height });
+            setContainerDimensionsDebounced(width, height);
         });
 
         if (chartRef.current) {
@@ -21,11 +30,37 @@ export default function AnyChart(props: AnyChartContainerProps): ReactElement {
 
         return () => {
             resizeObserver.disconnect();
+            abortDimensionsDebounce();
             if (chart) {
                 chart.destroy();
             }
         };
-    }, [chart]);
+    }, [chart, setContainerDimensionsDebounced, abortDimensionsDebounce]);
+
+    const [updateChartDebounced, abortChartUpdate] = useMemo(
+        () =>
+            debounce(
+                (
+                    chartInstance: PlotlyChart | null,
+                    updateData: {
+                        data: any;
+                        layout: any;
+                        config: any;
+                        width: number;
+                        height: number;
+                    }
+                ) => {
+                    if (!chartInstance) {
+                        const newChart = new PlotlyChart(chartRef.current!, updateData);
+                        setChart(newChart);
+                    } else {
+                        chartInstance.update(updateData);
+                    }
+                },
+                100
+            ),
+        []
+    );
 
     useEffect(() => {
         if (!chartRef.current || !containerDimensions.width) {
@@ -51,30 +86,22 @@ export default function AnyChart(props: AnyChartContainerProps): ReactElement {
             containerDimensions.height
         );
 
-        if (!chart) {
-            const newChart = new PlotlyChart(chartRef.current, {
-                data,
-                layout: { ...layout, width, height },
-                config: {
-                    ...config,
-                    displayModeBar: props.devMode === "developer"
-                },
-                width,
-                height
-            });
-            setChart(newChart);
-        } else {
-            chart.update({
-                data,
-                layout: { ...layout, width, height },
-                config: {
-                    ...config,
-                    displayModeBar: props.devMode === "developer"
-                },
-                width,
-                height
-            });
-        }
+        const updateData = {
+            data,
+            layout: { ...layout, width, height },
+            config: {
+                ...config,
+                displayModeBar: props.devMode === "developer"
+            },
+            width,
+            height
+        };
+
+        updateChartDebounced(chart, updateData);
+
+        return () => {
+            abortChartUpdate();
+        };
     }, [
         props.dataStatic,
         props.dataAttribute?.value,
@@ -89,7 +116,9 @@ export default function AnyChart(props: AnyChartContainerProps): ReactElement {
         props.height,
         props.devMode,
         containerDimensions,
-        chart
+        chart,
+        updateChartDebounced,
+        abortChartUpdate
     ]);
 
     return (
