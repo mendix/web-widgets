@@ -336,6 +336,10 @@
                     <caption>On change</caption>
                     <description />
                 </property>
+                <property key="storeFiltersInPersonalization" type="boolean" defaultValue="true">
+                    <caption>Store filters</caption>
+                    <description />
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Grid wide filtering">

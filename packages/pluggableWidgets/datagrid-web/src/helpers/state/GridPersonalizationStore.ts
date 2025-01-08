@@ -18,6 +18,7 @@ export class GridPersonalizationStore {
     private readonly gridName: string;
     private readonly gridColumnsHash: string;
     private readonly schemaVersion: GridPersonalizationStorageSettings["schemaVersion"] = 2;
+    private readonly storeFilters: boolean;
 
     private storage: PersonalizationStorage;
 
@@ -30,6 +31,7 @@ export class GridPersonalizationStore {
     ) {
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);
+        this.storeFilters = props.storeFiltersInPersonalization;
 
         makeObservable<GridPersonalizationStore, "applySettings">(this, {
             settings: computed,
@@ -134,8 +136,8 @@ export class GridPersonalizationStore {
             this.gridName,
             this.gridColumnsHash,
             this.columnsStore.columnSettings,
-            this.columnsStore.filterSettings,
-            this.headerFilters.settings
+            this.storeFilters ? this.columnsStore.filterSettings : new Map(),
+            this.storeFilters ? this.headerFilters.settings : new Map()
         );
     }
 }
