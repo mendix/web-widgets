@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { createElement, useMemo } from "react";
-import { useSelect } from "../kit/useSelect";
+import { useSelect } from "./useSelect";
 
 interface Option {
     value: string;
