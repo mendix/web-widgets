@@ -2,8 +2,8 @@ import { observer } from "mobx-react-lite";
 import cn from "classnames";
 import React, { createElement, useMemo, useRef } from "react";
 import { useSelect, UseSelectProps } from "downshift";
-import { classes, Cross, Arrow } from "./primitives";
-import { OptionWithState } from "../typings/OptionListFilterInterface";
+import { classes, Cross, Arrow } from "../../next/primitives";
+import { OptionWithState } from "../../typings/OptionListFilterInterface";
 import { autoUpdate, useFloating, size } from "@floating-ui/react-dom";
 
 interface DropdownProps {
