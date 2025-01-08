@@ -1,9 +1,7 @@
-/* eslint-disable prefer-arrow-callback */
-import { createElement, forwardRef } from "react";
+import { createElement } from "react";
 
 type ClassKeys =
     | "root"
-    | "valueButton"
     | "input"
     | "clear"
     | "toggle"
@@ -11,12 +9,12 @@ type ClassKeys =
     | "menuSlot"
     | "menuItem"
     | "popover"
-    | "stateIcon";
+    | "stateIcon"
+    | "clearIcon";
 
 export function classes(rootName = "widget-dropdown-filter"): Record<ClassKeys, string> {
     return {
         root: rootName,
-        valueButton: `${rootName}-value-button`,
         input: `${rootName}-input`,
         clear: `${rootName}-clear`,
         toggle: `${rootName}-toggle`,
@@ -24,53 +22,29 @@ export function classes(rootName = "widget-dropdown-filter"): Record<ClassKeys, 
         menuSlot: `${rootName}-menu-slot`,
         menuItem: `${rootName}-menu-item`,
         popover: `${rootName}-popover`,
-        stateIcon: `${rootName}-state-icon`
+        stateIcon: `${rootName}-state-icon`,
+        clearIcon: `${rootName}-clear-icon`
     };
 }
-
-export const Root = forwardRef<HTMLDivElement, JSX.IntrinsicElements["div"]>(function Root(props, ref) {
-    return <div {...props} ref={ref} />;
-});
-
-export const ValueButton = forwardRef<HTMLButtonElement, JSX.IntrinsicElements["button"]>(function ValueButton(
-    props,
-    ref
-) {
-    return <button {...props} ref={ref} />;
-});
-
-export const Input = forwardRef<HTMLInputElement, JSX.IntrinsicElements["input"]>(function Input(props, ref) {
-    return <input {...props} ref={ref} />;
-});
-
-export const Clear = forwardRef<HTMLButtonElement, JSX.IntrinsicElements["button"]>(function Clear(props, ref) {
-    return <button {...props} ref={ref} />;
-});
-
-export const Toggle = forwardRef<HTMLButtonElement, JSX.IntrinsicElements["button"]>(function Toggle(props, ref) {
-    return <button {...props} tabIndex={-1} ref={ref} />;
-});
-
-export const Menu = forwardRef<HTMLUListElement, JSX.IntrinsicElements["ul"]>(function Menu(props, ref) {
-    return <ul {...props} ref={ref} />;
-});
-
-export const MenuItem = forwardRef<HTMLLIElement, JSX.IntrinsicElements["li"]>(function MenuItem(props, ref) {
-    return <li {...props} ref={ref} />;
-});
-
-export const Popover = forwardRef<HTMLDivElement, JSX.IntrinsicElements["div"]>(function Popover(props, ref) {
-    return <div {...props} ref={ref} />;
-});
-
-export const MenuSlot = forwardRef<HTMLDivElement, JSX.IntrinsicElements["div"]>(function MenuSlot(props, ref) {
-    return <div {...props} ref={ref} />;
-});
 
 export function Arrow(props: JSX.IntrinsicElements["svg"]): React.ReactElement {
     return (
         <svg width="16" height="16" viewBox="0 0 32 32" {...props}>
             <path d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z" />
+        </svg>
+    );
+}
+
+export function Cross(props: JSX.IntrinsicElements["svg"]): React.ReactElement {
+    return (
+        <svg width="14" height="14" viewBox="0 0 32 32" {...props}>
+            <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="currentColor"
+                d="M27.71 5.71004L26.29 4.29004L16 14.59L5.71004 4.29004L4.29004 5.71004L14.59 16L4.29004 26.29L5.71004 27.71L16 17.41L26.29 27.71L27.71 26.29L17.41 16L27.71 5.71004Z"
+            />
         </svg>
     );
 }
