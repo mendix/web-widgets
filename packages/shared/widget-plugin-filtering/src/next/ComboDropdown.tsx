@@ -1,6 +1,5 @@
 import { createElement, Fragment } from "react";
 import { useCombobox, UseComboboxProps } from "downshift";
-import { Input, Menu, Root, Toggle } from "./primitives";
 
 interface DropdownProps {
     inputValue: string;
@@ -17,15 +16,15 @@ export function ComboDropdown(props: DropdownProps): React.ReactElement {
     });
     return (
         <Fragment>
-            <Root className="v-classic">
-                <Input {...getInputProps()} />
-                <Toggle {...getToggleButtonProps()} />
-            </Root>
-            <Menu {...getMenuProps()}>
+            <div className="v-classic">
+                <input {...getInputProps()} />
+                <button {...getToggleButtonProps()} />
+            </div>
+            <ul {...getMenuProps()}>
                 <li {...getItemProps({ item: "one", index: 0 })}>One</li>
                 <li {...getItemProps({ item: "two", index: 1 })}>Two</li>
                 <li {...getItemProps({ item: "three", index: 2 })}>Three</li>
-            </Menu>
+            </ul>
         </Fragment>
     );
 }

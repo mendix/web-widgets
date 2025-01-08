@@ -48,7 +48,15 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     const USE_SELECT = true;
 
     if (USE_SELECT) {
-        return <Select triggerValue={ctrl2.triggerValue()} getHookProps={ctrl2.getSelectProps} items={ctrl2.options} />;
+        return (
+            <Select
+                value={ctrl2.value}
+                useSelectProps={ctrl2.useSelectProps}
+                options={ctrl2.options}
+                onClear={ctrl2.handleClear}
+                clearable
+            />
+        );
     }
 
     return (

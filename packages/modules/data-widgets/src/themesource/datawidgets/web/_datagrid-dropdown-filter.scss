@@ -24,6 +24,13 @@
     --wdf-selected-bg-color: var(--color-primary-lighter, #f5f6f6);
     --wdf-button-spacing: 8px;
     --wdf-color: var(--gray-dark, black);
+    --wdf-state-icon-size: 16px;
+    --wdf-toggle-inline-end: calc(4px + var(--wdf-state-icon-size) + var(--wdf-button-spacing));
+    --wdf-clear-margin: var(--wdf-toggle-inline-end);
+    --wdf-clear-inline-spacing: 6px;
+    --wdf-clear-border-width: 1px;
+    --wdf-clear-width: calc(14px + (var(--wdf-clear-inline-spacing) * 2) + var(--wdf-clear-border-width));
+    --wdf-toggle-inline-end-clearable: calc(var(--wdf-clear-width) + var(--wdf-toggle-inline-end));
 
     &-popover {
         z-index: var(--wdf-popover-z-index);
@@ -38,8 +45,8 @@
     }
 
     &-menu {
-        border-radius: inherit;
         @include scroll-shadow;
+        border-radius: inherit;
         margin: 0;
         padding: 0;
         list-style-type: none;
@@ -60,39 +67,46 @@
         font-weight: normal;
         color: var(--wdf-color);
 
-        &:where([data-selected]) {
-            background-color: var(--wdf-selected-bg-color);
-        }
-
         &:where([data-highlighted]) {
             background-color: var(--wdf-highlighted-bg-color);
         }
+        &:where([data-selected]) {
+            background-color: var(--wdf-selected-bg-color);
+        }
     }
 
-    &-value-button,
-    &-clear,
-    &-toggle {
+    &-toggle,
+    &-clear {
         background-color: transparent;
         border: none;
     }
 
-    &-value-button {
-        flex: 1;
-        text-align: left;
-        padding: var(--wdf-button-spacing);
-        &:not(:last-of-type) {
-            padding-right: 0;
+    &-toggle {
+        text-align: start;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &-clear {
+        position: absolute;
+        padding: 3px 6px;
+        align-self: center;
+        justify-self: end;
+        display: flex;
+        margin-inline-end: var(--wdf-clear-margin);
+        border-inline-end: 1px solid var(--gray, #787d87);
+
+        &:where([hidden]) {
+            display: none;
         }
     }
 
-    &-toggle {
-        padding: var(--wdf-button-spacing);
-        padding-left: var(--wdf-spacing);
-        display: flex;
-        align-items: center;
+    &-clear-icon path {
+        stroke-width: 0;
     }
 
-    &-value-button,
+    &-toggle,
     &-input {
         color: var(--wdf-color);
         font-weight: normal;
@@ -104,9 +118,33 @@
             transform: rotate(180deg);
         }
     }
+
+    &:where(.form-control) {
+        padding: 0;
+        position: relative;
+        display: grid;
+    }
 }
 
-.widget-dropdown-filter:where(.form-control) {
-    padding: 0;
-    position: relative;
+/* Select variant */
+.widget-dropdown-filter {
+    &:where(.variant-select) &-toggle {
+        padding-block: var(--wdf-button-spacing);
+        padding-inline-start: var(--wdf-button-spacing);
+        padding-inline-end: var(--wdf-toggle-inline-end);
+    }
+
+    &:where(.variant-select):has(&-clear) &-toggle {
+        padding-block: var(--wdf-button-spacing);
+        padding-inline-start: var(--wdf-button-spacing);
+        padding-inline-end: var(--wdf-toggle-inline-end-clearable);
+    }
+
+    &:where(.variant-select) &-state-icon {
+        position: absolute;
+        align-self: center;
+        justify-self: end;
+        pointer-events: none;
+        margin-inline-end: var(--wdf-button-spacing);
+    }
 }
