@@ -13,22 +13,15 @@ export class StaticSelectController {
         selected: false
     };
 
-    readonly useEmptyOption: boolean = false;
-
-    constructor({ filterStore }: { filterStore: StaticSelectFilterStore; useEmptyOption?: boolean }) {
+    constructor({ filterStore }: { filterStore: StaticSelectFilterStore }) {
         this.filterStore = filterStore;
-        this.useEmptyOption = true;
     }
 
     get options(): OptionWithState[] {
-        if (!this.useEmptyOption) {
-            return this.filterStore.options;
-        }
-
         return [this.emptyOption, ...this.filterStore.options];
     }
 
-    triggerValue(): string {
+    get value(): string {
         const selected = this.options.filter(option => option.selected);
 
         if (selected.length < 1) {
@@ -38,7 +31,11 @@ export class StaticSelectController {
         return selected.map(option => option.caption).join(", ");
     }
 
-    getSelectProps = (): UseSelectProps<OptionWithState> => {
+    handleClear = (): void => {
+        this.filterStore.clear();
+    };
+
+    useSelectProps = (): UseSelectProps<OptionWithState> => {
         return {
             items: this.options,
             itemToKey: item => item?.value,
