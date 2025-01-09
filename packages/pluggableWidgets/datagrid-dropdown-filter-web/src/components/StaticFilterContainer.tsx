@@ -10,6 +10,8 @@ import { createElement, CSSProperties, useEffect, useState } from "react";
 import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/StaticSelectFilterStore";
+import { StaticMultiboxController } from "@mendix/widget-plugin-filtering/controllers/StaticMultiboxController";
+import { Multibox } from "@mendix/widget-plugin-filtering/controls/multibox/Multibox";
 
 export interface StaticFilterContainerProps {
     parentChannelName: string | undefined;
@@ -32,6 +34,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     const [controller] = useState(() => new StaticFilterController(props));
     const [ctrl2] = useState(() => new StaticSelectController({ filterStore: props.filterStore }));
     const [ctrl3] = useState(() => new StaticComboboxController({ filterStore: props.filterStore }));
+    const [ctrl4] = useState(() => new StaticMultiboxController({ filterStore: props.filterStore }));
 
     useEffect(() => controller.setup(), [controller]);
     useEffect(() => controller.updateProps(props));
@@ -48,7 +51,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     });
 
     const USE_SELECT = false;
-    const USE_COMBOBOX = true;
+    const USE_COMBOBOX = false;
 
     if (USE_SELECT) {
         return (
@@ -74,7 +77,17 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
         );
     }
 
-    return <div>Unknown</div>;
+    return (
+        <Multibox
+            options={ctrl4.options}
+            selectedItems={ctrl4.selectedItems}
+            useMultipleSelectionProps={ctrl4.useMultipleSelectionProps}
+            useComboboxProps={ctrl4.useComboboxProps}
+            onClear={ctrl4.handleClear}
+            onBlur={ctrl4.handleBlur}
+            inputPlaceholder={ctrl4.inputPlaceholder}
+        />
+    );
 }
 
 export const StaticFilterContainer = withCustomOptionsGuard(observer(Container));
