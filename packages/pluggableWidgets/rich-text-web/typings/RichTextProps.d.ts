@@ -11,7 +11,7 @@ export type ToolbarLocationEnum = "auto" | "top" | "bottom" | "hide";
 
 export type ReadOnlyStyleEnum = "text" | "bordered" | "readPanel";
 
-export type WidthUnitEnum = "percentage" | "pixels";
+export type WidthUnitEnum = "pixels" | "percentage";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
 

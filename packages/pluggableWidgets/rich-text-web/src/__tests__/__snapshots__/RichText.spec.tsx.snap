@@ -5,10 +5,17 @@ exports[`Rich Text renders richtext widget 1`] = `
   <div
     class="widget-rich-text form-control flex-column"
     spellcheck="true"
+    style="width: 100%;"
+    tabindex="0"
   >
     <div
-      class="flexcontainer flex-column-reverse"
+      class="flexcontainer flex-column"
     >
+      <div
+        class="widget-rich-text-container"
+        style="height: auto;"
+      />
+      <div />
       <div
         class="widget-rich-text-toolbar"
         id="widget_RichText1_toolbar"
@@ -78,11 +85,6 @@ exports[`Rich Text renders richtext widget 1`] = `
           />
         </span>
       </div>
-      <div
-        class="widget-rich-text-container"
-        style="min-height: 75px;"
-      />
-      <div />
     </div>
     <div
       class="widget-rich-text-footer"

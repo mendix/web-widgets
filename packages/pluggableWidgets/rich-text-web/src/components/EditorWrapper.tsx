@@ -152,15 +152,13 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             <div
                 className={classNames(
                     "flexcontainer",
-                    toolbarLocation === "top" ? "flex-column-reverse" : "flex-column"
+                    toolbarLocation === "bottom" ? "flex-column" : "flex-column-reverse"
                 )}
             >
                 <Editor
-                    tabIndex={tabIndex}
                     theme={"snow"}
                     ref={quillRef}
                     defaultValue={stringAttribute.value}
-                    // style={{height: style?.height}}
                     style={{
                         height: style?.height,
                         minHeight: style?.minHeight,

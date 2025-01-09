@@ -66,8 +66,8 @@
                     <caption>Width unit</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="percentage">Percentage</enumerationValue>
                         <enumerationValue key="pixels">Pixels</enumerationValue>
+                        <enumerationValue key="percentage">Percentage</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="width" type="integer" defaultValue="100">
@@ -88,7 +88,7 @@
                     <caption>Height</caption>
                     <description />
                 </property>
-                <property key="minHeightUnit" type="enumeration" defaultValue="none">
+                <property key="minHeightUnit" type="enumeration" defaultValue="pixels">
                     <caption>Minimum Height unit</caption>
                     <description />
                     <enumerationValues>
