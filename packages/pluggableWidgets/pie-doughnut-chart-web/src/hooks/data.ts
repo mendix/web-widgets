@@ -1,10 +1,10 @@
-import { ObjectItem, ValueStatus } from "mendix";
-import { useEffect, useMemo, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
-import Big from "big.js";
-import { PieChartContainerProps } from "../../typings/PieChartProps";
 import { ChartWidgetProps, compareAttrValuesAsc } from "@mendix/shared-charts/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import Big from "big.js";
+import { ObjectItem, ValueStatus } from "mendix";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { PieChartContainerProps } from "../../typings/PieChartProps";
 
 type PieChartDataSeriesHooks = Pick<
     PieChartContainerProps,
@@ -18,6 +18,7 @@ type PieChartDataSeriesHooks = Pick<
     | "seriesSortOrder"
     | "seriesValueAttribute"
     | "tooltipHoverText"
+    | "seriesItemSelection"
 >;
 
 type LocalPieChartData = {
@@ -38,7 +39,8 @@ export const usePieChartDataSeries = ({
     seriesSortOrder,
     seriesValueAttribute,
     onClickAction,
-    tooltipHoverText
+    tooltipHoverText,
+    seriesItemSelection
 }: PieChartDataSeriesHooks): ChartWidgetProps["data"] => {
     const [pieChartData, setPieChartData] = useState<LocalPieChartData[]>([]);
 
@@ -71,7 +73,15 @@ export const usePieChartDataSeries = ({
         tooltipHoverText
     ]);
 
-    const onClick = onClickAction ? (item: ObjectItem) => executeAction(onClickAction?.get(item)) : undefined;
+    const onClick = useCallback(
+        (item: ObjectItem) => {
+            executeAction(onClickAction?.get(item));
+            if (seriesItemSelection && seriesItemSelection.type === "Single") {
+                seriesItemSelection.setSelection(item);
+            }
+        },
+        [onClickAction, seriesItemSelection]
+    );
 
     return useMemo<ChartWidgetProps["data"]>(
         () => [

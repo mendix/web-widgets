@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { createElement, ReactElement } from "react";
 import { PieChartContainerProps } from "../typings/PieChartProps";
 import { usePieChartDataSeries } from "./hooks/data";
+import "./ui/PieChart.scss";
 
 const pieChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
     font: {
@@ -38,13 +39,16 @@ export function PieChart(props: PieChartContainerProps): ReactElement | null {
         seriesSortOrder: props.seriesSortOrder,
         seriesValueAttribute: props.seriesValueAttribute,
         onClickAction: props.onClickAction,
-        tooltipHoverText: props.tooltipHoverText
+        tooltipHoverText: props.tooltipHoverText,
+        seriesItemSelection: props.seriesItemSelection
     });
+
+    const isPieClickable = props.seriesItemSelection?.type === "Single" || props.onClickAction;
 
     return (
         <ChartWidget
             type="PieChart"
-            className={classNames("widget-pie-chart", props.class)}
+            className={classNames("widget-pie-chart", { "widget-pie-chart-selectable": isPieClickable }, props.class)}
             data={pieChartData}
             width={props.width}
             widthUnit={props.widthUnit}
