@@ -1,8 +1,9 @@
 import { StaticFilterController } from "@mendix/widget-plugin-filtering/controllers/StaticFilterController";
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { SelectPanel } from "@mendix/widget-plugin-filtering/controls";
-import { StaticSelectController } from "@mendix/widget-plugin-filtering/adapters/StaticSelectController";
-import { Select } from "@mendix/widget-plugin-filtering/next/Dropdown";
+import { StaticSelectController } from "@mendix/widget-plugin-filtering/controllers/StaticSelectController";
+import { StaticComboboxController } from "@mendix/widget-plugin-filtering/controllers/StaticComboboxController";
+import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
+import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Combobox";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useEffect, useState } from "react";
@@ -30,6 +31,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     // const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
     const [controller] = useState(() => new StaticFilterController(props));
     const [ctrl2] = useState(() => new StaticSelectController({ filterStore: props.filterStore }));
+    const [ctrl3] = useState(() => new StaticComboboxController({ filterStore: props.filterStore }));
 
     useEffect(() => controller.setup(), [controller]);
     useEffect(() => controller.updateProps(props));
@@ -45,7 +47,8 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
         listener: controller.handleSetValue
     });
 
-    const USE_SELECT = true;
+    const USE_SELECT = false;
+    const USE_COMBOBOX = true;
 
     if (USE_SELECT) {
         return (
@@ -59,15 +62,19 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
         );
     }
 
-    return (
-        <SelectPanel
-            searchValue={controller.searchValue}
-            options={controller.options}
-            value={controller.inputValue}
-            onSelect={controller.onSelect}
-            onSearch={controller.onSearch}
-        />
-    );
+    if (USE_COMBOBOX) {
+        return (
+            <Combobox
+                options={ctrl3.options}
+                inputPlaceholder={ctrl3.inputPlaceholder}
+                useComboboxProps={ctrl3.useComboboxProps}
+                onClear={ctrl3.handleClear}
+                onBlur={ctrl3.handleBlur}
+            />
+        );
+    }
+
+    return <div>Unknown</div>;
 }
 
 export const StaticFilterContainer = withCustomOptionsGuard(observer(Container));
