@@ -51,6 +51,14 @@
                     <description />
                     <returnType type="String" />
                 </property>
+                <property key="seriesItemSelection" type="selection" dataSource="seriesDataSource">
+                    <caption>Selection type</caption>
+                    <description />
+                    <selectionTypes>
+                        <selectionType name="None" />
+                        <selectionType name="Single" />
+                    </selectionTypes>
+                </property>
             </propertyGroup>
             <propertyGroup caption="General">
                 <property key="enableAdvancedOptions" type="boolean" defaultValue="false">

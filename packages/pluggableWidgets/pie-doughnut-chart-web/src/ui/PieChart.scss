@@ -1,0 +1,7 @@
+.widget-pie-chart {
+    &.widget-pie-chart-selectable {
+        .pielayer .slice {
+            cursor: pointer;
+        }
+    }
+}
