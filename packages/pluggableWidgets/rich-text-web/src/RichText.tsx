@@ -47,7 +47,9 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
                     style={wrapperStyle}
                     className={classNames(
                         "widget-rich-text",
-                        "form-control",
+                        stringAttribute.readOnly && readOnlyStyle === "readPanel"
+                            ? "form-control-static"
+                            : "form-control",
                         stringAttribute.readOnly ? `widget-rich-text-readonly-${readOnlyStyle}` : ""
                     )}
                     enableStatusBar={props.enableStatusBar && !stringAttribute.readOnly}

@@ -26,13 +26,11 @@ export interface EditorProps {
     className?: string;
     toolbarId?: string | Array<string | string[] | { [k: string]: any }>;
     readOnly?: boolean;
-    tabIndex?: number;
 }
 
 // Editor is an uncontrolled React component
 const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | null>) => {
-    const { theme, defaultValue, style, className, toolbarId, onTextChange, onSelectionChange, readOnly, tabIndex } =
-        props;
+    const { theme, defaultValue, style, className, toolbarId, onTextChange, onSelectionChange, readOnly } = props;
     const containerRef = useRef<HTMLDivElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
     const onTextChangeRef = useRef(onTextChange);

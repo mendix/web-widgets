@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed readonly styling for Read Panel mode.
+
+### Changed
+
+-   We changed dimension configurations to better match CSS formats.
+-   We changed DOM order to show editor before toolbar for easier focus order.
+
 ## [4.1.0] - 2024-12-13
 
 ### Fixed

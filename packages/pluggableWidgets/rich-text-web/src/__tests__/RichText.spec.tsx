@@ -19,7 +19,6 @@ describe("Rich Text", () => {
             width: 100,
             heightUnit: "percentageOfWidth",
             height: 75,
-            minHeight: 75,
             toolbarConfig: "basic",
             history: true,
             fontStyle: true,
@@ -37,7 +36,12 @@ describe("Rich Text", () => {
             tabIndex: 0,
             onChangeType: "onLeave",
             enableStatusBar: true,
-            spellCheck: true
+            spellCheck: true,
+            minHeightUnit: "none",
+            maxHeightUnit: "none",
+            maxHeight: 0,
+            minHeight: 75,
+            OverflowY: "auto"
         };
     });
 
