@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We add listen to widget functionality on pie chart selection.
+
 ## [5.1.1] - 2024-12-12
 
 ### Fixed
