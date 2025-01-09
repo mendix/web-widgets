@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction } from "mobx";
+import { action, autorun, makeAutoObservable, runInAction } from "mobx";
 
 export class SearchStore {
     readonly disposers = [] as Array<() => void>;
@@ -6,21 +6,28 @@ export class SearchStore {
     value: string;
     buffer: string;
 
-    constructor({ defaultValue = "" }: { defaultValue?: string } = {}) {
+    constructor({ defaultValue = "", delay = 0 }: { defaultValue?: string; delay?: number } = {}) {
         this.defaultValue = defaultValue;
         this.buffer = this.value = this.defaultValue;
 
-        makeAutoObservable(this);
+        makeAutoObservable(this, {
+            setBuffer: action,
+            clear: action,
+            reset: action
+        });
+
         this.disposers.push(
-            reaction(
-                () => this.buffer.trim(),
-                value => (this.value = value),
-                { delay: 300 }
+            autorun(
+                () => {
+                    const value = this.buffer;
+                    runInAction(() => (this.value = value));
+                },
+                { delay }
             )
         );
     }
 
-    setValue(value: string): void {
+    setBuffer(value: string): void {
         this.buffer = value;
     }
 

@@ -25,7 +25,8 @@
     --wdf-button-spacing: 8px;
     --wdf-color: var(--gray-dark, black);
     --wdf-state-icon-size: 16px;
-    --wdf-toggle-inline-end: calc(4px + var(--wdf-state-icon-size) + var(--wdf-button-spacing));
+    --wdf-toggle-width: calc(4px + var(--wdf-state-icon-size) + var(--wdf-button-spacing));
+    --wdf-toggle-inline-end: var(--wdf-toggle-width);
     --wdf-clear-margin: var(--wdf-toggle-inline-end);
     --wdf-clear-inline-spacing: 6px;
     --wdf-clear-border-width: 1px;
@@ -75,12 +76,19 @@
         }
     }
 
+    &-input {
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+
     &-toggle,
     &-clear {
         background-color: transparent;
         border: none;
     }
 
+    &-input,
     &-toggle {
         text-align: start;
         overflow: hidden;
@@ -146,5 +154,31 @@
         justify-self: end;
         pointer-events: none;
         margin-inline-end: var(--wdf-button-spacing);
+    }
+}
+
+/* Combobox variant */
+.widget-dropdown-filter {
+    &:where(.variant-combobox) {
+        grid-template-columns: 1fr var(--wdf-toggle-width);
+    }
+
+    &:where(.variant-combobox) &-input {
+        border-radius: inherit;
+        padding-block: var(--wdf-button-spacing);
+        padding-inline-start: var(--wdf-button-spacing);
+        padding-inline-end: 0;
+    }
+
+    &:where(.variant-combobox):has(&-clear) &-input {
+        padding-inline-end: var(--wdf-clear-width);
+    }
+
+    &:where(.variant-combobox) &-toggle {
+        padding-block: var(--wdf-button-spacing);
+        padding-inline-start: 4px;
+        padding-inline-end: var(--wdf-button-spacing);
+        display: flex;
+        align-items: center;
     }
 }
