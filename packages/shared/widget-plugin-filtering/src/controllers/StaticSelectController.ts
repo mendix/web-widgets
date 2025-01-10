@@ -1,11 +1,14 @@
 import { UseSelectProps } from "downshift";
+import { IJSActionsControlled } from "../stores/IJSActionsControlled";
 import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
 import { OptionWithState } from "../typings/BaseSelectStore";
+import { PickerJSActionsHelper } from "./PickerJSActionsHelper";
 
 const none = "__none__" as const;
 
-export class StaticSelectController {
+export class StaticSelectController implements IJSActionsControlled {
     private filterStore: StaticSelectFilterStore;
+    private actionHelper: PickerJSActionsHelper;
 
     readonly emptyOption = {
         value: none,
@@ -15,6 +18,11 @@ export class StaticSelectController {
 
     constructor({ filterStore }: { filterStore: StaticSelectFilterStore }) {
         this.filterStore = filterStore;
+        this.actionHelper = new PickerJSActionsHelper({
+            filterStore,
+            parse: value => value.split(","),
+            multiselect: false
+        });
     }
 
     get options(): OptionWithState[] {
@@ -53,5 +61,13 @@ export class StaticSelectController {
                 }
             }
         };
+    };
+
+    handleSetValue = (...args: Parameters<IJSActionsControlled["handleSetValue"]>): void => {
+        this.actionHelper.handleSetValue(...args);
+    };
+
+    handleResetValue = (...args: Parameters<IJSActionsControlled["handleResetValue"]>): void => {
+        this.actionHelper.handleResetValue(...args);
     };
 }
