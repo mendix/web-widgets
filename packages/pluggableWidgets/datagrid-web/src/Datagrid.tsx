@@ -93,6 +93,8 @@ const Container = observer((props: Props): ReactElement => {
         return props.datasource.status === ValueStatus.Loading;
     }, [exportProgress, isRefreshing, props.datasource.status, props.datasource.hasMoreItems]);
 
+    const showPagingButtonsOrRows = props.pagination === "buttons" ? props.showPagingButtons : props.showNumberOfRows;
+
     return (
         <Widget
             className={props.class}
@@ -134,9 +136,10 @@ const Container = observer((props: Props): ReactElement => {
             loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
             paging={useShowPagination({
                 pagination: props.pagination,
-                showPagingButtons: props.showPagingButtons,
+                showPagingButtonsOrRows,
                 totalCount: props.datasource.totalCount,
-                limit: props.datasource.limit
+                limit: props.datasource.limit,
+                requestTotalCount: props.datasource.requestTotalCount
             })}
             pagingPosition={props.pagingPosition}
             showPagingButtons={props.showPagingButtons}
