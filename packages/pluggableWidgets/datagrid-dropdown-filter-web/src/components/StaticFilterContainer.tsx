@@ -12,6 +12,7 @@ import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/StaticSelectFilterStore";
 import { StaticMultiboxController } from "@mendix/widget-plugin-filtering/controllers/StaticMultiboxController";
 import { Multibox } from "@mendix/widget-plugin-filtering/controls/multibox/Multibox";
+import { useSetup } from "@mendix/widget-plugin-filtering/helpers/useSetup";
 
 export interface StaticFilterContainerProps {
     parentChannelName: string | undefined;
@@ -30,10 +31,9 @@ export interface StaticFilterContainerProps {
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
-    // const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
     const [controller] = useState(() => new StaticFilterController(props));
     const [ctrl2] = useState(() => new StaticSelectController({ filterStore: props.filterStore }));
-    const [ctrl3] = useState(() => new StaticComboboxController({ filterStore: props.filterStore }));
+    const ctrl3 = useSetup(() => new StaticComboboxController({ filterStore: props.filterStore }));
     const [ctrl4] = useState(() => new StaticMultiboxController({ filterStore: props.filterStore }));
 
     useEffect(() => controller.setup(), [controller]);

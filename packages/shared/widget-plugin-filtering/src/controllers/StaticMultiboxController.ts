@@ -34,9 +34,9 @@ export class StaticMultiboxController {
         return this.filterStore.allOptions.filter(option => option.selected);
     }
 
-    get selectedIndex(): number {
-        const index = this.filterStore.options.findIndex(option => option.selected);
-        return Math.max(index, 0);
+    get defaultHighlightedIndex(): number {
+        const selectedIndex = this.filterStore.options.findIndex(option => option.selected);
+        return Math.max(selectedIndex, 0);
     }
 
     get selectedOption(): OptionWithState | null {
@@ -69,7 +69,7 @@ export class StaticMultiboxController {
             itemToKey: item => item?.value,
             itemToString: item => item?.caption ?? "",
             inputValue: this.inputValue,
-            defaultHighlightedIndex: this.selectedIndex,
+            defaultHighlightedIndex: this.defaultHighlightedIndex,
             onInputValueChange: changes => {
                 // Blur is handled by handleBlur;
                 if (changes.type === useCombobox.stateChangeTypes.InputBlur) {
