@@ -101,14 +101,53 @@ export default class SignatureContainer extends Component<SignatureContainerProp
 
     private saveDocument(callback: () => void): void {
         if (this.base64Uri && this.state.hasSignature && this.props.mxObject) {
-            mx.data.saveDocument(
-                this.props.mxObject.getGuid(),
-                this.generateFileName(this.props.mxObject),
-                {},
-                Utils.convertUrlToBlob(this.base64Uri),
-                callback,
-                error => mx.ui.error("Error saving signature: " + error.message)
-            );
+            var error = function(callback:any) {
+                return mx.ui.error("Error saving signature: " + callback.message)
+              }
+            // @ts-ignore
+            let cdv=window.cordova;
+            if (cdv) {
+                // @ts-ignore
+                var options = new FileUploadOptions();
+                      options.fileKey = "blob";
+                      options.fileName = this.generateFileName(this.props.mxObject);
+                      options.mimeType = "image/png";
+                      options.chunkedMode = false;
+                      var headers={
+                          'Accept':"application/json",
+                          // @ts-ignore
+                          'X-Csrf-Token': mx.session.sessionData.csrftoken,
+                          'X-Mx-ReqToken': new Date().getTime()
+                          };
+                      options.headers = headers;
+                      var isHttps = mx.remoteUrl.includes('https');
+                      var remoteUrlWithoutScheme = decodeURIComponent(mx.remoteUrl.replace(/.*\_http[s]?_proxy\_/, ""));
+                      var remoteUrl = (isHttps ? 'https://' : 'http://') + remoteUrlWithoutScheme;
+                      var guid = this.props.mxObject.getGuid();
+                      var dataUri = this.base64Uri;
+
+                      mx.data.commit({ 
+                          mxobj: this.props.mxObject, 
+                          callback: function () {
+                            // @ts-ignore
+                              var ft = new FileTransfer();
+                              var fileUploadUrl = remoteUrl + "file?guid="+guid;
+                              ft.upload(dataUri, fileUploadUrl, callback, error, options);
+                          
+                          }, 
+                          error: error
+                      });
+                
+            } else {
+                mx.data.saveDocument(
+                    this.props.mxObject.getGuid(),
+                    this.generateFileName(this.props.mxObject),
+                    {},
+                    Utils.convertUrlToBlob(this.base64Uri),
+                    callback,
+                    error => mx.ui.error("Error saving signature: " + error.message)
+                );
+            }
         } else {
             callback();
         }
