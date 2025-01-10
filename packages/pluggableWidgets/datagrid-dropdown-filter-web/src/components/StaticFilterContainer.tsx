@@ -51,7 +51,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     });
 
     const USE_SELECT = false;
-    const USE_COMBOBOX = false;
+    const USE_COMBOBOX = true;
 
     if (USE_SELECT) {
         return (
@@ -72,7 +72,9 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
                 inputPlaceholder={ctrl3.inputPlaceholder}
                 useComboboxProps={ctrl3.useComboboxProps}
                 onClear={ctrl3.handleClear}
+                onFocus={ctrl3.handleFocus}
                 onBlur={ctrl3.handleBlur}
+                empty={ctrl3.isEmpty}
             />
         );
     }
