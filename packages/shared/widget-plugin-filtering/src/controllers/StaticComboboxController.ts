@@ -38,6 +38,10 @@ export class StaticComboboxController {
         return this.filterStore.allOptions.find(option => option.selected) || null;
     }
 
+    get isEmpty(): boolean {
+        return this.filterStore.selected.size === 0;
+    }
+
     setTouched(value: boolean): void {
         this.touched = value;
     }
@@ -46,8 +50,11 @@ export class StaticComboboxController {
         this.inputValue = value;
     }
 
+    handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
+        event.target.select();
+    };
+
     handleBlur = (): void => {
-        console.log("handleBlur");
         this.setTouched(false);
         this.setInputValue(this.selectedOption?.caption ?? "");
         this.filterStore.search.clear();

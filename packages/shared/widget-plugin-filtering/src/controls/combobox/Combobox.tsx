@@ -9,9 +9,11 @@ import { useFloatingMenu } from "../hooks/useFloatingMenu";
 interface ComboboxProps {
     options: OptionWithState[];
     inputPlaceholder: string;
+    empty: boolean;
     useComboboxProps: () => UseComboboxProps<OptionWithState>;
     onClear: () => void;
-    onBlur: () => void;
+    onBlur: React.FocusEventHandler<HTMLInputElement>;
+    onFocus: React.FocusEventHandler<HTMLInputElement>;
 }
 
 const cls = classes();
@@ -23,8 +25,6 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
         props.useComboboxProps()
     );
 
-    const isEmpty = !props.options.some(item => item.selected);
-
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
 
     return (
@@ -32,7 +32,7 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
             className={cn(cls.root, "form-control", "variant-combobox")}
             ref={refs.setReference}
             data-expanded={isOpen}
-            data-empty={isEmpty ? true : undefined}
+            data-empty={props.empty ? true : undefined}
         >
             <input
                 className={cls.input}
@@ -40,13 +40,14 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                     "aria-label": "Unknown",
                     ref: inputRef,
                     onBlur: props.onBlur,
+                    onFocus: props.onFocus,
                     placeholder: props.inputPlaceholder
                 })}
             />
             <button className={cls.toggle} {...getToggleButtonProps()}>
                 <Arrow className={cls.stateIcon} />
             </button>
-            {!isEmpty && (
+            {!props.empty && (
                 <button
                     className={cls.clear}
                     tabIndex={-1}
