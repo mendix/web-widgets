@@ -232,21 +232,25 @@
                         <enumerationValue key="loadMore">Load more</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="pagingPosition" type="enumeration" defaultValue="bottom">
-                    <caption>Position of paging buttons</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="bottom">Below grid</enumerationValue>
-                        <enumerationValue key="top">Above grid</enumerationValue>
-                        <enumerationValue key="both">Both</enumerationValue>
-                    </enumerationValues>
-                </property>
                 <property key="showPagingButtons" type="enumeration" defaultValue="always">
                     <caption>Show paging buttons</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="always">Always</enumerationValue>
                         <enumerationValue key="auto">Auto</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="showNumberOfRows" type="boolean" defaultValue="false">
+                    <caption>Show number of rows</caption>
+                    <description />
+                </property>
+                <property key="pagingPosition" type="enumeration" defaultValue="bottom">
+                    <caption>Position of pagination</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="bottom">Below grid</enumerationValue>
+                        <enumerationValue key="top">Above grid</enumerationValue>
+                        <enumerationValue key="both">Both</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="loadMoreButtonCaption" type="textTemplate" required="false">

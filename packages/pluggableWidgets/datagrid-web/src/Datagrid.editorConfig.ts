@@ -83,10 +83,16 @@ export function getProperties(
             ]);
         }
     });
-    if (values.pagination !== "buttons") {
+    if (values.pagination === "buttons") {
+        hidePropertyIn(defaultProperties, values, "showNumberOfRows");
+    } else {
         hidePropertyIn(defaultProperties, values, "showPagingButtons");
+    }
+
+    if (values.showNumberOfRows === false) {
         hidePropertyIn(defaultProperties, values, "pagingPosition");
     }
+
     if (values.pagination !== "loadMore") {
         hidePropertyIn(defaultProperties, values, "loadMoreButtonCaption");
     }
