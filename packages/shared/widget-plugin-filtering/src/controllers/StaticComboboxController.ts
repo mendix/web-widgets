@@ -15,14 +15,24 @@ export class StaticComboboxController {
         makeAutoObservable(this, {
             useComboboxProps: false
         });
-        autorun(() => {
-            const { touched, inputValue } = this;
-            if (touched) {
-                this.filterStore.search.setBuffer(inputValue);
-            } else {
-                this.filterStore.search.clear();
-            }
-        });
+    }
+
+    setup(): () => void {
+        const disposers: Array<() => void> = [];
+        disposers.push(
+            autorun(() => {
+                const { touched, inputValue } = this;
+                if (touched) {
+                    this.filterStore.search.setBuffer(inputValue);
+                } else {
+                    this.filterStore.search.clear();
+                }
+            })
+        );
+        return () => {
+            disposers.forEach(dispose => dispose());
+            disposers.length = 0;
+        };
     }
 
     get options(): OptionWithState[] {
