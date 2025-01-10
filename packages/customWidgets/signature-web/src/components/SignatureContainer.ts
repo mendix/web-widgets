@@ -101,42 +101,42 @@ export default class SignatureContainer extends Component<SignatureContainerProp
 
     private saveDocument(callback: () => void): void {
         if (this.base64Uri && this.state.hasSignature && this.props.mxObject) {
-            var error = function(callback:any) {
-                return mx.ui.error("Error saving signature: " + callback.message)
-              }
+            let error = function(callback : any) {
+                return mx.ui.error("Error saving signature: " + callback.message);
+            }
             // @ts-ignore
-            let cdv=window.cordova;
+            const cdv = window.cordova;
             if (cdv) {
                 // @ts-ignore
-                var options = new FileUploadOptions();
-                      options.fileKey = "blob";
-                      options.fileName = this.generateFileName(this.props.mxObject);
-                      options.mimeType = "image/png";
-                      options.chunkedMode = false;
-                      var headers={
-                          'Accept':"application/json",
-                          // @ts-ignore
-                          'X-Csrf-Token': mx.session.sessionData.csrftoken,
-                          'X-Mx-ReqToken': new Date().getTime()
-                          };
-                      options.headers = headers;
-                      var isHttps = mx.remoteUrl.includes('https');
-                      var remoteUrlWithoutScheme = decodeURIComponent(mx.remoteUrl.replace(/.*\_http[s]?_proxy\_/, ""));
-                      var remoteUrl = (isHttps ? 'https://' : 'http://') + remoteUrlWithoutScheme;
-                      var guid = this.props.mxObject.getGuid();
-                      var dataUri = this.base64Uri;
+                let options = new FileUploadOptions();
+                options.fileKey = "blob";
+                options.fileName = this.generateFileName(this.props.mxObject);
+                options.mimeType = "image/png";
+                options.chunkedMode = false;
+                let headers = {
+                    'Accept': "application/json",
+                    // @ts-ignore
+                    'X-Csrf-Token': mx.session.sessionData.csrftoken,
+                    'X-Mx-ReqToken': new Date().getTime()
+                };
+                options.headers = headers;
+                let isHttps = mx.remoteUrl.includes('https');
+                let remoteUrlWithoutScheme = decodeURIComponent(mx.remoteUrl.replace(/.*\_http[s]?_proxy\_/, ""));
+                let remoteUrl = (isHttps ? 'https://' : 'http://') + remoteUrlWithoutScheme;
+                let guid = this.props.mxObject.getGuid();
+                let dataUri = this.base64Uri;
 
-                      mx.data.commit({ 
-                          mxobj: this.props.mxObject, 
-                          callback: function () {
-                            // @ts-ignore
-                              var ft = new FileTransfer();
-                              var fileUploadUrl = remoteUrl + "file?guid="+guid;
-                              ft.upload(dataUri, fileUploadUrl, callback, error, options);
-                          
-                          }, 
-                          error: error
-                      });
+                mx.data.commit({
+                    mxobj: this.props.mxObject,
+                    callback: function () {
+                        // @ts-ignore
+                        let ft = new FileTransfer();
+                        let fileUploadUrl = remoteUrl + "file?guid=" + guid;
+                        ft.upload(dataUri, fileUploadUrl, callback, error, options);
+
+                    },
+                    error: error
+                });
                 
             } else {
                 mx.data.saveDocument(
