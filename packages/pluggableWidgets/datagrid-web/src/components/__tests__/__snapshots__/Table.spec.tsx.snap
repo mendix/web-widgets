@@ -6,7 +6,7 @@ exports[`Table renders the structure correctly 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -80,7 +80,7 @@ exports[`Table renders the structure correctly for preview when no header is pro
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -154,7 +154,7 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -261,7 +261,7 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -339,7 +339,7 @@ exports[`Table renders the structure correctly with dragging 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -413,7 +413,7 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -487,7 +487,7 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -561,7 +561,7 @@ exports[`Table renders the structure correctly with filtering 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -649,7 +649,7 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
       </div>
     </div>
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -723,7 +723,7 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -801,7 +801,7 @@ exports[`Table renders the structure correctly with hiding 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -1080,7 +1080,7 @@ exports[`Table renders the structure correctly with resizing 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"
@@ -1154,7 +1154,7 @@ exports[`Table renders the structure correctly with sorting 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
         class="sticky-sentinel"

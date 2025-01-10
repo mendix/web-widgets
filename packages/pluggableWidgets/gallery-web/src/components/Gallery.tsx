@@ -59,6 +59,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                 page={props.page}
                 pageSize={props.pageSize}
                 previousPage={() => props.setPage && props.setPage(prev => prev - 1)}
+                pagination={props.paging ? "buttons" : "virtualScrolling"}
             />
         </div>
     ) : null;
