@@ -10,4 +10,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   widget failing on Hybrid apps.
+-   We fixed an issue where the widget was failing to save signatures on Hybrid apps.
