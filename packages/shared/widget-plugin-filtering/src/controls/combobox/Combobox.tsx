@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { createElement, useRef } from "react";
 import { observer } from "mobx-react-lite";
-import { OptionWithState } from "../../typings/BaseSelectStore";
+import { OptionWithState } from "../../typings/OptionWithState";
 import { useCombobox, UseComboboxProps } from "downshift";
 import { Arrow, classes, Cross } from "../picker-primitives";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";

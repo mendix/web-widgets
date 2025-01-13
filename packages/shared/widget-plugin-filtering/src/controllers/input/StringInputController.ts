@@ -1,14 +1,14 @@
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { action, autorun, computed, makeObservable, reaction, runInAction } from "mobx";
 import { createRef } from "react";
-import { InputStore } from "../stores/input/InputStore";
+import { InputStore } from "../../stores/input/InputStore";
 import {
     FilterFunctionBinary,
     FilterFunctionGeneric,
     FilterFunctionNonValue,
     FilterFunctionString
-} from "../typings/FilterFunctions";
-import { FilterV, String_InputFilterInterface } from "../typings/InputFilterInterface";
+} from "../../typings/FilterFunctions";
+import { FilterV, String_InputFilterInterface } from "../../typings/InputFilterInterface";
 
 export type Params = {
     filter: String_InputFilterInterface;
