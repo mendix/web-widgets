@@ -21,7 +21,7 @@ export class OptionsSerializer {
         return this.toStorableValue(selected);
     }
 
-    fromStorableValue(value: string | undefined): string[] | undefined {
+    fromStorableValue(value: string | undefined): Iterable<string> | undefined {
         if (!value) {
             return undefined;
         }
