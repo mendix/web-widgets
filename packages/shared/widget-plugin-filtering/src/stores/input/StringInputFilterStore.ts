@@ -1,18 +1,18 @@
 import { ListAttributeValue } from "mendix";
-import { action, makeObservable, comparer } from "mobx";
-import { StringArgument } from "./Argument";
-import { BaseInputFilterStore } from "./BaseInputFilterStore";
-import { String_InputFilterInterface } from "../typings/InputFilterInterface";
+import { FilterCondition } from "mendix/filters";
+import { action, comparer, makeObservable } from "mobx";
+import { inputStateFromCond } from "../../condition-utils";
 import {
     FilterFunctionBinary,
     FilterFunctionGeneric,
     FilterFunctionNonValue,
     FilterFunctionString
-} from "../typings/FilterFunctions";
-import { FilterData, InputData } from "../typings/settings";
-import { FilterCondition } from "mendix/filters";
-import { inputStateFromCond } from "../condition-utils";
-import { baseNames } from "./fn-mappers";
+} from "../../typings/FilterFunctions";
+import { String_InputFilterInterface } from "../../typings/InputFilterInterface";
+import { FilterData, InputData } from "../../typings/settings";
+import { baseNames } from "../fn-mappers";
+import { StringArgument } from "./Argument";
+import { BaseInputFilterStore } from "./BaseInputFilterStore";
 
 type StrFns = FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 export class StringInputFilterStore

@@ -7,10 +7,10 @@ import {
     String_InputFilterInterface
 } from "../typings/InputFilterInterface";
 import { InputData } from "../typings/settings";
-import { DateInputFilterStore } from "./DateInputFilterStore";
-import { NumberInputFilterStore } from "./NumberInputFilterStore";
-import { StaticSelectFilterStore } from "./StaticSelectFilterStore";
-import { StringInputFilterStore } from "./StringInputFilterStore";
+import { DateInputFilterStore } from "./input/DateInputFilterStore";
+import { NumberInputFilterStore } from "./input/NumberInputFilterStore";
+import { StringInputFilterStore } from "./input/StringInputFilterStore";
+import { StaticSelectFilterStore } from "./picker/StaticSelectFilterStore";
 
 export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
 
