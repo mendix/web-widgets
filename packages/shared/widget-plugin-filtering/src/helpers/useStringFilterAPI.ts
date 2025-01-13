@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
 import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { error, Result, value } from "../result-meta";
-import { isStringFilter } from "../stores/store-utils";
+import { isStringFilter } from "../stores/input/store-utils";
 import { String_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export interface String_FilterAPIv2 {

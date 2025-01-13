@@ -6,8 +6,8 @@ import { inputStateFromCond } from "../../condition-utils";
 import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
 import { Number_InputFilterInterface } from "../../typings/InputFilterInterface";
 import { FilterData, InputData } from "../../typings/settings";
-import { BaseInputFilterStore } from "../BaseInputFilterStore";
 import { NumberArgument } from "./Argument";
+import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
 
 type NumFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;

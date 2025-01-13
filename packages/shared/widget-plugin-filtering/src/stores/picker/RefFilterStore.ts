@@ -9,11 +9,11 @@ import {
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable, reaction } from "mobx";
-import { flattenRefCond, selectedFromCond } from "../condition-utils";
-import { OptionWithState } from "../typings/BaseSelectStore";
-import { FilterData } from "../typings/settings";
-import { Dispose } from "../typings/type-utils";
-import { isInputData } from "./store-utils";
+import { flattenRefCond, selectedFromCond } from "../../condition-utils";
+import { OptionWithState } from "../../typings/OptionWithState";
+import { FilterData } from "../../typings/settings";
+import { Dispose } from "../../typings/type-utils";
+import { isInputData } from "../input/store-utils";
 
 type ListAttributeId = ListAttributeValue["id"];
 
