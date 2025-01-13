@@ -7,3 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 -   We updated the light and dark icons and tiles for the widget.
+
+### Fixed
+
+-   widget failing on Hybrid apps.
