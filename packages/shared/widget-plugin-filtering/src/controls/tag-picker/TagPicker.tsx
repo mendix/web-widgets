@@ -6,7 +6,7 @@ import { useFloatingMenu } from "../hooks/useFloatingMenu";
 import { OptionWithState } from "../../typings/BaseSelectStore";
 import { useCombobox, UseComboboxProps, useMultipleSelection, UseMultipleSelectionProps } from "downshift";
 
-interface MultiboxProps {
+interface TagPickerProps {
     selectedItems: OptionWithState[];
     options: OptionWithState[];
     useMultipleSelectionProps: () => UseMultipleSelectionProps<OptionWithState>;
@@ -19,7 +19,7 @@ interface MultiboxProps {
 const cls = classes();
 
 // eslint-disable-next-line prefer-arrow-callback
-export const Multibox = observer(function Multibox(props: MultiboxProps): React.ReactElement {
+export const TagPicker = observer(function TagPicker(props: TagPickerProps): React.ReactElement {
     const inputRef = useRef<HTMLInputElement>(null);
     const { getSelectedItemProps, getDropdownProps, removeSelectedItem } = useMultipleSelection(
         props.useMultipleSelectionProps()
@@ -33,7 +33,7 @@ export const Multibox = observer(function Multibox(props: MultiboxProps): React.
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
     return (
         <div
-            className={cn(cls.root, "form-control", "variant-multiselect")}
+            className={cn(cls.root, "form-control", "variant-tag-picker")}
             ref={refs.setReference}
             data-expanded={isOpen}
             data-empty={isEmpty ? true : undefined}
