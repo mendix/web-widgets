@@ -1,6 +1,6 @@
 import { useCombobox, UseComboboxProps, useMultipleSelection, UseMultipleSelectionProps } from "downshift";
 import { autorun, makeAutoObservable } from "mobx";
-import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
+import { StaticSelectFilterStore } from "../stores/picker/StaticSelectFilterStore";
 import { OptionWithState } from "../typings/BaseSelectStore";
 
 export class StaticMultiboxController {

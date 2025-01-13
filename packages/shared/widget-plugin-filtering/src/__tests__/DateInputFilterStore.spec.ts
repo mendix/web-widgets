@@ -1,22 +1,22 @@
 jest.mock("mendix/filters/builders");
-import { configure } from "mobx";
+import { attrId, listAttr } from "@mendix/widget-plugin-test-utils";
+import { ListAttributeValue } from "mendix";
 import {
-    literal,
+    and,
     attribute,
-    equals,
-    notEqual,
     dayEquals,
-    dayNotEqual,
     dayGreaterThan,
     dayGreaterThanOrEqual,
     dayLessThan,
     dayLessThanOrEqual,
-    or,
-    and
+    dayNotEqual,
+    equals,
+    literal,
+    notEqual,
+    or
 } from "mendix/filters/builders";
-import { ListAttributeValue } from "mendix";
-import { listAttr, attrId } from "@mendix/widget-plugin-test-utils";
-import { DateInputFilterStore } from "../stores/DateInputFilterStore";
+import { configure } from "mobx";
+import { DateInputFilterStore } from "../stores/input/DateInputFilterStore";
 
 configure({
     enforceActions: "never"
