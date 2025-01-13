@@ -7,8 +7,8 @@ import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } f
 import { Number_InputFilterInterface } from "../../typings/InputFilterInterface";
 import { FilterData, InputData } from "../../typings/settings";
 import { BaseInputFilterStore } from "../BaseInputFilterStore";
-import { baseNames } from "../fn-mappers";
 import { NumberArgument } from "./Argument";
+import { baseNames } from "./fn-mappers";
 
 type NumFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type Formatter = ListAttributeValue<Big>["formatter"];

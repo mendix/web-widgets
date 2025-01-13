@@ -1,5 +1,5 @@
 import { computed, makeObservable } from "mobx";
-import { PickerFilterStore } from "../typings/PickerFilterStore";
+import { PickerFilterStore } from "../../typings/PickerFilterStore";
 
 interface Params {
     store: PickerFilterStore;
