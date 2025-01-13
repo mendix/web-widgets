@@ -1,4 +1,4 @@
-import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../typings/IJSActionsControlled";
+import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../../typings/IJSActionsControlled";
 
 interface FilterStore {
     reset: () => void;
