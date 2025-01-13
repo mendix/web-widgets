@@ -48,9 +48,7 @@ export class StaticFilterController {
             inputValue: computed,
             _filterOptions: observable.struct,
             customOptions: computed,
-            updateProps: action,
-            handleResetValue: action,
-            handleSetValue: action
+            updateProps: action
         });
     }
 
@@ -122,29 +120,5 @@ export class StaticFilterController {
 
     onSearch = (_: string): void => {
         // this.store.setSearch(search);
-    };
-
-    handleResetValue = (useDefaultValue: boolean): void => {
-        if (useDefaultValue) {
-            this.store.reset();
-            return;
-        }
-
-        this.store.clear();
-    };
-
-    handleSetValue = (useDefaultValue: boolean, params: { operators: any; stringValue: string }): void => {
-        if (useDefaultValue) {
-            this.store.reset();
-            return;
-        }
-        let value = this.serializer.fromStorableValue(params.stringValue) ?? [];
-        if (!this.multiselect) {
-            value = value.slice(0, 1);
-        }
-        if (params.operators) {
-            this._filterOptions = params.operators;
-        }
-        this.store.setSelected(value);
     };
 }
