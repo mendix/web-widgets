@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
 import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { error, Result, value } from "../result-meta";
-import { isNumberFilter } from "../stores/store-utils";
+import { isNumberFilter } from "../stores/input/store-utils";
 import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export interface Number_FilterAPIv2 {
