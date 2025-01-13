@@ -101,37 +101,37 @@ export default class SignatureContainer extends Component<SignatureContainerProp
 
     private saveDocument(callback: () => void): void {
         if (this.base64Uri && this.state.hasSignature && this.props.mxObject) {
-            let error = function(callback : any) {
+            const error = function(callback : any) {
                 return mx.ui.error("Error saving signature: " + callback.message);
             }
             // @ts-ignore
             const cdv = window.cordova;
             if (cdv) {
                 // @ts-ignore
-                let options = new FileUploadOptions();
+                const options = new FileUploadOptions();
                 options.fileKey = "blob";
                 options.fileName = this.generateFileName(this.props.mxObject);
                 options.mimeType = "image/png";
                 options.chunkedMode = false;
-                let headers = {
+                const headers = {
                     'Accept': "application/json",
                     // @ts-ignore
                     'X-Csrf-Token': mx.session.sessionData.csrftoken,
                     'X-Mx-ReqToken': new Date().getTime()
                 };
                 options.headers = headers;
-                let isHttps = mx.remoteUrl.includes('https');
-                let remoteUrlWithoutScheme = decodeURIComponent(mx.remoteUrl.replace(/.*\_http[s]?_proxy\_/, ""));
-                let remoteUrl = (isHttps ? 'https://' : 'http://') + remoteUrlWithoutScheme;
-                let guid = this.props.mxObject.getGuid();
-                let dataUri = this.base64Uri;
+                const isHttps = mx.remoteUrl.includes('https');
+                const remoteUrlWithoutScheme = decodeURIComponent(mx.remoteUrl.replace(/.*\_http[s]?_proxy\_/, ""));
+                const remoteUrl = (isHttps ? 'https://' : 'http://') + remoteUrlWithoutScheme;
+                const guid = this.props.mxObject.getGuid();
+                const dataUri = this.base64Uri;
 
                 mx.data.commit({
                     mxobj: this.props.mxObject,
                     callback: function () {
                         // @ts-ignore
-                        let ft = new FileTransfer();
-                        let fileUploadUrl = remoteUrl + "file?guid=" + guid;
+                        const ft = new Ficonstransfer();
+                        const fileUploadUrl = remoteUrl + "file?guid=" + guid;
                         ft.upload(dataUri, fileUploadUrl, callback, error, options);
 
                     },
