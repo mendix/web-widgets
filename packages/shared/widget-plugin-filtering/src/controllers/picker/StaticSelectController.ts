@@ -1,14 +1,32 @@
 import { UseSelectProps } from "downshift";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { autorun, makeObservable, observable } from "mobx";
+import { OptionsSerializer } from "../../stores/picker/OptionsSerializer";
 import { StaticSelectFilterStore } from "../../stores/picker/StaticSelectFilterStore";
 import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../../typings/IJSActionsControlled";
 import { OptionWithState } from "../../typings/OptionWithState";
+import { PickerChangeHelper } from "../generic/PickerChangeHelper";
 import { PickerJSActionsHelper } from "../generic/PickerJSActionsHelper";
 
 const none = "__none__" as const;
 
+interface Props {
+    filterOptions: Array<CustomOption<DynamicValue<string>>>;
+    filterStore: StaticSelectFilterStore;
+    onChange?: ActionValue;
+    valueAttribute?: EditableValue<string>;
+}
+
+interface CustomOption<T> {
+    caption: T;
+    value: T;
+}
+
 export class StaticSelectController implements IJSActionsControlled {
     private filterStore: StaticSelectFilterStore;
     private actionHelper: PickerJSActionsHelper;
+    private changeHelper: PickerChangeHelper;
+    filterOptions: Array<CustomOption<DynamicValue<string>>>;
 
     readonly emptyOption = {
         value: none,
@@ -16,13 +34,41 @@ export class StaticSelectController implements IJSActionsControlled {
         selected: false
     };
 
-    constructor({ filterStore }: { filterStore: StaticSelectFilterStore }) {
-        this.filterStore = filterStore;
+    constructor(props: Props) {
+        this.filterOptions = props.filterOptions;
+        this.filterStore = props.filterStore;
+        const serializer = new OptionsSerializer({ store: this.filterStore });
         this.actionHelper = new PickerJSActionsHelper({
-            filterStore,
-            parse: value => value.split(","),
+            filterStore: props.filterStore,
+            parse: value => serializer.fromStorableValue(value) ?? [],
             multiselect: false
         });
+
+        this.changeHelper = new PickerChangeHelper(props, () => serializer.value);
+
+        makeObservable(this, { filterOptions: observable.struct });
+    }
+
+    setup(): () => void {
+        const disposers: Array<() => void> = [];
+        disposers.push(this.changeHelper.setup());
+
+        disposers.push(
+            autorun(() => {
+                if (this.filterOptions.length > 0) {
+                    const options = this.filterOptions.map(this.toStoreOption);
+                    this.filterStore.setCustomOptions(options);
+                }
+            })
+        );
+        return () => {
+            disposers.forEach(dispose => dispose());
+            disposers.length = 0;
+        };
+    }
+
+    updateProps(props: Props): void {
+        this.changeHelper.updateProps(props);
     }
 
     get options(): OptionWithState[] {
@@ -38,6 +84,11 @@ export class StaticSelectController implements IJSActionsControlled {
 
         return selected.map(option => option.caption).join(", ");
     }
+
+    toStoreOption = (opt: CustomOption<DynamicValue<string>>): CustomOption<string> => ({
+        caption: `${opt.caption?.value}`,
+        value: `${opt.value?.value}`
+    });
 
     handleClear = (): void => {
         this.filterStore.clear();

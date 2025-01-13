@@ -1,16 +1,37 @@
 import { useCombobox, UseComboboxProps } from "downshift";
+import { ActionValue, EditableValue } from "mendix";
 import { autorun, makeAutoObservable } from "mobx";
+import { OptionsSerializer } from "../../stores/picker/OptionsSerializer";
 import { StaticSelectFilterStore } from "../../stores/picker/StaticSelectFilterStore";
+import { ResetHandler, SetValueHandler } from "../../typings/IJSActionsControlled";
 import { OptionWithState } from "../../typings/OptionWithState";
+import { PickerChangeHelper } from "../generic/PickerChangeHelper";
+import { PickerJSActionsHelper } from "../generic/PickerJSActionsHelper";
+
+interface Props {
+    filterStore: StaticSelectFilterStore;
+    valueAttribute?: EditableValue<string>;
+    onChange?: ActionValue;
+}
 
 export class StaticComboboxController {
     private filterStore: StaticSelectFilterStore;
+    private actionHelper: PickerJSActionsHelper;
+    private changeHelper: PickerChangeHelper;
     private touched = false;
     inputValue: string;
     inputPlaceholder = "Select item...";
 
-    constructor({ filterStore }: { filterStore: StaticSelectFilterStore }) {
+    constructor(props: Props) {
+        const { filterStore } = props;
         this.filterStore = filterStore;
+        const serializer = new OptionsSerializer({ store: this.filterStore });
+        this.actionHelper = new PickerJSActionsHelper({
+            filterStore,
+            parse: value => serializer.fromStorableValue(value) ?? [],
+            multiselect: false
+        });
+        this.changeHelper = new PickerChangeHelper(props, () => serializer.value);
         this.inputValue = this.selectedOption?.caption ?? "";
         makeAutoObservable(this, {
             useComboboxProps: false
@@ -29,6 +50,7 @@ export class StaticComboboxController {
                 }
             })
         );
+        disposers.push(this.changeHelper.setup());
         return () => {
             disposers.forEach(dispose => dispose());
             disposers.length = 0;
@@ -109,5 +131,13 @@ export class StaticComboboxController {
             }
         };
         return props;
+    };
+
+    handleSetValue = (...args: Parameters<SetValueHandler>): void => {
+        this.actionHelper.handleSetValue(...args);
+    };
+
+    handleResetValue = (...args: Parameters<ResetHandler>): void => {
+        this.actionHelper.handleResetValue(...args);
     };
 }
