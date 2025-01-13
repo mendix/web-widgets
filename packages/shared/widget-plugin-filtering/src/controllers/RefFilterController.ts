@@ -1,7 +1,7 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue } from "mendix";
 import { computed, makeObservable } from "mobx";
-import { RefFilterStore } from "../stores/RefFilterStore";
+import { RefFilterStore } from "../stores/picker/RefFilterStore";
 import { OptionWithState } from "../typings/OptionWithState";
 import { Dispose } from "../typings/type-utils";
 

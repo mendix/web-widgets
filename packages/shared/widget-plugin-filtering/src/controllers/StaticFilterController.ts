@@ -1,7 +1,7 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { action, autorun, computed, makeObservable, observable, reaction } from "mobx";
-import { OptionsSerializer } from "../stores/OptionsSerializer";
+import { OptionsSerializer } from "../stores/picker/OptionsSerializer";
 import { StaticSelectFilterStore } from "../stores/picker/StaticSelectFilterStore";
 import { OptionWithState } from "../typings/OptionWithState";
 

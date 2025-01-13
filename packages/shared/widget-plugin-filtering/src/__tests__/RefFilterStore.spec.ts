@@ -1,7 +1,7 @@
 import { cases, list, listExpression, listReference, ListValueBuilder, obj } from "@mendix/widget-plugin-test-utils";
 import { ObjectItem } from "mendix";
 import { _resetGlobalState, autorun } from "mobx";
-import { RefFilterStore, RefFilterStoreProps } from "../stores/RefFilterStore";
+import { RefFilterStore, RefFilterStoreProps } from "../stores/picker/RefFilterStore";
 
 describe("RefFilterStore", () => {
     afterEach(() => _resetGlobalState());
