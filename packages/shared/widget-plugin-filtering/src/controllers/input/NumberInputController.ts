@@ -1,37 +1,28 @@
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { action, autorun, computed, makeObservable, reaction, runInAction } from "mobx";
 import { createRef } from "react";
-import { InputStore } from "../stores/input/InputStore";
-import {
-    FilterFunctionBinary,
-    FilterFunctionGeneric,
-    FilterFunctionNonValue,
-    FilterFunctionString
-} from "../typings/FilterFunctions";
-import { FilterV, String_InputFilterInterface } from "../typings/InputFilterInterface";
+import { InputStore } from "../../stores/input/InputStore";
+import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
+import { FilterV, Number_InputFilterInterface } from "../../typings/InputFilterInterface";
 
 export type Params = {
-    filter: String_InputFilterInterface;
-    defaultFilter: StringFilterFunction;
-    defaultValue?: FilterV<String_InputFilterInterface>;
+    filter: Number_InputFilterInterface;
+    defaultFilter: NumberFilterFunction;
+    defaultValue?: FilterV<Number_InputFilterInterface>;
     changeDelay?: number;
-    disableInputs?: (fn: StringFilterFunction) => boolean;
+    disableInputs?: (fn: NumberFilterFunction) => boolean;
 };
 
-type StringFilterFunction =
-    | FilterFunctionString
-    | FilterFunctionGeneric
-    | FilterFunctionNonValue
-    | FilterFunctionBinary;
+type NumberFilterFunction = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 
-export class StringFilterController {
-    private filter: String_InputFilterInterface;
+export class NumberFilterController {
+    private filter: Number_InputFilterInterface;
     private readonly changeDelay;
-    private disabledFn?: (fn: StringFilterFunction) => boolean;
+    private disabledFn?: (fn: NumberFilterFunction) => boolean;
     input1: InputStore;
     input2: InputStore;
     inputRef = createRef<HTMLInputElement>();
-    defaults: String_InputFilterInterface["defaultState"];
+    defaults: Number_InputFilterInterface["defaultState"];
     inputs: [InputStore, InputStore];
 
     constructor(params: Params) {
@@ -53,7 +44,7 @@ export class StringFilterController {
         });
     }
 
-    get selectedFn(): StringFilterFunction {
+    get selectedFn(): NumberFilterFunction {
         return this.filter.filterFunction;
     }
 
@@ -61,7 +52,7 @@ export class StringFilterController {
         return this.disabledFn ? this.disabledFn(this.filter.filterFunction) : false;
     }
 
-    handleFilterFnChange = (fn: StringFilterFunction): void => {
+    handleFilterFnChange = (fn: NumberFilterFunction): void => {
         this.filter.filterFunction = fn;
         if (fn === "empty" || fn === "notEmpty") {
             this.input1.setValue("");
@@ -94,7 +85,9 @@ export class StringFilterController {
         disposers.push(
             autorun(() => {
                 this.input1.setValue(this.filter.arg1.displayValue);
+                this.input1.setIsValid(this.filter.arg1.isValid);
                 this.input2.setValue(this.filter.arg2.displayValue);
+                this.input2.setIsValid(this.filter.arg2.isValid);
             })
         );
 
@@ -125,6 +118,6 @@ export class StringFilterController {
         if (params.operators) {
             this.filter.filterFunction = params.operators;
         }
-        this.filter.arg1.value = params.stringValue;
+        this.filter.arg1.value = params.numberValue;
     };
 }
