@@ -10,9 +10,9 @@ import {
 } from "../../typings/FilterFunctions";
 import { String_InputFilterInterface } from "../../typings/InputFilterInterface";
 import { FilterData, InputData } from "../../typings/settings";
-import { baseNames } from "../fn-mappers";
 import { StringArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
+import { baseNames } from "./fn-mappers";
 
 type StrFns = FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 export class StringInputFilterStore
