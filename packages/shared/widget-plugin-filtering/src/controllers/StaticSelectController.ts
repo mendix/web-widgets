@@ -1,7 +1,7 @@
 import { UseSelectProps } from "downshift";
 import { StaticSelectFilterStore } from "../stores/picker/StaticSelectFilterStore";
 import { OptionWithState } from "../typings/BaseSelectStore";
-import { IJSActionsControlled } from "../typings/IJSActionsControlled";
+import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../typings/IJSActionsControlled";
 import { PickerJSActionsHelper } from "./PickerJSActionsHelper";
 
 const none = "__none__" as const;
@@ -63,11 +63,11 @@ export class StaticSelectController implements IJSActionsControlled {
         };
     };
 
-    handleSetValue = (...args: Parameters<IJSActionsControlled["handleSetValue"]>): void => {
+    handleSetValue = (...args: Parameters<SetValueHandler>): void => {
         this.actionHelper.handleSetValue(...args);
     };
 
-    handleResetValue = (...args: Parameters<IJSActionsControlled["handleResetValue"]>): void => {
+    handleResetValue = (...args: Parameters<ResetHandler>): void => {
         this.actionHelper.handleResetValue(...args);
     };
 }

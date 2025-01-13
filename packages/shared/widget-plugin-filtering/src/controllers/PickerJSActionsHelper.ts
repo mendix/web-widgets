@@ -1,4 +1,4 @@
-import { IJSActionsControlled } from "../typings/IJSActionsControlled";
+import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../typings/IJSActionsControlled";
 
 interface FilterStore {
     reset: () => void;
@@ -19,7 +19,7 @@ export class PickerJSActionsHelper implements IJSActionsControlled {
         this.multiselect = multiselect;
     }
 
-    handleResetValue = (useDefaultValue: boolean): void => {
+    handleResetValue: ResetHandler = (useDefaultValue): void => {
         if (useDefaultValue) {
             this.filterStore.reset();
             return;
@@ -27,7 +27,7 @@ export class PickerJSActionsHelper implements IJSActionsControlled {
         this.filterStore.clear();
     };
 
-    handleSetValue = (useDefaultValue: boolean, params: { stringValue: string }): void => {
+    handleSetValue: SetValueHandler = (useDefaultValue, params): void => {
         if (useDefaultValue) {
             this.filterStore.reset();
             return;
