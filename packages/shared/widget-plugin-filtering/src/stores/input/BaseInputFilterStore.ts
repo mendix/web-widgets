@@ -17,9 +17,9 @@ import {
     startsWith
 } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable } from "mobx";
+import { AllFunctions } from "../../typings/FilterFunctions";
+import { FilterData, InputData } from "../../typings/settings";
 import { Argument } from "./Argument";
-import { AllFunctions } from "../typings/FilterFunctions";
-import { FilterData, InputData } from "../typings/settings";
 
 type StateTuple<Fn, V> = [Fn] | [Fn, V] | [Fn, V, V];
 type Val<A extends Argument> = A["value"];

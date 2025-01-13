@@ -1,5 +1,5 @@
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { IJSActionsControlled } from "../stores/IJSActionsControlled";
+import { IJSActionsControlled } from "../typings/IJSActionsControlled";
 
 export function usePickerJSActions(
     controller: IJSActionsControlled,

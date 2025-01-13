@@ -2,9 +2,9 @@ import { ListAttributeValue } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
 import { makeAutoObservable, observable } from "mobx";
-import { selectedFromCond } from "../condition-utils";
-import { OptionWithState } from "../typings/BaseSelectStore";
-import { FilterData } from "../typings/settings";
+import { selectedFromCond } from "../../condition-utils";
+import { OptionWithState } from "../../typings/BaseSelectStore";
+import { FilterData } from "../../typings/settings";
 import { SearchStore } from "./SearchStore";
 import { SelectedItemsStore } from "./SelectedItemsStore";
 
