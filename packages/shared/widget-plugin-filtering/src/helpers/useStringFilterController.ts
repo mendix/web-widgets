@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StringFilterController, Params } from "../controllers/StringFilterController";
+import { Params, StringFilterController } from "../controllers/input/StringInputController";
 import { ArgumentInterface } from "../typings/ArgumentInterface";
 import { AllFunctions } from "../typings/FilterFunctions";
 import { FilterFn, InputFilterBaseInterface } from "../typings/InputFilterInterface";

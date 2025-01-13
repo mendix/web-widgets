@@ -3,7 +3,7 @@ import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { action, autorun, computed, makeObservable, observable, reaction } from "mobx";
 import { OptionsSerializer } from "../stores/OptionsSerializer";
 import { StaticSelectFilterStore } from "../stores/picker/StaticSelectFilterStore";
-import { OptionWithState } from "../typings/BaseSelectStore";
+import { OptionWithState } from "../typings/OptionWithState";
 
 interface CustomOption<T> {
     caption: T;

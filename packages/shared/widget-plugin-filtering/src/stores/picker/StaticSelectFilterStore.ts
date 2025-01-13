@@ -3,7 +3,7 @@ import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
 import { makeAutoObservable, observable } from "mobx";
 import { selectedFromCond } from "../../condition-utils";
-import { OptionWithState } from "../../typings/BaseSelectStore";
+import { OptionWithState } from "../../typings/OptionWithState";
 import { FilterData } from "../../typings/settings";
 import { SearchStore } from "./SearchStore";
 import { SelectedItemsStore } from "./SelectedItemsStore";

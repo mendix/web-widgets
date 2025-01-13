@@ -2,7 +2,7 @@ import { UseSelectProps } from "downshift";
 import { StaticSelectFilterStore } from "../stores/picker/StaticSelectFilterStore";
 import { OptionWithState } from "../typings/BaseSelectStore";
 import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../typings/IJSActionsControlled";
-import { PickerJSActionsHelper } from "./PickerJSActionsHelper";
+import { PickerJSActionsHelper } from "./generic/PickerJSActionsHelper";
 
 const none = "__none__" as const;
 

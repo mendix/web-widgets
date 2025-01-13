@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { Arrow, Cross, classes } from "../picker-primitives";
 import cn from "classnames";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
-import { OptionWithState } from "../../typings/BaseSelectStore";
+import { OptionWithState } from "../../typings/OptionWithState";
 import { useCombobox, UseComboboxProps, useMultipleSelection, UseMultipleSelectionProps } from "downshift";
 
 interface TagPickerProps {

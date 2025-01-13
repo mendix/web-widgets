@@ -3,7 +3,3 @@ export interface OptionWithState {
     value: string;
     selected: boolean;
 }
-
-export interface BaseSelectStore {
-    options: OptionWithState[];
-}
