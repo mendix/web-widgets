@@ -20,8 +20,8 @@ import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } f
 import { Date_InputFilterInterface } from "../../typings/InputFilterInterface";
 import { FilterFunction } from "../../typings/mendix";
 import { FilterData, InputData } from "../../typings/settings";
-import { BaseInputFilterStore } from "../BaseInputFilterStore";
 import { DateArgument } from "./Argument";
+import { BaseInputFilterStore } from "./BaseInputFilterStore";
 
 type DateFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type StateTuple = [DateFns, Date | undefined, Date | undefined];

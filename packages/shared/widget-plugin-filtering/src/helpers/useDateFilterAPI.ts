@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
 import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { error, Result, value } from "../result-meta";
-import { isDateFilter } from "../stores/store-utils";
+import { isDateFilter } from "../stores/input/store-utils";
 import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export interface Date_FilterAPIv2 {

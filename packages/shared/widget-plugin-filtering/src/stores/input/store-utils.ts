@@ -5,12 +5,12 @@ import {
     InputFilterInterface,
     Number_InputFilterInterface,
     String_InputFilterInterface
-} from "../typings/InputFilterInterface";
-import { InputData } from "../typings/settings";
-import { DateInputFilterStore } from "./input/DateInputFilterStore";
-import { NumberInputFilterStore } from "./input/NumberInputFilterStore";
-import { StringInputFilterStore } from "./input/StringInputFilterStore";
-import { StaticSelectFilterStore } from "./picker/StaticSelectFilterStore";
+} from "../../typings/InputFilterInterface";
+import { InputData } from "../../typings/settings";
+import { DateInputFilterStore } from "../input/DateInputFilterStore";
+import { NumberInputFilterStore } from "../input/NumberInputFilterStore";
+import { StringInputFilterStore } from "../input/StringInputFilterStore";
+import { StaticSelectFilterStore } from "../picker/StaticSelectFilterStore";
 
 export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
 
