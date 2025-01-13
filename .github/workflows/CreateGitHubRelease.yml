@@ -10,7 +10,7 @@ on:
 
 jobs:
     create-release:
-        name: "Create widget/module release on GitHub"
+        name: "Testing widget/module release on GitHub"
         runs-on: ubuntu-latest
         env:
             PACKAGE: ${{ github.event.inputs.package }}
@@ -36,10 +36,10 @@ jobs:
                   fi
             - name: Install dependencies
               run: pnpm install
-            - name: Create ${{ github.event.inputs.package }} widget release
-              run: pnpm run create-gh-release --filter=$PACKAGE
+            - name: Run publish script
+              run: pnpm run publish-marketplace --filter=$PACKAGE
               env:
-                  GH_USERNAME: ${{ secrets.GH_USERNAME }}
-                  GH_EMAIL: ${{ secrets.GH_EMAIL }}
-                  GH_NAME: ${{ secrets.GH_NAME }}
-                  GH_PAT: ${{ secrets.GH_PAT }}
+                  CPAPI_URL: ${{ secrets.CPAPI_URL }}
+                  CPAPI_USER: ${{ secrets.CPAPI_USER }}
+                  CPAPI_USER_OPENID: ${{ secrets.CPAPI_USER_OPENID }}
+                  CPAPI_PASS: ${{ secrets.CPAPI_PASS }}

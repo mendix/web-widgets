@@ -8,28 +8,29 @@ import { createDraft, publishDraft } from "../src/api/contributor";
 async function main(): Promise<void> {
     console.log(`Getting package information...`);
     const { marketplace, version } = await getPublishedInfo(process.cwd());
-    const tag = process.env.TAG;
+    const tag = `rich-text-web-v4.2.0`;
 
-    assert.ok(tag, "env.TAG is empty");
+    // assert.ok(tag, "env.TAG is empty");
 
-    if (marketplace.appNumber === -1) {
-        console.log(`Skipping release process for tag ${fgGreen(tag)}. appNumber is set to -1 in package.json.`);
-        process.exit(2);
-    }
+    // if (marketplace.appNumber === -1) {
+    //     console.log(`Skipping release process for tag ${fgGreen(tag)}. appNumber is set to -1 in package.json.`);
+    //     process.exit(2);
+    // }
 
-    console.log(`Starting release process for tag ${fgGreen(tag)}`);
+    // console.log(`Starting release process for tag ${fgGreen(tag)}`);
 
-    const artifactUrl = await gh.getMPKReleaseArtifactUrl(tag);
+    // const artifactUrl = await gh.getMPKReleaseArtifactUrl(tag);
 
     const draft = await createDraft({
         appName: marketplace.appName,
         appNumber: marketplace.appNumber,
         version,
         studioProVersion: marketplace.minimumMXVersion,
-        artifactUrl
+        artifactUrl:
+            "https://github.com/mendix/web-widgets/releases/download/popup-menu-web-v4.0.1/com.mendix.widget.web.PopupMenu.mpk"
     });
 
-    await publishDraft({ draftUUID: draft.UUID });
+    // await publishDraft({ draftUUID: draft.UUID });
 }
 
 main().catch(error => {

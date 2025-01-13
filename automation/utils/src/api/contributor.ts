@@ -92,6 +92,8 @@ async function fetchContributor<T = unknown>(method: "PATCH" | "POST", path: str
     assert.ok(openId, "env.CPAPI_USER_OPENID is empty");
     assert.ok(pass, "env.CPAPI_PASS is empty");
 
+    console.log(` ALL values: ${user}: ${pass} || ${openId}`);
+
     const Authorization = `Basic ${Buffer.from(`${user}:${pass}`).toString("base64")}`;
 
     return fetch<T>(method, `${url}/${path}`, body, {
@@ -127,6 +129,7 @@ export async function createDraft(params: CreateDraftParams): Promise<CreateDraf
             Name: appName,
             StudioProVersion: studioProVersion.format(),
             IsSourceGitHub: true,
+            IsReactClientReady: true,
             GithubRepo: {
                 UseReadmeForDoc: false,
                 ArtifactURL: artifactUrl
