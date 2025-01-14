@@ -20,9 +20,7 @@ export class PickerChangeHelper {
 
     setup(): IReactionDisposer {
         const effect = (value: string | undefined): void => {
-            if (value) {
-                this.valueAttribute?.setValue(value);
-            }
+            this.valueAttribute?.setValue(value);
 
             executeAction(this.onChange);
         };
