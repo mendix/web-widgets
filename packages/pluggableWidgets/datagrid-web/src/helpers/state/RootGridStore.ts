@@ -1,3 +1,5 @@
+import { compactArray, fromCompactArray, isAnd } from "@mendix/widget-plugin-filtering/condition-utils";
+import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
@@ -7,8 +9,6 @@ import { SortInstruction } from "../../typings/sorting";
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
-import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
-import { compactArray, fromCompactArray, isAnd } from "@mendix/widget-plugin-filtering/condition-utils";
 
 export class RootGridStore {
     columnsStore: ColumnGroupStore;
