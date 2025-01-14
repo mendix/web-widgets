@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where widget failed to show correct caption on initial load of database source.
+
 ## [2.1.3] - 2024-12-11
 
 ### Fixed

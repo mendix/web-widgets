@@ -50,7 +50,7 @@ export class DatabaseSingleSelectionSelector<
             customContent,
             customContentType,
             attribute: valueSourceAttribute,
-            caption: targetAttribute?.displayValue
+            caption: this.currentId ? targetAttribute?.displayValue : undefined
         });
 
         this.values.updateProps({
@@ -69,13 +69,15 @@ export class DatabaseSingleSelectionSelector<
             if (this.lastSetValue === null || !_valuesIsEqual(this.lastSetValue, targetAttribute.value)) {
                 if (ds.status === "available") {
                     this.lastSetValue = this._attr.value;
-                    if (!_valuesIsEqual(this.values.getEmptyValue(), targetAttribute.value)) {
+                    if (targetAttribute.value) {
                         const obj = this.options.getAll().find(option => {
                             return _valuesIsEqual(targetAttribute.value, this.values.get(option));
                         });
                         if (obj) {
                             this.currentId = obj;
                         } else {
+                            this.options.loadSelectedValue(targetAttribute.value?.toString());
+                            this.lastSetValue = null;
                             this.currentId = null;
                         }
                     }

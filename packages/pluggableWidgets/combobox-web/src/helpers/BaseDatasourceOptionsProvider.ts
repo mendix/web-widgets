@@ -60,6 +60,15 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         }
     }
 
+    // used for initial load of selected value in case options are lazy loaded
+    loadSelectedValue(attributeValue: string): void {
+        if (this.lazyLoading && this.ds && this.attributeId) {
+            const filterCondition = datasourceFilter("containsExact", attributeValue, this.attributeId);
+            this.ds?.setFilter(filterCondition);
+            this.ds.setLimit(1);
+        }
+    }
+
     loadMore(): void {
         if (this.ds && this.hasMore) {
             this.ds.setLimit(this.ds.limit + DEFAULT_LIMIT_SIZE);
