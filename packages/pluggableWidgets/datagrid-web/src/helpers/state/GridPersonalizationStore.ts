@@ -1,19 +1,19 @@
-import { SortRule } from "../../typings/sorting";
-import { action, computed, IReactionDisposer, makeObservable, reaction, comparer } from "mobx";
+import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
+import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
+import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
+import { action, comparer, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { getHash } from "../../utils/columns-hash";
-import { ColumnGroupStore } from "./ColumnGroupStore";
+import { ColumnId } from "../../typings/GridColumn";
 import {
     ColumnPersonalizationSettings,
     GridPersonalizationStorageSettings
 } from "../../typings/personalization-settings";
-import { PersonalizationStorage } from "../storage/PersonalizationStorage";
+import { SortRule } from "../../typings/sorting";
+import { getHash } from "../../utils/columns-hash";
 import { AttributePersonalizationStorage } from "../storage/AttributePersonalizationStorage";
 import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
-import { ColumnId } from "../../typings/GridColumn";
-import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
-import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
-import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
+import { PersonalizationStorage } from "../storage/PersonalizationStorage";
+import { ColumnGroupStore } from "./ColumnGroupStore";
 export class GridPersonalizationStore {
     private readonly gridName: string;
     private readonly gridColumnsHash: string;

@@ -1,7 +1,7 @@
 import { FilterAPIv2, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
-import { RefFilterStore, RefFilterStoreProps } from "@mendix/widget-plugin-filtering/stores/RefFilterStore";
-import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/StaticSelectFilterStore";
-import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/store-utils";
+import { RefFilterStore, RefFilterStoreProps } from "@mendix/widget-plugin-filtering/stores/picker/RefFilterStore";
+import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/StaticSelectFilterStore";
+import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { FilterCondition } from "mendix/filters";
 import { ListAttributeValue, ListAttributeListValue } from "mendix";
@@ -48,7 +48,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
             return;
         }
 
-        if (store.type === "refselect") {
+        if (store.storeType === "refselect") {
             store.updateProps(this.toRefselectProps(props));
         } else if (isListAttributeValue(props.attribute)) {
             store.updateProps([props.attribute]);
@@ -58,7 +58,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private toRefselectProps(props: ColumnsType): RefFilterStoreProps {
         return {
             ref: ensure(props.filterAssociation, errorMessage("filterAssociation")),
-            refOptions: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
+            datasource: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
             caption: ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel")),
             searchAttrId: props.filterAssociationSearchAttribute?.id,
             fetchOptionsLazy: props.fetchOptionsLazy
