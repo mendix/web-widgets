@@ -3,12 +3,11 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-}
-
-.svg-container {
-    .main-svg {
-        position: absolute;
-        top: 0;
-        left: 0;
+    .svg-container {
+        .main-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     }
 }
