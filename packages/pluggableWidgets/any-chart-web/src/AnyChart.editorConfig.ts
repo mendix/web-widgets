@@ -1,8 +1,8 @@
-import { AnyChartPreviewProps } from "../typings/AnyChartProps";
 import {
     StructurePreviewProps,
     structurePreviewPalette
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { AnyChartPreviewProps } from "../typings/AnyChartProps";
 
 export function getPreview(_values: AnyChartPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];

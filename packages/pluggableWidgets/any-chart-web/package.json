@@ -47,7 +47,6 @@
         "@mendix/pluggable-widgets-tools": "10.16.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:^*",
-        "@types/plotly.js": "^2.12.0",
         "@types/plotly.js-dist-min": "^2.3.4",
         "cross-env": "^7.0.3"
     },
