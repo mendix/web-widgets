@@ -1,13 +1,12 @@
 import { RefFilterController } from "@mendix/widget-plugin-filtering/controllers/RefFilterController";
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { Select } from "@mendix/widget-plugin-filtering/controls";
-import { SelectPanel } from "@mendix/widget-plugin-filtering/controls/select-panel/SelectPanel";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ActionValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
-import { RefFilterStore } from "@mendix/widget-plugin-filtering/stores/RefFilterStore";
+import { RefFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/RefFilterStore";
 export interface RefFilterContainerProps {
     name: string;
     parentChannelName?: string;
@@ -48,21 +47,6 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
     });
 
     const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
-
-    const USE_PANEL = true;
-
-    if (USE_PANEL) {
-        return (
-            <SelectPanel
-                options={controller.options}
-                onSelect={controller.handleSelect}
-                value={controller.inputValue}
-                searchValue={controller.searchValue}
-                onSearch={controller.handleSearch}
-                onTriggerClick={controller.handleTriggerClick}
-            />
-        );
-    }
 
     return (
         <Select
