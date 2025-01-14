@@ -177,8 +177,8 @@ export interface DatagridPreviewProps {
     columnsHidable: boolean;
     configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute: string;
-    onConfigurationChange: {} | null;
     storeFiltersInPersonalization: boolean;
+    onConfigurationChange: {} | null;
     filterList: FilterListPreviewType[];
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     filterSectionTitle: string;
