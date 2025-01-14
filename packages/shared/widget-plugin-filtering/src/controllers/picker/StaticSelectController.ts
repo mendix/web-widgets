@@ -8,11 +8,13 @@ import { OptionWithState } from "../../typings/OptionWithState";
 import { PickerChangeHelper } from "../generic/PickerChangeHelper";
 import { PickerJSActionsHelper } from "../generic/PickerJSActionsHelper";
 
-const none = "__none__" as const;
+const none = "[[__none__]]" as const;
 
 interface Props {
+    defaultValue?: string;
     filterOptions: Array<CustomOption<DynamicValue<string>>>;
     filterStore: StaticSelectFilterStore;
+    multiselect: boolean;
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
 }
@@ -23,9 +25,13 @@ interface CustomOption<T> {
 }
 
 export class StaticSelectController implements IJSActionsControlled {
-    private filterStore: StaticSelectFilterStore;
     private actionHelper: PickerJSActionsHelper;
     private changeHelper: PickerChangeHelper;
+    private defaultValue?: Iterable<string>;
+    private filterStore: StaticSelectFilterStore;
+    private serializer: OptionsSerializer;
+
+    multiselect: boolean;
     filterOptions: Array<CustomOption<DynamicValue<string>>>;
 
     readonly emptyOption = {
@@ -37,14 +43,16 @@ export class StaticSelectController implements IJSActionsControlled {
     constructor(props: Props) {
         this.filterOptions = props.filterOptions;
         this.filterStore = props.filterStore;
-        const serializer = new OptionsSerializer({ store: this.filterStore });
+        this.multiselect = props.multiselect;
+        this.serializer = new OptionsSerializer({ store: this.filterStore });
+        this.defaultValue = this.serializer.fromStorableValue(props.defaultValue);
         this.actionHelper = new PickerJSActionsHelper({
             filterStore: props.filterStore,
-            parse: value => serializer.fromStorableValue(value) ?? [],
-            multiselect: false
+            parse: value => this.serializer.fromStorableValue(value) ?? [],
+            multiselect: props.multiselect
         });
 
-        this.changeHelper = new PickerChangeHelper(props, () => serializer.value);
+        this.changeHelper = new PickerChangeHelper(props, () => this.serializer.value);
 
         makeObservable(this, { filterOptions: observable.struct });
     }
@@ -52,6 +60,10 @@ export class StaticSelectController implements IJSActionsControlled {
     setup(): () => void {
         const disposers: Array<() => void> = [];
         disposers.push(this.changeHelper.setup());
+
+        if (this.defaultValue) {
+            this.filterStore.setDefaultSelected(this.defaultValue);
+        }
 
         disposers.push(
             autorun(() => {
@@ -103,12 +115,12 @@ export class StaticSelectController implements IJSActionsControlled {
                 if (!selectedItem) {
                     return;
                 }
-                const multiselect = false;
-                if (multiselect) {
+                if (selectedItem.value === none) {
+                    this.filterStore.clear();
+                } else if (this.multiselect) {
                     this.filterStore.toggle(selectedItem.value);
                 } else {
-                    const selected = selectedItem.value === none ? [] : [selectedItem.value];
-                    this.filterStore.setSelected(selected);
+                    this.filterStore.setSelected([selectedItem.value]);
                 }
             }
         };
