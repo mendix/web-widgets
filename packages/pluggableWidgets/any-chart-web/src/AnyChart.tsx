@@ -1,8 +1,9 @@
-import { ReactElement, createElement, useEffect, useRef, useState, useMemo } from "react";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
+import { ReactElement, createElement, useEffect, useMemo, useRef, useState } from "react";
 import { AnyChartContainerProps } from "../typings/AnyChartProps";
 import { PlotlyChart } from "./components/PlotlyChart";
+import "./ui/AnyChart.scss";
 import { ChartDataProcessor } from "./utils/ChartDataProcessor";
-import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 
 export default function AnyChart(props: AnyChartContainerProps): ReactElement {
     const chartRef = useRef<HTMLDivElement>(null);
@@ -75,23 +76,35 @@ export default function AnyChart(props: AnyChartContainerProps): ReactElement {
             props.sampleLayout
         );
 
-        const config = dataProcessor.current.parseConfig(props.configurationOptions);
-
-        const { width, height } = dataProcessor.current.calculateDimensions(
-            props.widthUnit,
-            props.width,
-            props.heightUnit,
-            props.height,
-            containerDimensions.width,
-            containerDimensions.height
-        );
+        const { width, height } = {
+            width: containerDimensions.width,
+            height: dataProcessor.current.calculateDimensions(
+                props.widthUnit,
+                props.width,
+                props.heightUnit,
+                props.height,
+                containerDimensions.width,
+                containerDimensions.height
+            ).height
+        };
 
         const updateData = {
             data,
-            layout: { ...layout, width, height },
+            layout: {
+                ...layout,
+                width,
+                height,
+                autosize: true,
+                font: {
+                    family: "Open Sans, sans-serif",
+                    size: 12
+                }
+            },
             config: {
-                ...config,
-                displayModeBar: props.devMode === "developer"
+                ...dataProcessor.current.parseConfig(props.configurationOptions),
+                displayModeBar: props.devMode === "developer",
+                responsive: true,
+                staticPlot: false
             },
             width,
             height
@@ -124,6 +137,7 @@ export default function AnyChart(props: AnyChartContainerProps): ReactElement {
     return (
         <div
             ref={chartRef}
+            className="widget-any-chart"
             style={{
                 width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`,
                 height: props.heightUnit === "percentageOfParent" ? `${props.height}%` : undefined
