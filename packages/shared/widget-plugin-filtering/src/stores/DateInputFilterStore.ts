@@ -293,5 +293,5 @@ function addDay(date: Date): Date {
 function subDay(date: Date): Date {
     const newDate = new Date(date.getTime());
     newDate.setUTCDate(newDate.getUTCDate() - 1);
-    return date;
+    return newDate;
 }

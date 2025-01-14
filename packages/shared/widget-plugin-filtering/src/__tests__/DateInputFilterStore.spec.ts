@@ -117,8 +117,8 @@ describe("DateInputFilterStore", () => {
             attr.id = attrId("attr_009");
             expect(store.condition).toEqual(
                 and(
-                    dayGreaterThanOrEqual(attribute(attr.id), literal(new Date("2024-09-17T00:00:00.000Z"))),
-                    dayLessThan(attribute(attr.id), literal(new Date("2024-10-01T00:00:00.000Z"))),
+                    dayGreaterThanOrEqual(attribute(attr.id), literal(new Date("2024-09-17T15:59:13.000Z"))),
+                    dayLessThan(attribute(attr.id), literal(new Date("2024-10-01T11:12:13.000Z"))),
                     equals(literal("__RANGE_MARKER__"), literal("__RANGE_MARKER__"))
                 )
             );
