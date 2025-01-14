@@ -154,13 +154,12 @@ export class DateInputFilterStore
     }
 
     private getRangeCondition(attr: ListAttributeValue, [start, end]: [Date, Date]): [FilterCondition] | [] {
-        [start, end] = [toUTC(start), addUTCDay(toUTC(end))];
         const attrExp = attribute(attr.id);
 
         return [
             and(
                 dayGreaterThanOrEqual(attrExp, literal(start)),
-                dayLessThan(attrExp, literal(end)),
+                dayLessThan(attrExp, literal(addDay(end))),
                 this.getRangeCondMarker()
             )
         ];
@@ -175,7 +174,7 @@ export class DateInputFilterStore
         }
         const [fn, start, end] = state;
         // Restore end date received from picker
-        return [fn, start, end ? subUTCDay(end) : undefined];
+        return [fn, start, end ? subDay(end) : undefined];
     }
 
     private getRangeCondMarker(): FilterCondition {
@@ -279,28 +278,20 @@ function parseDateValue(value: string | null): Date | undefined {
 }
 
 /**
- * Adds 24 hours and return a new UTC date
+ * Adds 1 day and returns a new date
  * @param date
  */
-function addUTCDay(date: Date): Date {
-    date = new Date(date.getTime());
-    date.setUTCHours(24);
-    return date;
+function addDay(date: Date): Date {
+    const newDate = new Date(date.getTime());
+    newDate.setUTCDate(newDate.getUTCDate() + 1);
+    return newDate;
 }
 /**
- * Subtract 24 hours and return a new UTC date
+ * Subtracts 1 day and returns a new date
  * @param date
  */
-
-function subUTCDay(date: Date): Date {
-    date = new Date(date.getTime());
-    date.setUTCHours(-24);
+function subDay(date: Date): Date {
+    const newDate = new Date(date.getTime());
+    newDate.setUTCDate(newDate.getUTCDate() - 1);
     return date;
-}
-
-/**
- * Function to convert locale dates to UTC
- */
-function toUTC(date: Date): Date {
-    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0));
 }
