@@ -1,5 +1,5 @@
-import { StaticSelectController } from "@mendix/widget-plugin-filtering/controllers/StaticSelectController";
-import { StaticComboboxController } from "@mendix/widget-plugin-filtering/controllers/StaticComboboxController";
+import { StaticSelectController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticSelectController";
+import { StaticComboboxController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticComboboxController";
 import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
 import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Combobox";
 import { ActionValue, EditableValue } from "mendix";
@@ -7,9 +7,9 @@ import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useState } from "react";
 import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
-import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/StaticSelectFilterStore";
-import { StaticMultiboxController } from "@mendix/widget-plugin-filtering/controllers/StaticMultiboxController";
-import { Multibox } from "@mendix/widget-plugin-filtering/controls/multibox/Multibox";
+import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/StaticSelectFilterStore";
+import { StaticTagPickerController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticTagPickerController";
+import { TagPicker } from "@mendix/widget-plugin-filtering/controls/tag-picker/TagPicker";
 import { useSetup } from "@mendix/widget-plugin-filtering/helpers/useSetup";
 import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
 
@@ -30,7 +30,7 @@ export interface StaticFilterContainerProps {
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
-    const USE_SELECT = false;
+    const USE_SELECT = true;
     const USE_COMBOBOX = true;
 
     if (USE_SELECT) {
@@ -44,8 +44,9 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     return <MultiboxWidget {...props} />;
 }
 
-function SelectWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const [ctrl2] = useState(() => new StaticSelectController({ filterStore: props.filterStore }));
+// eslint-disable-next-line prefer-arrow-callback
+const SelectWidget = observer(function SelectWidget(props: StaticFilterContainerProps): React.ReactElement {
+    const ctrl2 = useSetup(() => new StaticSelectController(props));
 
     usePickerJSActions(ctrl2, props);
 
@@ -58,12 +59,10 @@ function SelectWidget(props: StaticFilterContainerProps): React.ReactElement {
             clearable
         />
     );
-}
+});
 
 function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
     const ctrl3 = useSetup(() => new StaticComboboxController({ filterStore: props.filterStore }));
-
-    // usePickerJSActions(ctrl3, props);
 
     return (
         <Combobox
@@ -79,12 +78,12 @@ function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
 }
 
 function MultiboxWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const [ctrl4] = useState(() => new StaticMultiboxController({ filterStore: props.filterStore }));
+    const [ctrl4] = useState(() => new StaticTagPickerController({ filterStore: props.filterStore }));
 
     // usePickerJSActions(ctrl4, props);
 
     return (
-        <Multibox
+        <TagPicker
             options={ctrl4.options}
             selectedItems={ctrl4.selectedItems}
             useMultipleSelectionProps={ctrl4.useMultipleSelectionProps}
@@ -96,4 +95,4 @@ function MultiboxWidget(props: StaticFilterContainerProps): React.ReactElement {
     );
 }
 
-export const StaticFilterContainer = withCustomOptionsGuard(observer(Container));
+export const StaticFilterContainer = withCustomOptionsGuard(Container);
