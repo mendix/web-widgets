@@ -103,6 +103,7 @@ async function fetchContributor<T = unknown>(method: "PATCH" | "POST", path: str
 const CreateDraftParams = z.object({
     appName: z.string().min(1),
     appNumber: z.number().positive().int(),
+    reactReady: z.boolean(),
     version: z.instanceof(Version),
     studioProVersion: z.instanceof(Version),
     artifactUrl: z.string().url()
@@ -111,7 +112,7 @@ const CreateDraftParams = z.object({
 type CreateDraftParams = z.infer<typeof CreateDraftParams>;
 
 export async function createDraft(params: CreateDraftParams): Promise<CreateDraftSuccessResponse> {
-    const { appName, appNumber, version, studioProVersion, artifactUrl } = CreateDraftParams.parse(params);
+    const { appName, appNumber, version, studioProVersion, artifactUrl, reactReady } = CreateDraftParams.parse(params);
     console.log(`Creating draft in the Mendix Marketplace...`);
     console.log(
         fgGreen(
@@ -127,6 +128,7 @@ export async function createDraft(params: CreateDraftParams): Promise<CreateDraf
             Name: appName,
             StudioProVersion: studioProVersion.format(),
             IsSourceGitHub: true,
+            IsReactClientReady: reactReady,
             GithubRepo: {
                 UseReadmeForDoc: false,
                 ArtifactURL: artifactUrl

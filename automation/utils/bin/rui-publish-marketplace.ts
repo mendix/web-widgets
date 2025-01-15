@@ -24,6 +24,7 @@ async function main(): Promise<void> {
     const draft = await createDraft({
         appName: marketplace.appName,
         appNumber: marketplace.appNumber,
+        reactReady: marketplace.reactReady,
         version,
         studioProVersion: marketplace.minimumMXVersion,
         artifactUrl

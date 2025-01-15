@@ -7,7 +7,6 @@ on:
             package:
                 description: "Package name to release (name in package.json)"
                 required: true
-
 jobs:
     create-release:
         name: "Create widget/module release on GitHub"
