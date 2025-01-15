@@ -79,6 +79,7 @@ export class StaticSelectController implements IJSActionsControlled {
     }
 
     updateProps(props: Props): void {
+        this.filterOptions = props.filterOptions;
         this.changeHelper.updateProps(props);
     }
 
