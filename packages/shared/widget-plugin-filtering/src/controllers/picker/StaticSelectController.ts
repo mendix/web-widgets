@@ -1,6 +1,7 @@
 import { UseSelectProps } from "downshift";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { autorun, makeObservable, observable } from "mobx";
+import { disposeFx } from "../../mobx-utils";
 import { OptionsSerializer } from "../../stores/picker/OptionsSerializer";
 import { StaticSelectFilterStore } from "../../stores/picker/StaticSelectFilterStore";
 import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../../typings/IJSActionsControlled";
@@ -58,12 +59,8 @@ export class StaticSelectController implements IJSActionsControlled {
     }
 
     setup(): () => void {
-        const disposers: Array<() => void> = [];
+        const [disposers, dispose] = disposeFx();
         disposers.push(this.changeHelper.setup());
-
-        if (this.defaultValue) {
-            this.filterStore.setDefaultSelected(this.defaultValue);
-        }
 
         disposers.push(
             autorun(() => {
@@ -73,10 +70,12 @@ export class StaticSelectController implements IJSActionsControlled {
                 }
             })
         );
-        return () => {
-            disposers.forEach(dispose => dispose());
-            disposers.length = 0;
-        };
+
+        if (this.defaultValue) {
+            this.filterStore.setDefaultSelected(this.defaultValue);
+        }
+
+        return dispose;
     }
 
     updateProps(props: Props): void {

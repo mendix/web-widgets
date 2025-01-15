@@ -30,7 +30,7 @@ export interface StaticFilterContainerProps {
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
-    const USE_SELECT = true;
+    const USE_SELECT = false;
     const USE_COMBOBOX = true;
 
     if (USE_SELECT) {
@@ -61,8 +61,11 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
     );
 });
 
-function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const ctrl3 = useSetup(() => new StaticComboboxController({ filterStore: props.filterStore }));
+// eslint-disable-next-line prefer-arrow-callback
+const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
+    const ctrl3 = useSetup(() => new StaticComboboxController(props));
+
+    usePickerJSActions(ctrl3, props);
 
     return (
         <Combobox
@@ -75,7 +78,7 @@ function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
             empty={ctrl3.isEmpty}
         />
     );
-}
+});
 
 function MultiboxWidget(props: StaticFilterContainerProps): React.ReactElement {
     const [ctrl4] = useState(() => new StaticTagPickerController({ filterStore: props.filterStore }));
