@@ -1,6 +1,6 @@
 import { useCombobox, UseComboboxProps } from "downshift";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
-import { autorun, makeAutoObservable, reaction } from "mobx";
+import { autorun, makeAutoObservable, observable, reaction } from "mobx";
 import { disposeFx } from "../../mobx-utils";
 import { OptionsSerializer } from "../../stores/picker/OptionsSerializer";
 import { StaticSelectFilterStore } from "../../stores/picker/StaticSelectFilterStore";
@@ -49,7 +49,8 @@ export class StaticComboboxController {
         this.inputValue = this.selectedOption?.caption ?? "";
         makeAutoObservable(this, {
             useComboboxProps: false,
-            setup: false
+            setup: false,
+            filterOptions: observable.struct
         });
     }
 
@@ -70,6 +71,14 @@ export class StaticComboboxController {
                 (): string => this.selectedOption?.caption ?? "",
                 caption => this.setInputValue(caption)
             )
+        );
+        disposers.push(
+            autorun(() => {
+                if (this.filterOptions.length > 0) {
+                    const options = this.filterOptions.map(this.toStoreOption);
+                    this.filterStore.setCustomOptions(options);
+                }
+            })
         );
         disposers.push(this.changeHelper.setup());
 
@@ -100,6 +109,11 @@ export class StaticComboboxController {
     get isEmpty(): boolean {
         return this.filterStore.selected.size === 0;
     }
+
+    toStoreOption = (opt: CustomOption<DynamicValue<string>>): CustomOption<string> => ({
+        caption: `${opt.caption?.value}`,
+        value: `${opt.value?.value}`
+    });
 
     setTouched(value: boolean): void {
         this.touched = value;
