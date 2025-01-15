@@ -45,7 +45,7 @@ export const Select = observer(function Select(props: DropdownProps): React.Reac
                 <button
                     className={cls.clear}
                     tabIndex={-1}
-                    aria-label="Clear combobox"
+                    aria-label="Clear"
                     onClick={() => {
                         props.onClear();
                         toggleRef.current?.focus();

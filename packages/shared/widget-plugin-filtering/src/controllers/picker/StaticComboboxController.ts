@@ -15,6 +15,7 @@ interface Props {
     filterStore: StaticSelectFilterStore;
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
+    inputPlaceholder?: string;
 }
 
 interface CustomOption<T> {
@@ -32,9 +33,10 @@ export class StaticComboboxController {
 
     filterOptions: Array<CustomOption<DynamicValue<string>>>;
     inputValue: string;
-    inputPlaceholder = "Select item...";
+    inputPlaceholder: string;
 
     constructor(props: Props) {
+        this.inputPlaceholder = props.inputPlaceholder ?? "Search";
         this.filterOptions = props.filterOptions;
         this.filterStore = props.filterStore;
         this.serializer = new OptionsSerializer({ store: this.filterStore });

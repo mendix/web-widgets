@@ -18,6 +18,7 @@ interface Props {
     multiselect: boolean;
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
+    emptyCaption?: string;
 }
 
 interface CustomOption<T> {
@@ -42,6 +43,7 @@ export class StaticSelectController implements IJSActionsControlled {
     };
 
     constructor(props: Props) {
+        this.emptyOption.caption = props.emptyCaption || "None";
         this.filterOptions = props.filterOptions;
         this.filterStore = props.filterStore;
         this.multiselect = props.multiselect;
@@ -91,7 +93,7 @@ export class StaticSelectController implements IJSActionsControlled {
         const selected = this.options.filter(option => option.selected);
 
         if (selected.length < 1) {
-            return "Select item";
+            return "Select";
         }
 
         return selected.map(option => option.caption).join(", ");

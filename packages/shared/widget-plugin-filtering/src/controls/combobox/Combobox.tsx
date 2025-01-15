@@ -37,7 +37,7 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
             <input
                 className={cls.input}
                 {...getInputProps({
-                    "aria-label": "Unknown",
+                    "aria-label": props.inputPlaceholder || "Search",
                     ref: inputRef,
                     onBlur: props.onBlur,
                     onFocus: props.onFocus,
