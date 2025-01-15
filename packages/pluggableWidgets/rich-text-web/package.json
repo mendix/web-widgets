@@ -21,7 +21,8 @@
     "marketplace": {
         "minimumMXVersion": "9.24.0",
         "appNumber": 74889,
-        "appName": "Rich Text"
+        "appName": "Rich Text",
+        "reactReady": true
     },
     "packagePath": "com.mendix.widget.custom",
     "scripts": {

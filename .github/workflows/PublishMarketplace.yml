@@ -47,5 +47,5 @@ jobs:
               env:
                   CPAPI_URL: ${{ secrets.CPAPI_URL }}
                   CPAPI_USER: ${{ secrets.CPAPI_USER }}
-                  CPAPI_USER_OPENID: ${{ secrets.CPAPI_USER_OPENID }}
+                  CPAPI_USER_OPENID: ${{ secrets.SRV_WIDGETS_OPENID }}
                   CPAPI_PASS: ${{ secrets.CPAPI_PASS }}
