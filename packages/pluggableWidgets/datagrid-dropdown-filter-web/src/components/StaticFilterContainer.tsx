@@ -30,7 +30,7 @@ export interface StaticFilterContainerProps {
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
-    const USE_SELECT = false;
+    const USE_SELECT = true;
     const USE_COMBOBOX = true;
 
     if (USE_SELECT) {
