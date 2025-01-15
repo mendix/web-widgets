@@ -1,10 +1,10 @@
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
-import { AnyChartContainerProps } from "../../typings/AnyChartProps";
+import { CustomChartContainerProps } from "../../typings/CustomChartProps";
 import { PlotlyChart } from "../components/PlotlyChart";
 import { ChartDataProcessor } from "../utils/ChartDataProcessor";
 
-interface UseAnyChartReturn {
+interface UseCustomChartReturn {
     chartRef: RefObject<HTMLDivElement>;
     containerStyle: {
         width?: string;
@@ -12,7 +12,7 @@ interface UseAnyChartReturn {
     };
 }
 
-export function useAnyChart(props: AnyChartContainerProps): UseAnyChartReturn {
+export function useCustomChart(props: CustomChartContainerProps): UseCustomChartReturn {
     const chartRef = useRef<HTMLDivElement>(null);
     const [chart, setChart] = useState<PlotlyChart | null>(null);
     const [containerDimensions, setContainerDimensions] = useState<{ width?: number; height?: number }>({});

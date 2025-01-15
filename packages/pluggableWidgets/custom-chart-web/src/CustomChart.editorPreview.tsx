@@ -1,6 +1,6 @@
 import { ReactElement, createElement } from "react";
-import { AnyChartPreviewProps } from "../typings/AnyChartProps";
-import AnyChart from "./AnyChart";
+import { CustomChartPreviewProps } from "../typings/CustomChartProps";
+import CustomChart from "./CustomChart";
 
 const defaultSampleData = `[{
     "type": "scatter",
@@ -38,7 +38,7 @@ const defaultConfig = `{
     "staticPlot": true
 }`;
 
-export function preview(props: AnyChartPreviewProps): ReactElement {
+export function preview(props: CustomChartPreviewProps): ReactElement {
     const containerProps = {
         name: "preview-chart",
         class: props.class,
@@ -56,5 +56,5 @@ export function preview(props: AnyChartPreviewProps): ReactElement {
         height: props.height || 75
     };
 
-    return <AnyChart {...containerProps} />;
+    return <CustomChart {...containerProps} />;
 }
