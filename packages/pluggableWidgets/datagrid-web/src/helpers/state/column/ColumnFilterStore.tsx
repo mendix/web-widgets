@@ -11,6 +11,7 @@ import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
 import { FilterData } from "@mendix/widget-plugin-filtering/typings/settings";
 import { value } from "@mendix/widget-plugin-filtering/result-meta";
+import { disposeFx } from "@mendix/widget-plugin-filtering/mobx-utils";
 export interface IColumnFilterStore {
     renderFilterWidgets(): ReactNode;
 }
@@ -34,6 +35,14 @@ export class ColumnFilterStore implements IColumnFilterStore {
             condition2: computed,
             updateProps: action
         });
+    }
+
+    setup(): () => void {
+        const [disposers, dispose] = disposeFx();
+        if (this._filterStore && "setup" in this._filterStore) {
+            disposers.push(this._filterStore.setup());
+        }
+        return dispose;
     }
 
     updateProps(props: ColumnsType): void {
