@@ -21,9 +21,9 @@ export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selected
         return "";
     }
 
-    const selected = selectedItems.map(v => selector.caption.get(v)).sort();
-    const sortedSelected: string[] = selector.options.sortOrder === "desc" ? selected.reverse() : selected;
-    return sortedSelected.join(", ");
+    const selected = selectedItems.map(v => selector.caption.get(v));
+
+    return selected.join(", ");
 }
 
 export interface CaptionContentProps extends PropsWithChildren {

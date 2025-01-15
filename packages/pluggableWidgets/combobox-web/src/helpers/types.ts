@@ -84,6 +84,7 @@ export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectionMethod: SelectionMethodEnum;
     selectAllButton: boolean;
+    selectedItemsSorting: "caption" | "value" | "none";
     getOptions(): string[];
     isOptionsSelected(): ThreeStateCheckBoxEnum;
 }
