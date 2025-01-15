@@ -1,6 +1,7 @@
 import { useCombobox, UseComboboxProps } from "downshift";
-import { ActionValue, EditableValue } from "mendix";
-import { autorun, makeAutoObservable } from "mobx";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { autorun, makeAutoObservable, reaction } from "mobx";
+import { disposeFx } from "../../mobx-utils";
 import { OptionsSerializer } from "../../stores/picker/OptionsSerializer";
 import { StaticSelectFilterStore } from "../../stores/picker/StaticSelectFilterStore";
 import { ResetHandler, SetValueHandler } from "../../typings/IJSActionsControlled";
@@ -9,37 +10,51 @@ import { PickerChangeHelper } from "../generic/PickerChangeHelper";
 import { PickerJSActionsHelper } from "../generic/PickerJSActionsHelper";
 
 interface Props {
+    defaultValue?: string;
+    filterOptions: Array<CustomOption<DynamicValue<string>>>;
     filterStore: StaticSelectFilterStore;
-    valueAttribute?: EditableValue<string>;
     onChange?: ActionValue;
+    valueAttribute?: EditableValue<string>;
+}
+
+interface CustomOption<T> {
+    caption: T;
+    value: T;
 }
 
 export class StaticComboboxController {
-    private filterStore: StaticSelectFilterStore;
     private actionHelper: PickerJSActionsHelper;
     private changeHelper: PickerChangeHelper;
+    private defaultValue?: Iterable<string>;
+    private filterStore: StaticSelectFilterStore;
+    private serializer: OptionsSerializer;
     private touched = false;
+
+    filterOptions: Array<CustomOption<DynamicValue<string>>>;
     inputValue: string;
     inputPlaceholder = "Select item...";
 
     constructor(props: Props) {
-        const { filterStore } = props;
-        this.filterStore = filterStore;
-        const serializer = new OptionsSerializer({ store: this.filterStore });
+        this.filterOptions = props.filterOptions;
+        this.filterStore = props.filterStore;
+        this.serializer = new OptionsSerializer({ store: this.filterStore });
+        this.defaultValue = this.serializer.fromStorableValue(props.defaultValue);
         this.actionHelper = new PickerJSActionsHelper({
-            filterStore,
-            parse: value => serializer.fromStorableValue(value) ?? [],
+            filterStore: props.filterStore,
+            parse: value => this.serializer.fromStorableValue(value) ?? [],
             multiselect: false
         });
-        this.changeHelper = new PickerChangeHelper(props, () => serializer.value);
+
+        this.changeHelper = new PickerChangeHelper(props, () => this.serializer.value);
         this.inputValue = this.selectedOption?.caption ?? "";
         makeAutoObservable(this, {
-            useComboboxProps: false
+            useComboboxProps: false,
+            setup: false
         });
     }
 
     setup(): () => void {
-        const disposers: Array<() => void> = [];
+        const [disposers, dispose] = disposeFx();
         disposers.push(
             autorun(() => {
                 const { touched, inputValue } = this;
@@ -50,11 +65,23 @@ export class StaticComboboxController {
                 }
             })
         );
+        disposers.push(
+            reaction(
+                (): string => this.selectedOption?.caption ?? "",
+                caption => this.setInputValue(caption)
+            )
+        );
         disposers.push(this.changeHelper.setup());
-        return () => {
-            disposers.forEach(dispose => dispose());
-            disposers.length = 0;
-        };
+
+        // Set default after all reactions are set up
+        if (this.defaultValue) {
+            this.filterStore.setDefaultSelected(this.defaultValue);
+        }
+        return dispose;
+    }
+
+    updateProps(props: Props): void {
+        this.changeHelper.updateProps(props);
     }
 
     get options(): OptionWithState[] {
@@ -110,10 +137,10 @@ export class StaticComboboxController {
                 if (changes.type === useCombobox.stateChangeTypes.InputBlur) {
                     return;
                 }
-                this.setInputValue(changes.inputValue);
                 if (changes.type === useCombobox.stateChangeTypes.InputChange) {
                     this.setTouched(true);
                 }
+                this.setInputValue(changes.inputValue);
             },
             onSelectedItemChange: ({ selectedItem, type }) => {
                 if (type === useCombobox.stateChangeTypes.InputBlur) {
