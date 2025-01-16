@@ -11,7 +11,9 @@ type ClassKeys =
     | "popover"
     | "stateIcon"
     | "clearIcon"
-    | "selection";
+    | "inputContainer"
+    | "selectedItem"
+    | "removeIcon";
 
 export function classes(rootName = "widget-dropdown-filter"): Record<ClassKeys, string> {
     return {
@@ -25,7 +27,9 @@ export function classes(rootName = "widget-dropdown-filter"): Record<ClassKeys, 
         popover: `${rootName}-popover`,
         stateIcon: `${rootName}-state-icon`,
         clearIcon: `${rootName}-clear-icon`,
-        selection: `${rootName}-selection`
+        inputContainer: `${rootName}-input-container`,
+        selectedItem: `${rootName}-selected-item`,
+        removeIcon: `${rootName}-remove-icon`
     };
 }
 

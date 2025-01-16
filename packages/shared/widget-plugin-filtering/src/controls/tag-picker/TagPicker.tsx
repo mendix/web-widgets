@@ -38,32 +38,36 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
             data-expanded={isOpen}
             data-empty={isEmpty ? true : undefined}
         >
-            <div className={cls.selection}>
+            <div className={cls.inputContainer}>
                 {props.selectedItems.map((item, index) => (
-                    <span key={index} {...getSelectedItemProps({ selectedItem: item, index })}>
+                    <div
+                        className={cls.selectedItem}
+                        key={index}
+                        {...getSelectedItemProps({ selectedItem: item, index })}
+                    >
                         {item.caption}
                         <span
-                            className="px-1 cursor-pointer"
+                            className={cls.removeIcon}
                             onClick={e => {
                                 e.stopPropagation();
                                 removeSelectedItem(item);
                             }}
                         >
-                            &#10005;
+                            <Cross width="10" height="10" />
                         </span>
-                    </span>
+                    </div>
                 ))}
+                <input
+                    className={cls.input}
+                    {...getInputProps({
+                        "aria-label": "Unknown",
+                        ref: inputRef,
+                        onBlur: props.onBlur,
+                        placeholder: props.inputPlaceholder,
+                        ...getDropdownProps({ preventKeyAction: isOpen })
+                    })}
+                />
             </div>
-            <input
-                className={cls.input}
-                {...getInputProps({
-                    "aria-label": "Unknown",
-                    ref: inputRef,
-                    onBlur: props.onBlur,
-                    placeholder: props.inputPlaceholder,
-                    ...getDropdownProps({ preventKeyAction: isOpen })
-                })}
-            />
             <button className={cls.toggle} {...getToggleButtonProps()}>
                 <Arrow className={cls.stateIcon} />
             </button>
