@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We have optimized some internal workings to improve export to Excel performance.
+
 ## [2.29.1] - 2025-01-24
 
 ### Fixed
