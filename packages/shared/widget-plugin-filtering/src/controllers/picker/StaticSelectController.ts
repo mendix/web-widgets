@@ -32,10 +32,8 @@ export class StaticSelectController implements IJSActionsControlled {
     private defaultValue?: Iterable<string>;
     private filterStore: StaticSelectFilterStore;
     private serializer: OptionsSerializer;
-
     multiselect: boolean;
     filterOptions: Array<CustomOption<DynamicValue<string>>>;
-
     readonly emptyOption = {
         value: none,
         caption: "None",
@@ -108,6 +106,14 @@ export class StaticSelectController implements IJSActionsControlled {
         this.filterStore.clear();
     };
 
+    handleSetValue = (...args: Parameters<SetValueHandler>): void => {
+        this.actionHelper.handleSetValue(...args);
+    };
+
+    handleResetValue = (...args: Parameters<ResetHandler>): void => {
+        this.actionHelper.handleResetValue(...args);
+    };
+
     useSelectProps = (): UseSelectProps<OptionWithState> => {
         return {
             items: this.options,
@@ -126,13 +132,5 @@ export class StaticSelectController implements IJSActionsControlled {
                 }
             }
         };
-    };
-
-    handleSetValue = (...args: Parameters<SetValueHandler>): void => {
-        this.actionHelper.handleSetValue(...args);
-    };
-
-    handleResetValue = (...args: Parameters<ResetHandler>): void => {
-        this.actionHelper.handleResetValue(...args);
     };
 }
