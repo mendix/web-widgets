@@ -141,6 +141,14 @@ export class StaticComboboxController {
         this.filterStore.clear();
     };
 
+    handleSetValue = (...args: Parameters<SetValueHandler>): void => {
+        this.actionHelper.handleSetValue(...args);
+    };
+
+    handleResetValue = (...args: Parameters<ResetHandler>): void => {
+        this.actionHelper.handleResetValue(...args);
+    };
+
     useComboboxProps = (): UseComboboxProps<OptionWithState> => {
         const props: UseComboboxProps<OptionWithState> = {
             items: this.options,
@@ -174,13 +182,5 @@ export class StaticComboboxController {
             }
         };
         return props;
-    };
-
-    handleSetValue = (...args: Parameters<SetValueHandler>): void => {
-        this.actionHelper.handleSetValue(...args);
-    };
-
-    handleResetValue = (...args: Parameters<ResetHandler>): void => {
-        this.actionHelper.handleResetValue(...args);
     };
 }

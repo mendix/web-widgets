@@ -4,7 +4,7 @@ import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
 import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Combobox";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, CSSProperties, useState } from "react";
+import { createElement, CSSProperties } from "react";
 import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/StaticSelectFilterStore";
@@ -30,14 +30,14 @@ export interface StaticFilterContainerProps {
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
-    const USE_SELECT = true;
-    const USE_COMBOBOX = true;
+    const isSelect = false;
+    const isCombobox = false;
 
-    if (USE_SELECT) {
+    if (isSelect) {
         return <SelectWidget {...props} />;
     }
 
-    if (USE_COMBOBOX) {
+    if (isCombobox) {
         return <ComboboxWidget {...props} />;
     }
 
@@ -46,16 +46,16 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
 
 // eslint-disable-next-line prefer-arrow-callback
 const SelectWidget = observer(function SelectWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const ctrl2 = useSetup(() => new StaticSelectController(props));
+    const ctrl1 = useSetup(() => new StaticSelectController(props));
 
-    usePickerJSActions(ctrl2, props);
+    usePickerJSActions(ctrl1, props);
 
     return (
         <Select
-            value={ctrl2.value}
-            useSelectProps={ctrl2.useSelectProps}
-            options={ctrl2.options}
-            onClear={ctrl2.handleClear}
+            value={ctrl1.value}
+            useSelectProps={ctrl1.useSelectProps}
+            options={ctrl1.options}
+            onClear={ctrl1.handleClear}
             clearable
         />
     );
@@ -63,39 +63,40 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
 
 // eslint-disable-next-line prefer-arrow-callback
 const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const ctrl3 = useSetup(() => new StaticComboboxController(props));
+    const ctrl2 = useSetup(() => new StaticComboboxController(props));
 
-    usePickerJSActions(ctrl3, props);
+    usePickerJSActions(ctrl2, props);
 
     return (
         <Combobox
-            options={ctrl3.options}
-            inputPlaceholder={ctrl3.inputPlaceholder}
-            useComboboxProps={ctrl3.useComboboxProps}
-            onClear={ctrl3.handleClear}
-            onFocus={ctrl3.handleFocus}
-            onBlur={ctrl3.handleBlur}
-            empty={ctrl3.isEmpty}
+            options={ctrl2.options}
+            inputPlaceholder={ctrl2.inputPlaceholder}
+            useComboboxProps={ctrl2.useComboboxProps}
+            onClear={ctrl2.handleClear}
+            onFocus={ctrl2.handleFocus}
+            onBlur={ctrl2.handleBlur}
+            empty={ctrl2.isEmpty}
         />
     );
 });
 
-function MultiboxWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const [ctrl4] = useState(() => new StaticTagPickerController({ filterStore: props.filterStore }));
+// eslint-disable-next-line prefer-arrow-callback
+const MultiboxWidget = observer(function MultiboxWidget(props: StaticFilterContainerProps): React.ReactElement {
+    const ctrl3 = useSetup(() => new StaticTagPickerController(props));
 
-    // usePickerJSActions(ctrl4, props);
+    usePickerJSActions(ctrl3, props);
 
     return (
         <TagPicker
-            options={ctrl4.options}
-            selectedItems={ctrl4.selectedItems}
-            useMultipleSelectionProps={ctrl4.useMultipleSelectionProps}
-            useComboboxProps={ctrl4.useComboboxProps}
-            onClear={ctrl4.handleClear}
-            onBlur={ctrl4.handleBlur}
-            inputPlaceholder={ctrl4.inputPlaceholder}
+            options={ctrl3.options}
+            selectedItems={ctrl3.selectedItems}
+            useMultipleSelectionProps={ctrl3.useMultipleSelectionProps}
+            useComboboxProps={ctrl3.useComboboxProps}
+            onClear={ctrl3.handleClear}
+            onBlur={ctrl3.handleBlur}
+            inputPlaceholder={ctrl3.inputPlaceholder}
         />
     );
-}
+});
 
 export const StaticFilterContainer = withCustomOptionsGuard(Container);
