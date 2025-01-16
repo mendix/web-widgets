@@ -13,7 +13,8 @@ type ClassKeys =
     | "clearIcon"
     | "inputContainer"
     | "selectedItem"
-    | "removeIcon";
+    | "removeIcon"
+    | "separator";
 
 export function classes(rootName = "widget-dropdown-filter"): Record<ClassKeys, string> {
     return {
@@ -29,7 +30,8 @@ export function classes(rootName = "widget-dropdown-filter"): Record<ClassKeys, 
         clearIcon: `${rootName}-clear-icon`,
         inputContainer: `${rootName}-input-container`,
         selectedItem: `${rootName}-selected-item`,
-        removeIcon: `${rootName}-remove-icon`
+        removeIcon: `${rootName}-remove-icon`,
+        separator: `${rootName}-separator`
     };
 }
 

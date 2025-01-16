@@ -17,7 +17,7 @@ export class OptionsSerializer {
     }
 
     get value(): string | undefined {
-        const selected = this.store.options.flatMap(opt => (opt.selected ? [opt.value] : []));
+        const selected = [...this.store.selected];
         return this.toStorableValue(selected);
     }
 
