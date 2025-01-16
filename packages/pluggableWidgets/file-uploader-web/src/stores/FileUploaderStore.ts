@@ -100,6 +100,10 @@ export class FileUploaderStore {
         }
 
         this.lastSeenItems.add(item.id);
+
+        if (this.currentWaiting.length) {
+            this._createObjectAction!.execute();
+        }
     }
 
     get allowedFormatsDescription(): string {
@@ -121,9 +125,11 @@ export class FileUploaderStore {
         }
 
         return new Promise<ObjectItem>(resolve => {
-            this._createObjectAction!.execute();
-
             this.currentWaiting.push(resolve);
+
+            if (this.currentWaiting.length === 1) {
+                this._createObjectAction!.execute();
+            }
         });
     }
 
