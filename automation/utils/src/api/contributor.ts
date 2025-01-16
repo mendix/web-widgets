@@ -103,7 +103,7 @@ async function fetchContributor<T = unknown>(method: "PATCH" | "POST", path: str
 const CreateDraftParams = z.object({
     appName: z.string().min(1),
     appNumber: z.number().positive().int(),
-    reactReady: z.boolean(),
+    reactReady: z.boolean().optional().default(false),
     version: z.instanceof(Version),
     studioProVersion: z.instanceof(Version),
     artifactUrl: z.string().url()

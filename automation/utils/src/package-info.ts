@@ -25,7 +25,7 @@ export interface PackageJsonFileContent {
         minimumMXVersion: string;
         appName?: string;
         appNumber?: number;
-        reactReady?: true;
+        reactReady?: boolean;
     };
 
     testProject?: {
@@ -61,7 +61,7 @@ export const MarketplaceSchema = z.object({
     minimumMXVersion: versionSchema,
     appName: appNameSchema,
     appNumber: appNumberSchema.or(z.literal(-1)),
-    reactReady: z.boolean()
+    reactReady: z.boolean().optional().default(false)
 });
 
 export const TestProjectSchema = z.object({
