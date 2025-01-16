@@ -42,7 +42,6 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
     .th {
         display: flex;
         align-items: flex-start;
-        font-weight: 600;
         background-color: var(--bg-color-secondary, $dg-background-color);
         border-width: 0;
         border-color: var(--grid-border-color, $dg-grid-border-color);
@@ -132,6 +131,7 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
             margin: 1px 1px calc((-1 * var(--spacing-smaller, $dg-dragging-effect-size)) + 2px);
             display: flex;
             align-items: baseline;
+            font-weight: 600;
 
             span {
                 min-width: 0;
@@ -163,11 +163,6 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
         .filter {
             display: flex;
             margin-top: 4px;
-            input:not([type="checkbox"]) {
-                font-weight: normal;
-                flex-grow: 1;
-                width: 100%;
-            }
             > .form-group {
                 margin-bottom: 0;
             }
@@ -317,6 +312,12 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
     .align-column-right {
         justify-content: flex-end;
     }
+}
+
+:where(.table .th .filter input:not([type="checkbox"])) {
+    font-weight: normal;
+    flex-grow: 1;
+    width: 100%;
 }
 
 .pagination-bar {

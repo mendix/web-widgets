@@ -10,7 +10,21 @@
     background-attachment: local, local, scroll, scroll;
 }
 
-.widget-dropdown-filter {
+@mixin btn-with-cross {
+    path {
+        stroke-width: 0;
+    }
+    &:hover {
+        color: var(--brand-primary);
+        path {
+            stroke-width: 1px;
+        }
+    }
+}
+
+$root: ".widget-dropdown-filter";
+
+#{$root} {
     --wdf-outer-spacing: var(--dropdown-outer-spacing, 10px);
     --wdf-spacing: var(--spacing-smaller, 4px);
     --wdf-popover-spacing: 0;
@@ -33,6 +47,13 @@
     --wdf-clear-width: calc(14px + (var(--wdf-clear-inline-spacing) * 2) + var(--wdf-clear-border-width));
     --wdf-toggle-inline-end-clearable: calc(var(--wdf-clear-width) + var(--wdf-toggle-inline-end));
     --wdf-tag-padding: var(--spacing-smallest, 2px) var(--dropdown-outer-spacing, 10px);
+
+    &:where(.form-control) {
+        padding: 0;
+        position: relative;
+        display: grid;
+        min-width: 65px;
+    }
 
     &-popover {
         z-index: var(--wdf-popover-z-index);
@@ -106,10 +127,7 @@
         display: flex;
         margin-inline-end: var(--wdf-clear-margin);
         border-inline-end: 1px solid var(--gray, #787d87);
-
-        &:where([hidden]) {
-            display: none;
-        }
+        @include btn-with-cross;
     }
 
     &-toggle,
@@ -120,7 +138,7 @@
 
     &-state-icon {
         transition: transform 0.2s;
-        [data-expanded="true"] & {
+        :where(#{$root}[data-expanded="true"]) & {
             transform: rotate(180deg);
         }
     }
@@ -129,6 +147,8 @@
         display: flex;
         gap: var(--wdf-spacing);
         flex-flow: row wrap;
+        min-width: 0;
+        overflow: hidden;
     }
 
     &-selected-item {
@@ -141,20 +161,8 @@
         justify-content: center;
         padding: var(--wdf-tag-padding);
         align-items: center;
-        // margin: var(--spacing-smallest, 2px);
         gap: 8px;
         background-color: var(--color-primary-lighter);
-        // &-remove-button {
-        //     padding: 0px 0px;
-        //     border: none;
-        //     background-color: transparent;
-        //     cursor: pointer;
-        //     color: var(--brand-primary);
-        //     span {
-        //         display: flex;
-        //         align-items: center;
-        //     }
-        // }
         &:focus-visible {
             outline: var(--brand-primary) auto 1px;
         }
@@ -163,35 +171,34 @@
     &-remove-icon {
         cursor: pointer;
         display: flex;
+        @include btn-with-cross;
     }
 
-    &-remove-icon path,
-    &-clear-icon path {
-        stroke-width: 0;
-    }
-
-    &:where(.form-control) {
-        padding: 0;
-        position: relative;
-        display: grid;
+    &-separator {
+        position: absolute;
+        margin-inline-end: var(--wdf-clear-margin);
+        background-color: var(--gray, #787d87);
+        justify-self: end;
+        inset-block: var(--wdf-button-spacing);
+        width: 1px;
     }
 }
 
 /* Select variant */
-.widget-dropdown-filter {
-    &:where(.variant-select) &-toggle {
+:where(#{$root}.variant-select) {
+    #{$root}-toggle {
         padding-block: var(--wdf-button-spacing);
         padding-inline-start: var(--wdf-button-spacing);
         padding-inline-end: var(--wdf-toggle-inline-end);
     }
 
-    &:where(.variant-select):has(&-clear) &-toggle {
+    &:has(#{$root}-clear) #{$root}-toggle {
         padding-block: var(--wdf-button-spacing);
         padding-inline-start: var(--wdf-button-spacing);
         padding-inline-end: var(--wdf-toggle-inline-end-clearable);
     }
 
-    &:where(.variant-select) &-state-icon {
+    #{$root}-state-icon {
         position: absolute;
         align-self: center;
         justify-self: end;
@@ -201,23 +208,23 @@
 }
 
 /* Combobox variant */
-.widget-dropdown-filter {
-    &:where(.variant-combobox) {
+:where(#{$root}.variant-combobox) {
+    & {
         grid-template-columns: 1fr var(--wdf-toggle-width);
     }
 
-    &:where(.variant-combobox) &-input {
+    #{$root}-input {
         border-radius: inherit;
         padding-block: var(--wdf-button-spacing);
         padding-inline-start: var(--wdf-button-spacing);
         padding-inline-end: 0;
     }
 
-    &:where(.variant-combobox):has(&-clear) &-input {
+    &:has(#{$root}-clear) #{$root}-input {
         padding-inline-end: var(--wdf-clear-width);
     }
 
-    &:where(.variant-combobox) &-toggle {
+    #{$root}-toggle {
         padding-block: var(--wdf-button-spacing);
         padding-inline-start: 4px;
         padding-inline-end: var(--wdf-button-spacing);
@@ -227,29 +234,32 @@
 }
 
 /* Tag Picker variant */
-.widget-dropdown-filter {
-    &:where(.variant-tag-picker) {
+:where(#{$root}.variant-tag-picker) {
+    & {
         grid-template-columns: 1fr var(--wdf-toggle-width);
     }
 
-    &:where(.variant-tag-picker) &-input-container {
+    #{$root}-input-container {
         padding-block: var(--wdf-button-spacing);
         padding-inline-start: var(--wdf-button-spacing);
         padding-inline-end: 0;
     }
 
-    .table .filter &.variant-tag-picker &-input {
-        width: auto;
-    }
-    .table &-selected-item {
-        font-weight: normal;
-    }
-
-    &:where(.variant-tag-picker):has(&-clear) &-input-container {
+    &:has(#{$root}-clear) #{$root}-input-container {
         padding-inline-end: var(--wdf-clear-width);
     }
 
-    &:where(.variant-tag-picker) &-toggle {
+    #{$root}-input {
+        width: initial;
+        flex-basis: 0;
+        min-width: 75px;
+    }
+
+    #{$root}-clear {
+        border-color: transparent;
+    }
+
+    #{$root}-toggle {
         padding-block: var(--wdf-button-spacing);
         padding-inline-start: 4px;
         padding-inline-end: var(--wdf-button-spacing);
