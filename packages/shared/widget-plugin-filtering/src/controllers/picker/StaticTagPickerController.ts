@@ -45,7 +45,9 @@ export class StaticTagPickerController implements IJSActionsControlled {
             parse: value => this.serializer.fromStorableValue(value) ?? [],
             multiselect: false
         });
-        this.changeHelper = new PickerChangeHelper(props, () => this.serializer.value);
+        this.changeHelper = new PickerChangeHelper(props, () => {
+            return this.serializer.value;
+        });
         makeAutoObservable(this, {
             useComboboxProps: false,
             useMultipleSelectionProps: false,
@@ -182,7 +184,10 @@ export class StaticTagPickerController implements IJSActionsControlled {
                             inputValue: ""
                         };
                     default:
-                        return changes;
+                        return {
+                            ...changes,
+                            highlightedIndex: changes.inputValue !== state.inputValue ? 0 : changes.highlightedIndex
+                        };
                 }
             }
         };

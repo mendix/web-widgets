@@ -41,7 +41,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
         return <ComboboxWidget {...props} />;
     }
 
-    return <MultiboxWidget {...props} />;
+    return <TagPickerWidget {...props} />;
 }
 
 // eslint-disable-next-line prefer-arrow-callback
@@ -81,7 +81,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterConta
 });
 
 // eslint-disable-next-line prefer-arrow-callback
-const MultiboxWidget = observer(function MultiboxWidget(props: StaticFilterContainerProps): React.ReactElement {
+const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterContainerProps): React.ReactElement {
     const ctrl3 = useSetup(() => new StaticTagPickerController(props));
 
     usePickerJSActions(ctrl3, props);
@@ -95,6 +95,7 @@ const MultiboxWidget = observer(function MultiboxWidget(props: StaticFilterConta
             onClear={ctrl3.handleClear}
             onBlur={ctrl3.handleBlur}
             inputPlaceholder={ctrl3.inputPlaceholder}
+            empty={ctrl3.isEmpty}
         />
     );
 });
