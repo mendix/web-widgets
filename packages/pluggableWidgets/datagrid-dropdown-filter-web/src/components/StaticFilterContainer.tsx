@@ -10,7 +10,7 @@ import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/StaticSelectFilterStore";
 import { StaticTagPickerController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticTagPickerController";
 import { TagPicker } from "@mendix/widget-plugin-filtering/controls/tag-picker/TagPicker";
-import { useSetup } from "@mendix/widget-plugin-filtering/helpers/useSetup";
+import { useSetupUpdate } from "@mendix/widget-plugin-filtering/helpers/useSetupUpdate";
 import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
 
 export interface StaticFilterContainerProps {
@@ -46,7 +46,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
 
 // eslint-disable-next-line prefer-arrow-callback
 const SelectWidget = observer(function SelectWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const ctrl1 = useSetup(() => new StaticSelectController(props));
+    const ctrl1 = useSetupUpdate(() => new StaticSelectController(props), props);
 
     usePickerJSActions(ctrl1, props);
 
@@ -64,7 +64,7 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
 
 // eslint-disable-next-line prefer-arrow-callback
 const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const ctrl2 = useSetup(() => new StaticComboboxController(props));
+    const ctrl2 = useSetupUpdate(() => new StaticComboboxController(props), props);
 
     usePickerJSActions(ctrl2, props);
 
@@ -83,7 +83,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterConta
 
 // eslint-disable-next-line prefer-arrow-callback
 const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const ctrl3 = useSetup(() => new StaticTagPickerController(props));
+    const ctrl3 = useSetupUpdate(() => new StaticTagPickerController(props), props);
 
     usePickerJSActions(ctrl3, props);
 
