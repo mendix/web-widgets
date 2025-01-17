@@ -1,7 +1,7 @@
 import { ListAttributeValue } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
-import { makeAutoObservable, observable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
 import { selectedFromCond } from "../../condition-utils";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { FilterData } from "../../typings/settings";
@@ -30,7 +30,8 @@ export class StaticSelectFilterStore {
 
         makeAutoObservable(this, {
             _attributes: observable.struct,
-            _customOptions: observable.struct
+            _customOptions: observable.struct,
+            setCustomOptions: action
         });
 
         if (initCond) {
