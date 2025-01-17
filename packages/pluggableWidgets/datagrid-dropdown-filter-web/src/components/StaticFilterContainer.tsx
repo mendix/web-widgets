@@ -14,18 +14,18 @@ import { useSetup } from "@mendix/widget-plugin-filtering/helpers/useSetup";
 import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
 
 export interface StaticFilterContainerProps {
-    parentChannelName: string | undefined;
-    name: string;
-    filterStore: StaticSelectFilterStore;
-    filterOptions: FilterOptionsType[];
-    multiselect: boolean;
-    defaultValue?: string;
     ariaLabel?: string;
     className?: string;
-    tabIndex?: number;
-    styles?: CSSProperties;
-    onChange?: ActionValue;
+    defaultValue?: string;
     emptyCaption?: string;
+    filterOptions: FilterOptionsType[];
+    filterStore: StaticSelectFilterStore;
+    multiselect: boolean;
+    name: string;
+    onChange?: ActionValue;
+    parentChannelName: string | undefined;
+    styles?: CSSProperties;
+    tabIndex?: number;
     valueAttribute?: EditableValue<string>;
 }
 
@@ -57,6 +57,7 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
             options={ctrl1.options}
             onClear={ctrl1.handleClear}
             clearable
+            empty={ctrl1.isEmpty}
         />
     );
 });

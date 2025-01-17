@@ -51,7 +51,7 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                 <button
                     className={cls.clear}
                     tabIndex={-1}
-                    aria-label="Clear combobox"
+                    aria-label="Clear"
                     onClick={() => {
                         props.onClear();
                         inputRef.current?.focus();
