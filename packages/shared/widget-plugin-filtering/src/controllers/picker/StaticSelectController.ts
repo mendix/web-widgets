@@ -1,86 +1,19 @@
 import { UseSelectProps } from "downshift";
-import { ActionValue, DynamicValue, EditableValue } from "mendix";
-import { autorun, makeObservable, observable } from "mobx";
-import { disposeFx } from "../../mobx-utils";
-import { OptionsSerializer } from "../../stores/picker/OptionsSerializer";
-import { StaticSelectFilterStore } from "../../stores/picker/StaticSelectFilterStore";
-import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../../typings/IJSActionsControlled";
 import { OptionWithState } from "../../typings/OptionWithState";
-import { PickerChangeHelper } from "../generic/PickerChangeHelper";
-import { PickerJSActionsHelper } from "../generic/PickerJSActionsHelper";
+import { StaticBaseController, StaticBaseControllerProps } from "./StaticBaseController";
 
 const none = "[[__none__]]" as const;
 
-interface Props {
-    defaultValue?: string;
-    filterOptions: Array<CustomOption<DynamicValue<string>>>;
-    filterStore: StaticSelectFilterStore;
-    multiselect: boolean;
-    onChange?: ActionValue;
-    valueAttribute?: EditableValue<string>;
-    emptyCaption?: string;
-}
-
-interface CustomOption<T> {
-    caption: T;
-    value: T;
-}
-
-export class StaticSelectController implements IJSActionsControlled {
-    private actionHelper: PickerJSActionsHelper;
-    private changeHelper: PickerChangeHelper;
-    private defaultValue?: Iterable<string>;
-    private filterStore: StaticSelectFilterStore;
-    private serializer: OptionsSerializer;
-    multiselect: boolean;
-    filterOptions: Array<CustomOption<DynamicValue<string>>>;
+export class StaticSelectController extends StaticBaseController {
     readonly emptyOption = {
         value: none,
         caption: "None",
         selected: false
     };
 
-    constructor(props: Props) {
+    constructor(props: StaticBaseControllerProps) {
+        super(props);
         this.emptyOption.caption = props.emptyCaption || "None";
-        this.filterOptions = props.filterOptions;
-        this.filterStore = props.filterStore;
-        this.multiselect = props.multiselect;
-        this.serializer = new OptionsSerializer({ store: this.filterStore });
-        this.defaultValue = this.serializer.fromStorableValue(props.defaultValue);
-        this.actionHelper = new PickerJSActionsHelper({
-            filterStore: props.filterStore,
-            parse: value => this.serializer.fromStorableValue(value) ?? [],
-            multiselect: props.multiselect
-        });
-
-        this.changeHelper = new PickerChangeHelper(props, () => this.serializer.value);
-
-        makeObservable(this, { filterOptions: observable.struct });
-    }
-
-    setup(): () => void {
-        const [disposers, dispose] = disposeFx();
-        disposers.push(this.changeHelper.setup());
-
-        disposers.push(
-            autorun(() => {
-                if (this.filterOptions.length > 0) {
-                    const options = this.filterOptions.map(this.toStoreOption);
-                    this.filterStore.setCustomOptions(options);
-                }
-            })
-        );
-
-        if (this.defaultValue) {
-            this.filterStore.setDefaultSelected(this.defaultValue);
-        }
-
-        return dispose;
-    }
-
-    updateProps(props: Props): void {
-        this.filterOptions = props.filterOptions;
-        this.changeHelper.updateProps(props);
     }
 
     get options(): OptionWithState[] {
@@ -97,21 +30,8 @@ export class StaticSelectController implements IJSActionsControlled {
         return selected.map(option => option.caption).join(", ");
     }
 
-    toStoreOption = (opt: CustomOption<DynamicValue<string>>): CustomOption<string> => ({
-        caption: `${opt.caption?.value}`,
-        value: `${opt.value?.value}`
-    });
-
     handleClear = (): void => {
         this.filterStore.clear();
-    };
-
-    handleSetValue = (...args: Parameters<SetValueHandler>): void => {
-        this.actionHelper.handleSetValue(...args);
-    };
-
-    handleResetValue = (...args: Parameters<ResetHandler>): void => {
-        this.actionHelper.handleResetValue(...args);
     };
 
     useSelectProps = (): UseSelectProps<OptionWithState> => {

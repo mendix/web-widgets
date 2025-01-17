@@ -9,21 +9,22 @@ import { useFloatingMenu } from "../hooks/useFloatingMenu";
 interface DropdownProps {
     value: string;
     options: OptionWithState[];
+    clearable: boolean;
+    empty: boolean;
     useSelectProps: () => UseSelectProps<OptionWithState>;
     onClear: () => void;
-    clearable: boolean;
 }
 
 const cls = classes();
 // eslint-disable-next-line prefer-arrow-callback
 export const Select = observer(function Select(props: DropdownProps): React.ReactElement {
+    const { empty: isEmpty } = props;
     const toggleRef = useRef<HTMLButtonElement>(null);
     const { getToggleButtonProps, getMenuProps, getItemProps, isOpen, highlightedIndex } = useSelect(
         props.useSelectProps()
     );
 
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
-    const isEmpty = !props.options.some(item => item.selected);
 
     return (
         <div
