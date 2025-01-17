@@ -97,6 +97,8 @@ const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterCon
             onBlur={ctrl3.handleBlur}
             inputPlaceholder={ctrl3.inputPlaceholder}
             empty={ctrl3.isEmpty}
+            showCheckboxes={false}
+            selectedStyle="text"
         />
     );
 });
