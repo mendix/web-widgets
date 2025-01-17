@@ -8,6 +8,8 @@ type ClassKeys =
     | "menu"
     | "menuSlot"
     | "menuItem"
+    | "menuCheckbox"
+    | "checkboxSlot"
     | "popover"
     | "stateIcon"
     | "clearIcon"
@@ -25,6 +27,8 @@ export function classes(rootName = "widget-dropdown-filter"): Record<ClassKeys, 
         menu: `${rootName}-menu`,
         menuSlot: `${rootName}-menu-slot`,
         menuItem: `${rootName}-menu-item`,
+        menuCheckbox: `${rootName}-menu-checkbox`,
+        checkboxSlot: `${rootName}-checkbox-slot`,
         popover: `${rootName}-popover`,
         stateIcon: `${rootName}-state-icon`,
         clearIcon: `${rootName}-clear-icon`,

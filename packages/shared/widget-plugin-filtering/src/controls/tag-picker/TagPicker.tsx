@@ -15,12 +15,15 @@ interface TagPickerProps {
     useComboboxProps: () => UseComboboxProps<OptionWithState>;
     onClear: () => void;
     onBlur: () => void;
+    showCheckboxes: boolean;
+    selectedStyle?: "tags" | "text";
 }
 
 const cls = classes();
 
 // eslint-disable-next-line prefer-arrow-callback
 export const TagPicker = observer(function TagPicker(props: TagPickerProps): React.ReactElement {
+    const { showCheckboxes, selectedStyle = "tags" } = props;
     const inputRef = useRef<HTMLInputElement>(null);
     const { getSelectedItemProps, getDropdownProps, removeSelectedItem } = useMultipleSelection(
         props.useMultipleSelectionProps()
@@ -32,7 +35,10 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
 
     return (
         <div
-            className={cn(cls.root, "form-control", "variant-tag-picker")}
+            className={cn(cls.root, "form-control", {
+                "variant-tag-picker-text": selectedStyle === "text",
+                "variant-tag-picker": selectedStyle === "tags"
+            })}
             ref={refs.setReference}
             data-expanded={isOpen}
             data-empty={props.empty ? true : undefined}
@@ -104,6 +110,17 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                                     className={cls.menuItem}
                                     {...getItemProps({ item, index })}
                                 >
+                                    {showCheckboxes && (
+                                        <span className={cls.checkboxSlot}>
+                                            <input
+                                                role="presentation"
+                                                type="checkbox"
+                                                checked={item.selected}
+                                                value={item.caption}
+                                                onChange={noop}
+                                            />
+                                        </span>
+                                    )}
                                     {item.caption}
                                 </li>
                             ))}
@@ -113,3 +130,5 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
         </div>
     );
 });
+
+const noop = (): void => {};
