@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-interface Setupable {
+export interface Setupable {
     setup(): void | (() => void);
 }
 
