@@ -3,29 +3,26 @@ import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
 import { action, makeAutoObservable, observable } from "mobx";
 import { selectedFromCond } from "../../condition-utils";
+import { disposeFx } from "../../mobx-utils";
 import { OptionWithState } from "../../typings/OptionWithState";
-import { FilterData } from "../../typings/settings";
+import { BaseSelectStore } from "./BaseSelectStore";
 import { SearchStore } from "./SearchStore";
-import { SelectedItemsStore } from "./SelectedItemsStore";
 
 interface CustomOption {
     caption: string;
     value: string;
 }
 
-export class StaticSelectFilterStore {
+export class StaticSelectFilterStore extends BaseSelectStore {
     readonly disposers = [] as Array<() => void>;
     readonly storeType = "select";
     _attributes: ListAttributeValue[] = [];
     _customOptions: CustomOption[] = [];
     search: SearchStore;
-    stateHasBeenSet = false;
-
-    private selectState: SelectedItemsStore;
 
     constructor(attributes: ListAttributeValue[], initCond: FilterCondition | null) {
+        super();
         this.search = new SearchStore();
-        this.selectState = new SelectedItemsStore();
         this._attributes = attributes;
 
         makeAutoObservable(this, {
@@ -81,39 +78,15 @@ export class StaticSelectFilterStore {
         return conditions.length > 1 ? or(...conditions) : conditions[0];
     }
 
-    get selected(): Set<string> {
-        return this.selectState.selected;
-    }
-
     setup(): () => void {
-        this.disposers.push(this.search.setup());
-        return () => {
-            this.disposers.forEach(dispose => dispose());
-            this.disposers.length = 0;
-        };
-    }
-
-    setDefaultSelected(defaultSelected?: Iterable<string>): void {
-        if (!this.stateHasBeenSet && defaultSelected) {
-            this.selectState.setDefaultSelected(defaultSelected);
-            this.selectState.reset();
-            this.stateHasBeenSet = true;
-        }
+        const [disposers, dispose] = disposeFx();
+        disposers.push(this.search.setup());
+        return dispose;
     }
 
     setCustomOptions(options: CustomOption[]): void {
         this._customOptions = options;
     }
-
-    clear = (): void => this.selectState.clear();
-
-    reset = (): void => this.selectState.reset();
-
-    toggle = (value: string): void => this.selectState.toggle(value);
-
-    setSelected = (value: string[]): void => {
-        this.selectState.setSelected(value);
-    };
 
     updateProps(attributes: ListAttributeValue[]): void {
         this._attributes = attributes;
@@ -133,17 +106,6 @@ export class StaticSelectFilterStore {
         return this.universe.has(value);
     }
 
-    toJSON(): string[] {
-        return [...this.selectState.selected];
-    }
-
-    fromJSON(data: FilterData): void {
-        if (Array.isArray(data) && data.every(item => typeof item === "string")) {
-            this.selectState.setSelected(data as string[]);
-        }
-        this.stateHasBeenSet = true;
-    }
-
     fromViewState(cond: FilterCondition): void {
         const val = (exp: LiteralExpression): string | undefined =>
             exp.valueType === "string"
@@ -161,7 +123,7 @@ export class StaticSelectFilterStore {
         }
 
         this.selectState.setSelected(selected);
-        this.stateHasBeenSet = true;
+        this.blockSetDefaults = true;
     }
 }
 

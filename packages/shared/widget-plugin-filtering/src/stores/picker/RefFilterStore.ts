@@ -10,10 +10,10 @@ import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression 
 import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable, reaction } from "mobx";
 import { flattenRefCond, selectedFromCond } from "../../condition-utils";
+import { disposeFx } from "../../mobx-utils";
 import { OptionWithState } from "../../typings/OptionWithState";
-import { FilterData } from "../../typings/settings";
-import { Dispose } from "../../typings/type-utils";
-import { isInputData } from "../input/store-utils";
+import { BaseSelectStore } from "./BaseSelectStore";
+import { SearchStore } from "./SearchStore";
 
 type ListAttributeId = ListAttributeValue["id"];
 
@@ -25,58 +25,51 @@ export type RefFilterStoreProps = {
     fetchOptionsLazy?: boolean;
 };
 
-export class RefFilterStore {
-    readonly disposers: Dispose[] = [];
+export class RefFilterStore extends BaseSelectStore {
     readonly storeType = "refselect";
-    readonly type = "refselect";
-    readonly _searchAttrId: ListAttributeId | undefined = undefined;
-    defaultValue: string[] | undefined = undefined;
-    isInitialized = false;
-    _search = "";
-    _selected = new Set<string>();
 
-    lazyMode: boolean;
-    _ref: ListReferenceValue | ListReferenceSetValue;
-    _datasource: ListValue;
-    _caption: ListExpressionValue;
+    private datasource: ListValue;
+    private listRef: ListReferenceValue | ListReferenceSetValue;
+    private caption: ListExpressionValue;
+    private searchAttrId?: ListAttributeId;
     /**
      * As Ref filter fetch options lazily,
      * we just keep condition and
      * return it if options not loaded yet.
      */
-    readonly _initCond: FilterCondition | undefined;
-    readonly _initCondArray: Array<EqualsCondition | ContainsCondition>;
+    private readonly initCondArray: Array<EqualsCondition | ContainsCondition>;
+
+    lazyMode: boolean;
+    search: SearchStore;
 
     constructor(props: RefFilterStoreProps, initCond: FilterCondition | null) {
-        this._ref = props.ref;
-        this._datasource = props.datasource;
-        this._caption = props.caption;
-        this._searchAttrId = props.searchAttrId;
-        this._initCondArray = initCond ? flattenRefCond(initCond) : [];
+        super();
+        this.caption = props.caption;
+        this.datasource = props.datasource;
+        this.listRef = props.ref;
         this.lazyMode = props.fetchOptionsLazy ?? true;
+        this.searchAttrId = props.searchAttrId;
+        this.initCondArray = initCond ? flattenRefCond(initCond) : [];
+        this.search = new SearchStore();
 
         if (this.lazyMode) {
-            this._datasource.setLimit(0);
+            this.datasource.setLimit(0);
         }
 
-        makeObservable(this, {
-            _ref: observable.ref,
-            _datasource: observable.ref,
-            _caption: observable.ref,
-            _search: observable,
-
-            selected: computed,
+        makeObservable<this, "datasource" | "listRef" | "caption" | "searchAttrId">(this, {
+            datasource: observable.ref,
+            listRef: observable.ref,
+            caption: observable.ref,
+            searchAttrId: observable.ref,
             options: computed,
             allOptions: computed,
             hasMore: computed,
-            canSearch: computed,
             canSearchInPlace: computed,
             isLoading: computed,
-            replace: action,
-            toggle: action,
-            updateProps: action,
+            condition: computed,
             fromJSON: action,
-            setSearch: action
+            updateProps: action,
+            fromViewState: action
         });
 
         if (initCond) {
@@ -84,61 +77,52 @@ export class RefFilterStore {
         }
     }
 
-    get canSearch(): boolean {
-        return this._searchAttrId !== undefined;
-    }
-
     get canSearchInPlace(): boolean {
-        return this.canSearch && !this.hasMore;
+        return !!(this.searchAttrId && !this.hasMore);
     }
 
     get hasMore(): boolean {
-        return this._datasource.hasMoreItems ?? false;
+        return this.datasource.hasMoreItems ?? false;
     }
 
     get isLoading(): boolean {
-        return this._datasource.status === "loading";
+        return this.datasource.status === "loading";
     }
 
     get options(): OptionWithState[] {
-        const options = this.allOptions;
-
-        if (!this._search) {
-            return options;
+        const search = this.search.value;
+        if (this.canSearchInPlace && search) {
+            return this.allOptions.filter(opt => opt.caption.toLowerCase().includes(search.toLowerCase()));
         }
 
-        if (this.canSearchInPlace) {
-            return options.filter(opt => opt.caption.toLowerCase().includes(this._search.toLowerCase()));
-        }
-
-        return options;
+        return this.allOptions;
     }
 
     get allOptions(): OptionWithState[] {
-        const items = this._datasource.items ?? [];
+        const items = this.datasource.items ?? [];
         return items.map(obj => ({
-            caption: `${this._caption.get(obj).value}`,
+            caption: `${this.caption.get(obj).value}`,
             value: `${obj.id}`,
-            selected: this.selected.has(obj.id)
+            selected: this.selectState.selected.has(obj.id)
         }));
     }
 
     get condition(): FilterCondition | undefined {
-        if (this.selected.size < 1) {
+        if (this.selectState.selected.size < 1) {
             return undefined;
         }
 
         const exp = (guid: string): FilterCondition[] => {
-            const items = this._datasource.items ?? [];
+            const items = this.datasource.items ?? [];
             const obj = items.find(o => o.id === guid);
 
-            if (obj && this._ref.type === "Reference") {
-                return [refEquals(this._ref, obj)];
-            } else if (obj && this._ref.type === "ReferenceSet") {
-                return [refContains(this._ref, [obj])];
+            if (obj && this.listRef.type === "Reference") {
+                return [refEquals(this.listRef, obj)];
+            } else if (obj && this.listRef.type === "ReferenceSet") {
+                return [refContains(this.listRef, [obj])];
             }
 
-            const viewExp = this._initCondArray.find(e => {
+            const viewExp = this.initCondArray.find(e => {
                 if (e.arg2.type !== "literal") {
                     return false;
                 }
@@ -153,7 +137,7 @@ export class RefFilterStore {
             return viewExp ? [viewExp] : [];
         };
 
-        const cond = [...this.selected].flatMap(exp);
+        const cond = [...this.selectState.selected].flatMap(exp);
 
         if (cond.length > 1) {
             return or(...cond);
@@ -162,101 +146,39 @@ export class RefFilterStore {
         return cond[0];
     }
 
-    get selected(): Set<string> {
-        return this._selected;
-    }
+    setup(): () => void {
+        const [disposers, dispose] = disposeFx();
 
-    setup(): Dispose {
-        this.disposers.push(
-            reaction(
-                () => this._search,
-                term => {
-                    if (!this._searchAttrId || this.canSearchInPlace) {
-                        return;
-                    }
-                    const search =
-                        typeof term === "string" && term !== ""
-                            ? contains(attribute(this._searchAttrId), literal(term))
-                            : undefined;
-                    this._datasource.setFilter(search);
-                }
-            )
-        );
+        disposers.push(this.search.setup());
+        disposers.push(reaction(...this.searchChangeReaction()));
 
-        return () => {
-            this.disposers.forEach(dispose => dispose());
-            this.disposers.length = 0;
-        };
+        return dispose;
     }
 
     searchChangeReaction(): Parameters<typeof reaction> {
-        const expression = (): string => this._search;
-        const effect = (term: string): void => {
-            if (!this._searchAttrId || this.canSearchInPlace) {
+        const data = (): string => this.search.value;
+        const effect = (search: string): void => {
+            if (!this.searchAttrId || this.canSearchInPlace) {
                 return;
             }
-            const search =
-                typeof term === "string" && term !== ""
-                    ? contains(attribute(this._searchAttrId), literal(term))
+            const cond =
+                typeof search === "string" && search !== ""
+                    ? contains(attribute(this.searchAttrId), literal(search))
                     : undefined;
-            this._datasource.setFilter(search);
+            this.datasource.setFilter(cond);
         };
 
-        return [expression, effect, { delay: 300 }];
+        return [data, effect, { delay: 300 }];
     }
-
-    UNSAFE_setDefaults = (_: string[]): void => {
-        console.warn("RefFilterStore: calling UNSAFE_setDefaults has no effect.");
-    };
-
-    reset = (): void => {
-        this.replace([]);
-    };
-
-    clear = (): void => {
-        this.reset();
-    };
 
     updateProps(props: RefFilterStoreProps): void {
-        this._ref = props.ref;
-        this._datasource = props.datasource;
-        this._caption = props.caption;
-    }
-
-    replace(_: string[] | Set<string>): void {}
-
-    toggle(_: string): void {}
-
-    isValidValue(value: unknown): boolean {
-        return typeof value === "string";
+        this.listRef = props.ref;
+        this.datasource = props.datasource;
+        this.caption = props.caption;
     }
 
     loadMore(): void {
-        this._datasource.setLimit(this._datasource.limit + 30);
-    }
-
-    setSearch(value: string | undefined | null): void {
-        this._search = value ?? "";
-    }
-
-    toJSON(): string[] {
-        return [...this.selected];
-    }
-
-    fromJSON(json: FilterData): void {
-        if (json === null) {
-            return;
-        }
-
-        if (isInputData(json)) {
-            return;
-        }
-
-        this.replace(json);
-    }
-
-    setCustomOptions(_: unknown): void {
-        //
+        this.datasource.setLimit(this.datasource.limit + 30);
     }
 
     fromViewState(cond: FilterCondition): void {
@@ -274,8 +196,8 @@ export class RefFilterStore {
         const selected = selectedFromCond(cond, val);
 
         if (selected.length > 0) {
-            this.replace(selected);
-            this.isInitialized = true;
+            this.selectState.setSelected(selected);
+            this.blockSetDefaults = true;
         }
     }
 }
