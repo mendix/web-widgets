@@ -1,7 +1,7 @@
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { CustomChartContainerProps } from "../../typings/CustomChartProps";
-import { PlotlyChart } from "../components/PlotlyChart";
+import { PlotlyChart, ChartProps } from "../components/PlotlyChart";
 import { ChartDataProcessor } from "../utils/ChartDataProcessor";
 
 interface UseCustomChartReturn {
@@ -28,26 +28,14 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
 
     const [updateChartDebounced, abortChartUpdate] = useMemo(
         () =>
-            debounce(
-                (
-                    chartInstance: PlotlyChart | null,
-                    updateData: {
-                        data: any;
-                        layout: any;
-                        config: any;
-                        width: number;
-                        height: number;
-                    }
-                ) => {
-                    if (!chartInstance) {
-                        const newChart = new PlotlyChart(chartRef.current!, updateData);
-                        setChart(newChart);
-                    } else {
-                        chartInstance.update(updateData);
-                    }
-                },
-                100
-            ),
+            debounce((chartInstance: PlotlyChart | null, updateData: ChartProps) => {
+                if (!chartInstance) {
+                    const newChart = new PlotlyChart(chartRef.current!, updateData);
+                    setChart(newChart);
+                } else {
+                    chartInstance.update(updateData);
+                }
+            }, 100),
         []
     );
 
@@ -83,19 +71,18 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
             props.sampleLayout
         );
 
-        const { width, height } = {
-            width: containerDimensions.width,
-            height: dataProcessor.current.calculateDimensions(
-                props.widthUnit,
-                props.width,
-                props.heightUnit,
-                props.height,
-                containerDimensions.width,
-                containerDimensions.height
-            ).height
-        };
+        const dimensions = dataProcessor.current.calculateDimensions(
+            props.widthUnit,
+            props.width,
+            props.heightUnit,
+            props.height,
+            containerDimensions.width,
+            containerDimensions.height
+        );
 
-        const updateData = {
+        const { width, height } = dimensions;
+
+        const updateData: ChartProps = {
             data,
             layout: {
                 ...layout,
@@ -104,14 +91,43 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
                 autosize: true,
                 font: {
                     family: "Open Sans, sans-serif",
-                    size: 12
+                    size: Math.max(12 * (width / 1000), 8)
+                },
+                legend: {
+                    ...layout.legend,
+                    font: {
+                        ...layout.legend?.font,
+                        size: Math.max(10 * (width / 1000), 7)
+                    },
+                    itemwidth: Math.max(10 * (width / 1000), 3)
+                },
+                xaxis: {
+                    ...layout.xaxis,
+                    tickfont: {
+                        ...layout.xaxis?.tickfont,
+                        size: Math.max(10 * (width / 1000), 7)
+                    }
+                },
+                yaxis: {
+                    ...layout.yaxis,
+                    tickfont: {
+                        ...layout.yaxis?.tickfont,
+                        size: Math.max(10 * (width / 1000), 7)
+                    }
+                },
+                margin: {
+                    ...layout.margin,
+                    l: Math.max(50 * (width / 1000), 30),
+                    r: Math.max(50 * (width / 1000), 30),
+                    t: Math.max(50 * (width / 1000), 30),
+                    b: Math.max(50 * (width / 1000), 30),
+                    pad: Math.max(4 * (width / 1000), 2)
                 }
             },
             config: {
                 ...dataProcessor.current.parseConfig(props.configurationOptions),
                 displayModeBar: props.devMode === "developer",
-                responsive: true,
-                staticPlot: false
+                responsive: true
             },
             width,
             height

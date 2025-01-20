@@ -1,4 +1,4 @@
-import { Config, Data, Layout } from "plotly.js-dist";
+import { Config, Data, Layout } from "plotly.js-dist-min";
 
 export class ChartDataProcessor {
     parseData(staticData?: string, attributeData?: string, sampleData?: string): Data[] {
