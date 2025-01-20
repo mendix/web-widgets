@@ -539,31 +539,6 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
 
-  packages/pluggableWidgets/any-chart-web:
-    dependencies:
-      classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
-      plotly.js-dist-min:
-        specifier: ^2.35.3
-        version: 2.35.3
-    devDependencies:
-      '@mendix/pluggable-widgets-tools':
-        specifier: 10.16.0
-        version: 10.16.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
-      '@mendix/prettier-config-web-widgets':
-        specifier: workspace:*
-        version: link:../../shared/prettier-config-web-widgets
-      '@mendix/run-e2e':
-        specifier: workspace:^*
-        version: link:../../../automation/run-e2e
-      '@types/plotly.js-dist-min':
-        specifier: ^2.3.4
-        version: 2.3.4
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-
   packages/pluggableWidgets/area-chart-web:
     dependencies:
       '@mendix/shared-charts':
@@ -995,6 +970,31 @@ importers:
       '@mendix/widget-plugin-test-utils':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-test-utils
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+
+  packages/pluggableWidgets/custom-chart-web:
+    dependencies:
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      plotly.js-dist-min:
+        specifier: ^2.35.3
+        version: 2.35.3
+    devDependencies:
+      '@mendix/pluggable-widgets-tools':
+        specifier: 10.16.0
+        version: 10.16.0(@jest/types@29.6.3)(@swc/core@1.7.26)(@types/babel__core@7.20.3)(@types/node@22.7.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.7.0)
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:^*
+        version: link:../../../automation/run-e2e
+      '@types/plotly.js-dist-min':
+        specifier: ^2.3.4
+        version: 2.3.4
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3

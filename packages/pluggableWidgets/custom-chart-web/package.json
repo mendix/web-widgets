@@ -21,7 +21,7 @@
     "marketplace": {
         "minimumMXVersion": "10.16.0",
         "appNumber": 1234,
-        "appName": "CustomChart"
+        "appName": "Custom chart"
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",

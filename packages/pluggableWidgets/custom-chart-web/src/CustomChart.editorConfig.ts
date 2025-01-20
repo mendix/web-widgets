@@ -1,8 +1,13 @@
+import { Properties } from "@mendix/pluggable-widgets-tools";
 import {
     StructurePreviewProps,
     structurePreviewPalette
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { CustomChartPreviewProps } from "../typings/CustomChartProps";
+
+export function getProperties(_values: CustomChartPreviewProps, defaultProperties: Properties): Properties {
+    return defaultProperties;
+}
 
 export function getPreview(_values: CustomChartPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
@@ -33,7 +38,7 @@ export function getPreview(_values: CustomChartPreviewProps, isDarkMode: boolean
                 children: [
                     {
                         type: "Text",
-                        content: "Any Chart",
+                        content: "Custom Chart",
                         fontColor: palette.text.primary,
                         fontSize: 10,
                         bold: true

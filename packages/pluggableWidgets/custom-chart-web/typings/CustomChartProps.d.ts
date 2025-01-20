@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { EditableValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
 
 export type DevModeEnum = "developer" | "advanced";
 
@@ -29,6 +29,7 @@ export interface CustomChartContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
+    onClick?: ActionValue;
 }
 
 export interface CustomChartPreviewProps {
@@ -53,4 +54,5 @@ export interface CustomChartPreviewProps {
     width: number | null;
     heightUnit: HeightUnitEnum;
     height: number | null;
+    onClick: {} | null;
 }

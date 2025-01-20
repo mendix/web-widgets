@@ -40,7 +40,7 @@ const defaultConfig = `{
 
 export function preview(props: CustomChartPreviewProps): ReactElement {
     const containerProps = {
-        name: "preview-chart",
+        name: "preview-custom-chart",
         class: props.class,
         style: props.styleObject,
         tabIndex: 0,
@@ -51,10 +51,11 @@ export function preview(props: CustomChartPreviewProps): ReactElement {
         sampleLayout: props.sampleLayout,
         configurationOptions: props.configurationOptions || defaultConfig,
         widthUnit: props.widthUnit,
-        width: props.width || 100,
+        width: props.width || 75,
         heightUnit: props.heightUnit,
         height: props.height || 75
     };
+    console.log(containerProps);
 
     return <CustomChart {...containerProps} />;
 }
