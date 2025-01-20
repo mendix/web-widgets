@@ -8,7 +8,7 @@ import {
 } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
-import { action, computed, makeObservable, observable, reaction } from "mobx";
+import { action, computed, makeObservable, observable, reaction, when } from "mobx";
 import { flattenRefCond, selectedFromCond } from "../../condition-utils";
 import { disposeFx } from "../../mobx-utils";
 import { OptionWithState } from "../../typings/OptionWithState";
@@ -38,6 +38,7 @@ export class RefFilterStore extends BaseSelectStore {
      * return it if options not loaded yet.
      */
     private readonly initCondArray: Array<EqualsCondition | ContainsCondition>;
+    private touched = false;
 
     lazyMode: boolean;
     search: SearchStore;
@@ -146,17 +147,33 @@ export class RefFilterStore extends BaseSelectStore {
         return cond[0];
     }
 
+    setTouched(touched: boolean): void {
+        this.touched ||= touched;
+    }
+
     setup(): () => void {
         const [disposers, dispose] = disposeFx();
 
         disposers.push(this.search.setup());
         disposers.push(reaction(...this.searchChangeReaction()));
 
+        if (this.lazyMode) {
+            disposers.push(
+                when(
+                    () => this.touched,
+                    () => this.loadMore()
+                )
+            );
+        } else {
+            this.loadMore();
+        }
+
         return dispose;
     }
 
     searchChangeReaction(): Parameters<typeof reaction> {
         const data = (): string => this.search.value;
+
         const effect = (search: string): void => {
             if (!this.searchAttrId || this.canSearchInPlace) {
                 return;
