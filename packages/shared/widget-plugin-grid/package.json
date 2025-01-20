@@ -1,48 +1,48 @@
 {
-  "name": "@mendix/widget-plugin-grid",
-  "version": "0.1.0",
-  "description": "Data grid related code.",
-  "license": "Apache-2.0",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "type": "module",
-  "exports": {
-    "./*": "./dist/*.js",
-    "./internal/*": null,
-    "./internal": null
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*.d.ts"
-      ]
+    "name": "@mendix/widget-plugin-grid",
+    "version": "0.2.0",
+    "description": "Data grid related code.",
+    "license": "Apache-2.0",
+    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "type": "module",
+    "exports": {
+        "./*": "./dist/*.js",
+        "./internal/*": null,
+        "./internal": null
+    },
+    "typesVersions": {
+        "*": {
+            "*": [
+                "./dist/*.d.ts"
+            ]
+        }
+    },
+    "files": [
+        "dist",
+        "!*.map"
+    ],
+    "scripts": {
+        "compile": "tsc",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .ts,.tsx ./src",
+        "prepare": "tsc",
+        "dev": "tsc --watch",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/tsconfig-web-widgets": "workspace:*",
+        "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*",
+        "@swc/core": "^1.7.26",
+        "@swc/jest": "^0.2.36",
+        "classnames": "^2.3.2",
+        "jest-environment-jsdom": "^29.4.1"
     }
-  },
-  "files": [
-    "dist",
-    "!*.map"
-  ],
-  "scripts": {
-    "compile": "tsc",
-    "format": "prettier --write .",
-    "lint": "eslint --ext .ts,.tsx ./src",
-    "prepare": "tsc",
-    "dev": "tsc --watch",
-    "test": "jest"
-  },
-  "devDependencies": {
-    "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/tsconfig-web-widgets": "workspace:*",
-    "@mendix/widget-plugin-hooks": "workspace:*",
-    "@mendix/widget-plugin-platform": "workspace:*",
-    "@mendix/widget-plugin-test-utils": "workspace:*",
-    "@swc/core": "^1.7.26",
-    "@swc/jest": "^0.2.36",
-    "classnames": "^2.3.2",
-    "jest-environment-jsdom": "^29.4.1"
-  }
 }

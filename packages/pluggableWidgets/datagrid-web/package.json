@@ -17,12 +17,12 @@
         "mpkName": "com.mendix.widget.web.Datagrid.mpk"
     },
     "marketplace": {
-        "minimumMXVersion": "10.12.0",
+        "minimumMXVersion": "9.24.0.2965",
         "appName": "Data Grid 2"
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "datagrid-web-referenceSet"
+        "branchName": "datagrid-web-next"
     },
     "packagePath": "com.mendix.widget.web",
     "scripts": {
