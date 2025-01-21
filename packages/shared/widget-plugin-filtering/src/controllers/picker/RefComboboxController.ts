@@ -16,7 +16,7 @@ export class RefComboboxController extends RefBaseController {
     constructor(props: Props) {
         super({ ...props, multiselect: false });
         this.inputPlaceholder = props.inputPlaceholder ?? "Search";
-        this.inputValue = this.selectedOption?.caption ?? "";
+        this.inputValue = this.inputInitValue;
 
         makeObservable<this, "touched" | "setTouched">(this, {
             inputValue: observable,
@@ -33,27 +33,36 @@ export class RefComboboxController extends RefBaseController {
 
     setup(): () => void {
         const [disposers, dispose] = disposeFx();
-        disposers.push(
-            autorun(() => {
-                const { touched, inputValue } = this;
-                if (touched) {
-                    this.filterStore.search.setBuffer(inputValue);
-                } else {
-                    this.filterStore.search.clear();
-                }
-            })
-        );
+        disposers.push(autorun(...this.searchSyncFx()));
 
-        // Set input when selected option changes
-        disposers.push(
-            reaction(
-                (): string => this.selectedOption?.caption ?? "",
-                caption => this.setInputValue(caption)
-            )
-        );
+        // Set input when store state changes
+        disposers.push(reaction(...this.storeSyncFx()));
 
         disposers.push(super.setup());
         return dispose;
+    }
+
+    searchSyncFx(): Parameters<typeof autorun> {
+        const effect = (): void => {
+            const { touched, inputValue } = this;
+            if (touched) {
+                this.filterStore.search.setBuffer(inputValue);
+            } else {
+                this.filterStore.search.clear();
+            }
+        };
+
+        return [effect];
+    }
+
+    storeSyncFx(): Parameters<typeof reaction> {
+        const data = (): string => this.selectedOption?.caption ?? "";
+        const effect = (caption: string): void => {
+            if (!this.touched) {
+                this.setInputValue(caption);
+            }
+        };
+        return [data, effect];
     }
 
     get selectedIndex(): number {
@@ -63,6 +72,17 @@ export class RefComboboxController extends RefBaseController {
 
     get selectedOption(): OptionWithState | null {
         return this.filterStore.allOptions.find(option => option.selected) || null;
+    }
+
+    get inputInitValue(): string {
+        if (this.selectedOption) {
+            return this.selectedOption.caption;
+        }
+        if (this.filterStore.selected.size === 0) {
+            return "Search";
+        } else {
+            return "1 item selected";
+        }
     }
 
     private setTouched(value: boolean): void {

@@ -3,7 +3,7 @@ import { FilterData } from "../../typings/settings";
 import { isInputData } from "../input/store-utils";
 
 export class BaseSelectStore {
-    private defaultSelected: Iterable<string> = [];
+    protected defaultSelected: Iterable<string> = [];
     protected blockSetDefaults = false;
     selected = new Set<string>();
 
@@ -14,7 +14,6 @@ export class BaseSelectStore {
             reset: action,
             toggle: action,
             setSelected: action,
-            setDefaultSelected: action,
             fromJSON: action
         });
     }
@@ -34,14 +33,6 @@ export class BaseSelectStore {
     toggle(value: string): void {
         const next = new Set(this.selected);
         this.setSelected(next.delete(value) ? next : next.add(value));
-    }
-
-    setDefaultSelected(defaultSelected?: Iterable<string>): void {
-        if (!this.blockSetDefaults && defaultSelected) {
-            this.defaultSelected = defaultSelected;
-            this.setSelected(defaultSelected);
-            this.blockSetDefaults = true;
-        }
     }
 
     toJSON(): string[] {

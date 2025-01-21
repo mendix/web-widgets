@@ -38,6 +38,8 @@ export class RefFilterStore extends BaseSelectStore {
      * return it if options not loaded yet.
      */
     private readonly initCondArray: Array<EqualsCondition | ContainsCondition>;
+    private readonly pageSize = 10;
+    private readonly searchSize = 100;
     private fetchReady = false;
 
     lazyMode: boolean;
@@ -71,7 +73,8 @@ export class RefFilterStore extends BaseSelectStore {
             updateProps: action,
             fromViewState: action,
             fetchReady: observable,
-            setFetchReady: action
+            setFetchReady: action,
+            setDefaultSelected: action
         });
 
         if (initCond) {
@@ -80,7 +83,7 @@ export class RefFilterStore extends BaseSelectStore {
     }
 
     get canSearchInPlace(): boolean {
-        return !!(this.searchAttrId && !this.hasMore);
+        return !!(this.searchAttrId && this.datasource.filter === undefined && !this.hasMore);
     }
 
     get hasMore(): boolean {
@@ -148,15 +151,11 @@ export class RefFilterStore extends BaseSelectStore {
         return cond[0];
     }
 
-    setFetchReady(fetchReady: boolean): void {
-        this.fetchReady ||= fetchReady;
-    }
-
     setup(): () => void {
         const [disposers, dispose] = disposeFx();
 
         disposers.push(this.search.setup());
-        disposers.push(reaction(...this.searchChangeReaction()));
+        disposers.push(reaction(...this.searchChangeFx()));
 
         if (this.lazyMode) {
             disposers.push(
@@ -166,13 +165,14 @@ export class RefFilterStore extends BaseSelectStore {
                 )
             );
         } else {
+            this.setFetchReady(true);
             this.loadMore();
         }
 
         return dispose;
     }
 
-    searchChangeReaction(): Parameters<typeof reaction> {
+    searchChangeFx(): Parameters<typeof reaction> {
         const data = (): string => this.search.value;
 
         const effect = (search: string): void => {
@@ -184,9 +184,22 @@ export class RefFilterStore extends BaseSelectStore {
                     ? contains(attribute(this.searchAttrId), literal(search))
                     : undefined;
             this.datasource.setFilter(cond);
+            this.datasource.setLimit(this.searchSize);
         };
 
         return [data, effect, { delay: 300 }];
+    }
+
+    setFetchReady(fetchReady: boolean): void {
+        this.fetchReady ||= fetchReady;
+    }
+
+    setDefaultSelected(defaultSelected?: Iterable<string>): void {
+        if (!this.blockSetDefaults && defaultSelected) {
+            this.defaultSelected = defaultSelected;
+            this.blockSetDefaults = true;
+            this.setSelected(defaultSelected);
+        }
     }
 
     updateProps(props: RefFilterStoreProps): void {
@@ -196,7 +209,7 @@ export class RefFilterStore extends BaseSelectStore {
     }
 
     loadMore(): void {
-        this.datasource.setLimit(this.datasource.limit + 30);
+        this.datasource.setLimit(this.datasource.limit + this.pageSize);
     }
 
     fromViewState(cond: FilterCondition): void {
