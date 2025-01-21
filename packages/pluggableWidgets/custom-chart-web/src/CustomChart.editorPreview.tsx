@@ -55,7 +55,6 @@ export function preview(props: CustomChartPreviewProps): ReactElement {
         heightUnit: props.heightUnit,
         height: props.height || 75
     };
-    console.log(containerProps);
 
     return <CustomChart {...containerProps} />;
 }
