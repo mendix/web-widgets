@@ -8,10 +8,13 @@ import { FileRejection } from "react-dropzone";
 import { FileCheckFormat } from "../utils/predefinedFormats";
 import { TranslationsStore } from "./TranslationsStore";
 
+const ITEM_CREATION_TIMEOUT_SECONDS = 10;
+
 export class FileUploaderStore {
     files: FileStore[] = [];
     lastSeenItems: Set<ObjectItem["id"]> = new Set<ObjectItem["id"]>();
-    currentWaiting: Array<(v: ObjectItem) => void> = [];
+    currentWaiting: Array<(v: ObjectItem | undefined) => void> = [];
+    itemCreationTimeout?: number = undefined;
 
     existingItemsLoaded = false;
 
@@ -101,9 +104,7 @@ export class FileUploaderStore {
 
         this.lastSeenItems.add(item.id);
 
-        if (this.currentWaiting.length) {
-            this._createObjectAction!.execute();
-        }
+        this.executeFileObjectCreation();
     }
 
     get allowedFormatsDescription(): string {
@@ -119,18 +120,43 @@ export class FileUploaderStore {
         return this.existingItemsLoaded && !!this._createObjectAction;
     }
 
-    requestFileObject(): Promise<ObjectItem> {
+    requestFileObject(): Promise<ObjectItem | undefined> {
         if (!this.canRequestFile) {
             throw new Error("Can't request file");
         }
 
-        return new Promise<ObjectItem>(resolve => {
+        return new Promise<ObjectItem | undefined>(resolve => {
             this.currentWaiting.push(resolve);
 
-            if (this.currentWaiting.length === 1) {
-                this._createObjectAction!.execute();
-            }
+            this.executeFileObjectCreation();
         });
+    }
+
+    executeFileObjectCreation(): void {
+        if (!this.canRequestFile) {
+            throw new Error("Can't request file");
+        }
+
+        this.itemCreationTimeout = undefined;
+
+        if (!this.currentWaiting.length) {
+            return;
+        }
+        // we need to check if creation is taking too much time
+        // start the timer to measure how long it takes,
+        // if a threshold is reached, declare it a failure
+        // this means the action is probably misconfigured.
+        this.itemCreationTimeout = setTimeout(() => {
+            console.error(
+                `Looks like the 'Action to create new files/images' action did not create any objects within ${ITEM_CREATION_TIMEOUT_SECONDS} seconds. Please check if '${this._widgetName}' widget is configured correctly.`
+            );
+            // fail all waiting
+            while (this.currentWaiting.length) {
+                this.currentWaiting.shift()?.(undefined);
+            }
+        }, ITEM_CREATION_TIMEOUT_SECONDS * 1000) as any as number;
+
+        this._createObjectAction!.execute();
     }
 
     setMessage(msg?: string): void {
@@ -140,7 +166,7 @@ export class FileUploaderStore {
     processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
         if (!this._createObjectAction || !this._createObjectAction.canExecute) {
             console.error(
-                `'Action to create new files' is not available or can't be executed. Please check if '${this._widgetName}' widget is configured correctly.`
+                `'Action to create new files/images' is not available or can't be executed. Please check if '${this._widgetName}' widget is configured correctly.`
             );
             this.setMessage(this.translations.get("unavailableCreateActionMessage"));
             return;
