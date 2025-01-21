@@ -57,7 +57,7 @@ export class RefFilterStore extends BaseSelectStore {
             this.datasource.setLimit(0);
         }
 
-        makeObservable<this, "datasource" | "listRef" | "caption" | "searchAttrId">(this, {
+        makeObservable<this, "datasource" | "listRef" | "caption" | "searchAttrId" | "touched">(this, {
             datasource: observable.ref,
             listRef: observable.ref,
             caption: observable.ref,
@@ -68,9 +68,9 @@ export class RefFilterStore extends BaseSelectStore {
             canSearchInPlace: computed,
             isLoading: computed,
             condition: computed,
-            fromJSON: action,
             updateProps: action,
-            fromViewState: action
+            fromViewState: action,
+            touched: observable
         });
 
         if (initCond) {

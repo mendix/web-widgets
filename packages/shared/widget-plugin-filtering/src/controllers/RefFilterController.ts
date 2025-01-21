@@ -1,4 +1,3 @@
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue } from "mendix";
 import { computed, makeObservable } from "mobx";
 import { RefFilterStore } from "../stores/picker/RefFilterStore";
@@ -17,7 +16,6 @@ export class RefFilterController {
     private isDataFetched = false;
     readonly empty: OptionWithState;
     multiselect = false;
-    private onChange?: ActionValue;
 
     constructor(params: Params) {
         this.store = params.store;
@@ -27,7 +25,6 @@ export class RefFilterController {
             caption: params.emptyCaption ?? "",
             selected: false
         };
-        this.onChange = params.onChange;
 
         makeObservable(this, {
             inputValue: computed,
@@ -68,24 +65,24 @@ export class RefFilterController {
     }
 
     updateProps(props: Pick<Params, "onChange">): void {
-        this.onChange = props.onChange;
+        console.log(props);
     }
 
-    handleSelect = (value: string): void => {
-        if (value === this.empty.value) {
-            this.store.replace([]);
-        } else if (this.multiselect) {
-            this.store.toggle(value);
-        } else {
-            this.store.replace([value]);
-        }
+    // handleSelect = (value: string): void => {
+    //     if (value === this.empty.value) {
+    //         this.store.replace([]);
+    //     } else if (this.multiselect) {
+    //         this.store.toggle(value);
+    //     } else {
+    //         this.store.replace([value]);
+    //     }
 
-        executeAction(this.onChange);
-    };
+    //     executeAction(this.onChange);
+    // };
 
-    handleSearch = (search: string): void => {
-        this.store.setSearch(search);
-    };
+    // handleSearch = (search: string): void => {
+    //     this.store.setSearch(search);
+    // };
 
     handleTriggerClick = (): void => {
         if (this.isDataFetched === false && this.store.hasMore) {
@@ -100,13 +97,12 @@ export class RefFilterController {
         }
     };
 
-    handleSetValue = (useDefaultValue: boolean, params: { stringValue: string }): void => {
+    handleSetValue = (useDefaultValue: boolean, _: { stringValue: string }): void => {
         if (useDefaultValue) {
             this.store.reset();
-            return;
         }
 
-        this.store.replace(params.stringValue.split(","));
+        // this.store.replace(params.stringValue.split(","));
     };
 
     handleResetValue = (useDefaultValue: boolean): void => {
