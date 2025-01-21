@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.29.0] DataWidgets - 2025-01-21
+
+### [2.11.1] DatagridDateFilter
+
+#### Fixed
+
+-   We fixed an issue with range date filter working incorrectly in some cases.
+
+### [2.29.0] Datagrid
+
+#### Added
+
+-   We introduced a setting to exclude filters from being stored in the Personalization configuration.
+
+-   We have introduced show number of rows for virtual scrolling and load more pagination mode.
+
 ## [2.28.2] DataWidgets - 2024-12-12
 
 ### [2.28.2] Datagrid

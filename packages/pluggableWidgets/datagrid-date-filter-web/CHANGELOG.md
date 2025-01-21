@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.11.1] - 2025-01-21
+
 ### Fixed
 
 -   We fixed an issue with range date filter working incorrectly in some cases.
