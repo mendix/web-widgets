@@ -1,9 +1,10 @@
-import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
 import { action, makeObservable, observable } from "mobx";
 import { disposeFx } from "../../mobx-utils";
 import { OptionsSerializer } from "../../stores/picker/OptionsSerializer";
 import { RefFilterStore } from "../../stores/picker/RefFilterStore";
 import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../../typings/IJSActionsControlled";
+import { OptionWithState } from "../../typings/OptionWithState";
 import { PickerChangeHelper } from "../generic/PickerChangeHelper";
 import { PickerJSActionsHelper } from "../generic/PickerJSActionsHelper";
 
@@ -13,8 +14,8 @@ export class RefBaseController implements IJSActionsControlled {
     protected defaultValue?: Iterable<string>;
     protected filterStore: RefFilterStore;
     protected serializer: OptionsSerializer;
-    protected multiselect: boolean;
     protected touched = false;
+    multiselect: boolean;
 
     constructor(props: RefBaseControllerProps) {
         this.filterStore = props.filterStore;
@@ -64,6 +65,14 @@ export class RefBaseController implements IJSActionsControlled {
         return this.multiselect ? arr : arr.slice(0, 1);
     };
 
+    get options(): OptionWithState[] {
+        return this.filterStore.options;
+    }
+
+    get isEmpty(): boolean {
+        return this.filterStore.selected.size === 0;
+    }
+
     handleSetValue = (...args: Parameters<SetValueHandler>): void => {
         this.actionHelper.handleSetValue(...args);
     };
@@ -75,15 +84,9 @@ export class RefBaseController implements IJSActionsControlled {
 
 export interface RefBaseControllerProps {
     defaultValue?: string;
-    filterOptions: Array<CustomOption<DynamicValue<string>>>;
     filterStore: RefFilterStore;
     multiselect: boolean;
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
     emptyCaption?: string;
-}
-
-export interface CustomOption<T> {
-    caption: T;
-    value: T;
 }
