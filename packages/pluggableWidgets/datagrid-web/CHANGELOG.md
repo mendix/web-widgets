@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.29.0] - 2025-01-21
+
 ### Added
 
 -   We introduced a setting to exclude filters from being stored in the Personalization configuration.
+
 -   We have introduced show number of rows for virtual scrolling and load more pagination mode.
 
 ## [2.28.2] - 2024-12-12
