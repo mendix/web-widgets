@@ -1,11 +1,13 @@
 import { RefSelectController } from "@mendix/widget-plugin-filtering/controllers/picker/RefSelectController";
+import { RefComboboxController } from "@mendix/widget-plugin-filtering/controllers/picker/RefComboboxController";
 import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
+import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Combobox";
 import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
-import { useSetup } from "@mendix/widget-plugin-filtering/helpers/useSetup";
 import { RefFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/RefFilterStore";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties } from "react";
+import { useSetupUpdate } from "@mendix/widget-plugin-filtering/helpers/useSetupUpdate";
 
 export interface RefFilterContainerProps {
     ariaLabel?: string;
@@ -24,17 +26,18 @@ export interface RefFilterContainerProps {
 // const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
 
 function Container(props: RefFilterContainerProps): React.ReactElement {
-    const isSelect = true;
-    // const isCombobox = false;
+    const isSelect = false;
+    const isCombobox = true;
 
     if (isSelect) {
         return <SelectWidget {...props} />;
     }
 
+    if (isCombobox) {
+        return <ComboboxWidget {...props} />;
+    }
+
     return <div>Unknown</div>;
-    // if (isCombobox) {
-    //     return <ComboboxWidget {...props} />;
-    // }
 
     // return <TagPickerWidget {...props} />;
     // return;
@@ -42,7 +45,7 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
 
 // eslint-disable-next-line prefer-arrow-callback
 const SelectWidget = observer(function SelectWidget(props: RefFilterContainerProps): React.ReactElement {
-    const ctrl1 = useSetup(() => new RefSelectController(props));
+    const ctrl1 = useSetupUpdate(() => new RefSelectController(props), props);
 
     usePickerJSActions(ctrl1, props);
 
@@ -56,6 +59,25 @@ const SelectWidget = observer(function SelectWidget(props: RefFilterContainerPro
             empty={ctrl1.isEmpty}
             onFocus={ctrl1.handleFocus}
             showCheckboxes={ctrl1.multiselect}
+        />
+    );
+});
+
+// eslint-disable-next-line prefer-arrow-callback
+const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContainerProps): React.ReactElement {
+    const ctrl2 = useSetupUpdate(() => new RefComboboxController(props), props);
+
+    usePickerJSActions(ctrl2, props);
+
+    return (
+        <Combobox
+            options={ctrl2.options}
+            inputPlaceholder={ctrl2.inputPlaceholder}
+            useComboboxProps={ctrl2.useComboboxProps}
+            onClear={ctrl2.handleClear}
+            onFocus={ctrl2.handleFocus}
+            onBlur={ctrl2.handleBlur}
+            empty={ctrl2.isEmpty}
         />
     );
 });
