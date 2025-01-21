@@ -1,7 +1,9 @@
 import { RefSelectController } from "@mendix/widget-plugin-filtering/controllers/picker/RefSelectController";
 import { RefComboboxController } from "@mendix/widget-plugin-filtering/controllers/picker/RefComboboxController";
+import { RefTagPickerController } from "@mendix/widget-plugin-filtering/controllers/picker/RefTagPickerController";
 import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
 import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Combobox";
+import { TagPicker } from "@mendix/widget-plugin-filtering/controls/tag-picker/TagPicker";
 import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
 import { RefFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/RefFilterStore";
 import { ActionValue, EditableValue } from "mendix";
@@ -27,7 +29,7 @@ export interface RefFilterContainerProps {
 
 function Container(props: RefFilterContainerProps): React.ReactElement {
     const isSelect = false;
-    const isCombobox = true;
+    const isCombobox = false;
 
     if (isSelect) {
         return <SelectWidget {...props} />;
@@ -37,9 +39,7 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
         return <ComboboxWidget {...props} />;
     }
 
-    return <div>Unknown</div>;
-
-    // return <TagPickerWidget {...props} />;
+    return <TagPickerWidget {...props} />;
     // return;
 }
 
@@ -78,6 +78,29 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
             onFocus={ctrl2.handleFocus}
             onBlur={ctrl2.handleBlur}
             empty={ctrl2.isEmpty}
+        />
+    );
+});
+
+// eslint-disable-next-line prefer-arrow-callback
+const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContainerProps): React.ReactElement {
+    const ctrl3 = useSetupUpdate(() => new RefTagPickerController(props), props);
+
+    usePickerJSActions(ctrl3, props);
+
+    return (
+        <TagPicker
+            options={ctrl3.options}
+            selectedItems={ctrl3.selectedItems}
+            useMultipleSelectionProps={ctrl3.useMultipleSelectionProps}
+            useComboboxProps={ctrl3.useComboboxProps}
+            onClear={ctrl3.handleClear}
+            onBlur={ctrl3.handleBlur}
+            onFocus={ctrl3.handleFocus}
+            inputPlaceholder={ctrl3.inputPlaceholder}
+            empty={ctrl3.isEmpty}
+            showCheckboxes
+            selectedStyle="text"
         />
     );
 });
