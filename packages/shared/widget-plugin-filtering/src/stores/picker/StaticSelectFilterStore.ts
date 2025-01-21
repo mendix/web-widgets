@@ -28,7 +28,8 @@ export class StaticSelectFilterStore extends BaseSelectStore {
         makeAutoObservable(this, {
             _attributes: observable.struct,
             _customOptions: observable.struct,
-            setCustomOptions: action
+            setCustomOptions: action,
+            setDefaultSelected: action
         });
 
         if (initCond) {
@@ -86,6 +87,14 @@ export class StaticSelectFilterStore extends BaseSelectStore {
 
     setCustomOptions(options: CustomOption[]): void {
         this._customOptions = options;
+    }
+
+    setDefaultSelected(defaultSelected?: Iterable<string>): void {
+        if (!this.blockSetDefaults && defaultSelected) {
+            this.defaultSelected = defaultSelected;
+            this.setSelected(defaultSelected);
+            this.blockSetDefaults = true;
+        }
     }
 
     updateProps(attributes: ListAttributeValue[]): void {
