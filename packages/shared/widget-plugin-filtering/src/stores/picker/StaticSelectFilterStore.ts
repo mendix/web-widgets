@@ -37,7 +37,7 @@ export class StaticSelectFilterStore extends BaseSelectStore {
     }
 
     get allOptions(): OptionWithState[] {
-        const selected = this.selectState.selected;
+        const selected = this.selected;
 
         if (this._customOptions.length > 0) {
             return this._customOptions.map(opt => ({ ...opt, selected: selected.has(opt.value) }));
@@ -70,7 +70,7 @@ export class StaticSelectFilterStore extends BaseSelectStore {
     }
 
     get condition(): FilterCondition | undefined {
-        const selected = this.selectState.selected;
+        const selected = this.selected;
         const conditions = this._attributes.flatMap(attr => {
             const cond = getFilterCondition(attr, selected);
             return cond ? [cond] : [];
@@ -122,7 +122,7 @@ export class StaticSelectFilterStore extends BaseSelectStore {
             return;
         }
 
-        this.selectState.setSelected(selected);
+        this.setSelected(selected);
         this.blockSetDefaults = true;
     }
 }
