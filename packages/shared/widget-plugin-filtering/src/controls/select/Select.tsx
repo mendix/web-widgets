@@ -80,6 +80,7 @@ export const Select = observer(function Select(props: DropdownProps): React.Reac
                                                     checked={item.selected}
                                                     value={item.caption}
                                                     onChange={noop}
+                                                    tabIndex={-1}
                                                 />
                                             ) : (
                                                 <div style={{ width: 16, height: 16 }} />

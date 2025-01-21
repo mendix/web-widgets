@@ -15,6 +15,7 @@ interface TagPickerProps {
     useComboboxProps: () => UseComboboxProps<OptionWithState>;
     onClear: () => void;
     onBlur: () => void;
+    onFocus?: React.FocusEventHandler<HTMLInputElement>;
     showCheckboxes: boolean;
     selectedStyle?: "tags" | "text";
 }
@@ -74,6 +75,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                     {...getInputProps({
                         "aria-label": "Unknown",
                         onBlur: props.onBlur,
+                        onFocus: props.onFocus,
                         placeholder: props.inputPlaceholder,
                         ...getDropdownProps({ preventKeyAction: isOpen, ref: inputRef })
                     })}
@@ -106,7 +108,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                                 <li
                                     data-selected={item.selected || undefined}
                                     data-highlighted={highlightedIndex === index || undefined}
-                                    key={index}
+                                    key={item.value}
                                     className={cls.menuItem}
                                     {...getItemProps({ item, index })}
                                 >
@@ -118,6 +120,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                                                 checked={item.selected}
                                                 value={item.caption}
                                                 onChange={noop}
+                                                tabIndex={-1}
                                             />
                                         </span>
                                     )}

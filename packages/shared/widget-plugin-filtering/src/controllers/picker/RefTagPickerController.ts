@@ -1,45 +1,53 @@
 import { useCombobox, UseComboboxProps, useMultipleSelection, UseMultipleSelectionProps } from "downshift";
-import { action, autorun, makeObservable, observable } from "mobx";
+import { action, autorun, computed, makeObservable, observable } from "mobx";
 import { disposeFx } from "../../mobx-utils";
 import { OptionWithState } from "../../typings/OptionWithState";
-import { StaticBaseController, StaticBaseControllerProps } from "./StaticBaseController";
+import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 
-interface Props extends StaticBaseControllerProps {
+interface Props extends RefBaseControllerProps {
     inputPlaceholder?: string;
 }
 
-export class StaticTagPickerController extends StaticBaseController {
+export class RefTagPickerController extends RefBaseController {
     private touched = false;
-    inputPlaceholder: string;
     inputValue = "";
+    inputPlaceholder: string;
 
     constructor(props: Props) {
         super(props);
         this.inputPlaceholder = props.inputPlaceholder ?? "Search";
 
-        makeObservable<this, "touched">(this, {
+        makeObservable<this, "touched" | "setTouched">(this, {
             inputValue: observable,
-            setInputValue: action,
             touched: observable,
-            setTouched: action
+            setTouched: action,
+            selectedIndex: computed,
+            selectedOption: computed,
+            setInputValue: action,
+            handleBlur: action,
+            handleClear: action,
+            handleFocus: action
         });
     }
 
     setup(): () => void {
         const [disposers, dispose] = disposeFx();
-        disposers.push(
-            autorun(() => {
-                const { touched, inputValue } = this;
-                if (touched) {
-                    this.filterStore.search.setBuffer(inputValue);
-                } else {
-                    this.filterStore.search.clear();
-                }
-            })
-        );
-
+        disposers.push(autorun(...this.searchSyncFx()));
         disposers.push(super.setup());
         return dispose;
+    }
+
+    searchSyncFx(): Parameters<typeof autorun> {
+        const effect = (): void => {
+            const { touched, inputValue } = this;
+            if (touched) {
+                this.filterStore.search.setBuffer(inputValue);
+            } else {
+                this.filterStore.search.clear();
+            }
+        };
+
+        return [effect];
     }
 
     get selectedIndex(): number {
@@ -55,13 +63,17 @@ export class StaticTagPickerController extends StaticBaseController {
         return this.filterStore.allOptions.filter(option => option.selected);
     }
 
-    setTouched(value: boolean): void {
+    private setTouched(value: boolean): void {
         this.touched = value;
     }
 
     setInputValue(value: string): void {
         this.inputValue = value;
     }
+
+    handleFocus = (): void => {
+        this.filterStore.setFetchReady(true);
+    };
 
     handleBlur = (): void => {
         this.setTouched(false);
@@ -90,7 +102,6 @@ export class StaticTagPickerController extends StaticBaseController {
                 if (changes.type === useCombobox.stateChangeTypes.InputChange) {
                     this.setTouched(true);
                 }
-
                 this.setInputValue(changes.inputValue);
             },
             onSelectedItemChange: ({ selectedItem, type }) => {
@@ -101,7 +112,6 @@ export class StaticTagPickerController extends StaticBaseController {
                 ) {
                     return;
                 }
-
                 this.filterStore.toggle(selectedItem.value);
             },
             stateReducer(state, { changes, type }) {
