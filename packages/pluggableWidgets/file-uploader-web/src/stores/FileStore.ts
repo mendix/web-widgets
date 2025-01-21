@@ -121,6 +121,10 @@ export class FileStore {
         return this.fileStatus === "existingFile" || this.fileStatus === "done";
     }
 
+    get canDownload(): boolean {
+        return this.fileStatus === "done" || this.fileStatus === "existingFile";
+    }
+
     async remove(): Promise<void> {
         if (!this.canRemove || !this._objectItem) {
             return;

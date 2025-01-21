@@ -27,6 +27,7 @@ export const FileEntryContainer = observer(({ store }: FileEntryContainerProps):
             errorMessage={store.errorDescription}
             canRemove={store.canRemove}
             onRemove={onRemove}
+            canDownload={store.canDownload}
             downloadUrl={store.downloadUrl}
         />
     );
@@ -44,13 +45,14 @@ interface FileEntryProps {
     canRemove: boolean;
     onRemove: () => void;
 
+    canDownload: boolean;
     downloadUrl?: string;
 }
 
 function FileEntry(props: FileEntryProps): ReactElement {
     const translations = useTranslationsStore();
 
-    const { downloadUrl, onRemove } = props;
+    const { canDownload, downloadUrl, onRemove } = props;
 
     const onViewClick = useCallback(
         (e: MouseEvent<HTMLDivElement>) => {
@@ -86,9 +88,9 @@ function FileEntry(props: FileEntryProps): ReactElement {
                 removed: props.fileStatus === "removedFile",
                 invalid: props.fileStatus === "validationError"
             })}
-            tabIndex={0}
-            onClick={onViewClick}
-            onKeyDown={onKeyDown}
+            tabIndex={canDownload ? 0 : undefined}
+            onClick={canDownload ? onViewClick : undefined}
+            onKeyDown={canDownload ? onKeyDown : undefined}
         >
             <div className={"entry-details"}>
                 <div
@@ -109,7 +111,7 @@ function FileEntry(props: FileEntryProps): ReactElement {
                 </div>
 
                 <div className={"entry-details-actions"}>
-                    <div className={"download-icon"} />
+                    {downloadUrl && <div className={"download-icon"} />}
                     <button
                         className={classNames("action-button", {
                             disabled: !props.canRemove
