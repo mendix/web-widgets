@@ -25,7 +25,6 @@ export interface StaticFilterContainerProps {
     onChange?: ActionValue;
     parentChannelName: string | undefined;
     styles?: CSSProperties;
-    tabIndex?: number;
     valueAttribute?: EditableValue<string>;
 }
 
