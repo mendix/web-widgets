@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 import { FilterData } from "../../typings/settings";
 import { isInputData } from "../input/store-utils";
 
@@ -15,7 +15,6 @@ export class BaseSelectStore {
             toggle: action,
             setSelected: action,
             setDefaultSelected: action,
-            toJSON: computed,
             fromJSON: action
         });
     }

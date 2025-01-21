@@ -1,69 +1,63 @@
-import { RefFilterController } from "@mendix/widget-plugin-filtering/controllers/RefFilterController";
-import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { Select } from "@mendix/widget-plugin-filtering/controls";
-import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { ActionValue } from "mendix";
-import { observer } from "mobx-react-lite";
-import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
+import { RefSelectController } from "@mendix/widget-plugin-filtering/controllers/picker/RefSelectController";
+import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
+import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
+import { useSetup } from "@mendix/widget-plugin-filtering/helpers/useSetup";
 import { RefFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/RefFilterStore";
+import { ActionValue, EditableValue } from "mendix";
+import { observer } from "mobx-react-lite";
+import { createElement, CSSProperties } from "react";
+
 export interface RefFilterContainerProps {
-    name: string;
-    parentChannelName?: string;
-    filterStore: RefFilterStore;
-    multiselect: boolean;
-    emptyCaption?: string;
     ariaLabel?: string;
     className?: string;
-    tabIndex?: number;
-    styles?: CSSProperties;
+    defaultValue?: string;
+    emptyCaption?: string;
+    filterStore: RefFilterStore;
+    multiselect: boolean;
+    name: string;
     onChange?: ActionValue;
+    parentChannelName?: string;
+    styles?: CSSProperties;
+    valueAttribute?: EditableValue<string>;
 }
 
+// const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
+
 function Container(props: RefFilterContainerProps): React.ReactElement {
-    const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
-    const [controller] = useState(
-        () =>
-            new RefFilterController({
-                store: props.filterStore,
-                multiselect: props.multiselect,
-                emptyCaption: props.emptyCaption,
-                onChange: props.onChange
-            })
-    );
+    const isSelect = true;
+    // const isCombobox = false;
 
-    useEffect(() => controller.setup(), [controller]);
-    useEffect(() => controller.updateProps({ onChange: props.onChange }), [controller, props.onChange]);
-    useOnResetValueEvent({
-        widgetName: props.name,
-        parentChannelName: props.parentChannelName,
-        listener: controller.handleResetValue
-    });
+    if (isSelect) {
+        return <SelectWidget {...props} />;
+    }
 
-    useOnSetValueEvent({
-        widgetName: props.name,
-        parentChannelName: props.parentChannelName,
-        listener: controller.handleSetValue
-    });
+    return <div>Unknown</div>;
+    // if (isCombobox) {
+    //     return <ComboboxWidget {...props} />;
+    // }
 
-    const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
+    // return <TagPickerWidget {...props} />;
+    // return;
+}
+
+// eslint-disable-next-line prefer-arrow-callback
+const SelectWidget = observer(function SelectWidget(props: RefFilterContainerProps): React.ReactElement {
+    const ctrl1 = useSetup(() => new RefSelectController(props));
+
+    usePickerJSActions(ctrl1, props);
 
     return (
         <Select
-            options={controller.options}
-            empty={controller.empty}
-            onSelect={controller.handleSelect}
-            multiSelect={controller.multiselect}
-            inputValue={controller.inputValue}
-            onTriggerClick={controller.handleTriggerClick}
-            onContentScroll={handleContentScroll}
-            id={id}
-            ariaLabel={props.ariaLabel}
-            className={props.className}
-            tabIndex={props.tabIndex}
-            styles={props.styles}
+            value={ctrl1.value}
+            useSelectProps={ctrl1.useSelectProps}
+            options={ctrl1.options}
+            onClear={ctrl1.handleClear}
+            clearable
+            empty={ctrl1.isEmpty}
+            onFocus={ctrl1.handleFocus}
+            showCheckboxes={ctrl1.multiselect}
         />
     );
-}
+});
 
-export const RefFilterContainer = observer(Container);
+export const RefFilterContainer = Container;

@@ -13,12 +13,14 @@ interface DropdownProps {
     empty: boolean;
     useSelectProps: () => UseSelectProps<OptionWithState>;
     onClear: () => void;
+    onFocus?: React.FocusEventHandler<HTMLButtonElement>;
+    showCheckboxes?: boolean;
 }
 
 const cls = classes();
 // eslint-disable-next-line prefer-arrow-callback
 export const Select = observer(function Select(props: DropdownProps): React.ReactElement {
-    const { empty: isEmpty } = props;
+    const { empty: isEmpty, showCheckboxes } = props;
     const toggleRef = useRef<HTMLButtonElement>(null);
     const { getToggleButtonProps, getMenuProps, getItemProps, isOpen, highlightedIndex } = useSelect(
         props.useSelectProps()
@@ -37,7 +39,8 @@ export const Select = observer(function Select(props: DropdownProps): React.Reac
                 className={cls.toggle}
                 {...getToggleButtonProps({
                     "aria-label": props.value,
-                    ref: toggleRef
+                    ref: toggleRef,
+                    onFocus: props.onFocus
                 })}
             >
                 {props.value}
@@ -68,6 +71,21 @@ export const Select = observer(function Select(props: DropdownProps): React.Reac
                                     className={cls.menuItem}
                                     {...getItemProps({ item, index })}
                                 >
+                                    {showCheckboxes && (
+                                        <span className={cls.checkboxSlot}>
+                                            {index > 0 ? (
+                                                <input
+                                                    role="presentation"
+                                                    type="checkbox"
+                                                    checked={item.selected}
+                                                    value={item.caption}
+                                                    onChange={noop}
+                                                />
+                                            ) : (
+                                                <div style={{ width: 16, height: 16 }} />
+                                            )}
+                                        </span>
+                                    )}
                                     {item.caption}
                                 </li>
                             ))}
@@ -77,3 +95,5 @@ export const Select = observer(function Select(props: DropdownProps): React.Reac
         </div>
     );
 });
+
+const noop = (): void => {};
