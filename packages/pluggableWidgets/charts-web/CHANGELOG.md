@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.1.2] Charts - 2025-01-21
+
+### [5.2.0] PieChart
+
+#### Fixed
+
+-   We add listen to widget functionality on pie chart selection.
+
 ## [5.1.1] Charts - 2024-12-12
 
 ### [5.1.1] PieChart
