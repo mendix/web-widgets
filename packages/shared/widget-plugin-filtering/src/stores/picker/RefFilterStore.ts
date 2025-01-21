@@ -104,12 +104,12 @@ export class RefFilterStore extends BaseSelectStore {
         return items.map(obj => ({
             caption: `${this.caption.get(obj).value}`,
             value: `${obj.id}`,
-            selected: this.selectState.selected.has(obj.id)
+            selected: this.selected.has(obj.id)
         }));
     }
 
     get condition(): FilterCondition | undefined {
-        if (this.selectState.selected.size < 1) {
+        if (this.selected.size < 1) {
             return undefined;
         }
 
@@ -138,7 +138,7 @@ export class RefFilterStore extends BaseSelectStore {
             return viewExp ? [viewExp] : [];
         };
 
-        const cond = [...this.selectState.selected].flatMap(exp);
+        const cond = [...this.selected].flatMap(exp);
 
         if (cond.length > 1) {
             return or(...cond);
@@ -213,7 +213,7 @@ export class RefFilterStore extends BaseSelectStore {
         const selected = selectedFromCond(cond, val);
 
         if (selected.length > 0) {
-            this.selectState.setSelected(selected);
+            this.setSelected(selected);
             this.blockSetDefaults = true;
         }
     }
