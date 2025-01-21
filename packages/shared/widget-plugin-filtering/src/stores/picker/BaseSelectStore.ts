@@ -1,15 +1,15 @@
-import { action, computed, makeObservable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { FilterData } from "../../typings/settings";
 import { isInputData } from "../input/store-utils";
-import { SelectedItemsStore } from "./SelectedItemsStore";
 
 export class BaseSelectStore {
-    protected selectState: SelectedItemsStore;
+    private defaultSelected: Iterable<string> = [];
     protected blockSetDefaults = false;
+    selected = new Set<string>();
 
     constructor() {
-        this.selectState = new SelectedItemsStore();
         makeObservable(this, {
+            selected: observable.struct,
             clear: action,
             reset: action,
             toggle: action,
@@ -20,30 +20,33 @@ export class BaseSelectStore {
         });
     }
 
-    get selected(): Set<string> {
-        return this.selectState.selected;
+    setSelected(selected: Iterable<string>): void {
+        this.selected = new Set(selected);
     }
 
-    clear = (): void => this.selectState.clear();
+    clear(): void {
+        this.setSelected([]);
+    }
 
-    reset = (): void => this.selectState.reset();
+    reset(): void {
+        this.setSelected(this.defaultSelected);
+    }
 
-    toggle = (value: string): void => this.selectState.toggle(value);
-
-    setSelected = (value: Iterable<string>): void => {
-        this.selectState.setSelected(value);
-    };
+    toggle(value: string): void {
+        const next = new Set(this.selected);
+        this.setSelected(next.delete(value) ? next : next.add(value));
+    }
 
     setDefaultSelected(defaultSelected?: Iterable<string>): void {
         if (!this.blockSetDefaults && defaultSelected) {
-            this.selectState.setDefaultSelected(defaultSelected);
-            this.selectState.reset();
+            this.defaultSelected = defaultSelected;
+            this.setSelected(defaultSelected);
             this.blockSetDefaults = true;
         }
     }
 
     toJSON(): string[] {
-        return [...this.selectState.selected];
+        return [...this.selected];
     }
 
     fromJSON(json: FilterData): void {
