@@ -35,7 +35,7 @@ export class RefSelectController extends RefBaseController {
     };
 
     handleFocus = (): void => {
-        this.filterStore.setTouched(true);
+        this.filterStore.setFetchReady(true);
     };
 
     useSelectProps = (): UseSelectProps<OptionWithState> => {

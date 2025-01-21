@@ -1,14 +1,14 @@
 import { useCombobox, UseComboboxProps } from "downshift";
-import { action, autorun, makeObservable, observable, reaction } from "mobx";
+import { action, autorun, computed, makeObservable, observable, reaction } from "mobx";
 import { disposeFx } from "../../mobx-utils";
 import { OptionWithState } from "../../typings/OptionWithState";
-import { StaticBaseController, StaticBaseControllerProps } from "./StaticBaseController";
+import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 
-interface Props extends StaticBaseControllerProps {
+interface Props extends RefBaseControllerProps {
     inputPlaceholder?: string;
 }
 
-export class StaticComboboxController extends StaticBaseController {
+export class RefComboboxController extends RefBaseController {
     private touched = false;
     inputValue: string;
     inputPlaceholder: string;
@@ -18,11 +18,16 @@ export class StaticComboboxController extends StaticBaseController {
         this.inputPlaceholder = props.inputPlaceholder ?? "Search";
         this.inputValue = this.selectedOption?.caption ?? "";
 
-        makeObservable<this, "touched">(this, {
+        makeObservable<this, "touched" | "setTouched">(this, {
             inputValue: observable,
-            setInputValue: action,
             touched: observable,
-            setTouched: action
+            setTouched: action,
+            selectedIndex: computed,
+            selectedOption: computed,
+            setInputValue: action,
+            handleBlur: action,
+            handleClear: action,
+            handleFocus: action
         });
     }
 
@@ -60,7 +65,7 @@ export class StaticComboboxController extends StaticBaseController {
         return this.filterStore.allOptions.find(option => option.selected) || null;
     }
 
-    setTouched(value: boolean): void {
+    private setTouched(value: boolean): void {
         this.touched = value;
     }
 
@@ -70,6 +75,7 @@ export class StaticComboboxController extends StaticBaseController {
 
     handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
         event.target.select();
+        this.filterStore.setFetchReady(true);
     };
 
     handleBlur = (): void => {
