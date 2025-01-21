@@ -38,7 +38,7 @@ export class RefFilterStore extends BaseSelectStore {
      * return it if options not loaded yet.
      */
     private readonly initCondArray: Array<EqualsCondition | ContainsCondition>;
-    private touched = false;
+    private fetchReady = false;
 
     lazyMode: boolean;
     search: SearchStore;
@@ -57,7 +57,7 @@ export class RefFilterStore extends BaseSelectStore {
             this.datasource.setLimit(0);
         }
 
-        makeObservable<this, "datasource" | "listRef" | "caption" | "searchAttrId" | "touched">(this, {
+        makeObservable<this, "datasource" | "listRef" | "caption" | "searchAttrId" | "fetchReady">(this, {
             datasource: observable.ref,
             listRef: observable.ref,
             caption: observable.ref,
@@ -70,7 +70,8 @@ export class RefFilterStore extends BaseSelectStore {
             condition: computed,
             updateProps: action,
             fromViewState: action,
-            touched: observable
+            fetchReady: observable,
+            setFetchReady: action
         });
 
         if (initCond) {
@@ -147,8 +148,8 @@ export class RefFilterStore extends BaseSelectStore {
         return cond[0];
     }
 
-    setTouched(touched: boolean): void {
-        this.touched ||= touched;
+    setFetchReady(fetchReady: boolean): void {
+        this.fetchReady ||= fetchReady;
     }
 
     setup(): () => void {
@@ -160,7 +161,7 @@ export class RefFilterStore extends BaseSelectStore {
         if (this.lazyMode) {
             disposers.push(
                 when(
-                    () => this.touched,
+                    () => this.fetchReady,
                     () => this.loadMore()
                 )
             );

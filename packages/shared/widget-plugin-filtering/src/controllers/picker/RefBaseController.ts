@@ -1,5 +1,5 @@
 import { ActionValue, EditableValue } from "mendix";
-import { action, makeObservable, observable } from "mobx";
+import { action, makeObservable } from "mobx";
 import { disposeFx } from "../../mobx-utils";
 import { OptionsSerializer } from "../../stores/picker/OptionsSerializer";
 import { RefFilterStore } from "../../stores/picker/RefFilterStore";
@@ -14,7 +14,6 @@ export class RefBaseController implements IJSActionsControlled {
     protected defaultValue?: Iterable<string>;
     protected filterStore: RefFilterStore;
     protected serializer: OptionsSerializer;
-    protected touched = false;
     multiselect: boolean;
 
     constructor(props: RefBaseControllerProps) {
@@ -29,10 +28,8 @@ export class RefBaseController implements IJSActionsControlled {
         });
         this.changeHelper = new PickerChangeHelper(props, () => this.serializer.value);
 
-        makeObservable<this, "touched" | "setTouched">(this, {
-            updateProps: action,
-            touched: observable,
-            setTouched: action
+        makeObservable<this>(this, {
+            updateProps: action
         });
     }
 
@@ -50,10 +47,6 @@ export class RefBaseController implements IJSActionsControlled {
 
     updateProps(props: RefBaseControllerProps): void {
         this.changeHelper.updateProps(props);
-    }
-
-    protected setTouched(touched: boolean): void {
-        this.filterStore.setTouched(touched);
     }
 
     protected parseDefaultValue = (value: string | undefined): Iterable<string> | undefined => {
