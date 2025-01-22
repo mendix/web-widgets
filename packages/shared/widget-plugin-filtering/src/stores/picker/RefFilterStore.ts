@@ -8,7 +8,7 @@ import {
 } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
-import { action, computed, makeObservable, observable, reaction, when } from "mobx";
+import { action, autorun, computed, makeObservable, observable, reaction, runInAction, when } from "mobx";
 import { flattenRefCond, selectedFromCond } from "../../condition-utils";
 import { disposeFx } from "../../mobx-utils";
 import { OptionWithState } from "../../typings/OptionWithState";
@@ -42,6 +42,7 @@ export class RefFilterStore extends BaseSelectStore {
     private readonly searchSize = 100;
     private fetchReady = false;
 
+    selectedItems: ObjectItem[] = [];
     lazyMode: boolean;
     search: SearchStore;
 
@@ -65,25 +66,21 @@ export class RefFilterStore extends BaseSelectStore {
             caption: observable.ref,
             searchAttrId: observable.ref,
             options: computed,
-            allOptions: computed,
             hasMore: computed,
-            canSearchInPlace: computed,
             isLoading: computed,
             condition: computed,
             updateProps: action,
             fromViewState: action,
             fetchReady: observable,
             setFetchReady: action,
-            setDefaultSelected: action
+            setDefaultSelected: action,
+            selectedItems: observable.struct,
+            selectedOptions: computed
         });
 
         if (initCond) {
             this.fromViewState(initCond);
         }
-    }
-
-    get canSearchInPlace(): boolean {
-        return !!(this.searchAttrId && this.datasource.filter === undefined && !this.hasMore);
     }
 
     get hasMore(): boolean {
@@ -95,21 +92,20 @@ export class RefFilterStore extends BaseSelectStore {
     }
 
     get options(): OptionWithState[] {
-        const search = this.search.value;
-        if (this.canSearchInPlace && search) {
-            return this.allOptions.filter(opt => opt.caption.toLowerCase().includes(search.toLowerCase()));
-        }
-
-        return this.allOptions;
+        const items = this.datasource.items ?? [];
+        return items.map(obj => this.toOption(obj));
     }
 
-    get allOptions(): OptionWithState[] {
-        const items = this.datasource.items ?? [];
-        return items.map(obj => ({
+    get selectedOptions(): OptionWithState[] {
+        return this.selectedItems.map(obj => this.toOption(obj));
+    }
+
+    toOption(obj: ObjectItem): OptionWithState {
+        return {
             caption: `${this.caption.get(obj).value}`,
             value: `${obj.id}`,
             selected: this.selected.has(obj.id)
-        }));
+        };
     }
 
     get condition(): FilterCondition | undefined {
@@ -118,8 +114,7 @@ export class RefFilterStore extends BaseSelectStore {
         }
 
         const exp = (guid: string): FilterCondition[] => {
-            const items = this.datasource.items ?? [];
-            const obj = items.find(o => o.id === guid);
+            const obj = this.selectedItems.find(o => o.id === guid);
 
             if (obj && this.listRef.type === "Reference") {
                 return [refEquals(this.listRef, obj)];
@@ -156,6 +151,7 @@ export class RefFilterStore extends BaseSelectStore {
 
         disposers.push(this.search.setup());
         disposers.push(reaction(...this.searchChangeFx()));
+        disposers.push(autorun(...this.computeSelectedItemsFx()));
 
         if (this.lazyMode) {
             disposers.push(
@@ -176,7 +172,7 @@ export class RefFilterStore extends BaseSelectStore {
         const data = (): string => this.search.value;
 
         const effect = (search: string): void => {
-            if (!this.searchAttrId || this.canSearchInPlace) {
+            if (!this.searchAttrId) {
                 return;
             }
             const cond =
@@ -188,6 +184,18 @@ export class RefFilterStore extends BaseSelectStore {
         };
 
         return [data, effect, { delay: 300 }];
+    }
+
+    computeSelectedItemsFx(): Parameters<typeof autorun> {
+        const compute = (): void => {
+            const allObjects = [...this.selectedItems, ...(this.datasource.items ?? [])];
+            const map = new Map<string, ObjectItem>(allObjects.map(o => [o.id, o]));
+            // Note: keep selected inside current block, so autorun can react to it.
+            const selectedItems = [...this.selected].flatMap(guid => map.get(guid) ?? []);
+            runInAction(() => (this.selectedItems = selectedItems));
+        };
+
+        return [compute];
     }
 
     setFetchReady(fetchReady: boolean): void {
