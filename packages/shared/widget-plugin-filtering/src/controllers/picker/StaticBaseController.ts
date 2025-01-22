@@ -15,7 +15,7 @@ export class StaticBaseController implements IJSActionsControlled {
     protected filterStore: StaticSelectFilterStore;
     protected serializer: OptionsSerializer;
     protected filterOptions: Array<CustomOption<DynamicValue<string>>>;
-    protected multiselect: boolean;
+    multiselect: boolean;
 
     constructor(props: StaticBaseControllerProps) {
         this.filterOptions = props.filterOptions;

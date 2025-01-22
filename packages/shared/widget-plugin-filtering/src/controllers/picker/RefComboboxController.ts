@@ -71,7 +71,7 @@ export class RefComboboxController extends RefBaseController {
     }
 
     get selectedOption(): OptionWithState | null {
-        return this.filterStore.allOptions.find(option => option.selected) || null;
+        return this.filterStore.selectedOptions.at(0) ?? null;
     }
 
     get inputInitValue(): string {
