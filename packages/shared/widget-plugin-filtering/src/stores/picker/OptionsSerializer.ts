@@ -1,12 +1,16 @@
 import { computed, makeObservable } from "mobx";
-import { PickerFilterStore } from "../../typings/PickerFilterStore";
 
 interface Params {
-    store: PickerFilterStore;
+    store: Store;
+}
+
+interface Store {
+    /** @reactive */
+    selected: Iterable<string>;
 }
 
 export class OptionsSerializer {
-    private store: PickerFilterStore;
+    private store: Store;
 
     constructor(params: Params) {
         makeObservable(this, {

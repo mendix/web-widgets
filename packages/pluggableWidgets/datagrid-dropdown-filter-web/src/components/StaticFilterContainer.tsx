@@ -90,7 +90,7 @@ const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterCon
     return (
         <TagPicker
             options={ctrl3.options}
-            selected={ctrl3.selectedItems}
+            selected={ctrl3.selectedOptions}
             useMultipleSelectionProps={ctrl3.useMultipleSelectionProps}
             useComboboxProps={ctrl3.useComboboxProps}
             onClear={ctrl3.handleClear}
