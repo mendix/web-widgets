@@ -29,7 +29,7 @@ export interface RefFilterContainerProps {
 
 function Container(props: RefFilterContainerProps): React.ReactElement {
     const isSelect = false;
-    const isCombobox = true;
+    const isCombobox = false;
 
     if (isSelect) {
         return <SelectWidget {...props} />;
