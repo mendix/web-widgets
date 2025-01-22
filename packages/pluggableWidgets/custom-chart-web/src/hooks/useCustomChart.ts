@@ -1,22 +1,18 @@
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
-import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { useEffect, useMemo, useRef, useState, type RefObject, CSSProperties } from "react";
 import { CustomChartContainerProps } from "../../typings/CustomChartProps";
 import { PlotlyChart, ChartProps } from "../components/PlotlyChart";
-import { ChartDataProcessor } from "../utils/ChartDataProcessor";
+import { parseData, parseLayout, parseConfig } from "../utils/utils";
 
 interface UseCustomChartReturn {
     chartRef: RefObject<HTMLDivElement>;
-    containerStyle: {
-        width?: string;
-        height?: string;
-    };
+    containerStyle: CSSProperties;
 }
 
 export function useCustomChart(props: CustomChartContainerProps): UseCustomChartReturn {
     const chartRef = useRef<HTMLDivElement>(null);
     const [chart, setChart] = useState<PlotlyChart | null>(null);
     const [containerDimensions, setContainerDimensions] = useState<{ width?: number; height?: number }>({});
-    const dataProcessor = useRef(new ChartDataProcessor());
 
     const [setContainerDimensionsDebounced, abortDimensionsDebounce] = useMemo(
         () =>
@@ -63,74 +59,65 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
             return;
         }
 
-        const data = dataProcessor.current.parseData(props.dataStatic, props.dataAttribute?.value, props.sampleData);
+        const data = parseData(props.dataStatic, props.dataAttribute?.value, props.sampleData);
 
-        const layout = dataProcessor.current.parseLayout(
-            props.layoutStatic,
-            props.layoutAttribute?.value,
-            props.sampleLayout
-        );
+        const layout = parseLayout(props.layoutStatic, props.layoutAttribute?.value, props.sampleLayout);
 
-        const dimensions = dataProcessor.current.calculateDimensions(
-            props.widthUnit,
-            props.width,
-            props.heightUnit,
-            props.height,
-            containerDimensions.width,
-            containerDimensions.height
-        );
-
-        const { width, height } = dimensions;
+        const dimensions = {
+            width: containerDimensions.width ?? 0,
+            height: containerDimensions.height ?? 0
+        };
 
         const updateData: ChartProps = {
             data,
             layout: {
                 ...layout,
-                width,
-                height,
+                width: dimensions.width,
+                height: dimensions.height,
                 autosize: true,
                 font: {
                     family: "Open Sans, sans-serif",
-                    size: Math.max(12 * (width / 1000), 8)
+                    size: Math.max(12 * (dimensions.width / 1000), 8)
                 },
                 legend: {
                     ...layout.legend,
                     font: {
                         ...layout.legend?.font,
-                        size: Math.max(10 * (width / 1000), 7)
+                        size: Math.max(10 * (dimensions.width / 1000), 7)
                     },
-                    itemwidth: Math.max(10 * (width / 1000), 3)
+                    itemwidth: Math.max(10 * (dimensions.width / 1000), 3),
+                    itemsizing: "constant"
                 },
                 xaxis: {
                     ...layout.xaxis,
                     tickfont: {
                         ...layout.xaxis?.tickfont,
-                        size: Math.max(10 * (width / 1000), 7)
+                        size: Math.max(10 * (dimensions.width / 1000), 7)
                     }
                 },
                 yaxis: {
                     ...layout.yaxis,
                     tickfont: {
                         ...layout.yaxis?.tickfont,
-                        size: Math.max(10 * (width / 1000), 7)
+                        size: Math.max(10 * (dimensions.width / 1000), 7)
                     }
                 },
                 margin: {
                     ...layout.margin,
-                    l: Math.max(50 * (width / 1000), 30),
-                    r: Math.max(50 * (width / 1000), 30),
-                    t: Math.max(50 * (width / 1000), 30),
-                    b: Math.max(50 * (width / 1000), 30),
-                    pad: Math.max(4 * (width / 1000), 2)
+                    l: Math.max(50 * (dimensions.width / 1000), 30),
+                    r: Math.max(50 * (dimensions.width / 1000), 30),
+                    t: Math.max(50 * (dimensions.width / 1000), 30),
+                    b: Math.max(50 * (dimensions.width / 1000), 30),
+                    pad: Math.max(4 * (dimensions.width / 1000), 2)
                 }
             },
             config: {
-                ...dataProcessor.current.parseConfig(props.configurationOptions),
+                ...parseConfig(props.configurationOptions),
                 displayModeBar: props.devMode === "developer",
                 responsive: true
             },
-            width,
-            height
+            width: dimensions.width,
+            height: dimensions.height
         };
 
         updateChartDebounced(chart, updateData);
