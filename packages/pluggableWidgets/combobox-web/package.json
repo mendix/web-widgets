@@ -21,7 +21,8 @@
     "marketplace": {
         "minimumMXVersion": "10.7.0",
         "appNumber": 219304,
-        "appName": "Combo box"
+        "appName": "Combo box",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
