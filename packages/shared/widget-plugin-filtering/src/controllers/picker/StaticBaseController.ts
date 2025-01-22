@@ -1,37 +1,19 @@
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { action, autorun, makeObservable, observable } from "mobx";
 import { disposeFx } from "../../mobx-utils";
-import { OptionsSerializer } from "../../stores/picker/OptionsSerializer";
 import { StaticSelectFilterStore } from "../../stores/picker/StaticSelectFilterStore";
-import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../../typings/IJSActionsControlled";
-import { OptionWithState } from "../../typings/OptionWithState";
-import { PickerChangeHelper } from "../generic/PickerChangeHelper";
-import { PickerJSActionsHelper } from "../generic/PickerJSActionsHelper";
+import { PickerBaseController } from "./PickerBaseController";
 
-export class StaticBaseController implements IJSActionsControlled {
-    protected actionHelper: PickerJSActionsHelper;
-    protected changeHelper: PickerChangeHelper;
-    protected defaultValue?: Iterable<string>;
-    protected filterStore: StaticSelectFilterStore;
-    protected serializer: OptionsSerializer;
-    protected filterOptions: Array<CustomOption<DynamicValue<string>>>;
-    multiselect: boolean;
+export class StaticBaseController extends PickerBaseController<StaticSelectFilterStore> {
+    filterOptions: Array<CustomOption<DynamicValue<string>>>;
 
     constructor(props: StaticBaseControllerProps) {
+        super(props);
         this.filterOptions = props.filterOptions;
-        this.filterStore = props.filterStore;
-        this.multiselect = props.multiselect;
-        this.serializer = new OptionsSerializer({ store: this.filterStore });
-        this.defaultValue = this.parseDefaultValue(props.defaultValue);
-        this.actionHelper = new PickerJSActionsHelper({
-            filterStore: props.filterStore,
-            parse: value => this.serializer.fromStorableValue(value) ?? [],
-            multiselect: props.multiselect
+        makeObservable(this, {
+            updateProps: action,
+            filterOptions: observable.struct
         });
-
-        this.changeHelper = new PickerChangeHelper(props, () => this.serializer.value);
-
-        makeObservable<this, "filterOptions">(this, { filterOptions: observable.struct, updateProps: action });
     }
 
     setup(): () => void {
@@ -64,31 +46,6 @@ export class StaticBaseController implements IJSActionsControlled {
         caption: `${opt.caption?.value}`,
         value: `${opt.value?.value}`
     });
-
-    parseDefaultValue = (value: string | undefined): Iterable<string> | undefined => {
-        const defaultValue = this.serializer.fromStorableValue(value);
-        if (!defaultValue) {
-            return undefined;
-        }
-        const arr = Array.from(defaultValue);
-        return this.multiselect ? arr : arr.slice(0, 1);
-    };
-
-    get options(): OptionWithState[] {
-        return this.filterStore.options;
-    }
-
-    get isEmpty(): boolean {
-        return this.filterStore.selected.size === 0;
-    }
-
-    handleSetValue = (...args: Parameters<SetValueHandler>): void => {
-        this.actionHelper.handleSetValue(...args);
-    };
-
-    handleResetValue = (...args: Parameters<ResetHandler>): void => {
-        this.actionHelper.handleResetValue(...args);
-    };
 }
 
 export interface StaticBaseControllerProps {
@@ -99,6 +56,7 @@ export interface StaticBaseControllerProps {
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
     emptyCaption?: string;
+    inputPlaceholder?: string;
 }
 
 export interface CustomOption<T> {
