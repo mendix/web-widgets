@@ -29,7 +29,7 @@ export interface RefFilterContainerProps {
 
 function Container(props: RefFilterContainerProps): React.ReactElement {
     const isSelect = false;
-    const isCombobox = false;
+    const isCombobox = true;
 
     if (isSelect) {
         return <SelectWidget {...props} />;
@@ -91,7 +91,7 @@ const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContai
     return (
         <TagPicker
             options={ctrl3.options}
-            selectedItems={ctrl3.selectedItems}
+            selected={ctrl3.selectedOptions}
             useMultipleSelectionProps={ctrl3.useMultipleSelectionProps}
             useComboboxProps={ctrl3.useComboboxProps}
             onClear={ctrl3.handleClear}
@@ -100,7 +100,7 @@ const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContai
             inputPlaceholder={ctrl3.inputPlaceholder}
             empty={ctrl3.isEmpty}
             showCheckboxes
-            selectedStyle="text"
+            // selectedStyle="text"
         />
     );
 });
