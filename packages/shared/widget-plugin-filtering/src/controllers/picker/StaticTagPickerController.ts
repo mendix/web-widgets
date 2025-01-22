@@ -27,19 +27,22 @@ export class StaticTagPickerController extends StaticBaseController {
 
     setup(): () => void {
         const [disposers, dispose] = disposeFx();
-        disposers.push(
-            autorun(() => {
-                const { touched, inputValue } = this;
-                if (touched) {
-                    this.filterStore.search.setBuffer(inputValue);
-                } else {
-                    this.filterStore.search.clear();
-                }
-            })
-        );
-
+        disposers.push(autorun(...this.searchSyncFx()));
         disposers.push(super.setup());
         return dispose;
+    }
+
+    searchSyncFx(): Parameters<typeof autorun> {
+        const effect = (): void => {
+            const { touched, inputValue } = this;
+            if (touched) {
+                this.filterStore.search.setBuffer(inputValue);
+            } else {
+                this.filterStore.search.clear();
+            }
+        };
+
+        return [effect];
     }
 
     get selectedIndex(): number {
@@ -47,12 +50,8 @@ export class StaticTagPickerController extends StaticBaseController {
         return Math.max(index, 0);
     }
 
-    get selectedOption(): OptionWithState | null {
-        return this.filterStore.allOptions.find(option => option.selected) || null;
-    }
-
-    get selectedItems(): OptionWithState[] {
-        return this.filterStore.allOptions.filter(option => option.selected);
+    get selectedOptions(): OptionWithState[] {
+        return this.filterStore.selectedOptions;
     }
 
     setTouched(value: boolean): void {
@@ -127,7 +126,7 @@ export class StaticTagPickerController extends StaticBaseController {
 
     useMultipleSelectionProps = (): UseMultipleSelectionProps<OptionWithState> => {
         const props: UseMultipleSelectionProps<OptionWithState> = {
-            selectedItems: this.selectedItems,
+            selectedItems: this.selectedOptions,
             onStateChange: ({ selectedItems: newSelectedItems, type }) => {
                 newSelectedItems ??= [];
                 switch (type) {
