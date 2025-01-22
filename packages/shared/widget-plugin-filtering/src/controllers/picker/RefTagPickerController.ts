@@ -22,7 +22,6 @@ export class RefTagPickerController extends RefBaseController {
             touched: observable,
             setTouched: action,
             selectedIndex: computed,
-            selectedOption: computed,
             setInputValue: action,
             handleBlur: action,
             handleClear: action,
@@ -55,12 +54,8 @@ export class RefTagPickerController extends RefBaseController {
         return Math.max(index, 0);
     }
 
-    get selectedOption(): OptionWithState | null {
-        return this.filterStore.allOptions.find(option => option.selected) || null;
-    }
-
-    get selectedItems(): OptionWithState[] {
-        return this.filterStore.allOptions.filter(option => option.selected);
+    get selectedOptions(): OptionWithState[] {
+        return this.filterStore.selectedOptions;
     }
 
     private setTouched(value: boolean): void {
@@ -137,7 +132,7 @@ export class RefTagPickerController extends RefBaseController {
 
     useMultipleSelectionProps = (): UseMultipleSelectionProps<OptionWithState> => {
         const props: UseMultipleSelectionProps<OptionWithState> = {
-            selectedItems: this.selectedItems,
+            selectedItems: this.selectedOptions,
             onStateChange: ({ selectedItems: newSelectedItems, type }) => {
                 newSelectedItems ??= [];
                 switch (type) {

@@ -7,7 +7,7 @@ import { OptionWithState } from "../../typings/OptionWithState";
 import { useCombobox, UseComboboxProps, useMultipleSelection, UseMultipleSelectionProps } from "downshift";
 
 interface TagPickerProps {
-    selectedItems: OptionWithState[];
+    selected: OptionWithState[];
     options: OptionWithState[];
     empty: boolean;
     inputPlaceholder: string;
@@ -52,7 +52,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                     }
                 }}
             >
-                {props.selectedItems.map((item, index) => (
+                {props.selected.map((item, index) => (
                     <div
                         className={cls.selectedItem}
                         key={index}

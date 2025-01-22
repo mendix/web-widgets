@@ -1,4 +1,4 @@
-import { UseSelectProps } from "downshift";
+import { UseSelectProps, useSelect } from "downshift";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { StaticBaseController, StaticBaseControllerProps } from "./StaticBaseController";
 
@@ -21,7 +21,7 @@ export class StaticSelectController extends StaticBaseController {
     }
 
     get value(): string {
-        const selected = this.options.filter(option => option.selected);
+        const selected = this.filterStore.selectedOptions;
 
         if (selected.length < 1) {
             return "Select";
@@ -35,7 +35,7 @@ export class StaticSelectController extends StaticBaseController {
     };
 
     useSelectProps = (): UseSelectProps<OptionWithState> => {
-        return {
+        const props: UseSelectProps<OptionWithState> = {
             items: this.options,
             itemToKey: item => item?.value,
             itemToString: item => item?.caption ?? "",
@@ -52,5 +52,22 @@ export class StaticSelectController extends StaticBaseController {
                 }
             }
         };
+
+        if (this.multiselect) {
+            props.stateReducer = (state, { changes, type }) => {
+                switch (type) {
+                    case useSelect.stateChangeTypes.ToggleButtonKeyDownEnter:
+                    case useSelect.stateChangeTypes.ItemClick:
+                        return {
+                            ...changes,
+                            isOpen: true,
+                            highlightedIndex: state.highlightedIndex
+                        };
+                    default:
+                        return changes;
+                }
+            };
+        }
+        return props;
     };
 }

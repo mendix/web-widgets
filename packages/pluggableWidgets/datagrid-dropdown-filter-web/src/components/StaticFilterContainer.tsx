@@ -29,7 +29,7 @@ export interface StaticFilterContainerProps {
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
-    const isSelect = false;
+    const isSelect = true;
     const isCombobox = false;
 
     if (isSelect) {
@@ -57,6 +57,7 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
             onClear={ctrl1.handleClear}
             clearable
             empty={ctrl1.isEmpty}
+            showCheckboxes={ctrl1.multiselect}
         />
     );
 });
@@ -89,7 +90,7 @@ const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterCon
     return (
         <TagPicker
             options={ctrl3.options}
-            selectedItems={ctrl3.selectedItems}
+            selected={ctrl3.selectedItems}
             useMultipleSelectionProps={ctrl3.useMultipleSelectionProps}
             useComboboxProps={ctrl3.useComboboxProps}
             onClear={ctrl3.handleClear}

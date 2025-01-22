@@ -1,7 +1,7 @@
 import { ListAttributeValue } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
-import { action, makeAutoObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { selectedFromCond } from "../../condition-utils";
 import { disposeFx } from "../../mobx-utils";
 import { OptionWithState } from "../../typings/OptionWithState";
@@ -14,7 +14,6 @@ interface CustomOption {
 }
 
 export class StaticSelectFilterStore extends BaseSelectStore {
-    readonly disposers = [] as Array<() => void>;
     readonly storeType = "select";
     _attributes: ListAttributeValue[] = [];
     _customOptions: CustomOption[] = [];
@@ -25,11 +24,18 @@ export class StaticSelectFilterStore extends BaseSelectStore {
         this.search = new SearchStore();
         this._attributes = attributes;
 
-        makeAutoObservable(this, {
+        makeObservable(this, {
             _attributes: observable.struct,
             _customOptions: observable.struct,
+            allOptions: computed,
+            options: computed,
+            selectedOptions: computed,
+            universe: computed,
+            condition: computed,
             setCustomOptions: action,
-            setDefaultSelected: action
+            setDefaultSelected: action,
+            updateProps: action,
+            fromViewState: action
         });
 
         if (initCond) {
@@ -64,6 +70,13 @@ export class StaticSelectFilterStore extends BaseSelectStore {
         }
 
         return this.allOptions.filter(opt => opt.caption.toLowerCase().includes(this.search.value.toLowerCase()));
+    }
+
+    get selectedOptions(): OptionWithState[] {
+        return [...this.selected].flatMap(value => {
+            const option = this.allOptions.find(opt => opt.value === value);
+            return option ? [option] : [];
+        });
     }
 
     get universe(): Set<string> {
