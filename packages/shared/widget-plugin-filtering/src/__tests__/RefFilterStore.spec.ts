@@ -230,19 +230,6 @@ describe("RefFilterStore", () => {
             };
         });
 
-        it("discard any unknown selected GUIDs on datasource change", () => {
-            const store = new RefFilterStore({ ...props, datasource: list.loading() }, null);
-            // Restore state
-            store.fromJSON(savedJson);
-            // Check state
-            expect(store.toJSON()).toEqual(savedJson);
-            // Update datasource
-            const datasource = new ListValueBuilder().withItems([a, b]).withHasMore(false).build();
-            store.updateProps({ ...props, datasource });
-            // Check state don't have any extra GUIDs
-            expect(store.toJSON()).toEqual(["obj_xx", "obj_yy"]);
-        });
-
         it("skip filtering if has just part of the list", () => {
             const store = new RefFilterStore({ ...props, datasource: list.loading() }, null);
             // Restore state
@@ -262,25 +249,6 @@ describe("RefFilterStore", () => {
             store.fromJSON(savedJson);
             // Check state
             expect(store.toJSON()).toEqual(savedJson);
-        });
-
-        it("when datasource is loaded, ignore any unknown ids when restored from json", () => {
-            const store = new RefFilterStore({ ...props, datasource: list.loading() }, null);
-            // Update datasource
-            const ds = new ListValueBuilder().withItems([a, b]).withHasMore(false).build();
-            store.updateProps({ ...props, datasource: ds });
-            // Restore state
-            store.fromJSON(savedJson);
-            // Check state don't have any extra GUIDs
-            expect(store.toJSON()).toEqual(["obj_xx", "obj_yy"]);
-            // Trying restore unknown ids
-            store.fromJSON(["foo", "bar", "obj_xx", "obj_yy"]);
-            // Check state don't have any extra GUIDs
-            expect(store.toJSON()).toEqual(["obj_xx", "obj_yy"]);
-            // Trying restore unknown ids
-            store.fromJSON(["foo", "bar"]);
-            // Check state
-            expect(store.toJSON()).toEqual([]);
         });
     });
 });

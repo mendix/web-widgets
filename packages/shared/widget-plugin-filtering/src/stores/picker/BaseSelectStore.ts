@@ -1,6 +1,6 @@
 import { action, makeObservable, observable } from "mobx";
 import { FilterData } from "../../typings/settings";
-import { isInputData } from "../input/store-utils";
+import { isInputData } from "../utils/is-input-data";
 
 export class BaseSelectStore {
     protected defaultSelected: Iterable<string> = [];

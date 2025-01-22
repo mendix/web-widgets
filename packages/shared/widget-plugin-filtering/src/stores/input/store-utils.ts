@@ -6,7 +6,6 @@ import {
     Number_InputFilterInterface,
     String_InputFilterInterface
 } from "../../typings/InputFilterInterface";
-import { InputData } from "../../typings/settings";
 import { DateInputFilterStore } from "../input/DateInputFilterStore";
 import { NumberInputFilterStore } from "../input/NumberInputFilterStore";
 import { StringInputFilterStore } from "../input/StringInputFilterStore";
@@ -52,27 +51,4 @@ export function isStringFilter(store: InputFilterInterface): store is String_Inp
 
 export function isDateFilter(store: InputFilterInterface): store is Date_InputFilterInterface {
     return store.arg1.type === "date";
-}
-
-const fnNames = new Set([
-    "empty",
-    "notEmpty",
-    "equal",
-    "notEqual",
-    "greater",
-    "greaterEqual",
-    "smaller",
-    "smallerEqual",
-    "between",
-    "contains",
-    "startsWith",
-    "endsWith"
-]);
-
-export function isInputData(data: unknown): data is InputData {
-    if (Array.isArray(data)) {
-        const [name] = data;
-        return fnNames.has(name);
-    }
-    return false;
 }
