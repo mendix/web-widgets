@@ -12,6 +12,7 @@ import { createElement, CSSProperties } from "react";
 import { useSetupUpdate } from "@mendix/widget-plugin-filtering/helpers/useSetupUpdate";
 import { useFrontendType } from "../hooks/useFrontendType";
 import { SelectedItemsStyleEnum, SelectionMethodEnum } from "../../typings/DatagridDropdownFilterProps";
+import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
 
 export interface RefFilterContainerProps {
     ariaLabel?: string;
@@ -31,8 +32,6 @@ export interface RefFilterContainerProps {
     clearable: boolean;
 }
 
-// const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
-
 function Container(props: RefFilterContainerProps): React.ReactElement {
     const frontendType = useFrontendType(props);
 
@@ -51,6 +50,7 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
 // eslint-disable-next-line prefer-arrow-callback
 const SelectWidget = observer(function SelectWidget(props: RefFilterContainerProps): React.ReactElement {
     const ctrl1 = useSetupUpdate(() => new RefSelectController(props), props);
+    const handleMenuScroll = useOnScrollBottom(ctrl1.handleMenuScrollEnd, { triggerZoneHeight: 100 });
 
     usePickerJSActions(ctrl1, props);
 
@@ -63,6 +63,7 @@ const SelectWidget = observer(function SelectWidget(props: RefFilterContainerPro
             clearable={props.clearable}
             empty={ctrl1.isEmpty}
             onFocus={ctrl1.handleFocus}
+            onMenuScroll={handleMenuScroll}
             showCheckboxes={ctrl1.multiselect}
         />
     );
@@ -71,6 +72,7 @@ const SelectWidget = observer(function SelectWidget(props: RefFilterContainerPro
 // eslint-disable-next-line prefer-arrow-callback
 const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContainerProps): React.ReactElement {
     const ctrl2 = useSetupUpdate(() => new RefComboboxController(props), props);
+    const handleMenuScroll = useOnScrollBottom(ctrl2.handleMenuScrollEnd, { triggerZoneHeight: 100 });
 
     usePickerJSActions(ctrl2, props);
 
@@ -82,6 +84,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
             onClear={ctrl2.handleClear}
             onFocus={ctrl2.handleFocus}
             onBlur={ctrl2.handleBlur}
+            onMenuScroll={handleMenuScroll}
             empty={ctrl2.isEmpty}
         />
     );
@@ -90,6 +93,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
 // eslint-disable-next-line prefer-arrow-callback
 const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContainerProps): React.ReactElement {
     const ctrl3 = useSetupUpdate(() => new RefTagPickerController(props), props);
+    const handleMenuScroll = useOnScrollBottom(ctrl3.handleMenuScrollEnd, { triggerZoneHeight: 100 });
 
     usePickerJSActions(ctrl3, props);
 
@@ -102,11 +106,11 @@ const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContai
             onClear={ctrl3.handleClear}
             onBlur={ctrl3.handleBlur}
             onFocus={ctrl3.handleFocus}
+            onMenuScroll={handleMenuScroll}
             inputPlaceholder={ctrl3.inputPlaceholder}
             empty={ctrl3.isEmpty}
             showCheckboxes={props.selectionMethod === "checkbox"}
             selectedStyle={props.selectedItemsStyle}
-            filterSelectedOptions={ctrl3.filterSelectedOptions}
         />
     );
 });

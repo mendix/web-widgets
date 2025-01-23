@@ -15,4 +15,8 @@ export class RefTagPickerController extends TagPickerControllerMixin(RefBaseCont
     handleFocus = (): void => {
         this.filterStore.setFetchReady(true);
     };
+
+    handleMenuScrollEnd = (): void => {
+        this.filterStore.loadMore();
+    };
 }

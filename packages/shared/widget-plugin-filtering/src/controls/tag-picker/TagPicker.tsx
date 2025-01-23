@@ -16,6 +16,7 @@ interface TagPickerProps {
     onClear: () => void;
     onBlur: () => void;
     onFocus?: React.FocusEventHandler<HTMLInputElement>;
+    onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
     showCheckboxes: boolean;
     selectedStyle?: "boxes" | "text";
     ariaLabel?: string;
@@ -103,7 +104,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
             )}
             <div className={cls.popover} hidden={!isOpen} ref={refs.setFloating} style={floatingStyles}>
                 <div className={cls.menuSlot}>
-                    <ul className={cls.menu} {...getMenuProps()}>
+                    <ul className={cls.menu} {...getMenuProps()} onScroll={props.onMenuScroll}>
                         {isOpen &&
                             props.options.map((item, index) => (
                                 <li
