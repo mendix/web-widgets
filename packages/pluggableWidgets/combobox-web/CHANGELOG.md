@@ -6,9 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Fixed
+### Added
 
--   We fixed the sorting to display the multi-selected items in selection order.
+-   We added a new "Selected items sorting" property to set the order of the selected items.
 
 ## [2.1.3] - 2024-12-11
 
