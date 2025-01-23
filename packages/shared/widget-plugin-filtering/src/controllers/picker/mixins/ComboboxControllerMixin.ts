@@ -52,6 +52,7 @@ export function ComboboxControllerMixin<TBase extends BaseController>(Base: TBas
             disposers.push(reaction(...this.storeSyncFx()));
 
             disposers.push(super.setup());
+            this.inputValue = this.inputInitValue;
             return dispose;
         }
 
@@ -102,7 +103,7 @@ export function ComboboxControllerMixin<TBase extends BaseController>(Base: TBas
             if (this.filterStore.selected.size === 0) {
                 return "Search";
             } else {
-                return "1 item selected";
+                return "1 item selected (but not applied)";
             }
         }
 
