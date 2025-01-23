@@ -10,6 +10,8 @@ import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties } from "react";
 import { useSetupUpdate } from "@mendix/widget-plugin-filtering/helpers/useSetupUpdate";
+import { useFrontendType } from "../hooks/useFrontendType";
+import { SelectedItemsStyleEnum, SelectionMethodEnum } from "../../typings/DatagridDropdownFilterProps";
 
 export interface RefFilterContainerProps {
     ariaLabel?: string;
@@ -23,24 +25,27 @@ export interface RefFilterContainerProps {
     parentChannelName?: string;
     styles?: CSSProperties;
     valueAttribute?: EditableValue<string>;
+    filterable: boolean;
+    selectionMethod: SelectionMethodEnum;
+    selectedItemsStyle: SelectedItemsStyleEnum;
+    clearable: boolean;
 }
 
 // const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
 
 function Container(props: RefFilterContainerProps): React.ReactElement {
-    const isSelect = false;
-    const isCombobox = false;
+    const frontendType = useFrontendType(props);
 
-    if (isSelect) {
-        return <SelectWidget {...props} />;
+    switch (frontendType) {
+        case "select":
+            return <SelectWidget {...props} />;
+        case "combobox":
+            return <ComboboxWidget {...props} />;
+        case "tagPicker":
+            return <TagPickerWidget {...props} />;
+        default:
+            return <div>Unknown frontend type: {frontendType}</div>;
     }
-
-    if (isCombobox) {
-        return <ComboboxWidget {...props} />;
-    }
-
-    return <TagPickerWidget {...props} />;
-    // return;
 }
 
 // eslint-disable-next-line prefer-arrow-callback
@@ -55,7 +60,7 @@ const SelectWidget = observer(function SelectWidget(props: RefFilterContainerPro
             useSelectProps={ctrl1.useSelectProps}
             options={ctrl1.options}
             onClear={ctrl1.handleClear}
-            clearable
+            clearable={props.clearable}
             empty={ctrl1.isEmpty}
             onFocus={ctrl1.handleFocus}
             showCheckboxes={ctrl1.multiselect}
@@ -99,8 +104,9 @@ const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContai
             onFocus={ctrl3.handleFocus}
             inputPlaceholder={ctrl3.inputPlaceholder}
             empty={ctrl3.isEmpty}
-            showCheckboxes
-            // selectedStyle="text"
+            showCheckboxes={props.selectionMethod === "checkbox"}
+            selectedStyle={props.selectedItemsStyle}
+            filterSelectedOptions={ctrl3.filterSelectedOptions}
         />
     );
 });
