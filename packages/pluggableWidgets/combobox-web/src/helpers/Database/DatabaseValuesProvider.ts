@@ -13,7 +13,6 @@ export class DatabaseValuesProvider implements ValuesProvider<string | Big> {
     constructor(private optionsMap: Map<string, ObjectItem>) {}
 
     updateProps(props: Props): void {
-        this.emptyValue = props.emptyValue;
         this.attribute = props.valueAttribute;
     }
 
