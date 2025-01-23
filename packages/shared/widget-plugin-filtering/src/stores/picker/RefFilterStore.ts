@@ -1,11 +1,4 @@
-import {
-    ListAttributeValue,
-    ListExpressionValue,
-    ListReferenceSetValue,
-    ListReferenceValue,
-    ListValue,
-    ObjectItem
-} from "mendix";
+import { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
 import { action, autorun, computed, makeObservable, observable, reaction, runInAction, when } from "mobx";
@@ -17,13 +10,17 @@ import { SearchStore } from "./SearchStore";
 
 type ListAttributeId = ListAttributeValue["id"];
 
-export type RefFilterStoreProps = {
+export interface RefFilterStoreProps {
     ref: ListReferenceValue | ListReferenceSetValue;
     datasource: ListValue;
-    caption: ListExpressionValue | ListAttributeValue;
     searchAttrId?: ListAttributeId;
     fetchOptionsLazy?: boolean;
-};
+    caption: CaptionAccessor;
+}
+
+interface CaptionAccessor {
+    get: (obj: ObjectItem) => { value: string | undefined };
+}
 
 export class RefFilterStore extends BaseSelectStore {
     readonly storeType = "refselect";
@@ -31,7 +28,7 @@ export class RefFilterStore extends BaseSelectStore {
 
     private datasource: ListValue;
     private listRef: ListReferenceValue | ListReferenceSetValue;
-    private caption: ListExpressionValue | ListAttributeValue;
+    private caption: CaptionAccessor;
     private searchAttrId?: ListAttributeId;
     /**
      * As Ref filter fetch options lazily,

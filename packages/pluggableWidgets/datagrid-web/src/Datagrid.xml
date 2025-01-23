@@ -111,38 +111,48 @@
                                 <caption>Filter</caption>
                                 <description />
                             </property>
+                            <property key="visible" type="expression" required="true" defaultValue="true">
+                                <caption>Visible</caption>
+                                <description />
+                                <returnType type="Boolean" />
+                            </property>
+                        </propertyGroup>
+                        <propertyGroup caption="Drop-down filter settings">
                             <property key="filterAssociation" type="association" selectableObjects="filterAssociationOptions" required="false" dataSource="../datasource">
-                                <caption>Reference</caption>
-                                <description>Set the reference to enable filtering over association with the Drop-down filter widget.</description>
+                                <caption>Entity</caption>
+                                <description>Set the entity to enable filtering over association with the Drop-down filter widget.</description>
                                 <associationTypes>
                                     <associationType name="Reference" />
                                     <associationType name="ReferenceSet" />
                                 </associationTypes>
                             </property>
                             <property key="filterAssociationOptions" type="datasource" isList="true" required="false">
-                                <caption>Data source</caption>
+                                <caption>Selectable objects</caption>
                                 <description>The options to show in the Drop-down filter widget.</description>
                             </property>
                             <property key="fetchOptionsLazy" type="boolean" defaultValue="true">
                                 <caption>Use lazy load</caption>
                                 <description>Lazy loading enables faster data grid loading, but with personalization enabled, value restoration will be limited.</description>
                             </property>
+                            <property key="filterCaptionType" type="enumeration" defaultValue="expression">
+                                <caption>Option caption type</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="attribute">Attribute</enumerationValue>
+                                    <enumerationValue key="expression">Expression</enumerationValue>
+                                </enumerationValues>
+                            </property>
                             <property key="filterAssociationOptionLabel" type="expression" dataSource="filterAssociationOptions" required="false">
                                 <caption>Option caption</caption>
                                 <description />
                                 <returnType type="String" />
                             </property>
-                            <property key="filterAssociationSearchAttribute" type="attribute" dataSource="filterAssociationOptions" required="false">
-                                <caption>search attribute</caption>
+                            <property key="filterAssociationOptionLabelAttr" type="attribute" dataSource="filterAssociationOptions" required="false">
+                                <caption>Option caption</caption>
                                 <description />
                                 <attributeTypes>
                                     <attributeType name="String" />
                                 </attributeTypes>
-                            </property>
-                            <property key="visible" type="expression" required="true" defaultValue="true">
-                                <caption>Visible</caption>
-                                <description />
-                                <returnType type="Boolean" />
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Column capabilities">

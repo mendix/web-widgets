@@ -64,12 +64,18 @@ export class ColumnFilterStore implements IColumnFilterStore {
     }
 
     private toRefselectProps(props: ColumnsType): RefFilterStoreProps {
+        const searchAttrId = props.filterAssociationOptionLabelAttr?.id;
+        const caption =
+            props.filterCaptionType === "expression"
+                ? ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel"))
+                : ensure(props.filterAssociationOptionLabelAttr, errorMessage("filterAssociationOptionLabelAttr"));
+
         return {
             ref: ensure(props.filterAssociation, errorMessage("filterAssociation")),
             datasource: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
-            caption: ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel")),
-            searchAttrId: props.filterAssociationSearchAttribute?.id,
-            fetchOptionsLazy: props.fetchOptionsLazy
+            searchAttrId,
+            fetchOptionsLazy: props.fetchOptionsLazy,
+            caption
         };
     }
 

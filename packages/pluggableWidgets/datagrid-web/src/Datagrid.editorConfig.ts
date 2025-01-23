@@ -79,8 +79,15 @@ export function getProperties(
             hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
                 "filterAssociationOptions",
                 "filterAssociationOptionLabel",
-                "fetchOptionsLazy"
+                "fetchOptionsLazy",
+                "filterCaptionType",
+                "filterAssociationOptionLabelAttr"
             ]);
+        }
+        if (column.filterCaptionType === "attribute") {
+            hidePropertyIn(defaultProperties, values, "columns", index, "filterAssociationOptionLabel");
+        } else {
+            hidePropertyIn(defaultProperties, values, "columns", index, "filterAssociationOptionLabelAttr");
         }
     });
     if (values.pagination === "buttons") {
@@ -204,8 +211,9 @@ export const getPreview = (
                   filter: { widgetCount: 0, renderer: () => null },
                   filterAssociation: "",
                   filterAssociationOptionLabel: "",
+                  filterAssociationOptionLabelAttr: "",
                   filterAssociationOptions: {},
-                  filterAssociationSearchAttribute: "",
+                  filterCaptionType: "attribute",
                   header: "Column",
                   hidable: "no",
                   resizable: false,
