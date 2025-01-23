@@ -17,14 +17,15 @@ interface TagPickerProps {
     onBlur: () => void;
     onFocus?: React.FocusEventHandler<HTMLInputElement>;
     showCheckboxes: boolean;
-    selectedStyle?: "tags" | "text";
+    selectedStyle?: "boxes" | "text";
+    ariaLabel?: string;
 }
 
 const cls = classes();
 
 // eslint-disable-next-line prefer-arrow-callback
 export const TagPicker = observer(function TagPicker(props: TagPickerProps): React.ReactElement {
-    const { showCheckboxes, selectedStyle = "tags" } = props;
+    const { showCheckboxes, selectedStyle = "boxes", ariaLabel: inputLabel = "Search" } = props;
     const inputRef = useRef<HTMLInputElement>(null);
     const { getSelectedItemProps, getDropdownProps, removeSelectedItem } = useMultipleSelection(
         props.useMultipleSelectionProps()
@@ -38,7 +39,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
         <div
             className={cn(cls.root, "form-control", {
                 "variant-tag-picker-text": selectedStyle === "text",
-                "variant-tag-picker": selectedStyle === "tags"
+                "variant-tag-picker": selectedStyle === "boxes"
             })}
             ref={refs.setReference}
             data-expanded={isOpen}
@@ -73,7 +74,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                 <input
                     className={cls.input}
                     {...getInputProps({
-                        "aria-label": "Unknown",
+                        "aria-label": inputLabel,
                         onBlur: props.onBlur,
                         onFocus: props.onFocus,
                         placeholder: props.inputPlaceholder,

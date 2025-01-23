@@ -1,28 +1,28 @@
-import { DatagridDropdownFilterPreviewProps } from "../typings/DatagridDropdownFilterProps";
+import { hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import { chevronDownIcon, chevronDownIconDark } from "@mendix/widget-plugin-filtering/preview/editor-preview-icons";
 import {
     ContainerProps,
     ImageProps,
+    structurePreviewPalette,
     StructurePreviewProps,
-    text,
-    structurePreviewPalette
+    text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { DatagridDropdownFilterPreviewProps } from "../typings/DatagridDropdownFilterProps";
 
-export function getProperties(
-    values: DatagridDropdownFilterPreviewProps,
-    defaultProperties: Properties,
-    platform: "web" | "desktop"
-): Properties {
+export function getProperties(values: DatagridDropdownFilterPreviewProps, defaultProperties: Properties): Properties {
+    const showTagPickerProps = values.filterable && values.multiSelect;
+
     if (values.auto) {
         hidePropertyIn(defaultProperties, values, "filterOptions");
     }
-    if (platform === "web") {
-        if (!values.advanced) {
-            hidePropertiesIn(defaultProperties, values, ["onChange", "valueAttribute"]);
-        }
-    } else {
-        hidePropertyIn(defaultProperties, values, "advanced");
+
+    if (values.filterable) {
+        hidePropertyIn(defaultProperties, values, "clearable");
+    }
+
+    if (!showTagPickerProps) {
+        hidePropertyIn(defaultProperties, values, "selectionMethod");
+        hidePropertyIn(defaultProperties, values, "selectedItemsStyle");
     }
 
     return defaultProperties;
