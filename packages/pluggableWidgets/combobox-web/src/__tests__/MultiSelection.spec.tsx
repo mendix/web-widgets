@@ -56,7 +56,6 @@ describe("Combo box (Association)", () => {
             showFooter: false,
             databaseAttributeString: new EditableValueBuilder<string | Big>().build(),
             optionsSourceDatabaseCaptionType: "attribute",
-            optionsSourceDatabaseDefaultValue: dynamic("empty value"),
             optionsSourceDatabaseCustomContentType: "yes",
             staticDataSourceCustomContentType: "no",
             staticAttribute: new EditableValueBuilder<string>().build(),
