@@ -52,7 +52,7 @@ export function ComboboxControllerMixin<TBase extends BaseController>(Base: TBas
             disposers.push(reaction(...this.storeSyncFx()));
 
             disposers.push(super.setup());
-            this.inputValue = this.inputInitValue;
+            this.setInputValue(this.inputInitValue);
             return dispose;
         }
 
