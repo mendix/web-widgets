@@ -20,17 +20,18 @@ type ListAttributeId = ListAttributeValue["id"];
 export type RefFilterStoreProps = {
     ref: ListReferenceValue | ListReferenceSetValue;
     datasource: ListValue;
-    caption: ListExpressionValue;
+    caption: ListExpressionValue | ListAttributeValue;
     searchAttrId?: ListAttributeId;
     fetchOptionsLazy?: boolean;
 };
 
 export class RefFilterStore extends BaseSelectStore {
     readonly storeType = "refselect";
+    readonly optionsFilterable: boolean;
 
     private datasource: ListValue;
     private listRef: ListReferenceValue | ListReferenceSetValue;
-    private caption: ListExpressionValue;
+    private caption: ListExpressionValue | ListAttributeValue;
     private searchAttrId?: ListAttributeId;
     /**
      * As Ref filter fetch options lazily,
@@ -55,6 +56,7 @@ export class RefFilterStore extends BaseSelectStore {
         this.searchAttrId = props.searchAttrId;
         this.initCondArray = initCond ? flattenRefCond(initCond) : [];
         this.search = new SearchStore();
+        this.optionsFilterable = !!this.searchAttrId;
 
         if (this.lazyMode) {
             this.datasource.setLimit(0);
