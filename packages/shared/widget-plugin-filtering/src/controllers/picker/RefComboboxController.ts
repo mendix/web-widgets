@@ -5,7 +5,6 @@ export class RefComboboxController extends ComboboxControllerMixin(RefBaseContro
     constructor(props: RefBaseControllerProps) {
         super({ ...props, multiselect: false });
         this.inputPlaceholder = props.inputPlaceholder ?? "Search";
-        this.inputValue = this.inputInitValue;
     }
 
     handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
