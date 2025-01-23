@@ -5,6 +5,5 @@ export class StaticComboboxController extends ComboboxControllerMixin(StaticBase
     constructor(props: StaticBaseControllerProps) {
         super({ ...props, multiselect: false });
         this.inputPlaceholder = props.inputPlaceholder ?? "Search";
-        this.inputValue = this.inputInitValue;
     }
 }
