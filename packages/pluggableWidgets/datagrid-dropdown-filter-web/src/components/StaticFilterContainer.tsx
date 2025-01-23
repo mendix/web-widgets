@@ -5,13 +5,18 @@ import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Comb
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties } from "react";
-import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
+import {
+    FilterOptionsType,
+    SelectedItemsStyleEnum,
+    SelectionMethodEnum
+} from "../../typings/DatagridDropdownFilterProps";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/StaticSelectFilterStore";
 import { StaticTagPickerController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticTagPickerController";
 import { TagPicker } from "@mendix/widget-plugin-filtering/controls/tag-picker/TagPicker";
 import { useSetupUpdate } from "@mendix/widget-plugin-filtering/helpers/useSetupUpdate";
 import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
+import { useFrontendType } from "../hooks/useFrontendType";
 
 export interface StaticFilterContainerProps {
     ariaLabel?: string;
@@ -26,21 +31,25 @@ export interface StaticFilterContainerProps {
     parentChannelName: string | undefined;
     styles?: CSSProperties;
     valueAttribute?: EditableValue<string>;
+    filterable: boolean;
+    selectionMethod: SelectionMethodEnum;
+    selectedItemsStyle: SelectedItemsStyleEnum;
+    clearable: boolean;
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
-    const isSelect = true;
-    const isCombobox = false;
+    const frontendType = useFrontendType(props);
 
-    if (isSelect) {
-        return <SelectWidget {...props} />;
+    switch (frontendType) {
+        case "select":
+            return <SelectWidget {...props} />;
+        case "combobox":
+            return <ComboboxWidget {...props} />;
+        case "tagPicker":
+            return <TagPickerWidget {...props} />;
+        default:
+            return <div>Unknown frontend type: {frontendType}</div>;
     }
-
-    if (isCombobox) {
-        return <ComboboxWidget {...props} />;
-    }
-
-    return <TagPickerWidget {...props} />;
 }
 
 // eslint-disable-next-line prefer-arrow-callback
@@ -55,7 +64,7 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
             useSelectProps={ctrl1.useSelectProps}
             options={ctrl1.options}
             onClear={ctrl1.handleClear}
-            clearable
+            clearable={props.clearable}
             empty={ctrl1.isEmpty}
             showCheckboxes={ctrl1.multiselect}
         />
@@ -97,8 +106,9 @@ const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterCon
             onBlur={ctrl3.handleBlur}
             inputPlaceholder={ctrl3.inputPlaceholder}
             empty={ctrl3.isEmpty}
-            showCheckboxes={false}
-            selectedStyle="text"
+            showCheckboxes={props.selectionMethod === "checkbox"}
+            selectedStyle={props.selectedItemsStyle}
+            filterSelectedOptions={ctrl3.filterSelectedOptions}
         />
     );
 });

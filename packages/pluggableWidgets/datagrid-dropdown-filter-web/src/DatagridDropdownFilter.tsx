@@ -17,7 +17,11 @@ function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAP
         name: props.name,
         multiselect: props.multiSelect,
         emptyCaption: props.emptyOptionCaption?.value,
-        defaultValue: props.defaultValue?.value
+        defaultValue: props.defaultValue?.value,
+        filterable: props.filterable,
+        selectionMethod: props.selectionMethod,
+        selectedItemsStyle: props.selectedItemsStyle,
+        clearable: props.clearable
     };
 
     if (props.filterStore.storeType === "refselect") {

@@ -39,7 +39,7 @@ export function SelectControllerMixin<TBase extends BaseController>(Base: TBase)
         }
 
         get options(): OptionWithState[] {
-            return this.filterStore.options;
+            return [this.emptyOption, ...this.filterStore.options];
         }
 
         get isEmpty(): boolean {
@@ -62,7 +62,7 @@ export function SelectControllerMixin<TBase extends BaseController>(Base: TBase)
 
         useSelectProps = (): UseSelectProps<OptionWithState> => {
             const props: UseSelectProps<OptionWithState> = {
-                items: this.filterStore.options,
+                items: this.options,
                 itemToKey: item => item?.value,
                 itemToString: item => item?.caption ?? "",
                 onSelectedItemChange: ({ selectedItem }) => {

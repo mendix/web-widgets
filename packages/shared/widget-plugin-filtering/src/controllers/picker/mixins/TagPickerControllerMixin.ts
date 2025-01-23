@@ -27,6 +27,7 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
         touched = false;
         inputValue = "";
         inputPlaceholder = "";
+        filterSelectedOptions = false;
 
         constructor(...args: any[]) {
             super(...args);
@@ -66,7 +67,8 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
         }
 
         get options(): OptionWithState[] {
-            return this.filterStore.options;
+            const options = this.filterStore.options;
+            return this.filterSelectedOptions ? options.filter(option => !option.selected) : options;
         }
 
         get isEmpty(): boolean {
@@ -104,7 +106,7 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
 
         useComboboxProps = (): UseComboboxProps<OptionWithState> => {
             const props: UseComboboxProps<OptionWithState> = {
-                items: this.filterStore.options,
+                items: this.options,
                 itemToKey: item => item?.value,
                 itemToString: item => item?.caption ?? "",
                 inputValue: this.inputValue,

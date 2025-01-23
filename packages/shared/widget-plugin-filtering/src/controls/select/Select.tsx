@@ -20,11 +20,12 @@ interface DropdownProps {
 const cls = classes();
 // eslint-disable-next-line prefer-arrow-callback
 export const Select = observer(function Select(props: DropdownProps): React.ReactElement {
-    const { empty: isEmpty, showCheckboxes } = props;
+    const { empty: isEmpty, showCheckboxes, clearable } = props;
     const toggleRef = useRef<HTMLButtonElement>(null);
     const { getToggleButtonProps, getMenuProps, getItemProps, isOpen, highlightedIndex } = useSelect(
         props.useSelectProps()
     );
+    const showClear = clearable && !isEmpty;
 
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
 
@@ -45,7 +46,7 @@ export const Select = observer(function Select(props: DropdownProps): React.Reac
             >
                 {props.value}
             </button>
-            {!isEmpty && (
+            {showClear && (
                 <button
                     className={cls.clear}
                     tabIndex={-1}
