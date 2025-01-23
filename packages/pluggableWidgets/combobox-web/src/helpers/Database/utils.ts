@@ -24,7 +24,6 @@ type ExtractionReturnValue = {
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
     ds: ListValue;
     emptyOption?: DynamicValue<string>;
-    emptyValue?: DynamicValue<string | Big>;
     filterType: FilterTypeEnum;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
@@ -43,7 +42,6 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const captionAttribute = props.optionsSourceDatabaseCaptionAttribute;
     const captionExpression = props.optionsSourceDatabaseCaptionExpression;
     const emptyOption = props.emptyOptionText;
-    const emptyValue = props.optionsSourceDatabaseDefaultValue;
     const clearable = props.clearable;
     const customContent = props.optionsSourceDatabaseCustomContent;
     const customContentType = props.optionsSourceDatabaseCustomContentType;
@@ -82,7 +80,6 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         customContentType,
         ds,
         emptyOption,
-        emptyValue,
         filterType,
         lazyLoading,
         loadingType,

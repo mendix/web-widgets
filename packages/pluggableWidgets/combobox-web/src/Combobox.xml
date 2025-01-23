@@ -124,11 +124,6 @@
                         <attributeType name="Enum" />
                     </attributeTypes>
                 </property>
-                <property key="optionsSourceDatabaseDefaultValue" type="expression" required="false">
-                    <caption>Default value</caption>
-                    <description />
-                    <returnType assignableTo="databaseAttributeString" />
-                </property>
                 <!-- END DATABASE / STRING -->
             </propertyGroup>
             <propertyGroup caption="Attribute">

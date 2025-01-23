@@ -61,7 +61,6 @@ export interface ComboboxContainerProps {
     optionsSourceDatabaseCaptionExpression?: ListExpressionValue<string>;
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
     databaseAttributeString?: EditableValue<string | Big>;
-    optionsSourceDatabaseDefaultValue?: DynamicValue<string | Big>;
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     staticAttribute: EditableValue<string | Big | boolean | Date>;
@@ -112,7 +111,6 @@ export interface ComboboxPreviewProps {
     optionsSourceDatabaseCaptionExpression: string;
     optionsSourceDatabaseValueAttribute: string;
     databaseAttributeString: string;
-    optionsSourceDatabaseDefaultValue: string;
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     staticAttribute: string;
