@@ -12,4 +12,8 @@ export class RefComboboxController extends ComboboxControllerMixin(RefBaseContro
         super.handleFocus(event);
         this.filterStore.setFetchReady(true);
     };
+
+    handleMenuScrollEnd = (): void => {
+        this.filterStore.loadMore();
+    };
 }

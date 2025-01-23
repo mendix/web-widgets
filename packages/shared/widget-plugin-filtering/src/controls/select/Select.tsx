@@ -14,6 +14,7 @@ interface DropdownProps {
     useSelectProps: () => UseSelectProps<OptionWithState>;
     onClear: () => void;
     onFocus?: React.FocusEventHandler<HTMLButtonElement>;
+    onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
     showCheckboxes?: boolean;
 }
 
@@ -62,7 +63,7 @@ export const Select = observer(function Select(props: DropdownProps): React.Reac
             <Arrow className={cls.stateIcon} />
             <div className={cls.popover} hidden={!isOpen} ref={refs.setFloating} style={floatingStyles}>
                 <div className={cls.menuSlot}>
-                    <ul {...getMenuProps({ className: cls.menu })}>
+                    <ul {...getMenuProps({ className: cls.menu })} onScroll={props.onMenuScroll}>
                         {isOpen &&
                             props.options.map((item, index) => (
                                 <li
