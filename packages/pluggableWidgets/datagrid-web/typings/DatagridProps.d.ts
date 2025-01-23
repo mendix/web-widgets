@@ -15,6 +15,8 @@ export type LoadingTypeEnum = "spinner" | "skeleton";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
 
+export type FilterCaptionTypeEnum = "attribute" | "expression";
+
 export type HidableEnum = "yes" | "hidden" | "no";
 
 export type WidthEnum = "autoFill" | "autoFit" | "manual";
@@ -32,12 +34,13 @@ export interface ColumnsType {
     header?: DynamicValue<string>;
     tooltip?: ListExpressionValue<string>;
     filter?: ReactNode;
+    visible: DynamicValue<boolean>;
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
     fetchOptionsLazy: boolean;
+    filterCaptionType: FilterCaptionTypeEnum;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
-    filterAssociationSearchAttribute?: ListAttributeValue<string>;
-    visible: DynamicValue<boolean>;
+    filterAssociationOptionLabelAttr?: ListAttributeValue<string>;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
@@ -77,12 +80,13 @@ export interface ColumnsPreviewType {
     header: string;
     tooltip: string;
     filter: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    visible: string;
     filterAssociation: string;
     filterAssociationOptions: {} | { caption: string } | { type: string } | null;
     fetchOptionsLazy: boolean;
+    filterCaptionType: FilterCaptionTypeEnum;
     filterAssociationOptionLabel: string;
-    filterAssociationSearchAttribute: string;
-    visible: string;
+    filterAssociationOptionLabelAttr: string;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
