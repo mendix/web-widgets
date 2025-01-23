@@ -14,6 +14,7 @@ interface ComboboxProps {
     onClear: () => void;
     onBlur: React.FocusEventHandler<HTMLInputElement>;
     onFocus: React.FocusEventHandler<HTMLInputElement>;
+    onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
 }
 
 const cls = classes();
@@ -62,7 +63,7 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
             )}
             <div className={cls.popover} hidden={!isOpen} ref={refs.setFloating} style={floatingStyles}>
                 <div className={cls.menuSlot}>
-                    <ul className={cls.menu} {...getMenuProps()}>
+                    <ul className={cls.menu} {...getMenuProps()} onScroll={props.onMenuScroll}>
                         {isOpen &&
                             props.options.map((item, index) => (
                                 <li

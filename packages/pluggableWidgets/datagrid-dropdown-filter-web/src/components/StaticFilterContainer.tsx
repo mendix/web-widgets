@@ -108,7 +108,6 @@ const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterCon
             empty={ctrl3.isEmpty}
             showCheckboxes={props.selectionMethod === "checkbox"}
             selectedStyle={props.selectedItemsStyle}
-            filterSelectedOptions={ctrl3.filterSelectedOptions}
         />
     );
 });

@@ -10,4 +10,8 @@ export class RefSelectController extends SelectControllerMixin(RefBaseController
     handleFocus = (): void => {
         this.filterStore.setFetchReady(true);
     };
+
+    handleMenuScrollEnd = (): void => {
+        this.filterStore.loadMore();
+    };
 }

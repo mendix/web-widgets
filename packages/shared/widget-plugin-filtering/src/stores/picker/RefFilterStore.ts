@@ -38,7 +38,7 @@ export class RefFilterStore extends BaseSelectStore {
      * return it if options not loaded yet.
      */
     private readonly initCondArray: Array<EqualsCondition | ContainsCondition>;
-    private readonly pageSize = 10;
+    private readonly pageSize = 20;
     private readonly searchSize = 100;
     private fetchReady = false;
 
