@@ -39,5 +39,5 @@ export const EKEYMISSING: APIError = Object.freeze({
 export const OPTIONS_NOT_FILTERABLE: APIError = Object.freeze({
     code: Code.OPTIONS_NOT_FILTERABLE,
     message:
-        "Drop-down options can't be filtered with current column configuration. To enable filtering, change caption type to 'attribute' in column settings."
+        "Drop-down options can't be filtered with current column configuration. To enable filtering, change 'Option caption type'  to 'Attribute' in column settings."
 });
