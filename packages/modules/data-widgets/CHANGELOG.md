@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.29.1] DataWidgets - 2025-01-24
+
+### [2.29.1] Datagrid
+
+#### Fixed
+
+-   We fixed the position configuration of paging button that removed on previous version.
+
 ## [2.29.0] DataWidgets - 2025-01-21
 
 ### [2.11.1] DatagridDateFilter
