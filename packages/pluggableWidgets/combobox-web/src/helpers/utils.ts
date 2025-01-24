@@ -114,3 +114,20 @@ export function _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {
     }
     return valueA === valueB;
 }
+
+export function sortSelections(
+    newValueIds: string[],
+    sortingType: "caption" | "value" | "none",
+    captionGetter: (id: string) => string | undefined
+): string[] {
+    if (sortingType === "caption") {
+        return newValueIds.sort((a, b) => {
+            const captionA = captionGetter(a)?.toString() ?? "";
+            const captionB = captionGetter(b)?.toString() ?? "";
+            return captionA.localeCompare(captionB);
+        });
+    } else if (sortingType === "value") {
+        return newValueIds.sort();
+    }
+    return newValueIds;
+}
