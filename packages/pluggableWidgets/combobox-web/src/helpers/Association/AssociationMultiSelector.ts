@@ -3,6 +3,7 @@ import { ComboboxContainerProps, SelectedItemsStyleEnum, SelectionMethodEnum } f
 import { MultiSelector } from "../types";
 import { BaseAssociationSelector } from "./BaseAssociationSelector";
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
+import { sortSelections } from "../utils";
 
 export class AssociationMultiSelector
     extends BaseAssociationSelector<string[], ReferenceSetValue>
@@ -25,22 +26,7 @@ export class AssociationMultiSelector
         const newValues = this._attr?.value ?? null;
         if (newValues) {
             const newValueIds = newValues.map(v => v.id.toString());
-
-            if (this.selectedItemsSorting === "none") {
-                this.orderedSelections = [
-                    ...this.orderedSelections.filter(id => newValueIds.includes(id)),
-                    ...newValueIds.filter(id => !this.orderedSelections.includes(id))
-                ];
-            } else if (this.selectedItemsSorting === "caption") {
-                this.orderedSelections = newValueIds.sort((a, b) => {
-                    const captionA = this.caption.get(a)?.toString() ?? "";
-                    const captionB = this.caption.get(b)?.toString() ?? "";
-                    return captionA.localeCompare(captionB);
-                });
-            } else {
-                this.orderedSelections = newValueIds.sort();
-            }
-
+            this.orderedSelections = sortSelections(newValueIds, this.selectedItemsSorting, id => this.caption.get(id));
             this.currentId = this.orderedSelections;
         } else {
             this.orderedSelections = [];
@@ -53,11 +39,7 @@ export class AssociationMultiSelector
     }
 
     setValue(value: string[] | null): void {
-        if (value === null) {
-            this.orderedSelections = [];
-        } else {
-            this.orderedSelections = value;
-        }
+        this.orderedSelections = value || [];
         const newValue = this.orderedSelections.map(v => this.options._optionToValue(v)!);
         this._attr?.setValue(newValue);
         super.setValue(value);
