@@ -65,6 +65,8 @@ const SelectWidget = observer(function SelectWidget(props: RefFilterContainerPro
             onFocus={ctrl1.handleFocus}
             onMenuScroll={handleMenuScroll}
             showCheckboxes={ctrl1.multiselect}
+            className={props.className}
+            style={props.styles}
         />
     );
 });
@@ -86,6 +88,8 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
             onBlur={ctrl2.handleBlur}
             onMenuScroll={handleMenuScroll}
             empty={ctrl2.isEmpty}
+            className={props.className}
+            style={props.styles}
         />
     );
 });
@@ -111,6 +115,8 @@ const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContai
             empty={ctrl3.isEmpty}
             showCheckboxes={props.selectionMethod === "checkbox"}
             selectedStyle={props.selectedItemsStyle}
+            className={props.className}
+            style={props.styles}
         />
     );
 });

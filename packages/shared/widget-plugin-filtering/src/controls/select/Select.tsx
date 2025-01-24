@@ -6,21 +6,23 @@ import { OptionWithState } from "../../typings/OptionListFilterInterface";
 import { Arrow, classes, Cross } from "../picker-primitives";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
 
-interface DropdownProps {
+interface SelectProps {
     value: string;
     options: OptionWithState[];
     clearable: boolean;
     empty: boolean;
+    className?: string;
+    showCheckboxes?: boolean;
+    style?: React.CSSProperties;
     useSelectProps: () => UseSelectProps<OptionWithState>;
     onClear: () => void;
     onFocus?: React.FocusEventHandler<HTMLButtonElement>;
     onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
-    showCheckboxes?: boolean;
 }
 
 const cls = classes();
 // eslint-disable-next-line prefer-arrow-callback
-export const Select = observer(function Select(props: DropdownProps): React.ReactElement {
+export const Select = observer(function Select(props: SelectProps): React.ReactElement {
     const { empty: isEmpty, showCheckboxes, clearable } = props;
     const toggleRef = useRef<HTMLButtonElement>(null);
     const { getToggleButtonProps, getMenuProps, getItemProps, isOpen, highlightedIndex } = useSelect(
@@ -32,10 +34,11 @@ export const Select = observer(function Select(props: DropdownProps): React.Reac
 
     return (
         <div
-            className={cn(cls.root, "form-control", "variant-select")}
+            className={cn(cls.root, "form-control", "variant-select", props.className)}
             ref={refs.setReference}
             data-expanded={isOpen}
             data-empty={isEmpty ? true : undefined}
+            style={props.style}
         >
             <button
                 className={cls.toggle}
