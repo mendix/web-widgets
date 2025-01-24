@@ -10,6 +10,8 @@ interface ComboboxProps {
     options: OptionWithState[];
     inputPlaceholder: string;
     empty: boolean;
+    className?: string;
+    style?: React.CSSProperties;
     useComboboxProps: () => UseComboboxProps<OptionWithState>;
     onClear: () => void;
     onBlur: React.FocusEventHandler<HTMLInputElement>;
@@ -30,10 +32,11 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
 
     return (
         <div
-            className={cn(cls.root, "form-control", "variant-combobox")}
+            className={cn(cls.root, "form-control", "variant-combobox", props.className)}
             ref={refs.setReference}
             data-expanded={isOpen}
             data-empty={props.empty ? true : undefined}
+            style={props.style}
         >
             <input
                 className={cls.input}
