@@ -42,7 +42,8 @@ const mockColumn = (columnIndex: number): ColumnsType => {
         size: 1,
         alignment: "left",
         wrapText: false,
-        fetchOptionsLazy: true
+        fetchOptionsLazy: true,
+        filterCaptionType: "attribute"
     };
 
     return column;

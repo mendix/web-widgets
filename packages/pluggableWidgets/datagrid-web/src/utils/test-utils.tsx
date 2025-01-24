@@ -30,7 +30,8 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
         minWidth: "auto",
         minWidthLimit: 100,
         allowEventPropagation: true,
-        fetchOptionsLazy: true
+        fetchOptionsLazy: true,
+        filterCaptionType: "attribute"
     };
 
     if (patch) {
