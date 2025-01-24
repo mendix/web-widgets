@@ -32,4 +32,5 @@ export interface SharedProps extends Dimensions {
     className?: string;
     style?: CSSProperties;
     geoJSON?: string;
+    onGeoJSONClick?: ActionValue;
 }

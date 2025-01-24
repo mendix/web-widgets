@@ -98,6 +98,7 @@ export interface MapsContainerProps {
     mapProvider: MapProviderEnum;
     googleMapId: string;
     geoJSON?: DynamicValue<string>;
+    onGeoJSONClick?: ActionValue;
 }
 
 export interface MapsPreviewProps {
@@ -135,4 +136,5 @@ export interface MapsPreviewProps {
     mapProvider: MapProviderEnum;
     googleMapId: string;
     geoJSON: string;
+    onGeoJSONClick: {} | null;
 }

@@ -27,7 +27,7 @@ export function baseMapLayer(mapProvider: MapProviderEnum, mapsToken?: string): 
         return {
             url,
             attribution,
-            id: "mapbox/streets-v11",
+            id: "mapbox/satellite-streets-v12",
             tileSize: 512,
             zoomOffset: -1
         };

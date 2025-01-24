@@ -50,6 +50,7 @@ export default function Maps(props: MapsContainerProps): ReactNode {
             widthUnit={props.widthUnit}
             zoomLevel={translateZoom(props.zoom)}
             geoJSON={typeof props.geoJSON === "string" ? props.geoJSON : props.geoJSON?.value}
+            onGeoJSONClick={props.onGeoJSONClick}
         />
     );
 }

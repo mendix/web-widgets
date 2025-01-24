@@ -266,6 +266,10 @@
                 <description>When used this will display the geoJSON on the map and zoom to the boundaries of the geoJSON</description>
                 <returnType type="String" />
             </property>
+            <property key="onGeoJSONClick" type="action" required="false">
+                <caption>On GeoJSON Click</caption>
+                <description>Triggered when a GeoJSON feature is clicked. The input parameter should match the GeoJSON feature entity.</description>
+            </property>
         </propertyGroup>
     </properties>
 </widget>
