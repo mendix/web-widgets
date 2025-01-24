@@ -67,6 +67,8 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
             clearable={props.clearable}
             empty={ctrl1.isEmpty}
             showCheckboxes={ctrl1.multiselect}
+            className={props.className}
+            style={props.styles}
         />
     );
 });
@@ -86,6 +88,8 @@ const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterConta
             onFocus={ctrl2.handleFocus}
             onBlur={ctrl2.handleBlur}
             empty={ctrl2.isEmpty}
+            className={props.className}
+            style={props.styles}
         />
     );
 });
@@ -108,6 +112,8 @@ const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterCon
             empty={ctrl3.isEmpty}
             showCheckboxes={props.selectionMethod === "checkbox"}
             selectedStyle={props.selectedItemsStyle}
+            className={props.className}
+            style={props.styles}
         />
     );
 });
