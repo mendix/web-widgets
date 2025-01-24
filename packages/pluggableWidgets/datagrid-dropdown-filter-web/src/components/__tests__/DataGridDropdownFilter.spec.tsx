@@ -34,11 +34,12 @@ const headerFilterStoreInfo: StaticInfo = {
 const consoleError = global.console.error;
 jest.spyOn(global.console, "error").mockImplementation((...args: any[]) => {
     const [msg] = args;
+
     if (typeof msg === "string" && msg.startsWith("downshift:")) {
         return;
-    } else {
-        consoleError(...args);
     }
+
+    consoleError(...args);
 });
 
 describe("Dropdown Filter", () => {
