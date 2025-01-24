@@ -12,6 +12,7 @@ import { MultiSelector, Status } from "../types";
 import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
 import { extractDatabaseProps } from "./utils";
+import { sortSelections } from "../utils";
 
 export class DatabaseMultiSelectionSelector implements MultiSelector {
     caption: DatabaseCaptionsProvider;
@@ -126,22 +127,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         const newValues = this.selection?.selection ?? null;
         if (newValues) {
             const newValueIds = newValues.map(v => v.id.toString());
-
-            if (this.selectedItemsSorting === "none") {
-                this.orderedSelections = [
-                    ...this.orderedSelections.filter(id => newValueIds.includes(id)),
-                    ...newValueIds.filter(id => !this.orderedSelections.includes(id))
-                ];
-            } else if (this.selectedItemsSorting === "caption") {
-                this.orderedSelections = newValueIds.sort((a, b) => {
-                    const captionA = this.caption.get(a)?.toString() ?? "";
-                    const captionB = this.caption.get(b)?.toString() ?? "";
-                    return captionA.localeCompare(captionB);
-                });
-            } else {
-                this.orderedSelections = newValueIds.sort();
-            }
-
+            this.orderedSelections = sortSelections(newValueIds, this.selectedItemsSorting, id => this.caption.get(id));
             this.currentId = this.orderedSelections;
         } else {
             this.orderedSelections = [];
@@ -150,11 +136,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
     }
 
     setValue(value: string[] | null): void {
-        if (value === null) {
-            this.orderedSelections = [];
-        } else {
-            this.orderedSelections = value;
-        }
+        this.orderedSelections = value || [];
         const newValue = value?.map(v => this.options._optionToValue(v)!);
         if (newValue) {
             this.selection?.setSelection(newValue);
