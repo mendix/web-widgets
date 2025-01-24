@@ -11,15 +11,17 @@ interface TagPickerProps {
     options: OptionWithState[];
     empty: boolean;
     inputPlaceholder: string;
+    showCheckboxes: boolean;
+    selectedStyle?: "boxes" | "text";
+    ariaLabel?: string;
+    className?: string;
+    style?: React.CSSProperties;
     useMultipleSelectionProps: () => UseMultipleSelectionProps<OptionWithState>;
     useComboboxProps: () => UseComboboxProps<OptionWithState>;
     onClear: () => void;
     onBlur: () => void;
     onFocus?: React.FocusEventHandler<HTMLInputElement>;
     onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
-    showCheckboxes: boolean;
-    selectedStyle?: "boxes" | "text";
-    ariaLabel?: string;
 }
 
 const cls = classes();
@@ -38,13 +40,19 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
 
     return (
         <div
-            className={cn(cls.root, "form-control", {
-                "variant-tag-picker-text": selectedStyle === "text",
-                "variant-tag-picker": selectedStyle === "boxes"
-            })}
+            className={cn(
+                cls.root,
+                "form-control",
+                {
+                    "variant-tag-picker-text": selectedStyle === "text",
+                    "variant-tag-picker": selectedStyle === "boxes"
+                },
+                props.className
+            )}
             ref={refs.setReference}
             data-expanded={isOpen}
             data-empty={props.empty ? true : undefined}
+            style={props.style}
         >
             <div
                 className={cls.inputContainer}
