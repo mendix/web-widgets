@@ -10,6 +10,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We have optimized some internal workings to improve export to Excel performance.
 
+-   Column settings related to drop-down filter are moved into dedicated group
+
+### Fixed
+
+-   Accessibility fix regarding keyboard navigation and focus
+
+### Breaking changes
+
+-   Drop-down filter is rewritten with new, more accurate HTML for better accessibility, which may break existing CSS styling for projects using drop-down filter
+
 ## [2.29.1] - 2025-01-24
 
 ### Fixed

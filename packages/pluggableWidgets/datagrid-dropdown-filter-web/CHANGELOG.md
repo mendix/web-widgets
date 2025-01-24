@@ -6,7 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.9.4] - 2024-11-13
+### Added
+
+-   New set of settings allowing to make drop-down look and behave similar to combobox widget
+
+### Changed
+
+-   HTML is changed to meet modern accessibility requirements
+
+## [2.9.3] - 2024-11-13
 
 ### Fixed
 
