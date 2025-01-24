@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed the position configuration of paging button that removed on previous version.
+
 ## [2.29.0] - 2025-01-21
 
 ### Added

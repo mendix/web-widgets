@@ -87,10 +87,10 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "showNumberOfRows");
     } else {
         hidePropertyIn(defaultProperties, values, "showPagingButtons");
-    }
 
-    if (values.showNumberOfRows === false) {
-        hidePropertyIn(defaultProperties, values, "pagingPosition");
+        if (values.showNumberOfRows === false) {
+            hidePropertyIn(defaultProperties, values, "pagingPosition");
+        }
     }
 
     if (values.pagination !== "loadMore") {
