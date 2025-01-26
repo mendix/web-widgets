@@ -7,6 +7,7 @@ import {
     LoadingTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum,
     ReadOnlyStyleEnum,
+    SelectedItemsSortingEnum,
     SelectedItemsStyleEnum,
     SelectionMethodEnum
 } from "../../typings/ComboboxProps";
@@ -85,7 +86,7 @@ export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectionMethod: SelectionMethodEnum;
     selectAllButton: boolean;
-    selectedItemsSorting: "caption" | "value" | "none";
+    selectedItemsSorting: SelectedItemsSortingEnum;
     getOptions(): string[];
     isOptionsSelected(): ThreeStateCheckBoxEnum;
 }
