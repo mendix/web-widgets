@@ -1,8 +1,9 @@
 import { Big } from "big.js";
 import { MatchSorterOptions, matchSorter } from "match-sorter";
 import { PropsWithChildren, ReactElement, createElement } from "react";
-import { ComboboxPreviewProps, FilterTypeEnum } from "typings/ComboboxProps";
+import { ComboboxPreviewProps, FilterTypeEnum, SelectedItemsSortingEnum } from "typings/ComboboxProps";
 import { MultiSelector } from "./types";
+import { ObjectItem } from "mendix";
 
 export const DEFAULT_LIMIT_SIZE = 100;
 
@@ -115,9 +116,25 @@ export function _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {
     return valueA === valueB;
 }
 
-export function sortSelections(
+export function sortSelectedItems(
+    values: ObjectItem[] | null | undefined,
+    sortingType: SelectedItemsSortingEnum,
+    captionGetter: (id: string) => string | undefined
+): string[] | null {
+    if (values) {
+        return sortSelections(
+            values.map(v => (v?.id as string) ?? null),
+            sortingType,
+            captionGetter
+        );
+    } else {
+        return null;
+    }
+}
+
+function sortSelections(
     newValueIds: string[],
-    sortingType: "caption" | "value" | "none",
+    sortingType: SelectedItemsSortingEnum,
     captionGetter: (id: string) => string | undefined
 ): string[] {
     if (sortingType === "caption") {
@@ -126,8 +143,6 @@ export function sortSelections(
             const captionB = captionGetter(b)?.toString() ?? "";
             return captionA.localeCompare(captionB);
         });
-    } else if (sortingType === "value") {
-        return newValueIds.sort();
     }
     return newValueIds;
 }
