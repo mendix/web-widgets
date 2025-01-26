@@ -9,10 +9,10 @@ import {
 } from "../../../typings/ComboboxProps";
 import { LazyLoadProvider } from "../LazyLoadProvider";
 import { MultiSelector, Status } from "../types";
+import { sortSelectedItems } from "../utils";
 import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
 import { extractDatabaseProps } from "./utils";
-import { sortSelections } from "../utils";
 
 export class DatabaseMultiSelectionSelector implements MultiSelector {
     caption: DatabaseCaptionsProvider;
@@ -32,7 +32,6 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
     protected lazyLoader: LazyLoadProvider = new LazyLoadProvider();
     private _objectsMap: Map<string, ObjectItem> = new Map();
     selectedItemsSorting: "caption" | "value" | "none" = "value";
-    private orderedSelections: string[] = [];
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
@@ -122,21 +121,12 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         this.selectedItemsStyle = props.selectedItemsStyle;
         this.selection = props.optionsSourceDatabaseItemSelection as SelectionMultiValue;
         this.selectionMethod = props.selectionMethod;
-        this.selectedItemsSorting = props.databaseSelectedItemsSorting;
+        this.selectedItemsSorting = props.selectedItemsSorting;
 
-        const newValues = this.selection?.selection ?? null;
-        if (newValues) {
-            const newValueIds = newValues.map(v => v.id.toString());
-            this.orderedSelections = sortSelections(newValueIds, this.selectedItemsSorting, id => this.caption.get(id));
-            this.currentId = this.orderedSelections;
-        } else {
-            this.orderedSelections = [];
-            this.currentId = null;
-        }
+        this.currentId = sortSelectedItems(this.selection?.selection, this.selectedItemsSorting, this.caption.get);
     }
 
     setValue(value: string[] | null): void {
-        this.orderedSelections = value || [];
         const newValue = value?.map(v => this.options._optionToValue(v)!);
         if (newValue) {
             this.selection?.setSelection(newValue);

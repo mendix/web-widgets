@@ -73,7 +73,6 @@ describe("Combo box (Static values)", () => {
                     staticDataSourceCaption: dynamic("caption2")
                 }
             ],
-            databaseSelectedItemsSorting: "value",
             selectedItemsSorting: "value"
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {

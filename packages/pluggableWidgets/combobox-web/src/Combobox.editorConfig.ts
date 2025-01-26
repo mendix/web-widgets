@@ -42,8 +42,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "staticAttribute",
             "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
-            ...DATABASE_SOURCE_CONFIG,
-            "databaseSelectedItemsSorting"
+            ...DATABASE_SOURCE_CONFIG
         ]);
         if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
             hidePropertiesIn(defaultProperties, values, [
@@ -51,6 +50,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
                 "selectionMethod",
                 "selectAllButton",
                 "selectAllButtonCaption",
+                "selectedItemsSorting",
                 ...ASSOCIATION_SOURCE_CONFIG,
                 ...LAZY_LOADING_CONFIG
             ]);
@@ -102,8 +102,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "selectAllButton",
             "selectAllButtonCaption",
             "onChangeEvent",
-            ...ASSOCIATION_SOURCE_CONFIG,
-            "selectedItemsSorting"
+            ...ASSOCIATION_SOURCE_CONFIG
         ]);
         if (values.optionsSourceDatabaseDataSource === null) {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionType"]);
@@ -127,15 +126,14 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
                 "databaseAttributeString",
                 "optionsSourceDatabaseDefaultValue"
             ]);
+        } else {
+            hidePropertiesIn(defaultProperties, values, ["selectedItemsSorting"]);
         }
         if (values.databaseAttributeString.length === 0) {
             hidePropertiesIn(defaultProperties, values, [
                 "optionsSourceDatabaseValueAttribute",
                 "optionsSourceDatabaseDefaultValue"
             ]);
-        }
-        if (values.optionsSourceDatabaseItemSelection !== "Multi") {
-            hidePropertiesIn(defaultProperties, values, ["databaseSelectedItemsSorting"]);
         }
     } else if (values.source === "static") {
         hidePropertiesIn(defaultProperties, values, [
@@ -148,9 +146,7 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "selectAllButtonCaption",
             ...ASSOCIATION_SOURCE_CONFIG,
             ...DATABASE_SOURCE_CONFIG,
-            ...LAZY_LOADING_CONFIG,
-            "selectedItemsSorting",
-            "databaseSelectedItemsSorting"
+            ...LAZY_LOADING_CONFIG
         ]);
     }
 

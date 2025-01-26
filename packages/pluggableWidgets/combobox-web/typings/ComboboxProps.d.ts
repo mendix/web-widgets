@@ -15,15 +15,11 @@ export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression"
 
 export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
 
-export type DatabaseSelectedItemsSortingEnum = "caption" | "value" | "none";
-
 export interface OptionsSourceStaticDataSourceType {
     staticDataSourceValue: DynamicValue<string | Big | boolean | Date>;
     staticDataSourceCustomContent: ReactNode;
     staticDataSourceCaption: DynamicValue<string>;
 }
-
-export type FilterTypeEnum = "contains" | "containsExact" | "startsWith" | "none";
 
 export type OptionsSourceAssociationCustomContentTypeEnum = "yes" | "listItem" | "no";
 
@@ -35,11 +31,13 @@ export type SelectionMethodEnum = "checkbox" | "rowclick";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
 
-export type SelectedItemsSortingEnum = "caption" | "value" | "none";
-
 export type ReadOnlyStyleEnum = "bordered" | "text";
 
 export type LoadingTypeEnum = "spinner" | "skeleton";
+
+export type SelectedItemsSortingEnum = "caption" | "value" | "none";
+
+export type FilterTypeEnum = "contains" | "containsExact" | "startsWith" | "none";
 
 export interface OptionsSourceStaticDataSourcePreviewType {
     staticDataSourceValue: string;
@@ -66,13 +64,11 @@ export interface ComboboxContainerProps {
     optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
     databaseAttributeString?: EditableValue<string | Big>;
     optionsSourceDatabaseDefaultValue?: DynamicValue<string | Big>;
-    databaseSelectedItemsSorting: DatabaseSelectedItemsSortingEnum;
     attributeAssociation: ReferenceValue | ReferenceSetValue;
     optionsSourceAssociationDataSource?: ListValue;
     staticAttribute: EditableValue<string | Big | boolean | Date>;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
     emptyOptionText?: DynamicValue<string>;
-    filterType: FilterTypeEnum;
     noOptionsText?: DynamicValue<string>;
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
@@ -86,7 +82,6 @@ export interface ComboboxContainerProps {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectAllButton: boolean;
     selectAllButtonCaption: DynamicValue<string>;
-    selectedItemsSorting: SelectedItemsSortingEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
@@ -99,6 +94,8 @@ export interface ComboboxContainerProps {
     a11yInstructions?: DynamicValue<string>;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
+    selectedItemsSorting: SelectedItemsSortingEnum;
+    filterType: FilterTypeEnum;
 }
 
 export interface ComboboxPreviewProps {
@@ -119,13 +116,11 @@ export interface ComboboxPreviewProps {
     optionsSourceDatabaseValueAttribute: string;
     databaseAttributeString: string;
     optionsSourceDatabaseDefaultValue: string;
-    databaseSelectedItemsSorting: DatabaseSelectedItemsSortingEnum;
     attributeAssociation: string;
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     staticAttribute: string;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
     emptyOptionText: string;
-    filterType: FilterTypeEnum;
     noOptionsText: string;
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
@@ -139,7 +134,6 @@ export interface ComboboxPreviewProps {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectAllButton: boolean;
     selectAllButtonCaption: string;
-    selectedItemsSorting: SelectedItemsSortingEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent: {} | null;
     onChangeDatabaseEvent: {} | null;
@@ -153,4 +147,6 @@ export interface ComboboxPreviewProps {
     a11yInstructions: string;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
+    selectedItemsSorting: SelectedItemsSortingEnum;
+    filterType: FilterTypeEnum;
 }
