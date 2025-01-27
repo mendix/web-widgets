@@ -1,30 +1,19 @@
-name: Run E2E test on Firefox
-# This workflow is used to test our widgets against the Firefox browser weekly.
+name: Run E2E test nightly
+# This workflow is used to test our widgets nightly.
 
 on:
   schedule:
-    # At 03:00 on every day-of-week.
-    - cron: "0 03 * * 1-5"
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+    # At 02:00 on every day-of-week.
+    - cron: "0 02 * * 1-5"
 
 jobs:
   e2e:
-    name: Run automated end-to-end tests on Firefox
+    name: Run automated end-to-end tests nightly
     runs-on: ubuntu-latest
 
     permissions:
       packages: read
       contents: read
-
-    strategy:
-      # when one test fails, DO NOT cancel the other
-      fail-fast: false
-      matrix:
-        # run 3 copies of the current job in parallel
-        index: [0, 1, 2]
 
     steps:
       - name: Checkout
@@ -33,32 +22,32 @@ jobs:
           fetch-depth: 0
       - name: Setup pnpm
         uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
+
       - name: Setup node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
+
       - name: Install dependencies
         run: pnpm install
+
       - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps firefox
-      - name: "Executing E2E tests"
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Executing E2E tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BROWSER_PLAYWRIGHT: firefox
-        run: >-
-          node 
-          ./automation/run-e2e/bin/run-e2e-in-chunks.mjs
-          --chunks 3
-          --index ${{ matrix.index }}
-          --event-name ${{ github.event_name }}
-      - name: "Fixing files permissions"
+        run: pnpm -r --workspace-concurrency=1 --no-bail run e2e
+
+      - name: Fixing files permissions
         if: failure()
         run: |
           sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
           sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
-      - name: "Archive test screenshot diff results"
-        uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 # v3.2.1
+
+      - name: Archive test screenshot diff results
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
         if: failure()
         with:
           name: test-screenshot-results
