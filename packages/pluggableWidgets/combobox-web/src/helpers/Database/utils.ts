@@ -1,4 +1,5 @@
 import {
+    ActionValue,
     DynamicValue,
     EditableValue,
     ListAttributeValue,
@@ -26,6 +27,7 @@ type ExtractionReturnValue = {
     emptyOption?: DynamicValue<string>;
     emptyValue?: DynamicValue<string | Big>;
     filterType: FilterTypeEnum;
+    onChangeEvent?: ActionValue;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
     valueSourceAttribute: ListAttributeValue<string | Big> | undefined;
@@ -34,6 +36,7 @@ type ExtractionReturnValue = {
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
     const targetAttribute = props.databaseAttributeString;
     const filterType = props.filterType;
+    const onChangeEvent = props.onChangeEvent;
 
     const ds = props.optionsSourceDatabaseDataSource;
     if (!ds) {
@@ -88,6 +91,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         emptyOption,
         emptyValue,
         filterType,
+        onChangeEvent,
         lazyLoading,
         loadingType,
         valueSourceAttribute

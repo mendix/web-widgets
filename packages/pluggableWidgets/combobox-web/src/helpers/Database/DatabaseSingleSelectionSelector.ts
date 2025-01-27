@@ -1,9 +1,10 @@
-import { EditableValue, SelectionSingleValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
 import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
 import { _valuesIsEqual } from "../utils";
 import { BaseDatabaseSingleSelector } from "./BaseDatabaseSingleSelector";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
 import { extractDatabaseProps } from "./utils";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 export class DatabaseSingleSelectionSelector<
     T extends string | Big,
@@ -11,8 +12,8 @@ export class DatabaseSingleSelectionSelector<
 > extends BaseDatabaseSingleSelector<T> {
     validation?: string = undefined;
     values: DatabaseValuesProvider;
+    private onChangeEvent?: ActionValue;
     protected _attr: R | undefined;
-    private selection?: SelectionSingleValue;
 
     constructor() {
         super();
@@ -30,6 +31,7 @@ export class DatabaseSingleSelectionSelector<
             ds,
             emptyOption,
             emptyValue,
+            onChangeEvent,
             lazyLoading,
             valueSourceAttribute
         } = extractDatabaseProps(props);
@@ -86,15 +88,14 @@ export class DatabaseSingleSelectionSelector<
         this.readOnly = targetAttribute?.readOnly ?? false;
         this.status = targetAttribute?.status ?? ds.status;
         this.validation = targetAttribute?.validation;
+        this.onChangeEvent = onChangeEvent;
     }
 
     setValue(objectId: string | null): void {
         const value = this.values.get(objectId) as T;
         this.lastSetValue = value;
         this._attr?.setValue(value);
-        if (objectId !== (this.selection?.selection?.id ?? "")) {
-            this.selection?.setSelection(this.options._optionToValue(objectId));
-        }
         super.setValue(objectId);
+        executeAction(this.onChangeEvent);
     }
 }
