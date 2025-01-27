@@ -50,7 +50,7 @@ export function SingleSelection({
             selector.caption,
             selector.caption.emptyCaption,
             selector.currentId,
-            selector.caption.value?.value
+            selector.caption.formatter
         ]
     );
 

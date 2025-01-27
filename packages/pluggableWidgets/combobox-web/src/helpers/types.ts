@@ -1,3 +1,5 @@
+import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
+import { ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
 import { ReactNode } from "react";
 import {
     ComboboxContainerProps,
@@ -8,8 +10,6 @@ import {
     SelectedItemsStyleEnum,
     SelectionMethodEnum
 } from "../../typings/ComboboxProps";
-import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import { DynamicValue, EditableValue, ListValue } from "mendix";
 
 export type Status = "unavailable" | "loading" | "available";
 export type CaptionPlacement = "label" | "options";
@@ -21,7 +21,7 @@ export interface CaptionsProvider {
     get(value: string | null): string;
     render(value: (string | null) | (number | null), placement?: CaptionPlacement, htmlFor?: string): ReactNode;
     emptyCaption: string;
-    value?: DynamicValue<string> | EditableValue<string>;
+    formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
 }
 export interface ValuesProvider<T> {
     get(key: string | null): T | undefined;
