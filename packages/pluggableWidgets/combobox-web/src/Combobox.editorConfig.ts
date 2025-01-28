@@ -21,8 +21,7 @@ const DATABASE_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
     "optionsSourceDatabaseDataSource",
     "optionsSourceDatabaseDefaultValue",
     "optionsSourceDatabaseValueAttribute",
-    "databaseAttributeString",
-    "onChangeDatabaseEvent"
+    "databaseAttributeString"
 ];
 
 const ASSOCIATION_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
@@ -99,7 +98,6 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
             "selectionMethod",
             "selectAllButton",
             "selectAllButtonCaption",
-            "onChangeEvent",
             ...ASSOCIATION_SOURCE_CONFIG
         ]);
         if (values.optionsSourceDatabaseDataSource === null) {

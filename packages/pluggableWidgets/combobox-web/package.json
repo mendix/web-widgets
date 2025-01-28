@@ -1,7 +1,7 @@
 {
     "name": "@mendix/combobox-web",
     "widgetName": "Combobox",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "description": "Configurable Combo box widget with suggestions and autocomplete.",
     "copyright": "© Mendix Technology BV 2024. All rights reserved.",
     "license": "Apache-2.0",
@@ -19,9 +19,10 @@
         "mpkName": "com.mendix.widget.web.Combobox.mpk"
     },
     "marketplace": {
-        "minimumMXVersion": "10.7.0",
+        "minimumMXVersion": "9.24.0.2965",
         "appNumber": 219304,
-        "appName": "Combo box"
+        "appName": "Combo box",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
