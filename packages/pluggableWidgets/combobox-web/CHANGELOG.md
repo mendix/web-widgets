@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.7.1] - 2025-01-28
+
 ### Fixed
 
 -   We fixed an issue where database onchange failed to trigger, if you have set your onChange event using database source on v1.7.0 previously, it will clear again upon upgrade, but it will be seamless upgrade from 1.6.x version.
