@@ -37,6 +37,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
         props.useComboboxProps()
     );
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
+    const showRemoveItem = selectedStyle === "boxes";
 
     return (
         <div
@@ -69,15 +70,17 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                         {...getSelectedItemProps({ selectedItem: item, index })}
                     >
                         {item.caption}
-                        <span
-                            className={cls.removeIcon}
-                            onClick={e => {
-                                e.stopPropagation();
-                                removeSelectedItem(item);
-                            }}
-                        >
-                            <Cross width="10" height="10" />
-                        </span>
+                        {showRemoveItem && (
+                            <span
+                                className={cls.removeIcon}
+                                onClick={e => {
+                                    e.stopPropagation();
+                                    removeSelectedItem(item);
+                                }}
+                            >
+                                <Cross width="10" height="10" />
+                            </span>
+                        )}
                     </div>
                 ))}
                 <input
@@ -86,7 +89,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                         "aria-label": inputLabel,
                         onBlur: props.onBlur,
                         onFocus: props.onFocus,
-                        placeholder: props.inputPlaceholder,
+                        placeholder: props.empty ? props.inputPlaceholder : undefined,
                         ...getDropdownProps({ preventKeyAction: isOpen, ref: inputRef })
                     })}
                 />
