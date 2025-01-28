@@ -52,7 +52,8 @@ export function MultiSelection({
             if (selector.options.loadMore) {
                 selector.options.loadMore();
             }
-        }
+        },
+        readOnly: selector.readOnly
     });
 
     return (
