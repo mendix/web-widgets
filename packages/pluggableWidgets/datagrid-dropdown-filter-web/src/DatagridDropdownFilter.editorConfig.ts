@@ -10,7 +10,8 @@ import {
 import { DatagridDropdownFilterPreviewProps } from "../typings/DatagridDropdownFilterProps";
 
 export function getProperties(values: DatagridDropdownFilterPreviewProps, defaultProperties: Properties): Properties {
-    const showTagPickerProps = values.filterable && values.multiSelect;
+    const showSelectedItemsStyle = values.filterable && values.multiSelect;
+    const showSelectionMethod = showSelectedItemsStyle && values.selectedItemsStyle === "boxes";
 
     if (values.auto) {
         hidePropertyIn(defaultProperties, values, "filterOptions");
@@ -20,9 +21,12 @@ export function getProperties(values: DatagridDropdownFilterPreviewProps, defaul
         hidePropertyIn(defaultProperties, values, "clearable");
     }
 
-    if (!showTagPickerProps) {
-        hidePropertyIn(defaultProperties, values, "selectionMethod");
+    if (!showSelectedItemsStyle) {
         hidePropertyIn(defaultProperties, values, "selectedItemsStyle");
+    }
+
+    if (!showSelectionMethod) {
+        hidePropertyIn(defaultProperties, values, "selectionMethod");
     }
 
     return defaultProperties;
