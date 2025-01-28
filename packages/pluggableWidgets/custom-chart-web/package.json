@@ -1,6 +1,6 @@
 {
-    "name": "@mendix/any-chart-web2",
-    "widgetName": "AnyChart",
+    "name": "@mendix/custom-chart-web",
+    "widgetName": "CustomChart",
     "version": "1.0.0",
     "description": "",
     "copyright": "© Mendix Technology BV 2024. All rights reserved.",
@@ -14,18 +14,18 @@
         "developmentPort": 3000
     },
     "mxpackage": {
-        "name": "AnyChart",
+        "name": "CustomChart",
         "type": "widget",
-        "mpkName": "com.mendix.widget.web.AnyChart.mpk"
+        "mpkName": "com.mendix.widget.web.CustomChart.mpk"
     },
     "marketplace": {
         "minimumMXVersion": "10.16.0",
         "appNumber": 1234,
-        "appName": "AnyChart"
+        "appName": "Custom chart"
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "any-chart-web"
+        "branchName": "custom-chart-web"
     },
     "packagePath": "com.mendix.widget.web",
     "scripts": {
@@ -34,9 +34,9 @@
         "build": "pluggable-widgets-tools build:web",
         "format": "pluggable-widgets-tools format",
         "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "test": "echo 'FIXME: Finish any-chart-web unit test migration'",
-        "e2e": "echo 'FIXME: Finish any-chart-web e2e test migration'",
-        "e2edev": "echo 'FIXME: Finish any-chart-web e2e test migration'",
+        "test": "echo 'FIXME: Finish custom-chart-web unit test migration'",
+        "e2e": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
+        "e2edev": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
         "release": "pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
         "publish-marketplace": "rui-publish-marketplace",

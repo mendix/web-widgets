@@ -1,10 +1,10 @@
 /**
- * This file was generated from AnyChart.xml
+ * This file was generated from CustomChart.xml
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { EditableValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
 
 export type DevModeEnum = "developer" | "advanced";
 
@@ -12,7 +12,7 @@ export type WidthUnitEnum = "percentage" | "pixels";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent";
 
-export interface AnyChartContainerProps {
+export interface CustomChartContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
@@ -29,9 +29,10 @@ export interface AnyChartContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
+    onClick?: ActionValue;
 }
 
-export interface AnyChartPreviewProps {
+export interface CustomChartPreviewProps {
     /**
      * @deprecated Deprecated since version 9.18.0. Please use class property instead.
      */
@@ -53,4 +54,5 @@ export interface AnyChartPreviewProps {
     width: number | null;
     heightUnit: HeightUnitEnum;
     height: number | null;
+    onClick: {} | null;
 }

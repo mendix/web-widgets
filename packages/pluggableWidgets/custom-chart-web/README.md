@@ -1,4 +1,4 @@
-## AnychartWeb
+## Custom chart
 
 [My widget description]
 

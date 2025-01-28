@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.web.anychart.AnyChart" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Any chart</name>
-    <description>Create any chart</description>
+<widget id="com.mendix.widget.web.customchart.CustomChart" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Custom chart</name>
+    <description>Create a custom chart</description>
     <studioProCategory>Charts</studioProCategory>
     <studioCategory>Charts</studioCategory>
     <properties>
@@ -80,8 +80,12 @@
                 <description />
             </property>
         </propertyGroup>
-        <!-- <propertyGroup caption="Events">
-            <property key="eventEntity" type="association" required="false" setLabel="true">
+        <propertyGroup caption="Events">
+            <property key="onClick" type="action" required="false">
+                <caption>On click</caption>
+                <description />
+            </property>
+            <!-- <property key="eventEntity" type="association" required="false" setLabel="true">
                 <caption>Event entity</caption>
                 <description>The entity used to pass the event data to the server</description>
                 <associationTypes>
@@ -119,8 +123,8 @@
             <property key="tooltipForm" type="form" required="false">
                 <caption>Tooltip form</caption>
                 <description>The form to show when a user hovers over a chart plot point, context uses 'Tooltip entity'</description>
-            </property>
-        </propertyGroup> -->
+            </property> -->
+        </propertyGroup>
         <propertyGroup caption="Common">
             <systemProperty key="Name" />
             <systemProperty key="TabIndex" />
