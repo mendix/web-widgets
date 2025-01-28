@@ -50,20 +50,20 @@
                     <caption>Clearable</caption>
                     <description />
                 </property>
-                <property key="selectionMethod" type="enumeration" defaultValue="checkbox">
-                    <caption>Selection method</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
-                        <enumerationValue key="rowClick">Row click</enumerationValue>
-                    </enumerationValues>
-                </property>
                 <property key="selectedItemsStyle" type="enumeration" defaultValue="text" required="true">
                     <caption>Show selected items as</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="text">Text</enumerationValue>
                         <enumerationValue key="boxes">Labels</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="selectionMethod" type="enumeration" defaultValue="checkbox">
+                    <caption>Selection method</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
+                        <enumerationValue key="rowClick">Row click</enumerationValue>
                     </enumerationValues>
                 </property>
             </propertyGroup>
