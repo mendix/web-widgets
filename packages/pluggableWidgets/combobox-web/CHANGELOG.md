@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where combobox does not show initial caption correctly for database source.
+-   We fixed an issue where combobox caption expression does not load correctly.
+
+### Changed
+
+-   We remove default value from database source configuration.
+
 ## [2.1.3] - 2024-12-11
 
 ### Fixed
