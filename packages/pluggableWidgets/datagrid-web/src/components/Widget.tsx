@@ -164,34 +164,35 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         <Fragment>
             {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
             {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
-            <WidgetContent
-                isInfinite={isInfinite}
-                hasMoreItems={hasMoreItems}
-                setPage={setPage}
-                paginationType={paginationType}
-                isLoading={props.isLoading && props.loadingType === "spinner"}
-                pageSize={props.pageSize}
-            >
+            <WidgetContent isLoading={props.isLoading && props.loadingType === "spinner"}>
                 <Grid
                     aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
                 >
-                    <GridBody style={cssGridStyles}>
-                        <GridHeader
-                            availableColumns={props.availableColumns}
-                            columns={visibleColumns}
-                            setIsResizing={props.setIsResizing}
-                            columnsDraggable={props.columnsDraggable}
-                            columnsFilterable={props.columnsFilterable}
-                            columnsHidable={props.columnsHidable}
-                            columnsResizable={props.columnsResizable}
-                            columnsSortable={props.columnsSortable}
-                            columnsSwap={props.columnsSwap}
-                            filterRenderer={props.filterRenderer}
-                            headerWrapperRenderer={props.headerWrapperRenderer}
-                            id={props.id}
-                            isLoading={props.columnsLoading}
-                            preview={props.preview}
-                        />
+                    <GridHeader
+                        availableColumns={props.availableColumns}
+                        columns={visibleColumns}
+                        setIsResizing={props.setIsResizing}
+                        columnsDraggable={props.columnsDraggable}
+                        columnsFilterable={props.columnsFilterable}
+                        columnsHidable={props.columnsHidable}
+                        columnsResizable={props.columnsResizable}
+                        columnsSortable={props.columnsSortable}
+                        columnsSwap={props.columnsSwap}
+                        filterRenderer={props.filterRenderer}
+                        headerWrapperRenderer={props.headerWrapperRenderer}
+                        id={props.id}
+                        isLoading={props.columnsLoading}
+                        preview={props.preview}
+                        style={cssGridStyles}
+                    />
+                    <GridBody
+                        style={cssGridStyles}
+                        isInfinite={isInfinite}
+                        isLoading={props.isLoading && props.loadingType === "spinner"}
+                        setPage={setPage}
+                        paginationType={paginationType}
+                        hasMoreItems={hasMoreItems}
+                    >
                         <RowsRenderer
                             preview={props.preview ?? false}
                             interactive={props.gridInteractive}

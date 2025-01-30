@@ -22,16 +22,12 @@ $dg-brand-light: #e6eaff;
 $dg-grid-selected-row-background: $dg-brand-light;
 $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d2 100%);
 
+$root: ".widget-datagrid";
+
 .table {
     position: relative;
     border-width: 0;
     background-color: var(--bg-color-secondary, $dg-background-color);
-
-    /* Table Content */
-    .table-content {
-        display: grid;
-        position: relative;
-    }
 
     /* Pseudo Row, to target this object please use .tr > .td or .tr > div */
     .tr {
@@ -400,8 +396,17 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
     }
 }
 
-.widget-datagrid {
+#{$root} {
     position: relative;
+
+    &-grid-head {
+        display: grid;
+    }
+
+    &-grid-body {
+        display: grid;
+        position: relative;
+    }
 
     &.widget-datagrid-selection-method-click {
         .tr.tr-selected .td {
@@ -431,9 +436,9 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
         outline-offset: 0;
     }
 
-    &-content {
-        overflow-y: auto;
-    }
+    // &-content {
+    //     overflow-y: auto;
+    // }
 
     &-loader-container {
         align-items: center;
@@ -511,6 +516,10 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
 .widget-datagrid .widget-datagrid-load-more {
     display: block !important;
     margin: 0 auto;
+}
+
+:where(.widget-datagrid-grid-body.infinite-loading) {
+    overflow-y: auto;
 }
 
 @keyframes skeleton-loading {
