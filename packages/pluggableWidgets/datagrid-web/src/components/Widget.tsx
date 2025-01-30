@@ -208,6 +208,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                             pageSize={props.pageSize}
                         />
                         {(rows.length === 0 || preview) &&
+                            !props.isLoading &&
                             emptyPlaceholderRenderer &&
                             emptyPlaceholderRenderer(children => (
                                 <div
