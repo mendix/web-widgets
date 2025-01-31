@@ -4,6 +4,7 @@ import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/gener
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
+import { autorun } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { SortInstruction } from "../../typings/sorting";
@@ -30,9 +31,13 @@ export class RootGridStore {
         this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState);
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
         this.progressStore = new ProgressStore();
+        autorun(reaction => {
+            reaction.trace();
+            console.log("RootGridStore.isColumnsLoaded", this.isColumnsLoaded);
+        });
     }
 
-    get isLoaded(): boolean {
+    get isColumnsLoaded(): boolean {
         return this.columnsStore.loaded;
     }
 

@@ -169,7 +169,7 @@ const Container = observer((props: Props): ReactElement => {
 });
 
 const ContainerWithLoading = observer((props: Props) => {
-    if (!props.rootStore.isLoaded) {
+    if (!props.rootStore.isColumnsLoaded) {
         return null;
     }
     return <Container {...props} />;
