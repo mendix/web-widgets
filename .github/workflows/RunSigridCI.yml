@@ -13,30 +13,30 @@ jobs:
               uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
             - name: Download Sigrid CI
-              run: "git clone https://github.com/Software-Improvement-Group/sigridci.git sigridci"
+              run: 'git clone https://github.com/Software-Improvement-Group/sigridci.git sigridci'
 
             - name: Only publish to Sigrid without waiting for results
               if: github.event_name == 'push'
               env:
                   SIGRID_CI_TOKEN: ${{ secrets.SIGRID_CI_TOKEN }}
-              run: "./sigridci/sigridci/sigridci.py --customer mendix --system mendix-web-widgets --source ./packages --publishonly"
+              run: './sigridci/sigridci/sigridci.py --customer mendix --system mendix-web-widgets --source ./packages --publishonly'
 
             - name: Run Sigrid CI without publishing
               if: github.event_name == 'pull_request'
               continue-on-error: true
               env:
                   SIGRID_CI_TOKEN: ${{ secrets.SIGRID_CI_TOKEN }}
-              run: "./sigridci/sigridci/sigridci.py --customer mendix --system mendix-web-widgets --source ./packages"
+              run: './sigridci/sigridci/sigridci.py --customer mendix --system mendix-web-widgets --source ./packages'
 
             - name: Save Sigrid CI results
               if: github.event_name == 'pull_request'
-              uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 # v3.2.1
+              uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
               with:
-                  path: "sigrid-ci-output/**"
+                  path: 'sigrid-ci-output/**'
                   retention-days: 7
                   if-no-files-found: ignore
 
-            - name: "Sigrid pull request feedback"
+            - name: 'Sigrid pull request feedback'
               # Disable comments for now
               if: ${{ false }}
               uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2.8.2
