@@ -7,11 +7,6 @@ import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
 
 function Preview(props: DatagridDropdownFilterPreviewProps): ReactElement {
-    const yes = false;
-    if (yes) {
-        return <span>ok</span>;
-    }
-
     return (
         <Select
             className={props.class}
