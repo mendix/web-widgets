@@ -6,8 +6,11 @@ import { BadgeButton, BadgeButtonProps } from "../BadgeButton";
 describe("BadgeButton", () => {
     const createBadgeButton = (
         props: BadgeButtonProps
-    ): ShallowWrapper<BadgeButtonProps, Readonly<{}>, Component<{}, {}, any>> =>
-        shallow(createElement(BadgeButton, props));
+    ): ShallowWrapper<
+        BadgeButtonProps,
+        Readonly<NonNullable<unknown>>,
+        Component<NonNullable<unknown>, NonNullable<unknown>, any>
+    > => shallow(createElement(BadgeButton, props));
 
     it("renders the structure correctly", () => {
         const badgeProps: BadgeButtonProps = {

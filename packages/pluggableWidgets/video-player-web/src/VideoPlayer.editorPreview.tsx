@@ -9,7 +9,7 @@ import { VideoPlayerPreviewProps } from "../typings/VideoPlayerProps";
 
 declare function require(name: string): string;
 
-export class preview extends Component<VideoPlayerPreviewProps, {}> {
+export class preview extends Component<VideoPlayerPreviewProps, NonNullable<unknown>> {
     render(): JSX.Element {
         return (
             <SizeContainer

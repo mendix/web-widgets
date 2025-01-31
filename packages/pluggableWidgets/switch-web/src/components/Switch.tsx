@@ -1,4 +1,4 @@
-import { MouseEvent, KeyboardEvent, createElement } from "react";
+import { MouseEvent, KeyboardEvent, createElement, ReactElement } from "react";
 import classNames from "classnames";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { SwitchContainerProps } from "../../typings/SwitchProps";
@@ -11,7 +11,7 @@ export interface SwitchProps extends Pick<SwitchContainerProps, "id" | "tabIndex
     validation: string | undefined;
 }
 
-export default function Switch(props: SwitchProps) {
+export default function Switch(props: SwitchProps): ReactElement {
     return (
         <div className="widget-switch">
             <div
