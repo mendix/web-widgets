@@ -86,12 +86,12 @@ const Container = observer((props: Props): ReactElement => {
             return false;
         }
 
-        if (!props.datasource.hasMoreItems) {
-            return false;
+        if (props.datasource.status === ValueStatus.Loading) {
+            return true;
         }
 
-        return props.datasource.status === ValueStatus.Loading;
-    }, [exportProgress, isRefreshing, props.datasource.status, props.datasource.hasMoreItems]);
+        return false;
+    }, [exportProgress, isRefreshing, props.datasource.status]);
 
     const showPagingButtonsOrRows = props.pagination === "buttons" ? props.showPagingButtons : props.showNumberOfRows;
 
