@@ -3,7 +3,7 @@
     "version": "0.3.1",
     "private": true,
     "license": "Apache-2.0",
-    "copyright": "© Mendix Technology BV 2024. All rights reserved.",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "type": "module",
     "bin": {
         "run-e2e": "bin/run-e2e.mjs"
@@ -33,9 +33,9 @@
     },
     "devDependencies": {
         "@axe-core/playwright": "^4.10.1",
-        "@playwright/test": "^1.49.1",
+        "@playwright/test": "^1.50.0",
         "@types/node": "^20.12.7",
-        "eslint-plugin-playwright": "^2.1.0",
+        "eslint-plugin-playwright": "^2.2.0",
         "playwright-ctrf-json-reporter": "^0.0.18"
     }
 }

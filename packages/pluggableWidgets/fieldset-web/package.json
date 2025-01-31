@@ -3,7 +3,7 @@
     "widgetName": "Fieldset",
     "version": "3.2.1",
     "description": "A container to group several controls within a web form",
-    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
