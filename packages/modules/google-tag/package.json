@@ -1,47 +1,47 @@
 {
-  "name": "@mendix/google-tag",
-  "moduleName": "Google Tag module",
-  "version": "2.2.0",
-  "license": "Apache-2.0",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "mxpackage": {
-    "type": "module",
-    "name": "GoogleTagModule",
-    "mpkName": "GoogleTagModule.mpk",
-    "dependencies": [
-      "@mendix/google-tag-web"
-    ]
-  },
-  "moduleFolderNameInModeler": "googletagmodule",
-  "marketplace": {
-    "minimumMXVersion": "9.18.4.62522",
-    "appNumber": 207519,
-    "appName": "Google Tag"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "google-tag-web"
-  },
-  "scripts": {
-    "verify": "rui-verify-package-format",
-    "update-changelog": "rui-update-changelog-module",
-    "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
-    "create-gh-release": "rui-create-gh-release",
-    "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
-    "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
-    "publish-marketplace": "rui-publish-marketplace"
-  },
-  "dependencies": {
-    "@mendix/google-tag-web": "workspace:*"
-  },
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/prettier-config-web-widgets": "workspace:*",
-    "cross-env": "^7.0.3"
-  }
+    "name": "@mendix/google-tag",
+    "moduleName": "Google Tag module",
+    "version": "2.2.0",
+    "license": "Apache-2.0",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "mxpackage": {
+        "type": "module",
+        "name": "GoogleTagModule",
+        "mpkName": "GoogleTagModule.mpk",
+        "dependencies": [
+            "@mendix/google-tag-web"
+        ]
+    },
+    "moduleFolderNameInModeler": "googletagmodule",
+    "marketplace": {
+        "minimumMXVersion": "9.18.4.62522",
+        "appNumber": 207519,
+        "appName": "Google Tag"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "google-tag-web"
+    },
+    "scripts": {
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-module",
+        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
+        "create-gh-release": "rui-create-gh-release",
+        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
+        "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+        "publish-marketplace": "rui-publish-marketplace"
+    },
+    "dependencies": {
+        "@mendix/google-tag-web": "workspace:*"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "cross-env": "^7.0.3"
+    }
 }

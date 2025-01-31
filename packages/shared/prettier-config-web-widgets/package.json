@@ -1,16 +1,16 @@
 {
-  "name": "@mendix/prettier-config-web-widgets",
-  "version": "1.0.0",
-  "private": true,
-  "description": "prettier config for web widgets",
-  "main": "index.js",
-  "license": "Apache-2.0",
-  "copyright": "© Mendix Technology BV 2023. All rights reserved.",
-  "scripts": {
-    "lint": "eslint --ext .js .",
-    "format": "prettier --write ."
-  },
-  "dependencies": {
-    "@prettier/plugin-xml": "^2.2.0"
-  }
+    "name": "@mendix/prettier-config-web-widgets",
+    "version": "1.0.0",
+    "private": true,
+    "description": "prettier config for web widgets",
+    "main": "index.js",
+    "license": "Apache-2.0",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "scripts": {
+        "lint": "eslint --ext .js .",
+        "format": "prettier --write ."
+    },
+    "dependencies": {
+        "@prettier/plugin-xml": "^2.2.0"
+    }
 }

@@ -3,7 +3,7 @@
     "widgetName": "RichText",
     "version": "4.2.0",
     "description": "Rich inline or toolbar text editing",
-    "copyright": "© Mendix Technology BV 2024. All rights reserved.",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
