@@ -93,7 +93,7 @@ export function getPreview(values: TimeSeriesPreviewProps, isDarkMode: boolean):
         }
     };
 
-    const getImage = (viewMode: "series" | "range", type: "structure" | "legend") => {
+    const getImage = (viewMode: "series" | "range", type: "structure" | "legend"): string => {
         const colorMode = isDarkMode ? "dark" : "light";
         return items[viewMode][colorMode][type];
     };

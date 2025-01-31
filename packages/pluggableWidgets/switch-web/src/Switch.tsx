@@ -1,4 +1,4 @@
-import { createElement, KeyboardEvent, MouseEvent, useCallback } from "react";
+import { createElement, KeyboardEvent, MouseEvent, ReactElement, useCallback } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import SwitchComponent from "./components/Switch";
@@ -6,7 +6,7 @@ import SwitchComponent from "./components/Switch";
 import { SwitchContainerProps } from "../typings/SwitchProps";
 import "./ui/switch-main.scss";
 
-export function Switch(props: SwitchContainerProps) {
+export function Switch(props: SwitchContainerProps): ReactElement {
     const isChecked = isAvailable(props.booleanAttribute);
     const editable = !props.booleanAttribute.readOnly;
 

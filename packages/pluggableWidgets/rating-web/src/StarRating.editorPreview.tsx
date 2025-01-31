@@ -33,6 +33,6 @@ export function preview(props: StarRatingPreviewProps): ReactElement {
     );
 }
 
-export function getPreviewCss() {
+export function getPreviewCss(): string {
     return require("./ui/rating-main.scss");
 }
