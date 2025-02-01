@@ -1,0 +1,48 @@
+{
+    "name": "@mendix/widget-plugin-mobx-kit",
+    "version": "0.1.0",
+    "description": "Plugin for mobx utilities",
+    "license": "Apache-2.0",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "type": "module",
+    "exports": {
+        "./*": "./dist/*.js"
+    },
+    "typesVersions": {
+        "*": {
+            "*": [
+                "dist/*"
+            ]
+        }
+    },
+    "files": [
+        "dist",
+        "!*.map"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json",
+        "dev": "tsc -p tsconfig.build.json --watch",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .ts,.tsx ./src",
+        "prepare": "pnpm build",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/tsconfig-web-widgets": "workspace:*",
+        "@swc/core": "^1.7.26",
+        "@swc/jest": "^0.2.36",
+        "@testing-library/react-hooks": "^8.0.1"
+    },
+    "dependencies": {
+        "mobx": "6.12.3"
+    },
+    "optionalDependencies": {
+        "react": "^18.0.0"
+    }
+}
