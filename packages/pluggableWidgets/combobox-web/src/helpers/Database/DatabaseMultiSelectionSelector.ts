@@ -124,8 +124,11 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         this.selectionMethod = props.selectionMethod;
         this.selectedItemsSorting = props.selectedItemsSorting;
 
-        this.currentId = sortSelectedItems(this.selection?.selection, this.selectedItemsSorting, id =>
-            this.caption.get(id)
+        this.currentId = sortSelectedItems(
+            this.selection?.selection,
+            this.selectedItemsSorting,
+            this.options.sortOrder,
+            id => this.caption.get(id)
         );
     }
 

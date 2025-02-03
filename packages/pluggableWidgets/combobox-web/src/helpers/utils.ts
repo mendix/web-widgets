@@ -2,7 +2,7 @@ import { Big } from "big.js";
 import { MatchSorterOptions, matchSorter } from "match-sorter";
 import { PropsWithChildren, ReactElement, createElement } from "react";
 import { ComboboxPreviewProps, FilterTypeEnum, SelectedItemsSortingEnum } from "typings/ComboboxProps";
-import { MultiSelector } from "./types";
+import { MultiSelector, SortOrder } from "./types";
 import { ObjectItem } from "mendix";
 
 export const DEFAULT_LIMIT_SIZE = 100;
@@ -119,12 +119,14 @@ export function _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {
 export function sortSelectedItems(
     values: ObjectItem[] | null | undefined,
     sortingType: SelectedItemsSortingEnum,
+    sortOrder: SortOrder,
     captionGetter: (id: string) => string | undefined
 ): string[] | null {
     if (values) {
         return sortSelections(
             values.map(v => (v?.id as string) ?? null),
             sortingType,
+            sortOrder,
             captionGetter
         );
     } else {
@@ -135,13 +137,14 @@ export function sortSelectedItems(
 function sortSelections(
     newValueIds: string[],
     sortingType: SelectedItemsSortingEnum,
+    sortOrder: SortOrder,
     captionGetter: (id: string) => string | undefined
 ): string[] {
     if (sortingType === "caption") {
         return newValueIds.sort((a, b) => {
             const captionA = captionGetter(a)?.toString() ?? "";
             const captionB = captionGetter(b)?.toString() ?? "";
-            return captionA.localeCompare(captionB);
+            return sortOrder === "asc" ? captionA.localeCompare(captionB) : captionB.localeCompare(captionA);
         });
     }
     return newValueIds;
