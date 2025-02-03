@@ -1,37 +1,42 @@
 import { autoEffect } from "@mendix/widget-plugin-mobx-kit/autoEffect";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { DerivedPropsGate, ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { ListValue } from "mendix";
 import { action, computed, makeObservable, observable } from "mobx";
 
+type PropsGate = DerivedPropsGate<{ datasource: ListValue }>;
+type Spec = { delay: number; gate: PropsGate };
+
 export class RefreshController implements ReactiveController {
-    private ds: ListValue;
+    private gate: PropsGate;
     private readonly delay: number;
     private refreshing = false;
 
-    constructor(host: ReactiveControllerHost, props: { datasource: ListValue; delay: number }) {
+    constructor(host: ReactiveControllerHost, spec: Spec) {
         host.addController(this);
-        this.ds = props.datasource;
-        this.delay = Math.max(props.delay, 0);
+        this.gate = spec.gate;
+        this.delay = Math.max(spec.delay, 0);
 
-        makeObservable<this, "ds" | "setRefreshing" | "updateRefreshing" | "refreshing">(this, {
-            ds: observable.ref,
+        makeObservable<this, "setRefreshing" | "updateRefreshing" | "refreshing">(this, {
             refreshing: observable,
             isRefreshing: computed,
-            updateProps: action,
             setRefreshing: action,
             updateRefreshing: action
         });
+    }
+
+    get isRefreshing(): boolean {
+        return this.refreshing;
     }
 
     setup(): (() => void) | void {
         if (this.delay <= 0) {
             return;
         }
-
         // Set timer every time we got new ds ref value
         // Avoid using any other reactive dependencies other then ds
         return autoEffect(() => {
-            const cleanup = this.scheduleReload(this.ds, this.delay);
+            const { datasource: ds } = this.gate.props;
+            const cleanup = this.scheduleReload(ds, this.delay);
             this.updateRefreshing();
             return cleanup;
         });
@@ -50,16 +55,9 @@ export class RefreshController implements ReactiveController {
     }
 
     private updateRefreshing(): void {
+        const { datasource: ds } = this.gate.props;
         if (this.refreshing) {
-            this.setRefreshing(this.ds.status === "loading");
+            this.setRefreshing(ds.status === "loading");
         }
-    }
-
-    updateProps(props: { datasource: ListValue }): void {
-        this.ds = props.datasource;
-    }
-
-    get isRefreshing(): boolean {
-        return this.refreshing;
     }
 }
