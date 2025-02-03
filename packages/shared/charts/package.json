@@ -3,7 +3,7 @@
     "version": "2.0.2",
     "description": "Shared components for charts",
     "private": true,
-    "copyright": "© Mendix Technology BV 2023. All rights reserved.",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "type": "module",
     "exports": {
         ".": null,

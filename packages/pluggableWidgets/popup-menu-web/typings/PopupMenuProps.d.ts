@@ -52,7 +52,7 @@ export interface PopupMenuContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     advancedMode: boolean;
-    menuTrigger?: ReactNode;
+    menuTrigger: ReactNode;
     basicItems: BasicItemsType[];
     customItems: CustomItemsType[];
     trigger: TriggerEnum;

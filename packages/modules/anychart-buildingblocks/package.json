@@ -1,45 +1,45 @@
 {
-  "name": "@mendix/anychart-buildingblocks",
-  "version": "3.0.4",
-  "description": "Module for publishing AnyChart widget along with building blocks",
-  "license": "Apache-2.0",
-  "copyright": "© Mendix Technology BV 2022. All rights reserved.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mendix/web-widgets.git"
-  },
-  "mxpackage": {
-    "name": "AnyChart_BuildingBlocks",
-    "type": "module",
-    "mpkName": "AnyChart_BuildingBlocks.mpk",
-    "dependencies": [
-      "@mendix/any-chart-web"
-    ]
-  },
-  "moduleFolderNameInModeler": "anychart_buildingblocks",
-  "marketplace": {
-    "minimumMXVersion": "9.18.4.62522",
-    "appNumber": 106517,
-    "appName": "AnyChart"
-  },
-  "testProject": {
-    "githubUrl": "https://github.com/mendix/testProjects",
-    "branchName": "anychart-buildingblocks"
-  },
-  "scripts": {
-    "verify": "rui-verify-package-format",
-    "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
-    "create-gh-release": "rui-create-gh-release",
-    "publish-marketplace": "rui-publish-marketplace",
-    "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
-    "update-changelog": "rui-update-changelog-module",
-    "format": "prettier --write ."
-  },
-  "dependencies": {
-    "@mendix/any-chart-web": "workspace:*"
-  },
-  "devDependencies": {
-    "@mendix/automation-utils": "workspace:*",
-    "@mendix/prettier-config-web-widgets": "workspace:*"
-  }
+    "name": "@mendix/anychart-buildingblocks",
+    "version": "3.0.4",
+    "description": "Module for publishing AnyChart widget along with building blocks",
+    "license": "Apache-2.0",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "mxpackage": {
+        "name": "AnyChart_BuildingBlocks",
+        "type": "module",
+        "mpkName": "AnyChart_BuildingBlocks.mpk",
+        "dependencies": [
+            "@mendix/any-chart-web"
+        ]
+    },
+    "moduleFolderNameInModeler": "anychart_buildingblocks",
+    "marketplace": {
+        "minimumMXVersion": "9.18.4.62522",
+        "appNumber": 106517,
+        "appName": "AnyChart"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "anychart-buildingblocks"
+    },
+    "scripts": {
+        "verify": "rui-verify-package-format",
+        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
+        "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+        "update-changelog": "rui-update-changelog-module",
+        "format": "prettier --write ."
+    },
+    "dependencies": {
+        "@mendix/any-chart-web": "workspace:*"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*"
+    }
 }
