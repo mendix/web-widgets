@@ -8,8 +8,6 @@ import { FileRejection } from "react-dropzone";
 import { FileCheckFormat } from "../utils/predefinedFormats";
 import { TranslationsStore } from "./TranslationsStore";
 
-const ITEM_CREATION_TIMEOUT_SECONDS = 10;
-
 export class FileUploaderStore {
     files: FileStore[] = [];
     lastSeenItems: Set<ObjectItem["id"]> = new Set<ObjectItem["id"]>();
@@ -27,6 +25,7 @@ export class FileUploaderStore {
     _maxFileSize = 0;
     _ds?: ListValue;
     _maxFilesPerUpload: number;
+    _objectCreationTimeout: number;
 
     errorMessage?: string = undefined;
 
@@ -38,6 +37,7 @@ export class FileUploaderStore {
         this._maxFileSize = this._maxFileSizeMb * 1024 * 1024;
         this._maxFilesPerUpload = props.maxFilesPerUpload;
         this._uploadMode = props.uploadMode;
+        this._objectCreationTimeout = props.objectCreationTimeout;
 
         this.acceptedFileTypes =
             this._uploadMode === "files" ? parseAllowedFormats(props.allowedFileFormats) : getImageUploaderFormats();
@@ -137,6 +137,7 @@ export class FileUploaderStore {
             throw new Error("Can't request file");
         }
 
+        clearTimeout(this.itemCreationTimeout);
         this.itemCreationTimeout = undefined;
 
         if (!this.currentWaiting.length) {
@@ -148,13 +149,13 @@ export class FileUploaderStore {
         // this means the action is probably misconfigured.
         this.itemCreationTimeout = setTimeout(() => {
             console.error(
-                `Looks like the 'Action to create new files/images' action did not create any objects within ${ITEM_CREATION_TIMEOUT_SECONDS} seconds. Please check if '${this._widgetName}' widget is configured correctly.`
+                `Looks like the 'Action to create new files/images' action did not create any objects within ${this._objectCreationTimeout} seconds. Please check if '${this._widgetName}' widget is configured correctly.`
             );
             // fail all waiting
             while (this.currentWaiting.length) {
                 this.currentWaiting.shift()?.(undefined);
             }
-        }, ITEM_CREATION_TIMEOUT_SECONDS * 1000) as any as number;
+        }, this._objectCreationTimeout * 1000) as any as number;
 
         this._createObjectAction!.execute();
     }

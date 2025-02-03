@@ -55,6 +55,7 @@ export interface FileUploaderContainerProps {
     removeButtonTextMessage: DynamicValue<string>;
     removeSuccessMessage: DynamicValue<string>;
     removeErrorMessage: DynamicValue<string>;
+    objectCreationTimeout: number;
 }
 
 export interface FileUploaderPreviewProps {
@@ -89,4 +90,5 @@ export interface FileUploaderPreviewProps {
     removeButtonTextMessage: string;
     removeSuccessMessage: string;
     removeErrorMessage: string;
+    objectCreationTimeout: number | null;
 }
