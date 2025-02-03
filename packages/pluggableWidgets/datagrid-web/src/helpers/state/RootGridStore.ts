@@ -1,8 +1,13 @@
+import { compactArray, fromCompactArray, isAnd } from "@mendix/widget-plugin-filtering/condition-utils";
+import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
+import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/ReactiveControllerHost";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
-import { autorun } from "mobx";
+import { action, autorun, isObservable, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { RefreshController } from "../../controllers/RefreshController";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { SortInstruction } from "../../typings/sorting";
 import { StaticInfo } from "../../typings/static-info";
@@ -11,14 +16,17 @@ import { GridPersonalizationStore } from "./GridPersonalizationStore";
 import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
 import { compactArray, fromCompactArray, isAnd } from "@mendix/widget-plugin-filtering/condition-utils";
 
-export class RootGridStore {
+export class RootGridStore extends ReactiveControllerHost {
     columnsStore: ColumnGroupStore;
     headerFiltersStore: HeaderFiltersStore;
     settingsStore: GridPersonalizationStore;
     progressStore: ProgressStore;
     staticInfo: StaticInfo;
+    refresh: RefreshController;
+    fun: PropsGate<DatagridContainerProps>;
 
     constructor(props: DatagridContainerProps) {
+        super();
         this.setInitParams(props);
         this.staticInfo = {
             name: props.name,
@@ -30,10 +38,11 @@ export class RootGridStore {
         this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState);
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
         this.progressStore = new ProgressStore();
-        autorun(reaction => {
-            reaction.trace();
-            console.log("RootGridStore.isColumnsLoaded", this.isColumnsLoaded);
+        this.refresh = new RefreshController(this, {
+            datasource: props.datasource,
+            delay: 0
         });
+        this.fun = new PropsGate(props);
     }
 
     get isColumnsLoaded(): boolean {
@@ -54,12 +63,26 @@ export class RootGridStore {
         return this.columnsStore.sortInstructions;
     }
 
-    setup(): (() => void) | void {
-        return this.headerFiltersStore.setup();
-    }
+    setup(): () => void {
+        const [add, disposeAll] = disposeBatch();
+        add(super.setup());
+        add(this.columnsStore.setup());
+        add(this.headerFiltersStore.setup() ?? (() => {}));
+        add(() => this.settingsStore.dispose());
+        add(
+            autorun(() => {
+                const ps = this.fun.props.datasource.totalCount;
+                console.log("RootGridStore.props", "changed");
+                console.log("observable?", isObservable(ps));
+            })
+        );
+        add(
+            autorun(() => {
+                console.log("RootGridStore.isColumnsLoaded", this.isColumnsLoaded);
+            })
+        );
 
-    dispose(): void {
-        this.settingsStore.dispose();
+        return disposeAll;
     }
 
     private setInitParams(props: DatagridContainerProps): void {
@@ -95,5 +118,22 @@ export class RootGridStore {
         }
         this.columnsStore.updateProps(props);
         this.settingsStore.updateProps(props);
+        this.refresh.updateProps({ datasource: props.datasource });
+        this.fun.setProps(props);
+    }
+}
+
+class PropsGate<T> {
+    props: T;
+    constructor(props: T) {
+        this.props = props;
+        makeObservable(this, {
+            props: observable.struct,
+            setProps: action
+        });
+    }
+
+    setProps(props: T): void {
+        this.props = props;
     }
 }
