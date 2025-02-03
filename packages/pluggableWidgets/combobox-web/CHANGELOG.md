@@ -8,7 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
--   We added a new "Selected items sorting" property to set the order of the selected items.
+-   We added a new "Selected items sorting" property to set the display order of the selected items. "Caption" based sorting display for selected items now possible for combobox with multiple selection.
+
+### Changed
+
+-   Database multi selection will no longer display selected value sorted by the caption. The default behavior is to display them based on selection order, unless the new "Selected items sorting" configurations are set to "Caption".
 
 ## [2.1.4] - 2025-01-29
 
