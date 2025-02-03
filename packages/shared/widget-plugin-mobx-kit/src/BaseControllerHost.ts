@@ -1,7 +1,7 @@
 import { disposeBatch } from "./disposeBatch";
 import { ReactiveController, ReactiveControllerHost } from "./reactive-controller";
 
-export abstract class ComponentControllerHost implements ReactiveControllerHost {
+export abstract class BaseControllerHost implements ReactiveControllerHost {
     private controllers: Set<ReactiveController> = new Set();
     private isSetupCalled: boolean = false;
 
