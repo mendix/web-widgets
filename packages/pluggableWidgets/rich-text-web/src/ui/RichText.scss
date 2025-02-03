@@ -2,6 +2,7 @@
 
 $rte-border-color-default: #ced0d3;
 $rte-gray-ligher: #f8f8f8;
+$rte-brand-primary: #264ae5;
 
 .widget-rich-text {
     position: relative;
@@ -42,6 +43,13 @@ $rte-gray-ligher: #f8f8f8;
         .ql-picker-options {
             max-height: 250px;
             overflow-y: auto;
+        }
+
+        .ql-formats {
+            button:focus {
+                // outline: 1px solid var(--brand-primary, $rte-brand-primary);
+                font-weight: bold;
+            }
         }
     }
 

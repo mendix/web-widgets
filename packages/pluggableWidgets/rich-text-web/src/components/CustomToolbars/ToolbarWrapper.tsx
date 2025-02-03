@@ -26,7 +26,9 @@ export function FormatsContainer({ presetValue, children }: ToolbarConsumerConte
     const toolbarContextValue = useContext(ToolbarContext);
     return (
         <If condition={presetValue === undefined || toolbarContextValue.presetValue >= presetValue}>
-            <span className="ql-formats">{children}</span>
+            <span className="ql-formats" tabIndex={-1}>
+                {children}
+            </span>
         </If>
     );
 }
@@ -42,7 +44,14 @@ export function ToolbarButton({
     const toolbarContextValue = useContext(ToolbarContext);
     return (
         <If condition={presetValue === undefined || toolbarContextValue.presetValue >= presetValue}>
-            <button className={className} onClick={onClick} value={value} title={title} aria-label={title}>
+            <button
+                className={className}
+                onClick={onClick}
+                value={value}
+                title={title}
+                aria-label={title}
+                tabIndex={-1}
+            >
                 {children}
             </button>
         </If>
@@ -53,7 +62,7 @@ export function ToolbarDropdown({ presetValue, className, value, title }: Toolba
     const toolbarContextValue = useContext(ToolbarContext);
     return (
         <If condition={presetValue === undefined || toolbarContextValue.presetValue >= presetValue}>
-            <select className={className} title={title} aria-label={title}>
+            <select className={className} title={title} aria-label={title} tabIndex={-1}>
                 {Array.isArray(value) ? (
                     value.map(v => (
                         <option value={v.value || v} key={v.value || v}>

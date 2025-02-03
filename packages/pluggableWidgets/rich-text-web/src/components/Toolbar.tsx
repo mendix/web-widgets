@@ -13,6 +13,39 @@ export interface ToolbarProps {
     toolbarContent: toolbarContentType[];
 }
 
+const ToolbarKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
+    if (document.activeElement?.parentElement?.classList.contains("ql-formats")) {
+        e.preventDefault();
+        if (e.key === "Tab") {
+            let nextFocusElementParent = document.activeElement.parentElement?.nextElementSibling as HTMLElement;
+            if (e.shiftKey) {
+                nextFocusElementParent = document.activeElement.parentElement?.previousElementSibling as HTMLElement;
+            }
+            if (nextFocusElementParent) {
+                const nextElement = nextFocusElementParent.firstChild as HTMLElement;
+                if (nextElement) {
+                    nextElement.focus();
+                    e.stopPropagation();
+                }
+            }
+        } else if (e.key === "ArrowRight") {
+            const nextElementSibling = document.activeElement.nextElementSibling as HTMLElement;
+            if (nextElementSibling) {
+                nextElementSibling.focus();
+                e.stopPropagation();
+            }
+        } else if (e.key === "ArrowLeft") {
+            const previousElementSibling = document.activeElement.previousElementSibling as HTMLElement;
+            if (previousElementSibling) {
+                previousElementSibling.focus();
+                e.stopPropagation();
+            }
+        } else if (e.key === "Enter") {
+            (document.activeElement as HTMLElement).click();
+        }
+    }
+};
+
 const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>): ReactElement => {
     const { id, preset, style, quill, toolbarContent } = props;
     const presetValue = presetToNumberConverter(preset);
@@ -23,7 +56,7 @@ const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>)
                 presetValue
             }}
         >
-            <div id={id} style={style} ref={ref} className="widget-rich-text-toolbar">
+            <div id={id} style={style} ref={ref} className="widget-rich-text-toolbar" onKeyDown={ToolbarKeyDownHandler}>
                 {toolbarContent.map((toolbarGroup, index) => {
                     return (
                         <FormatsContainer presetValue={toolbarGroup.presetValue} key={`toolbargroup_${id}_${index}`}>

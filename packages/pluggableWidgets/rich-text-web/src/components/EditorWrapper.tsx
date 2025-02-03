@@ -152,9 +152,18 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             <div
                 className={classNames(
                     "flexcontainer",
-                    toolbarLocation === "bottom" ? "flex-column" : "flex-column-reverse"
+                    toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column"
                 )}
             >
+                <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
+                    <Toolbar
+                        ref={toolbarRef}
+                        id={toolbarId}
+                        preset={preset}
+                        quill={quillRef.current}
+                        toolbarContent={toolbarPreset}
+                    />
+                </If>
                 <Editor
                     theme={"snow"}
                     ref={quillRef}
@@ -172,18 +181,9 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                     readOnly={stringAttribute.readOnly}
                     key={`${toolbarId}_${stringAttribute.readOnly}`}
                 />
-                <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
-                    <Toolbar
-                        ref={toolbarRef}
-                        id={toolbarId}
-                        preset={preset}
-                        quill={quillRef.current}
-                        toolbarContent={toolbarPreset}
-                    />
-                </If>
             </div>
             {enableStatusBar && (
-                <div className="widget-rich-text-footer">
+                <div className="widget-rich-text-footer" tabIndex={-1}>
                     {wordCount} word{wordCount > 1 ? "s" : ""}
                 </div>
             )}
