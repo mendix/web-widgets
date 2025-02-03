@@ -206,5 +206,11 @@
                 </translations>
             </property>
         </propertyGroup>
+        <propertyGroup caption="Advanced">
+            <property key="objectCreationTimeout" type="integer" defaultValue="10">
+                <caption>Object creation timeout</caption>
+                <description>Consider uploads unsuccessful if the Action to create new files/images does not create new objects within the configured amount of seconds.</description>
+            </property>
+        </propertyGroup>
     </properties>
 </widget>
