@@ -13,6 +13,13 @@ export default class MendixTheme extends SnowTheme {
     fontPicker?: Picker = undefined;
     buildPickers(selects: NodeListOf<HTMLSelectElement>, icons: Record<string, string | Record<string, string>>): void {
         super.buildPickers(selects, icons);
+
+        this.pickers.forEach(picker => {
+            const pickerLabel = picker.container.querySelector(".ql-picker-label");
+            if (pickerLabel) {
+                pickerLabel.setAttribute("tabindex", "-1");
+            }
+        });
     }
 
     /**
