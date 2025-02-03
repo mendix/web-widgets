@@ -51,7 +51,14 @@ export const predefinedFormats: Record<PredefinedTypeEnum, FileCheckFormat> = {
         description: "Text file"
     },
     anyImageFile: {
-        entries: [["image/*", []]],
+        entries: [
+            ["image/png", [".png"]],
+            ["image/jpeg", [".jpeg", ".jpg"]],
+            ["image/gif", [".gif"]],
+            ["image/bmp", [".bmp"]],
+            ["image/webp", [".webp"]],
+            ["image/svg+xml", [".svg"]]
+        ],
         description: "Image"
     },
     anyAudioFile: {
