@@ -1,11 +1,12 @@
 import { compactArray, fromCompactArray, isAnd } from "@mendix/widget-plugin-filtering/condition-utils";
 import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
+import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/ReactiveControllerHost";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
-import { action, autorun, isObservable, makeObservable, observable } from "mobx";
+import { autorun } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { RefreshController } from "../../controllers/RefreshController";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
@@ -14,17 +15,17 @@ import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
 
-export class RootGridStore extends ReactiveControllerHost {
+export class RootGridStore extends BaseControllerHost {
     columnsStore: ColumnGroupStore;
     headerFiltersStore: HeaderFiltersStore;
     settingsStore: GridPersonalizationStore;
     progressStore: ProgressStore;
     staticInfo: StaticInfo;
     refresh: RefreshController;
-    fun: PropsGate<DatagridContainerProps>;
 
-    constructor(props: DatagridContainerProps) {
+    constructor(private gate: DerivedPropsGate<DatagridContainerProps>) {
         super();
+        const { props } = gate;
         this.setInitParams(props);
         this.staticInfo = {
             name: props.name,
@@ -37,10 +38,9 @@ export class RootGridStore extends ReactiveControllerHost {
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
         this.progressStore = new ProgressStore();
         this.refresh = new RefreshController(this, {
-            datasource: props.datasource,
+            gate,
             delay: 0
         });
-        this.fun = new PropsGate(props);
     }
 
     get isColumnsLoaded(): boolean {
@@ -67,18 +67,7 @@ export class RootGridStore extends ReactiveControllerHost {
         add(this.columnsStore.setup());
         add(this.headerFiltersStore.setup() ?? (() => {}));
         add(() => this.settingsStore.dispose());
-        add(
-            autorun(() => {
-                const ps = this.fun.props.datasource.totalCount;
-                console.log("RootGridStore.props", "changed");
-                console.log("observable?", isObservable(ps));
-            })
-        );
-        add(
-            autorun(() => {
-                console.log("RootGridStore.isColumnsLoaded", this.isColumnsLoaded);
-            })
-        );
+        add(autorun(() => this.updateProps(this.gate.props)));
 
         return disposeAll;
     }
@@ -110,28 +99,11 @@ export class RootGridStore extends ReactiveControllerHost {
         return [fromCompactArray(columns), fromCompactArray(header)];
     }
 
-    updateProps(props: DatagridContainerProps): void {
+    private updateProps(props: DatagridContainerProps): void {
         if (this.progressStore.exporting) {
             return;
         }
         this.columnsStore.updateProps(props);
         this.settingsStore.updateProps(props);
-        this.refresh.updateProps({ datasource: props.datasource });
-        this.fun.setProps(props);
-    }
-}
-
-class PropsGate<T> {
-    props: T;
-    constructor(props: T) {
-        this.props = props;
-        makeObservable(this, {
-            props: observable.struct,
-            setProps: action
-        });
-    }
-
-    setProps(props: T): void {
-        this.props = props;
     }
 }

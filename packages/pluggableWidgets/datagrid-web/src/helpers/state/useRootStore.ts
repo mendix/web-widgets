@@ -1,20 +1,20 @@
+import { PropsGateController } from "@mendix/widget-plugin-mobx-kit/PropsGateController";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { autorun, IReactionDisposer } from "mobx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { RootGridStore } from "./RootGridStore";
 
 export function useRootStore(props: DatagridContainerProps): RootGridStore {
     const pref = useRef(props);
-    const [rootStore] = useState(() => {
-        return new RootGridStore(props);
-    });
-
-    useEffect(() => rootStore.setup(), [rootStore]);
+    const gateCtrl = useConst(() => new PropsGateController(props));
+    const rootStore = useSetup(() => new RootGridStore(gateCtrl.gate));
 
     useEffect(() => {
         compareObjects(pref.current, props);
         console.log("same ref?", pref.current === props);
-        rootStore.updateProps(props);
+        gateCtrl.setProps(props);
         pref.current = props;
     });
 
