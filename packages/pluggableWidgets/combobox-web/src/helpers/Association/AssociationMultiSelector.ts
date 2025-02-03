@@ -27,7 +27,9 @@ export class AssociationMultiSelector
         this.selectAllButton = props.selectAllButton;
         this.selectedItemsSorting = props.selectedItemsSorting;
 
-        this.currentId = sortSelectedItems(this._attr?.value, this.selectedItemsSorting, id => this.caption.get(id));
+        this.currentId = sortSelectedItems(this._attr?.value, this.selectedItemsSorting, this.options.sortOrder, id =>
+            this.caption.get(id)
+        );
 
         if (this.selectionMethod === "rowclick" || this.customContentType === "yes") {
             this.selectedItemsStyle = "boxes";
