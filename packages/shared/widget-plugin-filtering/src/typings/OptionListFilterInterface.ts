@@ -1,8 +1,4 @@
-export interface OptionWithState {
-    caption: string;
-    value: string;
-    selected: boolean;
-}
+import { OptionWithState } from "./OptionWithState";
 
 export interface CustomOption {
     caption: string;
