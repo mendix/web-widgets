@@ -3,7 +3,7 @@ import { createElement, useRef } from "react";
 import { observer } from "mobx-react-lite";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { useCombobox, UseComboboxProps } from "downshift";
-import { Arrow, classes, Cross } from "../picker-primitives";
+import { Arrow, classes, ClearButton, Cross } from "../picker-primitives";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
 
 interface ComboboxProps {
@@ -52,17 +52,15 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                 <Arrow className={cls.stateIcon} />
             </button>
             {!props.empty && (
-                <button
+                <ClearButton
                     className={cls.clear}
-                    tabIndex={-1}
-                    aria-label="Clear"
                     onClick={() => {
                         props.onClear();
                         inputRef.current?.focus();
                     }}
                 >
                     <Cross className={cls.clearIcon} />
-                </button>
+                </ClearButton>
             )}
             <div className={cls.popover} hidden={!isOpen} ref={refs.setFloating} style={floatingStyles}>
                 <div className={cls.menuSlot}>

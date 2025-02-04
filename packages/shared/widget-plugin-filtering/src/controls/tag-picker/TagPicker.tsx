@@ -1,6 +1,6 @@
 import { createElement, useRef, Fragment } from "react";
 import { observer } from "mobx-react-lite";
-import { Arrow, Cross, classes } from "../picker-primitives";
+import { Arrow, Cross, classes, ClearButton } from "../picker-primitives";
 import cn from "classnames";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
 import { OptionWithState } from "../../typings/OptionWithState";
@@ -99,17 +99,15 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
             </button>
             {!props.empty && (
                 <Fragment>
-                    <button
+                    <ClearButton
                         className={cls.clear}
-                        tabIndex={-1}
-                        aria-label="Clear combobox"
                         onClick={() => {
                             props.onClear();
                             inputRef.current?.focus();
                         }}
                     >
                         <Cross className={cls.clearIcon} />
-                    </button>
+                    </ClearButton>
                     <div className={cls.separator} role="presentation" />
                 </Fragment>
             )}

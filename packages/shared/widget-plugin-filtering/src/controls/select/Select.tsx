@@ -3,7 +3,7 @@ import { useSelect, UseSelectProps } from "downshift";
 import { observer } from "mobx-react-lite";
 import React, { createElement, useRef } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
-import { Arrow, classes, Cross } from "../picker-primitives";
+import { Arrow, classes, Cross, ClearButton } from "../picker-primitives";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
 
 interface SelectProps {
@@ -51,17 +51,15 @@ export const Select = observer(function Select(props: SelectProps): React.ReactE
                 {props.value}
             </button>
             {showClear && (
-                <button
+                <ClearButton
                     className={cls.clear}
-                    tabIndex={-1}
-                    aria-label="Clear"
                     onClick={() => {
                         props.onClear();
                         toggleRef.current?.focus();
                     }}
                 >
                     <Cross className={cls.clearIcon} />
-                </button>
+                </ClearButton>
             )}
             <Arrow className={cls.stateIcon} />
             <div className={cls.popover} hidden={!isOpen} ref={refs.setFloating} style={floatingStyles}>
