@@ -60,3 +60,7 @@ export function Cross(props: JSX.IntrinsicElements["svg"]): React.ReactElement {
         </svg>
     );
 }
+
+export function ClearButton(props: JSX.IntrinsicElements["button"]): React.ReactElement {
+    return <button {...props} tabIndex={-1} aria-label="Clear" />;
+}
