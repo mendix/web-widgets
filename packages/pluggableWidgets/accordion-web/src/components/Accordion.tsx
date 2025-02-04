@@ -37,7 +37,6 @@ export interface AccordionProps extends Pick<AccordionContainerProps, "class" | 
 
 export function Accordion(props: AccordionProps): ReactElement | null {
     const reducer = useRef(getCollapsedAccordionGroupsReducer(props.singleExpandedGroup ? "single" : "multiple")); // the accordion group reducer function doesn't need to change during the lifetime of this component, since the singleExpandedGroup won't change.
-
     const [accordionGroupCollapsedState, accordionGroupCollapsedStateDispatch] = useReducer(
         reducer.current,
         undefined,
@@ -45,7 +44,7 @@ export function Accordion(props: AccordionProps): ReactElement | null {
             const groupCollapsedStates = props.groups.map(
                 group => !props.previewMode && props.collapsible && !!group.initiallyCollapsed
             );
-
+            console.log("log->groupCollapsedStates", groupCollapsedStates);
             if (!props.previewMode && props.singleExpandedGroup) {
                 const lastGroupCollapsedStateIndex = groupCollapsedStates.lastIndexOf(false);
 
@@ -59,17 +58,26 @@ export function Accordion(props: AccordionProps): ReactElement | null {
             return groupCollapsedStates;
         }
     );
+    console.log("log->accordionGroupCollapsedState", accordionGroupCollapsedState);
 
     const previousGroupCollapsedValues = useRef(props.groups.map(group => group.collapsed));
+    const previousInitiallyCollapsedValues = useRef(props.groups.map(group => group.initiallyCollapsed));
 
     useMemo(() => {
         props.groups.forEach((group, index) => {
             if (group.collapsed !== undefined && group.collapsed !== previousGroupCollapsedValues.current[index]) {
                 previousGroupCollapsedValues.current[index] = group.collapsed;
                 accordionGroupCollapsedStateDispatch({ type: group.collapsed ? "collapse" : "expand", index });
+            } else if (
+                group.collapsed === undefined &&
+                group.initiallyCollapsed !== previousInitiallyCollapsedValues.current[index]
+            ) {
+                previousInitiallyCollapsedValues.current[index] = group.initiallyCollapsed;
+                const shouldBeCollapsed = !props.previewMode && props.collapsible && !!group.initiallyCollapsed;
+                accordionGroupCollapsedStateDispatch({ type: shouldBeCollapsed ? "collapse" : "expand", index });
             }
         });
-    }, [props.groups]);
+    }, [props.groups, props.previewMode, props.collapsible]);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
 
