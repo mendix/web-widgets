@@ -6,7 +6,7 @@
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "type": "module",
     "engines": {
-        "node": ">=18.20.4"
+        "node": ">=18.20.6"
     },
     "repository": {
         "type": "git",
