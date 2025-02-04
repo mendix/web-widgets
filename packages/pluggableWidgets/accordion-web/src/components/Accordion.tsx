@@ -44,7 +44,6 @@ export function Accordion(props: AccordionProps): ReactElement | null {
             const groupCollapsedStates = props.groups.map(
                 group => !props.previewMode && props.collapsible && !!group.initiallyCollapsed
             );
-            console.log("log->groupCollapsedStates", groupCollapsedStates);
             if (!props.previewMode && props.singleExpandedGroup) {
                 const lastGroupCollapsedStateIndex = groupCollapsedStates.lastIndexOf(false);
 
@@ -58,7 +57,6 @@ export function Accordion(props: AccordionProps): ReactElement | null {
             return groupCollapsedStates;
         }
     );
-    console.log("log->accordionGroupCollapsedState", accordionGroupCollapsedState);
 
     const previousGroupCollapsedValues = useRef(props.groups.map(group => group.collapsed));
     const previousInitiallyCollapsedValues = useRef(props.groups.map(group => group.initiallyCollapsed));
