@@ -1,10 +1,12 @@
 import cn from "classnames";
-import { createElement, useRef } from "react";
-import { observer } from "mobx-react-lite";
-import { OptionWithState } from "../../typings/OptionWithState";
 import { useCombobox, UseComboboxProps } from "downshift";
-import { Arrow, classes, ClearButton, Cross } from "../picker-primitives";
+import { observer } from "mobx-react-lite";
+import { createElement, useRef } from "react";
+import { OptionWithState } from "../../typings/OptionWithState";
+import { ClearButton } from "../base/ClearButton";
+import { OptionsWrapper } from "../base/OptionsWrapper";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
+import { Arrow, classes } from "../picker-primitives";
 
 interface ComboboxProps {
     options: OptionWithState[];
@@ -51,35 +53,28 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
             <button className={cls.toggle} {...getToggleButtonProps()}>
                 <Arrow className={cls.stateIcon} />
             </button>
-            {!props.empty && (
-                <ClearButton
-                    className={cls.clear}
-                    onClick={() => {
-                        props.onClear();
-                        inputRef.current?.focus();
-                    }}
-                >
-                    <Cross className={cls.clearIcon} />
-                </ClearButton>
-            )}
-            <div className={cls.popover} hidden={!isOpen} ref={refs.setFloating} style={floatingStyles}>
-                <div className={cls.menuSlot}>
-                    <ul className={cls.menu} {...getMenuProps()} onScroll={props.onMenuScroll}>
-                        {isOpen &&
-                            props.options.map((item, index) => (
-                                <li
-                                    data-selected={item.selected || undefined}
-                                    data-highlighted={highlightedIndex === index || undefined}
-                                    key={index}
-                                    className={cls.menuItem}
-                                    {...getItemProps({ item, index })}
-                                >
-                                    {item.caption}
-                                </li>
-                            ))}
-                    </ul>
-                </div>
-            </div>
+            <ClearButton
+                cls={cls}
+                onClick={() => {
+                    props.onClear();
+                    inputRef.current?.focus();
+                }}
+                showSeparator={false}
+                visible={!props.empty}
+            />
+            <OptionsWrapper
+                cls={cls}
+                ref={refs.setFloating}
+                style={floatingStyles}
+                onMenuScroll={props.onMenuScroll}
+                isOpen={isOpen}
+                options={props.options}
+                highlightedIndex={highlightedIndex}
+                showCheckboxes={false}
+                haveEmptyFirstOption={false}
+                getMenuProps={getMenuProps}
+                getItemProps={getItemProps}
+            />
         </div>
     );
 });
