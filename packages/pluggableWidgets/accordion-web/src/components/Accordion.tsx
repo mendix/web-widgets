@@ -37,6 +37,7 @@ export interface AccordionProps extends Pick<AccordionContainerProps, "class" | 
 
 export function Accordion(props: AccordionProps): ReactElement | null {
     const reducer = useRef(getCollapsedAccordionGroupsReducer(props.singleExpandedGroup ? "single" : "multiple")); // the accordion group reducer function doesn't need to change during the lifetime of this component, since the singleExpandedGroup won't change.
+
     const [accordionGroupCollapsedState, accordionGroupCollapsedStateDispatch] = useReducer(
         reducer.current,
         undefined,
@@ -44,6 +45,7 @@ export function Accordion(props: AccordionProps): ReactElement | null {
             const groupCollapsedStates = props.groups.map(
                 group => !props.previewMode && props.collapsible && !!group.initiallyCollapsed
             );
+
             if (!props.previewMode && props.singleExpandedGroup) {
                 const lastGroupCollapsedStateIndex = groupCollapsedStates.lastIndexOf(false);
 
