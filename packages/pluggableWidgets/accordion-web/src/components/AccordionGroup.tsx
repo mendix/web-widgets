@@ -73,20 +73,20 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
         ) {
             animatingContent.current = true;
             if (props.collapsed) {
-                const currentHeight = contentRef.current.getBoundingClientRect().height;
-                contentWrapperRef.current.style.height = `${currentHeight}px`;
-
-                contentWrapperRef.current.getBoundingClientRect();
-
+                contentWrapperRef.current.style.height = `${contentRef.current.getBoundingClientRect().height}px`;
                 rootRef.current.classList.add("widget-accordion-group-collapsing");
-                contentWrapperRef.current.style.height = "0px";
+
+                setTimeout(() => {
+                    if (contentWrapperRef.current) {
+                        contentWrapperRef.current.style.height = "0";
+                    }
+                }, 50);
 
                 setTimeout(() => {
                     if (contentWrapperRef.current && rootRef.current) {
-                        contentWrapperRef.current.style.height = "0px";
                         completeTransitioning();
                     }
-                }, 50);
+                }, 250);
             } else {
                 rootRef.current.classList.add("widget-accordion-group-expanding");
                 rootRef.current.classList.remove("widget-accordion-group-collapsed");
