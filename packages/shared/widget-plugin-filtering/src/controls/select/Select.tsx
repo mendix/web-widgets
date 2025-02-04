@@ -2,7 +2,7 @@ import cn from "classnames";
 import { useSelect, UseSelectProps } from "downshift";
 import { observer } from "mobx-react-lite";
 import React, { createElement, useRef } from "react";
-import { OptionWithState } from "../../typings/OptionListFilterInterface";
+import { OptionWithState } from "../../typings/OptionWithState";
 import { Arrow, classes, Cross } from "../picker-primitives";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
 
