@@ -1,10 +1,12 @@
-import { createElement, useRef, Fragment } from "react";
-import { observer } from "mobx-react-lite";
-import { Arrow, Cross, classes, ClearButton } from "../picker-primitives";
 import cn from "classnames";
-import { useFloatingMenu } from "../hooks/useFloatingMenu";
-import { OptionWithState } from "../../typings/OptionWithState";
 import { useCombobox, UseComboboxProps, useMultipleSelection, UseMultipleSelectionProps } from "downshift";
+import { observer } from "mobx-react-lite";
+import { createElement, useRef } from "react";
+import { OptionWithState } from "../../typings/OptionWithState";
+import { ClearButton } from "../base/ClearButton";
+import { OptionsWrapper } from "../base/OptionsWrapper";
+import { useFloatingMenu } from "../hooks/useFloatingMenu";
+import { Arrow, classes, Cross } from "../picker-primitives";
 
 interface TagPickerProps {
     selected: OptionWithState[];
@@ -97,52 +99,28 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
             <button className={cls.toggle} {...getToggleButtonProps()}>
                 <Arrow className={cls.stateIcon} />
             </button>
-            {!props.empty && (
-                <Fragment>
-                    <ClearButton
-                        className={cls.clear}
-                        onClick={() => {
-                            props.onClear();
-                            inputRef.current?.focus();
-                        }}
-                    >
-                        <Cross className={cls.clearIcon} />
-                    </ClearButton>
-                    <div className={cls.separator} role="presentation" />
-                </Fragment>
-            )}
-            <div className={cls.popover} hidden={!isOpen} ref={refs.setFloating} style={floatingStyles}>
-                <div className={cls.menuSlot}>
-                    <ul className={cls.menu} {...getMenuProps()} onScroll={props.onMenuScroll}>
-                        {isOpen &&
-                            props.options.map((item, index) => (
-                                <li
-                                    data-selected={item.selected || undefined}
-                                    data-highlighted={highlightedIndex === index || undefined}
-                                    key={item.value}
-                                    className={cls.menuItem}
-                                    {...getItemProps({ item, index })}
-                                >
-                                    {showCheckboxes && (
-                                        <span className={cls.checkboxSlot}>
-                                            <input
-                                                role="presentation"
-                                                type="checkbox"
-                                                checked={item.selected}
-                                                value={item.caption}
-                                                onChange={noop}
-                                                tabIndex={-1}
-                                            />
-                                        </span>
-                                    )}
-                                    {item.caption}
-                                </li>
-                            ))}
-                    </ul>
-                </div>
-            </div>
+            <ClearButton
+                cls={cls}
+                onClick={() => {
+                    props.onClear();
+                    inputRef.current?.focus();
+                }}
+                showSeparator
+                visible={!props.empty}
+            />
+            <OptionsWrapper
+                cls={cls}
+                ref={refs.setFloating}
+                style={floatingStyles}
+                onMenuScroll={props.onMenuScroll}
+                isOpen={isOpen}
+                options={props.options}
+                highlightedIndex={highlightedIndex}
+                showCheckboxes={showCheckboxes}
+                haveEmptyFirstOption={false}
+                getMenuProps={getMenuProps}
+                getItemProps={getItemProps}
+            />
         </div>
     );
 });
-
-const noop = (): void => {};
