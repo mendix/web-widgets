@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.2.0] - 2025-02-04
+
 ### Added
 
 -   We added a new "Selected items sorting" property to set the display order of the selected items. "Caption" based sorting display for selected items now possible for combobox with multiple selection.
