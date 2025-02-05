@@ -17,7 +17,7 @@ export class ResizeController implements ReactiveController {
         });
     }
 
-    setTarget(target: HTMLElement | null): void {
+    setTarget = (target: HTMLElement | null): void => {
         if (target === null) {
             this.cleanup?.();
         } else {
@@ -34,7 +34,7 @@ export class ResizeController implements ReactiveController {
                 resizeObserver.disconnect();
             };
         }
-    }
+    };
 
     setup(): () => void {
         return () => this.cleanup?.();
