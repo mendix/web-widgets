@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState, type RefObject, CSSProperties } f
 import { CustomChartContainerProps } from "../../typings/CustomChartProps";
 import { PlotlyChart, ChartProps } from "../components/PlotlyChart";
 import { parseData, parseLayout, parseConfig } from "../utils/utils";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 interface UseCustomChartReturn {
     chartRef: RefObject<HTMLDivElement>;
@@ -70,6 +71,15 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
 
         const updateData: ChartProps = {
             data,
+            onClick: (data: any) => {
+                if (props.eventDataAttribute) {
+                    // TODO: value has to be set to correct value (possibly data.points)
+                    props.eventDataAttribute?.setValue(JSON.stringify(data.points[0].bbox));
+                } else {
+                    //if event attribute not set, directly trigger actions.
+                    executeAction(props.onClick);
+                }
+            },
             layout: {
                 ...layout,
                 width: dimensions.width,
@@ -119,7 +129,7 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
             width: dimensions.width,
             height: dimensions.height
         };
-
+        chartRef.current;
         updateChartDebounced(chart, updateData);
 
         return () => {
