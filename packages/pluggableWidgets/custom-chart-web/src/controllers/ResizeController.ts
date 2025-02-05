@@ -13,15 +13,15 @@ export class ResizeController implements ReactiveController {
         makeObservable(this, {
             width: observable,
             height: observable,
-            setSize: action
+            setSize: action.bound
         });
     }
 
-    setTarget(target: HTMLElement | null = null): void {
+    setTarget(target: HTMLElement | null): void {
         if (target === null) {
             this.cleanup?.();
         } else {
-            const [setSizeDebounced, abort] = debounce(this.setSize.bind(this), 100);
+            const [setSizeDebounced, abort] = debounce(this.setSize, 100);
             const resizeObserver = new ResizeObserver(entries => {
                 const { width, height } = entries[0].contentRect;
                 setSizeDebounced(width, height);
