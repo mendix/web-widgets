@@ -15,7 +15,6 @@
                     <enumerationValue key="images">Images</enumerationValue>
                 </enumerationValues>
             </property>
-
             <property key="associatedFiles" type="datasource" isList="true">
                 <caption>Associated files</caption>
                 <description />
@@ -24,17 +23,14 @@
                 <caption>Associated images</caption>
                 <description />
             </property>
-
             <property key="createFileAction" type="action">
                 <caption>Action to create new files</caption>
                 <description>Nanoflow that creates a file document object, associates it to the current object and commits it.</description>
             </property>
-
             <property key="createImageAction" type="action">
                 <caption>Action to create new images</caption>
                 <description>Nanoflow that creates an image document object, associates it to the current object and commits it.</description>
             </property>
-
             <property key="allowedFileFormats" type="object" isList="true" required="false">
                 <caption>Allowed file formats</caption>
                 <description>No restrictions if left empty.</description>
@@ -67,11 +63,11 @@
                         </property>
                         <property key="mimeType" type="string" required="false">
                             <caption>Mime Type</caption>
-                            <description>For example 'image/jpeg' or 'application/pdf'</description>
+                            <description>For example &apos;image/jpeg&apos; or &apos;application/pdf&apos;</description>
                         </property>
                         <property key="extensions" type="string" required="false">
                             <caption>Extensions list</caption>
-                            <description>Comma separated list of extensions. For example: '.jpg,.jpeg'.</description>
+                            <description>Comma separated list of extensions. For example: &apos;.jpg,.jpeg&apos;.</description>
                         </property>
                         <property key="typeFormatDescription" type="textTemplate">
                             <caption>Type description</caption>
@@ -80,19 +76,16 @@
                     </propertyGroup>
                 </properties>
             </property>
-
             <property key="maxFilesPerUpload" type="integer" defaultValue="10">
                 <caption>Maximum number of files</caption>
                 <description>Limit the number of files per one upload.</description>
             </property>
-
             <property key="maxFileSize" type="integer" defaultValue="25">
                 <caption>Maximum file size (MB)</caption>
                 <description>Reject files that are bigger than specified size.</description>
             </property>
         </propertyGroup>
         <propertyGroup caption="Texts">
-            <!-- DROPZONE -->
             <property key="dropzoneIdleMessage" type="textTemplate">
                 <caption>Dropzone message</caption>
                 <description />
@@ -100,7 +93,6 @@
                     <translation lang="en_US">Drag and drop files here</translation>
                 </translations>
             </property>
-
             <property key="dropzoneAcceptedMessage" type="textTemplate">
                 <caption>Dropzone hover for uploadable files</caption>
                 <description />
@@ -108,7 +100,6 @@
                     <translation lang="en_US">All files can be uploaded.</translation>
                 </translations>
             </property>
-
             <property key="dropzoneRejectedMessage" type="textTemplate">
                 <caption>Dropzone hover for non uploadable files</caption>
                 <description />
@@ -116,8 +107,6 @@
                     <translation lang="en_US">Some files may not be uploadable.</translation>
                 </translations>
             </property>
-
-            <!-- UPLOADING -->
             <property key="uploadInProgressMessage" type="textTemplate">
                 <caption>Uploading in progress</caption>
                 <description />
@@ -125,7 +114,6 @@
                     <translation lang="en_US">Uploading...</translation>
                 </translations>
             </property>
-
             <property key="uploadSuccessMessage" type="textTemplate">
                 <caption>Uploading success</caption>
                 <description />
@@ -133,7 +121,6 @@
                     <translation lang="en_US">Uploaded successfully.</translation>
                 </translations>
             </property>
-
             <property key="uploadFailureGenericMessage" type="textTemplate">
                 <caption>Uploading unknown error</caption>
                 <description />
@@ -141,7 +128,6 @@
                     <translation lang="en_US">An error occurred during uploading.</translation>
                 </translations>
             </property>
-
             <property key="uploadFailureInvalidFileFormatMessage" type="textTemplate">
                 <caption>Invalid file format</caption>
                 <description />
@@ -149,7 +135,6 @@
                     <translation lang="en_US">File format is not supported, supported formats are ###.</translation>
                 </translations>
             </property>
-
             <property key="uploadFailureFileIsTooBigMessage" type="textTemplate">
                 <caption>File is too big</caption>
                 <description />
@@ -157,7 +142,6 @@
                     <translation lang="en_US">File size exceeds the maximum limit of ### megabytes.</translation>
                 </translations>
             </property>
-
             <property key="uploadFailureTooManyFilesMessage" type="textTemplate">
                 <caption>Too many files</caption>
                 <description />
@@ -165,15 +149,13 @@
                     <translation lang="en_US">Too many files added. Only ### files per upload are allowed.</translation>
                 </translations>
             </property>
-
             <property key="unavailableCreateActionMessage" type="textTemplate">
                 <caption>Action to create new files is not available or failed</caption>
                 <description />
                 <translations>
-                    <translation lang="en_US">Can't upload files at this time. Please contact your system administrator.</translation>
+                    <translation lang="en_US">Can&apos;t upload files at this time. Please contact your system administrator.</translation>
                 </translations>
             </property>
-
             <property key="downloadButtonTextMessage" type="textTemplate">
                 <caption>Download button</caption>
                 <description />
@@ -181,7 +163,6 @@
                     <translation lang="en_US">Download this file</translation>
                 </translations>
             </property>
-
             <property key="removeButtonTextMessage" type="textTemplate">
                 <caption>Remove button</caption>
                 <description />
@@ -189,7 +170,6 @@
                     <translation lang="en_US">Remove this file</translation>
                 </translations>
             </property>
-
             <property key="removeSuccessMessage" type="textTemplate">
                 <caption>File removal success</caption>
                 <description />
@@ -197,7 +177,6 @@
                     <translation lang="en_US">Removed successfully.</translation>
                 </translations>
             </property>
-
             <property key="removeErrorMessage" type="textTemplate">
                 <caption>File removal failure</caption>
                 <description />
