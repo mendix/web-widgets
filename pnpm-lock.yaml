@@ -465,6 +465,22 @@ importers:
         specifier: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz
         version: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz
 
+  packages/modules/file-uploader:
+    dependencies:
+      '@mendix/file-uploader-web':
+        specifier: workspace:*
+        version: link:../../pluggableWidgets/file-uploader-web
+    devDependencies:
+      '@mendix/automation-utils':
+        specifier: workspace:*
+        version: link:../../../automation/utils
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/prettier-config-web-widgets
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+
   packages/modules/google-tag:
     dependencies:
       '@mendix/google-tag-web':
