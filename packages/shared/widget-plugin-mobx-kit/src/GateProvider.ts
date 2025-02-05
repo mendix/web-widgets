@@ -12,7 +12,18 @@ class DerivedGate<T> implements DerivedPropsGate<T> {
 }
 
 class PropsAtom<T> {
-    constructor(public props: T) {
+    /**
+     * props must be annotated with `observable.ref`,
+     * with `observable.struct` we face issue where component
+     * depends on object identity passed with props (Object.is),
+     * most commonly "datasource".
+     * If needed, you can always create second derived gate,
+     * and use `observable.struct` on it.
+     */
+    props: T;
+
+    constructor(props: T) {
+        this.props = props;
         makeObservable(this, { props: observable.ref, setProps: action });
     }
 
