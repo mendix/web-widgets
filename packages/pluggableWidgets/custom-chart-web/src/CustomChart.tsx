@@ -11,13 +11,32 @@ export default function CustomChart(props: CustomChartContainerProps): ReactElem
     const { chartRef, containerStyle } = useCustomChart(props);
     const { handleClick } = useActionEvents(props);
 
+    const x = mergeRefs<HTMLDivElement>(chartRef, host.resizeCtrl.setTarget);
     return (
         <div
-            ref={host.resizeCtrl.setTarget}
+            ref={x}
             className="widget-custom-chart"
             style={containerStyle}
             tabIndex={props.tabIndex}
             onClick={handleClick}
         />
     );
+}
+
+export function mergeRefs<T>(...refs: Array<React.Ref<T>>): React.Ref<T> | React.RefCallback<T> | undefined {
+    if (refs.length === 0) {
+        return undefined;
+    } else if (refs.length === 1) {
+        return refs[0];
+    } else {
+        return ref => {
+            for (const x of refs) {
+                if (typeof x === "function") {
+                    x(ref);
+                } else if (x) {
+                    (x as React.MutableRefObject<T | null>).current = ref;
+                }
+            }
+        };
+    }
 }
