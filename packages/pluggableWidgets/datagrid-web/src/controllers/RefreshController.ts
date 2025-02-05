@@ -28,6 +28,10 @@ export class RefreshController implements ReactiveController {
         return this.refreshing;
     }
 
+    private get datasource(): ListValue {
+        return this.gate.props.datasource;
+    }
+
     setup(): (() => void) | void {
         if (this.delay <= 0) {
             return;
@@ -35,8 +39,7 @@ export class RefreshController implements ReactiveController {
         // Set timer every time we got new ds ref value
         // Avoid using any other reactive dependencies other then ds
         return autoEffect(() => {
-            const { datasource: ds } = this.gate.props;
-            const cleanup = this.scheduleReload(ds, this.delay);
+            const cleanup = this.scheduleReload(this.datasource, this.delay);
             this.updateRefreshing();
             return cleanup;
         });
@@ -55,9 +58,8 @@ export class RefreshController implements ReactiveController {
     }
 
     private updateRefreshing(): void {
-        const { datasource: ds } = this.gate.props;
         if (this.refreshing) {
-            this.setRefreshing(ds.status === "loading");
+            this.setRefreshing(this.datasource.status === "loading");
         }
     }
 }

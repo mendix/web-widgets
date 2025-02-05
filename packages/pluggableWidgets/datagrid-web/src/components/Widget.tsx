@@ -64,7 +64,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;
-    isLoading: boolean;
+    bodyLoading: boolean;
     loadingType: LoadingTypeEnum;
     columnsLoading: boolean;
 
@@ -134,7 +134,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         visibleColumns
     } = props;
 
-    const isInfinite = paginationType === "virtualScrolling";
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
 
@@ -164,7 +163,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         <Fragment>
             {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
             {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
-            <WidgetContent isLoading={props.isLoading && props.loadingType === "spinner"}>
+            <WidgetContent>
                 <Grid
                     aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
                 >
@@ -186,9 +185,12 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         style={cssGridStyles}
                     />
                     <GridBody
+                        isLoading={props.bodyLoading}
+                        loadingType={props.loadingType}
+                        columnsHidable={columnsHidable}
+                        columnsSize={visibleColumns.length}
+                        rowsSize={rows.length > 0 ? rows.length : pageSize}
                         style={cssGridStyles}
-                        isInfinite={isInfinite}
-                        isLoading={props.isLoading && props.loadingType === "spinner"}
                         setPage={setPage}
                         paginationType={paginationType}
                         hasMoreItems={hasMoreItems}
@@ -205,7 +207,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                             selectActionHelper={selectActionHelper}
                             focusController={props.focusController}
                             eventsController={props.cellEventsController}
-                            isLoading={props.isLoading}
                             pageSize={props.pageSize}
                         />
                         {(rows.length === 0 || preview) &&
