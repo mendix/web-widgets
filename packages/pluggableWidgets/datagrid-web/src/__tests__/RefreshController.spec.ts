@@ -1,12 +1,12 @@
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { PropsGateController } from "@mendix/widget-plugin-mobx-kit/PropsGateController";
 import { list } from "@mendix/widget-plugin-test-utils";
 import { ListValue } from "mendix";
 import { observable } from "mobx";
 import { RefreshController } from "../controllers/RefreshController";
 
 describe("RefreshController", () => {
-    let gateProvider: PropsGateController<{ datasource: ListValue }>;
+    let gateProvider: GateProvider<{ datasource: ListValue }>;
     let refreshController: RefreshController;
 
     beforeEach(() => {
@@ -16,7 +16,7 @@ describe("RefreshController", () => {
             addController: jest.fn()
         } as unknown as ReactiveControllerHost;
 
-        gateProvider = new PropsGateController({ datasource: list(0) });
+        gateProvider = new GateProvider({ datasource: list(0) });
 
         refreshController = new RefreshController(host, { delay: 1000, gate: gateProvider.gate });
     });

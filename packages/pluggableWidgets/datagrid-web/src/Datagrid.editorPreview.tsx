@@ -144,7 +144,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             cellEventsController={eventsController}
             checkboxEventsController={eventsController}
             focusController={focusController}
-            isLoading={false}
+            bodyLoading={false}
             loadingType="spinner"
             columnsLoading={false}
         />

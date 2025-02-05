@@ -13,7 +13,7 @@ class DerivedGate<T> implements DerivedPropsGate<T> {
 
 class PropsAtom<T> {
     constructor(public props: T) {
-        makeObservable(this, { props: observable.struct, setProps: action });
+        makeObservable(this, { props: observable.ref, setProps: action });
     }
 
     setProps(props: T): void {
@@ -21,7 +21,7 @@ class PropsAtom<T> {
     }
 }
 
-export class PropsGateController<T> implements DerivedPropsGateProvider<T> {
+export class GateProvider<T> implements DerivedPropsGateProvider<T> {
     private atom: PropsAtom<T>;
     readonly gate: DerivedPropsGate<T>;
 
