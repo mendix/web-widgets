@@ -1,12 +1,10 @@
 import { useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { ValueStatus } from "mendix";
 import { ReactElement, ReactNode, createElement, useCallback, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
-import { useShowPagination } from "./utils/useShowPagination";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useCellEventsController } from "./features/row-interaction/CellEventsController";
@@ -19,7 +17,6 @@ import { RootGridStore } from "./helpers/state/RootGridStore";
 import { useRootStore } from "./helpers/state/useRootStore";
 import { useDataExport } from "./features/data-export/useDataExport";
 import { ProgressStore } from "./features/data-export/ProgressStore";
-import { useRefreshReload } from "./utils/useRefreshReload";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnGroupStore;
@@ -28,30 +25,12 @@ interface Props extends DatagridContainerProps {
 }
 
 const Container = observer((props: Props): ReactElement => {
-    const isInfiniteLoad = props.pagination === "virtualScrolling" || props.pagination === "loadMore";
-    const currentPage = isInfiniteLoad
-        ? props.datasource.limit / props.pageSize
-        : props.datasource.offset / props.pageSize;
-
     const { columnsStore, rootStore } = props;
+    const { paginationCtrl } = rootStore;
 
     const items = props.datasource.items ?? [];
 
     const [exportProgress, abortExport] = useDataExport(props, props.columnsStore, props.progressStore);
-
-    const { isRefreshing } = useRefreshReload({ datasource: props.datasource, refreshInterval: props.refreshInterval });
-
-    const setPage = useCallback(
-        (computePage: (prevPage: number) => number) => {
-            const newPage = computePage(currentPage);
-            if (isInfiniteLoad) {
-                props.datasource.setLimit(newPage * props.pageSize);
-            } else {
-                props.datasource.setOffset(newPage * props.pageSize);
-            }
-        },
-        [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
-    );
 
     const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
 
@@ -61,6 +40,7 @@ const Container = observer((props: Props): ReactElement => {
         onClickTrigger: props.onClickTrigger,
         onClick: props.onClick
     });
+
     useOnResetFiltersEvent(rootStore.staticInfo.name, rootStore.staticInfo.filtersChannelName);
 
     const visibleColumnsCount = selectActionHelper.showCheckboxColumn
@@ -76,22 +56,6 @@ const Container = observer((props: Props): ReactElement => {
     const cellEventsController = useCellEventsController(selectActionHelper, clickActionHelper, focusController);
 
     const checkboxEventsController = useCheckboxEventsController(selectActionHelper, focusController);
-
-    const datasourceIsLoading = useMemo((): boolean => {
-        if (exportProgress.exporting) {
-            return false;
-        }
-
-        if (isRefreshing) {
-            return false;
-        }
-
-        if (!props.datasource.hasMoreItems) {
-            return false;
-        }
-
-        return props.datasource.status === ValueStatus.Loading;
-    }, [exportProgress, isRefreshing, props.datasource.status, props.datasource.hasMoreItems]);
 
     return (
         <Widget
@@ -128,21 +92,16 @@ const Container = observer((props: Props): ReactElement => {
             id={useMemo(() => `DataGrid${generateUUID()}`, [])}
             numberOfItems={props.datasource.totalCount}
             onExportCancel={abortExport}
-            page={currentPage}
+            page={paginationCtrl.currentPage}
             pageSize={props.pageSize}
             paginationType={props.pagination}
             loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
-            paging={useShowPagination({
-                pagination: props.pagination,
-                showPagingButtons: props.showPagingButtons,
-                totalCount: props.datasource.totalCount,
-                limit: props.datasource.limit
-            })}
+            paging={paginationCtrl.showPagination}
             pagingPosition={props.pagingPosition}
             showPagingButtons={props.showPagingButtons}
             rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
             gridInteractive={!!(props.itemSelection || props.onClick)}
-            setPage={setPage}
+            setPage={paginationCtrl.setPage}
             styles={props.style}
             selectionStatus={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "unknown"}
             exporting={exportProgress.exporting}
@@ -158,29 +117,24 @@ const Container = observer((props: Props): ReactElement => {
             cellEventsController={cellEventsController}
             checkboxEventsController={checkboxEventsController}
             focusController={focusController}
-            isLoading={datasourceIsLoading}
+            bodyLoading={rootStore.loaderCtrl.showLoader}
             loadingType={props.loadingType}
             columnsLoading={!columnsStore.loaded}
         />
     );
 });
 
-const ContainerWithLoading = observer((props: Props) => {
-    if (!props.rootStore.isColumnsLoaded) {
-        return null;
-    }
-    return <Container {...props} />;
-});
+Container.displayName = "DatagridComponent";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
     const rootStore = useRootStore(props);
 
     return (
-        <ContainerWithLoading
+        <Container
             {...props}
             rootStore={rootStore}
             columnsStore={rootStore.columnsStore}
-            progressStore={rootStore.progressStore}
+            progressStore={rootStore.exportProgressCtrl}
         />
     );
 }

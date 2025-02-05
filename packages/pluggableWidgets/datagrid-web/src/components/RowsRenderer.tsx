@@ -5,7 +5,6 @@ import { createElement } from "react";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
-import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
 import { Row } from "./Row";
 
 interface RowsRendererProps {
@@ -15,7 +14,6 @@ interface RowsRendererProps {
     eventsController: EventsController;
     focusController: FocusTargetController;
     interactive: boolean;
-    isLoading: boolean;
     pageSize: number;
     preview: boolean;
     rowClass?: (item: ObjectItem) => string;
@@ -25,16 +23,6 @@ interface RowsRendererProps {
 }
 
 export function RowsRenderer(props: RowsRendererProps): React.ReactElement {
-    if (props.isLoading) {
-        return (
-            <RowSkeletonLoader
-                columnsHidable={props.columnsHidable}
-                columnsSize={props.columns.length}
-                pageSize={props.pageSize}
-            />
-        );
-    }
-
     return (
         <KeyNavProvider focusController={props.focusController}>
             {props.rows.map((item, rowIndex) => {

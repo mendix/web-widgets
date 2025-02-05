@@ -462,7 +462,7 @@ $root: ".widget-datagrid";
     }
 
     &-skeleton {
-        padding: 6px var(--dropdown-outer-padding, 10px);
+        padding: 2px var(--dropdown-outer-padding, 10px);
 
         &-loader {
             animation: skeleton-loading 1s linear infinite alternate;
