@@ -18,6 +18,7 @@ interface Props {
     columnsHidable: boolean;
     columnsSize: number;
     rowsSize: number;
+    pageSize: number;
 }
 
 export function GridBody(props: Props): ReactElement {
@@ -32,12 +33,12 @@ export function GridBody(props: Props): ReactElement {
 
     const content = (): React.ReactElement => {
         if (props.isLoading) {
-            return <Loader {...props} />;
+            return <Loader {...props} rowsSize={props.rowsSize > 0 ? props.rowsSize : props.pageSize} />;
         }
         return (
             <Fragment>
                 {children}
-                {props.isLoadingMore && <Loader {...props} />}
+                {props.isLoadingMore && <Loader {...props} rowsSize={props.pageSize} useBorderTop={false} />}
             </Fragment>
         );
     };
@@ -60,6 +61,7 @@ interface LoaderProps {
     columnsHidable: boolean;
     columnsSize: number;
     rowsSize: number;
+    useBorderTop?: boolean;
 }
 
 function Loader(props: LoaderProps): ReactElement {
@@ -76,6 +78,7 @@ function Loader(props: LoaderProps): ReactElement {
             columnsHidable={props.columnsHidable}
             columnsSize={props.columnsSize}
             pageSize={props.rowsSize}
+            useBorderTop={props.useBorderTop}
         />
     );
 }
