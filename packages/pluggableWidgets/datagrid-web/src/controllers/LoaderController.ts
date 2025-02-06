@@ -9,7 +9,7 @@ type Spec = {
     gate: Gate;
     exp: { exporting: boolean };
     cols: { loaded: boolean };
-    refresh: { isRefreshing: boolean };
+    pagination: { isLoadingMore: boolean; isLoading: boolean };
 };
 
 export class LoaderController implements ReactiveController {
@@ -17,8 +17,10 @@ export class LoaderController implements ReactiveController {
 
     constructor(host: ReactiveControllerHost, private spec: Spec) {
         host.addController(this);
-        makeObservable<this, "hasBeenLoaded">(this, {
-            showLoader: computed,
+        type PrivateMembers = "hasBeenLoaded";
+        makeObservable<this, PrivateMembers>(this, {
+            isLoading: computed,
+            isLoadingMore: computed,
             hasBeenLoaded: observable
         });
     }
@@ -27,17 +29,21 @@ export class LoaderController implements ReactiveController {
         return this.spec.gate.props.datasource;
     }
 
-    get showLoader(): boolean {
-        const { cols, exp, refresh } = this.spec;
+    get isLoading(): boolean {
+        const { cols, exp, pagination } = this.spec;
         if (!cols.loaded || !this.hasBeenLoaded) {
             return true;
         }
 
-        if (exp.exporting || refresh.isRefreshing) {
+        if (exp.exporting || this.isLoadingMore) {
             return false;
         }
 
-        return this.datasource.status === "loading";
+        return pagination.isLoading;
+    }
+
+    get isLoadingMore(): boolean {
+        return this.spec.pagination.isLoadingMore;
     }
 
     setup(): () => void {
