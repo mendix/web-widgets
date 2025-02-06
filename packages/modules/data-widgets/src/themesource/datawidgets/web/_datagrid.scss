@@ -439,16 +439,13 @@ $root: ".widget-datagrid";
         outline-offset: 0;
     }
 
-    // &-content {
-    //     overflow-y: auto;
-    // }
-
     &-loader-container {
         align-items: center;
         background-color: rgba(255, 255, 255, 1);
         display: flex;
         height: 400px;
         justify-content: center;
+        grid-column: 1/-1;
     }
 
     &-skeleton,
