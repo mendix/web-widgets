@@ -11,36 +11,21 @@ export class DatasourceController implements ReactiveController, QueryController
     private gate: Gate;
     private refreshing = false;
     private loadingMore = false;
+    private pageSize = Infinity;
 
     constructor(host: ReactiveControllerHost, spec: Spec) {
         host.addController(this);
         this.gate = spec.gate;
 
-        type PrivateMembers = "resetFlags" | "updateFlags" | "setRefreshing" | "setLoadingMore";
+        type PrivateMembers = "resetFlags" | "updateFlags" | "setRefreshing" | "setLoadingMore" | "pageSize";
         makeAutoObservable<this, PrivateMembers>(this, {
             setup: false,
+            pageSize: false,
             updateFlags: action,
             resetFlags: action,
             setRefreshing: action,
             setLoadingMore: action
         });
-
-        autorun(() => {
-            const data = [
-                {
-                    isLoading: this.isLoading,
-                    isRefreshing: this.isRefreshing,
-                    isLoadingMore: this.isLoadingMore,
-                    status: this.datasource.status,
-                    size: this.datasource.items?.length ?? "N/A"
-                }
-            ];
-            console.table(data);
-        });
-    }
-
-    private get datasource(): ListValue {
-        return this.gate.props.datasource;
     }
 
     private resetFlags(): void {
@@ -65,8 +50,16 @@ export class DatasourceController implements ReactiveController, QueryController
         this.loadingMore = value;
     }
 
+    private resetLimit(): void {
+        this.datasource.setLimit(this.pageSize);
+    }
+
     private get isDSLoading(): boolean {
         return this.datasource.status === "loading";
+    }
+
+    private get datasource(): ListValue {
+        return this.gate.props.datasource;
     }
 
     get isLoading(): boolean {
@@ -96,8 +89,11 @@ export class DatasourceController implements ReactiveController, QueryController
         return this.datasource.totalCount;
     }
 
-    get observableCopy(): DatasourceController {
-        // Subscribe to the datasource to make sure we have new copy when it changes
+    /**
+     * Returns a new copy of the controller.
+     * Recomputes the copy every time the datasource changes.
+     */
+    get computedCopy(): DatasourceController {
         const [copy] = [this.datasource].map(() => Object.create(this));
         return copy;
     }
@@ -121,24 +117,30 @@ export class DatasourceController implements ReactiveController, QueryController
         this.datasource.requestTotalCount(needTotal);
     }
 
-    setLimit(limit: number, options: { loadingMore?: boolean } = {}): void {
-        const { loadingMore = true } = options;
-        this.setLoadingMore(loadingMore);
+    setLimit(limit: number): void {
+        this.setLoadingMore(true);
         this.datasource.setLimit(limit);
     }
 
     setOffset(offset: number): void {
         this.resetFlags();
+        this.resetLimit();
         this.datasource.setOffset(offset);
     }
 
     setSortOrder(...params: Parameters<ListValue["setSortOrder"]>): void {
         this.resetFlags();
+        this.resetLimit();
         this.datasource.setSortOrder(...params);
     }
 
     setFilter(...params: Parameters<ListValue["setFilter"]>): void {
         this.resetFlags();
+        this.resetLimit();
         this.datasource.setFilter(...params);
+    }
+
+    setPageSize(size: number): void {
+        this.pageSize = size;
     }
 }
