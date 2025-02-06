@@ -1,6 +1,6 @@
 import { autoEffect } from "@mendix/widget-plugin-mobx-kit/autoEffect";
 import { DerivedPropsGate, ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { ListValue } from "mendix";
+import { ListValue, ValueStatus } from "mendix";
 import { action, computed, makeObservable, observable } from "mobx";
 
 type PropsGate = DerivedPropsGate<{ datasource: ListValue }>;
@@ -16,7 +16,8 @@ export class RefreshController implements ReactiveController {
         this.gate = spec.gate;
         this.delay = Math.max(spec.delay, 0);
 
-        makeObservable<this, "setRefreshing" | "updateRefreshing" | "refreshing">(this, {
+        type PrivateMembers = "setRefreshing" | "updateRefreshing" | "refreshing";
+        makeObservable<this, PrivateMembers>(this, {
             refreshing: observable,
             isRefreshing: computed,
             setRefreshing: action,
@@ -40,7 +41,7 @@ export class RefreshController implements ReactiveController {
         // Avoid using any other reactive dependencies other then ds
         return autoEffect(() => {
             const cleanup = this.scheduleReload(this.datasource, this.delay);
-            this.updateRefreshing();
+            this.updateRefreshing(this.datasource.status);
             return cleanup;
         });
     }
@@ -57,9 +58,9 @@ export class RefreshController implements ReactiveController {
         this.refreshing = value;
     }
 
-    private updateRefreshing(): void {
+    private updateRefreshing(status: ValueStatus): void {
         if (this.refreshing) {
-            this.setRefreshing(this.datasource.status === "loading");
+            this.setRefreshing(status === "loading");
         }
     }
 }
