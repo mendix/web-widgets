@@ -4,19 +4,19 @@ export class IntersectionObserver {
     rootMargin = "";
     thresholds = [];
 
-    disconnect() {
+    disconnect(): null {
         return null;
     }
 
-    observe() {
+    observe(): null {
         return null;
     }
 
-    takeRecords() {
+    takeRecords(): [] {
         return [];
     }
 
-    unobserve() {
+    unobserve(): null {
         return null;
     }
 }

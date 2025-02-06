@@ -81,7 +81,7 @@ export function getPreview(values: HeatMapPreviewProps, isDarkMode: boolean): St
         light: { structure: HeatMapLight, legend: HeatMapLegendLight }
     };
 
-    const getImage = (type: "structure" | "legend") => {
+    const getImage = (type: "structure" | "legend"): string => {
         const colorMode = isDarkMode ? "dark" : "light";
         return items[colorMode][type];
     };
