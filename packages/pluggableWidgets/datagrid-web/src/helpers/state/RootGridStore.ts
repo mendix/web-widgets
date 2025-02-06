@@ -3,12 +3,13 @@ import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControlle
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { autorun } from "mobx";
+import { autorun, computed } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { LoaderController } from "../../controllers/LoaderController";
+import { DatasourceController } from "../../controllers/DatasourceController";
+import { DerivedLoaderController } from "../../controllers/DerivedLoaderController";
 import { PaginationController } from "../../controllers/PaginationController";
-import { QueryParamsController } from "../../controllers/QueryParamsController";
 import { RefreshController } from "../../controllers/RefreshController";
+import { StateSyncController } from "../../controllers/StateSyncController";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
@@ -27,7 +28,7 @@ export class RootGridStore extends BaseControllerHost {
     settingsStore: GridPersonalizationStore;
     staticInfo: StaticInfo;
     exportProgressCtrl: ProgressStore;
-    loaderCtrl: LoaderController;
+    loaderCtrl: DerivedLoaderController;
     paginationCtrl: PaginationController;
 
     private gate: Gate;
@@ -36,31 +37,35 @@ export class RootGridStore extends BaseControllerHost {
         super();
 
         const { props } = gate;
-        const [columnsViewState, headerViewState] = QueryParamsController.getDsViewState(props);
+        const [columnsViewState, headerViewState] = StateSyncController.unzipFilter(props.datasource.filter);
 
         this.gate = gate;
         this.staticInfo = {
             name: props.name,
             filtersChannelName: `datagrid/${generateUUID()}`
         };
-        this.paginationCtrl = new PaginationController(this, { gate });
-        this.exportProgressCtrl = exportCtrl;
-        this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsViewState);
-        this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState);
+        const query = new DatasourceController(this, { gate });
+        const columns = (this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsViewState));
+        const header = (this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState));
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
+        this.paginationCtrl = new PaginationController(this, { gate, query });
+        this.exportProgressCtrl = exportCtrl;
 
-        new QueryParamsController(this, { gate, columnsCtrl: this.columnsStore, headerCtrl: this.headerFiltersStore });
+        new StateSyncController(this, {
+            query,
+            columns,
+            header
+        });
 
-        const refreshCtrl = new RefreshController(this, {
-            gate,
+        new RefreshController(this, {
+            query: computed(() => query.observableCopy),
             delay: props.refreshInterval
         });
 
-        this.loaderCtrl = new LoaderController(this, {
-            gate,
-            exp: this.exportProgressCtrl,
-            cols: this.columnsStore,
-            refresh: refreshCtrl
+        this.loaderCtrl = new DerivedLoaderController({
+            exp: exportCtrl,
+            cols: columns,
+            query
         });
     }
 
