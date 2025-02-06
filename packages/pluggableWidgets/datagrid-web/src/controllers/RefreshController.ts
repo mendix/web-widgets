@@ -1,36 +1,24 @@
 import { autoEffect } from "@mendix/widget-plugin-mobx-kit/autoEffect";
-import { DerivedPropsGate, ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { ListValue, ValueStatus } from "mendix";
-import { action, computed, makeObservable, observable } from "mobx";
+import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
 
-type PropsGate = DerivedPropsGate<{ datasource: ListValue }>;
-type Spec = { delay: number; gate: PropsGate };
+interface QueryHelper {
+    refresh(): void;
+}
+
+interface ObservableAtom {
+    get(): QueryHelper;
+}
+
+type Spec = { delay: number; query: ObservableAtom };
 
 export class RefreshController implements ReactiveController {
-    private gate: PropsGate;
+    private query: ObservableAtom;
     private readonly delay: number;
-    private refreshing = false;
 
     constructor(host: ReactiveControllerHost, spec: Spec) {
         host.addController(this);
-        this.gate = spec.gate;
+        this.query = spec.query;
         this.delay = Math.max(spec.delay, 0);
-
-        type PrivateMembers = "setRefreshing" | "updateRefreshing" | "refreshing";
-        makeObservable<this, PrivateMembers>(this, {
-            refreshing: observable,
-            isRefreshing: computed,
-            setRefreshing: action,
-            updateRefreshing: action
-        });
-    }
-
-    get isRefreshing(): boolean {
-        return this.refreshing;
-    }
-
-    private get datasource(): ListValue {
-        return this.gate.props.datasource;
     }
 
     setup(): (() => void) | void {
@@ -40,27 +28,16 @@ export class RefreshController implements ReactiveController {
         // Set timer every time we got new ds ref value
         // Avoid using any other reactive dependencies other then ds
         return autoEffect(() => {
-            const cleanup = this.scheduleReload(this.datasource, this.delay);
-            this.updateRefreshing(this.datasource.status);
-            return cleanup;
+            return this.scheduleRefresh(this.query.get(), this.delay);
         });
     }
 
-    private scheduleReload(ds: ListValue, delay: number): () => void {
+    private scheduleRefresh(helper: QueryHelper, delay: number): () => void {
         const timerId = setTimeout(() => {
-            this.setRefreshing(true);
-            ds.reload();
+            helper.refresh();
         }, delay);
-        return () => clearTimeout(timerId);
-    }
-
-    private setRefreshing(value: boolean): void {
-        this.refreshing = value;
-    }
-
-    private updateRefreshing(status: ValueStatus): void {
-        if (this.refreshing) {
-            this.setRefreshing(status === "loading");
-        }
+        return () => {
+            clearTimeout(timerId);
+        };
     }
 }
