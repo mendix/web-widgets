@@ -1,6 +1,6 @@
 import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import classNames from "classnames";
-import { createElement, ReactElement } from "react";
+import { createElement, Fragment, ReactElement } from "react";
 import { LoadingTypeEnum, PaginationEnum } from "../../typings/DatagridProps";
 import { SpinnerLoader } from "./loader/SpinnerLoader";
 import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
@@ -14,6 +14,7 @@ interface Props {
     setPage?: (update: (page: number) => number) => void;
     loadingType: LoadingTypeEnum;
     isLoading: boolean;
+    isLoadingMore?: boolean;
     columnsHidable: boolean;
     columnsSize: number;
     rowsSize: number;
@@ -29,25 +30,17 @@ export function GridBody(props: Props): ReactElement {
     });
     const baseClass = "widget-datagrid-grid-body table-content";
 
-    if (props.isLoading && props.loadingType === "spinner") {
+    const content = (): React.ReactElement => {
+        if (props.isLoading) {
+            return <Loader {...props} />;
+        }
         return (
-            <div className="widget-datagrid-loader-container">
-                <SpinnerLoader withMargins size="large" />
-            </div>
+            <Fragment>
+                {children}
+                {props.isLoadingMore && <Loader {...props} />}
+            </Fragment>
         );
-    }
-
-    if (props.isLoading && props.loadingType === "skeleton") {
-        return (
-            <div className={baseClass} style={props.style}>
-                <RowSkeletonLoader
-                    columnsHidable={props.columnsHidable}
-                    columnsSize={props.columnsSize}
-                    pageSize={props.rowsSize}
-                />
-            </div>
-        );
-    }
+    };
 
     return (
         <div
@@ -57,7 +50,32 @@ export function GridBody(props: Props): ReactElement {
             onScroll={isInfinite ? trackScrolling : undefined}
             style={isInfinite && bodySize > 0 ? { ...style, maxHeight: bodySize } : style}
         >
-            {children}
+            {content()}
         </div>
+    );
+}
+
+interface LoaderProps {
+    loadingType: LoadingTypeEnum;
+    columnsHidable: boolean;
+    columnsSize: number;
+    rowsSize: number;
+}
+
+function Loader(props: LoaderProps): ReactElement {
+    if (props.loadingType === "spinner") {
+        return (
+            <div className="widget-datagrid-loader-container">
+                <SpinnerLoader withMargins size="large" />
+            </div>
+        );
+    }
+
+    return (
+        <RowSkeletonLoader
+            columnsHidable={props.columnsHidable}
+            columnsSize={props.columnsSize}
+            pageSize={props.rowsSize}
+        />
     );
 }
