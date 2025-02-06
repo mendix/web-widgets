@@ -70,7 +70,7 @@ export class PaginationController implements ReactiveController {
             this.query.requestTotalCount(true);
         }
 
-        this.query.setLimit(this.pageSize);
+        this.query.setPageSize(this.pageSize);
     }
 
     setup(): void {}
