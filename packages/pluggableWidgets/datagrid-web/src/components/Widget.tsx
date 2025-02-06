@@ -65,6 +65,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     cancelExportLabel?: string;
     selectRowLabel?: string;
     isLoading: boolean;
+    isLoadingMore: boolean;
     loadingType: LoadingTypeEnum;
     columnsLoading: boolean;
 
@@ -186,6 +187,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     />
                     <GridBody
                         isLoading={props.isLoading}
+                        isLoadingMore={props.isLoadingMore}
                         loadingType={props.loadingType}
                         columnsHidable={columnsHidable}
                         columnsSize={visibleColumns.length}
