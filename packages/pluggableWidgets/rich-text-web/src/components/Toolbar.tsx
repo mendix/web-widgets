@@ -13,6 +13,41 @@ export interface ToolbarProps {
     toolbarContent: toolbarContentType[];
 }
 
+const ToolbarKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
+    const activeElement = document.activeElement as HTMLElement;
+    const parentElement = activeElement?.parentElement;
+    if (!parentElement?.classList.contains("ql-formats")) {
+        return;
+    }
+    e.preventDefault();
+    if (e.key === "Tab") {
+        const nextFocusElementParent = e.shiftKey
+            ? (parentElement.previousElementSibling as HTMLElement)
+            : (parentElement.nextElementSibling as HTMLElement);
+        if (nextFocusElementParent) {
+            const nextElement = nextFocusElementParent.firstChild as HTMLElement;
+            if (nextElement) {
+                nextElement.focus();
+                e.stopPropagation();
+            }
+        }
+    } else if (e.key === "ArrowRight") {
+        const nextElementSibling = activeElement.nextElementSibling as HTMLElement;
+        if (nextElementSibling) {
+            nextElementSibling.focus();
+            e.stopPropagation();
+        }
+    } else if (e.key === "ArrowLeft") {
+        const previousElementSibling = activeElement.previousElementSibling as HTMLElement;
+        if (previousElementSibling) {
+            previousElementSibling.focus();
+            e.stopPropagation();
+        }
+    } else if (e.key === "Enter") {
+        activeElement.click();
+    }
+};
+
 const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>): ReactElement => {
     const { id, preset, style, quill, toolbarContent } = props;
     const presetValue = presetToNumberConverter(preset);
@@ -23,7 +58,7 @@ const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>)
                 presetValue
             }}
         >
-            <div id={id} style={style} ref={ref} className="widget-rich-text-toolbar">
+            <div id={id} style={style} ref={ref} className="widget-rich-text-toolbar" onKeyDown={ToolbarKeyDownHandler}>
                 {toolbarContent.map((toolbarGroup, index) => {
                     return (
                         <FormatsContainer presetValue={toolbarGroup.presetValue} key={`toolbargroup_${id}_${index}`}>

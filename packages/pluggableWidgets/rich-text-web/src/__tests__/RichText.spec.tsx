@@ -49,4 +49,9 @@ describe("Rich Text", () => {
         const component = render(<RichText {...defaultProps} />);
         expect(component.container).toMatchSnapshot();
     });
+
+    it("renders richtext widget with different config", () => {
+        const component = render(<RichText {...defaultProps} toolbarLocation={"top"} preset={"full"} />);
+        expect(component.container).toMatchSnapshot();
+    });
 });
