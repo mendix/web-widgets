@@ -1,7 +1,7 @@
 {
     "name": "@mendix/accordion-web",
     "widgetName": "Accordion",
-    "version": "2.3.3",
+    "version": "2.3.4",
     "description": "A Mendix pluggable widget to display expandable list items.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",

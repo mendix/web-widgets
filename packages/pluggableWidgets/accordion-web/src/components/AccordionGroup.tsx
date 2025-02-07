@@ -78,9 +78,15 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
 
                 setTimeout(() => {
                     if (contentWrapperRef.current) {
-                        contentWrapperRef.current.style.height = "";
+                        contentWrapperRef.current.style.height = "0";
                     }
                 }, 50);
+
+                setTimeout(() => {
+                    if (contentWrapperRef.current && rootRef.current) {
+                        completeTransitioning();
+                    }
+                }, 250);
             } else {
                 rootRef.current.classList.add("widget-accordion-group-expanding");
                 rootRef.current.classList.remove("widget-accordion-group-collapsed");
@@ -96,7 +102,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
         } else if (props.collapsed !== renderCollapsed && (!animateContent || !props.visible)) {
             setRenderCollapsed(props.collapsed);
         } else if (props.collapsed === renderCollapsed) {
-            // if state and props looses their sync due to "complete transition" not being triggered
+            // if state and props loses their sync due to "complete transition" not being triggered
             // make sure it is sync back in.
             if (
                 (renderCollapsed && rootRef.current?.classList.contains("widget-accordion-group-expanding")) ||

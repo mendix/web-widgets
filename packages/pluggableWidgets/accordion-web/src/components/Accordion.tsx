@@ -61,15 +61,23 @@ export function Accordion(props: AccordionProps): ReactElement | null {
     );
 
     const previousGroupCollapsedValues = useRef(props.groups.map(group => group.collapsed));
+    const previousInitiallyCollapsedValues = useRef(props.groups.map(group => group.initiallyCollapsed));
 
     useMemo(() => {
         props.groups.forEach((group, index) => {
             if (group.collapsed !== undefined && group.collapsed !== previousGroupCollapsedValues.current[index]) {
                 previousGroupCollapsedValues.current[index] = group.collapsed;
                 accordionGroupCollapsedStateDispatch({ type: group.collapsed ? "collapse" : "expand", index });
+            } else if (
+                group.collapsed === undefined &&
+                group.initiallyCollapsed !== previousInitiallyCollapsedValues.current[index]
+            ) {
+                previousInitiallyCollapsedValues.current[index] = group.initiallyCollapsed;
+                const shouldBeCollapsed = !props.previewMode && props.collapsible && !!group.initiallyCollapsed;
+                accordionGroupCollapsedStateDispatch({ type: shouldBeCollapsed ? "collapse" : "expand", index });
             }
         });
-    }, [props.groups]);
+    }, [props.groups, props.previewMode, props.collapsible]);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
 
