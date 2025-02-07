@@ -1,6 +1,9 @@
 import "@testing-library/jest-dom";
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
-import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
+import {
+    HeaderFiltersStore,
+    HeaderFiltersStoreProps
+} from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import {
     actionValue,
     dynamicValue,

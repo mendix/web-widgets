@@ -1,6 +1,6 @@
 {
     "name": "@mendix/widget-plugin-filtering",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Filtering API plugin.",
     "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
@@ -42,6 +42,7 @@
         "jest-environment-jsdom": "^29.4.1"
     },
     "dependencies": {
+        "@floating-ui/react": "^0.26.27",
         "@floating-ui/react-dom": "^2.1.2",
         "@mendix/widget-plugin-external-events": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",

@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
-import { error, value, Result } from "../result-meta";
-import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
-import { isDateFilter } from "../stores/store-utils";
+import { error, Result, value } from "../result-meta";
+import { isDateFilter } from "../stores/input/store-utils";
+import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export interface Date_FilterAPIv2 {
     filterStore: Date_InputFilterInterface;
@@ -34,10 +34,8 @@ export function useDateFilterAPI(key: string): Result<Date_FilterAPIv2, APIError
         return error(EMISSINGSTORE);
     }
 
-    if (store.storeType === "optionlist" || !isDateFilter(store)) {
-        return error(
-            EStoreTypeMisMatch("date filter", store.storeType === "optionlist" ? "option list" : store.arg1.type)
-        );
+    if (store.storeType !== "input" || !isDateFilter(store)) {
+        return error(EStoreTypeMisMatch("date filter", store.storeType !== "input" ? "select" : store.arg1.type));
     }
 
     return value((dateAPI.current ??= { filterStore: store, parentChannelName: api.parentChannelName }));

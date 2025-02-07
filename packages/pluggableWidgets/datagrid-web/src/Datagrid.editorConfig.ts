@@ -1,14 +1,4 @@
 import {
-    container,
-    datasource,
-    dropzone,
-    rowLayout,
-    selectable,
-    StructurePreviewProps,
-    text,
-    structurePreviewPalette
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import {
     changePropertyIn,
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -16,6 +6,16 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
+import {
+    container,
+    datasource,
+    dropzone,
+    rowLayout,
+    selectable,
+    structurePreviewPalette,
+    StructurePreviewProps,
+    text
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridProps";
 
@@ -79,8 +79,15 @@ export function getProperties(
             hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
                 "filterAssociationOptions",
                 "filterAssociationOptionLabel",
-                "fetchOptionsLazy"
+                "fetchOptionsLazy",
+                "filterCaptionType",
+                "filterAssociationOptionLabelAttr"
             ]);
+        }
+        if (column.filterCaptionType === "attribute") {
+            hidePropertyIn(defaultProperties, values, "columns", index, "filterAssociationOptionLabel");
+        } else {
+            hidePropertyIn(defaultProperties, values, "columns", index, "filterAssociationOptionLabelAttr");
         }
     });
     if (values.pagination === "buttons") {
@@ -204,7 +211,9 @@ export const getPreview = (
                   filter: { widgetCount: 0, renderer: () => null },
                   filterAssociation: "",
                   filterAssociationOptionLabel: "",
+                  filterAssociationOptionLabelAttr: "",
                   filterAssociationOptions: {},
+                  filterCaptionType: "attribute",
                   header: "Column",
                   hidable: "no",
                   resizable: false,

@@ -1,5 +1,8 @@
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
-import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
+import {
+    HeaderFiltersStore,
+    HeaderFiltersStoreProps
+} from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import { SortAPI } from "@mendix/widget-plugin-sorting/context";
 import { SortAPIProvider, SortListType } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
 import { ListAttributeId } from "@mendix/widget-plugin-sorting/typings";

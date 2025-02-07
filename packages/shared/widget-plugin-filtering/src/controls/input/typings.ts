@@ -1,6 +1,6 @@
-import { InputFilterInterface } from "../../typings/InputFilterInterface";
-import { InputStore } from "../../stores/InputStore";
+import { InputStore } from "../../stores/input/InputStore";
 import { AllFunctions } from "../../typings/FilterFunctions";
+import { InputFilterInterface } from "../../typings/InputFilterInterface";
 
 export interface BaseProps {
     adjustable: boolean;

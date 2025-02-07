@@ -41,9 +41,16 @@ const checkAssociationSettings = (
         return;
     }
 
-    if (!column.filterAssociationOptionLabel) {
+    if (column.filterCaptionType === "expression" && !column.filterAssociationOptionLabel) {
         return {
             property: columnPropPath("filterAssociationOptionLabel", index),
+            message: `A caption is required when using associations. Please set 'Option caption' property for column (${column.header})`
+        };
+    }
+
+    if (column.filterCaptionType === "attribute" && !column.filterAssociationOptionLabelAttr) {
+        return {
+            property: columnPropPath("filterAssociationOptionLabelAttr", index),
             message: `A caption is required when using associations. Please set 'Option caption' property for column (${column.header})`
         };
     }
