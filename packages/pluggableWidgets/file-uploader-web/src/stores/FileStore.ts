@@ -118,7 +118,7 @@ export class FileStore {
     }
 
     get canRemove(): boolean {
-        return this.fileStatus === "existingFile" || this.fileStatus === "done";
+        return (!this._rootStore.isReadOnly && this.fileStatus === "existingFile") || this.fileStatus === "done";
     }
 
     get canDownload(): boolean {
