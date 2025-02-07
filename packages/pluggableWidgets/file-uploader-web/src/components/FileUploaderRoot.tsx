@@ -23,13 +23,15 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
 
     return (
         <div className={classNames(props.class, "widget-file-uploader")} style={props.style}>
-            <Dropzone
-                onDrop={onDrop}
-                warningMessage={rootStore.errorMessage}
-                maxSize={rootStore._maxFileSize}
-                acceptFileTypes={prepareAcceptForDropzone(rootStore.acceptedFileTypes)}
-                maxFilesPerUpload={rootStore._maxFilesPerUpload}
-            />
+            {!rootStore.isReadOnly && (
+                <Dropzone
+                    onDrop={onDrop}
+                    warningMessage={rootStore.errorMessage}
+                    maxSize={rootStore._maxFileSize}
+                    acceptFileTypes={prepareAcceptForDropzone(rootStore.acceptedFileTypes)}
+                    maxFilesPerUpload={rootStore._maxFilesPerUpload}
+                />
+            )}
 
             <div className={"files-list"}>
                 {(rootStore.files ?? []).map(fileStore => {
