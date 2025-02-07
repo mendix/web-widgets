@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.2] FileUploader - 2025-02-07
+
+### [1.0.2] FileUploader
+
+#### Fixed
+
+-   We fixed an issue where an error occurred when uploading multiple files on a newly created context object.
+
 ## [1.0.1] FileUploader - 2025-12-19
 
 ### [1.0.1] FileUploader
