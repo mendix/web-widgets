@@ -11,7 +11,8 @@ import { TranslationsStore } from "./TranslationsStore";
 export class FileUploaderStore {
     files: FileStore[] = [];
     lastSeenItems: Set<ObjectItem["id"]> = new Set<ObjectItem["id"]>();
-    currentWaiting: Array<(v: ObjectItem) => void> = [];
+    currentWaiting: Array<(v: ObjectItem | undefined) => void> = [];
+    itemCreationTimeout?: number = undefined;
 
     existingItemsLoaded = false;
 
@@ -24,6 +25,7 @@ export class FileUploaderStore {
     _maxFileSize = 0;
     _ds?: ListValue;
     _maxFilesPerUpload: number;
+    _objectCreationTimeout: number;
 
     errorMessage?: string = undefined;
 
@@ -35,6 +37,7 @@ export class FileUploaderStore {
         this._maxFileSize = this._maxFileSizeMb * 1024 * 1024;
         this._maxFilesPerUpload = props.maxFilesPerUpload;
         this._uploadMode = props.uploadMode;
+        this._objectCreationTimeout = props.objectCreationTimeout;
 
         this.acceptedFileTypes =
             this._uploadMode === "files" ? parseAllowedFormats(props.allowedFileFormats) : getImageUploaderFormats();
@@ -100,6 +103,8 @@ export class FileUploaderStore {
         }
 
         this.lastSeenItems.add(item.id);
+
+        this.executeFileObjectCreation();
     }
 
     get allowedFormatsDescription(): string {
@@ -115,16 +120,44 @@ export class FileUploaderStore {
         return this.existingItemsLoaded && !!this._createObjectAction;
     }
 
-    requestFileObject(): Promise<ObjectItem> {
+    requestFileObject(): Promise<ObjectItem | undefined> {
         if (!this.canRequestFile) {
             throw new Error("Can't request file");
         }
 
-        return new Promise<ObjectItem>(resolve => {
-            this._createObjectAction!.execute();
-
+        return new Promise<ObjectItem | undefined>(resolve => {
             this.currentWaiting.push(resolve);
+
+            this.executeFileObjectCreation();
         });
+    }
+
+    executeFileObjectCreation(): void {
+        if (!this.canRequestFile) {
+            throw new Error("Can't request file");
+        }
+
+        clearTimeout(this.itemCreationTimeout);
+        this.itemCreationTimeout = undefined;
+
+        if (!this.currentWaiting.length) {
+            return;
+        }
+        // we need to check if creation is taking too much time
+        // start the timer to measure how long it takes,
+        // if a threshold is reached, declare it a failure
+        // this means the action is probably misconfigured.
+        this.itemCreationTimeout = setTimeout(() => {
+            console.error(
+                `Looks like the 'Action to create new files/images' action did not create any objects within ${this._objectCreationTimeout} seconds. Please check if '${this._widgetName}' widget is configured correctly.`
+            );
+            // fail all waiting
+            while (this.currentWaiting.length) {
+                this.currentWaiting.shift()?.(undefined);
+            }
+        }, this._objectCreationTimeout * 1000) as any as number;
+
+        this._createObjectAction!.execute();
     }
 
     setMessage(msg?: string): void {
@@ -134,7 +167,7 @@ export class FileUploaderStore {
     processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
         if (!this._createObjectAction || !this._createObjectAction.canExecute) {
             console.error(
-                `'Action to create new files' is not available or can't be executed. Please check if '${this._widgetName}' widget is configured correctly.`
+                `'Action to create new files/images' is not available or can't be executed. Please check if '${this._widgetName}' widget is configured correctly.`
             );
             this.setMessage(this.translations.get("unavailableCreateActionMessage"));
             return;

@@ -27,12 +27,12 @@
 
             <property key="createFileAction" type="action">
                 <caption>Action to create new files</caption>
-                <description>Action that creates an associated file object and commits it.</description>
+                <description>Nanoflow that creates a file document object, associates it to the current object and commits it.</description>
             </property>
 
             <property key="createImageAction" type="action">
                 <caption>Action to create new images</caption>
-                <description>Action that creates an associated image object and commits it.</description>
+                <description>Nanoflow that creates an image document object, associates it to the current object and commits it.</description>
             </property>
 
             <property key="allowedFileFormats" type="object" isList="true" required="false">
@@ -167,7 +167,7 @@
             </property>
 
             <property key="unavailableCreateActionMessage" type="textTemplate">
-                <caption>Action to create new files is not available</caption>
+                <caption>Action to create new files is not available or failed</caption>
                 <description />
                 <translations>
                     <translation lang="en_US">Can't upload files at this time. Please contact your system administrator.</translation>
@@ -204,6 +204,12 @@
                 <translations>
                     <translation lang="en_US">An error occurred while removing this file.</translation>
                 </translations>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Advanced">
+            <property key="objectCreationTimeout" type="integer" defaultValue="10">
+                <caption>Object creation timeout</caption>
+                <description>Consider uploads unsuccessful if the Action to create new files/images does not create new objects within the configured amount of seconds.</description>
             </property>
         </propertyGroup>
     </properties>
