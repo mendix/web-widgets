@@ -56,7 +56,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                     }
                 }
             }, 200),
-        [stringAttribute]
+        [stringAttribute, onChange, onChangeType]
     );
     const calculateWordCount = useCallback(
         (quill: Quill | null): void => {
