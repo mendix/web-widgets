@@ -23,6 +23,10 @@
                 <caption>Associated images</caption>
                 <description />
             </property>
+            <property key="readOnlyMode" type="boolean" defaultValue="false">
+                <caption>Read-only mode</caption>
+                <description />
+            </property>
             <property key="createFileAction" type="action">
                 <caption>Action to create new files</caption>
                 <description>Nanoflow that creates a file document object, associates it to the current object and commits it.</description>

@@ -15,6 +15,7 @@ export class FileUploaderStore {
     itemCreationTimeout?: number = undefined;
 
     existingItemsLoaded = false;
+    isReadOnly: boolean;
 
     acceptedFileTypes: FileCheckFormat[];
 
@@ -38,6 +39,8 @@ export class FileUploaderStore {
         this._maxFilesPerUpload = props.maxFilesPerUpload;
         this._uploadMode = props.uploadMode;
         this._objectCreationTimeout = props.objectCreationTimeout;
+
+        this.isReadOnly = props.readOnlyMode;
 
         this.acceptedFileTypes =
             this._uploadMode === "files" ? parseAllowedFormats(props.allowedFileFormats) : getImageUploaderFormats();
@@ -97,6 +100,9 @@ export class FileUploaderStore {
     }
 
     processEmptyFileItem(item: ObjectItem): void {
+        if (this.isReadOnly) {
+            return;
+        }
         const firstWaiting = this.currentWaiting.shift();
         if (firstWaiting) {
             firstWaiting(item);
@@ -133,10 +139,6 @@ export class FileUploaderStore {
     }
 
     executeFileObjectCreation(): void {
-        if (!this.canRequestFile) {
-            throw new Error("Can't request file");
-        }
-
         clearTimeout(this.itemCreationTimeout);
         this.itemCreationTimeout = undefined;
 
