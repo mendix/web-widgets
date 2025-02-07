@@ -14,35 +14,37 @@ export interface ToolbarProps {
 }
 
 const ToolbarKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
-    if (document.activeElement?.parentElement?.classList.contains("ql-formats")) {
-        e.preventDefault();
-        if (e.key === "Tab") {
-            let nextFocusElementParent = document.activeElement.parentElement?.nextElementSibling as HTMLElement;
-            if (e.shiftKey) {
-                nextFocusElementParent = document.activeElement.parentElement?.previousElementSibling as HTMLElement;
-            }
-            if (nextFocusElementParent) {
-                const nextElement = nextFocusElementParent.firstChild as HTMLElement;
-                if (nextElement) {
-                    nextElement.focus();
-                    e.stopPropagation();
-                }
-            }
-        } else if (e.key === "ArrowRight") {
-            const nextElementSibling = document.activeElement.nextElementSibling as HTMLElement;
-            if (nextElementSibling) {
-                nextElementSibling.focus();
+    const activeElement = document.activeElement as HTMLElement;
+    const parentElement = activeElement?.parentElement;
+    if (!parentElement?.classList.contains("ql-formats")) {
+        return;
+    }
+    e.preventDefault();
+    if (e.key === "Tab") {
+        const nextFocusElementParent = e.shiftKey
+            ? (parentElement.previousElementSibling as HTMLElement)
+            : (parentElement.nextElementSibling as HTMLElement);
+        if (nextFocusElementParent) {
+            const nextElement = nextFocusElementParent.firstChild as HTMLElement;
+            if (nextElement) {
+                nextElement.focus();
                 e.stopPropagation();
             }
-        } else if (e.key === "ArrowLeft") {
-            const previousElementSibling = document.activeElement.previousElementSibling as HTMLElement;
-            if (previousElementSibling) {
-                previousElementSibling.focus();
-                e.stopPropagation();
-            }
-        } else if (e.key === "Enter") {
-            (document.activeElement as HTMLElement).click();
         }
+    } else if (e.key === "ArrowRight") {
+        const nextElementSibling = activeElement.nextElementSibling as HTMLElement;
+        if (nextElementSibling) {
+            nextElementSibling.focus();
+            e.stopPropagation();
+        }
+    } else if (e.key === "ArrowLeft") {
+        const previousElementSibling = activeElement.previousElementSibling as HTMLElement;
+        if (previousElementSibling) {
+            previousElementSibling.focus();
+            e.stopPropagation();
+        }
+    } else if (e.key === "Enter") {
+        activeElement.click();
     }
 };
 
