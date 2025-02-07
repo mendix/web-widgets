@@ -75,6 +75,11 @@
                 <property key="screenReaderInputCaption" type="textTemplate" required="false">
                     <caption>Input caption</caption>
                     <description>Assistive technology will read this upon reaching the input element.</description>
+                    <translations>
+                        <translation lang="en_US">Search</translation>
+                        <translation lang="de_DE">Suche</translation>
+                        <translation lang="nl_NL">Zoeken</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>
