@@ -68,13 +68,13 @@ export function enterKeyKeyboardHandler(this: Keyboard, range: Range, context: C
 }
 
 // focus to first toolbar button
-export function gotoToolbarKeyboardHandler(this: Keyboard, _range: Range, _context: Context): any {
+export function gotoToolbarKeyboardHandler(this: Keyboard, _range: Range, _context: Context): void {
     const toolbar = this.quill.container.parentElement?.parentElement?.querySelector(".widget-rich-text-toolbar");
     (toolbar?.querySelector(".ql-formats button") as HTMLElement)?.focus();
 }
 
 // focus to status bar button (exit editor)
-export function gotoStatusBarKeyboardHandler(this: Keyboard, _range: Range, context: Context): any {
+export function gotoStatusBarKeyboardHandler(this: Keyboard, _range: Range, context: Context): boolean | void {
     if (context.format.table) {
         return true;
     }
