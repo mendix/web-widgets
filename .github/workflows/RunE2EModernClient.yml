@@ -40,6 +40,8 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps chromium
       - name: "Executing E2E tests"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -63,7 +65,4 @@ jobs:
           path: |
             ${{ github.workspace }}/packages/**/tests/e2e/screenshot-results/diff/**/*.png
             ${{ github.workspace }}/packages/**/tests/e2e/screenshot-results/TESTFAIL_*.png
-            ${{ github.workspace }}/packages/**/cypress-visual-screenshots/diff/*.png
-            ${{ github.workspace }}/packages/**/cypress-visual-screenshots/comparison/*.png
-            ${{ github.workspace }}/packages/**/cypress/videos/*.mp4
           if-no-files-found: error
