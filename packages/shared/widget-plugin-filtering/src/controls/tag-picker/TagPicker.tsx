@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useCombobox, UseComboboxProps, useMultipleSelection, UseMultipleSelectionProps } from "downshift";
 import { observer } from "mobx-react-lite";
-import { createElement, useRef } from "react";
+import { createElement, useId, useRef } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
@@ -30,6 +30,7 @@ const cls = classes();
 
 // eslint-disable-next-line prefer-arrow-callback
 export const TagPicker = observer(function TagPicker(props: TagPickerProps): React.ReactElement {
+    const [inputContainerId, helperText1] = [useId(), useId()];
     const { showCheckboxes, selectedStyle = "boxes", ariaLabel: inputLabel = "Search" } = props;
     const inputRef = useRef<HTMLInputElement>(null);
     const { getSelectedItemProps, getDropdownProps, removeSelectedItem } = useMultipleSelection(
@@ -57,7 +58,11 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
             data-empty={props.empty ? true : undefined}
             style={props.style}
         >
+            <span id={helperText1} className="sr-only">
+                Current filter values:
+            </span>
             <div
+                id={inputContainerId}
                 className={cls.inputContainer}
                 onClick={event => {
                     if (event.currentTarget === event.target) {
@@ -92,7 +97,8 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                         onBlur: props.onBlur,
                         onFocus: props.onFocus,
                         placeholder: props.empty ? props.inputPlaceholder : undefined,
-                        ...getDropdownProps({ preventKeyAction: isOpen, ref: inputRef })
+                        ...getDropdownProps({ preventKeyAction: isOpen, ref: inputRef }),
+                        "aria-describedby": props.empty ? undefined : `${helperText1} ${inputContainerId}`
                     })}
                 />
             </div>
