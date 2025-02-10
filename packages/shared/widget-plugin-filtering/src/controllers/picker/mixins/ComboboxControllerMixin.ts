@@ -101,7 +101,7 @@ export function ComboboxControllerMixin<TBase extends BaseController>(Base: TBas
                 return this.selectedOption.caption;
             }
             if (this.filterStore.selected.size === 0) {
-                return "Search";
+                return "";
             } else {
                 return "1 item selected (but not applied)";
             }
