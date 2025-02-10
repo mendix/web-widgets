@@ -8,6 +8,7 @@ type OptionsWrapperClassNamesProps = {
     menu?: string;
     menuItem?: string;
     checkboxSlot?: string;
+    checkbox?: string;
 };
 
 type OptionsWrapperProps = {
@@ -57,6 +58,7 @@ export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefOb
                                             <div style={{ width: 16, height: 16 }} />
                                         ) : (
                                             <input
+                                                className={props.cls.checkbox}
                                                 role="presentation"
                                                 type="checkbox"
                                                 checked={item.selected}

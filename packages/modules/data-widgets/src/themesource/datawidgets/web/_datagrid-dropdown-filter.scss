@@ -173,6 +173,11 @@ $root: ".widget-dropdown-filter";
     }
 }
 
+:where([data-highlighted]) #{$root}-checkbox:not(:checked)::after {
+    content: "";
+    border-color: var(--form-input-bg-hover, #e7e7e9);
+}
+
 /* Select variant */
 :where(#{$root}.variant-select) {
     #{$root}-toggle {
