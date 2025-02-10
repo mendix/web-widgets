@@ -10,6 +10,11 @@ import { AccordionContainerProps, GroupsType } from "../typings/AccordionProps";
 
 export function Accordion(props: AccordionContainerProps): ReactElement | null {
     const id = useRef(generateUUID());
+    const isLoading = props.groups.find(
+        group =>
+            (group.initialCollapsedState === "dynamic" && group.initiallyCollapsed.status === "loading") ||
+            (group.collapsed && group.collapsed.status === "loading")
+    );
 
     const groups: AccordionGroups | undefined = useMemo(() => translateGroups(props.groups), [props.groups]);
 
@@ -20,7 +25,7 @@ export function Accordion(props: AccordionContainerProps): ReactElement | null {
         { data: props.collapseIcon?.value, loading: props.collapseIcon?.status === ValueStatus.Loading }
     );
 
-    if (!groups) {
+    if (!groups || isLoading) {
         return null;
     }
 

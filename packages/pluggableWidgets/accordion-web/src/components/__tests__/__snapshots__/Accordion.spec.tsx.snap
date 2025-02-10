@@ -187,7 +187,7 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
       id="idAccordionGroup0"
       index={0}
       initiallyCollapsed={true}
-      key="0"
+      key="true_0"
       loadContent="always"
       parent={
         {
@@ -471,7 +471,7 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
       id="idAccordionGroup1"
       index={1}
       initiallyCollapsed={true}
-      key="1"
+      key="true_1"
       loadContent="always"
       parent={
         {
@@ -707,7 +707,7 @@ exports[`Accordion in collapsible & multiple expanded group mode applies group c
     id="idAccordionGroup0"
     index={0}
     initiallyCollapsed={true}
-    key="0"
+    key="true_0"
     loadContent="always"
     parent={
       {
@@ -731,7 +731,7 @@ exports[`Accordion in collapsible & multiple expanded group mode applies group c
     id="idAccordionGroup1"
     index={1}
     initiallyCollapsed={true}
-    key="1"
+    key="true_1"
     loadContent="always"
     parent={
       {
@@ -973,7 +973,7 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
       id="idAccordionGroup0"
       index={0}
       initiallyCollapsed={true}
-      key="0"
+      key="true_0"
       loadContent="always"
       parent={
         {
@@ -1299,7 +1299,7 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
       id="idAccordionGroup1"
       index={1}
       initiallyCollapsed={true}
-      key="1"
+      key="true_1"
       loadContent="always"
       parent={
         {
@@ -1648,7 +1648,7 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
       id="idAccordionGroup0"
       index={0}
       initiallyCollapsed={true}
-      key="0"
+      key="true_0"
       loadContent="always"
       parent={
         {
@@ -1827,7 +1827,7 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
       id="idAccordionGroup1"
       index={1}
       initiallyCollapsed={true}
-      key="1"
+      key="true_1"
       loadContent="always"
       parent={
         {
@@ -1954,7 +1954,7 @@ exports[`Accordion in collapsible & multiple expanded group mode inits with grou
     id="idAccordionGroup0"
     index={0}
     initiallyCollapsed={false}
-    key="0"
+    key="false_0"
     loadContent="always"
     parent={
       {
@@ -1978,7 +1978,7 @@ exports[`Accordion in collapsible & multiple expanded group mode inits with grou
     id="idAccordionGroup1"
     index={1}
     initiallyCollapsed={false}
-    key="1"
+    key="false_1"
     loadContent="always"
     parent={
       {
@@ -2002,7 +2002,7 @@ exports[`Accordion in collapsible & multiple expanded group mode inits with grou
     id="idAccordionGroup2"
     index={2}
     initiallyCollapsed={true}
-    key="2"
+    key="true_2"
     loadContent="always"
     parent={
       {
@@ -2104,7 +2104,7 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
       id="idAccordionGroup0"
       index={0}
       initiallyCollapsed={true}
-      key="0"
+      key="true_0"
       loadContent="always"
       parent={
         {
@@ -2255,7 +2255,7 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
       id="idAccordionGroup1"
       index={1}
       initiallyCollapsed={true}
-      key="1"
+      key="true_1"
       loadContent="always"
       parent={
         {
@@ -2544,7 +2544,7 @@ exports[`Accordion in collapsible & single expanded group mode allows one group 
       id="idAccordionGroup0"
       index={0}
       initiallyCollapsed={true}
-      key="0"
+      key="true_0"
       loadContent="always"
       parent={
         {
@@ -2842,7 +2842,7 @@ exports[`Accordion in collapsible & single expanded group mode allows one group 
       id="idAccordionGroup1"
       index={1}
       initiallyCollapsed={true}
-      key="1"
+      key="true_1"
       loadContent="always"
       parent={
         {
@@ -3205,7 +3205,7 @@ exports[`Accordion in collapsible & single expanded group mode collapses a group
       id="idAccordionGroup0"
       index={0}
       initiallyCollapsed={true}
-      key="0"
+      key="true_0"
       loadContent="always"
       parent={
         {
@@ -3412,7 +3412,7 @@ exports[`Accordion in collapsible & single expanded group mode collapses a group
       id="idAccordionGroup1"
       index={1}
       initiallyCollapsed={true}
-      key="1"
+      key="true_1"
       loadContent="always"
       parent={
         {
@@ -3645,7 +3645,7 @@ exports[`Accordion in collapsible & single expanded group mode expands a group 1
       id="idAccordionGroup0"
       index={0}
       initiallyCollapsed={true}
-      key="0"
+      key="true_0"
       loadContent="always"
       parent={
         {
@@ -3824,7 +3824,7 @@ exports[`Accordion in collapsible & single expanded group mode expands a group 1
       id="idAccordionGroup1"
       index={1}
       initiallyCollapsed={true}
-      key="1"
+      key="true_1"
       loadContent="always"
       parent={
         {
@@ -3951,7 +3951,7 @@ exports[`Accordion in collapsible & single expanded group mode inits with group 
     id="idAccordionGroup0"
     index={0}
     initiallyCollapsed={false}
-    key="0"
+    key="false_0"
     loadContent="always"
     parent={
       {
@@ -3975,7 +3975,7 @@ exports[`Accordion in collapsible & single expanded group mode inits with group 
     id="idAccordionGroup1"
     index={1}
     initiallyCollapsed={true}
-    key="1"
+    key="true_1"
     loadContent="always"
     parent={
       {
@@ -4013,7 +4013,7 @@ exports[`Accordion in collapsible & single expanded group mode inits with not mo
     id="idAccordionGroup0"
     index={0}
     initiallyCollapsed={false}
-    key="0"
+    key="false_0"
     loadContent="always"
     parent={
       {
@@ -4037,7 +4037,7 @@ exports[`Accordion in collapsible & single expanded group mode inits with not mo
     id="idAccordionGroup1"
     index={1}
     initiallyCollapsed={false}
-    key="1"
+    key="false_1"
     loadContent="always"
     parent={
       {
@@ -4139,7 +4139,7 @@ exports[`Accordion in collapsible & single expanded group mode renders correctly
       id="idAccordionGroup0"
       index={0}
       initiallyCollapsed={true}
-      key="0"
+      key="true_0"
       loadContent="always"
       parent={
         {
@@ -4290,7 +4290,7 @@ exports[`Accordion in collapsible & single expanded group mode renders correctly
       id="idAccordionGroup1"
       index={1}
       initiallyCollapsed={true}
-      key="1"
+      key="true_1"
       loadContent="always"
       parent={
         {
@@ -4438,7 +4438,7 @@ exports[`Accordion not collapsible renders correctly 1`] = `
       id="idAccordionGroup0"
       index={0}
       initiallyCollapsed={true}
-      key="0"
+      key="true_0"
       loadContent="always"
       parent={
         {
@@ -4557,7 +4557,7 @@ exports[`Accordion not collapsible renders correctly 1`] = `
       id="idAccordionGroup1"
       index={1}
       initiallyCollapsed={true}
-      key="1"
+      key="true_1"
       loadContent="always"
       parent={
         {
@@ -4655,7 +4655,7 @@ exports[`Accordion renders correctly without tabindex 1`] = `
     id="idAccordionGroup0"
     index={0}
     initiallyCollapsed={true}
-    key="0"
+    key="true_0"
     loadContent="always"
     parent={
       {
@@ -4679,7 +4679,7 @@ exports[`Accordion renders correctly without tabindex 1`] = `
     id="idAccordionGroup1"
     index={1}
     initiallyCollapsed={true}
-    key="1"
+    key="true_1"
     loadContent="always"
     parent={
       {
