@@ -15,7 +15,7 @@
         stroke-width: 0;
     }
     &:hover {
-        color: var(--brand-primary);
+        color: var(--brand-primary, #264ae5);
         path {
             stroke-width: 1px;
         }
@@ -35,8 +35,8 @@ $root: ".widget-dropdown-filter";
     --wdf-menu-bg-color: var(--label-info-color, #ffffff);
     --wdf-menu-max-height: var(--dropdown-menu-max-height, 320px);
     --wdf-menu-item-padding: 6px 10px;
-    --wdf-highlighted-bg-color: var(--color-default-light, #e6eaff);
-    --wdf-selected-bg-color: var(--color-primary-lighter, #f5f6f6);
+    --wdf-highlighted-bg-color: var(--color-default-light, #f5f6f6);
+    --wdf-selected-bg-color: var(--color-primary-lighter, #e6eaff);
     --wdf-button-spacing: 8px;
     --wdf-color: var(--gray-dark, black);
     --wdf-state-icon-size: 16px;
@@ -249,9 +249,9 @@ $root: ".widget-dropdown-filter";
         padding: var(--wdf-tag-padding);
         align-items: center;
         gap: 8px;
-        background-color: var(--color-primary-lighter);
+        background-color: var(--color-primary-lighter, #e6eaff);
         &:focus-visible {
-            outline: var(--brand-primary) auto 1px;
+            outline: var(--brand-primary, #264ae5) auto 1px;
         }
     }
 
@@ -297,7 +297,7 @@ $root: ".widget-dropdown-filter";
         border-radius: 2px;
 
         &:focus-visible {
-            outline: var(--brand-primary) solid 1px;
+            outline: var(--brand-primary, #264ae5) solid 1px;
             outline-offset: 2px;
         }
 
