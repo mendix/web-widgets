@@ -35,47 +35,67 @@ export interface AccordionProps extends Pick<AccordionContainerProps, "class" | 
     previewMode?: boolean;
 }
 
+// function to calculate the initial collapse state of the accordion groups
+function reducerInitialState(props: AccordionProps): boolean[] {
+    const groupCollapsedStates = props.groups.map(
+        group => !props.previewMode && props.collapsible && !!group.initiallyCollapsed
+    );
+
+    if (!props.previewMode && props.singleExpandedGroup) {
+        const lastGroupCollapsedStateIndex = groupCollapsedStates.lastIndexOf(false);
+
+        if (lastGroupCollapsedStateIndex > -1) {
+            for (let i = 0; i < lastGroupCollapsedStateIndex; i++) {
+                groupCollapsedStates[i] = true;
+            }
+        }
+    }
+
+    return groupCollapsedStates;
+}
+
 export function Accordion(props: AccordionProps): ReactElement | null {
     const reducer = useRef(getCollapsedAccordionGroupsReducer(props.singleExpandedGroup ? "single" : "multiple")); // the accordion group reducer function doesn't need to change during the lifetime of this component, since the singleExpandedGroup won't change.
 
     const [accordionGroupCollapsedState, accordionGroupCollapsedStateDispatch] = useReducer(
         reducer.current,
         undefined,
-        () => {
-            const groupCollapsedStates = props.groups.map(
-                group => !props.previewMode && props.collapsible && !!group.initiallyCollapsed
-            );
-
-            if (!props.previewMode && props.singleExpandedGroup) {
-                const lastGroupCollapsedStateIndex = groupCollapsedStates.lastIndexOf(false);
-
-                if (lastGroupCollapsedStateIndex > -1) {
-                    for (let i = 0; i < lastGroupCollapsedStateIndex; i++) {
-                        groupCollapsedStates[i] = true;
-                    }
-                }
-            }
-
-            return groupCollapsedStates;
-        }
+        () => reducerInitialState(props)
     );
 
-    const previousGroupCollapsedValues = useRef(props.groups.map(group => group.collapsed));
-
+    const previousGroupInitialCollapsedValues = useRef(props.groups.map(group => group.initiallyCollapsed));
+    const initialLoad = useRef(true);
     useMemo(() => {
+        if (initialLoad.current) {
+            initialLoad.current = false;
+            return;
+        }
+        let needsReset = false;
         props.groups.forEach((group, index) => {
-            if (group.collapsed !== undefined && group.collapsed !== previousGroupCollapsedValues.current[index]) {
-                previousGroupCollapsedValues.current[index] = group.collapsed;
+            // validate if initial collapsed values have changed, if true, reset the state
+            if (previousGroupInitialCollapsedValues.current[index] !== group.initiallyCollapsed) {
+                previousGroupInitialCollapsedValues.current = props.groups.map(group => group.initiallyCollapsed);
+                needsReset = true;
+                return;
+            }
+            if (group.collapsed !== undefined && group.collapsed !== accordionGroupCollapsedState[index]) {
+                accordionGroupCollapsedState[index] = group.collapsed;
                 accordionGroupCollapsedStateDispatch({ type: group.collapsed ? "collapse" : "expand", index });
             }
         });
+
+        if (needsReset) {
+            initialLoad.current = true;
+            // reset accordion groups state back to initial value
+            accordionGroupCollapsedStateDispatch({ type: "reset", values: reducerInitialState(props), index: 0 });
+        }
     }, [props.groups]);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
 
     const accordionGroupElements = props.groups.map((group, index) => (
         <AccordionGroupWrapper
-            key={index}
+            key={`${group.initiallyCollapsed}_${index}`}
             index={index}
             parent={containerRef}
             id={`${props.id}AccordionGroup${index}`}
