@@ -3,17 +3,28 @@
 import {
     addWidgetsToMpk,
     cloneTestProject,
+    copyModuleLicense,
     copyWidgetsToProject,
     createModuleMpk,
     moveModuleToDist,
     removeDist,
-    runModuleSteps
+    runModuleSteps,
+    writeModuleVersion
 } from "@mendix/automation-utils/steps";
 
 async function main(): Promise<void> {
     await runModuleSteps({
         packagePath: process.cwd(),
-        steps: [removeDist, cloneTestProject, copyWidgetsToProject, createModuleMpk, addWidgetsToMpk, moveModuleToDist]
+        steps: [
+            removeDist,
+            cloneTestProject,
+            writeModuleVersion,
+            copyModuleLicense,
+            copyWidgetsToProject,
+            createModuleMpk,
+            addWidgetsToMpk,
+            moveModuleToDist
+        ]
     });
 }
 
