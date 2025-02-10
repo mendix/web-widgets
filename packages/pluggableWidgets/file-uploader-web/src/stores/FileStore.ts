@@ -77,19 +77,13 @@ export class FileStore {
 
         try {
             // request object item
-            this._objectItem = await this._rootStore.requestFileObject();
-            if (this._objectItem) {
-                await saveFile(this._objectItem, this._file!);
-                await this.fetchMxObject();
+            this._objectItem = await this._rootStore.objectCreationHelper.request();
+            await saveFile(this._objectItem, this._file!);
+            await this.fetchMxObject();
 
-                runInAction(() => {
-                    this.fileStatus = "done";
-                });
-            } else {
-                runInAction(() => {
-                    this.fileStatus = "uploadingError";
-                });
-            }
+            runInAction(() => {
+                this.fileStatus = "done";
+            });
         } catch (e: unknown) {
             runInAction(() => {
                 this.fileStatus = "uploadingError";

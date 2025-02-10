@@ -1,4 +1,4 @@
-import { ActionValue, ListValue, ObjectItem } from "mendix";
+import { ListValue, ObjectItem } from "mendix";
 import { FileUploaderContainerProps, UploadModeEnum } from "../../typings/FileUploaderProps";
 import { action, computed, makeObservable, observable } from "mobx";
 import { getImageUploaderFormats, parseAllowedFormats } from "../utils/parseAllowedFormats";
@@ -7,12 +7,13 @@ import { fileHasContents } from "../utils/mx-data";
 import { FileRejection } from "react-dropzone";
 import { FileCheckFormat } from "../utils/predefinedFormats";
 import { TranslationsStore } from "./TranslationsStore";
+import { ObjectCreationHelper } from "../utils/ObjectCreationHelper";
 
 export class FileUploaderStore {
     files: FileStore[] = [];
     lastSeenItems: Set<ObjectItem["id"]> = new Set<ObjectItem["id"]>();
-    currentWaiting: Array<(v: ObjectItem | undefined) => void> = [];
-    itemCreationTimeout?: number = undefined;
+
+    objectCreationHelper: ObjectCreationHelper;
 
     existingItemsLoaded = false;
     isReadOnly: boolean;
@@ -21,12 +22,10 @@ export class FileUploaderStore {
 
     _widgetName: string;
     _uploadMode: UploadModeEnum;
-    _createObjectAction?: ActionValue;
     _maxFileSizeMb = 0;
     _maxFileSize = 0;
     _ds?: ListValue;
     _maxFilesPerUpload: number;
-    _objectCreationTimeout: number;
 
     errorMessage?: string = undefined;
 
@@ -38,7 +37,8 @@ export class FileUploaderStore {
         this._maxFileSize = this._maxFileSizeMb * 1024 * 1024;
         this._maxFilesPerUpload = props.maxFilesPerUpload;
         this._uploadMode = props.uploadMode;
-        this._objectCreationTimeout = props.objectCreationTimeout;
+
+        this.objectCreationHelper = new ObjectCreationHelper(this._widgetName, props.objectCreationTimeout);
 
         this.isReadOnly = props.readOnlyMode;
 
@@ -63,10 +63,10 @@ export class FileUploaderStore {
 
     updateProps(props: FileUploaderContainerProps): void {
         if (props.uploadMode === "files") {
-            this._createObjectAction = props.createFileAction;
+            this.objectCreationHelper.updateProps(props.createFileAction);
             this._ds = props.associatedFiles;
         } else {
-            this._createObjectAction = props.createImageAction;
+            this.objectCreationHelper.updateProps(props.createImageAction);
             this._ds = props.associatedImages;
         }
 
@@ -80,11 +80,13 @@ export class FileUploaderStore {
                 }
 
                 this.existingItemsLoaded = true;
+                this.objectCreationHelper.enable();
             }
         } else {
             for (const newItem of findNewItems(this.lastSeenItems, itemsDs.items || [])) {
                 if (!fileHasContents(newItem)) {
-                    this.processEmptyFileItem(newItem);
+                    this.lastSeenItems.add(newItem.id);
+                    this.objectCreationHelper.processEmptyObjectItem(newItem);
                 } else {
                     // adding this file to the list as is as this file is not empty and probably created externally
                     this.processExistingFileItem(newItem);
@@ -99,20 +101,6 @@ export class FileUploaderStore {
         this.lastSeenItems.add(item.id);
     }
 
-    processEmptyFileItem(item: ObjectItem): void {
-        if (this.isReadOnly) {
-            return;
-        }
-        const firstWaiting = this.currentWaiting.shift();
-        if (firstWaiting) {
-            firstWaiting(item);
-        }
-
-        this.lastSeenItems.add(item.id);
-
-        this.executeFileObjectCreation();
-    }
-
     get allowedFormatsDescription(): string {
         return this.acceptedFileTypes
             .map(f => {
@@ -122,52 +110,12 @@ export class FileUploaderStore {
             .join(", ");
     }
 
-    get canRequestFile(): boolean {
-        return this.existingItemsLoaded && !!this._createObjectAction;
-    }
-
-    requestFileObject(): Promise<ObjectItem | undefined> {
-        if (!this.canRequestFile) {
-            throw new Error("Can't request file");
-        }
-
-        return new Promise<ObjectItem | undefined>(resolve => {
-            this.currentWaiting.push(resolve);
-
-            this.executeFileObjectCreation();
-        });
-    }
-
-    executeFileObjectCreation(): void {
-        clearTimeout(this.itemCreationTimeout);
-        this.itemCreationTimeout = undefined;
-
-        if (!this.currentWaiting.length) {
-            return;
-        }
-        // we need to check if creation is taking too much time
-        // start the timer to measure how long it takes,
-        // if a threshold is reached, declare it a failure
-        // this means the action is probably misconfigured.
-        this.itemCreationTimeout = setTimeout(() => {
-            console.error(
-                `Looks like the 'Action to create new files/images' action did not create any objects within ${this._objectCreationTimeout} seconds. Please check if '${this._widgetName}' widget is configured correctly.`
-            );
-            // fail all waiting
-            while (this.currentWaiting.length) {
-                this.currentWaiting.shift()?.(undefined);
-            }
-        }, this._objectCreationTimeout * 1000) as any as number;
-
-        this._createObjectAction!.execute();
-    }
-
     setMessage(msg?: string): void {
         this.errorMessage = msg;
     }
 
     processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
-        if (!this._createObjectAction || !this._createObjectAction.canExecute) {
+        if (!this.objectCreationHelper.canCreateFiles) {
             console.error(
                 `'Action to create new files/images' is not available or can't be executed. Please check if '${this._widgetName}' widget is configured correctly.`
             );
