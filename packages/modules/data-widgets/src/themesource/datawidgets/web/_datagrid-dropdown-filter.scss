@@ -196,6 +196,13 @@ $root: ".widget-dropdown-filter";
     }
 }
 
+:where(#{$root}.variant-select[data-empty]) {
+    --wdf-input-placeholder-color: rgb(117, 117, 117);
+    #{$root}-toggle {
+        color: var(--wdf-input-placeholder-color);
+    }
+}
+
 /* Combobox variant */
 :where(#{$root}.variant-combobox) {
     & {
