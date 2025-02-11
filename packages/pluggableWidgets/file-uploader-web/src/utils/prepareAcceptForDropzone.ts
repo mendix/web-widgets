@@ -7,13 +7,10 @@ export function prepareAcceptForDropzone(formats: FileCheckFormat[]): MimeCheckF
 
     for (const f of formats) {
         for (const [mime, exts] of f.entries) {
-            if (exts.length) {
-                // add extensions only
-                acc["dummy/mime"].push(...exts);
-            } else {
-                // add mime type only
+            if (!acc[mime]) {
                 acc[mime] = [];
             }
+            acc[mime].push(...exts);
         }
     }
 
