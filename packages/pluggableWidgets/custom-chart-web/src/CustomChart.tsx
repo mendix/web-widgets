@@ -1,26 +1,26 @@
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-import { ReactElement, createElement } from "react";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { createElement, ReactElement, useEffect } from "react";
 import { CustomChartContainerProps } from "../typings/CustomChartProps";
-import { useCustomChart } from "./hooks/useCustomChart";
-import { useActionEvents } from "./hooks/useActionEvents";
-import "./ui/CustomChart.scss";
 import { Host } from "./controllers/Host";
+import { useCustomChart } from "./hooks/useCustomChart";
+import "./ui/CustomChart.scss";
 
 export default function CustomChart(props: CustomChartContainerProps): ReactElement {
     const host = useSetup(() => new Host());
     const { chartRef, containerStyle } = useCustomChart(props);
-    const { handleClick } = useActionEvents(props);
+    // const { handleClick } = useActionEvents(props);
+
+    useEffect(() => {
+        if (props.eventDataAttribute?.value && props.onClick) {
+            executeAction(props.onClick);
+            // reset to allow re-click on same spot
+            props.eventDataAttribute.setValue("");
+        }
+    }, [props.eventDataAttribute?.value]);
 
     const x = mergeRefs<HTMLDivElement>(chartRef, host.resizeCtrl.setTarget);
-    return (
-        <div
-            ref={x}
-            className="widget-custom-chart"
-            style={containerStyle}
-            tabIndex={props.tabIndex}
-            onClick={handleClick}
-        />
-    );
+    return <div ref={x} className="widget-custom-chart" style={containerStyle} tabIndex={props.tabIndex} />;
 }
 
 export function mergeRefs<T>(...refs: Array<React.Ref<T>>): React.Ref<T> | React.RefCallback<T> | undefined {
