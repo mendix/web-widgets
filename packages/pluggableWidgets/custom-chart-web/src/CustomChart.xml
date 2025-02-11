@@ -85,6 +85,13 @@
                 <caption>On click</caption>
                 <description />
             </property>
+            <property key="eventDataAttribute" type="attribute" required="false">
+                <caption>Event data attribute</caption>
+                <description>The attribute to store received raw data from the chart event. https://plot.ly/javascript/plotlyjs-events/#event-data</description>
+                <attributeTypes>
+                    <attributeType name="String" />
+                </attributeTypes>
+            </property>
             <!-- <property key="eventEntity" type="association" required="false" setLabel="true">
                 <caption>Event entity</caption>
                 <description>The entity used to pass the event data to the server</description>

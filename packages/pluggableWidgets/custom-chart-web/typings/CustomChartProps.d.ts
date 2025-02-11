@@ -30,6 +30,7 @@ export interface CustomChartContainerProps {
     heightUnit: HeightUnitEnum;
     height: number;
     onClick?: ActionValue;
+    eventDataAttribute?: EditableValue<string>;
 }
 
 export interface CustomChartPreviewProps {
@@ -55,4 +56,5 @@ export interface CustomChartPreviewProps {
     heightUnit: HeightUnitEnum;
     height: number | null;
     onClick: {} | null;
+    eventDataAttribute: string;
 }

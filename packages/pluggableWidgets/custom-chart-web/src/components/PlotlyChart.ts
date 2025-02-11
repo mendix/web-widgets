@@ -6,6 +6,7 @@ export interface ChartProps {
     config: Partial<Config>;
     width: number;
     height: number;
+    onClick?: (data: any) => void;
 }
 
 export class PlotlyChart {
@@ -20,13 +21,16 @@ export class PlotlyChart {
         this.data = props.data;
         this.layout = props.layout;
         this.config = props.config;
-        this.init();
+        this.init(props);
     }
 
-    private init(): void {
+    private init(props: ChartProps): void {
         newPlot(this.element, this.data, this.layout, this.config)
             .then(plotlyElement => {
                 this.plotlyElement = plotlyElement;
+                if (props?.onClick) {
+                    this.plotlyElement.on("plotly_click", props.onClick);
+                }
             })
             .catch(error => {
                 console.error("Error initializing chart:", error);
