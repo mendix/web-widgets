@@ -102,7 +102,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                     })}
                 />
             </div>
-            <button className={cls.toggle} {...getToggleButtonProps()}>
+            <button className={cls.toggle} {...getToggleButtonProps({ "aria-label": "Show options" })}>
                 <Arrow className={cls.stateIcon} />
             </button>
             <ClearButton
