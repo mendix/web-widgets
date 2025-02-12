@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We added a module user role that have permissions to upload files and images.
+
 ## [1.0.1] FileUploader - 2025-12-19
 
 ### [1.0.1] FileUploader
