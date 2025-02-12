@@ -20,6 +20,7 @@ import { useRootStore } from "./helpers/state/useRootStore";
 import { useDataExport } from "./features/data-export/useDataExport";
 import { ProgressStore } from "./features/data-export/ProgressStore";
 import { useRefreshReload } from "./utils/useRefreshReload";
+import Big from "big.js";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnGroupStore;
@@ -29,7 +30,9 @@ interface Props extends DatagridContainerProps {
 
 const Container = observer((props: Props): ReactElement => {
     const isInfiniteLoad = props.pagination === "virtualScrolling" || props.pagination === "loadMore";
-    const currentPage = isInfiniteLoad
+    const currentPage = props.paginationAttribute?.value
+        ? props.paginationAttribute?.value.toNumber()
+        : isInfiniteLoad
         ? props.datasource.limit / props.pageSize
         : props.datasource.offset / props.pageSize;
 
@@ -44,6 +47,7 @@ const Container = observer((props: Props): ReactElement => {
     const setPage = useCallback(
         (computePage: (prevPage: number) => number) => {
             const newPage = computePage(currentPage);
+            props.paginationAttribute?.setValue(new Big(newPage));
             if (isInfiniteLoad) {
                 props.datasource.setLimit(newPage * props.pageSize);
             } else {
@@ -125,7 +129,7 @@ const Container = observer((props: Props): ReactElement => {
                     </WidgetHeaderContext>
                 )
             }
-            hasMoreItems={props.datasource.hasMoreItems ?? false}
+            hasMoreItems={props.paginationAttribute?.value ? true : props.datasource.hasMoreItems ?? false}
             headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
             id={useMemo(() => `DataGrid${generateUUID()}`, [])}
             numberOfItems={props.datasource.totalCount}

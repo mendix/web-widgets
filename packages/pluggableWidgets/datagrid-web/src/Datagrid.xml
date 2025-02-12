@@ -362,6 +362,15 @@
                     <description />
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Pagination">
+                <property key="paginationAttribute" type="attribute" required="false" onChange="onConfigurationChange">
+                    <caption>Current Page</caption>
+                    <description>Attribute containing the current page</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
+            </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Grid wide filtering">
             <propertyGroup caption="Grid wide filtering">

@@ -139,6 +139,7 @@ export interface DatagridContainerProps {
     configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute?: EditableValue<string>;
     storeFiltersInPersonalization: boolean;
+    paginationAttribute?: EditableValue<Big>;
     filterList: FilterListType[];
     filtersPlaceholder?: ReactNode;
     filterSectionTitle?: DynamicValue<string>;
@@ -187,6 +188,7 @@ export interface DatagridPreviewProps {
     configurationAttribute: string;
     storeFiltersInPersonalization: boolean;
     onConfigurationChange: {} | null;
+    paginationAttribute: string;
     filterList: FilterListPreviewType[];
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     filterSectionTitle: string;
