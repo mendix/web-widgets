@@ -36,6 +36,7 @@ export interface FileUploaderContainerProps {
     uploadMode: UploadModeEnum;
     associatedFiles: ListValue;
     associatedImages: ListValue;
+    readOnlyMode: boolean;
     createFileAction?: ActionValue;
     createImageAction?: ActionValue;
     allowedFileFormats: AllowedFileFormatsType[];
@@ -71,6 +72,7 @@ export interface FileUploaderPreviewProps {
     uploadMode: UploadModeEnum;
     associatedFiles: {} | { caption: string } | { type: string } | null;
     associatedImages: {} | { caption: string } | { type: string } | null;
+    readOnlyMode: boolean;
     createFileAction: {} | null;
     createImageAction: {} | null;
     allowedFileFormats: AllowedFileFormatsPreviewType[];
