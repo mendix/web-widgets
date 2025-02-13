@@ -52,6 +52,6 @@
         "@mendix/shared-charts": "workspace:*",
         "classnames": "^2.3.2",
         "date-fns": "^2.30.0",
-        "plotly.js": "^2.35.2"
+        "plotly.js-dist-min": "^3.0.0"
     }
 }

@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   We updated plotly.js library to version 3.0.
+
+### Added
+
+-   We add a new widget called custom charts.
+
 ## [5.1.2] Charts - 2025-01-21
 
 ### [5.2.0] PieChart

@@ -31,13 +31,13 @@
     "scripts": {
         "start": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools start:server",
         "dev": "pluggable-widgets-tools start:web",
-        "build": "pluggable-widgets-tools build:web",
+        "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools build:web",
         "format": "pluggable-widgets-tools format",
         "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
         "test": "echo 'FIXME: Finish custom-chart-web unit test migration'",
         "e2e": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
         "e2edev": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
-        "release": "pluggable-widgets-tools release:web",
+        "release": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
         "publish-marketplace": "rui-publish-marketplace",
         "verify": "rui-verify-package-format",
@@ -47,11 +47,10 @@
         "@mendix/pluggable-widgets-tools": "10.16.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:^*",
-        "@types/plotly.js-dist-min": "^2.3.4",
         "cross-env": "^7.0.3"
     },
     "dependencies": {
         "classnames": "^2.3.2",
-        "plotly.js-dist-min": "^2.35.3"
+        "plotly.js-dist-min": "^3.0.0"
     }
 }

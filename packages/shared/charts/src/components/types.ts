@@ -1,7 +1,7 @@
 import { ObjectItem } from "mendix";
-import { Config, Data, Layout } from "plotly.js";
+import { Config, Data, Layout } from "plotly.js-dist-min";
 
-declare module "plotly.js" {
+declare module "plotly.js-dist-min" {
     interface PlotDatum {
         /** This array appears on only when aggregation is used */
         pointIndices?: number[];

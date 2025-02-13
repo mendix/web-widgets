@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo } from "react";
 import { ChartProps } from "../components/types";
 import { EditorStore } from "./EditorStore";
-import type { Data } from "plotly.js";
+import type { Data } from "plotly.js-dist-min";
 /** As of charts v4, this props are not changing over the widget lifetime. */
 type StaticProps = Pick<ChartProps, "layoutOptions" | "configOptions">;
 
