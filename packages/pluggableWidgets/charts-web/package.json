@@ -18,6 +18,7 @@
             "@mendix/bar-chart-web",
             "@mendix/bubble-chart-web",
             "@mendix/column-chart-web",
+            "@mendix/custom-chart-web",
             "@mendix/heatmap-chart-web",
             "@mendix/line-chart-web",
             "@mendix/pie-doughnut-chart-web",
