@@ -18,7 +18,8 @@
     "marketplace": {
         "minimumMXVersion": "9.12.0",
         "appName": "HTML Element",
-        "appNumber": 204843
+        "appNumber": 204843,
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",

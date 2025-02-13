@@ -18,7 +18,8 @@
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 117895,
-        "appName": "Accordion"
+        "appName": "Accordion",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",

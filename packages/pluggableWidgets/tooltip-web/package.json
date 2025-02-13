@@ -18,7 +18,8 @@
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 119160,
-        "appName": "Tooltip"
+        "appName": "Tooltip",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",

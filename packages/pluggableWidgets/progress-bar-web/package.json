@@ -18,7 +18,8 @@
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 48910,
-        "appName": "Progress Bar"
+        "appName": "Progress Bar",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
