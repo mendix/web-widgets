@@ -66,3 +66,23 @@ export function enterKeyKeyboardHandler(this: Keyboard, range: Range, context: C
         this.quill.format(name, context.format[name], Quill.sources.USER);
     });
 }
+
+// focus to first toolbar button
+export function gotoToolbarKeyboardHandler(this: Keyboard, _range: Range, _context: Context): void {
+    const toolbar = this.quill.container.parentElement?.parentElement?.querySelector(".widget-rich-text-toolbar");
+    (toolbar?.querySelector(".ql-formats button") as HTMLElement)?.focus();
+}
+
+// focus to status bar button (exit editor)
+export function gotoStatusBarKeyboardHandler(this: Keyboard, _range: Range, context: Context): boolean | void {
+    if (context.format.table) {
+        return true;
+    }
+
+    const statusBar = this.quill.container.parentElement?.parentElement?.nextElementSibling;
+    if (statusBar) {
+        (statusBar as HTMLElement)?.focus();
+    } else {
+        this.quill.blur();
+    }
+}

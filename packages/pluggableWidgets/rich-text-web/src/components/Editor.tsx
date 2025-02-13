@@ -13,7 +13,12 @@ import {
 } from "react";
 import "../utils/customPluginRegisters";
 import MxQuill from "../utils/MxQuill";
-import { enterKeyKeyboardHandler, getIndentHandler } from "./CustomToolbars/toolbarHandlers";
+import {
+    enterKeyKeyboardHandler,
+    getIndentHandler,
+    gotoStatusBarKeyboardHandler,
+    gotoToolbarKeyboardHandler
+} from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
 
@@ -84,6 +89,15 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                 enter: {
                                     key: "Enter",
                                     handler: enterKeyKeyboardHandler
+                                },
+                                focusTab: {
+                                    key: "F10",
+                                    altKey: true,
+                                    handler: gotoToolbarKeyboardHandler
+                                },
+                                tab: {
+                                    key: "Tab",
+                                    handler: gotoStatusBarKeyboardHandler
                                 }
                             }
                         },

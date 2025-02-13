@@ -42,7 +42,7 @@ class Button extends Inline {
         return domNode;
     }
 
-    static formats(domNode: Element): Record<string, string | null> {
+    static formats(domNode: Element): any {
         return ATTRIBUTES.reduce((formats: Record<string, string | null>, attribute) => {
             if (domNode.hasAttribute(attribute)) {
                 formats[attribute] = domNode.getAttribute(attribute);
