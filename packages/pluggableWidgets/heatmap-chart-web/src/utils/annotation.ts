@@ -1,4 +1,4 @@
-import type { Annotations } from "plotly.js";
+import type { Annotations } from "plotly.js-dist-min";
 
 export function createHeatMapAnnotation(
     x?: string,

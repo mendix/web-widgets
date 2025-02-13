@@ -1,6 +1,6 @@
 {
     "name": "@mendix/charts-web",
-    "version": "5.1.2",
+    "version": "6.0.0",
     "description": "Chart widgets collection for data visualization",
     "license": "Apache-2.0",
     "private": false,
@@ -29,7 +29,8 @@
     "marketplace": {
         "minimumMXVersion": "9.6.0.27784",
         "appNumber": 105695,
-        "appName": "Charts"
+        "appName": "Charts",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/Charts-module",
@@ -51,6 +52,7 @@
         "@mendix/bubble-chart-web": "workspace:*",
         "@mendix/chart-playground-web": "workspace:*",
         "@mendix/column-chart-web": "workspace:*",
+        "@mendix/custom-chart-web": "workspace:*",
         "@mendix/heatmap-chart-web": "workspace:*",
         "@mendix/line-chart-web": "workspace:*",
         "@mendix/pie-doughnut-chart-web": "workspace:*",
