@@ -18,7 +18,8 @@
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 108261,
-        "appName": "Maps"
+        "appName": "Maps",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",

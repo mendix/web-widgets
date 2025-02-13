@@ -18,7 +18,8 @@
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 50324,
-        "appName": "Switch"
+        "appName": "Switch",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",

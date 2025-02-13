@@ -18,7 +18,8 @@
     "marketplace": {
         "minimumMXVersion": "9.24.0",
         "appNumber": 118579,
-        "appName": "Image"
+        "appName": "Image",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",

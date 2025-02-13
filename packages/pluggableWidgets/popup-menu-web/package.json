@@ -17,7 +17,8 @@
     "marketplace": {
         "minimumMXVersion": "9.24.0.2965",
         "appNumber": 115826,
-        "appName": "Pop-up Menu"
+        "appName": "Pop-up Menu",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
