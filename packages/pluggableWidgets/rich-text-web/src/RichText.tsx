@@ -1,15 +1,40 @@
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
+import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import classNames from "classnames";
-import { createElement, Fragment, useEffect, useState } from "react";
+import { createElement, Fragment, useState, useEffect } from "react";
 import { RichTextContainerProps } from "../typings/RichTextProps";
-import EditorWrapper from "./components/EditorWrapper";
+import BundledEditor from "./components/Editor";
 import "./ui/RichText.scss";
 import { constructWrapperStyle } from "./utils/helpers";
+import { createMenubar } from "./utils/menubar";
+import { createPreset } from "./utils/presets";
 
 export default function RichText(props: RichTextContainerProps): JSX.Element {
-    const { stringAttribute, readOnlyStyle } = props;
+    const {
+        stringAttribute,
+        id,
+        width: w,
+        height: h,
+        widthUnit,
+        heightUnit,
+        preset,
+        menubarMode,
+        readOnlyStyle,
+        enableStatusBar,
+        resize
+    } = props;
 
-    const wrapperStyle = constructWrapperStyle(props);
+    const { width, height } = getDimensions({
+        width: w,
+        widthUnit,
+        height: h,
+        heightUnit
+    });
+    const wrapperAttributes = stringAttribute?.readOnly && readOnlyStyle !== "readPanel" ? { readOnly: true } : {};
+
+    const presets = createPreset(preset, props);
+    const menubar = createMenubar(menubarMode, props);
+    const wrapperStyle = constructWrapperStyle(props, { width, height });
     const [isIncubator, setIsIncubator] = useState(true);
 
     useEffect(() => {
@@ -19,7 +44,7 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
         // this fix waits for it to be fully out of incubator div, then only fully renders rich text afterwards.
         const observedIncubator = document.querySelector(`.mx-incubator.mx-offscreen`);
         const observer = new MutationObserver((_mutationList, _observer) => {
-            if (!observedIncubator?.childElementCount || observedIncubator?.childElementCount <= 0) {
+            if (!observedIncubator?.childElementCount) {
                 setIsIncubator(false);
             }
         });
@@ -36,25 +61,37 @@ export default function RichText(props: RichTextContainerProps): JSX.Element {
             observer.disconnect();
         };
     }, []);
-
     return (
         <Fragment>
-            {stringAttribute.status === "loading" || isIncubator ? (
-                <div className="mx-progress"></div>
-            ) : (
-                <EditorWrapper
-                    {...props}
-                    style={wrapperStyle}
-                    className={classNames(
-                        "widget-rich-text",
-                        stringAttribute.readOnly && readOnlyStyle === "readPanel"
-                            ? "form-control-static"
-                            : "form-control",
-                        stringAttribute.readOnly ? `widget-rich-text-readonly-${readOnlyStyle}` : ""
-                    )}
-                    enableStatusBar={props.enableStatusBar && !stringAttribute.readOnly}
-                />
-            )}
+            <div
+                id={id}
+                className={classNames(
+                    "widget-rich-text",
+                    `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`,
+                    {
+                        "form-control": props.toolbarLocation === "inline",
+                        "widget-rich-text-min-height": heightUnit !== "pixels" && !stringAttribute?.readOnly,
+                        "widget-rich-text-min-height-readonly": heightUnit !== "pixels" && stringAttribute?.readOnly
+                    }
+                )}
+                style={wrapperStyle}
+                {...wrapperAttributes}
+            >
+                {stringAttribute.status === "loading" || stringAttribute.status !== "available" || isIncubator ? (
+                    <div className="mx-progress"></div>
+                ) : (
+                    <BundledEditor
+                        {...props}
+                        menubar={menubar}
+                        toolbar={presets.toolbar}
+                        editorHeight={height}
+                        editorWidth={width}
+                        key={`${String(stringAttribute.readOnly)}_${id}_${props.content_css?.value}`}
+                        resize={enableStatusBar ? resize : "false"}
+                        apiKey={props.editorApiKey?.value}
+                    />
+                )}
+            </div>
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>
         </Fragment>
     );

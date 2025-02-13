@@ -6,34 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [4.2.0] - 2025-01-15
-
-### Fixed
-
--   We fixed readonly styling for Read Panel mode.
-
-### Changed
-
--   We changed dimension configurations to better match CSS formats.
-
--   We changed DOM order to show editor before toolbar for easier focus order.
-
-## [4.1.0] - 2024-12-13
-
-### Fixed
-
--   We fixed an issue where the attribute not refreshed when the widget is not reloaded.
-
-### Added
-
--   We allow user to create html button tag on the widget.
-
-## [4.0.0] - 2024-10-29
-
-### Breaking changes
-
--   The Rich Text widget has been updated to use Quill V2 due to a license change in TinyMCE. Unlike TinyMCE, Quill V2 does not require rendering a separate iframe, which simplifies styling and content security configurations. Users should review and adjust their widget configurations after updating.
-
 ## [3.3.1] - 2024-08-28
 
 ### Changed
