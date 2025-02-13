@@ -1,49 +1,22 @@
+import { ClosableGateProvider } from "@mendix/widget-plugin-mobx-kit/ClosableGateProvider";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
+import { useEffect } from "react";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { useEffect, useRef, useState } from "react";
+import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { RootGridStore } from "./RootGridStore";
-import { autorun, IReactionDisposer } from "mobx";
 
 export function useRootStore(props: DatagridContainerProps): RootGridStore {
-    const [rootStore] = useState(() => {
-        return new RootGridStore(props);
+    const [gateProvider, exportProgressCtrl] = useConst(() => {
+        const epc = new ProgressStore();
+        const gp = new ClosableGateProvider(props, () => epc.exporting);
+        return [gp, epc] as const;
     });
+    const rootStore = useSetup(() => new RootGridStore({ gate: gateProvider.gate, exportCtrl: exportProgressCtrl }));
 
     useEffect(() => {
-        const cleanup = rootStore.setup();
-        return () => {
-            rootStore.dispose();
-            cleanup?.();
-        };
-    }, [rootStore]);
-
-    useEffect(() => {
-        rootStore.updateProps(props);
+        gateProvider.setProps(props);
     });
-
-    const datasourceRef = useRef(props.datasource);
-    datasourceRef.current = props.datasource;
-
-    useEffect(() => {
-        const disposers: IReactionDisposer[] = [];
-
-        // apply sorting
-        disposers.push(
-            autorun(() => {
-                datasourceRef.current.setSortOrder(rootStore.sortInstructions);
-            })
-        );
-
-        // apply filters
-        disposers.push(
-            autorun(() => {
-                datasourceRef.current.setFilter(rootStore.conditions);
-            })
-        );
-
-        return () => {
-            disposers.forEach(d => d());
-        };
-    }, [rootStore]);
 
     return rootStore;
 }

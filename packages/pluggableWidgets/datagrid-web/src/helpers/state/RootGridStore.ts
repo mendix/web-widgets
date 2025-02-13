@@ -1,98 +1,86 @@
-import { compactArray, fromCompactArray, isAnd } from "@mendix/widget-plugin-filtering/condition-utils";
-import { disposeFx } from "@mendix/widget-plugin-filtering/mobx-utils";
 import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
+import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { FilterCondition } from "mendix/filters";
-import { and } from "mendix/filters/builders";
+import { autorun, computed } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { DatasourceController } from "../../controllers/DatasourceController";
+import { DerivedLoaderController } from "../../controllers/DerivedLoaderController";
+import { PaginationController } from "../../controllers/PaginationController";
+import { RefreshController } from "../../controllers/RefreshController";
+import { StateSyncController } from "../../controllers/StateSyncController";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
-import { SortInstruction } from "../../typings/sorting";
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
 
-export class RootGridStore {
+type Gate = DerivedPropsGate<DatagridContainerProps>;
+
+type Spec = {
+    gate: Gate;
+    exportCtrl: ProgressStore;
+};
+
+export class RootGridStore extends BaseControllerHost {
     columnsStore: ColumnGroupStore;
     headerFiltersStore: HeaderFiltersStore;
     settingsStore: GridPersonalizationStore;
-    progressStore: ProgressStore;
     staticInfo: StaticInfo;
+    exportProgressCtrl: ProgressStore;
+    loaderCtrl: DerivedLoaderController;
+    paginationCtrl: PaginationController;
 
-    constructor(props: DatagridContainerProps) {
-        this.setInitParams(props);
+    private gate: Gate;
+
+    constructor({ gate, exportCtrl }: Spec) {
+        super();
+
+        const { props } = gate;
+        const [columnsViewState, headerViewState] = StateSyncController.unzipFilter(props.datasource.filter);
+
+        this.gate = gate;
         this.staticInfo = {
             name: props.name,
             filtersChannelName: `datagrid/${generateUUID()}`
         };
-
-        const [columnsViewState, headerViewState] = this.getDsViewState(props);
-        this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsViewState);
-        this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState);
+        const query = new DatasourceController(this, { gate });
+        const columns = (this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsViewState));
+        const header = (this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState));
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
-        this.progressStore = new ProgressStore();
-    }
+        this.paginationCtrl = new PaginationController(this, { gate, query });
+        this.exportProgressCtrl = exportCtrl;
 
-    get isLoaded(): boolean {
-        return this.columnsStore.loaded;
-    }
+        new StateSyncController(this, {
+            query,
+            columns,
+            header
+        });
 
-    /**
-     * This method should always "read" filters from columns.
-     * Otherwise computed is suspended.
-     */
-    get conditions(): FilterCondition {
-        const columns = this.columnsStore.conditions;
-        const header = this.headerFiltersStore.conditions;
-        return and(compactArray(columns), compactArray(header));
-    }
+        new RefreshController(this, {
+            query: computed(() => query.computedCopy),
+            delay: props.refreshInterval
+        });
 
-    get sortInstructions(): SortInstruction[] | undefined {
-        return this.columnsStore.sortInstructions;
+        this.loaderCtrl = new DerivedLoaderController({
+            exp: exportCtrl,
+            cols: columns,
+            query
+        });
     }
 
     setup(): () => void {
-        const [disposers, dispose] = disposeFx();
-        disposers.push(this.columnsStore.setup());
-        disposers.push(this.headerFiltersStore.setup() ?? (() => {}));
+        const [add, disposeAll] = disposeBatch();
+        add(super.setup());
+        add(this.columnsStore.setup());
+        add(this.headerFiltersStore.setup() ?? (() => {}));
+        add(() => this.settingsStore.dispose());
+        add(autorun(() => this.updateProps(this.gate.props)));
 
-        return dispose;
+        return disposeAll;
     }
 
-    dispose(): void {
-        this.settingsStore.dispose();
-    }
-
-    private setInitParams(props: DatagridContainerProps): void {
-        if (props.pagination === "buttons") {
-            props.datasource.requestTotalCount(true);
-        }
-
-        // Set initial limit
-        props.datasource.setLimit(props.pageSize);
-    }
-
-    // Mirror operation from "condition";
-    private getDsViewState({
-        datasource
-    }: DatagridContainerProps):
-        | [columns: Array<FilterCondition | undefined>, header: Array<FilterCondition | undefined>] {
-        if (!datasource.filter) {
-            return [[], []];
-        }
-        if (!isAnd(datasource.filter)) {
-            return [[], []];
-        }
-        if (datasource.filter.args.length !== 2) {
-            return [[], []];
-        }
-        const [columns, header] = datasource.filter.args;
-        return [fromCompactArray(columns), fromCompactArray(header)];
-    }
-
-    updateProps(props: DatagridContainerProps): void {
-        if (this.progressStore.exporting) {
-            return;
-        }
+    private updateProps(props: DatagridContainerProps): void {
         this.columnsStore.updateProps(props);
         this.settingsStore.updateProps(props);
     }
