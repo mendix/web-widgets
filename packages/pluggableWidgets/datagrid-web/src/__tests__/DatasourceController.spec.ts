@@ -31,11 +31,11 @@ describe("DatasourceController loading states", () => {
             expect(controller.isRefreshing).toBe(false);
         });
 
-        it("refresh rise isRefreshing once ds become loading", () => {
+        it("isRefreshing is true after refresh call", () => {
             provider.setProps({ datasource: list(0) });
             expect(provider.gate.props.datasource.status).toBe("available");
             controller.refresh();
-            expect(controller.isRefreshing).toBe(false);
+            expect(controller.isRefreshing).toBe(true);
             provider.setProps({ datasource: list.loading() });
             expect(provider.gate.props.datasource.status).toBe("loading");
             expect(controller.isRefreshing).toBe(true);
