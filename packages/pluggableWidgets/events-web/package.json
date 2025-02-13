@@ -21,7 +21,8 @@
     "marketplace": {
         "minimumMXVersion": "9.24.0",
         "appNumber": 224259,
-        "appName": "Events"
+        "appName": "Events",
+        "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",

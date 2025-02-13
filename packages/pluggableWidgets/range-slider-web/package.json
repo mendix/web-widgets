@@ -21,7 +21,8 @@
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 52704,
-        "appName": "Range Slider"
+        "appName": "Range Slider",
+        "reactReady": true
     },
     "packagePath": "com.mendix.widget.custom",
     "scripts": {
