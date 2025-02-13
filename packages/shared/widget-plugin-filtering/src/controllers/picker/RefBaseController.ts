@@ -36,5 +36,5 @@ export interface RefBaseControllerProps {
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
     emptyCaption?: string;
-    inputPlaceholder?: string;
+    placeholder?: string;
 }
