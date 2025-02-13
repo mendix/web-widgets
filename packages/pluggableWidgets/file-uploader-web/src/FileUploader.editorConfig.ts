@@ -17,7 +17,6 @@ export function getProperties(
     } else {
         hidePropertiesIn(properties, values, [
             values.uploadMode === "files" ? "associatedImages" : "associatedFiles",
-            "associatedFiles",
             "createImageAction",
             "createFileAction",
             "allowedFileFormats",
