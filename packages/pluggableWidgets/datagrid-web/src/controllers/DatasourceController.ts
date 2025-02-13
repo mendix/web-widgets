@@ -70,11 +70,11 @@ export class DatasourceController implements ReactiveController, QueryController
     }
 
     get isRefreshing(): boolean {
-        return this.isDSLoading && this.refreshing;
+        return this.refreshing;
     }
 
     get isLoadingMore(): boolean {
-        return this.isDSLoading && this.loadingMore;
+        return this.loadingMore;
     }
 
     get limit(): number {
