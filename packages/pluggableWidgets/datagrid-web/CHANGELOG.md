@@ -16,9 +16,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   Accessibility fix regarding keyboard navigation and focus
 
+-   Fixed issue with filters losing focus on refresh
+
+-   Fixed issue with loading indicator not being displayed in some scenarios
+
 ### Breaking changes
 
 -   Drop-down filter is rewritten with new, more accurate HTML for better accessibility, which may break existing CSS styling for projects using drop-down filter
+
+-   HTML structure changed, which may affect some CSS and styling
 
 ## [2.29.1] - 2025-01-24
 
