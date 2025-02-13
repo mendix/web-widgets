@@ -29,11 +29,11 @@
             </property>
             <property key="createFileAction" type="action">
                 <caption>Action to create new files</caption>
-                <description>Nanoflow that creates a file document object, associates it to the current object and commits it.</description>
+                <description>Nanoflow that creates a file object, associates it to the current object and commits it.</description>
             </property>
             <property key="createImageAction" type="action">
                 <caption>Action to create new images</caption>
-                <description>Nanoflow that creates an image document object, associates it to the current object and commits it.</description>
+                <description>Nanoflow that creates an image object, associates it to the current object and commits it.</description>
             </property>
             <property key="allowedFileFormats" type="object" isList="true" required="false">
                 <caption>Allowed file formats</caption>
