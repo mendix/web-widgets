@@ -42,21 +42,21 @@
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@types/plotly.js": "^2.12.30",
-        "@types/react-plotly.js": "^2.5.0",
-        "copy-and-watch": "^0.1.6",
-        "rimraf": "^2.7.1",
         "@rollup/plugin-commonjs": "^25.0.8",
         "@rollup/plugin-node-resolve": "^15.2.3",
         "@rollup/plugin-replace": "^2.4.2",
         "@rollup/plugin-terser": "^0.4.4",
+        "@types/plotly.js-dist-min": "^2.3.4",
+        "@types/react-plotly.js": "^2.6.3",
+        "copy-and-watch": "^0.1.6",
+        "rimraf": "^4.4.1",
         "rollup": "^2.79.2",
         "rollup-plugin-copy": "^3.5.0"
     },
     "dependencies": {
         "classnames": "^2.3.2",
         "deepmerge": "^4.3.1",
-        "plotly.js": "^2.35.2",
+        "plotly.js-dist-min": "^3.0.0",
         "react-plotly.js": "^2.6.0"
     }
 }
