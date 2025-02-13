@@ -1,7 +1,7 @@
 {
     "name": "@mendix/area-chart-web",
     "widgetName": "AreaChart",
-    "version": "5.1.0",
+    "version": "6.0.0",
     "description": "An area chart displays a solid color between the traces of a graph.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -48,6 +48,6 @@
     "dependencies": {
         "@mendix/shared-charts": "workspace:*",
         "classnames": "^2.3.2",
-        "plotly.js": "^2.35.2"
+        "plotly.js-dist-min": "^3.0.0"
     }
 }

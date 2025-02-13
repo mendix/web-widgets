@@ -22,7 +22,7 @@ const bundles = {
     plotly: {
         // react-plotly.js@2.6.0 use: `import Plotly from 'plotly.js/dist/plotly';`
         // We redirect this import to min version.
-        input: "plotly.js/dist/plotly.min.js",
+        input: "plotly.js-dist-min/plotly.min.js",
         file: {
             amd: "plotly.min.js",
             esm: "plotly.min.mjs"

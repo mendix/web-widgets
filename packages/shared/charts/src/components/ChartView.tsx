@@ -1,4 +1,4 @@
-import { Config, Data, Layout } from "plotly.js";
+import { Config, Data, Layout } from "plotly.js-dist-min";
 import { createElement, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
 import ReactPlotlyChartComponent, { PlotParams } from "react-plotly.js";
 import deepmerge from "deepmerge";

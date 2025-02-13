@@ -10,7 +10,7 @@ import {
 } from "mendix";
 import { useEffect, useState } from "react";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
-import { Datum, PlotData } from "plotly.js";
+import { Datum, PlotData } from "plotly.js-dist-min";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ExtraTraceProps } from "../components/types";
 

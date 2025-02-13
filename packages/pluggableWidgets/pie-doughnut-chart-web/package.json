@@ -1,7 +1,7 @@
 {
     "name": "@mendix/pie-doughnut-chart-web",
     "widgetName": "PieChart",
-    "version": "5.2.0",
+    "version": "6.0.0",
     "description": "Shows data in a pie format graph.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -52,6 +52,6 @@
         "@mendix/shared-charts": "workspace:*",
         "classnames": "^2.3.2",
         "date-fns": "^2.30.0",
-        "plotly.js": "^2.35.2"
+        "plotly.js-dist-min": "^3.0.0"
     }
 }
