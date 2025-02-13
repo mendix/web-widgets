@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [6.0.0] Charts - 2025-02-13
+
 ### Changed
 
 -   We updated plotly.js library to version 3.0.
@@ -13,6 +15,66 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 -   We add a new widget called custom charts.
+
+### [6.0.0] AreaChart
+
+#### Changed
+
+-   We updated plotly.js library to version 3.0.
+
+### [6.0.0] BarChart
+
+#### Changed
+
+-   We updated plotly.js library to version 3.0.
+
+### [6.0.0] BubbleChart
+
+#### Changed
+
+-   We updated plotly.js library to version 3.0.
+
+### [6.0.0] ColumnChart
+
+#### Changed
+
+-   We updated plotly.js library to version 3.0.
+
+### [1.0.0] CustomChart
+
+#### Added
+
+-   We introduce custom chart.
+
+### [6.0.0] HeatMap
+
+#### Changed
+
+-   We updated plotly.js library to version 3.0.
+
+### [6.0.0] LineChart
+
+#### Changed
+
+-   We updated plotly.js library to version 3.0.
+
+### [6.0.0] PieChart
+
+#### Changed
+
+-   We updated plotly.js library to version 3.0.
+
+### [6.0.0] TimeSeries
+
+#### Changed
+
+-   We updated plotly.js library to version 3.0.
+
+### [2.0.0] ChartPlayground
+
+#### Changed
+
+-   We updated plotly.js library to version 3.0.
 
 ## [5.1.2] Charts - 2025-01-21
 
