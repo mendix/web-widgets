@@ -56,7 +56,7 @@ export interface StaticBaseControllerProps {
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
     emptyCaption?: string;
-    inputPlaceholder?: string;
+    placeholder?: string;
 }
 
 export interface CustomOption<T> {

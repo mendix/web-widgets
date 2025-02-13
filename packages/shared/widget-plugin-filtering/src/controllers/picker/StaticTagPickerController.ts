@@ -15,7 +15,7 @@ export class StaticTagPickerController extends TagPickerControllerMixin(StaticBa
 
     constructor(props: Props) {
         super(props);
-        this.inputPlaceholder = props.inputPlaceholder ?? "Search";
+        this.inputPlaceholder = props.placeholder ?? "Search";
         this.filterSelectedOptions = props.selectionMethod === "rowClick";
         this.selectedStyle = props.selectedItemsStyle;
         this.selectionMethod = this.selectedStyle === "boxes" ? props.selectionMethod : "checkbox";
