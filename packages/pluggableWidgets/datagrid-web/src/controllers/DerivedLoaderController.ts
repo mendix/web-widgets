@@ -3,14 +3,14 @@ import { computed, makeObservable } from "mobx";
 type Spec = {
     exp: { exporting: boolean };
     cols: { loaded: boolean };
-    query: { isLoadingMore: boolean; isLoading: boolean; isRefreshing: boolean };
+    query: { isFetchingNextBatch: boolean; isLoading: boolean; isRefreshing: boolean };
 };
 
 export class DerivedLoaderController {
     constructor(private spec: Spec) {
         makeObservable(this, {
             isLoading: computed,
-            isLoadingMore: computed,
+            isFetchingNextBatch: computed,
             isRefreshing: computed
         });
     }
@@ -28,8 +28,8 @@ export class DerivedLoaderController {
         return query.isLoading;
     }
 
-    get isLoadingMore(): boolean {
-        return this.spec.query.isLoadingMore;
+    get isFetchingNextBatch(): boolean {
+        return this.spec.query.isFetchingNextBatch;
     }
 
     get isRefreshing(): boolean {
