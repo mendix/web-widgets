@@ -14,7 +14,7 @@ interface Props {
     setPage?: (update: (page: number) => number) => void;
     loadingType: LoadingTypeEnum;
     isLoading: boolean;
-    isLoadingMore?: boolean;
+    isFetchingNextBatch?: boolean;
     columnsHidable: boolean;
     columnsSize: number;
     rowsSize: number;
@@ -37,7 +37,7 @@ export function GridBody(props: Props): ReactElement {
         return (
             <Fragment>
                 {children}
-                {props.isLoadingMore && <Loader {...props} rowsSize={props.pageSize} useBorderTop={false} />}
+                {props.isFetchingNextBatch && <Loader {...props} rowsSize={props.pageSize} useBorderTop={false} />}
             </Fragment>
         );
     };
