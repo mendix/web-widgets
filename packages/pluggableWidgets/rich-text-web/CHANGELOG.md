@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.3.0] - 2025-02-14
+
 ### Fixed
 
 -   We fixed minor HTML bugs whereas rich text will add extra new lines on saving value.
+
 -   We fixed rich text accessibility with tab keypress. Pressing tab will now allow you to directly focus on editor and Alt + F10 will brings you directly to toolbar.
 
 ## [4.2.0] - 2025-01-15
