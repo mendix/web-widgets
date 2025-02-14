@@ -29,7 +29,6 @@ export function GridBody(props: Props): ReactElement {
         isInfinite,
         setPage
     });
-    const baseClass = "widget-datagrid-grid-body table-content";
 
     const content = (): React.ReactElement => {
         if (props.isLoading) {
@@ -46,7 +45,11 @@ export function GridBody(props: Props): ReactElement {
     return (
         <div
             ref={containerRef}
-            className={classNames(baseClass, { "infinite-loading": isInfinite }, props.className)}
+            className={classNames(
+                "widget-datagrid-grid-body table-content",
+                { "infinite-loading": isInfinite },
+                props.className
+            )}
             role="rowgroup"
             onScroll={isInfinite ? trackScrolling : undefined}
             style={isInfinite && bodySize > 0 ? { ...style, maxHeight: bodySize } : style}
