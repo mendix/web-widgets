@@ -40,7 +40,9 @@
         "release": "pluggable-widgets-tools release:web",
         "verify": "rui-verify-package-format",
         "update-changelog": "rui-update-changelog-widget",
-        "create-translation": "rui-create-translation"
+        "create-translation": "rui-create-translation",
+        "add-nf-defaults": "node nf-defaults.mjs add",
+        "remove-nf-defaults": "node nf-defaults.mjs remove"
     },
     "dependencies": {
         "classnames": "^2.2.6",

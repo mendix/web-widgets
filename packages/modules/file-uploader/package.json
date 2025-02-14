@@ -1,0 +1,47 @@
+{
+    "name": "@mendix/file-uploader",
+    "moduleName": "File Uploader module",
+    "version": "1.0.2",
+    "license": "Apache-2.0",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "mxpackage": {
+        "type": "module",
+        "name": "FileUploader",
+        "mpkName": "FileUploader.mpk",
+        "dependencies": [
+            "@mendix/file-uploader-web"
+        ]
+    },
+    "moduleFolderNameInModeler": "fileuploader",
+    "marketplace": {
+        "minimumMXVersion": "9.24.0.2965",
+        "appNumber": 235351,
+        "appName": "File Uploader"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "fileuploader-web"
+    },
+    "scripts": {
+        "verify": "rui-verify-package-format",
+        "update-changelog": "rui-update-changelog-module",
+        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
+        "create-gh-release": "rui-create-gh-release",
+        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
+        "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+        "publish-marketplace": "rui-publish-marketplace"
+    },
+    "dependencies": {
+        "@mendix/file-uploader-web": "workspace:*"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "cross-env": "^7.0.3"
+    }
+}
