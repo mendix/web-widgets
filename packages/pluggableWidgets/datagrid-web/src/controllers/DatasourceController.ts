@@ -17,14 +17,14 @@ export class DatasourceController implements ReactiveController, QueryController
         host.addController(this);
         this.gate = spec.gate;
 
-        type PrivateMembers = "resetFlags" | "updateFlags" | "setRefreshing" | "setLoadingMore" | "pageSize";
+        type PrivateMembers = "resetFlags" | "updateFlags" | "setRefreshing" | "setFetching" | "pageSize";
         makeAutoObservable<this, PrivateMembers>(this, {
             setup: false,
             pageSize: false,
             updateFlags: action,
             resetFlags: action,
             setRefreshing: action,
-            setLoadingMore: action
+            setFetching: action
         });
     }
 
