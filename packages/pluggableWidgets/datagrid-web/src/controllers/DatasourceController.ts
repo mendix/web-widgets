@@ -10,7 +10,7 @@ type Spec = { gate: Gate };
 export class DatasourceController implements ReactiveController, QueryController {
     private gate: Gate;
     private refreshing = false;
-    private loadingMore = false;
+    private fetching = false;
     private pageSize = Infinity;
 
     constructor(host: ReactiveControllerHost, spec: Spec) {
@@ -30,15 +30,15 @@ export class DatasourceController implements ReactiveController, QueryController
 
     private resetFlags(): void {
         this.refreshing = false;
-        this.loadingMore = false;
+        this.fetching = false;
     }
 
     private updateFlags(status: ValueStatus): void {
         if (this.refreshing) {
             this.setRefreshing(status === "loading");
         }
-        if (this.loadingMore) {
-            this.setLoadingMore(status === "loading");
+        if (this.fetching) {
+            this.setFetching(status === "loading");
         }
     }
 
@@ -46,8 +46,8 @@ export class DatasourceController implements ReactiveController, QueryController
         this.refreshing = value;
     }
 
-    private setLoadingMore(value: boolean): void {
-        this.loadingMore = value;
+    private setFetching(value: boolean): void {
+        this.fetching = value;
     }
 
     private resetLimit(): void {
@@ -63,7 +63,7 @@ export class DatasourceController implements ReactiveController, QueryController
     }
 
     get isLoading(): boolean {
-        if (this.isRefreshing || this.isLoadingMore) {
+        if (this.isRefreshing || this.isFetchingNextBatch) {
             return false;
         }
         return this.isDSLoading;
@@ -73,8 +73,8 @@ export class DatasourceController implements ReactiveController, QueryController
         return this.refreshing;
     }
 
-    get isLoadingMore(): boolean {
-        return this.loadingMore;
+    get isFetchingNextBatch(): boolean {
+        return this.fetching;
     }
 
     get limit(): number {
@@ -118,7 +118,7 @@ export class DatasourceController implements ReactiveController, QueryController
     }
 
     setLimit(limit: number): void {
-        this.setLoadingMore(true);
+        this.setFetching(true);
         this.datasource.setLimit(limit);
     }
 

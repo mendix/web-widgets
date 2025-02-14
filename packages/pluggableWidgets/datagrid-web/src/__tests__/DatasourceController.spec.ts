@@ -42,9 +42,9 @@ describe("DatasourceController loading states", () => {
             expect(controller.isLoading).toBe(false);
         });
 
-        it("isLoadingMore returns true after setLimit call", () => {
+        it("isFetchingNextBatch returns true after setLimit call", () => {
             controller.setLimit(20);
-            expect(controller.isLoadingMore).toBe(true);
+            expect(controller.isFetchingNextBatch).toBe(true);
             expect(controller.isLoading).toBe(false);
         });
     });
@@ -58,7 +58,7 @@ describe("DatasourceController loading states", () => {
         it("all loading states return false", () => {
             expect(controller.isLoading).toBe(false);
             expect(controller.isRefreshing).toBe(false);
-            expect(controller.isLoadingMore).toBe(false);
+            expect(controller.isFetchingNextBatch).toBe(false);
         });
 
         it("triggers refresh when called", () => {

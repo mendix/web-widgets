@@ -118,7 +118,7 @@ const Container = observer((props: Props): ReactElement => {
             checkboxEventsController={checkboxEventsController}
             focusController={focusController}
             isLoading={rootStore.loaderCtrl.isLoading}
-            isLoadingMore={rootStore.loaderCtrl.isLoadingMore}
+            isFetchingNextBatch={rootStore.loaderCtrl.isFetchingNextBatch}
             loadingType={props.loadingType}
             columnsLoading={!columnsStore.loaded}
         />
