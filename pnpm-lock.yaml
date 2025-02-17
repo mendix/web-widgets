@@ -995,6 +995,9 @@ importers:
 
   packages/pluggableWidgets/custom-chart-web:
     dependencies:
+      '@mendix/shared-charts':
+        specifier: workspace:*
+        version: link:../../shared/charts
       '@mendix/widget-plugin-mobx-kit':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-mobx-kit
