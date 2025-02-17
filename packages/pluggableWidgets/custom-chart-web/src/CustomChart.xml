@@ -21,13 +21,21 @@
                 <caption>Sample data</caption>
                 <description>Data for preview. It will be merged with the 'Static data' in the web modeler or at runtime when no 'Source attribute' is selected</description>
             </property>
-            <property key="devMode" type="enumeration" defaultValue="developer">
+            <!-- <property key="devMode" type="enumeration" defaultValue="developer">
                 <caption>Mode</caption>
                 <description>The development mode adds a button to the charts when running the app which can be used to toggle a live editor for the advanced configuration options</description>
                 <enumerationValues>
                     <enumerationValue key="developer">Development</enumerationValue>
                     <enumerationValue key="advanced">Production</enumerationValue>
                 </enumerationValues>
+            </property> -->
+            <property key="showPlaygroundSlot" type="boolean" defaultValue="false">
+                <caption>Show playground slot</caption>
+                <description />
+            </property>
+            <property key="playground" type="widgets" required="false">
+                <caption>Playground slot</caption>
+                <description />
             </property>
         </propertyGroup>
         <propertyGroup caption="Layout options">

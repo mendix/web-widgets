@@ -3,10 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
+import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, EditableValue } from "mendix";
-
-export type DevModeEnum = "developer" | "advanced";
 
 export type WidthUnitEnum = "percentage" | "pixels";
 
@@ -20,7 +18,8 @@ export interface CustomChartContainerProps {
     dataStatic: string;
     dataAttribute?: EditableValue<string>;
     sampleData: string;
-    devMode: DevModeEnum;
+    showPlaygroundSlot: boolean;
+    playground?: ReactNode;
     layoutStatic: string;
     layoutAttribute?: EditableValue<string>;
     sampleLayout: string;
@@ -46,7 +45,8 @@ export interface CustomChartPreviewProps {
     dataStatic: string;
     dataAttribute: string;
     sampleData: string;
-    devMode: DevModeEnum;
+    showPlaygroundSlot: boolean;
+    playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     layoutStatic: string;
     layoutAttribute: string;
     sampleLayout: string;
