@@ -7,7 +7,7 @@ const defaultSampleData = `[{
     "x": [1, 2, 3, 4, 5, 6, 7, 8],
     "y": [5, 35, 15, 45, 25, 65, 30, 55],
     "mode": "lines+markers",
-    "marker": { 
+    "marker": {
         "color": "#264AE5",
         "size": 8
     },
@@ -46,7 +46,7 @@ export function preview(props: CustomChartPreviewProps): ReactElement {
         tabIndex: 0,
         dataStatic: props.dataStatic || defaultSampleData,
         sampleData: props.sampleData,
-        devMode: props.devMode,
+        showPlaygroundSlot: props.showPlaygroundSlot,
         layoutStatic: props.layoutStatic || defaultSampleLayout,
         sampleLayout: props.sampleLayout,
         configurationOptions: props.configurationOptions || defaultConfig,
