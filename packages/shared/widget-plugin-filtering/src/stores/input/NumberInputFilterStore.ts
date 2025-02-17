@@ -40,7 +40,10 @@ export class NumberInputFilterStore
         }
     }
 
-    toJSON(): InputData {
+    toJSON(): InputData | undefined {
+        if (!this.isInitialized) {
+            return undefined;
+        }
         return [
             this.filterFunction,
             this.arg1.value ? this.arg1.value.toJSON() : null,

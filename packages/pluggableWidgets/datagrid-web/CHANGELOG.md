@@ -20,6 +20,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   Fixed issue with loading indicator not being displayed in some scenarios
 
+-   We fixed an issue where an incorrect filter type was saved to personalization when a column was hidden by default.
+
 ### Breaking changes
 
 -   Drop-down filter is rewritten with new, more accurate HTML for better accessibility, which may break existing CSS styling for projects using drop-down filter

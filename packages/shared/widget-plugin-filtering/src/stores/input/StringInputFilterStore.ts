@@ -44,7 +44,11 @@ export class StringInputFilterStore
         this.arg2.updateProps(formatter as ListAttributeValue<string>["formatter"]);
     }
 
-    toJSON(): InputData {
+    toJSON(): InputData | undefined {
+        if (!this.isInitialized) {
+            return undefined;
+        }
+
         return [this.filterFunction, this.arg1.value ?? null, this.arg2.value ?? null];
     }
 

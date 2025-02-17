@@ -42,6 +42,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
         makeObservable<this, "_attributes" | "setState">(this, {
             _attributes: observable.ref,
             filterFunction: observable,
+            isInitialized: observable,
             condition: computed,
             setState: action,
             UNSAFE_setDefaults: action,
@@ -63,7 +64,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
 
     UNSAFE_setDefaults = (state: StateTuple<Fn, Val<A>>): void => {
         this.defaultState = state;
-        if (this.isInitialized === false) {
+        if (!this.isInitialized) {
             this.setState(state);
             this.isInitialized = true;
         }
