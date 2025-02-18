@@ -24,8 +24,8 @@ test.describe("datagrid-web filtering single select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
-        const booleanSelect = () => page.locator(".mx-name-drop_downFilter2 input");
+        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
+        const booleanSelect = () => page.locator(".mx-name-drop_downFilter2").getByRole("combobox");
 
         await booleanSelect().click();
         await option("Yes").click();
@@ -40,11 +40,11 @@ test.describe("datagrid-web filtering single select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
-        const booleanSelect = () => page.locator(".mx-name-drop_downFilter2 input");
+        const booleanSelect = () => page.locator(".mx-name-drop_downFilter2").getByRole("combobox");
 
         await booleanSelect().click();
-        await option("No").click();
+
+        await page.getByRole("option", { name: "No", exact: true }).click();
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(11);
         const columnTexts = await column(3).allTextContents();
@@ -56,8 +56,8 @@ test.describe("datagrid-web filtering single select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
-        const booleanSelect = () => page.locator(".mx-name-drop_downFilter2 input");
+        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
+        const booleanSelect = () => page.locator(".mx-name-drop_downFilter2").getByRole("combobox");
 
         await booleanSelect().click();
         await option("Yes").click();
@@ -67,7 +67,7 @@ test.describe("datagrid-web filtering single select", () => {
             expect.arrayContaining(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"])
         );
         await booleanSelect().click();
-        await page.getByRole("row", { name: "Pets (bool)" }).getByRole("menuitem").first().click();
+        await page.getByRole("row", { name: "Pets (bool)" }).getByRole("option").first().click();
         const columnText = await column(3).allTextContents();
         expect(columnText).toEqual(
             expect.arrayContaining(["Yes", "Yes", "Yes", "No", "Yes", "No", "No", "Yes", "No", "Yes"])
@@ -79,8 +79,8 @@ test.describe("datagrid-web filtering single select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
-        const enumSelect = () => page.locator(".mx-name-drop_downFilter1 input");
+        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
+        const enumSelect = () => page.locator(".mx-name-drop_downFilter1").getByRole("combobox");
 
         await enumSelect().click();
         await option("Cyan").click();
@@ -95,8 +95,8 @@ test.describe("datagrid-web filtering single select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
-        const enumSelect = () => page.locator(".mx-name-drop_downFilter1 input");
+        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
+        const enumSelect = () => page.locator(".mx-name-drop_downFilter1").getByRole("combobox");
 
         await enumSelect().click();
         await option("Black").click();
@@ -111,8 +111,8 @@ test.describe("datagrid-web filtering single select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
-        const roleSelect = () => page.locator(".mx-name-drop_downFilter3 input");
+        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
+        const roleSelect = () => page.locator(".mx-name-drop_downFilter3").getByRole("combobox");
 
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(11);
@@ -129,8 +129,8 @@ test.describe("datagrid-web filtering single select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
-        const companySelect = () => page.locator(".mx-name-drop_downFilter4 input");
+        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
+        const companySelect = () => page.locator(".mx-name-drop_downFilter4").getByRole("combobox");
 
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(11);
