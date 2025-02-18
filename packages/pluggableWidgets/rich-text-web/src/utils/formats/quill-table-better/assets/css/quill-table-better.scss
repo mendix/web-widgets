@@ -1,0 +1,546 @@
+$line-color: #0589f3;
+$focused-cell-background: rgba(158, 207, 250, 0.3);
+$focused-border-color: #3779eb;
+$tooltip-color-simple: #000000d9;
+$tooltip-color-error: #db3700;
+$hover-background: #f0f0f0;
+$border-color-simple: #00000026;
+$color-white: #fff;
+$color-ccced1: #ccced1;
+$border: 1px solid $color-ccced1;
+$focused-border: 1px solid $focused-border-color;
+
+/*mixin*/
+@mixin boxShadow($color) {
+    box-shadow: 0 1px 2px 1px $color;
+}
+
+@mixin qlTableTooltip($color) {
+    font-size: 12px;
+    min-width: 32px;
+    line-height: 20px;
+    padding: 6px;
+    white-space: nowrap;
+    color: $color-white;
+    text-align: center;
+    word-wrap: break-word;
+    background: $color;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 11;
+    left: 50%;
+    bottom: -10px;
+    transform: translate(-50%, 100%);
+    &::before {
+        @extend .ql-table-triangle-common;
+        border-bottom-color: $color !important;
+        top: -20px;
+    }
+    &:hover {
+        display: block;
+    }
+    &-hidden {
+        display: none !important;
+    }
+}
+
+@mixin triangle($direction1, $direction2, $color1, $color2) {
+    &:not(.ql-table-triangle-none)::before {
+        @extend .ql-table-triangle-common;
+        #{$direction1}: -20px;
+        border-#{$direction2}-color: $color1 !important;
+    }
+    &:not(.ql-table-triangle-none)::after {
+        @extend .ql-table-triangle-common;
+        #{$direction1}: -19px;
+        border-#{$direction2}-color: $color2 !important;
+    }
+}
+
+/*extend-style*/
+.ql-cell-selected-after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $focused-cell-background;
+}
+.ql-table-border-shadow {
+    border-radius: 2px;
+    border: $border;
+    background: $color-white;
+    @include boxShadow($border-color-simple);
+}
+.ql-table-triangle-common {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    content: "";
+    border: 10px solid transparent;
+}
+.ql-table-input-focus {
+    border: $focused-border;
+    box-shadow: 0 0 0 3px #cae1fc;
+}
+.ql-table-input {
+    width: 80px;
+    height: 30px;
+    border: $border;
+    outline: none;
+    padding-left: 6px;
+    background: inherit;
+    &:focus::placeholder {
+        color: transparent;
+    }
+    &:focus {
+        @extend .ql-table-input-focus;
+    }
+    &:focus + label {
+        display: block;
+    }
+    &:not(:placeholder-shown) + label {
+        display: block;
+    }
+}
+.ql-table-temporary {
+    display: none;
+}
+.ql-table-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ql-table-selected {
+    @extend .ql-table-input-focus;
+    background-image: url("../icon/check.png");
+    background-repeat: no-repeat;
+    background-size: 16px;
+    box-sizing: border-box;
+}
+
+/*style*/
+.ql-operate-line-container {
+    position: absolute;
+    z-index: 10;
+    @extend .ql-table-center;
+    .ql-operate-line {
+        background-color: $line-color;
+    }
+}
+.ql-operate-block {
+    position: absolute;
+    z-index: 10;
+    border: 1px solid #979797;
+    cursor: nwse-resize;
+    &-move {
+        cursor: crosshair;
+        border: none;
+    }
+}
+.ql-operate-drag-table {
+    border: 1px dashed #000;
+    position: absolute;
+}
+.ql-cell-focused {
+    position: relative;
+    &::after {
+        @extend .ql-cell-selected-after;
+        border: $focused-border;
+    }
+}
+.ql-cell-selected {
+    position: relative;
+    &::after {
+        @extend .ql-cell-selected-after;
+    }
+}
+.ql-table-menus-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    width: fit-content;
+    padding: 4px;
+    box-sizing: border-box;
+    z-index: 1;
+    @extend .ql-table-border-shadow;
+}
+.ql-table-triangle-up {
+    @include triangle("bottom", "top", $border-color-simple, $color-white);
+}
+.ql-table-triangle-down {
+    @include triangle("top", "bottom", $border-color-simple, $color-white);
+}
+.label-field-view {
+    position: relative;
+    &-input-wrapper {
+        position: relative;
+        height: 100%;
+        & > label {
+            position: absolute;
+            left: 0;
+            top: -50%;
+            transform: translateY(50%) scale(0.75);
+            color: #999;
+            background: $color-white;
+            display: none;
+        }
+    }
+    &-status {
+        @extend .ql-table-tooltip-error;
+        max-width: 160px;
+        width: max-content;
+    }
+    &-error {
+        & > input {
+            &:focus {
+                box-shadow: 0 0 0 3px #ff401f4d !important;
+            }
+            border-color: $tooltip-color-error !important;
+            animation: ql-table-input-shake 0.3s ease both;
+        }
+        & > label {
+            color: $tooltip-color-error;
+        }
+    }
+}
+.ql-table-dropdown,
+.ql-table-dropdown-properties {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    position: relative;
+    padding: 0 4px;
+    &:hover {
+        background: $hover-background;
+    }
+    &-text {
+        flex: 1;
+        height: 100%;
+        margin-right: 7px;
+        display: flex;
+        align-items: center;
+    }
+    &-list {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        transform: translateY(100%);
+        margin: 0;
+        padding: 0;
+        width: 170px;
+        z-index: 10;
+        @extend .ql-table-border-shadow;
+        li {
+            list-style: none;
+            line-height: 30px;
+            padding-left: 10px;
+            &:hover {
+                background-color: $hover-background;
+            }
+        }
+    }
+    &-label {
+        width: 100%;
+        min-width: 100%;
+        line-height: 24px;
+        font-weight: bold;
+        margin-bottom: 6px;
+        display: block;
+    }
+}
+.ql-table-tooltip-hover {
+    display: flex;
+    position: relative;
+    &:hover .ql-table-tooltip {
+        display: block;
+    }
+    &:hover + .ql-table-tooltip {
+        display: block;
+    }
+}
+.ql-table-tooltip {
+    @include qlTableTooltip($tooltip-color-simple);
+    &-error {
+        @include qlTableTooltip($tooltip-color-error);
+        white-space: pre-wrap;
+        z-index: 9;
+    }
+}
+.ql-table-dropdown-properties {
+    width: 80px;
+    height: 30px;
+    border: $border;
+    box-sizing: border-box;
+    &:hover {
+        background: none;
+    }
+}
+.ql-table-properties-form {
+    width: 320px;
+    position: absolute;
+    left: 50%;
+    padding-bottom: 8px;
+    background: $color-white;
+    z-index: 1;
+    @include boxShadow($color-ccced1);
+    .properties-form-header {
+        height: 40px;
+        line-height: 40px;
+        padding: 0 12px;
+        border-bottom: $border;
+        margin: 0;
+        box-sizing: border-box;
+        color: #333;
+        font-size: 14px;
+    }
+    .properties-form-row {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 8px 12px;
+        justify-content: space-between;
+        .ql-table-check-container {
+            display: flex;
+            border: $border;
+            align-items: center;
+            & .ql-table-tooltip-hover {
+                padding: 6px 10px;
+                cursor: pointer;
+                &:hover {
+                    background: $hover-background;
+                }
+            }
+            .ql-table-btns-checked {
+                background: #f0f7ff;
+                & > svg path {
+                    stroke: #2977ff;
+                }
+            }
+        }
+    }
+    .properties-form-row-full {
+        .ql-table-color-container {
+            width: 100%;
+            .property-input {
+                width: 100%;
+            }
+        }
+    }
+    .property-input {
+        @extend .ql-table-input;
+    }
+    .properties-form-action-row {
+        display: flex;
+        justify-content: space-around;
+        padding: 0 12px;
+        & > button {
+            background: $color-white;
+            outline: none;
+            border: none;
+            height: 30px;
+            cursor: pointer;
+            @extend .ql-table-center;
+            flex: 1;
+            & > span {
+                margin: 0 2px;
+                display: flex;
+            }
+            &:hover {
+                background: $hover-background;
+            }
+            &[disabled] {
+                background-color: transparent;
+            }
+        }
+    }
+    .ql-table-color-selected {
+        @extend .ql-table-selected;
+        background-position: center;
+    }
+    .ql-table-dropdown-selected {
+        @extend .ql-table-selected;
+        background-position: calc(100% - 10px) center;
+    }
+}
+.ql-table-color-container {
+    border: $border;
+    height: 30px;
+    box-sizing: border-box;
+    display: flex;
+    .label-field-view-color {
+        flex: 1;
+        .property-input {
+            @extend .ql-table-input;
+            border: 1px solid transparent;
+            height: 100%;
+        }
+    }
+    .color-picker {
+        width: 30px;
+        border-left: $border;
+        box-sizing: border-box;
+        position: relative;
+        @extend .ql-table-center;
+        .color-button {
+            width: 20px;
+            height: 20px;
+            border: $border;
+            box-sizing: border-box;
+            cursor: pointer;
+            position: relative;
+        }
+        .color-unselected {
+            position: relative;
+            &::after {
+                content: "";
+                position: absolute;
+                width: 1px;
+                height: 26px;
+                background: red;
+                transform-origin: 50%;
+                transform: rotate(45deg);
+                left: 50%;
+                top: -4px;
+            }
+        }
+        .color-picker-select {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 156px;
+            transform: translateY(100%);
+            background: $color-white;
+            z-index: 10;
+            @include boxShadow($color-ccced1);
+            .erase-container {
+                display: flex;
+                height: 30px;
+                align-items: center;
+                padding: 0 12px;
+                &:hover {
+                    background: #f0f0f0;
+                }
+                cursor: pointer;
+                & > button {
+                    border: none;
+                    outline: none;
+                    background: inherit;
+                    height: 100%;
+                    cursor: pointer;
+                }
+            }
+            & > .erase-container {
+                @extend .ql-table-input-focus;
+                margin-bottom: 4px;
+            }
+            .color-list {
+                display: flex;
+                flex-wrap: wrap;
+                padding: 0 12px;
+                margin: 0;
+                justify-content: space-between;
+                & > li {
+                    list-style: none;
+                    width: 24px;
+                    height: 24px;
+                    margin: 2px 0;
+                    position: relative;
+                    cursor: pointer;
+                    &[data-color="#ffffff"] {
+                        border: $border;
+                        box-sizing: border-box;
+                    }
+                }
+            }
+        }
+        .color-picker-palette {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1;
+            background: $color-white;
+            .color-picker-wrap {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                .iro-container {
+                    flex: 1;
+                    @extend .ql-table-center;
+                }
+            }
+        }
+    }
+}
+.ql-table-disabled {
+    background: #f2f2f2;
+    pointer-events: none;
+}
+.ql-table-button-disabled {
+    background: #f2f2f2 !important;
+    pointer-events: none;
+    svg {
+        .ql-fill {
+            fill: #999 !important;
+        }
+        .ql-stroke {
+            stroke: #999 !important;
+        }
+    }
+}
+button.ql-table-better {
+    position: relative;
+}
+.ql-table-select-container {
+    flex-direction: column;
+    width: 190px;
+    padding: 2px;
+    position: absolute;
+    top: 24px;
+    z-index: 10;
+    box-sizing: border-box;
+    @extend .ql-table-center;
+    @extend .ql-table-border-shadow;
+    .ql-table-select-list {
+        flex-wrap: wrap;
+        @extend .ql-table-center;
+    }
+    .ql-table-select-label {
+        width: 100%;
+        line-height: 16px;
+        text-align: center;
+        color: #222f3eb3;
+        margin-top: 2px;
+    }
+    span {
+        width: 16px;
+        height: 16px;
+        border: 1px solid black;
+        box-sizing: border-box;
+        margin: 1px;
+    }
+}
+ol.table-list-container {
+    counter-reset: list-0; // reset counter
+}
+
+// animation
+@keyframes ql-table-input-shake {
+    20% {
+        transform: translateX(-2px);
+    }
+    40% {
+        transform: translateX(2px);
+    }
+    60% {
+        transform: translateX(-1px);
+    }
+    80% {
+        transform: translateX(1px);
+    }
+}
