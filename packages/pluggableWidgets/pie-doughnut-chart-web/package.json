@@ -37,7 +37,8 @@
         "update-changelog": "rui-update-changelog-widget",
         "e2e": "run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
-        "create-translation": "rui-create-translation"
+        "create-translation": "rui-create-translation",
+        "e2e-update-project": "pnpm --filter data-widgets run build:include-deps"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
