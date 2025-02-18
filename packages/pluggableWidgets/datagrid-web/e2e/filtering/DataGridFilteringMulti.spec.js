@@ -11,8 +11,8 @@ test.describe("datagrid-web filtering multi select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
-        const enumSelect = () => page.locator(".mx-name-drop_downFilter1 input");
+        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
+        const enumSelect = () => page.locator(".mx-name-drop_downFilter1 [role=combobox]");
         const rowCount = await rows();
         await page.goto("/p/filtering-multi");
         await page.waitForLoadState("networkidle");
@@ -24,7 +24,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(await rows()).toHaveCount(6);
         await option("Blush").click();
         await expect(await rows()).toHaveCount(8);
-        await page.getByRole("columnheader", { name: "sort Color (enum) Blush,Pink" }).getByRole("textbox").click();
+        await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click();
         const columnText = await column(2).allTextContents();
         await expect(columnText).toEqual(
             expect.arrayContaining(["Pink", "Pink", "Pink", "Blush", "Blush", "Pink", "Pink"])
@@ -36,8 +36,8 @@ test.describe("datagrid-web filtering multi select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
-        const roleSelect = () => page.locator(".mx-name-drop_downFilter3 input");
+        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
+        const roleSelect = () => page.locator(".mx-name-drop_downFilter3 [role=combobox]");
         const expectedColumnText = [
             "EconomistArmed forces officerTraderHealth service manager",
             "EconomistArmed forces officerTrader",
@@ -57,7 +57,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(await rows()).toHaveCount(6);
         await option("Public librarian").click();
         await expect(await rows()).toHaveCount(10);
-        await page.getByRole("columnheader", { name: "Roles (ref set) Economist," }).getByRole("textbox").click();
+        await page.getByRole("columnheader", { name: "Roles (ref set)" }).getByRole("combobox").click();
         const columnTexts = await column(3).allTextContents();
         expectedColumnText.forEach((text, index) => {
             expect(columnTexts[index]).toBe(text);
@@ -69,8 +69,8 @@ test.describe("datagrid-web filtering multi select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const option = label => page.locator(`[role="menuitem"]:has-text("${label}")`);
-        const companySelect = () => page.locator(".mx-name-drop_downFilter4 input");
+        const option = label => page.locator(`[role="option"]:has-text("${label}")`);
+        const companySelect = () => page.locator(".mx-name-drop_downFilter4 [role=combobox]");
 
         const rowCount = await rows();
         await page.goto("/p/filtering-multi");
@@ -83,7 +83,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(await rows()).toHaveCount(2);
         await option("ALLETE, Inc.").click();
         await expect(await rows()).toHaveCount(6);
-        await page.getByRole("columnheader", { name: "sort Company FMC Corp,ALLETE" }).getByRole("textbox").click();
+        await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click();
         const columnText = await column(4).allTextContents();
         expect(columnText).toEqual(
             expect.arrayContaining(["ALLETE, Inc.", "FMC Corp", "ALLETE, Inc.", "ALLETE, Inc.", "ALLETE, Inc."])

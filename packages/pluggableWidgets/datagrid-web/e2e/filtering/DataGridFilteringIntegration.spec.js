@@ -30,21 +30,21 @@ test("datagrid-web filtering integration", async ({ page }) => {
     //await select("Birth year").fill("1995");
     await expect(await rows()).toHaveCount(9);
 
-    await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("textbox").click();
+    await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click();
     //await select("Color (enum)").click();
-    await page.locator(`[role="menuitem"]:has-text("Black")`).click();
+    await page.locator(`[role="option"]:has-text("Black")`).click();
     //await option("Black").click();
     await expect(await rows()).toHaveCount(4);
 
-    await page.getByRole("columnheader", { name: "Roles (ref set)" }).getByRole("textbox").click();
+    await page.getByRole("columnheader", { name: "Roles (ref set)" }).getByRole("combobox").click();
     //await select("Roles (ref set)").click();
-    await page.locator(`[role="menuitem"]:has-text("Careers adviser")`).click();
+    await page.locator(`[role="option"]:has-text("Careers adviser")`).click();
     //await option("Careers adviser").click();
     await expect(await rows()).toHaveCount(3);
 
-    await page.getByRole("columnheader", { name: "Company" }).getByRole("textbox").click();
+    await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click();
     //await select("Company").click();
-    await page.locator(`[role="menuitem"]:has-text("Sierra Health Services Inc")`).click();
+    await page.locator(`[role="option"]:has-text("Sierra Health Services Inc")`).click();
     //await option("Sierra Health Services Inc").click();
     await expect(await rows()).toHaveCount(2);
 
