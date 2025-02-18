@@ -9,13 +9,13 @@ interface ObservableAtom {
     get(): QueryHelper;
 }
 
-type Spec = { delay: number; query: ObservableAtom };
+type RefreshControllerSpec = { delay: number; query: ObservableAtom };
 
 export class RefreshController implements ReactiveController {
     private query: ObservableAtom;
     private readonly delay: number;
 
-    constructor(host: ReactiveControllerHost, spec: Spec) {
+    constructor(host: ReactiveControllerHost, spec: RefreshControllerSpec) {
         host.addController(this);
         this.query = spec.query;
         this.delay = Math.max(spec.delay, 0);
