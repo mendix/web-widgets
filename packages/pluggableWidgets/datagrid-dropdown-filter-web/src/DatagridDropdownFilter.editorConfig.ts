@@ -17,12 +17,18 @@ export function getProperties(
     if (values.auto) {
         hidePropertyIn(defaultProperties, values, "filterOptions");
     }
-    if (platform === "web") {
-        if (!values.advanced) {
-            hidePropertiesIn(defaultProperties, values, ["onChange", "valueAttribute"]);
-        }
-    } else {
-        hidePropertyIn(defaultProperties, values, "advanced");
+
+    if (values.filterable) {
+        hidePropertyIn(defaultProperties, values, "clearable");
+        hidePropertyIn(defaultProperties, values, "emptyOptionCaption");
+    }
+
+    if (!showSelectedItemsStyle) {
+        hidePropertyIn(defaultProperties, values, "selectedItemsStyle");
+    }
+
+    if (!showSelectionMethod) {
+        hidePropertyIn(defaultProperties, values, "selectionMethod");
     }
 
     return defaultProperties;
