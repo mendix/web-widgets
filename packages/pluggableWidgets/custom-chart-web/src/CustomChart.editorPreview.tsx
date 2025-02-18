@@ -59,7 +59,7 @@ export function preview(props: CustomChartPreviewProps): ReactElement {
     };
 
     return (
-        <div style={{ display: "inline-flex", flexFlow: "column nowrap" }}>
+        <div style={{ display: "flex", flexFlow: "column nowrap" }}>
             <div
                 style={
                     props.showPlaygroundSlot
