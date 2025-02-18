@@ -28,9 +28,9 @@ export interface DatagridDropdownFilterContainerProps {
     auto: boolean;
     defaultValue?: DynamicValue<string>;
     filterOptions: FilterOptionsType[];
-    emptyOptionCaption?: DynamicValue<string>;
-    multiSelect: boolean;
     filterable: boolean;
+    multiSelect: boolean;
+    emptyOptionCaption?: DynamicValue<string>;
     clearable: boolean;
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectionMethod: SelectionMethodEnum;
@@ -52,9 +52,9 @@ export interface DatagridDropdownFilterPreviewProps {
     auto: boolean;
     defaultValue: string;
     filterOptions: FilterOptionsPreviewType[];
-    emptyOptionCaption: string;
-    multiSelect: boolean;
     filterable: boolean;
+    multiSelect: boolean;
+    emptyOptionCaption: string;
     clearable: boolean;
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectionMethod: SelectionMethodEnum;

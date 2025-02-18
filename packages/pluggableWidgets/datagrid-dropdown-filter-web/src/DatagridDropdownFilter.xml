@@ -34,16 +34,16 @@
                         </property>
                     </properties>
                 </property>
-                <property key="emptyOptionCaption" type="textTemplate" required="false">
-                    <caption>Empty option caption</caption>
+                <property key="filterable" type="boolean" defaultValue="false">
+                    <caption>Filterable</caption>
                     <description />
                 </property>
                 <property key="multiSelect" type="boolean" defaultValue="false">
                     <caption>Multiselect</caption>
                     <description />
                 </property>
-                <property key="filterable" type="boolean" defaultValue="false">
-                    <caption>Filterable</caption>
+                <property key="emptyOptionCaption" type="textTemplate" required="false">
+                    <caption>Empty option caption</caption>
                     <description />
                 </property>
                 <property key="clearable" type="boolean" defaultValue="true">
