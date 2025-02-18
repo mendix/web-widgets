@@ -11,6 +11,8 @@ import {
     useLayoutEffect,
     useRef
 } from "react";
+import QuillTableBetter from "../utils/formats/quill-table-better/quill-table-better";
+import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
 import "../utils/customPluginRegisters";
 import MxQuill from "../utils/MxQuill";
 import {
@@ -90,6 +92,12 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 const options: QuillOptions = {
                     theme,
                     modules: {
+                        table: false,
+                        "table-better": {
+                            language: "en_US",
+                            menus: ["column", "row", "merge", "table", "cell", "wrap", "copy", "delete"],
+                            toolbarTable: true
+                        },
                         keyboard: {
                             bindings: {
                                 enter: {
@@ -108,7 +116,8 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                 escape: {
                                     key: "Escape",
                                     handler: exitFullscreenKeyboardHandler
-                                }
+                                },
+                                ...QuillTableBetter.keyboardBindings
                             }
                         },
                         toolbar: toolbarId
