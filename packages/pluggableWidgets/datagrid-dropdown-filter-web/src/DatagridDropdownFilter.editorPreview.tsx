@@ -12,15 +12,25 @@ function Preview(props: DatagridDropdownFilterPreviewProps): ReactElement {
             className={props.class}
             styles={parseStyle(props.style)}
             options={[]}
-            empty={{ caption: props.emptyOptionCaption, value: "", selected: false }}
-            inputValue={props.defaultValue}
-            multiSelect={false}
-            onSelect={() => {
-                //
-            }}
-            id={(useRef<string>().current ??= `${Math.random()}`)}
+            empty={!props.clearable}
+            clearable={props.clearable}
+            value={getPreviewValue(props)}
+            onClear={noop}
+            useSelectProps={() => ({ items: [] })}
         />
     );
+}
+
+const noop = (): void => {};
+
+function getPreviewValue(props: DatagridDropdownFilterPreviewProps): string {
+    let value = props.defaultValue;
+    if (!props.filterable) {
+        value ||= props.emptyOptionCaption || "Select";
+    } else {
+        value ||= "Search";
+    }
+    return value;
 }
 
 export function preview(props: DatagridDropdownFilterPreviewProps): ReactElement {
