@@ -16,7 +16,7 @@ interface Header {
     conditions: Array<FilterCondition | undefined>;
 }
 
-type Spec = {
+type StateSyncControllerSpec = {
     query: QueryController;
     columns: Columns;
     header: Header;
@@ -27,7 +27,7 @@ export class StateSyncController implements ReactiveController {
     private header: Header;
     private query: QueryController;
 
-    constructor(host: ReactiveControllerHost, spec: Spec) {
+    constructor(host: ReactiveControllerHost, spec: StateSyncControllerSpec) {
         host.addController(this);
         this.columns = spec.columns;
         this.header = spec.header;

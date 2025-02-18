@@ -1,13 +1,13 @@
 import { computed, makeObservable } from "mobx";
 
-type Spec = {
+type DerivedLoaderControllerSpec = {
     exp: { exporting: boolean };
     cols: { loaded: boolean };
     query: { isFetchingNextBatch: boolean; isLoading: boolean; isRefreshing: boolean };
 };
 
 export class DerivedLoaderController {
-    constructor(private spec: Spec) {
+    constructor(private spec: DerivedLoaderControllerSpec) {
         makeObservable(this, {
             isLoading: computed,
             isFetchingNextBatch: computed,

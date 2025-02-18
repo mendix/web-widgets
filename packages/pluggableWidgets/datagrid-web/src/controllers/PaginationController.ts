@@ -10,7 +10,7 @@ type Gate = DerivedPropsGate<{
     showNumberOfRows: boolean;
 }>;
 
-type Spec = {
+type PaginationControllerSpec = {
     gate: Gate;
     query: QueryController;
 };
@@ -25,7 +25,7 @@ export class PaginationController implements ReactiveController {
     readonly showPagingButtons: ShowPagingButtonsEnum;
     readonly showNumberOfRows: boolean;
 
-    constructor(host: ReactiveControllerHost, { gate, query }: Spec) {
+    constructor(host: ReactiveControllerHost, { gate, query }: PaginationControllerSpec) {
         host.addController(this);
         this.gate = gate;
         this.query = query;
