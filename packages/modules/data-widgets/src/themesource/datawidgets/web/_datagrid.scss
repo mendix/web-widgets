@@ -460,6 +460,8 @@ $root: ".widget-datagrid";
 
     &-skeleton {
         padding: 2px var(--dropdown-outer-padding, 0);
+        overflow: hidden;
+        flex: 1;
 
         &-loader {
             animation: skeleton-loading 1s linear infinite alternate;
@@ -467,7 +469,8 @@ $root: ".widget-datagrid";
             background-size: 300% 100%;
             border-radius: 4px;
             height: 16px;
-            width: 148px;
+            width: 100%;
+            max-width: 148px;
 
             &-small {
                 margin-right: 8px;
