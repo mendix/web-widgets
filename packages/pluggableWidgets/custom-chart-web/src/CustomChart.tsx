@@ -1,30 +1,17 @@
 import { getPlaygroundContext } from "@mendix/shared-charts/main";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { createElement, Fragment, ReactElement, useEffect } from "react";
+import { createElement, Fragment, ReactElement } from "react";
 import { CustomChartContainerProps } from "../typings/CustomChartProps";
 import { Host } from "./controllers/Host";
 import { useCustomChart } from "./hooks/useCustomChart";
 import "./ui/CustomChart.scss";
-import { usePlaygroundData } from "./hooks/usePlaygroundData";
 
 const PlaygroundContext = getPlaygroundContext();
 
 export default function CustomChart(props: CustomChartContainerProps): ReactElement {
     const host = useSetup(() => new Host());
-    const { chartRef, containerStyle, data, layout, config } = useCustomChart(props);
-
-    useEffect(() => {
-        if (props.eventDataAttribute?.value && props.onClick) {
-            executeAction(props.onClick);
-            // reset to allow re-click on same spot
-            props.eventDataAttribute.setValue("");
-        }
-    }, [props.eventDataAttribute?.value]);
-
+    const { chartRef, containerStyle, playgroundData } = useCustomChart(props);
     const ref = mergeRefs<HTMLDivElement>(chartRef, host.resizeCtrl.setTarget);
-    const playgroundData = usePlaygroundData({ data, layout, config });
-    console.info(data, props.dataAttribute, props.dataStatic, props.sampleData);
 
     return (
         <Fragment>

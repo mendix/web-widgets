@@ -1,10 +1,12 @@
 import { EditorStoreInitializer, fallback, PlaygroundData, pprint, useEditorStore } from "@mendix/shared-charts/main";
 import { Config, Data, Layout } from "plotly.js-dist-min";
+import { useMemo } from "react";
 
 type UsePlaygroundDataProps = {
-    data: Partial<Data>[];
+    data: Array<Partial<Data>>;
     layout: Partial<Layout>;
     config: Partial<Config>;
+    playgroundOn: boolean;
 };
 
 export function usePlaygroundData(props: UsePlaygroundDataProps): PlaygroundData {
@@ -13,17 +15,18 @@ export function usePlaygroundData(props: UsePlaygroundDataProps): PlaygroundData
         initState: initStateFromProps(props.data)
     });
 
-    const playgroundData: PlaygroundData = {
-        store,
-        layoutOptions: props.layout,
-        configOptions: props.config,
-        plotData: props.data
-    };
-
-    return playgroundData;
+    return useMemo<PlaygroundData>(
+        () => ({
+            store,
+            layoutOptions: props.layout,
+            configOptions: props.config,
+            plotData: props.data
+        }),
+        [props.layout, props.config, props.data, store]
+    );
 }
 
-function initStateFromProps(data: Partial<Data>[]): EditorStoreInitializer {
+function initStateFromProps(data: Array<Partial<Data>>): EditorStoreInitializer {
     return () => ({
         layout: pprint(fallback("")),
         config: pprint(fallback("")),
