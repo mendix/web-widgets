@@ -15,7 +15,6 @@ export const PopupTrigger = forwardRef(
                 data-state={open ? "open" : "closed"}
                 {...getReferenceProps?.({
                     onClick: e => {
-                        e.preventDefault();
                         e.stopPropagation();
                     }
                 })}
