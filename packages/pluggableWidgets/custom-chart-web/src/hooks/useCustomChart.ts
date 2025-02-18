@@ -1,5 +1,6 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
+import { Config, Data, Layout } from "plotly.js-dist-min";
 import { CSSProperties, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { CustomChartContainerProps } from "../../typings/CustomChartProps";
 import { ChartProps, PlotlyChart } from "../components/PlotlyChart";
@@ -8,12 +9,18 @@ import { parseConfig, parseData, parseLayout } from "../utils/utils";
 interface UseCustomChartReturn {
     chartRef: RefObject<HTMLDivElement>;
     containerStyle: CSSProperties;
+    data: Array<Partial<Data>>;
+    layout: Partial<Layout>;
+    config: Partial<Config>;
 }
 
 export function useCustomChart(props: CustomChartContainerProps): UseCustomChartReturn {
     const chartRef = useRef<HTMLDivElement>(null);
     const [chart, setChart] = useState<PlotlyChart | null>(null);
     const [containerDimensions, setContainerDimensions] = useState<{ width?: number; height?: number }>({});
+    const [chartData, setChartData] = useState<Array<Partial<Data>>>();
+    const [chartLayout, setChartLayout] = useState<Partial<Layout>>();
+    const [chartConfig, setChartConfig] = useState<Partial<Config>>();
 
     const [setContainerDimensionsDebounced, abortDimensionsDebounce] = useMemo(
         () =>
@@ -61,8 +68,11 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
         }
 
         const data = parseData(props.dataStatic, props.dataAttribute?.value, props.sampleData);
-
         const layout = parseLayout(props.layoutStatic, props.layoutAttribute?.value, props.sampleLayout);
+        const config = parseConfig(props.configurationOptions);
+        setChartData(data);
+        setChartLayout(layout);
+        setChartConfig(config);
 
         const dimensions = {
             width: containerDimensions.width ?? 0,
@@ -122,8 +132,7 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
                 }
             },
             config: {
-                ...parseConfig(props.configurationOptions),
-                displayModeBar: props.devMode === "developer",
+                ...config,
                 responsive: true
             },
             width: dimensions.width,
@@ -147,7 +156,6 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
         props.width,
         props.heightUnit,
         props.height,
-        props.devMode,
         containerDimensions,
         chart,
         updateChartDebounced,
@@ -159,6 +167,9 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
         containerStyle: {
             width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`,
             height: props.heightUnit === "percentageOfParent" ? `${props.height}%` : undefined
-        }
+        },
+        data: chartData ?? [],
+        layout: chartLayout ?? {},
+        config: chartConfig ?? {}
     };
 }

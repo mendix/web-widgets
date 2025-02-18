@@ -1,15 +1,18 @@
+import { getPlaygroundContext } from "@mendix/shared-charts/main";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { createElement, ReactElement, useEffect } from "react";
+import { createElement, Fragment, ReactElement, useEffect } from "react";
 import { CustomChartContainerProps } from "../typings/CustomChartProps";
 import { Host } from "./controllers/Host";
 import { useCustomChart } from "./hooks/useCustomChart";
 import "./ui/CustomChart.scss";
+import { usePlaygroundData } from "./hooks/usePlaygroundData";
+
+const PlaygroundContext = getPlaygroundContext();
 
 export default function CustomChart(props: CustomChartContainerProps): ReactElement {
     const host = useSetup(() => new Host());
-    const { chartRef, containerStyle } = useCustomChart(props);
-    // const { handleClick } = useActionEvents(props);
+    const { chartRef, containerStyle, data, layout, config } = useCustomChart(props);
 
     useEffect(() => {
         if (props.eventDataAttribute?.value && props.onClick) {
@@ -19,11 +22,19 @@ export default function CustomChart(props: CustomChartContainerProps): ReactElem
         }
     }, [props.eventDataAttribute?.value]);
 
-    const x = mergeRefs<HTMLDivElement>(chartRef, host.resizeCtrl.setTarget);
-    return <div ref={x} className="widget-custom-chart" style={containerStyle} tabIndex={props.tabIndex} />;
+    const ref = mergeRefs<HTMLDivElement>(chartRef, host.resizeCtrl.setTarget);
+    const playgroundData = usePlaygroundData({ data, layout, config });
+    console.info(data, props.dataAttribute, props.dataStatic, props.sampleData);
+
+    return (
+        <Fragment>
+            <div ref={ref} className="widget-custom-chart" style={containerStyle} tabIndex={props.tabIndex} />
+            <PlaygroundContext.Provider value={playgroundData}>{props.playground}</PlaygroundContext.Provider>
+        </Fragment>
+    );
 }
 
-export function mergeRefs<T>(...refs: Array<React.Ref<T>>): React.Ref<T> | React.RefCallback<T> | undefined {
+function mergeRefs<T>(...refs: Array<React.Ref<T>>): React.Ref<T> | React.RefCallback<T> | undefined {
     if (refs.length === 0) {
         return undefined;
     } else if (refs.length === 1) {
