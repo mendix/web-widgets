@@ -19,6 +19,7 @@ export function getProperties(values: DatagridDropdownFilterPreviewProps, defaul
 
     if (values.filterable) {
         hidePropertyIn(defaultProperties, values, "clearable");
+        hidePropertyIn(defaultProperties, values, "emptyOptionCaption");
     }
 
     if (!showSelectedItemsStyle) {
