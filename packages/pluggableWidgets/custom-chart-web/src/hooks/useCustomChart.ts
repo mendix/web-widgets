@@ -1,26 +1,29 @@
+import { EditorStoreState, PlaygroundData } from "@mendix/shared-charts/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
-import { Config, Data, Layout } from "plotly.js-dist-min";
 import { CSSProperties, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { CustomChartContainerProps } from "../../typings/CustomChartProps";
 import { ChartProps, PlotlyChart } from "../components/PlotlyChart";
 import { parseConfig, parseData, parseLayout } from "../utils/utils";
+import { usePlaygroundData } from "./usePlaygroundData";
 
 interface UseCustomChartReturn {
     chartRef: RefObject<HTMLDivElement>;
     containerStyle: CSSProperties;
-    data: Array<Partial<Data>>;
-    layout: Partial<Layout>;
-    config: Partial<Config>;
+    playgroundData: PlaygroundData;
 }
 
 export function useCustomChart(props: CustomChartContainerProps): UseCustomChartReturn {
+    const data = parseData(props.dataStatic, props.dataAttribute?.value, props.sampleData);
+    const layout = parseLayout(props.layoutStatic, props.layoutAttribute?.value, props.sampleLayout);
+    const config = parseConfig(props.configurationOptions);
+
     const chartRef = useRef<HTMLDivElement>(null);
     const [chart, setChart] = useState<PlotlyChart | null>(null);
     const [containerDimensions, setContainerDimensions] = useState<{ width?: number; height?: number }>({});
-    const [chartData, setChartData] = useState<Array<Partial<Data>>>();
-    const [chartLayout, setChartLayout] = useState<Partial<Layout>>();
-    const [chartConfig, setChartConfig] = useState<Partial<Config>>();
+
+    const playgroundOn = !!props.playground;
+    const playgroundData = usePlaygroundData({ data, layout, config, playgroundOn });
 
     const [setContainerDimensionsDebounced, abortDimensionsDebounce] = useMemo(
         () =>
@@ -42,6 +45,14 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
             }, 100),
         []
     );
+
+    useEffect(() => {
+        if (props.eventDataAttribute?.value && props.onClick) {
+            executeAction(props.onClick);
+            // reset to allow re-click on same spot
+            props.eventDataAttribute.setValue("");
+        }
+    }, [props.eventDataAttribute?.value]);
 
     useEffect(() => {
         const resizeObserver = new ResizeObserver(entries => {
@@ -66,13 +77,6 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
         if (!chartRef.current || !containerDimensions.width) {
             return;
         }
-
-        const data = parseData(props.dataStatic, props.dataAttribute?.value, props.sampleData);
-        const layout = parseLayout(props.layoutStatic, props.layoutAttribute?.value, props.sampleLayout);
-        const config = parseConfig(props.configurationOptions);
-        setChartData(data);
-        setChartLayout(layout);
-        setChartConfig(config);
 
         const dimensions = {
             width: containerDimensions.width ?? 0,
@@ -139,7 +143,10 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
             height: dimensions.height
         };
 
-        updateChartDebounced(chart, updateData);
+        const playgroundProps =
+            playgroundOn === false ? updateData : mergeConfigs(updateData, playgroundData.store.state);
+
+        updateChartDebounced(chart, playgroundProps);
 
         return () => {
             abortChartUpdate();
@@ -168,8 +175,21 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
             width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`,
             height: props.heightUnit === "percentageOfParent" ? `${props.height}%` : undefined
         },
-        data: chartData ?? [],
-        layout: chartLayout ?? {},
-        config: chartConfig ?? {}
+        playgroundData
+    };
+}
+
+function mergeConfigs(props: ChartProps, state: EditorStoreState): ChartProps {
+    return {
+        ...props,
+        config: {
+            ...props.config,
+            ...parseConfig(state.config)
+        },
+        layout: {
+            ...props.layout,
+            ...parseLayout(state.layout)
+        },
+        data: props.data.map((trace, index) => ({ ...trace, customSeriesOptions: state.data[index] }))
     };
 }
