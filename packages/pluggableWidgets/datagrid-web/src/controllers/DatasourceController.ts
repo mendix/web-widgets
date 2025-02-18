@@ -5,7 +5,7 @@ import { action, autorun, makeAutoObservable } from "mobx";
 import { QueryController } from "./query-controller";
 
 type Gate = DerivedPropsGate<{ datasource: ListValue }>;
-type Spec = { gate: Gate };
+type DatasourceControllerSpec = { gate: Gate };
 
 export class DatasourceController implements ReactiveController, QueryController {
     private gate: Gate;
@@ -13,7 +13,7 @@ export class DatasourceController implements ReactiveController, QueryController
     private fetching = false;
     private pageSize = Infinity;
 
-    constructor(host: ReactiveControllerHost, spec: Spec) {
+    constructor(host: ReactiveControllerHost, spec: DatasourceControllerSpec) {
         host.addController(this);
         this.gate = spec.gate;
 
