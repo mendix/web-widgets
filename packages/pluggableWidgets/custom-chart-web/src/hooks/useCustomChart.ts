@@ -1,195 +1,74 @@
-import { EditorStoreState, PlaygroundData } from "@mendix/shared-charts/main";
+import { PlaygroundData } from "@mendix/shared-charts/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
-import { CSSProperties, useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { CSSProperties, Ref, RefCallback, useEffect, useRef } from "react";
 import { CustomChartContainerProps } from "../../typings/CustomChartProps";
-import { ChartProps, PlotlyChart } from "../components/PlotlyChart";
-import { parseConfig, parseData, parseLayout } from "../utils/utils";
+import { mergePlaygroundState } from "../utils/mergePlaygroundState";
 import { usePlaygroundData } from "./usePlaygroundData";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
+import { CustomChartControllerHost } from "src/controllers/CustomChartControllerHost";
+import { mergeRefs } from "src/utils/mergeRefs";
 
 interface UseCustomChartReturn {
-    chartRef: RefObject<HTMLDivElement>;
     containerStyle: CSSProperties;
     playgroundData: PlaygroundData;
+    ref: Ref<HTMLDivElement> | RefCallback<HTMLDivElement> | undefined;
 }
 
 export function useCustomChart(props: CustomChartContainerProps): UseCustomChartReturn {
-    const data = parseData(props.dataStatic, props.dataAttribute?.value, props.sampleData);
-    const layout = parseLayout(props.layoutStatic, props.layoutAttribute?.value, props.sampleLayout);
-    const config = parseConfig(props.configurationOptions);
+    const playgroundOn = !!props.playground;
 
     const chartRef = useRef<HTMLDivElement>(null);
-    const [chart, setChart] = useState<PlotlyChart | null>(null);
-    const [containerDimensions, setContainerDimensions] = useState<{ width?: number; height?: number }>({});
-
-    const playgroundOn = !!props.playground;
-    const playgroundData = usePlaygroundData({ data, layout, config, playgroundOn });
-
-    const [setContainerDimensionsDebounced, abortDimensionsDebounce] = useMemo(
-        () =>
-            debounce((width: number, height: number) => {
-                setContainerDimensions({ width, height });
-            }, 100),
-        []
-    );
-
-    const [updateChartDebounced, abortChartUpdate] = useMemo(
-        () =>
-            debounce((chartInstance: PlotlyChart | null, updateData: ChartProps) => {
-                if (!chartInstance) {
-                    const newChart = new PlotlyChart(chartRef.current!, updateData);
-                    setChart(newChart);
-                } else {
-                    chartInstance.update(updateData);
-                }
-            }, 100),
-        []
-    );
+    const host = useSetup(() => new CustomChartControllerHost(props));
+    const chartController = host.chartCtrl;
+    const resizeController = host.resizeCtrl;
+    const playgroundData = usePlaygroundData({
+        data: chartController.getData(),
+        layout: chartController.getLayout(),
+        config: chartController.getConfig(),
+        playgroundOn
+    });
 
     useEffect(() => {
         if (props.eventDataAttribute?.value && props.onClick) {
             executeAction(props.onClick);
-            // reset to allow re-click on same spot
             props.eventDataAttribute.setValue("");
         }
     }, [props.eventDataAttribute?.value]);
 
     useEffect(() => {
-        const resizeObserver = new ResizeObserver(entries => {
-            const { width, height } = entries[0].contentRect;
-            setContainerDimensionsDebounced(width, height);
-        });
-
-        if (chartRef.current) {
-            resizeObserver.observe(chartRef.current);
-        }
-
-        return () => {
-            resizeObserver.disconnect();
-            abortDimensionsDebounce();
-            if (chart) {
-                chart.destroy();
-            }
-        };
-    }, [chart, setContainerDimensionsDebounced, abortDimensionsDebounce]);
-
-    useEffect(() => {
-        if (!chartRef.current || !containerDimensions.width) {
+        if (!chartRef.current || !resizeController.width) {
             return;
         }
 
-        const dimensions = {
-            width: containerDimensions.width ?? 0,
-            height: containerDimensions.height ?? 0
+        const onClick = (data: any): void => {
+            if (props.eventDataAttribute) {
+                props.eventDataAttribute?.setValue(JSON.stringify(data.points[0].bbox));
+            } else {
+                executeAction(props.onClick);
+            }
         };
-
-        const updateData: ChartProps = {
-            data,
-            onClick: (data: any) => {
-                if (props.eventDataAttribute) {
-                    // TODO: value has to be set to correct value (possibly data.points)
-                    props.eventDataAttribute?.setValue(JSON.stringify(data.points[0].bbox));
-                } else {
-                    // if event attribute not set, directly trigger actions.
-                    executeAction(props.onClick);
-                }
-            },
-            layout: {
-                ...layout,
-                width: dimensions.width,
-                height: dimensions.height,
-                autosize: true,
-                font: {
-                    family: "Open Sans, sans-serif",
-                    size: Math.max(12 * (dimensions.width / 1000), 8)
-                },
-                legend: {
-                    ...layout.legend,
-                    font: {
-                        ...layout.legend?.font,
-                        size: Math.max(10 * (dimensions.width / 1000), 7)
-                    },
-                    itemwidth: Math.max(10 * (dimensions.width / 1000), 3),
-                    itemsizing: "constant"
-                },
-                xaxis: {
-                    ...layout.xaxis,
-                    tickfont: {
-                        ...layout.xaxis?.tickfont,
-                        size: Math.max(10 * (dimensions.width / 1000), 7)
-                    }
-                },
-                yaxis: {
-                    ...layout.yaxis,
-                    tickfont: {
-                        ...layout.yaxis?.tickfont,
-                        size: Math.max(10 * (dimensions.width / 1000), 7)
-                    }
-                },
-                margin: {
-                    ...layout.margin,
-                    l: Math.max(50 * (dimensions.width / 1000), 30),
-                    r: Math.max(50 * (dimensions.width / 1000), 30),
-                    t: Math.max(50 * (dimensions.width / 1000), 30),
-                    b: Math.max(50 * (dimensions.width / 1000), 30),
-                    pad: Math.max(4 * (dimensions.width / 1000), 2)
-                }
-            },
-            config: {
-                ...config,
-                responsive: true
-            },
-            width: dimensions.width,
-            height: dimensions.height
-        };
+        const chartData = chartController.getChartData(onClick, resizeController);
 
         const playgroundProps =
-            playgroundOn === false ? updateData : mergeConfigs(updateData, playgroundData.store.state);
+            playgroundOn === false ? chartData : mergePlaygroundState(chartData, playgroundData.store.state);
 
-        updateChartDebounced(chart, playgroundProps);
-
-        return () => {
-            abortChartUpdate();
-        };
+        chartController.setChart(chartRef.current, playgroundProps);
     }, [
-        props.dataStatic,
-        props.dataAttribute?.value,
-        props.sampleData,
-        props.layoutStatic,
-        props.layoutAttribute?.value,
-        props.sampleLayout,
-        props.configurationOptions,
-        props.widthUnit,
-        props.width,
-        props.heightUnit,
-        props.height,
-        containerDimensions,
-        chart,
-        updateChartDebounced,
-        abortChartUpdate
+        chartController,
+        playgroundData.store.state,
+        playgroundOn,
+        props.eventDataAttribute,
+        props.onClick,
+        resizeController,
+        resizeController.width
     ]);
 
     return {
-        chartRef,
         containerStyle: {
             width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`,
             height: props.heightUnit === "percentageOfParent" ? `${props.height}%` : undefined
         },
-        playgroundData
-    };
-}
-
-function mergeConfigs(props: ChartProps, state: EditorStoreState): ChartProps {
-    return {
-        ...props,
-        config: {
-            ...props.config,
-            ...parseConfig(state.config)
-        },
-        layout: {
-            ...props.layout,
-            ...parseLayout(state.layout)
-        },
-        data: props.data.map((trace, index) => ({ ...trace, customSeriesOptions: state.data[index] }))
+        playgroundData,
+        ref: mergeRefs<HTMLDivElement>(chartRef, host.resizeCtrl.setTarget)
     };
 }
