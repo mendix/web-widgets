@@ -41,7 +41,8 @@
         "verify": "rui-verify-package-format",
         "update-changelog": "rui-update-changelog-widget",
         "e2e": "run-e2e ci",
-        "e2edev": "run-e2e dev --with-preps"
+        "e2edev": "run-e2e dev --with-preps",
+        "e2e-update-project": "pnpm --filter data-widgets run build:include-deps"
     },
     "devDependencies": {
         "@mendix/widget-plugin-test-utils": "workspace:*",
