@@ -37,7 +37,7 @@
         "update-changelog": "rui-update-changelog-widget",
         "e2e": "run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
-        "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force",
+        "e2e-update-project": "pnpm --filter data-widgets run build:include-deps",
         "create-translation": "rui-create-translation"
     },
     "dependencies": {
