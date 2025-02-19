@@ -38,7 +38,6 @@ export class ChartController implements ReactiveController {
             | "dataStatic"
             | "layoutAttribute"
             | "layoutStatic"
-            | "ref"
             | "sampleData"
             | "sampleLayout"
         >(this, {
@@ -47,7 +46,6 @@ export class ChartController implements ReactiveController {
             dataStatic: observable,
             layoutAttribute: observable,
             layoutStatic: observable,
-            ref: observable,
             sampleData: observable,
             sampleLayout: observable
         });
@@ -125,23 +123,19 @@ export class ChartController implements ReactiveController {
         return parseLayout(this.layoutStatic, this.layoutAttribute, this.sampleLayout);
     }
 
-    setChart(target: HTMLDivElement | null, props: ChartProps): void {
-        if (target === null) {
-            this.cleanup?.();
-        } else {
-            const [setChartDebounced, abort] = debounce(() => {
-                if (!this.chart) {
-                    this.chart = new PlotlyChart(target, props);
-                } else {
-                    this.chart.update(props);
-                }
-            }, 100);
+    setChart(target: HTMLDivElement, props: ChartProps): void {
+        const [setChartDebounced, abort] = debounce(() => {
+            if (!this.chart) {
+                this.chart = new PlotlyChart(target, props);
+            } else {
+                this.chart.update(props);
+            }
+        }, 100);
 
-            setChartDebounced();
+        setChartDebounced();
 
-            this.cleanup = () => {
-                abort();
-            };
-        }
+        this.cleanup = () => {
+            abort();
+        };
     }
 }
