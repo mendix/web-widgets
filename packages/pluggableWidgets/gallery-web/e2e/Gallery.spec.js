@@ -55,10 +55,10 @@ test.describe("gallery-web", () => {
 
         test("filters by enum (dropdown)", async ({ page }) => {
             const gallery = ".mx-name-gallery1";
-            const dropdown = ".mx-name-gallery1 .mx-name-drop_downFilter1 input";
+            const dropdown = ".mx-name-gallery1 .mx-name-drop_downFilter1";
 
             await page.locator(dropdown).first().click();
-            await page.locator(".dropdown-content li").nth(4).click();
+            await page.locator(".widget-dropdown-filter-menu-slot > ul > li").nth(4).click();
             await expect(page.locator(gallery)).toHaveScreenshot(`galleryDropdownFilter.png`, 0.1);
         });
     });
