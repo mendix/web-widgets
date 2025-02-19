@@ -49,7 +49,7 @@ $root: ".widget-dropdown-filter";
     --wdf-toggle-inline-end-clearable: calc(var(--wdf-clear-width) + var(--wdf-toggle-inline-end));
     --wdf-tag-padding: var(--wdf-spacing-tiny) var(--dropdown-outer-spacing, 10px);
 
-    &:where(.form-control) {
+    &.form-control {
         padding: 0;
         position: relative;
         display: grid;
