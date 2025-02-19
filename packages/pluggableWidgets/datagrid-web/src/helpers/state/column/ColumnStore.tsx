@@ -163,16 +163,17 @@ export class ColumnStore implements GridColumn {
     }
 
     get loaded(): boolean {
-        let loaded = true;
         if (!this._visible) {
             // there is no value at all, treating as loaded and available
-            loaded = true;
-        } else if (this._visible.status === ValueStatus.Loading && this._visible.value === undefined) {
-            // if status is Loading and no previous value is available it means initial loading
-            loaded = false;
+            return true;
         }
 
-        return loaded;
+        if (this._visible.status === ValueStatus.Loading && this._visible.value === undefined) {
+            // if status is Loading and no previous value is available it means initial loading
+            return false;
+        }
+
+        return true;
     }
 
     get attrId(): ListAttributeValue["id"] | undefined {
