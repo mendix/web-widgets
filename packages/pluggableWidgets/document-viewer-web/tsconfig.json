@@ -1,0 +1,13 @@
+{
+    "extends": "@mendix/pluggable-widgets-tools/configs/tsconfig.base.json",
+    "include": ["./src", "./typings"],
+    "compilerOptions": {
+        "baseUrl": "./",
+        "types": ["jest", "node"],
+        "useUnknownInCatchVariables": false,
+        "exactOptionalPropertyTypes": false,
+        "paths": {
+            "react-hot-loader/root": ["./hot-typescript.ts"]
+        }
+    }
+}
