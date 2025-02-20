@@ -9,7 +9,7 @@ export * from "./utils/equality";
 export { fallback, pprint } from "./utils/json";
 export { getPlaygroundContext, usePlaygroundContext };
 import { getPlaygroundContext, usePlaygroundContext } from "./helpers/playground-context";
-export { useEditorStore } from "./helpers/useEditorStore";
+export * from "./helpers/useEditorStore";
 
 // Rollup does "tree shaking" too well. This results
 // in situation in which some exported members gets removed
