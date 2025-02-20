@@ -1,12 +1,13 @@
-import { PlaygroundData } from "@mendix/shared-charts/main";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { CSSProperties, Ref, RefCallback, useEffect, useRef } from "react";
-import { CustomChartContainerProps } from "../../typings/CustomChartProps";
-import { mergePlaygroundState } from "../utils/mergePlaygroundState";
-import { usePlaygroundData } from "./usePlaygroundData";
+import { EditorStoreState, initStateFromProps, PlaygroundData, useEditorStore } from "@mendix/shared-charts/main";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { CSSProperties, Ref, RefCallback, useEffect } from "react";
 import { CustomChartControllerHost } from "src/controllers/CustomChartControllerHost";
 import { mergeRefs } from "src/utils/mergeRefs";
+import { CustomChartContainerProps } from "../../typings/CustomChartProps";
+import { ControllerProps } from "../controllers/typings";
 
 interface UseCustomChartReturn {
     containerStyle: CSSProperties;
@@ -15,17 +16,33 @@ interface UseCustomChartReturn {
 }
 
 export function useCustomChart(props: CustomChartContainerProps): UseCustomChartReturn {
-    const playgroundOn = !!props.playground;
+    const propsGateProvider = useConst(() => new GateProvider<ControllerProps>(props));
+    const editorStateGateProvider = useConst(
+        () => new GateProvider<EditorStoreState>({ layout: "{}", config: "{}", data: [] })
+    );
+    const {
+        chartPropsController,
+        plotlyController,
+        resizeCtrl: resizeController
+    } = useSetup(
+        () =>
+            new CustomChartControllerHost({
+                propsGate: propsGateProvider.gate,
+                editorStateGate: editorStateGateProvider.gate
+            })
+    );
 
-    const chartRef = useRef<HTMLDivElement>(null);
-    const host = useSetup(() => new CustomChartControllerHost(props));
-    const chartController = host.chartCtrl;
-    const resizeController = host.resizeCtrl;
-    const playgroundData = usePlaygroundData({
-        data: chartController.getData(),
-        layout: chartController.getLayout(),
-        config: chartController.getConfig(),
-        playgroundOn
+    const editorStore = useEditorStore({
+        dataLength: chartPropsController.data.length,
+        initState: initStateFromProps(chartPropsController.data)
+    });
+
+    useEffect(() => {
+        propsGateProvider.setProps(props);
+    });
+
+    useEffect(() => {
+        editorStateGateProvider.setProps(editorStore.state);
     });
 
     useEffect(() => {
@@ -35,40 +52,17 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
         }
     }, [props.eventDataAttribute?.value]);
 
-    useEffect(() => {
-        if (!chartRef.current || !resizeController.width) {
-            return;
-        }
-
-        const onClick = (data: any): void => {
-            if (props.eventDataAttribute) {
-                props.eventDataAttribute?.setValue(JSON.stringify(data.points[0].bbox));
-            } else {
-                executeAction(props.onClick);
-            }
-        };
-        const chartData = chartController.getChartData(onClick, resizeController);
-
-        const playgroundProps =
-            playgroundOn === false ? chartData : mergePlaygroundState(chartData, playgroundData.store.state);
-
-        chartController.setChart(chartRef.current, playgroundProps);
-    }, [
-        chartController,
-        playgroundData.store.state,
-        playgroundOn,
-        props.eventDataAttribute,
-        props.onClick,
-        resizeController,
-        resizeController.width
-    ]);
-
     return {
         containerStyle: {
             width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`,
             height: props.heightUnit === "percentageOfParent" ? `${props.height}%` : undefined
         },
-        playgroundData,
-        ref: mergeRefs<HTMLDivElement>(chartRef, host.resizeCtrl.setTarget)
+        playgroundData: {
+            store: editorStore,
+            plotData: chartPropsController.data,
+            layoutOptions: chartPropsController.layout,
+            configOptions: chartPropsController.config
+        },
+        ref: mergeRefs<HTMLDivElement>(resizeController.setTarget, plotlyController.setChart)
     };
 }
