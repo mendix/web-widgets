@@ -11,8 +11,8 @@ export default function CustomChart(props: CustomChartContainerProps): ReactElem
 
     return (
         <Fragment>
-            <div ref={ref} className="widget-custom-chart" style={containerStyle} tabIndex={props.tabIndex} />
             <PlaygroundContext.Provider value={playgroundData}>{props.playground}</PlaygroundContext.Provider>
+            <div ref={ref} className="widget-custom-chart" style={containerStyle} tabIndex={props.tabIndex} />
         </Fragment>
     );
 }
