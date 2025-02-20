@@ -6,7 +6,6 @@ import { Config, Data, Layout } from "plotly.js-dist-min";
 import { ChartProps } from "../components/PlotlyChart";
 import { parseConfig, parseData, parseLayout } from "../utils/utils";
 import { ControllerProps } from "./typings";
-import { mergePlaygroundState } from "src/utils/mergePlaygroundState";
 
 interface SizeProvider {
     width: number;
@@ -156,6 +155,31 @@ export class ChartPropsController implements ReactiveController {
     }
 
     get mergedProps(): ChartProps {
-        return mergePlaygroundState(this.chartProps, this.editorStateGate.props);
+        const props = this.chartProps;
+        const state = this.editorStateGate.props;
+        return {
+            ...props,
+            config: {
+                ...props.config,
+                ...parseConfig(state.config)
+            },
+            layout: {
+                ...props.layout,
+                ...parseLayout(state.layout)
+            },
+            data: props.data.map((trace, index) => {
+                let stateTrace: Data;
+                try {
+                    stateTrace = JSON.parse(state.data[index]);
+                } catch {
+                    console.warn(`Failed to parse data for trace(${index})`);
+                    stateTrace = {};
+                }
+                return {
+                    ...trace,
+                    ...stateTrace
+                } as Data;
+            })
+        };
     }
 }
