@@ -99,9 +99,15 @@ test.describe("capabilities: hiding", () => {
     test("hide column saved on configuration attribute capability", async ({ page }) => {
         await page.goto("/");
         await page.waitForLoadState("networkidle");
+
+        // hide first column
         await page.locator(".mx-name-datagrid5 .column-selector-button").click();
         await page.locator(".column-selectors > li").first().click();
+
+        // check if it is really hidden
         await expect(page.locator(".mx-name-datagrid5 .column-header").first()).toHaveText("Last Name");
+
+        // check config saved to the attribute and visible in the text area
         const textArea = page.locator(".mx-name-textArea1 textarea");
         await expect(textArea).not.toBeEmpty();
         const textAreaValue = await textArea.inputValue();
@@ -113,10 +119,7 @@ test.describe("capabilities: hiding", () => {
                 { columnId: "0", hidden: true },
                 { columnId: "1", hidden: false }
             ],
-            columnFilters: [
-                ["0", ["equal", null, null]],
-                ["1", ["equal", null, null]]
-            ],
+            columnFilters: [],
             groupFilters: [],
             sortOrder: [],
             columnOrder: ["0", "1"]
