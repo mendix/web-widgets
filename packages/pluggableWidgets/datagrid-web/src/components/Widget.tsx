@@ -167,6 +167,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             <WidgetContent>
                 <Grid
                     aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
+                    style={cssGridStyles}
                 >
                     <GridHeader
                         availableColumns={props.availableColumns}
@@ -183,7 +184,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         id={props.id}
                         isLoading={props.columnsLoading}
                         preview={props.preview}
-                        style={cssGridStyles}
                     />
                     <GridBody
                         isLoading={props.isLoading}

@@ -399,13 +399,16 @@ $root: ".widget-datagrid";
 #{$root} {
     position: relative;
 
+    &-grid {
+        display: grid !important;
+    }
+
     &-grid-head {
-        display: grid;
+        display: contents;
     }
 
     &-grid-body {
-        display: grid;
-        position: relative;
+        display: contents;
     }
 
     &.widget-datagrid-selection-method-click {
