@@ -21,7 +21,6 @@ type GridHeaderProps = {
     id: string;
     isLoading: boolean;
     preview?: boolean;
-    style: React.CSSProperties;
 };
 
 export function GridHeader({
@@ -38,8 +37,7 @@ export function GridHeader({
     headerWrapperRenderer,
     id,
     isLoading,
-    preview,
-    style
+    preview
 }: GridHeaderProps): ReactElement {
     const [dragOver, setDragOver] = useState<[ColumnId, "before" | "after"] | undefined>(undefined);
     const [isDragging, setIsDragging] = useState<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>();
@@ -58,7 +56,7 @@ export function GridHeader({
     }
 
     return (
-        <div className="widget-datagrid-grid-head" role="rowgroup" style={style}>
+        <div className="widget-datagrid-grid-head" role="rowgroup">
             <div key="headers_row" className="tr" role="row">
                 <CheckboxColumnHeader key="headers_column_select_all" />
                 {columns.map((column, index) =>
