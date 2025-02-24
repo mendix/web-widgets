@@ -35,17 +35,21 @@ $root: ".widget-datagrid";
     }
 
     /* Column Header */
-    .th {
-        display: flex;
-        align-items: flex-start;
-        background-color: var(--bg-color-secondary, $dg-background-color);
-        border-width: 0;
-        border-color: var(--grid-border-color, $dg-grid-border-color);
-        padding: var(--spacing-medium, $dg-spacing-medium);
-        top: 0;
-        min-width: 0;
-        position: relative;
+    @at-root {
+        :where(.widget-datagrid-grid .th) {
+            display: flex;
+            align-items: flex-start;
+            background-color: var(--bg-color-secondary, $dg-background-color);
+            border-width: 0;
+            border-color: var(--grid-border-color, $dg-grid-border-color);
+            padding: var(--spacing-medium, $dg-spacing-medium);
+            top: 0;
+            min-width: 0;
+            position: relative;
+        }
+    }
 
+    .th {
         &.dragging {
             opacity: 0.5;
             &.dragging-over-self {
@@ -470,6 +474,7 @@ $root: ".widget-datagrid";
             border-radius: 4px;
             height: 16px;
             width: 100%;
+            min-width: 32px;
             max-width: 148px;
 
             &-small {
@@ -521,8 +526,13 @@ $root: ".widget-datagrid";
     margin: 0 auto;
 }
 
-:where(.widget-datagrid-grid-body.infinite-loading) {
+:where(.widget-datagrid-grid.infinite-loading) {
     overflow-y: auto;
+}
+
+:where(.infinite-loading .widget-datagrid-grid-head .th) {
+    position: sticky;
+    z-index: 1;
 }
 
 @keyframes skeleton-loading {
