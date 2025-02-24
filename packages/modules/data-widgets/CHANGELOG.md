@@ -6,6 +6,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.30.0] DataWidgets - 2025-02-20
+
+### [2.10.0] DatagridDropdownFilter
+
+#### Added
+
+-   New set of settings allowing to make drop-down look and behave similar to combobox widget
+
+#### Changed
+
+-   HTML is changed to meet modern accessibility requirements
+
+### [2.30.0] Datagrid
+
+#### Changed
+
+-   We have optimized some internal workings to improve export to Excel performance.
+
+-   Column settings related to drop-down filter are moved into dedicated group
+
+#### Fixed
+
+-   Accessibility fix regarding keyboard navigation and focus
+
+-   Fixed issue with filters losing focus on refresh
+
+-   Fixed issue with loading indicator not being displayed in some scenarios
+
+#### Breaking changes
+
+-   Drop-down filter is rewritten with new, more accurate HTML for better accessibility, which may break existing CSS styling for projects using drop-down filter
+
+-   HTML structure changed, which may affect some CSS and styling
+
 ## [2.29.1] DataWidgets - 2025-01-24
 
 ### [2.29.1] Datagrid
