@@ -1,10 +1,11 @@
 import alignBottomIcon from "../assets/icon/align-bottom.svg";
 import alignCenterIcon from "../assets/icon/align-center.svg";
+import alignJustifyIcon from "../assets/icon/align-justify.svg";
 import alignLeftIcon from "../assets/icon/align-left.svg";
 import alignMiddleIcon from "../assets/icon/align-middle.svg";
-import alignJustifyIcon from "../assets/icon/align-justify.svg";
 import alignRightIcon from "../assets/icon/align-right.svg";
 import alignTopIcon from "../assets/icon/align-top.svg";
+import type { Props, UseLanguageHandler } from "../types";
 import { convertUnitToInteger, isValidColor, isValidDimensions } from "../utils";
 
 interface Options {
@@ -206,7 +207,7 @@ const TABLE_PROPERTIES = [
     "align"
 ];
 
-function getCellProperties(attribute: Props, useLanguage: _useLanguage) {
+function getCellProperties(attribute: Props, useLanguage: UseLanguageHandler) {
     return {
         title: useLanguage("cellProps"),
         properties: [
@@ -327,7 +328,7 @@ function getCellProperties(attribute: Props, useLanguage: _useLanguage) {
     };
 }
 
-function getTableProperties(attribute: Props, useLanguage: _useLanguage) {
+function getTableProperties(attribute: Props, useLanguage: UseLanguageHandler) {
     return {
         title: useLanguage("tblProps"),
         properties: [
@@ -421,7 +422,7 @@ function getTableProperties(attribute: Props, useLanguage: _useLanguage) {
     };
 }
 
-function getProperties({ type, attribute }: Options, useLanguage: _useLanguage) {
+function getProperties({ type, attribute }: Options, useLanguage: UseLanguageHandler) {
     if (type === "table") return getTableProperties(attribute, useLanguage);
     return getCellProperties(attribute, useLanguage);
 }
@@ -433,6 +434,6 @@ export {
     CELL_PROPERTIES,
     COLORS,
     DEVIATION,
-    TABLE_PROPERTIES,
-    getProperties
+    getProperties,
+    TABLE_PROPERTIES
 };

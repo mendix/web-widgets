@@ -1,8 +1,11 @@
-import Quill from "quill";
+import type { InlineBlot } from "parchment";
+import QuillInline from "quill/blots/inline";
+import icons from "quill/ui/icons";
 import tableIcon from "../assets/icon/table.svg";
+import type { InsertTableHandler } from "../types";
 
-const Inline = Quill.import("blots/inline");
-const icons = Quill.import("ui/icons");
+const Inline = QuillInline as typeof InlineBlot;
+// @ts-expect-error
 icons["table-better"] = tableIcon;
 const SUM = 10;
 
@@ -66,7 +69,7 @@ class TableSelect {
         return [row, column];
     }
 
-    handleClick(e: MouseEvent, insertTable: _insertTable) {
+    handleClick(e: MouseEvent, insertTable: InsertTableHandler) {
         this.toggle(this.root);
         const span = (e.target as Element).closest("span[row]");
         if (!span) {
@@ -94,7 +97,7 @@ class TableSelect {
         element && element.classList.add("ql-hidden");
     }
 
-    insertTable(child: Element, insertTable: _insertTable) {
+    insertTable(child: Element, insertTable: InsertTableHandler) {
         const [row, column] = this.getSelectAttrs(child);
         insertTable(row, column);
         this.hide(this.root);
@@ -120,4 +123,4 @@ class TableSelect {
     }
 }
 
-export { TableSelect, ToolbarTable as default };
+export { ToolbarTable as default, TableSelect };
