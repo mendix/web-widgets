@@ -12,11 +12,9 @@ const absoluteOutPackageDir = join(outDir, outWidgetDir);
 module.exports = args => {
     const result = args.configDefaultConfig;
 
-    // Ensure the locales directory exists in the output
     const localesDir = join(absoluteOutPackageDir, "locales");
     mkdir("-p", localesDir);
 
-    // Copy translation files
     const translationFiles = join(sourcePath, "dist/locales/**/*");
     cp("-r", translationFiles, localesDir);
 
