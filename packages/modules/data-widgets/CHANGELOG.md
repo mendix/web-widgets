@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.30.1] DataWidgets - 2025-02-25
+
+### [2.30.1] Datagrid
+
+#### Fixed
+
+-   Fixed a layout issue when using "autofit content" in column settings.
+
+-   Fixed a problem where the column didn't set its default value in the personalization if the column is hidden by default.
+
 ## [2.30.0] DataWidgets - 2025-02-20
 
 ### [2.10.0] DatagridDropdownFilter

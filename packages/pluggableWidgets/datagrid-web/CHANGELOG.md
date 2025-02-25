@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.30.1] - 2025-02-25
+
 ### Fixed
 
 -   Fixed a layout issue when using "autofit content" in column settings.
