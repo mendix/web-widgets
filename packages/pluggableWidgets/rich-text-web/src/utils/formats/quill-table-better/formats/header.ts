@@ -1,13 +1,18 @@
+import type { BlockBlot } from "parchment";
 import Quill from "quill";
-import { type Props, type Range } from "../types";
-import { TableCellBlock, TableCell } from "./table";
-import { ListContainer } from "./list";
+import QuillHeader from "quill/formats/header";
+import type { Props, TableCellChildren } from "../types";
 import { getCellFormats, getCorrectCellBlot } from "../utils";
-import Header from "quill/formats/header";
+import { ListContainer } from "./list";
+import { TableCell, TableCellBlock } from "./table";
+
+const Header = QuillHeader as typeof BlockBlot;
 
 class TableHeader extends Header {
     static blotName = "table-header";
     static className = "ql-table-header";
+
+    parent: TableCell;
 
     static create(formats: Props) {
         const { cellId, value } = formats;
@@ -58,9 +63,9 @@ class TableHeader extends Header {
         return formats;
     }
 
-    getCellFormats(parent: TableCell) {
+    getCellFormats(parent: TableCell | TableCellChildren) {
         const cellBlot = getCorrectCellBlot(parent);
-        return getCellFormats(cellBlot);
+        return getCellFormats(cellBlot!);
     }
 }
 
