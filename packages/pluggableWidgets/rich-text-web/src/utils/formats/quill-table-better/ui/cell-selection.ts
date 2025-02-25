@@ -1,15 +1,13 @@
 import Quill from "quill";
-import Delta from "quill-delta";
 import type { Op } from "quill-delta";
+import Delta from "quill-delta";
+import Block, { BlockEmbed } from "quill/blots/block";
+import Container from "quill/blots/container";
+import { DEVIATION } from "../config";
+import { TableCell, TableCellBlock, TableContainer, TableRow } from "../formats/table";
+import type { AllowedChildren } from "../utils";
 import { getComputeBounds, getComputeSelectedTds, getCopyTd, getCorrectBounds, getCorrectCellBlot } from "../utils";
 import { applyFormat } from "../utils/clipboard-matchers";
-import type { AllowedChildren } from "../utils";
-import { TableCellBlock, TableCell, TableRow, TableContainer } from "../formats/table";
-import { DEVIATION } from "../config";
-
-const Block = Quill.import("blots/block");
-const { BlockEmbed } = Quill.import("blots/block");
-const Container = Quill.import("blots/container");
 
 const WHITE_LIST = [
     "bold",

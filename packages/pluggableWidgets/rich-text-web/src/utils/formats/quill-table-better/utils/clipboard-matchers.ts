@@ -1,7 +1,8 @@
-import Delta from "quill-delta";
 import merge from "lodash.merge";
-import { filterWordStyle } from "./";
+import Delta from "quill-delta";
 import { TableCell } from "../formats/table";
+import type { Props } from "../types";
+import { filterWordStyle } from "./";
 
 const TABLE_ATTRIBUTE = ["border", "cellspacing", "style", "class"];
 

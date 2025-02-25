@@ -1,33 +1,32 @@
+import type { EmitterSource, Range } from "quill";
 import Quill from "quill";
 import Delta from "quill-delta";
-import {
-    cellId,
-    TableCellBlock,
-    TableCell,
-    TableRow,
-    TableBody,
-    TableTemporary,
-    TableContainer,
-    tableId,
-    TableCol,
-    TableColgroup
-} from "./formats/table";
+import Module from "quill/core/module";
+import { CELL_DEFAULT_WIDTH } from "./config";
 import TableHeader from "./formats/header";
 import { ListContainer } from "./formats/list";
-import { matchTable, matchTableCell, matchTableCol, matchTableTemporary } from "./utils/clipboard-matchers";
+import {
+    cellId,
+    TableBody,
+    TableCell,
+    TableCellBlock,
+    TableCol,
+    TableColgroup,
+    TableContainer,
+    tableId,
+    TableRow,
+    TableTemporary
+} from "./formats/table";
 import Language from "./language";
+import TableClipboard from "./modules/clipboard";
+import TableToolbar from "./modules/toolbar";
+import type { BindingObject, Context, Props } from "./types";
 import CellSelection from "./ui/cell-selection";
 import OperateLine from "./ui/operate-line";
 import TableMenus from "./ui/table-menus";
-import { CELL_DEFAULT_WIDTH } from "./config";
 import ToolbarTable, { TableSelect } from "./ui/toolbar-table";
 import { getCellId, getCorrectCellBlot } from "./utils";
-import TableToolbar from "./modules/toolbar";
-import TableClipboard from "./modules/clipboard";
-import { type Props, type Range } from "./types";
-interface Context {
-    [propName: string]: any;
-}
+import { matchTable, matchTableCell, matchTableCol, matchTableTemporary } from "./utils/clipboard-matchers";
 
 interface Options {
     language?:
@@ -46,72 +45,15 @@ interface Options {
 
 type Line = TableCellBlock | TableHeader | ListContainer;
 
-const Module = Quill.import("core/module");
-
 class Table extends Module {
     language: Language;
     cellSelection: CellSelection;
     operateLine: OperateLine;
     tableMenus: TableMenus;
     tableSelect: TableSelect;
-    static keyboardBindings: {
-        "table-cell down": { key: string; collapsed: boolean; format: string[]; handler(): boolean };
-        "table-cell up": { key: string; collapsed: boolean; format: string[]; handler(): boolean };
-        "table-cell-block backspace": {
-            key: string;
-            format: string[];
-            collapsed: boolean;
-            handler(range: Range, context: Context): any;
-        };
-        "table-cell-block delete": {
-            key: string;
-            format: string[];
-            collapsed: boolean;
-            handler(range: Range, context: Context): any;
-        };
-        "table-header backspace": {
-            key: string;
-            format: string[];
-            collapsed: boolean;
-            empty: boolean;
-            handler(range: Range, context: Context): any;
-        };
-        "table-header delete": {
-            key: string;
-            format: string[];
-            collapsed: boolean;
-            empty: boolean;
-            handler(range: Range, context: Context): any;
-        };
-        "table-header enter": {
-            key: string;
-            collapsed: boolean;
-            format: string[];
-            suffix: RegExp;
-            handler(range: Range, context: Context): void;
-        };
-        "table-list backspace": {
-            key: string;
-            format: string[];
-            collapsed: boolean;
-            empty: boolean;
-            handler(range: Range, context: Context): void;
-        };
-        "table-list delete": {
-            key: string;
-            format: string[];
-            collapsed: boolean;
-            empty: boolean;
-            handler(range: Range, context: Context): void;
-        };
-        "table-list empty enter": {
-            key: string;
-            collapsed: boolean;
-            format: string[];
-            empty: boolean;
-            handler(range: Range, context: Context): void;
-        };
-    };
+    options: Options;
+
+    static keyboardBindings: { [propName: string]: BindingObject };
 
     static register() {
         Quill.register(TableCellBlock, true);
@@ -122,11 +64,16 @@ class Table extends Module {
         Quill.register(TableContainer, true);
         Quill.register(TableCol, true);
         Quill.register(TableColgroup, true);
-        Quill.register("modules/toolbar", TableToolbar, true);
-        Quill.register("modules/clipboard", TableClipboard, true);
+        Quill.register(
+            {
+                "modules/toolbar": TableToolbar,
+                "modules/clipboard": TableClipboard
+            },
+            true
+        );
     }
 
-    constructor(quill: any, options: Options) {
+    constructor(quill: Quill, options: Options) {
         super(quill, options);
         quill.clipboard.addMatcher("td, th", matchTableCell);
         quill.clipboard.addMatcher("tr", matchTable);
@@ -140,7 +87,7 @@ class Table extends Module {
         quill.root.addEventListener("keyup", this.handleKeyup.bind(this));
         quill.root.addEventListener("mousedown", this.handleMousedown.bind(this));
         quill.root.addEventListener("scroll", this.handleScroll.bind(this));
-        this.registerToolbarTable(!!options?.toolbarTable);
+        this.registerToolbarTable(options?.toolbarTable);
     }
 
     clearHistorySelected() {
@@ -164,7 +111,7 @@ class Table extends Module {
         this.quill.setSelection(offset, Quill.sources.SILENT);
     }
 
-    deleteTableTemporary(source: string = Quill.sources.API) {
+    deleteTableTemporary(source: EmitterSource = Quill.sources.API) {
         const temporaries = this.quill.scroll.descendants(TableTemporary);
         for (const temporary of temporaries) {
             temporary.remove();
@@ -173,15 +120,17 @@ class Table extends Module {
         this.quill.update(source);
     }
 
-    getTable(range = this.quill.getSelection()) {
+    getTable(
+        range = this.quill.getSelection()
+    ): [null, null, null, -1] | [TableContainer, TableRow, TableCell, number] {
         if (range == null) return [null, null, null, -1];
         const [block, offset] = this.quill.getLine(range.index);
         if (block == null || block.statics.blotName !== TableCellBlock.blotName) {
             return [null, null, null, -1];
         }
-        const cell = block.parent;
-        const row = cell.parent;
-        const table = row.parent.parent;
+        const cell = block.parent as TableCell;
+        const row = cell.parent as TableRow;
+        const table = row.parent.parent as TableContainer;
         return [table, row, cell, offset];
     }
 
@@ -254,8 +203,8 @@ class Table extends Module {
 
     private registerToolbarTable(toolbarTable: boolean) {
         if (!toolbarTable) return;
-        Quill.register("formats/table-better", ToolbarTable, true);
-        const toolbar = this.quill.getModule("toolbar");
+        Quill.register({ "formats/table-better": ToolbarTable }, true);
+        const toolbar = this.quill.getModule("toolbar") as TableToolbar;
         const button = toolbar.container.querySelector("button.ql-table-better");
         if (!button || !this.tableSelect.root) return;
         button.appendChild(this.tableSelect.root);
@@ -271,7 +220,7 @@ class Table extends Module {
         });
     }
 
-    private showTools(force?: boolean) {
+    showTools(force?: boolean) {
         const [table, , cell] = this.getTable();
         if (!table || !cell) return;
         this.cellSelection.setDisabled(true);
@@ -320,10 +269,10 @@ const keyboardBindings = {
         collapsed: true,
         format: ["table-list"],
         empty: true,
-        handler(range: Range, context: Context) {
+        handler(_range: Range, context: Context) {
             const { line } = context;
             const { cellId } = line.parent.formats()[line.parent.statics.blotName];
-            const blot = line.replaceWith(TableCellBlock.blotName, cellId);
+            const blot = line.replaceWith(TableCellBlock.blotName, cellId) as TableCellBlock;
             const tableModule = this.quill.getModule("table-better");
             const cell = getCorrectCellBlot(blot);
             cell && tableModule.cellSelection.setSelected(cell.domNode, false);
@@ -377,7 +326,7 @@ function makeTableHeaderHandler(key: string) {
         format: ["table-header"],
         collapsed: true,
         empty: true,
-        handler(range: Range, context: Context) {
+        handler(range: Range, _context: Context) {
             const [line] = this.quill.getLine(range.index);
             if (line.prev) {
                 return removeLine.call(this, line, range);
@@ -395,7 +344,7 @@ function makeTableListHandler(key: string) {
         format: ["table-list"],
         collapsed: true,
         empty: true,
-        handler(range: Range, context: Context) {
+        handler(range: Range, _context: Context) {
             const [line] = this.quill.getLine(range.index);
             const cellId = getCellId(line.parent.formats()[line.parent.statics.blotName]);
             line.replaceWith(TableCellBlock.blotName, cellId);
