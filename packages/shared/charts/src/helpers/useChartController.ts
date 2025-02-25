@@ -22,7 +22,7 @@ export function useChartController(props: ChartProps, params: Params): [ChartPro
     return [props, playgroundContext];
 }
 
-function initStateFromProps(props: ChartProps): EditorStoreInitializer {
+export function initStateFromProps(props: ChartProps): EditorStoreInitializer {
     return () => ({
         layout: pprint(fallback(props.customLayout)),
         config: pprint(fallback(props.customConfig)),

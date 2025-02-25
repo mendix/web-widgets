@@ -10,7 +10,7 @@ export interface ChartPreviewProps {
 }
 
 export function ChartPreview(props: ChartPreviewProps): React.ReactElement {
-    const { renderer: PlaygroundSlog } = props.playground ?? { renderer: () => null };
+    const { renderer: PlaygroundSlot } = props.playground ?? { renderer: () => null };
     return (
         <div style={{ display: "inline-flex", flexFlow: "column nowrap" }}>
             <div
@@ -22,7 +22,7 @@ export function ChartPreview(props: ChartPreviewProps): React.ReactElement {
                           }
                 }
             >
-                <PlaygroundSlog caption="Playground slot">{dropzone()}</PlaygroundSlog>
+                <PlaygroundSlot caption="Playground slot">{dropzone()}</PlaygroundSlot>
             </div>
             <Chart {...props} />
         </div>

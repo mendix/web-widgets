@@ -1,15 +1,19 @@
-import { Properties } from "@mendix/pluggable-widgets-tools";
+import { hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 import {
-    StructurePreviewProps,
-    structurePreviewPalette
+    structurePreviewPalette,
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { CustomChartPreviewProps } from "../typings/CustomChartProps";
 
-export function getProperties(_values: CustomChartPreviewProps, defaultProperties: Properties): Properties {
+export function getProperties(values: CustomChartPreviewProps, defaultProperties: Properties): Properties {
+    if (values.showPlaygroundSlot === false) {
+        hidePropertyIn(defaultProperties, values, "playground");
+    }
     return defaultProperties;
 }
 
-export function getPreview(_values: CustomChartPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+export function getPreview(values: CustomChartPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const sampleChartSvg = `
         <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +29,7 @@ export function getPreview(_values: CustomChartPreviewProps, isDarkMode: boolean
         </svg>
     `;
 
-    return {
+    const preview: StructurePreviewProps = {
         type: "Container",
         backgroundColor: palette.background.container,
         borders: true,
@@ -59,4 +63,14 @@ export function getPreview(_values: CustomChartPreviewProps, isDarkMode: boolean
             }
         ]
     };
+
+    return withPlaygroundSlot(values, preview);
+}
+
+export function check(values: CustomChartPreviewProps): Problem[] {
+    const errors: Array<Problem | Problem[]> = [];
+
+    errors.push(checkSlot(values));
+
+    return errors.flat();
 }

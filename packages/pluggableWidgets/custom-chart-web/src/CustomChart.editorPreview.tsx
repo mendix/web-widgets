@@ -7,7 +7,7 @@ const defaultSampleData = `[{
     "x": [1, 2, 3, 4, 5, 6, 7, 8],
     "y": [5, 35, 15, 45, 25, 65, 30, 55],
     "mode": "lines+markers",
-    "marker": { 
+    "marker": {
         "color": "#264AE5",
         "size": 8
     },
@@ -39,6 +39,8 @@ const defaultConfig = `{
 }`;
 
 export function preview(props: CustomChartPreviewProps): ReactElement {
+    const { renderer: PlaygroundSlot } = props.playground ?? { renderer: () => null };
+
     const containerProps = {
         name: "preview-custom-chart",
         class: props.class,
@@ -46,7 +48,7 @@ export function preview(props: CustomChartPreviewProps): ReactElement {
         tabIndex: 0,
         dataStatic: props.dataStatic || defaultSampleData,
         sampleData: props.sampleData,
-        devMode: props.devMode,
+        showPlaygroundSlot: props.showPlaygroundSlot,
         layoutStatic: props.layoutStatic || defaultSampleLayout,
         sampleLayout: props.sampleLayout,
         configurationOptions: props.configurationOptions || defaultConfig,
@@ -56,5 +58,25 @@ export function preview(props: CustomChartPreviewProps): ReactElement {
         height: props.height || 75
     };
 
-    return <CustomChart {...containerProps} />;
+    return (
+        <div style={{ display: "flex", flexFlow: "column nowrap" }}>
+            <div
+                style={
+                    props.showPlaygroundSlot
+                        ? undefined
+                        : {
+                              display: "none"
+                          }
+                }
+            >
+                <PlaygroundSlot caption="Playground slot">{dropzone()}</PlaygroundSlot>
+            </div>
+            <CustomChart {...containerProps} />
+        </div>
+    );
 }
+
+// Preview don't support React component as children. So we forced to use plain function.
+const dropzone = (): React.ReactNode => (
+    <div style={{ padding: "10px 10px 10px 0", display: "flex", justifyContent: "end", flexGrow: 1, height: 58 }} />
+);

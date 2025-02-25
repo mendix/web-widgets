@@ -1,13 +1,15 @@
 export * from "./components/ChartWidget";
-export * from "./utils/compareAttrValuesAsc";
-export * from "./utils/equality";
-export * from "./utils/configs";
-export * from "./hooks/usePlotChartDataSeries";
-import { usePlaygroundContext } from "./helpers/playground-context";
-export { usePlaygroundContext };
-export { fallback } from "./utils/json";
-export type * from "./helpers/playground-context";
 export type * from "./helpers/EditorStore";
+export type * from "./helpers/playground-context";
+export type * from "./helpers/useEditorStore";
+export * from "./hooks/usePlotChartDataSeries";
+export * from "./utils/compareAttrValuesAsc";
+export * from "./utils/configs";
+export * from "./utils/equality";
+export { fallback, pprint } from "./utils/json";
+export { getPlaygroundContext, usePlaygroundContext };
+import { getPlaygroundContext, usePlaygroundContext } from "./helpers/playground-context";
+export * from "./helpers/useEditorStore";
 
 // Rollup does "tree shaking" too well. This results
 // in situation in which some exported members gets removed
