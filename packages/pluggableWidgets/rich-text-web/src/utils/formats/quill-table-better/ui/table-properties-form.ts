@@ -1,10 +1,22 @@
+import iro from "@jaames/iro";
 import Quill from "quill";
-import eraseIcon from "../assets/icon/erase.svg";
+import closeIcon from "../assets/icon/close.svg";
 import downIcon from "../assets/icon/down.svg";
+import eraseIcon from "../assets/icon/erase.svg";
 import paletteIcon from "../assets/icon/palette.svg";
 import saveIcon from "../assets/icon/save.svg";
-import closeIcon from "../assets/icon/close.svg";
 import { getProperties } from "../config";
+import { ListContainer } from "../formats/list";
+import type {
+    Props,
+    TableCell,
+    TableCellBlock,
+    TableContainer,
+    TableHeader,
+    TableList,
+    TableMenus,
+    UseLanguageHandler
+} from "../types";
 import {
     addDimensionsUnit,
     createTooltip,
@@ -12,13 +24,9 @@ import {
     getComputeSelectedCols,
     isDimensions,
     isValidColor,
-    setElementProperty,
-    setElementAttribute
+    setElementAttribute,
+    setElementProperty
 } from "../utils";
-import { TableCellBlock, TableCell } from "../formats/table";
-import TableList, { ListContainer } from "../formats/list";
-import TableHeader from "../formats/header";
-import iro from "@jaames/iro";
 
 interface Child {
     category: string;
@@ -77,13 +85,13 @@ const COLOR_LIST: ColorList[] = [
 ];
 
 class TablePropertiesForm {
-    tableMenus: any;
+    tableMenus: TableMenus;
     options: Options;
     attrs: Props;
     borderForm: HTMLElement[];
     saveButton: HTMLButtonElement;
     form: HTMLDivElement;
-    constructor(tableMenus: any, options?: Options) {
+    constructor(tableMenus: TableMenus, options?: Options) {
         this.tableMenus = tableMenus;
         this.options = options;
         this.attrs = { ...options.attribute };
@@ -314,7 +322,7 @@ class TablePropertiesForm {
         return container;
     }
 
-    createPalette(propertyName: string, useLanguage: _useLanguage, parent: HTMLElement) {
+    createPalette(propertyName: string, useLanguage: UseLanguageHandler, parent: HTMLElement) {
         const container = document.createElement("div");
         const palette = document.createElement("div");
         const wrap = document.createElement("div");
@@ -431,7 +439,7 @@ class TablePropertiesForm {
         return container;
     }
 
-    getCellStyle(td: HTMLElement, attrs: Props) {
+    getCellStyle(td: Element, attrs: Props) {
         const style = (td.getAttribute("style") || "")
             .split(";")
             .filter((value: string) => value.trim())
@@ -522,7 +530,7 @@ class TablePropertiesForm {
     saveCellAction() {
         const { selectedTds } = this.tableMenus.tableBetter.cellSelection;
         const { quill, table } = this.tableMenus;
-        const colgroup = Quill.find(table).colgroup();
+        const colgroup = (Quill.find(table) as TableContainer).colgroup();
         const attrs = this.getDiffProperties();
         const width = parseFloat(attrs["width"]);
         const align = attrs["text-align"];
@@ -537,7 +545,7 @@ class TablePropertiesForm {
             }
         }
         for (const td of selectedTds) {
-            const tdBlot = Quill.find(td);
+            const tdBlot = Quill.find(td) as TableCell;
             const blotName = tdBlot.statics.blotName;
             const formats = tdBlot.formats()[blotName];
             const style = this.getCellStyle(td, attrs);
@@ -553,7 +561,7 @@ class TablePropertiesForm {
                     }
                 });
             }
-            const parent: TableCell = tdBlot.replaceWith(blotName, { ...formats, style });
+            const parent = tdBlot.replaceWith(blotName, { ...formats, style }) as TableCell;
             newSelectedTds.push(parent.domNode);
         }
         this.tableMenus.tableBetter.cellSelection.setSelectedTds(newSelectedTds);
@@ -561,7 +569,7 @@ class TablePropertiesForm {
 
     saveTableAction() {
         const { table, tableBetter } = this.tableMenus;
-        const temporary = Quill.find(table).temporary()?.domNode;
+        const temporary = (Quill.find(table) as TableContainer).temporary()?.domNode;
         const td = table.querySelector("td");
         const attrs = this.getDiffProperties();
         const align = attrs["align"];

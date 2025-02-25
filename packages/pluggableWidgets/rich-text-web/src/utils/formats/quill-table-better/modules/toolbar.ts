@@ -1,14 +1,27 @@
+import merge from "lodash.merge";
+import type { ContainerBlot } from "parchment";
+import { EmbedBlot } from "parchment";
+import type { Range } from "quill";
 import Quill from "quill";
 import Delta from "quill-delta";
-import merge from "lodash.merge";
-import { EmbedBlot } from "parchment";
-import { getCorrectCellBlot } from "../utils";
-import { TableCell } from "../formats/table";
+import QuillContainer from "quill/blots/container";
+import Module from "quill/core/module";
+import QuillToolbar from "quill/modules/toolbar";
 import TableHeader from "../formats/header";
-import Container from "quill/blots/container";
-import Toolbar from "quill/modules/toolbar";
+import type { CellSelection, QuillTableBetter, TableCell, TableCellAllowedChildren, TableCellChildren } from "../types";
+import { getCorrectCellBlot } from "../utils";
+
+const Container = QuillContainer as typeof ContainerBlot;
+const Toolbar = QuillToolbar as typeof Module;
+
+type Handler = (this: TableToolbar, value: any) => void;
 
 class TableToolbar extends Toolbar {
+    handlers: Record<string, Handler>;
+    controls: [string, HTMLElement][];
+    update: (range: Range | null) => void;
+    container?: HTMLElement | null;
+
     attach(input: HTMLElement) {
         let format = Array.from(input.classList).find(className => {
             return className.indexOf("ql-") === 0;
@@ -34,7 +47,12 @@ class TableToolbar extends Toolbar {
         this.controls.push([format, input]);
     }
 
-    private cellSelectionAttach(input: HTMLElement, format: string, e: Event | MouseEvent, cellSelection: any) {
+    private cellSelectionAttach(
+        input: HTMLElement,
+        format: string,
+        e: Event | MouseEvent,
+        cellSelection: CellSelection
+    ) {
         if (input.tagName === "SELECT") {
             // @ts-ignore
             if (input.selectedIndex < 0) return;
@@ -53,16 +71,16 @@ class TableToolbar extends Toolbar {
     }
 
     getTableBetter() {
-        return this.quill.getModule("table-better") || {};
+        return this.quill.getModule("table-better") as QuillTableBetter;
     }
 
-    setTableFormat(range: Range, selectedTds: Element[], value: string, name: string, lines: any[]) {
+    setTableFormat(range: Range, selectedTds: Element[], value: string, name: string, lines: TableCellChildren[]) {
         let blot = null;
         const { cellSelection, tableMenus } = this.getTableBetter();
         const _isReplace = isReplace(range, selectedTds, lines);
         for (const line of lines) {
             const isReplace = getHeaderReplace(selectedTds, name, line, _isReplace);
-            blot = line.format(name, value, isReplace);
+            blot = line.format(name, value, isReplace) as TableCellChildren;
         }
         if (selectedTds.length < 2) {
             if (_isReplace || lines.length === 1) {
@@ -108,7 +126,10 @@ class TableToolbar extends Toolbar {
         const [range] = this.quill.selection.getRange();
         if (this.handlers[format] != null) {
             this.handlers[format].call(this, value);
-        } else if (this.quill.scroll.query(format).prototype instanceof EmbedBlot) {
+        } else if (
+            // @ts-expect-error
+            this.quill.scroll.query(format).prototype instanceof EmbedBlot
+        ) {
             value = prompt(`Enter ${format}`); // eslint-disable-line no-alert
             if (!value) return;
             this.quill.updateContents(
@@ -126,7 +147,7 @@ class TableToolbar extends Toolbar {
 }
 
 function containers(blot: TableCell, index = 0, length = Number.MAX_VALUE) {
-    const getContainers = (blot: TableCell, blotIndex: number, blotLength: number) => {
+    const getContainers = (blot: TableCell | TableCellAllowedChildren, blotIndex: number, blotLength: number) => {
         // @ts-ignore
         let containers: Container[] = [];
         let lengthLeft = blotLength;
@@ -147,22 +168,22 @@ function containers(blot: TableCell, index = 0, length = Number.MAX_VALUE) {
     return getContainers(blot, index, length);
 }
 
-function getHeaderReplace(selectedTds: Element[], name: string, line: TableHeader, _isReplace: boolean) {
+function getHeaderReplace(selectedTds: Element[], name: string, line: TableCellChildren, _isReplace: boolean) {
     if (selectedTds.length === 1 && name === "list" && line.statics.blotName === TableHeader.blotName) {
         return true;
     }
     return _isReplace;
 }
 
-function getLength(blots: any[]): number {
+function getLength(blots: TableCellChildren[]): number {
     return blots.reduce((sum, blot) => {
         return (sum += blot.length());
     }, 0);
 }
 
-function isReplace(range: Range, selectedTds: Element[], lines: any[]) {
+function isReplace(range: Range, selectedTds: Element[], lines: TableCellChildren[]) {
     if (selectedTds.length === 1) {
-        const cellBlot = Quill.find(selectedTds[0]);
+        const cellBlot = Quill.find(selectedTds[0]) as TableCell;
         const _containers = containers(cellBlot, range.index, range.length);
         const length = getLength(_containers);
         const _length = getLength(lines);
@@ -171,7 +192,7 @@ function isReplace(range: Range, selectedTds: Element[], lines: any[]) {
     return !!(selectedTds.length > 1);
 }
 
-function tablehandler(value: string, selectedTds: Element[], name: string, lines?: any[]) {
+function tablehandler(value: string, selectedTds: Element[], name: string, lines?: TableCellChildren[]) {
     const range = this.quill.getSelection();
     if (!lines) {
         if (!range.length && selectedTds.length === 1) {
@@ -186,7 +207,7 @@ function tablehandler(value: string, selectedTds: Element[], name: string, lines
 
 TableToolbar.DEFAULTS = merge({}, Toolbar.DEFAULTS, {
     handlers: {
-        header(value: string, lines?: any[]) {
+        header(value: string, lines?: TableCellChildren[]) {
             const { cellSelection } = this.getTableBetter();
             const selectedTds = cellSelection?.selectedTds;
             if (selectedTds?.length) {
@@ -194,7 +215,7 @@ TableToolbar.DEFAULTS = merge({}, Toolbar.DEFAULTS, {
             }
             this.quill.format("header", value, Quill.sources.USER);
         },
-        list(value: string, lines?: any[]) {
+        list(value: string, lines?: TableCellChildren[]) {
             const { cellSelection } = this.getTableBetter();
             const selectedTds = cellSelection?.selectedTds;
             if (selectedTds?.length) {
