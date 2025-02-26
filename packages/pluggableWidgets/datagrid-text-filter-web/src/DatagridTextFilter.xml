@@ -8,9 +8,36 @@
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="General">
-                <property key="advanced" type="boolean" defaultValue="false">
-                    <caption>Enable advanced options</caption>
+                <property key="customAttrs" type="enumeration" defaultValue="auto">
+                    <caption>Filterable attributes</caption>
                     <description />
+                    <enumerationValues>
+                        <enumerationValue key="auto">Auto</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="linkedDs" type="datasource" isLinked="true" isList="true">
+                    <caption>Datasource to Filter</caption>
+                    <description />
+                </property>
+                <property key="attributes" type="object" isList="true" required="false">
+                    <caption>Attributes</caption>
+                    <description>Select the attributes that the end-user may use for filtering.</description>
+                    <properties>
+                        <propertyGroup caption="General">
+                            <property key="attribute" type="attribute" dataSource="../linkedDs" isMetaData="true" required="true">
+                                <caption>Attribute</caption>
+                                <description />
+                                <attributeTypes>
+                                    <attributeType name="String" />
+                                </attributeTypes>
+                            </property>
+                        </propertyGroup>
+                    </properties>
+                </property>
+                <property key="dataKey" type="string" required="true">
+                    <caption>Data key</caption>
+                    <description>Arbitrary string of letters or numbers. Required to store and retrieve filter data, must be unique.</description>
                 </property>
                 <property key="defaultValue" type="expression" required="false">
                     <caption>Default value</caption>
