@@ -88,6 +88,7 @@ function FileEntry(props: FileEntryProps): ReactElement {
                 removed: props.fileStatus === "removedFile",
                 invalid: props.fileStatus === "validationError"
             })}
+            title={props.title}
             tabIndex={canDownload ? 0 : undefined}
             onClick={canDownload ? onViewClick : undefined}
             onKeyDown={canDownload ? onKeyDown : undefined}
