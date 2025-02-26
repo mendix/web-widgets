@@ -20,6 +20,7 @@ interface PickerState {
 type Params = {
     filter: Date_InputFilterInterface;
     defaultFilter: FilterFn<Date_InputFilterInterface>;
+    adjustableFilterFunction: boolean;
     defaultValue?: Date;
     defaultStart?: Date;
     defaultEnd?: Date;
@@ -31,10 +32,12 @@ export class DatePickerController {
     private _defaultState: Date_InputFilterInterface["defaultState"];
     expanded = false;
     pickerRef = createRef<ReactDatePicker>();
+    adjustableFilterFunction: boolean;
 
     constructor(params: Params) {
         this._filter = params.filter;
         this._defaultState = this.getDefaults(params);
+        this.adjustableFilterFunction = params.adjustableFilterFunction;
 
         makeObservable(this, {
             pickerState: computed,
@@ -163,7 +166,7 @@ export class DatePickerController {
     }
 
     setup(): (() => void) | void {
-        this._filter.UNSAFE_setDefaults(this._defaultState);
+        this._filter.UNSAFE_setDefaults(this._defaultState, this.adjustableFilterFunction);
     }
 
     private getDefaults(params: Params): Date_InputFilterInterface["defaultState"] {
