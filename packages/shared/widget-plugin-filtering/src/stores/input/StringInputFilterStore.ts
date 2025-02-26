@@ -58,9 +58,7 @@ export class StringInputFilterStore
             return;
         }
         const [fn, s1, s2] = inputData;
-        this.filterFunction = fn;
-        this.arg1.value = s1 ? s1 : undefined;
-        this.arg2.value = s2 ? s2 : undefined;
+        this.setState([fn, s1 ? s1 : undefined, s2 ? s2 : undefined]);
         this.isInitialized = true;
     }
 
