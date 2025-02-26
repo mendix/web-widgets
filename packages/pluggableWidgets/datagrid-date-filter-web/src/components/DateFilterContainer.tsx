@@ -17,6 +17,7 @@ export const Container: (props: ContainerProps) => React.ReactElement = observer
     const staticProps = useSetup({
         defaultEndValue: props.defaultEndDate?.value,
         defaultFilter: props.defaultFilter,
+        adjustableFilterFunction: props.adjustable,
         defaultStartValue: props.defaultStartDate?.value,
         defaultValue: props.defaultValue?.value,
         filterStore: props.filterStore

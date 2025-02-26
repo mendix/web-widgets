@@ -58,18 +58,20 @@ export class NumberInputFilterStore
         }
 
         const [fn, val1, val2] = inputData;
-        this.filterFunction = fn;
 
+        let arg1;
         try {
-            this.arg1.value = new Big(val1 ?? "");
+            arg1 = new Big(val1 ?? "");
         } catch {
-            this.arg1.value = undefined;
+            arg1 = undefined;
         }
+        let arg2;
         try {
-            this.arg2.value = new Big(val2 ?? "");
+            arg2 = new Big(val2 ?? "");
         } catch {
-            this.arg2.value = undefined;
+            arg2 = undefined;
         }
+        this.setState([fn, arg1, arg2]);
         this.isInitialized = true;
     }
 
