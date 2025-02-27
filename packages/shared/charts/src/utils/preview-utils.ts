@@ -18,7 +18,7 @@ export function checkSlot(props: WidgetProps): [Problem] | [] {
             {
                 property: "playground",
                 message:
-                    'Show playground is "No", but you have widget in playground slog. Please, remove widget from the playground slot.'
+                    'Show playground is "No", but you have widget in playground slot. Please, remove widget from the playground slot.'
             }
         ];
     }

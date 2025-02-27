@@ -1,9 +1,9 @@
-import { OutputOptions, type RollupOptions, type Plugin } from "rollup";
-import path from "node:path";
-import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
 import tarser from "@rollup/plugin-terser";
+import path from "node:path";
+import { OutputOptions, type Plugin, type RollupOptions } from "rollup";
 import copy from "rollup-plugin-copy";
 const { join, format } = path;
 
@@ -22,7 +22,7 @@ const bundles = {
     plotly: {
         // react-plotly.js@2.6.0 use: `import Plotly from 'plotly.js/dist/plotly';`
         // We redirect this import to min version.
-        input: "plotly.js-dist-min/plotly.min.js",
+        input: "plotly.js-dist-min",
         file: {
             amd: "plotly.min.js",
             esm: "plotly.min.mjs"
@@ -59,17 +59,30 @@ exports.sharedLibsConfig = function sharedLibsConfig(args: Args): RollupOptions[
         esmDir: join(sharedDir, "esm")
     };
 
-    [widgetAMD, widgetESM] = [widgetAMD, widgetESM].map(inputOptions => {
-        inputOptions.external = [...external, bundle.sharedCharts.input];
+    // Entries - widget entries with changed config.
+    // We mark plotly.input as external module and redirect
+    // it to shared/charts/<amd|esm>/plotly.something it.
+    // IMPORTANT: By marking plotly as external we avoid bundling it and fix issue with memory.
+    const entries = [widgetAMD, widgetESM].map(inputOptions => {
+        // Plotly and shared marked as external
+        inputOptions.external = [...external, bundle.sharedCharts.input, bundle.plotly.input];
+
+        const format = (inputOptions.output as OutputOptions).format;
+        const paths: OutputOptions["paths"] = {};
+        paths[bundle.sharedCharts.input] =
+            format === "es"
+                ? `../../../shared/charts/esm/${bundle.sharedCharts.file.esm}`
+                : `../../../shared/charts/amd/${bundle.sharedCharts.file.amd}`;
+        paths[bundle.plotly.input] =
+            format === "es"
+                ? `../../../shared/charts/esm/${bundle.plotly.file.esm}`
+                : `../../../shared/charts/amd/${bundle.plotly.file.amd}`;
+
         inputOptions.output = {
             ...inputOptions.output,
-            paths: {
-                [bundle.sharedCharts.input]:
-                    (inputOptions.output as OutputOptions).format === "es"
-                        ? `../../../shared/charts/esm/${bundle.sharedCharts.file.esm}`
-                        : `../../../shared/charts/amd/${bundle.sharedCharts.file.amd}`
-            }
+            paths
         };
+
         return inputOptions;
     });
 
@@ -79,8 +92,7 @@ exports.sharedLibsConfig = function sharedLibsConfig(args: Args): RollupOptions[
         plotly(bundle),
         reactPlotly(bundle),
         sharedCode(bundle),
-        widgetAMD,
-        widgetESM,
+        ...entries,
         editorPreview,
         editorConfig
     ];

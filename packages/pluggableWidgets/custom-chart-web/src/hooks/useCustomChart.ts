@@ -1,154 +1,68 @@
-import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
-import { useEffect, useMemo, useRef, useState, type RefObject, CSSProperties } from "react";
+import { EditorStoreState, initStateFromProps, PlaygroundData, useEditorStore } from "@mendix/shared-charts/main";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { CSSProperties, Ref, RefCallback, useEffect } from "react";
+import { CustomChartControllerHost } from "src/controllers/CustomChartControllerHost";
+import { mergeRefs } from "src/utils/mergeRefs";
 import { CustomChartContainerProps } from "../../typings/CustomChartProps";
-import { PlotlyChart, ChartProps } from "../components/PlotlyChart";
-import { parseData, parseLayout, parseConfig } from "../utils/utils";
+import { ControllerProps } from "../controllers/typings";
 
 interface UseCustomChartReturn {
-    chartRef: RefObject<HTMLDivElement>;
     containerStyle: CSSProperties;
+    playgroundData: PlaygroundData;
+    ref: Ref<HTMLDivElement> | RefCallback<HTMLDivElement> | undefined;
 }
 
 export function useCustomChart(props: CustomChartContainerProps): UseCustomChartReturn {
-    const chartRef = useRef<HTMLDivElement>(null);
-    const [chart, setChart] = useState<PlotlyChart | null>(null);
-    const [containerDimensions, setContainerDimensions] = useState<{ width?: number; height?: number }>({});
-
-    const [setContainerDimensionsDebounced, abortDimensionsDebounce] = useMemo(
+    const propsGateProvider = useConst(() => new GateProvider<ControllerProps>(props));
+    const editorStateGateProvider = useConst(
+        () => new GateProvider<EditorStoreState>({ layout: "{}", config: "{}", data: [] })
+    );
+    const {
+        chartPropsController,
+        plotlyController,
+        resizeCtrl: resizeController
+    } = useSetup(
         () =>
-            debounce((width: number, height: number) => {
-                setContainerDimensions({ width, height });
-            }, 100),
-        []
+            new CustomChartControllerHost({
+                propsGate: propsGateProvider.gate,
+                editorStateGate: editorStateGateProvider.gate
+            })
     );
 
-    const [updateChartDebounced, abortChartUpdate] = useMemo(
-        () =>
-            debounce((chartInstance: PlotlyChart | null, updateData: ChartProps) => {
-                if (!chartInstance) {
-                    const newChart = new PlotlyChart(chartRef.current!, updateData);
-                    setChart(newChart);
-                } else {
-                    chartInstance.update(updateData);
-                }
-            }, 100),
-        []
-    );
+    const editorStore = useEditorStore({
+        dataLength: chartPropsController.data.length,
+        initState: initStateFromProps(chartPropsController.data)
+    });
 
     useEffect(() => {
-        const resizeObserver = new ResizeObserver(entries => {
-            const { width, height } = entries[0].contentRect;
-            setContainerDimensionsDebounced(width, height);
-        });
-
-        if (chartRef.current) {
-            resizeObserver.observe(chartRef.current);
-        }
-
-        return () => {
-            resizeObserver.disconnect();
-            abortDimensionsDebounce();
-            if (chart) {
-                chart.destroy();
-            }
-        };
-    }, [chart, setContainerDimensionsDebounced, abortDimensionsDebounce]);
+        propsGateProvider.setProps(props);
+    });
 
     useEffect(() => {
-        if (!chartRef.current || !containerDimensions.width) {
-            return;
+        editorStateGateProvider.setProps(editorStore.state);
+    });
+
+    useEffect(() => {
+        if (props.eventDataAttribute?.value && props.onClick) {
+            executeAction(props.onClick);
+            props.eventDataAttribute.setValue("");
         }
-
-        const data = parseData(props.dataStatic, props.dataAttribute?.value, props.sampleData);
-
-        const layout = parseLayout(props.layoutStatic, props.layoutAttribute?.value, props.sampleLayout);
-
-        const dimensions = {
-            width: containerDimensions.width ?? 0,
-            height: containerDimensions.height ?? 0
-        };
-
-        const updateData: ChartProps = {
-            data,
-            layout: {
-                ...layout,
-                width: dimensions.width,
-                height: dimensions.height,
-                autosize: true,
-                font: {
-                    family: "Open Sans, sans-serif",
-                    size: Math.max(12 * (dimensions.width / 1000), 8)
-                },
-                legend: {
-                    ...layout.legend,
-                    font: {
-                        ...layout.legend?.font,
-                        size: Math.max(10 * (dimensions.width / 1000), 7)
-                    },
-                    itemwidth: Math.max(10 * (dimensions.width / 1000), 3),
-                    itemsizing: "constant"
-                },
-                xaxis: {
-                    ...layout.xaxis,
-                    tickfont: {
-                        ...layout.xaxis?.tickfont,
-                        size: Math.max(10 * (dimensions.width / 1000), 7)
-                    }
-                },
-                yaxis: {
-                    ...layout.yaxis,
-                    tickfont: {
-                        ...layout.yaxis?.tickfont,
-                        size: Math.max(10 * (dimensions.width / 1000), 7)
-                    }
-                },
-                margin: {
-                    ...layout.margin,
-                    l: Math.max(50 * (dimensions.width / 1000), 30),
-                    r: Math.max(50 * (dimensions.width / 1000), 30),
-                    t: Math.max(50 * (dimensions.width / 1000), 30),
-                    b: Math.max(50 * (dimensions.width / 1000), 30),
-                    pad: Math.max(4 * (dimensions.width / 1000), 2)
-                }
-            },
-            config: {
-                ...parseConfig(props.configurationOptions),
-                displayModeBar: props.devMode === "developer",
-                responsive: true
-            },
-            width: dimensions.width,
-            height: dimensions.height
-        };
-
-        updateChartDebounced(chart, updateData);
-
-        return () => {
-            abortChartUpdate();
-        };
-    }, [
-        props.dataStatic,
-        props.dataAttribute?.value,
-        props.sampleData,
-        props.layoutStatic,
-        props.layoutAttribute?.value,
-        props.sampleLayout,
-        props.configurationOptions,
-        props.widthUnit,
-        props.width,
-        props.heightUnit,
-        props.height,
-        props.devMode,
-        containerDimensions,
-        chart,
-        updateChartDebounced,
-        abortChartUpdate
-    ]);
+    }, [props.eventDataAttribute?.value]);
 
     return {
-        chartRef,
         containerStyle: {
             width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`,
             height: props.heightUnit === "percentageOfParent" ? `${props.height}%` : undefined
-        }
+        },
+        playgroundData: {
+            store: editorStore,
+            plotData: chartPropsController.data,
+            layoutOptions: chartPropsController.layout,
+            configOptions: chartPropsController.config
+        },
+        ref: mergeRefs<HTMLDivElement>(resizeController.setTarget, plotlyController.setChart)
     };
 }

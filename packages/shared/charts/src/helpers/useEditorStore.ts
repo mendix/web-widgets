@@ -1,5 +1,7 @@
+import { Data } from "plotly.js-dist-min";
 import { useState, useReducer, useEffect } from "react";
 import { EditorStore, EditorStoreState } from "./EditorStore";
+import { fallback, pprint } from "../utils/json";
 
 export type EditorStoreInitializer = () => EditorStoreState;
 
@@ -29,4 +31,12 @@ export function useEditorStore(params: Params): EditorStore {
     );
 
     return store;
+}
+
+export function initStateFromProps(data: Array<Partial<Data>>): EditorStoreInitializer {
+    return () => ({
+        layout: pprint(fallback("")),
+        config: pprint(fallback("")),
+        data: data.map(trace => pprint(fallback(trace.name)))
+    });
 }
