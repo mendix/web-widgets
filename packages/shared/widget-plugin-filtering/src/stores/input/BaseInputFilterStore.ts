@@ -73,8 +73,13 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
         return conditions?.length > 1 ? or(...conditions) : conditions?.[0];
     }
 
-    UNSAFE_setDefaults = (state: StateTuple<Fn, Val<A>>): void => {
+    UNSAFE_setDefaults = (state: StateTuple<Fn, Val<A>>, canAdjustFilterFunction: boolean): void => {
         this.defaultState = state;
+        if (!canAdjustFilterFunction) {
+            // filter function is not adjustable, reset to default and lock it
+            this.filterFunction = this.defaultState[0];
+            this._isFilterFunctionAdjustable = false;
+        }
         if (!this.isInitialized) {
             this.setState(state);
             this.isInitialized = true;

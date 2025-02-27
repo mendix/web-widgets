@@ -16,6 +16,7 @@ export type Params = {
     defaultValue?: FilterV<String_InputFilterInterface>;
     changeDelay?: number;
     disableInputs?: (fn: StringFilterFunction) => boolean;
+    adjustableFilterFunction: boolean;
 };
 
 type StringFilterFunction =
@@ -32,6 +33,7 @@ export class StringFilterController {
     input2: InputStore;
     inputRef = createRef<HTMLInputElement>();
     defaults: String_InputFilterInterface["defaultState"];
+    adjustableFilterFunction: boolean;
     inputs: [InputStore, InputStore];
 
     constructor(params: Params) {
@@ -43,6 +45,7 @@ export class StringFilterController {
         this.filter = filter;
         this.defaults = [params.defaultFilter, params.defaultValue];
         this.disabledFn = params.disableInputs;
+        this.adjustableFilterFunction = params.adjustableFilterFunction;
 
         makeObservable(this, {
             selectedFn: computed,
@@ -99,7 +102,7 @@ export class StringFilterController {
         );
 
         // Set default state for the filter, if present.
-        this.filter.UNSAFE_setDefaults(this.defaults);
+        this.filter.UNSAFE_setDefaults(this.defaults, this.adjustableFilterFunction);
 
         return () => {
             disposers.forEach(dispose => dispose());
