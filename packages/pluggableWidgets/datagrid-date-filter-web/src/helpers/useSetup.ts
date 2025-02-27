@@ -9,6 +9,7 @@ import { FilterTypeEnum } from "./base-types";
 interface SetupProps {
     filterStore: Date_InputFilterInterface;
     defaultFilter: FilterTypeEnum;
+    adjustableFilterFunction: boolean;
     defaultValue?: Date;
     defaultStartValue?: Date;
     defaultEndValue?: Date;
@@ -28,6 +29,7 @@ export function useSetup(props: SetupProps): SetupResult {
             new DatePickerController({
                 defaultEnd: props.defaultEndValue,
                 defaultFilter: props.defaultFilter,
+                adjustableFilterFunction: props.adjustableFilterFunction,
                 defaultStart: props.defaultStartValue,
                 defaultValue: props.defaultValue,
                 filter: props.filterStore
