@@ -11,6 +11,7 @@ export type Params = {
     defaultValue?: FilterV<Number_InputFilterInterface>;
     changeDelay?: number;
     disableInputs?: (fn: NumberFilterFunction) => boolean;
+    adjustableFilterFunction: boolean;
 };
 
 type NumberFilterFunction = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
@@ -23,6 +24,7 @@ export class NumberFilterController {
     input2: InputStore;
     inputRef = createRef<HTMLInputElement>();
     defaults: Number_InputFilterInterface["defaultState"];
+    adjustableFilterFunction: boolean;
     inputs: [InputStore, InputStore];
 
     constructor(params: Params) {
@@ -34,6 +36,7 @@ export class NumberFilterController {
         this.filter = filter;
         this.defaults = [params.defaultFilter, params.defaultValue];
         this.disabledFn = params.disableInputs;
+        this.adjustableFilterFunction = params.adjustableFilterFunction;
 
         makeObservable(this, {
             selectedFn: computed,
@@ -90,7 +93,7 @@ export class NumberFilterController {
         );
 
         // Set default state for the filter, if present.
-        this.filter.UNSAFE_setDefaults(this.defaults);
+        this.filter.UNSAFE_setDefaults(this.defaults, this.adjustableFilterFunction);
 
         return () => {
             disposers.forEach(dispose => dispose());
