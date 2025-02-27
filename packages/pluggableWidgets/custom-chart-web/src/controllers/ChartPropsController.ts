@@ -121,13 +121,6 @@ export class ChartPropsController implements ReactiveController {
     get mergedProps(): ChartProps {
         const props = this.chartProps;
         const state = this.editorStateGate.props;
-        console.log("props", {
-            config: {
-                props: props.config,
-                state: parseConfig(state.config)
-            }
-        });
-
         return {
             ...props,
             config: {
