@@ -127,7 +127,7 @@ export class DatePickerController {
             this._filter.reset();
         } else {
             runInAction(() => {
-                this._filter.setFilterFn(valueOptions.operators as Date_InputFilterInterface["filterFunction"]);
+                this._filter.filterFunction = valueOptions.operators as Date_InputFilterInterface["filterFunction"];
                 this._filter.arg1.value = valueOptions.dateTimeValue;
                 this._filter.arg2.value = valueOptions.dateTimeValue2;
             });
@@ -135,7 +135,7 @@ export class DatePickerController {
     };
 
     handleFilterChange = (fn: FilterFn<Date_InputFilterInterface>): void => {
-        this._filter.setFilterFn(fn);
+        this._filter.filterFunction = fn;
         this._setActive();
     };
 
