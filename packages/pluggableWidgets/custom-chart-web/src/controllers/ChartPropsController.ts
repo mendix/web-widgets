@@ -72,8 +72,8 @@ export class ChartPropsController implements ReactiveController {
 
     private get chartConfig(): ChartProps["config"] {
         return {
-            ...this.config,
-            responsive: true
+            displayModeBar: false,
+            ...this.config
         };
     }
 
@@ -81,43 +81,7 @@ export class ChartPropsController implements ReactiveController {
         return {
             ...this.layout,
             width: this.sizeProvider.width,
-            height: this.sizeProvider.height,
-            autosize: true,
-            font: {
-                family: "Open Sans, sans-serif",
-                size: Math.max(12 * (this.sizeProvider.width / 1000), 8)
-            },
-            legend: {
-                ...this.layout.legend,
-                font: {
-                    ...this.layout.legend?.font,
-                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7)
-                },
-                itemwidth: Math.max(10 * (this.sizeProvider.width / 1000), 3),
-                itemsizing: "constant"
-            },
-            xaxis: {
-                ...this.layout.xaxis,
-                tickfont: {
-                    ...this.layout.xaxis?.tickfont,
-                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7)
-                }
-            },
-            yaxis: {
-                ...this.layout.yaxis,
-                tickfont: {
-                    ...this.layout.yaxis?.tickfont,
-                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7)
-                }
-            },
-            margin: {
-                ...this.layout.margin,
-                l: Math.max(50 * (this.sizeProvider.width / 1000), 30),
-                r: Math.max(50 * (this.sizeProvider.width / 1000), 30),
-                t: Math.max(50 * (this.sizeProvider.width / 1000), 30),
-                b: Math.max(50 * (this.sizeProvider.width / 1000), 30),
-                pad: Math.max(4 * (this.sizeProvider.width / 1000), 2)
-            }
+            height: this.sizeProvider.height
         };
     }
 
@@ -157,6 +121,13 @@ export class ChartPropsController implements ReactiveController {
     get mergedProps(): ChartProps {
         const props = this.chartProps;
         const state = this.editorStateGate.props;
+        console.log("props", {
+            config: {
+                props: props.config,
+                state: parseConfig(state.config)
+            }
+        });
+
         return {
             ...props,
             config: {
