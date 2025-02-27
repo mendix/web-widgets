@@ -19,14 +19,14 @@ interface ColumnPersonalizationStorageSettings {
 
 export type ColumnFilterSettings = Array<[key: ColumnId, data: FilterData]>;
 
-export type GroupFilterSettings = Array<[key: string, data: FilterData]>;
+export type CustomFilterSettings = Array<[key: string, data: FilterData]>;
 
 export interface GridPersonalizationStorageSettings {
     name: string;
-    schemaVersion: 2;
+    schemaVersion: 3;
     settingsHash: string;
     columns: ColumnPersonalizationStorageSettings[];
-    groupFilters: GroupFilterSettings;
+    customFilters: CustomFilterSettings;
     columnFilters: ColumnFilterSettings;
     columnOrder: ColumnId[];
     sortOrder: SortRule[];
