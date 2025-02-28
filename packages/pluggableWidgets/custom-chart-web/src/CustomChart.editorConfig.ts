@@ -1,4 +1,4 @@
-import { hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 import {
     structurePreviewPalette,
@@ -9,6 +9,26 @@ import { CustomChartPreviewProps } from "../typings/CustomChartProps";
 export function getProperties(values: CustomChartPreviewProps, defaultProperties: Properties): Properties {
     if (values.showPlaygroundSlot === false) {
         hidePropertyIn(defaultProperties, values, "playground");
+    }
+
+    if (values.heightUnit === "percentageOfWidth") {
+        hidePropertyIn(defaultProperties, values, "height");
+    } else {
+        hidePropertiesIn(defaultProperties, values, [
+            "minHeight",
+            "minHeightUnit",
+            "maxHeight",
+            "maxHeightUnit",
+            "OverflowY"
+        ]);
+    }
+
+    if (values.minHeightUnit === "none") {
+        hidePropertyIn(defaultProperties, values, "minHeight");
+    }
+
+    if (values.maxHeightUnit === "none") {
+        hidePropertiesIn(defaultProperties, values, ["maxHeight", "OverflowY"]);
     }
     return defaultProperties;
 }
