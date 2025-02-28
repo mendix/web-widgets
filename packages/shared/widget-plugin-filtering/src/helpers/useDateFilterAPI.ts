@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
-import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
+import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { error, Result, value } from "../result-meta";
 import { isDateFilter } from "../stores/input/store-utils";
 import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
@@ -10,7 +10,7 @@ export interface Date_FilterAPIv2 {
     parentChannelName?: string;
 }
 
-export function useDateFilterAPI(key: string): Result<Date_FilterAPIv2, APIError> {
+export function useDateFilterAPI(): Result<Date_FilterAPIv2, APIError> {
     const ctx = useFilterContextValue();
     const dateAPI = useRef<Date_FilterAPIv2>();
 
@@ -24,11 +24,7 @@ export function useDateFilterAPI(key: string): Result<Date_FilterAPIv2, APIError
         return error(api.provider.error);
     }
 
-    if (api.provider.value.type === "key-value" && key === "") {
-        return error(EKEYMISSING);
-    }
-
-    const store = getFilterStore(api.provider.value, FilterType.DATE, key);
+    const store = getFilterStore(api.provider.value, FilterType.DATE);
 
     if (store === null) {
         return error(EMISSINGSTORE);
