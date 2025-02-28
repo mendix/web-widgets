@@ -1,3 +1,4 @@
+import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
@@ -37,16 +38,28 @@ export class RootGridStore extends BaseControllerHost {
         super();
 
         const { props } = gate;
-        const [columnsViewState, headerViewState] = DatasourceParamsController.unzipFilter(props.datasource.filter);
+        const [columnsInitFilter, headerInitFilter, sharedInitFilter] = DatasourceParamsController.unzipFilter(
+            props.datasource.filter
+        );
 
         this.gate = gate;
         this.staticInfo = {
             name: props.name,
             filtersChannelName: `datagrid/${generateUUID()}`
         };
+        const filterObserver = new CustomFilterHost();
         const query = new DatasourceController(this, { gate });
-        const columns = (this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsViewState));
-        const header = (this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState));
+        const columns = (this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsInitFilter, {
+            filterObserver,
+            sharedInitFilter
+        }));
+        const header = (this.headerFiltersStore = new HeaderFiltersStore({
+            filterList: props.filterList,
+            filterChannelName: this.staticInfo.filtersChannelName,
+            headerInitFilter,
+            sharedInitFilter,
+            filterObserver
+        }));
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
         this.paginationCtrl = new PaginationController(this, { gate, query });
         this.exportProgressCtrl = exportCtrl;
