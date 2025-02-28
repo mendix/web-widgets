@@ -5,6 +5,7 @@ export type * from "./helpers/useEditorStore";
 export * from "./hooks/usePlotChartDataSeries";
 export * from "./utils/compareAttrValuesAsc";
 export * from "./utils/configs";
+export * from "./utils/chartStyles";
 export * from "./utils/equality";
 export { fallback, pprint } from "./utils/json";
 export { getPlaygroundContext, usePlaygroundContext };
