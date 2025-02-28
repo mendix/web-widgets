@@ -17,7 +17,7 @@ import { ColumnGroupStore } from "./ColumnGroupStore";
 export class GridPersonalizationStore {
     private readonly gridName: string;
     private readonly gridColumnsHash: string;
-    private readonly schemaVersion: GridPersonalizationStorageSettings["schemaVersion"] = 2;
+    private readonly schemaVersion: GridPersonalizationStorageSettings["schemaVersion"] = 3;
     private readonly storeFilters: boolean;
 
     private storage: PersonalizationStorage;
@@ -164,7 +164,7 @@ function toStorageFormat(
     gridColumnsHash: string,
     columnsSettings: ColumnPersonalizationSettings[],
     columnFilters: FiltersSettingsMap<ColumnId>,
-    groupFilters: FiltersSettingsMap<string>
+    customFilters: FiltersSettingsMap<string>
 ): GridPersonalizationStorageSettings {
     const sortOrder = columnsSettings
         .filter(c => c.sortDir && c.sortWeight !== undefined)
@@ -175,7 +175,7 @@ function toStorageFormat(
 
     return {
         name: gridName,
-        schemaVersion: 2,
+        schemaVersion: 3,
         settingsHash: gridColumnsHash,
         columns: columnsSettings.map(c => ({
             columnId: c.columnId,
@@ -185,7 +185,7 @@ function toStorageFormat(
         })),
 
         columnFilters: Array.from(columnFilters),
-        groupFilters: Array.from(groupFilters),
+        customFilters: Array.from(customFilters),
 
         sortOrder,
         columnOrder
