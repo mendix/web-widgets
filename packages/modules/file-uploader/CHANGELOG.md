@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.3] FileUploader - 2025-02-28
+
+### [1.0.3] FileUploader
+
+#### Fixed
+
+-   We fixed an issue with long file names causing text to extend beyond the widget.
+
 ## [1.0.2] FileUploader - 2025-02-14
 
 ### Added

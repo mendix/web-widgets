@@ -1,7 +1,7 @@
 {
     "name": "@mendix/file-uploader",
     "moduleName": "File Uploader module",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "private": true,
