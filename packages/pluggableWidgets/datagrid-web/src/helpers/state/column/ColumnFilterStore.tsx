@@ -1,4 +1,4 @@
-import { FilterAPIv2, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
+import { FilterAPI, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import { RefFilterStore, RefFilterStoreProps } from "@mendix/widget-plugin-filtering/stores/picker/RefFilterStore";
 import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/StaticSelectFilterStore";
 import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
@@ -12,6 +12,7 @@ import { StaticInfo } from "../../../typings/static-info";
 import { FilterData } from "@mendix/widget-plugin-filtering/typings/settings";
 import { value } from "@mendix/widget-plugin-filtering/result-meta";
 import { disposeFx } from "@mendix/widget-plugin-filtering/mobx-utils";
+import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
 export interface IColumnFilterStore {
     renderFilterWidgets(): ReactNode;
 }
@@ -23,9 +24,11 @@ const { Provider } = getGlobalFilterContextObject();
 export class ColumnFilterStore implements IColumnFilterStore {
     private _widget: ReactNode;
     private _filterStore: FilterStore | null = null;
-    private _context: FilterAPIv2;
+    private _context: FilterAPI;
+    private _observerBag: ObserverBag;
 
-    constructor(props: ColumnsType, info: StaticInfo, dsViewState: FilterCondition | null) {
+    constructor(props: ColumnsType, info: StaticInfo, dsViewState: FilterCondition | null, observerBag: ObserverBag) {
+        this._observerBag = observerBag;
         this._widget = props.filter;
         this._filterStore = this.createFilterStore(props, dsViewState);
         this._context = this.createContext(this._filterStore, info);
@@ -92,14 +95,16 @@ export class ColumnFilterStore implements IColumnFilterStore {
         return null;
     }
 
-    private createContext(store: FilterStore | null, info: StaticInfo): FilterAPIv2 {
+    private createContext(store: FilterStore | null, info: StaticInfo): FilterAPI {
         return {
-            version: 2,
+            version: 3,
             parentChannelName: info.filtersChannelName,
             provider: value({
                 type: "direct",
                 store
-            })
+            }),
+            filterObserver: this._observerBag.filterObserver,
+            sharedInitFilter: this._observerBag.sharedInitFilter
         };
     }
 
@@ -132,3 +137,8 @@ const isListAttributeValue = (
 
 const errorMessage = (propName: string): string =>
     `Can't map ColumnsType to AssociationProperties: ${propName} is undefined`;
+
+export interface ObserverBag {
+    filterObserver: FilterObserver;
+    sharedInitFilter: Array<FilterCondition | undefined>;
+}

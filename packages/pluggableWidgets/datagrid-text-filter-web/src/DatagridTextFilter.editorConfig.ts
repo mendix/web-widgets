@@ -1,10 +1,4 @@
-import {
-    ContainerProps,
-    ImageProps,
-    StructurePreviewProps,
-    text,
-    structurePreviewPalette
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     containsIcon,
     containsIconDark,
@@ -29,25 +23,28 @@ import {
     startsWithIcon,
     startsWithIconDark
 } from "@mendix/widget-plugin-filtering/preview/editor-preview-icons";
-import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
+import {
+    ContainerProps,
+    ImageProps,
+    structurePreviewPalette,
+    StructurePreviewProps,
+    text
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { DatagridTextFilterPreviewProps, DefaultFilterEnum } from "../typings/DatagridTextFilterProps";
 
-export function getProperties(
-    values: DatagridTextFilterPreviewProps,
-    defaultProperties: Properties,
-    platform: "web" | "desktop"
-): Properties {
+export function getProperties(values: DatagridTextFilterPreviewProps, defaultProperties: Properties): Properties {
     if (!values.adjustable) {
         hidePropertyIn(defaultProperties, values, "screenReaderButtonCaption");
     }
-    if (platform === "web") {
-        if (!values.advanced) {
-            hidePropertiesIn(defaultProperties, values, ["onChange", "valueAttribute"]);
-        }
-    } else {
-        hidePropertyIn(defaultProperties, values, "advanced");
+
+    if (values.customAttrs === "auto") {
+        hidePropertyIn(defaultProperties, values, "attributes");
+        hidePropertyIn(defaultProperties, values, "dataKey");
     }
+
+    hidePropertyIn(defaultProperties, {} as { linkedDs: unknown }, "linkedDs");
+
     return defaultProperties;
 }
 

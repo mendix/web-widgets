@@ -16,18 +16,18 @@ interface Header {
     conditions: Array<FilterCondition | undefined>;
 }
 
-type StateSyncControllerSpec = {
+type DatasourceParamsControllerSpec = {
     query: QueryController;
     columns: Columns;
     header: Header;
 };
 
-export class StateSyncController implements ReactiveController {
+export class DatasourceParamsController implements ReactiveController {
     private columns: Columns;
     private header: Header;
     private query: QueryController;
 
-    constructor(host: ReactiveControllerHost, spec: StateSyncControllerSpec) {
+    constructor(host: ReactiveControllerHost, spec: DatasourceParamsControllerSpec) {
         host.addController(this);
         this.columns = spec.columns;
         this.header = spec.header;
@@ -68,17 +68,22 @@ export class StateSyncController implements ReactiveController {
 
     static unzipFilter(
         filter?: FilterCondition
-    ): [columns: Array<FilterCondition | undefined>, header: Array<FilterCondition | undefined>] {
+    ): [
+        columns: Array<FilterCondition | undefined>,
+        header: Array<FilterCondition | undefined>,
+        sharedFilter: Array<FilterCondition | undefined>
+    ] {
         if (!filter) {
-            return [[], []];
+            return [[], [], []];
         }
         if (!isAnd(filter)) {
-            return [[], []];
+            return [[], [], []];
         }
-        if (filter.args.length !== 2) {
-            return [[], []];
+        if (filter.args.length !== 3) {
+            return [[], [], []];
         }
-        const [columns, header] = filter.args;
-        return [fromCompactArray(columns), fromCompactArray(header)];
+
+        const [columns, header, shared] = filter.args;
+        return [fromCompactArray(columns), fromCompactArray(header), fromCompactArray(shared)];
     }
 }
