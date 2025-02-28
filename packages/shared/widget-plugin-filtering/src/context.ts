@@ -4,7 +4,7 @@ import { Result, error, value } from "./result-meta.js";
 import { InputFilterInterface } from "./typings/InputFilterInterface.js";
 import { PickerFilterStore } from "./typings/PickerFilterStore.js";
 
-export interface FilterAPIv2 {
+export interface FilterAPI {
     version: 2;
     parentChannelName: string;
     provider: Result<FilterStoreProvider, APIError>;
@@ -38,7 +38,7 @@ export interface LegacyProvider {
     get: (type: FilterType) => FilterStore | null;
 }
 
-type Context_v2 = Context<FilterAPIv2 | null>;
+type Context_v2 = Context<FilterAPI | null>;
 
 const CONTEXT_OBJECT_PATH = "com.mendix.widgets.web.filterable.filterContext.v2" as const;
 
@@ -49,10 +49,10 @@ declare global {
 }
 
 export function getGlobalFilterContextObject(): Context_v2 {
-    return (window[CONTEXT_OBJECT_PATH] ??= createContext<FilterAPIv2 | null>(null));
+    return (window[CONTEXT_OBJECT_PATH] ??= createContext<FilterAPI | null>(null));
 }
 
-export function useFilterContextValue(): Result<FilterAPIv2, APIError> {
+export function useFilterContextValue(): Result<FilterAPI, APIError> {
     const context = getGlobalFilterContextObject();
     const contextValue = useContext(context);
 
