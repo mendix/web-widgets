@@ -1,6 +1,8 @@
+import { FilterCondition } from "mendix/filters/index.js";
 import { Context, createContext, useContext } from "react";
 import { APIError, ENOCONTEXT } from "./errors.js";
 import { Result, error, value } from "./result-meta.js";
+import { FilterObserver } from "./typings/FilterObserver.js";
 import { InputFilterInterface } from "./typings/InputFilterInterface.js";
 import { PickerFilterStore } from "./typings/PickerFilterStore.js";
 
@@ -8,6 +10,8 @@ export interface FilterAPI {
     version: 3;
     parentChannelName: string;
     provider: Result<FilterStoreProvider, APIError>;
+    filterObserver: FilterObserver;
+    sharedInitFilter: Array<FilterCondition | undefined>;
 }
 
 /** @deprecated */
