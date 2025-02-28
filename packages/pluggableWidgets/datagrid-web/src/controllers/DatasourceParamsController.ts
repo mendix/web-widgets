@@ -16,18 +16,18 @@ interface Header {
     conditions: Array<FilterCondition | undefined>;
 }
 
-type StateSyncControllerSpec = {
+type DatasourceParamsControllerSpec = {
     query: QueryController;
     columns: Columns;
     header: Header;
 };
 
-export class StateSyncController implements ReactiveController {
+export class DatasourceParamsController implements ReactiveController {
     private columns: Columns;
     private header: Header;
     private query: QueryController;
 
-    constructor(host: ReactiveControllerHost, spec: StateSyncControllerSpec) {
+    constructor(host: ReactiveControllerHost, spec: DatasourceParamsControllerSpec) {
         host.addController(this);
         this.columns = spec.columns;
         this.header = spec.header;
