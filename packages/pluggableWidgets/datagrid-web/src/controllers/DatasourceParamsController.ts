@@ -68,17 +68,22 @@ export class DatasourceParamsController implements ReactiveController {
 
     static unzipFilter(
         filter?: FilterCondition
-    ): [columns: Array<FilterCondition | undefined>, header: Array<FilterCondition | undefined>] {
+    ): [
+        columns: Array<FilterCondition | undefined>,
+        header: Array<FilterCondition | undefined>,
+        sharedFilter: Array<FilterCondition | undefined>
+    ] {
         if (!filter) {
-            return [[], []];
+            return [[], [], []];
         }
         if (!isAnd(filter)) {
-            return [[], []];
+            return [[], [], []];
         }
-        if (filter.args.length !== 2) {
-            return [[], []];
+        if (filter.args.length !== 3) {
+            return [[], [], []];
         }
-        const [columns, header] = filter.args;
-        return [fromCompactArray(columns), fromCompactArray(header)];
+
+        const [columns, header, shared] = filter.args;
+        return [fromCompactArray(columns), fromCompactArray(header), fromCompactArray(shared)];
     }
 }
