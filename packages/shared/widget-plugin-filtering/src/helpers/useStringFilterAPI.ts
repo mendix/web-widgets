@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
-import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
+import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { error, Result, value } from "../result-meta";
 import { isStringFilter } from "../stores/input/store-utils";
 import { String_InputFilterInterface } from "../typings/InputFilterInterface";
@@ -10,7 +10,7 @@ export interface String_FilterAPIv2 {
     parentChannelName?: string;
 }
 
-export function useStringFilterAPI(key: string): Result<String_FilterAPIv2, APIError> {
+export function useStringFilterAPI(): Result<String_FilterAPIv2, APIError> {
     const ctx = useFilterContextValue();
     const strAPI = useRef<String_FilterAPIv2>();
 
@@ -24,11 +24,7 @@ export function useStringFilterAPI(key: string): Result<String_FilterAPIv2, APIE
         return error(api.provider.error);
     }
 
-    if (api.provider.value.type === "key-value" && key === "") {
-        return error(EKEYMISSING);
-    }
-
-    const store = getFilterStore(api.provider.value, FilterType.STRING, key);
+    const store = getFilterStore(api.provider.value, FilterType.STRING);
 
     if (store === null) {
         return error(EMISSINGSTORE);
