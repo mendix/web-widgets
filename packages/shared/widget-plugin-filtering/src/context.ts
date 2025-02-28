@@ -38,17 +38,17 @@ export interface LegacyProvider {
     get: (type: FilterType) => FilterStore | null;
 }
 
-type Context_v2 = Context<FilterAPI | null>;
+type FilterAPIContext = Context<FilterAPI | null>;
 
 const CONTEXT_OBJECT_PATH = "com.mendix.widgets.web.filterable.filterContext.v2" as const;
 
 declare global {
     interface Window {
-        [CONTEXT_OBJECT_PATH]: Context_v2 | undefined;
+        [CONTEXT_OBJECT_PATH]: FilterAPIContext | undefined;
     }
 }
 
-export function getGlobalFilterContextObject(): Context_v2 {
+export function getGlobalFilterContextObject(): FilterAPIContext {
     return (window[CONTEXT_OBJECT_PATH] ??= createContext<FilterAPI | null>(null));
 }
 
