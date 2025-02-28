@@ -6,10 +6,10 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 import { autorun, computed } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { DatasourceController } from "../../controllers/DatasourceController";
+import { DatasourceParamsController } from "../../controllers/DatasourceParamsController";
 import { DerivedLoaderController } from "../../controllers/DerivedLoaderController";
 import { PaginationController } from "../../controllers/PaginationController";
 import { RefreshController } from "../../controllers/RefreshController";
-import { StateSyncController } from "../../controllers/StateSyncController";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
@@ -37,7 +37,7 @@ export class RootGridStore extends BaseControllerHost {
         super();
 
         const { props } = gate;
-        const [columnsViewState, headerViewState] = StateSyncController.unzipFilter(props.datasource.filter);
+        const [columnsViewState, headerViewState] = DatasourceParamsController.unzipFilter(props.datasource.filter);
 
         this.gate = gate;
         this.staticInfo = {
@@ -51,7 +51,7 @@ export class RootGridStore extends BaseControllerHost {
         this.paginationCtrl = new PaginationController(this, { gate, query });
         this.exportProgressCtrl = exportCtrl;
 
-        new StateSyncController(this, {
+        new DatasourceParamsController(this, {
             query,
             columns,
             header
