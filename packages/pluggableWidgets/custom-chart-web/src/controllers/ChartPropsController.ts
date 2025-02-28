@@ -81,7 +81,43 @@ export class ChartPropsController implements ReactiveController {
         return {
             ...this.layout,
             width: this.sizeProvider.width,
-            height: this.sizeProvider.height
+            height: this.sizeProvider.height,
+            autosize: true,
+            font: {
+                family: "Open Sans, sans-serif",
+                size: Math.max(12 * (this.sizeProvider.width / 1000), 8)
+            },
+            legend: {
+                ...this.layout.legend,
+                font: {
+                    ...this.layout.legend?.font,
+                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7)
+                },
+                itemwidth: Math.max(10 * (this.sizeProvider.width / 1000), 3),
+                itemsizing: "constant"
+            },
+            xaxis: {
+                ...this.layout.xaxis,
+                tickfont: {
+                    ...this.layout.xaxis?.tickfont,
+                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7)
+                }
+            },
+            yaxis: {
+                ...this.layout.yaxis,
+                tickfont: {
+                    ...this.layout.yaxis?.tickfont,
+                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7)
+                }
+            },
+            margin: {
+                ...this.layout.margin,
+                l: 60,
+                r: 60,
+                t: 60,
+                b: 60,
+                pad: 10
+            }
         };
     }
 

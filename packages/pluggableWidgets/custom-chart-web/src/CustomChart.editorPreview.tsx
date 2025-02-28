@@ -55,7 +55,12 @@ export function preview(props: CustomChartPreviewProps): ReactElement {
         widthUnit: props.widthUnit,
         width: props.width || 75,
         heightUnit: props.heightUnit,
-        height: props.height || 75
+        height: props.height || 75,
+        minHeightUnit: props.minHeightUnit,
+        minHeight: props.minHeight || 75,
+        maxHeightUnit: props.maxHeightUnit,
+        maxHeight: props.maxHeight || 75,
+        OverflowY: props.OverflowY
     };
 
     return (

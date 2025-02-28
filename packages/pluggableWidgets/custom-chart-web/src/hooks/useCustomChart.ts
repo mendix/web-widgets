@@ -52,11 +52,20 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
         }
     }, [props.eventDataAttribute?.value]);
 
+    const containerStyle: CSSProperties = {
+        width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`
+    };
+
+    if (props.heightUnit === "percentageOfWidth") {
+        containerStyle.paddingBottom = props.widthUnit === "percentage" ? `${props.height}%` : `${props.width / 2}px`;
+    } else if (props.heightUnit === "pixels") {
+        containerStyle.height = `${props.height}px`;
+    } else if (props.heightUnit === "percentageOfParent") {
+        containerStyle.height = `${props.height}%`;
+    }
+
     return {
-        containerStyle: {
-            width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`,
-            height: props.heightUnit === "percentageOfParent" ? `${props.height}%` : undefined
-        },
+        containerStyle,
         playgroundData: {
             store: editorStore,
             plotData: chartPropsController.data,

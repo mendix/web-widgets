@@ -6,9 +6,15 @@
 import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, EditableValue } from "mendix";
 
-export type WidthUnitEnum = "percentage" | "pixels";
+export type WidthUnitEnum = "pixels" | "percentage";
 
-export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent";
+export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type MinHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type MaxHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type OverflowYEnum = "auto" | "scroll" | "hidden";
 
 export interface CustomChartContainerProps {
     name: string;
@@ -28,6 +34,11 @@ export interface CustomChartContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
+    minHeightUnit: MinHeightUnitEnum;
+    minHeight: number;
+    maxHeightUnit: MaxHeightUnitEnum;
+    maxHeight: number;
+    OverflowY: OverflowYEnum;
     onClick?: ActionValue;
     eventDataAttribute?: EditableValue<string>;
 }
@@ -55,6 +66,11 @@ export interface CustomChartPreviewProps {
     width: number | null;
     heightUnit: HeightUnitEnum;
     height: number | null;
+    minHeightUnit: MinHeightUnitEnum;
+    minHeight: number | null;
+    maxHeightUnit: MaxHeightUnitEnum;
+    maxHeight: number | null;
+    OverflowY: OverflowYEnum;
     onClick: {} | null;
     eventDataAttribute: string;
 }
