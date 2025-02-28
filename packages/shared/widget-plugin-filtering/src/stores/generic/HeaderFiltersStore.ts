@@ -1,7 +1,7 @@
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { computed, makeObservable } from "mobx";
-import { FilterAPIv2 } from "../../context";
+import { FilterAPI } from "../../context";
 import { APIError } from "../../errors";
 import { LegacyPv } from "../../providers/LegacyPv";
 import { Result, value } from "../../result-meta";
@@ -23,7 +23,7 @@ export interface StaticInfo {
 
 export class HeaderFiltersStore {
     private provider: Result<LegacyPv, APIError>;
-    context: FilterAPIv2;
+    context: FilterAPI;
 
     constructor(
         props: HeaderFiltersStoreProps,
