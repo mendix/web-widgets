@@ -27,7 +27,7 @@ export function useSelectFilterAPI({ filterable }: Props): Result<Select_FilterA
         return error(api.provider.error);
     }
 
-    const store = getFilterStore(api.provider.value, FilterType.ENUMERATION, "");
+    const store = getFilterStore(api.provider.value, FilterType.ENUMERATION);
 
     if (store === null) {
         return error(EMISSINGSTORE);
