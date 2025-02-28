@@ -5,36 +5,39 @@ import { FilterAPI } from "../../context";
 import { APIError } from "../../errors";
 import { LegacyPv } from "../../providers/LegacyPv";
 import { Result, value } from "../../result-meta";
+import { FilterObserver } from "../../typings/FilterObserver";
 import { FiltersSettingsMap } from "../../typings/settings";
 
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
 }
 
-export interface HeaderFiltersStoreProps {
+export interface HeaderFiltersStoreSpec {
     filterList: FilterListType[];
-    parentChannelName?: string;
-}
-
-export interface StaticInfo {
-    name: string;
-    filtersChannelName: string;
+    filterChannelName: string;
+    headerInitFilter: Array<FilterCondition | undefined>;
+    sharedInitFilter: Array<FilterCondition | undefined>;
+    filterObserver: FilterObserver;
 }
 
 export class HeaderFiltersStore {
     private provider: Result<LegacyPv, APIError>;
     context: FilterAPI;
 
-    constructor(
-        props: HeaderFiltersStoreProps,
-        info: StaticInfo,
-        dsViewState: Array<FilterCondition | undefined> | null
-    ) {
-        this.provider = this.createProvider(props, dsViewState);
+    constructor({
+        filterList,
+        filterChannelName,
+        headerInitFilter,
+        sharedInitFilter,
+        filterObserver
+    }: HeaderFiltersStoreSpec) {
+        this.provider = this.createProvider(filterList, headerInitFilter);
         this.context = {
-            version: 2,
-            parentChannelName: info.filtersChannelName ?? "",
-            provider: this.provider
+            version: 3,
+            parentChannelName: filterChannelName,
+            provider: this.provider,
+            sharedInitFilter,
+            filterObserver
         };
         makeObservable(this, {
             conditions: computed,
@@ -59,13 +62,13 @@ export class HeaderFiltersStore {
     }
 
     createProvider(
-        props: HeaderFiltersStoreProps,
-        dsViewState: Array<FilterCondition | undefined> | null
+        filterList: FilterListType[],
+        initFilter: Array<FilterCondition | undefined>
     ): Result<LegacyPv, APIError> {
         return value(
             new LegacyPv(
-                props.filterList.map(f => f.filter),
-                dsViewState
+                filterList.map(f => f.filter),
+                initFilter
             )
         );
     }
@@ -77,6 +80,4 @@ export class HeaderFiltersStore {
 
         return this.provider.value.setup();
     }
-
-    updateProps(): void {}
 }
