@@ -5,7 +5,7 @@ import { InputFilterInterface } from "./typings/InputFilterInterface.js";
 import { PickerFilterStore } from "./typings/PickerFilterStore.js";
 
 export interface FilterAPI {
-    version: 2;
+    version: 3;
     parentChannelName: string;
     provider: Result<FilterStoreProvider, APIError>;
 }
@@ -18,18 +18,13 @@ export enum FilterType {
     DATE = "date"
 }
 
-export type FilterStoreProvider = DirectProvider | KeyProvider | LegacyProvider;
+export type FilterStoreProvider = DirectProvider | LegacyProvider;
 
 export type FilterStore = InputFilterInterface | PickerFilterStore;
 
 interface DirectProvider {
     type: "direct";
     store: FilterStore | null;
-}
-
-export interface KeyProvider {
-    type: "key-value";
-    get: (key: string) => FilterStore | null;
 }
 
 /** @deprecated */
@@ -63,12 +58,10 @@ export function useFilterContextValue(): Result<FilterAPI, APIError> {
     return value(contextValue);
 }
 
-export function getFilterStore(provider: FilterStoreProvider, legacyType: FilterType, key: string): FilterStore | null {
+export function getFilterStore(provider: FilterStoreProvider, legacyType: FilterType): FilterStore | null {
     switch (provider.type) {
         case "direct":
             return provider.store;
-        case "key-value":
-            return provider.get(key);
         case "legacy":
             return provider.get(legacyType);
         default:

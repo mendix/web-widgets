@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
-import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
+import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { error, Result, value } from "../result-meta";
 import { isNumberFilter } from "../stores/input/store-utils";
 import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
@@ -10,7 +10,7 @@ export interface Number_FilterAPIv2 {
     parentChannelName?: string;
 }
 
-export function useNumberFilterAPI(key: string): Result<Number_FilterAPIv2, APIError> {
+export function useNumberFilterAPI(): Result<Number_FilterAPIv2, APIError> {
     const ctx = useFilterContextValue();
     const numAPI = useRef<Number_FilterAPIv2>();
 
@@ -24,11 +24,7 @@ export function useNumberFilterAPI(key: string): Result<Number_FilterAPIv2, APIE
         return error(api.provider.error);
     }
 
-    if (api.provider.value.type === "key-value" && key === "") {
-        return error(EKEYMISSING);
-    }
-
-    const store = getFilterStore(api.provider.value, FilterType.NUMBER, key);
+    const store = getFilterStore(api.provider.value, FilterType.NUMBER);
 
     if (store === null) {
         return error(EMISSINGSTORE);
