@@ -1174,6 +1174,9 @@ importers:
       '@mendix/widget-plugin-hooks':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-mobx-kit':
+        specifier: workspace:^
+        version: link:../../shared/widget-plugin-mobx-kit
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
@@ -1185,7 +1188,7 @@ importers:
         version: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       mobx-react-lite:
         specifier: 4.0.7
-        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
+        version: 4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2467,6 +2470,9 @@ importers:
       '@mendix/widget-plugin-hooks':
         specifier: workspace:*
         version: link:../widget-plugin-hooks
+      '@mendix/widget-plugin-mobx-kit':
+        specifier: workspace:^
+        version: link:../widget-plugin-mobx-kit
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../widget-plugin-platform
@@ -13242,7 +13248,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.12.12
+      '@types/node': 22.7.5
       '@types/yargs': 15.0.19
       chalk: 4.1.2
 
@@ -14389,7 +14395,13 @@ snapshots:
       nullthrows: 1.1.1
       react-native: 0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.26.9(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6)
 
-  '@react-native/virtualized-lists@0.72.8(react-native@0.75.3(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))':
+  '@react-native/virtualized-lists@0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))':
+    dependencies:
+      invariant: 2.2.4
+      nullthrows: 1.1.1
+      react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4)
+
+  '@react-native/virtualized-lists@0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))':
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
@@ -14416,7 +14428,16 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.2.36
 
-  '@react-native/virtualized-lists@0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)':
+  '@react-native/virtualized-lists@0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)':
+    dependencies:
+      invariant: 2.2.4
+      nullthrows: 1.1.1
+      react: 18.2.0
+      react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4)
+    optionalDependencies:
+      '@types/react': 18.2.36
+
+  '@react-native/virtualized-lists@0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))(react@18.2.0)':
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
@@ -14865,7 +14886,7 @@ snapshots:
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 20.12.12
+      '@types/node': 22.7.5
 
   '@types/node@20.12.12':
     dependencies:
@@ -14939,7 +14960,14 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@types/react-native@0.72.8(react-native@0.75.3(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))':
+  '@types/react-native@0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))':
+    dependencies:
+      '@react-native/virtualized-lists': 0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))
+      '@types/react': 18.2.36
+    transitivePeerDependencies:
+      - react-native
+
+  '@types/react-native@0.72.8(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))':
     dependencies:
       '@react-native/virtualized-lists': 0.72.8(react-native@0.75.3(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))
       '@types/react': 18.2.36
@@ -16120,7 +16148,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 20.12.12
+      '@types/node': 22.7.5
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -16131,7 +16159,7 @@ snapshots:
 
   chromium-edge-launcher@0.2.0:
     dependencies:
-      '@types/node': 20.12.12
+      '@types/node': 22.7.5
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -20029,7 +20057,16 @@ snapshots:
 
   mkdirp@1.0.4: {}
 
-  mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.26.9)(@babel/preset-env@7.26.9(@babel/core@7.26.9))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0):
+  mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0):
+    dependencies:
+      mobx: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    optionalDependencies:
+      react-dom: 18.2.0(react@18.2.0)
+      react-native: 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4)
+
+  mobx-react-lite@4.0.7(patch_hash=ziuwsdtojeszsu4w5zqfcs745m)(mobx@6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0):
     dependencies:
       mobx: 6.12.3(patch_hash=hn24hfynvosrur25mqcnayyvqi)
       react: 18.2.0
@@ -21363,7 +21400,166 @@ snapshots:
 
   react-lifecycles-compat@3.0.4: {}
 
-  react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.26.9(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6):
+  react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4):
+    dependencies:
+      '@jest/create-cache-key-function': 29.7.0
+      '@react-native-community/cli': 14.1.0(typescript@5.0.4)
+      '@react-native-community/cli-platform-android': 14.1.0
+      '@react-native-community/cli-platform-ios': 14.1.0
+      '@react-native/assets-registry': 0.75.3
+      '@react-native/codegen': 0.75.3(@babel/preset-env@7.23.2(@babel/core@7.21.0))
+      '@react-native/community-cli-plugin': 0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))
+      '@react-native/gradle-plugin': 0.75.3
+      '@react-native/js-polyfills': 0.75.3
+      '@react-native/normalize-colors': 0.75.3
+      '@react-native/virtualized-lists': 0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.23.2(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)
+      abort-controller: 3.0.0
+      anser: 1.4.10
+      ansi-regex: 5.0.1
+      base64-js: 1.5.1
+      chalk: 4.1.2
+      commander: 9.5.0
+      event-target-shim: 5.0.1
+      flow-enums-runtime: 0.0.6
+      glob: 7.2.3
+      invariant: 2.2.4
+      jest-environment-node: 29.7.0
+      jsc-android: 250231.0.0
+      memoize-one: 5.2.1
+      metro-runtime: 0.80.12
+      metro-source-map: 0.80.12
+      mkdirp: 0.5.6
+      nullthrows: 1.1.1
+      pretty-format: 26.6.2
+      promise: 8.3.0
+      react: 18.2.0
+      react-devtools-core: 5.3.2
+      react-refresh: 0.14.2
+      regenerator-runtime: 0.13.11
+      scheduler: 0.24.0-canary-efb381bbf-20230505
+      semver: 7.6.3
+      stacktrace-parser: 0.1.10
+      whatwg-fetch: 3.6.20
+      ws: 6.2.3
+      yargs: 17.7.2
+    optionalDependencies:
+      '@types/react': 18.2.36
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@babel/preset-env'
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+
+  react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0):
+    dependencies:
+      '@jest/create-cache-key-function': 29.7.0
+      '@react-native-community/cli': 14.1.0
+      '@react-native-community/cli-platform-android': 14.1.0
+      '@react-native-community/cli-platform-ios': 14.1.0
+      '@react-native/assets-registry': 0.75.3
+      '@react-native/codegen': 0.75.3(@babel/preset-env@7.23.2(@babel/core@7.25.8))
+      '@react-native/community-cli-plugin': 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))
+      '@react-native/gradle-plugin': 0.75.3
+      '@react-native/js-polyfills': 0.75.3
+      '@react-native/normalize-colors': 0.75.3
+      '@react-native/virtualized-lists': 0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
+      abort-controller: 3.0.0
+      anser: 1.4.10
+      ansi-regex: 5.0.1
+      base64-js: 1.5.1
+      chalk: 4.1.2
+      commander: 9.5.0
+      event-target-shim: 5.0.1
+      flow-enums-runtime: 0.0.6
+      glob: 7.2.3
+      invariant: 2.2.4
+      jest-environment-node: 29.7.0
+      jsc-android: 250231.0.0
+      memoize-one: 5.2.1
+      metro-runtime: 0.80.12
+      metro-source-map: 0.80.12
+      mkdirp: 0.5.6
+      nullthrows: 1.1.1
+      pretty-format: 26.6.2
+      promise: 8.3.0
+      react: 18.2.0
+      react-devtools-core: 5.3.2
+      react-refresh: 0.14.2
+      regenerator-runtime: 0.13.11
+      scheduler: 0.24.0-canary-efb381bbf-20230505
+      semver: 7.6.3
+      stacktrace-parser: 0.1.10
+      whatwg-fetch: 3.6.20
+      ws: 6.2.3
+      yargs: 17.7.2
+    optionalDependencies:
+      '@types/react': 18.2.36
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@babel/preset-env'
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+
+  react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4):
+    dependencies:
+      '@jest/create-cache-key-function': 29.7.0
+      '@react-native-community/cli': 14.1.0(typescript@5.0.4)
+      '@react-native-community/cli-platform-android': 14.1.0
+      '@react-native-community/cli-platform-ios': 14.1.0
+      '@react-native/assets-registry': 0.75.3
+      '@react-native/codegen': 0.75.3(@babel/preset-env@7.23.2(@babel/core@7.25.8))
+      '@react-native/community-cli-plugin': 0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))
+      '@react-native/gradle-plugin': 0.75.3
+      '@react-native/js-polyfills': 0.75.3
+      '@react-native/normalize-colors': 0.75.3
+      '@react-native/virtualized-lists': 0.75.3(@types/react@18.2.36)(react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.0.4))(react@18.2.0)
+      abort-controller: 3.0.0
+      anser: 1.4.10
+      ansi-regex: 5.0.1
+      base64-js: 1.5.1
+      chalk: 4.1.2
+      commander: 9.5.0
+      event-target-shim: 5.0.1
+      flow-enums-runtime: 0.0.6
+      glob: 7.2.3
+      invariant: 2.2.4
+      jest-environment-node: 29.7.0
+      jsc-android: 250231.0.0
+      memoize-one: 5.2.1
+      metro-runtime: 0.80.12
+      metro-source-map: 0.80.12
+      mkdirp: 0.5.6
+      nullthrows: 1.1.1
+      pretty-format: 26.6.2
+      promise: 8.3.0
+      react: 18.2.0
+      react-devtools-core: 5.3.2
+      react-refresh: 0.14.2
+      regenerator-runtime: 0.13.11
+      scheduler: 0.24.0-canary-efb381bbf-20230505
+      semver: 7.6.3
+      stacktrace-parser: 0.1.10
+      whatwg-fetch: 3.6.20
+      ws: 6.2.3
+      yargs: 17.7.2
+    optionalDependencies:
+      '@types/react': 18.2.36
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@babel/preset-env'
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+
+  react-native@0.75.3(@babel/core@7.25.8)(@babel/preset-env@7.23.2(@babel/core@7.25.8))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6):
     dependencies:
       '@jest/create-cache-key-function': 29.7.0
       '@react-native-community/cli': 14.1.0(typescript@5.1.6)
