@@ -47,10 +47,10 @@ export class RootGridStore extends BaseControllerHost {
             name: props.name,
             filtersChannelName: `datagrid/${generateUUID()}`
         };
-        const filterObserver = new CustomFilterHost();
+        const customFilterHost = new CustomFilterHost();
         const query = new DatasourceController(this, { gate });
         const columns = (this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsInitFilter, {
-            filterObserver,
+            customFilterHost,
             sharedInitFilter
         }));
         const header = (this.headerFiltersStore = new HeaderFiltersStore({
@@ -58,9 +58,9 @@ export class RootGridStore extends BaseControllerHost {
             filterChannelName: this.staticInfo.filtersChannelName,
             headerInitFilter,
             sharedInitFilter,
-            filterObserver
+            customFilterHost
         }));
-        this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, this.headerFiltersStore);
+        this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, customFilterHost);
         this.paginationCtrl = new PaginationController(this, { gate, query });
         this.exportProgressCtrl = exportCtrl;
 
