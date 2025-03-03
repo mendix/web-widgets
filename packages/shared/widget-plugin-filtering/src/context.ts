@@ -51,7 +51,7 @@ export function getGlobalFilterContextObject(): FilterAPIContext {
     return (window[CONTEXT_OBJECT_PATH] ??= createContext<FilterAPI | null>(null));
 }
 
-export function useFilterContextValue(): Result<FilterAPI, APIError> {
+export function useFilterAPI(): Result<FilterAPI, APIError> {
     const context = getGlobalFilterContextObject();
     const contextValue = useContext(context);
 
@@ -61,6 +61,9 @@ export function useFilterContextValue(): Result<FilterAPI, APIError> {
 
     return value(contextValue);
 }
+
+/** @deprecated This hook is renamed, use `useFilterAPI` instead. */
+export const useFilterContextValue = useFilterAPI;
 
 export function getFilterStore(provider: FilterStoreProvider, legacyType: FilterType): FilterStore | null {
     switch (provider.type) {
