@@ -6,7 +6,7 @@ export function withTextFilterAPI<P extends object>(
     Component: (props: P & String_FilterAPIv2) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props) {
-        const api = useStringFilterAPI("");
+        const api = useStringFilterAPI();
 
         if (api.hasError) {
             return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
