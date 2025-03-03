@@ -38,9 +38,8 @@ export function getProperties(values: DatagridTextFilterPreviewProps, defaultPro
         hidePropertyIn(defaultProperties, values, "screenReaderButtonCaption");
     }
 
-    if (values.customAttrs === "auto") {
+    if (values.attrChoice === "auto") {
         hidePropertyIn(defaultProperties, values, "attributes");
-        hidePropertyIn(defaultProperties, values, "dataKey");
     }
 
     hidePropertyIn(defaultProperties, {} as { linkedDs: unknown }, "linkedDs");
