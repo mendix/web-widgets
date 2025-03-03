@@ -103,7 +103,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
                 type: "direct",
                 store
             }),
-            filterObserver: this._observerBag.filterObserver,
+            filterObserver: this._observerBag.customFilterHost,
             sharedInitFilter: this._observerBag.sharedInitFilter
         };
     }
@@ -139,6 +139,6 @@ const errorMessage = (propName: string): string =>
     `Can't map ColumnsType to AssociationProperties: ${propName} is undefined`;
 
 export interface ObserverBag {
-    filterObserver: FilterObserver;
+    customFilterHost: FilterObserver;
     sharedInitFilter: Array<FilterCondition | undefined>;
 }
