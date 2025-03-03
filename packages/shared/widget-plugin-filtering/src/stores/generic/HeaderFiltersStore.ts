@@ -17,7 +17,7 @@ export interface HeaderFiltersStoreSpec {
     filterChannelName: string;
     headerInitFilter: Array<FilterCondition | undefined>;
     sharedInitFilter: Array<FilterCondition | undefined>;
-    filterObserver: FilterObserver;
+    customFilterHost: FilterObserver;
 }
 
 export class HeaderFiltersStore {
@@ -29,7 +29,7 @@ export class HeaderFiltersStore {
         filterChannelName,
         headerInitFilter,
         sharedInitFilter,
-        filterObserver
+        customFilterHost: filterObserver
     }: HeaderFiltersStoreSpec) {
         this.provider = this.createProvider(filterList, headerInitFilter);
         this.context = {
