@@ -1,8 +1,12 @@
-export function disposeBatch(): [add: (fn: () => void) => void, disposeAll: () => void] {
+type MaybeFn = (() => void) | void;
+
+export function disposeBatch(): [add: (fn: MaybeFn) => void, disposeAll: () => void] {
     const disposers = new Set<() => void>();
 
-    const add = (fn: () => void): void => {
-        disposers.add(fn);
+    const add = (fn: MaybeFn): void => {
+        if (fn) {
+            disposers.add(fn);
+        }
     };
 
     const disposeAll = (): void => {

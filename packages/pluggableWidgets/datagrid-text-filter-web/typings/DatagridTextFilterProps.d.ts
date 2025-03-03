@@ -6,7 +6,7 @@
 import { CSSProperties } from "react";
 import { ActionValue, AttributeMetaData, DynamicValue, EditableValue } from "mendix";
 
-export type CustomAttrsEnum = "auto" | "custom";
+export type AttrChoiceEnum = "auto" | "linked";
 
 export interface AttributesType {
     attribute: AttributeMetaData<string>;
@@ -23,9 +23,8 @@ export interface DatagridTextFilterContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    customAttrs: CustomAttrsEnum;
+    attrChoice: AttrChoiceEnum;
     attributes: AttributesType[];
-    dataKey: string;
     defaultValue?: DynamicValue<string>;
     defaultFilter: DefaultFilterEnum;
     placeholder?: DynamicValue<string>;
@@ -50,8 +49,8 @@ export interface DatagridTextFilterPreviewProps {
     translate: (text: string) => string;
     advanced: boolean;
     customAttrs: CustomAttrsEnum;
+    attrChoice: AttrChoiceEnum;
     attributes: AttributesPreviewType[];
-    dataKey: string;
     defaultValue: string;
     defaultFilter: DefaultFilterEnum;
     placeholder: string;
