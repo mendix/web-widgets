@@ -40,7 +40,7 @@ export class BaseSelectStore {
     }
 
     fromJSON(json: FilterData): void {
-        if (json === null || isInputData(json)) {
+        if (json == null || isInputData(json)) {
             return;
         }
         this.setSelected(json);
