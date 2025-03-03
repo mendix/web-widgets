@@ -1,4 +1,4 @@
-import { DateTimeFormatter, ListAttributeValue } from "mendix";
+import { AttributeMetaData, DateTimeFormatter, ListAttributeValue } from "mendix";
 import { AndCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import {
     and,
@@ -103,7 +103,7 @@ export class DateInputFilterStore
     }
 
     private getCondition(
-        attr: ListAttributeValue,
+        attr: AttributeMetaData,
         filterFn: DateFns,
         v1: Date | undefined,
         v2: Date | undefined
@@ -121,7 +121,7 @@ export class DateInputFilterStore
     }
 
     private getAttrCondition(
-        attr: ListAttributeValue,
+        attr: AttributeMetaData,
         filterFn: Exclude<DateFns, "between">,
         date: Date | undefined
     ): [FilterCondition] | [] {
@@ -153,7 +153,7 @@ export class DateInputFilterStore
         }
     }
 
-    private getRangeCondition(attr: ListAttributeValue, [start, end]: [Date, Date]): [FilterCondition] | [] {
+    private getRangeCondition(attr: AttributeMetaData, [start, end]: [Date, Date]): [FilterCondition] | [] {
         const attrExp = attribute(attr.id);
 
         return [
