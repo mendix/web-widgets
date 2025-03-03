@@ -1,5 +1,5 @@
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
-import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
+import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
 import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
 import { action, comparer, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
@@ -27,7 +27,7 @@ export class GridPersonalizationStore {
     constructor(
         props: DatagridContainerProps,
         private columnsStore: ColumnGroupStore,
-        private headerFilters: HeaderFiltersStore
+        private customFilters: FilterObserver
     ) {
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);
@@ -35,7 +35,6 @@ export class GridPersonalizationStore {
 
         makeObservable<GridPersonalizationStore, "applySettings">(this, {
             settings: computed,
-
             applySettings: action
         });
 
@@ -95,6 +94,7 @@ export class GridPersonalizationStore {
     private applySettings(settings: GridPersonalizationStorageSettings): void {
         this.columnsStore.setColumnSettings(toColumnSettings(settings));
         this.columnsStore.setColumnFilterSettings(settings.columnFilters);
+        this.customFilters.settings = new Map(settings.customFilters);
     }
 
     private readSettings(
@@ -137,7 +137,7 @@ export class GridPersonalizationStore {
             this.gridColumnsHash,
             this.columnsStore.columnSettings,
             this.storeFilters ? this.columnsStore.filterSettings : new Map(),
-            this.storeFilters ? this.headerFilters.settings : new Map()
+            this.storeFilters ? this.customFilters.settings : new Map()
         );
     }
 }
