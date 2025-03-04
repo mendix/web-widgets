@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { LinkedList } from "parchment";
 import Quill from "quill";
 import Delta from "quill-delta";
