@@ -64,6 +64,7 @@
     },
     "dependencies": {
         "@floating-ui/react": "^0.26.27",
+        "@jaames/iro": "^5.5.2",
         "classnames": "^2.2.6",
         "dompurify": "^2.5.7",
         "katex": "^0.16.11",

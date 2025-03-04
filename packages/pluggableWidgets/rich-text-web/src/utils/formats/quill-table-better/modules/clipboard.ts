@@ -10,6 +10,7 @@ const Clipboard = QuillClipboard as typeof Module;
 const debug = logger("quill:clipboard");
 
 class TableClipboard extends Clipboard {
+    // @ts-ignore
     convert: (
         {
             html,
