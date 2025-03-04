@@ -1,5 +1,7 @@
 import { FilterCondition } from "mendix/filters";
+import { and } from "mendix/filters/builders";
 import { autorun, makeAutoObservable } from "mobx";
+import { tag } from "../../condition-utils";
 import { Filter, FilterObserver } from "../../typings/FilterObserver";
 import { FiltersSettingsMap } from "../../typings/settings";
 
@@ -21,7 +23,9 @@ export class CustomFilterHost implements FilterObserver {
     }
 
     get conditions(): Array<FilterCondition | undefined> {
-        return [...this.filters.values()].map(filter => filter.condition);
+        return [...this.filters].map(([key, { condition }]) => {
+            return condition ? and(tag(key), condition) : undefined;
+        });
     }
 
     observe(key: string, filter: Filter): void {
