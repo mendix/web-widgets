@@ -10,7 +10,7 @@ export interface Filter {
 export interface FilterObserver {
     get settings(): FiltersSettingsMap<string>;
     set settings(settings: FiltersSettingsMap<string>);
-    condition: Array<FilterCondition | undefined>;
+    conditions: Array<FilterCondition | undefined>;
     observe(key: string, filter: Filter): void;
     unobserve(key: string): void;
 }
