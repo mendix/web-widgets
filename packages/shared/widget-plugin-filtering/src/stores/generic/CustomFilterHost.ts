@@ -15,7 +15,7 @@ export class CustomFilterHost implements FilterObserver {
         }
     }
 
-    get condition(): Array<FilterCondition | undefined> {
+    get conditions(): Array<FilterCondition | undefined> {
         return [...this.filters.values()].map(filter => filter.condition);
     }
 

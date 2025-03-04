@@ -67,7 +67,8 @@ export class RootGridStore extends BaseControllerHost {
         new DatasourceParamsController(this, {
             query,
             columns,
-            header
+            header,
+            customFilters: customFilterHost
         });
 
         new RefreshController(this, {
@@ -86,7 +87,7 @@ export class RootGridStore extends BaseControllerHost {
         const [add, disposeAll] = disposeBatch();
         add(super.setup());
         add(this.columnsStore.setup());
-        add(this.headerFiltersStore.setup() ?? (() => {}));
+        add(this.headerFiltersStore.setup());
         add(() => this.settingsStore.dispose());
         add(autorun(() => this.updateProps(this.gate.props)));
 
