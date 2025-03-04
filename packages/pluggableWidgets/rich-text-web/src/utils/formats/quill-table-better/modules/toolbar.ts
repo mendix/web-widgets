@@ -1,3 +1,4 @@
+// @ts-nocheck
 import merge from "lodash.merge";
 import type { ContainerBlot } from "parchment";
 import { EmbedBlot } from "parchment";
