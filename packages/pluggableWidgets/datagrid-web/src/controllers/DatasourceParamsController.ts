@@ -12,34 +12,41 @@ interface Columns {
     sortInstructions: SortInstruction[] | undefined;
 }
 
-interface Header {
+interface FiltersInput {
     conditions: Array<FilterCondition | undefined>;
 }
 
 type DatasourceParamsControllerSpec = {
     query: QueryController;
     columns: Columns;
-    header: Header;
+    header: FiltersInput;
+    customFilters: FiltersInput;
 };
 
 export class DatasourceParamsController implements ReactiveController {
     private columns: Columns;
-    private header: Header;
+    private header: FiltersInput;
     private query: QueryController;
+    private customFilters: FiltersInput;
 
     constructor(host: ReactiveControllerHost, spec: DatasourceParamsControllerSpec) {
         host.addController(this);
         this.columns = spec.columns;
         this.header = spec.header;
         this.query = spec.query;
+        this.customFilters = spec.customFilters;
 
         makeAutoObservable(this, { setup: false });
     }
 
     private get derivedFilter(): FilterCondition | undefined {
-        const { columns, header } = this;
+        const { columns, header, customFilters } = this;
 
-        return and(compactArray(columns.conditions), compactArray(header.conditions));
+        return and(
+            compactArray(columns.conditions),
+            compactArray(header.conditions),
+            compactArray(customFilters.conditions)
+        );
     }
 
     private get derivedSortOrder(): SortInstruction[] | undefined {
