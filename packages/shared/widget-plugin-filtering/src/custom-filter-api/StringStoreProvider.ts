@@ -1,6 +1,7 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ISetupable } from "@mendix/widget-plugin-mobx-kit/setupable";
 import { FilterCondition } from "mendix/filters";
+import { isAnd, isTag } from "../condition-utils";
 import { FilterAPI } from "../context";
 import { StringInputFilterStore } from "../stores/input/StringInputFilterStore";
 import { String_InputFilterInterface } from "../typings/InputFilterInterface";
@@ -18,7 +19,16 @@ export class StringStoreProvider implements ISetupable {
         );
     }
 
-    private findInitFilter(_: Array<FilterCondition | undefined>, __: string): FilterCondition | null {
+    private findInitFilter(conditions: Array<FilterCondition | undefined>, key: string): FilterCondition | null {
+        for (const cond of conditions) {
+            if (cond && isAnd(cond)) {
+                const [tag, initFilter] = cond.args;
+                if (isTag(tag) && tag.arg1.value === key) {
+                    return initFilter;
+                }
+            }
+        }
+
         return null;
     }
 
