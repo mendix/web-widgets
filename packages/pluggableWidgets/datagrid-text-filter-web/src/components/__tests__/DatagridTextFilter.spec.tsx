@@ -1,8 +1,7 @@
 import "@testing-library/jest-dom";
-import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
 import {
     HeaderFiltersStore,
-    HeaderFiltersStoreProps
+    HeaderFiltersStoreSpec
 } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import {
     actionValue,
@@ -17,11 +16,8 @@ import { createContext, createElement } from "react";
 import DatagridTextFilter from "../../DatagridTextFilter";
 import { DatagridTextFilterContainerProps } from "../../../typings/DatagridTextFilterProps";
 import { resetIdCounter } from "downshift";
-
-export interface StaticInfo {
-    name: string;
-    filtersChannelName: string;
-}
+import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
+import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 
 const commonProps: DatagridTextFilterContainerProps = {
     class: "filter-custom-class",
@@ -29,13 +25,9 @@ const commonProps: DatagridTextFilterContainerProps = {
     name: "filter-test",
     defaultFilter: "equal" as const,
     adjustable: true,
-    advanced: false,
-    delay: 1000
-};
-
-const headerFilterStoreInfo: StaticInfo = {
-    name: commonProps.name,
-    filtersChannelName: "datagrid1"
+    delay: 1000,
+    attrChoice: "auto",
+    attributes: []
 };
 
 jest.useFakeTimers();
@@ -57,7 +49,7 @@ describe("Text Filter", () => {
 
         describe("with defaultValue prop", () => {
             beforeEach(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec: HeaderFiltersStoreSpec = {
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -70,10 +62,13 @@ describe("Text Filter", () => {
                                 .build()
                         }
                     ],
-                    parentChannelName: "datagrid1"
+                    filterChannelName: "datagrid1",
+                    sharedInitFilter: [],
+                    headerInitFilter: [],
+                    customFilterHost: {} as FilterObserver
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -170,7 +165,7 @@ describe("Text Filter", () => {
 
         describe("with single attribute", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec: HeaderFiltersStoreSpec = {
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -183,10 +178,13 @@ describe("Text Filter", () => {
                                 .build()
                         }
                     ],
-                    parentChannelName: "datagrid1"
+                    filterChannelName: "datagrid1",
+                    sharedInitFilter: [],
+                    headerInitFilter: [],
+                    customFilterHost: {} as FilterObserver
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -256,7 +254,7 @@ describe("Text Filter", () => {
 
         describe("with multiple attributes", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec: HeaderFiltersStoreSpec = {
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -284,10 +282,14 @@ describe("Text Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ]
+                    ],
+                    filterChannelName: "datagrid1",
+                    sharedInitFilter: [],
+                    headerInitFilter: [],
+                    customFilterHost: {} as FilterObserver
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -305,13 +307,17 @@ describe("Text Filter", () => {
 
         describe("with wrong attribute's type", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec: HeaderFiltersStoreSpec = {
                     filterList: [
                         { filter: new ListAttributeValueBuilder().withType("Decimal").withFilterable(true).build() }
-                    ]
+                    ],
+                    filterChannelName: "datagrid1",
+                    sharedInitFilter: [],
+                    headerInitFilter: [],
+                    customFilterHost: {} as FilterObserver
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -329,7 +335,7 @@ describe("Text Filter", () => {
 
         describe("with wrong multiple attributes' types", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec: HeaderFiltersStoreSpec = {
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -345,10 +351,14 @@ describe("Text Filter", () => {
                                 .withFilterable(true)
                                 .build()
                         }
-                    ]
+                    ],
+                    filterChannelName: "datagrid1",
+                    sharedInitFilter: [],
+                    headerInitFilter: [],
+                    customFilterHost: {} as FilterObserver
                 };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -379,7 +389,7 @@ describe("Text Filter", () => {
 
     describe("with multiple instances", () => {
         beforeAll(() => {
-            const props: HeaderFiltersStoreProps = {
+            const spec: HeaderFiltersStoreSpec = {
                 filterList: [
                     {
                         filter: new ListAttributeValueBuilder()
@@ -393,10 +403,14 @@ describe("Text Filter", () => {
                             .withFilterable(true)
                             .build()
                     }
-                ]
+                ],
+                filterChannelName: "datagrid1",
+                sharedInitFilter: [],
+                headerInitFilter: [],
+                customFilterHost: {} as FilterObserver
             };
-            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+            const headerFilterStore = new HeaderFiltersStore(spec);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                 headerFilterStore.context
             );
         });
