@@ -1,12 +1,12 @@
 import {
-    FilterCondition,
     AndCondition,
-    OrCondition,
-    LiteralExpression,
     ContainsCondition,
-    EqualsCondition
+    EqualsCondition,
+    FilterCondition,
+    LiteralExpression,
+    OrCondition
 } from "mendix/filters";
-import { equals, literal, and } from "mendix/filters/builders";
+import { and, literal, notEqual } from "mendix/filters/builders";
 
 type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
 type Func<T> = T extends { name: infer Fn } ? Fn : never;
@@ -40,25 +40,33 @@ interface TagName {
     readonly valueType: "string";
 }
 
+const MARKER = "#";
+
+interface TagMarker {
+    readonly type: "literal";
+    readonly value: typeof MARKER;
+    readonly valueType: "string";
+}
+
 interface TagCond {
     readonly type: "function";
-    readonly name: "=";
+    readonly name: "!=";
     readonly arg1: TagName;
-    readonly arg2: TagName;
+    readonly arg2: TagMarker;
 }
 
 export function tag(name: string): TagCond {
-    return equals(literal(name), literal(name)) as TagCond;
+    return notEqual(literal(name), literal(MARKER)) as TagCond;
 }
 
 export function isTag(cond: FilterCondition): cond is TagCond {
     return (
-        cond.name === "=" &&
+        cond.name === "!=" &&
         cond.arg1.type === "literal" &&
         cond.arg2.type === "literal" &&
         /string/i.test(cond.arg1.valueType) &&
         /string/i.test(cond.arg2.valueType) &&
-        cond.arg1.value === cond.arg2.value
+        cond.arg2.value === MARKER
     );
 }
 
