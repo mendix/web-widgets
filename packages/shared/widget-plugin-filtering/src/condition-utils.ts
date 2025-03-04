@@ -96,20 +96,19 @@ function shrink<T>(array: Array<T | undefined>): [indexes: number[], items: T[]]
 
 export function compactArray(input: Array<FilterCondition | undefined>): FilterCondition {
     const [indexes, items] = shrink(input);
-    const arrayMeta = [input.length, indexes] as const;
-    const metaTag = tag(arrayTag(arrayMeta));
-    // As 'and' requires at least 2 args, we add a placeholder
-    const placeholder = tag("_");
-    return and(metaTag, placeholder, ...items);
+    const metaTag = tag(arrayTag([input.length, indexes] as const));
+
+    if (items.length === 0) {
+        return metaTag;
+    }
+
+    return and(metaTag, ...items);
 }
 
 export function fromCompactArray(cond: FilterCondition): Array<FilterCondition | undefined> {
-    if (!isAnd(cond)) {
-        return [];
-    }
+    const tag = isAnd(cond) ? cond.args[0] : cond;
 
-    const [metaTag] = cond.args;
-    const arrayMeta = isTag(metaTag) ? fromArrayTag(metaTag.arg1.value) : undefined;
+    const arrayMeta = isTag(tag) ? fromArrayTag(tag.arg1.value) : undefined;
 
     if (!arrayMeta) {
         return [];
@@ -117,7 +116,12 @@ export function fromCompactArray(cond: FilterCondition): Array<FilterCondition |
 
     const [length, indexes] = arrayMeta;
     const arr: Array<FilterCondition | undefined> = Array(length).fill(undefined);
-    cond.args.slice(2).forEach((cond, i) => {
+
+    if (!isAnd(cond)) {
+        return arr;
+    }
+
+    cond.args.slice(1).forEach((cond, i) => {
         arr[indexes[i]] = cond;
     });
 
