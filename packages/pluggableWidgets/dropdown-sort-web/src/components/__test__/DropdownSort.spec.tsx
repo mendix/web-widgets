@@ -1,7 +1,7 @@
-import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
+import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import {
     HeaderFiltersStore,
-    HeaderFiltersStoreProps
+    HeaderFiltersStoreSpec
 } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import { SortAPI } from "@mendix/widget-plugin-sorting/context";
 import { SortAPIProvider, SortListType } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
@@ -12,6 +12,7 @@ import { ListValue } from "mendix";
 import { createContext, createElement } from "react";
 import { DropdownSortContainerProps } from "../../../typings/DropdownSortProps";
 import { DropdownSort } from "../../DropdownSort";
+import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
 
 const commonProps: DropdownSortContainerProps = {
     class: "filter-custom-class",
@@ -19,22 +20,16 @@ const commonProps: DropdownSortContainerProps = {
     name: "filter-test"
 };
 
-export interface StaticInfo {
-    name: string;
-    filtersChannelName: string;
-}
-
-const headerFilterStoreInfo: StaticInfo = {
-    name: commonProps.name,
-    filtersChannelName: ""
+const spec: HeaderFiltersStoreSpec = {
+    filterList: [],
+    sharedInitFilter: [],
+    headerInitFilter: [],
+    filterChannelName: "datagrid",
+    customFilterHost: {} as FilterObserver
 };
 
-// CONTEXT
-const props: HeaderFiltersStoreProps = {
-    filterList: []
-};
-const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-(window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+const headerFilterStore = new HeaderFiltersStore(spec);
+(window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
     headerFilterStore.context
 );
 
