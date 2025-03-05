@@ -13,7 +13,7 @@
                     <description />
                     <enumerationValues>
                         <enumerationValue key="auto">Auto</enumerationValue>
-                        <enumerationValue key="linked">Custom</enumerationValue>
+                        <enumerationValue key="linked">Manual</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="linkedDs" type="datasource" isLinked="true" isList="true">
