@@ -8,7 +8,6 @@ import {
     MutableRefObject,
     useEffect,
     useLayoutEffect,
-    // useState,
     useRef
 } from "react";
 import "../utils/customPluginRegisters";
@@ -21,7 +20,6 @@ import {
 } from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
-
 export interface EditorProps {
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
@@ -112,7 +110,8 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                       image: customImageUploadHandler
                                   }
                               }
-                            : false
+                            : false,
+                        resize: {}
                     },
                     readOnly
                 };

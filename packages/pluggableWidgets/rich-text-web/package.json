@@ -52,6 +52,11 @@
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-alias": "^5.1.1",
+        "@rollup/plugin-image": "^3.0.3",
+        "@rollup/plugin-replace": "^6.0.2",
+        "@rollup/plugin-url": "^8.0.2",
+        "@types/dompurify": "^2.4.0",
         "@types/katex": "^0.16.7",
         "@types/sanitize-html": "^1.27.2",
         "cross-env": "^7.0.3",
@@ -68,6 +73,7 @@
         "katex": "^0.16.11",
         "linkifyjs": "^4.1.3",
         "parchment": "^3.0.0",
-        "quill": "^2.0.2"
+        "quill": "^2.0.2",
+        "quill-resize-module": "^2.0.4"
     }
 }
