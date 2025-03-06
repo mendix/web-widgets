@@ -111,7 +111,27 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                   }
                               }
                             : false,
-                        resize: {}
+                        resize: {
+                            tools: [
+                                "left",
+                                "center",
+                                "right",
+                                "full",
+                                {
+                                    text: "Alt",
+                                    verify(activeEle: HTMLElement) {
+                                        return activeEle && activeEle.tagName === "IMG";
+                                    },
+                                    handler(_evt: MouseEvent, _button: HTMLElement, activeEle: HTMLImageElement) {
+                                        const alt = activeEle.alt || "";
+                                        const newAlt = window.prompt("Alt for image", alt);
+                                        if (typeof newAlt === "string") {
+                                            activeEle.setAttribute("alt", newAlt);
+                                        }
+                                    }
+                                }
+                            ]
+                        }
                     },
                     readOnly
                 };
