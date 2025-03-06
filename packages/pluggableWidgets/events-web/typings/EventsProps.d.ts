@@ -30,6 +30,7 @@ export interface EventsPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     onComponentLoad: {} | null;
     componentLoadDelay: number | null;
     componentLoadRepeat: boolean;

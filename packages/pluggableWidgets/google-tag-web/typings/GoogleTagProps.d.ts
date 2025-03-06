@@ -51,6 +51,7 @@ export interface GoogleTagPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     widgetMode: WidgetModeEnum;
     targetId: string;
     parameters: ParametersPreviewType[];
