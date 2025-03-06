@@ -58,18 +58,8 @@ export class NumberInputFilterStore
         }
 
         const [fn, val1, val2] = inputData;
-        this.filterFunction = fn;
 
-        try {
-            this.arg1.value = new Big(val1 ?? "");
-        } catch {
-            this.arg1.value = undefined;
-        }
-        try {
-            this.arg2.value = new Big(val2 ?? "");
-        } catch {
-            this.arg2.value = undefined;
-        }
+        this.setState([fn, asBig(val1), asBig(val2)]);
         this.isInitialized = true;
     }
 
@@ -107,4 +97,12 @@ function formatterFix(formatter: Formatter): Formatter {
             }
         }
     };
+}
+
+function asBig(val: string | null): Big | undefined {
+    try {
+        return new Big(val ?? "");
+    } catch {
+        return undefined;
+    }
 }

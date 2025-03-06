@@ -27,8 +27,7 @@ export interface InputFilterBaseInterface<
 
     reset(): void;
     clear(): void;
-    setFilterFn(fn: Fn): void;
-    UNSAFE_setDefaults(state: [Fn] | [Fn, V] | [Fn, V, V]): void;
+    UNSAFE_setDefaults(state: [Fn] | [Fn, V] | [Fn, V, V], canAdjustFilterFunction: boolean): void;
     setup?(): (() => void) | void;
 }
 
