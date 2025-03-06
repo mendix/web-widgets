@@ -48,7 +48,7 @@
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
-        "@mendix/pluggable-widgets-tools": "10.16.0",
+        "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
