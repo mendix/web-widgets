@@ -12,6 +12,7 @@ const alignment = Quill.import("attributors/style/align") as Attributor;
 import { IndentLeftStyle, IndentRightStyle } from "./formats/indent";
 import Formula from "./formats/formula";
 import CustomHeader from "./formats/header";
+import QuillResize from "quill-resize-module";
 class Empty {
     doSomething(): string {
         return "";
@@ -32,5 +33,6 @@ Quill.register(IndentRightStyle, true);
 Quill.register(Formula, true);
 Quill.register(CustomHeader, true);
 Quill.register(Button, true);
+Quill.register("modules/resize", QuillResize, true);
 // add empty handler for view code, this format is handled by toolbar's custom config via ViewCodeDialog
 Quill.register({ "ui/view-code": Empty });
