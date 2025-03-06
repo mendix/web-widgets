@@ -62,6 +62,7 @@
         "rollup-preserve-directives": "^1.1.1"
     },
     "dependencies": {
+        "@floating-ui/dom": "^1.6.13",
         "@floating-ui/react": "^0.26.27",
         "@jaames/iro": "^5.5.2",
         "classnames": "^2.2.6",
