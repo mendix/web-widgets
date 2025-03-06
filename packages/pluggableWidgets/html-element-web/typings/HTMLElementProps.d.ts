@@ -76,6 +76,7 @@ export interface HTMLElementPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
+    renderMode?: "design" | "xray" | "structure";
     tagName: TagNameEnum;
     tagNameCustom: string;
     tagUseRepeat: boolean;
