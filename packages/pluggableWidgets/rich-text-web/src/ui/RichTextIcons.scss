@@ -42,12 +42,7 @@ $icons: (
     List-roman: "\e921",
     Inline-code: "\e923",
     View-edit-code: "\e924",
-    Code-block: "\e923",
-    Resize-left: "\e906",
-    Resize-right: "\e907",
-    Resize-center: "\e908",
-    Resize-restore: "\e909",
-    Resize-alt: "\e905"
+    Code-block: "\e923"
 );
 
 .widget-rich-text {
@@ -84,19 +79,19 @@ $icons: (
                     }
 
                     &:nth-child(1):before {
-                        content: map.get($icons, Resize-left);
+                        content: map.get($icons, Text-align-left);
                     }
                     &:nth-child(2):before {
-                        content: map.get($icons, Resize-right);
+                        content: map.get($icons, Text-align-right);
                     }
                     &:nth-child(3):before {
-                        content: map.get($icons, Resize-center);
+                        content: map.get($icons, Text-align-center);
                     }
                     &:nth-child(4):before {
-                        content: map.get($icons, Resize-restore);
+                        content: map.get($icons, Text-align-justify);
                     }
                     &:nth-child(5):before {
-                        content: map.get($icons, Resize-alt);
+                        content: map.get($icons, Text-background);
                     }
                 }
             }
