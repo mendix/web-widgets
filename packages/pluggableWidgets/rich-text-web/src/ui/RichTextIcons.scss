@@ -42,13 +42,64 @@ $icons: (
     List-roman: "\e921",
     Inline-code: "\e923",
     View-edit-code: "\e924",
-    Code-block: "\e925"
+    Code-block: "\e923",
+    Resize-left: "\e923",
+    Resize-right: "\e923",
+    Resize-center: "\e923",
+    Resize-restore: "\e923",
+    Resize-alt: "\e923"
 );
 
 .widget-rich-text {
     .widget-rich-text-toolbar button.icons {
         svg {
             display: none;
+        }
+    }
+
+    .ql-container {
+        .ql-resize-overlay {
+            .ql-resize-toolbar {
+                font-family: "RichTextIconFont" !important;
+                font-style: normal;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+
+                button {
+                    position: relative;
+                    font-size: 0;
+                    color: transparent;
+                    > * {
+                        display: none;
+                    }
+
+                    &:before {
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        font-size: 16px;
+                        color: black;
+                        display: block;
+                    }
+
+                    &:nth-child(1):before {
+                        content: map.get($icons, Resize-left);
+                    }
+                    &:nth-child(2):before {
+                        content: map.get($icons, Resize-right);
+                    }
+                    &:nth-child(3):before {
+                        content: map.get($icons, Resize-center);
+                    }
+                    &:nth-child(4):before {
+                        content: map.get($icons, Resize-restore);
+                    }
+                    &:nth-child(5):before {
+                        content: map.get($icons, Resize-alt);
+                    }
+                }
+            }
         }
     }
 

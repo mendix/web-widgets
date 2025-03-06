@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We added support for resizing images, videos, and other embeds.
+
 ## [4.3.0] - 2025-02-14
 
 ### Fixed
