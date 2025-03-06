@@ -42,13 +42,59 @@ $icons: (
     List-roman: "\e921",
     Inline-code: "\e923",
     View-edit-code: "\e924",
-    Code-block: "\e925"
+    Code-block: "\e923"
 );
 
 .widget-rich-text {
     .widget-rich-text-toolbar button.icons {
         svg {
             display: none;
+        }
+    }
+
+    .ql-container {
+        .ql-resize-overlay {
+            .ql-resize-toolbar {
+                font-family: "RichTextIconFont" !important;
+                font-style: normal;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+
+                button {
+                    position: relative;
+                    font-size: 0;
+                    color: transparent;
+                    > * {
+                        display: none;
+                    }
+
+                    &:before {
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        font-size: 16px;
+                        color: black;
+                        display: block;
+                    }
+
+                    &:nth-child(1):before {
+                        content: map.get($icons, Text-align-left);
+                    }
+                    &:nth-child(2):before {
+                        content: map.get($icons, Text-align-right);
+                    }
+                    &:nth-child(3):before {
+                        content: map.get($icons, Text-align-center);
+                    }
+                    &:nth-child(4):before {
+                        content: map.get($icons, Text-align-justify);
+                    }
+                    &:nth-child(5):before {
+                        content: map.get($icons, Text-background);
+                    }
+                }
+            }
         }
     }
 
