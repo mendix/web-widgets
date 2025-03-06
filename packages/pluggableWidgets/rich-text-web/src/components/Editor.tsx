@@ -124,7 +124,10 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                     },
                                     handler(_evt: MouseEvent, _button: HTMLElement, activeEle: HTMLImageElement) {
                                         const alt = activeEle.alt || "";
-                                        const newAlt = window.prompt("Alt for image", alt);
+                                        const newAlt = activeEle.ownerDocument.defaultView?.prompt(
+                                            "Alt for image",
+                                            alt
+                                        );
                                         if (typeof newAlt === "string") {
                                             activeEle.setAttribute("alt", newAlt);
                                         }
