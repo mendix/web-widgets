@@ -50,7 +50,8 @@ export interface SliderContainerProps {
 
 export interface SliderPreviewProps {
     readOnly: boolean;
-    renderMode?: "design" | "xray" | "structure";
+    renderMode: "design" | "xray" | "structure";
+    translate: (text: string) => string;
     valueAttribute: string;
     advanced: boolean;
     minValueType: MinValueTypeEnum;

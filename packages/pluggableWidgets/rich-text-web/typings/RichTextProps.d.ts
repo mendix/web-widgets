@@ -76,7 +76,8 @@ export interface RichTextContainerProps {
 
 export interface RichTextPreviewProps {
     readOnly: boolean;
-    renderMode?: "design" | "xray" | "structure";
+    renderMode: "design" | "xray" | "structure";
+    translate: (text: string) => string;
     stringAttribute: string;
     enableStatusBar: boolean;
     preset: PresetEnum;
