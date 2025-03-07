@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
-import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
+import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import {
     HeaderFiltersStore,
-    HeaderFiltersStoreProps
+    HeaderFiltersStoreSpec
 } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import {
     actionValue,
@@ -15,11 +15,15 @@ import { createContext, createElement } from "react";
 import DatagridDateFilter from "../../DatagridDateFilter";
 import { DatagridDateFilterContainerProps } from "../../../typings/DatagridDateFilterProps";
 import { MXGlobalObject, MXSessionConfig } from "../../../typings/global";
+<<<<<<< HEAD
 
 interface StaticInfo {
     name: string;
     filtersChannelName: string;
 }
+=======
+import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
+>>>>>>> 65a6a223b (fix: update types)
 
 function createMXObjectMock(
     code: string,
@@ -54,12 +58,16 @@ const commonProps: DatagridDateFilterContainerProps = {
     advanced: false
 };
 
-const headerFilterStoreInfo: StaticInfo = {
-    name: commonProps.name,
-    filtersChannelName: ""
-};
-
 const mxObject = createMXObjectMock("en_US", "en-US");
+
+const mockSpec = (spec: Partial<HeaderFiltersStoreSpec>): HeaderFiltersStoreSpec => ({
+    filterList: [],
+    filterChannelName: "datagrid/1",
+    headerInitFilter: [],
+    sharedInitFilter: [],
+    customFilterHost: {} as FilterObserver,
+    ...spec
+});
 
 describe("Date Filter", () => {
     describe("with single instance", () => {
@@ -69,13 +77,13 @@ describe("Date Filter", () => {
 
         describe("with single attribute", () => {
             beforeEach(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
                 (window as any).mx = mxObject;
@@ -144,7 +152,7 @@ describe("Date Filter", () => {
 
         describe("with double attributes", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -161,9 +169,9 @@ describe("Date Filter", () => {
                                 .build()
                         }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
                 (window as any).mx = mxObject;
@@ -184,13 +192,13 @@ describe("Date Filter", () => {
 
         describe("with wrong attribute's type", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         { filter: new ListAttributeValueBuilder().withType("Decimal").withFilterable(true).build() }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
                 (window as any).mx = mxObject;
@@ -211,7 +219,7 @@ describe("Date Filter", () => {
 
         describe("with wrong multiple attributes' types", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -228,9 +236,9 @@ describe("Date Filter", () => {
                                 .build()
                         }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
                 (window as any).mx = mxObject;
@@ -267,13 +275,13 @@ describe("Date Filter", () => {
 
     describe("with multiple instances", () => {
         beforeAll(() => {
-            const props: HeaderFiltersStoreProps = {
+            const spec = mockSpec({
                 filterList: [
                     { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
                 ]
-            };
-            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+            });
+            const headerFilterStore = new HeaderFiltersStore(spec);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                 headerFilterStore.context
             );
             (window as any).mx = mxObject;
@@ -296,13 +304,13 @@ describe("Date Filter", () => {
 
     describe("with session config", () => {
         beforeEach(() => {
-            const props: HeaderFiltersStoreProps = {
+            const spec = mockSpec({
                 filterList: [
                     { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
                 ]
-            };
-            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+            });
+            const headerFilterStore = new HeaderFiltersStore(spec);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                 headerFilterStore.context
             );
         });
