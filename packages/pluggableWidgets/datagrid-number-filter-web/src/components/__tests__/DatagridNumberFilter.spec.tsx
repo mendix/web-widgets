@@ -1,9 +1,9 @@
 import "@testing-library/jest-dom";
-import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
+import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { requirePlugin } from "@mendix/widget-plugin-external-events/plugin";
 import {
     HeaderFiltersStore,
-    HeaderFiltersStoreProps
+    HeaderFiltersStoreSpec
 } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import {
     actionValue,
@@ -20,11 +20,7 @@ import DatagridNumberFilter from "../../DatagridNumberFilter";
 import { Big } from "big.js";
 import { DatagridNumberFilterContainerProps } from "../../../typings/DatagridNumberFilterProps";
 import { resetIdCounter } from "downshift";
-
-interface StaticInfo {
-    name: string;
-    filtersChannelName: string;
-}
+import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
 
 const commonProps: DatagridNumberFilterContainerProps = {
     class: "filter-custom-class",
@@ -36,12 +32,16 @@ const commonProps: DatagridNumberFilterContainerProps = {
     delay: 1000
 };
 
-const headerFilterStoreInfo: StaticInfo = {
-    name: commonProps.name,
-    filtersChannelName: "datagrid1"
-};
-
 jest.useFakeTimers();
+
+const mockSpec = (spec: Partial<HeaderFiltersStoreSpec>): HeaderFiltersStoreSpec => ({
+    filterList: [],
+    filterChannelName: "datagrid1",
+    headerInitFilter: [],
+    sharedInitFilter: [],
+    customFilterHost: {} as FilterObserver,
+    ...spec
+});
 
 beforeEach(() => {
     jest.spyOn(console, "warn").mockImplementation(() => {
@@ -60,23 +60,23 @@ describe("Number Filter", () => {
 
         describe("with single attribute", () => {
             beforeEach(() => {
-                const props: HeaderFiltersStoreProps = {
-                    filterList: [
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withType("Long")
-                                .withFormatter(
-                                    value => (value ? value.toString() : ""),
-                                    (value: string) => ({ valid: true, value })
-                                )
-                                .withFilterable(true)
-                                .build()
-                        }
-                    ],
-                    parentChannelName: headerFilterStoreInfo.filtersChannelName
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                const headerFilterStore = new HeaderFiltersStore(
+                    mockSpec({
+                        filterList: [
+                            {
+                                filter: new ListAttributeValueBuilder()
+                                    .withType("Long")
+                                    .withFormatter(
+                                        value => (value ? value.toString() : ""),
+                                        (value: string) => ({ valid: true, value })
+                                    )
+                                    .withFilterable(true)
+                                    .build()
+                            }
+                        ]
+                    })
+                );
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -194,39 +194,40 @@ describe("Number Filter", () => {
 
         describe("with multiple attributes", () => {
             beforeEach(() => {
-                const props: HeaderFiltersStoreProps = {
-                    filterList: [
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withId("attribute1")
-                                .withType("Long")
-                                .withFormatter(
-                                    value => value,
-                                    () => {
-                                        // noop
-                                    }
-                                )
-                                .withFilterable(true)
-                                .build()
-                        },
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withId("attribute2")
-                                .withType("Decimal")
-                                .withFormatter(
-                                    value => value,
-                                    () => {
-                                        // noop
-                                    }
-                                )
-                                .withFilterable(true)
-                                .build()
-                        }
-                    ],
-                    parentChannelName: headerFilterStoreInfo.filtersChannelName
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                const headerFilterStore = new HeaderFiltersStore(
+                    mockSpec({
+                        filterList: [
+                            {
+                                filter: new ListAttributeValueBuilder()
+                                    .withId("attribute1")
+                                    .withType("Long")
+                                    .withFormatter(
+                                        value => value,
+                                        () => {
+                                            // noop
+                                        }
+                                    )
+                                    .withFilterable(true)
+                                    .build()
+                            },
+                            {
+                                filter: new ListAttributeValueBuilder()
+                                    .withId("attribute2")
+                                    .withType("Decimal")
+                                    .withFormatter(
+                                        value => value,
+                                        () => {
+                                            // noop
+                                        }
+                                    )
+                                    .withFilterable(true)
+                                    .build()
+                            }
+                        ]
+                    })
+                );
+
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -296,13 +297,14 @@ describe("Number Filter", () => {
 
         describe("with wrong attribute's type", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         { filter: new ListAttributeValueBuilder().withType("Boolean").withFilterable(true).build() }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -320,7 +322,7 @@ describe("Number Filter", () => {
 
         describe("with wrong multiple attributes' types", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -337,9 +339,10 @@ describe("Number Filter", () => {
                                 .build()
                         }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -370,7 +373,7 @@ describe("Number Filter", () => {
 
     describe("with multiple instances", () => {
         beforeEach(() => {
-            const props: HeaderFiltersStoreProps = {
+            const spec = mockSpec({
                 filterList: [
                     {
                         filter: new ListAttributeValueBuilder()
@@ -385,9 +388,9 @@ describe("Number Filter", () => {
                             .build()
                     }
                 ]
-            };
-            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+            });
+            const headerFilterStore = new HeaderFiltersStore(spec);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                 headerFilterStore.context
             );
         });
