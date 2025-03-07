@@ -102,7 +102,8 @@ export interface LineChartPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    renderMode?: "design" | "xray" | "structure";
+    renderMode: "design" | "xray" | "structure";
+    translate: (text: string) => string;
     lines: LinesPreviewType[];
     enableAdvancedOptions: boolean;
     showPlaygroundSlot: boolean;
