@@ -4,16 +4,27 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { ActionValue, AttributeMetaData, DynamicValue, EditableValue } from "mendix";
+
+export type AttrChoiceEnum = "auto" | "linked";
+
+export interface AttributesType {
+    attribute: AttributeMetaData<string>;
+}
 
 export type DefaultFilterEnum = "contains" | "startsWith" | "endsWith" | "greater" | "greaterEqual" | "equal" | "notEqual" | "smaller" | "smallerEqual" | "empty" | "notEmpty";
+
+export interface AttributesPreviewType {
+    attribute: string;
+}
 
 export interface DatagridTextFilterContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    advanced: boolean;
+    attrChoice: AttrChoiceEnum;
+    attributes: AttributesType[];
     defaultValue?: DynamicValue<string>;
     defaultFilter: DefaultFilterEnum;
     placeholder?: DynamicValue<string>;
@@ -35,7 +46,8 @@ export interface DatagridTextFilterPreviewProps {
     styleObject?: CSSProperties;
     readOnly: boolean;
     renderMode?: "design" | "xray" | "structure";
-    advanced: boolean;
+    attrChoice: AttrChoiceEnum;
+    attributes: AttributesPreviewType[];
     defaultValue: string;
     defaultFilter: DefaultFilterEnum;
     placeholder: string;
