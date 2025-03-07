@@ -1,18 +1,14 @@
 import "@testing-library/jest-dom";
-import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
+import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import {
     HeaderFiltersStore,
-    HeaderFiltersStoreProps
+    HeaderFiltersStoreSpec
 } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import { dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { createContext, createElement } from "react";
 import DatagridDropdownFilter from "../../DatagridDropdownFilter";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-
-export interface StaticInfo {
-    name: string;
-    filtersChannelName: string;
-}
+import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
 
 const commonProps = {
     class: "filter-custom-class",
@@ -26,10 +22,14 @@ const commonProps = {
     selectedItemsStyle: "text" as const
 };
 
-const headerFilterStoreInfo: StaticInfo = {
-    name: commonProps.name,
-    filtersChannelName: ""
-};
+const mockSpec = (spec: Partial<HeaderFiltersStoreSpec>): HeaderFiltersStoreSpec => ({
+    filterList: [],
+    filterChannelName: "datagrid/1",
+    headerInitFilter: [],
+    sharedInitFilter: [],
+    customFilterHost: {} as FilterObserver,
+    ...spec
+});
 
 const consoleError = global.console.error;
 jest.spyOn(global.console, "error").mockImplementation((...args: any[]) => {
@@ -50,7 +50,7 @@ describe("Dropdown Filter", () => {
 
         describe("with single attribute", () => {
             function mockCtx(universe: string[]): void {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -64,9 +64,9 @@ describe("Dropdown Filter", () => {
                                 .build()
                         }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             }
@@ -207,7 +207,7 @@ describe("Dropdown Filter", () => {
 
         describe("with multiple attributes", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -234,9 +234,9 @@ describe("Dropdown Filter", () => {
                                 .build()
                         }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -267,15 +267,15 @@ describe("Dropdown Filter", () => {
 
         describe("with wrong attribute's type", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder().withType("String").withFilterable(true).build()
                         }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -297,7 +297,7 @@ describe("Dropdown Filter", () => {
 
         describe("with wrong multiple attributes' types", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -314,9 +314,9 @@ describe("Dropdown Filter", () => {
                                 .build()
                         }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -354,7 +354,7 @@ describe("Dropdown Filter", () => {
 
         describe("with invalid values", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -364,9 +364,9 @@ describe("Dropdown Filter", () => {
                                 .build()
                         }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -392,7 +392,7 @@ describe("Dropdown Filter", () => {
 
         describe("with multiple invalid values", () => {
             beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
+                const spec = mockSpec({
                     filterList: [
                         {
                             filter: new ListAttributeValueBuilder()
@@ -409,9 +409,9 @@ describe("Dropdown Filter", () => {
                                 .build()
                         }
                     ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+                });
+                const headerFilterStore = new HeaderFiltersStore(spec);
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                     headerFilterStore.context
                 );
             });
@@ -442,7 +442,7 @@ describe("Dropdown Filter", () => {
 
     describe("with multiple instances", () => {
         beforeAll(() => {
-            const props: HeaderFiltersStoreProps = {
+            const spec = mockSpec({
                 filterList: [
                     {
                         filter: new ListAttributeValueBuilder()
@@ -456,9 +456,9 @@ describe("Dropdown Filter", () => {
                             .build()
                     }
                 ]
-            };
-            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
+            });
+            const headerFilterStore = new HeaderFiltersStore(spec);
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
                 headerFilterStore.context
             );
         });
