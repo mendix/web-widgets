@@ -48,7 +48,8 @@ export interface DatagridDropdownFilterPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    renderMode?: "design" | "xray" | "structure";
+    renderMode: "design" | "xray" | "structure";
+    translate: (text: string) => string;
     auto: boolean;
     defaultValue: string;
     filterOptions: FilterOptionsPreviewType[];

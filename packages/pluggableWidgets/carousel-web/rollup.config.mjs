@@ -1,14 +1,15 @@
 import { writeFile } from "fs";
 import { join } from "path";
-import { mkdir } from "shelljs";
+import shelljs from "shelljs";
+const { mkdir } = shelljs;
 import mime from "mime-types";
 import crypto from "crypto";
 import postcssUrl from "postcss-url";
-import { postCssPlugin } from "@mendix/pluggable-widgets-tools/configs/rollup.config";
+import { postCssPlugin } from "@mendix/pluggable-widgets-tools/configs/rollup.config.mjs";
 
 const sourcePath = process.cwd();
 const outDir = join(sourcePath, "/dist/tmp/widgets/");
-const widgetPackageJson = require(join(sourcePath, "package.json"));
+const widgetPackageJson = (await import(join(sourcePath, "package.json"), { with: { type: "json" } })).default;
 const widgetName = widgetPackageJson.widgetName;
 const widgetPackage = widgetPackageJson.packagePath;
 const outWidgetDir = join(widgetPackage.replace(/\./g, "/"), widgetName.toLowerCase());

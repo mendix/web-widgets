@@ -51,7 +51,8 @@ export interface PieChartPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    renderMode?: "design" | "xray" | "structure";
+    renderMode: "design" | "xray" | "structure";
+    translate: (text: string) => string;
     seriesDataSource: {} | { caption: string } | { type: string } | null;
     seriesName: string;
     seriesValueAttribute: string;
