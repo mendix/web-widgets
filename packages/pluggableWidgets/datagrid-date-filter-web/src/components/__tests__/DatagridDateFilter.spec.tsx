@@ -15,15 +15,7 @@ import { createContext, createElement } from "react";
 import DatagridDateFilter from "../../DatagridDateFilter";
 import { DatagridDateFilterContainerProps } from "../../../typings/DatagridDateFilterProps";
 import { MXGlobalObject, MXSessionConfig } from "../../../typings/global";
-<<<<<<< HEAD
-
-interface StaticInfo {
-    name: string;
-    filtersChannelName: string;
-}
-=======
 import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
->>>>>>> 65a6a223b (fix: update types)
 
 function createMXObjectMock(
     code: string,
