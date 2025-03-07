@@ -6,7 +6,7 @@ export function withNumberFilterAPI<P extends object>(
     Component: (props: P & Number_FilterAPIv2) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props) {
-        const api = useNumberFilterAPI("");
+        const api = useNumberFilterAPI();
 
         if (api.hasError) {
             return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
