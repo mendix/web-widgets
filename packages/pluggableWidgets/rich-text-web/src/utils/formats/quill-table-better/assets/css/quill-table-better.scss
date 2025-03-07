@@ -179,15 +179,16 @@ $focused-border: 1px solid $focused-border-color;
     &-input-wrapper {
         position: relative;
         height: 100%;
-        & > label {
-            position: absolute;
-            left: 0;
-            top: -50%;
-            transform: translateY(50%) scale(0.75);
-            color: #999;
-            background: $color-white;
-            display: none;
-        }
+    }
+    &-input-wrapper > label,
+    label {
+        background: $color-white;
+        color: #999;
+        display: none;
+        position: absolute;
+        left: 0;
+        top: -8px;
+        transform: scale(0.75);
     }
     &-status {
         @extend .ql-table-tooltip-error;
@@ -373,10 +374,26 @@ $focused-border: 1px solid $focused-border-color;
     display: flex;
     .label-field-view-color {
         flex: 1;
-        .property-input {
-            @extend .ql-table-input;
-            border: 1px solid transparent;
-            height: 100%;
+        .clr-field {
+            width: 100%;
+            &,
+            & .property-input {
+                height: 100%;
+            }
+            .property-input {
+                @extend .ql-table-input;
+                border: 1px solid transparent;
+                color: fieldtext;
+                min-width: 110px;
+            }
+            button {
+                height: 24px;
+                width: 24px;
+                right: 3px;
+            }
+        }
+        label {
+            display: block;
         }
     }
     .color-picker {
