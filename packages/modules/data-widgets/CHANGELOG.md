@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed layout issue where right-aligned content is not aligned with the filter.
+
 ## [2.30.1] DataWidgets - 2025-02-25
 
 ### [2.30.1] Datagrid
