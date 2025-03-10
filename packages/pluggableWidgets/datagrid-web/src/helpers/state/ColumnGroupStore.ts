@@ -13,7 +13,7 @@ import {
     sortInstructionsToSortRules,
     sortRulesToSortInstructions
 } from "./ColumnsSortingStore";
-import { ColumnFilterStore } from "./column/ColumnFilterStore";
+import { ColumnFilterStore, ObserverBag } from "./column/ColumnFilterStore";
 import { ColumnStore } from "./column/ColumnStore";
 
 export interface IColumnGroupStore {
@@ -46,17 +46,18 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     constructor(
         props: Pick<DatagridContainerProps, "columns" | "datasource">,
         info: StaticInfo,
-        dsViewState: Array<FilterCondition | undefined> | null
+        initFilter: Array<FilterCondition | undefined>,
+        observerBag: ObserverBag
     ) {
         this._allColumns = [];
         this.columnFilters = [];
 
         props.columns.forEach((columnProps, i) => {
-            const initCond = dsViewState?.at(i) ?? null;
+            const initCond = initFilter.at(i) ?? null;
             const column = new ColumnStore(i, columnProps, this);
             this._allColumnsById.set(column.columnId, column);
             this._allColumns[i] = column;
-            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, initCond);
+            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, initCond, observerBag);
         });
 
         this.sorting = new ColumnsSortingStore(
