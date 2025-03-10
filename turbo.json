@@ -12,7 +12,7 @@
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "release": {
-            "dependsOn": ["^release", "verify"],
+            "dependsOn": ["^release", "verify", "create-translation"],
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "build:module": {
@@ -40,7 +40,7 @@
         },
         "create-translation": {
             "cache": false,
-            "outputs": [],
+            "outputs": ["dist/**"],
             "inputs": ["src/**/*.xml", "!src/**/package.xml"]
         },
         "publish-marketplace": {
