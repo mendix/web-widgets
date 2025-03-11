@@ -152,7 +152,8 @@ export const TOOLBAR_MAPPING: toolbarMappingType = {
         value: ["1", "2", "3", "4", "5", "6", "7"],
         title: "Font header"
     },
-    clean: { component: ToolbarButton, className: "ql-clean icons icon-Clear-formating", title: "Clear formatting" }
+    clean: { component: ToolbarButton, className: "ql-clean icons icon-Clear-formating", title: "Clear formatting" },
+    fullscreen: { component: ToolbarButton, className: "ql-fullscreen icons icon-Expand", title: "Fullscreen" }
 };
 
 type ToolbarGroupType = {
@@ -170,7 +171,8 @@ export const TOOLBAR_GROUP: ToolbarGroupType = {
     embed: ["link", "image", "video", "formula"],
     header: ["header"],
     code: ["blockquote", "code", "codeBlock", "viewCode"],
-    remove: ["clean"]
+    remove: ["clean"],
+    view: ["fullscreen"]
 };
 
 export type toolbarContentType = {
@@ -222,6 +224,10 @@ export const DEFAULT_TOOLBAR: toolbarContentType[] = [
     {
         presetValue: 1,
         children: TOOLBAR_GROUP.remove
+    },
+    {
+        presetValue: 1,
+        children: TOOLBAR_GROUP.view
     }
 ];
 
