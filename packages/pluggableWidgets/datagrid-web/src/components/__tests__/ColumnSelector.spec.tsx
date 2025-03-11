@@ -5,16 +5,6 @@ import "@testing-library/jest-dom";
 import { ColumnSelector, ColumnSelectorProps } from "../ColumnSelector";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 
-let useIsElementInViewportMock = jest.fn(() => true);
-
-jest.mock("../../utils/useIsElementInViewport", () => ({
-    useIsElementInViewport: () => useIsElementInViewportMock()
-}));
-
-jest.mock("@mendix/widget-plugin-hooks/usePositionObserver", () => ({
-    usePositionObserver: jest.fn((): DOMRect => ({ bottom: 0, right: 0 } as DOMRect))
-}));
-
 jest.useFakeTimers();
 
 describe("Column Selector", () => {
@@ -37,7 +27,6 @@ describe("Column Selector", () => {
         });
 
         it("classname for the ul element in ColumnSelector IS set to overflow", async () => {
-            useIsElementInViewportMock = jest.fn(() => false);
             render(<ColumnSelector {...mockColumnSelectorProps()} />);
             expect(document.body).toHaveFocus();
 
