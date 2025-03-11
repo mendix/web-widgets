@@ -35,7 +35,7 @@ describe("RefreshController", () => {
     });
 
     it("should set up a timer if delay is greater than 0", () => {
-        const controller = new RefreshController(host, { delay: 1000, query: atom });
+        const controller = new RefreshController(host, { delay: 1, query: atom });
         const dispose = controller.setup();
         expect(dispose).toBeInstanceOf(Function);
 
@@ -44,7 +44,7 @@ describe("RefreshController", () => {
     });
 
     it("should clear the timer when dispose is called", () => {
-        const controller = new RefreshController(host, { delay: 1000, query: atom });
+        const controller = new RefreshController(host, { delay: 1, query: atom });
         const dispose = controller.setup();
         expect(dispose).toBeInstanceOf(Function);
 
