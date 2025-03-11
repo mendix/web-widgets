@@ -1521,8 +1521,8 @@ importers:
   packages/pluggableWidgets/html-element-web:
     dependencies:
       dompurify:
-        specifier: ^2.5.7
-        version: 2.5.7
+        specifier: ^3.2.4
+        version: 3.2.4
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1539,9 +1539,6 @@ importers:
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
-      '@types/dompurify':
-        specifier: ^2.4.0
-        version: 2.4.0
 
   packages/pluggableWidgets/image-web:
     dependencies:
@@ -1944,8 +1941,8 @@ importers:
         specifier: ^2.2.6
         version: 2.3.2
       dompurify:
-        specifier: ^2.5.7
-        version: 2.5.7
+        specifier: ^3.2.4
+        version: 3.2.4
       katex:
         specifier: ^0.16.11
         version: 0.16.11
@@ -1986,9 +1983,6 @@ importers:
       '@rollup/plugin-json':
         specifier: ^6.1.0
         version: 6.1.0(rollup@2.79.2)
-      '@types/dompurify':
-        specifier: ^2.4.0
-        version: 2.4.0
       '@types/katex':
         specifier: ^0.16.7
         version: 0.16.7
@@ -4463,9 +4457,6 @@ packages:
   '@types/dojo@1.9.44':
     resolution: {integrity: sha512-PXRBomRsnsKOntYqDmamJE9pJ95Bkcuynrvb46PHunClyek+AkuQQdF+MQpaUZUk/FhP+DQrleedtIWAfJe7Rg==}
 
-  '@types/dompurify@2.4.0':
-    resolution: {integrity: sha512-IDBwO5IZhrKvHFUl+clZxgf3hn2b/lU6H1KaBShPkQyGJUQ0xwebezIPSuiyGwfz1UzJWQl4M7BDxtHtCCPlTg==}
-
   '@types/enzyme@3.10.13':
     resolution: {integrity: sha512-FCtoUhmFsud0Yx9fmZk179GkdZ4U9B0GFte64/Md+W/agx0L5SxsIIbhLBOxIb9y2UfBA4WQnaG1Od/UsUQs9Q==}
 
@@ -4652,8 +4643,8 @@ packages:
   '@types/tough-cookie@4.0.2':
     resolution: {integrity: sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==}
 
-  '@types/trusted-types@2.0.3':
-    resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
+  '@types/trusted-types@2.0.7':
+    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
   '@types/use-sync-external-store@0.0.3':
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
@@ -6184,8 +6175,8 @@ packages:
     resolution: {integrity: sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==}
     engines: {node: '>= 4'}
 
-  dompurify@2.5.7:
-    resolution: {integrity: sha512-2q4bEI+coQM8f5ez7kt2xclg1XsecaV9ASJk/54vwlfRRNQfDqJz2pzQ8t0Ix/ToBpXlVjrRIx7pFC/o8itG2Q==}
+  dompurify@3.2.4:
+    resolution: {integrity: sha512-ysFSFEDVduQpyhzAob/kkuJjf5zWkZD8/A9ywSp1byueyuCfHamrCBa14/Oc2iiB0e51B+NpxSl5gmzn+Ms/mg==}
 
   domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
@@ -13322,7 +13313,7 @@ snapshots:
       '@types/react-dom': 18.2.14
       '@types/react-native': 0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.26.9(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))
       '@types/testing-library__jest-dom': 5.14.9
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
       '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
       ansi-colors: 4.1.1
       babel-eslint: 10.1.0(eslint@7.32.0)
@@ -14694,10 +14685,6 @@ snapshots:
 
   '@types/dojo@1.9.44': {}
 
-  '@types/dompurify@2.4.0':
-    dependencies:
-      '@types/trusted-types': 2.0.3
-
   '@types/enzyme@3.10.13':
     dependencies:
       '@types/cheerio': 0.22.31
@@ -14944,7 +14931,8 @@ snapshots:
 
   '@types/tough-cookie@4.0.2': {}
 
-  '@types/trusted-types@2.0.3': {}
+  '@types/trusted-types@2.0.7':
+    optional: true
 
   '@types/use-sync-external-store@0.0.3': {}
 
@@ -14959,25 +14947,6 @@ snapshots:
   '@types/yargs@17.0.29':
     dependencies:
       '@types/yargs-parser': 21.0.3
-
-  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)':
-    dependencies:
-      '@eslint-community/regexpp': 4.11.1
-      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
-      '@typescript-eslint/scope-manager': 5.62.0
-      '@typescript-eslint/type-utils': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
-      '@typescript-eslint/utils': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
-      debug: 4.3.7
-      eslint: 7.32.0
-      graphemer: 1.4.0
-      ignore: 5.3.2
-      natural-compare-lite: 1.4.0
-      semver: 7.7.1
-      tsutils: 3.21.0(typescript@5.8.2)
-    optionalDependencies:
-      typescript: 5.1.6
-    transitivePeerDependencies:
-      - supports-color
 
   '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)':
     dependencies:
@@ -16934,7 +16903,9 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@2.5.7: {}
+  dompurify@3.2.4:
+    optionalDependencies:
+      '@types/trusted-types': 2.0.7
 
   domutils@2.8.0:
     dependencies:
@@ -17279,7 +17250,7 @@ snapshots:
       '@typescript-eslint/experimental-utils': 4.33.0(eslint@7.32.0)(typescript@5.8.2)
       eslint: 7.32.0
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
     transitivePeerDependencies:
       - supports-color
       - typescript
