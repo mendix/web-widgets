@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM eclipse-temurin:17-jdk-jammy
+FROM --platform=$BUILDPLATFORM eclipse-temurin:21-jdk-jammy
 
 ARG MENDIX_VERSION
 ARG BUILDPLATFORM
