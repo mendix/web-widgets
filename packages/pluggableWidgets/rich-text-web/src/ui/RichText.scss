@@ -4,14 +4,163 @@ $rte-border-color-default: #ced0d3;
 $rte-gray-ligher: #f8f8f8;
 $rte-brand-primary: #264ae5;
 
+html.mx-page-editor {
+    .mx-scrollcontainer-open.widget-rich-text-body-fullscreen {
+        overflow: hidden !important;
+        .mx-scrollcontainer-center {
+            overflow: hidden !important;
+        }
+    }
+}
+
+body.widget-rich-text-body-fullscreen {
+    overflow: hidden !important;
+    position: relative;
+    height: 100% !important;
+
+    .mx-scrollcontainer,
+    .mx-layoutcontainer,
+    .mx-layout,
+    .region-content,
+    .mx-grid,
+    .mx-dataview,
+    .mx-placeholder {
+        &:has(.widget-rich-text-fullscreen) {
+            overflow: hidden !important;
+        }
+    }
+}
+
 .widget-rich-text {
     position: relative;
+    transition: all 0.3s ease;
 
     &.form-control {
         padding: unset;
     }
     .ql-container {
         border: unset;
+    }
+
+    .fullscreen-button {
+        display: inline-block;
+        cursor: pointer;
+        height: 24px;
+        width: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+
+        svg {
+            stroke: #444;
+        }
+
+        &:hover svg {
+            stroke: var(--brand-primary, $rte-brand-primary);
+        }
+    }
+
+    &.widget-rich-text-fullscreen {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 99999 !important;
+        background-color: white !important;
+        overflow: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 20px !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        border: none !important;
+        max-width: none !important;
+        max-height: none !important;
+        transform: none !important;
+        transition: all 0.3s ease !important;
+        outline: none !important;
+
+        min-width: 100vw !important;
+        min-height: 100vh !important;
+
+        .mx-scrollcontainer,
+        .mx-layoutcontainer,
+        .mx-layoutgrid,
+        .mx-grid,
+        .mx-dataview {
+            transform: none !important;
+            position: static !important;
+            width: auto !important;
+            height: auto !important;
+            overflow: visible !important;
+        }
+
+        .widget-rich-text-fullscreen-close {
+            position: fixed !important;
+            top: 10px !important;
+            right: 10px !important;
+        }
+
+        .flexcontainer {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .widget-rich-text-container {
+            flex: 1 !important;
+            max-height: none !important;
+            min-height: auto !important;
+            height: auto !important;
+            width: 100% !important;
+            border: 1px solid var(--border-color-default, $rte-border-color-default) !important;
+            overflow: visible !important;
+            position: relative !important;
+            box-sizing: border-box !important;
+
+            .ql-editor {
+                max-height: none !important;
+                min-height: calc(100vh - 150px) !important;
+                height: auto !important;
+                overflow: auto !important;
+                position: relative !important;
+            }
+        }
+
+        .widget-rich-text-fullscreen-close {
+            position: fixed !important;
+            top: 10px !important;
+            right: 10px !important;
+            z-index: 100000 !important;
+            background-color: var(--brand-primary, $rte-brand-primary) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 4px !important;
+            padding: 5px 15px !important;
+            cursor: pointer !important;
+            font-size: 14px !important;
+            display: flex !important;
+            align-items: center !important;
+
+            &:hover {
+                opacity: 0.9 !important;
+            }
+        }
+
+        .widget-rich-text-toolbar.ql-toolbar {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 100 !important;
+            background-color: white !important;
+            width: 100% !important;
+            margin-bottom: 10px !important;
+            border-radius: 4px !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        }
     }
 
     .flex-column-reverse {
