@@ -1,13 +1,9 @@
 // @ts-nocheck
 import type { InlineBlot } from "parchment";
 import QuillInline from "quill/blots/inline";
-import icons from "quill/ui/icons";
-import tableIcon from "../assets/icon/table.svg";
 import type { InsertTableHandler } from "../types";
 
 const Inline = QuillInline as typeof InlineBlot;
-// @ts-expect-error
-icons["table-better"] = tableIcon;
 const SUM = 10;
 
 class ToolbarTable extends Inline {}
