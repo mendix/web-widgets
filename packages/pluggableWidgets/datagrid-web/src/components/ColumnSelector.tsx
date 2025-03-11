@@ -1,5 +1,5 @@
 import { autoUpdate, size, useClick, useDismiss, useFloating, useInteractions } from "@floating-ui/react";
-import { createElement, ReactElement, useMemo, useRef, useState } from "react";
+import { createElement, ReactElement, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { GridColumn } from "../typings/GridColumn";
 import { FaEye } from "./icons/FaEye";
@@ -20,14 +20,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
         open: show,
         placement: "bottom-end",
         strategy: "fixed",
-        onOpenChange: open => {
-            setShow(open);
-            if (open) {
-                setTimeout(() => {
-                    (refs.floating?.current?.querySelector("li") as HTMLElement)?.focus();
-                }, 10);
-            }
-        },
+        onOpenChange: setShow,
         middleware: [
             size({
                 apply({ availableHeight }) {
@@ -49,6 +42,20 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
 
     const firstHidableColumnIndex = useMemo(() => props.columns.findIndex(c => c.canHide), [props.columns]);
     const lastHidableColumnIndex = useMemo(() => props.columns.map(c => c.canHide).lastIndexOf(true), [props.columns]);
+
+    useLayoutEffect(() => {
+        if (show) {
+            // Focus the first visible column
+            setTimeout(() => {
+                (refs.floating?.current?.querySelector("li") as HTMLElement)?.focus();
+            }, 10);
+        } else {
+            // focus back to the button when closing
+            setTimeout(() => {
+                (refs.reference?.current as HTMLElement)?.focus();
+            }, 10);
+        }
+    }, [show]);
 
     const optionsComponent = (
         <ul
