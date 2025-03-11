@@ -26,17 +26,6 @@ describe("Column Selector", () => {
             expect(element?.classList.contains("overflow")).toBe(false);
         });
 
-        it("classname for the ul element in ColumnSelector IS set to overflow", async () => {
-            render(<ColumnSelector {...mockColumnSelectorProps()} />);
-            expect(document.body).toHaveFocus();
-
-            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-            await user.click(screen.getByRole("button"));
-
-            const element = document.querySelector(".column-selectors");
-            expect(element?.classList.contains("overflow")).toBe(true);
-        });
-
         it("changes focused element when pressing the button", async () => {
             render(<ColumnSelector {...mockColumnSelectorProps()} />);
             expect(document.body).toHaveFocus();

@@ -41,7 +41,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     readonly columnFilters: ColumnFilterStore[];
 
     sorting: ColumnsSortingStore;
-    isResizing: boolean = false;
+    isResizing = false;
 
     constructor(
         props: Pick<DatagridContainerProps, "columns" | "datasource">,
