@@ -566,7 +566,6 @@ class TablePropertiesForm {
 
     updatePropertiesForm(container: HTMLElement, type: string) {
         const target = type === "table" ? this.tableMenus.table! : this.tableMenus.getSelectedTdsInfo().leftTd;
-        console.info("target", target, this.tableMenus);
 
         computePosition(target, container, {
             middleware: [offset(4), flip(), shift({ padding: 10 })],
