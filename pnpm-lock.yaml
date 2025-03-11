@@ -1208,6 +1208,9 @@ importers:
 
   packages/pluggableWidgets/datagrid-web:
     dependencies:
+      '@floating-ui/react':
+        specifier: ^0.26.27
+        version: 0.26.27(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@mendix/widget-plugin-external-events':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-external-events

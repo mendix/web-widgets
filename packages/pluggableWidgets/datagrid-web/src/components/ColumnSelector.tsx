@@ -1,9 +1,8 @@
-import { createElement, ReactElement, useCallback, useMemo, useRef, useState } from "react";
-import { FaEye } from "./icons/FaEye";
-import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
-import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
-import { useIsElementInViewport } from "../utils/useIsElementInViewport";
+import { autoUpdate, size, useClick, useDismiss, useFloating, useInteractions } from "@floating-ui/react";
+import { createElement, ReactElement, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { GridColumn } from "../typings/GridColumn";
+import { FaEye } from "./icons/FaEye";
 
 export interface ColumnSelectorProps {
     columns: GridColumn[];
@@ -15,31 +14,51 @@ export interface ColumnSelectorProps {
 export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
     const { visibleLength } = props;
     const [show, setShow] = useState(false);
-    const optionsRef = useRef<HTMLUListElement>(null);
+    const [maxHeight, setMaxHeight] = useState<number>(0);
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const position = usePositionObserver(buttonRef.current, show);
+    const { refs, floatingStyles, context } = useFloating({
+        open: show,
+        placement: "bottom-end",
+        strategy: "fixed",
+        onOpenChange: open => {
+            setShow(open);
+            if (open) {
+                setTimeout(() => {
+                    (refs.floating?.current?.querySelector("li") as HTMLElement)?.focus();
+                }, 10);
+            }
+        },
+        middleware: [
+            size({
+                apply({ availableHeight }) {
+                    flushSync(() => {
+                        setMaxHeight(availableHeight);
+                    });
+                }
+            })
+        ],
+        transform: false,
+        whileElementsMounted: autoUpdate
+    });
 
-    useOnClickOutside([buttonRef, optionsRef], () => setShow(false));
+    const dismiss = useDismiss(context);
+    const click = useClick(context);
+    const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
     const label = props.label ?? "Column selector";
-
-    const isInViewport = useIsElementInViewport(optionsRef);
 
     const firstHidableColumnIndex = useMemo(() => props.columns.findIndex(c => c.canHide), [props.columns]);
     const lastHidableColumnIndex = useMemo(() => props.columns.map(c => c.canHide).lastIndexOf(true), [props.columns]);
 
     const optionsComponent = (
         <ul
-            ref={optionsRef}
+            ref={refs.setFloating}
             id={`${props.id}-column-selectors`}
-            className={`column-selectors ${isInViewport ? "" : "overflow"}`}
+            className={`column-selectors`}
             data-focusindex={0}
             role="menu"
-            style={{
-                position: "fixed",
-                top: position?.bottom,
-                right: position?.right !== undefined ? document.body.clientWidth - position.right : undefined
-            }}
+            style={{ ...floatingStyles, maxHeight }}
+            {...getFloatingProps()}
         >
             {props.columns.map((column, index) => {
                 const isVisible = !column.isHidden;
@@ -94,28 +113,20 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
         </ul>
     );
 
-    const containerClick = useCallback(() => {
-        setShow(show => !show);
-        setTimeout(() => {
-            (optionsRef.current?.querySelector("li") as HTMLElement)?.focus();
-        }, 10);
-    }, []);
-
     return (
         <div aria-label={label} className="th column-selector" role="columnheader" title={label}>
             <div className="column-selector-content">
                 <button
                     aria-label={label}
-                    ref={buttonRef}
+                    ref={refs.setReference}
                     className="btn btn-default column-selector-button"
-                    onClick={containerClick}
                     onKeyDown={e => {
                         if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault();
                             e.stopPropagation();
-                            containerClick();
                         }
                     }}
+                    {...getReferenceProps()}
                     aria-haspopup
                     aria-expanded={show}
                     aria-controls={`${props.id}-column-selectors`}
