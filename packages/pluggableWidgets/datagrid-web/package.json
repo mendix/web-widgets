@@ -41,6 +41,7 @@
         "create-translation": "rui-create-translation"
     },
     "dependencies": {
+        "@floating-ui/react": "^0.26.27",
         "@mendix/widget-plugin-external-events": "workspace:*",
         "@mendix/widget-plugin-filtering": "workspace:*",
         "@mendix/widget-plugin-grid": "workspace:*",
