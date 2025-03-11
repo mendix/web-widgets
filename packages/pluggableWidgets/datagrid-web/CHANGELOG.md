@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where the vertical scrollbar for column selector is not showing if data grid has horizontal scrollbar.
+
 ## [2.30.1] - 2025-02-25
 
 ### Fixed

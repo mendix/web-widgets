@@ -223,6 +223,8 @@ $root: ".widget-datagrid";
                 padding: 0 16px;
                 background: var(--bg-color-secondary, $dg-background-color);
                 z-index: 102;
+                overflow-y: auto;
+                max-width: fit-content;
                 border-radius: 3px;
                 border: 1px solid transparent;
                 list-style-type: none;
@@ -376,17 +378,14 @@ $root: ".widget-datagrid";
     padding: 0 16px;
     background: var(--bg-color-secondary, $dg-background-color);
     z-index: 102;
+    overflow-y: auto;
+    max-width: fit-content;
     border-radius: 3px;
     border: 1px solid transparent;
     list-style-type: none;
     -webkit-box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
     -moz-box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
     box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
-
-    &.overflow {
-        height: 250px;
-        overflow-y: scroll;
-    }
 
     li {
         display: flex;
