@@ -59,7 +59,7 @@ export class RootGridStore extends BaseControllerHost {
 
         new RefreshController(this, {
             query: computed(() => query.computedCopy),
-            delay: props.refreshInterval
+            delay: props.refreshInterval * 1000
         });
 
         this.loaderCtrl = new DerivedLoaderController({
