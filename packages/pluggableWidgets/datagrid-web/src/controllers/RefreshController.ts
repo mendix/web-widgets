@@ -18,7 +18,7 @@ export class RefreshController implements ReactiveController {
     constructor(host: ReactiveControllerHost, spec: RefreshControllerSpec) {
         host.addController(this);
         this.query = spec.query;
-        this.delay = Math.max(spec.delay * 1000, 0);
+        this.delay = Math.max(spec.delay, 0);
     }
 
     setup(): (() => void) | void {
