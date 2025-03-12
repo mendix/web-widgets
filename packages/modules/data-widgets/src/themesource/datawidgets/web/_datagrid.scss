@@ -224,7 +224,8 @@ $root: ".widget-datagrid";
                 background: var(--bg-color-secondary, $dg-background-color);
                 z-index: 102;
                 overflow-y: auto;
-                max-width: fit-content;
+                width: fit-content;
+                max-width: 500px;
                 border-radius: 3px;
                 border: 1px solid transparent;
                 list-style-type: none;
@@ -240,6 +241,8 @@ $root: ".widget-datagrid";
                         margin: 8px;
                         font-weight: normal;
                         white-space: nowrap;
+                        overflow-x: hidden;
+                        text-overflow: ellipsis;
                     }
                 }
             }
@@ -379,7 +382,8 @@ $root: ".widget-datagrid";
     background: var(--bg-color-secondary, $dg-background-color);
     z-index: 102;
     overflow-y: auto;
-    max-width: fit-content;
+    width: fit-content;
+    max-width: 500px;
     border-radius: 3px;
     border: 1px solid transparent;
     list-style-type: none;
@@ -396,6 +400,8 @@ $root: ".widget-datagrid";
             margin: 8px;
             font-weight: normal;
             white-space: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
         }
     }
 }
