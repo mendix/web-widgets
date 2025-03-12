@@ -318,9 +318,10 @@
         </propertyGroup>
         <propertyGroup caption="Accessibility">
             <propertyGroup caption="Accessibility">
-                <property key="ariaRequired" type="boolean" defaultValue="false">
+                <property key="ariaRequired" type="expression" defaultValue="false">
                     <caption>Aria required</caption>
                     <description />
+                    <returnType type="Boolean" />
                 </property>
             </propertyGroup>
             <propertyGroup caption="Aria labels">
