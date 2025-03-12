@@ -181,7 +181,7 @@ function convertHTML(blot: Blot, index: number, length: number, isRoot = false):
         if (start === "<table") {
             return `<table style="border: 1px solid #000;">${parts.join("")}<${end}`;
         }
-        return `${start}>${parts.join("")}<${end}\n`;
+        return `${start}>${parts.join("")}<${end}`;
     }
     return blot.domNode instanceof Element ? blot.domNode.outerHTML : "";
 }
