@@ -44,7 +44,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const isFirstLoad = useRef<boolean>(false);
     const quillRef = useRef<Quill>(null);
     const [isFocus, setIsFocus] = useState(false);
-    const [isFullscreen, toggleFullscreen] = useFullscreen();
+    const [isFullscreen, toggleFullscreen] = useFullscreen(quillRef);
     const editorValueRef = useRef<string>("");
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
