@@ -2,7 +2,7 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 import { ReactElement, createElement, useMemo } from "react";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
-
+import { dynamic } from "@mendix/widget-plugin-test-utils";
 import { SingleSelector, SelectionBaseProps } from "./helpers/types";
 import "./ui/Combobox.scss";
 import { AssociationPreviewSelector } from "./helpers/Association/Preview/AssociationPreviewSelector";
@@ -16,7 +16,7 @@ export const preview = (props: ComboboxPreviewProps): ReactElement => {
         inputId: id,
         labelId: `${id}-label`,
         readOnlyStyle: props.readOnlyStyle,
-        ariaRequired: true,
+        ariaRequired: dynamic(false),
         a11yConfig: {
             ariaLabels: {
                 clearSelection: props.clearButtonAriaLabel,
