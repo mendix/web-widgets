@@ -6,7 +6,6 @@ $rte-brand-primary: #264ae5;
 
 .widget-rich-text {
     position: relative;
-    transition: all 0.3s ease;
 
     &.form-control {
         padding: unset;
@@ -26,95 +25,40 @@ $rte-brand-primary: #264ae5;
         background: none;
         border: none;
 
-        svg {
-            stroke: #444;
-        }
-
         &:hover svg {
             stroke: var(--brand-primary, $rte-brand-primary);
         }
     }
 
-    &.widget-rich-text-fullscreen {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        z-index: 99999 !important;
-        background-color: white !important;
-        overflow: auto !important;
-        display: flex !important;
-        flex-direction: column !important;
-        padding: 20px !important;
-        box-sizing: border-box !important;
-        margin: 0 !important;
-        border: none !important;
-        max-width: none !important;
-        max-height: none !important;
-        transform: none !important;
-        transition: all 0.3s ease !important;
-        outline: none !important;
+    &.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 99999;
+        background-color: white;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        box-sizing: border-box;
+        margin: 0;
+        border: none;
+        max-width: none;
+        max-height: none;
+        transform: none;
+        transition: all 0.3s ease;
+        outline: none;
 
-        min-width: 100vw !important;
-        min-height: 100vh !important;
+        min-width: 100vw;
+        min-height: 100vh;
 
         .flexcontainer {
             width: 100% !important;
             max-width: 100% !important;
-        }
-
-        .widget-rich-text-container {
-            flex: 1 !important;
-            max-height: none !important;
-            min-height: auto !important;
-            height: auto !important;
-            width: 100% !important;
-            border: 1px solid var(--border-color-default, $rte-border-color-default) !important;
-            overflow: visible !important;
-            position: relative !important;
-            box-sizing: border-box !important;
-
-            .ql-editor {
-                max-height: none !important;
-                min-height: calc(100vh - 150px) !important;
-                height: auto !important;
-                overflow: auto !important;
-                position: relative !important;
-            }
-        }
-
-        .widget-rich-text-fullscreen-close {
-            position: fixed !important;
-            top: 10px !important;
-            right: 10px !important;
-            z-index: 100000 !important;
-            background-color: var(--brand-primary, $rte-brand-primary) !important;
-            color: white !important;
-            border: none !important;
-            border-radius: 4px !important;
-            padding: 5px 15px !important;
-            cursor: pointer !important;
-            font-size: 14px !important;
-            display: flex !important;
-            align-items: center !important;
-
-            &:hover {
-                opacity: 0.9 !important;
-            }
-        }
-
-        .widget-rich-text-toolbar.ql-toolbar {
-            position: sticky !important;
-            top: 0 !important;
-            z-index: 100 !important;
-            background-color: white !important;
-            width: 100% !important;
-            margin-bottom: 10px !important;
-            border-radius: 4px !important;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
         }
     }
 
