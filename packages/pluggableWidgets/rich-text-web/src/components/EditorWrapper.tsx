@@ -13,6 +13,7 @@ import { createPreset } from "./CustomToolbars/presets";
 import Editor from "./Editor";
 import { StickySentinel } from "./StickySentinel";
 import Toolbar from "./Toolbar";
+import { useFullscreen } from "../hooks/useFullscreen";
 
 export interface EditorWrapperProps extends RichTextContainerProps {
     editorHeight?: string | number;
@@ -43,7 +44,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const isFirstLoad = useRef<boolean>(false);
     const quillRef = useRef<Quill>(null);
     const [isFocus, setIsFocus] = useState(false);
-    const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isFullscreen, toggleFullscreen] = useFullscreen();
     const editorValueRef = useRef<string>("");
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
@@ -123,49 +124,6 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         [isFocus, onFocus, onBlur, onChange, onChangeType]
     );
 
-    // Add fullscreen toggle handler
-    const toggleFullscreen = useCallback(() => {
-        setIsFullscreen(prevState => {
-            const newState = !prevState;
-            if (newState) {
-                const currentBodyOverflow = document.body.style.overflow;
-                document.body.dataset.previousOverflow = currentBodyOverflow;
-                document.body.style.overflow = "hidden";
-                document.body.classList.add("widget-rich-text-body-fullscreen");
-            } else {
-                const previousOverflow = document.body.dataset.previousOverflow || "";
-                document.body.style.overflow = previousOverflow;
-                delete document.body.dataset.previousOverflow;
-                document.body.classList.remove("widget-rich-text-body-fullscreen");
-            }
-            return newState;
-        });
-    }, []);
-
-    // Add escape key listener for fullscreen mode
-    useEffect(() => {
-        const handleEscapeKey = (event: KeyboardEvent) => {
-            if (event.key === "Escape" && isFullscreen) {
-                setIsFullscreen(false);
-                const previousOverflow = document.body.dataset.previousOverflow || "";
-                document.body.style.overflow = previousOverflow;
-                delete document.body.dataset.previousOverflow;
-                document.body.classList.remove("widget-rich-text-body-fullscreen");
-            }
-        };
-
-        document.addEventListener("keydown", handleEscapeKey);
-        return () => {
-            document.removeEventListener("keydown", handleEscapeKey);
-            if (isFullscreen) {
-                const previousOverflow = document.body.dataset.previousOverflow || "";
-                document.body.style.overflow = previousOverflow;
-                delete document.body.dataset.previousOverflow;
-                document.body.classList.remove("widget-rich-text-body-fullscreen");
-            }
-        };
-    }, [isFullscreen]);
-
     const toolbarId = `widget_${id.replaceAll(".", "_")}_toolbar`;
     const shouldHideToolbar = (stringAttribute.readOnly && readOnlyStyle !== "text") || toolbarLocation === "hide";
     const toolbarPreset = shouldHideToolbar ? [] : createPreset(props);
@@ -181,7 +139,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                 className,
                 "flex-column",
                 `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`,
-                isFullscreen ? "widget-rich-text-fullscreen" : ""
+                isFullscreen ? "fullscreen" : ""
             )}
             style={{ width: style?.width }}
             onClick={e => {
@@ -199,26 +157,6 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             spellCheck={props.spellCheck}
             tabIndex={tabIndex}
         >
-            {isFullscreen && (
-                <button className="widget-rich-text-fullscreen-close" onClick={toggleFullscreen}>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="16"
-                        height="16"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        style={{ marginRight: "5px" }}
-                    >
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                    Exit Fullscreen
-                </button>
-            )}
             {toolbarLocation === "auto" && <StickySentinel />}
             <div
                 className={classNames(
