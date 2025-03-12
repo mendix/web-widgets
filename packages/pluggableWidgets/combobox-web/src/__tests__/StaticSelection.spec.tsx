@@ -39,7 +39,7 @@ describe("Combo box (Static values)", () => {
             optionsSourceAssociationCustomContentType: "no",
             optionsSourceAssociationCustomContent: undefined,
             emptyOptionText: dynamic("Select an option 111"),
-            ariaRequired: true,
+            ariaRequired: dynamic(true),
             clearable: true,
             filterType: "contains",
             selectedItemsStyle: "text",
