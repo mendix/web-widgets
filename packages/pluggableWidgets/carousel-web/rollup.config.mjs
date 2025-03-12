@@ -5,11 +5,22 @@ const { mkdir } = shelljs;
 import mime from "mime-types";
 import crypto from "crypto";
 import postcssUrl from "postcss-url";
+import { pathToFileURL } from "url";
 import { postCssPlugin } from "@mendix/pluggable-widgets-tools/configs/rollup.config.mjs";
 
+const processPath = path => {
+    if (process.platform === "win32" && !process.env.JEST_WORKER_ID) {
+        // on windows import("C:\\path\\to\\file") is not valid, so we need to
+        // use file:// URLs
+        return pathToFileURL(path).toString();
+    } else {
+        return path;
+    }
+};
 const sourcePath = process.cwd();
 const outDir = join(sourcePath, "/dist/tmp/widgets/");
-const widgetPackageJson = (await import(join(sourcePath, "package.json"), { with: { type: "json" } })).default;
+const widgetPackageJson = (await import(processPath(join(sourcePath, "package.json")), { with: { type: "json" } }))
+    .default;
 const widgetName = widgetPackageJson.widgetName;
 const widgetPackage = widgetPackageJson.packagePath;
 const outWidgetDir = join(widgetPackage.replace(/\./g, "/"), widgetName.toLowerCase());
