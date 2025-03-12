@@ -4,33 +4,6 @@ $rte-border-color-default: #ced0d3;
 $rte-gray-ligher: #f8f8f8;
 $rte-brand-primary: #264ae5;
 
-html.mx-page-editor {
-    .mx-scrollcontainer-open.widget-rich-text-body-fullscreen {
-        overflow: hidden !important;
-        .mx-scrollcontainer-center {
-            overflow: hidden !important;
-        }
-    }
-}
-
-body.widget-rich-text-body-fullscreen {
-    overflow: hidden !important;
-    position: relative;
-    height: 100% !important;
-
-    .mx-scrollcontainer,
-    .mx-layoutcontainer,
-    .mx-layout,
-    .region-content,
-    .mx-grid,
-    .mx-dataview,
-    .mx-placeholder {
-        &:has(.widget-rich-text-fullscreen) {
-            overflow: hidden !important;
-        }
-    }
-}
-
 .widget-rich-text {
     position: relative;
     transition: all 0.3s ease;
@@ -87,24 +60,6 @@ body.widget-rich-text-body-fullscreen {
 
         min-width: 100vw !important;
         min-height: 100vh !important;
-
-        .mx-scrollcontainer,
-        .mx-layoutcontainer,
-        .mx-layoutgrid,
-        .mx-grid,
-        .mx-dataview {
-            transform: none !important;
-            position: static !important;
-            width: auto !important;
-            height: auto !important;
-            overflow: visible !important;
-        }
-
-        .widget-rich-text-fullscreen-close {
-            position: fixed !important;
-            top: 10px !important;
-            right: 10px !important;
-        }
 
         .flexcontainer {
             width: 100% !important;
