@@ -6,9 +6,5 @@ module.exports = {
      */
     transformIgnorePatterns: ["node_modules/(?!quill)/"],
     preset: "ts-jest",
-    testEnvironment: "jsdom",
-    moduleNameMapper: {
-        "^quill-resize-module$": "<rootDir>/src/__mocks__/quill-resize-module.ts",
-        "\\.(css|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
-    }
+    testEnvironment: "jsdom"
 };
