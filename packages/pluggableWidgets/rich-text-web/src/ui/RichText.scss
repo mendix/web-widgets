@@ -25,6 +25,10 @@ $rte-brand-primary: #264ae5;
         background: none;
         border: none;
 
+        svg {
+            display: inline-block !important;
+        }
+
         &:hover svg {
             stroke: var(--brand-primary, $rte-brand-primary);
         }
