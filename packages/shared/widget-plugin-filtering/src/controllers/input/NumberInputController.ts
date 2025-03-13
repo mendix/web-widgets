@@ -117,7 +117,7 @@ export class NumberFilterController {
             return;
         }
         if (params.operators) {
-            this.filter.filterFunction = params.operators;
+            this.filter.UNSAFE_overwriteFilterFunction(params.operators);
         }
         this.filter.arg1.value = params.numberValue;
     };

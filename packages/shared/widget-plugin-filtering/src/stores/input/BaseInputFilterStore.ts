@@ -48,6 +48,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
             condition: computed,
             setState: action,
             UNSAFE_setDefaults: action,
+            UNSAFE_overwriteFilterFunction: action,
             filterFunction: computed
         });
     }
@@ -59,6 +60,12 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
         if (this._isFilterFunctionAdjustable) {
             this._filterFunction = fn;
         }
+    }
+
+    UNSAFE_overwriteFilterFunction(fn: Fn): void {
+        // in case of filtering set from js actions, it should be possible to
+        // change this property even though the filterFunction is not adjustable.
+        this._filterFunction = fn;
     }
 
     protected setState(state: StateTuple<Fn, Val<A>>): void {
@@ -87,7 +94,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
     };
 
     reset = (): void => {
-        this.setState(this.defaultState);
+        [this._filterFunction, this.arg1.value, this.arg2.value] = this.defaultState;
     };
 
     /** Clear arguments, but keep current filter function. */
