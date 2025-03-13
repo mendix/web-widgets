@@ -90,7 +90,9 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     }, [quillRef.current]);
 
     const onTextChange = useCallback(() => {
-        setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
+        if (stringAttribute.value !== quillRef?.current?.getSemanticHTML()) {
+            setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [quillRef.current, stringAttribute]);
 
