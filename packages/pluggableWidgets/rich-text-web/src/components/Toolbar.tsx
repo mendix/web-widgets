@@ -4,7 +4,6 @@ import { CSSProperties, ReactElement, ReactNode, RefObject, createElement, forwa
 import { PresetEnum } from "typings/RichTextProps";
 import { FormatsContainer, ToolbarContext, presetToNumberConverter } from "./CustomToolbars/ToolbarWrapper";
 import { TOOLBAR_MAPPING, toolbarContentType } from "./CustomToolbars/constants";
-import { FullscreenIcon } from "../assets/Icons";
 
 export interface ToolbarProps {
     id: string;
@@ -52,7 +51,7 @@ const ToolbarKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => 
 };
 
 const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>): ReactElement => {
-    const { id, preset, style, quill, toolbarContent, customHandlers, children } = props;
+    const { id, preset, style, quill, toolbarContent, children } = props;
     const presetValue = presetToNumberConverter(preset);
 
     return (
@@ -68,23 +67,6 @@ const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>)
                             {toolbarGroup.children.map((toolbar, idx) => {
                                 const currentToolbar = TOOLBAR_MAPPING[toolbar];
                                 const key = `toolbar_${id}_${index}_${idx}`;
-
-                                // Create a wrapped button for custom handlers
-                                if (customHandlers && customHandlers[toolbar]) {
-                                    if (toolbar === "fullscreen") {
-                                        return (
-                                            <button
-                                                key={key}
-                                                className="fullscreen-button"
-                                                title={currentToolbar.title}
-                                                onClick={customHandlers[toolbar]}
-                                                tabIndex={-1}
-                                            >
-                                                <FullscreenIcon />
-                                            </button>
-                                        );
-                                    }
-                                }
 
                                 return currentToolbar.custom
                                     ? createElement(currentToolbar.component, {

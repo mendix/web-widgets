@@ -14,6 +14,7 @@ import "../utils/customPluginRegisters";
 import MxQuill from "../utils/MxQuill";
 import {
     enterKeyKeyboardHandler,
+    exitFullscreenKeyboardHandler,
     getIndentHandler,
     gotoStatusBarKeyboardHandler,
     gotoToolbarKeyboardHandler
@@ -98,6 +99,10 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                 tab: {
                                     key: "Tab",
                                     handler: gotoStatusBarKeyboardHandler
+                                },
+                                escape: {
+                                    key: "Escape",
+                                    handler: exitFullscreenKeyboardHandler
                                 }
                             }
                         },
