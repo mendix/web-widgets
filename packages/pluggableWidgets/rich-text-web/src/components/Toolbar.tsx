@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import Quill from "quill";
-import { CSSProperties, ReactElement, ReactNode, RefObject, createElement, forwardRef } from "react";
+import { CSSProperties, ReactElement, RefObject, createElement, forwardRef } from "react";
 import { PresetEnum } from "typings/RichTextProps";
 import { FormatsContainer, ToolbarContext, presetToNumberConverter } from "./CustomToolbars/ToolbarWrapper";
 import { TOOLBAR_MAPPING, toolbarContentType } from "./CustomToolbars/constants";
@@ -12,7 +12,6 @@ export interface ToolbarProps {
     quill?: Quill | null;
     toolbarContent: toolbarContentType[];
     customHandlers?: Record<string, () => void>;
-    children?: ReactNode;
 }
 
 const ToolbarKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
@@ -51,7 +50,7 @@ const ToolbarKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => 
 };
 
 const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>): ReactElement => {
-    const { id, preset, style, quill, toolbarContent, children } = props;
+    const { id, preset, style, quill, toolbarContent } = props;
     const presetValue = presetToNumberConverter(preset);
 
     return (
@@ -89,7 +88,6 @@ const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>)
                         </FormatsContainer>
                     );
                 })}
-                {children && <div className="ql-formats custom-formats">{children}</div>}
             </div>
         </ToolbarContext.Provider>
     );
