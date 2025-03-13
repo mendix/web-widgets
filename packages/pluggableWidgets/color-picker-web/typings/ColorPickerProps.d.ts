@@ -35,7 +35,8 @@ export interface ColorPickerContainerProps {
 
 export interface ColorPickerPreviewProps {
     readOnly: boolean;
-    renderMode?: "design" | "xray" | "structure";
+    renderMode: "design" | "xray" | "structure";
+    translate: (text: string) => string;
     colorAttribute: string;
     advanced: boolean;
     mode: ModeEnum;

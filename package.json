@@ -23,10 +23,10 @@
         "turbo": "^1.10.14"
     },
     "engines": {
-        "node": ">=20",
-        "pnpm": ">=9.12.3"
+        "node": ">=22",
+        "pnpm": ">=9.15.5"
     },
-    "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee",
+    "packageManager": "pnpm@9.15.5+sha512.845196026aab1cc3f098a0474b64dfbab2afe7a1b4e91dd86895d8e4aa32a7a6d03049e2d0ad770bbe4de023a7122fb68c1a1d6e0d033c7076085f9d5d4800d4",
     "pnpm": {
         "peerDependencyRules": {
             "allowedVersions": {
@@ -38,12 +38,11 @@
             ]
         },
         "overrides": {
-            "@mendix/pluggable-widgets-tools": "10.16.0",
+            "@mendix/pluggable-widgets-tools": "10.18.1",
             "react": "^18.0.0",
             "react-dom": "^18.0.0",
             "prettier": "~2.8.8",
             "@types/react": ">=18.2.36",
-            "typescript@5": "<5.2.0",
             "@types/big.js": "^6.2.2",
             "d3-color@<3.1.0": ">=3.1.0",
             "loader-utils@1": "^1.4.2",
@@ -54,16 +53,16 @@
             "json5@1.x": ">=1.0.2",
             "json5@0.x": ">=1.0.2",
             "@codemirror/view": "^6.34.2",
-            "@mendix/pluggable-widgets-tools>typescript@4": "5.0.4",
-            "@mendix/pluggable-widgets-tools>ts-node@9": "^10.9.1",
             "rollup": "^2.79.2",
-            "enzyme>cheerio": "1.0.0-rc.10"
+            "enzyme>cheerio": "1.0.0-rc.10",
+            "ts-node": "10.9.2"
         },
         "patchedDependencies": {
             "react-big-calendar@0.19.2": "patches/react-big-calendar@0.19.2.patch",
             "mobx@6.12.3": "patches/mobx@6.12.3.patch",
             "mobx-react-lite@4.0.7": "patches/mobx-react-lite@4.0.7.patch",
-            "mime-types": "patches/mime-types.patch"
+            "mime-types": "patches/mime-types.patch",
+            "rc-trigger": "patches/rc-trigger.patch"
         }
     }
 }

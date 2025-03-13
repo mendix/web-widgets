@@ -44,7 +44,7 @@
         "update-changelog": "rui-update-changelog-widget"
     },
     "devDependencies": {
-        "@mendix/pluggable-widgets-tools": "10.16.0",
+        "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:^*",
         "cross-env": "^7.0.3"

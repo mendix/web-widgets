@@ -41,7 +41,7 @@
         "@babel/core": "^7.21.0",
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
-        "@mendix/pluggable-widgets-tools": "10.16.0",
+        "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@types/date-arithmetic": "^3.1.2",
         "@types/react-big-calendar": "0.20.20",
@@ -55,6 +55,7 @@
         "style-loader": "^3.3.1",
         "to-string-loader": "^1.2.0",
         "ts-loader": "^9.4.2",
+        "typescript": "<5.2.0",
         "webpack": "^5.75.0",
         "webpack-cli": "^4.10.0",
         "webpack-merge": "^5.8.0"
