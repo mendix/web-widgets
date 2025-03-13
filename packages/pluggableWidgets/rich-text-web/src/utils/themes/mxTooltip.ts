@@ -23,8 +23,6 @@ export default class MxTooltip extends BaseTooltip {
                 this.save();
             } else {
                 // @ts-expect-error Fix me later
-                console.log("[DEV]", this.preview.textContent);
-                // @ts-expect-error Fix me later
                 this.edit("link", this.preview.textContent);
             }
             event.preventDefault();
