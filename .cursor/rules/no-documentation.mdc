@@ -1,0 +1,10 @@
+---
+description: No JSDOC documentations
+globs: 
+alwaysApply: false
+---
+
+# Your rule content
+
+- Don't add JSDOC's in this repo at all.
+- Reconsider adding comments, if you really think the complexity of the added code needs some exaplanation, then you can a concise and short comment.s
