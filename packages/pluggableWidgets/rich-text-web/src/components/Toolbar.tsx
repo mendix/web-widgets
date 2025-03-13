@@ -11,7 +11,6 @@ export interface ToolbarProps {
     style?: CSSProperties;
     quill?: Quill | null;
     toolbarContent: toolbarContentType[];
-    customHandlers?: Record<string, () => void>;
 }
 
 const ToolbarKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
@@ -66,7 +65,6 @@ const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>)
                             {toolbarGroup.children.map((toolbar, idx) => {
                                 const currentToolbar = TOOLBAR_MAPPING[toolbar];
                                 const key = `toolbar_${id}_${index}_${idx}`;
-
                                 return currentToolbar.custom
                                     ? createElement(currentToolbar.component, {
                                           key,
