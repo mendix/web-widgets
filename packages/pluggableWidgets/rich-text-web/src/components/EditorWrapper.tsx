@@ -13,7 +13,6 @@ import { createPreset } from "./CustomToolbars/presets";
 import Editor from "./Editor";
 import { StickySentinel } from "./StickySentinel";
 import Toolbar from "./Toolbar";
-import { useFullscreen } from "../hooks/useFullscreen";
 
 export interface EditorWrapperProps extends RichTextContainerProps {
     editorHeight?: string | number;
@@ -126,7 +125,6 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const toolbarId = `widget_${id.replaceAll(".", "_")}_toolbar`;
     const shouldHideToolbar = (stringAttribute.readOnly && readOnlyStyle !== "text") || toolbarLocation === "hide";
     const toolbarPreset = shouldHideToolbar ? [] : createPreset(props);
-
     return (
         <div
             className={classNames(
