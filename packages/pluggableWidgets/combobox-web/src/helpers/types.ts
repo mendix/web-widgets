@@ -1,5 +1,5 @@
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import { ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
+import { DynamicValue, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
 import { ReactNode } from "react";
 import {
     ComboboxContainerProps,
@@ -99,7 +99,7 @@ export interface SelectionBaseProps<Selector> {
     selector: Selector;
     menuFooterContent?: ReactNode;
     tabIndex: number;
-    ariaRequired: boolean;
+    ariaRequired: DynamicValue<boolean>;
     a11yConfig: {
         ariaLabels: {
             clearSelection: string;

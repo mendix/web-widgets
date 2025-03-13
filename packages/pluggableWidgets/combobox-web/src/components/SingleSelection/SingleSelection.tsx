@@ -79,7 +79,7 @@ export function SingleSelection({
                                 disabled: selector.readOnly,
                                 readOnly: selector.options.filterType === "none",
                                 ref: inputRef,
-                                "aria-required": ariaRequired
+                                "aria-required": ariaRequired.value
                             },
                             { suppressRefError: true }
                         )}
