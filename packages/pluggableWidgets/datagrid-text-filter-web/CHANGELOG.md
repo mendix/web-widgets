@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We fixed an issue where non-adjustable default filters were overridden by personalization settings.
+
 ## [2.8.4] - 2024-11-13
 
 ### Changed
