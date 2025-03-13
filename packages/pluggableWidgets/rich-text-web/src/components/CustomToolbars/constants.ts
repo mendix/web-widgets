@@ -5,7 +5,7 @@ import { FONT_LIST } from "../../utils/formats/fonts";
 import { FONT_SIZE_LIST } from "../../utils/formats/fontsize";
 import { ToolbarButton, ToolbarDropdown } from "./ToolbarWrapper";
 import { RedoToolbar, UndoToolbar } from "./UndoRedo";
-
+import { FullscreenButton } from "./Fullscreen";
 type DefaultComponentProps = {
     className?: string;
     value?: string | any[];
@@ -153,7 +153,11 @@ export const TOOLBAR_MAPPING: toolbarMappingType = {
         title: "Font header"
     },
     clean: { component: ToolbarButton, className: "ql-clean icons icon-Clear-formating", title: "Clear formatting" },
-    fullscreen: { component: ToolbarButton, className: "ql-fullscreen icons icon-Expand", title: "Fullscreen" }
+    fullscreen: {
+        component: FullscreenButton,
+        title: "Fullscreen",
+        custom: true
+    }
 };
 
 type ToolbarGroupType = {
@@ -226,7 +230,7 @@ export const DEFAULT_TOOLBAR: toolbarContentType[] = [
         children: TOOLBAR_GROUP.remove
     },
     {
-        presetValue: 1,
+        presetValue: 2,
         children: TOOLBAR_GROUP.view
     }
 ];
