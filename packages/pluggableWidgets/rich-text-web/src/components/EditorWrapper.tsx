@@ -44,7 +44,6 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const isFirstLoad = useRef<boolean>(false);
     const quillRef = useRef<Quill>(null);
     const [isFocus, setIsFocus] = useState(false);
-    const [isFullscreen, toggleFullscreen] = useFullscreen(quillRef);
     const editorValueRef = useRef<string>("");
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
@@ -128,18 +127,12 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const shouldHideToolbar = (stringAttribute.readOnly && readOnlyStyle !== "text") || toolbarLocation === "hide";
     const toolbarPreset = shouldHideToolbar ? [] : createPreset(props);
 
-    // Create a custom handler for the fullscreen button
-    const customHandlers = {
-        fullscreen: toggleFullscreen
-    };
-
     return (
         <div
             className={classNames(
                 className,
                 "flex-column",
-                `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`,
-                isFullscreen ? "fullscreen" : ""
+                `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`
             )}
             style={{ width: style?.width }}
             onClick={e => {
@@ -171,7 +164,6 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                         preset={preset}
                         quill={quillRef.current}
                         toolbarContent={toolbarPreset}
-                        customHandlers={customHandlers}
                     />
                 </If>
                 <Editor
