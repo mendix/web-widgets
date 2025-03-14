@@ -25,7 +25,8 @@ type StateTuple<Fn, V> = [Fn] | [Fn, V] | [Fn, V, V];
 type Val<A extends Argument> = A["value"];
 export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
     protected _attributes: ListAttributeValue[] = [];
-    filterFunction: Fn;
+    private _filterFunction: Fn;
+    private _isFilterFunctionAdjustable: boolean = true;
     arg1: A;
     arg2: A;
     isInitialized = false;
@@ -34,20 +35,37 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
     constructor(arg1: A, arg2: A, initFn: Fn, attributes: ListAttributeValue[]) {
         this._attributes = attributes;
         this.defaultState = [initFn];
-        this.filterFunction = initFn;
+        this._filterFunction = initFn;
 
         this.arg1 = arg1;
         this.arg2 = arg2;
 
-        makeObservable<this, "_attributes" | "setState">(this, {
+        makeObservable<this, "_attributes" | "setState" | "_filterFunction" | "_isFilterFunctionAdjustable">(this, {
             _attributes: observable.ref,
-            filterFunction: observable,
+            _filterFunction: observable,
+            _isFilterFunctionAdjustable: observable,
             isInitialized: observable,
             condition: computed,
             setState: action,
             UNSAFE_setDefaults: action,
-            setFilterFn: action
+            UNSAFE_overwriteFilterFunction: action,
+            filterFunction: computed
         });
+    }
+    get filterFunction(): Fn {
+        return this._filterFunction;
+    }
+
+    set filterFunction(fn: Fn) {
+        if (this._isFilterFunctionAdjustable) {
+            this._filterFunction = fn;
+        }
+    }
+
+    UNSAFE_overwriteFilterFunction(fn: Fn): void {
+        // in case of filtering set from js actions, it should be possible to
+        // change this property even though the filterFunction is not adjustable.
+        this._filterFunction = fn;
     }
 
     protected setState(state: StateTuple<Fn, Val<A>>): void {
@@ -62,8 +80,13 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
         return conditions?.length > 1 ? or(...conditions) : conditions?.[0];
     }
 
-    UNSAFE_setDefaults = (state: StateTuple<Fn, Val<A>>): void => {
+    UNSAFE_setDefaults = (state: StateTuple<Fn, Val<A>>, canAdjustFilterFunction: boolean): void => {
         this.defaultState = state;
+        if (!canAdjustFilterFunction) {
+            // filter function is not adjustable, reset to default and lock it
+            this.filterFunction = this.defaultState[0];
+            this._isFilterFunctionAdjustable = false;
+        }
         if (!this.isInitialized) {
             this.setState(state);
             this.isInitialized = true;
@@ -71,16 +94,12 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
     };
 
     reset = (): void => {
-        this.setState(this.defaultState);
+        [this._filterFunction, this.arg1.value, this.arg2.value] = this.defaultState;
     };
 
     /** Clear arguments, but keep current filter function. */
     clear = (): void => {
         this.setState([this.filterFunction]);
-    };
-
-    setFilterFn = (fn: Fn): void => {
-        this.filterFunction = fn;
     };
 
     protected unpackJsonData(data: FilterData): InputData<Fn> | undefined {
