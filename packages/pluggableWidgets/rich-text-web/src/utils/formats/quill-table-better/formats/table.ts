@@ -132,8 +132,9 @@ class TableCell extends Container {
         return formats;
     }
 
-    formats() {
-        const formats = this.statics.formats(this.domNode, this.scroll);
+    formats(): { [key: string]: Props } {
+        const formats: Props = this.statics.formats(this.domNode, this.scroll);
+        const blotName: string = this.statics.blotName;
         return { [this.statics.blotName]: formats };
     }
 
@@ -283,8 +284,9 @@ class TableTemporary extends Block {
         }, {});
     }
 
-    formats() {
-        const formats = this.statics.formats(this.domNode, this.scroll);
+    formats(): { [key: string]: Props } {
+        const formats: Props = this.statics.formats(this.domNode, this.scroll);
+        const blotName: string = this.statics.blotName;
         return { [this.statics.blotName]: formats };
     }
 

@@ -433,7 +433,7 @@ class TablePropertiesForm {
         }
         for (const td of selectedTds) {
             const tdBlot = Quill.find(td) as TableCell;
-            const blotName = tdBlot.statics.blotName;
+            const blotName: string = tdBlot.statics.blotName;
             const formats = tdBlot.formats()[blotName];
             const style = this.getCellStyle(td, attrs);
             if (align) {
