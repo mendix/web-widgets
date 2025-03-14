@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+-   Bump the minimum supported version to 10.15.
+
 ## [1.0.3] FileUploader - 2025-02-28
 
 ### [1.0.3] FileUploader
