@@ -6,9 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.0.0] FileUploader - 2025-03-14
+
 ### Changed
 
 -   Bump the minimum supported version to 10.15.
+
+### [2.0.0] FileUploader
+
+#### Added
+
+-   We made "Action to create new files/images" preconfigured with corresponding nanoflows.
 
 ## [1.0.3] FileUploader - 2025-02-28
 
