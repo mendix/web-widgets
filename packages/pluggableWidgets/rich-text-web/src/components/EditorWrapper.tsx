@@ -118,7 +118,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                     }
                 }
             }
-            (quillRef.current?.theme as MendixTheme).updateFontPicker(range);
+            (quillRef.current?.theme as MendixTheme).updatePicker(range);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [isFocus, onFocus, onBlur, onChange, onChangeType]
