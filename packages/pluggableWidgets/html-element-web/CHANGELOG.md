@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.2.2] - 2025-03-14
+
 ### Security
 
 -   Updated dompurify library to version 3.2.4 to incorporate latest improvements and security fixes.
