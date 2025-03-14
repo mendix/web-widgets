@@ -1,7 +1,7 @@
 {
     "name": "@mendix/html-element-web",
     "widgetName": "HTMLElement",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "description": "Displays custom HTML",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -45,10 +45,9 @@
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@mendix/widget-plugin-platform": "workspace:*",
-        "@types/dompurify": "^2.4.0"
+        "@mendix/widget-plugin-platform": "workspace:*"
     },
     "dependencies": {
-        "dompurify": "^2.5.7"
+        "dompurify": "^3.2.4"
     }
 }
