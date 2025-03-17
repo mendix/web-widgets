@@ -606,9 +606,7 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
             <option
               value="6"
             />
-            <option
-              value="7"
-            />
+            <option />
           </select>
         </span>
         <span
