@@ -7,6 +7,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
+import { EditorProvider, useFullscreen } from "../utils/EditorContext";
 import { updateLegacyQuillFormats } from "../utils/helpers";
 import MendixTheme from "../utils/themes/mxTheme";
 import { createPreset } from "./CustomToolbars/presets";
@@ -22,7 +23,7 @@ export interface EditorWrapperProps extends RichTextContainerProps {
     toolbarOptions?: Array<string | string[] | { [k: string]: any }>;
 }
 
-export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
+function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     const {
         id,
         stringAttribute,
@@ -40,12 +41,16 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
         enableStatusBar,
         tabIndex
     } = props;
+
     const isFirstLoad = useRef<boolean>(false);
     const quillRef = useRef<Quill>(null);
     const [isFocus, setIsFocus] = useState(false);
     const editorValueRef = useRef<string>("");
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
+
+    const { isFullscreen } = useFullscreen();
+
     const [setAttributeValueDebounce] = useMemo(
         () =>
             debounce(string => {
@@ -58,6 +63,7 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
             }, 200),
         [stringAttribute, onChange, onChangeType]
     );
+
     const calculateWordCount = useCallback(
         (quill: Quill | null): void => {
             if (enableStatusBar) {
@@ -125,12 +131,14 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
     const toolbarId = `widget_${id.replaceAll(".", "_")}_toolbar`;
     const shouldHideToolbar = (stringAttribute.readOnly && readOnlyStyle !== "text") || toolbarLocation === "hide";
     const toolbarPreset = shouldHideToolbar ? [] : createPreset(props);
+
     return (
         <div
             className={classNames(
                 className,
                 "flex-column",
-                `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`
+                `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`,
+                { fullscreen: isFullscreen }
             )}
             style={{ width: style?.width }}
             onClick={e => {
@@ -188,5 +196,13 @@ export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
+    return (
+        <EditorProvider>
+            <EditorWrapperInner {...props} />
+        </EditorProvider>
     );
 }
