@@ -15,6 +15,7 @@ const DEFAULT_FONT_FAMILY = "helvetica";
 export default class MendixTheme extends SnowTheme {
     fontPicker?: Picker = undefined;
     fontSizePicker?: Picker = undefined;
+    headerPicker?: Picker = undefined;
     buildPickers(selects: NodeListOf<HTMLSelectElement>, icons: Record<string, string | Record<string, string>>): void {
         super.buildPickers(selects, icons);
 
@@ -33,6 +34,14 @@ export default class MendixTheme extends SnowTheme {
                     false
                 );
                 this.fontPicker = picker;
+            }
+
+            if (picker.container.classList.contains("ql-header")) {
+                picker.selectItem(
+                    picker.container.querySelector(`.ql-picker-item:not([data-value])`) as HTMLElement,
+                    false
+                );
+                this.headerPicker = picker;
             }
             if (pickerLabel) {
                 pickerLabel.setAttribute("tabindex", "-1");
@@ -70,6 +79,8 @@ export default class MendixTheme extends SnowTheme {
             this.updateFontPicker(font || DEFAULT_FONT_FAMILY);
             const fontSize = format ? (format.size as string) : undefined;
             this.updateFontSizePicker(fontSize || DEFAULT_FONT_SIZE);
+            const header = format ? (format.header as string) : undefined;
+            this.updateHeaderPicker(header);
         }
     }
 
@@ -95,6 +106,18 @@ export default class MendixTheme extends SnowTheme {
             const currentOption = this.fontSizePicker?.container.querySelector(`[data-value="${fontSize}"]`);
             if (currentOption) {
                 this.fontSizePicker?.selectItem(currentOption as HTMLElement, false);
+            }
+        }
+    }
+
+    updateHeaderPicker(header?: string): void {
+        if (this.pickers) {
+            if (!this.headerPicker) {
+                this.headerPicker = this.pickers.find(picker => picker.container.classList.contains("ql-header"));
+            }
+            if (!header) {
+                const currentOption = this.headerPicker?.container.querySelector(`.ql-picker-item:not([data-value])`);
+                this.headerPicker?.selectItem(currentOption as HTMLElement, false);
             }
         }
     }
