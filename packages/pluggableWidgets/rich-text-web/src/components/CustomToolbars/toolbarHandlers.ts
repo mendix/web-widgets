@@ -4,6 +4,7 @@ import { MutableRefObject } from "react";
 import { Range } from "quill/core/selection";
 import Keyboard, { Context } from "quill/modules/keyboard";
 import { Scope } from "parchment";
+import { dispatchEditorAction } from "../../utils/EditorContext";
 /**
  * give custom indent handler to use our custom "indent-left" and "indent-right" formats (formats/indent.ts)
  */
@@ -91,8 +92,7 @@ export function gotoStatusBarKeyboardHandler(this: Keyboard, _range: Range, cont
  * Keyboard handler for exiting fullscreen mode when the Escape key is pressed
  */
 export function exitFullscreenKeyboardHandler(this: Keyboard, _range: Range, _context: Context): boolean | void {
-    if (this.quill.container.parentElement?.parentElement?.parentElement?.classList.contains("fullscreen")) {
-        this.quill.container.parentElement?.parentElement?.parentElement?.classList.remove("fullscreen");
-    }
+    // Directly dispatch the EXIT_FULLSCREEN action to our EditorContext
+    dispatchEditorAction({ type: "EXIT_FULLSCREEN" });
     return true;
 }
