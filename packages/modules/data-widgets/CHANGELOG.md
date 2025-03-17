@@ -6,9 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.30.2] DataWidgets - 2025-03-17
+
 ### Fixed
 
 -   We fixed layout issue where right-aligned content is not aligned with the filter.
+
+### [2.30.2] Datagrid
+
+#### Fixed
+
+-   Fixed an issue where the refresh interval was incorrectly using milliseconds instead of seconds.
 
 ## [2.30.1] DataWidgets - 2025-02-25
 
