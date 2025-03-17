@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 -   We fixed additional break tag shows up in the last line of the editor.
 
+-   We fixed font size and family picker not set to correct default value.
+
 ## [4.3.0] - 2025-02-14
 
 ### Fixed
