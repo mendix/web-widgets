@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   Fixed an issue where the refresh interval was incorrectly using milliseconds instead of seconds.
+
 ## [2.30.1] - 2025-02-25
 
 ### Fixed
