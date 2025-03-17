@@ -14,26 +14,6 @@ $rte-brand-primary: #264ae5;
         border: unset;
     }
 
-    .fullscreen-button {
-        display: inline-block;
-        cursor: pointer;
-        height: 24px;
-        width: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: none;
-        border: none;
-
-        svg {
-            display: inline-block !important;
-        }
-
-        &:hover svg {
-            stroke: var(--brand-primary, $rte-brand-primary);
-        }
-    }
-
     &.fullscreen {
         position: fixed;
         top: 0;
@@ -42,7 +22,7 @@ $rte-brand-primary: #264ae5;
         bottom: 0;
         width: 100vw;
         height: 100vh;
-        z-index: 99999;
+        z-index: 104;
         background-color: white;
         overflow: auto;
         display: flex;
