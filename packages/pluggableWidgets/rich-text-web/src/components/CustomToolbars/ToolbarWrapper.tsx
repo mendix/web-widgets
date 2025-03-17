@@ -64,11 +64,17 @@ export function ToolbarDropdown({ presetValue, className, value, title }: Toolba
         <If condition={presetValue === undefined || toolbarContextValue.presetValue >= presetValue}>
             <select className={className} title={title} aria-label={title} tabIndex={-1}>
                 {Array.isArray(value) ? (
-                    value.map(v => (
-                        <option value={v.value || v} key={v.value || v}>
-                            {v.description}
-                        </option>
-                    ))
+                    value.map((v, idx) => {
+                        if (v === false) {
+                            return <option key={`${className}_${idx}`}></option>;
+                        }
+
+                        return (
+                            <option value={v.value || v} key={v.value || v}>
+                                {v.description}
+                            </option>
+                        );
+                    })
                 ) : (
                     <option value={value} key={value}></option>
                 )}

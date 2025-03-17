@@ -149,7 +149,7 @@ export const TOOLBAR_MAPPING: toolbarMappingType = {
     header: {
         component: ToolbarDropdown,
         className: "ql-header",
-        value: ["1", "2", "3", "4", "5", "6", "7"],
+        value: ["1", "2", "3", "4", "5", "6", false],
         title: "Font header"
     },
     clean: { component: ToolbarButton, className: "ql-clean icons icon-Clear-formating", title: "Clear formatting" }
