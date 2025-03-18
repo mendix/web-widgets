@@ -649,6 +649,17 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
             title="Clear formatting"
           />
         </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="fullscreen"
+            class="icons icon-Expand"
+            tabindex="-1"
+            title="fullscreen"
+          />
+        </span>
       </div>
       <div
         class="widget-rich-text-container"
