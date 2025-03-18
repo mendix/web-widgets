@@ -27,11 +27,11 @@
                 <caption>Read-only mode</caption>
                 <description />
             </property>
-            <property key="createFileAction" type="action">
+            <property key="createFileAction" type="action" defaultValue="FileUploader.ACT_CreateUploadedFileDocument" defaultType="CallNanoflow">
                 <caption>Action to create new files</caption>
                 <description>Nanoflow that creates a file object, associates it to the current object and commits it.</description>
             </property>
-            <property key="createImageAction" type="action">
+            <property key="createImageAction" type="action" defaultValue="FileUploader.ACT_CreateUploadedImageDocument" defaultType="CallNanoflow">
                 <caption>Action to create new images</caption>
                 <description>Nanoflow that creates an image object, associates it to the current object and commits it.</description>
             </property>

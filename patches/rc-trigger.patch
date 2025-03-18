@@ -1,0 +1,16 @@
+diff --git a/HISTORY.md b/HISTORY.md
+deleted file mode 100644
+index d51ff3eb84ae5367137933681a83e1044a74e069..0000000000000000000000000000000000000000
+diff --git a/package.json b/package.json
+index a5a82acfebb2c5f84b75392669fcb839a3767f6e..0670b08b97943426db5518d377514b676402d0f7 100644
+--- a/package.json
++++ b/package.json
+@@ -22,7 +22,7 @@
+     "lib",
+     "assets/*.css"
+   ],
+-  "licenses": "MIT",
++  "license": "MIT",
+   "main": "./lib/index",
+   "module": "./es/index",
+   "config": {

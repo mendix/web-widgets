@@ -61,7 +61,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
     // update quills content on value change.
     useEffect(() => {
         // if there is an update comes from external element
-        if (!ref.current?.hasFocus()) {
+        if (!ref.current?.hasFocus() && defaultValue !== ref.current?.getSemanticHTML()) {
             const newContent = ref.current?.clipboard.convert({
                 html: defaultValue
             });

@@ -55,7 +55,8 @@ export interface RangeSliderContainerProps {
 
 export interface RangeSliderPreviewProps {
     readOnly: boolean;
-    renderMode?: "design" | "xray" | "structure";
+    renderMode: "design" | "xray" | "structure";
+    translate: (text: string) => string;
     lowerBoundAttribute: string;
     upperBoundAttribute: string;
     advanced: boolean;

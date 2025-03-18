@@ -97,6 +97,7 @@ $root: ".widget-datagrid";
             padding: 0 4px;
             align-self: stretch;
             cursor: col-resize;
+            margin-right: -12px;
 
             &:hover .column-resizer-bar {
                 background-color: var(--brand-primary, $dg-brand-primary);

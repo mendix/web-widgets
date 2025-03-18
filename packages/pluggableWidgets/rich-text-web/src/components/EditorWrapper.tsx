@@ -96,7 +96,9 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     }, [quillRef.current]);
 
     const onTextChange = useCallback(() => {
-        setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
+        if (stringAttribute.value !== quillRef?.current?.getSemanticHTML()) {
+            setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [quillRef.current, stringAttribute]);
 
@@ -122,7 +124,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     }
                 }
             }
-            (quillRef.current?.theme as MendixTheme).updateFontPicker(range);
+            (quillRef.current?.theme as MendixTheme).updatePicker(range);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [isFocus, onFocus, onBlur, onChange, onChangeType]
