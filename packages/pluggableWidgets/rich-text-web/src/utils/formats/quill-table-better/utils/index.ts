@@ -1,10 +1,10 @@
 // @ts-nocheck
 import Quill from "quill";
-import type { CorrectBound, Props, TableCellChildren, TableContainer } from "../types";
-import { TableCell, TableCellBlock, TableCol } from "../formats/table";
-import TableList, { ListContainer } from "../formats/list";
-import TableHeader from "../formats/header";
 import { COLORS, DEVIATION } from "../config";
+import TableHeader from "../formats/header";
+import TableList, { ListContainer } from "../formats/list";
+import { TableCell, TableCellBlock, TableCol } from "../formats/table";
+import type { CorrectBound, Props, TableCellChildren, TableContainer } from "../types";
 
 function addDimensionsUnit(value: string) {
     if (!value) return value;
@@ -31,7 +31,7 @@ function createTooltip(content: string) {
 }
 
 function debounce(cb: Function, delay: number) {
-    let timer: NodeJS.Timeout | null = null;
+    let timer: NodeJS.Timeout = null;
     return function () {
         let context = this;
         let args = arguments;
@@ -373,8 +373,8 @@ export {
     isValidColor,
     isValidDimensions,
     removeElementProperty,
-    rgbToHex,
     rgbaToHex,
+    rgbToHex,
     setElementAttribute,
     setElementProperty,
     throttle,

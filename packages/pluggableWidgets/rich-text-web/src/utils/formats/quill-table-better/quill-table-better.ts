@@ -1,33 +1,33 @@
 // @ts-nocheck
-import type { EmitterSource, Range } from "quill";
 import Quill from "quill";
 import Delta from "quill-delta";
 import Module from "quill/core/module";
-import { CELL_DEFAULT_WIDTH } from "./config";
-import TableHeader from "./formats/header";
-import { ListContainer } from "./formats/list";
+import type { EmitterSource, Range } from "quill";
+import type { BindingObject, Context, Props } from "./types";
 import {
     cellId,
-    TableBody,
-    TableCell,
     TableCellBlock,
-    TableCol,
-    TableColgroup,
+    TableCell,
+    TableRow,
+    TableBody,
+    TableTemporary,
     TableContainer,
     tableId,
-    TableRow,
-    TableTemporary
+    TableCol,
+    TableColgroup
 } from "./formats/table";
+import TableHeader from "./formats/header";
+import { ListContainer } from "./formats/list";
+import { matchTable, matchTableCell, matchTableCol, matchTableTemporary } from "./utils/clipboard-matchers";
 import Language from "./language";
-import TableClipboard from "./modules/clipboard";
-import TableToolbar from "./modules/toolbar";
-import type { BindingObject, Context, Props } from "./types";
 import CellSelection from "./ui/cell-selection";
 import OperateLine from "./ui/operate-line";
 import TableMenus from "./ui/table-menus";
+import { CELL_DEFAULT_WIDTH } from "./config";
 import ToolbarTable, { TableSelect } from "./ui/toolbar-table";
 import { getCellId, getCorrectCellBlot } from "./utils";
-import { matchTable, matchTableCell, matchTableCol, matchTableTemporary } from "./utils/clipboard-matchers";
+import TableToolbar from "./modules/toolbar";
+import TableClipboard from "./modules/clipboard";
 
 interface Options {
     language?:

@@ -1,16 +1,16 @@
+// @ts-nocheck
 import Quill from "quill";
-import Module from "quill/core/module";
-import QuillClipboard from "quill/modules/clipboard";
 import Delta from "quill-delta";
 import logger from "quill/core/logger.js";
-import type { Range, Props } from "../types";
+import Module from "quill/core/module";
+import QuillClipboard from "quill/modules/clipboard";
 import { TableCellBlock, TableTemporary } from "../formats/table";
+import type { Props, Range } from "../types";
 
 const Clipboard = QuillClipboard as typeof Module;
 const debug = logger("quill:clipboard");
 
 class TableClipboard extends Clipboard {
-    // @ts-ignore
     convert: (
         {
             html,
