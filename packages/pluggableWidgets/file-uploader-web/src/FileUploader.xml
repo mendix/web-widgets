@@ -15,11 +15,11 @@
                     <enumerationValue key="images">Images</enumerationValue>
                 </enumerationValues>
             </property>
-            <property key="associatedFiles" type="datasource" isList="true">
+            <property key="associatedFiles" type="datasource" isList="true" defaultType="Association" defaultValue="FileUploader.FileUploadContext/FileUploader.UploadedFile_FileUploadContext/FileUploader.UploadedFile">
                 <caption>Associated files</caption>
                 <description />
             </property>
-            <property key="associatedImages" type="datasource" isList="true">
+            <property key="associatedImages" type="datasource" isList="true" defaultType="Association" defaultValue="FileUploader.FileUploadContext/FileUploader.UploadedImage_FileUploadContext/FileUploader.UploadedImage">
                 <caption>Associated images</caption>
                 <description />
             </property>
