@@ -4,7 +4,7 @@ import { MutableRefObject } from "react";
 import { Range } from "quill/core/selection";
 import Keyboard, { Context } from "quill/modules/keyboard";
 import { Scope } from "parchment";
-import { dispatchEditorAction } from "../../utils/EditorContext";
+import { dispatchEditorAction } from "../../utils/editorContext";
 /**
  * give custom indent handler to use our custom "indent-left" and "indent-right" formats (formats/indent.ts)
  */

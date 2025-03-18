@@ -1,5 +1,5 @@
 import { createElement, ReactElement, useCallback } from "react";
-import { useFullscreen } from "../../utils/EditorContext";
+import { useFullscreen } from "../../utils/editorContext";
 import { ToolbarButton } from "./ToolbarWrapper";
 
 export function FullscreenButton(): ReactElement {

@@ -7,7 +7,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
-import { EditorProvider, useFullscreen } from "../utils/EditorContext";
+import { EditorProvider, useFullscreen } from "../utils/editorContext";
 import { updateLegacyQuillFormats } from "../utils/helpers";
 import MendixTheme from "../utils/themes/mxTheme";
 import { createPreset } from "./CustomToolbars/presets";
