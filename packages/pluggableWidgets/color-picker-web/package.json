@@ -1,7 +1,7 @@
 {
     "name": "@mendix/color-picker-web",
     "widgetName": "ColorPicker",
-    "version": "2.1.2",
+    "version": "2.1.3",
     "description": "Change a color using a color input",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "repository": {
@@ -21,7 +21,8 @@
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 107044,
-        "appName": "Color Picker"
+        "appName": "Color Picker",
+        "reactReady": true
     },
     "packagePath": "com.mendix.widget.custom",
     "scripts": {
