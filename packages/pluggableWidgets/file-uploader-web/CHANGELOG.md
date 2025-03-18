@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We made "Associated files/images" preconfigured with corresponding entities.
+
 ## [2.0.0] - 2025-03-14
 
 ### Added
