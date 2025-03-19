@@ -1,7 +1,7 @@
 {
     "name": "@mendix/data-widgets",
     "moduleName": "Data Widgets",
-    "version": "2.30.2",
+    "version": "2.30.3",
     "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "private": true,
