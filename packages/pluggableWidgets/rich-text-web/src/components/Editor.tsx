@@ -112,7 +112,9 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                         },
                         toolbar: toolbarId
                             ? {
-                                  container: Array.isArray(toolbarId) ? toolbarId : `#${toolbarId}`,
+                                  container: Array.isArray(toolbarId)
+                                      ? [...toolbarId, ["table-better"]]
+                                      : `#${toolbarId}`,
                                   handlers: {
                                       link: customLinkHandler,
                                       video: customVideoHandler,
