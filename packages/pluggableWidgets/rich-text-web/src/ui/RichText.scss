@@ -14,6 +14,37 @@ $rte-brand-primary: #264ae5;
         border: unset;
     }
 
+    &.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 104;
+        background-color: white;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        box-sizing: border-box;
+        margin: 0;
+        border: none;
+        max-width: none;
+        max-height: none;
+        transform: none;
+        outline: none;
+
+        min-width: 100vw;
+        min-height: 100vh;
+
+        .flexcontainer {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+    }
+
     .flex-column-reverse {
         .widget-rich-text-toolbar.ql-toolbar {
             box-shadow: 2px 0 4px 0 var(--shadow-color-border, #00000014);
