@@ -34,9 +34,4 @@ Quill.register(Formula, true);
 Quill.register(Button, true);
 // add empty handler for view code, this format is handled by toolbar's custom config via ViewCodeDialog
 Quill.register({ "ui/view-code": Empty });
-Quill.register(
-    {
-        "modules/table-better": QuillTableBetter
-    },
-    true
-);
+Quill.register({ "modules/table-better": QuillTableBetter }, true);
