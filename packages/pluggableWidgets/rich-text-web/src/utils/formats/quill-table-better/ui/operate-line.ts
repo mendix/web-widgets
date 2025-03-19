@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Quill from "quill";
 import type { QuillTableBetter, TableCell, TableColgroup } from "../types";
 import { setElementProperty, setElementAttribute, updateTableWidth } from "../utils";

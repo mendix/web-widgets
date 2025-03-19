@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Quill from "quill";
 import type { CorrectBound, Props, TableCellChildren, TableContainer } from "../types";
 import { TableCell, TableCellBlock, TableCol } from "../formats/table";
@@ -30,7 +31,7 @@ function createTooltip(content: string) {
 }
 
 function debounce(cb: Function, delay: number) {
-    let timer: NodeJS.Timeout = null;
+    let timer: NodeJS.Timeout | null = null;
     return function () {
         let context = this;
         let args = arguments;
