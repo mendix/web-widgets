@@ -1,4 +1,4 @@
-// @ts-nocheck
+import { computePosition, flip, offset, shift } from "@floating-ui/react";
 import iro from "@jaames/iro";
 import Quill from "quill";
 import closeIcon from "../assets/icon/close.svg";
@@ -53,7 +53,7 @@ interface Properties {
 }
 
 interface Options {
-    type: string;
+    type: "table" | "cell";
     attribute: Props;
 }
 
@@ -118,7 +118,9 @@ class TablePropertiesForm {
         for (const { icon, label } of ACTION_LIST) {
             const button = document.createElement("button");
             const iconContainer = document.createElement("span");
-            iconContainer.innerHTML = icon;
+            const iconImg = document.createElement("img");
+            iconImg.setAttribute("src", icon);
+            iconContainer.appendChild(iconImg);
             button.appendChild(iconContainer);
             setElementAttribute(button, { label });
             if (showLabel) {
@@ -137,9 +139,11 @@ class TablePropertiesForm {
         const { menus, propertyName } = child;
         const container = document.createElement("div");
         const fragment = document.createDocumentFragment();
-        for (const { icon, describe, align } of menus) {
+        for (const { icon, describe, align } of menus ?? []) {
             const container = document.createElement("span");
-            container.innerHTML = icon;
+            const iconImg = document.createElement("img");
+            iconImg.setAttribute("src", icon);
+            container.appendChild(iconImg);
             container.setAttribute("data-align", align);
             container.classList.add("ql-table-tooltip-hover");
             if (this.options.attribute[propertyName] === align) {
@@ -152,10 +156,10 @@ class TablePropertiesForm {
         container.classList.add("ql-table-check-container");
         container.appendChild(fragment);
         container.addEventListener("click", e => {
-            const target: HTMLSpanElement = (e.target as HTMLElement).closest("span.ql-table-tooltip-hover");
-            const value = target.getAttribute("data-align");
-            this.switchButton(container, target);
-            this.setAttribute(propertyName, value);
+            const target: HTMLSpanElement | null = (e.target as HTMLElement).closest("span.ql-table-tooltip-hover");
+            const value = target?.getAttribute("data-align");
+            this.switchButton(container, target!);
+            this.setAttribute(propertyName, value ?? "");
         });
         return container;
     }
@@ -227,9 +231,9 @@ class TablePropertiesForm {
 
     createColorPickerIcon(svg: string, text: string, listener: EventListener) {
         const container = document.createElement("div");
-        const icon = document.createElement("span");
+        const icon = document.createElement("img");
         const button = document.createElement("button");
-        icon.innerHTML = svg;
+        icon.setAttribute("src", svg);
         button.innerText = text;
         container.classList.add("erase-container");
         container.appendChild(icon);
@@ -257,10 +261,10 @@ class TablePropertiesForm {
     createDropdown(value: string, category?: string) {
         const container = document.createElement("div");
         const dropText = document.createElement("span");
-        const dropDown = document.createElement("span");
+        const dropDown = document.createElement("img");
         switch (category) {
             case "dropdown":
-                dropDown.innerHTML = downIcon;
+                dropDown.setAttribute("src", downIcon);
                 dropDown.classList.add("ql-table-dropdown-icon");
                 break;
             case "color":
@@ -278,7 +282,7 @@ class TablePropertiesForm {
 
     createInput(child: Child) {
         const { attribute, message, propertyName, value, valid } = child;
-        const { placeholder = "" } = attribute;
+        const placeholder = attribute?.placeholder ?? "";
         const container = document.createElement("div");
         const wrapper = document.createElement("div");
         const label = document.createElement("label");
@@ -287,14 +291,14 @@ class TablePropertiesForm {
         container.classList.add("label-field-view");
         wrapper.classList.add("label-field-view-input-wrapper");
         label.innerText = placeholder;
-        setElementAttribute(input, attribute);
+        setElementAttribute(input, attribute!);
         input.classList.add("property-input");
-        input.value = value;
+        input.value = value ?? "";
         input.addEventListener("input", e => {
             // debounce
             const value = (e.target as HTMLInputElement).value;
             valid && this.switchHidden(status, valid(value));
-            this.updateInputStatus(wrapper, valid && !valid(value));
+            this.updateInputStatus(wrapper, !valid?.(value));
             this.setAttribute(propertyName, value, container);
         });
         status.classList.add("label-field-view-status", "ql-hidden");
@@ -308,7 +312,7 @@ class TablePropertiesForm {
 
     createList(child: Child, dropText?: HTMLSpanElement) {
         const { options, propertyName } = child;
-        if (!options.length) return null;
+        if (!options?.length) return null;
         const container = document.createElement("ul");
         for (const option of options) {
             const list = document.createElement("li");
@@ -318,7 +322,9 @@ class TablePropertiesForm {
         container.classList.add("ql-table-dropdown-list", "ql-hidden");
         container.addEventListener("click", e => {
             const value = (e.target as HTMLLIElement).innerText;
-            dropText.innerText = value;
+            if (dropText) {
+                dropText.innerText = value;
+            }
             this.toggleBorderDisabled(value);
             this.setAttribute(propertyName, value);
         });
@@ -391,11 +397,11 @@ class TablePropertiesForm {
         const { category, value } = child;
         switch (category) {
             case "dropdown":
-                const { dropdown, dropText } = this.createDropdown(value, category);
+                const { dropdown, dropText } = this.createDropdown(value!, category);
                 const list = this.createList(child, dropText);
-                dropdown.appendChild(list);
+                dropdown.appendChild(list!);
                 dropdown.addEventListener("click", () => {
-                    this.toggleHidden(list);
+                    this.toggleHidden(list!);
                     this.updateSelectedStatus(dropdown, dropText.innerText, "dropdown");
                 });
                 return dropdown;
@@ -421,7 +427,8 @@ class TablePropertiesForm {
         const header = document.createElement("h2");
         const actions = this.createActionBtns((e: MouseEvent) => {
             const target = (e.target as HTMLElement).closest("button");
-            target && this.checkBtnsAction(target.getAttribute("label"));
+            const label = target?.getAttribute("label") ?? "";
+            target && this.checkBtnsAction(label);
         }, true);
         header.innerText = title;
         header.classList.add("properties-form-header");
@@ -463,7 +470,7 @@ class TablePropertiesForm {
     getComputeBounds(type: string) {
         if (type === "table") {
             const { table } = this.tableMenus;
-            const [tableBounds, containerBounds] = this.tableMenus.getCorrectBounds(table);
+            const [tableBounds, containerBounds] = this.tableMenus.getCorrectBounds(table!);
             if (tableBounds.bottom > containerBounds.bottom) {
                 return { ...tableBounds, bottom: containerBounds.height };
             }
@@ -503,7 +510,7 @@ class TablePropertiesForm {
         const colorClassName = ".color-picker";
         const list = this.form.querySelectorAll(".ql-table-dropdown-list");
         const colorPicker = this.form.querySelectorAll(".color-picker-select");
-        for (const node of [...list, ...colorPicker]) {
+        for (const node of [...Array.from(list), ...Array.from(colorPicker)]) {
             if (
                 node.closest(listClassName)?.isEqualNode(element.closest(listClassName)) ||
                 node.closest(colorClassName)?.isEqualNode(element.closest(colorClassName))
@@ -533,7 +540,7 @@ class TablePropertiesForm {
     saveCellAction() {
         const { selectedTds } = this.tableMenus.tableBetter.cellSelection;
         const { quill, table } = this.tableMenus;
-        const colgroup = (Quill.find(table) as TableContainer).colgroup();
+        const colgroup = (Quill.find(table!) as TableContainer).colgroup();
         const attrs = this.getDiffProperties();
         const width = parseFloat(attrs["width"]);
         const align = attrs["text-align"];
@@ -542,7 +549,7 @@ class TablePropertiesForm {
         if (colgroup && width) {
             delete attrs["width"];
             const { computeBounds } = this.tableMenus.getSelectedTdsInfo();
-            const cols = getComputeSelectedCols(computeBounds, table, quill.container);
+            const cols = getComputeSelectedCols(computeBounds, table!, quill.container);
             for (const col of cols) {
                 col.setAttribute("width", `${width}`);
             }
@@ -572,8 +579,8 @@ class TablePropertiesForm {
 
     saveTableAction() {
         const { table, tableBetter } = this.tableMenus;
-        const temporary = (Quill.find(table) as TableContainer).temporary()?.domNode;
-        const td = table.querySelector("td");
+        const temporary = (Quill.find(table!) as TableContainer).temporary()?.domNode;
+        const td = table?.querySelector("td");
         const attrs = this.getDiffProperties();
         const align = attrs["align"];
         delete attrs["align"];
@@ -590,14 +597,15 @@ class TablePropertiesForm {
             default:
                 break;
         }
-        setElementProperty(temporary || table, attrs);
-        tableBetter.cellSelection.setSelected(td);
+        const element = temporary || table;
+        setElementProperty(element!, attrs);
+        tableBetter.cellSelection.setSelected(td!);
     }
 
     setAttribute(propertyName: string, value: string, container?: HTMLElement) {
         this.attrs[propertyName] = value;
-        if (propertyName.includes("-color")) {
-            this.updateSelectColor(this.getColorClosest(container), value);
+        if (propertyName.includes("-color") && container) {
+            this.updateSelectColor(this.getColorClosest(container)!, value);
         }
     }
 
@@ -609,7 +617,7 @@ class TablePropertiesForm {
     }
 
     setSaveButton(container: HTMLDivElement) {
-        const saveButton: HTMLButtonElement = container.querySelector('button[label="save"]');
+        const saveButton: HTMLButtonElement | null = container.querySelector('button[label="save"]');
         this.saveButton = saveButton;
     }
 
@@ -624,7 +632,7 @@ class TablePropertiesForm {
 
     switchButton(container: HTMLDivElement, target: HTMLSpanElement) {
         const children = container.querySelectorAll("span.ql-table-tooltip-hover");
-        for (const child of children) {
+        for (const child of Array.from(children)) {
             child.classList.remove("ql-table-btns-checked");
         }
         target.classList.add("ql-table-btns-checked");
@@ -658,73 +666,58 @@ class TablePropertiesForm {
     }
 
     updateInputValue(element: Element, value: string) {
-        const input: HTMLInputElement = element.querySelector(".property-input");
-        input.value = value;
+        const input: HTMLInputElement | null = element.querySelector(".property-input");
+        if (input) {
+            input.value = value;
+        }
     }
 
     updateInputStatus(container: HTMLElement, status: boolean, isColor?: boolean) {
         const closestContainer = isColor
             ? this.getColorClosest(container)
             : getClosestElement(container, ".label-field-view");
-        const wrapper = closestContainer.querySelector(".label-field-view-input-wrapper");
+        const wrapper = closestContainer?.querySelector(".label-field-view-input-wrapper");
         if (status) {
-            wrapper.classList.add("label-field-view-error");
+            wrapper?.classList.add("label-field-view-error");
             this.setSaveButtonDisabled(true);
         } else {
-            wrapper.classList.remove("label-field-view-error");
+            wrapper?.classList.remove("label-field-view-error");
             const wrappers = this.form.querySelectorAll(".label-field-view-error");
             if (!wrappers.length) this.setSaveButtonDisabled(false);
         }
     }
 
     updatePropertiesForm(container: HTMLElement, type: string) {
-        container.classList.remove("ql-table-triangle-none");
-        const { height, width } = container.getBoundingClientRect();
-        const containerBounds = this.tableMenus.quill.container.getBoundingClientRect();
-        const { top, left, right, bottom } = this.getComputeBounds(type);
-        const { viewHeight } = this.getViewportSize();
-        let correctTop = bottom + 10;
-        let correctLeft = (left + right - width) >> 1;
-        if (correctTop + containerBounds.top + height > viewHeight) {
-            correctTop = top - height - 10;
-            if (correctTop < 0) {
-                correctTop = (containerBounds.height - height) >> 1;
-                container.classList.add("ql-table-triangle-none");
-            } else {
-                container.classList.add("ql-table-triangle-up");
-                container.classList.remove("ql-table-triangle-down");
-            }
-        } else {
-            container.classList.add("ql-table-triangle-down");
-            container.classList.remove("ql-table-triangle-up");
-        }
-        if (correctLeft < containerBounds.left) {
-            correctLeft = 0;
-            container.classList.add("ql-table-triangle-none");
-        } else if (correctLeft + width > containerBounds.right) {
-            correctLeft = containerBounds.right - width;
-            container.classList.add("ql-table-triangle-none");
-        }
-        setElementProperty(container, {
-            left: `${correctLeft}px`,
-            top: `${correctTop}px`
+        const target = type === "table" ? this.tableMenus.table! : this.tableMenus.getSelectedTdsInfo().leftTd;
+
+        computePosition(target, container, {
+            middleware: [offset(4), flip(), shift({ padding: 10 })],
+            placement: "bottom",
+            strategy: "fixed"
+        }).then(({ x, y }) => {
+            setElementProperty(container, {
+                left: `${x}px`,
+                top: `${y}px`
+            });
         });
     }
 
     updateSelectColor(element: Element, value: string) {
-        const input: HTMLInputElement = element.querySelector(".property-input");
-        const colorButton: HTMLElement = element.querySelector(".color-button");
-        const colorPickerSelect: HTMLElement = element.querySelector(".color-picker-select");
-        const status: HTMLElement = element.querySelector(".label-field-view-status");
+        const input: HTMLInputElement | null = element.querySelector(".property-input");
+        const colorButton: HTMLElement | null = element.querySelector(".color-button");
+        const colorPickerSelect: HTMLElement | null = element.querySelector(".color-picker-select");
+        const status: HTMLElement | null = element.querySelector(".label-field-view-status");
         if (!value) {
-            colorButton.classList.add("color-unselected");
+            colorButton?.classList.add("color-unselected");
         } else {
-            colorButton.classList.remove("color-unselected");
+            colorButton?.classList.remove("color-unselected");
         }
-        input.value = value;
-        setElementProperty(colorButton, { "background-color": value });
-        colorPickerSelect.classList.add("ql-hidden");
-        this.switchHidden(status, isValidColor(value));
+        if (input) {
+            input.value = value;
+        }
+        setElementProperty(colorButton!, { "background-color": value });
+        colorPickerSelect?.classList.add("ql-hidden");
+        this.switchHidden(status!, isValidColor(value));
     }
 
     updateSelectedStatus(container: HTMLDivElement, value: string, type: string) {
