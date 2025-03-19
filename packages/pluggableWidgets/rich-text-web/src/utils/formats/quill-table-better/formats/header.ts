@@ -12,6 +12,7 @@ class TableHeader extends Header {
     static blotName = "table-header";
     static className = "ql-table-header";
 
+    // @ts-ignore
     parent: TableCell;
 
     static create(formats: Props) {
