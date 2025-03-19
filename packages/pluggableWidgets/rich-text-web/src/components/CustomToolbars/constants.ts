@@ -153,7 +153,7 @@ export const TOOLBAR_MAPPING: toolbarMappingType = {
         title: "Font header"
     },
     clean: { component: ToolbarButton, className: "ql-clean icons icon-Clear-formating", title: "Clear formatting" },
-    "table-better": {
+    tableBetter: {
         component: ToolbarButton,
         className: "ql-table-better icons icon-Table",
         title: "Create Table",
@@ -177,7 +177,7 @@ export const TOOLBAR_GROUP: ToolbarGroupType = {
     header: ["header"],
     code: ["blockquote", "code", "codeBlock", "viewCode"],
     remove: ["clean"],
-    "table-better": ["table-better"]
+    tableBetter: ["tableBetter"]
 };
 
 export type toolbarContentType = {
@@ -232,7 +232,7 @@ export const DEFAULT_TOOLBAR: toolbarContentType[] = [
     },
     {
         presetValue: 2,
-        children: TOOLBAR_GROUP["table-better"]
+        children: TOOLBAR_GROUP["tableBetter"]
     }
 ];
 
