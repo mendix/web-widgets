@@ -36,9 +36,4 @@ Quill.register(Button, true);
 Quill.register("modules/resize", QuillResize, true);
 // add empty handler for view code, this format is handled by toolbar's custom config via ViewCodeDialog
 Quill.register({ "ui/view-code": Empty });
-Quill.register(
-    {
-        "modules/table-better": QuillTableBetter
-    },
-    true
-);
+Quill.register({ "modules/table-better": QuillTableBetter }, true);
