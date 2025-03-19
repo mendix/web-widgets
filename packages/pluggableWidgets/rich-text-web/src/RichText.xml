@@ -255,10 +255,12 @@
                                 <enumerationValue key="centerAlign">Center Align</enumerationValue>
                                 <enumerationValue key="rightAlign">Right Align</enumerationValue>
                                 <enumerationValue key="font">Font</enumerationValue>
+                                <enumerationValue key="size">Font Size</enumerationValue>
                                 <enumerationValue key="color">Color</enumerationValue>
                                 <enumerationValue key="background">Background</enumerationValue>
                                 <enumerationValue key="header">Header</enumerationValue>
                                 <enumerationValue key="clean">Clean</enumerationValue>
+                                <enumerationValue key="table-better">Table</enumerationValue>
                             </enumerationValues>
                         </property>
                     </properties>
