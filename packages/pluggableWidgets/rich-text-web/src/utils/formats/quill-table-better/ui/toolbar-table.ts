@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { InlineBlot } from "parchment";
 import QuillInline from "quill/blots/inline";
 import icons from "quill/ui/icons";
