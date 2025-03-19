@@ -1,7 +1,7 @@
 import Quill from "quill";
 import TableHeader from "./formats/header";
 import TableList, { ListContainer } from "./formats/list";
-import { TableCell, TableCellBlock, TableColgroup, TableContainer, TableRow } from "./formats/table";
+import { TableBody, TableCell, TableCellBlock, TableColgroup, TableContainer, TableRow } from "./formats/table";
 import QuillTableBetter from "./quill-table-better";
 import CellSelection from "./ui/cell-selection";
 import TableMenus from "./ui/table-menus";
@@ -73,6 +73,7 @@ export type {
     Context,
     ListContainer,
     QuillTableBetter,
+    TableBody,
     TableCell,
     TableCellBlock,
     TableColgroup,

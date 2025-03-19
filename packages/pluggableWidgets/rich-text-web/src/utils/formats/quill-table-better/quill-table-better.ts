@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { EmitterSource, Range } from "quill";
 import Quill from "quill";
 import Delta from "quill-delta";

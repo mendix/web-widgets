@@ -1,3 +1,4 @@
+// @ts-nocheck
 import merge from "lodash.merge";
 import Delta from "quill-delta";
 import { TableCell } from "../formats/table";
