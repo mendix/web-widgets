@@ -38,6 +38,7 @@ function Container(props: ContainerProps): React.ReactElement {
         filter: props.filterStore,
         changeDelay: props.delay,
         defaultFilter: props.defaultFilter,
+        adjustableFilterFunction: props.adjustable,
         defaultValue: props.defaultValue?.value,
         disableInputs: fn => fn === "empty" || fn === "notEmpty"
     });

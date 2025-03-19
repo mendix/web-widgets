@@ -213,9 +213,7 @@ export class DateInputFilterStore
         }
 
         const [fn, date1, date2] = inputData;
-        this.filterFunction = fn;
-        this.arg1.value = parseDateValue(date1);
-        this.arg2.value = parseDateValue(date2);
+        this.setState([fn, parseDateValue(date1), parseDateValue(date2)]);
         this.isInitialized = true;
     }
 
