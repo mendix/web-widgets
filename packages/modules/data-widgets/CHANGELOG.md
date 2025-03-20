@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.30.3] DataWidgets - 2025-03-20
+
+### [2.11.2] DatagridDateFilter
+
+#### Fixed
+
+-   We fixed an issue where non-adjustable default filters were overridden by personalization settings.
+
+### [2.9.1] DatagridNumberFilter
+
+#### Fixed
+
+-   We fixed an issue where non-adjustable default filters were overridden by personalization settings.
+
+### [2.9.1] DatagridTextFilter
+
+#### Fixed
+
+-   We fixed an issue where non-adjustable default filters were overridden by personalization settings.
+
+### [2.30.3] Datagrid
+
+#### Fixed
+
+-   We fixed an issue where non-adjustable default filters were overridden by personalization settings.
+
+-   We fixed an issue where the vertical scrollbar for column selector is not showing if data grid has horizontal scrollbar.
+
 ## [2.30.2] DataWidgets - 2025-03-17
 
 ### Fixed
