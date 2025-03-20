@@ -1,6 +1,4 @@
 import preserveDirectives from "rollup-preserve-directives";
-import url from "@rollup/plugin-url";
-import image from "@rollup/plugin-image";
 import alias from "@rollup/plugin-alias";
 
 export default args => {
@@ -16,14 +14,6 @@ export default args => {
                         replacement: "$1.svg"
                     }
                 ]
-            }),
-            url({
-                include: ["**/*.svg"],
-                limit: 0,
-                fileName: "[name][extname]"
-            }),
-            image({
-                include: ["**/*.svg"]
             })
         ];
         return config;

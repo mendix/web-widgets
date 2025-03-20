@@ -1,4 +1,4 @@
-import { ChangeEvent, createElement, ReactElement, useState } from "react";
+import { ChangeEvent, createElement, ReactElement, useEffect, useState } from "react";
 import { type imageConfigType } from "../../utils/formats";
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 import { IMG_MIME_TYPES } from "../CustomToolbars/constants";
@@ -6,16 +6,30 @@ import { IMG_MIME_TYPES } from "../CustomToolbars/constants";
 export interface ImageDialogProps {
     onSubmit(value: imageConfigType): void;
     onClose(): void;
+    disableFileUpload?: boolean;
+    imageUrl?: string;
+    alt?: string;
 }
 
 export default function ImageDialog(props: ImageDialogProps): ReactElement {
-    const { onSubmit, onClose } = props;
+    const { onSubmit, onClose, disableFileUpload = false, alt = "" } = props;
 
     const [formState, setFormState] = useState<imageConfigType>({
         files: null,
         width: 100,
-        height: 100
+        height: 100,
+        alt
     });
+
+    // Update form state when alt prop changes
+    useEffect(() => {
+        if (disableFileUpload) {
+            setFormState(prevState => ({
+                ...prevState,
+                alt
+            }));
+        }
+    }, [alt, disableFileUpload]);
 
     const onFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
         setFormState({ ...formState, [e.target.name]: e.target.files });
@@ -27,17 +41,19 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
 
     return (
         <DialogContent className="image-dialog">
-            <DialogHeader onClose={onClose}>Insert/Edit Image</DialogHeader>
+            <DialogHeader onClose={onClose}>{disableFileUpload ? "Edit Image Alt Text" : "Edit Image"}</DialogHeader>
             <DialogBody>
-                <FormControl label="Source Code">
-                    <input
-                        name="files"
-                        className="form-control mx-textarea-input mx-textarea-noresize code-input"
-                        type="file"
-                        accept={IMG_MIME_TYPES.join(", ")}
-                        onChange={onFileChange}
-                    ></input>
-                </FormControl>
+                {!disableFileUpload && (
+                    <FormControl label="Source Code">
+                        <input
+                            name="files"
+                            className="form-control mx-textarea-input mx-textarea-noresize code-input"
+                            type="file"
+                            accept={IMG_MIME_TYPES.join(", ")}
+                            onChange={onFileChange}
+                        ></input>
+                    </FormControl>
+                )}
                 <FormControl label="Alternative description">
                     <input
                         className="form-control"
@@ -47,26 +63,30 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                         value={formState.alt}
                     />
                 </FormControl>
-                <FormControl label="Width">
-                    <input
-                        className="form-control"
-                        type="number"
-                        name="width"
-                        onChange={onInputChange}
-                        value={formState.width}
-                    />
-                    px
-                </FormControl>
-                <FormControl label="Height">
-                    <input
-                        className="form-control"
-                        type="number"
-                        name="height"
-                        onChange={onInputChange}
-                        value={formState.height}
-                    />
-                    px
-                </FormControl>
+                {!disableFileUpload && (
+                    <FormControl label="Width">
+                        <input
+                            className="form-control"
+                            type="number"
+                            name="width"
+                            onChange={onInputChange}
+                            value={formState.width}
+                        />
+                        px
+                    </FormControl>
+                )}
+                {!disableFileUpload && (
+                    <FormControl label="Height">
+                        <input
+                            className="form-control"
+                            type="number"
+                            name="height"
+                            onChange={onInputChange}
+                            value={formState.height}
+                        />
+                        px
+                    </FormControl>
+                )}
                 <DialogFooter onSubmit={() => onSubmit(formState)} onClose={onClose}></DialogFooter>
             </DialogBody>
         </DialogContent>
