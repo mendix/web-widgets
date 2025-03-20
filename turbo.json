@@ -8,11 +8,11 @@
             "inputs": ["package.json", "**/package.xml"]
         },
         "build": {
-            "dependsOn": ["^build", "create-translation"],
+            "dependsOn": ["^build"],
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "release": {
-            "dependsOn": ["^release", "verify", "create-translation"],
+            "dependsOn": ["^release", "verify"],
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "build:module": {
@@ -40,7 +40,7 @@
         },
         "create-translation": {
             "cache": false,
-            "outputs": ["dist/**"],
+            "outputs": [],
             "inputs": ["src/**/*.xml", "!src/**/package.xml"]
         },
         "publish-marketplace": {
