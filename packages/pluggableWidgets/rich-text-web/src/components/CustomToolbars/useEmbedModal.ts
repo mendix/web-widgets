@@ -127,25 +127,52 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
     };
 
     const customImageUploadHandler = (value: any): void => {
-        if (value === true) {
-            setDialogConfig({
-                dialogType: "image",
-                config: {
-                    onSubmit: (value: imageConfigType) => {
-                        const range = ref.current?.getSelection(true);
-                        if (range && value.files) {
-                            uploadImage(ref, range, value);
-                        }
-                        closeDialog();
-                    },
-                    onClose: closeDialog
-                }
-            });
-            setShowDialog(true);
+        // Check if this is an edit of an existing image
+        const selection = ref.current?.getSelection() || null;
+        const isEdit = typeof value === "object" && value !== true;
+
+        // If we have a direct image reference (from Alt button), use it directly
+        let activeImageElement: HTMLImageElement | null = null;
+
+        if (isEdit && value.src) {
+            // This is likely coming from the Alt button click with a direct image reference
+            // Find the image by src attribute as a fallback when selection isn't available
+            activeImageElement = findImageBySrc(ref, value.src);
         } else {
-            ref.current?.format("link", false);
-            closeDialog();
+            // Try to get the image from selection
+            activeImageElement = isEdit ? getActiveImageElement(ref, selection) : null;
         }
+
+        // Get the current alt text if it exists
+        const currentAlt = activeImageElement?.getAttribute("alt") || "";
+
+        setDialogConfig({
+            dialogType: "image",
+            config: {
+                onSubmit: (value: imageConfigType) => {
+                    const range = ref.current?.getSelection(true);
+
+                    // If editing an existing image, update only its alt text
+                    if (activeImageElement) {
+                        if (value.alt !== undefined) {
+                            activeImageElement.setAttribute("alt", value.alt);
+                        }
+                    }
+                    // Otherwise, handle new image upload if files are provided
+                    else if (range && value.files) {
+                        uploadImage(ref, range, value);
+                    }
+
+                    closeDialog();
+                },
+                onClose: closeDialog,
+                // Pass props to disable file upload when editing
+                disableFileUpload: !!activeImageElement,
+                // Pass the current alt text for editing
+                alt: currentAlt
+            }
+        });
+        setShowDialog(true);
     };
 
     return {
@@ -157,6 +184,66 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
         customViewCodeHandler,
         customImageUploadHandler
     };
+}
+
+/**
+ * Helper function to find an image element by its src attribute
+ * This is used as a fallback when selection is not available
+ */
+function findImageBySrc(ref: MutableRefObject<Quill | null>, src: string): HTMLImageElement | null {
+    if (!ref.current) {
+        return null;
+    }
+
+    const quill = ref.current as any;
+    if (quill.root) {
+        // Try to find the image by src attribute
+        const images = quill.root.querySelectorAll("img");
+        for (const img of images) {
+            if (img.src === src) {
+                return img as HTMLImageElement;
+            }
+        }
+    }
+
+    return null;
+}
+
+/**
+ * Helper function to get the currently selected image element
+ */
+function getActiveImageElement(ref: MutableRefObject<Quill | null>, selection: Range | null): HTMLImageElement | null {
+    if (!selection || !ref.current) {
+        return null;
+    }
+
+    // First try to get the exact element at the selection
+    const [leaf] = ref.current.getLeaf(selection.index);
+    if (leaf && leaf.domNode && leaf.domNode instanceof HTMLElement && leaf.domNode.tagName === "IMG") {
+        return leaf.domNode as HTMLImageElement;
+    }
+
+    // If not found, try to look at the parents of the current selection
+    const quill = ref.current as any;
+    if (quill.root) {
+        const blot = quill.scroll.find(selection.index);
+        if (blot && blot.domNode) {
+            // If the blot itself is an image
+            if (blot.domNode instanceof HTMLElement && blot.domNode.tagName === "IMG") {
+                return blot.domNode as HTMLImageElement;
+            }
+
+            // Or if it contains an image
+            if (blot.domNode instanceof HTMLElement) {
+                const img = blot.domNode.querySelector("img");
+                if (img) {
+                    return img as HTMLImageElement;
+                }
+            }
+        }
+    }
+
+    return null;
 }
 
 function uploadImage(ref: MutableRefObject<Quill | null>, range: Range, options: imageConfigType): void {
