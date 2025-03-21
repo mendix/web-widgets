@@ -1,4 +1,4 @@
-import { ListAttributeValue } from "mendix";
+import { AttributeMetaData, ListAttributeValue, SimpleFormatter } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { action, comparer, makeObservable } from "mobx";
 import { inputStateFromCond } from "../../condition-utils";
@@ -15,6 +15,8 @@ import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
 
 type StrFns = FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
+type AttrMeta = AttributeMetaData<string> & { formatter?: SimpleFormatter<string> };
+
 export class StringInputFilterStore
     extends BaseInputFilterStore<StringArgument, StrFns>
     implements String_InputFilterInterface
@@ -22,8 +24,8 @@ export class StringInputFilterStore
     readonly storeType = "input";
     readonly type = "string";
 
-    constructor(attributes: Array<ListAttributeValue<string>>, initCond: FilterCondition | null) {
-        const { formatter } = attributes[0];
+    constructor(attributes: AttrMeta[], initCond: FilterCondition | null) {
+        const formatter = getFormatter(attributes[0]);
         super(new StringArgument(formatter), new StringArgument(formatter), "equal", attributes);
         makeObservable(this, {
             updateProps: action,
@@ -90,4 +92,13 @@ export class StringInputFilterStore
         this.setState(initState);
         this.isInitialized = true;
     }
+}
+
+function getFormatter(attr: AttrMeta): SimpleFormatter<string> {
+    return (
+        attr.formatter ?? {
+            format: v => v ?? "",
+            parse: v => ({ valid: true, value: v ?? "" })
+        }
+    );
 }
