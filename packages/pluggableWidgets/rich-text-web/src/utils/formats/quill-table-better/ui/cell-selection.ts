@@ -349,9 +349,8 @@ class CellSelection {
 
     initWhiteList() {
         const toolbar = this.quill.getModule("toolbar");
-        // @ts-expect-error
-        Array.from(toolbar.container.querySelectorAll("button, select")).forEach(input => {
-            // @ts-ignore
+        const container = document.querySelector(toolbar.options.container);
+        container.querySelectorAll("button, select").forEach(input => {
             this.attach(input);
         });
     }

@@ -206,7 +206,8 @@ class Table extends Module {
         if (!toolbarTable) return;
         Quill.register({ "formats/table-better": ToolbarTable }, true);
         const toolbar = this.quill.getModule("toolbar") as TableToolbar;
-        const button = toolbar.container.querySelector("button.ql-table-better");
+        const container = document.querySelector(toolbar.options.container);
+        const button = container.querySelector("button.ql-table-better");
         if (!button || !this.tableSelect.root) return;
         button.appendChild(this.tableSelect.root);
         button.addEventListener("click", (e: MouseEvent) => {
