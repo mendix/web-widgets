@@ -3,4 +3,7 @@ declare module "*.svg" {
     export = content;
 }
 
+declare module "quill-better-table";
+declare module "lodash.merge"
+
 declare module '*.css';
