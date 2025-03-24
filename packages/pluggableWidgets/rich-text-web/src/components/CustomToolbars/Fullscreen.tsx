@@ -1,17 +1,13 @@
 import { createElement, ReactElement, useCallback } from "react";
-import { useFullscreen } from "../../utils/editorContext";
 import { ToolbarButton } from "./ToolbarWrapper";
+import { CustomToolbarProps } from "./customToolbars";
+import { ACTION_DISPATCHER } from "../../utils/helpers";
+import { SET_FULLSCREEN_ACTION } from "../../store/store";
 
-export function FullscreenButton(): ReactElement {
-    const { isFullscreen, enterFullscreen, exitFullscreen } = useFullscreen();
-
+export function FullscreenButton({ quill }: CustomToolbarProps): ReactElement {
     const handleClick = useCallback(() => {
-        if (isFullscreen) {
-            exitFullscreen();
-        } else {
-            enterFullscreen();
-        }
-    }, [isFullscreen, enterFullscreen, exitFullscreen]);
+        quill?.emitter.emit(ACTION_DISPATCHER, { type: SET_FULLSCREEN_ACTION });
+    }, [quill]);
 
     return <ToolbarButton className={"icons icon-Expand"} title={"fullscreen"} onClick={handleClick} />;
 }
