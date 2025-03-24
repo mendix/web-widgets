@@ -5,9 +5,19 @@ import classNames from "classnames";
 import Quill, { Range } from "quill";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
-import { createElement, CSSProperties, ReactElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+    createElement,
+    CSSProperties,
+    ReactElement,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
-import { EditorProvider, useFullscreen } from "../utils/editorContext";
+import { EditorContext, EditorProvider } from "../store/EditorProvider";
 import { updateLegacyQuillFormats } from "../utils/helpers";
 import MendixTheme from "../utils/themes/mxTheme";
 import { createPreset } from "./CustomToolbars/presets";
@@ -42,6 +52,8 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         tabIndex
     } = props;
 
+    const globalState = useContext(EditorContext);
+
     const isFirstLoad = useRef<boolean>(false);
     const quillRef = useRef<Quill>(null);
     const [isFocus, setIsFocus] = useState(false);
@@ -49,7 +61,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
 
-    const { isFullscreen } = useFullscreen();
+    const { isFullscreen } = globalState;
 
     const [setAttributeValueDebounce] = useMemo(
         () =>

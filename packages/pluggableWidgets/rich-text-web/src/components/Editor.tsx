@@ -6,6 +6,7 @@ import {
     forwardRef,
     Fragment,
     MutableRefObject,
+    useContext,
     useEffect,
     useLayoutEffect,
     useRef
@@ -21,6 +22,7 @@ import {
 } from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
+import { EditorDispatchContext } from "../store/EditorProvider";
 
 export interface EditorProps {
     defaultValue?: string;
@@ -40,6 +42,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
     const modalRef = useRef<HTMLDivElement>(null);
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
+    const contextDispatch = useContext(EditorDispatchContext);
 
     const {
         showDialog,
@@ -130,6 +133,11 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 });
                 quill.on("EDIT-TOOLTIP", (...arg: any[]) => {
                     customLinkHandler(arg[0]);
+                });
+                quill.on("ACTION-DISPATCH", (type: string, ...arg: any[]) => {
+                    if (contextDispatch) {
+                        contextDispatch({ type, value: arg[0] });
+                    }
                 });
             }
 
