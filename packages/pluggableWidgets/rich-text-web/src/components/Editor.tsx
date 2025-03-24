@@ -6,6 +6,7 @@ import {
     forwardRef,
     Fragment,
     MutableRefObject,
+    useContext,
     useEffect,
     useLayoutEffect,
     useRef
@@ -22,7 +23,10 @@ import {
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
 import { RESIZE_MODULE_CONFIG } from "../utils/formats/resizeModuleConfig";
-import { EDIT_DIALOG_EVENT } from "../utils/helpers";
+import { ACTION_DISPATCHER } from "../utils/helpers";
+import { EditorDispatchContext } from "../store/EditorProvider";
+import { SET_FULLSCREEN_ACTION } from "../store/store";
+
 export interface EditorProps {
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
@@ -41,6 +45,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
     const modalRef = useRef<HTMLDivElement>(null);
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
+    const contextDispatch = useContext(EditorDispatchContext);
 
     const {
         showDialog,
@@ -130,7 +135,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 quill.on(Quill.events.SELECTION_CHANGE, (...arg) => {
                     onSelectionChangeRef.current?.(...arg);
                 });
-                quill.on(EDIT_DIALOG_EVENT, (...arg: any[]) => {
+                quill.on(ACTION_DISPATCHER, (...arg: any[]) => {
                     if (arg[0]) {
                         if (arg[0].href) {
                             customLinkHandler(arg[0]);
@@ -139,6 +144,12 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                 customVideoHandler(arg[0]);
                             } else {
                                 customImageUploadHandler(arg[0]);
+                            }
+                        } else if (arg[0].type) {
+                            if (arg[0].type === SET_FULLSCREEN_ACTION) {
+                                if (contextDispatch) {
+                                    contextDispatch(arg[0]);
+                                }
                             }
                         }
                     }

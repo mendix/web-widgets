@@ -3,7 +3,7 @@ import Emitter from "quill/core/emitter";
 import LinkBlot from "quill/formats/link";
 import { BaseTooltip } from "quill/themes/base";
 import { linkConfigType } from "../formats";
-import { EDIT_DIALOG_EVENT } from "../helpers";
+import { ACTION_DISPATCHER } from "../helpers";
 
 export default class MxTooltip extends BaseTooltip {
     static TEMPLATE = [
@@ -79,7 +79,7 @@ export default class MxTooltip extends BaseTooltip {
                     title: this.linkDOMNode?.getAttribute("title") ?? undefined,
                     target: this.linkDOMNode?.getAttribute("target") ?? undefined
                 };
-                this.quill.emitter.emit(EDIT_DIALOG_EVENT, linkConfig);
+                this.quill.emitter.emit(ACTION_DISPATCHER, linkConfig);
             }
         } else {
             super.edit(mode, preview);

@@ -1,6 +1,6 @@
 import Quill from "quill";
 import QuillResize from "quill-resize-module";
-import { EDIT_DIALOG_EVENT } from "../helpers";
+import { ACTION_DISPATCHER } from "../helpers";
 
 type ToolbarTool = {
     text: string;
@@ -61,7 +61,7 @@ export const RESIZE_MODULE_CONFIG = {
                     type: "image"
                 };
                 this.resizer.handleEdit();
-                this.quill.emitter.emit(EDIT_DIALOG_EVENT, imageInfo);
+                this.quill.emitter.emit(ACTION_DISPATCHER, imageInfo);
             }
         },
         {
@@ -83,7 +83,7 @@ export const RESIZE_MODULE_CONFIG = {
                     type: "video"
                 };
                 this.resizer.handleEdit();
-                this.quill.emitter.emit(EDIT_DIALOG_EVENT, videoInfo);
+                this.quill.emitter.emit(ACTION_DISPATCHER, videoInfo);
             }
         }
     ],
