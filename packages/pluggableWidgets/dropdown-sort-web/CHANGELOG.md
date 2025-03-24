@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+-   We removed read only style being applied incorrectly.
+
 ## [1.2.1] - 2024-09-23
 
 ### Changed
