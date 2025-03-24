@@ -20,6 +20,7 @@ import {
 } from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
+import type QuillResize from "quill-resize-module";
 export interface EditorProps {
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
@@ -122,12 +123,20 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                     verify(activeEle: HTMLElement) {
                                         return activeEle && activeEle.tagName === "IMG";
                                     },
-                                    handler(_evt: MouseEvent, _button: HTMLElement, activeEle: HTMLImageElement) {
+                                    handler(
+                                        this: { quill: Quill; resizer: typeof QuillResize },
+                                        _evt: MouseEvent,
+                                        _button: HTMLElement,
+                                        activeEle: HTMLImageElement
+                                    ) {
                                         const imageInfo = {
                                             alt: activeEle.alt || "",
-                                            src: activeEle.src
+                                            src: activeEle.src,
+                                            width: activeEle.width,
+                                            height: activeEle.height
                                         };
-                                        customImageUploadHandler(imageInfo);
+                                        this.resizer.handleEdit();
+                                        this.quill.emitter.emit("EDIT-TOOLTIP", imageInfo);
                                     }
                                 }
                             ]
@@ -144,7 +153,13 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                     onSelectionChangeRef.current?.(...arg);
                 });
                 quill.on("EDIT-TOOLTIP", (...arg: any[]) => {
-                    customLinkHandler(arg[0]);
+                    if (arg[0]) {
+                        if (arg[0].href) {
+                            customLinkHandler(arg[0]);
+                        } else if (arg[0].src) {
+                            customImageUploadHandler(arg[0]);
+                        }
+                    }
                 });
             }
 

@@ -49,6 +49,7 @@ declare module "quill-resize-module" {
     interface ResizeModuleConstructor {
         new (quill: Quill, options: ResizeModuleOptions): any;
         Modules?: any;
+        handleEdit(): void;
     }
 
     const ResizeModule: ResizeModuleConstructor;

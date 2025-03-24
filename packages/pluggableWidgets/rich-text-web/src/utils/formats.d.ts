@@ -24,4 +24,5 @@ export type imageConfigType = {
     alt?: string;
     width?: number;
     height?: number;
+    src?: string;
 };
