@@ -49,6 +49,7 @@
         "dompurify": "^3.2.4",
         "katex": "^0.16.11",
         "linkifyjs": "^4.1.3",
+        "lodash.merge": "^4.6.2",
         "parchment": "^3.0.0",
         "quill": "^2.0.2",
         "quill-resize-module": "^2.0.4"
