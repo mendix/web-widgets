@@ -487,10 +487,6 @@ $focused-border: 1px solid $focused-border-color;
                 height: 100%;
                 display: flex;
                 flex-direction: column;
-                .iro-container {
-                    flex: 1;
-                    @extend .ql-table-center;
-                }
             }
         }
     }

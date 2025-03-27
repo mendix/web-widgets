@@ -12,7 +12,6 @@ import { ListContainer } from "./list";
 const Block = QuillBlock as typeof BlockBlot;
 const Container = QuillContainer as typeof ContainerBlot;
 const TABLE_ATTRIBUTE = ["border", "cellspacing", "style", "data-class"];
-// const STYLE_RULES = ["color", "border", "width", "height"];
 const COL_ATTRIBUTE = ["width"];
 
 class TableCellBlock extends Block {
@@ -88,11 +87,11 @@ class TableCell extends Container {
     prev: this | null;
 
     checkMerge() {
-        if (super.checkMerge() && this.next?.children.head != null && this.next.children.head.formats) {
-            const thisHead = this.children.head?.formats()[this.children.head.statics.blotName];
-            const thisTail = this.children.tail?.formats()[this.children.tail.statics.blotName];
+        if (super.checkMerge() && this.next.children.head != null && this.next.children.head.formats) {
+            const thisHead = this.children.head.formats()[this.children.head.statics.blotName];
+            const thisTail = this.children.tail.formats()[this.children.tail.statics.blotName];
             const nextHead = this.next.children.head.formats()[this.next.children.head.statics.blotName];
-            const nextTail = this.next.children.tail?.formats()[this.next.children.tail.statics.blotName];
+            const nextTail = this.next.children.tail.formats()[this.next.children.tail.statics.blotName];
             const _thisHead = getCellId(thisHead);
             const _thisTail = getCellId(thisTail);
             const _nextHead = getCellId(nextHead);
@@ -118,7 +117,7 @@ class TableCell extends Container {
                 if (attr === "rowspan" && rowspan) {
                     formats[attr] = `${~~domNode.getAttribute(attr) - rowspan}`;
                 } else {
-                    formats[attr] = filterWordStyle(domNode.getAttribute(attr) ?? "");
+                    formats[attr] = filterWordStyle(domNode.getAttribute(attr));
                 }
             }
             return formats;
@@ -132,13 +131,14 @@ class TableCell extends Container {
         return formats;
     }
 
-    formats() {
-        const formats = this.statics.formats(this.domNode, this.scroll);
-        return { [this.statics.blotName]: formats };
+    formats(): { [key: string]: Props } {
+        const formats: Props = this.statics.formats(this.domNode, this.scroll);
+        const blotName: string = this.statics.blotName;
+        return { [blotName]: formats };
     }
 
     static getEmptyRowspan(domNode: Element) {
-        let nextNode = domNode.parentElement?.nextElementSibling;
+        let nextNode = domNode.parentElement.nextElementSibling;
         let rowspan = 0;
         while (nextNode && nextNode.tagName === "TR" && !nextNode.innerHTML.replace(/\s/g, "")) {
             rowspan++;
@@ -149,13 +149,13 @@ class TableCell extends Container {
 
     static hasColgroup(domNode: Element) {
         while (domNode && domNode.tagName !== "TBODY") {
-            domNode = domNode.parentElement!;
+            domNode = domNode.parentElement;
         }
         while (domNode) {
             if (domNode.tagName === "COLGROUP") {
                 return true;
             }
-            domNode = domNode.previousElementSibling!;
+            domNode = domNode.previousElementSibling;
         }
         return false;
     }
@@ -283,9 +283,10 @@ class TableTemporary extends Block {
         }, {});
     }
 
-    formats() {
-        const formats = this.statics.formats(this.domNode, this.scroll);
-        return { [this.statics.blotName]: formats };
+    formats(): { [key: string]: Props } {
+        const formats: Props = this.statics.formats(this.domNode, this.scroll);
+        const blotName: string = this.statics.blotName;
+        return { [blotName]: formats };
     }
 
     optimize(...args: unknown[]) {
