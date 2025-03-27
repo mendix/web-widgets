@@ -4,10 +4,18 @@ import { DatagridNumberFilterContainerProps } from "../typings/DatagridNumberFil
 import { NumberFilterContainer } from "./components/NumberFilterContainer";
 import { isLoadingDefaultValues } from "./utils/widget-utils";
 import { withNumberFilterAPI } from "./hocs/withNumberFilterAPI";
+import { withLinkedAttributes } from "./hocs/withLinkedAttributes";
 
 const container = withPreloader<DatagridNumberFilterContainerProps>(NumberFilterContainer, isLoadingDefaultValues);
-const Widget = withNumberFilterAPI(container);
+const FilterAuto = withNumberFilterAPI(container);
+const FilterLinked = withLinkedAttributes(container);
 
 export default function DatagridNumberFilter(props: DatagridNumberFilterContainerProps): ReactElement {
-    return <Widget {...props} />;
+    const isAuto = props.attrChoice === "auto";
+
+    if (isAuto) {
+        return <FilterAuto {...props} />;
+    }
+
+    return <FilterLinked {...props} />;
 }
