@@ -13,6 +13,7 @@ import { FilterData, InputData } from "../../typings/settings";
 import { StringArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
+import { getFormatter } from "./store-utils";
 
 type StrFns = FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type AttrMeta = AttributeMetaData<string> & { formatter?: SimpleFormatter<string> };
@@ -25,7 +26,7 @@ export class StringInputFilterStore
     readonly type = "string";
 
     constructor(attributes: AttrMeta[], initCond: FilterCondition | null) {
-        const formatter = getFormatter(attributes[0]);
+        const formatter = getFormatter<string>(attributes[0]);
         super(new StringArgument(formatter), new StringArgument(formatter), "equal", attributes);
         makeObservable(this, {
             updateProps: action,
@@ -92,13 +93,4 @@ export class StringInputFilterStore
         this.setState(initState);
         this.isInitialized = true;
     }
-}
-
-function getFormatter(attr: AttrMeta): SimpleFormatter<string> {
-    return (
-        attr.formatter ?? {
-            format: v => v ?? "",
-            parse: v => ({ valid: true, value: v ?? "" })
-        }
-    );
 }
