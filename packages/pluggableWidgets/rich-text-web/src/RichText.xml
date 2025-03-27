@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.custom.richtext.RichText" needsEntityContext="true" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+<widget id="com.mendix.widget.custom.richtext.RichText" needsEntityContext="true" pluginWidget="true" offlineCapable="true"
+    xmlns="http://www.mendix.com/widget/1.0/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Rich Text</name>
     <description>Rich inline or toolbar text editing</description>
     <studioProCategory>Input elements</studioProCategory>
@@ -266,6 +268,7 @@
                                 <enumerationValue key="header">Header</enumerationValue>
                                 <enumerationValue key="fullscreen">Full screen</enumerationValue>
                                 <enumerationValue key="clean">Clean</enumerationValue>
+                                <enumerationValue key="tableBetter">Table</enumerationValue>
                             </enumerationValues>
                         </property>
                     </properties>
