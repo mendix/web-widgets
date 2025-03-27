@@ -1,5 +1,5 @@
 import { Big } from "big.js";
-import { ListAttributeValue } from "mendix";
+import { AttributeMetaData, ListAttributeValue, SimpleFormatter } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { action, comparer, makeObservable } from "mobx";
 import { inputStateFromCond } from "../../condition-utils";
@@ -9,9 +9,11 @@ import { FilterData, InputData } from "../../typings/settings";
 import { NumberArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
+import { getFormatter } from "./store-utils";
 
 type NumFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type Formatter = ListAttributeValue<Big>["formatter"];
+type AttrMeta = AttributeMetaData<Big> & { formatter?: SimpleFormatter<Big> };
 
 export class NumberInputFilterStore
     extends BaseInputFilterStore<NumberArgument, NumFns>
@@ -20,9 +22,8 @@ export class NumberInputFilterStore
     readonly storeType = "input";
     readonly type = "number";
 
-    constructor(attributes: Array<ListAttributeValue<Big>>, initCond: FilterCondition | null) {
-        let { formatter } = attributes[0];
-        formatter = formatterFix(formatter);
+    constructor(attributes: AttrMeta[], initCond: FilterCondition | null) {
+        let formatter = formatterFix(getFormatter<Big>(attributes[0]));
         super(new NumberArgument(formatter), new NumberArgument(formatter), "equal", attributes);
         makeObservable(this, {
             updateProps: action,

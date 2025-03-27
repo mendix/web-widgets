@@ -47,8 +47,6 @@ export interface DatagridTextFilterPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    advanced: boolean;
-    customAttrs: CustomAttrsEnum;
     attrChoice: AttrChoiceEnum;
     attributes: AttributesPreviewType[];
     defaultValue: string;
