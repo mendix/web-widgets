@@ -3,6 +3,4 @@ declare module "*.svg" {
     export = content;
 }
 
-declare module 'quill-better-table';
-
 declare module '*.css';
