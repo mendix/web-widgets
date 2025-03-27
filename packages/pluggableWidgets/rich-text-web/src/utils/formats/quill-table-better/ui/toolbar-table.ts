@@ -37,7 +37,7 @@ class TableSelect {
                 fragment.appendChild(child);
             }
         }
-        label.innerHTML = "0 x 0";
+        label.innerHTML = "0 × 0";
         container.classList.add("ql-table-select-container", "ql-hidden");
         list.classList.add("ql-table-select-list");
         label.classList.add("ql-table-select-label");
@@ -102,10 +102,10 @@ class TableSelect {
 
     setLabelContent(label: Element, child: Element) {
         if (!child) {
-            label.innerHTML = "0 x 0";
+            label.innerHTML = "0 × 0";
         } else {
             const [row, column] = this.getSelectAttrs(child);
-            label.innerHTML = `${row} x ${column}`;
+            label.innerHTML = `${row} × ${column}`;
         }
     }
 

@@ -142,38 +142,6 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
 
-                const html = `
-                    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; width:456pt">
-                        <tbody>
-                            <tr>
-                                <td colspan="3" style="background-color:#f9e11e; height:19.25pt">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style="background-color:#f9e11e; height:12.55pt; width:236.1pt">&nbsp;</td>
-                                <td style="background-color:#123552; height:12.55pt; width:35.15pt">&nbsp;</td>
-                                <td style="background-color:#f9e11e; height:12.55pt; width:236.1pt">&nbsp;</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p></p>
-                    <table border="0" cellpadding="0" cellspacing="0" style="background-color:#efefef; border-collapse:collapse; width:456pt">
-                        <tbody>
-                            <tr>
-                                <td>
-                                <div style="margin-bottom:6pt; margin-left:0px; margin-right:0px; margin-top:0px"><span style="font-size:9px"><span style="font-family:verdana,geneva,sans-serif">Dit bericht kan informatie bevatten die niet voor u is bestemd. Indien u niet de geadresseerde bent of dit bericht abusievelijk aan u is toegezonden, wordt u verzocht dat aan de afzender te melden en het bericht te verwijderen. De Staat aanvaardt geen aansprakelijkheid voor schade, van welke aard ook, die verband houdt met risico&#39;s verbonden aan het elektronisch verzenden van berichten.</span></span></div>
-
-                                <div style="margin-bottom:6pt; margin-left:0px; margin-right:0px; margin-top:0px"><span style="font-size:9px"><span style="font-family:verdana,geneva,sans-serif">This message may contain information that is not intended for you. If you are not the addressee or if this message was sent to you by mistake, you are requested to inform the sender and delete the message. The State accepts no liability for damage of any kind resulting from the risks inherent in the electronic transmission of messages.</span></span></div>
-
-                                <div style="margin-bottom:0px; margin-left:0px; margin-right:0px; margin-top:6pt"><span style="font-size:9px"><span style="font-family:verdana,geneva,sans-serif">Ministerie van Infrastructuur en Waterstaat</span></span></div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
-
-                const delta = quill.clipboard.convert({ html });
-                quill.updateContents(delta, Quill.sources.USER);
-
                 quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
                     onTextChangeRef.current?.(...arg);
                 });

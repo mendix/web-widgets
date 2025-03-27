@@ -1,7 +1,7 @@
 // @ts-nocheck
 import Quill from "quill";
 import type { QuillTableBetter, TableCell, TableColgroup } from "../types";
-import { setElementProperty, setElementAttribute, updateTableWidth } from "../utils";
+import { setElementAttribute, setElementProperty, updateTableWidth } from "../utils";
 
 interface Options {
     tableNode: HTMLElement;
@@ -408,9 +408,13 @@ class OperateLine {
     updateDragLine(clientX: number, clientY: number) {
         const containerRect = this.quill.container.getBoundingClientRect();
         if (this.direction === "level") {
-            setElementProperty(this.line, { left: `${~~(clientX - containerRect.left - LINE_CONTAINER_WIDTH / 2)}px` });
+            setElementProperty(this.line, {
+                left: `${~~(clientX - containerRect.left - LINE_CONTAINER_WIDTH / 2)}px`
+            });
         } else if (this.direction === "vertical") {
-            setElementProperty(this.line, { top: `${~~clientY - containerRect.top - LINE_CONTAINER_HEIGHT / 2}px` });
+            setElementProperty(this.line, {
+                top: `${~~clientY - containerRect.top - LINE_CONTAINER_HEIGHT / 2}px`
+            });
         }
     }
 
