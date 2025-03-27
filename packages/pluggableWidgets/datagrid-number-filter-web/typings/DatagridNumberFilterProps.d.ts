@@ -4,17 +4,28 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { ActionValue, AttributeMetaData, DynamicValue, EditableValue } from "mendix";
 import { Big } from "big.js";
 
+export type AttrChoiceEnum = "auto" | "linked";
+
+export interface AttributesType {
+    attribute: AttributeMetaData<Big>;
+}
+
 export type DefaultFilterEnum = "greater" | "greaterEqual" | "equal" | "notEqual" | "smaller" | "smallerEqual" | "empty" | "notEmpty";
+
+export interface AttributesPreviewType {
+    attribute: string;
+}
 
 export interface DatagridNumberFilterContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    advanced: boolean;
+    attrChoice: AttrChoiceEnum;
+    attributes: AttributesType[];
     defaultValue?: DynamicValue<Big>;
     defaultFilter: DefaultFilterEnum;
     placeholder?: DynamicValue<string>;
@@ -37,7 +48,8 @@ export interface DatagridNumberFilterPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    advanced: boolean;
+    attrChoice: AttrChoiceEnum;
+    attributes: AttributesPreviewType[];
     defaultValue: string;
     defaultFilter: DefaultFilterEnum;
     placeholder: string;
