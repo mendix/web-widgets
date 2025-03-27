@@ -1,6 +1,6 @@
 import { computePosition, flip, offset, shift } from "@floating-ui/react";
-import "@melloware/coloris/dist/coloris.css";
 import Coloris from "@melloware/coloris";
+import "@melloware/coloris/dist/coloris.css";
 import Quill from "quill";
 import closeIcon from "../assets/icon/close.svg";
 import downIcon from "../assets/icon/down.svg";
@@ -162,7 +162,7 @@ class TablePropertiesForm {
         return container;
     }
 
-    createColorInput(child: Child): HTMLDivElement {
+    createColorInput(child: Child) {
         const { attribute, value } = child;
         const placeholder = attribute?.placeholder ?? "";
         const container = document.createElement("div");
@@ -219,7 +219,7 @@ class TablePropertiesForm {
         return { dropdown: container, dropText };
     }
 
-    createInput(child: Child): HTMLDivElement {
+    createInput(child: Child) {
         const { attribute, message, propertyName, valid, value } = child;
         const placeholder = attribute?.placeholder ?? "";
         const container = document.createElement("div");

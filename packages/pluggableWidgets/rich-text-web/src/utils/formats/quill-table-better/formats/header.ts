@@ -13,6 +13,8 @@ class TableHeader extends Header {
     static className = "ql-table-header";
 
     // @ts-ignore
+    next: this | null;
+    // @ts-ignore
     parent: TableCell;
 
     static create(formats: Props) {
@@ -22,7 +24,7 @@ class TableHeader extends Header {
         return node;
     }
 
-    format(name: string, value: string, isReplace?: boolean) {
+    format(name: string, value: string | Props, isReplace?: boolean) {
         if (name === "header") {
             const _value = this.statics.formats(this.domNode).value;
             const cellId = this.domNode.getAttribute("data-cell");
