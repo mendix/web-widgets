@@ -8,3 +8,5 @@ declare global {
         mx: MXGlobalObject;
     }
 }
+
+declare module "lodash.merge";
