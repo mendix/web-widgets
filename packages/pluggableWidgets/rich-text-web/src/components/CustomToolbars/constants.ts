@@ -242,7 +242,7 @@ export const DEFAULT_TOOLBAR: toolbarContentType[] = [
     },
     {
         presetValue: 2,
-        children: TOOLBAR_GROUP["tableBetter"]
+        children: TOOLBAR_GROUP.tableBetter
     }
 ];
 
