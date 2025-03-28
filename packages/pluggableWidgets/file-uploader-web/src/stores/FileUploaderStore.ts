@@ -3,17 +3,18 @@ import { FileUploaderContainerProps, UploadModeEnum } from "../../typings/FileUp
 import { action, computed, makeObservable, observable } from "mobx";
 import { getImageUploaderFormats, parseAllowedFormats } from "../utils/parseAllowedFormats";
 import { FileStore } from "./FileStore";
-import { fileHasContents } from "../utils/mx-data";
 import { FileRejection } from "react-dropzone";
 import { FileCheckFormat } from "../utils/predefinedFormats";
 import { TranslationsStore } from "./TranslationsStore";
 import { ObjectCreationHelper } from "../utils/ObjectCreationHelper";
+import { DatasourceUpdateProcessor } from "../utils/DatasourceUpdateProcessor";
 
 export class FileUploaderStore {
     files: FileStore[] = [];
     lastSeenItems: Set<ObjectItem["id"]> = new Set<ObjectItem["id"]>();
 
     objectCreationHelper: ObjectCreationHelper;
+    updateProcessor: DatasourceUpdateProcessor;
 
     existingItemsLoaded = false;
     isReadOnly: boolean;
@@ -39,6 +40,29 @@ export class FileUploaderStore {
         this._uploadMode = props.uploadMode;
 
         this.objectCreationHelper = new ObjectCreationHelper(this._widgetName, props.objectCreationTimeout);
+        this.updateProcessor = new DatasourceUpdateProcessor({
+            loaded: () => {
+                this.objectCreationHelper.enable();
+            },
+            processNew: (newItem: ObjectItem) => {
+                this.objectCreationHelper.processEmptyObjectItem(newItem);
+            },
+            processExisting: (existingItem: ObjectItem) => {
+                this.processExistingFileItem(existingItem);
+            },
+            processMissing: (missingItem: ObjectItem) => {
+                const missingFile = this.files.find(f => {
+                    return f._objectItem?.id === missingItem.id;
+                });
+
+                if (!missingFile) {
+                    console.warn(`Object ${missingItem.id} is not found in file stores.`);
+                    return;
+                }
+
+                missingFile?.markMissing();
+            }
+        });
 
         this.isReadOnly = props.readOnlyMode;
 
@@ -71,28 +95,7 @@ export class FileUploaderStore {
         }
 
         this.translations.updateProps(props);
-
-        const itemsDs = this._ds;
-        if (!this.existingItemsLoaded) {
-            if (itemsDs.status === "available" && itemsDs.items) {
-                for (const item of itemsDs.items) {
-                    this.processExistingFileItem(item);
-                }
-
-                this.existingItemsLoaded = true;
-                this.objectCreationHelper.enable();
-            }
-        } else {
-            for (const newItem of findNewItems(this.lastSeenItems, itemsDs.items || [])) {
-                if (!fileHasContents(newItem)) {
-                    this.lastSeenItems.add(newItem.id);
-                    this.objectCreationHelper.processEmptyObjectItem(newItem);
-                } else {
-                    // adding this file to the list as is as this file is not empty and probably created externally
-                    this.processExistingFileItem(newItem);
-                }
-            }
-        }
+        this.updateProcessor.processUpdate(this._ds);
     }
 
     processExistingFileItem(item: ObjectItem): void {
@@ -168,8 +171,4 @@ export class FileUploaderStore {
             }
         }
     }
-}
-
-function findNewItems(lastSeenItems: Set<ObjectItem["id"]>, currentItems: ObjectItem[]): ObjectItem[] {
-    return currentItems.filter(i => !lastSeenItems.has(i.id));
 }
