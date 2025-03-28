@@ -194,6 +194,43 @@
                 <caption>Object creation timeout</caption>
                 <description>Consider uploads unsuccessful if the Action to create new files/images does not create new objects within the configured amount of seconds.</description>
             </property>
+            <property key="enableCustomButtons" type="boolean" defaultValue="false">
+                <caption>Enable custom buttons</caption>
+                <description />
+            </property>
+            <property key="customButtons" type="object" isList="true" required="false">
+                <caption>Custom buttons</caption>
+                <description />
+                <properties>
+                    <propertyGroup caption="General">
+                        <property key="buttonCaption" type="textTemplate">
+                            <caption>Caption</caption>
+                            <description />
+                        </property>
+                        <property key="buttonIcon" type="icon">
+                            <caption>Icon</caption>
+                            <description />
+                        </property>
+                        <property key="buttonActionFile" type="action" dataSource="../associatedFiles">
+                            <caption>Action</caption>
+                            <description />
+                        </property>
+                        <property key="buttonActionImage" type="action" dataSource="../associatedImages">
+                            <caption>Action</caption>
+                            <description />
+                        </property>
+                        <property key="buttonIsDefault" type="boolean" defaultValue="false">
+                            <caption>Is default</caption>
+                            <description>The action will be triggered by clicking on the file entry.</description>
+                        </property>
+                        <property key="buttonIsVisible" type="expression" defaultValue="true">
+                            <caption>Is visible</caption>
+                            <description>The button will be hidden if false is returned.</description>
+                            <returnType type="Boolean" />
+                        </property>
+                    </propertyGroup>
+                </properties>
+            </property>
         </propertyGroup>
     </properties>
 </widget>
