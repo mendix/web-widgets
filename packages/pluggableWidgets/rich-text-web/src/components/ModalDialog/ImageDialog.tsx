@@ -39,7 +39,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
         <DialogContent className="image-dialog">
             <DialogHeader onClose={onClose}>Insert/Edit Image</DialogHeader>
             <DialogBody>
-                <FormControl label="Source Code">
+                <FormControl label="Source">
                     {defaultValue?.src ? (
                         <img src={defaultValue.src} alt={defaultValue.alt} height={50} />
                     ) : (

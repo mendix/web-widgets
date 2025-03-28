@@ -20,7 +20,8 @@ import {
 } from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
-import type QuillResize from "quill-resize-module";
+import { RESIZE_MODULE_CONFIG } from "../utils/formats/resizeModuleConfig";
+import { EDIT_DIALOG_EVENT } from "../utils/helpers";
 export interface EditorProps {
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
@@ -112,35 +113,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                   }
                               }
                             : false,
-                        resize: {
-                            tools: [
-                                { text: "left" },
-                                { text: "center" },
-                                { text: "right" },
-                                { text: "full" },
-                                {
-                                    text: "Alt",
-                                    verify(activeEle: HTMLElement) {
-                                        return activeEle && activeEle.tagName === "IMG";
-                                    },
-                                    handler(
-                                        this: { quill: Quill; resizer: typeof QuillResize },
-                                        _evt: MouseEvent,
-                                        _button: HTMLElement,
-                                        activeEle: HTMLImageElement
-                                    ) {
-                                        const imageInfo = {
-                                            alt: activeEle.alt || "",
-                                            src: activeEle.src,
-                                            width: activeEle.width,
-                                            height: activeEle.height
-                                        };
-                                        this.resizer.handleEdit();
-                                        this.quill.emitter.emit("EDIT-TOOLTIP", imageInfo);
-                                    }
-                                }
-                            ]
-                        }
+                        resize: RESIZE_MODULE_CONFIG
                     },
                     readOnly
                 };
@@ -152,12 +125,16 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 quill.on(Quill.events.SELECTION_CHANGE, (...arg) => {
                     onSelectionChangeRef.current?.(...arg);
                 });
-                quill.on("EDIT-TOOLTIP", (...arg: any[]) => {
+                quill.on(EDIT_DIALOG_EVENT, (...arg: any[]) => {
                     if (arg[0]) {
                         if (arg[0].href) {
                             customLinkHandler(arg[0]);
                         } else if (arg[0].src) {
-                            customImageUploadHandler(arg[0]);
+                            if (arg[0].type === "video") {
+                                customVideoHandler(arg[0]);
+                            } else {
+                                customImageUploadHandler(arg[0]);
+                            }
                         }
                     }
                 });
