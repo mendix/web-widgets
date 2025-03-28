@@ -3,6 +3,8 @@ import Quill from "quill";
 import { Delta, Op } from "quill/core";
 import { RichTextContainerProps } from "typings/RichTextProps";
 
+export const EDIT_DIALOG_EVENT = "EDIT-DIALOG";
+
 function getHeightScale(height: number, heightUnit: "pixels" | "percentageOfParent" | "percentageOfView"): string {
     return `${height}${heightUnit === "pixels" ? "px" : heightUnit === "percentageOfView" ? "vh" : "%"}`;
 }

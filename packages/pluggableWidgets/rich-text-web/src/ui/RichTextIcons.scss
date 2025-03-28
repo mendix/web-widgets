@@ -62,35 +62,6 @@ $icons: (
 
                 button {
                     position: relative;
-                    > * {
-                        display: none;
-                    }
-
-                    &:before {
-                        position: absolute;
-                        left: 50%;
-                        top: 50%;
-                        transform: translate(-50%, -50%);
-                        font-size: 16px;
-                        color: black;
-                        display: block;
-                    }
-
-                    &:nth-child(1):before {
-                        content: map.get($icons, Text-align-left);
-                    }
-                    &:nth-child(2):before {
-                        content: map.get($icons, Text-align-right);
-                    }
-                    &:nth-child(3):before {
-                        content: map.get($icons, Text-align-center);
-                    }
-                    &:nth-child(4):before {
-                        content: map.get($icons, Text-align-justify);
-                    }
-                    &:nth-child(5):before {
-                        content: map.get($icons, Text-background);
-                    }
                 }
             }
         }
