@@ -11,6 +11,8 @@ const direction = Quill.import("attributors/style/direction") as Attributor;
 const alignment = Quill.import("attributors/style/align") as Attributor;
 import { IndentLeftStyle, IndentRightStyle } from "./formats/indent";
 import Formula from "./formats/formula";
+import QuillTableBetter from "./formats/quill-table-better/quill-table-better";
+
 class Empty {
     doSomething(): string {
         return "";
@@ -32,3 +34,4 @@ Quill.register(Formula, true);
 Quill.register(Button, true);
 // add empty handler for view code, this format is handled by toolbar's custom config via ViewCodeDialog
 Quill.register({ "ui/view-code": Empty });
+Quill.register({ "modules/table-better": QuillTableBetter }, true);
