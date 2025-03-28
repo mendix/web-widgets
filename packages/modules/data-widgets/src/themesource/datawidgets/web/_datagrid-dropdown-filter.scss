@@ -316,6 +316,10 @@ $root: ".widget-dropdown-filter";
         &:has(+ #{$root}-selected-item)::after {
             content: ",";
         }
+
+        & + #{$root}-input {
+            display: none;
+        }
     }
 
     #{$root}-remove-icon {
@@ -330,6 +334,14 @@ $root: ".widget-dropdown-filter";
         width: initial;
         flex-basis: 0;
         min-width: 75px;
+    }
+
+    #{$root}-input-container {
+        gap: 0;
+        display: inline-block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     #{$root}-clear {
