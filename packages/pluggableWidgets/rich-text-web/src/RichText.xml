@@ -249,12 +249,14 @@
                                 <enumerationValue key="video">Video</enumerationValue>
                                 <enumerationValue key="formula">Formula</enumerationValue>
                                 <enumerationValue key="blockquote">Blockquote</enumerationValue>
+                                <enumerationValue key="code">Code</enumerationValue>
                                 <enumerationValue key="codeBlock">Code Block</enumerationValue>
                                 <enumerationValue key="viewCode">View Code</enumerationValue>
                                 <enumerationValue key="align">Left Align</enumerationValue>
                                 <enumerationValue key="centerAlign">Center Align</enumerationValue>
                                 <enumerationValue key="rightAlign">Right Align</enumerationValue>
-                                <enumerationValue key="font">Font</enumerationValue>
+                                <enumerationValue key="font">Font Type</enumerationValue>
+                                <enumerationValue key="size">Font Size</enumerationValue>
                                 <enumerationValue key="color">Color</enumerationValue>
                                 <enumerationValue key="background">Background</enumerationValue>
                                 <enumerationValue key="header">Header</enumerationValue>
