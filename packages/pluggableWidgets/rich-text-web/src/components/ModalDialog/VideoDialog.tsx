@@ -12,6 +12,7 @@ export interface VideoDialogProps {
     onSubmit(value: VideoFormType): void;
     onClose(): void;
     selection?: Range | null;
+    defaultValue?: videoConfigType;
 }
 
 export function getValueType(value: VideoFormType): VideoFormType {
@@ -21,11 +22,11 @@ export function getValueType(value: VideoFormType): VideoFormType {
 }
 
 function GeneralVideoDialog(props: VideoDialogProps): ReactElement {
-    const { onSubmit, onClose } = props;
+    const { onSubmit, onClose, defaultValue } = props;
     const [formState, setFormState] = useState<videoConfigType>({
-        src: "",
-        width: 560,
-        height: 314
+        src: defaultValue?.src ?? "",
+        width: defaultValue?.width ?? 560,
+        height: defaultValue?.height ?? 314
     });
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -47,7 +48,17 @@ function GeneralVideoDialog(props: VideoDialogProps): ReactElement {
     return (
         <Fragment>
             <FormControl label="URL">
-                <input className="form-control" type="url" name="src" onChange={onInputChange} value={formState.src} />
+                {defaultValue?.src ? (
+                    <span className="mx-text-muted">{defaultValue?.src}</span>
+                ) : (
+                    <input
+                        className="form-control"
+                        type="url"
+                        name="src"
+                        onChange={onInputChange}
+                        value={formState.src}
+                    />
+                )}
             </FormControl>
             <FormControl label="Width">
                 <input
@@ -100,9 +111,10 @@ function EmbedVideoDialog(props: VideoDialogProps): ReactElement {
 }
 
 export default function VideoDialog(props: VideoDialogProps): ReactElement {
-    const { onClose } = props;
+    const { onClose, defaultValue } = props;
     const [activeTab, setActiveTab] = useState("general");
-
+    // disable embed tab if it is about modifying current video
+    const disableEmbed = defaultValue?.src && defaultValue.src.length > 0;
     return (
         <DialogContent className="video-dialog">
             <DialogHeader onClose={onClose}>{activeTab === "general" ? "Insert/Edit" : "Embed"} Media</DialogHeader>
@@ -118,19 +130,21 @@ export default function VideoDialog(props: VideoDialogProps): ReactElement {
                         >
                             <a href="#">General</a>
                         </li>
-                        <li
-                            role="presentation"
-                            className={classNames({
-                                active: activeTab === "embed"
-                            })}
-                            onClick={(e: React.MouseEvent) => {
-                                setActiveTab("embed");
-                                e.stopPropagation();
-                                e.preventDefault();
-                            }}
-                        >
-                            <a href="#">Embed</a>
-                        </li>
+                        {!disableEmbed && (
+                            <li
+                                role="presentation"
+                                className={classNames({
+                                    active: activeTab === "embed"
+                                })}
+                                onClick={(e: React.MouseEvent) => {
+                                    setActiveTab("embed");
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                }}
+                            >
+                                <a href="#">Embed</a>
+                            </li>
+                        )}
                     </ul>
                 </div>
                 <div>
