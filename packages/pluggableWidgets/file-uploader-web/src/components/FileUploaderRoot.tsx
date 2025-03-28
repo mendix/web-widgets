@@ -35,7 +35,13 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
 
             <div className={"files-list"}>
                 {(rootStore.files ?? []).map(fileStore => {
-                    return <FileEntryContainer store={fileStore} key={fileStore.key} />;
+                    return (
+                        <FileEntryContainer
+                            store={fileStore}
+                            key={fileStore.key}
+                            actions={props.enableCustomButtons ? props.customButtons : undefined}
+                        />
+                    );
                 })}
             </div>
         </div>

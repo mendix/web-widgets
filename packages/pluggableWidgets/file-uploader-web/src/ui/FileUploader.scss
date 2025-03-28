@@ -9,6 +9,9 @@ $file-brand-danger: #e33f4e;
 $file-gray-light: #6c7180;
 $file-brand-success: #3cb33d;
 
+$file-action-icon-hover: #2a39b8;
+$file-action-icon-active: #264ae5;
+
 $file-icon: url(../assets/file-icon.svg);
 $file-warning-icon: url(../assets/warning-icon.svg);
 $file-view-icon: url(../assets/view-icon.svg);
@@ -218,17 +221,28 @@ Place your custom CSS here
                             .remove-icon {
                                 background-image: var(--file-remove-icon-hover, $file-remove-icon-hover);
                             }
+                            .file-action-icon {
+                                color: $file-action-icon-hover;
+                            }
                         }
 
                         &:active {
                             .remove-icon {
                                 background-image: var(--file-remove-icon-active, $file-remove-icon-active);
                             }
+                            .file-action-icon {
+                                color: $file-action-icon-active;
+                            }
                         }
 
                         &.disabled {
                             display: none;
                         }
+                    }
+
+                    .file-action-icon {
+                        font-size: 24px;
+                        color: var(--brand-primary, $file-brand-primary);
                     }
 
                     .remove-icon {
