@@ -1,21 +1,33 @@
 import classNames from "classnames";
 import { ProgressBar } from "./ProgressBar";
 import { UploadInfo } from "./UploadInfo";
-import { createElement, ReactElement, useCallback, MouseEvent, KeyboardEvent } from "react";
+import { createElement, ReactElement, useCallback, MouseEvent, KeyboardEvent, ReactNode } from "react";
 import { FileStatus, FileStore } from "../stores/FileStore";
 import { observer } from "mobx-react-lite";
 import fileSize from "filesize.js";
 import { FileIcon } from "./FileIcon";
-import { useTranslationsStore } from "../utils/useTranslationsStore";
+import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
+import { ActionsBar } from "./ActionsBar";
 
 interface FileEntryContainerProps {
     store: FileStore;
+    actions?: FileUploaderContainerProps["customButtons"];
 }
 
-export const FileEntryContainer = observer(({ store }: FileEntryContainerProps): ReactElement => {
-    const onRemove = useCallback(() => {
-        store.remove();
-    }, [store]);
+export const FileEntryContainer = observer(({ store, actions }: FileEntryContainerProps): ReactElement | null => {
+    const defaultAction = actions?.find(a => {
+        return a.buttonIsDefault;
+    });
+
+    const defaultListAction = defaultAction?.buttonActionFile ?? defaultAction?.buttonActionImage;
+
+    const onDefaultAction = useCallback(() => {
+        store.executeAction(defaultListAction);
+    }, [store, defaultListAction]);
+
+    if (store.fileStatus === "missing") {
+        return null;
+    }
 
     return (
         <FileEntry
@@ -25,10 +37,8 @@ export const FileEntryContainer = observer(({ store }: FileEntryContainerProps):
             mimeType={store.mimeType}
             fileStatus={store.fileStatus}
             errorMessage={store.errorDescription}
-            canRemove={store.canRemove}
-            onRemove={onRemove}
-            canDownload={store.canDownload}
-            downloadUrl={store.downloadUrl}
+            defaultAction={defaultListAction && store.canExecute(defaultListAction) ? onDefaultAction : undefined}
+            actions={<ActionsBar actions={actions} store={store} />}
         />
     );
 });
@@ -42,25 +52,21 @@ interface FileEntryProps {
     fileStatus: FileStatus;
     errorMessage?: string;
 
-    canRemove: boolean;
-    onRemove: () => void;
+    defaultAction?: () => void;
 
-    canDownload: boolean;
-    downloadUrl?: string;
+    actions?: ReactNode;
 }
 
 function FileEntry(props: FileEntryProps): ReactElement {
-    const translations = useTranslationsStore();
+    const { defaultAction } = props;
 
-    const { canDownload, downloadUrl, onRemove } = props;
-
-    const onViewClick = useCallback(
+    const onClick = useCallback(
         (e: MouseEvent<HTMLDivElement>) => {
             e.stopPropagation();
             e.preventDefault();
-            onDownloadClick(downloadUrl);
+            defaultAction?.();
         },
-        [downloadUrl]
+        [defaultAction]
     );
 
     const onKeyDown = useCallback(
@@ -68,18 +74,10 @@ function FileEntry(props: FileEntryProps): ReactElement {
             if (e.code === "Enter" || e.code === "Space") {
                 e.stopPropagation();
                 e.preventDefault();
-                onDownloadClick(downloadUrl);
+                defaultAction?.();
             }
         },
-        [downloadUrl]
-    );
-
-    const onRemoveClick = useCallback(
-        (e: MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation();
-            onRemove();
-        },
-        [onRemove]
+        [defaultAction]
     );
 
     return (
@@ -89,9 +87,9 @@ function FileEntry(props: FileEntryProps): ReactElement {
                 invalid: props.fileStatus === "validationError"
             })}
             title={props.title}
-            tabIndex={canDownload ? 0 : undefined}
-            onClick={canDownload ? onViewClick : undefined}
-            onKeyDown={canDownload ? onKeyDown : undefined}
+            tabIndex={!!defaultAction ? 0 : undefined}
+            onClick={!!defaultAction ? onClick : undefined}
+            onKeyDown={!!defaultAction ? onKeyDown : undefined}
         >
             <div className={"entry-details"}>
                 <div
@@ -111,19 +109,7 @@ function FileEntry(props: FileEntryProps): ReactElement {
                     <div className={"entry-details-main-size"}>{props.size !== -1 && fileSize(props.size)}</div>
                 </div>
 
-                <div className={"entry-details-actions"}>
-                    {downloadUrl && <div className={"download-icon"} />}
-                    <button
-                        className={classNames("action-button", {
-                            disabled: !props.canRemove
-                        })}
-                        onClick={onRemoveClick}
-                        role={"button"}
-                        title={translations.get("removeButtonTextMessage")}
-                    >
-                        <div className={"remove-icon"} />
-                    </button>
-                </div>
+                {props.actions}
             </div>
             <div className={"entry-progress"}>
                 <ProgressBar visible={props.fileStatus === "uploading"} indeterminate />
@@ -133,12 +119,4 @@ function FileEntry(props: FileEntryProps): ReactElement {
             </div>
         </div>
     );
-}
-
-function onDownloadClick(fileUrl: string | undefined): void {
-    if (!fileUrl) {
-        return;
-    }
-    const url = `${fileUrl}&target=window`;
-    window.open(url, "mendix_file");
 }

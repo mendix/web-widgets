@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, ListValue } from "mendix";
+import { ActionValue, DynamicValue, ListValue, ListActionValue, WebIcon } from "mendix";
 
 export type UploadModeEnum = "files" | "images";
 
@@ -20,12 +20,30 @@ export interface AllowedFileFormatsType {
     typeFormatDescription: DynamicValue<string>;
 }
 
+export interface CustomButtonsType {
+    buttonCaption: DynamicValue<string>;
+    buttonIcon: DynamicValue<WebIcon>;
+    buttonActionFile?: ListActionValue;
+    buttonActionImage?: ListActionValue;
+    buttonIsDefault: boolean;
+    buttonIsVisible: DynamicValue<boolean>;
+}
+
 export interface AllowedFileFormatsPreviewType {
     configMode: ConfigModeEnum;
     predefinedType: PredefinedTypeEnum;
     mimeType: string;
     extensions: string;
     typeFormatDescription: string;
+}
+
+export interface CustomButtonsPreviewType {
+    buttonCaption: string;
+    buttonIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
+    buttonActionFile: {} | null;
+    buttonActionImage: {} | null;
+    buttonIsDefault: boolean;
+    buttonIsVisible: string;
 }
 
 export interface FileUploaderContainerProps {
@@ -57,6 +75,8 @@ export interface FileUploaderContainerProps {
     removeSuccessMessage: DynamicValue<string>;
     removeErrorMessage: DynamicValue<string>;
     objectCreationTimeout: number;
+    enableCustomButtons: boolean;
+    customButtons: CustomButtonsType[];
 }
 
 export interface FileUploaderPreviewProps {
@@ -94,4 +114,6 @@ export interface FileUploaderPreviewProps {
     removeSuccessMessage: string;
     removeErrorMessage: string;
     objectCreationTimeout: number | null;
+    enableCustomButtons: boolean;
+    customButtons: CustomButtonsPreviewType[];
 }
