@@ -8,7 +8,6 @@ import {
     MutableRefObject,
     useEffect,
     useLayoutEffect,
-    // useState,
     useRef
 } from "react";
 import "../utils/customPluginRegisters";
@@ -21,7 +20,8 @@ import {
 } from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
-
+import { RESIZE_MODULE_CONFIG } from "../utils/formats/resizeModuleConfig";
+import { EDIT_DIALOG_EVENT } from "../utils/helpers";
 export interface EditorProps {
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
@@ -112,7 +112,8 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                       image: customImageUploadHandler
                                   }
                               }
-                            : false
+                            : false,
+                        resize: RESIZE_MODULE_CONFIG
                     },
                     readOnly
                 };
@@ -124,8 +125,18 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 quill.on(Quill.events.SELECTION_CHANGE, (...arg) => {
                     onSelectionChangeRef.current?.(...arg);
                 });
-                quill.on("EDIT-TOOLTIP", (...arg: any[]) => {
-                    customLinkHandler(arg[0]);
+                quill.on(EDIT_DIALOG_EVENT, (...arg: any[]) => {
+                    if (arg[0]) {
+                        if (arg[0].href) {
+                            customLinkHandler(arg[0]);
+                        } else if (arg[0].src) {
+                            if (arg[0].type === "video") {
+                                customVideoHandler(arg[0]);
+                            } else {
+                                customImageUploadHandler(arg[0]);
+                            }
+                        }
+                    }
                 });
             }
 

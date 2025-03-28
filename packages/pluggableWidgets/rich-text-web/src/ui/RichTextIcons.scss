@@ -52,6 +52,21 @@ $icons: (
         }
     }
 
+    .ql-container {
+        .ql-resize-overlay {
+            .ql-resize-toolbar {
+                font-family: "RichTextIconFont" !important;
+                font-style: normal;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+
+                button {
+                    position: relative;
+                }
+            }
+        }
+    }
+
     .icons {
         font-family: "RichTextIconFont" !important;
         font-size: 16px;

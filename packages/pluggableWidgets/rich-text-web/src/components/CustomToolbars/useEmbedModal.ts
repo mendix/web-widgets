@@ -26,7 +26,9 @@ type ModalReturnType = {
 export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnType {
     const [showDialog, setShowDialog] = useState<boolean>(false);
     const [dialogConfig, setDialogConfig] = useState<ChildDialogProps>({});
-
+    const openDialog = (): void => {
+        setShowDialog(true);
+    };
     const closeDialog = (): void => {
         setShowDialog(false);
         setTimeout(() => ref.current?.focus(), 50);
@@ -52,7 +54,7 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                     defaultValue: { ...value, text }
                 }
             });
-            setShowDialog(true);
+            openDialog();
         } else {
             ref.current?.format("link", false);
             closeDialog();
@@ -61,27 +63,44 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
 
     const customVideoHandler = (value: any): void => {
         const selection = ref.current?.getSelection();
-        if (value === true) {
+        if (value === true || value.type === "video") {
             setDialogConfig({
                 dialogType: "video",
                 config: {
-                    onSubmit: (value: VideoFormType) => {
-                        if (Object.hasOwn(value, "src") && (value as videoConfigType).src !== undefined) {
-                            const currentValue = value as videoConfigType;
-                            const delta = new Delta()
-                                .retain(selection?.index ?? 0)
-                                .delete(selection?.length ?? 0)
-                                .insert(
-                                    { video: currentValue },
-                                    { width: currentValue.width, height: currentValue.height }
-                                );
-                            ref.current?.updateContents(delta, Emitter.sources.USER);
+                    onSubmit: (submittedValue: VideoFormType) => {
+                        if (
+                            Object.hasOwn(submittedValue, "src") &&
+                            (submittedValue as videoConfigType).src !== undefined
+                        ) {
+                            const currentValue = submittedValue as videoConfigType;
+                            if (value.type === "video") {
+                                const index = selection?.index ?? 0;
+                                const length = selection?.length ?? 1;
+                                const videoConfig = {
+                                    width: currentValue.width,
+                                    height: currentValue.height
+                                };
+                                // update existing video value
+                                const delta = new Delta().retain(index).retain(length, videoConfig);
+                                ref.current?.updateContents(delta, Emitter.sources.USER);
+                            } else {
+                                // insert new video
+                                const delta = new Delta()
+                                    .retain(selection?.index ?? 0)
+                                    .delete(selection?.length ?? 0)
+                                    .insert(
+                                        { video: currentValue },
+                                        { width: currentValue.width, height: currentValue.height }
+                                    );
+                                ref.current?.updateContents(delta, Emitter.sources.USER);
+                            }
                         } else {
-                            const currentValue = value as videoEmbedConfigType;
+                            const currentValue = submittedValue as videoEmbedConfigType;
                             const res = ref.current?.clipboard.convert({
                                 html: currentValue.embedcode
                             });
                             if (res) {
+                                // insert video via embed code;
                                 const delta = new Delta()
                                     .retain(selection?.index ?? 0)
                                     .delete(selection?.length ?? 0)
@@ -93,10 +112,11 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                         closeDialog();
                     },
                     onClose: closeDialog,
-                    selection: ref.current?.getSelection()
+                    selection: ref.current?.getSelection(),
+                    defaultValue: { ...value }
                 }
             });
-            setShowDialog(true);
+            openDialog();
         } else {
             ref.current?.format("link", false);
             closeDialog();
@@ -112,14 +132,14 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                     onSubmit: (value: viewCodeConfigType) => {
                         const newDelta = ref.current?.clipboard.convert({ html: value.src });
                         if (newDelta) {
-                            ref.current?.setContents(newDelta, Quill.sources.USER);
+                            ref.current?.setContents(newDelta, Emitter.sources.USER);
                         }
                         closeDialog();
                     },
                     onClose: closeDialog
                 }
             });
-            setShowDialog(true);
+            openDialog();
         } else {
             ref.current?.format("link", false);
             closeDialog();
@@ -127,25 +147,35 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
     };
 
     const customImageUploadHandler = (value: any): void => {
-        if (value === true) {
-            setDialogConfig({
-                dialogType: "image",
-                config: {
-                    onSubmit: (value: imageConfigType) => {
-                        const range = ref.current?.getSelection(true);
-                        if (range && value.files) {
-                            uploadImage(ref, range, value);
+        const selection = ref.current?.getSelection(true);
+        setDialogConfig({
+            dialogType: "image",
+            config: {
+                onSubmit: (value: imageConfigType) => {
+                    if (value.src) {
+                        const index = selection?.index ?? 0;
+                        const length = 1;
+                        const imageConfig = {
+                            alt: value.alt,
+                            width: value.width,
+                            height: value.height
+                        };
+                        // update existing image attribute
+                        const imageUpdateDelta = new Delta().retain(index).retain(length, imageConfig);
+                        ref.current?.updateContents(imageUpdateDelta, Emitter.sources.USER);
+                    } else {
+                        // upload new image
+                        if (selection && value.files) {
+                            uploadImage(ref, selection, value);
                         }
-                        closeDialog();
-                    },
-                    onClose: closeDialog
-                }
-            });
-            setShowDialog(true);
-        } else {
-            ref.current?.format("link", false);
-            closeDialog();
-        }
+                    }
+                    closeDialog();
+                },
+                onClose: closeDialog,
+                defaultValue: { ...value }
+            }
+        });
+        openDialog();
     };
 
     return {

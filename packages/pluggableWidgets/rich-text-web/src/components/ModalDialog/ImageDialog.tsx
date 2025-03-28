@@ -1,4 +1,4 @@
-import { ChangeEvent, createElement, ReactElement, useState } from "react";
+import { ChangeEvent, createElement, ReactElement, useEffect, useRef, useState } from "react";
 import { type imageConfigType } from "../../utils/formats";
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 import { IMG_MIME_TYPES } from "../CustomToolbars/constants";
@@ -6,15 +6,23 @@ import { IMG_MIME_TYPES } from "../CustomToolbars/constants";
 export interface ImageDialogProps {
     onSubmit(value: imageConfigType): void;
     onClose(): void;
+    defaultValue?: imageConfigType;
 }
 
 export default function ImageDialog(props: ImageDialogProps): ReactElement {
-    const { onSubmit, onClose } = props;
+    const { onSubmit, onClose, defaultValue } = props;
+    const inputReference = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        setTimeout(() => inputReference?.current?.focus(), 50);
+    }, []);
 
     const [formState, setFormState] = useState<imageConfigType>({
         files: null,
-        width: 100,
-        height: 100
+        alt: defaultValue?.alt ?? "",
+        width: defaultValue?.width ?? 100,
+        height: defaultValue?.height ?? 100,
+        src: defaultValue?.src ?? undefined
     });
 
     const onFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -22,6 +30,8 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
     };
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
+        e.preventDefault();
+        e.stopPropagation();
         setFormState({ ...formState, [e.target.name]: e.target.value });
     };
 
@@ -29,14 +39,18 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
         <DialogContent className="image-dialog">
             <DialogHeader onClose={onClose}>Insert/Edit Image</DialogHeader>
             <DialogBody>
-                <FormControl label="Source Code">
-                    <input
-                        name="files"
-                        className="form-control mx-textarea-input mx-textarea-noresize code-input"
-                        type="file"
-                        accept={IMG_MIME_TYPES.join(", ")}
-                        onChange={onFileChange}
-                    ></input>
+                <FormControl label="Source">
+                    {defaultValue?.src ? (
+                        <img src={defaultValue.src} alt={defaultValue.alt} height={50} />
+                    ) : (
+                        <input
+                            name="files"
+                            className="form-control mx-textarea-input mx-textarea-noresize code-input"
+                            type="file"
+                            accept={IMG_MIME_TYPES.join(", ")}
+                            onChange={onFileChange}
+                        ></input>
+                    )}
                 </FormControl>
                 <FormControl label="Alternative description">
                     <input
@@ -45,6 +59,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                         name="alt"
                         onChange={onInputChange}
                         value={formState.alt}
+                        ref={inputReference}
                     />
                 </FormControl>
                 <FormControl label="Width">
