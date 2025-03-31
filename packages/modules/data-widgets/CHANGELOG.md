@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.30.4] DataWidgets - 2025-03-31
+
+### [1.2.2] DropdownSort
+
+#### Fixed
+
+-   We removed read only style being applied incorrectly.
+
 ## [2.30.3] DataWidgets - 2025-03-20
 
 ### [2.11.2] DatagridDateFilter
