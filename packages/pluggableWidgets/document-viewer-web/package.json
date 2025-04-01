@@ -35,6 +35,8 @@
     },
     "dependencies": {
         "classnames": "^2.3.2",
+        "mammoth": "^1.9.0",
+        "pdfjs-dist": "^5.0.375",
         "react-pdf": "^9.2.1"
     },
     "devDependencies": {
