@@ -11,6 +11,8 @@ import {
     // useState,
     useRef
 } from "react";
+import QuillTableBetter from "../utils/formats/quill-table-better/quill-table-better";
+import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
 import "../utils/customPluginRegisters";
 import MxQuill from "../utils/MxQuill";
 import {
@@ -80,6 +82,19 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 editorDiv.innerHTML = defaultValue ?? "";
                 const editorContainer = container.appendChild(editorDiv);
 
+                const toolbar = toolbarId
+                    ? {
+                          container: Array.isArray(toolbarId) ? toolbarId : `#${toolbarId}`,
+                          handlers: {
+                              link: customLinkHandler,
+                              video: customVideoHandler,
+                              indent: customIndentHandler,
+                              "view-code": customViewCodeHandler,
+                              image: customImageUploadHandler
+                          }
+                      }
+                    : false;
+
                 // Quill instance configurations.
                 const options: QuillOptions = {
                     theme,
@@ -98,26 +113,24 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                 tab: {
                                     key: "Tab",
                                     handler: gotoStatusBarKeyboardHandler
-                                }
+                                },
+                                ...QuillTableBetter.keyboardBindings
                             }
                         },
-                        toolbar: toolbarId
-                            ? {
-                                  container: Array.isArray(toolbarId) ? toolbarId : `#${toolbarId}`,
-                                  handlers: {
-                                      link: customLinkHandler,
-                                      video: customVideoHandler,
-                                      indent: customIndentHandler,
-                                      "view-code": customViewCodeHandler,
-                                      image: customImageUploadHandler
-                                  }
-                              }
-                            : false
+                        table: false,
+                        "table-better": {
+                            language: "en_US",
+                            menus: ["column", "row", "merge", "table", "cell", "wrap", "copy", "delete"],
+                            toolbarTable: true
+                        },
+                        toolbar
                     },
                     readOnly
                 };
+
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
+
                 quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
                     onTextChangeRef.current?.(...arg);
                 });
