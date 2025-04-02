@@ -268,10 +268,10 @@ class TableMenus {
 
     createList(children: Children) {
         if (!children) return null;
-        const container = document.createElement("ul");
+        const container = this.quill.root.ownerDocument.createElement("ul");
         for (const [, child] of Object.entries(children)) {
             const { content, handler } = child;
-            const list = document.createElement("li");
+            const list = this.quill.root.ownerDocument.createElement("li");
             list.innerText = content;
             list.addEventListener("click", handler.bind(this));
             container.appendChild(list);
@@ -281,13 +281,13 @@ class TableMenus {
     }
 
     createMenu(left: string, right: string, isDropDown: boolean) {
-        const container = document.createElement("div");
-        const dropDown = document.createElement("span");
-        const leftIcon = document.createElement("img");
+        const container = this.quill.root.ownerDocument.createElement("div");
+        const dropDown = this.quill.root.ownerDocument.createElement("span");
+        const leftIcon = this.quill.root.ownerDocument.createElement("img");
         leftIcon.setAttribute("src", left);
         dropDown.appendChild(leftIcon);
         if (isDropDown) {
-            const rightIcon = document.createElement("img");
+            const rightIcon = this.quill.root.ownerDocument.createElement("img");
             rightIcon.setAttribute("src", right);
             dropDown.appendChild(rightIcon);
         }
@@ -301,7 +301,7 @@ class TableMenus {
         const { language, options = {} } = this.tableBetter;
         const { menus } = options;
         const useLanguage = language.useLanguage.bind(language);
-        const container = document.createElement("div");
+        const container = this.quill.root.ownerDocument.createElement("div");
         container.classList.add("ql-table-menus-container", "ql-hidden");
         for (const [, val] of Object.entries(getMenusConfig(useLanguage, menus))) {
             const { content, icon, children, handler } = val;

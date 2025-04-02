@@ -39,7 +39,7 @@ class OperateLine {
     }
 
     createDragBlock() {
-        const dragBlock = document.createElement("div");
+        const dragBlock = this.quill.root.ownerDocument.createElement("div");
         dragBlock.classList.add("ql-operate-block");
         const { dragBlockProps } = this.getProperty(this.options);
         setElementProperty(dragBlock, dragBlockProps);
@@ -49,7 +49,7 @@ class OperateLine {
     }
 
     createDragTable(table: Element) {
-        const dragTable = document.createElement("div");
+        const dragTable = this.quill.root.ownerDocument.createElement("div");
         const properties = this.getDragTableProperty(table);
         dragTable.classList.add("ql-operate-drag-table");
         setElementProperty(dragTable, properties);
@@ -58,8 +58,8 @@ class OperateLine {
     }
 
     createOperateLine() {
-        const container = document.createElement("div");
-        const line = document.createElement("div");
+        const container = this.quill.root.ownerDocument.createElement("div");
+        const line = this.quill.root.ownerDocument.createElement("div");
         container.classList.add("ql-operate-line-container");
         const { containerProps, lineProps } = this.getProperty(this.options);
         setElementProperty(container, containerProps);
@@ -370,8 +370,8 @@ class OperateLine {
                 this.hideDragTable();
             }
             this.drag = false;
-            document.removeEventListener("mousemove", handleDrag, false);
-            document.removeEventListener("mouseup", handleMouseup, false);
+            this.quill.root.removeEventListener("mousemove", handleDrag, false);
+            this.quill.root.removeEventListener("mouseup", handleMouseup, false);
             this.tableBetter.tableMenus.updateMenus(tableNode);
         };
 
@@ -389,8 +389,8 @@ class OperateLine {
                 }
             }
             this.drag = true;
-            document.addEventListener("mousemove", handleDrag);
-            document.addEventListener("mouseup", handleMouseup);
+            this.quill.root.addEventListener("mousemove", handleDrag);
+            this.quill.root.addEventListener("mouseup", handleMouseup);
         };
         node.addEventListener("mousedown", handleMousedown);
     }

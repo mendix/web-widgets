@@ -101,19 +101,20 @@ class TablePropertiesForm {
 
     createActionBtns(listener: EventListener, showLabel: boolean) {
         const useLanguage = this.getUseLanguage();
-        const container = document.createElement("div");
-        const fragment = document.createDocumentFragment();
+        const ownerDocument = this.tableMenus.quill.root.ownerDocument;
+        const container = ownerDocument.createElement("div");
+        const fragment = ownerDocument.createDocumentFragment();
         container.classList.add("properties-form-action-row");
         for (const { icon, label } of ACTION_LIST) {
-            const button = document.createElement("button");
-            const iconContainer = document.createElement("span");
-            const iconImg = document.createElement("img");
+            const button = ownerDocument.createElement("button");
+            const iconContainer = ownerDocument.createElement("span");
+            const iconImg = ownerDocument.createElement("img");
             iconImg.setAttribute("src", icon);
             iconContainer.appendChild(iconImg);
             button.appendChild(iconContainer);
             setElementAttribute(button, { label });
             if (showLabel) {
-                const labelContainer = document.createElement("span");
+                const labelContainer = ownerDocument.createElement("span");
                 labelContainer.innerText = useLanguage(label);
                 button.appendChild(labelContainer);
             }
@@ -126,11 +127,12 @@ class TablePropertiesForm {
 
     createCheckBtns(child: Child) {
         const { menus, propertyName } = child;
-        const container = document.createElement("div");
-        const fragment = document.createDocumentFragment();
+        const ownerDocument = this.tableMenus.quill.root.ownerDocument;
+        const container = ownerDocument.createElement("div");
+        const fragment = ownerDocument.createDocumentFragment();
         for (const { icon, describe, align } of menus ?? []) {
-            const container = document.createElement("span");
-            const iconImg = document.createElement("img");
+            const container = ownerDocument.createElement("span");
+            const iconImg = ownerDocument.createElement("img");
             iconImg.setAttribute("src", icon);
             container.appendChild(iconImg);
             container.setAttribute("data-align", align);
@@ -154,7 +156,7 @@ class TablePropertiesForm {
     }
 
     createColorContainer(child: Child) {
-        const container = document.createElement("div");
+        const container = this.tableMenus.quill.root.ownerDocument.createElement("div");
         container.classList.add("ql-table-color-container");
         const input = this.createColorInput(child);
         this.createColorPicker(child, input.querySelector("input"));
@@ -164,12 +166,13 @@ class TablePropertiesForm {
 
     createColorInput(child: Child) {
         const { attribute, value } = child;
+        const ownerDocument = this.tableMenus.quill.root.ownerDocument;
         const placeholder = attribute?.placeholder ?? "";
-        const container = document.createElement("div");
+        const container = ownerDocument.createElement("div");
         container.classList.add("label-field-view", "label-field-view-color");
-        const label = document.createElement("label");
+        const label = ownerDocument.createElement("label");
         label.innerText = placeholder;
-        const input = document.createElement("input");
+        const input = ownerDocument.createElement("input");
         setElementAttribute(input, attribute!);
         input.classList.add("property-input");
         input.value = value ?? "";
@@ -198,9 +201,10 @@ class TablePropertiesForm {
     }
 
     createDropdown(value: string, category?: string) {
-        const container = document.createElement("div");
-        const dropText = document.createElement("span");
-        const dropDown = document.createElement("img");
+        const ownerDocument = this.tableMenus.quill.root.ownerDocument;
+        const container = ownerDocument.createElement("div");
+        const dropText = ownerDocument.createElement("span");
+        const dropDown = ownerDocument.createElement("img");
         switch (category) {
             case "dropdown":
                 dropDown.setAttribute("src", downIcon);
@@ -221,12 +225,13 @@ class TablePropertiesForm {
 
     createInput(child: Child) {
         const { attribute, message, propertyName, valid, value } = child;
+        const ownerDocument = this.tableMenus.quill.root.ownerDocument;
         const placeholder = attribute?.placeholder ?? "";
-        const container = document.createElement("div");
-        const wrapper = document.createElement("div");
-        const label = document.createElement("label");
-        const input = document.createElement("input");
-        const status = document.createElement("div");
+        const container = ownerDocument.createElement("div");
+        const wrapper = ownerDocument.createElement("div");
+        const label = ownerDocument.createElement("label");
+        const input = ownerDocument.createElement("input");
+        const status = ownerDocument.createElement("div");
         container.classList.add("label-field-view");
         wrapper.classList.add("label-field-view-input-wrapper");
         label.innerText = placeholder;
@@ -251,9 +256,10 @@ class TablePropertiesForm {
     createList(child: Child, dropText?: HTMLSpanElement) {
         const { options, propertyName } = child;
         if (!options?.length) return null;
-        const container = document.createElement("ul");
+        const ownerDocument = this.tableMenus.quill.root.ownerDocument;
+        const container = ownerDocument.createElement("ul");
         for (const option of options) {
-            const list = document.createElement("li");
+            const list = ownerDocument.createElement("li");
             list.innerText = option;
             container.appendChild(list);
         }
@@ -271,9 +277,10 @@ class TablePropertiesForm {
 
     createProperty(property: Properties) {
         const { content, children } = property;
+        const ownerDocument = this.tableMenus.quill.root.ownerDocument;
         const useLanguage = this.getUseLanguage();
-        const container = document.createElement("div");
-        const label = document.createElement("label");
+        const container = ownerDocument.createElement("div");
+        const label = ownerDocument.createElement("label");
         label.innerText = content;
         label.classList.add("ql-table-dropdown-label");
         container.classList.add("properties-form-row");
@@ -320,9 +327,10 @@ class TablePropertiesForm {
     createPropertiesForm(options: Options) {
         const useLanguage = this.getUseLanguage();
         const { title, properties } = getProperties(options, useLanguage);
-        const container = document.createElement("div");
+        const ownerDocument = this.tableMenus.quill.root.ownerDocument;
+        const container = ownerDocument.createElement("div");
         container.classList.add("ql-table-properties-form");
-        const header = document.createElement("h2");
+        const header = ownerDocument.createElement("h2");
         const actions = this.createActionBtns((e: MouseEvent) => {
             const target = (e.target as HTMLElement).closest("button");
             const label = target?.getAttribute("label") ?? "";
