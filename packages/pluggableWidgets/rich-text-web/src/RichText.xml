@@ -215,6 +215,10 @@
                     <caption>Content type</caption>
                     <description />
                 </property>
+                <property key="view" type="boolean" defaultValue="true">
+                    <caption>View</caption>
+                    <description />
+                </property>
                 <property key="remove" type="boolean" defaultValue="true">
                     <caption>Removal</caption>
                     <description />
@@ -260,6 +264,7 @@
                                 <enumerationValue key="color">Color</enumerationValue>
                                 <enumerationValue key="background">Background</enumerationValue>
                                 <enumerationValue key="header">Header</enumerationValue>
+                                <enumerationValue key="fullscreen">Full screen</enumerationValue>
                                 <enumerationValue key="clean">Clean</enumerationValue>
                             </enumerationValues>
                         </property>
