@@ -50,7 +50,7 @@
         "@types/react-plotly.js": "^2.6.3",
         "copy-and-watch": "^0.1.6",
         "rimraf": "^4.4.1",
-        "rollup": "^2.79.2",
+        "rollup": "*",
         "rollup-plugin-copy": "^3.5.0"
     },
     "dependencies": {
