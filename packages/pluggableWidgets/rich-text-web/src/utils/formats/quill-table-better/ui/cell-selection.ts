@@ -341,10 +341,10 @@ class CellSelection {
     }
 
     initDocumentListener() {
-        document.addEventListener("copy", (e: ClipboardEvent) => this.onCaptureCopy(e, false));
-        document.addEventListener("cut", (e: ClipboardEvent) => this.onCaptureCopy(e, true));
-        document.addEventListener("keyup", this.handleDeleteKeyup.bind(this));
-        document.addEventListener("paste", this.onCapturePaste.bind(this));
+        this.quill.root.addEventListener("copy", (e: ClipboardEvent) => this.onCaptureCopy(e, false));
+        this.quill.root.addEventListener("cut", (e: ClipboardEvent) => this.onCaptureCopy(e, true));
+        this.quill.root.addEventListener("keyup", this.handleDeleteKeyup.bind(this));
+        this.quill.root.addEventListener("paste", this.onCapturePaste.bind(this));
     }
 
     initWhiteList() {
@@ -486,7 +486,7 @@ class CellSelection {
         e.preventDefault();
         const html = e.clipboardData?.getData("text/html");
         const text = e.clipboardData?.getData("text/plain");
-        const container = document.createElement("div");
+        const container = this.quill.root.ownerDocument.createElement("div");
         container.innerHTML = html;
         const copyRows = Array.from(container.querySelectorAll("tr"));
         if (!copyRows.length) return;
