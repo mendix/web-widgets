@@ -31,6 +31,7 @@ describe("Rich Text", () => {
             list: true,
             remove: true,
             header: true,
+            view: true,
             advancedConfig: [],
             readOnlyStyle: "text",
             tabIndex: 0,
