@@ -43,15 +43,7 @@ const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => 
     return (
         <Fragment>
             {docxHtml && (
-                <div
-                    // className={styles['document-container']}
-                    style={{
-                        width: 1 * 100 + "%",
-                        height: "85%",
-                        overflow: "auto"
-                    }}
-                    dangerouslySetInnerHTML={{ __html: docxHtml }}
-                >
+                <div className="widget-document-viewer-content" dangerouslySetInnerHTML={{ __html: docxHtml }}>
                     {/* {docHtmlStr} */}
                 </div>
             )}

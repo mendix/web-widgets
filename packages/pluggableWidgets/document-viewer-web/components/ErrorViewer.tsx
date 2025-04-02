@@ -7,7 +7,7 @@ const ErrorViewer: DocRendererElement = () => {
     console.log("ErrorViewer", props);
     return (
         <Fragment>
-            <div className="widget-document-viewer-controls">No document selected</div>
+            <div className="widget-document-viewer-content">No document selected</div>
         </Fragment>
     );
 };
