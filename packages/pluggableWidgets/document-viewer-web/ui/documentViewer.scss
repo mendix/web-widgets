@@ -1,0 +1,24 @@
+$root: widget-document-viewer;
+
+:root {
+    --document-viewer-negative-margin: calc(-1 * var(--form-input-padding-x));
+}
+
+.widget-document-viewer {
+    display: flex;
+    flex-direction: column;
+
+    &-controls {
+        margin: calc(-1 * var(--form-input-padding-y)) calc(-1 * var(--form-input-padding-x));
+        margin-bottom: 0;
+        padding: var(--form-input-padding-y) var(--form-input-padding-x);
+        background-color: var(--gray-lighter);
+    }
+
+    &-content {
+        margin: var(--spacing-large);
+        padding: var(--spacing-medium);
+        border: 1px solid var(--gray-darker);
+        border-radius: var(--border-radius-default);
+    }
+}
