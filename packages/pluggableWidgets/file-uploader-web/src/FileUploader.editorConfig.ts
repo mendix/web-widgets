@@ -26,6 +26,20 @@ export function getProperties(
         ]);
     }
 
+    if (values.enableCustomButtons) {
+        values.customButtons.forEach((_button, index) => {
+            hideNestedPropertiesIn(
+                properties,
+                values,
+                "customButtons",
+                index,
+                values.uploadMode === "files" ? ["buttonActionImage"] : ["buttonActionFile"]
+            );
+        });
+    } else {
+        hidePropertiesIn(properties, values, ["customButtons"]);
+    }
+
     return properties;
 }
 
@@ -80,6 +94,23 @@ export function check(values: FileUploaderPreviewProps): Problem[] {
                 property: "maxFilesPerUpload",
                 message: "There must be at least one file per upload allowed."
             });
+        }
+
+        if (values.enableCustomButtons) {
+            // check that at max one actions is default
+            const defaultIdx = new Set<number>();
+            values.customButtons.forEach((_button, index) => {
+                if (_button.buttonIsDefault) {
+                    defaultIdx.add(index);
+                }
+            });
+
+            if (defaultIdx.size > 1) {
+                errors.push({
+                    property: `customButtons`,
+                    message: `Only one default button is allowed.`
+                });
+            }
         }
     }
 
