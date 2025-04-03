@@ -34,13 +34,15 @@
         "release": "pluggable-widgets-tools release:web"
     },
     "devDependencies": {
-        "@mendix/pluggable-widgets-tools": "^10.0.0",
+        "@babel/plugin-transform-class-properties": "^7.23.3",
         "@babel/plugin-transform-private-methods": "^7.23.3",
         "@babel/plugin-transform-private-property-in-object": "^7.23.4",
-        "@babel/plugin-transform-class-properties": "^7.23.3"
+        "@mendix/pluggable-widgets-tools": "^10.0.0"
     },
     "dependencies": {
         "classnames": "^2.3.2",
+        "mammoth": "^1.9.0",
+        "pdfjs-dist": "^5.0.375",
         "react-pdf": "^9.2.1"
     }
 }
