@@ -73,6 +73,8 @@ function onDownloadClick(fileUrl: string | undefined): void {
     if (!fileUrl) {
         return;
     }
-    const url = `${fileUrl}&target=window`;
+    const url = new URL(fileUrl);
+    url.searchParams.append("target", "window");
+
     window.open(url, "mendix_file");
 }
