@@ -654,10 +654,10 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
           tabindex="-1"
         >
           <button
-            aria-label="fullscreen"
+            aria-label="Fullscreen"
             class="icons icon-Expand"
             tabindex="-1"
-            title="fullscreen"
+            title="Fullscreen"
           />
         </span>
       </div>
