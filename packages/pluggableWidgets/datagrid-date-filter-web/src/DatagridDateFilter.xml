@@ -29,7 +29,7 @@
                                 <caption>Attribute</caption>
                                 <description />
                                 <attributeTypes>
-                                    <attributeType name="String" />
+                                    <attributeType name="DateTime" />
                                 </attributeTypes>
                             </property>
                         </propertyGroup>
