@@ -33,9 +33,9 @@
     },
     "devDependencies": {
         "@axe-core/playwright": "^4.10.1",
-        "@playwright/test": "^1.50.1",
+        "@playwright/test": "^1.51.1",
         "@types/node": "^20.12.7",
         "eslint-plugin-playwright": "^2.2.0",
-        "playwright-ctrf-json-reporter": "^0.0.18"
+        "playwright-ctrf-json-reporter": "^0.0.20"
     }
 }
