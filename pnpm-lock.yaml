@@ -1180,6 +1180,9 @@ importers:
       '@mendix/widget-plugin-hooks':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-mobx-kit':
+        specifier: workspace:^
+        version: link:../../shared/widget-plugin-mobx-kit
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
@@ -2535,6 +2538,9 @@ importers:
       '@mendix/widget-plugin-hooks':
         specifier: workspace:*
         version: link:../widget-plugin-hooks
+      '@mendix/widget-plugin-mobx-kit':
+        specifier: workspace:^
+        version: link:../widget-plugin-mobx-kit
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../widget-plugin-platform
