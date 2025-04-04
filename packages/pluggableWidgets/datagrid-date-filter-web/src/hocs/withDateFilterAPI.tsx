@@ -6,7 +6,7 @@ export function withDateFilterAPI<P extends object>(
     Component: (props: P & Date_FilterAPIv2) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props) {
-        const api = useDateFilterAPI("");
+        const api = useDateFilterAPI();
 
         if (api.hasError) {
             return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
