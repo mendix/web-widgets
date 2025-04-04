@@ -1,4 +1,4 @@
-import { AttributeMetaData, DateTimeFormatter, ListAttributeValue } from "mendix";
+import { AttributeMetaData, DateTimeFormatter, SimpleFormatter } from "mendix";
 import { AndCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import {
     and,
@@ -26,6 +26,7 @@ import { BaseInputFilterStore } from "./BaseInputFilterStore";
 type DateFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type StateTuple = [DateFns, Date | undefined, Date | undefined];
 type InitState = [DateFns, Date | undefined, Date | undefined] | [DateFns, Date | undefined];
+type AttrMeta = AttributeMetaData<Date> & { formatter?: SimpleFormatter<Date> };
 
 export class DateInputFilterStore
     extends BaseInputFilterStore<DateArgument, DateFns>
@@ -36,8 +37,8 @@ export class DateInputFilterStore
     private readonly rangeMarkerTag = "__RANGE_MARKER__";
     private computedState: StateTuple;
 
-    constructor(attributes: Array<ListAttributeValue<Date>>, initCond: FilterCondition | null) {
-        const { formatter } = attributes[0];
+    constructor(attributes: Array<AttributeMetaData<Date>>, initCond: FilterCondition | null) {
+        const formatter = getFormatter(attributes[0]);
         super(new DateArgument(formatter), new DateArgument(formatter), "equal", attributes);
         // NOTE: some fields already become observable in `super`.
         makeObservable<this, "computedState">(this, {
@@ -73,10 +74,10 @@ export class DateInputFilterStore
         return () => disposers.forEach(unsub => unsub());
     }
 
-    updateProps(attributes: ListAttributeValue[]): void {
+    updateProps(attributes: Array<AttributeMetaData<Date>>): void {
         if (!comparer.shallow(this._attributes, attributes)) {
             this._attributes = attributes;
-            const formatter = attributes.at(0)?.formatter;
+            const formatter = getFormatter(attributes[0]);
             this.arg1.updateProps(formatter as DateTimeFormatter);
             this.arg2.updateProps(formatter as DateTimeFormatter);
         }
@@ -295,4 +296,24 @@ function subDay(date: Date): Date {
     const newDate = new Date(date.getTime());
     newDate.setUTCDate(newDate.getUTCDate() - 1);
     return newDate;
+}
+
+function getFormatter(attr: AttrMeta): SimpleFormatter<Date> {
+    if (attr.formatter) {
+        return attr.formatter;
+    }
+
+    return {
+        format: v => v?.toString() ?? "",
+        parse: v => {
+            const date = Date.parse(v);
+            if (isNaN(date)) {
+                return { valid: false };
+            }
+            return {
+                valid: true,
+                value: new Date(date)
+            };
+        }
+    };
 }
