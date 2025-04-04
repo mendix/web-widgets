@@ -316,6 +316,12 @@ $root: ".widget-dropdown-filter";
         &:has(+ #{$root}-selected-item)::after {
             content: ",";
         }
+
+        & + #{$root}-input {
+            position: absolute;
+            opacity: 0;
+            left: 0;
+        }
     }
 
     #{$root}-remove-icon {
@@ -327,9 +333,15 @@ $root: ".widget-dropdown-filter";
     }
 
     #{$root}-input {
-        width: initial;
         flex-basis: 0;
         min-width: 75px;
+    }
+
+    #{$root}-input-container {
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     #{$root}-clear {
