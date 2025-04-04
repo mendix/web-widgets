@@ -9,7 +9,7 @@ import { ActionValue, AttributeMetaData, DynamicValue, EditableValue } from "men
 export type AttrChoiceEnum = "auto" | "linked";
 
 export interface AttributesType {
-    attribute: AttributeMetaData<string>;
+    attribute: AttributeMetaData<Date>;
 }
 
 export type DefaultFilterEnum = "between" | "greater" | "greaterEqual" | "equal" | "notEqual" | "smaller" | "smallerEqual" | "empty" | "notEmpty";

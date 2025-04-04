@@ -35,6 +35,11 @@ export function getProperties(values: DatagridDateFilterPreviewProps, defaultPro
     if (!values.adjustable) {
         hidePropertyIn(defaultProperties, values, "screenReaderButtonCaption");
     }
+
+    if (values.attrChoice === "auto") {
+        hidePropertyIn(defaultProperties, values, "attributes");
+    }
+
     if (values.defaultFilter !== "between") {
         hidePropertiesIn(defaultProperties, values, [
             "defaultStartDate",
