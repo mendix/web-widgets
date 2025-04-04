@@ -7,10 +7,15 @@
         align-items: center;
         display: flex;
         z-index: 105;
+
+        &.mx-underlay {
+            z-index: 105;
+        }
     }
 
     &-body {
         &.modal-dialog {
+            z-index: 106;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
