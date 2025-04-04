@@ -9,7 +9,7 @@ import {
     useRole
 } from "@floating-ui/react";
 import { If } from "@mendix/widget-plugin-component-kit/If";
-import { createElement, ReactElement } from "react";
+import { createElement, Fragment, ReactElement } from "react";
 import LinkDialog, { LinkDialogProps } from "./LinkDialog";
 import VideoDialog, { VideoDialogProps } from "./VideoDialog";
 import ViewCodeDialog, { ViewCodeDialogProps } from "./ViewCodeDialog";
@@ -71,10 +71,14 @@ export default function Dialog(props: DialogProps): ReactElement {
     return (
         <FloatingPortal>
             {isOpen && (
-                <FloatingOverlay lockScroll className="widget-rich-text-modal-overlay">
+                <Fragment>
+                    <FloatingOverlay
+                        lockScroll
+                        className="widget-rich-text-modal-overlay mx-underlay"
+                    ></FloatingOverlay>
                     <FloatingFocusManager context={context}>
                         <div
-                            className="Dialog"
+                            className="Dialog mx-layoutgrid"
                             ref={refs.setFloating}
                             aria-labelledby={dialogType}
                             aria-describedby={dialogType}
@@ -94,7 +98,7 @@ export default function Dialog(props: DialogProps): ReactElement {
                             </If>
                         </div>
                     </FloatingFocusManager>
-                </FloatingOverlay>
+                </Fragment>
             )}
         </FloatingPortal>
     );
