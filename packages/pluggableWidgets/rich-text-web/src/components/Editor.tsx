@@ -126,7 +126,6 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                 ...QuillTableBetter.keyboardBindings
                             }
                         },
-                        resize: RESIZE_MODULE_CONFIG,
                         table: false,
                         "table-better": {
                             language: "en_US",
@@ -138,6 +137,9 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                     readOnly
                 };
 
+                if (!readOnly && options.modules) {
+                    options.modules.resize = RESIZE_MODULE_CONFIG;
+                }
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
 
