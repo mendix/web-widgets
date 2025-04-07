@@ -1,5 +1,5 @@
 import { createElement, Fragment, useContext } from "react";
-import { DocumentContext } from "store";
+import { DocumentContext } from "../store";
 import { DocRendererElement } from "./documentRenderer";
 
 const ErrorViewer: DocRendererElement = () => {
