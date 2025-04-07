@@ -18,7 +18,7 @@ import DatagridTextFilter from "../../DatagridTextFilter";
 import { DatagridTextFilterContainerProps } from "../../../typings/DatagridTextFilterProps";
 import { resetIdCounter } from "downshift";
 
-export interface StaticInfo {
+interface StaticInfo {
     name: string;
     filtersChannelName: string;
 }

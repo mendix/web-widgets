@@ -108,7 +108,7 @@ describe("Combo box (Static values)", () => {
         const option1 = await component.findByText("caption2");
         fireEvent.click(option1);
         expect(input.value).toEqual("caption2");
-        expect(defaultProps.staticAttribute?.setValue).toBeCalled();
+        expect(defaultProps.staticAttribute?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.staticAttribute?.value).toEqual("value2");
     });

@@ -16,7 +16,7 @@ import DatagridDateFilter from "../../DatagridDateFilter";
 import { DatagridDateFilterContainerProps } from "../../../typings/DatagridDateFilterProps";
 import { MXGlobalObject, MXSessionConfig } from "../../../typings/global";
 
-export interface StaticInfo {
+interface StaticInfo {
     name: string;
     filtersChannelName: string;
 }
