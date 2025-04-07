@@ -1,10 +1,3 @@
-import alignBottomIcon from "../assets/icon/align-bottom.svg";
-import alignCenterIcon from "../assets/icon/align-center.svg";
-import alignJustifyIcon from "../assets/icon/align-justify.svg";
-import alignLeftIcon from "../assets/icon/align-left.svg";
-import alignMiddleIcon from "../assets/icon/align-middle.svg";
-import alignRightIcon from "../assets/icon/align-right.svg";
-import alignTopIcon from "../assets/icon/align-top.svg";
 import type { Props, UseLanguageHandler } from "../types";
 import { convertUnitToInteger, isValidColor, isValidDimensions } from "../utils";
 
@@ -306,10 +299,26 @@ function getCellProperties(attribute: Props, useLanguage: UseLanguageHandler) {
                         propertyName: "text-align",
                         value: attribute["text-align"],
                         menus: [
-                            { icon: alignLeftIcon, describe: useLanguage("alCellTxtL"), align: "left" },
-                            { icon: alignCenterIcon, describe: useLanguage("alCellTxtC"), align: "center" },
-                            { icon: alignRightIcon, describe: useLanguage("alCellTxtR"), align: "right" },
-                            { icon: alignJustifyIcon, describe: useLanguage("jusfCellTxt"), align: "justify" }
+                            {
+                                icon: "icons icon-Text-align-left",
+                                describe: useLanguage("alCellTxtL"),
+                                align: "left"
+                            },
+                            {
+                                icon: "icons icon-Text-align-center",
+                                describe: useLanguage("alCellTxtC"),
+                                align: "center"
+                            },
+                            {
+                                icon: "icons icon-Text-align-right",
+                                describe: useLanguage("alCellTxtR"),
+                                align: "right"
+                            },
+                            {
+                                icon: "icons icon-Text-align-justify",
+                                describe: useLanguage("jusfCellTxt"),
+                                align: "justify"
+                            }
                         ]
                     },
                     {
@@ -317,9 +326,9 @@ function getCellProperties(attribute: Props, useLanguage: UseLanguageHandler) {
                         propertyName: "vertical-align",
                         value: attribute["vertical-align"],
                         menus: [
-                            { icon: alignTopIcon, describe: useLanguage("alCellTxtT"), align: "top" },
-                            { icon: alignMiddleIcon, describe: useLanguage("alCellTxtM"), align: "middle" },
-                            { icon: alignBottomIcon, describe: useLanguage("alCellTxtB"), align: "bottom" }
+                            { icon: "icons icon-Align-top", describe: useLanguage("alCellTxtT"), align: "top" },
+                            { icon: "icons icon-Align-middle", describe: useLanguage("alCellTxtM"), align: "middle" },
+                            { icon: "icons icon-Align-bottom", describe: useLanguage("alCellTxtB"), align: "bottom" }
                         ]
                     }
                 ]
@@ -411,9 +420,9 @@ function getTableProperties(attribute: Props, useLanguage: UseLanguageHandler) {
                         propertyName: "align",
                         value: attribute["align"],
                         menus: [
-                            { icon: alignLeftIcon, describe: useLanguage("alTblL"), align: "left" },
-                            { icon: alignCenterIcon, describe: useLanguage("tblC"), align: "center" },
-                            { icon: alignRightIcon, describe: useLanguage("alTblR"), align: "right" }
+                            { icon: "icons icon-Text-align-left", describe: useLanguage("alTblL"), align: "left" },
+                            { icon: "icons icon-Text-align-center", describe: useLanguage("tblC"), align: "center" },
+                            { icon: "icons icon-Text-align-right", describe: useLanguage("alTblR"), align: "right" }
                         ]
                     }
                 ]
