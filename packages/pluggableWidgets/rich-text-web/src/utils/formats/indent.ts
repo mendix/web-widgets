@@ -22,8 +22,8 @@ class IndentAttributor extends StyleAttributor {
                 (modValue === 1
                     ? INDENT_MAGIC_NUMBER
                     : modValue === 2 || modValue === -1
-                    ? -INDENT_MAGIC_NUMBER
-                    : value);
+                      ? -INDENT_MAGIC_NUMBER
+                      : value);
         }
         if (normalizedValue === 0) {
             this.remove(node);

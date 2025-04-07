@@ -45,8 +45,8 @@ export const ProgressCircle: FunctionComponent<ProgressCircleContainerProps> = p
                     ? props.labelType === "custom"
                         ? props.customLabel
                         : props.labelType === "percentage"
-                        ? `${calculatePercentage(currentValue, minValue, maxValue)}%`
-                        : props.labelText?.value
+                          ? `${calculatePercentage(currentValue, minValue, maxValue)}%`
+                          : props.labelText?.value
                     : null
             }
         />

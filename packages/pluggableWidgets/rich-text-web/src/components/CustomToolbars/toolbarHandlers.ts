@@ -22,8 +22,8 @@ export function getIndentHandler(ref: MutableRefObject<Quill | null>): (value: a
                 const formatHandler = formats.list
                     ? "indent"
                     : formats.direction === "rtl"
-                    ? "indent-right"
-                    : "indent-left";
+                      ? "indent-right"
+                      : "indent-left";
                 if (formats.direction === "rtl") {
                     modifier *= -1;
                 }

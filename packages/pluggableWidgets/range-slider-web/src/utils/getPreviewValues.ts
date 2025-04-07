@@ -10,9 +10,9 @@ interface PreviewValues {
 }
 
 export function getPreviewValues(params: GetPreviewValuesParams): PreviewValues {
-    const min = params.minValueType === "static" ? params.staticMinimumValue ?? 0 : 0;
-    const max = params.maxValueType === "static" ? params.staticMaximumValue ?? 100 : 100;
-    const step = params.stepSizeType === "static" ? params.stepValue ?? 1 : 1;
+    const min = params.minValueType === "static" ? (params.staticMinimumValue ?? 0) : 0;
+    const max = params.maxValueType === "static" ? (params.staticMaximumValue ?? 100) : 100;
+    const step = params.stepSizeType === "static" ? (params.stepValue ?? 1) : 1;
     const range = max - min;
     const lower = range * 0.25 + min;
     const upper = range * 0.75 + min;

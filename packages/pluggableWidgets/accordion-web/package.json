@@ -31,7 +31,7 @@
         "dev": "pluggable-widgets-tools start:web",
         "build": "pluggable-widgets-tools build:web",
         "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "lint": "eslint src/",
         "test": "pluggable-widgets-tools test:unit:web",
         "release": "pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",

@@ -63,8 +63,8 @@ export class BaseColumnInfo {
                     this.minWidth === "manual"
                         ? `${this.minWidthLimit}px`
                         : this.minWidth === "minContent"
-                        ? "min-content"
-                        : "auto";
+                          ? "min-content"
+                          : "auto";
                 return `minmax(${min}, auto)`;
             }
             case "manual":

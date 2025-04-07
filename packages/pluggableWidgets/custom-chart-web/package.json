@@ -33,7 +33,7 @@
         "dev": "pluggable-widgets-tools start:web",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools build:web",
         "format": "pluggable-widgets-tools format",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "lint": "eslint src/",
         "test": "echo 'FIXME: Finish custom-chart-web unit test migration'",
         "e2e": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
         "e2edev": "echo 'FIXME: Finish custom-chart-web e2e test migration'",

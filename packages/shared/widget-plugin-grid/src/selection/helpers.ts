@@ -27,7 +27,10 @@ export class MultiSelectionHelper {
     private rangeStart: number | undefined;
     private rangeEnd: number | undefined;
 
-    constructor(private selectionValue: SelectionMultiValue, private selectableItems: ObjectItem[]) {
+    constructor(
+        private selectionValue: SelectionMultiValue,
+        private selectableItems: ObjectItem[]
+    ) {
         this.rangeStart = undefined;
     }
 
@@ -44,8 +47,8 @@ export class MultiSelectionHelper {
         return this.selectionValue.selection.length === 0
             ? "none"
             : this.selectionValue.selection.length === this.selectableItems.length
-            ? "all"
-            : "some";
+              ? "all"
+              : "some";
     }
 
     add(value: ObjectItem): void {

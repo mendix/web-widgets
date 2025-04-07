@@ -7,7 +7,10 @@ export type ExecuteActionFx = (item: ObjectItem) => void;
 export type ClickTrigger = "single" | "double" | "none";
 
 export class ClickActionHelper {
-    constructor(private trigger: ClickTrigger, private listAction?: ListActionValue | null | object) {}
+    constructor(
+        private trigger: ClickTrigger,
+        private listAction?: ListActionValue | null | object
+    ) {}
 
     get clickTrigger(): ClickTrigger {
         return this.listAction ? this.trigger : "none";

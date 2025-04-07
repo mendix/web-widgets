@@ -6,7 +6,6 @@ import { CellComponentProps } from "../typings/CellComponent";
 import { CellElement } from "./CellElement";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 
-// eslint-disable-next-line prefer-arrow-callback
 const component = observer(function Cell(props: CellComponentProps<GridColumn>): ReactElement {
     const keyNavProps = useFocusTargetProps<HTMLDivElement>({
         columnIndex: props.columnIndex ?? -1,

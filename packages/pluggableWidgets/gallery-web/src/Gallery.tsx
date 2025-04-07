@@ -119,7 +119,6 @@ function Container(props: GalleryContainerProps & RootAPI): ReactElement {
     );
 }
 
-// eslint-disable-next-line prefer-arrow-callback
 const Widget = observer(function RootStoreProvider(props: GalleryContainerProps) {
     const store = useRootGalleryStore(props);
 

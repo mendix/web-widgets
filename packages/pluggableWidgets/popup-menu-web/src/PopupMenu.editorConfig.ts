@@ -195,8 +195,8 @@ export function getPreview(values: PopupMenuPreviewProps, isDarkMode: boolean): 
                                 ? "#848484"
                                 : "#ced0d3"
                             : isDarkMode
-                            ? "#313131"
-                            : "#fff",
+                              ? "#313131"
+                              : "#fff",
                     children: [
                         {
                             type: "Selectable",
@@ -214,7 +214,7 @@ export function getPreview(values: PopupMenuPreviewProps, isDarkMode: boolean): 
                             } as ContainerProps
                         } as SelectableProps
                     ]
-                } as ContainerProps)
+                }) as ContainerProps
         );
     }
 }

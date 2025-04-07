@@ -30,7 +30,7 @@
         "dev": "pluggable-widgets-tools start:ts",
         "build": "pluggable-widgets-tools build:ts",
         "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "lint": "eslint src/",
         "test": "jest",
         "e2e": "run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",

@@ -13,12 +13,14 @@
     "license": "MIT",
     "scripts": {
         "format": "prettier --write .",
-        "lint": "eslint --ext .js lib/ bin/"
+        "lint": "eslint lib/ bin/"
     },
     "dependencies": {
         "chance": "^1.1.12"
     },
     "devDependencies": {
+        "globals": "^16.0.0",
+        "@eslint/js": "^9.24.0",
         "@mendix/prettier-config-web-widgets": "workspace:*"
     }
 }

@@ -23,7 +23,6 @@ interface ComboboxProps {
 
 const cls = classes();
 
-// eslint-disable-next-line prefer-arrow-callback
 export const Combobox = observer(function Combobox(props: ComboboxProps) {
     const inputRef = useRef<HTMLInputElement>(null);
     const { isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps } = useCombobox(

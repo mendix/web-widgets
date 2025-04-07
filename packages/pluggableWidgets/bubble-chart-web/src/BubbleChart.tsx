@@ -34,7 +34,7 @@ const bubbleChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {};
 
 export const BubbleChart = memo(
     // disable eslint rule to have nice component name in component tree at devtools
-    // eslint-disable-next-line prefer-arrow-callback
+
     function BubbleChart(props: BubbleChartContainerProps): ReactElement {
         const getSizes = (line: LinesType): number[] => {
             const sizes: number[] = [];

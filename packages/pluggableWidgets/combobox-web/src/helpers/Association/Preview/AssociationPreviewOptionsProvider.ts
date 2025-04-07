@@ -10,7 +10,10 @@ export class AssociationPreviewOptionsProvider implements OptionsProvider<Object
     status: Status = "available";
     isLoading: boolean = false;
 
-    constructor(protected caption: CaptionsProvider, protected valuesMap: Map<string, ObjectItem>) {}
+    constructor(
+        protected caption: CaptionsProvider,
+        protected valuesMap: Map<string, ObjectItem>
+    ) {}
     onAfterSearchTermChange(_callback: () => void): void {}
     setSearchTerm(_value: string): void {}
     loadMore?(): void {

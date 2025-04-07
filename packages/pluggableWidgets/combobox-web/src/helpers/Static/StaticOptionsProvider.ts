@@ -14,7 +14,10 @@ export class StaticOptionsProvider extends BaseOptionsProvider<string | Big | bo
     ds: OptionsSourceStaticDataSourceType[] | undefined;
     searchTerm = "";
     filterType: FilterTypeEnum = "contains";
-    constructor(caption: StaticCaptionsProvider, private valuesMap: Map<string, OptionsSourceStaticDataSourceType>) {
+    constructor(
+        caption: StaticCaptionsProvider,
+        private valuesMap: Map<string, OptionsSourceStaticDataSourceType>
+    ) {
         super(caption);
     }
 

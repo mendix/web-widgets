@@ -14,6 +14,7 @@ type ToolbarTool = {
     ) => void;
 };
 
+// eslint-disable-next-line no-unsafe-optional-chaining
 class MxResizeToolbar extends QuillResize.Modules?.Toolbar {
     _addToolbarButtons(): void {
         const buttons: HTMLButtonElement[] = [];

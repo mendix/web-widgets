@@ -35,7 +35,7 @@
         "build": "pluggable-widgets-tools build:web",
         "prerelease": "npm run lint",
         "release": "pluggable-widgets-tools release:web",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "lint": "eslint src/",
         "verify": "rui-verify-package-format",
         "update-changelog": "rui-update-changelog-widget",
         "create-gh-release": "rui-create-gh-release",

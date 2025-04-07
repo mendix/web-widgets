@@ -52,8 +52,8 @@ export class BaseColumn {
                     this.properties.minWidth === "manual"
                         ? `${this.properties.minWidthLimit}px`
                         : this.properties.minWidth === "minContent"
-                        ? "min-content"
-                        : "auto";
+                          ? "min-content"
+                          : "auto";
                 return `minmax(${min}, auto)`;
             }
             case "manual":

@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 const readXlsxFile = require("read-excel-file/node");
 
 const readExcelFile = filename => {

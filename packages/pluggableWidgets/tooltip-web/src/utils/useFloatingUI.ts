@@ -83,7 +83,7 @@ export function useFloatingUI(props: FloatingProps): FloatingPropsReturn {
     const side = placement.split("-")[0];
     const alignment = placement.split("-")[1];
     const alignmentOffset =
-        ["top", "bottom"].includes(side) && alignment === "start" ? arrowElement?.offsetWidth ?? 0 : 0;
+        ["top", "bottom"].includes(side) && alignment === "start" ? (arrowElement?.offsetWidth ?? 0) : 0;
     const staticSide: string | undefined = {
         top: "bottom",
         right: "left",

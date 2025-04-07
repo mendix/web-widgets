@@ -30,7 +30,7 @@
         "dev": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools start:web",
         "build": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools build:web",
         "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "lint": "eslint src/",
         "test": "pluggable-widgets-tools test:unit:web",
         "e2e": "run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",

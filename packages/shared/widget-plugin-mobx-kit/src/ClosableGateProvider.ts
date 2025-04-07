@@ -1,7 +1,10 @@
 import { GateProvider } from "./GateProvider";
 
 export class ClosableGateProvider<T> extends GateProvider<T> {
-    constructor(props: T, private locked: () => boolean) {
+    constructor(
+        props: T,
+        private locked: () => boolean
+    ) {
         super(props);
     }
 

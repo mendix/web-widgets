@@ -16,7 +16,7 @@
         "url": "https://github.com/mendix/web-widgets.git"
     },
     "scripts": {
-        "lint": "eslint --ext .mjs .",
+        "lint": "eslint .",
         "format": "prettier --write .",
         "report:merge": "pnpm dlx ctrf merge ctrf --output merged-report.json --keep-reports"
     },
@@ -32,9 +32,11 @@
         "yargs-parser": "^21.1.1"
     },
     "devDependencies": {
+        "globals": "^16.0.0",
+        "@eslint/js": "^9.24.0",
         "@axe-core/playwright": "^4.10.1",
         "@playwright/test": "^1.51.1",
-        "@types/node": "^20.12.7",
+        "@types/node": "*",
         "eslint-plugin-playwright": "^2.2.0",
         "playwright-ctrf-json-reporter": "^0.0.20"
     }

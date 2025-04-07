@@ -105,7 +105,10 @@ function mergeUnreleased<T extends UnreleasedVersionEntry>(unreleased: T, sectio
 export class WidgetChangelogFileWrapper {
     changelog: WidgetChangelogFile;
 
-    private constructor(changelog: WidgetChangelogFile, public changelogPath: string) {
+    private constructor(
+        changelog: WidgetChangelogFile,
+        public changelogPath: string
+    ) {
         this.changelog = Object.freeze(changelog);
     }
 
@@ -185,7 +188,10 @@ export class ModuleChangelogFileWrapper {
     changelog: ModuleChangelogFile;
     moduleName: string;
 
-    private constructor(changelog: ModuleChangelogFile, public changelogPath: string) {
+    private constructor(
+        changelog: ModuleChangelogFile,
+        public changelogPath: string
+    ) {
         this.changelog = Object.freeze(changelog);
         this.moduleName = changelog.moduleName;
     }

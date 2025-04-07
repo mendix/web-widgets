@@ -31,7 +31,7 @@ const areaChartConfigOptions: ChartWidgetProps["configOptions"] = {
 const areaChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {};
 
 // disable eslint rule to have nice component name in component tree at devtools
-// eslint-disable-next-line prefer-arrow-callback
+
 export const AreaChart = memo(function AreaChart(props: AreaChartContainerProps): ReactElement {
     const mapSeries = useCallback<SeriesMapper<SeriesType>>((line, dataPoints, { getExpressionValue }) => {
         const lineColorExpression = line.dataSet === "static" ? line.staticLineColor : line.dynamicLineColor;

@@ -34,50 +34,49 @@ export interface ContainerProps extends DatagridTextFilterContainerProps {
     filterStore: String_InputFilterInterface;
 }
 
-// eslint-disable-next-line prefer-arrow-callback
-export const TextFilterContainer: (props: ContainerProps) => React.ReactElement = observer(function TextFilterContainer(
-    props
-) {
-    const id = (useRef<string>().current ??= `TextFilter${generateUUID()}`);
+export const TextFilterContainer: (props: ContainerProps) => React.ReactElement = observer(
+    function TextFilterContainer(props) {
+        const id = (useRef<string>().current ??= `TextFilter${generateUUID()}`);
 
-    const controller = useStringFilterController({
-        filter: props.filterStore,
-        defaultFilter: props.defaultFilter,
-        adjustableFilterFunction: props.adjustable,
-        defaultValue: props.defaultValue?.value,
-        changeDelay: props.delay,
-        disableInputs: fn => fn === "empty" || fn === "notEmpty"
-    });
+        const controller = useStringFilterController({
+            filter: props.filterStore,
+            defaultFilter: props.defaultFilter,
+            adjustableFilterFunction: props.adjustable,
+            defaultValue: props.defaultValue?.value,
+            changeDelay: props.delay,
+            disableInputs: fn => fn === "empty" || fn === "notEmpty"
+        });
 
-    useBasicSync(props, props.filterStore);
+        useBasicSync(props, props.filterStore);
 
-    useOnResetValueEvent({
-        widgetName: props.name,
-        parentChannelName: props.parentChannelName,
-        listener: controller.handleResetValue
-    });
+        useOnResetValueEvent({
+            widgetName: props.name,
+            parentChannelName: props.parentChannelName,
+            listener: controller.handleResetValue
+        });
 
-    useOnSetValueEvent({ widgetName: props.name, listener: controller.handleSetValue });
+        useOnSetValueEvent({ widgetName: props.name, listener: controller.handleSetValue });
 
-    return (
-        <InputWithFilters
-            adjustable={props.adjustable}
-            className={props.class}
-            disableInputs={controller.disableInputs}
-            filterFn={controller.selectedFn}
-            filterFnList={filters}
-            id={id}
-            inputRef={controller.inputRef}
-            inputStores={controller.inputs}
-            name={props.name}
-            onFilterChange={controller.handleFilterFnChange}
-            placeholder={props.placeholder?.value}
-            screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
-            screenReaderInputCaption={props.screenReaderInputCaption?.value}
-            styles={props.style}
-            tabIndex={props.tabIndex}
-            type="text"
-            defaultValue={props.defaultValue?.value}
-        />
-    );
-});
+        return (
+            <InputWithFilters
+                adjustable={props.adjustable}
+                className={props.class}
+                disableInputs={controller.disableInputs}
+                filterFn={controller.selectedFn}
+                filterFnList={filters}
+                id={id}
+                inputRef={controller.inputRef}
+                inputStores={controller.inputs}
+                name={props.name}
+                onFilterChange={controller.handleFilterFnChange}
+                placeholder={props.placeholder?.value}
+                screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
+                screenReaderInputCaption={props.screenReaderInputCaption?.value}
+                styles={props.style}
+                tabIndex={props.tabIndex}
+                type="text"
+                defaultValue={props.defaultValue?.value}
+            />
+        );
+    }
+);

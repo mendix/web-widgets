@@ -58,7 +58,7 @@ const timeSeriesChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {
 
 export const TimeSeries = memo(
     // disable eslint rule to have nice component name in component tree at devtools
-    // eslint-disable-next-line prefer-arrow-callback
+
     function TimeSeries(props: TimeSeriesContainerProps): ReactElement | null {
         const chartLines = usePlotChartDataSeries(
             props.lines,

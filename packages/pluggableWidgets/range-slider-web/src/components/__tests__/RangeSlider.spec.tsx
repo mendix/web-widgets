@@ -53,7 +53,7 @@ describe("RangeSlider", () => {
         const sliderRoot = wrapper.find("div.rc-slider").first();
 
         sliderRoot.getDOMNode().getBoundingClientRect = () =>
-            ({ left: 0, top: 0, right: 100, bottom: 40, width: 100, height: 40 } as DOMRect);
+            ({ left: 0, top: 0, right: 100, bottom: 40, width: 100, height: 40 }) as DOMRect;
 
         // Click at the end
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: 110, clientY: 0, pageX: 110 });
