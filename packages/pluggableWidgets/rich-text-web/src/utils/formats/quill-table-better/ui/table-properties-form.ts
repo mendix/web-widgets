@@ -2,9 +2,6 @@ import { computePosition, flip, offset, shift } from "@floating-ui/react";
 import Coloris from "@melloware/coloris";
 import "@melloware/coloris/dist/coloris.css";
 import Quill from "quill";
-import closeIcon from "../assets/icon/close.svg";
-import downIcon from "../assets/icon/down.svg";
-import saveIcon from "../assets/icon/save.svg";
 import { getProperties } from "../config";
 import { ListContainer } from "../formats/list";
 import type { Props, TableCell, TableCellBlock, TableContainer, TableHeader, TableList, TableMenus } from "../types";
@@ -52,8 +49,8 @@ interface ColorList {
 }
 
 const ACTION_LIST = [
-    { icon: saveIcon, label: "save" },
-    { icon: closeIcon, label: "cancel" }
+    { icon: "icons icon-Save", label: "save" },
+    { icon: "icons icon-Close", label: "cancel" }
 ];
 
 const COLOR_LIST: ColorList[] = [
@@ -108,9 +105,8 @@ class TablePropertiesForm {
         for (const { icon, label } of ACTION_LIST) {
             const button = ownerDocument.createElement("button");
             const iconContainer = ownerDocument.createElement("span");
-            const iconImg = ownerDocument.createElement("img");
-            iconImg.setAttribute("src", icon);
-            iconContainer.appendChild(iconImg);
+            const iconClasses = icon.split(" ");
+            iconContainer.classList.add(...iconClasses);
             button.appendChild(iconContainer);
             setElementAttribute(button, { label });
             if (showLabel) {
@@ -132,9 +128,8 @@ class TablePropertiesForm {
         const fragment = ownerDocument.createDocumentFragment();
         for (const { icon, describe, align } of menus ?? []) {
             const container = ownerDocument.createElement("span");
-            const iconImg = ownerDocument.createElement("img");
-            iconImg.setAttribute("src", icon);
-            container.appendChild(iconImg);
+            const iconClasses = icon.split(" ");
+            container.classList.add(...iconClasses);
             container.setAttribute("data-align", align);
             container.classList.add("ql-table-tooltip-hover");
             if (this.options.attribute[propertyName] === align) {
@@ -204,11 +199,9 @@ class TablePropertiesForm {
         const ownerDocument = this.tableMenus.quill.root.ownerDocument;
         const container = ownerDocument.createElement("div");
         const dropText = ownerDocument.createElement("span");
-        const dropDown = ownerDocument.createElement("img");
         switch (category) {
             case "dropdown":
-                dropDown.setAttribute("src", downIcon);
-                dropDown.classList.add("ql-table-dropdown-icon");
+                dropText.classList.add("icons", "icon-Arrow-down", "ql-table-dropdown-icon");
                 break;
             case "color":
                 break;
@@ -219,7 +212,6 @@ class TablePropertiesForm {
         container.classList.add("ql-table-dropdown-properties");
         dropText.classList.add("ql-table-dropdown-text");
         container.appendChild(dropText);
-        if (category === "dropdown") container.appendChild(dropDown);
         return { dropdown: container, dropText };
     }
 

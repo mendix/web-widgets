@@ -2,15 +2,6 @@
 import type { LinkedList } from "parchment";
 import Quill from "quill";
 import Delta from "quill-delta";
-import cellIcon from "../assets/icon/cell.svg";
-import columnIcon from "../assets/icon/column.svg";
-import copyIcon from "../assets/icon/copy.svg";
-import deleteIcon from "../assets/icon/delete.svg";
-import downIcon from "../assets/icon/down.svg";
-import mergeIcon from "../assets/icon/merge.svg";
-import rowIcon from "../assets/icon/row.svg";
-import tableIcon from "../assets/icon/table.svg";
-import wrapIcon from "../assets/icon/wrap.svg";
 import { CELL_DEFAULT_VALUES, CELL_DEFAULT_WIDTH, CELL_PROPERTIES, DEVIATION, TABLE_PROPERTIES } from "../config";
 import { TableCell, tableId } from "../formats/table";
 import type {
@@ -62,7 +53,7 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
     const DEFAULT: MenusDefaults = {
         column: {
             content: useLanguage("col"),
-            icon: columnIcon,
+            icon: "icons icon-Column",
             handler(list: HTMLUListElement, tooltip: HTMLDivElement) {
                 this.toggleAttribute(list, tooltip);
             },
@@ -97,7 +88,7 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
         },
         row: {
             content: useLanguage("row"),
-            icon: rowIcon,
+            icon: "icons icon-Row",
             handler(list: HTMLUListElement, tooltip: HTMLDivElement) {
                 this.toggleAttribute(list, tooltip);
             },
@@ -128,7 +119,7 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
         },
         merge: {
             content: useLanguage("mCells"),
-            icon: mergeIcon,
+            icon: "icons icon-Merge",
             handler(list: HTMLUListElement, tooltip: HTMLDivElement) {
                 this.toggleAttribute(list, tooltip);
             },
@@ -151,7 +142,7 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
         },
         table: {
             content: useLanguage("tblProps"),
-            icon: tableIcon,
+            icon: "icons icon-Table",
             handler(list: HTMLUListElement, tooltip: HTMLDivElement) {
                 const attribute = {
                     ...getElementStyle(this.table, TABLE_PROPERTIES),
@@ -164,7 +155,7 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
         },
         cell: {
             content: useLanguage("cellProps"),
-            icon: cellIcon,
+            icon: "icons icon-Cell",
             handler(list: HTMLUListElement, tooltip: HTMLDivElement) {
                 const { selectedTds } = this.tableBetter.cellSelection;
                 const attribute =
@@ -178,7 +169,7 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
         },
         wrap: {
             content: useLanguage("insParaOTbl"),
-            icon: wrapIcon,
+            icon: "icons icon-Wrap",
             handler(list: HTMLUListElement, tooltip: HTMLDivElement) {
                 this.toggleAttribute(list, tooltip);
             },
@@ -199,7 +190,7 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
         },
         delete: {
             content: useLanguage("delTable"),
-            icon: deleteIcon,
+            icon: "icons icon-Delete",
             handler() {
                 this.deleteTable();
             }
@@ -208,7 +199,7 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
     const EXTRA: MenusDefaults = {
         copy: {
             content: useLanguage("copyTable"),
-            icon: copyIcon,
+            icon: "icons icon-Copy",
             handler() {
                 this.copyTable();
             }
@@ -282,17 +273,19 @@ class TableMenus {
 
     createMenu(left: string, right: string, isDropDown: boolean) {
         const container = this.quill.root.ownerDocument.createElement("div");
-        const dropDown = this.quill.root.ownerDocument.createElement("span");
-        const leftIcon = this.quill.root.ownerDocument.createElement("img");
-        leftIcon.setAttribute("src", left);
-        dropDown.appendChild(leftIcon);
-        if (isDropDown) {
-            const rightIcon = this.quill.root.ownerDocument.createElement("img");
-            rightIcon.setAttribute("src", right);
-            dropDown.appendChild(rightIcon);
-        }
         container.classList.add("ql-table-dropdown");
+        const dropDown = this.quill.root.ownerDocument.createElement("span");
         dropDown.classList.add("ql-table-tooltip-hover");
+        const classes = left.split(" ");
+        const icon = this.quill.root.ownerDocument.createElement("span");
+        icon.classList.add(...classes);
+        dropDown.appendChild(icon);
+        if (isDropDown) {
+            const classes = right.split(" ");
+            const dropDownIcon = this.quill.root.ownerDocument.createElement("span");
+            dropDownIcon.classList.add(...classes);
+            dropDown.appendChild(dropDownIcon);
+        }
         container.appendChild(dropDown);
         return container;
     }
@@ -307,7 +300,7 @@ class TableMenus {
             const { content, icon, children, handler } = val;
             const list = this.createList(children);
             const tooltip = createTooltip(content);
-            const menu = this.createMenu(icon, downIcon, !!children);
+            const menu = this.createMenu(icon, "icons icon-Arrow-down", !!children);
             menu.appendChild(tooltip);
             list && menu.appendChild(list);
             container.appendChild(menu);
