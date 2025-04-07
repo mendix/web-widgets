@@ -1,4 +1,4 @@
-import { Component, createElement, createRef } from "react";
+import { Component, createElement, createRef, ReactNode } from "react";
 
 import classNames from "classnames";
 
@@ -20,7 +20,7 @@ export class Html5 extends Component<Html5PlayerProps> {
     private readonly handleOnSuccess = this.handleSuccess.bind(this);
     private readonly handleOnError = this.handleError.bind(this);
 
-    render(): JSX.Element {
+    render(): ReactNode {
         return (
             <div
                 className={classNames("widget-video-player-html5-container", {
@@ -63,8 +63,6 @@ export class Html5 extends Component<Html5PlayerProps> {
                             src={this.props.url}
                             type="video/mp4"
                             onError={this.handleOnError}
-                            /* https://github.com/jsx-eslint/eslint-plugin-react/issues/3505 */
-                            /* eslint-disable-next-line react/no-unknown-property */
                             onLoad={this.handleOnSuccess}
                         />
                     ) : null}

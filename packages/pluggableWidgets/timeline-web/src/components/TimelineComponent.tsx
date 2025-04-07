@@ -86,7 +86,7 @@ function getBasicEventsFromDay(eventsOfDay: BasicItemType[]): ReactNode[] {
     ));
 }
 
-function getCustomEventsFromDay(eventsOfDay: CustomItemType[]): JSX.Element[] {
+function getCustomEventsFromDay(eventsOfDay: CustomItemType[]): ReactNode[] {
     return eventsOfDay.map((event, index) => (
         <li
             key={index}

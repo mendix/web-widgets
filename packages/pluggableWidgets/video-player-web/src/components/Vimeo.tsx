@@ -1,4 +1,4 @@
-import { Component, createElement } from "react";
+import { Component, createElement, ReactElement } from "react";
 import { validateUrl } from "../utils/Utils";
 
 export interface VimeoProps {
@@ -12,7 +12,7 @@ export interface VimeoProps {
 export class Vimeo extends Component<VimeoProps> {
     private handleAttributes = this.getUrlAttributes.bind(this);
 
-    render(): JSX.Element {
+    render(): ReactElement {
         return (
             <iframe
                 className="widget-video-player-iframe"
@@ -38,7 +38,7 @@ export class Vimeo extends Component<VimeoProps> {
                     return `https://player.vimeo.com/video/${id}${attributes}`;
                 }
             }
-        } catch (e) {
+        } catch (_e: unknown) {
             return url;
         }
         return url;

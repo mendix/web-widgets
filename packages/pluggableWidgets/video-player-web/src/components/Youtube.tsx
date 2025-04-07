@@ -1,4 +1,4 @@
-import { Component, createElement } from "react";
+import { Component, createElement, ReactNode } from "react";
 import { validateUrl } from "../utils/Utils";
 
 export interface YoutubeProps {
@@ -13,7 +13,7 @@ export interface YoutubeProps {
 export class Youtube extends Component<YoutubeProps> {
     private handleAttributes = this.getUrlAttributes.bind(this);
 
-    render(): JSX.Element {
+    render(): ReactNode {
         return (
             <iframe
                 className="widget-video-player-iframe"
@@ -45,7 +45,7 @@ export class Youtube extends Component<YoutubeProps> {
                     return `https://www.youtube.com/embed/${id}${attributes}`;
                 }
             }
-        } catch (e) {
+        } catch (_e: unknown) {
             return url;
         }
         return url;

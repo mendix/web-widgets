@@ -3,12 +3,10 @@ import type { Big } from "big.js";
 import { Status } from "../constants.js";
 import { Writable } from "./type-utils.js";
 
-/* eslint-disable no-unused-vars */
 export enum FormatterType {
     Number = "number",
     DateTime = "datetime"
 }
-/* eslint-enable no-unused-vars */
 
 export class EditableValueBuilder<T extends string | boolean | Date | Big> {
     private readonly editableValue: Writable<EditableValue<T>> = {

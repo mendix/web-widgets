@@ -1,4 +1,4 @@
-import { CSSProperties, Component, createElement, PropsWithChildren } from "react";
+import { CSSProperties, Component, createElement, PropsWithChildren, ReactNode } from "react";
 import classNames from "classnames";
 
 export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels" | "aspectRatio";
@@ -22,7 +22,7 @@ export interface SizeProps extends Dimensions, PropsWithChildren<any> {
 }
 
 export class SizeContainer extends Component<SizeProps> {
-    render(): JSX.Element {
+    render(): ReactNode {
         return (
             <div
                 className={classNames(this.props.className, "size-box")}

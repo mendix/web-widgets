@@ -11,7 +11,7 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
     isLoading: boolean;
     isOpen: boolean;
     lazyLoading: boolean;
-    loader: JSX.Element;
+    loader: ReactNode;
     menuFooterContent?: ReactNode;
     menuHeaderContent?: ReactNode;
     noOptionsText?: string;
@@ -19,11 +19,11 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
     onScroll?: (e: any) => void;
 }
 
-function PreventMenuCloseEventHandler(e: React.MouseEvent): void {
+function PreventMenuCloseEventHandler(e: MouseEvent): void {
     e.stopPropagation();
 }
 
-function ForcePreventMenuCloseEventHandler(e: React.MouseEvent): void {
+function ForcePreventMenuCloseEventHandler(e: MouseEvent): void {
     e.preventDefault();
     e.stopPropagation();
 }

@@ -1,4 +1,4 @@
-import { createElement, RefObject } from "react";
+import { createElement, ReactElement, RefObject } from "react";
 import Tooltip from "rc-tooltip";
 import { Handle, HandleProps } from "rc-slider";
 import { DynamicValue } from "mendix";
@@ -9,7 +9,7 @@ interface HandleGeneratorProps extends HandleProps {
     index: number;
 }
 
-type HandleGenerator = (props: HandleGeneratorProps) => JSX.Element | undefined;
+type HandleGenerator = (props: HandleGeneratorProps) => ReactElement | undefined;
 
 type CreateHandleGeneratorParams = {
     showTooltip: boolean;
@@ -38,7 +38,7 @@ export function createHandleGenerator(props: CreateHandleGeneratorParams): Handl
         return;
     }
 
-    return function handleGenerator(generatorProps: HandleGeneratorProps): JSX.Element | undefined {
+    return function handleGenerator(generatorProps: HandleGeneratorProps): ReactElement | undefined {
         const { dragging, index, ...restProps } = generatorProps;
         const isCustomText = tooltipTypeCheck[index];
 

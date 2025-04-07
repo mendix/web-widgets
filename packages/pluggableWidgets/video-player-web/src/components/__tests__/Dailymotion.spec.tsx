@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { create } from "react-test-renderer";
 
 import { Dailymotion, DailymotionProps } from "../Dailymotion";
@@ -12,7 +12,7 @@ describe("Dailymotion Player", () => {
         aspectRatio: false
     };
 
-    const defaulPlayer = (props: DailymotionProps): JSX.Element => <Dailymotion {...props} />;
+    const defaulPlayer = (props: DailymotionProps): ReactElement => <Dailymotion {...props} />;
 
     it("should renders correctly", () => {
         const player = create(defaulPlayer(defaultProps)).toJSON();
