@@ -4,15 +4,11 @@
     "version": "1.0.7",
     "description": "A signature pad for capturing signatures",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
-    "testProject": {
-        "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "signature-web"
-    },
-    "license": "Apache-2.0",
     "mxpackage": {
         "name": "Signature",
         "type": "widget",
@@ -24,16 +20,25 @@
         "appName": "Signature",
         "appNumber": 107984
     },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "signature-web"
+    },
     "scripts": {
         "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
-        "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+        "create-gh-release": "rui-create-gh-release",
         "format": "prettier --write .",
         "lint": "eslint src/",
-        "test": "pluggable-widgets-tools test:unit:web",
-        "create-gh-release": "rui-create-gh-release",
         "publish-marketplace": "rui-publish-marketplace",
+        "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+        "test": "pluggable-widgets-tools test:unit:web",
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2",
+        "react-resize-detector": "^9.1.1",
+        "signature_pad": "https://github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -53,11 +58,6 @@
         "typescript": "<5.2.0",
         "webpack": "^5.75.0",
         "webpack-cli": "^5.0.1"
-    },
-    "dependencies": {
-        "classnames": "^2.3.2",
-        "react-resize-detector": "^9.1.1",
-        "signature_pad": "https://github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz"
     },
     "jest": {
         "setupFiles": [

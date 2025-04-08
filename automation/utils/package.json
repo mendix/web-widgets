@@ -2,26 +2,32 @@
     "name": "@mendix/automation-utils",
     "version": "1.0.1",
     "description": "Set of helpers for release processes",
-    "private": true,
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
-    "main": "index.ts",
-    "types": "index.ts",
+    "private": true,
     "bin": {
         "rui-create-gh-release": "bin/rui-create-gh-release.ts",
+        "rui-create-translation": "bin/rui-create-translation.ts",
         "rui-publish-marketplace": "bin/rui-publish-marketplace.ts",
         "rui-update-changelog-module": "bin/rui-update-changelog-module.ts",
         "rui-update-changelog-widget": "bin/rui-update-changelog-widget.ts",
-        "rui-verify-package-format": "bin/rui-verify-package-format.ts",
-        "rui-create-translation": "bin/rui-create-translation.ts"
+        "rui-verify-package-format": "bin/rui-verify-package-format.ts"
     },
+    "types": "index.ts",
+    "main": "index.ts",
+    "files": [
+        "shell.ts",
+        "steps.ts",
+        "utils.ts",
+        "tsconfig.json"
+    ],
     "scripts": {
-        "start": "tsc --watch",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "format": "prettier --write .",
-        "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
-        "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
-        "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",
         "changelog": "ts-node bin/rui-changelog-helper.ts",
+        "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
+        "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
+        "format": "prettier --write .",
+        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",
+        "start": "tsc --watch",
         "version": "ts-node bin/rui-bump-version.ts"
     },
     "devDependencies": {
@@ -40,11 +46,5 @@
         "shelljs": "^0.8.5",
         "ts-node": "^10.9.1",
         "zod": "^3.20.6"
-    },
-    "files": [
-        "shell.ts",
-        "steps.ts",
-        "utils.ts",
-        "tsconfig.json"
-    ]
+    }
 }

@@ -8,6 +8,7 @@
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
+    "type": "module",
     "scripts": {
         "format": "prettier --write .",
         "lint": "echo 'Lint disabled for now, please update package scripts'",
@@ -21,7 +22,6 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "pretty-quick": "^4.1.1"
     },
-    "type": "module",
     "commitlint": {
         "extends": [
             "@commitlint/config-conventional"

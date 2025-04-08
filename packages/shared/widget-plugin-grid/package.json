@@ -2,13 +2,17 @@
     "name": "@mendix/widget-plugin-grid",
     "version": "0.2.0",
     "description": "Data grid related code.",
-    "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
     "type": "module",
+    "files": [
+        "dist",
+        "!*.map"
+    ],
     "exports": {
         "./*": "./dist/*.js",
         "./internal/*": null,
@@ -21,16 +25,12 @@
             ]
         }
     },
-    "files": [
-        "dist",
-        "!*.map"
-    ],
     "scripts": {
         "compile": "tsc",
+        "dev": "tsc --watch",
         "format": "prettier --write .",
         "lint": "eslint --ext .ts,.tsx ./src",
         "prepare": "tsc",
-        "dev": "tsc --watch",
         "test": "jest"
     },
     "devDependencies": {

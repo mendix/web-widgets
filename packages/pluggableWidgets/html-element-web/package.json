@@ -15,6 +15,7 @@
         "type": "widget",
         "mpkName": "com.mendix.widget.web.HTMLElement.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.12.0",
         "appName": "HTML Element",
@@ -25,20 +26,22 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "html-element-web"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
         "build": "pluggable-widgets-tools build:web",
         "create-gh-release": "rui-create-gh-release",
+        "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
-        "lint": "eslint src/",
         "format": "prettier --write .",
+        "lint": "eslint src/",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "pluggable-widgets-tools release:web",
         "start": "pluggable-widgets-tools start:server",
         "test": "pluggable-widgets-tools test:unit:web",
         "update-changelog": "rui-update-changelog-widget",
-        "verify": "rui-verify-package-format",
-        "create-translation": "rui-create-translation"
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "dompurify": "^3.2.4"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -46,8 +49,5 @@
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*"
-    },
-    "dependencies": {
-        "dompurify": "^3.2.4"
     }
 }

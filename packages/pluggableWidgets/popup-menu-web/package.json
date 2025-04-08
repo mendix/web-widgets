@@ -14,6 +14,7 @@
         "type": "widget",
         "mpkName": "com.mendix.widget.web.PopupMenu.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.24.0.2965",
         "appNumber": 115826,
@@ -24,22 +25,24 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "popupmenu-web"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:web",
         "build": "pluggable-widgets-tools build:web",
-        "format": "prettier --write .",
-        "lint": "eslint src/",
-        "test": "jest --projects jest.config.js",
-        "release": "pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
-        "publish-marketplace": "rui-publish-marketplace",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget",
+        "dev": "pluggable-widgets-tools start:web",
         "e2e": "run-e2e ci",
-        "e2edev": "run-e2e dev --with-preps"
+        "e2edev": "run-e2e dev --with-preps",
+        "format": "prettier --write .",
+        "lint": "eslint src/",
+        "publish-marketplace": "rui-publish-marketplace",
+        "release": "pluggable-widgets-tools release:web",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "jest --projects jest.config.js",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "@floating-ui/react": "^0.26.27"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -50,8 +53,5 @@
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "classnames": "^2.3.2"
-    },
-    "dependencies": {
-        "@floating-ui/react": "^0.26.27"
     }
 }

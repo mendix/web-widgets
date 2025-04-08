@@ -9,11 +9,13 @@
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
+    "config": {},
     "mxpackage": {
         "name": "Calendar",
         "type": "widget",
         "mpkName": "Calendar.mpk"
     },
+    "packagePath": "com.mendix.widget.custom",
     "marketplace": {
         "minimumMXVersion": "7.14.1",
         "appNumber": 107954,
@@ -23,20 +25,27 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "calendar-web"
     },
-    "packagePath": "com.mendix.widget.custom",
     "scripts": {
-        "fixme_build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
         "build": "echo 'TODO: Fix calendar-web build script'",
         "create-gh-release": "rui-create-gh-release",
+        "fixme_build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
+        "fixme_release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
         "format": "prettier --write .",
         "lint": "eslint src",
         "publish-marketplace": "rui-publish-marketplace",
-        "fixme_release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
         "release": "echo 'TODO: Fix calendar-web release script'",
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
     },
-    "config": {},
+    "dependencies": {
+        "classnames": "^2.3.2",
+        "date-arithmetic": "^3.1.0",
+        "loader-utils": "1.4.2",
+        "moment": "^2.30.1",
+        "react-big-calendar": "0.19.2",
+        "react-dnd": "2.6.0",
+        "react-dnd-html5-backend": "^5.0.1"
+    },
     "devDependencies": {
         "@babel/core": "^7.21.0",
         "@mendix/automation-utils": "workspace:*",
@@ -60,14 +69,5 @@
         "webpack": "^5.75.0",
         "webpack-cli": "^4.10.0",
         "webpack-merge": "^5.8.0"
-    },
-    "dependencies": {
-        "classnames": "^2.3.2",
-        "date-arithmetic": "^3.1.0",
-        "loader-utils": "1.4.2",
-        "moment": "^2.30.1",
-        "react-big-calendar": "0.19.2",
-        "react-dnd": "2.6.0",
-        "react-dnd-html5-backend": "^5.0.1"
     }
 }

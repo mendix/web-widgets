@@ -4,18 +4,19 @@
     "version": "2.9.1",
     "description": "",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "private": true,
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
-    "license": "Apache-2.0",
     "config": {},
     "mxpackage": {
         "name": "DatagridTextFilter",
         "type": "widget",
         "mpkName": "com.mendix.widget.web.DatagridTextFilter.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.17.0",
         "appName": "Text Filter"
@@ -24,21 +25,20 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "datagrid-text-filter-web-9d04c79"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:ts",
         "build": "pluggable-widgets-tools build:ts",
+        "create-translation": "rui-create-translation",
+        "dev": "pluggable-widgets-tools start:ts",
+        "e2e": "run-e2e ci",
+        "e2e-update-project": "pnpm --filter data-widgets run build:include-deps",
+        "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --write .",
         "lint": "eslint src/",
-        "test": "jest",
         "release": "pluggable-widgets-tools release:ts",
-        "verify": "rui-verify-package-format",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "jest",
         "update-changelog": "rui-update-changelog-widget",
-        "e2e": "run-e2e ci",
-        "e2edev": "run-e2e dev --with-preps",
-        "e2e-update-project": "pnpm --filter data-widgets run build:include-deps",
-        "create-translation": "rui-create-translation"
+        "verify": "rui-verify-package-format"
     },
     "dependencies": {
         "@mendix/widget-plugin-component-kit": "workspace:*",

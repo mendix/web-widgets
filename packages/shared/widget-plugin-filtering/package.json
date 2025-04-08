@@ -2,13 +2,17 @@
     "name": "@mendix/widget-plugin-filtering",
     "version": "1.1.0",
     "description": "Filtering API plugin.",
-    "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
     "type": "module",
+    "files": [
+        "dist",
+        "!*.map"
+    ],
     "exports": {
         "./*": "./dist/*.js"
     },
@@ -19,27 +23,13 @@
             ]
         }
     },
-    "files": [
-        "dist",
-        "!*.map"
-    ],
     "scripts": {
         "build": "tsc",
+        "dev": "tsc --watch",
         "format": "prettier --write .",
         "lint": "eslint --ext .ts,.tsx ./src",
         "prepare": "tsc",
-        "test": "jest",
-        "dev": "tsc --watch"
-    },
-    "devDependencies": {
-        "@mendix/eslint-config-web-widgets": "workspace:*",
-        "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@mendix/tsconfig-web-widgets": "workspace:*",
-        "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@swc/core": "^1.7.26",
-        "@swc/jest": "^0.2.36",
-        "date-fns": "^3.6.0",
-        "jest-environment-jsdom": "^29.4.1"
+        "test": "jest"
     },
     "dependencies": {
         "@floating-ui/react": "^0.26.27",
@@ -54,5 +44,15 @@
     },
     "peerDependencies": {
         "date-fns": "^3.6.0"
+    },
+    "devDependencies": {
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/tsconfig-web-widgets": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*",
+        "@swc/core": "^1.7.26",
+        "@swc/jest": "^0.2.36",
+        "date-fns": "^3.6.0",
+        "jest-environment-jsdom": "^29.4.1"
     }
 }

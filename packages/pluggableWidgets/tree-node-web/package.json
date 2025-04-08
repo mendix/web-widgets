@@ -16,6 +16,7 @@
         "type": "widget",
         "mpkName": "com.mendix.widget.web.TreeNode.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.17.0",
         "appName": "Tree Node"
@@ -24,21 +25,23 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "tree-node-web"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:web",
         "build": "pluggable-widgets-tools build:web",
+        "create-translation": "rui-create-translation",
+        "dev": "pluggable-widgets-tools start:web",
+        "e2e": "run-e2e ci",
+        "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force",
+        "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --write .",
         "lint": "eslint src/",
-        "test": "jest --projects jest.config.js",
         "release": "pluggable-widgets-tools release:web",
-        "verify": "rui-verify-package-format",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "jest --projects jest.config.js",
         "update-changelog": "rui-update-changelog-widget",
-        "e2e": "run-e2e ci",
-        "e2edev": "run-e2e dev --with-preps",
-        "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force",
-        "create-translation": "rui-create-translation"
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -47,8 +50,5 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*"
-    },
-    "dependencies": {
-        "classnames": "^2.3.2"
     }
 }

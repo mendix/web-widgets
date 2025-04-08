@@ -16,6 +16,7 @@
         "type": "widget",
         "mpkName": "com.mendix.widget.web.Gallery.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.24.0.2965",
         "appName": "Gallery"
@@ -24,21 +25,20 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "gallery-web-2023-10-17"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:web",
         "build": "pluggable-widgets-tools build:web",
+        "create-translation": "rui-create-translation",
+        "dev": "pluggable-widgets-tools start:web",
+        "e2e": "run-e2e ci",
+        "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force",
+        "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --write .",
         "lint": "eslint src/",
-        "test": "pluggable-widgets-tools test:unit:web",
         "release": "pluggable-widgets-tools release:web",
-        "verify": "rui-verify-package-format",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "pluggable-widgets-tools test:unit:web",
         "update-changelog": "rui-update-changelog-widget",
-        "e2e": "run-e2e ci",
-        "e2edev": "run-e2e dev --with-preps",
-        "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force",
-        "create-translation": "rui-create-translation"
+        "verify": "rui-verify-package-format"
     },
     "dependencies": {
         "@mendix/widget-plugin-external-events": "workspace:*",
