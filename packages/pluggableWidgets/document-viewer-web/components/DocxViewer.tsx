@@ -1,6 +1,7 @@
 import { createElement, Fragment, useCallback, useEffect, useState } from "react";
-import mammoth from "mammoth";
-import { DocumentViewerContainerProps } from "typings/DocumentViewerProps";
+// @ts-ignore implicit any
+import mammoth from "../utils/mammoth.browser";
+import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 import { DocRendererElement } from "./documentRenderer";
 
 const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => {
@@ -16,7 +17,7 @@ const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => 
                         includeDefaultStyleMap: true
                     }
                 )
-                .then(result => {
+                .then((result: any) => {
                     if (result) {
                         setDocxHtml(result.value);
                     }
