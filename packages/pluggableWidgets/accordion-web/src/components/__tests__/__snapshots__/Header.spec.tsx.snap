@@ -1,37 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Header renders h1 1`] = `
-<h1>
-  Text
-</h1>
+<div>
+  <h1>
+    Text
+  </h1>
+</div>
 `;
 
 exports[`Header renders h2 1`] = `
-<h2>
-  Text
-</h2>
+<div>
+  <h2>
+    Text
+  </h2>
+</div>
 `;
 
 exports[`Header renders h3 1`] = `
-<h3>
-  Text
-</h3>
+<div>
+  <h3>
+    Text
+  </h3>
+</div>
 `;
 
 exports[`Header renders h4 1`] = `
-<h4>
-  Text
-</h4>
+<div>
+  <h4>
+    Text
+  </h4>
+</div>
 `;
 
 exports[`Header renders h5 1`] = `
-<h5>
-  Text
-</h5>
+<div>
+  <h5>
+    Text
+  </h5>
+</div>
 `;
 
 exports[`Header renders h6 1`] = `
-<h6>
-  Text
-</h6>
+<div>
+  <h6>
+    Text
+  </h6>
+</div>
 `;
