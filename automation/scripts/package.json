@@ -1,33 +1,33 @@
 {
     "name": "@mendix/scripts",
     "version": "0.1.0",
-    "private": true,
-    "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
-    "type": "module",
-    "engines": {
-        "node": ">=18.20.4"
-    },
+    "license": "Apache-2.0",
+    "private": true,
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
     "scripts": {
+        "format": "prettier --write .",
         "lint": "echo 'Lint disabled for now, please update package scripts'",
         "lint:enableme": "eslint . --ext .mjs",
-        "format": "prettier --write .",
-        "root-script:format-staged": "pretty-quick --staged --config \"./.prettierrc.cjs\" --pattern \"**/{src,script,typings,test,**}/**/*.{cjs,mjs,js,jsx,ts,tsx,scss,html,xml,md,json}\"",
-        "root-script:commitlint": "commitlint"
+        "root-script:commitlint": "commitlint",
+        "root-script:format-staged": "pretty-quick --staged --config \"./.prettierrc.cjs\" --pattern \"**/{src,script,typings,test,**}/**/*.{cjs,mjs,js,jsx,ts,tsx,scss,html,xml,md,json}\""
     },
     "dependencies": {
-        "@commitlint/cli": "^17.8.1",
-        "@commitlint/config-conventional": "^17.8.1",
+        "@commitlint/cli": "^19.8.0",
+        "@commitlint/config-conventional": "^19.8.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "pretty-quick": "^3.1.3"
+        "pretty-quick": "^4.1.1"
     },
+    "type": "module",
     "commitlint": {
         "extends": [
             "@commitlint/config-conventional"
         ]
+    },
+    "engines": {
+        "node": ">=18.20.4"
     }
 }
