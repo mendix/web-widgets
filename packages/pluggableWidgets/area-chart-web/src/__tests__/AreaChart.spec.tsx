@@ -1,7 +1,21 @@
+jest.mock("@mendix/shared-charts/main", () => {
+    const actualModule = jest.requireActual("@mendix/shared-charts/main");
+    return {
+        ...actualModule,
+        ChartWidget: jest.fn(() => null)
+    };
+});
+
 import { ChartWidget } from "@mendix/shared-charts/main";
-import { list, listExp, EditableValueBuilder, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
+import {
+    EditableValueBuilder,
+    list,
+    ListAttributeValueBuilder,
+    listExpression
+} from "@mendix/widget-plugin-test-utils";
+import "@testing-library/jest-dom";
+import { render, RenderResult } from "@testing-library/react";
 import Big from "big.js";
-import { mount, ReactWrapper } from "enzyme";
 import { createElement } from "react";
 import { SeriesType } from "../../typings/AreaChartProps";
 import { AreaChart } from "../AreaChart";
@@ -9,8 +23,8 @@ import { AreaChart } from "../AreaChart";
 jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The AreaChart widget", () => {
-    function renderAreaChart(configs: Array<Partial<SeriesType>>): ReactWrapper {
-        return mount(
+    function renderAreaChart(configs: Array<Partial<SeriesType>>): RenderResult {
+        return render(
             <AreaChart
                 name="line-chart-test"
                 class="line-chart-class"
@@ -31,77 +45,117 @@ describe("The AreaChart widget", () => {
     }
 
     it("visualizes data as a area chart", () => {
-        const areaChart = renderAreaChart([{}]);
-        const data = areaChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        expect(data[0]).toHaveProperty("type", "scatter");
-        expect(data[0]).toHaveProperty("fill", "tonexty");
+        renderAreaChart([{}]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({
+                        type: "scatter",
+                        fill: "tonexty"
+                    })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the mode on the data series based on the lineStyle value", () => {
-        const areaChart = renderAreaChart([{ lineStyle: "lineWithMarkers" }, { lineStyle: "line" }]);
-        const data = areaChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("mode", "lines+markers");
-        expect(data[1]).toHaveProperty("mode", "lines");
+        renderAreaChart([{ lineStyle: "lineWithMarkers" }, { lineStyle: "line" }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ mode: "lines+markers" }),
+                    expect.objectContaining({ mode: "lines" })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the line shape on the data series based on the interpolation value", () => {
-        const areaChart = renderAreaChart([{ interpolation: "linear" }, { interpolation: "spline" }]);
-        const data = areaChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("line.shape", "linear");
-        expect(data[1]).toHaveProperty("line.shape", "spline");
+        renderAreaChart([{ interpolation: "linear" }, { interpolation: "spline" }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ line: expect.objectContaining({ shape: "linear" }) }),
+                    expect.objectContaining({ line: expect.objectContaining({ shape: "spline" }) })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the line color on the data series based on the lineColor value", () => {
-        const areaChart = renderAreaChart([{ staticLineColor: listExp(() => "red") }, { staticLineColor: undefined }]);
-        const data = areaChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("line.color", "red");
-        expect(data[1]).toHaveProperty("line.color", undefined);
+        renderAreaChart([{ staticLineColor: listExpression(() => "red") }, { staticLineColor: undefined }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ line: expect.objectContaining({ color: "red" }) }),
+                    expect.objectContaining({ line: expect.objectContaining({ color: undefined }) })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
-        const areaChart = renderAreaChart([
-            { staticMarkerColor: undefined },
-            { staticMarkerColor: listExp(() => "blue") }
-        ]);
-        const data = areaChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("marker.color", undefined);
-        expect(data[1]).toHaveProperty("marker.color", "blue");
+        renderAreaChart([{ staticMarkerColor: undefined }, { staticMarkerColor: listExpression(() => "blue") }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ marker: expect.objectContaining({ color: undefined }) }),
+                    expect.objectContaining({ marker: expect.objectContaining({ color: "blue" }) })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the area color on the data series based on the fillcolor value", () => {
-        const areaChart = renderAreaChart([
-            { staticFillColor: undefined },
-            { staticFillColor: listExp(() => "#393393") }
-        ]);
-        const data = areaChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("fillcolor", undefined);
-        expect(data[1]).toHaveProperty("fillcolor", "#393393");
+        renderAreaChart([{ staticFillColor: undefined }, { staticFillColor: listExpression(() => "#393393") }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ fillcolor: undefined }),
+                    expect.objectContaining({ fillcolor: "#393393" })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the appropriate transforms on the data series based on the aggregation type", () => {
-        const areaChart = renderAreaChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
-        const data = areaChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("transforms", []);
-        expect(data[1]).toHaveProperty("transforms", [
-            {
-                type: "aggregate",
-                groups: ["1", "2"],
-                aggregations: [
-                    {
-                        target: "y",
-                        enabled: true,
-                        func: "avg"
-                    }
-                ]
-            }
-        ]);
+        renderAreaChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ transforms: [] }),
+                    expect.objectContaining({
+                        transforms: [
+                            {
+                                type: "aggregate",
+                                groups: ["1", "2"],
+                                aggregations: [
+                                    {
+                                        target: "y",
+                                        enabled: true,
+                                        func: "avg"
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                ])
+            }),
+            {}
+        );
     });
 });
 
