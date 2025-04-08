@@ -10,9 +10,9 @@
     ],
     "exports": {
         ".": null,
+        "./*": "./dist/*.js",
         "./rollup/shared-libs-config.cjs": "./dist/rollup/shared-libs-config.cjs",
-        "./ui/*": "./dist/ui/*",
-        "./*": "./dist/*.js"
+        "./ui/*": "./dist/ui/*"
     },
     "typesVersions": {
         "*": {
@@ -29,7 +29,7 @@
         "predev": "pnpm clear && pnpm copy",
         "dev": "tsc --build --verbose --watch tsconfig.json",
         "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx . && tsc --noEmit",
+        "lint": "eslint . package.json && tsc --noEmit",
         "prepare": "turbo build",
         "release": "pnpm build",
         "test": "jest"

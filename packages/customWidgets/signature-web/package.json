@@ -28,7 +28,7 @@
         "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
         "create-gh-release": "rui-create-gh-release",
         "format": "prettier --write .",
-        "lint": "eslint src/",
+        "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
         "test": "pluggable-widgets-tools test:unit:web",

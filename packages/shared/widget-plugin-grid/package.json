@@ -15,8 +15,8 @@
     ],
     "exports": {
         "./*": "./dist/*.js",
-        "./internal/*": null,
-        "./internal": null
+        "./internal": null,
+        "./internal/*": null
     },
     "typesVersions": {
         "*": {
@@ -29,7 +29,7 @@
         "compile": "tsc",
         "dev": "tsc --watch",
         "format": "prettier --write .",
-        "lint": "eslint --ext .ts,.tsx ./src",
+        "lint": "eslint src/ package.json",
         "prepare": "tsc",
         "test": "jest"
     },

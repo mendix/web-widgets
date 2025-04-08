@@ -33,7 +33,7 @@
         "e2e-update-project": "pnpm --filter data-widgets run build:include-deps",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --write .",
-        "lint": "eslint src/",
+        "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
         "start": "pluggable-widgets-tools start:server",
         "test": "pluggable-widgets-tools test:unit:web",

@@ -32,7 +32,7 @@
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
         "format": "prettier --write .",
-        "lint": "eslint src/",
+        "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "pluggable-widgets-tools release:web",
         "start": "pluggable-widgets-tools start:server",

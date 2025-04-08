@@ -10,14 +10,15 @@
         "url": "https://github.com/mendix/web-widgets.git"
     },
     "config": {
-        "mendixHost": "http://localhost:8080",
-        "developmentPort": 3000
+        "developmentPort": 3000,
+        "mendixHost": "http://localhost:8080"
     },
     "mxpackage": {
         "name": "Events",
         "type": "widget",
         "mpkName": "com.mendix.widget.web.events.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.24.0",
         "appNumber": 224259,
@@ -28,22 +29,24 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "app-events-web"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:web",
         "build": "pluggable-widgets-tools build:web",
-        "format": "pluggable-widgets-tools format",
-        "lint": "eslint src/",
-        "test": "jest --projects jest.config.js",
-        "e2e": "echo \"Skipping this e2e test\"",
-        "e2edev": "run-e2e dev --with-preps",
-        "release": "pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
+        "dev": "pluggable-widgets-tools start:web",
+        "e2e": "echo \"Skipping this e2e test\"",
+        "e2edev": "run-e2e dev --with-preps",
+        "format": "pluggable-widgets-tools format",
+        "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget"
+        "release": "pluggable-widgets-tools release:web",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "jest --projects jest.config.js",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -56,8 +59,5 @@
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "cross-env": "^7.0.3"
-    },
-    "dependencies": {
-        "classnames": "^2.3.2"
     }
 }

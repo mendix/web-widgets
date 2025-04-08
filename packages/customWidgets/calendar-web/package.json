@@ -31,7 +31,7 @@
         "fixme_build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
         "fixme_release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
         "format": "prettier --write .",
-        "lint": "eslint src",
+        "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "echo 'TODO: Fix calendar-web release script'",
         "update-changelog": "rui-update-changelog-widget",

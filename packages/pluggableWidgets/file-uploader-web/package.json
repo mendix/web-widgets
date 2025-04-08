@@ -33,7 +33,7 @@
         "e2e": "echo \"Skipping this e2e test\"",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --write .",
-        "lint": "eslint src/",
+        "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
         "remove-nf-defaults": "node nf-defaults.mjs remove",
         "start": "pluggable-widgets-tools start:server",

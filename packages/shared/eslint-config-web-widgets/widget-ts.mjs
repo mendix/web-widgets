@@ -4,6 +4,8 @@ import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import jestPlugin from "eslint-plugin-jest";
+import packageJson from "eslint-plugin-package-json";
+import packageJsonFieldsOrder from "@mendix/prettier-config-web-widgets/package-json-fields-order.js";
 
 export default tseslint.config(
     {
@@ -194,6 +196,20 @@ export default tseslint.config(
         rules: {
             "@typescript-eslint/no-require-imports": "off",
             "@typescript-eslint/class-name-casing": "off"
+        }
+    },
+    {
+        name: "package.json checks",
+        extends: [packageJson.configs.recommended],
+        files: ["package.json"],
+        rules: {
+            "package-json/no-empty-fields": "off",
+            "package-json/order-properties": [
+                "error",
+                {
+                    order: packageJsonFieldsOrder
+                }
+            ]
         }
     },
     eslintPluginPrettierRecommended

@@ -1,3 +1,5 @@
+const packageJsonFieldsOrder = require("./package-json-fields-order");
+
 module.exports = {
     trailingComma: "none",
     useTabs: false,
@@ -49,24 +51,7 @@ module.exports = {
         {
             files: "package.json",
             options: {
-                packageSortOrder: [
-                    "name",
-                    "widgetName",
-                    "version",
-                    "description",
-                    "copyright",
-                    "license",
-                    "private",
-                    "repository",
-                    "config",
-                    "mxpackage",
-                    "packagePath",
-                    "marketplace",
-                    "testProject",
-                    "scripts",
-                    "dependencies",
-                    "devDependencies"
-                ]
+                packageSortOrder: packageJsonFieldsOrder
             }
         }
     ]

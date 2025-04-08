@@ -33,7 +33,7 @@
         "e2e": "run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --write .",
-        "lint": "eslint src/",
+        "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools release:web",
         "start": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools start:server",

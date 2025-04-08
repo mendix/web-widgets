@@ -28,7 +28,7 @@
         "build": "pluggable-widgets-tools build:web",
         "dev": "pluggable-widgets-tools start:web",
         "format": "prettier --write .",
-        "lint": "eslint src/",
+        "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
         "start": "pluggable-widgets-tools start:server",
         "test": "echo 'FIXME: Add unit tests'"
