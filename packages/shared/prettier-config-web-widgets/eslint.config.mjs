@@ -4,7 +4,7 @@ import js from "@eslint/js";
 
 export default defineConfig([
     {
-        files: ["**/*.js"],
+        files: ["**/*.{,m,c}js"],
         languageOptions: {
             globals: {
                 ...globals.browser,
@@ -14,5 +14,5 @@ export default defineConfig([
             ecmaVersion: 12
         }
     },
-    { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] }
+    { files: ["**/*.{,m,c}js"], plugins: { js }, extends: ["js/recommended"] }
 ]);

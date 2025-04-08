@@ -181,7 +181,7 @@ export default tseslint.config(
     },
     {
         name: "widget-ts-js-undef",
-        files: ["**/*.js"],
+        files: ["**/*.{,m,c}js"],
         // TODO: not sure if it is still needed
         rules: {
             "no-undef": "warn",
