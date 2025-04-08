@@ -1,51 +1,51 @@
+import "@testing-library/jest-dom";
+import { render, RenderResult } from "@testing-library/react";
 import { createElement, PropsWithChildren } from "react";
-import { shallow } from "enzyme";
-
 import { Header, HeaderProps } from "../Header";
 
 describe("Header", () => {
-    let defaultHeaderProps: PropsWithChildren<HeaderProps>;
+    const defaultHeaderProps: PropsWithChildren<HeaderProps> = {
+        heading: "headingThree",
+        children: "Text"
+    };
 
-    beforeEach(() => {
-        defaultHeaderProps = {
-            heading: "headingThree",
-            children: "Text"
-        };
-    });
+    function renderHeader(props: Partial<HeaderProps> = {}): RenderResult {
+        return render(<Header {...defaultHeaderProps} {...props} />);
+    }
 
     it("renders h1", () => {
-        const headerWrapper = shallow(<Header {...defaultHeaderProps} heading="headingOne" />);
+        const header = renderHeader({ heading: "headingOne" });
 
-        expect(headerWrapper).toMatchSnapshot();
+        expect(header.container).toMatchSnapshot();
     });
 
     it("renders h2", () => {
-        const headerWrapper = shallow(<Header {...defaultHeaderProps} heading="headingTwo" />);
+        const header = renderHeader({ heading: "headingTwo" });
 
-        expect(headerWrapper).toMatchSnapshot();
+        expect(header.container).toMatchSnapshot();
     });
 
     it("renders h3", () => {
-        const headerWrapper = shallow(<Header {...defaultHeaderProps} />);
+        const header = renderHeader();
 
-        expect(headerWrapper).toMatchSnapshot();
+        expect(header.container).toMatchSnapshot();
     });
 
     it("renders h4", () => {
-        const headerWrapper = shallow(<Header {...defaultHeaderProps} heading="headingFour" />);
+        const header = renderHeader({ heading: "headingFour" });
 
-        expect(headerWrapper).toMatchSnapshot();
+        expect(header.container).toMatchSnapshot();
     });
 
     it("renders h5", () => {
-        const headerWrapper = shallow(<Header {...defaultHeaderProps} heading="headingFive" />);
+        const header = renderHeader({ heading: "headingFive" });
 
-        expect(headerWrapper).toMatchSnapshot();
+        expect(header.container).toMatchSnapshot();
     });
 
     it("renders h6", () => {
-        const headerWrapper = shallow(<Header {...defaultHeaderProps} heading="headingSix" />);
+        const header = renderHeader({ heading: "headingSix" });
 
-        expect(headerWrapper).toMatchSnapshot();
+        expect(header.container).toMatchSnapshot();
     });
 });
