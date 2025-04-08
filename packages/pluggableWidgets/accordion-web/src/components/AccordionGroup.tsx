@@ -117,6 +117,7 @@ export function AccordionGroup(props: AccordionGroupProps): ReactElement | null 
             switch (event.key) {
                 case "Enter":
                 case " ":
+                case "Space":
                     event.preventDefault();
                     toggleCollapsed?.();
                     break;
