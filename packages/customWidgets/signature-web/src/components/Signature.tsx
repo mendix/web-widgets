@@ -31,6 +31,7 @@ export type penOptions = "fountain" | "ballpoint" | "marker";
 
 export class Signature extends PureComponent<SignatureProps> {
     private canvasNode: HTMLCanvasElement | null = null;
+    // @ts-expect-error
     private signaturePad: SignaturePad;
 
     render(): ReactNode {

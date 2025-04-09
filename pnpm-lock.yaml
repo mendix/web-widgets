@@ -370,8 +370,8 @@ importers:
         specifier: ^9.1.1
         version: 9.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       signature_pad:
-        specifier: https://github.com/Andries-Smit/signature_pad/releases/download/v3.0.0-beta.4/signature_pad.tar.gz
-        version: https://objects.githubusercontent.com/github-production-release-asset-2e65be/155689442/2d9d5300-eab7-11e8-83e6-d94c91a1f56e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250409%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250409T082545Z&X-Amz-Expires=300&X-Amz-Signature=30ebbf0340bedfc028973a298d7a17e54892c68885061f0371b6fcae790998d7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dsignature_pad.tar.gz&response-content-type=application%2Foctet-stream
+        specifier: 4.0.0
+        version: 4.0.0
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -10300,9 +10300,8 @@ packages:
   signal-exit@3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
 
-  signature_pad@https://objects.githubusercontent.com/github-production-release-asset-2e65be/155689442/2d9d5300-eab7-11e8-83e6-d94c91a1f56e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250409%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250409T082545Z&X-Amz-Expires=300&X-Amz-Signature=30ebbf0340bedfc028973a298d7a17e54892c68885061f0371b6fcae790998d7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dsignature_pad.tar.gz&response-content-type=application%2Foctet-stream:
-    resolution: {tarball: https://objects.githubusercontent.com/github-production-release-asset-2e65be/155689442/2d9d5300-eab7-11e8-83e6-d94c91a1f56e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250409%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250409T082545Z&X-Amz-Expires=300&X-Amz-Signature=30ebbf0340bedfc028973a298d7a17e54892c68885061f0371b6fcae790998d7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dsignature_pad.tar.gz&response-content-type=application%2Foctet-stream}
-    version: 3.0.0-beta.4
+  signature_pad@4.0.0:
+    resolution: {integrity: sha512-47I2MULJIHaUAFuVbqMVWwZR+GEl2wH4QKg16OwpQg82GzVUL3Z405Um6sLgVB0xbP5rwqiNzfLTbJwipXvaWA==}
 
   signum@1.0.0:
     resolution: {integrity: sha512-yodFGwcyt59XRh7w5W3jPcIQb3Bwi21suEfT7MAWnBX3iCdklJpgDgvGT9o04UonglZN5SNMfJFkHIR/jO8GHw==}
@@ -23213,7 +23212,7 @@ snapshots:
 
   signal-exit@3.0.7: {}
 
-  signature_pad@https://objects.githubusercontent.com/github-production-release-asset-2e65be/155689442/2d9d5300-eab7-11e8-83e6-d94c91a1f56e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250409%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250409T082545Z&X-Amz-Expires=300&X-Amz-Signature=30ebbf0340bedfc028973a298d7a17e54892c68885061f0371b6fcae790998d7&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dsignature_pad.tar.gz&response-content-type=application%2Foctet-stream: {}
+  signature_pad@4.0.0: {}
 
   signum@1.0.0: {}
 
