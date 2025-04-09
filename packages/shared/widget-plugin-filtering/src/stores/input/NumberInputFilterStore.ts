@@ -9,10 +9,9 @@ import { FilterData, InputData } from "../../typings/settings";
 import { NumberArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
-import { getFormatter } from "./store-utils";
 
 type NumFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
-type Formatter = ListAttributeValue<Big>["formatter"];
+type Formatter = SimpleFormatter<Big>;
 type AttrMeta = AttributeMetaData<Big> & { formatter?: SimpleFormatter<Big> };
 
 export class NumberInputFilterStore
@@ -23,7 +22,7 @@ export class NumberInputFilterStore
     readonly type = "number";
 
     constructor(attributes: AttrMeta[], initCond: FilterCondition | null) {
-        let formatter = formatterFix(getFormatter<Big>(attributes[0]));
+        const formatter = formatterFix(attributes[0].formatter);
         super(new NumberArgument(formatter), new NumberArgument(formatter), "equal", attributes);
         makeObservable(this, {
             updateProps: action,
@@ -80,11 +79,12 @@ export class NumberInputFilterStore
     }
 }
 
-function formatterFix(formatter: Formatter): Formatter {
+function formatterFix(formatter: Formatter | undefined): Formatter {
     // Check formatter.parse to see if it is a valid formatter.
-    if (formatter.parse("none")?.valid === false) {
+    if (formatter && formatter.parse("none")?.valid === false) {
         return formatter;
     }
+
     // Create a new formatter that will handle the autonumber values.
     return {
         format: (value: Big) => {
