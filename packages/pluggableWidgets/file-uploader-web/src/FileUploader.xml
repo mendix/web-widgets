@@ -220,12 +220,12 @@
                             <description />
                         </property>
                         <property key="buttonIsDefault" type="boolean" defaultValue="false">
-                            <caption>Is default</caption>
-                            <description>The action will be triggered by clicking on the file entry.</description>
+                            <caption>Default file action</caption>
+                            <description>When set to Yes, the action will be triggered by clicking on the file entry.</description>
                         </property>
                         <property key="buttonIsVisible" type="expression" defaultValue="true">
-                            <caption>Is visible</caption>
-                            <description>The button will be hidden if false is returned.</description>
+                            <caption>Visible</caption>
+                            <description>The button will be hidden when false is returned.</description>
                             <returnType type="Boolean" />
                         </property>
                     </propertyGroup>
