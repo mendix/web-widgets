@@ -34,9 +34,9 @@ export function getProperties(values: DatagridNumberFilterPreviewProps, defaultP
 
     if (values.attrChoice === "auto") {
         hidePropertyIn(defaultProperties, values, "attributes");
+        hidePropertyIn(defaultProperties, {} as { linkedDs: unknown }, "linkedDs");
     }
 
-    hidePropertyIn(defaultProperties, {} as { linkedDs: unknown }, "linkedDs");
     return defaultProperties;
 }
 
