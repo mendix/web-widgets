@@ -18,7 +18,7 @@ export const ActionsBar = ({ actions, store }: ButtonsBarProps): ReactElement | 
     if (actions && store.canExecuteActions) {
         return (
             <div className={"entry-details-actions"}>
-                {actions.map(a => {
+                {actions.map((a, i) => {
                     if (!a.buttonIsVisible.value) {
                         return null;
                     }
@@ -26,6 +26,7 @@ export const ActionsBar = ({ actions, store }: ButtonsBarProps): ReactElement | 
 
                     return (
                         <FileActionButton
+                            key={i}
                             icon={<IconInternal icon={a.buttonIcon.value} className={"file-action-icon"} />}
                             title={a.buttonCaption.value}
                             store={store}
@@ -40,7 +41,7 @@ export const ActionsBar = ({ actions, store }: ButtonsBarProps): ReactElement | 
     return null;
 };
 
-function DefaultActionsBar(props: ButtonsBarProps) {
+function DefaultActionsBar(props: ButtonsBarProps): ReactElement {
     const translations = useTranslationsStore();
 
     const onRemove = useCallback(() => {
@@ -54,13 +55,13 @@ function DefaultActionsBar(props: ButtonsBarProps) {
     return (
         <div className={"entry-details-actions"}>
             <ActionButton
-                icon={<span className={"download-icon"} aria-hidden={true} />}
+                icon={<span className={"download-icon"} aria-hidden />}
                 title={translations.get("downloadButtonTextMessage")}
                 action={onViewClick}
                 isDisabled={!props.store.canDownload}
             />
             <ActionButton
-                icon={<span className={"remove-icon"} aria-hidden={true} />}
+                icon={<span className={"remove-icon"} aria-hidden />}
                 title={translations.get("removeButtonTextMessage")}
                 action={onRemove}
                 isDisabled={!props.store.canRemove}
