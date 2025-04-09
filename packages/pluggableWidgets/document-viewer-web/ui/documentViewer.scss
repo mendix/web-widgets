@@ -4,15 +4,23 @@ $root: widget-document-viewer;
     --document-viewer-negative-margin: calc(-1 * var(--form-input-padding-x));
 }
 
-.widget-document-viewer {
+div.widget-document-viewer {
     display: flex;
     flex-direction: column;
+    border: 1px solid var(--border-color-default, #ced0d3);
+    border-radius: var(--border-radius-default);
 
     &-controls {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
         margin: calc(-1 * var(--form-input-padding-y)) calc(-1 * var(--form-input-padding-x));
         margin-bottom: 0;
-        padding: var(--form-input-padding-y) var(--form-input-padding-x);
+        padding: var(--spacing-medium) var(--spacing-large);
         background-color: var(--gray-lighter);
+        border-bottom: 1px solid var(--border-color-default, #ced0d3);
+        border-radius: var(--border-radius-default) var(--border-radius-default) 0 0;
     }
 
     &-content {
@@ -20,5 +28,13 @@ $root: widget-document-viewer;
         padding: var(--spacing-medium);
         border: 1px solid var(--gray-darker);
         border-radius: var(--border-radius-default);
+    }
+
+    &-pagination {
+        display: flex;
+        align-items: center;
+        & > *:not(:last-child) {
+            margin-right: var(--spacing-small);
+        }
     }
 }

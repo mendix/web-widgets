@@ -2,7 +2,8 @@ import { createElement, ReactElement } from "react";
 import { DocumentContext } from "../store";
 import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 import { useRendererSelector } from "../utils/useRendererSelector";
-import "../ui/DocumentViewer.scss";
+import "../ui/documentViewer.scss";
+import "../ui/documentViewerIcons.scss";
 import classNames from "classnames";
 
 export default function DocumentViewer(props: DocumentViewerContainerProps): ReactElement {

@@ -43,6 +43,9 @@ const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => 
 
     return (
         <Fragment>
+            <div className="widget-document-viewer-controls">
+                <div className="widget-document-viewer-controls-left">{file.value?.name}</div>
+            </div>
             {docxHtml && (
                 <div className="widget-document-viewer-content" dangerouslySetInnerHTML={{ __html: docxHtml }}>
                     {/* {docHtmlStr} */}

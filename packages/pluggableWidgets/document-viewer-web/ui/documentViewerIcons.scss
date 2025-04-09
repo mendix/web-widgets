@@ -1,0 +1,38 @@
+@use "sass:map";
+@font-face {
+    font-family: "DocViewer";
+    src: url("../assets/DocViewer.woff2") format("woff2");
+}
+
+$icons: (
+    Download: "\e903",
+    Right: "\e906",
+    Left: "\e902",
+    ZoomIn: "\e901",
+    ZoomOut: "\e900",
+    FitToWidth: "\e904"
+);
+
+.icons.btn {
+    background-color: transparent;
+}
+
+div.widget-document-viewer {
+    &-controls {
+        .icons {
+            font-family: "DocViewer" !important;
+            font-size: 16px;
+            font-style: normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            padding: var(--spacing-smallest) var(--spacing-small);
+
+            @each $name, $code in $icons {
+                &.icon-#{$name}:before {
+                    content: $code;
+                }
+            }
+        }
+    }
+}
