@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { create } from "react-test-renderer";
 
 import { Vimeo, VimeoProps } from "../Vimeo";
@@ -12,7 +12,7 @@ describe("VimeoPlayer Player", () => {
         aspectRatio: false
     };
 
-    const defaulPlayer = (props: VimeoProps): JSX.Element => <Vimeo {...props} />;
+    const defaulPlayer = (props: VimeoProps): ReactElement => <Vimeo {...props} />;
 
     it("should renders correctly", () => {
         const player = create(defaulPlayer(defaultProps)).toJSON();

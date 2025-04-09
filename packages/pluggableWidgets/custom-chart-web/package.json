@@ -10,14 +10,15 @@
         "url": "https://github.com/mendix/web-widgets.git"
     },
     "config": {
-        "mendixHost": "http://localhost:8080",
-        "developmentPort": 3000
+        "developmentPort": 3000,
+        "mendixHost": "http://localhost:8080"
     },
     "mxpackage": {
         "name": "CustomChart",
         "type": "widget",
         "mpkName": "com.mendix.widget.web.CustomChart.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "10.16.0",
         "appNumber": 1234,
@@ -27,32 +28,31 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "custom-chart-web"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:web",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools build:web",
-        "format": "pluggable-widgets-tools format",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "test": "echo 'FIXME: Finish custom-chart-web unit test migration'",
+        "create-gh-release": "rui-create-gh-release",
+        "dev": "pluggable-widgets-tools start:web",
         "e2e": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
         "e2edev": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
-        "release": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools release:web",
-        "create-gh-release": "rui-create-gh-release",
+        "format": "pluggable-widgets-tools format",
+        "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget"
-    },
-    "devDependencies": {
-        "@mendix/pluggable-widgets-tools": "*",
-        "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@mendix/run-e2e": "workspace:^*",
-        "cross-env": "^7.0.3"
+        "release": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools release:web",
+        "start": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools start:server",
+        "test": "echo 'FIXME: Finish custom-chart-web unit test migration'",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
     },
     "dependencies": {
         "@mendix/shared-charts": "workspace:*",
         "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "classnames": "^2.3.2",
         "plotly.js-dist-min": "^3.0.0"
+    },
+    "devDependencies": {
+        "@mendix/pluggable-widgets-tools": "*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:^*",
+        "cross-env": "^7.0.3"
     }
 }

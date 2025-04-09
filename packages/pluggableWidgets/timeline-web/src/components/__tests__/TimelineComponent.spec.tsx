@@ -54,7 +54,7 @@ describe("Timeline", () => {
         const component = shallow(<TimelineComponent {...basicRenderProps} />);
         expect(component).toMatchSnapshot();
     });
-    it("renders timeline with custom configuration ", () => {
+    it("renders timeline with custom configuration", () => {
         const component = shallow(<TimelineComponent {...customRenderProps} />);
         expect(component).toMatchSnapshot();
     });
@@ -96,7 +96,7 @@ describe("Timeline", () => {
             const clickableItem = component.find(".clickable");
             clickableItem.simulate("click");
 
-            expect(action.execute).toBeCalled();
+            expect(action.execute).toHaveBeenCalled();
         });
         it("change style when hovered", () => {
             const action = actionValue(true, false);

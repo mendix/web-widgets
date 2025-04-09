@@ -3,22 +3,21 @@
     "version": "1.1.0",
     "description": "Generate fake data snapshot in json",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "MIT",
     "main": "./lib/index.js",
     "files": [
         "lib"
     ],
-    "engines": {
-        "node": ">= 18.20.4"
-    },
-    "license": "MIT",
     "scripts": {
         "format": "prettier --write .",
-        "lint": "eslint --ext .js lib/ bin/"
+        "lint": "eslint lib/ bin/"
     },
     "dependencies": {
         "chance": "^1.1.12"
     },
     "devDependencies": {
-        "@mendix/prettier-config-web-widgets": "workspace:*"
+        "@eslint/js": "^9.24.0",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "globals": "^16.0.0"
     }
 }

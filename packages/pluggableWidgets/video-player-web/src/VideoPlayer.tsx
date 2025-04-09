@@ -1,4 +1,4 @@
-import { Component, createElement } from "react";
+import { Component, createElement, ReactNode } from "react";
 import classNames from "classnames";
 
 import { SizeContainer } from "./components/SizeContainer";
@@ -8,7 +8,7 @@ import { VideoPlayerContainerProps } from "../typings/VideoPlayerProps";
 import "./ui/VideoPlayer.scss";
 
 export default class VideoPlayer extends Component<VideoPlayerContainerProps> {
-    render(): JSX.Element {
+    render(): ReactNode {
         const useExpressionForLinks = this.props.type === "expression";
         const url = useExpressionForLinks ? this.props.urlExpression?.value : this.props.videoUrl?.value;
         const poster = useExpressionForLinks ? this.props.posterExpression?.value : this.props.posterUrl?.value;

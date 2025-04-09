@@ -1,7 +1,0 @@
-{
-    "root": true,
-    "extends": ["@mendix/eslint-config-web-widgets/widget-ts"],
-    "parserOptions": {
-        "project": ["./tsconfig.json", "./rollup/tsconfig.json"]
-    }
-}

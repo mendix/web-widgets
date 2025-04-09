@@ -2,8 +2,8 @@
     "name": "@mendix/data-widgets",
     "moduleName": "Data Widgets",
     "version": "2.30.4",
-    "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "private": true,
     "repository": {
         "type": "git",
@@ -36,19 +36,19 @@
         "branchName": "main"
     },
     "scripts": {
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-module",
-        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
         "build:deps": "turbo run build --filter=data-widgets^...",
         "build:include-deps": "pnpm run build:deps && pnpm run build:module",
+        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
         "create-gh-release": "rui-create-gh-release",
+        "create-module-mpk": "turbo release:module --filter data-widgets",
+        "format": "prettier --write .",
+        "lint": "tsc --project scripts/tsconfig.json",
+        "publish-marketplace": "rui-publish-marketplace",
         "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
         "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
-        "create-module-mpk": "turbo release:module --filter data-widgets",
         "start": "ts-node --project scripts/tsconfig.json scripts/start.ts",
-        "publish-marketplace": "rui-publish-marketplace",
-        "format": "prettier --write .",
-        "lint": "tsc --project scripts/tsconfig.json"
+        "update-changelog": "rui-update-changelog-module",
+        "verify": "rui-verify-package-format"
     },
     "dependencies": {
         "@mendix/datagrid-date-filter-web": "workspace:*",

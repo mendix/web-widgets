@@ -15,6 +15,7 @@
         "type": "widget",
         "mpkName": "com.mendix.widget.web.BarcodeScanner.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 117627,
@@ -24,22 +25,25 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "barcode-scanner-web"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:web",
         "build": "pluggable-widgets-tools build:web",
-        "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "test": "pluggable-widgets-tools test:unit:web",
-        "e2e": "echo \"Skipping barcode-scanner-web e2e tests\"",
-        "e2edev": "run-e2e dev --with-preps",
-        "release": "pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
+        "dev": "pluggable-widgets-tools start:web",
+        "e2e": "echo \"Skipping barcode-scanner-web e2e tests\"",
+        "e2edev": "run-e2e dev --with-preps",
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget"
+        "release": "pluggable-widgets-tools release:web",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "pluggable-widgets-tools test:unit:web",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "@zxing/library": "~0.21.3",
+        "classnames": "^2.3.2"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -51,9 +55,5 @@
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@rollup/plugin-replace": "^6.0.2"
-    },
-    "dependencies": {
-        "@zxing/library": "~0.21.3",
-        "classnames": "^2.3.2"
     }
 }

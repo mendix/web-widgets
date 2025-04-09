@@ -12,7 +12,6 @@ interface ContainerProps extends DatagridDateFilterContainerProps {
     parentChannelName?: string;
 }
 
-// eslint-disable-next-line prefer-arrow-callback
 export const Container: (props: ContainerProps) => React.ReactElement = observer(function Container(props) {
     const staticProps = useSetup({
         defaultEndValue: props.defaultEndDate?.value,

@@ -19,7 +19,7 @@ const commonProps: DropdownSortContainerProps = {
     name: "filter-test"
 };
 
-export interface StaticInfo {
+interface StaticInfo {
     name: string;
     filtersChannelName: string;
 }

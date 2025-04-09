@@ -4,44 +4,48 @@
     "version": "2.1.3",
     "description": "Change a color using a color input",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
-    "testProject": {
-        "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "color-picker-web"
-    },
-    "license": "Apache-2.0",
+    "config": {},
     "mxpackage": {
         "name": "ColorPicker",
         "type": "widget",
         "mpkName": "ColorPicker.mpk"
     },
+    "packagePath": "com.mendix.widget.custom",
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 107044,
         "appName": "Color Picker",
         "reactReady": true
     },
-    "packagePath": "com.mendix.widget.custom",
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "color-picker-web"
+    },
     "scripts": {
-        "start": "cross-env MPKOUTPUT=ColorPicker.mpk pluggable-widgets-tools start:server",
-        "dev": "cross-env MPKOUTPUT=ColorPicker.mpk pluggable-widgets-tools start:web",
         "build": "cross-env MPKOUTPUT=ColorPicker.mpk pluggable-widgets-tools build:web",
-        "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "test": "pluggable-widgets-tools test:unit:web",
-        "release": "cross-env MPKOUTPUT=ColorPicker.mpk pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
-        "publish-marketplace": "rui-publish-marketplace",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget",
+        "dev": "cross-env MPKOUTPUT=ColorPicker.mpk pluggable-widgets-tools start:web",
         "e2e": "run-e2e ci",
-        "e2edev": "run-e2e dev --with-preps"
+        "e2edev": "run-e2e dev --with-preps",
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
+        "publish-marketplace": "rui-publish-marketplace",
+        "release": "cross-env MPKOUTPUT=ColorPicker.mpk pluggable-widgets-tools release:web",
+        "start": "cross-env MPKOUTPUT=ColorPicker.mpk pluggable-widgets-tools start:server",
+        "test": "pluggable-widgets-tools test:unit:web",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
     },
-    "config": {},
+    "dependencies": {
+        "classnames": "^2.3.2",
+        "react-color": "^2.19.3"
+    },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
@@ -52,9 +56,5 @@
         "@mendix/widget-plugin-platform": "workspace:*",
         "@types/react-color": "^2.17.6",
         "cross-env": "^7.0.3"
-    },
-    "dependencies": {
-        "classnames": "^2.3.2",
-        "react-color": "^2.19.3"
     }
 }

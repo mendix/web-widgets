@@ -38,23 +38,23 @@ describe("Slider", () => {
         const sliderRoot = wrapper.find("div.rc-slider").first();
 
         sliderRoot.getDOMNode().getBoundingClientRect = () =>
-            ({ left: 0, top: 0, right: 100, bottom: 40, width: 100, height: 40 } as DOMRect);
+            ({ left: 0, top: 0, right: 100, bottom: 40, width: 100, height: 40 }) as DOMRect;
 
         // Click at the end
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: 110, clientY: 0, pageX: 110 });
-        expect(onChange).toBeCalledTimes(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0]).toEqual(100);
         // Click at the start
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: -10, clientY: 0, pageX: -10 });
-        expect(onChange).toBeCalledTimes(2);
+        expect(onChange).toHaveBeenCalledTimes(2);
         expect(onChange.mock.calls[1][0]).toEqual(0);
         // Click at the centre
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: -10, clientY: 0, pageX: 50 });
-        expect(onChange).toBeCalledTimes(3);
+        expect(onChange).toHaveBeenCalledTimes(3);
         expect(onChange.mock.calls[2][0]).toEqual(50);
         // Click between start and center
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: -10, clientY: 0, pageX: 16 });
-        expect(onChange).toBeCalledTimes(4);
+        expect(onChange).toHaveBeenCalledTimes(4);
         expect(onChange.mock.calls[3][0]).toEqual(20);
     });
 
@@ -64,7 +64,7 @@ describe("Slider", () => {
         render(<Slider {...defaultSliderProps} onChange={onChange} />);
 
         const sliderHandle = screen.getByRole("slider");
-        expect(onChange).toBeCalledTimes(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
 
         fireEvent.keyDown(sliderHandle, {
             key: "ArrowDown",
@@ -72,13 +72,13 @@ describe("Slider", () => {
             bubbles: true
         });
         // Can't go less then min
-        expect(onChange).toBeCalledTimes(0);
+        expect(onChange).toHaveBeenCalledTimes(0);
         fireEvent.keyDown(sliderHandle, {
             key: "ArrowUp",
             keyCode: 38,
             bubbles: true
         });
-        expect(onChange).toBeCalledTimes(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0]).toEqual(-90);
         fireEvent.keyDown(sliderHandle, {
             key: "ArrowUp",
@@ -90,14 +90,14 @@ describe("Slider", () => {
             keyCode: 39,
             bubbles: true
         });
-        expect(onChange).toBeCalledTimes(3);
+        expect(onChange).toHaveBeenCalledTimes(3);
         expect(onChange.mock.calls[2][0]).toEqual(-70);
         fireEvent.keyDown(sliderHandle, {
             key: "ArrowLeft",
             keyCode: 37,
             bubbles: true
         });
-        expect(onChange).toBeCalledTimes(4);
+        expect(onChange).toHaveBeenCalledTimes(4);
         expect(onChange.mock.calls[3][0]).toEqual(-80);
     });
 

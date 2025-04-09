@@ -10,15 +10,15 @@ export function preview(props: ProgressCirclePreviewProps): ReactElement {
         switch (props.type) {
             case "dynamic":
                 return {
-                    currentValue: Number(props.dynamicCurrentValue) ?? defaultValues.currentValue,
-                    minValue: Number(props.dynamicMinValue) ?? defaultValues.minValue,
-                    maxValue: Number(props.dynamicMaxValue) ?? defaultValues.maxValue
+                    currentValue: asNumber(props.dynamicCurrentValue, defaultValues.currentValue),
+                    minValue: asNumber(props.dynamicMinValue, defaultValues.minValue),
+                    maxValue: asNumber(props.dynamicMaxValue, defaultValues.maxValue)
                 };
             case "expression":
                 return {
-                    currentValue: Number(props.expressionCurrentValue) ?? defaultValues.currentValue,
-                    minValue: Number(props.expressionMinValue) ?? defaultValues.minValue,
-                    maxValue: Number(props.expressionMaxValue) ?? defaultValues.maxValue
+                    currentValue: asNumber(props.expressionCurrentValue, defaultValues.currentValue),
+                    minValue: asNumber(props.expressionMinValue, defaultValues.minValue),
+                    maxValue: asNumber(props.expressionMaxValue, defaultValues.maxValue)
                 };
             case "static":
                 return {
@@ -54,4 +54,16 @@ export function preview(props: ProgressCirclePreviewProps): ReactElement {
             }
         />
     );
+}
+
+function asNumber(value: string, defaultValue: number): number {
+    if (!value) {
+        return defaultValue;
+    }
+    const num = Number(value);
+    if (isNaN(num)) {
+        return defaultValue;
+    }
+
+    return num;
 }

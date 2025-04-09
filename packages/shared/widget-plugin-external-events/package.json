@@ -2,13 +2,17 @@
     "name": "@mendix/widget-plugin-external-events",
     "version": "0.1.0",
     "description": "Plugin for subscribing to and publishing widget events",
-    "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
     "type": "module",
+    "files": [
+        "dist",
+        "!*.map"
+    ],
     "exports": {
         "./*": "./dist/*.js"
     },
@@ -19,17 +23,16 @@
             ]
         }
     },
-    "files": [
-        "dist",
-        "!*.map"
-    ],
     "scripts": {
         "build": "tsc -p tsconfig.build.json",
         "dev": "tsc -p tsconfig.build.json --watch",
         "format": "prettier --write .",
-        "lint": "eslint --ext .ts,.tsx ./src",
+        "lint": "eslint src/ package.json",
         "prepare": "pnpm build",
         "test": "jest"
+    },
+    "dependencies": {
+        "nanoevents": "^9.0.0"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
@@ -38,8 +41,5 @@
         "@swc/core": "^1.7.26",
         "@swc/jest": "^0.2.36",
         "jest-environment-jsdom": "^29.4.1"
-    },
-    "dependencies": {
-        "nanoevents": "^9.0.0"
     }
 }

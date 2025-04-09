@@ -12,7 +12,7 @@ describe("condition-utils", () => {
             expect((result as AndCondition).args).toHaveLength(2);
         });
 
-        it("returns 'and' condition for empty array ", () => {
+        it("returns 'and' condition for empty array", () => {
             const result = compactArray([undefined, undefined, undefined]);
             expect(result).toMatchObject({ name: "and", type: "function" });
             expect((result as AndCondition).args).toHaveLength(2);

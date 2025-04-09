@@ -109,7 +109,7 @@ describe("Combo box (Association)", () => {
         const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
         expect(input.value).toEqual("obj_222");
-        expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.attributeAssociation?.value).toEqual({ id: "obj_222" });
     });
@@ -127,7 +127,7 @@ describe("Combo box (Association)", () => {
         fireEvent.click(option1);
 
         expect(input.value).toEqual("obj_222");
-        expect(defaultProps.attributeAssociation?.setValue).toBeCalled();
+        expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.attributeAssociation?.value).toEqual({ id: "obj_222" });
 

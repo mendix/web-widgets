@@ -35,8 +35,8 @@ export function Pagination(props: PaginationProps): ReactElement | null {
     const lastItem = showControls
         ? getLastItem(props.canNextPage, props.numberOfItems, props.page, props.pageSize)
         : props.page * props.pageSize > (props.numberOfItems ?? 0)
-        ? props.numberOfItems ?? 0
-        : props.page * props.pageSize;
+          ? (props.numberOfItems ?? 0)
+          : props.page * props.pageSize;
     const setPageIndex = (page: number): void => {
         if (props.setPaginationIndex) {
             props.setPaginationIndex(page);

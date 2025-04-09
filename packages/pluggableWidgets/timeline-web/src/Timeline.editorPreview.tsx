@@ -23,8 +23,8 @@ export function preview(props: TimelinePreviewProps): React.ReactElement {
                     props.groupByKey === "day"
                         ? props.groupByDayOptions
                         : props.groupByKey === "month"
-                        ? props.groupByMonthOptions
-                        : "year"
+                          ? props.groupByMonthOptions
+                          : "year"
                 );
                 constructedItem = {
                     icon: mapPreviewIconToWebIcon(props.icon),

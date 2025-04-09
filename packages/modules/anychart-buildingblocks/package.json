@@ -2,8 +2,8 @@
     "name": "@mendix/anychart-buildingblocks",
     "version": "3.0.4",
     "description": "Module for publishing AnyChart widget along with building blocks",
-    "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
@@ -27,13 +27,13 @@
         "branchName": "anychart-buildingblocks"
     },
     "scripts": {
-        "verify": "rui-verify-package-format",
-        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
         "create-gh-release": "rui-create-gh-release",
+        "format": "prettier --write .",
         "publish-marketplace": "rui-publish-marketplace",
+        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
         "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
         "update-changelog": "rui-update-changelog-module",
-        "format": "prettier --write ."
+        "verify": "rui-verify-package-format"
     },
     "dependencies": {
         "@mendix/any-chart-web": "workspace:*"

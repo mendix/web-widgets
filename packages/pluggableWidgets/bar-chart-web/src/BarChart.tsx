@@ -36,7 +36,7 @@ const barChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {
 };
 
 // disable eslint rule to have nice component name in component tree at devtools
-// eslint-disable-next-line prefer-arrow-callback
+
 export const BarChart = memo(function BarChart(props: BarChartContainerProps): ReactElement | null {
     const layoutOptions = useMemo(
         () => ({

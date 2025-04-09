@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { create } from "react-test-renderer";
 
 import { Html5, Html5PlayerProps } from "../Html5";
@@ -15,7 +15,7 @@ describe("Html5 Player", () => {
         preview: false
     };
 
-    const defaulPlayer = (props: Html5PlayerProps): JSX.Element => <Html5 {...props} />;
+    const defaulPlayer = (props: Html5PlayerProps): ReactElement => <Html5 {...props} />;
 
     it("should renders correctly", () => {
         const player = create(defaulPlayer(defaultProps)).toJSON();

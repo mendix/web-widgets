@@ -133,10 +133,10 @@ export class StaticSelectFilterStore extends BaseSelectStore {
             exp.valueType === "string"
                 ? exp.value
                 : exp.valueType === "boolean"
-                ? exp.value
-                    ? "true"
-                    : "false"
-                : undefined;
+                  ? exp.value
+                      ? "true"
+                      : "false"
+                  : undefined;
 
         const selected = selectedFromCond(cond, val);
 

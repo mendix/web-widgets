@@ -16,30 +16,29 @@ export type CellElementProps = {
     tabIndex?: number;
 } & Omit<JSX.IntrinsicElements["div"], "ref" | "children">;
 
-const component = // eslint-disable-next-line prefer-arrow-callback
-    forwardRef<HTMLDivElement, CellElementProps>(function CellElement(
-        { className, borderTop, clickable, previewAsHidden, wrapText, alignment, tabIndex, ...rest }: CellElementProps,
-        ref
-    ): ReactElement {
-        return (
-            <div
-                className={classNames(
-                    "td",
-                    {
-                        "td-borders": borderTop,
-                        clickable,
-                        "hidden-column-preview": previewAsHidden,
-                        "wrap-text": wrapText,
-                        [`align-column-${alignment}`]: typeof alignment === "string"
-                    },
-                    className
-                )}
-                role="gridcell"
-                tabIndex={tabIndex ?? (clickable ? 0 : undefined)}
-                ref={ref}
-                {...rest}
-            />
-        );
-    });
+const component = forwardRef<HTMLDivElement, CellElementProps>(function CellElement(
+    { className, borderTop, clickable, previewAsHidden, wrapText, alignment, tabIndex, ...rest }: CellElementProps,
+    ref
+): ReactElement {
+    return (
+        <div
+            className={classNames(
+                "td",
+                {
+                    "td-borders": borderTop,
+                    clickable,
+                    "hidden-column-preview": previewAsHidden,
+                    "wrap-text": wrapText,
+                    [`align-column-${alignment}`]: typeof alignment === "string"
+                },
+                className
+            )}
+            role="gridcell"
+            tabIndex={tabIndex ?? (clickable ? 0 : undefined)}
+            ref={ref}
+            {...rest}
+        />
+    );
+});
 
 export const CellElement = memo(component);

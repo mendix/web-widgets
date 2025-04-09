@@ -1,12 +1,12 @@
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import classNames from "classnames";
-import { createElement, Fragment, useEffect, useState } from "react";
+import { createElement, Fragment, ReactElement, useEffect, useState } from "react";
 import { RichTextContainerProps } from "../typings/RichTextProps";
 import EditorWrapper from "./components/EditorWrapper";
 import "./ui/RichText.scss";
 import { constructWrapperStyle } from "./utils/helpers";
 
-export default function RichText(props: RichTextContainerProps): JSX.Element {
+export default function RichText(props: RichTextContainerProps): ReactElement {
     const { stringAttribute, readOnlyStyle } = props;
 
     const wrapperStyle = constructWrapperStyle(props);

@@ -77,8 +77,8 @@ export class StaticSingleSelector implements SingleSelector {
             typeof attr.universe?.[0] === "boolean"
                 ? "boolean"
                 : attr.formatter?.type === "datetime"
-                ? "date"
-                : "string";
+                  ? "date"
+                  : "string";
     }
 
     setValue(key: string | null): void {

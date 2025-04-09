@@ -5,7 +5,6 @@ import { FilterSelector } from "../filter-selector/FilterSelector";
 import { InputComponentProps } from "./typings";
 import { AllFunctions } from "../../typings/FilterFunctions";
 
-// eslint-disable-next-line prefer-arrow-callback
 export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputComponentProps<Fn>): React.ReactElement {
     const {
         inputStores: [input1]

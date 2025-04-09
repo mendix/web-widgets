@@ -153,7 +153,7 @@ export class DSExportRequest {
 
     private sendHeaders(): void {
         const reader: ColumnReader = column => ({
-            name: column.header && isAvailable(column.header) ? column.header.value?.toString() ?? "" : "",
+            name: column.header && isAvailable(column.header) ? (column.header.value?.toString() ?? "") : "",
             type: column.attribute?.type.toString() ?? ""
         });
 
@@ -242,8 +242,8 @@ export class DSExportRequest {
                 col.showContentAs === "attribute"
                     ? col.attribute
                     : col.showContentAs === "dynamicText"
-                    ? col.dynamicText
-                    : col.exportValue;
+                      ? col.dynamicText
+                      : col.exportValue;
             prop ??= { get: () => ({ status: ValueStatus.Available, value: "n/a" }) };
             return prop;
         });

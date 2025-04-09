@@ -2,9 +2,9 @@
     "name": "@mendix/charts-web",
     "version": "6.0.0",
     "description": "Chart widgets collection for data visualization",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
     "private": false,
-    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
@@ -39,13 +39,13 @@
     },
     "scripts": {
         "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
-        "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
         "create-gh-release": "rui-create-gh-release",
-        "publish-marketplace": "rui-publish-marketplace",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-module",
         "format": "prettier --write .",
-        "lint": "tsc --project scripts/tsconfig.json"
+        "lint": "tsc --project scripts/tsconfig.json",
+        "publish-marketplace": "rui-publish-marketplace",
+        "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+        "update-changelog": "rui-update-changelog-module",
+        "verify": "rui-verify-package-format"
     },
     "dependencies": {
         "@mendix/area-chart-web": "workspace:*",

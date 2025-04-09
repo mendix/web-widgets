@@ -36,7 +36,7 @@ const columnChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {
 };
 
 // disable eslint rule to have nice component name in component tree at devtools
-// eslint-disable-next-line prefer-arrow-callback
+
 export const ColumnChart = memo(function ColumnChart(props: ColumnChartContainerProps): ReactElement | null {
     const layoutOptions = useMemo(
         () => ({

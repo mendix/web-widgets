@@ -53,40 +53,40 @@ describe("RangeSlider", () => {
         const sliderRoot = wrapper.find("div.rc-slider").first();
 
         sliderRoot.getDOMNode().getBoundingClientRect = () =>
-            ({ left: 0, top: 0, right: 100, bottom: 40, width: 100, height: 40 } as DOMRect);
+            ({ left: 0, top: 0, right: 100, bottom: 40, width: 100, height: 40 }) as DOMRect;
 
         // Click at the end
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: 110, clientY: 0, pageX: 110 });
-        expect(onChange).toBeCalledTimes(1);
+        expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0]).toEqual([0, 100]);
         // Move lower
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: -10, clientY: 0, pageX: 16 });
-        expect(onChange).toBeCalledTimes(2);
+        expect(onChange).toHaveBeenCalledTimes(2);
         expect(onChange.mock.calls[1][0]).toEqual([20, 100]);
 
         // Click at the centre (lower should be changed, considering above move)
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: -10, clientY: 0, pageX: 50 });
-        expect(onChange).toBeCalledTimes(3);
+        expect(onChange).toHaveBeenCalledTimes(3);
         expect(onChange.mock.calls[2][0]).toEqual([50, 100]);
 
         // Click at the start
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: -10, clientY: 0, pageX: -10 });
-        expect(onChange).toBeCalledTimes(4);
+        expect(onChange).toHaveBeenCalledTimes(4);
         expect(onChange.mock.calls[3][0]).toEqual([0, 100]);
 
         // Click between centre and end
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: -10, clientY: 0, pageX: 90 });
-        expect(onChange).toBeCalledTimes(5);
+        expect(onChange).toHaveBeenCalledTimes(5);
         expect(onChange.mock.calls[4][0]).toEqual([0, 90]);
 
         // Click between centre and end
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: -10, clientY: 0, pageX: 60 });
-        expect(onChange).toBeCalledTimes(6);
+        expect(onChange).toHaveBeenCalledTimes(6);
         expect(onChange.mock.calls[5][0]).toEqual([0, 60]);
 
         // Click at the centre
         sliderRoot.simulate("mousedown", { button: 0, type: "mousedown", clientX: -10, clientY: 0, pageX: 50 });
-        expect(onChange).toBeCalledTimes(7);
+        expect(onChange).toHaveBeenCalledTimes(7);
         expect(onChange.mock.calls[6][0]).toEqual([0, 50]);
     });
 

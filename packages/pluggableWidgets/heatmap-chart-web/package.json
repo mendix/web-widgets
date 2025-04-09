@@ -16,6 +16,7 @@
         "type": "widget",
         "mpkName": "com.mendix.widget.web.HeatMap.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appName": "Heat Map"
@@ -24,20 +25,25 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "heatmap-chart-web"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:web",
         "build": "pluggable-widgets-tools build:ts",
-        "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "test": "pluggable-widgets-tools test:unit:web",
-        "release": "pluggable-widgets-tools release:web",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget",
+        "create-translation": "rui-create-translation",
+        "dev": "pluggable-widgets-tools start:web",
         "e2e": "run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
-        "create-translation": "rui-create-translation"
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
+        "release": "pluggable-widgets-tools release:web",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "pluggable-widgets-tools test:unit:web",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "@mendix/shared-charts": "workspace:*",
+        "classnames": "^2.3.2",
+        "date-fns": "^2.30.0",
+        "plotly.js-dist-min": "^3.0.0"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -47,11 +53,5 @@
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*"
-    },
-    "dependencies": {
-        "@mendix/shared-charts": "workspace:*",
-        "classnames": "^2.3.2",
-        "date-fns": "^2.30.0",
-        "plotly.js-dist-min": "^3.0.0"
     }
 }

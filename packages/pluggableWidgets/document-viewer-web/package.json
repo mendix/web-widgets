@@ -10,37 +10,37 @@
         "url": "https://github.com/mendix/web-widgets.git"
     },
     "config": {
-        "mendixHost": "http://localhost:8080",
-        "developmentPort": "3000"
+        "developmentPort": "3000",
+        "mendixHost": "http://localhost:8080"
     },
     "mxpackage": {
         "name": "DocumentViewer",
         "type": "widget",
         "mpkName": "com.mendix.widget.web.DocumentViewer.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 0,
         "appName": "Document Viewer"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:web",
         "build": "pluggable-widgets-tools build:web",
+        "dev": "pluggable-widgets-tools start:web",
         "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "test": "echo 'FIXME: Add unit tests'",
-        "release": "pluggable-widgets-tools release:web"
-    },
-    "devDependencies": {
-        "@mendix/pluggable-widgets-tools": "^10.0.0",
-        "@babel/plugin-transform-private-methods": "^7.23.3",
-        "@babel/plugin-transform-private-property-in-object": "^7.23.4",
-        "@babel/plugin-transform-class-properties": "^7.23.3"
+        "lint": "eslint src/ package.json",
+        "release": "pluggable-widgets-tools release:web",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "echo 'FIXME: Add unit tests'"
     },
     "dependencies": {
         "classnames": "^2.3.2",
         "react-pdf": "^9.2.1"
+    },
+    "devDependencies": {
+        "@babel/plugin-transform-class-properties": "^7.23.3",
+        "@babel/plugin-transform-private-methods": "^7.23.3",
+        "@babel/plugin-transform-private-property-in-object": "^7.23.4",
+        "@mendix/pluggable-widgets-tools": "^10.0.0"
     }
 }

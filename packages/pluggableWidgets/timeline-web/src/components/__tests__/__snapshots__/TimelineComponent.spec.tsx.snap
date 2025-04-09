@@ -213,7 +213,7 @@ exports[`Timeline renders timeline with basic configuration 1`] = `
 </div>
 `;
 
-exports[`Timeline renders timeline with custom configuration  1`] = `
+exports[`Timeline renders timeline with custom configuration 1`] = `
 <div
   className="widget-timeline-wrapper"
 >

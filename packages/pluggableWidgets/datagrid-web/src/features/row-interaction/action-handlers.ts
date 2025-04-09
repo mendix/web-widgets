@@ -2,6 +2,7 @@ import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-s
 import { ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { CellContext } from "./base";
 import { onOwnSpaceKeyDown } from "@mendix/widget-plugin-grid/selection";
+import { KeyboardEvent } from "react";
 
 const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<CellContext, HTMLDivElement, "onClick"> => ({
     eventName: "onClick",
@@ -28,7 +29,7 @@ const onDoubleClick = (
     handler: ({ item }) => execActionFx(item)
 });
 
-const canExecOnSpaceOrEnter = (ctx: CellContext, event: React.KeyboardEvent): boolean => {
+const canExecOnSpaceOrEnter = (ctx: CellContext, event: KeyboardEvent): boolean => {
     if (event.code === "Space" && ctx.clickTrigger !== "none") {
         return event.shiftKey ? ctx.selectionMethod === "none" : true;
     }

@@ -84,8 +84,8 @@ function DocsLink(props: { currentView: string }): React.ReactElement {
         props.currentView === "layout"
             ? "https://plotly.com/javascript/reference/layout/"
             : props.currentView === "config"
-            ? "https://plotly.com/javascript/configuration-options/"
-            : "https://plotly.com/javascript/reference/";
+              ? "https://plotly.com/javascript/configuration-options/"
+              : "https://plotly.com/javascript/reference/";
 
     const text = props.currentView === "layout" ? "Layout" : props.currentView === "config" ? "Config" : "Trace";
 

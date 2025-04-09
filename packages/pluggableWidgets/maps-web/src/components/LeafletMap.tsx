@@ -22,8 +22,11 @@ export interface LeafletProps extends SharedProps {
  * If not, we reuse a leaflet icon that's the same as the default implementation should be.
  */
 const defaultMarkerIcon = new LeafletIcon({
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     iconRetinaUrl: require("leaflet/dist/images/marker-icon.png"),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     iconUrl: require("leaflet/dist/images/marker-icon.png"),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
     iconSize: [25, 41],
     iconAnchor: [12, 41]

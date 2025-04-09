@@ -47,7 +47,6 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
     }
 }
 
-// eslint-disable-next-line prefer-arrow-callback
 const SelectWidget = observer(function SelectWidget(props: RefFilterContainerProps): React.ReactElement {
     const ctrl1 = useSetupUpdate(() => new RefSelectController(props), props);
     const handleMenuScroll = useOnScrollBottom(ctrl1.handleMenuScrollEnd, { triggerZoneHeight: 100 });
@@ -71,7 +70,6 @@ const SelectWidget = observer(function SelectWidget(props: RefFilterContainerPro
     );
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContainerProps): React.ReactElement {
     const ctrl2 = useSetupUpdate(() => new RefComboboxController(props), props);
     const handleMenuScroll = useOnScrollBottom(ctrl2.handleMenuScrollEnd, { triggerZoneHeight: 100 });
@@ -94,7 +92,6 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
     );
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContainerProps): React.ReactElement {
     const ctrl3 = useSetupUpdate(() => new RefTagPickerController(props), props);
     const handleMenuScroll = useOnScrollBottom(ctrl3.handleMenuScrollEnd, { triggerZoneHeight: 100 });

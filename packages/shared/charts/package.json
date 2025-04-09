@@ -2,14 +2,17 @@
     "name": "@mendix/shared-charts",
     "version": "2.0.2",
     "description": "Shared components for charts",
-    "private": true,
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "private": true,
     "type": "module",
+    "files": [
+        "dist"
+    ],
     "exports": {
         ".": null,
+        "./*": "./dist/*.js",
         "./rollup/shared-libs-config.cjs": "./dist/rollup/shared-libs-config.cjs",
-        "./ui/*": "./dist/ui/*",
-        "./*": "./dist/*.js"
+        "./ui/*": "./dist/ui/*"
     },
     "typesVersions": {
         "*": {
@@ -18,21 +21,25 @@
             ]
         }
     },
-    "files": [
-        "dist"
-    ],
     "scripts": {
-        "predev": "pnpm clear && pnpm copy",
-        "dev": "tsc --build --verbose --watch tsconfig.json",
-        "clear": "rimraf ./dist",
-        "copy": "copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
         "build": "tsc --build --verbose tsconfig.build.json",
         "postbuild": "pnpm copy",
-        "release": "pnpm build",
-        "prepare": "turbo build",
+        "clear": "rimraf ./dist",
+        "copy": "copy-and-watch \"src/**/*.{scss,svg}\" \"dist/\"",
+        "predev": "pnpm clear && pnpm copy",
+        "dev": "tsc --build --verbose --watch tsconfig.json",
         "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx . && tsc --noEmit",
+        "lint": "eslint . package.json && tsc --noEmit",
+        "prepare": "turbo build",
+        "release": "pnpm build",
         "test": "jest"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2",
+        "deepmerge": "^4.3.1",
+        "plotly.js": "npm:plotly.js-dist-min@3.0.0",
+        "plotly.js-dist-min": "^3.0.0",
+        "react-plotly.js": "^2.6.0"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
@@ -52,12 +59,5 @@
         "rimraf": "^4.4.1",
         "rollup": "*",
         "rollup-plugin-copy": "^3.5.0"
-    },
-    "dependencies": {
-        "classnames": "^2.3.2",
-        "deepmerge": "^4.3.1",
-        "plotly.js": "npm:plotly.js-dist-min@3.0.0",
-        "plotly.js-dist-min": "^3.0.0",
-        "react-plotly.js": "^2.6.0"
     }
 }

@@ -1,4 +1,4 @@
-import { createElement, PropsWithChildren, ReactElement } from "react";
+import { createElement, JSX, PropsWithChildren, ReactElement } from "react";
 
 export interface HeaderProps {
     heading: "headingOne" | "headingTwo" | "headingThree" | "headingFour" | "headingFive" | "headingSix";

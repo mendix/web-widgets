@@ -28,7 +28,6 @@ interface TagPickerProps {
 
 const cls = classes();
 
-// eslint-disable-next-line prefer-arrow-callback
 export const TagPicker = observer(function TagPicker(props: TagPickerProps): React.ReactElement {
     const [inputContainerId, helperText1] = [useId(), useId()];
     const { showCheckboxes, selectedStyle = "boxes", ariaLabel: inputLabel = "Search" } = props;

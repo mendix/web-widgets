@@ -51,7 +51,6 @@ export class LegacyPv implements LegacyProvider {
         return new Map();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     set settings(_: unknown) {}
 
     get = (type: Ft): InputFilterInterface | PickerFilterStore | null => {

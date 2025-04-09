@@ -50,7 +50,7 @@ export function getPreview(values: CarouselPreviewProps, isDarkMode: boolean): S
                     children: []
                 } as ContainerProps
             ]
-        } as RowLayoutProps);
+        }) as RowLayoutProps;
     const neutralDots = [
         {
             type: "Image",

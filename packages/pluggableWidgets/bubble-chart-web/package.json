@@ -16,6 +16,7 @@
         "type": "widget",
         "mpkName": "com.mendix.widget.web.BubbleChart.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appName": "Bubble Chart"
@@ -24,18 +25,22 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "bubble-chart-web"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:web",
         "build": "pluggable-widgets-tools build:ts",
+        "create-translation": "rui-create-translation",
+        "dev": "pluggable-widgets-tools start:web",
         "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "test": "pluggable-widgets-tools test:unit:web",
+        "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
-        "verify": "rui-verify-package-format",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "pluggable-widgets-tools test:unit:web",
         "update-changelog": "rui-update-changelog-widget",
-        "create-translation": "rui-create-translation"
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "@mendix/shared-charts": "workspace:*",
+        "classnames": "^2.3.2",
+        "plotly.js-dist-min": "^3.0.0"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -44,10 +49,5 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*"
-    },
-    "dependencies": {
-        "@mendix/shared-charts": "workspace:*",
-        "classnames": "^2.3.2",
-        "plotly.js-dist-min": "^3.0.0"
     }
 }

@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { create } from "react-test-renderer";
 
 import { Youtube, YoutubeProps } from "../Youtube";
@@ -13,7 +13,7 @@ describe("YoutubePlayer Player", () => {
         aspectRatio: false
     };
 
-    const defaulPlayer = (props: YoutubeProps): JSX.Element => <Youtube {...props} />;
+    const defaulPlayer = (props: YoutubeProps): ReactElement => <Youtube {...props} />;
 
     it("should renders correctly", () => {
         const player = create(defaulPlayer(defaultProps)).toJSON();

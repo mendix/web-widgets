@@ -2,16 +2,18 @@
     "name": "@mendix/any-chart-web",
     "version": "3.0.4",
     "description": "",
-    "main": "index.js",
-    "keywords": [],
-    "author": "",
     "license": "Apache-2.0",
     "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets"
+    },
     "mxpackage": {
         "name": "AnyChart",
         "type": "widget",
         "mpkName": "AnyChart.mpk"
     },
+    "packagePath": "com.mendix.widget.custom",
     "marketplace": {
         "minimumMXVersion": "9.18.4.62522",
         "appName": "AnyChart"
@@ -20,15 +22,26 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "anychart-buildingblocks"
     },
-    "packagePath": "com.mendix.widget.custom",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/mendix/web-widgets"
-    },
+    "main": "index.js",
     "scripts": {
         "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
         "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
         "test": "echo 'FIXME: Finish any-chart-web unit test migration'"
+    },
+    "dependencies": {
+        "ace-builds": "^1.33.1",
+        "classnames": "^2.3.2",
+        "date-format": "^4.0.14",
+        "deep-equal": "^2.2.3",
+        "deepmerge": "^4.3.1",
+        "fast-json-patch": "^3.1.1",
+        "json-source-map": "^0.6.1",
+        "plotly.js": "^2.35.2",
+        "react-ace": "^10.1.0",
+        "react-redux": "^8.1.3",
+        "react-resize-detector": "^9.1.1",
+        "redux": "^4.2.1",
+        "redux-thunk": "^2.4.2"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -46,19 +59,5 @@
         "webpack": "^5.96.1",
         "webpack-cli": "^5.1.4"
     },
-    "dependencies": {
-        "ace-builds": "^1.33.1",
-        "classnames": "^2.3.2",
-        "date-format": "^4.0.14",
-        "deep-equal": "^2.2.3",
-        "deepmerge": "^4.3.1",
-        "fast-json-patch": "^3.1.1",
-        "json-source-map": "^0.6.1",
-        "plotly.js": "^2.35.2",
-        "react-ace": "^10.1.0",
-        "react-redux": "^8.1.3",
-        "react-resize-detector": "^9.1.1",
-        "redux": "^4.2.1",
-        "redux-thunk": "^2.4.2"
-    }
+    "keywords": []
 }

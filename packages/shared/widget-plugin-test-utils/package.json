@@ -2,8 +2,8 @@
     "name": "@mendix/widget-plugin-test-utils",
     "version": "0.1.0",
     "description": "Test utils for pluggable widgets.",
-    "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
@@ -22,12 +22,15 @@
         }
     },
     "scripts": {
-        "prepare": "pnpm build",
-        "lint": "eslint --ext .ts,.tsx ./src",
-        "format": "prettier --write .",
         "build": "tsc -p tsconfig.build.json",
         "dev": "tsc -p tsconfig.build.json --watch",
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
+        "prepare": "pnpm build",
         "test": "jest"
+    },
+    "dependencies": {
+        "mendix": "^10.16.49747"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
@@ -36,8 +39,5 @@
         "@swc/core": "^1.7.26",
         "@swc/jest": "^0.2.36",
         "big.js": "^6.2.2"
-    },
-    "dependencies": {
-        "mendix": "^10.16.49747"
     }
 }

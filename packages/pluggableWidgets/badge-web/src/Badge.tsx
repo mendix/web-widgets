@@ -26,7 +26,7 @@ export default function Badge(props: BadgeContainerProps): ReactNode {
             onKeyDown={clickable ? onKeyDown : undefined}
             className={props.class}
             style={props.style}
-            tabIndex={clickable ? props.tabIndex ?? 0 : undefined}
+            tabIndex={clickable ? (props.tabIndex ?? 0) : undefined}
         />
     );
 }

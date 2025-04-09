@@ -15,6 +15,7 @@
         "type": "widget",
         "mpkName": "com.mendix.widget.web.Accordion.mpk"
     },
+    "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 117895,
@@ -25,22 +26,24 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "accordion-web"
     },
-    "packagePath": "com.mendix.widget.web",
     "scripts": {
-        "start": "pluggable-widgets-tools start:server",
-        "dev": "pluggable-widgets-tools start:web",
         "build": "pluggable-widgets-tools build:web",
-        "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "test": "pluggable-widgets-tools test:unit:web",
-        "release": "pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
-        "publish-marketplace": "rui-publish-marketplace",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget",
+        "dev": "pluggable-widgets-tools start:web",
         "e2e": "run-e2e ci",
-        "e2edev": "run-e2e dev --with-preps"
+        "e2edev": "run-e2e dev --with-preps",
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
+        "publish-marketplace": "rui-publish-marketplace",
+        "release": "pluggable-widgets-tools release:web",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "pluggable-widgets-tools test:unit:web",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -50,8 +53,5 @@
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*"
-    },
-    "dependencies": {
-        "classnames": "^2.3.2"
     }
 }

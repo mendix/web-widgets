@@ -23,7 +23,7 @@ interface SelectProps {
 }
 
 const cls = classes();
-// eslint-disable-next-line prefer-arrow-callback
+
 export const Select = observer(function Select(props: SelectProps): React.ReactElement {
     const { empty: isEmpty, showCheckboxes, clearable } = props;
     const toggleRef = useRef<HTMLButtonElement>(null);

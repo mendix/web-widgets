@@ -32,7 +32,7 @@ const lineChartSeriesOptions: ChartWidgetProps["seriesOptions"] = {};
 
 export const LineChart = memo(
     // disable eslint rule to have nice component name in component tree at devtools
-    // eslint-disable-next-line prefer-arrow-callback
+
     function LineChart(props: LineChartContainerProps): ReactElement | null {
         const chartLines = usePlotChartDataSeries(
             props.lines,

@@ -125,13 +125,13 @@ export function getProperties(
                             ? column.attribute
                             : "[No attribute selected]"
                         : column.showContentAs === "dynamicText"
-                        ? column.dynamicText
-                        : "Custom content",
+                          ? column.dynamicText
+                          : "Custom content",
                     column.width === "autoFill"
                         ? "Auto-fill"
                         : column.width === "autoFit"
-                        ? `Auto-fit content`
-                        : `Manual (${column.size})`,
+                          ? `Auto-fit content`
+                          : `Manual (${column.size})`,
                     alignment ? alignment.charAt(0).toUpperCase() + alignment.slice(1) : ""
                 ];
             });
@@ -248,7 +248,7 @@ export const getPreview = (
                       })(
                           text({ fontSize: 10, fontColor: palette.text.secondary })(
                               column.showContentAs === "dynamicText"
-                                  ? column.dynamicText ?? "Dynamic text"
+                                  ? (column.dynamicText ?? "Dynamic text")
                                   : `[${column.attribute ? column.attribute : "No attribute selected"}]`
                           )
                       )
@@ -314,8 +314,8 @@ export const getPreview = (
                                 fontColor: column.header
                                     ? undefined
                                     : isColumnHidden
-                                    ? modeColor("#4F4F4F", "#DCDCDC")
-                                    : palette.text.secondary
+                                      ? modeColor("#4F4F4F", "#DCDCDC")
+                                      : palette.text.secondary
                             })(column.header ? column.header : "Header")
                         ),
                         ...(hasColumns && values.columnsFilterable

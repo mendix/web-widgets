@@ -9,6 +9,7 @@ import {
 } from "@mendix/widget-plugin-grid/selection";
 import { blockUserSelect, removeAllRanges, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
 import { CellContext } from "./base";
+import { MouseEvent } from "react";
 
 const onSelect = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElement, "onClick"> => ({
     eventName: "onClick",
@@ -34,7 +35,7 @@ const onSelect = (selectFx: SelectFx): EventCaseEntry<CellContext, HTMLDivElemen
 });
 
 const onMouseDown = (
-    handler: (ctx: CellContext, event: React.MouseEvent<Element>) => void
+    handler: (ctx: CellContext, event: MouseEvent<Element>) => void
 ): EventCaseEntry<CellContext, Element, "onMouseDown"> => ({
     eventName: "onMouseDown",
     filter: ctx => ctx.selectionMethod !== "none",

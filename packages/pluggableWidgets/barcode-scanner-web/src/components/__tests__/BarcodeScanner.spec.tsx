@@ -62,7 +62,7 @@ describe("Barcode scanner", () => {
 
         render(<BarcodeScanner useAllFormats class="" onDetect={onDetectMock} showMask {...dimensions} />);
 
-        await waitFor(() => expect(onDetectMock).toBeCalledWith("42"));
+        await waitFor(() => expect(onDetectMock).toHaveBeenCalledWith("42"));
     });
 
     describe("shows an appropriate error to the user", () => {

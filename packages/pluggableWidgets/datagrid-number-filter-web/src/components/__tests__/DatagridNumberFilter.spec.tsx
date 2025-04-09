@@ -21,7 +21,7 @@ import { Big } from "big.js";
 import { DatagridNumberFilterContainerProps } from "../../../typings/DatagridNumberFilterProps";
 import { resetIdCounter } from "downshift";
 
-export interface StaticInfo {
+interface StaticInfo {
     name: string;
     filtersChannelName: string;
 }

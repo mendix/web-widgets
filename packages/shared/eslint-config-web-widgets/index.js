@@ -1,1 +1,1 @@
-module.exports = require("./widget-ts.json");
+module.exports = require("./widget-ts.mjs");

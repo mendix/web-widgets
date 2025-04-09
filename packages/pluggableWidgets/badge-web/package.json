@@ -15,6 +15,7 @@
         "type": "widget",
         "mpkName": "Badge.mpk"
     },
+    "packagePath": "com.mendix.widget.custom",
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 50325,
@@ -24,22 +25,24 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "badge-web"
     },
-    "packagePath": "com.mendix.widget.custom",
     "scripts": {
-        "start": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools start:server",
-        "dev": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools start:web",
         "build": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools build:web",
-        "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "test": "pluggable-widgets-tools test:unit:web",
-        "e2e": "run-e2e ci",
-        "e2edev": "run-e2e dev --with-preps",
-        "release": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
+        "dev": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools start:web",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps",
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget"
+        "release": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools release:web",
+        "start": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools start:server",
+        "test": "pluggable-widgets-tools test:unit:web",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -49,8 +52,5 @@
         "@mendix/run-e2e": "workspace:^*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "cross-env": "^7.0.3"
-    },
-    "dependencies": {
-        "classnames": "^2.3.2"
     }
 }

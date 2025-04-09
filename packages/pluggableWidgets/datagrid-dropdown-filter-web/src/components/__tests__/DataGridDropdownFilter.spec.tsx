@@ -9,7 +9,7 @@ import { createContext, createElement } from "react";
 import DatagridDropdownFilter from "../../DatagridDropdownFilter";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-export interface StaticInfo {
+interface StaticInfo {
     name: string;
     filtersChannelName: string;
 }

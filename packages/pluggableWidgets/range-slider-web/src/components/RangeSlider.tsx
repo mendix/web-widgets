@@ -1,4 +1,4 @@
-import { createElement, CSSProperties, forwardRef, RefObject } from "react";
+import { createElement, CSSProperties, forwardRef, ReactElement, RefObject } from "react";
 import { Range, RangeProps } from "rc-slider";
 import classNames from "classnames";
 
@@ -11,7 +11,7 @@ export const RangeSlider = forwardRef(
     (
         { className, classNameSlider, rootStyle, ...rcRangeProps }: RangeSliderProps,
         sliderRef: RefObject<HTMLDivElement>
-    ): JSX.Element => (
+    ): ReactElement => (
         <div
             ref={sliderRef}
             style={rootStyle}

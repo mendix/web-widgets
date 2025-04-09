@@ -5,8 +5,8 @@ export function createPreset(config?: Partial<RichTextContainerProps>): toolbarC
     return config?.preset !== "custom"
         ? DEFAULT_TOOLBAR
         : config?.toolbarConfig === "basic"
-        ? defineBasicGroups(config)
-        : defineAdvancedGroups(config!);
+          ? defineBasicGroups(config)
+          : defineAdvancedGroups(config!);
 }
 
 function defineBasicGroups(widgetProps: Partial<RichTextContainerProps>): toolbarContentType[] {

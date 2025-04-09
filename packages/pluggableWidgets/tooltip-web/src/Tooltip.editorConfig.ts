@@ -59,7 +59,7 @@ export function getPreview(values: TooltipPreviewProps, isDarkMode: boolean): St
                     children: []
                 } as ContainerProps
             ]
-        } as RowLayoutProps);
+        }) as RowLayoutProps;
 
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",
@@ -101,8 +101,8 @@ export function getPreview(values: TooltipPreviewProps, isDarkMode: boolean): St
                                       ? "#DEDEDE"
                                       : "#000000"
                                   : isDarkMode
-                                  ? "#A4A4A4"
-                                  : "#6B707B",
+                                    ? "#A4A4A4"
+                                    : "#6B707B",
                               bold: !!values.textMessage
                           } as TextProps)
                         : ({

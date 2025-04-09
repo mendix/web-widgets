@@ -17,7 +17,10 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     private attributeId?: ListAttributeValue["id"];
     protected loading: boolean = false;
 
-    constructor(caption: CaptionsProvider, protected valuesMap: Map<string, ObjectItem>) {
+    constructor(
+        caption: CaptionsProvider,
+        protected valuesMap: Map<string, ObjectItem>
+    ) {
         super(caption);
     }
 

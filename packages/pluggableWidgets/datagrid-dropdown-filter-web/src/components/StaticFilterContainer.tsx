@@ -52,7 +52,6 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     }
 }
 
-// eslint-disable-next-line prefer-arrow-callback
 const SelectWidget = observer(function SelectWidget(props: StaticFilterContainerProps): React.ReactElement {
     const ctrl1 = useSetupUpdate(() => new StaticSelectController(props), props);
 
@@ -73,7 +72,6 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
     );
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
     const ctrl2 = useSetupUpdate(() => new StaticComboboxController(props), props);
 
@@ -94,7 +92,6 @@ const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterConta
     );
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterContainerProps): React.ReactElement {
     const ctrl3 = useSetupUpdate(() => new StaticTagPickerController(props), props);
 

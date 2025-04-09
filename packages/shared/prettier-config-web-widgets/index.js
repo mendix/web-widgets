@@ -1,3 +1,5 @@
+const packageJsonFieldsOrder = require("./package-json-fields-order");
+
 module.exports = {
     trailingComma: "none",
     useTabs: false,
@@ -11,7 +13,7 @@ module.exports = {
     proseWrap: "always",
     xmlSelfClosingSpace: true,
     xmlWhitespaceSensitivity: "ignore",
-    plugins: ["@prettier/plugin-xml"],
+    plugins: ["@prettier/plugin-xml", "prettier-plugin-packagejson"],
     overrides: [
         {
             files: ["CHANGELOG.md"],
@@ -44,6 +46,12 @@ module.exports = {
                 tabWidth: 4,
                 // Disable line wrapping in .yml files
                 printWidth: 99999
+            }
+        },
+        {
+            files: "package.json",
+            options: {
+                packageSortOrder: packageJsonFieldsOrder
             }
         }
     ]

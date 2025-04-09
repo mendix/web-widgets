@@ -15,6 +15,7 @@
         "type": "widget",
         "mpkName": "Maps.mpk"
     },
+    "packagePath": "com.mendix.widget.custom",
     "marketplace": {
         "minimumMXVersion": "9.6.0",
         "appNumber": 108261,
@@ -25,22 +26,28 @@
         "githubUrl": "https://github.com/mendix/testProjects",
         "branchName": "maps-web"
     },
-    "packagePath": "com.mendix.widget.custom",
     "scripts": {
-        "start": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools start:server",
-        "dev": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools start:web",
         "build": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools build:ts",
-        "format": "prettier --write .",
-        "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-        "test": "jest --projects jest.config.js",
-        "e2e": "run-e2e ci",
-        "e2edev": "run-e2e dev --with-preps",
-        "release": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools release:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
+        "dev": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools start:web",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps",
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget"
+        "release": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools release:web",
+        "start": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools start:server",
+        "test": "jest --projects jest.config.js",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "@vis.gl/react-google-maps": "^0.8.3",
+        "classnames": "^2.3.2",
+        "deep-equal": "^2.2.3",
+        "leaflet": "^1.9.4",
+        "react-leaflet": "^4.2.1"
     },
     "devDependencies": {
         "@googlemaps/jest-mocks": "^2.10.0",
@@ -55,12 +62,5 @@
         "@types/leaflet": "^1.9.3",
         "@types/react-leaflet": "^2.8.3",
         "cross-env": "^7.0.3"
-    },
-    "dependencies": {
-        "@vis.gl/react-google-maps": "^0.8.3",
-        "classnames": "^2.3.2",
-        "deep-equal": "^2.2.3",
-        "leaflet": "^1.9.4",
-        "react-leaflet": "^4.2.1"
     }
 }
