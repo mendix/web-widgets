@@ -45,8 +45,8 @@ export class DatasourceUpdateProcessor {
             currentItemsSet.add(item.id);
         });
 
-        let newItems = new Set([...currentItemsSet].filter(x => !this.seenItems.has(x)));
-        let missingItems = new Set([...this.seenItems].filter(x => !currentItemsSet.has(x)));
+        const newItems = new Set([...currentItemsSet].filter(x => !this.seenItems.has(x)));
+        const missingItems = new Set([...this.seenItems].filter(x => !currentItemsSet.has(x)));
 
         // missing
         for (const missingItem of missingItems) {
