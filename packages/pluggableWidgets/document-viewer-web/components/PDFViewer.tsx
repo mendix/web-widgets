@@ -33,13 +33,25 @@ const PDFViewer: DocRendererElement = (props: DocumentViewerContainerProps) => {
     return (
         <Fragment>
             <div className="widget-document-viewer-controls">
-                <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage <= 1}>
-                    Previous
-                </button>
-                <span>
-                    Page {currentPage} of {numberOfPages}
-                </span>
-                <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, numberOfPages))}>Next</button>
+                <div className="widget-document-viewer-controls-left">{file.value?.name}</div>
+                <div className="widget-document-viewer-controls-icons">
+                    <div className="widget-document-viewer-pagination">
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                            disabled={currentPage <= 1}
+                            className="icons icon-Left btn btn-icon-only"
+                            aria-label={"Go to previous page"}
+                        ></button>
+                        <span>
+                            {currentPage} / {numberOfPages}
+                        </span>
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, numberOfPages))}
+                            className="icons icon-Right btn btn-icon-only"
+                            aria-label={"Go to next page"}
+                        ></button>
+                    </div>
+                </div>
             </div>
             <div className="widget-document-viewer-content">
                 {pdfUrl && (
