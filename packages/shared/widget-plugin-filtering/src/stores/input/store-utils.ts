@@ -1,4 +1,4 @@
-import { ListAttributeValue, SimpleFormatter } from "mendix";
+import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import {
     Date_InputFilterInterface,
@@ -51,14 +51,4 @@ export function isStringFilter(store: InputFilterInterface): store is String_Inp
 
 export function isDateFilter(store: InputFilterInterface): store is Date_InputFilterInterface {
     return store.arg1.type === "date";
-}
-
-export function getFormatter<T>(attr: { formatter?: SimpleFormatter<T> }): SimpleFormatter<T> {
-    return (
-        attr.formatter ??
-        ({
-            format: v => v ?? "",
-            parse: v => ({ valid: true, value: v ?? "" })
-        } as SimpleFormatter<T>)
-    );
 }
