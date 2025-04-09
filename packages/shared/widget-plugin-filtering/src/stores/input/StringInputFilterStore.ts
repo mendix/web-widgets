@@ -13,7 +13,6 @@ import { FilterData, InputData } from "../../typings/settings";
 import { StringArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
-import { getFormatter } from "./store-utils";
 
 type StrFns = FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type AttrMeta = AttributeMetaData<string> & { formatter?: SimpleFormatter<string> };
@@ -93,4 +92,14 @@ export class StringInputFilterStore
         this.setState(initState);
         this.isInitialized = true;
     }
+}
+
+function getFormatter<T>(attr: { formatter?: SimpleFormatter<T> }): SimpleFormatter<T> {
+    return (
+        attr.formatter ??
+        ({
+            format: v => v ?? "",
+            parse: v => ({ valid: true, value: v ?? "" })
+        } as SimpleFormatter<T>)
+    );
 }
