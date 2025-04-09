@@ -54,13 +54,13 @@ function DefaultActionsBar(props: ButtonsBarProps) {
     return (
         <div className={"entry-details-actions"}>
             <ActionButton
-                icon={<div className={"download-icon"} />}
+                icon={<span className={"download-icon"} aria-hidden={true} />}
                 title={translations.get("downloadButtonTextMessage")}
                 action={onViewClick}
                 isDisabled={!props.store.canDownload}
             />
             <ActionButton
-                icon={<div className={"remove-icon"} />}
+                icon={<span className={"remove-icon"} aria-hidden={true} />}
                 title={translations.get("removeButtonTextMessage")}
                 action={onRemove}
                 isDisabled={!props.store.canRemove}

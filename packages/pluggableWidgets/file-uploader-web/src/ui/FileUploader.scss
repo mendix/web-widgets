@@ -143,6 +143,7 @@ Place your custom CSS here
             }
 
             .download-icon {
+                display: inline-block;
                 height: 24px;
                 width: 24px;
                 background-repeat: no-repeat;
@@ -249,6 +250,7 @@ Place your custom CSS here
                     }
 
                     .remove-icon {
+                        display: inline-block;
                         height: 24px;
                         width: 24px;
                         background-repeat: no-repeat;
