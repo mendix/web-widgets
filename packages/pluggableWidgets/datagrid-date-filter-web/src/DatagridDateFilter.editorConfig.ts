@@ -38,6 +38,7 @@ export function getProperties(values: DatagridDateFilterPreviewProps, defaultPro
 
     if (values.attrChoice === "auto") {
         hidePropertyIn(defaultProperties, values, "attributes");
+        hidePropertyIn(defaultProperties, {} as { linkedDs: unknown }, "linkedDs");
     }
 
     if (values.defaultFilter !== "between") {
@@ -50,8 +51,6 @@ export function getProperties(values: DatagridDateFilterPreviewProps, defaultPro
     } else {
         hidePropertiesIn(defaultProperties, values, ["defaultValue", "valueAttribute"]);
     }
-
-    hidePropertyIn(defaultProperties, {} as { linkedDs: unknown }, "linkedDs");
 
     return defaultProperties;
 }
