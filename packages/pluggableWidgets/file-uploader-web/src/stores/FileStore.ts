@@ -64,7 +64,7 @@ export class FileStore {
         });
     }
 
-    markMissing() {
+    markMissing(): void {
         this.fileStatus = "missing";
         this._mxObject = undefined;
         this._objectItem = undefined;
@@ -107,7 +107,7 @@ export class FileStore {
             runInAction(() => {
                 this.fileStatus = "done";
             });
-        } catch (e: unknown) {
+        } catch (_e: unknown) {
             runInAction(() => {
                 this.fileStatus = "uploadingError";
             });

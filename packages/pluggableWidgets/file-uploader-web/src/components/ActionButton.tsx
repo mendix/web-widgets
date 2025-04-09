@@ -10,7 +10,7 @@ interface ActionButtonProps {
     isDisabled: boolean;
 }
 
-export function ActionButton({ action, icon, title, isDisabled }: ActionButtonProps) {
+export function ActionButton({ action, icon, title, isDisabled }: ActionButtonProps): ReactElement {
     const onClick = useCallback(
         (e: MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation();
@@ -39,7 +39,7 @@ interface FileActionButtonProps {
     icon: ReactElement;
 }
 
-export function FileActionButton({ listAction, store, title, icon }: FileActionButtonProps) {
+export function FileActionButton({ listAction, store, title, icon }: FileActionButtonProps): ReactElement {
     const action = useCallback(() => {
         store.executeAction(listAction);
     }, [store, listAction]);

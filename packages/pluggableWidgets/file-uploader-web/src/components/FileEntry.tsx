@@ -87,9 +87,9 @@ function FileEntry(props: FileEntryProps): ReactElement {
                 invalid: props.fileStatus === "validationError"
             })}
             title={props.title}
-            tabIndex={!!defaultAction ? 0 : undefined}
-            onClick={!!defaultAction ? onClick : undefined}
-            onKeyDown={!!defaultAction ? onKeyDown : undefined}
+            tabIndex={defaultAction ? 0 : undefined}
+            onClick={defaultAction ? onClick : undefined}
+            onKeyDown={defaultAction ? onKeyDown : undefined}
         >
             <div className={"entry-details"}>
                 <div
