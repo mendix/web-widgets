@@ -2,6 +2,7 @@ $root: widget-document-viewer;
 
 :root {
     --document-viewer-negative-margin: calc(-1 * var(--form-input-padding-x));
+    --default-zoom-scale: 1;
 }
 
 div.widget-document-viewer {
@@ -21,6 +22,12 @@ div.widget-document-viewer {
         background-color: var(--gray-lighter);
         border-bottom: 1px solid var(--border-color-default, #ced0d3);
         border-radius: var(--border-radius-default) var(--border-radius-default) 0 0;
+
+        &-icons {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
     }
 
     &-content {
@@ -28,6 +35,7 @@ div.widget-document-viewer {
         padding: var(--spacing-medium);
         border: 1px solid var(--gray-darker);
         border-radius: var(--border-radius-default);
+        overflow: auto;
     }
 
     &-pagination {
@@ -36,5 +44,10 @@ div.widget-document-viewer {
         & > *:not(:last-child) {
             margin-right: var(--spacing-small);
         }
+    }
+
+    &-zoom-container {
+        transform: scale(var(--default-zoom-scale));
+        transform-origin: 0 0;
     }
 }
