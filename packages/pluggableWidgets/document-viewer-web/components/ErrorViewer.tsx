@@ -1,14 +1,11 @@
-import { createElement, Fragment } from "react";
+import { createElement } from "react";
 import { DocRendererElement } from "./documentRenderer";
 
 const ErrorViewer: DocRendererElement = () => {
-    return (
-        <Fragment>
-            <div className="widget-document-viewer-content">No document selected</div>
-        </Fragment>
-    );
+    return <div className="widget-document-viewer-content">No document selected</div>;
 };
 
 ErrorViewer.contentTypes = [];
+ErrorViewer.fileTypes = [];
 
 export default ErrorViewer;

@@ -1,12 +1,12 @@
-import { createElement, Fragment, useCallback, useEffect, useState } from "react";
 import mammoth from "mammoth";
+import { createElement, useCallback, useEffect, useState } from "react";
 import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
+import { BaseControlViewer } from "./BaseViewer";
 import { DocRendererElement } from "./documentRenderer";
 
 const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => {
     const { file } = props;
     const [docxHtml, setDocxHtml] = useState<string | null>(null);
-
     const loadContent = useCallback(async (arrayBuffer: any) => {
         try {
             mammoth
@@ -21,13 +21,16 @@ const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => 
                         setDocxHtml(result.value);
                     }
                 });
-        } catch (error) {}
+        } catch (error) {
+            setDocxHtml(`<div>Error loading file : ${error}</div>`);
+        }
     }, []);
 
     useEffect(() => {
         const controller = new AbortController();
         const { signal } = controller;
         if (file.status === "available" && file.value.uri) {
+            console.log("fetch file", file.value.uri);
             fetch(file.value.uri, { method: "GET", signal })
                 .then(res => res.arrayBuffer())
                 .then(response => {
@@ -41,16 +44,9 @@ const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => 
     }, [file, file?.status, file?.value?.uri]);
 
     return (
-        <Fragment>
-            <div className="widget-document-viewer-controls">
-                <div className="widget-document-viewer-controls-left">{file.value?.name}</div>
-            </div>
-            {docxHtml && (
-                <div className="widget-document-viewer-content" dangerouslySetInnerHTML={{ __html: docxHtml }}>
-                    {/* {docHtmlStr} */}
-                </div>
-            )}
-        </Fragment>
+        <BaseControlViewer {...props} fileName={file.value?.name || ""}>
+            {docxHtml && <div className="docx-viewer-content" dangerouslySetInnerHTML={{ __html: docxHtml }}></div>}
+        </BaseControlViewer>
     );
 };
 
@@ -65,5 +61,7 @@ DocxViewer.contentTypes = [
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "application/octet-stream"
 ];
+
+DocxViewer.fileTypes = ["docx"];
 
 export default DocxViewer;
