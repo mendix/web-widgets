@@ -1,4 +1,4 @@
-import Docxviewer from "./Docxviewer";
+import DocxViewer from "./DocxViewer";
 import PDFViewer from "./PDFViewer";
 
-export const DocumentRenderers = [Docxviewer, PDFViewer];
+export const DocumentRenderers = [DocxViewer, PDFViewer];

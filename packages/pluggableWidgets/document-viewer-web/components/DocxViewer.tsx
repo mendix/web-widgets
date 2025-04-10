@@ -1,5 +1,4 @@
 import { createElement, Fragment, useCallback, useEffect, useState } from "react";
-// @ts-ignore implicit any
 import mammoth from "../utils/mammoth.browser";
 import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 import { DocRendererElement } from "./documentRenderer";
