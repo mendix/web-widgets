@@ -15,6 +15,10 @@ $icons: (
 
 .icons.btn {
     background-color: transparent;
+    &[disabled] {
+        background-color: transparent;
+        cursor: not-allowed;
+    }
 }
 
 div.widget-document-viewer {

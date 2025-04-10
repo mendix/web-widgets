@@ -21,6 +21,7 @@ export function useRendererSelector(props: DocumentViewerContainerProps): Docume
                 const contentTypes = contentTypeRaw?.split(";") || [];
                 const contentType = contentTypes.length ? contentTypes[0] : undefined;
 
+                console.log("contentType", contentType);
                 if (contentType) {
                     const selectedRenderer: DocRendererElement[] = [];
                     DocumentRenderers.forEach(renderer => {
@@ -28,6 +29,14 @@ export function useRendererSelector(props: DocumentViewerContainerProps): Docume
                             selectedRenderer.push(renderer);
                         }
                     });
+                    if (selectedRenderer.length > 1) {
+                        selectedRenderer.forEach(renderer => {
+                            if (!renderer.fileTypes.includes(file.value?.name?.split(".").pop()?.toLowerCase() || "")) {
+                                selectedRenderer.splice(selectedRenderer.indexOf(renderer), 1);
+                            }
+                        });
+                    }
+                    console.log("selectedRenderer", selectedRenderer);
                     if (selectedRenderer.length > 0) {
                         setComponent(() => selectedRenderer[0]);
                     }

@@ -1,11 +1,31 @@
-import { Properties } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     StructurePreviewProps,
     structurePreviewPalette
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { DocumentViewerPreviewProps } from "typings/DocumentViewerProps";
 
-export function getProperties(_values: DocumentViewerPreviewProps, defaultProperties: Properties): Properties {
+export function getProperties(values: DocumentViewerPreviewProps, defaultProperties: Properties): Properties {
+    if (values.heightUnit === "percentageOfWidth") {
+        hidePropertyIn(defaultProperties, values, "height");
+    } else {
+        hidePropertiesIn(defaultProperties, values, [
+            "minHeight",
+            "minHeightUnit",
+            "maxHeight",
+            "maxHeightUnit",
+            "OverflowY"
+        ]);
+    }
+
+    if (values.minHeightUnit === "none") {
+        hidePropertyIn(defaultProperties, values, "minHeight");
+    }
+
+    if (values.maxHeightUnit === "none") {
+        hidePropertiesIn(defaultProperties, values, ["maxHeight", "OverflowY"]);
+    }
+
     return defaultProperties;
 }
 
