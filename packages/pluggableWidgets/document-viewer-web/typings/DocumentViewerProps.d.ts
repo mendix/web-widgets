@@ -6,12 +6,31 @@
 import { CSSProperties } from "react";
 import { DynamicValue, FileValue } from "mendix";
 
+export type WidthUnitEnum = "pixels" | "percentage";
+
+export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type MinHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type MaxHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type OverflowYEnum = "auto" | "scroll" | "hidden";
+
 export interface DocumentViewerContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
     file: DynamicValue<FileValue>;
+    widthUnit: WidthUnitEnum;
+    width: number;
+    heightUnit: HeightUnitEnum;
+    height: number;
+    minHeightUnit: MinHeightUnitEnum;
+    minHeight: number;
+    maxHeightUnit: MaxHeightUnitEnum;
+    maxHeight: number;
+    OverflowY: OverflowYEnum;
 }
 
 export interface DocumentViewerPreviewProps {
@@ -26,4 +45,13 @@ export interface DocumentViewerPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     file: string;
+    widthUnit: WidthUnitEnum;
+    width: number | null;
+    heightUnit: HeightUnitEnum;
+    height: number | null;
+    minHeightUnit: MinHeightUnitEnum;
+    minHeight: number | null;
+    maxHeightUnit: MaxHeightUnitEnum;
+    maxHeight: number | null;
+    OverflowY: OverflowYEnum;
 }
