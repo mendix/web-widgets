@@ -25,7 +25,7 @@ export class StringInputFilterStore
     readonly type = "string";
 
     constructor(attributes: AttrMeta[], initCond: FilterCondition | null) {
-        const formatter = getFormatter(attributes[0]);
+        const formatter = getFormatter<string>(attributes[0]);
         super(new StringArgument(formatter), new StringArgument(formatter), "equal", attributes);
         makeObservable(this, {
             updateProps: action,
@@ -94,11 +94,12 @@ export class StringInputFilterStore
     }
 }
 
-function getFormatter(attr: AttrMeta): SimpleFormatter<string> {
+function getFormatter<T>(attr: { formatter?: SimpleFormatter<T> }): SimpleFormatter<T> {
     return (
-        attr.formatter ?? {
+        attr.formatter ??
+        ({
             format: v => v ?? "",
             parse: v => ({ valid: true, value: v ?? "" })
-        }
+        } as SimpleFormatter<T>)
     );
 }
