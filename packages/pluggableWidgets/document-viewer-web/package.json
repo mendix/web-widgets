@@ -37,7 +37,8 @@
         "classnames": "^2.3.2",
         "mammoth": "github:uicontent/mammoth",
         "pdfjs-dist": "^5.0.375",
-        "react-pdf": "^9.2.1"
+        "react-pdf": "^9.2.1",
+        "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },
     "devDependencies": {
         "@babel/plugin-transform-class-properties": "^7.23.3",
