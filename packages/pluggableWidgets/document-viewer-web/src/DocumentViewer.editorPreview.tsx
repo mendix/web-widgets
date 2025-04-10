@@ -1,6 +1,6 @@
 import { createElement, ReactElement } from "react";
 import { DocumentViewerPreviewProps } from "typings/DocumentViewerProps";
-import "../ui/DocumentViewer.scss";
+import "../ui/documentViewer.scss";
 
 export const preview = (props: DocumentViewerPreviewProps): ReactElement => {
     const { file } = props;
