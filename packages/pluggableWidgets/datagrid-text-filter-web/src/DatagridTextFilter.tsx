@@ -4,10 +4,18 @@ import { DatagridTextFilterContainerProps } from "../typings/DatagridTextFilterP
 import { TextFilterContainer } from "./components/TextFilterContainer";
 import { withTextFilterAPI } from "./hocs/withTextFilterAPI";
 import { isLoadingDefaultValues } from "./utils/widget-utils";
+import { withLinkedAttributes } from "./hocs/withLinkedAttributes";
 
 const container = withPreloader<DatagridTextFilterContainerProps>(TextFilterContainer, isLoadingDefaultValues);
-const Widget = withTextFilterAPI(container);
+const FilterAuto = withTextFilterAPI(container);
+const FilterLinked = withLinkedAttributes(container);
 
 export default function DatagridTextFilter(props: DatagridTextFilterContainerProps): ReactElement {
-    return <Widget {...props} />;
+    const isAuto = props.attrChoice === "auto";
+
+    if (isAuto) {
+        return <FilterAuto {...props} />;
+    }
+
+    return <FilterLinked {...props} />;
 }

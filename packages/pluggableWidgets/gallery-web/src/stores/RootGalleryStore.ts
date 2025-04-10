@@ -1,4 +1,5 @@
 import { compactArray, fromCompactArray } from "@mendix/widget-plugin-filtering/condition-utils";
+import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SortAPIProvider } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
@@ -25,8 +26,13 @@ export class RootGalleryStore {
             filtersChannelName: `datagrid/${generateUUID()}`
         };
 
-        const headerViewState = this.getDsViewState(props);
-        this.headerFiltersStore = new HeaderFiltersStore(props, this.staticInfo, headerViewState);
+        this.headerFiltersStore = new HeaderFiltersStore({
+            filterList: props.filterList,
+            filterChannelName: this.staticInfo.filtersChannelName,
+            headerInitFilter: this.getDsViewState(props),
+            sharedInitFilter: [],
+            customFilterHost: new CustomFilterHost()
+        });
         this.sortProvider = new SortAPIProvider(props);
     }
 
