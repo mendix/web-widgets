@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+-   We made "Associated files/images" preconfigured with corresponding entities.
+
+-   We made it possible to configure custom buttons for file uploader entries.
+
+### Fixed
+
+-   We fixed an issue with hover colors of the dropzone.
+
 ## [2.0.0] - 2025-03-14
 
 ### Added

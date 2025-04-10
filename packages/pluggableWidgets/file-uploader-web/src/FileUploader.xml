@@ -15,11 +15,11 @@
                     <enumerationValue key="images">Images</enumerationValue>
                 </enumerationValues>
             </property>
-            <property key="associatedFiles" type="datasource" isList="true">
+            <property key="associatedFiles" type="datasource" isList="true" defaultType="Association" defaultValue="FileUploader.FileUploadContext/FileUploader.UploadedFile_FileUploadContext/FileUploader.UploadedFile">
                 <caption>Associated files</caption>
                 <description />
             </property>
-            <property key="associatedImages" type="datasource" isList="true">
+            <property key="associatedImages" type="datasource" isList="true" defaultType="Association" defaultValue="FileUploader.FileUploadContext/FileUploader.UploadedImage_FileUploadContext/FileUploader.UploadedImage">
                 <caption>Associated images</caption>
                 <description />
             </property>
@@ -193,6 +193,43 @@
             <property key="objectCreationTimeout" type="integer" defaultValue="10">
                 <caption>Object creation timeout</caption>
                 <description>Consider uploads unsuccessful if the Action to create new files/images does not create new objects within the configured amount of seconds.</description>
+            </property>
+            <property key="enableCustomButtons" type="boolean" defaultValue="false">
+                <caption>Enable custom buttons</caption>
+                <description />
+            </property>
+            <property key="customButtons" type="object" isList="true" required="false">
+                <caption>Custom buttons</caption>
+                <description />
+                <properties>
+                    <propertyGroup caption="General">
+                        <property key="buttonCaption" type="textTemplate">
+                            <caption>Caption</caption>
+                            <description />
+                        </property>
+                        <property key="buttonIcon" type="icon">
+                            <caption>Icon</caption>
+                            <description />
+                        </property>
+                        <property key="buttonActionFile" type="action" dataSource="../associatedFiles">
+                            <caption>Action</caption>
+                            <description />
+                        </property>
+                        <property key="buttonActionImage" type="action" dataSource="../associatedImages">
+                            <caption>Action</caption>
+                            <description />
+                        </property>
+                        <property key="buttonIsDefault" type="boolean" defaultValue="false">
+                            <caption>Default file action</caption>
+                            <description>When set to Yes, the action will be triggered by clicking on the file entry.</description>
+                        </property>
+                        <property key="buttonIsVisible" type="expression" defaultValue="true">
+                            <caption>Visible</caption>
+                            <description>The button will be hidden when false is returned.</description>
+                            <returnType type="Boolean" />
+                        </property>
+                    </propertyGroup>
+                </properties>
             </property>
         </propertyGroup>
     </properties>
