@@ -1,5 +1,5 @@
 import { createElement, Fragment, useCallback, useEffect, useState } from "react";
-import mammoth from "../utils/mammoth.browser";
+import mammoth from "mammoth";
 import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 import { DocRendererElement } from "./documentRenderer";
 
