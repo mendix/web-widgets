@@ -5,6 +5,7 @@ export interface Filter {
     toJSON(): FilterData;
     fromJSON(data: FilterData): void;
     condition: FilterCondition | undefined;
+    setup?: () => void | void;
 }
 
 export interface FilterObserver {
