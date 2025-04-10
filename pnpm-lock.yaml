@@ -2536,8 +2536,8 @@ importers:
         specifier: ^9.0.8
         version: 9.0.8(react@18.2.0)
       mendix:
-        specifier: ^10.16.49747
-        version: 10.16.49747
+        specifier: ^10.21.64362
+        version: 10.21.64362
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -2705,8 +2705,8 @@ importers:
   packages/shared/widget-plugin-test-utils:
     dependencies:
       mendix:
-        specifier: ^10.16.49747
-        version: 10.16.49747
+        specifier: ^10.21.64362
+        version: 10.21.64362
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -4772,9 +4772,6 @@ packages:
 
   '@types/react-leaflet@2.8.3':
     resolution: {integrity: sha512-MeBQnVQe6ikw8dkuZE4F96PvMdQeilZG6/ekk5XxhkSzU3lofedULn3UR/6G0uIHjbRazi4DA8LnLACX0bPhBg==}
-
-  '@types/react-native@0.70.16':
-    resolution: {integrity: sha512-zHPWfszSWTctG1O1gsAHTQzOC33GY7Iv/Mk44tSMkcHiUtqB1GjOZz1VLqSyxW3Qw77HX4GUHi8b1ksOFrq2KQ==}
 
   '@types/react-native@0.72.8':
     resolution: {integrity: sha512-St6xA7+EoHN5mEYfdWnfYt0e8u6k2FR0P9s2arYgakQGFgU1f9FlPrIEcj0X24pLCF5c5i3WVuLCUdiCYHmOoA==}
@@ -8593,11 +8590,11 @@ packages:
   mendix-client@7.15.8:
     resolution: {integrity: sha512-RazCdCHoLVNKUUeKDkSkIL6Lxx6fUaa4iiy+Ltp9ra8mLQhwyNqD33TIN7YZJ3HDjHc3eWh9cjiZWwh6Jg/cQg==}
 
-  mendix@10.16.49747:
-    resolution: {integrity: sha512-soc4deezipGgzWVWrfsg1e73w8xXE3ydlW0PyRsV8IHq4BCliloWag1Vh5kYEpYqt+4naBKuLASMHLhSlKKQIw==}
-
   mendix@10.20.60519:
     resolution: {integrity: sha512-gVOhd23gVAX7rE2wYk4MYeVDLKMPGSYk6h97eqNI41hcT1qESeJ6nyDvf9M4wWRVmWKTFpA+nWSIihVxCZsKGg==}
+
+  mendix@10.21.64362:
+    resolution: {integrity: sha512-ufifWxDijKsFWe7kpKOXVXWpS5HzZh+LvxUvM3EhDH8j6lIlIIqn+nSbhsMNhcQ/pr1TLCNO2mPBWUkue513UQ==}
 
   meow@12.1.1:
     resolution: {integrity: sha512-BhXM0Au22RwUneMPwSCnyhTOizdWoIEPU9sp0Aqa1PnDMR5Wv2FGXYDjuzJEIX+Eo2Rb8xuYe5jrnm5QowQFkw==}
@@ -15448,10 +15445,6 @@ snapshots:
       '@types/leaflet': 1.9.3
       '@types/react': 18.2.36
 
-  '@types/react-native@0.70.16':
-    dependencies:
-      '@types/react': 18.2.36
-
   '@types/react-native@0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.26.9(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))':
     dependencies:
       '@react-native/virtualized-lists': 0.72.8(react-native@0.75.3(@babel/core@7.21.0)(@babel/preset-env@7.26.9(@babel/core@7.21.0))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))
@@ -20526,13 +20519,12 @@ snapshots:
       '@types/big.js': 6.2.2
       '@types/dojo': 1.9.44
 
-  mendix@10.16.49747:
+  mendix@10.20.60519:
     dependencies:
       '@types/big.js': 6.2.2
       '@types/react': 18.2.36
-      '@types/react-native': 0.70.16
 
-  mendix@10.20.60519:
+  mendix@10.21.64362:
     dependencies:
       '@types/big.js': 6.2.2
       '@types/react': 18.2.36
