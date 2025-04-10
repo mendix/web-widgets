@@ -660,6 +660,17 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
             title="Fullscreen"
           />
         </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Create Table"
+            class="ql-table-better icons icon-Table"
+            tabindex="-1"
+            title="Create Table"
+          />
+        </span>
       </div>
       <div
         class="widget-rich-text-container"

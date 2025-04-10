@@ -157,6 +157,12 @@ export const TOOLBAR_MAPPING: toolbarMappingType = {
         component: FullscreenButton,
         title: "Fullscreen",
         custom: true
+    },
+    tableBetter: {
+        component: ToolbarButton,
+        className: "ql-table-better icons icon-Table",
+        title: "Create Table",
+        presetValue: 2
     }
 };
 
@@ -176,7 +182,8 @@ export const TOOLBAR_GROUP: ToolbarGroupType = {
     header: ["header"],
     code: ["blockquote", "code", "codeBlock", "viewCode"],
     remove: ["clean"],
-    view: ["fullscreen"]
+    view: ["fullscreen"],
+    tableBetter: ["tableBetter"]
 };
 
 export type toolbarContentType = {
@@ -232,6 +239,10 @@ export const DEFAULT_TOOLBAR: toolbarContentType[] = [
     {
         presetValue: 2,
         children: TOOLBAR_GROUP.view
+    },
+    {
+        presetValue: 2,
+        children: TOOLBAR_GROUP.tableBetter
     }
 ];
 
