@@ -4,7 +4,11 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListReferenceValue, ListReferenceSetValue } from "mendix";
+
+export type BaseTypeEnum = "attr" | "ref";
+
+export type AttrChoiceEnum = "auto" | "linked";
 
 export interface FilterOptionsType {
     caption: DynamicValue<string>;
@@ -25,9 +29,15 @@ export interface DatagridDropdownFilterContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
+    baseType: BaseTypeEnum;
+    attrChoice: AttrChoiceEnum;
+    attr: ListAttributeValue<string | boolean>;
     auto: boolean;
-    defaultValue?: DynamicValue<string>;
     filterOptions: FilterOptionsType[];
+    ref?: ListReferenceValue | ListReferenceSetValue;
+    refOptions?: ListValue;
+    fetchOptionsLazy: boolean;
+    defaultValue?: DynamicValue<string>;
     filterable: boolean;
     multiSelect: boolean;
     emptyOptionCaption?: DynamicValue<string>;
@@ -50,9 +60,15 @@ export interface DatagridDropdownFilterPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
+    baseType: BaseTypeEnum;
+    attrChoice: AttrChoiceEnum;
+    attr: string;
     auto: boolean;
-    defaultValue: string;
     filterOptions: FilterOptionsPreviewType[];
+    ref: string;
+    refOptions: {} | { caption: string } | { type: string } | null;
+    fetchOptionsLazy: boolean;
+    defaultValue: string;
     filterable: boolean;
     multiSelect: boolean;
     emptyOptionCaption: string;
