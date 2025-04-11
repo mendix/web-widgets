@@ -327,9 +327,15 @@ $root: ".widget-dropdown-filter";
     }
 
     #{$root}-input {
-        width: initial;
         flex-basis: 0;
         min-width: 75px;
+    }
+
+    #{$root}-input-container {
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     #{$root}-clear {
