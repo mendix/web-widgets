@@ -222,7 +222,8 @@ class OperateLine {
         const { right } = cell.getBoundingClientRect();
         const change = ~~(clientX - right);
         const colSum = this.getLevelColSum(cell);
-        const tableBlot = (Quill.find(cell) as TableCell).table();
+        const quillCell = Quill.find(cell) as TableCell;
+        const tableBlot = quillCell?.table();
         const colgroup = tableBlot.colgroup() as TableColgroup;
         const bounds = tableBlot.domNode.getBoundingClientRect();
         if (colgroup) {
@@ -370,8 +371,8 @@ class OperateLine {
                 this.hideDragTable();
             }
             this.drag = false;
-            this.quill.root.removeEventListener("mousemove", handleDrag, false);
-            this.quill.root.removeEventListener("mouseup", handleMouseup, false);
+            window.document.removeEventListener("mousemove", handleDrag, false);
+            window.document.removeEventListener("mouseup", handleMouseup, false);
             this.tableBetter.tableMenus.updateMenus(tableNode);
         };
 
@@ -389,8 +390,8 @@ class OperateLine {
                 }
             }
             this.drag = true;
-            this.quill.root.addEventListener("mousemove", handleDrag);
-            this.quill.root.addEventListener("mouseup", handleMouseup);
+            window.document.addEventListener("mousemove", handleDrag);
+            window.document.addEventListener("mouseup", handleMouseup);
         };
         node.addEventListener("mousedown", handleMousedown);
     }
