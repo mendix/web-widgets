@@ -128,8 +128,10 @@ class TablePropertiesForm {
         const fragment = ownerDocument.createDocumentFragment();
         for (const { icon, describe, align } of menus ?? []) {
             const container = ownerDocument.createElement("span");
+            const iconContainer = ownerDocument.createElement("span");
             const iconClasses = icon.split(" ");
-            container.classList.add(...iconClasses);
+            iconContainer.classList.add(...iconClasses);
+            container.appendChild(iconContainer);
             container.setAttribute("data-align", align);
             container.classList.add("ql-table-tooltip-hover");
             if (this.options.attribute[propertyName] === align) {
