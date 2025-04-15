@@ -1,9 +1,9 @@
 {
     "name": "@mendix/google-tag",
     "moduleName": "Google Tag module",
-    "version": "2.2.0",
-    "license": "Apache-2.0",
+    "version": "2.3.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "private": true,
     "repository": {
         "type": "git",
@@ -19,7 +19,7 @@
     },
     "moduleFolderNameInModeler": "googletagmodule",
     "marketplace": {
-        "minimumMXVersion": "9.18.4.62522",
+        "minimumMXVersion": "10.21.0.64362",
         "appNumber": 207519,
         "appName": "Google Tag"
     },
@@ -28,13 +28,13 @@
         "branchName": "google-tag-web"
     },
     "scripts": {
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-module",
         "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
         "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
         "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
         "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
-        "publish-marketplace": "rui-publish-marketplace"
+        "update-changelog": "rui-update-changelog-module",
+        "verify": "rui-verify-package-format"
     },
     "dependencies": {
         "@mendix/google-tag-web": "workspace:*"

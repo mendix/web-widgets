@@ -1,9 +1,9 @@
 {
     "name": "@mendix/web-actions",
     "moduleName": "Web Actions",
-    "version": "2.10.0",
-    "license": "Apache-2.0",
+    "version": "2.11.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
@@ -15,7 +15,7 @@
     },
     "moduleFolderNameInModeler": "webactions",
     "marketplace": {
-        "minimumMXVersion": "9.24.0.2965",
+        "minimumMXVersion": "10.21.0.64362",
         "appNumber": 114337,
         "appName": "Web Actions"
     },
@@ -24,20 +24,20 @@
         "branchName": "main"
     },
     "scripts": {
-        "lint": "eslint --ext .js src/",
-        "format": "echo 'Skip as actions use special format'",
-        "verify": "rui-verify-package-format",
-        "update-changelog": "rui-update-changelog-widget",
         "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
         "create-gh-release": "rui-create-gh-release",
+        "format": "echo 'Skip as actions use special format'",
+        "lint": "eslint --ext .js src/",
+        "publish-marketplace": "rui-publish-marketplace",
         "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
         "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
-        "publish-marketplace": "rui-publish-marketplace"
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
     },
     "devDependencies": {
-        "globals": "^16.0.0",
         "@eslint/js": "^9.24.0",
         "@mendix/automation-utils": "workspace:*",
-        "@mendix/prettier-config-web-widgets": "workspace:^"
+        "@mendix/prettier-config-web-widgets": "workspace:^",
+        "globals": "^16.0.0"
     }
 }
