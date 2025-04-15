@@ -198,10 +198,11 @@ class TablePropertiesForm {
     createDropdown(value: string, category?: string) {
         const ownerDocument = this.tableMenus.quill.root.ownerDocument;
         const container = ownerDocument.createElement("div");
+        const dropIcon = ownerDocument.createElement("span");
         const dropText = ownerDocument.createElement("span");
         switch (category) {
             case "dropdown":
-                dropText.classList.add("icons", "icon-Arrow-down", "ql-table-dropdown-icon");
+                dropIcon.classList.add("icons", "icon-Arrow-down", "ql-table-dropdown-icon");
                 break;
             case "color":
                 break;
@@ -212,6 +213,7 @@ class TablePropertiesForm {
         container.classList.add("ql-table-dropdown-properties");
         dropText.classList.add("ql-table-dropdown-text");
         container.appendChild(dropText);
+        container.appendChild(dropIcon);
         return { dropdown: container, dropText };
     }
 
