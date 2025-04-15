@@ -49,9 +49,6 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                     placeholder: props.inputPlaceholder
                 })}
             />
-            <button className={cls.toggle} {...getToggleButtonProps({ "aria-label": "Show options" })}>
-                <Arrow className={cls.stateIcon} />
-            </button>
             <ClearButton
                 cls={cls}
                 onClick={() => {
@@ -61,6 +58,9 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                 showSeparator={false}
                 visible={!props.empty}
             />
+            <button className={cls.toggle} {...getToggleButtonProps({ "aria-label": "Show options" })}>
+                <Arrow className={cls.stateIcon} />
+            </button>
             <OptionsWrapper
                 cls={cls}
                 ref={refs.setFloating}
