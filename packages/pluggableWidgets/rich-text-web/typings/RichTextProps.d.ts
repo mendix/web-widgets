@@ -72,6 +72,7 @@ export interface RichTextContainerProps {
     header: boolean;
     view: boolean;
     remove: boolean;
+    tableBetter: boolean;
     advancedConfig: AdvancedConfigType[];
 }
 
@@ -112,5 +113,6 @@ export interface RichTextPreviewProps {
     header: boolean;
     view: boolean;
     remove: boolean;
+    tableBetter: boolean;
     advancedConfig: AdvancedConfigPreviewType[];
 }
