@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We updated studio pro minimum version to 10.21 to support Mendix 11.
+
 ## [2.30.5] DataWidgets - 2025-04-16
 
 ### [2.10.1] DatagridDropdownFilter
