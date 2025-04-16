@@ -23,16 +23,20 @@ exports[`Dropdown Filter with single instance with single attribute DOM structur
       >
         Select
       </span>
-      <svg
-        class="widget-dropdown-filter-state-icon"
-        height="16"
-        viewBox="0 0 32 32"
-        width="16"
+      <div
+        class="widget-dropdown-filter-controls"
       >
-        <path
-          d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z"
-        />
-      </svg>
+        <svg
+          class="widget-dropdown-filter-state-icon"
+          height="16"
+          viewBox="0 0 32 32"
+          width="16"
+        >
+          <path
+            d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z"
+          />
+        </svg>
+      </div>
     </button>
     <div
       class="widget-dropdown-filter-popover"

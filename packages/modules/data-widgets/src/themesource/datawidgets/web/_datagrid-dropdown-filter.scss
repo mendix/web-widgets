@@ -160,9 +160,11 @@ $root: ".widget-dropdown-filter";
     }
 
     &-input-container {
+        align-items: center;
         display: flex;
-        flex-flow: row wrap;
         flex: 1;
+        flex-flow: row wrap;
+        margin: 0;
         min-width: 0;
         overflow: hidden;
         padding: 0;
@@ -203,9 +205,10 @@ $root: ".widget-dropdown-filter";
 /* Select variant */
 :where(#{$root}.variant-select) {
     #{$root}-toggle {
-        flex: 1;
+        display: block;
+        flex: 1 1 0;
         justify-content: flex-start;
-        padding-inline-start: 0;
+        min-width: 0;
     }
 
     #{$root}-state-icon {
@@ -218,7 +221,14 @@ $root: ".widget-dropdown-filter";
     #{$root}-input-container {
         border: none;
         background-color: transparent;
-        margin: 0;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    #{$root}-controls {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
     }
 }
 
