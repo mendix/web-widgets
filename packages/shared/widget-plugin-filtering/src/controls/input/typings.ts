@@ -12,7 +12,6 @@ export interface BaseProps {
     screenReaderInputCaption?: string;
     styles?: React.CSSProperties;
     tabIndex?: number;
-    type: "text" | "number";
     badge?: string;
 }
 
