@@ -1,7 +1,7 @@
 {
     "name": "@mendix/google-tag-web",
     "widgetName": "GoogleTag",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "description": "gtag.js integration widget",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -21,7 +21,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "8.18.0",
+        "minimumMXVersion": "10.21.0.64362",
         "appName": "Google Tag",
         "appNumber": -1
     },

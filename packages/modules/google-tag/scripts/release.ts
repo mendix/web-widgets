@@ -19,7 +19,7 @@ async function main(): Promise<void> {
             removeDist,
             cloneTestProject,
             copyWidgetsToProject,
-            copyActionsFiles(["GoogleTagActions.js"]),
+            copyActionsFiles(["GoogleTagAction.js"]),
             writeVersionAndLicenseToJSActions,
             createModuleMpk,
             addWidgetsToMpk,

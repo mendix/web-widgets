@@ -6,30 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We updated studio pro minimum version to 10.21 to support Mendix 11.
+
 ## [1.3.0] - 2024-10-18
 
 ### Added
 
--   We introduced introduce a new functionality allowing to optionally share the authenticated user ID with Google Analytics. Thank you for the feature update @rborer !
+- We introduced introduce a new functionality allowing to optionally share the authenticated user ID with Google Analytics. Thank you for the feature update @rborer !
 
 ### Fixed
 
--   We removed redundant code to improve widget load time in the browser.
+- We removed redundant code to improve widget load time in the browser.
 
 ## [1.2.0] - 2023-06-28
 
 ### Changed
 
--   It is now possible to configure additional tags via "config" command in Advanced mode.
+- It is now possible to configure additional tags via "config" command in Advanced mode.
 
 ## [1.1.0] - 2023-06-05
 
 ### Changed
 
--   We updated the light and dark icons and tiles for the widget.
+- We updated the light and dark icons and tiles for the widget.
 
 ## [1.0.0] - 2023-02-17
 
 ### Added
 
--   We introduced Google Tag widget!
+- We introduced Google Tag widget!
