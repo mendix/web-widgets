@@ -6,17 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.0] FileUploader - 2025-04-16
+
+### [2.1.0] FileUploader
+
+#### Changed
+
+- We updated studio pro minimum version to 10.21 to support Mendix 11.
+
 ## [2.0.0] FileUploader - 2025-03-14
 
 ### Changed
 
--   Bump the minimum supported version to 10.15.
+- Bump the minimum supported version to 10.15.
 
 ### [2.0.0] FileUploader
 
 #### Added
 
--   We made "Action to create new files/images" preconfigured with corresponding nanoflows.
+- We made "Action to create new files/images" preconfigured with corresponding nanoflows.
 
 ## [1.0.3] FileUploader - 2025-02-28
 
@@ -24,29 +32,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 #### Fixed
 
--   We fixed an issue with long file names causing text to extend beyond the widget.
+- We fixed an issue with long file names causing text to extend beyond the widget.
 
 ## [1.0.2] FileUploader - 2025-02-14
 
 ### Added
 
--   We added a module user role that have permissions to upload files and images.
+- We added a module user role that have permissions to upload files and images.
 
 ### [1.0.2] FileUploader
 
 #### Fixed
 
--   We fixed an issue where an error occurred when uploading multiple files on a newly created context object.
+- We fixed an issue where an error occurred when uploading multiple files on a newly created context object.
 
--   We fixed an issue where, in image mode, users could upload unsupported image formats.
+- We fixed an issue where, in image mode, users could upload unsupported image formats.
 
 #### Added
 
--   We improved handling of the File/Image creation action. It is now easier to spot misconfigured actions through console warnings.
+- We improved handling of the File/Image creation action. It is now easier to spot misconfigured actions through console warnings.
 
--   We added timeout functionality for the File/Image creation action. It will abort the file uploading process if an object is not created within a certain time.
+- We added timeout functionality for the File/Image creation action. It will abort the file uploading process if an object is not created within a certain time.
 
--   We added a setting to enable read-only mode.
+- We added a setting to enable read-only mode.
 
 ## [1.0.1] FileUploader - 2025-12-19
 
@@ -54,4 +62,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 #### Added
 
--   The file uploader widget enables you to upload files by dragging and dropping them onto the widget or by using the file selection dialog.
+- The file uploader widget enables you to upload files by dragging and dropping them onto the widget or by using the file selection dialog.
