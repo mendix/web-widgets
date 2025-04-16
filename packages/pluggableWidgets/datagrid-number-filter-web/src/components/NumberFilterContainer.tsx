@@ -69,7 +69,6 @@ function Container(props: ContainerProps): React.ReactElement {
             screenReaderInputCaption={props.screenReaderInputCaption?.value}
             styles={props.style}
             tabIndex={props.tabIndex}
-            type="number"
         />
     );
 }
