@@ -6,13 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.4.0] GoogleTagModule - 2025-04-16
+
+### [1.4.0] GoogleTag
+
+#### Changed
+
+- We updated studio pro minimum version to 10.21 to support Mendix 11.
+
 ## [2.2.0] GoogleTagModule - 2023-06-28
 
 ### [1.2.0] GoogleTag
 
 #### Changed
 
--   It is now possible to configure additional tags via "config" command in Advanced mode.
+- It is now possible to configure additional tags via "config" command in Advanced mode.
 
 ## [2.1.0] GoogleTagModule - 2023-06-05
 
@@ -20,22 +28,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 #### Changed
 
--   We updated the light and dark icons and tiles for the widget.
+- We updated the light and dark icons and tiles for the widget.
 
 ## [2.0.0] GoogleTagModule - 2023-03-15
 
 ### Added
 
--   We introduced version 2.0.0 of the module that supports Mendix Studio Pro 9.18.4 and above.
+- We introduced version 2.0.0 of the module that supports Mendix Studio Pro 9.18.4 and above.
 
 ## [1.0.0] GoogleTagModule - 2023-02-17
 
 ### Added
 
--   We released Google Tag module.
+- We released Google Tag module.
 
 ### [1.0.0] GoogleTag
 
 #### Added
 
--   We introduced Google Tag widget!
+- We introduced Google Tag widget!
