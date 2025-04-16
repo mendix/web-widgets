@@ -29,7 +29,6 @@ function Preview(props: DatagridTextFilterPreviewProps): ReactElement {
             screenReaderButtonCaption={props.screenReaderButtonCaption}
             screenReaderInputCaption={props.screenReaderInputCaption}
             styles={parseStyle(props.style)}
-            type="text"
         />
     );
 }

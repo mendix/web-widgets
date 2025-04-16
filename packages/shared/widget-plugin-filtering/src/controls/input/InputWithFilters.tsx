@@ -30,8 +30,8 @@ export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputC
                 onChange={input1.onChange}
                 placeholder={props.placeholder}
                 ref={props.inputRef}
-                type={props.type}
                 value={input1.value}
+                type="text"
             />
         </div>
     );

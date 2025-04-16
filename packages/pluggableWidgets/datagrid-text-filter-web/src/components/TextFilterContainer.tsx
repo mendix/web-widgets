@@ -74,7 +74,6 @@ export const TextFilterContainer: (props: ContainerProps) => React.ReactElement 
                 screenReaderInputCaption={props.screenReaderInputCaption?.value}
                 styles={props.style}
                 tabIndex={props.tabIndex}
-                type="text"
                 defaultValue={props.defaultValue?.value}
             />
         );
