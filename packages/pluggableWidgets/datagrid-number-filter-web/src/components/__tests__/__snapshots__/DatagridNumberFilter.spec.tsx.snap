@@ -36,7 +36,7 @@ exports[`Number Filter with single instance with multiple attributes renders cor
     </div>
     <input
       class="form-control filter-input"
-      type="number"
+      type="text"
       value=""
     />
   </div>
@@ -89,7 +89,7 @@ exports[`Number Filter with single instance with single attribute renders correc
     </div>
     <input
       class="form-control filter-input"
-      type="number"
+      type="text"
       value=""
     />
   </div>

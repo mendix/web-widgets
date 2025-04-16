@@ -90,7 +90,7 @@ describe("Number Filter", () => {
                 render(<DatagridNumberFilter {...commonProps} onChange={action} valueAttribute={attribute} />);
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-                await user.type(screen.getByRole("spinbutton"), "10");
+                await user.type(screen.getByRole("textbox"), "10");
 
                 act(() => {
                     jest.runOnlyPendingTimers();
@@ -105,8 +105,8 @@ describe("Number Filter", () => {
                 const { getByRole } = render(<DatagridNumberFilter {...commonProps} valueAttribute={attribute} />);
 
                 // First set a value
-                const input = getByRole("spinbutton");
-                expect(input).toHaveValue(null);
+                const input = getByRole("textbox");
+                expect(input).toHaveValue("");
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
                 await user.type(input, "42");
@@ -124,31 +124,31 @@ describe("Number Filter", () => {
                     plugin.emit("datagrid1", "reset.value", false);
                 });
 
-                expect(input).toHaveValue(null);
+                expect(input).toHaveValue("");
                 expect(attribute.setValue).toHaveBeenLastCalledWith(undefined);
             });
 
             describe("with defaultValue", () => {
                 it("initializes with defaultValue", () => {
                     render(<DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />);
-                    expect(screen.getByRole("spinbutton")).toHaveValue(100);
+                    expect(screen.getByRole("textbox")).toHaveValue("100");
                 });
 
                 it("do not sync value and defaultValue when defaultValue changes from undefined to number", () => {
                     const { rerender } = render(<DatagridNumberFilter {...commonProps} defaultValue={undefined} />);
-                    expect(screen.getByRole("spinbutton")).toHaveValue(null);
+                    expect(screen.getByRole("textbox")).toHaveValue("");
                     rerender(<DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />);
-                    expect(screen.getByRole("spinbutton")).toHaveValue(null);
+                    expect(screen.getByRole("textbox")).toHaveValue("");
                 });
 
                 it("do not sync value and defaultValue when defaultValue changes from number to undefined", async () => {
                     const { rerender } = render(
                         <DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />
                     );
-                    expect(screen.getByRole("spinbutton")).toHaveValue(100);
+                    expect(screen.getByRole("textbox")).toHaveValue("100");
                     rerender(<DatagridNumberFilter {...commonProps} defaultValue={undefined} />);
                     await waitFor(() => {
-                        expect(screen.getByRole("spinbutton")).toHaveValue(100);
+                        expect(screen.getByRole("textbox")).toHaveValue("100");
                     });
                 });
 
@@ -159,8 +159,8 @@ describe("Number Filter", () => {
                         <DatagridNumberFilter {...commonProps} valueAttribute={attribute} defaultValue={value} />
                     );
 
-                    const input = getByRole("spinbutton");
-                    expect(input).toHaveValue(123);
+                    const input = getByRole("textbox");
+                    expect(input).toHaveValue("123");
 
                     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
                     // set input empty
@@ -179,7 +179,7 @@ describe("Number Filter", () => {
                         plugin.emit("datagrid1", "reset.value", true);
                     });
 
-                    expect(input).toHaveValue(123);
+                    expect(input).toHaveValue("123");
                     expect(attribute.setValue).toHaveBeenLastCalledWith(Big(123));
                 });
             });
@@ -238,8 +238,8 @@ describe("Number Filter", () => {
                 const attribute = new EditableValueBuilder<Big>().build();
                 const { getByRole } = render(<DatagridNumberFilter {...commonProps} valueAttribute={attribute} />);
 
-                const input = getByRole("spinbutton");
-                expect(input).toHaveValue(null);
+                const input = getByRole("textbox");
+                expect(input).toHaveValue("");
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
                 await user.type(input, "42");
@@ -255,7 +255,7 @@ describe("Number Filter", () => {
                     plugin.emit("datagrid1", "reset.value", false);
                 });
 
-                expect(input).toHaveValue(null);
+                expect(input).toHaveValue("");
                 expect(attribute.setValue).toHaveBeenLastCalledWith(undefined);
             });
 
@@ -263,8 +263,8 @@ describe("Number Filter", () => {
                 const attribute = new EditableValueBuilder<Big>().build();
                 const { getByRole } = render(<DatagridNumberFilter {...commonProps} valueAttribute={attribute} />);
 
-                const input = getByRole("spinbutton");
-                expect(input).toHaveValue(null);
+                const input = getByRole("textbox");
+                expect(input).toHaveValue("");
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
                 await user.type(input, "42");
@@ -282,7 +282,7 @@ describe("Number Filter", () => {
                     });
                 });
 
-                expect(input).toHaveValue(100);
+                expect(input).toHaveValue("100");
                 expect(attribute.setValue).toHaveBeenLastCalledWith(Big(100));
             });
 
