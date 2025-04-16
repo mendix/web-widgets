@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.31.0] DataWidgets - 2025-04-16
+
 ### Changed
 
 - We updated studio pro minimum version to 10.21 to support Mendix 11.
