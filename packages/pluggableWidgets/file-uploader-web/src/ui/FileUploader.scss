@@ -1,13 +1,19 @@
 $file-bg-color: #f8f8f8;
 $file-border-color-default: #ced0d3;
-$file-color-primary-light: #e6eaff;
+$file-color-primary-lighter: #e6eaff;
 $file-brand-primary: #264ae5;
-$file-color-warning-light: #fbedd2;
+$file-color-warning-lighter: #fbedd2;
 $file-brand-warning: #eca51c;
-$file-color-danger-light: #f9d9dc;
+$file-color-danger-lighter: #f9d9dc;
 $file-brand-danger: #e33f4e;
 $file-gray-light: #6c7180;
+$file-gray-darker: #3b4251;
 $file-brand-success: #3cb33d;
+
+$file-action-icon-hover: #2a39b8;
+$file-action-icon-active: #264ae5;
+$file-dropzone-color: #8f620b;
+$file-progress-background-color: #f0f1f2;
 
 $file-icon: url(../assets/file-icon.svg);
 $file-warning-icon: url(../assets/warning-icon.svg);
@@ -49,20 +55,24 @@ Place your custom CSS here
         }
 
         &:active {
-            border: 1.5px dashed #24276c;
+            border: 1.5px dashed var(--brand-primary, $file-brand-primary);
             .upload-text {
-                color: #24276c;
+                color: var(--brand-primary, $file-brand-primary);
                 text-decoration: underline;
             }
         }
 
         &.warning {
             border: 1.5px dashed var(--brand-warning, $file-brand-warning);
-            background-color: var(--color-warning-light, $file-color-warning-light);
+            background-color: var(--color-warning-lighter, $file-color-warning-lighter);
         }
         &.error {
             border: 1.5px dashed var(--brand-danger, $file-brand-danger);
-            background-color: var(--color-danger-light, $file-color-danger-light);
+            background-color: var(--color-danger-lighter, $file-color-danger-lighter);
+        }
+        &.active {
+            border: 1.5px solid var(--brand-primary, $file-brand-primary);
+            background-color: var(--color-primary-lighter, $file-color-primary-lighter);
         }
 
         .file-icon {
@@ -85,7 +95,7 @@ Place your custom CSS here
     .dropzone-message {
         font-size: 12px;
         line-height: 17px;
-        color: #8f620b;
+        color: var(--file-dropzone-color, $file-dropzone-color);
 
         padding-left: 18px;
         margin-bottom: 1em;
@@ -133,6 +143,7 @@ Place your custom CSS here
             }
 
             .download-icon {
+                display: inline-block;
                 height: 24px;
                 width: 24px;
                 background-repeat: no-repeat;
@@ -158,8 +169,8 @@ Place your custom CSS here
 
                     &.preview-icon {
                         border-radius: 4px;
-                        border: 1px solid var(--color-primary-light, $file-color-primary-light);
-                        background-color: var(--color-primary-light, $file-color-primary-light);
+                        border: 1px solid var(--color-primary-light, $file-color-primary-lighter);
+                        background-color: var(--color-primary-light, $file-color-primary-lighter);
                     }
 
                     .image-preview {
@@ -180,7 +191,7 @@ Place your custom CSS here
                     .entry-details-main-name {
                         flex: 1;
                         font-weight: 600;
-                        color: #3b4251;
+                        color: var(--gray-darker, $file-gray-darker);
                         text-overflow: ellipsis;
                         overflow: hidden;
                         white-space: nowrap;
@@ -214,11 +225,17 @@ Place your custom CSS here
                             .remove-icon {
                                 background-image: var(--file-remove-icon-hover, $file-remove-icon-hover);
                             }
+                            .file-action-icon {
+                                color: var(--file-action-icon-hover, $file-action-icon-hover);
+                            }
                         }
 
                         &:active {
                             .remove-icon {
                                 background-image: var(--file-remove-icon-active, $file-remove-icon-active);
+                            }
+                            .file-action-icon {
+                                color: var(--file-action-icon-active, $file-action-icon-active);
                             }
                         }
 
@@ -227,7 +244,13 @@ Place your custom CSS here
                         }
                     }
 
+                    .file-action-icon {
+                        font-size: 24px;
+                        color: var(--brand-primary, $file-brand-primary);
+                    }
+
                     .remove-icon {
+                        display: inline-block;
                         height: 24px;
                         width: 24px;
                         background-repeat: no-repeat;
@@ -244,7 +267,7 @@ Place your custom CSS here
 
                     height: 4px;
                     border-radius: 2px;
-                    background-color: #f0f1f2;
+                    background-color: var(--file-progress-background-color, $file-progress-background-color);
                     margin: 5px 0;
                     width: 100%;
                     overflow: hidden;
