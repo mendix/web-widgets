@@ -11,7 +11,7 @@ export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputC
     } = props;
     return (
         <div
-            className={classNames("filter-container", props.className)}
+            className={classNames("filter-container", props.className, { "has-error": !input1.isValid })}
             data-focusindex={props.tabIndex ?? 0}
             style={props.styles}
         >
@@ -24,6 +24,7 @@ export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputC
                 />
             )}
             <input
+                aria-invalid={input1.isValid ? undefined : true}
                 aria-label={props.screenReaderInputCaption}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
                 disabled={props.disableInputs}
