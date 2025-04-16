@@ -35,11 +35,9 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
     const { getSelectedItemProps, getDropdownProps, removeSelectedItem } = useMultipleSelection(
         props.useMultipleSelectionProps()
     );
-    const { isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps } = useCombobox(
-        props.useComboboxProps()
-    );
+    const { inputValue, isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps } =
+        useCombobox(props.useComboboxProps());
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
-    const showRemoveItem = selectedStyle === "boxes";
 
     return (
         <div
@@ -69,14 +67,14 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                     }
                 }}
             >
-                {props.selected.map((item, index) => (
-                    <div
-                        className={cls.selectedItem}
-                        key={index}
-                        {...getSelectedItemProps({ selectedItem: item, index })}
-                    >
-                        {item.caption}
-                        {showRemoveItem && (
+                {selectedStyle === "boxes" &&
+                    props.selected.map((item, index) => (
+                        <div
+                            className={cls.selectedItem}
+                            key={index}
+                            {...getSelectedItemProps({ selectedItem: item, index })}
+                        >
+                            {item.caption}
                             <span
                                 className={cls.removeIcon}
                                 onClick={e => {
@@ -86,9 +84,8 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                             >
                                 <Cross width="10" height="10" />
                             </span>
-                        )}
-                    </div>
-                ))}
+                        </div>
+                    ))}
                 <input
                     className={cls.input}
                     {...getInputProps({
@@ -100,19 +97,23 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                         "aria-describedby": props.empty ? undefined : `${helperText1} ${inputContainerId}`
                     })}
                 />
+                {selectedStyle === "text" && props.selected.length > 0 && (
+                    <div className={cn(cls.selectedItem, inputValue && `${cls.selectedItem}-hidden`)}>
+                        {props.selected.map(item => item.caption).join(", ")}
+                    </div>
+                )}
             </div>
-            <button className={cls.toggle} {...getToggleButtonProps({ "aria-label": "Show options" })}>
-                <Arrow className={cls.stateIcon} />
-            </button>
             <ClearButton
                 cls={cls}
                 onClick={() => {
                     props.onClear();
                     inputRef.current?.focus();
                 }}
-                showSeparator
                 visible={!props.empty}
             />
+            <button className={cls.toggle} {...getToggleButtonProps({ "aria-label": "Show options" })}>
+                <Arrow className={cls.stateIcon} />
+            </button>
             <OptionsWrapper
                 cls={cls}
                 ref={refs.setFloating}

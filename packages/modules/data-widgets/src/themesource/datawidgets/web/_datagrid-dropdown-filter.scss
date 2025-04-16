@@ -1,12 +1,17 @@
 @mixin scroll-shadow {
     background:
-        /* Shadow Cover TOP */ linear-gradient(white 30%, rgba(255, 255, 255, 0)) center top,
+        /* Shadow Cover TOP */
+        linear-gradient(white 30%, rgba(255, 255, 255, 0)) center top,
         /* Shadow Cover BOTTOM */ linear-gradient(rgba(255, 255, 255, 0), white 70%) center bottom,
         /* Shadow TOP */ linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center top,
         /* Shadow BOTTOM */ linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center bottom;
 
     background-repeat: no-repeat;
-    background-size: 100% 70px, 100% 70px, 100% 35px, 100% 35px;
+    background-size:
+        100% 70px,
+        100% 70px,
+        100% 35px,
+        100% 35px;
     background-attachment: local, local, scroll, scroll;
 }
 
@@ -50,10 +55,11 @@ $root: ".widget-dropdown-filter";
     --wdf-tag-padding: var(--wdf-spacing-tiny) var(--dropdown-outer-spacing, 10px);
 
     &.form-control {
-        padding: 0;
-        position: relative;
-        display: grid;
+        display: flex;
         min-width: 65px;
+        padding-block: var(--wdf-button-spacing);
+        padding-inline-end: var(--wdf-button-spacing);
+        padding-inline-start: var(--wdf-button-spacing);
     }
 
     &-popover {
@@ -107,7 +113,9 @@ $root: ".widget-dropdown-filter";
 
     &-input {
         border: none;
+        flex: 1;
         margin: 0;
+        min-width: 50px;
         padding: 0;
     }
 
@@ -119,27 +127,29 @@ $root: ".widget-dropdown-filter";
 
     &-input,
     &-toggle {
-        text-align: start;
+        color: var(--wdf-color);
+        font-weight: normal;
         overflow: hidden;
-        white-space: nowrap;
+        text-align: start;
         text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     &-clear {
-        position: absolute;
-        padding: 3px 6px;
-        align-self: center;
-        justify-self: end;
-        display: flex;
-        margin-inline-end: var(--wdf-clear-margin);
-        border-inline-end: 1px solid var(--gray, #787d87);
         @include btn-with-cross;
-    }
+        align-items: center;
+        align-self: center;
+        display: flex;
+        flex-shrink: 0;
+        justify-self: end;
+        margin-inline-end: var(--wdf-spacing);
+        padding: 3px 6px;
+        position: relative;
 
-    &-toggle,
-    &-input {
-        color: var(--wdf-color);
-        font-weight: normal;
+        &:has(+ #{$root}-state-icon),
+        &:has(+ #{$root}-toggle) {
+            border-inline-end: 1px solid var(--gray, #787d87);
+        }
     }
 
     &-state-icon {
@@ -150,11 +160,15 @@ $root: ".widget-dropdown-filter";
     }
 
     &-input-container {
+        align-items: center;
         display: flex;
-        gap: var(--wdf-spacing);
+        flex: 1;
         flex-flow: row wrap;
+        margin: 0;
         min-width: 0;
         overflow: hidden;
+        padding: 0;
+        position: relative;
     }
 
     &-remove-icon {
@@ -171,6 +185,16 @@ $root: ".widget-dropdown-filter";
         inset-block: var(--wdf-button-spacing);
         width: 1px;
     }
+
+    &-state-icon,
+    &-toggle {
+        align-items: center;
+        display: flex;
+        flex-shrink: 0;
+        justify-content: center;
+        padding-inline-end: 0;
+        padding-inline-start: 0;
+    }
 }
 
 :where([data-highlighted]) #{$root}-checkbox:not(:checked)::after {
@@ -181,23 +205,30 @@ $root: ".widget-dropdown-filter";
 /* Select variant */
 :where(#{$root}.variant-select) {
     #{$root}-toggle {
-        padding-block: var(--wdf-button-spacing);
-        padding-inline-start: var(--wdf-button-spacing);
-        padding-inline-end: var(--wdf-toggle-inline-end);
-    }
-
-    &:has(#{$root}-clear) #{$root}-toggle {
-        padding-block: var(--wdf-button-spacing);
-        padding-inline-start: var(--wdf-button-spacing);
-        padding-inline-end: var(--wdf-toggle-inline-end-clearable);
+        display: block;
+        flex: 1 1 0;
+        justify-content: flex-start;
+        min-width: 0;
     }
 
     #{$root}-state-icon {
-        position: absolute;
         align-self: center;
+        box-sizing: content-box;
         justify-self: end;
         pointer-events: none;
-        margin-inline-end: var(--wdf-button-spacing);
+    }
+
+    #{$root}-input-container {
+        border: none;
+        background-color: transparent;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    #{$root}-controls {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
     }
 }
 
@@ -210,137 +241,89 @@ $root: ".widget-dropdown-filter";
 
 /* Combobox variant */
 :where(#{$root}.variant-combobox) {
-    & {
-        grid-template-columns: 1fr var(--wdf-toggle-width);
-    }
-
     #{$root}-input {
         border-radius: inherit;
-        padding-block: var(--wdf-button-spacing);
-        padding-inline-start: var(--wdf-button-spacing);
+        padding-inline-start: 0;
         padding-inline-end: 0;
-    }
-
-    &:has(#{$root}-clear) #{$root}-input {
-        padding-inline-end: var(--wdf-clear-width);
-    }
-
-    #{$root}-toggle {
-        padding-block: var(--wdf-button-spacing);
-        padding-inline-start: 4px;
-        padding-inline-end: var(--wdf-button-spacing);
-        display: flex;
-        align-items: center;
     }
 }
 
 /* Tag Picker variant */
 :where(#{$root}.variant-tag-picker) {
-    & {
-        grid-template-columns: 1fr var(--wdf-toggle-width);
-    }
-
-    #{$root}-input-container {
-        padding-block: var(--wdf-button-spacing);
-        padding-inline-start: var(--wdf-button-spacing);
-        padding-inline-end: 0;
-    }
-
-    &:has(#{$root}-clear) #{$root}-input-container {
-        padding-inline-end: var(--wdf-clear-width);
-    }
-
     #{$root}-selected-item {
+        align-items: center;
+        background-color: var(--color-primary-lighter, #e6eaff);
+        border-radius: 26px;
         color: #000;
-        font-size: var(--font-size-small, 12px);
-        line-height: 1.334;
         display: inline-flex;
         flex-flow: row nowrap;
-        border-radius: 26px;
-        justify-content: center;
-        padding: var(--wdf-tag-padding);
-        align-items: center;
+        font-size: var(--font-size-small, 12px);
         gap: 8px;
-        background-color: var(--color-primary-lighter, #e6eaff);
+        justify-content: center;
+        line-height: 1.334;
+        padding: var(--wdf-tag-padding);
         &:focus-visible {
             outline: var(--brand-primary, #264ae5) auto 1px;
         }
     }
 
     #{$root}-input {
-        width: initial;
         flex-basis: 0;
-        min-width: 75px;
+        min-width: 50px;
+        width: initial;
     }
 
     #{$root}-clear {
         border-color: transparent;
     }
-
-    #{$root}-toggle {
-        padding-block: var(--wdf-button-spacing);
-        padding-inline-start: 4px;
-        padding-inline-end: var(--wdf-button-spacing);
-        display: flex;
-        align-items: center;
-    }
 }
 
 /* Tag Picker variant text */
 :where(#{$root}.variant-tag-picker-text) {
-    & {
-        grid-template-columns: 1fr var(--wdf-toggle-width);
-    }
-
-    #{$root}-input-container {
-        padding-block: var(--wdf-button-spacing);
-        padding-inline-start: var(--wdf-button-spacing);
-        padding-inline-end: 0;
-    }
-
-    &:has(#{$root}-clear) #{$root}-input-container {
-        padding-inline-end: var(--wdf-clear-width);
-    }
-
     #{$root}-selected-item {
-        display: inline-flex;
-        align-items: center;
-        color: var(--wdf-color);
+        background-color: transparent;
         border-radius: 2px;
+        color: var(--wdf-color);
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        z-index: 0;
+
+        &-hidden {
+            display: none;
+        }
 
         &:focus-visible {
             outline: var(--brand-primary, #264ae5) solid 1px;
             outline-offset: 2px;
-        }
-
-        &:has(+ #{$root}-selected-item)::after {
-            content: ",";
         }
     }
 
     #{$root}-remove-icon {
         padding: var(--wdf-spacing-tiny);
         border-radius: 50%;
+
         path {
             stroke-width: 1px;
         }
     }
 
     #{$root}-input {
-        width: initial;
-        flex-basis: 0;
+        background-color: transparent;
         min-width: 75px;
-    }
+        opacity: 0;
+        width: 100%;
+        z-index: 1;
 
-    #{$root}-clear {
-        border-color: transparent;
-    }
-
-    #{$root}-toggle {
-        padding-block: var(--wdf-button-spacing);
-        padding-inline-start: 4px;
-        padding-inline-end: var(--wdf-button-spacing);
-        display: flex;
-        align-items: center;
+        &:focus,
+        &:not(:has(+ #{$root}-selected-item)) {
+            opacity: 1;
+        }
     }
 }

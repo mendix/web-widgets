@@ -43,25 +43,27 @@ export const Select = observer(function Select(props: SelectProps): React.ReactE
             style={props.style}
         >
             <button
-                className={cls.toggle}
+                className={cls.inputContainer}
                 {...getToggleButtonProps({
                     "aria-label": props.value,
                     ref: toggleRef,
                     onFocus: props.onFocus
                 })}
             >
-                {props.value}
+                <span className={cls.toggle}>{props.value}</span>
+                <div className={`${cls.root}-controls`}>
+                    <ClearButton
+                        cls={cls}
+                        onClick={() => {
+                            props.onClear();
+                            toggleRef.current?.focus();
+                        }}
+                        showSeparator={false}
+                        visible={showClear}
+                    />
+                    <Arrow className={cls.stateIcon} />
+                </div>
             </button>
-            <ClearButton
-                cls={cls}
-                onClick={() => {
-                    props.onClear();
-                    toggleRef.current?.focus();
-                }}
-                showSeparator={false}
-                visible={showClear}
-            />
-            <Arrow className={cls.stateIcon} />
             <OptionsWrapper
                 cls={cls}
                 ref={refs.setFloating}

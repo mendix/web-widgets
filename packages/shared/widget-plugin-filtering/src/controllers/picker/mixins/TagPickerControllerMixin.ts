@@ -130,6 +130,7 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
                         return;
                     }
                     this.filterStore.toggle(selectedItem.value);
+                    this.setInputValue("");
                 },
                 stateReducer(state, { changes, type }) {
                     switch (type) {
