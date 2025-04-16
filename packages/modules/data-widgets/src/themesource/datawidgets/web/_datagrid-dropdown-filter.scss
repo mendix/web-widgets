@@ -1,12 +1,17 @@
 @mixin scroll-shadow {
     background:
-        /* Shadow Cover TOP */ linear-gradient(white 30%, rgba(255, 255, 255, 0)) center top,
+        /* Shadow Cover TOP */
+        linear-gradient(white 30%, rgba(255, 255, 255, 0)) center top,
         /* Shadow Cover BOTTOM */ linear-gradient(rgba(255, 255, 255, 0), white 70%) center bottom,
         /* Shadow TOP */ linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center top,
         /* Shadow BOTTOM */ linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center bottom;
 
     background-repeat: no-repeat;
-    background-size: 100% 70px, 100% 70px, 100% 35px, 100% 35px;
+    background-size:
+        100% 70px,
+        100% 70px,
+        100% 35px,
+        100% 35px;
     background-attachment: local, local, scroll, scroll;
 }
 
@@ -266,9 +271,10 @@ $root: ".widget-dropdown-filter";
 /* Tag Picker variant text */
 :where(#{$root}.variant-tag-picker-text) {
     #{$root}-selected-item {
+        background-color: transparent;
         border-radius: 2px;
         color: var(--wdf-color);
-        display: none;
+        display: block;
         overflow: hidden;
         position: absolute;
         bottom: 0;
@@ -279,6 +285,10 @@ $root: ".widget-dropdown-filter";
         white-space: nowrap;
         z-index: 0;
 
+        &-hidden {
+            display: none;
+        }
+
         &:focus-visible {
             outline: var(--brand-primary, #264ae5) solid 1px;
             outline-offset: 2px;
@@ -288,28 +298,20 @@ $root: ".widget-dropdown-filter";
     #{$root}-remove-icon {
         padding: var(--wdf-spacing-tiny);
         border-radius: 50%;
+
         path {
             stroke-width: 1px;
         }
     }
 
     #{$root}-input {
+        background-color: transparent;
         min-width: 75px;
         opacity: 0;
         width: 100%;
         z-index: 1;
 
-        &:focus {
-            opacity: 1;
-        }
-
-        &:placeholder-shown,
-        &:not(:focus) {
-            & + #{$root}-selected-item {
-                display: block;
-            }
-        }
-
+        &:focus,
         &:not(:has(+ #{$root}-selected-item)) {
             opacity: 1;
         }

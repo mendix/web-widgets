@@ -35,9 +35,8 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
     const { getSelectedItemProps, getDropdownProps, removeSelectedItem } = useMultipleSelection(
         props.useMultipleSelectionProps()
     );
-    const { isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps } = useCombobox(
-        props.useComboboxProps()
-    );
+    const { inputValue, isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps } =
+        useCombobox(props.useComboboxProps());
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
 
     return (
@@ -99,7 +98,9 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                     })}
                 />
                 {selectedStyle === "text" && props.selected.length > 0 && (
-                    <div className={cls.selectedItem}>{props.selected.map(item => item.caption).join(", ")}</div>
+                    <div className={cn(cls.selectedItem, inputValue && `${cls.selectedItem}-hidden`)}>
+                        {props.selected.map(item => item.caption).join(", ")}
+                    </div>
                 )}
             </div>
             <ClearButton
