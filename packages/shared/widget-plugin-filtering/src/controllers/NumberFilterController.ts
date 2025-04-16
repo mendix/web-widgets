@@ -85,7 +85,9 @@ export class NumberFilterController {
         disposers.push(
             autorun(() => {
                 this.input1.setValue(this.filter.arg1.displayValue);
+                this.input1.setIsValid(this.filter.arg1.isValid);
                 this.input2.setValue(this.filter.arg2.displayValue);
+                this.input2.setIsValid(this.filter.arg2.isValid);
             })
         );
 
