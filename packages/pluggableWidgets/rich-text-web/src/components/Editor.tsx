@@ -123,7 +123,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                   }
                               }
                             : false,
-                        resize: RESIZE_MODULE_CONFIG
+                        ...(readOnly ? {} : { resize: RESIZE_MODULE_CONFIG })
                     },
                     readOnly
                 };
