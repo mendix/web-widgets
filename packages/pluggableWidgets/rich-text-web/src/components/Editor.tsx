@@ -122,11 +122,14 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                       image: customImageUploadHandler
                                   }
                               }
-                            : false,
-                        resize: RESIZE_MODULE_CONFIG
+                            : false
                     },
                     readOnly
                 };
+
+                if (!readOnly && options.modules) {
+                    options.modules.resize = RESIZE_MODULE_CONFIG;
+                }
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
                 quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
