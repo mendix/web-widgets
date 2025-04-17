@@ -1,3 +1,4 @@
+import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     betweenIcon,
     betweenIconDark,
@@ -23,22 +24,23 @@ import {
 import {
     ContainerProps,
     ImageProps,
+    structurePreviewPalette,
     StructurePreviewProps,
-    text,
-    structurePreviewPalette
+    text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 
 import { DatagridDateFilterPreviewProps, DefaultFilterEnum } from "../typings/DatagridDateFilterProps";
 
-export function getProperties(
-    values: DatagridDateFilterPreviewProps,
-    defaultProperties: Properties,
-    platform: "web" | "desktop"
-): Properties {
+export function getProperties(values: DatagridDateFilterPreviewProps, defaultProperties: Properties): Properties {
     if (!values.adjustable) {
         hidePropertyIn(defaultProperties, values, "screenReaderButtonCaption");
     }
+
+    if (values.attrChoice === "auto") {
+        hidePropertyIn(defaultProperties, values, "attributes");
+        hidePropertyIn(defaultProperties, {} as { linkedDs: unknown }, "linkedDs");
+    }
+
     if (values.defaultFilter !== "between") {
         hidePropertiesIn(defaultProperties, values, [
             "defaultStartDate",
@@ -49,13 +51,7 @@ export function getProperties(
     } else {
         hidePropertiesIn(defaultProperties, values, ["defaultValue", "valueAttribute"]);
     }
-    if (platform === "web") {
-        if (!values.advanced) {
-            hidePropertiesIn(defaultProperties, values, ["onChange", "valueAttribute"]);
-        }
-    } else {
-        hidePropertyIn(defaultProperties, values, "advanced");
-    }
+
     return defaultProperties;
 }
 
