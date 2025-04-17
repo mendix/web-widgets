@@ -191,7 +191,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     ref={quillRef}
                     defaultValue={stringAttribute.value}
                     style={{
-                        height: style?.height,
+                        height: isFullscreen ? "100%" : style?.height,
                         minHeight: style?.minHeight,
                         maxHeight: style?.maxHeight,
                         overflowY: style?.overflowY
