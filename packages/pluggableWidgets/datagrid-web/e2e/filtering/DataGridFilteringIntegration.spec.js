@@ -26,8 +26,7 @@ test("datagrid-web filtering integration", async ({ page }) => {
     await page.getByRole("columnheader", { name: "First name" }).getByRole("textbox").click();
     await expect(await rows()).toHaveCount(14);
 
-    await page.getByRole("spinbutton").fill("1995");
-    //await select("Birth year").fill("1995");
+    await page.getByRole("columnheader", { name: "Birth year" }).getByRole("textbox").fill("1995");
     await expect(await rows()).toHaveCount(9);
 
     await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click();
