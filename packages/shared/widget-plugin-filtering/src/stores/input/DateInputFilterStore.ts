@@ -1,4 +1,4 @@
-import { AttributeMetaData, DateTimeFormatter, SimpleFormatter } from "mendix";
+import { AttributeMetaData, DateTimeFormatter, ListAttributeValue, SimpleFormatter } from "mendix";
 import { AndCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import {
     and,
@@ -74,10 +74,10 @@ export class DateInputFilterStore
         return () => disposers.forEach(unsub => unsub());
     }
 
-    updateProps(attributes: Array<AttributeMetaData<Date>>): void {
+    updateProps(attributes: ListAttributeValue[]): void {
         if (!comparer.shallow(this._attributes, attributes)) {
             this._attributes = attributes;
-            const formatter = getFormatter(attributes[0]);
+            const formatter = getFormatter(attributes[0] as AttributeMetaData<Date>);
             this.arg1.updateProps(formatter as DateTimeFormatter);
             this.arg2.updateProps(formatter as DateTimeFormatter);
         }
