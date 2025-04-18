@@ -1,10 +1,10 @@
-import { FilterCondition } from "mendix/filters/index.js";
+import { PickerFilterStore } from "@mendix/widget-plugin-dropdown-filter/typings/PickerFilterStore";
+import { FilterCondition } from "mendix/filters";
 import { Context, createContext, useContext } from "react";
-import { APIError, ENOCONTEXT } from "./errors.js";
-import { Result, error, value } from "./result-meta.js";
-import { FilterObserver } from "./typings/FilterObserver.js";
-import { InputFilterInterface } from "./typings/InputFilterInterface.js";
-import { PickerFilterStore } from "./typings/PickerFilterStore.js";
+import { APIError, ENOCONTEXT } from "./errors";
+import { Result, error, value } from "./result-meta";
+import { FilterObserver } from "./typings/FilterObserver";
+import { InputFilterInterface } from "./typings/InputFilterInterface";
 
 export interface FilterAPI {
     version: 3;
