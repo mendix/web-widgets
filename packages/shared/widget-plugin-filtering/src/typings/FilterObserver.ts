@@ -1,5 +1,5 @@
+import { FilterData, FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { FilterCondition } from "mendix/filters";
-import { FilterData, FiltersSettingsMap } from "./settings";
 
 export interface Filter {
     toJSON(): FilterData;
