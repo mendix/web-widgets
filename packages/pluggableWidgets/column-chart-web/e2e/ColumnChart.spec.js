@@ -9,37 +9,62 @@ test.describe("column-chart-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
         await page.waitForLoadState("networkidle");
+        // Disable CSS animations and transitions for stability
+        await page.addStyleTag({ content: `* { transition: none !important; animation: none !important; }` });
+        // Wait for all fonts to be loaded
+        await page.evaluate(async () => {
+            if (typeof document !== "undefined" && document.fonts) {
+                await document.fonts.ready;
+            }
+        });
     });
+
+    async function stableScreenshot(locator, screenshotName) {
+        await locator.scrollIntoViewIfNeeded();
+        await expect(locator).toBeVisible({ timeout: 10000 });
+        // Wait for all images to load
+        await locator.evaluate(async el => {
+            const images = el.querySelectorAll("img");
+            await Promise.all(
+                Array.from(images).map(img => {
+                    if (img.complete) {
+                        return Promise.resolve();
+                    }
+                    return new Promise(resolve => {
+                        img.onload = img.onerror = resolve;
+                    });
+                })
+            );
+        });
+        // Add a short delay to ensure rendering is complete
+        await locator.page().waitForTimeout(200);
+        await expect(locator).toHaveScreenshot(screenshotName, {
+            animations: "disabled",
+            fullPage: false
+        });
+    }
 
     test.describe("column color", () => {
         test("renders column chart with default color and compares with a screenshot baseline", async ({ page }) => {
             const defaultColorContainer = page.locator(".mx-name-containerDefaultColor");
-            await defaultColorContainer.scrollIntoViewIfNeeded();
-            await expect(defaultColorContainer).toBeVisible({ timeout: 10000 });
-            await expect(defaultColorContainer).toHaveScreenshot(`columnChartDefaultColor.png`);
+            await stableScreenshot(defaultColorContainer, `columnChartDefaultColor.png`);
         });
 
         test("renders column chart with custom color and compares with a screenshot baseline", async ({ page }) => {
             const customColorContainer = page.locator(".mx-name-containerCustomColor");
-            await customColorContainer.scrollIntoViewIfNeeded();
-            await expect(customColorContainer).toBeVisible({ timeout: 10000 });
-            await expect(customColorContainer).toHaveScreenshot(`columnChartCustomColor.png`);
+            await stableScreenshot(customColorContainer, `columnChartCustomColor.png`);
         });
     });
 
     test.describe("column format", () => {
         test("renders column chart with grouped format and compares with a screenshot baseline", async ({ page }) => {
             const groupContainer = page.locator(".mx-name-containerGroup");
-            await groupContainer.scrollIntoViewIfNeeded();
-            await expect(groupContainer).toBeVisible({ timeout: 10000 });
-            await expect(groupContainer).toHaveScreenshot(`columnChartGrouped.png`);
+            await stableScreenshot(groupContainer, `columnChartGrouped.png`);
         });
 
         test("renders column chart with stacked format and compares with a screenshot baseline", async ({ page }) => {
             const stackContainer = page.locator(".mx-name-containerStack");
-            await stackContainer.scrollIntoViewIfNeeded();
-            await expect(stackContainer).toBeVisible({ timeout: 10000 });
-            await expect(stackContainer).toHaveScreenshot(`columnChartStacked.png`);
+            await stableScreenshot(stackContainer, `columnChartStacked.png`);
         });
     });
 });
