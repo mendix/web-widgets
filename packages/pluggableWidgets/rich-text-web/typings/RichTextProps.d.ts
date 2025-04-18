@@ -25,7 +25,7 @@ export type OnChangeTypeEnum = "onLeave" | "onDataChange";
 
 export type ToolbarConfigEnum = "basic" | "advanced";
 
-export type CtItemTypeEnum = "separator" | "undo" | "redo" | "bold" | "italic" | "underline" | "strike" | "superScript" | "subScript" | "orderedList" | "bulletList" | "lowerAlphaList" | "checkList" | "minIndent" | "plusIndent" | "direction" | "link" | "image" | "video" | "formula" | "blockquote" | "code" | "codeBlock" | "viewCode" | "align" | "centerAlign" | "rightAlign" | "font" | "size" | "color" | "background" | "header" | "fullscreen" | "clean";
+export type CtItemTypeEnum = "separator" | "undo" | "redo" | "bold" | "italic" | "underline" | "strike" | "superScript" | "subScript" | "orderedList" | "bulletList" | "lowerAlphaList" | "checkList" | "minIndent" | "plusIndent" | "direction" | "link" | "image" | "video" | "formula" | "blockquote" | "code" | "codeBlock" | "viewCode" | "align" | "centerAlign" | "rightAlign" | "font" | "size" | "color" | "background" | "header" | "fullscreen" | "clean" | "tableBetter";
 
 export interface AdvancedConfigType {
     ctItemType: CtItemTypeEnum;
@@ -72,6 +72,7 @@ export interface RichTextContainerProps {
     header: boolean;
     view: boolean;
     remove: boolean;
+    tableBetter: boolean;
     advancedConfig: AdvancedConfigType[];
 }
 
@@ -112,5 +113,6 @@ export interface RichTextPreviewProps {
     header: boolean;
     view: boolean;
     remove: boolean;
+    tableBetter: boolean;
     advancedConfig: AdvancedConfigPreviewType[];
 }

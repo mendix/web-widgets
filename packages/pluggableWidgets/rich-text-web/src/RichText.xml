@@ -223,6 +223,10 @@
                     <caption>Removal</caption>
                     <description />
                 </property>
+                <property key="tableBetter" type="boolean" defaultValue="true">
+                    <caption>Table</caption>
+                    <description />
+                </property>
                 <property key="advancedConfig" type="object" isList="true" required="false">
                     <caption>Advanced groups</caption>
                     <description />
@@ -266,6 +270,7 @@
                                 <enumerationValue key="header">Header</enumerationValue>
                                 <enumerationValue key="fullscreen">Full screen</enumerationValue>
                                 <enumerationValue key="clean">Clean</enumerationValue>
+                                <enumerationValue key="tableBetter">Table</enumerationValue>
                             </enumerationValues>
                         </property>
                     </properties>
