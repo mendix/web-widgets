@@ -1,7 +1,7 @@
 import { PickerFilterStore } from "@mendix/widget-plugin-dropdown-filter/typings/PickerFilterStore";
 import { useRef } from "react";
-import { FilterType, getFilterStore, useFilterContextValue } from "../context";
-import { APIError, EMISSINGSTORE, EStoreTypeMisMatch, OPTIONS_NOT_FILTERABLE } from "../errors";
+import { useFilterAPI } from "../context";
+import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { Result, error, value } from "../result-meta";
 
 export interface Select_FilterAPIv2 {
@@ -9,12 +9,8 @@ export interface Select_FilterAPIv2 {
     parentChannelName?: string;
 }
 
-interface Props {
-    filterable: boolean;
-}
-
-export function useSelectFilterAPI({ filterable }: Props): Result<Select_FilterAPIv2, APIError> {
-    const ctx = useFilterContextValue();
+export function useSelectFilterAPI(): Result<Select_FilterAPIv2, APIError> {
+    const ctx = useFilterAPI();
     const slctAPI = useRef<Select_FilterAPIv2>();
 
     if (ctx.hasError) {
@@ -27,21 +23,14 @@ export function useSelectFilterAPI({ filterable }: Props): Result<Select_FilterA
         return error(api.provider.error);
     }
 
-    const store = getFilterStore(api.provider.value, FilterType.ENUMERATION);
+    const store = api.provider.value.type === "direct" ? api.provider.value.store : null;
 
     if (store === null) {
         return error(EMISSINGSTORE);
     }
 
-    if (store.storeType !== "select" && store.storeType !== "refselect") {
+    if (store.storeType !== "select") {
         return error(EStoreTypeMisMatch("dropdown filter", store.arg1.type));
-    }
-
-    if (store.storeType === "refselect") {
-        const configurationConflict = filterable && store.optionsFilterable === false;
-        if (configurationConflict) {
-            return error(OPTIONS_NOT_FILTERABLE);
-        }
     }
 
     return value((slctAPI.current ??= { filterStore: store, parentChannelName: api.parentChannelName }));
