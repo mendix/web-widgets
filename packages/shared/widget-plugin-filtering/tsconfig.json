@@ -1,6 +1,6 @@
 {
     "extends": "@mendix/tsconfig-web-widgets/esm-library-with-jsx",
-    "include": ["./src/**/*"],
+    "include": ["./src/**/*", "../widget-plugin-dropdown-filter/src/controllers/PickerChangeHelper.ts"],
     "compilerOptions": {
         "outDir": "./dist",
         "rootDir": "./src",
