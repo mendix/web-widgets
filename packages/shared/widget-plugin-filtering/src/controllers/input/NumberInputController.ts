@@ -1,8 +1,12 @@
+import {
+    FilterFunctionBinary,
+    FilterFunctionGeneric,
+    FilterFunctionNonValue
+} from "@mendix/filter-commons/typings/FilterFunctions";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { action, autorun, computed, makeObservable, reaction, runInAction } from "mobx";
 import { createRef } from "react";
 import { InputStore } from "../../stores/input/InputStore";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
 import { FilterV, Number_InputFilterInterface } from "../../typings/InputFilterInterface";
 
 export type Params = {

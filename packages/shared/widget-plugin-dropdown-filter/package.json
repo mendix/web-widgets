@@ -29,6 +29,7 @@
     "dependencies": {
         "@mendix/widget-plugin-mobx-kit": "workspace:^",
         "downshift": "^9.0.9",
+        "mendix": "^10.21.64362",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7"
     },

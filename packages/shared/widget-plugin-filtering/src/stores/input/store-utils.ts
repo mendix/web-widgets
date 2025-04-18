@@ -1,3 +1,4 @@
+import { StaticSelectFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import {
@@ -9,7 +10,6 @@ import {
 import { DateInputFilterStore } from "../input/DateInputFilterStore";
 import { NumberInputFilterStore } from "../input/NumberInputFilterStore";
 import { StringInputFilterStore } from "../input/StringInputFilterStore";
-import { StaticSelectFilterStore } from "../picker/StaticSelectFilterStore";
 
 export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
 

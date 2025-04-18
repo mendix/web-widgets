@@ -1,7 +1,11 @@
+import {
+    FilterFunctionBinary,
+    FilterFunctionGeneric,
+    FilterFunctionNonValue
+} from "@mendix/filter-commons/typings/FilterFunctions";
 import { ActionValue, EditableValue } from "mendix";
 import { reaction } from "mobx";
 import { useEffect, useRef } from "react";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
 import { InputFilterInterface } from "../typings/InputFilterInterface";
 
 interface Props {
