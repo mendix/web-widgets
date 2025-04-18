@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { FilterType, getFilterStore, useFilterContextValue } from "../context";
+import { useFilterAPI } from "../context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { error, Result, value } from "../result-meta";
 import { isDateFilter } from "../stores/input/store-utils";
@@ -11,7 +11,7 @@ export interface Date_FilterAPIv2 {
 }
 
 export function useDateFilterAPI(): Result<Date_FilterAPIv2, APIError> {
-    const ctx = useFilterContextValue();
+    const ctx = useFilterAPI();
     const dateAPI = useRef<Date_FilterAPIv2>();
 
     if (ctx.hasError) {
@@ -24,7 +24,7 @@ export function useDateFilterAPI(): Result<Date_FilterAPIv2, APIError> {
         return error(api.provider.error);
     }
 
-    const store = getFilterStore(api.provider.value, FilterType.DATE);
+    const store = api.provider.value.type === "direct" ? api.provider.value.store : null;
 
     if (store === null) {
         return error(EMISSINGSTORE);
