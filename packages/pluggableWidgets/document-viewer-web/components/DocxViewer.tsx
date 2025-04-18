@@ -1,33 +1,49 @@
-import { createElement, Fragment, useCallback, useEffect, useState } from "react";
-import mammoth from "mammoth";
-import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
-import { DocRendererElement } from "./documentRenderer";
+import { parseAsync, renderDocument, WordDocument, Options } from "docx-preview";
+import { createElement, useCallback, useEffect, useRef } from "react";
+import { BaseControlViewer } from "./BaseViewer";
+import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
+import "./DocxViewer.scss";
 
-const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => {
-    const { file } = props;
-    const [docxHtml, setDocxHtml] = useState<string | null>(null);
+const DOC_CONFIG: Partial<Options> = {
+    className: "docx-viewer-content",
+    ignoreWidth: true,
+    ignoreLastRenderedPageBreak: false,
+    inWrapper: false
+};
 
-    const loadContent = useCallback(async (arrayBuffer: any) => {
-        try {
-            mammoth
-                .convertToHtml(
-                    { arrayBuffer: arrayBuffer },
-                    {
-                        includeDefaultStyleMap: true
-                    }
-                )
-                .then((result: any) => {
-                    if (result) {
-                        setDocxHtml(result.value);
-                    }
-                });
-        } catch (error) {}
-    }, []);
+const DocxViewer: DocRendererElement = (props: DocumentRendererProps) => {
+    const { file, setDocumentStatus } = props;
+    const localRef = useRef<HTMLDivElement>(null);
+    const loadContent = useCallback(
+        async (arrayBuffer: any) => {
+            try {
+                parseAsync(arrayBuffer, DOC_CONFIG)
+                    .then((wordDocument: WordDocument) => {
+                        if (localRef.current) {
+                            // create new dummy stylecontainer to be ignored
+                            const styleContainer = document.createElement("div");
+                            renderDocument(wordDocument, localRef.current, styleContainer, DOC_CONFIG).catch(
+                                (_error: any) => {
+                                    setDocumentStatus(DocumentStatus.error);
+                                }
+                            );
+                        }
+                    })
+                    .catch((_error: any) => {
+                        setDocumentStatus(DocumentStatus.error);
+                    });
+            } catch (_error: any) {
+                setDocumentStatus(DocumentStatus.error);
+            }
+        },
+        [setDocumentStatus]
+    );
 
     useEffect(() => {
         const controller = new AbortController();
         const { signal } = controller;
         if (file.status === "available" && file.value.uri) {
+            console.log("fetch file", file.value.uri);
             fetch(file.value.uri, { method: "GET", signal })
                 .then(res => res.arrayBuffer())
                 .then(response => {
@@ -38,19 +54,12 @@ const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => 
         return () => {
             controller.abort();
         };
-    }, [file, file?.status, file?.value?.uri]);
+    }, [file, file.status, file.value?.uri, loadContent]);
 
     return (
-        <Fragment>
-            <div className="widget-document-viewer-controls">
-                <div className="widget-document-viewer-controls-left">{file.value?.name}</div>
-            </div>
-            {docxHtml && (
-                <div className="widget-document-viewer-content" dangerouslySetInnerHTML={{ __html: docxHtml }}>
-                    {/* {docHtmlStr} */}
-                </div>
-            )}
-        </Fragment>
+        <BaseControlViewer {...props} file={file}>
+            <div className="docx-viewer-container" ref={localRef}></div>
+        </BaseControlViewer>
     );
 };
 
@@ -65,5 +74,7 @@ DocxViewer.contentTypes = [
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "application/octet-stream"
 ];
+
+DocxViewer.fileTypes = ["docx"];
 
 export default DocxViewer;
