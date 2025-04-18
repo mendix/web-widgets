@@ -1,11 +1,15 @@
+import { inputStateFromCond } from "@mendix/filter-commons/condition-utils";
+import {
+    FilterFunctionBinary,
+    FilterFunctionGeneric,
+    FilterFunctionNonValue
+} from "@mendix/filter-commons/typings/FilterFunctions";
+import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
 import { Big } from "big.js";
 import { AttributeMetaData, ListAttributeValue, SimpleFormatter } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { action, comparer, makeObservable } from "mobx";
-import { inputStateFromCond } from "../../condition-utils";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
 import { Number_InputFilterInterface } from "../../typings/InputFilterInterface";
-import { FilterData, InputData } from "../../typings/settings";
 import { NumberArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
