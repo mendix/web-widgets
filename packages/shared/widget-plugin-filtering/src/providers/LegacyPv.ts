@@ -1,3 +1,6 @@
+import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
+import { StaticSelectFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
+import { PickerFilterStore } from "@mendix/widget-plugin-dropdown-filter/typings/PickerFilterStore";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { action, comparer, computed, makeObservable, observable, reaction } from "mobx";
@@ -5,10 +8,7 @@ import { FilterType as Ft, LegacyProvider } from "../context";
 import { DateInputFilterStore } from "../stores/input/DateInputFilterStore";
 import { NumberInputFilterStore } from "../stores/input/NumberInputFilterStore";
 import { StringInputFilterStore } from "../stores/input/StringInputFilterStore";
-import { StaticSelectFilterStore } from "../stores/picker/StaticSelectFilterStore";
 import { InputFilterInterface } from "../typings/InputFilterInterface";
-import { PickerFilterStore } from "../typings/PickerFilterStore";
-import { FiltersSettingsMap } from "../typings/settings";
 
 type FilterMap = {
     [Ft.STRING]: StringInputFilterStore | null;

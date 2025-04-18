@@ -1,7 +1,7 @@
+import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
 import { useEffect, useState } from "react";
 import { Params, StringFilterController } from "../controllers/input/StringInputController";
 import { ArgumentInterface } from "../typings/ArgumentInterface";
-import { AllFunctions } from "../typings/FilterFunctions";
 import { FilterFn, InputFilterBaseInterface } from "../typings/InputFilterInterface";
 
 export function useStringFilterController<

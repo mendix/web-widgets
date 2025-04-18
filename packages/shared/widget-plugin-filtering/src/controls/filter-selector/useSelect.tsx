@@ -36,7 +36,7 @@ export function useSelect(props: useSelectProps): ViewProps {
         items: props.options,
         selectedItem,
         itemToString,
-        onSelectedItemChange: ({ selectedItem }) => props.onSelect(selectedItem.value)
+        onSelectedItemChange: ({ selectedItem }) => props.onSelect(selectedItem?.value ?? null)
     });
 
     const { refs, floatingStyles } = useFloating({

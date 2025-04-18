@@ -28,7 +28,6 @@
         "dev": "tsc --watch",
         "format": "prettier --write .",
         "lint": "eslint src/ package.json",
-        "prepare": "tsc",
         "test": "jest"
     },
     "dependencies": {
@@ -41,7 +40,7 @@
         "@mendix/widget-plugin-mobx-kit": "workspace:^",
         "@mendix/widget-plugin-platform": "workspace:*",
         "downshift": "^9.0.8",
-        "mendix": "^10.16.49747",
+        "mendix": "^10.21.64362",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7"
     },

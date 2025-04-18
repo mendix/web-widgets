@@ -1,8 +1,12 @@
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
-import { FilterFunction } from "../../typings/mendix";
+import {
+    FilterFunctionBinary,
+    FilterFunctionGeneric,
+    FilterFunctionNonValue
+} from "@mendix/filter-commons/typings/FilterFunctions";
+import { FilterName } from "@mendix/filter-commons/typings/mendix";
 
 export function baseNames(
-    fn: FilterFunction | "between" | "empty" | "notEmpty"
+    fn: FilterName | "between" | "empty" | "notEmpty"
 ): FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary {
     switch (fn) {
         case "=":

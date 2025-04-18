@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import classNames from "classnames";
 import { FilterSelector } from "../filter-selector/FilterSelector";
 import { InputComponentProps } from "./typings";
-import { AllFunctions } from "../../typings/FilterFunctions";
+import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
 
 export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputComponentProps<Fn>): React.ReactElement {
     const {
