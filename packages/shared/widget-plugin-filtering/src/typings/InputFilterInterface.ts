@@ -4,7 +4,7 @@ import {
     FilterFunctionGeneric,
     FilterFunctionNonValue,
     FilterFunctionString
-} from "./FilterFunctions";
+} from "@mendix/filter-commons/typings/FilterFunctions";
 import {
     ArgumentInterface,
     DateArgumentInterface,
