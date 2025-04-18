@@ -1,8 +1,8 @@
+import { PickerFilterStore } from "@mendix/widget-plugin-dropdown-filter/typings/PickerFilterStore";
 import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch, OPTIONS_NOT_FILTERABLE } from "../errors";
 import { Result, error, value } from "../result-meta";
-import { PickerFilterStore } from "../typings/PickerFilterStore";
 
 export interface Select_FilterAPIv2 {
     filterStore: PickerFilterStore;

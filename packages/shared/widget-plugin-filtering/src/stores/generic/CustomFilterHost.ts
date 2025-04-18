@@ -1,9 +1,9 @@
+import { tag } from "@mendix/filter-commons/condition-utils";
+import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { autorun, makeAutoObservable } from "mobx";
-import { tag } from "../../condition-utils";
 import { Filter, FilterObserver } from "../../typings/FilterObserver";
-import { FiltersSettingsMap } from "../../typings/settings";
 
 export class CustomFilterHost implements FilterObserver {
     private filters: Map<string, Filter> = new Map();
