@@ -6,7 +6,7 @@
 import { CSSProperties } from "react";
 import { DynamicValue, FileValue } from "mendix";
 
-export type WidthUnitEnum = "pixels" | "percentage";
+export type WidthUnitEnum = "pixels" | "percentage" | "contentFit";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
 

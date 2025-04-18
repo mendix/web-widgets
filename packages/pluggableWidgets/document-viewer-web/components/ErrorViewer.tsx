@@ -1,8 +1,34 @@
-import { createElement } from "react";
-import { DocRendererElement } from "./documentRenderer";
+import { createElement, useCallback } from "react";
+import { DocRendererElement, DocumentRendererProps } from "./documentRenderer";
+import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
+import BaseViewer from "./BaseViewer";
+import { downloadFile } from "../utils/helpers";
 
-const ErrorViewer: DocRendererElement = () => {
-    return <div className="widget-document-viewer-content">No document selected</div>;
+const ErrorViewer: DocRendererElement = (props: DocumentRendererProps) => {
+    const { file } = props;
+    const onDownloadClick = useCallback(() => {
+        downloadFile(file.value?.uri);
+    }, [file]);
+
+    return (
+        <BaseViewer
+            {...props}
+            fileName={file.value?.name || ""}
+            CustomControl={
+                <button
+                    onClick={onDownloadClick}
+                    className="icons icon-Download btn btn-icon-only"
+                    aria-label={"download"}
+                ></button>
+            }
+        >
+            {file.status === "available" ? (
+                <div>{"Unsupported document type"}</div>
+            ) : (
+                <div className="widget-document-viewer-loading"></div>
+            )}
+        </BaseViewer>
+    );
 };
 
 ErrorViewer.contentTypes = [];

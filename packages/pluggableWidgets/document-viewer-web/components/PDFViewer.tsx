@@ -1,23 +1,27 @@
-import { createElement, Fragment, useEffect, useState } from "react";
+import { createElement, Fragment, useCallback, useEffect, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
-import { DocRendererElement } from "./documentRenderer";
+import { downloadFile } from "../utils/helpers";
 import { useZoomScale } from "../utils/useZoomScale";
 import BaseViewer from "./BaseViewer";
+import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 const options = {
     cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
     standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts`
 };
 
-const PDFViewer: DocRendererElement = (props: DocumentViewerContainerProps) => {
-    const { file } = props;
+const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
+    const { file, setDocumentStatus } = props;
     const [numberOfPages, setNumberOfPages] = useState<number>(1);
-    const { zoomLevel, zoomIn, zoomOut } = useZoomScale();
+    const { zoomLevel, zoomIn, zoomOut, reset } = useZoomScale();
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+
+    const onDownloadClick = useCallback(() => {
+        downloadFile(file.value?.uri);
+    }, [file]);
 
     useEffect(() => {
         if (file.status === "available" && file.value.uri) {
@@ -55,6 +59,11 @@ const PDFViewer: DocRendererElement = (props: DocumentViewerContainerProps) => {
                             aria-label={"Go to next page"}
                         ></button>
                     </div>
+                    <button
+                        onClick={onDownloadClick}
+                        className="icons icon-Download btn btn-icon-only"
+                        aria-label={"download"}
+                    ></button>
                     <div className="widget-document-viewer-zoom">
                         <button
                             onClick={zoomOut}
@@ -68,11 +77,22 @@ const PDFViewer: DocRendererElement = (props: DocumentViewerContainerProps) => {
                             className="icons icon-ZoomIn btn btn-icon-only"
                             aria-label={"Go to previous page"}
                         ></button>
+                        <button
+                            onClick={reset}
+                            disabled={zoomLevel >= 10}
+                            className="icons icon-FitToWidth btn btn-icon-only"
+                            aria-label={"Fit to width"}
+                        ></button>
                     </div>
                 </Fragment>
             }
         >
-            <Document file={pdfUrl} options={options} onLoadSuccess={onDocumentLoadSuccess}>
+            <Document
+                file={pdfUrl}
+                options={options}
+                onLoadSuccess={onDocumentLoadSuccess}
+                onLoadError={() => setDocumentStatus(DocumentStatus.error)}
+            >
                 <Page pageNumber={currentPage} scale={zoomLevel} />
             </Document>
         </BaseViewer>

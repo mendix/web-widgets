@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 
 import { DocumentRenderers } from "../components";
-import { DocRendererElement } from "../components/documentRenderer";
+import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "../components/documentRenderer";
 import ErrorViewer from "../components/ErrorViewer";
 import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 
 interface DocumentRenderer {
     CurrentRenderer: DocRendererElement;
+    props: DocumentRendererProps;
 }
 
 export function useRendererSelector(props: DocumentViewerContainerProps): DocumentRenderer {
     const { file } = props;
+    const [documentStatus, setDocumentStatus] = useState<DocumentStatus>(DocumentStatus.loading);
     const [component, setComponent] = useState<DocRendererElement>(() => ErrorViewer);
     useEffect(() => {
         const controller = new AbortController();
@@ -20,8 +22,6 @@ export function useRendererSelector(props: DocumentViewerContainerProps): Docume
                 const contentTypeRaw = response.headers.get("content-type");
                 const contentTypes = contentTypeRaw?.split(";") || [];
                 const contentType = contentTypes.length ? contentTypes[0] : undefined;
-
-                console.log("contentType", contentType);
                 if (contentType) {
                     const selectedRenderer: DocRendererElement[] = [];
                     DocumentRenderers.forEach(renderer => {
@@ -36,7 +36,6 @@ export function useRendererSelector(props: DocumentViewerContainerProps): Docume
                             }
                         });
                     }
-                    console.log("selectedRenderer", selectedRenderer);
                     if (selectedRenderer.length > 0) {
                         setComponent(() => selectedRenderer[0]);
                     }
@@ -48,5 +47,12 @@ export function useRendererSelector(props: DocumentViewerContainerProps): Docume
             controller.abort();
         };
     }, [file, file?.status, file?.value?.uri]);
-    return { CurrentRenderer: component };
+
+    useEffect(() => {
+        if (documentStatus === DocumentStatus.error) {
+            setComponent(() => ErrorViewer);
+        }
+    }, [documentStatus]);
+
+    return { CurrentRenderer: component, props: { ...props, setDocumentStatus } };
 }

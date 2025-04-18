@@ -1,5 +1,6 @@
 $root: widget-document-viewer;
-
+$cb-skeleton-light: rgba(194, 194, 194, 0.2);
+$cb-skeleton-dark: #d2d2d2;
 :root {
     --document-viewer-negative-margin: calc(-1 * var(--form-input-padding-x));
     --default-zoom-scale: 1;
@@ -23,10 +24,30 @@ div.widget-document-viewer {
         border-bottom: 1px solid var(--border-color-default, #ced0d3);
         border-radius: var(--border-radius-default) var(--border-radius-default) 0 0;
 
+        &-left {
+            position: relative;
+            height: 50px;
+            flex: 1;
+
+            .document-title {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                font-size: var(--font-size-default);
+                align-content: center;
+            }
+        }
+
         &-icons {
             display: flex;
             flex-direction: row;
             align-items: center;
+            width: fit-content;
         }
     }
 
@@ -49,5 +70,20 @@ div.widget-document-viewer {
     &-zoom-container {
         transform: scale(var(--default-zoom-scale));
         transform-origin: 0 0;
+    }
+
+    &-loading {
+        animation: skeleton-loading 1s linear infinite alternate;
+        background: linear-gradient(90deg, $cb-skeleton-light 0%, $cb-skeleton-dark 100%);
+        background-size: 300% 100%;
+        border-radius: 4px;
+        height: 16px;
+        width: 148px;
+    }
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: right;
     }
 }
