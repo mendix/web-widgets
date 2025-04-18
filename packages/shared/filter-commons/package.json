@@ -1,0 +1,46 @@
+{
+    "name": "@mendix/filter-commons",
+    "version": "0.1.0",
+    "description": "Common filter utilities and types for filter widgets",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "type": "module",
+    "files": [
+        "dist",
+        "!*.map"
+    ],
+    "exports": {
+        "./*": "./dist/*.js"
+    },
+    "typesVersions": {
+        "*": {
+            "*": [
+                "dist/*"
+            ]
+        }
+    },
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch",
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
+        "prepare": "tsc"
+    },
+    "dependencies": {
+        "mendix": "^10.16.49747"
+    },
+    "peerDependencies": {
+        "mobx": "6.12.3",
+        "mobx-react-lite": "4.0.7"
+    },
+    "devDependencies": {
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/tsconfig-web-widgets": "workspace:*",
+        "@swc/core": "^1.7.26"
+    }
+}
