@@ -1,6 +1,5 @@
 import { createElement, useCallback } from "react";
 import { DocRendererElement, DocumentRendererProps } from "./documentRenderer";
-import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 import BaseViewer from "./BaseViewer";
 import { downloadFile } from "../utils/helpers";
 
