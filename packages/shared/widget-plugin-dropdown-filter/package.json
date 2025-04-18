@@ -1,0 +1,40 @@
+{
+    "name": "@mendix/widget-plugin-dropdown-filter",
+    "version": "1.0.0",
+    "description": "Drop-down filter widget plugin",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
+    "type": "module",
+    "files": [
+        "dist",
+        "!*.map"
+    ],
+    "exports": {
+        "./*": "./dist/*.js"
+    },
+    "typesVersions": {
+        "*": {
+            "*": [
+                "dist/*"
+            ]
+        }
+    },
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch",
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
+        "test": "jest"
+    },
+    "dependencies": {
+        "@mendix/widget-plugin-mobx-kit": "workspace:^",
+        "downshift": "^9.0.9",
+        "mobx": "6.12.3",
+        "mobx-react-lite": "4.0.7"
+    },
+    "devDependencies": {
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/tsconfig-web-widgets": "workspace:*"
+    }
+}
