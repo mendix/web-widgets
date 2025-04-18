@@ -1,3 +1,4 @@
+import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { computed, makeObservable } from "mobx";
@@ -6,7 +7,6 @@ import { APIError } from "../../errors";
 import { LegacyPv } from "../../providers/LegacyPv";
 import { Result, value } from "../../result-meta";
 import { FilterObserver } from "../../typings/FilterObserver";
-import { FiltersSettingsMap } from "../../typings/settings";
 
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
