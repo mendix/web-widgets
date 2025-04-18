@@ -15,19 +15,20 @@
         </propertyGroup>
         <propertyGroup caption="Dimensions">
             <propertyGroup caption="Dimensions">
-                <property key="widthUnit" type="enumeration" defaultValue="percentage">
+                <property key="widthUnit" type="enumeration" defaultValue="contentFit">
                     <caption>Width unit</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="pixels">Pixels</enumerationValue>
                         <enumerationValue key="percentage">Percentage</enumerationValue>
+                        <enumerationValue key="contentFit">Fit to Content</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="width" type="integer" defaultValue="100">
                     <caption>Width</caption>
                     <description />
                 </property>
-                <property key="heightUnit" type="enumeration" defaultValue="pixels">
+                <property key="heightUnit" type="enumeration" defaultValue="percentageOfWidth">
                     <caption>Height unit</caption>
                     <description />
                     <enumerationValues>
@@ -41,7 +42,7 @@
                     <caption>Height</caption>
                     <description />
                 </property>
-                <property key="minHeightUnit" type="enumeration" defaultValue="pixels">
+                <property key="minHeightUnit" type="enumeration" defaultValue="none">
                     <caption>Minimum Height unit</caption>
                     <description />
                     <enumerationValues>

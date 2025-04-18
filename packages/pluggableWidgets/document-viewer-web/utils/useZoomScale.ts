@@ -15,5 +15,9 @@ export function useZoomScale() {
         setZoomLevel(prev => Math.max(prev * ZOOMOUT_MULTIPLIER, 0.3));
     };
 
-    return { zoomLevel, zoomIn, zoomOut };
+    const reset = () => {
+        setZoomLevel(1);
+    };
+
+    return { zoomLevel, zoomIn, zoomOut, reset };
 }

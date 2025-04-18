@@ -1,19 +1,18 @@
+import classNames from "classnames";
 import { createElement, ReactElement } from "react";
-import { DocumentContext } from "../store";
 import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
-import { useRendererSelector } from "../utils/useRendererSelector";
 import "../ui/documentViewer.scss";
 import "../ui/documentViewerIcons.scss";
-import classNames from "classnames";
+import { constructWrapperStyle } from "../utils/dimension";
+import { useRendererSelector } from "../utils/useRendererSelector";
 
 export default function DocumentViewer(props: DocumentViewerContainerProps): ReactElement {
-    const { CurrentRenderer } = useRendererSelector(props);
+    const { CurrentRenderer, props: rendererProps } = useRendererSelector(props);
 
+    const wrapperStyle = constructWrapperStyle(props);
     return (
-        <DocumentContext.Provider value={props}>
-            <div className={classNames(props.class, "widget-document-viewer", "form-control")}>
-                {CurrentRenderer && <CurrentRenderer {...props} />}
-            </div>
-        </DocumentContext.Provider>
+        <div className={classNames(props.class, "widget-document-viewer", "form-control")} style={wrapperStyle}>
+            {CurrentRenderer && <CurrentRenderer {...rendererProps} />}
+        </div>
     );
 }
