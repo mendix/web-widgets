@@ -1,23 +1,25 @@
 import { createElement, useCallback, useEffect, useState } from "react";
 import { read, utils } from "xlsx";
-import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 import { BaseControlViewer } from "./BaseViewer";
-import { DocRendererElement } from "./documentRenderer";
+import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
 
-const ExcelViewer: DocRendererElement = (props: DocumentViewerContainerProps) => {
-    const { file } = props;
+const ExcelViewer: DocRendererElement = (props: DocumentRendererProps) => {
+    const { file, setDocumentStatus } = props;
     const [xlsxHtml, setXlsxHtml] = useState<string | null>(null);
 
-    const loadContent = useCallback(async (arrayBuffer: any) => {
-        try {
-            const wb = read(arrayBuffer);
-            const sheet = wb.Sheets[wb.SheetNames[0]];
-            const html = utils.sheet_to_html(sheet);
-            setXlsxHtml(html);
-        } catch (error) {
-            setXlsxHtml(`<div>Error loading file : ${error}</div>`);
-        }
-    }, []);
+    const loadContent = useCallback(
+        async (arrayBuffer: any) => {
+            try {
+                const wb = read(arrayBuffer);
+                const sheet = wb.Sheets[wb.SheetNames[0]];
+                const html = utils.sheet_to_html(sheet);
+                setXlsxHtml(html);
+            } catch (_error) {
+                setDocumentStatus(DocumentStatus.error);
+            }
+        },
+        [setDocumentStatus]
+    );
 
     useEffect(() => {
         const controller = new AbortController();
@@ -36,7 +38,7 @@ const ExcelViewer: DocRendererElement = (props: DocumentViewerContainerProps) =>
     }, [file, file.status, file.value?.uri, loadContent]);
 
     return (
-        <BaseControlViewer {...props} fileName={file.value?.name || ""}>
+        <BaseControlViewer {...props} file={file}>
             {xlsxHtml && <div className="xlsx-viewer-content" dangerouslySetInnerHTML={{ __html: xlsxHtml }}></div>}
         </BaseControlViewer>
     );

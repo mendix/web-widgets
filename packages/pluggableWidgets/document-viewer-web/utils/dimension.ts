@@ -30,7 +30,8 @@ export function constructWrapperStyle<T extends DimensionContainerProps>(props: 
     const wrapperStyle: Pick<CSSProperties, "width" | "height" | "minHeight" | "maxHeight" | "maxWidth" | "overflowY"> =
         {};
 
-    wrapperStyle.width = `${width}${widthUnit === "pixels" ? "px" : "%"}`;
+    wrapperStyle.width = widthUnit === "contentFit" ? "fit-content" : `${width}${widthUnit === "pixels" ? "px" : "%"}`;
+
     if (heightUnit === "percentageOfWidth") {
         wrapperStyle.height = "auto";
 

@@ -1,30 +1,43 @@
-import mammoth from "mammoth";
-import { createElement, useCallback, useEffect, useState } from "react";
-import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
+import { parseAsync, renderDocument, WordDocument, Options } from "docx-preview";
+import { createElement, useCallback, useEffect, useRef } from "react";
 import { BaseControlViewer } from "./BaseViewer";
-import { DocRendererElement } from "./documentRenderer";
+import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
+import "./DocxViewer.scss";
 
-const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => {
-    const { file } = props;
-    const [docxHtml, setDocxHtml] = useState<string | null>(null);
-    const loadContent = useCallback(async (arrayBuffer: any) => {
-        try {
-            mammoth
-                .convertToHtml(
-                    { arrayBuffer: arrayBuffer },
-                    {
-                        includeDefaultStyleMap: true
-                    }
-                )
-                .then((result: any) => {
-                    if (result) {
-                        setDocxHtml(result.value);
-                    }
-                });
-        } catch (error) {
-            setDocxHtml(`<div>Error loading file : ${error}</div>`);
-        }
-    }, []);
+const DOC_CONFIG: Partial<Options> = {
+    className: "docx-viewer-content",
+    ignoreWidth: true,
+    ignoreLastRenderedPageBreak: false,
+    inWrapper: false
+};
+
+const DocxViewer: DocRendererElement = (props: DocumentRendererProps) => {
+    const { file, setDocumentStatus } = props;
+    const localRef = useRef<HTMLDivElement>(null);
+    const loadContent = useCallback(
+        async (arrayBuffer: any) => {
+            try {
+                parseAsync(arrayBuffer, DOC_CONFIG)
+                    .then((wordDocument: WordDocument) => {
+                        if (localRef.current) {
+                            // create new dummy stylecontainer to be ignored
+                            const styleContainer = document.createElement("div");
+                            renderDocument(wordDocument, localRef.current, styleContainer, DOC_CONFIG).catch(
+                                (_error: any) => {
+                                    setDocumentStatus(DocumentStatus.error);
+                                }
+                            );
+                        }
+                    })
+                    .catch((_error: any) => {
+                        setDocumentStatus(DocumentStatus.error);
+                    });
+            } catch (_error: any) {
+                setDocumentStatus(DocumentStatus.error);
+            }
+        },
+        [setDocumentStatus]
+    );
 
     useEffect(() => {
         const controller = new AbortController();
@@ -41,11 +54,11 @@ const DocxViewer: DocRendererElement = (props: DocumentViewerContainerProps) => 
         return () => {
             controller.abort();
         };
-    }, [file, file?.status, file?.value?.uri]);
+    }, [file, file.status, file.value?.uri, loadContent]);
 
     return (
-        <BaseControlViewer {...props} fileName={file.value?.name || ""}>
-            {docxHtml && <div className="docx-viewer-content" dangerouslySetInnerHTML={{ __html: docxHtml }}></div>}
+        <BaseControlViewer {...props} file={file}>
+            <div className="docx-viewer-container" ref={localRef}></div>
         </BaseControlViewer>
     );
 };
