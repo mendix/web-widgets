@@ -1,3 +1,18 @@
+import {
+    betweenToState,
+    isAnd,
+    isEmptyExp,
+    isNotEmptyExp,
+    isOr,
+    singularToState
+} from "@mendix/filter-commons/condition-utils";
+import {
+    FilterFunctionBinary,
+    FilterFunctionGeneric,
+    FilterFunctionNonValue
+} from "@mendix/filter-commons/typings/FilterFunctions";
+import { FilterName } from "@mendix/filter-commons/typings/mendix";
+import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
 import { AttributeMetaData, DateTimeFormatter, ListAttributeValue, SimpleFormatter } from "mendix";
 import { AndCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import {
@@ -15,11 +30,7 @@ import {
     or
 } from "mendix/filters/builders";
 import { action, comparer, IReactionDisposer, makeObservable, observable, reaction } from "mobx";
-import { betweenToState, isAnd, isEmptyExp, isNotEmptyExp, isOr, singularToState } from "../../condition-utils";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
 import { Date_InputFilterInterface } from "../../typings/InputFilterInterface";
-import { FilterFunction } from "../../typings/mendix";
-import { FilterData, InputData } from "../../typings/settings";
 import { DateArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 
@@ -249,7 +260,7 @@ export class DateInputFilterStore
         }
     }
 
-    private mapFn = (name: FilterFunction | "between" | "empty" | "notEmpty"): DateFns => {
+    private mapFn = (name: FilterName | "between" | "empty" | "notEmpty"): DateFns => {
         switch (name) {
             case "day:=":
                 return "equal";
