@@ -1,5 +1,4 @@
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
-import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
@@ -25,7 +24,6 @@ type Spec = {
 
 export class RootGridStore extends BaseControllerHost {
     columnsStore: ColumnGroupStore;
-    headerFiltersStore: HeaderFiltersStore;
     settingsStore: GridPersonalizationStore;
     staticInfo: StaticInfo;
     exportProgressCtrl: ProgressStore;
@@ -38,9 +36,7 @@ export class RootGridStore extends BaseControllerHost {
         super();
 
         const { props } = gate;
-        const [columnsInitFilter, headerInitFilter, sharedInitFilter] = DatasourceParamsController.unzipFilter(
-            props.datasource.filter
-        );
+        const [columnsInitFilter, sharedInitFilter] = DatasourceParamsController.unzipFilter(props.datasource.filter);
 
         this.gate = gate;
         this.staticInfo = {
@@ -53,13 +49,6 @@ export class RootGridStore extends BaseControllerHost {
             customFilterHost,
             sharedInitFilter
         }));
-        const header = (this.headerFiltersStore = new HeaderFiltersStore({
-            filterList: props.filterList,
-            filterChannelName: this.staticInfo.filtersChannelName,
-            headerInitFilter,
-            sharedInitFilter,
-            customFilterHost
-        }));
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, customFilterHost);
         this.paginationCtrl = new PaginationController(this, { gate, query });
         this.exportProgressCtrl = exportCtrl;
@@ -67,7 +56,6 @@ export class RootGridStore extends BaseControllerHost {
         new DatasourceParamsController(this, {
             query,
             columns,
-            header,
             customFilters: customFilterHost
         });
 
@@ -87,7 +75,6 @@ export class RootGridStore extends BaseControllerHost {
         const [add, disposeAll] = disposeBatch();
         add(super.setup());
         add(this.columnsStore.setup());
-        add(this.headerFiltersStore.setup());
         add(() => this.settingsStore.dispose());
         add(autorun(() => this.updateProps(this.gate.props)));
 
