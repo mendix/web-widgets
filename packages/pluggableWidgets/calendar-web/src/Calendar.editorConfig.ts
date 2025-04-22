@@ -29,6 +29,13 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
         hidePropertiesIn(defaultProperties, values, ["maxHeight", "OverflowY"]);
     }
 
+    // Show/hide title properties based on selection
+    if (values.titleType === "attribute") {
+        hidePropertyIn(defaultProperties, values, "titleExpression");
+    } else {
+        hidePropertyIn(defaultProperties, values, "titleAttribute");
+    }
+
     return defaultProperties;
 }
 

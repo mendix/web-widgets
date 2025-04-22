@@ -1,0 +1,31 @@
+{
+    "include": ["./src", "./typings"],
+    "compilerOptions": {
+        "noEmitOnError": true,
+        "sourceMap": true,
+        "module": "amd",
+        "target": "es5",
+        "lib": ["es2015", "dom"],
+        "types": ["mendix-client", "jest"],
+        "moduleResolution": "node",
+        "declaration": false,
+        "removeComments": true,
+        "noLib": false,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "skipLibCheck": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "jsx": "react",
+        "jsxFactory": "createElement",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "rootDir": "./",
+        "outDir": "dist/tsc/"
+    }
+}

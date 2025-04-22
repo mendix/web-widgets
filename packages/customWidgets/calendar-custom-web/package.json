@@ -1,0 +1,52 @@
+{
+    "name": "@mendix/calendar-custom-web",
+    "widgetName": "Calendar",
+    "version": "1.0.15",
+    "description": "Display and manage calendar events",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "config": {},
+    "mxpackage": {
+        "name": "Calendar",
+        "type": "widget",
+        "mpkName": "Calendar.mpk"
+    },
+    "packagePath": "com.mendix.widget.custom",
+    "marketplace": {
+        "minimumMXVersion": "7.14.1",
+        "appNumber": 107954,
+        "appName": "Calendar"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "calendar-custom-web"
+    },
+    "scripts": {
+        "build": "echo 'TODO: Fix calendar-custom-web build script'",
+        "create-gh-release": "rui-create-gh-release",
+        "fixme_build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
+        "fixme_release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
+        "publish-marketplace": "rui-publish-marketplace",
+        "release": "echo 'TODO: Fix calendar-custom-web release script'",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "classnames": "^2.3.2",
+        "date-arithmetic": "^3.1.0",
+        "loader-utils": "1.4.2",
+        "moment": "^2.30.1",
+        "react-big-calendar": "0.19.2",
+        "react-dnd": "2.6.0",
+        "react-dnd-html5-backend": "^5.0.1"
+    },
+    "patchedDependencies": {
+        "react-big-calendar@0.19.2": "patches/react-big-calendar@0.19.2.patch"
+    }
+}
