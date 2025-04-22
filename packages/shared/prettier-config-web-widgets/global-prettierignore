@@ -4,3 +4,4 @@ tests
 typings
 *.svg
 **/javascriptsource/**
+*.hbs
