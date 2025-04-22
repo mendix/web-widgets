@@ -112,7 +112,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                             onChange={onChangeStub}
                         />
                         <label htmlFor={`${props.id}_checkbox_toggle_${index}`} style={{ pointerEvents: "none" }}>
-                            {column.header}
+                            {column.header.trim() || "<...>"}
                         </label>
                     </li>
                 ) : null;

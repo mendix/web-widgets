@@ -111,6 +111,7 @@ const checkHidableSettings = (
     if (values.columnsHidable && column.hidable !== "no" && !column.header) {
         return {
             property: columnPropPath("hidable", index),
+            severity: "warning",
             message:
                 "A caption is required if 'Can hide' is Yes or Yes, hidden by default. This can be configured under 'Column capabilities' in the column item properties"
         };
