@@ -1,4 +1,4 @@
-import { compactArray, fromCompactArray, isAnd } from "@mendix/widget-plugin-filtering/condition-utils";
+import { compactArray, fromCompactArray, isAnd } from "@mendix/filter-commons/condition-utils.js";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { FilterCondition } from "mendix/filters";
@@ -19,20 +19,17 @@ interface FiltersInput {
 type DatasourceParamsControllerSpec = {
     query: QueryController;
     columns: Columns;
-    header: FiltersInput;
     customFilters: FiltersInput;
 };
 
 export class DatasourceParamsController implements ReactiveController {
     private columns: Columns;
-    private header: FiltersInput;
     private query: QueryController;
     private customFilters: FiltersInput;
 
     constructor(host: ReactiveControllerHost, spec: DatasourceParamsControllerSpec) {
         host.addController(this);
         this.columns = spec.columns;
-        this.header = spec.header;
         this.query = spec.query;
         this.customFilters = spec.customFilters;
 
@@ -40,13 +37,9 @@ export class DatasourceParamsController implements ReactiveController {
     }
 
     private get derivedFilter(): FilterCondition | undefined {
-        const { columns, header, customFilters } = this;
+        const { columns, customFilters } = this;
 
-        return and(
-            compactArray(columns.conditions),
-            compactArray(header.conditions),
-            compactArray(customFilters.conditions)
-        );
+        return and(compactArray(columns.conditions), compactArray(customFilters.conditions));
     }
 
     private get derivedSortOrder(): SortInstruction[] | undefined {
@@ -75,22 +68,18 @@ export class DatasourceParamsController implements ReactiveController {
 
     static unzipFilter(
         filter?: FilterCondition
-    ): [
-        columns: Array<FilterCondition | undefined>,
-        header: Array<FilterCondition | undefined>,
-        sharedFilter: Array<FilterCondition | undefined>
-    ] {
+    ): [columns: Array<FilterCondition | undefined>, sharedFilter: Array<FilterCondition | undefined>] {
         if (!filter) {
-            return [[], [], []];
+            return [[], []];
         }
         if (!isAnd(filter)) {
-            return [[], [], []];
+            return [[], []];
         }
-        if (filter.args.length !== 3) {
-            return [[], [], []];
+        if (filter.args.length !== 2) {
+            return [[], []];
         }
 
-        const [columns, header, shared] = filter.args;
-        return [fromCompactArray(columns), fromCompactArray(header), fromCompactArray(shared)];
+        const [columns, shared] = filter.args;
+        return [fromCompactArray(columns), fromCompactArray(shared)];
     }
 }
