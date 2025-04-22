@@ -42,7 +42,7 @@ export function DialogBody(props: PropsWithChildrenWithClass): ReactElement {
 }
 
 export interface FormControlProps extends PropsWithChildrenWithClass {
-    label: string;
+    label?: string;
 }
 
 export function FormControl(props: FormControlProps): ReactElement {
@@ -50,8 +50,8 @@ export function FormControl(props: FormControlProps): ReactElement {
 
     return (
         <div className={classNames("form-group", className)}>
-            <label className="control-label col-sm-3">{label}</label>
-            <div className="col-sm-9"> {children}</div>
+            {label && <label className="control-label col-sm-3">{label}</label>}
+            <div className={`col-sm-${label ? "9" : "12"}`}> {children}</div>
         </div>
     );
 }
