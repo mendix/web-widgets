@@ -21,11 +21,11 @@
 
 Please note that it is necessary to have `pnpm`, `node`, and `docker` installed as part of the environment setup.
 
--   ![Current node engine](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmendix%2Fweb-widgets%2Fmain%2Fpackage.json&query=%24.engines.node&label=node&color=%23339933&logo=node.js) version of [Node.js](https://nodejs.org/en/download)
+- ![Current node engine](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmendix%2Fweb-widgets%2Fmain%2Fpackage.json&query=%24.engines.node&label=node&color=%23339933&logo=node.js) version of [Node.js](https://nodejs.org/en/download)
 
--   ![Current pnpm version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmendix%2Fweb-widgets%2Fmain%2Fpackage.json&query=%24.engines.pnpm&label=pnpm&color=%23f69220&logo=pnpm) version of [pnpm](https://pnpm.io/installation)
+- ![Current pnpm version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmendix%2Fweb-widgets%2Fmain%2Fpackage.json&query=%24.engines.pnpm&label=pnpm&color=%23f69220&logo=pnpm) version of [pnpm](https://pnpm.io/installation)
 
--   ![Current docker version](https://img.shields.io/badge/docker_engine-%5E25-blue?logo=docker) version of [docker](https://docs.docker.com/engine/install/)
+- ![Current docker version](https://img.shields.io/badge/docker_engine-%5E25-blue?logo=docker) version of [docker](https://docs.docker.com/engine/install/)
 
 ## Structure
 

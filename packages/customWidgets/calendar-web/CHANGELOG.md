@@ -10,24 +10,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed an issue with the widget not working correctly for RTL locales.
+- We fixed an issue with the widget not working correctly for RTL locales.
 
 ### Changed
 
--   We updated the light and dark icons and tiles for the widget.
+- We updated the light and dark icons and tiles for the widget.
 
 ## [1.0.14] - 2022-11-23
 
 ### Changed
 
--   Update moment.js to version 2.29.4
+- Update moment.js to version 2.29.4
 
 ## [1.0.13] - 2021-06-24
 
 ### Removed
 
--   We removed the option 'Show truncated events'
+- We removed the option 'Show truncated events'
 
 ### Changed
 
--   We changed the behavior when clicking '+ more' to redirect to day view.
+- We changed the behavior when clicking '+ more' to redirect to day view.

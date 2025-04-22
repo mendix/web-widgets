@@ -10,44 +10,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Security
 
--   Updated dompurify library to version 3.2.4 to incorporate latest improvements and security fixes.
+- Updated dompurify library to version 3.2.4 to incorporate latest improvements and security fixes.
 
 ## [1.2.1] - 2024-08-23
 
 ### Security
 
--   Updated dompurify library to version 2.5.6 to prevent template injection.
+- Updated dompurify library to version 2.5.6 to prevent template injection.
 
 ## [1.2.0] - 2024-02-01
 
 ### Added
 
--   It is now possible to pass configuration to the underlying HTML sanitization library. This makes it possible to extend default configuration that might be too restrictive for certain advanced use cases.
+- It is now possible to pass configuration to the underlying HTML sanitization library. This makes it possible to extend default configuration that might be too restrictive for certain advanced use cases.
 
 ## [1.1.1] - 2023-09-27
 
 ### Fixed
 
--   We removed redundant code to improve widget load time in the browser.
+- We removed redundant code to improve widget load time in the browser.
 
 ## [1.1.0] - 2023-06-05
 
 ### Changed
 
--   We updated the light and dark icons and tiles for the widget.
+- We updated the light and dark icons and tiles for the widget.
 
--   We changed colors in the structure mode preview for dark and light modes.
+- We changed colors in the structure mode preview for dark and light modes.
 
 ## [1.0.1] - 2023-01-05
 
 ### Fixed
 
--   We fixed an issue with HTML Element widget producing errors in Studio Pro versions below 9.18.
+- We fixed an issue with HTML Element widget producing errors in Studio Pro versions below 9.18.
 
--   We fixed an issue with inline CSS styles parsing
+- We fixed an issue with inline CSS styles parsing
 
 ## [1.0.0] - 2022-11-24
 
 ### Added
 
--   We introduced HTML Element widget!
+- We introduced HTML Element widget!

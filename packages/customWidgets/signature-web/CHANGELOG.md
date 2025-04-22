@@ -10,8 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
--   We updated the light and dark icons and tiles for the widget.
+- We updated the light and dark icons and tiles for the widget.
 
 ### Fixed
 
--   We fixed an issue where the widget was failing to save signatures on Hybrid apps.
+- We fixed an issue where the widget was failing to save signatures on Hybrid apps.

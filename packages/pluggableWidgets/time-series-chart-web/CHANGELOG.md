@@ -10,30 +10,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
--   We updated plotly.js library to version 3.0.
+- We updated plotly.js library to version 3.0.
 
 ## [5.1.0] - 2024-10-28
 
 ### Changed
 
--   We changed bundling to make plotly scannable by package scanners.
+- We changed bundling to make plotly scannable by package scanners.
 
 ## [5.0.1] - 2024-10-15
 
 ### Fixed
 
--   We fixed an issue where the widget is not automatically resized inside a pop up dialog.
+- We fixed an issue where the widget is not automatically resized inside a pop up dialog.
 
 ## [3.1.2] - 2023-09-27
 
 ### Fixed
 
--   We removed redundant code to improve widget load time in the browser.
+- We removed redundant code to improve widget load time in the browser.
 
 ## [3.1.0] - 2023-06-06
 
 ### Changed
 
--   We updated page explorer's caption to display datasource.
+- We updated page explorer's caption to display datasource.
 
--   We updated the light and dark icons and tiles for the widget.
+- We updated the light and dark icons and tiles for the widget.

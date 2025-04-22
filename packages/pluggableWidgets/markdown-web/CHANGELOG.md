@@ -10,4 +10,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
--   This is the initial release of a markdown viewer widget.
+- This is the initial release of a markdown viewer widget.
