@@ -4,13 +4,15 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, EditableValue, ListValue, ListAttributeValue } from "mendix";
+import { ActionValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue } from "mendix";
+
+export type TitleTypeEnum = "attribute" | "expression";
 
 export type ViewEnum = "standard" | "custom";
 
-export type DefaultViewEnum = "day" | "week" | "month" | "work_week" | "agenda";
-
 export type EditableEnum = "default" | "never";
+
+export type DefaultViewEnum = "day" | "week" | "month" | "work_week" | "agenda";
 
 export type WidthUnitEnum = "pixels" | "percentage";
 
@@ -28,16 +30,18 @@ export interface CalendarContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     databaseDataSource?: ListValue;
+    titleType: TitleTypeEnum;
     titleAttribute?: ListAttributeValue<string>;
+    titleExpression?: ListExpressionValue<string>;
     allDayAttribute?: ListAttributeValue<boolean>;
     startAttribute?: ListAttributeValue<Date>;
     endAttribute?: ListAttributeValue<Date>;
     eventColor?: ListAttributeValue<string>;
     view: ViewEnum;
-    defaultView: DefaultViewEnum;
-    startDateAttribute?: EditableValue<Date>;
     editable: EditableEnum;
     enableCreate: boolean;
+    defaultView: DefaultViewEnum;
+    startDateAttribute?: EditableValue<Date>;
     eventDataAttribute?: EditableValue<string>;
     onClickEvent?: ActionValue;
     onCreateEvent?: ActionValue;
@@ -62,18 +66,21 @@ export interface CalendarPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    renderMode?: "design" | "xray" | "structure";
+    renderMode: "design" | "xray" | "structure";
+    translate: (text: string) => string;
     databaseDataSource: {} | { caption: string } | { type: string } | null;
+    titleType: TitleTypeEnum;
     titleAttribute: string;
+    titleExpression: string;
     allDayAttribute: string;
     startAttribute: string;
     endAttribute: string;
     eventColor: string;
     view: ViewEnum;
-    defaultView: DefaultViewEnum;
-    startDateAttribute: string;
     editable: EditableEnum;
     enableCreate: boolean;
+    defaultView: DefaultViewEnum;
+    startDateAttribute: string;
     eventDataAttribute: string;
     onClickEvent: {} | null;
     onCreateEvent: {} | null;

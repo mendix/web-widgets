@@ -2,6 +2,7 @@
 <widget id="com.mendix.widget.web.calendar.Calendar" pluginWidget="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Calendar</name>
     <description>Calendar</description>
+    <studioCategory>Display</studioCategory>
     <helpUrl>https://docs.mendix.com/appstore/widgets/calendar</helpUrl>
     <properties>
         <propertyGroup caption="General">
@@ -11,12 +12,25 @@
                     <caption>Events</caption>
                     <description />
                 </property>
+                <property key="titleType" type="enumeration" defaultValue="attribute">
+                    <caption>Title type</caption>
+                    <description>Choose between an attribute or an expression for the title</description>
+                    <enumerationValues>
+                        <enumerationValue key="attribute">Attribute</enumerationValue>
+                        <enumerationValue key="expression">Expression</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="titleAttribute" type="attribute" dataSource="databaseDataSource" required="false">
                     <caption>Title attribute</caption>
-                    <description />
+                    <description>Select an attribute that contains the event title</description>
                     <attributeTypes>
                         <attributeType name="String" />
                     </attributeTypes>
+                </property>
+                <property key="titleExpression" type="expression" dataSource="databaseDataSource" required="false">
+                    <caption>Title expression</caption>
+                    <description>Expression that results in the event title</description>
+                    <returnType type="String" />
                 </property>
                 <property key="allDayAttribute" type="attribute" dataSource="databaseDataSource" required="false">
                     <caption>All day attribute</caption>
@@ -41,56 +55,53 @@
                 </property>
                 <property key="eventColor" type="attribute" dataSource="databaseDataSource" required="false">
                     <caption>Color attribute</caption>
-                    <description>
-                        Attribute containing a valid html color eg: red #FF0000
-                        rgb(250,10,20) rgba(10,10,10, 0.5)
-                    </description>
+                    <description>Attribute containing a valid html color eg: red #FF0000 rgb(250,10,20) rgba(10,10,10, 0.5)</description>
                     <attributeTypes>
                         <attributeType name="Enum" />
                         <attributeType name="String" />
                     </attributeTypes>
                 </property>
             </propertyGroup>
-        </propertyGroup>
-        <propertyGroup caption="View">
-            <property key="view" type="enumeration" defaultValue="standard">
-                <caption>View</caption>
-                <description>Standard has Day, Week and Month</description>
-                <enumerationValues>
-                    <enumerationValue key="standard">Standard</enumerationValue>
-                    <enumerationValue key="custom">Custom</enumerationValue>
-                </enumerationValues>
-            </property>
-            <property key="defaultView" type="enumeration" defaultValue="month">
-                <caption>Initial selected view</caption>
-                <description>Work week and agenda are only available in custom views</description>
-                <enumerationValues>
-                    <enumerationValue key="day">Day</enumerationValue>
-                    <enumerationValue key="week">Week</enumerationValue>
-                    <enumerationValue key="month">Month</enumerationValue>
-                    <enumerationValue key="work_week">(Work week)</enumerationValue>
-                    <enumerationValue key="agenda">(Agenda)</enumerationValue>
-                </enumerationValues>
-            </property>
-            <property key="startDateAttribute" type="attribute" required="false">
-                <caption>Start date attribute</caption>
-                <description>The start date that should be shown in the view</description>
-                <attributeTypes>
-                    <attributeType name="DateTime" />
-                </attributeTypes>
-            </property>
-            <property key="editable" type="enumeration" defaultValue="default">
-                <caption>Editable</caption>
-                <description />
-                <enumerationValues>
-                    <enumerationValue key="default">Default</enumerationValue>
-                    <enumerationValue key="never">Never</enumerationValue>
-                </enumerationValues>
-            </property>
-            <property key="enableCreate" type="boolean" defaultValue="true">
-                <caption>Enable create</caption>
-                <description />
-            </property>
+            <propertyGroup caption="Options">
+                <property key="view" type="enumeration" defaultValue="standard">
+                    <caption>View</caption>
+                    <description>Standard has Day, Week and Month</description>
+                    <enumerationValues>
+                        <enumerationValue key="standard">Standard</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="editable" type="enumeration" defaultValue="default">
+                    <caption>Editable</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="default">Default</enumerationValue>
+                        <enumerationValue key="never">Never</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="enableCreate" type="boolean" defaultValue="true">
+                    <caption>Enable create</caption>
+                    <description />
+                </property>
+                <property key="defaultView" type="enumeration" defaultValue="month">
+                    <caption>Initial selected view</caption>
+                    <description>Work week and agenda are only available in custom views</description>
+                    <enumerationValues>
+                        <enumerationValue key="day">Day</enumerationValue>
+                        <enumerationValue key="week">Week</enumerationValue>
+                        <enumerationValue key="month">Month</enumerationValue>
+                        <enumerationValue key="work_week">(Work week)</enumerationValue>
+                        <enumerationValue key="agenda">(Agenda)</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="startDateAttribute" type="attribute" required="false">
+                    <caption>Start date attribute</caption>
+                    <description>The start date that should be shown in the view</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime" />
+                    </attributeTypes>
+                </property>
+            </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Events">
             <property key="eventDataAttribute" type="attribute" required="false">

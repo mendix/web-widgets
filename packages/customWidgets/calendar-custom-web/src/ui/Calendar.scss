@@ -1,0 +1,60 @@
+@import "variables";
+
+.widget-calendar {
+    min-height: 350px;
+    margin-bottom: $form-group-margin-bottom;
+    user-select: none;
+    -ms-user-select: none;
+
+    .rbc-calendar {
+        width: 100%;
+        height: 100%;
+    }
+
+    .rbc-event {
+        min-height: 20px;
+    }
+
+    .rbc-addons-dnd .rbc-addons-dnd-resize-ns-icon {
+        cursor: row-resize;
+    }
+
+    .rbc-addons-dnd .rbc-addons-dnd-resize-ew-icon {
+        cursor: col-resize;
+    }
+
+    .calendar-label {
+        font-size: 16px;
+    }
+
+    .calendar-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding-bottom: 10px;
+    }
+
+    .rbc-current-time-indicator {
+        background-color: $brand-danger;
+    }
+
+    .rbc-day-slot .rbc-event {
+        border-top-color: $border-color-default;
+        border-right-color: $border-color-default;
+        border-bottom-color: $border-color-default;
+        border-left-color: $border-color-default;
+    }
+
+    .rbc-off-range-bg {
+        background-color: $color-default-lighter;
+    }
+
+    .rbc-today {
+        background-color: $color-primary-lighter;
+    }
+
+    .rbc-event {
+        background-color: $brand-primary;
+    }
+}

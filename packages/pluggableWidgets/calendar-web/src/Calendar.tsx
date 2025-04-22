@@ -1,9 +1,10 @@
 import classnames from "classnames";
-import { CSSProperties, ReactElement, createElement } from "react";
-import { CalendarContainerProps } from "../typings/CalendarProps";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import * as dateFns from "date-fns";
+import { ReactElement, createElement } from "react";
+import { Calendar, dateFnsLocalizer, ViewsProps } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { CalendarContainerProps } from "../typings/CalendarProps";
+import { constructWrapperStyle } from "./utils/utils";
 
 const localizer = dateFnsLocalizer({
     format: dateFns.format,
@@ -13,54 +14,55 @@ const localizer = dateFnsLocalizer({
     locales: {}
 });
 
-function getHeightScale(height: number, heightUnit: "pixels" | "percentageOfParent" | "percentageOfView"): string {
-    return `${height}${heightUnit === "pixels" ? "px" : heightUnit === "percentageOfView" ? "vh" : "%"}`;
-}
-
-export function constructWrapperStyle(props: CalendarContainerProps): CSSProperties {
-    const { widthUnit, heightUnit, minHeightUnit, maxHeightUnit, width, height, minHeight, maxHeight, OverflowY } =
-        props;
-
-    const wrapperStyle: Pick<CSSProperties, "width" | "height" | "minHeight" | "maxHeight" | "maxWidth" | "overflowY"> =
-        {};
-
-    wrapperStyle.width = `${width}${widthUnit === "pixels" ? "px" : "%"}`;
-    if (heightUnit === "percentageOfWidth") {
-        wrapperStyle.height = "auto";
-
-        if (minHeightUnit !== "none") {
-            wrapperStyle.minHeight = getHeightScale(minHeight, minHeightUnit);
-        }
-
-        if (maxHeightUnit !== "none") {
-            wrapperStyle.maxHeight = getHeightScale(maxHeight, maxHeightUnit);
-            wrapperStyle.overflowY = OverflowY;
-        }
-    } else {
-        wrapperStyle.height = getHeightScale(height, heightUnit);
-    }
-
-    return wrapperStyle;
+interface CalEvent {
+    title: string;
+    start: Date;
+    end: Date;
+    allDay: boolean;
+    color?: string;
 }
 
 export default function MxCalendar(props: CalendarContainerProps): ReactElement {
     const { class: className } = props;
     const wrapperStyle = constructWrapperStyle(props);
-    console.log("wrapperStyle", wrapperStyle);
+
+    const items = props.databaseDataSource?.items ?? [];
+
+    const events: CalEvent[] = items.map(item => {
+        const title =
+            props.titleType === "attribute" && props.titleAttribute
+                ? (props.titleAttribute.get(item).value ?? "")
+                : props.titleType === "expression" && props.titleExpression
+                  ? String(props.titleExpression.get(item) ?? "")
+                  : "Untitled Event";
+
+        const start = props.startAttribute?.get(item).value ?? new Date();
+        const end = props.endAttribute?.get(item).value ?? start;
+        const allDay = props.allDayAttribute?.get(item).value ?? false;
+        const color = props.eventColor?.get(item).value;
+
+        return { title, start, end, allDay, color };
+    });
+
+    const viewsOption: ViewsProps<CalEvent, object> =
+        props.view === "standard" ? ["month", "week", "day"] : ["month", "week", "work_week", "day", "agenda"];
+
+    const eventPropGetter = (event: CalEvent) => ({
+        style: event.color ? { backgroundColor: event.color } : undefined
+    });
+
     return (
         <div className={classnames("widget-calendar", className)} style={wrapperStyle}>
-            <Calendar
+            <Calendar<CalEvent>
                 localizer={localizer}
-                events={[
-                    {
-                        title: "My event",
-                        start: new Date(),
-                        end: new Date()
-                    }
-                ]}
-                startAccessor="start"
-                endAccessor="end"
-                views={["month", "day", "week", "work_week", "month", "agenda"]}
+                events={events}
+                defaultView={props.defaultView}
+                startAccessor={event => event.start}
+                endAccessor={event => event.end}
+                views={viewsOption}
+                titleAccessor={event => event.title}
+                allDayAccessor={event => event.allDay}
+                eventPropGetter={eventPropGetter}
             />
         </div>
     );
