@@ -32,7 +32,7 @@
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "echo \"Skipping this e2e test\"",
         "e2edev": "run-e2e dev --with-preps",
-        "format": "prettier --write .",
+        "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
         "remove-nf-defaults": "node nf-defaults.mjs remove",
