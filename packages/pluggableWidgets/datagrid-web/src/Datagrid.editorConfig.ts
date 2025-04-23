@@ -74,21 +74,6 @@ export function getProperties(
                 "hidable"
             ]);
         }
-
-        if (!column.filterAssociation) {
-            hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
-                "filterAssociationOptions",
-                "filterAssociationOptionLabel",
-                "fetchOptionsLazy",
-                "filterCaptionType",
-                "filterAssociationOptionLabelAttr"
-            ]);
-        }
-        if (column.filterCaptionType === "attribute") {
-            hidePropertyIn(defaultProperties, values, "columns", index, "filterAssociationOptionLabel");
-        } else {
-            hidePropertyIn(defaultProperties, values, "columns", index, "filterAssociationOptionLabelAttr");
-        }
     });
     if (values.pagination === "buttons") {
         hidePropertyIn(defaultProperties, values, "showNumberOfRows");
@@ -209,11 +194,6 @@ export const getPreview = (
                   draggable: false,
                   dynamicText: "Dynamic text",
                   filter: { widgetCount: 0, renderer: () => null },
-                  filterAssociation: "",
-                  filterAssociationOptionLabel: "",
-                  filterAssociationOptionLabelAttr: "",
-                  filterAssociationOptions: {},
-                  filterCaptionType: "attribute",
                   header: "Column",
                   hidable: "no",
                   resizable: false,
@@ -227,8 +207,7 @@ export const getPreview = (
                   minWidth: "auto",
                   minWidthLimit: 100,
                   allowEventPropagation: true,
-                  exportValue: "",
-                  fetchOptionsLazy: true
+                  exportValue: ""
               }
           ];
     const columns = rowLayout({

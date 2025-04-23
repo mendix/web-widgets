@@ -35,11 +35,7 @@ const initColumns: ColumnsPreviewType[] = [
         draggable: false,
         dynamicText: "Dynamic Text",
         filter: { renderer: () => <div />, widgetCount: 0 },
-        filterAssociation: "",
-        filterAssociationOptionLabel: "",
-        filterAssociationOptionLabelAttr: "",
-        filterAssociationOptions: {},
-        filterCaptionType: "expression",
+
         header: "Column",
         hidable: "no",
         resizable: false,
@@ -53,8 +49,7 @@ const initColumns: ColumnsPreviewType[] = [
         minWidth: "auto",
         minWidthLimit: 100,
         allowEventPropagation: true,
-        exportValue: "",
-        fetchOptionsLazy: true
+        exportValue: ""
     }
 ];
 
