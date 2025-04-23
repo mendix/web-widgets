@@ -1,4 +1,5 @@
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
+import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
@@ -29,6 +30,7 @@ export class RootGridStore extends BaseControllerHost {
     exportProgressCtrl: ProgressStore;
     loaderCtrl: DerivedLoaderController;
     paginationCtrl: PaginationController;
+    customFilters: FilterObserver;
 
     private gate: Gate;
 
@@ -44,6 +46,7 @@ export class RootGridStore extends BaseControllerHost {
             filtersChannelName: `datagrid/${generateUUID()}`
         };
         const customFilterHost = new CustomFilterHost();
+        this.customFilters = customFilterHost;
         const query = new DatasourceController(this, { gate });
         const columns = (this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsInitFilter, {
             customFilterHost,
