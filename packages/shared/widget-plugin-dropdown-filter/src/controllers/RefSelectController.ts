@@ -1,5 +1,5 @@
 import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
-import { SelectControllerMixin } from "./SelectControllerMixin";
+import { SelectControllerMixin } from "./mixins/SelectControllerMixin";
 
 export class RefSelectController extends SelectControllerMixin(RefBaseController) {
     constructor(props: RefBaseControllerProps) {

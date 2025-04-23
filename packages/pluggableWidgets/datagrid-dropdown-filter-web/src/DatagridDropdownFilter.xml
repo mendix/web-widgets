@@ -74,6 +74,13 @@
                     <caption>Selectable objects</caption>
                     <description>The options to show in the Drop-down filter widget.</description>
                 </property>
+                <property key="refCaption" type="attribute" dataSource="refOptions" required="false">
+                    <caption>Caption</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
                 <property key="fetchOptionsLazy" type="boolean" defaultValue="false">
                     <caption>Use lazy load</caption>
                     <description>Lazy loading enables faster parent loading, but with personalization enabled, value restoration will be limited.</description>
