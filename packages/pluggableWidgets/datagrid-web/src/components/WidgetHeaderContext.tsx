@@ -16,15 +16,11 @@ interface WidgetHeaderContextProps {
 const SelectionContext = getGlobalSelectionContext();
 const FilterContext = getGlobalFilterContextObject();
 
-function SelectionStatusProvider(props: { selectionHelper?: SelectionHelper; children?: ReactNode }): ReactElement {
-    const value = useCreateSelectionContextValue(props.selectionHelper);
-    return <SelectionContext.Provider value={value}>{props.children}</SelectionContext.Provider>;
-}
-
 function HeaderContainer(props: WidgetHeaderContextProps): ReactElement {
+    const selectionContext = useCreateSelectionContextValue(props.selectionHelper);
     return (
-        <FilterContext.Provider value={null}>
-            <SelectionStatusProvider selectionHelper={props.selectionHelper}>{props.children}</SelectionStatusProvider>
+        <FilterContext.Provider value={props.rootStore.autonomousFilterAPI}>
+            <SelectionContext.Provider value={selectionContext}>{props.children}</SelectionContext.Provider>
         </FilterContext.Provider>
     );
 }
