@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListAttributeListValue, ListExpressionValue, ListReferenceValue, ListReferenceSetValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListAttributeListValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
 export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
@@ -14,8 +14,6 @@ export type ItemSelectionModeEnum = "toggle" | "clear";
 export type LoadingTypeEnum = "spinner" | "skeleton";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
-
-export type FilterCaptionTypeEnum = "attribute" | "expression";
 
 export type HidableEnum = "yes" | "hidden" | "no";
 
@@ -35,12 +33,6 @@ export interface ColumnsType {
     tooltip?: ListExpressionValue<string>;
     filter?: ReactNode;
     visible: DynamicValue<boolean>;
-    filterAssociation?: ListReferenceValue | ListReferenceSetValue;
-    filterAssociationOptions?: ListValue;
-    fetchOptionsLazy: boolean;
-    filterCaptionType: FilterCaptionTypeEnum;
-    filterAssociationOptionLabel?: ListExpressionValue<string>;
-    filterAssociationOptionLabelAttr?: ListAttributeValue<string>;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
@@ -81,12 +73,6 @@ export interface ColumnsPreviewType {
     tooltip: string;
     filter: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     visible: string;
-    filterAssociation: string;
-    filterAssociationOptions: {} | { caption: string } | { type: string } | null;
-    fetchOptionsLazy: boolean;
-    filterCaptionType: FilterCaptionTypeEnum;
-    filterAssociationOptionLabel: string;
-    filterAssociationOptionLabelAttr: string;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
