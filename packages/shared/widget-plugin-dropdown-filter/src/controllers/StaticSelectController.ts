@@ -1,4 +1,4 @@
-import { SelectControllerMixin } from "./SelectControllerMixin";
+import { SelectControllerMixin } from "./mixins/SelectControllerMixin";
 import { StaticBaseController, StaticBaseControllerProps } from "./StaticBaseController";
 
 export class StaticSelectController extends SelectControllerMixin(StaticBaseController) {
