@@ -36,6 +36,7 @@ export interface DatagridDropdownFilterContainerProps {
     filterOptions: FilterOptionsType[];
     ref?: ListReferenceValue | ListReferenceSetValue;
     refOptions?: ListValue;
+    refCaption?: ListAttributeValue<string>;
     fetchOptionsLazy: boolean;
     defaultValue?: DynamicValue<string>;
     filterable: boolean;
@@ -67,6 +68,7 @@ export interface DatagridDropdownFilterPreviewProps {
     filterOptions: FilterOptionsPreviewType[];
     ref: string;
     refOptions: {} | { caption: string } | { type: string } | null;
+    refCaption: string;
     fetchOptionsLazy: boolean;
     defaultValue: string;
     filterable: boolean;
