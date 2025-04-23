@@ -1,7 +1,7 @@
 import { useSelect, UseSelectProps } from "downshift";
 import { action, computed, makeObservable } from "mobx";
-import { OptionWithState } from "../typings/OptionWithState";
-import { GConstructor } from "../typings/type-utils";
+import { OptionWithState } from "../../typings/OptionWithState";
+import { GConstructor } from "../../typings/type-utils";
 
 export interface FilterStore {
     toggle: (value: string) => void;
@@ -19,7 +19,6 @@ type BaseController = GConstructor<{
 
 const none = "[[__none__]]" as const;
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function SelectControllerMixin<TBase extends BaseController>(Base: TBase) {
     return class SelectControllerMixin extends Base {
         placeholder = "Select";
