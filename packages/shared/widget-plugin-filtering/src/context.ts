@@ -55,3 +55,17 @@ export function useFilterAPI(): Result<FilterAPI, APIError> {
 
 /** @deprecated This hook is renamed, use `useFilterAPI` instead. */
 export const useFilterContextValue = useFilterAPI;
+
+export function createContextWithStub(options: {
+    filterObserver: FilterObserver;
+    parentChannelName: string;
+    sharedInitFilter: Array<FilterCondition | undefined>;
+}): FilterAPI {
+    return {
+        version: 3,
+        parentChannelName: options.parentChannelName,
+        provider: value(PROVIDER_STUB),
+        filterObserver: options.filterObserver,
+        sharedInitFilter: options.sharedInitFilter
+    };
+}
