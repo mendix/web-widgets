@@ -29,9 +29,7 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
         visible: dynamicValue(true),
         minWidth: "auto",
         minWidthLimit: 100,
-        allowEventPropagation: true,
-        fetchOptionsLazy: true,
-        filterCaptionType: "attribute"
+        allowEventPropagation: true
     };
 
     if (patch) {
