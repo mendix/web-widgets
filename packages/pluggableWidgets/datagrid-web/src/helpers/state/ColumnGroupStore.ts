@@ -1,5 +1,5 @@
-import { disposeFx } from "@mendix/widget-plugin-filtering/mobx-utils";
-import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
+import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { FilterCondition } from "mendix/filters";
 import { action, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
@@ -83,9 +83,9 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     }
 
     setup(): () => void {
-        const [disposers, dispose] = disposeFx();
+        const [add, dispose] = disposeBatch();
         for (const filter of this.columnFilters) {
-            disposers.push(filter.setup());
+            add(filter.setup());
         }
         return dispose;
     }
@@ -93,7 +93,6 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     updateProps(props: Pick<DatagridContainerProps, "columns">): void {
         props.columns.forEach((columnProps, i) => {
             this._allColumns[i].updateProps(columnProps);
-            this.columnFilters[i].updateProps(columnProps);
         });
 
         if (this.visibleColumns.length < 1) {
@@ -145,7 +144,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
     get conditions(): Array<FilterCondition | undefined> {
         return this.columnFilters.map((store, index) => {
-            return this._allColumns[index].isHidden ? undefined : store.condition2;
+            return this._allColumns[index].isHidden ? undefined : store.condition;
         });
     }
 

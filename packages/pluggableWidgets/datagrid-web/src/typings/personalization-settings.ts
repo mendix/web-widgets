@@ -1,4 +1,4 @@
-import { FilterData } from "@mendix/widget-plugin-filtering/typings/settings";
+import { FilterData } from "@mendix/filter-commons/typings/settings";
 import { ColumnId } from "./GridColumn";
 import { SortDirection, SortRule } from "./sorting";
 

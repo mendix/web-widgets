@@ -1,4 +1,4 @@
-import { compactArray, fromCompactArray, isAnd } from "@mendix/filter-commons/condition-utils.js";
+import { compactArray, fromCompactArray, isAnd } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { FilterCondition } from "mendix/filters";
