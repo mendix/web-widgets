@@ -41,6 +41,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
+        "@mendix/widget-plugin-dropdown-filter": "workspace:^",
         "@mendix/widget-plugin-external-events": "workspace:*",
         "@mendix/widget-plugin-filtering": "workspace:*",
         "classnames": "^2.3.2"

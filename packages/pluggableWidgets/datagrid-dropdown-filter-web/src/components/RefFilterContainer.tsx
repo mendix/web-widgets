@@ -1,6 +1,6 @@
-import { RefSelectController } from "@mendix/widget-plugin-filtering/controllers/picker/RefSelectController";
-import { RefComboboxController } from "@mendix/widget-plugin-filtering/controllers/picker/RefComboboxController";
-import { RefTagPickerController } from "@mendix/widget-plugin-filtering/controllers/picker/RefTagPickerController";
+import { RefSelectController } from "@mendix/widget-plugin-dropdown-filter/controllers/RefSelectController";
+import { RefComboboxController } from "@mendix/widget-plugin-dropdown-filter/controllers/RefComboboxController";
+import { RefTagPickerController } from "@mendix/widget-plugin-dropdown-filter/controllers/RefTagPickerController";
 import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
 import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Combobox";
 import { TagPicker } from "@mendix/widget-plugin-filtering/controls/tag-picker/TagPicker";
