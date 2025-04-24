@@ -30,7 +30,7 @@ export interface DocumentViewerContainerProps {
     minHeight: number;
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number;
-    OverflowY: OverflowYEnum;
+    overflowY: OverflowYEnum;
 }
 
 export interface DocumentViewerPreviewProps {
@@ -53,5 +53,5 @@ export interface DocumentViewerPreviewProps {
     minHeight: number | null;
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number | null;
-    OverflowY: OverflowYEnum;
+    overflowY: OverflowYEnum;
 }

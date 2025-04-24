@@ -16,7 +16,7 @@ export interface DimensionContainerProps {
     minHeight: number;
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number;
-    OverflowY: OverflowYEnum;
+    overflowY: OverflowYEnum;
 }
 
 function getHeightScale(height: number, heightUnit: "pixels" | "percentageOfParent" | "percentageOfView"): string {
@@ -24,7 +24,7 @@ function getHeightScale(height: number, heightUnit: "pixels" | "percentageOfPare
 }
 
 export function constructWrapperStyle<T extends DimensionContainerProps>(props: T): CSSProperties {
-    const { widthUnit, heightUnit, minHeightUnit, maxHeightUnit, width, height, minHeight, maxHeight, OverflowY } =
+    const { widthUnit, heightUnit, minHeightUnit, maxHeightUnit, width, height, minHeight, maxHeight, overflowY } =
         props;
 
     const wrapperStyle: Pick<CSSProperties, "width" | "height" | "minHeight" | "maxHeight" | "maxWidth" | "overflowY"> =
@@ -41,7 +41,7 @@ export function constructWrapperStyle<T extends DimensionContainerProps>(props: 
 
         if (maxHeightUnit !== "none") {
             wrapperStyle.maxHeight = getHeightScale(maxHeight, maxHeightUnit);
-            wrapperStyle.overflowY = OverflowY;
+            wrapperStyle.overflowY = overflowY;
         }
     } else {
         wrapperStyle.height = getHeightScale(height, heightUnit);

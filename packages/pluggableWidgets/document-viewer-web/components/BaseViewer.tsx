@@ -79,7 +79,7 @@ const BaseControlViewer = (props: BaseControlViewerProps): ReactElement => {
         >
             <div
                 className="widget-document-viewer-zoom-container"
-                style={{ "--default-zoom-scale": zoomLevel } as React.CSSProperties}
+                style={{ "--current-zoom-scale": zoomLevel } as React.CSSProperties}
             >
                 {children}
             </div>

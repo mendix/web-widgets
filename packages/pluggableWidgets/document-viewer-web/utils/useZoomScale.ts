@@ -4,18 +4,27 @@ import { useState } from "react";
 const ZOOMIN_MULTIPLIER = 1.2;
 const ZOOMOUT_MULTIPLIER = 0.8;
 
-export function useZoomScale() {
+type zoomFn = () => void;
+
+type zoomObjects = {
+    zoomLevel: number;
+    zoomIn: zoomFn;
+    zoomOut: zoomFn;
+    reset: zoomFn;
+};
+
+export function useZoomScale(): zoomObjects {
     const [zoomLevel, setZoomLevel] = useState(1);
 
-    const zoomIn = () => {
+    const zoomIn: zoomFn = () => {
         setZoomLevel(prev => Math.min(prev * ZOOMIN_MULTIPLIER, 10));
     };
 
-    const zoomOut = () => {
+    const zoomOut: zoomFn = () => {
         setZoomLevel(prev => Math.max(prev * ZOOMOUT_MULTIPLIER, 0.3));
     };
 
-    const reset = () => {
+    const reset: zoomFn = () => {
         setZoomLevel(1);
     };
 

@@ -43,7 +43,6 @@ const DocxViewer: DocRendererElement = (props: DocumentRendererProps) => {
         const controller = new AbortController();
         const { signal } = controller;
         if (file.status === "available" && file.value.uri) {
-            console.log("fetch file", file.value.uri);
             fetch(file.value.uri, { method: "GET", signal })
                 .then(res => res.arrayBuffer())
                 .then(response => {
@@ -65,7 +64,6 @@ const DocxViewer: DocRendererElement = (props: DocumentRendererProps) => {
 
 DocxViewer.contentTypes = [
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "application/msword",
     "application/vnd.ms-word",
     "application/vnd.ms-word.document.macroEnabled.12",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.template",

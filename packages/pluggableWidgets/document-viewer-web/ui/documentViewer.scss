@@ -68,7 +68,7 @@ div.widget-document-viewer {
     }
 
     &-zoom-container {
-        transform: scale(var(--default-zoom-scale));
+        transform: scale(var(--current-zoom-scale, --default-zoom-scale));
         transform-origin: 0 0;
     }
 
