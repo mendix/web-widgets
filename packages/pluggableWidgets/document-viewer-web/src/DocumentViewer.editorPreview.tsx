@@ -17,7 +17,7 @@ export const preview = (props: DocumentViewerPreviewProps): ReactElement => {
         minHeight: props.minHeight ?? 250,
         maxHeightUnit: props.maxHeightUnit,
         maxHeight: props.maxHeight ?? 500,
-        OverflowY: props.OverflowY
+        overflowY: props.overflowY
     });
     return (
         <div className={classNames(props.class, "widget-document-viewer", "form-control")} style={wrapperStyle}>

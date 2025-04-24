@@ -101,6 +101,6 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
 
 PDFViewer.contentTypes = ["application/pdf", "application/x-pdf", "application/acrobat", "text/pdf", "text/html"];
 
-PDFViewer.fileTypes = ["pdf", "pdfx"];
+PDFViewer.fileTypes = ["pdf"];
 
 export default PDFViewer;

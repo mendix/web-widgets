@@ -28,6 +28,12 @@ export function useRendererSelector(props: DocumentViewerContainerProps): Docume
                     DocumentRenderers.forEach(renderer => {
                         if (renderer.contentTypes.includes(contentType)) {
                             selectedRenderer.push(renderer);
+                        } else {
+                            renderer.contentTypes.forEach(type => {
+                                if (contentType.match(type)) {
+                                    selectedRenderer.push(renderer);
+                                }
+                            });
                         }
                     });
                     if (selectedRenderer.length > 1) {

@@ -2,7 +2,10 @@ import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-
 import {
     RowLayoutProps,
     StructurePreviewProps,
-    structurePreviewPalette
+    structurePreviewPalette,
+    rowLayout,
+    container,
+    text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { DocumentViewerPreviewProps } from "typings/DocumentViewerProps";
 
@@ -18,7 +21,7 @@ export function getProperties(values: DocumentViewerPreviewProps, defaultPropert
             "minHeightUnit",
             "maxHeight",
             "maxHeightUnit",
-            "OverflowY"
+            "overflowY"
         ]);
     }
 
@@ -27,7 +30,7 @@ export function getProperties(values: DocumentViewerPreviewProps, defaultPropert
     }
 
     if (values.maxHeightUnit === "none") {
-        hidePropertiesIn(defaultProperties, values, ["maxHeight", "OverflowY"]);
+        hidePropertiesIn(defaultProperties, values, ["maxHeight", "overflowY"]);
     }
 
     return defaultProperties;
@@ -35,70 +38,39 @@ export function getProperties(values: DocumentViewerPreviewProps, defaultPropert
 
 export function getPreview(values: DocumentViewerPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
-    const titleHeader: RowLayoutProps = {
-        type: "RowLayout",
+    const titleHeader: RowLayoutProps = rowLayout({
         columnSize: "fixed",
         backgroundColor: palette.background.topbarData,
         borders: true,
-        borderWidth: 1,
-        children: [
-            {
-                type: "Container",
-                padding: 4,
-                children: [
-                    {
-                        type: "Text",
-                        content: "Document Viewer",
-                        fontColor: palette.text.data
-                    }
-                ]
-            }
-        ]
-    };
-    const content = {
-        type: "RowLayout",
-        columnSize: "fixed",
-        borders: true,
-        children: [
-            {
-                type: "Container",
-                children: [
-                    {
-                        type: "RowLayout",
-                        grow: 2,
-                        columnSize: "grow",
-                        backgroundColor: values.readOnly
-                            ? palette.background.containerDisabled
-                            : palette.background.container,
-                        children: [
-                            {
-                                type: "Container",
-                                grow: 1,
-                                padding: 4,
-                                children: [
-                                    {
-                                        type: "Text",
-                                        content: getCustomCaption(values),
-                                        fontColor: palette.text.data
-                                    }
-                                ]
-                            }
-                        ],
-                        padding: 8
-                    }
-                ],
-                backgroundColor: palette.background.container,
-                borderRadius: 8
-            }
-        ]
-    } as RowLayoutProps;
+        borderWidth: 1
+    })(
+        container({
+            padding: 4
+        })(text({ fontColor: palette.text.data })("Document Viewer"))
+    );
 
-    return {
-        type: "Container",
+    const content = rowLayout({
+        columnSize: "fixed",
+        borders: true
+    })(
+        container()(
+            rowLayout({
+                grow: 2,
+                columnSize: "grow",
+                backgroundColor: values.readOnly ? palette.background.containerDisabled : palette.background.container
+            })(
+                container({
+                    grow: 1,
+                    padding: 4
+                })(text({ fontColor: palette.text.data })(getCustomCaption(values)))
+            )
+        )
+    );
+
+    return container({
         borderRadius: 2,
-        borderWidth: 1,
-        children: [titleHeader, content]
-    };
+        borderWidth: 1
+    })(titleHeader, content);
 }
 
 export function getCustomCaption(values: DocumentViewerPreviewProps): string {

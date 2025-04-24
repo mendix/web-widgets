@@ -12,8 +12,8 @@ const ImageViewer: DocRendererElement = (props: DocumentRendererProps) => {
     );
 };
 
-ImageViewer.contentTypes = ["image/*", "image/jpeg", "image/png", "image/gif", "image/bmp", "image/tiff", "image/webp"];
+ImageViewer.contentTypes = ["image/*"];
 
-ImageViewer.fileTypes = ["jpg", "jpeg", "png", "gif", "bmp", "tiff", "webp"];
+ImageViewer.fileTypes = ["jpg", "jpe", "jpeg", "png", "gif", "bmp", "tif", "tiff", "webp"];
 
 export default ImageViewer;
