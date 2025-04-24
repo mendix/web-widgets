@@ -1,6 +1,6 @@
 import { selectedFromCond } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { ListAttributeValue } from "mendix";
+import { AttributeMetaData } from "mendix";
 import { FilterCondition, LiteralExpression } from "mendix/filters";
 import { attribute, equals, literal, or } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable } from "mobx";
@@ -15,11 +15,11 @@ interface CustomOption {
 
 export class StaticSelectFilterStore extends BaseSelectStore {
     readonly storeType = "select";
-    _attributes: ListAttributeValue[] = [];
+    _attributes: AttributeMetaData[] = [];
     _customOptions: CustomOption[] = [];
     search: SearchStore;
 
-    constructor(attributes: ListAttributeValue[], initCond: FilterCondition | null) {
+    constructor(attributes: AttributeMetaData[], initCond: FilterCondition | null) {
         super();
         this.search = new SearchStore();
         this._attributes = attributes;
@@ -34,7 +34,6 @@ export class StaticSelectFilterStore extends BaseSelectStore {
             condition: computed,
             setCustomOptions: action,
             setDefaultSelected: action,
-            updateProps: action,
             fromViewState: action
         });
 
@@ -57,7 +56,9 @@ export class StaticSelectFilterStore extends BaseSelectStore {
             Array.from(attr.universe ?? [], value => {
                 const stringValue = `${value}`;
                 return {
-                    caption: attr.formatter.format(value),
+                    // TODO: fix when formatter is available
+                    // caption: attr.formatter.format(value),
+                    caption: stringValue,
                     value: stringValue,
                     selected: selected.has(stringValue)
                 };
@@ -113,12 +114,8 @@ export class StaticSelectFilterStore extends BaseSelectStore {
         }
     }
 
-    updateProps(attributes: ListAttributeValue[]): void {
-        this._attributes = attributes;
-    }
-
     checkAttrs(): TypeError | null {
-        const isValidAttr = (attr: ListAttributeValue): boolean => /Enum|Boolean/.test(attr.type);
+        const isValidAttr = (attr: AttributeMetaData): boolean => /Enum|Boolean/.test(attr.type);
 
         if (this._attributes.every(isValidAttr)) {
             return null;
@@ -153,7 +150,7 @@ export class StaticSelectFilterStore extends BaseSelectStore {
 }
 
 function getFilterCondition(
-    listAttribute: ListAttributeValue | undefined,
+    listAttribute: AttributeMetaData | undefined,
     selected: Set<string>
 ): FilterCondition | undefined {
     if (!listAttribute) {
@@ -171,7 +168,7 @@ function getFilterCondition(
     return conditions.length > 1 ? or(...conditions) : conditions[0];
 }
 
-function universeValue(type: ListAttributeValue["type"], value: string): boolean | string {
+function universeValue(type: AttributeMetaData["type"], value: string): boolean | string {
     if (type === "Boolean") {
         return value === "true";
     }
