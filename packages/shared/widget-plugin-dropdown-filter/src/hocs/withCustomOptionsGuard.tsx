@@ -1,7 +1,7 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { useState, createElement } from "react";
-import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
-import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/StaticSelectFilterStore";
+import { FilterOptionsType } from "../typings/widget";
+import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
 
 interface Props {
     filterStore: StaticSelectFilterStore;

@@ -1,22 +1,20 @@
-import { StaticSelectController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticSelectController";
-import { StaticComboboxController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticComboboxController";
-import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
-import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Combobox";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, CSSProperties } from "react";
-import {
-    FilterOptionsType,
-    SelectedItemsStyleEnum,
-    SelectionMethodEnum
-} from "../../typings/DatagridDropdownFilterProps";
+import { createElement, CSSProperties, useEffect } from "react";
+import { StaticComboboxController } from "../controllers/StaticComboboxController";
+import { StaticSelectController } from "../controllers/StaticSelectController";
+import { StaticTagPickerController } from "../controllers/StaticTagPickerController";
+import { Combobox } from "../controls/combobox/Combobox";
+import { Select } from "../controls/select/Select";
+import { TagPicker } from "../controls/tag-picker/TagPicker";
+import { useFrontendType } from "../helpers/useFrontendType";
+import { usePickerJSActions } from "../helpers/usePickerJSActions";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
-import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/StaticSelectFilterStore";
-import { StaticTagPickerController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticTagPickerController";
-import { TagPicker } from "@mendix/widget-plugin-filtering/controls/tag-picker/TagPicker";
-import { useSetupUpdate } from "@mendix/widget-plugin-filtering/helpers/useSetupUpdate";
-import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
-import { useFrontendType } from "../hooks/useFrontendType";
+import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
+import { FilterOptionsType, SelectedItemsStyleEnum, SelectionMethodEnum } from "../typings/widget";
 
 export interface StaticFilterContainerProps {
     ariaLabel?: string;
@@ -53,7 +51,8 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
 }
 
 const SelectWidget = observer(function SelectWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const ctrl1 = useSetupUpdate(() => new StaticSelectController(props), props);
+    const gate = useGate(props);
+    const ctrl1 = useConst(() => new StaticSelectController({ gate }));
 
     usePickerJSActions(ctrl1, props);
 
@@ -73,7 +72,8 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
 });
 
 const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const ctrl2 = useSetupUpdate(() => new StaticComboboxController(props), props);
+    const gate = useGate(props);
+    const ctrl2 = useConst(() => new StaticComboboxController({ gate }));
 
     usePickerJSActions(ctrl2, props);
 
@@ -93,7 +93,8 @@ const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterConta
 });
 
 const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterContainerProps): React.ReactElement {
-    const ctrl3 = useSetupUpdate(() => new StaticTagPickerController(props), props);
+    const gate = useGate(props);
+    const ctrl3 = useConst(() => new StaticTagPickerController({ gate }));
 
     usePickerJSActions(ctrl3, props);
 
@@ -116,3 +117,9 @@ const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterCon
 });
 
 export const StaticFilterContainer = withCustomOptionsGuard(Container);
+
+function useGate(props: StaticFilterContainerProps): DerivedPropsGate<StaticFilterContainerProps> {
+    const gp = useConst(() => new GateProvider(props));
+    useEffect(() => gp.setProps(props));
+    return gp.gate;
+}
