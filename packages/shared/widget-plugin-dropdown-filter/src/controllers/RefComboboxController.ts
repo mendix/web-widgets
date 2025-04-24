@@ -1,10 +1,11 @@
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ComboboxControllerMixin } from "./mixins/ComboboxControllerMixin";
 import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 
 export class RefComboboxController extends ComboboxControllerMixin(RefBaseController) {
-    constructor(props: RefBaseControllerProps) {
-        super({ ...props, multiselect: false });
-        this.inputPlaceholder = props.placeholder ?? "Search";
+    constructor({ gate }: { gate: DerivedPropsGate<RefBaseControllerProps> }) {
+        super({ gate, multiselect: false });
+        this.inputPlaceholder = gate.props.placeholder ?? "Search";
     }
 
     handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {

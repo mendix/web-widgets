@@ -1,15 +1,12 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ActionValue, EditableValue } from "mendix";
-import { action, makeObservable } from "mobx";
 import { RefFilterStore } from "../stores/RefFilterStore";
 import { PickerBaseController } from "./PickerBaseController";
 
 export class RefBaseController extends PickerBaseController<RefFilterStore> {
-    constructor(props: RefBaseControllerProps) {
-        super(props);
-        makeObservable(this, {
-            updateProps: action
-        });
+    constructor({ gate, multiselect }: { gate: DerivedPropsGate<RefBaseControllerProps>; multiselect: boolean }) {
+        super({ gate, multiselect });
     }
 
     setup(): () => void {
@@ -22,10 +19,6 @@ export class RefBaseController extends PickerBaseController<RefFilterStore> {
         }
 
         return disposeAll;
-    }
-
-    updateProps(props: RefBaseControllerProps): void {
-        this.changeHelper.updateProps(props);
     }
 }
 
