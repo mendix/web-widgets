@@ -1,6 +1,6 @@
 import { flattenRefCond, selectedFromCond } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { ListAttributeValue, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
+import { AttributeMetaData, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
 import { action, autorun, computed, makeObservable, observable, reaction, runInAction, when } from "mobx";
@@ -8,7 +8,7 @@ import { OptionWithState } from "../typings/OptionWithState";
 import { BaseSelectStore } from "./BaseSelectStore";
 import { SearchStore } from "./SearchStore";
 
-type ListAttributeId = ListAttributeValue["id"];
+type ListAttributeId = AttributeMetaData["id"];
 
 export interface RefFilterStoreProps {
     ref: ListReferenceValue | ListReferenceSetValue;
