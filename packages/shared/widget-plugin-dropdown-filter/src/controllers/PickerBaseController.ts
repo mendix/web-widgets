@@ -1,3 +1,4 @@
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ActionValue, EditableValue } from "mendix";
 import { OptionsSerializer } from "../stores/OptionsSerializer";
 import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../typings/IJSActionsControlled";
@@ -13,6 +14,17 @@ interface FilterStore {
     options: OptionWithState[];
 }
 
+export interface PickerBaseControllerProps<S extends FilterStore> {
+    defaultValue?: string;
+    filterStore: S;
+    multiselect: boolean;
+    onChange?: ActionValue;
+    valueAttribute?: EditableValue<string>;
+    emptyCaption?: string;
+}
+
+type Gate<S extends FilterStore> = DerivedPropsGate<PickerBaseControllerProps<S>>;
+
 export class PickerBaseController<S extends FilterStore> implements IJSActionsControlled {
     protected actionHelper: PickerJSActionsHelper;
     protected changeHelper: PickerChangeHelper;
@@ -21,7 +33,8 @@ export class PickerBaseController<S extends FilterStore> implements IJSActionsCo
     filterStore: S;
     multiselect: boolean;
 
-    constructor(props: PickerBaseControllerProps<S>) {
+    constructor({ gate }: { gate: Gate<S> }) {
+        const props = gate.props;
         this.filterStore = props.filterStore;
         this.multiselect = props.multiselect;
         this.serializer = new OptionsSerializer({ store: this.filterStore });
@@ -31,7 +44,7 @@ export class PickerBaseController<S extends FilterStore> implements IJSActionsCo
             parse: value => this.serializer.fromStorableValue(value) ?? [],
             multiselect: props.multiselect
         });
-        this.changeHelper = new PickerChangeHelper(props, () => this.serializer.value);
+        this.changeHelper = new PickerChangeHelper(gate, () => this.serializer.value);
     }
 
     parseDefaultValue = (value: string | undefined): Iterable<string> | undefined => {
@@ -50,13 +63,4 @@ export class PickerBaseController<S extends FilterStore> implements IJSActionsCo
     handleResetValue = (...args: Parameters<ResetHandler>): void => {
         this.actionHelper.handleResetValue(...args);
     };
-}
-
-export interface PickerBaseControllerProps<S extends FilterStore> {
-    defaultValue?: string;
-    filterStore: S;
-    multiselect: boolean;
-    onChange?: ActionValue;
-    valueAttribute?: EditableValue<string>;
-    emptyCaption?: string;
 }
