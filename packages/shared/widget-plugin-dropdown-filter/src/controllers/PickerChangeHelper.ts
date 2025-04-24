@@ -1,3 +1,4 @@
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, EditableValue } from "mendix";
 import { IReactionDisposer, reaction } from "mobx";
@@ -8,28 +9,21 @@ interface Props {
 }
 
 export class PickerChangeHelper {
-    private onChange?: ActionValue;
-    private valueAttribute?: EditableValue<string>;
+    private readonly gate: DerivedPropsGate<Props>;
     private valueFn: () => string | undefined;
 
-    constructor(props: Props, valueFn: () => string | undefined) {
-        this.onChange = props.onChange;
-        this.valueAttribute = props.valueAttribute;
+    constructor(gate: DerivedPropsGate<Props>, valueFn: () => string | undefined) {
+        this.gate = gate;
         this.valueFn = valueFn;
     }
 
     setup(): IReactionDisposer {
         const effect = (value: string | undefined): void => {
-            this.valueAttribute?.setValue(value);
-
-            executeAction(this.onChange);
+            const { valueAttribute, onChange } = this.gate.props;
+            valueAttribute?.setValue(value);
+            executeAction(onChange);
         };
 
         return reaction(this.valueFn, effect);
-    }
-
-    updateProps(props: Props): void {
-        this.onChange = props.onChange;
-        this.valueAttribute = props.valueAttribute;
     }
 }
