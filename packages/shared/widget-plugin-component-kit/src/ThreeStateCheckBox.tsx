@@ -4,11 +4,12 @@ export type ThreeStateCheckBoxEnum = "all" | "some" | "none";
 
 export interface ThreeStateCheckBoxProps {
     id?: string;
+    disabled?: boolean;
     value: ThreeStateCheckBoxEnum;
     onChange?: () => void;
 }
 
-export function ThreeStateCheckBox({ id, value, onChange }: ThreeStateCheckBoxProps): ReactElement {
+export function ThreeStateCheckBox({ id, disabled, value, onChange }: ThreeStateCheckBoxProps): ReactElement {
     const checkboxRef = useRef<HTMLInputElement | null>(null);
     useEffect(() => {
         if (!checkboxRef.current) {
@@ -28,6 +29,7 @@ export function ThreeStateCheckBox({ id, value, onChange }: ThreeStateCheckBoxPr
             className="three-state-checkbox"
             ref={checkboxRef}
             checked={value !== "none"}
+            disabled={disabled}
             onChange={onChange}
         />
     );
