@@ -1,5 +1,6 @@
 import { flattenRefCond, selectedFromCond } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { AttributeMetaData, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
@@ -11,25 +12,25 @@ import { SearchStore } from "./SearchStore";
 type ListAttributeId = AttributeMetaData["id"];
 
 export interface RefFilterStoreProps {
-    ref: ListReferenceValue | ListReferenceSetValue;
-    datasource: ListValue;
-    searchAttrId?: ListAttributeId;
     fetchOptionsLazy?: boolean;
-    caption: CaptionAccessor;
+    ref: ListReferenceValue | ListReferenceSetValue;
+    refCaption: CaptionAccessor;
+    refOptions: ListValue;
+    searchAttrId?: ListAttributeId;
 }
 
 interface CaptionAccessor {
     get: (obj: ObjectItem) => { value: string | undefined };
 }
 
+type Gate = DerivedPropsGate<RefFilterStoreProps>;
+
 export class RefFilterStore extends BaseSelectStore {
     readonly storeType = "refselect";
     readonly optionsFilterable: boolean;
 
-    private datasource: ListValue;
-    private listRef: ListReferenceValue | ListReferenceSetValue;
-    private caption: CaptionAccessor;
-    private searchAttrId?: ListAttributeId;
+    private readonly gate: Gate;
+    private readonly searchAttrId?: ListAttributeId;
     private readonly initCondArray: Array<EqualsCondition | ContainsCondition>;
     private readonly pageSize = 20;
     private readonly searchSize = 100;
@@ -39,11 +40,11 @@ export class RefFilterStore extends BaseSelectStore {
     lazyMode: boolean;
     search: SearchStore;
 
-    constructor(props: RefFilterStoreProps, initCond: FilterCondition | null) {
+    constructor({ gate, initCond }: { gate: Gate; initCond: FilterCondition | null }) {
         super();
-        this.caption = props.caption;
-        this.datasource = props.datasource;
-        this.listRef = props.ref;
+        const { props } = gate;
+        this.gate = gate;
+
         this.lazyMode = props.fetchOptionsLazy ?? true;
         this.searchAttrId = props.searchAttrId;
         this.initCondArray = initCond ? flattenRefCond(initCond) : [];
@@ -54,16 +55,14 @@ export class RefFilterStore extends BaseSelectStore {
             this.datasource.setLimit(0);
         }
 
-        makeObservable<this, "datasource" | "listRef" | "caption" | "searchAttrId" | "fetchReady">(this, {
-            datasource: observable.ref,
-            listRef: observable.ref,
-            caption: observable.ref,
-            searchAttrId: observable.ref,
+        makeObservable<this, "datasource" | "ref" | "caption" | "fetchReady">(this, {
+            datasource: computed,
+            ref: computed,
+            caption: computed,
             options: computed,
             hasMore: computed,
             isLoading: computed,
             condition: computed,
-            updateProps: action,
             fromViewState: action,
             fetchReady: observable,
             setFetchReady: action,
@@ -75,6 +74,18 @@ export class RefFilterStore extends BaseSelectStore {
         if (initCond) {
             this.fromViewState(initCond);
         }
+    }
+
+    private get datasource(): ListValue {
+        return this.gate.props.refOptions;
+    }
+
+    private get ref(): ListReferenceValue | ListReferenceSetValue {
+        return this.gate.props.ref;
+    }
+
+    private get caption(): CaptionAccessor {
+        return this.gate.props.refCaption;
     }
 
     get hasMore(): boolean {
@@ -110,10 +121,10 @@ export class RefFilterStore extends BaseSelectStore {
         const exp = (guid: string): FilterCondition[] => {
             const obj = this.selectedItems.find(o => o.id === guid);
 
-            if (obj && this.listRef.type === "Reference") {
-                return [refEquals(this.listRef, obj)];
-            } else if (obj && this.listRef.type === "ReferenceSet") {
-                return [refContains(this.listRef, [obj])];
+            if (obj && this.ref.type === "Reference") {
+                return [refEquals(this.ref, obj)];
+            } else if (obj && this.ref.type === "ReferenceSet") {
+                return [refContains(this.ref, [obj])];
             }
 
             const viewExp = this.initCondArray.find(e => {
@@ -202,12 +213,6 @@ export class RefFilterStore extends BaseSelectStore {
             this.blockSetDefaults = true;
             this.setSelected(defaultSelected);
         }
-    }
-
-    updateProps(props: RefFilterStoreProps): void {
-        this.listRef = props.ref;
-        this.datasource = props.datasource;
-        this.caption = props.caption;
     }
 
     loadMore(): void {
