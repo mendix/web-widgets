@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We improved the combobox behavior by disabling the Select All checkbox when no items are available.
+
 ## [2.3.0] - 2025-03-19
 
 ### Changed

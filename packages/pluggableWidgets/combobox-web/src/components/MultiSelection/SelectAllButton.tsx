@@ -6,21 +6,25 @@ import { CaptionContent } from "../../helpers/utils";
 
 interface SelectAllButtonProps extends Partial<UseComboboxPropGetters<string>> {
     id?: string;
+    disabled?: boolean;
     ariaLabel?: string;
     value: ThreeStateCheckBoxEnum;
     onChange?: () => void;
 }
 
-export function SelectAllButton({ id, ariaLabel, value, onChange }: SelectAllButtonProps): ReactElement {
+export function SelectAllButton({ id, disabled, ariaLabel, value, onChange }: SelectAllButtonProps): ReactElement {
     return (
         <Fragment>
             <span
                 className={classNames(
                     "widget-combobox-menu-header-select-all-button",
-                    "widget-combobox-icon-container"
+                    "widget-combobox-icon-container",
+                    {
+                        "widget-combobox-menu-header-select-all-button-disabled": disabled
+                    }
                 )}
             >
-                <ThreeStateCheckBox value={value} id={id} onChange={onChange} />
+                <ThreeStateCheckBox value={disabled ? "none" : value} id={id} onChange={onChange} disabled={disabled} />
             </span>
             {ariaLabel ? (
                 // empty onclick function is being set to allow label clicking

@@ -77,6 +77,16 @@ $cb-skeleton-dark: #d2d2d2;
                 content: "";
                 border-color: var(--btn-default-bg-hover, $cb-hover-color);
             }
+
+            &-select-all-button {
+                & + label {
+                    transition: color 0.2s ease-in-out;
+                }
+
+                &-disabled + label {
+                    color: var(--color-default-dark, $cb-disabled-text-color);
+                }
+            }
         }
 
         &-footer {

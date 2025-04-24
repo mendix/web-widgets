@@ -163,6 +163,7 @@ export function MultiSelection({
                 menuHeaderContent={
                     selector.selectAllButton ? (
                         <SelectAllButton
+                            disabled={items.length === 0}
                             value={isOptionsSelected}
                             id={`${options.inputId}-select-all-button`}
                             ariaLabel={a11yConfig.ariaLabels.selectAll}
