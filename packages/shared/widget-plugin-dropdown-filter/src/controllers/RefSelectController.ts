@@ -1,11 +1,12 @@
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 import { SelectControllerMixin } from "./mixins/SelectControllerMixin";
 
 export class RefSelectController extends SelectControllerMixin(RefBaseController) {
-    constructor(props: RefBaseControllerProps) {
-        super(props);
-        this.emptyOption.caption = props.emptyCaption || "None";
-        this.placeholder = props.placeholder || "Search";
+    constructor({ gate }: { gate: DerivedPropsGate<RefBaseControllerProps> }) {
+        super({ gate, multiselect: gate.props.multiselect });
+        this.emptyOption.caption = gate.props.emptyCaption || "None";
+        this.placeholder = gate.props.placeholder || "Search";
     }
 
     handleFocus = (): void => {
