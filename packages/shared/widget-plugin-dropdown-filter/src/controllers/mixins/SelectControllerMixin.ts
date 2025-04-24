@@ -19,6 +19,7 @@ type BaseController = GConstructor<{
 
 const none = "[[__none__]]" as const;
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function SelectControllerMixin<TBase extends BaseController>(Base: TBase) {
     return class SelectControllerMixin extends Base {
         placeholder = "Select";

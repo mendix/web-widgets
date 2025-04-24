@@ -1,19 +1,23 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
-import { action, autorun, makeObservable, observable } from "mobx";
+import { autorun, computed, makeObservable } from "mobx";
 import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
 import { PickerBaseController } from "./PickerBaseController";
 
 export class StaticBaseController extends PickerBaseController<StaticSelectFilterStore> {
-    filterOptions: Array<CustomOption<DynamicValue<string>>>;
+    private readonly gate: DerivedPropsGate<StaticBaseControllerProps>;
 
-    constructor(props: StaticBaseControllerProps) {
-        super(props);
-        this.filterOptions = props.filterOptions;
-        makeObservable(this, {
-            updateProps: action,
-            filterOptions: observable.struct
+    constructor({ gate, multiselect }: { gate: DerivedPropsGate<StaticBaseControllerProps>; multiselect: boolean }) {
+        super({ gate, multiselect });
+        this.gate = gate;
+        makeObservable<this, "filterOptions">(this, {
+            filterOptions: computed.struct
         });
+    }
+
+    private get filterOptions(): Array<CustomOption<string>> {
+        return this.gate.props.filterOptions.map(this.toStoreOption);
     }
 
     setup(): () => void {
@@ -24,8 +28,7 @@ export class StaticBaseController extends PickerBaseController<StaticSelectFilte
         addDisposer(
             autorun(() => {
                 if (this.filterOptions.length > 0) {
-                    const options = this.filterOptions.map(this.toStoreOption);
-                    this.filterStore.setCustomOptions(options);
+                    this.filterStore.setCustomOptions(this.filterOptions);
                 }
             })
         );
@@ -35,11 +38,6 @@ export class StaticBaseController extends PickerBaseController<StaticSelectFilte
         }
 
         return dispose;
-    }
-
-    updateProps(props: StaticBaseControllerProps): void {
-        this.filterOptions = props.filterOptions;
-        this.changeHelper.updateProps(props);
     }
 
     toStoreOption = (opt: CustomOption<DynamicValue<string>>): CustomOption<string> => ({

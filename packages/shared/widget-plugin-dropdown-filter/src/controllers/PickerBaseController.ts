@@ -33,10 +33,10 @@ export class PickerBaseController<S extends FilterStore> implements IJSActionsCo
     filterStore: S;
     multiselect: boolean;
 
-    constructor({ gate }: { gate: Gate<S> }) {
+    constructor({ gate, multiselect }: { gate: Gate<S>; multiselect: boolean }) {
         const props = gate.props;
         this.filterStore = props.filterStore;
-        this.multiselect = props.multiselect;
+        this.multiselect = multiselect;
         this.serializer = new OptionsSerializer({ store: this.filterStore });
         this.defaultValue = this.parseDefaultValue(props.defaultValue);
         this.actionHelper = new PickerJSActionsHelper({

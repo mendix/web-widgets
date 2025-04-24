@@ -1,3 +1,4 @@
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { StaticBaseController, StaticBaseControllerProps } from "./StaticBaseController";
 import { TagPickerControllerMixin } from "./mixins/TagPickerControllerMixin";
 
@@ -13,11 +14,11 @@ export class StaticTagPickerController extends TagPickerControllerMixin(StaticBa
     selectionMethod: SelectionMethodEnum;
     selectedStyle: SelectedItemsStyleEnum;
 
-    constructor(props: Props) {
-        super(props);
-        this.inputPlaceholder = props.placeholder ?? "Search";
-        this.filterSelectedOptions = props.selectionMethod === "rowClick";
-        this.selectedStyle = props.selectedItemsStyle;
-        this.selectionMethod = this.selectedStyle === "boxes" ? props.selectionMethod : "checkbox";
+    constructor({ gate }: { gate: DerivedPropsGate<Props> }) {
+        super({ gate, multiselect: gate.props.multiselect });
+        this.inputPlaceholder = gate.props.placeholder ?? "Search";
+        this.filterSelectedOptions = gate.props.selectionMethod === "rowClick";
+        this.selectedStyle = gate.props.selectedItemsStyle;
+        this.selectionMethod = this.selectedStyle === "boxes" ? gate.props.selectionMethod : "checkbox";
     }
 }
