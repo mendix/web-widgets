@@ -2,14 +2,14 @@ Please see [Rich Text](https://docs.mendix.com/appstore/widgets/rich-text) in th
 
 ## Extending and code alteration guide for premium plugin usage:
 
--   Fork or clone this repository to create your own implementation
--   Run `pnpm install`
--   Read more detail on how to run your forked widget from this [readme](/README.md)
+- Fork or clone this repository to create your own implementation
+- Run `pnpm install`
+- Read more detail on how to run your forked widget from this [readme](/README.md)
 
 ### Get your API Key
 
--   Create an account on [TinyMCE](https://www.tiny.cloud/) and get your API Key
--   Add the api key to `src/utils/constants.ts` on `API_KEY` constant value.
+- Create an account on [TinyMCE](https://www.tiny.cloud/) and get your API Key
+- Add the api key to `src/utils/constants.ts` on `API_KEY` constant value.
 
 ```
 export const API_KEY= 'your-api-key'
@@ -20,7 +20,7 @@ export const API_KEY= 'your-api-key'
 To get premium features working, you need to use TinyMCE cloud instead of bundled version.
 To do this, you will need:
 
--   Clear the content of `src/utils/plugins.ts` as this is no longer needed and will be import directly from TinyMCE cloud script.
+- Clear the content of `src/utils/plugins.ts` as this is no longer needed and will be import directly from TinyMCE cloud script.
 
 ### Insert tiny mce cloud script
 
@@ -37,6 +37,6 @@ you can alter the `PLUGINS` inside `src/utils/constants.ts` and add your extra p
 
 ### Build and replace your mpk
 
--   Run `pnpm run build` to create your new .mpk file from the current `packages/pluggableWidgets/rich-text-web` folder.
-    it will be build inside `dist/[version]/RichText.mpk`.
--   Copy and replace this file into your project's widgets folder.
+- Run `pnpm run build` to create your new .mpk file from the current `packages/pluggableWidgets/rich-text-web` folder.
+  it will be build inside `dist/[version]/RichText.mpk`.
+- Copy and replace this file into your project's widgets folder.

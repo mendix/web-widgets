@@ -12,73 +12,73 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 #### Changed
 
--   We updated the light and dark icons and tiles for the widget.
+- We updated the light and dark icons and tiles for the widget.
 
--   We fixed the relative path to avoid importing issues with the widget when the application's root URL is not the base domain.
+- We fixed the relative path to avoid importing issues with the widget when the application's root URL is not the base domain.
 
--   We updated plotly to version 2.35.2
+- We updated plotly to version 2.35.2
 
 ## [3.0.3] AnyChart_BuildingBlocks - 2023-04-05
 
 ### Changed
 
--   We removed version constant from module
+- We removed version constant from module
 
 ### Added
 
--   We added .version file to the themesource folder
+- We added .version file to the themesource folder
 
 ### [3.0.3] AnyChart
 
 #### Changed
 
--   Update minimum required version of Studio Pro to 9.18.
+- Update minimum required version of Studio Pro to 9.18.
 
 #### Fixed
 
--   We fixed an issue with 'customdata' field causing widget to crash.
+- We fixed an issue with 'customdata' field causing widget to crash.
 
 ## [3.0.2] AnyChart_BuildingBlocks - 2021-09-30
 
 ### Changed
 
--   We fixed an issue where AnyChart could not find `worker-json.js` file.
+- We fixed an issue where AnyChart could not find `worker-json.js` file.
 
 ## [3.0.1] AnyChart_BuildingBlocks - 2021-09-28
 
 ### Changed
 
--   We started to track the module version in a constant document inside the module.
+- We started to track the module version in a constant document inside the module.
 
 ## [3.0.0] AnyChart_BuildingBlocks - 2021-09-28
 
 ### Added
 
--   We added a toolbox category and toolbox tile image for Studio & Studio Pro.
+- We added a toolbox category and toolbox tile image for Studio & Studio Pro.
 
 ## [1.3.7] AnyChart_BuildingBlocks - 2021-08-04
 
 ### Removed
 
--   We've removed deprecated APIs warnings
+- We've removed deprecated APIs warnings
 
 ## [1.3.6] AnyChart_BuildingBlocks - 2021-04-28
 
 ### Fixed
 
--   Fixed an issue where grouped legends were not working.
+- Fixed an issue where grouped legends were not working.
 
 ### Changed
 
--   Update `plotly.js` dependency.
+- Update `plotly.js` dependency.
 
--   Update `react-ace` dependency and switch `brace` for `ace-builds`.
+- Update `react-ace` dependency and switch `brace` for `ace-builds`.
 
 ### Security
 
--   Patch `lodash` vulnerability.
+- Patch `lodash` vulnerability.
 
--   Update `fast-json-patch` dependency.
+- Update `fast-json-patch` dependency.
 
 ## Previous versions
 

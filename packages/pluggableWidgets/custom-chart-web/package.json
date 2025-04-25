@@ -34,7 +34,7 @@
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
         "e2edev": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
-        "format": "pluggable-widgets-tools format",
+        "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools release:web",

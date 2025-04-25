@@ -36,7 +36,7 @@
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "echo \"Skipping this e2e test\"",
         "e2edev": "run-e2e dev --with-preps",
-        "format": "pluggable-widgets-tools format",
+        "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "pluggable-widgets-tools release:web",

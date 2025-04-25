@@ -11,8 +11,6 @@ module.exports = {
     bracketSameLine: false,
     arrowParens: "avoid",
     proseWrap: "always",
-    xmlSelfClosingSpace: true,
-    xmlWhitespaceSensitivity: "ignore",
     plugins: ["@prettier/plugin-xml", "prettier-plugin-packagejson"],
     overrides: [
         {
@@ -37,7 +35,9 @@ module.exports = {
         {
             files: "*.xml",
             options: {
-                printWidth: 500
+                printWidth: 500,
+                xmlSelfClosingSpace: true,
+                xmlWhitespaceSensitivity: "preserve"
             }
         },
         {

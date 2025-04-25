@@ -70,7 +70,7 @@ const formatSectionEntry =
     };
 
 function formatChangeEntry(c: string): string {
-    return `-   ${c}`;
+    return `- ${c}`;
 }
 
 function formatDate(date: Date): string {

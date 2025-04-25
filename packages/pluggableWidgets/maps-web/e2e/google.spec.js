@@ -14,7 +14,11 @@ test.describe("Google Maps", () => {
     test("compares with a screenshot baseline and checks if basemap is correct", async ({ page }) => {
         const $mapsElement = page.locator(".widget-google-maps");
         await expect($mapsElement).toBeVisible();
-        await expect($mapsElement).toHaveScreenshot(`googleMaps.png`, { maxDiffPixels: 15000, threshold: 0.3, animations: "disabled" });
+        await expect($mapsElement).toHaveScreenshot(`googleMaps.png`, {
+            maxDiffPixels: 15000,
+            threshold: 0.3,
+            animations: "disabled"
+        });
     });
 
     test("checks the rendering", async ({ page }) => {

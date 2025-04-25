@@ -41,7 +41,7 @@
         "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
         "create-gh-release": "rui-create-gh-release",
         "create-module-mpk": "turbo release:module --filter data-widgets",
-        "format": "prettier --write .",
+        "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "tsc --project scripts/tsconfig.json",
         "publish-marketplace": "rui-publish-marketplace",
         "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",

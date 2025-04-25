@@ -90,6 +90,9 @@ importers:
       '@eslint/js':
         specifier: ^9.24.0
         version: 9.24.0
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../packages/shared/prettier-config-web-widgets
       '@playwright/test':
         specifier: ^1.51.1
         version: 1.51.1

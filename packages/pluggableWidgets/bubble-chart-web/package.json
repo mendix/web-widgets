@@ -29,7 +29,7 @@
         "build": "pluggable-widgets-tools build:ts",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
-        "format": "prettier --write .",
+        "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
         "start": "pluggable-widgets-tools start:server",

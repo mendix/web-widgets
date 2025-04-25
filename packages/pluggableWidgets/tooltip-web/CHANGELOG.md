@@ -10,78 +10,78 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed an issue where the tooltip content would flicker on hover.
+- We fixed an issue where the tooltip content would flicker on hover.
 
 ## [1.4.1] - 2024-10-09
 
 ### Fixed
 
--   We fixed placement issues with tooltip when placed inside a layout container by adjusting the width of the trigger's container
+- We fixed placement issues with tooltip when placed inside a layout container by adjusting the width of the trigger's container
 
 ## [1.4.0] - 2024-08-14
 
 ### Fixed
 
--   We fixed placement issues with tooltip occasionally overflowing off the screen.
+- We fixed placement issues with tooltip occasionally overflowing off the screen.
 
 ## [1.3.4] - 2024-05-23
 
 ### Fixed
 
--   We fixed the issue where content inside tooltip are force to have fit to content width.
+- We fixed the issue where content inside tooltip are force to have fit to content width.
 
 ## [1.3.3] - 2023-09-27
 
 ### Fixed
 
--   We removed redundant code to improve widget load time in the browser.
+- We removed redundant code to improve widget load time in the browser.
 
 ## [1.3.2] - 2023-08-10
 
 ### Fixed
 
--   We fixed an issue where Tooltip not closing on escape key press.
+- We fixed an issue where Tooltip not closing on escape key press.
 
 ## [1.3.1] - 2023-08-03
 
 ### Fixed
 
--   We fixed an issue with Tooltip widget not displaying correctly when close to a datagrid table header.
+- We fixed an issue with Tooltip widget not displaying correctly when close to a datagrid table header.
 
--   We fixed an issue with Tooltip widget triggering unexpectedly due to width of trigger element.
+- We fixed an issue with Tooltip widget triggering unexpectedly due to width of trigger element.
 
--   We fixed an issue with Tooltip widget hover event not closing tooltip when attached to a disabled input
+- We fixed an issue with Tooltip widget hover event not closing tooltip when attached to a disabled input
 
 ## [1.3.0] - 2023-06-06
 
 ### Changed
 
--   We updated the light and dark icons and tiles for the widget.
+- We updated the light and dark icons and tiles for the widget.
 
--   We changed colors in the structure mode preview for dark and light modes.
+- We changed colors in the structure mode preview for dark and light modes.
 
 ## [1.2.1] - 2022-08-30
 
 ### Fixed
 
--   We fixed an issue with Tooltip widget having positioning issues on a specific placement.
+- We fixed an issue with Tooltip widget having positioning issues on a specific placement.
 
 ## [1.2.0] - 2022-05-10
 
 ### Fixed
 
--   We fixed an issue with Tooltip widget preventing contained widgets from rendering in full width.
+- We fixed an issue with Tooltip widget preventing contained widgets from rendering in full width.
 
 ## [1.1.0] - 2021-12-23
 
 ### Added
 
--   We added dark mode to Structure mode preview.
+- We added dark mode to Structure mode preview.
 
--   We added dark icons for Tile and List view.
+- We added dark icons for Tile and List view.
 
 ## [1.0.0] - 2021-12-10
 
 ### Added
 
--   Initial release
+- Initial release

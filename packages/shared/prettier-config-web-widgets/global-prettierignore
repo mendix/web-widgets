@@ -1,0 +1,7 @@
+dist
+test-results
+tests
+typings
+*.svg
+**/javascriptsource/**
+*.hbs

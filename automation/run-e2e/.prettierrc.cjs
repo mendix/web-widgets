@@ -1,1 +1,1 @@
-module.exports = require("../../prettier.config");
+module.exports = require("@mendix/prettier-config-web-widgets");

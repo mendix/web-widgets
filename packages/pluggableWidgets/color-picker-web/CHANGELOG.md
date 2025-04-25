@@ -10,34 +10,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed an issue with Color Picker not working in React client.
+- We fixed an issue with Color Picker not working in React client.
 
 ## [2.1.2] - 2024-08-28
 
 ### Changed
 
--   Changed action required to false to avoid unnecessary warnings in the Studio Pro.
+- Changed action required to false to avoid unnecessary warnings in the Studio Pro.
 
 ## [2.1.1] - 2023-09-27
 
 ### Fixed
 
--   We removed redundant code to improve widget load time in the browser.
+- We removed redundant code to improve widget load time in the browser.
 
 ## [2.1.0] - 2023-06-05
 
 ### Changed
 
--   We updated the light and dark icons and tiles for the widget.
+- We updated the light and dark icons and tiles for the widget.
 
 ## [2.0.1] - 2022-02-25
 
 ### Changed
 
--   We reorganized widget configuration structure
+- We reorganized widget configuration structure
 
 ## [2.0.0] - 2022-02-10
 
 ### Changed
 
--   Converted into a pluggable widget.
+- Converted into a pluggable widget.

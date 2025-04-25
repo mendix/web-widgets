@@ -33,7 +33,7 @@
         "dev": "cross-env MPKOUTPUT=Switch.mpk pluggable-widgets-tools start:web",
         "e2e": "run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
-        "format": "prettier --write .",
+        "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "cross-env MPKOUTPUT=Switch.mpk pluggable-widgets-tools release:web",

@@ -1,21 +1,21 @@
-.widget-events-preview{
+.widget-events-preview {
     font-size: 12px;
-    color: #6B707B;
-    border: 1px solid #D9DBDD;
+    color: #6b707b;
+    border: 1px solid #d9dbdd;
     min-height: 5px;
     min-width: 100%;
     text-align: center;
     padding: 8px;
     display: flex;
     justify-content: center;
-    background-color: #FFF;
+    background-color: #fff;
 }
 
-.widget-events-preview.active{
+.widget-events-preview.active {
     background-color: var(--color-alpha-grey-2);
 }
 
-.widget-events-icon-container{
+.widget-events-icon-container {
     display: flex;
     justify-content: center;
     align-items: center;

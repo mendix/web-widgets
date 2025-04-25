@@ -50,9 +50,7 @@ async function downloadTestProject(repository, branch) {
 
     try {
         await streamPipe(
-            (
-                await fetchWithReport(`${repository}/archive/refs/heads/${branch}.zip`)
-            ).body,
+            (await fetchWithReport(`${repository}/archive/refs/heads/${branch}.zip`)).body,
             createWriteStream(downloadedArchivePath)
         );
         return downloadedArchivePath;

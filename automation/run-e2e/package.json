@@ -1,23 +1,20 @@
 {
     "name": "@mendix/run-e2e",
     "version": "0.3.1",
-    "private": true,
-    "license": "Apache-2.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
-    "type": "module",
-    "bin": {
-        "run-e2e": "bin/run-e2e.mjs"
-    },
-    "engines": {
-        "node": ">=18.20.4"
-    },
+    "license": "Apache-2.0",
+    "private": true,
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
+    "bin": {
+        "run-e2e": "bin/run-e2e.mjs"
+    },
+    "type": "module",
     "scripts": {
+        "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint .",
-        "format": "prettier --write .",
         "report:merge": "pnpm dlx ctrf merge ctrf --output merged-report.json --keep-reports"
     },
     "dependencies": {
@@ -32,12 +29,13 @@
         "yargs-parser": "^21.1.1"
     },
     "devDependencies": {
-        "globals": "^16.0.0",
-        "@eslint/js": "^9.24.0",
         "@axe-core/playwright": "^4.10.1",
+        "@eslint/js": "^9.24.0",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
         "@playwright/test": "^1.51.1",
         "@types/node": "*",
         "eslint-plugin-playwright": "^2.2.0",
+        "globals": "^16.0.0",
         "playwright-ctrf-json-reporter": "^0.0.20"
     }
 }

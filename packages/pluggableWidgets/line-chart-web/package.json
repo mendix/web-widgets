@@ -31,7 +31,7 @@
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
-        "format": "prettier --write .",
+        "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
         "start": "pluggable-widgets-tools start:server",

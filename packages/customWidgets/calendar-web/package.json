@@ -30,7 +30,7 @@
         "create-gh-release": "rui-create-gh-release",
         "fixme_build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
         "fixme_release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
-        "format": "prettier --write .",
+        "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "echo 'TODO: Fix calendar-web release script'",
