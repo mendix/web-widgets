@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListReferenceValue, ListReferenceSetValue } from "mendix";
+import { ActionValue, AttributeMetaData, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListReferenceValue, ListReferenceSetValue } from "mendix";
 
 export type BaseTypeEnum = "attr" | "ref";
 
@@ -31,7 +31,7 @@ export interface DatagridDropdownFilterContainerProps {
     tabIndex?: number;
     baseType: BaseTypeEnum;
     attrChoice: AttrChoiceEnum;
-    attr: ListAttributeValue<string | boolean>;
+    attr: AttributeMetaData<string | boolean>;
     auto: boolean;
     filterOptions: FilterOptionsType[];
     ref?: ListReferenceValue | ListReferenceSetValue;
