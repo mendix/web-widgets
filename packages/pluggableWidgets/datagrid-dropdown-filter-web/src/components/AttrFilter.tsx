@@ -1,34 +1,33 @@
 import { ReactElement, createElement } from "react";
-import {
-    StaticFilterContainer,
-    StaticFilterContainerProps
-} from "@mendix/widget-plugin-dropdown-filter/containers/StaticFilterContainer";
-import {
-    withParentProvidedStore,
-    Select_FilterAPIv2
-} from "@mendix/widget-plugin-filtering/hocs/withParentProvidedStore";
-
+import { StaticFilterContainer } from "@mendix/widget-plugin-dropdown-filter/containers/StaticFilterContainer";
+import { withParentProvidedEnumStore } from "../hocs/withParentProvidedEnumStore";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
+import { withLinkedEnumStore } from "../hocs/withLinkedEnumStore";
+import { EnumFilterAPI } from "./typings";
 
 export function AttrFilter(props: DatagridDropdownFilterContainerProps): ReactElement {
-    return <AutoAttrFilter {...props} />;
+    if (props.auto) {
+        return <AutoAttrFilter {...props} />;
+    }
+
+    return <LinkedAttrFilter {...props} />;
 }
 
-const AutoAttrFilter = withParentProvidedStore(function AutoAttrFilter(
-    props: DatagridDropdownFilterContainerProps & Select_FilterAPIv2
-): ReactElement {
-    return <StaticFilterContainer {...mapProps(props)} />;
-});
+const AutoAttrFilter = withParentProvidedEnumStore(Connector);
 
-function mapProps(props: DatagridDropdownFilterContainerProps & Select_FilterAPIv2): StaticFilterContainerProps {
-    return {
-        ...props,
-        multiselect: props.multiSelect,
-        ariaLabel: props.ariaLabel?.value,
-        className: props.class,
-        styles: props.style,
-        emptyCaption: props.emptyOptionCaption?.value,
-        defaultValue: props.defaultValue?.value,
-        parentChannelName: props.parentChannelName
-    };
+const LinkedAttrFilter = withLinkedEnumStore(Connector);
+
+function Connector(props: DatagridDropdownFilterContainerProps & EnumFilterAPI): ReactElement {
+    return (
+        <StaticFilterContainer
+            {...props}
+            multiselect={props.multiSelect}
+            ariaLabel={props.ariaLabel?.value}
+            className={props.class}
+            styles={props.style}
+            emptyCaption={props.emptyOptionCaption?.value}
+            defaultValue={props.defaultValue?.value}
+            parentChannelName={props.parentChannelName}
+        />
+    );
 }
