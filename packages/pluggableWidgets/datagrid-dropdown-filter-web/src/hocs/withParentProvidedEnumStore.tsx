@@ -1,20 +1,15 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { type StaticSelectFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
 import { useRef, createElement } from "react";
-import { useFilterAPI } from "../context";
-import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
-import { Result, error, value } from "../result-meta";
+import { useFilterAPI } from "@mendix/widget-plugin-filtering/context";
+import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "@mendix/widget-plugin-filtering/errors";
+import { Result, error, value } from "@mendix/widget-plugin-filtering/result-meta";
+import { EnumFilterAPI } from "../components/typings";
 
-export interface Select_FilterAPIv2 {
-    filterStore: StaticSelectFilterStore;
-    parentChannelName?: string;
-}
-
-export function withParentProvidedStore<P extends { filterable: boolean }>(
-    Component: (props: P & Select_FilterAPIv2) => React.ReactElement
+export function withParentProvidedEnumStore<P extends { filterable: boolean }>(
+    Component: (props: P & EnumFilterAPI) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props: P): React.ReactElement {
-        const api = useSelectFilterStore();
+        const api = useEnumFilterAPI();
         if (api.hasError) {
             return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
         }
@@ -25,9 +20,9 @@ export function withParentProvidedStore<P extends { filterable: boolean }>(
     };
 }
 
-function useSelectFilterStore(): Result<Select_FilterAPIv2, APIError> {
+function useEnumFilterAPI(): Result<EnumFilterAPI, APIError> {
     const ctx = useFilterAPI();
-    const slctAPI = useRef<Select_FilterAPIv2>();
+    const slctAPI = useRef<EnumFilterAPI>();
 
     if (ctx.hasError) {
         return error(ctx.error);
