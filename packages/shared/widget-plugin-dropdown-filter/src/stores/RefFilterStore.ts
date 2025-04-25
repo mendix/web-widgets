@@ -125,18 +125,16 @@ export class RefFilterStore extends BaseSelectStore {
                 return [contains(association(this.ref.id), literal(obj))];
             }
 
-            return this.initCondArray;
-
-            // const viewExp = this.initCondArray.find(e => {
-            //     if (e.arg2.type !== "literal") {
-            //         return false;
-            //     }
-            //     if (e.arg2.valueType === "ReferenceSet") {
-            //         return e.arg2.value.at(0) === guid;
-            //     }
-            //     return false;
-            // });
-            // return viewExp ? [viewExp] : [];
+            const viewExp = this.initCondArray.find(e => {
+                if (e.arg2.type !== "literal") {
+                    return false;
+                }
+                if (e.arg2.valueType === "ReferenceSet") {
+                    return e.arg2.value.at(0) === guid;
+                }
+                return false;
+            });
+            return viewExp ? [viewExp] : [];
         };
 
         const cond = [...this.selected].flatMap(exp);
@@ -236,12 +234,3 @@ export class RefFilterStore extends BaseSelectStore {
         }
     }
 }
-
-// export function refEquals(associationValue: ListReferenceValue, value: ObjectItem): EqualsCondition {
-//     return equals(association(associationValue.id), literal(value));
-// }
-
-// export function refContains(associationValue: ListReferenceSetValue, value: ObjectItem[]): ContainsCondition {
-//     const v = value.length ? literal(value.slice()) : empty();
-//     return contains(association(associationValue.id), v);
-// }
