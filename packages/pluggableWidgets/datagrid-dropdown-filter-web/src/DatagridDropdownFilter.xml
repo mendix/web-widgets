@@ -30,7 +30,7 @@
                         <enumerationValue key="linked">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="attr" type="attribute" dataSource="linkedDs">
+                <property key="attr" type="attribute" dataSource="linkedDs" isMetaData="true">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
