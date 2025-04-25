@@ -9,7 +9,7 @@ export function getHeightScale(
 }
 
 export function constructWrapperStyle(props: CalendarContainerProps): CSSProperties {
-    const { widthUnit, heightUnit, minHeightUnit, maxHeightUnit, width, height, minHeight, maxHeight, OverflowY } =
+    const { widthUnit, heightUnit, minHeightUnit, maxHeightUnit, width, height, minHeight, maxHeight, overflowY } =
         props;
 
     const wrapperStyle: Pick<CSSProperties, "width" | "height" | "minHeight" | "maxHeight" | "maxWidth" | "overflowY"> =
@@ -25,7 +25,7 @@ export function constructWrapperStyle(props: CalendarContainerProps): CSSPropert
 
         if (maxHeightUnit !== "none") {
             wrapperStyle.maxHeight = getHeightScale(maxHeight, maxHeightUnit);
-            wrapperStyle.overflowY = OverflowY;
+            wrapperStyle.overflowY = overflowY;
         }
     } else {
         wrapperStyle.height = getHeightScale(height, heightUnit);

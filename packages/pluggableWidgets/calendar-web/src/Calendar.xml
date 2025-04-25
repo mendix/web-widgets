@@ -65,7 +65,7 @@
             <propertyGroup caption="Options">
                 <property key="view" type="enumeration" defaultValue="standard">
                     <caption>View</caption>
-                    <description>Standard has Day, Week and Month</description>
+                    <description>Standard has day, week and month</description>
                     <enumerationValues>
                         <enumerationValue key="standard">Standard</enumerationValue>
                         <enumerationValue key="custom">Custom</enumerationValue>
@@ -152,7 +152,7 @@
                 <description />
             </property>
             <property key="minHeightUnit" type="enumeration" defaultValue="pixels">
-                <caption>Minimum Height unit</caption>
+                <caption>Minimum height unit</caption>
                 <description />
                 <enumerationValues>
                     <enumerationValue key="none">None</enumerationValue>
@@ -166,7 +166,7 @@
                 <description />
             </property>
             <property key="maxHeightUnit" type="enumeration" defaultValue="none">
-                <caption>Maximum Height unit</caption>
+                <caption>Maximum height unit</caption>
                 <description />
                 <enumerationValues>
                     <enumerationValue key="none">None</enumerationValue>
@@ -179,8 +179,8 @@
                 <caption>Maximum height</caption>
                 <description />
             </property>
-            <property key="OverflowY" type="enumeration" defaultValue="auto">
-                <caption>Vertical Overflow</caption>
+            <property key="overflowY" type="enumeration" defaultValue="auto">
+                <caption>Vertical overflow</caption>
                 <description />
                 <enumerationValues>
                     <enumerationValue key="auto">Auto</enumerationValue>
