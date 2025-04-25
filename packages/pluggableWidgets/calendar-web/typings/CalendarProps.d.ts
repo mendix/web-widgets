@@ -54,7 +54,7 @@ export interface CalendarContainerProps {
     minHeight: number;
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number;
-    OverflowY: OverflowYEnum;
+    overflowY: OverflowYEnum;
 }
 
 export interface CalendarPreviewProps {
@@ -93,5 +93,5 @@ export interface CalendarPreviewProps {
     minHeight: number | null;
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number | null;
-    OverflowY: OverflowYEnum;
+    overflowY: OverflowYEnum;
 }

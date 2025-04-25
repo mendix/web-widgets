@@ -17,7 +17,7 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
             "minHeightUnit",
             "maxHeight",
             "maxHeightUnit",
-            "OverflowY"
+            "overflowY"
         ]);
     }
 
@@ -26,7 +26,7 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
     }
 
     if (values.maxHeightUnit === "none") {
-        hidePropertiesIn(defaultProperties, values, ["maxHeight", "OverflowY"]);
+        hidePropertiesIn(defaultProperties, values, ["maxHeight", "overflowY"]);
     }
 
     // Show/hide title properties based on selection
