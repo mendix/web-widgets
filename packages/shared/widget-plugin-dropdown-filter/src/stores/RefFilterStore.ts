@@ -1,9 +1,9 @@
 import { flattenRefCond, selectedFromCond } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
-import { AttributeMetaData, ListReferenceSetValue, ListReferenceValue, ListValue, ObjectItem } from "mendix";
+import { AssociationMetaData, AttributeMetaData, ListValue, ObjectItem } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
-import { association, attribute, contains, empty, equals, literal, or } from "mendix/filters/builders";
+import { association, attribute, contains, literal, or } from "mendix/filters/builders";
 import { action, autorun, computed, makeObservable, observable, reaction, runInAction, when } from "mobx";
 import { OptionWithState } from "../typings/OptionWithState";
 import { BaseSelectStore } from "./BaseSelectStore";
@@ -13,7 +13,7 @@ type ListAttributeId = AttributeMetaData["id"];
 
 export interface RefFilterStoreProps {
     fetchOptionsLazy?: boolean;
-    ref: ListReferenceValue | ListReferenceSetValue;
+    ref: AssociationMetaData;
     refCaption: CaptionAccessor;
     refOptions: ListValue;
     searchAttrId?: ListAttributeId;
@@ -80,7 +80,7 @@ export class RefFilterStore extends BaseSelectStore {
         return this.gate.props.refOptions;
     }
 
-    private get ref(): ListReferenceValue | ListReferenceSetValue {
+    private get ref(): AssociationMetaData {
         return this.gate.props.ref;
     }
 
@@ -121,25 +121,22 @@ export class RefFilterStore extends BaseSelectStore {
         const exp = (guid: string): FilterCondition[] => {
             const obj = this.selectedItems.find(o => o.id === guid);
 
-            if (obj && this.ref.type === "Reference") {
-                return [refEquals(this.ref, obj)];
-            } else if (obj && this.ref.type === "ReferenceSet") {
-                return [refContains(this.ref, [obj])];
+            if (obj) {
+                return [contains(association(this.ref.id), literal(obj))];
             }
 
-            const viewExp = this.initCondArray.find(e => {
-                if (e.arg2.type !== "literal") {
-                    return false;
-                }
-                if (e.arg2.valueType === "Reference") {
-                    return e.arg2.value === guid;
-                }
-                if (e.arg2.valueType === "ReferenceSet") {
-                    return e.arg2.value.at(0) === guid;
-                }
-                return false;
-            });
-            return viewExp ? [viewExp] : [];
+            return this.initCondArray;
+
+            // const viewExp = this.initCondArray.find(e => {
+            //     if (e.arg2.type !== "literal") {
+            //         return false;
+            //     }
+            //     if (e.arg2.valueType === "ReferenceSet") {
+            //         return e.arg2.value.at(0) === guid;
+            //     }
+            //     return false;
+            // });
+            // return viewExp ? [viewExp] : [];
         };
 
         const cond = [...this.selected].flatMap(exp);
@@ -240,11 +237,11 @@ export class RefFilterStore extends BaseSelectStore {
     }
 }
 
-export function refEquals(associationValue: ListReferenceValue, value: ObjectItem): EqualsCondition {
-    return equals(association(associationValue.id), literal(value));
-}
+// export function refEquals(associationValue: ListReferenceValue, value: ObjectItem): EqualsCondition {
+//     return equals(association(associationValue.id), literal(value));
+// }
 
-export function refContains(associationValue: ListReferenceSetValue, value: ObjectItem[]): ContainsCondition {
-    const v = value.length ? literal(value.slice()) : empty();
-    return contains(association(associationValue.id), v);
-}
+// export function refContains(associationValue: ListReferenceSetValue, value: ObjectItem[]): ContainsCondition {
+//     const v = value.length ? literal(value.slice()) : empty();
+//     return contains(association(associationValue.id), v);
+// }
