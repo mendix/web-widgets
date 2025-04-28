@@ -1,18 +1,21 @@
-import { RefSelectController } from "@mendix/widget-plugin-dropdown-filter/controllers/RefSelectController";
-import { RefComboboxController } from "@mendix/widget-plugin-dropdown-filter/controllers/RefComboboxController";
-import { RefTagPickerController } from "@mendix/widget-plugin-dropdown-filter/controllers/RefTagPickerController";
-import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
-import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Combobox";
-import { TagPicker } from "@mendix/widget-plugin-filtering/controls/tag-picker/TagPicker";
-import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
-import { RefFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/RefFilterStore";
+import { RefSelectController } from "../controllers/RefSelectController";
+import { RefComboboxController } from "../controllers/RefComboboxController";
+import { RefTagPickerController } from "../controllers/RefTagPickerController";
+import { Select } from "../controls/select/Select";
+import { Combobox } from "../controls/combobox/Combobox";
+import { TagPicker } from "../controls/tag-picker/TagPicker";
+import { usePickerJSActions } from "../helpers/usePickerJSActions";
+import { RefFilterStore } from "../stores/RefFilterStore";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, CSSProperties } from "react";
-import { useSetupUpdate } from "@mendix/widget-plugin-filtering/helpers/useSetupUpdate";
-import { useFrontendType } from "../hooks/useFrontendType";
-import { SelectedItemsStyleEnum, SelectionMethodEnum } from "../../typings/DatagridDropdownFilterProps";
+import { createElement, CSSProperties, useEffect } from "react";
+
+import { useFrontendType } from "../helpers/useFrontendType";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
+import { SelectedItemsStyleEnum, SelectionMethodEnum } from "../typings/widget";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 
 export interface RefFilterContainerProps {
     ariaLabel?: string;
@@ -48,7 +51,8 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
 }
 
 const SelectWidget = observer(function SelectWidget(props: RefFilterContainerProps): React.ReactElement {
-    const ctrl1 = useSetupUpdate(() => new RefSelectController(props), props);
+    const gate = useGate(props);
+    const ctrl1 = useConst(() => new RefSelectController({ gate }));
     const handleMenuScroll = useOnScrollBottom(ctrl1.handleMenuScrollEnd, { triggerZoneHeight: 100 });
 
     usePickerJSActions(ctrl1, props);
@@ -71,7 +75,8 @@ const SelectWidget = observer(function SelectWidget(props: RefFilterContainerPro
 });
 
 const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContainerProps): React.ReactElement {
-    const ctrl2 = useSetupUpdate(() => new RefComboboxController(props), props);
+    const gate = useGate(props);
+    const ctrl2 = useConst(() => new RefComboboxController({ gate }));
     const handleMenuScroll = useOnScrollBottom(ctrl2.handleMenuScrollEnd, { triggerZoneHeight: 100 });
 
     usePickerJSActions(ctrl2, props);
@@ -93,7 +98,8 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
 });
 
 const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContainerProps): React.ReactElement {
-    const ctrl3 = useSetupUpdate(() => new RefTagPickerController(props), props);
+    const gate = useGate(props);
+    const ctrl3 = useConst(() => new RefTagPickerController({ gate }));
     const handleMenuScroll = useOnScrollBottom(ctrl3.handleMenuScrollEnd, { triggerZoneHeight: 100 });
 
     usePickerJSActions(ctrl3, props);
@@ -119,3 +125,9 @@ const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContai
 });
 
 export const RefFilterContainer = Container;
+
+function useGate(props: RefFilterContainerProps): DerivedPropsGate<RefFilterContainerProps> {
+    const gp = useConst(() => new GateProvider(props));
+    useEffect(() => gp.setProps(props));
+    return gp.gate;
+}
