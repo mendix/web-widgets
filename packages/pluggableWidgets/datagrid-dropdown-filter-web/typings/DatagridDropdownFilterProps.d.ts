@@ -34,7 +34,7 @@ export interface DatagridDropdownFilterContainerProps {
     attr: AttributeMetaData<string | boolean>;
     auto: boolean;
     filterOptions: FilterOptionsType[];
-    ref?: AssociationMetaData;
+    ref: AssociationMetaData;
     refOptions?: ListValue;
     refCaption?: ListAttributeValue<string>;
     fetchOptionsLazy: boolean;
