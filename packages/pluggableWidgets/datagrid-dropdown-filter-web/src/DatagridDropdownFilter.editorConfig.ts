@@ -36,7 +36,7 @@ export function getProperties(values: DatagridDropdownFilterPreviewProps, defaul
 }
 
 function attrGroupProperties(values: DatagridDropdownFilterPreviewProps, defaultProperties: Properties): Properties {
-    hidePropertiesIn(defaultProperties, values, ["ref", "refOptions", "fetchOptionsLazy"]);
+    hidePropertiesIn(defaultProperties, values, ["refEntity", "refOptions", "refCaption", "fetchOptionsLazy"]);
 
     if (values.attrChoice === "auto") {
         hidePropertyIn(defaultProperties, {} as { linkedDs: unknown }, "linkedDs");
