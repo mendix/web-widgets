@@ -13,7 +13,7 @@ type ListAttributeId = AttributeMetaData["id"];
 
 export interface RefFilterStoreProps {
     fetchOptionsLazy?: boolean;
-    ref: AssociationMetaData;
+    refEntity: AssociationMetaData;
     refCaption: CaptionAccessor;
     refOptions: ListValue;
     searchAttrId?: ListAttributeId;
@@ -55,9 +55,9 @@ export class RefFilterStore extends BaseSelectStore {
             this.datasource.setLimit(0);
         }
 
-        makeObservable<this, "datasource" | "ref" | "caption" | "fetchReady">(this, {
+        makeObservable<this, "datasource" | "refEntity" | "caption" | "fetchReady">(this, {
             datasource: computed,
-            ref: computed,
+            refEntity: computed,
             caption: computed,
             options: computed,
             hasMore: computed,
@@ -80,8 +80,8 @@ export class RefFilterStore extends BaseSelectStore {
         return this.gate.props.refOptions;
     }
 
-    private get ref(): AssociationMetaData {
-        return this.gate.props.ref;
+    private get refEntity(): AssociationMetaData {
+        return this.gate.props.refEntity;
     }
 
     private get caption(): CaptionAccessor {
@@ -122,7 +122,7 @@ export class RefFilterStore extends BaseSelectStore {
             const obj = this.selectedItems.find(o => o.id === guid);
 
             if (obj) {
-                return [contains(association(this.ref.id), literal(obj))];
+                return [contains(association(this.refEntity.id), literal(obj))];
             }
 
             const viewExp = this.initCondArray.find(e => {
