@@ -11,11 +11,11 @@ import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDrop
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { RefFilterAPI } from "../components/typings";
 
-type WidgetProps = Pick<DatagridDropdownFilterContainerProps, "name" | "ref" | "refOptions" | "refCaption">;
+type WidgetProps = Pick<DatagridDropdownFilterContainerProps, "name" | "refEntity" | "refOptions" | "refCaption">;
 
 export interface RequiredProps {
     name: string;
-    ref: AssociationMetaData;
+    refEntity: AssociationMetaData;
     refOptions: ListValue;
     refCaption: ListAttributeValue<string>;
     searchAttrId: ListAttributeValue["id"];
@@ -41,18 +41,20 @@ export function withLinkedRefStore<P extends WidgetProps>(Cmp: Component<P & Ref
 }
 
 function mapProps(props: WidgetProps): RequiredProps {
-    if (!props.ref) {
-        throw new Error("RefFilterStoreProvider: ref is required");
+    if (!props.refEntity) {
+        throw new Error("RefFilterStoreProvider: refEntity is required");
     }
+
     if (!props.refOptions) {
         throw new Error("RefFilterStoreProvider: refOptions is required");
     }
+
     if (!props.refCaption) {
         throw new Error("RefFilterStoreProvider: refCaption is required");
     }
     return {
         name: props.name,
-        ref: props.ref,
+        refEntity: props.refEntity,
         refOptions: props.refOptions,
         refCaption: props.refCaption,
         searchAttrId: props.refCaption.id
@@ -60,10 +62,9 @@ function mapProps(props: WidgetProps): RequiredProps {
 }
 
 function useGate(props: WidgetProps): DerivedPropsGate<RequiredProps> {
-    const gateProps = useMemo(() => mapProps(props), [props]);
-    const gp = useConst(() => new GateProvider(gateProps));
+    const gp = useConst(() => new GateProvider(mapProps(props)));
     useEffect(() => {
-        gp.setProps(gateProps);
+        gp.setProps(mapProps(props));
     });
     return gp.gate;
 }
