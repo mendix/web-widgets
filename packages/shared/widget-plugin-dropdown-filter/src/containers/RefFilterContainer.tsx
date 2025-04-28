@@ -13,6 +13,7 @@ import { createElement, CSSProperties, useEffect } from "react";
 import { useFrontendType } from "../helpers/useFrontendType";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
 import { SelectedItemsStyleEnum, SelectionMethodEnum } from "../typings/widget";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
@@ -52,7 +53,7 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
 
 const SelectWidget = observer(function SelectWidget(props: RefFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
-    const ctrl1 = useConst(() => new RefSelectController({ gate }));
+    const ctrl1 = useSetup(() => new RefSelectController({ gate }));
     const handleMenuScroll = useOnScrollBottom(ctrl1.handleMenuScrollEnd, { triggerZoneHeight: 100 });
 
     usePickerJSActions(ctrl1, props);
@@ -76,7 +77,7 @@ const SelectWidget = observer(function SelectWidget(props: RefFilterContainerPro
 
 const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
-    const ctrl2 = useConst(() => new RefComboboxController({ gate }));
+    const ctrl2 = useSetup(() => new RefComboboxController({ gate }));
     const handleMenuScroll = useOnScrollBottom(ctrl2.handleMenuScrollEnd, { triggerZoneHeight: 100 });
 
     usePickerJSActions(ctrl2, props);
@@ -99,7 +100,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
 
 const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
-    const ctrl3 = useConst(() => new RefTagPickerController({ gate }));
+    const ctrl3 = useSetup(() => new RefTagPickerController({ gate }));
     const handleMenuScroll = useOnScrollBottom(ctrl3.handleMenuScrollEnd, { triggerZoneHeight: 100 });
 
     usePickerJSActions(ctrl3, props);
