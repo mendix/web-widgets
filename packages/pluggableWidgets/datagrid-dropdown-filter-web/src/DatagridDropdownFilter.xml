@@ -62,7 +62,7 @@
                 <!-- end: Attr type -->
 
                 <!-- start: Ref type -->
-                <property key="ref" type="association" selectableObjects="refOptions" required="true" dataSource="linkedDs" isMetaData="true">
+                <property key="refEntity" type="association" selectableObjects="refOptions" required="true" dataSource="linkedDs" isMetaData="true">
                     <caption>Entity</caption>
                     <description>Set the entity to enable filtering over association.</description>
                     <associationTypes>
