@@ -13,7 +13,7 @@ export interface ViewCodeDialogProps {
     onClose(): void;
 }
 
-const BEAUTIFY_OPTIONS: js_beautify.HTMLBeautifyOptions = {
+const BEAUTIFY_OPTIONS: beautify.HTMLBeautifyOptions = {
     indent_size: 4,
     indent_char: " ",
     max_preserve_newlines: 5,
@@ -47,7 +47,7 @@ export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement
                         value={formState.src}
                         extensions={[EditorView.lineWrapping, html()]}
                         onChange={onCodeChange}
-                        basicSetup={true}
+                        basicSetup
                         theme={githubLight}
                         maxHeight="70vh"
                     />
