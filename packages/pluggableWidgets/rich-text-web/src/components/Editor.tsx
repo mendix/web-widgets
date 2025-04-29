@@ -74,7 +74,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 html: defaultValue
             });
             if (newContent && newContent !== ref.current?.getContents()) {
-                ref.current?.setContents(newContent);
+                ref.current?.updateContents(newContent);
             }
         }
     }, [ref, defaultValue]);
