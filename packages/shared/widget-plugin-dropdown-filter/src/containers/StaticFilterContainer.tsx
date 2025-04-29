@@ -15,6 +15,7 @@ import { usePickerJSActions } from "../helpers/usePickerJSActions";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
 import { FilterOptionsType, SelectedItemsStyleEnum, SelectionMethodEnum } from "../typings/widget";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 
 export interface StaticFilterContainerProps {
     ariaLabel?: string;
@@ -52,7 +53,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
 
 const SelectWidget = observer(function SelectWidget(props: StaticFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
-    const ctrl1 = useConst(() => new StaticSelectController({ gate }));
+    const ctrl1 = useSetup(() => new StaticSelectController({ gate }));
 
     usePickerJSActions(ctrl1, props);
 
@@ -73,7 +74,7 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
 
 const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
-    const ctrl2 = useConst(() => new StaticComboboxController({ gate }));
+    const ctrl2 = useSetup(() => new StaticComboboxController({ gate }));
 
     usePickerJSActions(ctrl2, props);
 
@@ -94,7 +95,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterConta
 
 const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
-    const ctrl3 = useConst(() => new StaticTagPickerController({ gate }));
+    const ctrl3 = useSetup(() => new StaticTagPickerController({ gate }));
 
     usePickerJSActions(ctrl3, props);
 
