@@ -1,4 +1,4 @@
-import { useEffect, createElement, useMemo } from "react";
+import { useEffect, createElement } from "react";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { RefFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/RefFilterStore";
 import { FilterAPI, useFilterAPI } from "@mendix/widget-plugin-filtering/context";
