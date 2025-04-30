@@ -1,11 +1,11 @@
 import { compactArray, fromCompactArray, isAnd } from "@mendix/filter-commons/condition-utils";
+import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { makeAutoObservable, reaction } from "mobx";
 import { SortInstruction } from "../typings/sorting";
-import { QueryController } from "./query-controller";
 
 interface Columns {
     conditions: Array<FilterCondition | undefined>;
