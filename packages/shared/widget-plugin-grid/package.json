@@ -33,6 +33,9 @@
         "prepare": "tsc",
         "test": "jest"
     },
+    "dependencies": {
+        "@mendix/widget-plugin-mobx-kit": "workspace:^"
+    },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
