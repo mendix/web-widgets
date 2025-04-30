@@ -1,7 +1,7 @@
+import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { PaginationEnum, ShowPagingButtonsEnum } from "../../typings/DatagridProps";
-import { QueryController } from "./query-controller";
 
 type Gate = DerivedPropsGate<{
     pageSize: number;

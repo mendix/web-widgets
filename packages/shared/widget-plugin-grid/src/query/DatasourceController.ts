@@ -1,10 +1,11 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { ListValue, ValueStatus } from "mendix";
-import { action, autorun, makeAutoObservable } from "mobx";
+import { action, autorun, computed, IComputedValue, makeAutoObservable } from "mobx";
 import { QueryController } from "./query-controller";
 
 type Gate = DerivedPropsGate<{ datasource: ListValue }>;
+
 type DatasourceControllerSpec = { gate: Gate };
 
 export class DatasourceController implements ReactiveController, QueryController {
@@ -58,7 +59,7 @@ export class DatasourceController implements ReactiveController, QueryController
         return this.datasource.status === "loading";
     }
 
-    private get datasource(): ListValue {
+    get datasource(): ListValue {
         return this.gate.props.datasource;
     }
 
@@ -90,12 +91,13 @@ export class DatasourceController implements ReactiveController, QueryController
     }
 
     /**
-     * Returns a new copy of the controller.
+     * Returns computed value that holds controller copy.
      * Recomputes the copy every time the datasource changes.
      */
-    get computedCopy(): DatasourceController {
-        const [copy] = [this.datasource].map(() => Object.create(this));
-        return copy;
+    get derivedQuery(): IComputedValue<DatasourceController> {
+        const data = (): DatasourceController => [this.datasource].map(() => Object.create(this))[0];
+
+        return computed(data);
     }
 
     setup(): () => void {
