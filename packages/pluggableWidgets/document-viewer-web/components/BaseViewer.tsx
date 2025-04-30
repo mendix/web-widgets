@@ -52,7 +52,8 @@ const BaseControlViewer = (props: BaseControlViewerProps): ReactElement => {
                     <button
                         onClick={onDownloadClick}
                         className="icons icon-Download btn btn-icon-only"
-                        aria-label={"download"}
+                        aria-label={"Download"}
+                        title={"Download"}
                     ></button>
                     <div className="widget-document-viewer-zoom">
                         <button
@@ -60,18 +61,21 @@ const BaseControlViewer = (props: BaseControlViewerProps): ReactElement => {
                             disabled={zoomLevel <= 0.3}
                             className="icons icon-ZoomOut btn btn-icon-only"
                             aria-label={"Zoom out"}
+                            title={"Zoom out"}
                         ></button>
                         <button
                             onClick={zoomIn}
                             disabled={zoomLevel >= 10}
                             className="icons icon-ZoomIn btn btn-icon-only"
                             aria-label={"Zoom in"}
+                            title={"Zoom in"}
                         ></button>
                         <button
                             onClick={reset}
                             disabled={zoomLevel >= 10}
                             className="icons icon-FitToWidth btn btn-icon-only"
                             aria-label={"Fit to width"}
+                            title={"Fit to width"}
                         ></button>
                     </div>
                 </Fragment>

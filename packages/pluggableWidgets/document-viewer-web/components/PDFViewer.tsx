@@ -49,6 +49,7 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                             disabled={currentPage <= 1}
                             className="icons icon-Left btn btn-icon-only"
                             aria-label={"Go to previous page"}
+                            title={"Go to previous page"}
                         ></button>
                         <span>
                             {currentPage} / {numberOfPages}
@@ -57,31 +58,36 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                             onClick={() => setCurrentPage(prev => Math.min(prev + 1, numberOfPages))}
                             className="icons icon-Right btn btn-icon-only"
                             aria-label={"Go to next page"}
+                            title={"Go to next page"}
                         ></button>
                     </div>
                     <button
                         onClick={onDownloadClick}
                         className="icons icon-Download btn btn-icon-only"
-                        aria-label={"download"}
+                        aria-label={"Download"}
+                        title={"Download"}
                     ></button>
                     <div className="widget-document-viewer-zoom">
                         <button
                             onClick={zoomOut}
                             disabled={zoomLevel <= 0.3}
                             className="icons icon-ZoomOut btn btn-icon-only"
-                            aria-label={"Go to previous page"}
+                            aria-label={"Zoom out"}
+                            title={"Zoom out"}
                         ></button>
                         <button
                             onClick={zoomIn}
                             disabled={zoomLevel >= 10}
                             className="icons icon-ZoomIn btn btn-icon-only"
-                            aria-label={"Go to previous page"}
+                            aria-label={"Zoom in"}
+                            title={"Zoom in"}
                         ></button>
                         <button
                             onClick={reset}
                             disabled={zoomLevel >= 10}
                             className="icons icon-FitToWidth btn btn-icon-only"
                             aria-label={"Fit to width"}
+                            title={"Fit to width"}
                         ></button>
                     </div>
                 </Fragment>
