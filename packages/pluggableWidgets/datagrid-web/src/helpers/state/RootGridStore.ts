@@ -1,16 +1,16 @@
 import { createContextWithStub, FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
+import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
+import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { autorun, computed } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { DatasourceController } from "../../controllers/DatasourceController";
 import { DatasourceParamsController } from "../../controllers/DatasourceParamsController";
 import { DerivedLoaderController } from "../../controllers/DerivedLoaderController";
 import { PaginationController } from "../../controllers/PaginationController";
-import { RefreshController } from "../../controllers/RefreshController";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
