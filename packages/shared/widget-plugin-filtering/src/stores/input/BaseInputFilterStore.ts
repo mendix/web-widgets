@@ -50,7 +50,9 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
             setState: action,
             UNSAFE_setDefaults: action,
             UNSAFE_overwriteFilterFunction: action,
-            filterFunction: computed
+            filterFunction: computed,
+            clear: action,
+            reset: action
         });
     }
     get filterFunction(): Fn {
