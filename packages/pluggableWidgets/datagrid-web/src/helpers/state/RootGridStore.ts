@@ -6,7 +6,7 @@ import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControlle
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { autorun, computed } from "mobx";
+import { autorun } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { DatasourceParamsController } from "../../controllers/DatasourceParamsController";
 import { DerivedLoaderController } from "../../controllers/DerivedLoaderController";
@@ -67,7 +67,7 @@ export class RootGridStore extends BaseControllerHost {
         });
 
         new RefreshController(this, {
-            query: computed(() => query.computedCopy),
+            query: query.derivedQuery,
             delay: props.refreshInterval * 1000
         });
 
