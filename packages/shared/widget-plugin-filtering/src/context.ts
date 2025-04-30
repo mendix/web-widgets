@@ -1,41 +1,32 @@
-import { FilterCondition } from "mendix/filters/index.js";
+import { StaticSelectFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
+import { FilterCondition } from "mendix/filters";
 import { Context, createContext, useContext } from "react";
-import { APIError, ENOCONTEXT } from "./errors.js";
-import { Result, error, value } from "./result-meta.js";
-import { FilterObserver } from "./typings/FilterObserver.js";
-import { InputFilterInterface } from "./typings/InputFilterInterface.js";
-import { PickerFilterStore } from "./typings/PickerFilterStore.js";
+import { APIError, ENOCONTEXT } from "./errors";
+import { Result, error, value } from "./result-meta";
+import { FilterObserver } from "./typings/FilterObserver";
+import { InputFilterInterface } from "./typings/InputFilterInterface";
 
 export interface FilterAPI {
     version: 3;
     parentChannelName: string;
-    provider: Result<FilterStoreProvider, APIError>;
+    provider: Result<DirectProvider | ProviderStub, APIError>;
     filterObserver: FilterObserver;
     sharedInitFilter: Array<FilterCondition | undefined>;
 }
 
-/** @deprecated */
-export enum FilterType {
-    STRING = "string",
-    NUMBER = "number",
-    ENUMERATION = "enum",
-    DATE = "date"
-}
-
-export type FilterStoreProvider = DirectProvider | LegacyProvider;
-
-export type FilterStore = InputFilterInterface | PickerFilterStore;
+export type FilterStore = InputFilterInterface | StaticSelectFilterStore;
 
 interface DirectProvider {
     type: "direct";
     store: FilterStore | null;
 }
 
-/** @deprecated */
-export interface LegacyProvider {
-    type: "legacy";
-    get: (type: FilterType) => FilterStore | null;
+interface ProviderStub {
+    type: "stub";
+    hint: "No filter store available";
 }
+
+export const PROVIDER_STUB = Object.freeze({ type: "stub", hint: "No filter store available" } as const);
 
 type FilterAPIContext = Context<FilterAPI | null>;
 
@@ -65,13 +56,16 @@ export function useFilterAPI(): Result<FilterAPI, APIError> {
 /** @deprecated This hook is renamed, use `useFilterAPI` instead. */
 export const useFilterContextValue = useFilterAPI;
 
-export function getFilterStore(provider: FilterStoreProvider, legacyType: FilterType): FilterStore | null {
-    switch (provider.type) {
-        case "direct":
-            return provider.store;
-        case "legacy":
-            return provider.get(legacyType);
-        default:
-            return null;
-    }
+export function createContextWithStub(options: {
+    filterObserver: FilterObserver;
+    parentChannelName: string;
+    sharedInitFilter: Array<FilterCondition | undefined>;
+}): FilterAPI {
+    return {
+        version: 3,
+        parentChannelName: options.parentChannelName,
+        provider: value(PROVIDER_STUB),
+        filterObserver: options.filterObserver,
+        sharedInitFilter: options.sharedInitFilter
+    };
 }
