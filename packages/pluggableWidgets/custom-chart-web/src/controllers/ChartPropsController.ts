@@ -84,47 +84,40 @@ export class ChartPropsController implements ReactiveController {
             height: this.sizeProvider.height,
             autosize: true,
             font: {
-                family: this.layout.font?.family ? this.layout.font.family : "Open Sans, sans-serif",
-                size: this.layout.font?.size
-                    ? this.layout.font.size
-                    : Math.max(12 * (this.sizeProvider.width / 1000), 8)
+                family: "Open Sans, sans-serif",
+                size: Math.max(12 * (this.sizeProvider.width / 1000), 8),
+                ...this.layout.font
             },
             legend: {
-                ...this.layout.legend,
                 font: {
-                    ...this.layout.legend?.font,
-                    size: this.layout.legend?.font?.size
-                        ? this.layout.legend.font.size
-                        : Math.max(10 * (this.sizeProvider.width / 1000), 7)
+                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7),
+                    ...this.layout.legend?.font
                 },
                 itemwidth: Math.max(10 * (this.sizeProvider.width / 1000), 3),
-                itemsizing: "constant"
+                itemsizing: "constant",
+                ...this.layout.legend
             },
             xaxis: {
-                ...this.layout.xaxis,
                 tickfont: {
-                    ...this.layout.xaxis?.tickfont,
-                    size: this.layout.xaxis?.tickfont?.size
-                        ? this.layout.xaxis.tickfont.size
-                        : Math.max(10 * (this.sizeProvider.width / 1000), 7)
-                }
+                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7),
+                    ...this.layout.xaxis?.tickfont
+                },
+                ...this.layout.xaxis
             },
             yaxis: {
-                ...this.layout.yaxis,
                 tickfont: {
-                    ...this.layout.yaxis?.tickfont,
-                    size: this.layout.yaxis?.tickfont?.size
-                        ? this.layout.yaxis.tickfont.size
-                        : Math.max(10 * (this.sizeProvider.width / 1000), 7)
-                }
+                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7),
+                    ...this.layout.yaxis?.tickfont
+                },
+                ...this.layout.yaxis
             },
             margin: {
-                ...this.layout.margin,
-                l: this.layout.margin?.l ? this.layout.margin.l : 60,
-                r: this.layout.margin?.r ? this.layout.margin.r : 60,
-                t: this.layout.margin?.t ? this.layout.margin.t : 60,
-                b: this.layout.margin?.b ? this.layout.margin.b : 60,
-                pad: this.layout.margin?.pad ? this.layout.margin.pad : 10
+                l: 60,
+                r: 60,
+                t: 60,
+                b: 60,
+                pad: 10,
+                ...this.layout.margin
             }
         };
     }
