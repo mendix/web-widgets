@@ -1,6 +1,6 @@
 {
     "name": "@mendix/widget-plugin-dropdown-filter",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Drop-down filter widget plugin",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",

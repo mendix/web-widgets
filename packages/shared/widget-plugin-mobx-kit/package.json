@@ -1,6 +1,6 @@
 {
     "name": "@mendix/widget-plugin-mobx-kit",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "Plugin for mobx utilities",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",

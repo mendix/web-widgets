@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Breaking changes
+
+- We allow grid wide filtering
+
 ## [1.13.0] - 2024-11-13
 
 ### Fixed
