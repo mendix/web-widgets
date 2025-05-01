@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.27.4] DataWidgets - 2025-05-01
+
+### [2.9.1] DatagridNumberFilter
+
+#### Fixed
+
+-   We fixed an issue with number filter not working in some locales
+
 ## [2.27.3] DataWidgets - 2025-01-20
 
 ### [2.11.1] DatagridDateFilter

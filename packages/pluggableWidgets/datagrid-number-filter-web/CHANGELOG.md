@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.9.1] - 2025-05-01
+
 ### Fixed
 
 -   We fixed an issue with number filter not working in some locales
