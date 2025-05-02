@@ -163,6 +163,17 @@
                     <caption>Enable spell checking</caption>
                     <description />
                 </property>
+                <property key="customFonts" type="object" isList="true" required="false">
+                    <caption>Custom fonts</caption>
+                    <description />
+                    <properties>
+                        <property key="fontName" type="textTemplate" required="false">
+                            <caption>Font name</caption>
+                            <category>Item</category>
+                            <description />
+                        </property>
+                    </properties>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Custom toolbar">
