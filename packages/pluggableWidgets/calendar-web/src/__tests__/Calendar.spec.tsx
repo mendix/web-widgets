@@ -25,6 +25,15 @@ const defaultProps: CalendarContainerProps = {
     overflowY: "auto"
 };
 
+beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2025-04-28T12:00:00Z"));
+});
+
+afterAll(() => {
+    jest.useRealTimers();
+});
+
 describe("Calendar", () => {
     it("renders correctly with basic props", () => {
         const calendar = render(<Calendar {...defaultProps} />);

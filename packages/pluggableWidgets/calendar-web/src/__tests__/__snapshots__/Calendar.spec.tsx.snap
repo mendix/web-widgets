@@ -617,10 +617,10 @@ exports[`Calendar renders correctly with basic props 1`] = `
                   class="rbc-day-bg"
                 />
                 <div
-                  class="rbc-day-bg"
+                  class="rbc-day-bg rbc-today"
                 />
                 <div
-                  class="rbc-day-bg rbc-today"
+                  class="rbc-day-bg"
                 />
                 <div
                   class="rbc-day-bg"
@@ -654,7 +654,7 @@ exports[`Calendar renders correctly with basic props 1`] = `
                     </button>
                   </div>
                   <div
-                    class="rbc-date-cell"
+                    class="rbc-date-cell rbc-now rbc-current"
                     role="cell"
                   >
                     <button
@@ -665,7 +665,7 @@ exports[`Calendar renders correctly with basic props 1`] = `
                     </button>
                   </div>
                   <div
-                    class="rbc-date-cell rbc-now rbc-current"
+                    class="rbc-date-cell"
                     role="cell"
                   >
                     <button
@@ -1340,10 +1340,10 @@ exports[`Calendar renders correctly with basic props 1`] = `
                 class="rbc-day-bg"
               />
               <div
-                class="rbc-day-bg"
+                class="rbc-day-bg rbc-today"
               />
               <div
-                class="rbc-day-bg rbc-today"
+                class="rbc-day-bg"
               />
               <div
                 class="rbc-day-bg"
@@ -1377,7 +1377,7 @@ exports[`Calendar renders correctly with basic props 1`] = `
                   </button>
                 </div>
                 <div
-                  class="rbc-date-cell"
+                  class="rbc-date-cell rbc-now rbc-current"
                   role="cell"
                 >
                   <button
@@ -1388,7 +1388,7 @@ exports[`Calendar renders correctly with basic props 1`] = `
                   </button>
                 </div>
                 <div
-                  class="rbc-date-cell rbc-now rbc-current"
+                  class="rbc-date-cell"
                   role="cell"
                 >
                   <button
