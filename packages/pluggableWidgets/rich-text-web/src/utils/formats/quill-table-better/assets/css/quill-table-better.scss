@@ -69,6 +69,12 @@ $focused-border: 1px solid $focused-border-color;
     background-color: $focused-cell-background;
 }
 
+.ql-editor {
+    td {
+        border: none;
+    }
+}
+
 .ql-table {
     &-border-shadow {
         @include boxShadow($border-color-simple);
