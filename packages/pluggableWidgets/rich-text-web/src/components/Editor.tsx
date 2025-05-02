@@ -85,7 +85,6 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
             const container = containerRef.current;
             if (container) {
                 const editorDiv = container.ownerDocument.createElement<"div">("div");
-                editorDiv.innerHTML = defaultValue ?? "";
                 const editorContainer = container.appendChild(editorDiv);
 
                 const toolbar = toolbarId
@@ -141,6 +140,9 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
 
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
+
+                const delta = quill.clipboard.convert({ html: defaultValue ?? "" });
+                quill.updateContents(delta, Quill.sources.USER);
 
                 quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
                     onTextChangeRef.current?.(...arg);
