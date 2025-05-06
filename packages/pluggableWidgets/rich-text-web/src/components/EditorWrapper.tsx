@@ -206,7 +206,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
             </div>
             {enableStatusBar && (
                 <div className="widget-rich-text-footer" tabIndex={-1}>
-                    {wordCount} word{wordCount > 1 ? "s" : ""}
+                    {wordCount} word{wordCount === 1 ? "" : "s"}
                 </div>
             )}
         </div>
