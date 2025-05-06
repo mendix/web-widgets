@@ -33,7 +33,7 @@ describe("AccordionGroup", () => {
         const accordionGroup = renderAccordionGroup({ visible: false });
 
         expect(defaultAccordionGroupProps.generateHeaderIcon).not.toHaveBeenCalled();
-        expect(accordionGroup.container).toMatchSnapshot();
+        expect(accordionGroup.asFragment()).toMatchSnapshot();
     });
 
     describe("collapsible", () => {
@@ -57,7 +57,7 @@ describe("AccordionGroup", () => {
 
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(1);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(true);
-            expect(accordionGroup.container).toMatchSnapshot();
+            expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
 
         it("renders correctly when the group is visible and expanded", () => {
@@ -67,7 +67,7 @@ describe("AccordionGroup", () => {
 
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(1);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(false);
-            expect(accordionGroup.container).toMatchSnapshot();
+            expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
 
         it("renders correctly when the group is visible and gets expanded", () => {
@@ -85,7 +85,7 @@ describe("AccordionGroup", () => {
             );
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(3);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(false);
-            expect(accordionGroup.container).toMatchSnapshot();
+            expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
 
         it("renders correctly when the group is visible and gets collapsed", () => {
@@ -100,7 +100,7 @@ describe("AccordionGroup", () => {
             );
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(3);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(true);
-            expect(accordionGroup.container).toMatchSnapshot();
+            expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
 
         it("renders correctly when the group becomes visible and is collapsed", () => {
@@ -114,7 +114,7 @@ describe("AccordionGroup", () => {
             );
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(1);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(true);
-            expect(accordionGroup.container).toMatchSnapshot();
+            expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
 
         it("renders correctly when the group becomes visible and is expanded", () => {
@@ -129,7 +129,7 @@ describe("AccordionGroup", () => {
             );
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(2);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(false);
-            expect(accordionGroup.container).toMatchSnapshot();
+            expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
 
         describe("header", () => {
@@ -273,7 +273,7 @@ describe("AccordionGroup", () => {
                     showHeaderIcon: "no"
                 });
 
-                expect(accordionGroup.container).toMatchSnapshot();
+                expect(accordionGroup.asFragment()).toMatchSnapshot();
             });
         });
     });
@@ -285,7 +285,7 @@ describe("AccordionGroup", () => {
             });
 
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(0);
-            expect(accordionGroup.container).toMatchSnapshot();
+            expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
 
         it("renders the content when the group becomes visible dinamically", () => {
@@ -296,7 +296,7 @@ describe("AccordionGroup", () => {
 
             accordionGroup.rerender(<AccordionGroup {...defaultAccordionGroupProps} visible collapsed={false} />);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(0);
-            expect(accordionGroup.container).toMatchSnapshot();
+            expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
     });
 
@@ -309,7 +309,7 @@ describe("AccordionGroup", () => {
             });
 
             expect(accordionGroup.getByText("Widgets")).toBeInTheDocument();
-            expect(accordionGroup.container).toMatchSnapshot();
+            expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
 
         it("doesn't render widgets when 'loadContent' is set 'whenExpanded'", () => {
@@ -320,7 +320,7 @@ describe("AccordionGroup", () => {
             });
 
             expect(accordionGroup.queryByText("Widgets")).not.toBeInTheDocument();
-            expect(accordionGroup.container).toMatchSnapshot();
+            expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
 
         it("render widgets when 'loadContent' is set 'whenExpanded' and 'collapsed' is set to false", () => {

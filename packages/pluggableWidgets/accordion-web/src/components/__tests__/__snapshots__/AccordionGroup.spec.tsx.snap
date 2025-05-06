@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AccordionGroup collapsible header doesn't render the icon when set to not visible 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group widget-accordion-group-collapsed class-name"
   >
@@ -37,11 +37,11 @@ exports[`AccordionGroup collapsible header doesn't render the icon when set to n
       </div>
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
 
 exports[`AccordionGroup collapsible renders correctly when the group becomes visible and is collapsed 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group widget-accordion-group-collapsed class-name"
   >
@@ -77,11 +77,11 @@ exports[`AccordionGroup collapsible renders correctly when the group becomes vis
       </div>
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
 
 exports[`AccordionGroup collapsible renders correctly when the group becomes visible and is expanded 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group widget-accordion-group-collapsed class-name"
   >
@@ -117,11 +117,11 @@ exports[`AccordionGroup collapsible renders correctly when the group becomes vis
       </div>
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
 
 exports[`AccordionGroup collapsible renders correctly when the group is visible and collapsed 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group widget-accordion-group-collapsed class-name"
   >
@@ -157,11 +157,11 @@ exports[`AccordionGroup collapsible renders correctly when the group is visible 
       </div>
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
 
 exports[`AccordionGroup collapsible renders correctly when the group is visible and expanded 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group class-name"
   >
@@ -197,11 +197,11 @@ exports[`AccordionGroup collapsible renders correctly when the group is visible 
       </div>
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
 
 exports[`AccordionGroup collapsible renders correctly when the group is visible and gets collapsed 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group widget-accordion-group-collapsed class-name"
   >
@@ -237,11 +237,11 @@ exports[`AccordionGroup collapsible renders correctly when the group is visible 
       </div>
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
 
 exports[`AccordionGroup collapsible renders correctly when the group is visible and gets expanded 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group class-name"
   >
@@ -277,13 +277,13 @@ exports[`AccordionGroup collapsible renders correctly when the group is visible 
       </div>
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
 
-exports[`AccordionGroup doesn't render when the group isn't visible 1`] = `<div />`;
+exports[`AccordionGroup doesn't render when the group isn't visible 1`] = `<DocumentFragment />`;
 
 exports[`AccordionGroup loadContent behaviour doesn't render widgets when 'loadContent' is set 'whenExpanded' 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group widget-accordion-group-collapsed class-name"
   >
@@ -315,11 +315,11 @@ exports[`AccordionGroup loadContent behaviour doesn't render widgets when 'loadC
       />
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
 
 exports[`AccordionGroup loadContent behaviour renders widgets when 'loadContent' is set 'always' 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group widget-accordion-group-collapsed class-name"
   >
@@ -355,11 +355,11 @@ exports[`AccordionGroup loadContent behaviour renders widgets when 'loadContent'
       </div>
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
 
 exports[`AccordionGroup not collapsible renders the content when the group becomes visible dinamically 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group class-name"
   >
@@ -394,11 +394,11 @@ exports[`AccordionGroup not collapsible renders the content when the group becom
       </div>
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
 
 exports[`AccordionGroup not collapsible renders the content when the group is visible and not collapsed 1`] = `
-<div>
+<DocumentFragment>
   <section
     class="widget-accordion-group class-name"
   >
@@ -433,5 +433,5 @@ exports[`AccordionGroup not collapsible renders the content when the group is vi
       </div>
     </div>
   </section>
-</div>
+</DocumentFragment>
 `;
