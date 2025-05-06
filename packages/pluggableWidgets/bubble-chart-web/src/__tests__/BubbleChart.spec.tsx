@@ -1,7 +1,15 @@
-import { ChartWidget } from "@mendix/shared-charts/main";
-import { EditableValueBuilder, ListAttributeValueBuilder, list, listExp } from "@mendix/widget-plugin-test-utils";
-import Big from "big.js";
-import { ReactWrapper, mount } from "enzyme";
+jest.mock("@mendix/shared-charts/main", () => {
+    const actualModule = jest.requireActual("@mendix/shared-charts/main");
+    return {
+        ...actualModule,
+        ChartWidget: jest.fn(() => null)
+    };
+});
+
+import { ChartWidget, setupBasicSeries } from "@mendix/shared-charts/main";
+import { listExpression } from "@mendix/widget-plugin-test-utils";
+import "@testing-library/jest-dom";
+import { render, RenderResult } from "@testing-library/react";
 import { createElement } from "react";
 import { LinesType } from "../../typings/BubbleChartProps";
 import { BubbleChart } from "../BubbleChart";
@@ -9,12 +17,12 @@ import { BubbleChart } from "../BubbleChart";
 jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The Bubble widget", () => {
-    function renderBubbleChart(configs: Array<Partial<LinesType>>): ReactWrapper {
-        return mount(
+    function renderBubbleChart(configs: Array<Partial<LinesType>> = [{}]): RenderResult {
+        return render(
             <BubbleChart
                 name="bubble-chart-test"
                 class="bubble-chart-class"
-                lines={configs.map(setupBasicSeries)}
+                lines={configs.map(setupBasicBubbleSeries)}
                 showLegend={false}
                 widthUnit="percentage"
                 width={0}
@@ -31,66 +39,61 @@ describe("The Bubble widget", () => {
     }
 
     it("visualizes data as a bubble chart", () => {
-        const bubbleChart = renderBubbleChart([{}]);
-        const data = bubbleChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        expect(data[0]).toHaveProperty("type", "scatter");
-        expect(data[0]).toHaveProperty("mode", "markers");
+        renderBubbleChart();
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([expect.objectContaining({ type: "scatter", mode: "markers" })])
+            }),
+            {}
+        );
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
-        const bubbleChart = renderBubbleChart([
-            { staticMarkerColor: listExp(() => "red") },
-            { staticMarkerColor: undefined }
-        ]);
-        const data = bubbleChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("marker.color", "red");
-        expect(data[1]).toHaveProperty("marker.color", undefined);
+        renderBubbleChart([{ staticMarkerColor: listExpression(() => "red") }, { staticMarkerColor: undefined }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ marker: expect.objectContaining({ color: "red" }) }),
+                    expect.objectContaining({ marker: expect.objectContaining({ color: undefined }) })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the appropriate transforms on the data series based on the aggregation type", () => {
-        const bubbleChart = renderBubbleChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
-        const data = bubbleChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("transforms", []);
-        expect(data[1]).toHaveProperty("transforms", [
-            {
-                type: "aggregate",
-                groups: ["1", "2"],
-                aggregations: [
-                    {
-                        target: "y",
-                        enabled: true,
-                        func: "avg"
-                    }
-                ]
-            }
-        ]);
+        renderBubbleChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ transforms: expect.arrayContaining([]) }),
+                    expect.objectContaining({
+                        transforms: expect.arrayContaining([
+                            expect.objectContaining({
+                                type: "aggregate",
+                                groups: expect.arrayContaining(["1", "2"]),
+                                aggregations: expect.arrayContaining([
+                                    expect.objectContaining({ target: "y", enabled: true, func: "avg" })
+                                ])
+                            })
+                        ])
+                    })
+                ])
+            }),
+            {}
+        );
     });
 });
 
-function setupBasicSeries(overwriteConfig: Partial<LinesType>): LinesType {
-    const xAttribute = new ListAttributeValueBuilder<Big>().build();
-    const getXAttributeMock = jest.fn();
-    getXAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(1)).build());
-    getXAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(2)).build());
-    xAttribute.get = getXAttributeMock;
-
-    const yAttribute = new ListAttributeValueBuilder<Big>().build();
-    const getYAttributeMock = jest.fn();
-    getYAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(3)).build());
-    getYAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(6)).build());
-    yAttribute.get = getYAttributeMock;
+function setupBasicBubbleSeries(overwriteConfig: Partial<LinesType>): LinesType {
+    const basicSeries = setupBasicSeries(overwriteConfig) as LinesType;
 
     return {
-        dataSet: "static",
-        customSeriesOptions: overwriteConfig.customSeriesOptions ?? "",
-        aggregationType: overwriteConfig.aggregationType ?? "avg",
+        ...basicSeries,
         staticMarkerColor: overwriteConfig.staticMarkerColor ?? undefined,
-        staticDataSource: list(2),
-        staticXAttribute: xAttribute,
-        staticYAttribute: yAttribute,
         autosize: true,
         sizeref: 10
     };
