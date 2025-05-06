@@ -4,11 +4,15 @@ import { createElement } from "react";
 import { Icon, IconProps } from "../Icon";
 
 describe("Icon", () => {
-    const defaultIconProps: IconProps = {
-        data: { type: "glyph", iconClass: "icon-class" },
-        loading: false,
-        animate: true
-    };
+    let defaultIconProps: IconProps;
+
+    beforeEach(() => {
+        defaultIconProps = {
+            data: { type: "glyph", iconClass: "icon-class" },
+            loading: false,
+            animate: true
+        };
+    });
 
     function renderIcon(props: Partial<IconProps> = {}): RenderResult {
         return render(<Icon {...defaultIconProps} {...props} />);

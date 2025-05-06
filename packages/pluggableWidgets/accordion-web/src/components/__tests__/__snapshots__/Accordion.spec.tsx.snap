@@ -9,7 +9,7 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
     style="height: 500px;"
   >
     <section
-      class="widget-accordion-group widget-accordion-group-collapsed"
+      class="widget-accordion-group"
     >
       <header
         class="widget-accordion-group-header"
@@ -17,7 +17,7 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
         <div
           aria-controls="idAccordionGroup0ContentWrapper"
           aria-disabled="false"
-          aria-expanded="false"
+          aria-expanded="true"
           class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
           data-focusindex="0"
           id="idAccordionGroup0HeaderButton"
@@ -91,7 +91,7 @@ exports[`Accordion in collapsible & multiple expanded group mode applies group c
     style="height: 500px;"
   >
     <section
-      class="widget-accordion-group"
+      class="widget-accordion-group widget-accordion-group-collapsed"
     >
       <header
         class="widget-accordion-group-header"
@@ -99,7 +99,7 @@ exports[`Accordion in collapsible & multiple expanded group mode applies group c
         <div
           aria-controls="idAccordionGroup0ContentWrapper"
           aria-disabled="false"
-          aria-expanded="true"
+          aria-expanded="false"
           class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
           data-focusindex="0"
           id="idAccordionGroup0HeaderButton"
@@ -125,41 +125,6 @@ exports[`Accordion in collapsible & multiple expanded group mode applies group c
         </div>
       </div>
     </section>
-    <section
-      class="widget-accordion-group"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="false"
-          aria-expanded="true"
-          class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-          tabindex="0"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
-          </span>
-        </div>
-      </div>
-    </section>
   </div>
 </div>
 `;
@@ -173,7 +138,7 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
     style="height: 500px;"
   >
     <section
-      class="widget-accordion-group"
+      class="widget-accordion-group widget-accordion-group-collapsed"
     >
       <header
         class="widget-accordion-group-header"
@@ -181,7 +146,7 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
         <div
           aria-controls="idAccordionGroup0ContentWrapper"
           aria-disabled="false"
-          aria-expanded="true"
+          aria-expanded="false"
           class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
           data-focusindex="0"
           id="idAccordionGroup0HeaderButton"
@@ -255,7 +220,7 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
     style="height: 500px;"
   >
     <section
-      class="widget-accordion-group widget-accordion-group-collapsed"
+      class="widget-accordion-group"
     >
       <header
         class="widget-accordion-group-header"
@@ -263,7 +228,7 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
         <div
           aria-controls="idAccordionGroup0ContentWrapper"
           aria-disabled="false"
-          aria-expanded="false"
+          aria-expanded="true"
           class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
           data-focusindex="0"
           id="idAccordionGroup0HeaderButton"
@@ -285,41 +250,6 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
         >
           <span>
             content
-          </span>
-        </div>
-      </div>
-    </section>
-    <section
-      class="widget-accordion-group widget-accordion-group-collapsed"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-          tabindex="0"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
           </span>
         </div>
       </div>
@@ -372,41 +302,6 @@ exports[`Accordion in collapsible & multiple expanded group mode inits with grou
       </div>
     </section>
     <section
-      class="widget-accordion-group"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="false"
-          aria-expanded="true"
-          class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-          tabindex="0"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
-          </span>
-        </div>
-      </div>
-    </section>
-    <section
       class="widget-accordion-group widget-accordion-group-collapsed"
     >
       <header
@@ -454,7 +349,7 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
     style="height: 500px;"
   >
     <section
-      class="widget-accordion-group"
+      class="widget-accordion-group widget-accordion-group-collapsed"
     >
       <header
         class="widget-accordion-group-header"
@@ -462,7 +357,7 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
         <div
           aria-controls="idAccordionGroup0ContentWrapper"
           aria-disabled="false"
-          aria-expanded="true"
+          aria-expanded="false"
           class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
           data-focusindex="0"
           id="idAccordionGroup0HeaderButton"
@@ -484,41 +379,6 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
         >
           <span>
             content
-          </span>
-        </div>
-      </div>
-    </section>
-    <section
-      class="widget-accordion-group widget-accordion-group-collapsed"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-          tabindex="0"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
           </span>
         </div>
       </div>
@@ -652,41 +512,6 @@ exports[`Accordion in collapsible & single expanded group mode collapses a group
         </div>
       </div>
     </section>
-    <section
-      class="widget-accordion-group widget-accordion-group-collapsed"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-          tabindex="0"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
-          </span>
-        </div>
-      </div>
-    </section>
   </div>
 </div>
 `;
@@ -730,41 +555,6 @@ exports[`Accordion in collapsible & single expanded group mode expands a group 1
         >
           <span>
             content
-          </span>
-        </div>
-      </div>
-    </section>
-    <section
-      class="widget-accordion-group"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="false"
-          aria-expanded="true"
-          class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-          tabindex="0"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
           </span>
         </div>
       </div>
@@ -816,41 +606,6 @@ exports[`Accordion in collapsible & single expanded group mode inits with group 
         </div>
       </div>
     </section>
-    <section
-      class="widget-accordion-group widget-accordion-group-collapsed"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-          tabindex="0"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
-          </span>
-        </div>
-      </div>
-    </section>
   </div>
 </div>
 `;
@@ -894,41 +649,6 @@ exports[`Accordion in collapsible & single expanded group mode inits with not mo
         >
           <span>
             content
-          </span>
-        </div>
-      </div>
-    </section>
-    <section
-      class="widget-accordion-group"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="false"
-          aria-expanded="true"
-          class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-          tabindex="0"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
           </span>
         </div>
       </div>
@@ -980,41 +700,6 @@ exports[`Accordion in collapsible & single expanded group mode renders correctly
         </div>
       </div>
     </section>
-    <section
-      class="widget-accordion-group widget-accordion-group-collapsed"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-          tabindex="0"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
-          </span>
-        </div>
-      </div>
-    </section>
   </div>
 </div>
 `;
@@ -1057,40 +742,6 @@ exports[`Accordion not collapsible renders correctly 1`] = `
         >
           <span>
             content
-          </span>
-        </div>
-      </div>
-    </section>
-    <section
-      class="widget-accordion-group"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="true"
-          aria-expanded="true"
-          class="widget-accordion-group-header-button"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
           </span>
         </div>
       </div>
@@ -1138,41 +789,6 @@ exports[`Accordion renders correctly without tabindex 1`] = `
         >
           <span>
             content
-          </span>
-        </div>
-      </div>
-    </section>
-    <section
-      class="widget-accordion-group widget-accordion-group-collapsed"
-    >
-      <header
-        class="widget-accordion-group-header"
-      >
-        <div
-          aria-controls="idAccordionGroup1ContentWrapper"
-          aria-disabled="false"
-          aria-expanded="false"
-          class="widget-accordion-group-header-button widget-accordion-group-header-button-clickable widget-accordion-group-header-button-icon-right"
-          data-focusindex="0"
-          id="idAccordionGroup1HeaderButton"
-          role="button"
-          tabindex="0"
-        >
-          header2
-        </div>
-      </header>
-      <div
-        aria-labelledby="idAccordionGroup1HeaderButton"
-        class="widget-accordion-group-content-wrapper"
-        data-focusindex="0"
-        id="idAccordionGroup1ContentWrapper"
-        role="region"
-      >
-        <div
-          class="widget-accordion-group-content"
-        >
-          <span>
-            content2
           </span>
         </div>
       </div>

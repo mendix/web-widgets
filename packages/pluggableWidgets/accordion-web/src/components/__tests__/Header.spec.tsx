@@ -4,10 +4,14 @@ import { createElement, PropsWithChildren } from "react";
 import { Header, HeaderProps } from "../Header";
 
 describe("Header", () => {
-    const defaultHeaderProps: PropsWithChildren<HeaderProps> = {
-        heading: "headingThree",
-        children: "Text"
-    };
+    let defaultHeaderProps: PropsWithChildren<HeaderProps>;
+
+    beforeEach(() => {
+        defaultHeaderProps = {
+            heading: "headingThree",
+            children: "Text"
+        };
+    });
 
     function renderHeader(props: Partial<HeaderProps> = {}): RenderResult {
         return render(<Header {...defaultHeaderProps} {...props} />);

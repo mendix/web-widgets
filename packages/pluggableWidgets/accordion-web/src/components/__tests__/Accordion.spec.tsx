@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { createElement } from "react";
 import { render, RenderResult } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import userEvent, { UserEvent } from "@testing-library/user-event";
 import { Accordion, AccordionProps } from "../Accordion";
 
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -11,40 +11,44 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
 }));
 
 describe("Accordion", () => {
-    const defaultProps: AccordionProps = {
-        id: "id",
-        class: "",
-        style: { height: "500px" },
-        tabIndex: 1,
-        groups: [
-            {
-                header: "header",
-                content: <span>content</span>,
-                initiallyCollapsed: true,
-                visible: true,
-                loadContent: "always"
-            },
-            {
-                header: "header2",
-                content: <span>content2</span>,
-                initiallyCollapsed: true,
-                visible: false,
-                loadContent: "always"
-            }
-        ],
-        collapsible: true,
-        singleExpandedGroup: true,
-        generateHeaderIcon: jest.fn(),
-        showGroupHeaderIcon: "right"
-    };
+    let defaultProps: AccordionProps;
+    let user: UserEvent;
+
+    beforeEach(() => {
+        defaultProps = {
+            id: "id",
+            class: "",
+            style: { height: "500px" },
+            tabIndex: 1,
+            groups: [
+                {
+                    header: "header",
+                    content: <span>content</span>,
+                    initiallyCollapsed: true,
+                    visible: true,
+                    loadContent: "always"
+                },
+                {
+                    header: "header2",
+                    content: <span>content2</span>,
+                    initiallyCollapsed: true,
+                    visible: false,
+                    loadContent: "always"
+                }
+            ],
+            collapsible: true,
+            singleExpandedGroup: true,
+            generateHeaderIcon: jest.fn(),
+            showGroupHeaderIcon: "right"
+        };
+        user = userEvent.setup();
+    });
 
     function renderAccordion(props: Partial<AccordionProps> = {}): RenderResult {
         return render(<Accordion {...defaultProps} {...props} />);
     }
 
     describe("collapsible AccordionGroupWrapper", () => {
-        const user = userEvent.setup();
-
         it("gives the next accordion group button focus on arrow down key down", async () => {
             const groups = [...defaultProps.groups];
             groups[1].visible = true;
@@ -55,7 +59,7 @@ describe("Accordion", () => {
 
             await user.keyboard("{ArrowDown}");
 
-            expect(buttons[1]).toHaveFocus;
+            expect(buttons[1]).toHaveFocus();
         });
 
         it("gives the previous accordion group button focus on arrow up key down", async () => {
@@ -129,8 +133,6 @@ describe("Accordion", () => {
     });
 
     describe("in collapsible & single expanded group mode", () => {
-        const user = userEvent.setup();
-
         it("renders correctly", () => {
             const accordion = renderAccordion();
 
@@ -187,8 +189,6 @@ describe("Accordion", () => {
     });
 
     describe("in collapsible & multiple expanded group mode", () => {
-        const user = userEvent.setup();
-
         it("renders correctly", () => {
             const accordion = renderAccordion({ singleExpandedGroup: false });
 
