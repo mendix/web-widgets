@@ -18,7 +18,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "10.21.0.64362",
+        "minimumMXVersion": "10.22.0.68245",
         "appName": "File Uploader"
     },
     "testProject": {

@@ -19,7 +19,7 @@
     },
     "moduleFolderNameInModeler": "fileuploader",
     "marketplace": {
-        "minimumMXVersion": "10.21.0.64362",
+        "minimumMXVersion": "10.22.0.68245",
         "appNumber": 235351,
         "appName": "File Uploader"
     },
