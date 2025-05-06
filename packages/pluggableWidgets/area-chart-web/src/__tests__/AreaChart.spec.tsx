@@ -6,16 +6,10 @@ jest.mock("@mendix/shared-charts/main", () => {
     };
 });
 
-import { ChartWidget } from "@mendix/shared-charts/main";
-import {
-    EditableValueBuilder,
-    list,
-    ListAttributeValueBuilder,
-    listExpression
-} from "@mendix/widget-plugin-test-utils";
+import { ChartWidget, setupBasicSeries } from "@mendix/shared-charts/main";
+import { listExpression } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
-import Big from "big.js";
 import { createElement } from "react";
 import { SeriesType } from "../../typings/AreaChartProps";
 import { AreaChart } from "../AreaChart";
@@ -28,7 +22,7 @@ describe("The AreaChart widget", () => {
             <AreaChart
                 name="line-chart-test"
                 class="line-chart-class"
-                series={configs.map(setupBasicSeries)}
+                series={configs.map(setupBasicAreaSeries)}
                 showLegend={false}
                 widthUnit="percentage"
                 width={0}
@@ -159,30 +153,15 @@ describe("The AreaChart widget", () => {
     });
 });
 
-function setupBasicSeries(overwriteConfig: Partial<SeriesType>): SeriesType {
-    const xAttribute = new ListAttributeValueBuilder<Big>().build();
-    const getXAttributeMock = jest.fn();
-    getXAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(1)).build());
-    getXAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(2)).build());
-    xAttribute.get = getXAttributeMock;
-
-    const yAttribute = new ListAttributeValueBuilder<Big>().build();
-    const getYAttributeMock = jest.fn();
-    getYAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(3)).build());
-    getYAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(6)).build());
-    yAttribute.get = getYAttributeMock;
+function setupBasicAreaSeries(overwriteConfig: Partial<SeriesType>): SeriesType {
+    const basicSeries = setupBasicSeries(overwriteConfig) as SeriesType;
 
     return {
-        dataSet: "static",
-        customSeriesOptions: overwriteConfig.customSeriesOptions ?? "",
-        aggregationType: overwriteConfig.aggregationType ?? "avg",
+        ...basicSeries,
         interpolation: overwriteConfig.interpolation ?? "linear",
         lineStyle: overwriteConfig.lineStyle ?? "line",
         staticLineColor: overwriteConfig.staticLineColor ?? undefined,
         staticMarkerColor: overwriteConfig.staticMarkerColor ?? undefined,
-        staticFillColor: overwriteConfig.staticFillColor ?? undefined,
-        staticDataSource: list(2),
-        staticXAttribute: xAttribute,
-        staticYAttribute: yAttribute
+        staticFillColor: overwriteConfig.staticFillColor ?? undefined
     };
 }
