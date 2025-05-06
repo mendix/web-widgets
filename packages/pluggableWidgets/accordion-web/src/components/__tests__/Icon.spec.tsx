@@ -22,31 +22,31 @@ describe("Icon", () => {
         it("renders glyph icons", () => {
             const icon = renderIcon();
 
-            expect(icon.container).toMatchSnapshot();
+            expect(icon.asFragment()).toMatchSnapshot();
         });
 
         it("renders image icons", () => {
             const icon = renderIcon({ data: { type: "image", iconUrl: "icon.url" } });
 
-            expect(icon.container).toMatchSnapshot();
+            expect(icon.asFragment()).toMatchSnapshot();
         });
 
         it("renders a default icon", () => {
             const icon = renderIcon({ data: undefined });
 
-            expect(icon.container).toMatchSnapshot();
+            expect(icon.asFragment()).toMatchSnapshot();
         });
 
         it("doesn't render a default icon while loading", () => {
             const icon = renderIcon({ data: undefined, loading: true });
 
-            expect(icon.container).toMatchSnapshot();
+            expect(icon.asFragment()).toMatchSnapshot();
         });
 
         it("doesn't render an icon with an unknown icon data type", () => {
             const icon = renderIcon({ data: { type: "unknown" } as any });
 
-            expect(icon.container).toMatchSnapshot();
+            expect(icon.asFragment()).toMatchSnapshot();
         });
     });
 

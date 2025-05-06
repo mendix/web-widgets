@@ -21,25 +21,25 @@ describe("Badge", () => {
     it("renders as a badge", () => {
         const badge = renderBadge();
 
-        expect(badge.container).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("renders as a label", () => {
         const badge = renderBadge({ type: "label" });
 
-        expect(badge.container).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("renders when an empty string is passed as value", () => {
         const badge = renderBadge({ value: "" });
 
-        expect(badge.container).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("renders as a button like element when onClick function is passed", () => {
         const badge = renderBadge({ onClick: jest.fn() });
 
-        expect(badge.container).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("triggers onClick function with a click event", async () => {
@@ -55,7 +55,7 @@ describe("Badge", () => {
     it("renders as a button like element when onKeyDown function is passed", () => {
         const badge = renderBadge({ onKeyDown: jest.fn() });
 
-        expect(badge.container).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("triggers onKeyDown function on key down", async () => {
@@ -71,18 +71,18 @@ describe("Badge", () => {
     it("renders with a tabIndex", () => {
         const badge = renderBadge({ tabIndex: 1 });
 
-        expect(badge.container).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("renders custom classes", () => {
         const badge = renderBadge({ className: "custom-class" });
 
-        expect(badge.container).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("renders custom styles", () => {
         const badge = renderBadge({ style: { padding: 5 } });
 
-        expect(badge.container).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 });

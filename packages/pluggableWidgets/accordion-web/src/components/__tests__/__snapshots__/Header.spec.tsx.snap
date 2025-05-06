@@ -1,49 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Header renders h1 1`] = `
-<div>
+<DocumentFragment>
   <h1>
     Text
   </h1>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Header renders h2 1`] = `
-<div>
+<DocumentFragment>
   <h2>
     Text
   </h2>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Header renders h3 1`] = `
-<div>
+<DocumentFragment>
   <h3>
     Text
   </h3>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Header renders h4 1`] = `
-<div>
+<DocumentFragment>
   <h4>
     Text
   </h4>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Header renders h5 1`] = `
-<div>
+<DocumentFragment>
   <h5>
     Text
   </h5>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Header renders h6 1`] = `
-<div>
+<DocumentFragment>
   <h6>
     Text
   </h6>
-</div>
+</DocumentFragment>
 `;

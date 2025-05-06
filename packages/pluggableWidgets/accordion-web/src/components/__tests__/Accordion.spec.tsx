@@ -129,14 +129,14 @@ describe("Accordion", () => {
     it("renders correctly without tabindex", () => {
         const accordion = renderAccordion({ tabIndex: undefined });
 
-        expect(accordion.container).toMatchSnapshot();
+        expect(accordion.asFragment()).toMatchSnapshot();
     });
 
     describe("in collapsible & single expanded group mode", () => {
         it("renders correctly", () => {
             const accordion = renderAccordion();
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("expands a group", async () => {
@@ -145,7 +145,7 @@ describe("Accordion", () => {
 
             await user.click(button);
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("allows one group to be expanded only", async () => {
@@ -159,7 +159,7 @@ describe("Accordion", () => {
             await user.click(buttons[buttons.length - 1]);
 
             expect(buttons[1]).toHaveFocus();
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("collapses a group", async () => {
@@ -169,7 +169,7 @@ describe("Accordion", () => {
             await user.click(button);
             await user.click(button);
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("inits with group initially collapsed settings", () => {
@@ -177,14 +177,14 @@ describe("Accordion", () => {
             groups[0].initiallyCollapsed = false;
             const accordion = renderAccordion({ groups });
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("inits with not more than one group expanded", () => {
             const groups = [...defaultProps.groups].map(group => ({ ...group, initiallyCollapsed: false }));
             const accordion = renderAccordion({ groups });
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
     });
 
@@ -192,7 +192,7 @@ describe("Accordion", () => {
         it("renders correctly", () => {
             const accordion = renderAccordion({ singleExpandedGroup: false });
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("expands a group", async () => {
@@ -201,7 +201,7 @@ describe("Accordion", () => {
 
             await user.click(button);
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("allows multiple groups to be expanded", async () => {
@@ -214,7 +214,7 @@ describe("Accordion", () => {
             await user.click(buttons[0]);
             await user.click(buttons[buttons.length - 1]);
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("collapses a group", async () => {
@@ -228,7 +228,7 @@ describe("Accordion", () => {
             await user.click(buttons[buttons.length - 1]);
             await user.click(buttons[0]);
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("inits with group initially collapsed settings", () => {
@@ -243,7 +243,7 @@ describe("Accordion", () => {
 
             const accordion = renderAccordion({ singleExpandedGroup: false, groups });
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("applies group collapsed value changes", () => {
@@ -253,7 +253,7 @@ describe("Accordion", () => {
 
             accordion.rerender(<Accordion {...defaultProps} singleExpandedGroup={false} groups={newGroups} />);
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
     });
 
@@ -261,7 +261,7 @@ describe("Accordion", () => {
         it("renders correctly", () => {
             const accordion = renderAccordion({ collapsible: false });
 
-            expect(accordion.container).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
     });
 });
