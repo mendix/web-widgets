@@ -96,12 +96,7 @@ describe("AccordionGroup", () => {
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(false);
 
             accordionGroup.rerender(
-                <AccordionGroup
-                    {...defaultAccordionGroupProps}
-                    collapsed={true}
-                    collapsible
-                    toggleCollapsed={jest.fn()}
-                />
+                <AccordionGroup {...defaultAccordionGroupProps} collapsed collapsible toggleCollapsed={jest.fn()} />
             );
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(3);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(true);
@@ -115,12 +110,7 @@ describe("AccordionGroup", () => {
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(0);
 
             accordionGroup.rerender(
-                <AccordionGroup
-                    {...defaultAccordionGroupProps}
-                    visible={true}
-                    collapsible
-                    toggleCollapsed={jest.fn()}
-                />
+                <AccordionGroup {...defaultAccordionGroupProps} visible collapsible toggleCollapsed={jest.fn()} />
             );
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(1);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(true);
@@ -135,12 +125,7 @@ describe("AccordionGroup", () => {
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(0);
 
             accordionGroup.rerender(
-                <AccordionGroup
-                    {...defaultAccordionGroupProps}
-                    visible={true}
-                    collapsible
-                    toggleCollapsed={jest.fn()}
-                />
+                <AccordionGroup {...defaultAccordionGroupProps} visible collapsible toggleCollapsed={jest.fn()} />
             );
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(2);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(false);
@@ -376,7 +361,7 @@ describe("AccordionGroup", () => {
                     collapsible
                     content={<div>Widgets</div>}
                     loadContent="whenExpanded"
-                    collapsed={true}
+                    collapsed
                 />
             );
             expect(accordionGroup.queryByText("Widgets")).toBeInTheDocument();
