@@ -38,19 +38,23 @@ describe("Barcode scanner", () => {
 
     it("renders video and overlay correctly", () => {
         mockGetUserMedia(jest.fn());
-        expect(render(<BarcodeScanner useAllFormats class="" showMask {...dimensions} />).container).toMatchSnapshot();
+        expect(
+            render(<BarcodeScanner useAllFormats class="" showMask {...dimensions} />).asFragment()
+        ).toMatchSnapshot();
     });
 
     it("does not show the overlay when the user opts out of it", () => {
         mockGetUserMedia(jest.fn());
         expect(
-            render(<BarcodeScanner useAllFormats class="" showMask={false} {...dimensions} />).container
+            render(<BarcodeScanner useAllFormats class="" showMask={false} {...dimensions} />).asFragment()
         ).toMatchSnapshot();
     });
 
     it("shows an appropriate error when the mediaDevices API is not present (like over http)", async () => {
         expect(navigator.mediaDevices).toBe(undefined);
-        expect(render(<BarcodeScanner useAllFormats class="" showMask {...dimensions} />).container).toMatchSnapshot();
+        expect(
+            render(<BarcodeScanner useAllFormats class="" showMask {...dimensions} />).asFragment()
+        ).toMatchSnapshot();
     });
 
     it("prop health check: pass onDetect prop as onSuccess callback", async () => {

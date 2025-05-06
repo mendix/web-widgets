@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Accordion in collapsible & multiple expanded group mode allows multiple groups to be expanded 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -79,11 +79,11 @@ exports[`Accordion in collapsible & multiple expanded group mode allows multiple
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & multiple expanded group mode applies group collapsed value changes 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -126,11 +126,11 @@ exports[`Accordion in collapsible & multiple expanded group mode applies group c
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & multiple expanded group mode collapses a group 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -208,11 +208,11 @@ exports[`Accordion in collapsible & multiple expanded group mode collapses a gro
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & multiple expanded group mode expands a group 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -255,11 +255,11 @@ exports[`Accordion in collapsible & multiple expanded group mode expands a group
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & multiple expanded group mode inits with group initially collapsed settings 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -337,11 +337,11 @@ exports[`Accordion in collapsible & multiple expanded group mode inits with grou
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & multiple expanded group mode renders correctly 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -384,11 +384,11 @@ exports[`Accordion in collapsible & multiple expanded group mode renders correct
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & single expanded group mode allows one group to be expanded only 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -466,11 +466,11 @@ exports[`Accordion in collapsible & single expanded group mode allows one group 
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & single expanded group mode collapses a group 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -513,11 +513,11 @@ exports[`Accordion in collapsible & single expanded group mode collapses a group
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & single expanded group mode expands a group 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -560,11 +560,11 @@ exports[`Accordion in collapsible & single expanded group mode expands a group 1
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & single expanded group mode inits with group initially collapsed settings 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -607,11 +607,11 @@ exports[`Accordion in collapsible & single expanded group mode inits with group 
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & single expanded group mode inits with not more than one group expanded 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -654,11 +654,11 @@ exports[`Accordion in collapsible & single expanded group mode inits with not mo
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion in collapsible & single expanded group mode renders correctly 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -701,11 +701,11 @@ exports[`Accordion in collapsible & single expanded group mode renders correctly
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion not collapsible renders correctly 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="1"
@@ -747,11 +747,11 @@ exports[`Accordion not collapsible renders correctly 1`] = `
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Accordion renders correctly without tabindex 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="widget-accordion"
     data-focusindex="0"
@@ -794,5 +794,5 @@ exports[`Accordion renders correctly without tabindex 1`] = `
       </div>
     </section>
   </div>
-</div>
+</DocumentFragment>
 `;
