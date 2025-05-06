@@ -5,10 +5,14 @@ import { createElement } from "react";
 import { Badge, BadgeProps } from "../Badge";
 
 describe("Badge", () => {
-    const defaultBadgeProps: BadgeProps = {
-        type: "badge",
-        value: "text"
-    };
+    let defaultBadgeProps: BadgeProps;
+
+    beforeEach(() => {
+        defaultBadgeProps = {
+            type: "badge",
+            value: "text"
+        };
+    });
 
     function renderBadge(props: Partial<BadgeProps> = {}): RenderResult {
         return render(<Badge {...defaultBadgeProps} {...props} />);
