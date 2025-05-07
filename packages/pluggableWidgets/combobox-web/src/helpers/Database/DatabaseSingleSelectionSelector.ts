@@ -10,7 +10,7 @@ import { _valuesIsEqual } from "../utils";
 import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
 import { DatabaseOptionsProvider } from "./DatabaseOptionsProvider";
 import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
-import { extractDatabaseProps } from "./utils";
+import { extractDatabaseProps, getReadonly } from "./utils";
 
 export class DatabaseSingleSelectionSelector<T extends string | Big, R extends EditableValue<T>>
     implements SingleSelector
@@ -59,15 +59,11 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
             return;
         }
         this._attr = targetAttribute as R;
-
+        this.readOnly = getReadonly(targetAttribute, props.customEditability, props.customEditabilityExpression);
+        console.log("readOnly", this.readOnly);
         this.lazyLoader.updateProps(ds);
         this.lazyLoader.setLimit(
-            this.lazyLoader.getLimit(
-                ds.limit,
-                targetAttribute?.readOnly ?? false,
-                targetAttribute?.status ?? ds.status,
-                lazyLoading
-            )
+            this.lazyLoader.getLimit(ds.limit, this.readOnly, targetAttribute?.status ?? ds.status, lazyLoading)
         );
 
         this.caption.updateProps({
@@ -116,7 +112,7 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
                 }
             }
         }
-        this.readOnly = targetAttribute?.readOnly ?? false;
+
         this.status = targetAttribute?.status ?? ds.status;
         this.validation = targetAttribute?.validation;
         this.selection = props.optionsSourceDatabaseItemSelection as SelectionSingleValue;
