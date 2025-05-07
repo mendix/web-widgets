@@ -85,38 +85,39 @@ export class ChartPropsController implements ReactiveController {
             autosize: true,
             font: {
                 family: "Open Sans, sans-serif",
-                size: Math.max(12 * (this.sizeProvider.width / 1000), 8)
+                size: Math.max(12 * (this.sizeProvider.width / 1000), 8),
+                ...this.layout.font
             },
             legend: {
-                ...this.layout.legend,
                 font: {
-                    ...this.layout.legend?.font,
-                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7)
+                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7),
+                    ...this.layout.legend?.font
                 },
                 itemwidth: Math.max(10 * (this.sizeProvider.width / 1000), 3),
-                itemsizing: "constant"
+                itemsizing: "constant",
+                ...this.layout.legend
             },
             xaxis: {
-                ...this.layout.xaxis,
                 tickfont: {
-                    ...this.layout.xaxis?.tickfont,
-                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7)
-                }
+                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7),
+                    ...this.layout.xaxis?.tickfont
+                },
+                ...this.layout.xaxis
             },
             yaxis: {
-                ...this.layout.yaxis,
                 tickfont: {
-                    ...this.layout.yaxis?.tickfont,
-                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7)
-                }
+                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7),
+                    ...this.layout.yaxis?.tickfont
+                },
+                ...this.layout.yaxis
             },
             margin: {
-                ...this.layout.margin,
                 l: 60,
                 r: 60,
                 t: 60,
                 b: 60,
-                pad: 10
+                pad: 10,
+                ...this.layout.margin
             }
         };
     }
