@@ -4,8 +4,6 @@ import { DocumentRenderers } from "../components";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "../components/documentRenderer";
 import ErrorViewer from "../components/ErrorViewer";
 import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
-import TextViewer from "../components/TextViewer";
-
 interface DocumentRenderer {
     CurrentRenderer: DocRendererElement;
     props: DocumentRendererProps;
@@ -46,7 +44,7 @@ export function useRendererSelector(props: DocumentViewerContainerProps): Docume
                     if (selectedRenderer.length > 0) {
                         setComponent(() => selectedRenderer[0]);
                     } else {
-                        setComponent(() => TextViewer);
+                        setDocumentStatus(DocumentStatus.error);
                     }
                 }
             });
