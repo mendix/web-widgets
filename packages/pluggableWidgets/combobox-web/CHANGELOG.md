@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where database selection does not trigger when set to empty value from external logic.
 
+### Changed
+
+- We implement the widget's custom editability configuration to allow readOnly to work properly if there are no target attribute for database source.
+
 ## [2.3.1] - 2025-05-08
 
 ### Changed
