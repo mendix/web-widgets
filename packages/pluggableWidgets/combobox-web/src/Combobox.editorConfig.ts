@@ -198,7 +198,7 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const structurePreviewChildren: StructurePreviewProps[] = [];
     let dropdownPreviewChildren: StructurePreviewProps[] = [];
-
+    let readOnly = _values.readOnly;
     if (
         _values.source === "context" &&
         _values.optionsSourceType === "association" &&
@@ -211,13 +211,19 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
             )(_values.optionsSourceAssociationCustomContent)
         );
     }
-    if (_values.source === "database" && _values.optionsSourceDatabaseCustomContentType !== "no") {
-        structurePreviewChildren.push(
-            dropzone(
-                dropzone.placeholder("Configure the combo box: Place widgets here"),
-                dropzone.hideDataSourceHeaderIf(false)
-            )(_values.optionsSourceDatabaseCustomContent)
-        );
+    if (_values.source === "database") {
+        if (_values.optionsSourceDatabaseCustomContentType !== "no") {
+            structurePreviewChildren.push(
+                dropzone(
+                    dropzone.placeholder("Configure the combo box: Place widgets here"),
+                    dropzone.hideDataSourceHeaderIf(false)
+                )(_values.optionsSourceDatabaseCustomContent)
+            );
+        }
+
+        if (_values.databaseAttributeString.length === 0) {
+            readOnly = _values.customEditability === "never";
+        }
     }
     if (_values.source === "static" && _values.staticDataSourceCustomContentType !== "no") {
         structurePreviewChildren.push(
@@ -276,7 +282,7 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
                 borders: true,
                 borderWidth: 1,
                 borderRadius: 2,
-                backgroundColor: _values.readOnly ? palette.background.containerDisabled : palette.background.container,
+                backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.container,
                 children: [
                     {
                         type: "Container",
@@ -284,7 +290,7 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
                         padding: 4,
                         children: structurePreviewChildren
                     },
-                    _values.readOnly && _values.readOnlyStyle === "text"
+                    readOnly && _values.readOnlyStyle === "text"
                         ? container({ grow: 0, padding: 4 })()
                         : {
                               ...getIconPreview(isDarkMode),
