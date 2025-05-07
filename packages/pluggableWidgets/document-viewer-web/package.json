@@ -3,7 +3,7 @@
     "widgetName": "DocumentViewer",
     "version": "1.0.0",
     "description": "View PDF and other document types",
-    "copyright": "© Mendix Technology BV 2024. All rights reserved.",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
     "repository": {
         "type": "git",
@@ -20,9 +20,10 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "9.6.0",
+        "minimumMXVersion": "9.24.0.2965",
         "appNumber": 0,
-        "appName": "Document Viewer"
+        "appName": "Document Viewer",
+        "reactReady": true
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:web",
@@ -36,7 +37,6 @@
     "dependencies": {
         "classnames": "^2.3.2",
         "docx-preview": "^0.3.5",
-        "mammoth": "github:uicontent/mammoth",
         "pdfjs-dist": "^5.0.375",
         "react-pdf": "^9.2.1",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
