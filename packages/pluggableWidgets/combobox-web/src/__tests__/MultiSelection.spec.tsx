@@ -71,7 +71,9 @@ describe("Combo box (Association)", () => {
                     staticDataSourceCaption: dynamic("caption2")
                 }
             ],
-            selectedItemsSorting: "none"
+            selectedItemsSorting: "none",
+            customEditability: "default",
+            customEditabilityExpression: dynamic(false)
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => dynamic(`${i.id}`);
