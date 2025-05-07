@@ -31,6 +31,8 @@ export type SelectionMethodEnum = "checkbox" | "rowclick";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
 
+export type CustomEditabilityEnum = "default" | "never" | "conditionally";
+
 export type ReadOnlyStyleEnum = "bordered" | "text";
 
 export type LoadingTypeEnum = "spinner" | "skeleton";
@@ -41,7 +43,10 @@ export type FilterTypeEnum = "contains" | "containsExact" | "startsWith" | "none
 
 export interface OptionsSourceStaticDataSourcePreviewType {
     staticDataSourceValue: string;
-    staticDataSourceCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    staticDataSourceCustomContent: {
+        widgetCount: number;
+        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
+    };
     staticDataSourceCaption: string;
 }
 
@@ -81,6 +86,8 @@ export interface ComboboxContainerProps {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectAllButton: boolean;
     selectAllButtonCaption: DynamicValue<string>;
+    customEditability: CustomEditabilityEnum;
+    customEditabilityExpression: DynamicValue<boolean>;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
@@ -123,9 +130,15 @@ export interface ComboboxPreviewProps {
     noOptionsText: string;
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
-    optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    optionsSourceAssociationCustomContent: {
+        widgetCount: number;
+        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
+    };
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
-    optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    optionsSourceDatabaseCustomContent: {
+        widgetCount: number;
+        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
+    };
     staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
     showFooter: boolean;
     menuFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
@@ -133,6 +146,8 @@ export interface ComboboxPreviewProps {
     selectedItemsStyle: SelectedItemsStyleEnum;
     selectAllButton: boolean;
     selectAllButtonCaption: string;
+    customEditability: CustomEditabilityEnum;
+    customEditabilityExpression: string;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent: {} | null;
     onChangeDatabaseEvent: {} | null;

@@ -86,3 +86,20 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         valueSourceAttribute
     };
 }
+
+export function getReadonly(
+    targetAttribute: EditableValue<string | Big> | undefined,
+    customEditability: ComboboxContainerProps["customEditability"],
+    customEditabilityExpression: ComboboxContainerProps["customEditabilityExpression"]
+): boolean {
+    if (targetAttribute) {
+        return targetAttribute.readOnly;
+    }
+    if (customEditability === "never") {
+        return true;
+    }
+    if (customEditability === "conditionally") {
+        return customEditabilityExpression.value ?? false;
+    }
+    return false;
+}

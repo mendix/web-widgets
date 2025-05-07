@@ -286,6 +286,20 @@
             </propertyGroup>
             <propertyGroup caption="Editability">
                 <systemProperty key="Editability" />
+                <property key="customEditability" type="enumeration" defaultValue="default">
+                    <caption>Editable</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="default">Default</enumerationValue>
+                        <enumerationValue key="never">Never</enumerationValue>
+                        <enumerationValue key="conditionally">Conditionally</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="customEditabilityExpression" type="expression" defaultValue="false">
+                    <caption>Condition</caption>
+                    <description />
+                    <returnType type="Boolean" />
+                </property>
                 <property key="readOnlyStyle" type="enumeration" defaultValue="text">
                     <caption>Read-only style</caption>
                     <description>How the combo box will appear in read-only mode.</description>
