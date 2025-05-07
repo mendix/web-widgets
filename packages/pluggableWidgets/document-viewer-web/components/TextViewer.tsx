@@ -34,6 +34,21 @@ const TextViewer: DocRendererElement = (props: DocumentRendererProps) => {
 
 TextViewer.contentTypes = ["text/plain", "text/csv", "application/json"];
 
-TextViewer.fileTypes = ["txt", "csv", "json"];
+TextViewer.fileTypes = [
+    "txt",
+    "csv",
+    "json",
+    "text",
+    "log",
+    "xml",
+    "html",
+    "htm",
+    "css",
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "svg"
+];
 
 export default TextViewer;
