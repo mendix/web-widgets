@@ -45,6 +45,7 @@
         "@mendix/widget-plugin-external-events": "workspace:*",
         "@mendix/widget-plugin-filtering": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-mobx-kit": "workspace:^",
         "@mendix/widget-plugin-platform": "workspace:*",
         "classnames": "^2.3.2",
         "mobx": "6.12.3",

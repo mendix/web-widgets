@@ -1,5 +1,5 @@
 import { Big } from "big.js";
-import { ListAttributeValue } from "mendix";
+import { AttributeMetaData } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import {
     and,
@@ -23,8 +23,9 @@ import { Argument } from "./Argument";
 
 type StateTuple<Fn, V> = [Fn] | [Fn, V] | [Fn, V, V];
 type Val<A extends Argument> = A["value"];
+
 export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
-    protected _attributes: ListAttributeValue[] = [];
+    protected _attributes: AttributeMetaData[] = [];
     private _filterFunction: Fn;
     private _isFilterFunctionAdjustable: boolean = true;
     arg1: A;
@@ -32,7 +33,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
     isInitialized = false;
     defaultState: StateTuple<Fn, Val<A>>;
 
-    constructor(arg1: A, arg2: A, initFn: Fn, attributes: ListAttributeValue[]) {
+    constructor(arg1: A, arg2: A, initFn: Fn, attributes: AttributeMetaData[]) {
         this._attributes = attributes;
         this.defaultState = [initFn];
         this._filterFunction = initFn;
@@ -49,7 +50,9 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
             setState: action,
             UNSAFE_setDefaults: action,
             UNSAFE_overwriteFilterFunction: action,
-            filterFunction: computed
+            filterFunction: computed,
+            clear: action,
+            reset: action
         });
     }
     get filterFunction(): Fn {
@@ -116,7 +119,7 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
 }
 
 function getFilterCondition<T extends string | Big | Date>(
-    listAttribute: ListAttributeValue,
+    listAttribute: AttributeMetaData,
     value: T | undefined,
     valueR: T | undefined,
     operation: AllFunctions
