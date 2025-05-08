@@ -1,10 +1,4 @@
-import {
-    ChartWidget,
-    ChartWidgetProps,
-    getPlotChartDataTransforms,
-    traceEqual,
-    usePlotChartDataSeries
-} from "@mendix/shared-charts/main";
+import { ChartWidget, ChartWidgetProps, traceEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import Big from "big.js";
@@ -12,6 +6,7 @@ import classNames from "classnames";
 import { ReactElement, createElement, memo, useCallback } from "react";
 import { BubbleChartContainerProps, LinesType } from "../typings/BubbleChartProps";
 import { calculateSizeRef } from "./utils";
+import { aggregateDataPoints } from "@mendix/shared-charts/utils/aggregations";
 
 const bubbleChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
     xaxis: {
@@ -75,18 +70,25 @@ export const BubbleChart = memo(
                 );
                 const markerColorExpression =
                     line.dataSet === "static" ? line.staticMarkerColor : line.dynamicMarkerColor;
+                const pts =
+                    line.aggregationType === "none"
+                        ? dataPoints
+                        : aggregateDataPoints(line.aggregationType, dataPoints);
                 return {
                     type: "scatter",
                     mode: "markers",
                     marker: {
                         color: markerColorExpression
-                            ? getExpressionValue<string>(markerColorExpression, dataPoints.dataSourceItems)
+                            ? getExpressionValue<string>(markerColorExpression, pts.dataSourceItems)
                             : undefined,
                         symbol: ["circle"],
                         size,
                         ...markerOptions
                     },
-                    transforms: getPlotChartDataTransforms(line.aggregationType, dataPoints)
+                    x: pts.x,
+                    y: pts.y,
+                    hovertext: pts.hovertext,
+                    hoverinfo: pts.hoverinfo
                 };
             }, [])
         );
