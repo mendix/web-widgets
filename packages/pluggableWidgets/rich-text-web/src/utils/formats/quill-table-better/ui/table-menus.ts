@@ -231,7 +231,9 @@ class TableMenus {
         this.scroll = false;
         this.tableBetter = tableBetter;
         this.tablePropertiesForm = null;
-        this.quill.root.addEventListener("click", this.handleClick.bind(this));
+        if (!this.quill.options.readOnly) {
+            this.quill.root.addEventListener("click", this.handleClick.bind(this));
+        }
         this.root = this.createMenus();
     }
 
