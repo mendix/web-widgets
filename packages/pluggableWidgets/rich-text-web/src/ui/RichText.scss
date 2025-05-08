@@ -84,6 +84,10 @@ $rte-brand-primary: #264ae5;
         }
     }
 
+    .hide-toolbar .ql-toolbar {
+        display: none;
+    }
+
     .widget-rich-text-footer {
         align-items: center;
         border-top: 1px solid var(--border-color-default, $rte-border-color-default);
