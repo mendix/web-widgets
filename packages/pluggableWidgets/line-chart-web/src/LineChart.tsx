@@ -1,10 +1,5 @@
-import {
-    ChartWidget,
-    ChartWidgetProps,
-    getPlotChartDataTransforms,
-    traceEqual,
-    usePlotChartDataSeries
-} from "@mendix/shared-charts/main";
+import { ChartWidget, ChartWidgetProps, traceEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
+import { aggregateDataPoints } from "@mendix/shared-charts/utils/aggregations";
 import "@mendix/shared-charts/ui/Chart.scss";
 import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import classNames from "classnames";
@@ -40,22 +35,28 @@ export const LineChart = memo(
                 const lineColorExpression = line.dataSet === "static" ? line.staticLineColor : line.dynamicLineColor;
                 const markerColorExpression =
                     line.dataSet === "static" ? line.staticMarkerColor : line.dynamicMarkerColor;
-
+                const pts =
+                    line.aggregationType === "none"
+                        ? dataPoints
+                        : aggregateDataPoints(line.aggregationType, dataPoints);
                 return {
                     type: "scatter",
                     mode: line.lineStyle === "line" ? "lines" : "lines+markers",
                     line: {
                         shape: line.interpolation,
                         color: lineColorExpression
-                            ? getExpressionValue<string>(lineColorExpression, dataPoints.dataSourceItems)
+                            ? getExpressionValue<string>(lineColorExpression, pts.dataSourceItems)
                             : undefined
                     },
                     marker: {
                         color: markerColorExpression
-                            ? getExpressionValue<string>(markerColorExpression, dataPoints.dataSourceItems)
+                            ? getExpressionValue<string>(markerColorExpression, pts.dataSourceItems)
                             : undefined
                     },
-                    transforms: getPlotChartDataTransforms(line.aggregationType, dataPoints)
+                    x: pts.x,
+                    y: pts.y,
+                    hovertext: pts.hovertext,
+                    hoverinfo: pts.hoverinfo
                 };
             }, [])
         );

@@ -1,13 +1,8 @@
-import {
-    ChartWidget,
-    ChartWidgetProps,
-    containerPropsEqual,
-    getPlotChartDataTransforms,
-    usePlotChartDataSeries
-} from "@mendix/shared-charts/main";
+import { ChartWidget, ChartWidgetProps, containerPropsEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
 import { ReactElement, createElement, memo, useCallback, useMemo } from "react";
+import { aggregateDataPoints } from "@mendix/shared-charts/utils/aggregations";
 
 import { BarChartContainerProps } from "../typings/BarChartProps";
 
@@ -51,15 +46,22 @@ export const BarChart = memo(function BarChart(props: BarChartContainerProps): R
         useCallback((dataSeries, dataPoints, { getExpressionValue }) => {
             const barColorExpression =
                 dataSeries.dataSet === "static" ? dataSeries.staticBarColor : dataSeries.dynamicBarColor;
+            const pts =
+                dataSeries.aggregationType === "none"
+                    ? dataPoints
+                    : aggregateDataPoints(dataSeries.aggregationType, dataPoints);
             return {
                 type: "bar",
                 orientation: "h",
                 marker: {
                     color: barColorExpression
-                        ? getExpressionValue<string>(barColorExpression, dataPoints.dataSourceItems)
+                        ? getExpressionValue<string>(barColorExpression, pts.dataSourceItems)
                         : undefined
                 },
-                transforms: getPlotChartDataTransforms(dataSeries.aggregationType, dataPoints)
+                x: pts.x,
+                y: pts.y,
+                hovertext: pts.hovertext,
+                hoverinfo: pts.hoverinfo
             };
         }, [])
     );
