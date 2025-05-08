@@ -1,15 +1,16 @@
 import classNames from "classnames";
 import Quill from "quill";
 import { CSSProperties, ReactElement, RefObject, createElement, forwardRef } from "react";
-import { PresetEnum } from "typings/RichTextProps";
+import { CustomFontsType, PresetEnum } from "typings/RichTextProps";
 import { FormatsContainer, ToolbarContext, presetToNumberConverter } from "./CustomToolbars/ToolbarWrapper";
 import { TOOLBAR_MAPPING, toolbarContentType } from "./CustomToolbars/constants";
 
 export interface ToolbarProps {
+    customFonts?: CustomFontsType[];
     id: string;
     preset: PresetEnum;
-    style?: CSSProperties;
     quill?: Quill | null;
+    style?: CSSProperties;
     toolbarContent: toolbarContentType[];
 }
 
@@ -65,6 +66,20 @@ const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>)
                             {toolbarGroup.children.map((toolbar, idx) => {
                                 const currentToolbar = TOOLBAR_MAPPING[toolbar];
                                 const key = `toolbar_${id}_${index}_${idx}`;
+                                let value = currentToolbar.value;
+
+                                if (currentToolbar.title === "Font type") {
+                                    type FontListType = Array<{ value: string; description: string; style: string }>;
+                                    value = [
+                                        ...(currentToolbar.value as FontListType),
+                                        ...(props.customFonts ?? []).map((font: CustomFontsType) => ({
+                                            value: font.fontName?.value?.toLowerCase().split(" ").join("-"),
+                                            description: font.fontName?.value,
+                                            style: `'${font.fontName?.value}'`
+                                        }))
+                                    ].sort((a, b) => (a.value ?? "").localeCompare(b.value ?? ""));
+                                }
+
                                 return currentToolbar.custom
                                     ? createElement(currentToolbar.component, {
                                           key,
@@ -77,7 +92,7 @@ const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>)
                                               key,
                                               className: classNames(currentToolbar.className),
                                               presetValue: currentToolbar.presetValue,
-                                              value: currentToolbar.value,
+                                              value,
                                               title: currentToolbar.title
                                           },
                                           currentToolbar.children && createElement(currentToolbar.children)
