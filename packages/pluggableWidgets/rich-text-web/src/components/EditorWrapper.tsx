@@ -185,6 +185,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                         preset={preset}
                         quill={quillRef.current}
                         toolbarContent={toolbarPreset}
+                        customFonts={props.customFonts}
                     />
                 </If>
                 <Editor
