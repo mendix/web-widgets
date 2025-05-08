@@ -85,10 +85,12 @@ class Table extends Module {
         this.operateLine = new OperateLine(quill, this);
         this.tableMenus = new TableMenus(quill, this);
         this.tableSelect = new TableSelect();
-        quill.root.addEventListener("keyup", this.handleKeyup.bind(this));
-        quill.root.addEventListener("mousedown", this.handleMousedown.bind(this));
-        quill.root.addEventListener("scroll", this.handleScroll.bind(this));
-        this.registerToolbarTable(options?.toolbarTable);
+        if (!this.quill.options.readOnly) {
+            quill.root.addEventListener("keyup", this.handleKeyup.bind(this));
+            quill.root.addEventListener("mousedown", this.handleMousedown.bind(this));
+            quill.root.addEventListener("scroll", this.handleScroll.bind(this));
+            this.registerToolbarTable(options?.toolbarTable);
+        }
     }
 
     clearHistorySelected() {

@@ -174,7 +174,8 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
             <div
                 className={classNames(
                     "flexcontainer",
-                    toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column"
+                    toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column",
+                    { "hide-toolbar": shouldHideToolbar }
                 )}
             >
                 <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
