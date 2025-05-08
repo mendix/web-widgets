@@ -3,9 +3,9 @@ import {
     ChartWidgetProps,
     SeriesMapper,
     containerPropsEqual,
-    getPlotChartDataTransforms,
     usePlotChartDataSeries
 } from "@mendix/shared-charts/main";
+import { aggregateDataPoints } from "@mendix/shared-charts/utils/aggregations";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
 import { createElement, memo, ReactElement, useCallback } from "react";
@@ -37,25 +37,31 @@ export const AreaChart = memo(function AreaChart(props: AreaChartContainerProps)
         const lineColorExpression = line.dataSet === "static" ? line.staticLineColor : line.dynamicLineColor;
         const markerColorExpression = line.dataSet === "static" ? line.staticMarkerColor : line.dynamicMarkerColor;
         const fillColorExpression = line.dataSet === "static" ? line.staticFillColor : line.dynamicFillColor;
+        const pts =
+            line.aggregationType === "none" ? dataPoints : aggregateDataPoints(line.aggregationType, dataPoints);
+
         return {
             type: "scatter",
             fill: "tonexty",
             fillcolor: fillColorExpression
-                ? getExpressionValue<string>(fillColorExpression, dataPoints.dataSourceItems)
+                ? getExpressionValue<string>(fillColorExpression, pts.dataSourceItems)
                 : undefined,
             mode: line.lineStyle === "line" ? "lines" : "lines+markers",
             line: {
                 shape: line.interpolation,
                 color: lineColorExpression
-                    ? getExpressionValue<string>(lineColorExpression, dataPoints.dataSourceItems)
+                    ? getExpressionValue<string>(lineColorExpression, pts.dataSourceItems)
                     : undefined
             },
             marker: {
                 color: markerColorExpression
-                    ? getExpressionValue<string>(markerColorExpression, dataPoints.dataSourceItems)
+                    ? getExpressionValue<string>(markerColorExpression, pts.dataSourceItems)
                     : undefined
             },
-            transforms: getPlotChartDataTransforms(line.aggregationType, dataPoints)
+            x: pts.x,
+            y: pts.y,
+            hovertext: pts.hovertext,
+            hoverinfo: pts.hoverinfo
         };
     }, []);
 

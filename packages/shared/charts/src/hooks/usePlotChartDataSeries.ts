@@ -17,7 +17,7 @@ import { ExtraTraceProps } from "../components/types";
 // Use "value" prop on EditableValue to extract AttributeValue, as AttributeValue not exported.
 type AttributeValue = EditableValue["value"];
 
-type PlotChartDataPoints = {
+export type PlotChartDataPoints = {
     x: Datum[];
     y: Datum[];
     hovertext: string[] | undefined;
@@ -102,10 +102,10 @@ function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDat
 
     return {
         ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
-        ...mapSerie(series, dataPoints, mapperHelpers),
         ...dataPoints,
+        ...mapSerie(series, dataPoints, mapperHelpers),
         customSeriesOptions
-    };
+    } as PlotChartSeries;
 }
 
 function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDataSeries>): PlotChartSeries[] | null {
@@ -116,7 +116,6 @@ function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDa
     }
 
     const dataSourceItemGroups = groupDataSourceItems(series);
-
     if (!dataSourceItemGroups) {
         return null;
     }
@@ -124,19 +123,18 @@ function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDa
     const loadedSeries = dataSourceItemGroups
         .map(itemGroup => {
             const dataPoints = extractDataPoints(series, itemGroup.dynamicNameValue, itemGroup.items);
-
             if (!dataPoints) {
                 return null;
             }
 
             return {
                 ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
-                ...mapSerie(series, dataPoints, mapperHelpers),
                 ...dataPoints,
+                ...mapSerie(series, dataPoints, mapperHelpers),
                 customSeriesOptions
-            };
+            } as PlotChartSeries;
         })
-        .filter((element): element is PlotChartSeries => Boolean(element));
+        .filter((e): e is PlotChartSeries => Boolean(e));
 
     return loadedSeries;
 }
@@ -247,37 +245,6 @@ function extractDataPoints(
             : undefined,
         hoverinfo: hoverTextData.some(text => text !== undefined && text !== "") ? "text" : "none"
     };
-}
-
-type AggregationTypeEnum = "none" | "count" | "sum" | "avg" | "min" | "max" | "median" | "mode" | "first" | "last";
-
-export function getPlotChartDataTransforms(
-    aggregationType: AggregationTypeEnum,
-    dataPoints: PlotChartDataPoints
-): PlotData["transforms"] {
-    if (aggregationType === "none") {
-        return [];
-    }
-    return [
-        {
-            type: "aggregate",
-            groups: dataPoints.x.map(dataPoint => {
-                if (dataPoint == null) {
-                    return "";
-                }
-                return typeof dataPoint === "string" || typeof dataPoint === "number"
-                    ? dataPoint.toLocaleString()
-                    : dataPoint.toLocaleDateString();
-            }),
-            aggregations: [
-                {
-                    target: "y",
-                    func: aggregationType,
-                    enabled: true
-                }
-            ]
-        }
-    ];
 }
 
 export const mapperHelpers: MapperHelpers = {
