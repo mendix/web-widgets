@@ -47,7 +47,10 @@ async function updateAtlasThemeSource() {
 
     rm("-rf", config.atlasDirsToRemove);
 
-    const release = await getLatestReleaseByName("Atlas Core", config.atlasCoreReleaseUrl);
+    const release = await getLatestReleaseByName(
+        "Atlas Core - Marketplace Release v3.17.0",
+        config.atlasCoreReleaseUrl
+    );
     const { browser_download_url } = release.assets[0];
     const downloadedPath = join(await usetmp(), config.nameForDownloadedAtlasCore);
     const outPath = await usetmp();
