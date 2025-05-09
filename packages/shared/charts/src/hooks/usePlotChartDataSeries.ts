@@ -13,6 +13,7 @@ import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { Datum, PlotData } from "plotly.js-dist-min";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ExtraTraceProps } from "../components/types";
+import { aggregateDataPoints, AggregationType } from "../utils/aggregations";
 
 // Use "value" prop on EditableValue to extract AttributeValue, as AttributeValue not exported.
 type AttributeValue = EditableValue["value"];
@@ -41,6 +42,7 @@ export interface PlotDataSeries {
     customSeriesOptions: string | undefined;
     groupByAttribute?: ListAttributeValue<string | boolean | Date | Big>;
     staticDataSource?: ListValue;
+    aggregationType?: AggregationType;
     dynamicDataSource?: ListValue;
     staticName?: DynamicValue<string>;
     dynamicName?: ListExpressionValue<string>;
@@ -94,16 +96,18 @@ function loadStaticSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDat
         throw Error("Expected series to be static");
     }
 
-    const dataPoints = extractDataPoints(series, staticName?.value);
-
-    if (!dataPoints) {
+    const raw = extractDataPoints(series, staticName?.value);
+    if (!raw) {
         return null;
     }
 
+    const agg = series.aggregationType as AggregationType;
+    const points = agg && agg !== "none" ? aggregateDataPoints(agg, raw) : raw;
+
     return {
         ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
-        ...dataPoints,
-        ...mapSerie(series, dataPoints, mapperHelpers),
+        ...points,
+        ...mapSerie(series, points, mapperHelpers),
         customSeriesOptions
     } as PlotChartSeries;
 }
@@ -115,28 +119,28 @@ function loadDynamicSeries(series: PlotDataSeries, mapSerie: SeriesMapper<PlotDa
         throw Error("Expected series to be dynamic");
     }
 
-    const dataSourceItemGroups = groupDataSourceItems(series);
-    if (!dataSourceItemGroups) {
+    const groups = groupDataSourceItems(series);
+    if (!groups) {
         return null;
     }
 
-    const loadedSeries = dataSourceItemGroups
-        .map(itemGroup => {
-            const dataPoints = extractDataPoints(series, itemGroup.dynamicNameValue, itemGroup.items);
-            if (!dataPoints) {
+    return groups
+        .map(group => {
+            const raw = extractDataPoints(series, group.dynamicNameValue, group.items);
+            if (!raw) {
                 return null;
             }
+            const agg = series.aggregationType as AggregationType;
+            const points = agg && agg !== "none" ? aggregateDataPoints(agg, raw) : raw;
 
             return {
                 ...(onClickAction ? { onClick: bindListAction(onClickAction) } : undefined),
-                ...dataPoints,
-                ...mapSerie(series, dataPoints, mapperHelpers),
+                ...points,
+                ...mapSerie(series, points, mapperHelpers),
                 customSeriesOptions
             } as PlotChartSeries;
         })
-        .filter((e): e is PlotChartSeries => Boolean(e));
-
-    return loadedSeries;
+        .filter((x): x is PlotChartSeries => Boolean(x));
 }
 
 function groupDataSourceItems(series: PlotDataSeries): DataSourceItemGroup[] | null {

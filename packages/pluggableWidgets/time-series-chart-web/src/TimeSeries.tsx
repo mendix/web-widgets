@@ -72,11 +72,7 @@ export const TimeSeries = memo(
                     },
                     marker: {
                         color: line.markerColor?.value
-                    },
-                    x: pts.x,
-                    y: pts.y,
-                    hovertext: pts.hovertext,
-                    hoverinfo: pts.hoverinfo
+                    }
                 };
             }, [])
         );

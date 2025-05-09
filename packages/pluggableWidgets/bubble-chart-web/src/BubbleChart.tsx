@@ -84,11 +84,7 @@ export const BubbleChart = memo(
                         symbol: ["circle"],
                         size,
                         ...markerOptions
-                    },
-                    x: pts.x,
-                    y: pts.y,
-                    hovertext: pts.hovertext,
-                    hoverinfo: pts.hoverinfo
+                    }
                 };
             }, [])
         );
