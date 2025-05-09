@@ -55,11 +55,7 @@ export const ColumnChart = memo(function ColumnChart(props: ColumnChartContainer
                     color: columnColorExpression
                         ? getExpressionValue<string>(columnColorExpression, pts.dataSourceItems)
                         : undefined
-                },
-                x: pts.x,
-                y: pts.y,
-                hovertext: pts.hovertext,
-                hoverinfo: pts.hoverinfo
+                }
             };
         }, [])
     );
