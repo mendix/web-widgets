@@ -57,11 +57,7 @@ export const AreaChart = memo(function AreaChart(props: AreaChartContainerProps)
                 color: markerColorExpression
                     ? getExpressionValue<string>(markerColorExpression, pts.dataSourceItems)
                     : undefined
-            },
-            x: pts.x,
-            y: pts.y,
-            hovertext: pts.hovertext,
-            hoverinfo: pts.hoverinfo
+            }
         };
     }, []);
 

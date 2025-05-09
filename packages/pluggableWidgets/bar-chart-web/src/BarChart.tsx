@@ -57,11 +57,7 @@ export const BarChart = memo(function BarChart(props: BarChartContainerProps): R
                     color: barColorExpression
                         ? getExpressionValue<string>(barColorExpression, pts.dataSourceItems)
                         : undefined
-                },
-                x: pts.x,
-                y: pts.y,
-                hovertext: pts.hovertext,
-                hoverinfo: pts.hoverinfo
+                }
             };
         }, [])
     );
