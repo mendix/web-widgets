@@ -98,7 +98,9 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                               image: customImageUploadHandler
                           }
                       }
-                    : false;
+                    : // we cannot set toolbar to false, because "table-better" needs toolbar module
+                      // hidden toolbar will be set with display: none
+                      [];
 
                 // Quill instance configurations.
                 const options: QuillOptions = {
@@ -126,23 +128,25 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                 ...QuillTableBetter.keyboardBindings
                             }
                         },
-                        resize: RESIZE_MODULE_CONFIG,
                         table: false,
                         "table-better": {
                             language: "en_US",
                             menus: ["column", "row", "merge", "table", "cell", "wrap", "copy", "delete"],
-                            toolbarTable: true
+                            toolbarTable: !readOnly
                         },
                         toolbar
                     },
                     readOnly
                 };
 
+                if (!readOnly && options.modules) {
+                    options.modules.resize = RESIZE_MODULE_CONFIG;
+                }
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
 
                 const delta = quill.clipboard.convert({ html: defaultValue ?? "" });
-                quill.updateContents(delta, Quill.sources.USER);
+                quill.updateContents(delta, Quill.sources.SILENT);
 
                 quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
                     onTextChangeRef.current?.(...arg);

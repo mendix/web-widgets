@@ -12,6 +12,7 @@ $rte-brand-primary: #264ae5;
     }
     .ql-container {
         border: unset;
+        overflow: hidden;
     }
 
     &.fullscreen {
@@ -81,6 +82,10 @@ $rte-brand-primary: #264ae5;
                 font-weight: bold;
             }
         }
+    }
+
+    .hide-toolbar .ql-toolbar {
+        display: none;
     }
 
     .widget-rich-text-footer {

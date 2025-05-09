@@ -174,7 +174,8 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
             <div
                 className={classNames(
                     "flexcontainer",
-                    toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column"
+                    toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column",
+                    { "hide-toolbar": shouldHideToolbar }
                 )}
             >
                 <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
@@ -190,12 +191,16 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     theme={"snow"}
                     ref={quillRef}
                     defaultValue={stringAttribute.value}
-                    style={{
-                        height: style?.height,
-                        minHeight: style?.minHeight,
-                        maxHeight: style?.maxHeight,
-                        overflowY: style?.overflowY
-                    }}
+                    style={
+                        isFullscreen
+                            ? { height: "100%" }
+                            : {
+                                  height: style?.height,
+                                  minHeight: style?.minHeight,
+                                  maxHeight: style?.maxHeight,
+                                  overflowY: style?.overflowY
+                              }
+                    }
                     toolbarId={shouldHideToolbar ? undefined : toolbarOptions ? toolbarOptions : toolbarId}
                     onTextChange={onTextChange}
                     onSelectionChange={onSelectionChange}

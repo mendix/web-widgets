@@ -56,7 +56,9 @@ class CellSelection {
         this.disabledList = [];
         this.singleList = [];
         this.tableBetter = tableBetter;
-        this.quill.root.addEventListener("click", this.handleClick.bind(this));
+        if (!this.quill.options.readOnly) {
+            this.quill.root.addEventListener("click", this.handleClick.bind(this));
+        }
         this.initDocumentListener();
         this.initWhiteList();
     }
