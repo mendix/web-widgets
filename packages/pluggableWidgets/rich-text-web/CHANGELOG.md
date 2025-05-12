@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added table support to Rich Text, now it is possible to add tables and configure their layout.
 
+### Fixed
+
+- We fixed an issue with incorrect wording in words counter in status bar. (Thanks @Maismaus)
+
 ## [4.5.0] - 2025-04-03
 
 ### Added
