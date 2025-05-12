@@ -1,7 +1,6 @@
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { QueryController } from "./query-controller";
 
-
 type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 
 type ShowPagingButtonsEnum = "always" | "auto";
@@ -17,11 +16,10 @@ interface StaticProps {
 
 type Gate = undefined;
 
-type PaginationControllerSpec = StaticProps &{
+type PaginationControllerSpec = StaticProps & {
     gate: Gate;
     query: QueryController;
 };
-
 
 export class PaginationController implements ReactiveController {
     private readonly _pageSize: number;
