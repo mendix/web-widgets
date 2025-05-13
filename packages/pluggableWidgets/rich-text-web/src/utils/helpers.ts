@@ -38,7 +38,7 @@ export function constructWrapperStyle(props: RichTextContainerProps): CSSPropert
 export function updateLegacyQuillFormats(quill: Quill): boolean {
     const results = transformLegacyQuillFormats(quill.getContents());
     if (results.isDirty) {
-        quill.updateContents(results.data, Quill.sources.USER);
+        quill.setContents(results.data, Quill.sources.USER);
     }
     return results.isDirty;
 }
