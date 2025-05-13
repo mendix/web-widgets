@@ -47,8 +47,6 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
         props.itemSelectionMode
     );
 
-    const showHeader = props.filterList.length > 0 || props.sortList.length > 0 || selection?.type === "Multi";
-
     const itemHelper = useItemHelper({
         classValue: props.itemClass,
         contentValue: props.content,
@@ -67,10 +65,10 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
                 [props.emptyPlaceholder, props.showEmptyPlaceholder]
             )}
             emptyMessageTitle={props.emptyMessageTitle?.value}
-            header={null}
+            header={props.filtersPlaceholder}
             headerTitle={props.filterSectionTitle?.value}
             ariaLabelListBox={props.ariaLabelListBox?.value}
-            showHeader={showHeader}
+            showHeader={!!props.filtersPlaceholder}
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             items={items}
             itemHelper={itemHelper}
