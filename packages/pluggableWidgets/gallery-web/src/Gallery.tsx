@@ -10,7 +10,7 @@ import { useItemEventsController } from "./features/item-interaction/ItemEventsC
 import { GridPositionsProps, useGridPositions } from "./features/useGridPositions";
 import { useItemHelper } from "./helpers/ItemHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
-import { GalleryStore } from "./stores/RootG2Store";
+import { GalleryStore } from "./stores/GalleryStore";
 import { useGalleryStore } from "./helpers/useGalleryStore";
 
 interface RootAPI {
