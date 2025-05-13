@@ -54,6 +54,7 @@ export interface GalleryContainerProps {
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
     showPagingButtons: ShowPagingButtonsEnum;
+    showTotalCount: boolean;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     itemClass?: ListExpressionValue<string>;
@@ -92,6 +93,7 @@ export interface GalleryPreviewProps {
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
     showPagingButtons: ShowPagingButtonsEnum;
+    showTotalCount: boolean;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemClass: string;
