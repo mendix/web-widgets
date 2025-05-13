@@ -14,10 +14,8 @@ interface StaticProps {
     showTotalCount: boolean;
 }
 
-type Gate = undefined;
-
+/** NOTE: Use gate for dynamic props */
 type PaginationControllerSpec = StaticProps & {
-    gate: Gate;
     query: QueryController;
 };
 

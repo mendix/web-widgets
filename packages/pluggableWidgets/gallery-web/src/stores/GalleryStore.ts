@@ -44,12 +44,11 @@ export class GalleryStore extends BaseControllerHost {
         this._query = new DatasourceController(this, { gate: spec.gate });
 
         this.paging = new PaginationController(this, {
-            gate: undefined,
             query: this._query,
             pageSize: spec.pageSize,
             pagination: spec.pagination,
             showPagingButtons: spec.showPagingButtons,
-            showTotalCount: true
+            showTotalCount: spec.showTotalCount
         });
 
         const filterObserver = new CustomFilterHost();
