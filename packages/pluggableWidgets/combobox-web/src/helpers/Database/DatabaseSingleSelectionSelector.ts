@@ -111,7 +111,7 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
                 }
             } else if (!targetAttribute.value && this.currentId) {
                 this.currentId = null;
-                if (this.selection?.selection?.id !== undefined) {
+                if (this.selection?.selection) {
                     this.selection.setSelection(undefined);
                 }
             }
