@@ -10,15 +10,12 @@ import { useItemEventsController } from "./features/item-interaction/ItemEventsC
 import { GridPositionsProps, useGridPositions } from "./features/useGridPositions";
 import { useItemHelper } from "./helpers/ItemHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
-import { GalleryStore } from "./stores/GalleryStore";
 import { useGalleryStore } from "./helpers/useGalleryStore";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { GalleryRootScope, GalleryContext, useGalleryRootScope } from "./helpers/root-context";
 
-interface RootAPI {
-    rootStore: GalleryStore;
-}
-
-const Container = observer(function Container(props: GalleryContainerProps & RootAPI): ReactElement {
-    const { rootStore } = props;
+const Container = observer(function GalleryContainer(props: GalleryContainerProps): ReactElement {
+    const { rootStore } = useGalleryRootScope();
     const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
     const selectHelper = useItemSelectHelper(props.itemSelection, selection);
     const items = props.datasource.items ?? [];
@@ -58,7 +55,7 @@ const Container = observer(function Container(props: GalleryContainerProps & Roo
         clickValue: props.onClick
     });
 
-    useOnResetFiltersEvent(props.rootStore.name, props.rootStore.id);
+    useOnResetFiltersEvent(rootStore.name, rootStore.id);
 
     return (
         <GalleryComponent
@@ -96,12 +93,15 @@ const Container = observer(function Container(props: GalleryContainerProps & Roo
     );
 });
 
-const Widget = observer(function RootStoreProvider(props: GalleryContainerProps) {
-    const store = useGalleryStore(props);
-
-    return <Container {...props} rootStore={store} />;
-});
-
 export function Gallery(props: GalleryContainerProps): ReactElement {
-    return <Widget {...props} />;
+    const store = useGalleryStore(props);
+    const scope = useConst<GalleryRootScope>({
+        rootStore: store
+    });
+
+    return (
+        <GalleryContext.Provider value={scope}>
+            <Container {...props} />
+        </GalleryContext.Provider>
+    );
 }
