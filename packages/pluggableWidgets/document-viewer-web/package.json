@@ -21,7 +21,7 @@
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "9.24.0.2965",
-        "appNumber": 0,
+        "appNumber": 240853,
         "appName": "Document Viewer",
         "reactReady": true
     },
