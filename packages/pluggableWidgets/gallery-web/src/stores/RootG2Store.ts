@@ -19,24 +19,27 @@ interface StaticProps {
     showPagingButtons: "always" | "auto";
     showTotalCount: boolean;
     pageSize: number;
+    name: string;
 }
 
-type Gate = DerivedPropsGate<DynamicProps>;
+export type GalleryPropsGate = DerivedPropsGate<DynamicProps>;
 
 type GalleryStoreSpec = StaticProps & {
-    gate: Gate;
+    gate: GalleryPropsGate;
 };
 
 export class GalleryStore extends BaseControllerHost {
-    private readonly _id: string;
     private readonly _query: DatasourceController;
+
+    readonly id: string = `GalleryStore@${generateUUID()}`;
+    readonly name: string;
     readonly paging: PaginationController;
     readonly filterAPI: FilterAPI;
 
     constructor(spec: GalleryStoreSpec) {
         super();
 
-        this._id = `GalleryStore@${generateUUID()}`;
+        this.name = spec.name;
 
         this._query = new DatasourceController(this, { gate: spec.gate });
 
@@ -55,7 +58,7 @@ export class GalleryStore extends BaseControllerHost {
 
         this.filterAPI = createContextWithStub({
             filterObserver,
-            parentChannelName: this._id,
+            parentChannelName: this.id,
             sharedInitFilter: paramCtrl.unzipFilter(spec.gate.props.datasource.filter)
         });
 

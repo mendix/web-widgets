@@ -13,6 +13,8 @@ export type PaginationEnum = "buttons" | "virtualScrolling";
 
 export type PagingPositionEnum = "below" | "above";
 
+export type ShowPagingButtonsEnum = "always" | "auto";
+
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
 export type OnClickTriggerEnum = "single" | "double";
@@ -51,6 +53,7 @@ export interface GalleryContainerProps {
     pageSize: number;
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     itemClass?: ListExpressionValue<string>;
@@ -87,6 +90,7 @@ export interface GalleryPreviewProps {
     pageSize: number | null;
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemClass: string;
