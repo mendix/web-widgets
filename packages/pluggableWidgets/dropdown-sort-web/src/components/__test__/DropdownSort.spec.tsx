@@ -1,8 +1,3 @@
-import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
-import {
-    HeaderFiltersStore,
-    HeaderFiltersStoreSpec
-} from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import { SortAPI } from "@mendix/widget-plugin-sorting/context";
 import { SortAPIProvider, SortListType } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
 import { ListAttributeId } from "@mendix/widget-plugin-sorting/typings";
@@ -12,26 +7,12 @@ import { ListValue } from "mendix";
 import { createContext, createElement } from "react";
 import { DropdownSortContainerProps } from "../../../typings/DropdownSortProps";
 import { DropdownSort } from "../../DropdownSort";
-import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
 
 const commonProps: DropdownSortContainerProps = {
     class: "filter-custom-class",
     tabIndex: 0,
     name: "filter-test"
 };
-
-const spec: HeaderFiltersStoreSpec = {
-    filterList: [],
-    sharedInitFilter: [],
-    headerInitFilter: [],
-    filterChannelName: "datagrid",
-    customFilterHost: {} as FilterObserver
-};
-
-const headerFilterStore = new HeaderFiltersStore(spec);
-(window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
-    headerFilterStore.context
-);
 
 const sortList: SortListType[] = [
     {
@@ -43,10 +24,12 @@ const sortList: SortListType[] = [
         caption: dynamicValue<string>("Option 2")
     }
 ];
+
 const sortProvider = new SortAPIProvider({
     datasource: { sortOrder: [[sortList[0].attribute.id as ListAttributeId, "asc"]] } as ListValue,
     sortList
 });
+
 (window as any)["com.mendix.widgets.web.sortable.sortContext"] = createContext<SortAPI>(sortProvider.context);
 // END CONTEXT
 
