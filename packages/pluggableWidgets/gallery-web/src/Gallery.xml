@@ -73,6 +73,14 @@
                         <enumerationValue key="above">Above grid</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="showPagingButtons" type="enumeration" defaultValue="always">
+                    <caption>Show paging buttons</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="always">Always</enumerationValue>
+                        <enumerationValue key="auto">Auto</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">
                     <caption>Empty message</caption>
                     <description />
