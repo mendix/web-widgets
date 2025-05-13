@@ -11,10 +11,15 @@ import {
     useLayoutEffect,
     useRef
 } from "react";
-import QuillTableBetter from "../utils/formats/quill-table-better/quill-table-better";
-import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
-import { FontStyleAttributor, formatFonts } from "../utils/formats/fonts";
+import { CustomFontsType } from "../../typings/RichTextProps";
+import { EditorDispatchContext } from "../store/EditorProvider";
+import { SET_FULLSCREEN_ACTION } from "../store/store";
 import "../utils/customPluginRegisters";
+import { FontStyleAttributor, formatFonts } from "../utils/formats/fonts";
+import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
+import QuillTableBetter from "../utils/formats/quill-table-better/quill-table-better";
+import { RESIZE_MODULE_CONFIG } from "../utils/formats/resizeModuleConfig";
+import { ACTION_DISPATCHER } from "../utils/helpers";
 import MxQuill from "../utils/MxQuill";
 import {
     enterKeyKeyboardHandler,
@@ -25,11 +30,6 @@ import {
 } from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
-import { RESIZE_MODULE_CONFIG } from "../utils/formats/resizeModuleConfig";
-import { ACTION_DISPATCHER } from "../utils/helpers";
-import { EditorDispatchContext } from "../store/EditorProvider";
-import { SET_FULLSCREEN_ACTION } from "../store/store";
-import { CustomFontsType } from "typings/RichTextProps";
 
 export interface EditorProps {
     customFonts: CustomFontsType[];

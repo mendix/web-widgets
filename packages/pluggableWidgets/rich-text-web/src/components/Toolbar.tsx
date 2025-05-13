@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import Quill from "quill";
 import { CSSProperties, ReactElement, RefObject, createElement, forwardRef } from "react";
-import { CustomFontsType, PresetEnum } from "typings/RichTextProps";
+import { CustomFontsType, PresetEnum } from "../../typings/RichTextProps";
+import { formatFonts } from "../utils/formats/fonts";
 import { FormatsContainer, ToolbarContext, presetToNumberConverter } from "./CustomToolbars/ToolbarWrapper";
 import { TOOLBAR_MAPPING, toolbarContentType } from "./CustomToolbars/constants";
-import { formatFonts } from "src/utils/formats/fonts";
 
 export interface ToolbarProps {
     customFonts?: CustomFontsType[];
