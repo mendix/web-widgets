@@ -35,7 +35,10 @@ const ASSOCIATION_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
     "attributeAssociation"
 ];
 
-export function getProperties(values: ComboboxPreviewProps, defaultProperties: Properties): Properties {
+export function getProperties(
+    values: ComboboxPreviewProps & { Editability?: unknown },
+    defaultProperties: Properties
+): Properties {
     if (values.source !== "database") {
         hidePropertiesIn(defaultProperties, values, ["customEditability", "customEditabilityExpression"]);
     }
@@ -133,7 +136,6 @@ export function getProperties(values: ComboboxPreviewProps, defaultProperties: P
         }
         if (values.databaseAttributeString.length === 0) {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseValueAttribute"]);
-            // @ts-expect-error ignore error due to the Editability is part of system properties
             hidePropertiesIn(defaultProperties, values, ["Editability"]);
             if (values.customEditability !== "conditionally") {
                 hidePropertiesIn(defaultProperties, values, ["customEditabilityExpression"]);
