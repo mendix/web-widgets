@@ -37,8 +37,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * allowing us to override certain function that is not easy to extend.
  */
 import { type Blot, ParentBlot } from "parchment";
-import Quill, { QuillOptions } from "quill";
+import Quill, { EmitterSource, QuillOptions } from "quill";
 import TextBlot, { escapeText } from "quill/blots/text";
+import { Delta, Op } from "quill/core";
 import Editor from "quill/core/editor";
 
 /**
@@ -71,6 +72,11 @@ export default class MxQuill extends Quill {
     constructor(container: HTMLElement | string, options: QuillOptions = {}) {
         super(container, options);
         this.editor = new MxEditor(this.scroll);
+    }
+
+    setContents(dlta: Delta | Op[], source?: EmitterSource): Delta {
+        super.setContents(new Delta(), Quill.sources.SILENT);
+        return this.updateContents(this.getContents().transform(dlta as Delta, false), source);
     }
 }
 
