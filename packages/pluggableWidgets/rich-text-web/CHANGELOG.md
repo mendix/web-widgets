@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- We added support to add custom font families to Rich Text.
 - We added table support to Rich Text, now it is possible to add tables and configure their layout.
 
 ### Fixed
