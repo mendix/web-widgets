@@ -4,6 +4,7 @@ import { CSSProperties, ReactElement, RefObject, createElement, forwardRef } fro
 import { CustomFontsType, PresetEnum } from "typings/RichTextProps";
 import { FormatsContainer, ToolbarContext, presetToNumberConverter } from "./CustomToolbars/ToolbarWrapper";
 import { TOOLBAR_MAPPING, toolbarContentType } from "./CustomToolbars/constants";
+import { formatFonts } from "src/utils/formats/fonts";
 
 export interface ToolbarProps {
     customFonts?: CustomFontsType[];
@@ -72,11 +73,7 @@ const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>)
                                     type FontListType = Array<{ value: string; description: string; style: string }>;
                                     value = [
                                         ...(currentToolbar.value as FontListType),
-                                        ...(props.customFonts ?? []).map((font: CustomFontsType) => ({
-                                            value: font.fontName?.value?.toLowerCase().split(" ").join("-"),
-                                            description: font.fontName?.value,
-                                            style: `'${font.fontName?.value}'`
-                                        }))
+                                        ...formatFonts(props.customFonts ?? [])
                                     ].sort((a, b) => (a.value ?? "").localeCompare(b.value ?? ""));
                                 }
 

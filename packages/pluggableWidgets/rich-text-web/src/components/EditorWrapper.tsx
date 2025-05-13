@@ -208,6 +208,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     className={"widget-rich-text-container"}
                     readOnly={stringAttribute.readOnly}
                     key={`${toolbarId}_${stringAttribute.readOnly}`}
+                    customFonts={props.customFonts}
                 />
             </div>
             {enableStatusBar && (

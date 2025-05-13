@@ -1,6 +1,6 @@
 import { Scope, StyleAttributor } from "parchment";
-import Quill from "quill";
 import "./fonts.scss";
+import { CustomFontsType } from "typings/RichTextProps";
 
 export const FONT_LIST = [
     { value: "andale-mono", description: "Andale Mono", style: "'andale mono', monospace" },
@@ -22,13 +22,21 @@ const config = {
     scope: Scope.INLINE
 };
 
-class FontStyleAttributor extends StyleAttributor {
+export class FontStyleAttributor extends StyleAttributor {
+    private fontList: typeof FONT_LIST = [];
+
+    constructor(fontList: typeof FONT_LIST) {
+        super("font", "font-family", config);
+        this.fontList = fontList;
+    }
+
     add(node: HTMLElement, value: any): boolean {
         if (!this.canAdd(node, value)) {
             return false;
         }
         node.dataset.value = value;
-        const style = FONT_LIST.find(x => x.value === value)?.style;
+        const allFonts = [...FONT_LIST, ...this.fontList];
+        const style = allFonts.find(x => x.value === value)?.style;
         if (style) {
             super.add(node, style);
         } else {
@@ -46,6 +54,11 @@ class FontStyleAttributor extends StyleAttributor {
     }
 }
 
-const FontStyle = new FontStyleAttributor("font", "font-family", config);
-
-Quill.register(FontStyle, true);
+export function formatFonts(fonts: CustomFontsType[] = []): typeof FONT_LIST {
+    console.info("formatFonts", { fonts });
+    return fonts.map(font => ({
+        value: font.fontName?.value?.toLowerCase().split(" ").join("-") ?? "",
+        description: font.fontName?.value ?? "",
+        style: `'${font.fontName?.value}'`
+    }));
+}
