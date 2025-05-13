@@ -60,7 +60,6 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
         }
         this._attr = targetAttribute as R;
         this.readOnly = getReadonly(targetAttribute, props.customEditability, props.customEditabilityExpression);
-        console.log("readOnly", this.readOnly);
         this.lazyLoader.updateProps(ds);
         this.lazyLoader.setLimit(
             this.lazyLoader.getLimit(ds.limit, this.readOnly, targetAttribute?.status ?? ds.status, lazyLoading)

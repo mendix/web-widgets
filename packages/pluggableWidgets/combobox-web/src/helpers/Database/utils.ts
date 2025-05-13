@@ -99,7 +99,7 @@ export function getReadonly(
         return true;
     }
     if (customEditability === "conditionally") {
-        return customEditabilityExpression.value ?? false;
+        return customEditabilityExpression.value ?? true;
     }
     return false;
 }
