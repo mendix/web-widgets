@@ -1,6 +1,6 @@
 import { Scope, StyleAttributor } from "parchment";
+import { CustomFontsType } from "../../../typings/RichTextProps";
 import "./fonts.scss";
-import { CustomFontsType } from "typings/RichTextProps";
 
 export const FONT_LIST = [
     { value: "andale-mono", description: "Andale Mono", style: "'andale mono', monospace" },
