@@ -3,9 +3,9 @@ import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { autorun, makeAutoObservable } from "mobx";
-import { Filter, FilterObserver } from "../../typings/FilterObserver";
+import { Filter, FilterObserver, ObservableFiltersHost } from "../../typings/observable-filter-host";
 
-export class CustomFilterHost implements FilterObserver {
+export class CustomFilterHost implements FilterObserver, ObservableFiltersHost {
     private filters: Map<string, Filter> = new Map();
     private settingsBuffer: FiltersSettingsMap<string> = new Map();
     private disposeMap: Map<string, () => void> = new Map();
