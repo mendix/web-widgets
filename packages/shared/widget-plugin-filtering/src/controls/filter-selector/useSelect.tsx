@@ -42,7 +42,7 @@ export function useSelect(props: useSelectProps): ViewProps {
     const { refs, floatingStyles } = useFloating({
         open: isOpen,
         placement: "bottom-start",
-        strategy: "fixed",
+        strategy: "absolute",
         whileElementsMounted: autoUpdate
     });
 
