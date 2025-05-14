@@ -4,7 +4,8 @@ export interface ObservableSortStore {
     sortOrder: SortInstruction[];
 }
 
-export interface SortingStoreObserver extends ObservableSortStore {
+export interface ObservableSortStoreHost {
+    sortOrder: SortInstruction[];
     observe: (key: string, store: ObservableSortStore) => void;
     unobserve: (key: string) => void;
 }
