@@ -25,6 +25,13 @@ exports[`Number Filter with single instance with multiple attributes renders cor
         >
            
         </button>
+        <ul
+          aria-label="Select filter type"
+          class="filter-selectors hidden"
+          id="downshift-:r7:-menu"
+          role="listbox"
+          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
+        />
       </div>
     </div>
     <input
@@ -71,6 +78,13 @@ exports[`Number Filter with single instance with single attribute renders correc
         >
            
         </button>
+        <ul
+          aria-label="Select filter type"
+          class="filter-selectors hidden"
+          id="downshift-:r0:-menu"
+          role="listbox"
+          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
+        />
       </div>
     </div>
     <input
