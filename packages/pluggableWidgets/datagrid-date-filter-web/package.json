@@ -1,7 +1,7 @@
 {
     "name": "@mendix/datagrid-date-filter-web",
     "widgetName": "DatagridDateFilter",
-    "version": "2.11.3",
+    "version": "2.11.2",
     "description": "",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
