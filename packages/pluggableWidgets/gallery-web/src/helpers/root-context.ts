@@ -1,8 +1,11 @@
+import { SelectActionHandler, SelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { createContext, useContext } from "react";
 import { GalleryStore } from "../stores/GalleryStore";
 
 export interface GalleryRootScope {
     rootStore: GalleryStore;
+    selectionHelper: SelectionHelper | undefined;
+    itemSelectHelper: SelectActionHandler;
 }
 
 export const GalleryContext = createContext<GalleryRootScope | null>(null);
