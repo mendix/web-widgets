@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { createElement } from "react";
-import { render, RenderResult } from "@testing-library/react";
+import { act, render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { Accordion, AccordionProps } from "../Accordion";
 
@@ -251,7 +251,9 @@ describe("Accordion", () => {
             const newGroups = [...defaultProps.groups];
             newGroups[1].collapsed = false;
 
-            accordion.rerender(<Accordion {...defaultProps} singleExpandedGroup={false} groups={newGroups} />);
+            act(() => {
+                accordion.rerender(<Accordion {...defaultProps} singleExpandedGroup={false} groups={newGroups} />);
+            });
 
             expect(accordion.asFragment()).toMatchSnapshot();
         });

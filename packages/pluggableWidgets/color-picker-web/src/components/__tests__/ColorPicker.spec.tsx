@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, RenderResult } from "@testing-library/react";
+import { act, render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { createElement } from "react";
 import { ColorPicker, ColorPickerProps } from "../ColorPicker";
@@ -42,13 +42,15 @@ describe("ColorPicker", () => {
     it("renders picker with pre-defined default colors", () => {
         const colorPickerComponent = renderColorPicker();
 
-        colorPickerComponent.rerender(
-            <ColorPicker
-                {...colorPickerProps}
-                mode="inline"
-                defaultColors={[{ color: "#2CCCE4" }, { color: "#555555" }]}
-            />
-        );
+        act(() => {
+            colorPickerComponent.rerender(
+                <ColorPicker
+                    {...colorPickerProps}
+                    mode="inline"
+                    defaultColors={[{ color: "#2CCCE4" }, { color: "#555555" }]}
+                />
+            );
+        });
 
         expect(colorPickerComponent.asFragment()).toMatchSnapshot();
     });

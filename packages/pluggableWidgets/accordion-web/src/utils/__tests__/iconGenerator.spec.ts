@@ -1,4 +1,4 @@
-import { renderHook, RenderHookResult } from "@testing-library/react";
+import { act, renderHook, RenderHookResult } from "@testing-library/react";
 import { AccordionContainerProps } from "../../../typings/AccordionProps";
 import { IconProps } from "../../components/Icon";
 import { useIconGenerator } from "../iconGenerator";
@@ -38,14 +38,18 @@ describe("useIconGenerator", () => {
         const renderedHook = initUseIconGenerator();
         const firstFunction = renderedHook.result.current;
 
-        renderedHook.rerender(defaultHookProps);
+        act(() => {
+            renderedHook.rerender(defaultHookProps);
+        });
         expect(renderedHook.result.current).toBe(firstFunction);
     });
     it("returns a new function when the arguments have changed", () => {
         const renderedHook = initUseIconGenerator();
         const firstFunction = renderedHook.result.current;
 
-        renderedHook.rerender({ ...defaultHookProps, animateIcon: false });
+        act(() => {
+            renderedHook.rerender({ ...defaultHookProps, animateIcon: false });
+        });
         expect(renderedHook.result.current).not.toBe(firstFunction);
     });
 

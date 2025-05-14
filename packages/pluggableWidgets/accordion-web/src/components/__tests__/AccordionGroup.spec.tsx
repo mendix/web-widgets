@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, RenderResult } from "@testing-library/react";
+import { act, render, RenderResult } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createElement } from "react";
 import { AccordionGroup, AccordionGroupProps, Target } from "../AccordionGroup";
@@ -75,14 +75,17 @@ describe("AccordionGroup", () => {
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(1);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(true);
 
-            accordionGroup.rerender(
-                <AccordionGroup
-                    {...defaultAccordionGroupProps}
-                    collapsed={false}
-                    collapsible
-                    toggleCollapsed={jest.fn()}
-                />
-            );
+            act(() => {
+                accordionGroup.rerender(
+                    <AccordionGroup
+                        {...defaultAccordionGroupProps}
+                        collapsed={false}
+                        collapsible
+                        toggleCollapsed={jest.fn()}
+                    />
+                );
+            });
+
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(3);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(false);
             expect(accordionGroup.asFragment()).toMatchSnapshot();
@@ -95,9 +98,12 @@ describe("AccordionGroup", () => {
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(1);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(false);
 
-            accordionGroup.rerender(
-                <AccordionGroup {...defaultAccordionGroupProps} collapsed collapsible toggleCollapsed={jest.fn()} />
-            );
+            act(() => {
+                accordionGroup.rerender(
+                    <AccordionGroup {...defaultAccordionGroupProps} collapsed collapsible toggleCollapsed={jest.fn()} />
+                );
+            });
+
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(3);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(true);
             expect(accordionGroup.asFragment()).toMatchSnapshot();
@@ -109,9 +115,12 @@ describe("AccordionGroup", () => {
             });
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(0);
 
-            accordionGroup.rerender(
-                <AccordionGroup {...defaultAccordionGroupProps} visible collapsible toggleCollapsed={jest.fn()} />
-            );
+            act(() => {
+                accordionGroup.rerender(
+                    <AccordionGroup {...defaultAccordionGroupProps} visible collapsible toggleCollapsed={jest.fn()} />
+                );
+            });
+
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(1);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(true);
             expect(accordionGroup.asFragment()).toMatchSnapshot();
@@ -124,9 +133,12 @@ describe("AccordionGroup", () => {
             });
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(0);
 
-            accordionGroup.rerender(
-                <AccordionGroup {...defaultAccordionGroupProps} visible collapsible toggleCollapsed={jest.fn()} />
-            );
+            act(() => {
+                accordionGroup.rerender(
+                    <AccordionGroup {...defaultAccordionGroupProps} visible collapsible toggleCollapsed={jest.fn()} />
+                );
+            });
+
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(2);
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledWith(false);
             expect(accordionGroup.asFragment()).toMatchSnapshot();
@@ -240,13 +252,16 @@ describe("AccordionGroup", () => {
                 const accordionGroup = renderCollapsibleAccordionGroup({
                     onToggleCompletion: onToggleCompletionMock
                 });
-                accordionGroup.rerender(
-                    <AccordionGroup
-                        {...defaultAccordionGroupProps}
-                        collapsed={false}
-                        onToggleCompletion={onToggleCompletionMock}
-                    />
-                );
+
+                act(() => {
+                    accordionGroup.rerender(
+                        <AccordionGroup
+                            {...defaultAccordionGroupProps}
+                            collapsed={false}
+                            onToggleCompletion={onToggleCompletionMock}
+                        />
+                    );
+                });
 
                 expect(onToggleCompletionMock).toHaveBeenCalledTimes(1);
                 expect(onToggleCompletionMock).toHaveBeenCalledWith(false);
@@ -294,7 +309,10 @@ describe("AccordionGroup", () => {
                 visible: false
             });
 
-            accordionGroup.rerender(<AccordionGroup {...defaultAccordionGroupProps} visible collapsed={false} />);
+            act(() => {
+                accordionGroup.rerender(<AccordionGroup {...defaultAccordionGroupProps} visible collapsed={false} />);
+            });
+
             expect(defaultAccordionGroupProps.generateHeaderIcon).toHaveBeenCalledTimes(0);
             expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
@@ -344,26 +362,32 @@ describe("AccordionGroup", () => {
 
             expect(accordionGroup.queryByText("Widgets")).not.toBeInTheDocument();
 
-            accordionGroup.rerender(
-                <AccordionGroup
-                    {...defaultAccordionGroupProps}
-                    collapsible
-                    content={<div>Widgets</div>}
-                    loadContent="whenExpanded"
-                    collapsed={false}
-                />
-            );
+            act(() => {
+                accordionGroup.rerender(
+                    <AccordionGroup
+                        {...defaultAccordionGroupProps}
+                        collapsible
+                        content={<div>Widgets</div>}
+                        loadContent="whenExpanded"
+                        collapsed={false}
+                    />
+                );
+            });
+
             expect(accordionGroup.queryByText("Widgets")).toBeInTheDocument();
 
-            accordionGroup.rerender(
-                <AccordionGroup
-                    {...defaultAccordionGroupProps}
-                    collapsible
-                    content={<div>Widgets</div>}
-                    loadContent="whenExpanded"
-                    collapsed
-                />
-            );
+            act(() => {
+                accordionGroup.rerender(
+                    <AccordionGroup
+                        {...defaultAccordionGroupProps}
+                        collapsible
+                        content={<div>Widgets</div>}
+                        loadContent="whenExpanded"
+                        collapsed
+                    />
+                );
+            });
+
             expect(accordionGroup.queryByText("Widgets")).toBeInTheDocument();
         });
     });
