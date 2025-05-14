@@ -1,16 +1,16 @@
+import { createContextWithStub, FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
-import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
+import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
+import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { autorun, computed } from "mobx";
+import { autorun } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { DatasourceController } from "../../controllers/DatasourceController";
 import { DatasourceParamsController } from "../../controllers/DatasourceParamsController";
 import { DerivedLoaderController } from "../../controllers/DerivedLoaderController";
 import { PaginationController } from "../../controllers/PaginationController";
-import { RefreshController } from "../../controllers/RefreshController";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
@@ -25,12 +25,12 @@ type Spec = {
 
 export class RootGridStore extends BaseControllerHost {
     columnsStore: ColumnGroupStore;
-    headerFiltersStore: HeaderFiltersStore;
     settingsStore: GridPersonalizationStore;
     staticInfo: StaticInfo;
     exportProgressCtrl: ProgressStore;
     loaderCtrl: DerivedLoaderController;
     paginationCtrl: PaginationController;
+    readonly autonomousFilterAPI: FilterAPI;
 
     private gate: Gate;
 
@@ -38,9 +38,7 @@ export class RootGridStore extends BaseControllerHost {
         super();
 
         const { props } = gate;
-        const [columnsInitFilter, headerInitFilter, sharedInitFilter] = DatasourceParamsController.unzipFilter(
-            props.datasource.filter
-        );
+        const [columnsInitFilter, sharedInitFilter] = DatasourceParamsController.unzipFilter(props.datasource.filter);
 
         this.gate = gate;
         this.staticInfo = {
@@ -49,16 +47,14 @@ export class RootGridStore extends BaseControllerHost {
         };
         const customFilterHost = new CustomFilterHost();
         const query = new DatasourceController(this, { gate });
+        this.autonomousFilterAPI = createContextWithStub({
+            filterObserver: customFilterHost,
+            sharedInitFilter,
+            parentChannelName: this.staticInfo.filtersChannelName
+        });
         const columns = (this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsInitFilter, {
             customFilterHost,
             sharedInitFilter
-        }));
-        const header = (this.headerFiltersStore = new HeaderFiltersStore({
-            filterList: props.filterList,
-            filterChannelName: this.staticInfo.filtersChannelName,
-            headerInitFilter,
-            sharedInitFilter,
-            customFilterHost
         }));
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, customFilterHost);
         this.paginationCtrl = new PaginationController(this, { gate, query });
@@ -67,12 +63,11 @@ export class RootGridStore extends BaseControllerHost {
         new DatasourceParamsController(this, {
             query,
             columns,
-            header,
             customFilters: customFilterHost
         });
 
         new RefreshController(this, {
-            query: computed(() => query.computedCopy),
+            query: query.derivedQuery,
             delay: props.refreshInterval * 1000
         });
 
@@ -87,7 +82,6 @@ export class RootGridStore extends BaseControllerHost {
         const [add, disposeAll] = disposeBatch();
         add(super.setup());
         add(this.columnsStore.setup());
-        add(this.headerFiltersStore.setup());
         add(() => this.settingsStore.dispose());
         add(autorun(() => this.updateProps(this.gate.props)));
 

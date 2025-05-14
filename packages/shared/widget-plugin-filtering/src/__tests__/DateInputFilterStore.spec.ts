@@ -1,5 +1,5 @@
 jest.mock("mendix/filters/builders");
-import { attrId, listAttr } from "@mendix/widget-plugin-test-utils";
+import { attrId, listAttribute } from "@mendix/widget-plugin-test-utils";
 import { ListAttributeValue } from "mendix";
 import {
     and,
@@ -28,7 +28,7 @@ describe("DateInputFilterStore", () => {
         let store: DateInputFilterStore;
 
         beforeEach(() => {
-            attr = listAttr(() => new Date());
+            attr = listAttribute(() => new Date());
             attr.id = attrId("attr_unset");
             store = new DateInputFilterStore([attr], null);
         });
@@ -125,7 +125,7 @@ describe("DateInputFilterStore", () => {
         });
 
         it("uses 'or' when have multiple attributes", () => {
-            const [attr1, attr2] = [listAttr(() => new Date()), listAttr(() => new Date())];
+            const [attr1, attr2] = [listAttribute(() => new Date()), listAttribute(() => new Date())];
             store = new DateInputFilterStore([attr1, attr2], null);
             const date1 = new Date("2024-09-17T01:01:01.000Z");
             store.filterFunction = "equal";
@@ -146,7 +146,7 @@ describe("DateInputFilterStore", () => {
         let store: DateInputFilterStore;
 
         beforeEach(() => {
-            attr = listAttr(() => new Date());
+            attr = listAttribute(() => new Date());
             store = new DateInputFilterStore([attr], null);
             expect(store.filterFunction).toBe("equal");
         });

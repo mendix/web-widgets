@@ -1,9 +1,9 @@
+import { isAnd, isTag } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ISetupable } from "@mendix/widget-plugin-mobx-kit/setupable";
 import { FilterCondition } from "mendix/filters";
-import { isAnd, isTag } from "../condition-utils";
 import { FilterAPI } from "../context";
-import { Filter } from "../typings/FilterObserver";
+import { Filter } from "../typings/observable-filter-host";
 
 export abstract class BaseStoreProvider<S extends Filter> implements ISetupable {
     protected abstract _store: S;
