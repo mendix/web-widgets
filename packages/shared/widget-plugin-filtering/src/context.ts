@@ -3,8 +3,8 @@ import { FilterCondition } from "mendix/filters";
 import { Context, createContext, useContext } from "react";
 import { APIError, ENOCONTEXT } from "./errors";
 import { Result, error, value } from "./result-meta";
-import { FilterObserver } from "./typings/FilterObserver";
 import { InputFilterInterface } from "./typings/InputFilterInterface";
+import { FilterObserver } from "./typings/observable-filter-host";
 
 export interface FilterAPI {
     version: 3;
