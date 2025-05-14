@@ -56,8 +56,9 @@ export class GalleryStore extends BaseControllerHost {
         });
 
         const filterObserver = new CustomFilterHost();
+        const sortObserver = new SortObserver();
 
-        const paramCtrl = new QueryParamsController(this, this._query, filterObserver);
+        const paramCtrl = new QueryParamsController(this, this._query, filterObserver, sortObserver);
 
         this.filterAPI = createContextWithStub({
             filterObserver,
@@ -67,7 +68,7 @@ export class GalleryStore extends BaseControllerHost {
 
         this.sortAPI = {
             version: 1,
-            store: value(new SortObserver())
+            store: value(sortObserver)
         };
 
         new RefreshController(this, {
