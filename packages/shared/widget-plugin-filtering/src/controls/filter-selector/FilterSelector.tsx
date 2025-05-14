@@ -1,4 +1,3 @@
-import { FloatingPortal } from "@floating-ui/react";
 import classNames from "classnames";
 import { createElement, useMemo } from "react";
 import { useSelect } from "./useSelect";
@@ -39,29 +38,26 @@ export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
                 >
                     &nbsp;
                 </button>
-                {open && (
-                    <FloatingPortal>
-                        <ul
-                            className={classNames("filter-selectors", { hidden: !open, visible: open })}
-                            {...listboxProps}
-                            style={floatingStyles}
-                        >
-                            {options.map((item, index) => (
-                                <li
-                                    className={classNames("filter-listitem", {
-                                        "filter-selected": selectedItem?.value === item.value,
-                                        "filter-highlighted": highlightedIndex === index
-                                    })}
-                                    key={item.value}
-                                    {...getItemProps({ item, index })}
-                                >
-                                    <div className={classNames("filter-icon", item.value)} aria-hidden />
-                                    <div className="filter-label">{item.caption}</div>
-                                </li>
-                            ))}
-                        </ul>
-                    </FloatingPortal>
-                )}
+                <ul
+                    className={classNames("filter-selectors", { hidden: !open, visible: open })}
+                    {...listboxProps}
+                    style={floatingStyles}
+                >
+                    {open &&
+                        options.map((item, index) => (
+                            <li
+                                className={classNames("filter-listitem", {
+                                    "filter-selected": selectedItem?.value === item.value,
+                                    "filter-highlighted": highlightedIndex === index
+                                })}
+                                key={item.value}
+                                {...getItemProps({ item, index })}
+                            >
+                                <div className={classNames("filter-icon", item.value)} aria-hidden />
+                                <div className="filter-label">{item.caption}</div>
+                            </li>
+                        ))}
+                </ul>
             </div>
         </div>
     );
