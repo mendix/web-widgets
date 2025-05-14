@@ -8,10 +8,13 @@ export interface Filter {
     setup?: () => void | void;
 }
 
-export interface FilterObserver {
+export interface ObservableFiltersHost {
+    conditions: Array<FilterCondition | undefined>;
     get settings(): FiltersSettingsMap<string>;
     set settings(settings: FiltersSettingsMap<string>);
-    conditions: Array<FilterCondition | undefined>;
+}
+
+export interface FilterObserver {
     observe(key: string, filter: Filter): void;
     unobserve(key: string): void;
 }
