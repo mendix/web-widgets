@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [6.0.1] Charts - 2025-05-14
+
+### [1.0.1] CustomChart
+
+#### Fixed
+
+- We fixed an issue with static layout configuration not applying properly for some properties.
+
 ## [6.0.0] Charts - 2025-02-28
 
 ### Changed
