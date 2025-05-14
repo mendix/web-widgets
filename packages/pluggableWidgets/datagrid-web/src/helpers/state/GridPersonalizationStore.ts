@@ -1,6 +1,6 @@
 import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
-import { ObservableFiltersHost } from "@mendix/widget-plugin-filtering/typings/observable-filter-host";
+import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/observable-filter-host";
 import { action, comparer, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId } from "../../typings/GridColumn";
@@ -27,7 +27,7 @@ export class GridPersonalizationStore {
     constructor(
         props: DatagridContainerProps,
         private columnsStore: ColumnGroupStore,
-        private customFilters: ObservableFiltersHost
+        private customFilters: ObservableFilterHost
     ) {
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);

@@ -16,12 +16,3 @@ export interface SortingStoreInterface {
     select(value: ListAttributeId | null): void;
     toggleDirection(): void;
 }
-
-export interface ObservableSortStore {
-    sortOrder: SortInstruction[];
-}
-
-export interface SortingStoreObserver extends ObservableSortStore {
-    observe: (key: string, store: ObservableSortStore) => void;
-    unobserve: (key: string) => void;
-}
