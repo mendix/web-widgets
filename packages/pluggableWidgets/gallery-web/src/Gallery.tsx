@@ -15,9 +15,7 @@ import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { GalleryRootScope, GalleryContext, useGalleryRootScope } from "./helpers/root-context";
 
 const Container = observer(function GalleryContainer(props: GalleryContainerProps): ReactElement {
-    const { rootStore } = useGalleryRootScope();
-    const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
-    const selectHelper = useItemSelectHelper(props.itemSelection, selection);
+    const { rootStore, itemSelectHelper } = useGalleryRootScope();
     const items = props.datasource.items ?? [];
     const config: GridPositionsProps = {
         desktopItems: props.desktopItems,
@@ -40,7 +38,7 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
     const clickActionHelper = useClickActionHelper({ onClick: props.onClick, onClickTrigger: props.onClickTrigger });
 
     const itemEventsController = useItemEventsController(
-        selectHelper,
+        itemSelectHelper,
         clickActionHelper,
         focusController,
         numberOfColumns,
@@ -82,7 +80,7 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
             style={props.style}
             tabletItems={props.tabletItems}
             tabIndex={props.tabIndex}
-            selectHelper={selectHelper}
+            selectHelper={itemSelectHelper}
             itemEventsController={itemEventsController}
             focusController={focusController}
             getPosition={getPositionCallback}
@@ -90,11 +88,20 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
     );
 });
 
-export function Gallery(props: GalleryContainerProps): ReactElement {
-    const store = useGalleryStore(props);
-    const scope = useConst<GalleryRootScope>({
-        rootStore: store
+function useCreateGalleryScope(props: GalleryContainerProps): GalleryRootScope {
+    const rootStore = useGalleryStore(props);
+    const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const itemSelectHelper = useItemSelectHelper(props.itemSelection, selectionHelper);
+
+    return useConst<GalleryRootScope>({
+        rootStore,
+        selectionHelper,
+        itemSelectHelper
     });
+}
+
+export function Gallery(props: GalleryContainerProps): ReactElement {
+    const scope = useCreateGalleryScope(props);
 
     return (
         <GalleryContext.Provider value={scope}>

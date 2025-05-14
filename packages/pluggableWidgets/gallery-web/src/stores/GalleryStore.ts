@@ -6,6 +6,9 @@ import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshContr
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { SortAPI } from "@mendix/widget-plugin-sorting/context";
+import { SortObserver } from "@mendix/widget-plugin-sorting/controllers/SortObserver";
+import { value } from "@mendix/widget-plugin-sorting/result-meta";
 import { ListValue } from "mendix";
 import { PaginationEnum } from "../../typings/GalleryProps";
 import { QueryParamsController } from "../controllers/QueryParamsController";
@@ -35,6 +38,7 @@ export class GalleryStore extends BaseControllerHost {
     readonly name: string;
     readonly paging: PaginationController;
     readonly filterAPI: FilterAPI;
+    readonly sortAPI: SortAPI;
 
     constructor(spec: GalleryStoreSpec) {
         super();
@@ -60,6 +64,11 @@ export class GalleryStore extends BaseControllerHost {
             parentChannelName: this.id,
             sharedInitFilter: paramCtrl.unzipFilter(spec.gate.props.datasource.filter)
         });
+
+        this.sortAPI = {
+            version: 1,
+            store: value(new SortObserver())
+        };
 
         new RefreshController(this, {
             delay: 0,
