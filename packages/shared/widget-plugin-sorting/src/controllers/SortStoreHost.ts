@@ -1,14 +1,12 @@
-import { computed, makeObservable, observable } from "mobx";
-import { ObservableSortStore, SortingStoreObserver, SortInstruction } from "../typings";
+import { makeAutoObservable } from "mobx";
+import { ObservableSortStore, ObservableSortStoreHost } from "../observable-sort-host";
+import { SortInstruction } from "../typings";
 
-export class SortObserver implements SortingStoreObserver {
+export class SortStoreHost implements ObservableSortStoreHost {
     private readonly _stores: Map<string, [store: ObservableSortStore, dispose: () => void]> = new Map();
 
     constructor() {
-        makeObservable<SortObserver, "stores">(this, {
-            sortOrder: computed,
-            stores: observable.shallow
-        });
+        makeAutoObservable(this);
     }
 
     observe(key: string, store: ObservableSortStore): void {
