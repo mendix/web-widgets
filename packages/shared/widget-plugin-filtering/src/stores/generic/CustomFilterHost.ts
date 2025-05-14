@@ -3,19 +3,18 @@ import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { autorun, makeAutoObservable } from "mobx";
-import { Filter, FilterObserver, ObservableFiltersHost } from "../../typings/observable-filter-host";
+import { Filter, ObservableFilterHost } from "../../typings/observable-filter-host";
 
-export class CustomFilterHost implements FilterObserver, ObservableFiltersHost {
-    private filters: Map<string, Filter> = new Map();
+export class CustomFilterHost implements ObservableFilterHost {
+    private filters: Map<string, [store: Filter, dispose: () => void]> = new Map();
     private settingsBuffer: FiltersSettingsMap<string> = new Map();
-    private disposeMap: Map<string, () => void> = new Map();
 
     constructor() {
         makeAutoObservable(this);
     }
 
     get settings(): FiltersSettingsMap<string> {
-        return new Map([...this.filters].map(([key, filter]) => [key, filter.toJSON()]));
+        return new Map([...this.filters].map(([key, [filter]]) => [key, filter.toJSON()]));
     }
 
     set settings(data: FiltersSettingsMap<string>) {
@@ -23,24 +22,28 @@ export class CustomFilterHost implements FilterObserver, ObservableFiltersHost {
     }
 
     get conditions(): Array<FilterCondition | undefined> {
-        return [...this.filters].map(([key, { condition }]) => {
+        return [...this.filters].map(([key, [{ condition }]]) => {
             return condition ? and(tag(key), condition) : undefined;
         });
     }
 
     observe(key: string, filter: Filter): void {
-        const dispose = autorun(() => {
+        this.unobserve(key);
+        const clear = autorun(() => {
             if (this.settingsBuffer.has(key)) {
                 filter.fromJSON(this.settingsBuffer.get(key));
             }
         });
-        this.disposeMap.set(key, dispose);
-        this.filters.set(key, filter);
+        const dispose = (): void => {
+            clear();
+            this.filters.delete(key);
+        };
+        this.filters.set(key, [filter, dispose]);
     }
 
     unobserve(key: string): void {
-        this.disposeMap.get(key)?.();
-        this.disposeMap.delete(key);
-        this.filters.delete(key);
+        if (this.filters.has(key)) {
+            this.filters.get(key)?.[1]();
+        }
     }
 }
