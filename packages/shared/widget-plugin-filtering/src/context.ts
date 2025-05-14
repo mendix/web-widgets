@@ -4,13 +4,13 @@ import { Context, createContext, useContext } from "react";
 import { APIError, ENOCONTEXT } from "./errors";
 import { Result, error, value } from "./result-meta";
 import { InputFilterInterface } from "./typings/InputFilterInterface";
-import { FilterObserver } from "./typings/observable-filter-host";
+import { ObservableFilterHost } from "./typings/ObservableFilterHost";
 
 export interface FilterAPI {
     version: 3;
     parentChannelName: string;
     provider: Result<DirectProvider | ProviderStub, APIError>;
-    filterObserver: FilterObserver;
+    filterObserver: ObservableFilterHost;
     sharedInitFilter: Array<FilterCondition | undefined>;
 }
 
@@ -57,7 +57,7 @@ export function useFilterAPI(): Result<FilterAPI, APIError> {
 export const useFilterContextValue = useFilterAPI;
 
 export function createContextWithStub(options: {
-    filterObserver: FilterObserver;
+    filterObserver: ObservableFilterHost;
     parentChannelName: string;
     sharedInitFilter: Array<FilterCondition | undefined>;
 }): FilterAPI {

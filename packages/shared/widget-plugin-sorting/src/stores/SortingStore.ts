@@ -1,5 +1,11 @@
-import { makeObservable, computed, observable, action } from "mobx";
-import { ListAttributeId, SortDirection, SortingStoreInterface, SortInstruction, Option } from "../typings";
+import { action, computed, makeObservable, observable } from "mobx";
+import {
+    ListAttributeId,
+    Option,
+    SortDirection,
+    SortingStoreInterface,
+    SortInstruction
+} from "../SortingStoreInterface";
 
 export class SortingStore implements SortingStoreInterface {
     private _direction: SortDirection;
