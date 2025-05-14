@@ -1,25 +1,15 @@
+import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     ContainerProps,
+    datasource,
     DropZoneProps,
     RowLayoutProps,
-    StructurePreviewProps,
-    datasource,
-    structurePreviewPalette
+    structurePreviewPalette,
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import {
-    hidePropertiesIn,
-    hidePropertyIn,
-    Problem,
-    Properties,
-    transformGroupsIntoTabs
-} from "@mendix/pluggable-widgets-tools";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 
-export function getProperties(
-    values: GalleryPreviewProps,
-    defaultProperties: Properties,
-    platform: "web" | "desktop"
-): Properties {
+export function getProperties(values: GalleryPreviewProps, defaultProperties: Properties): Properties {
     if (values.pagination !== "buttons") {
         hidePropertyIn(defaultProperties, values, "pagingPosition");
     }
@@ -30,27 +20,6 @@ export function getProperties(
 
     if (values.itemSelection === "None") {
         hidePropertiesIn(defaultProperties, values, ["onSelectionChange", "itemSelectionMode"]);
-    }
-
-    if (platform === "web") {
-        if (!values.advanced) {
-            hidePropertiesIn(defaultProperties, values, [
-                "pagination",
-                "pagingPosition",
-                "showEmptyPlaceholder",
-                "emptyPlaceholder",
-                "itemClass",
-                "filtersPlaceholder",
-                "filterList",
-                "sortList",
-                "emptyMessageTitle",
-                "filterSectionTitle"
-            ]);
-        }
-
-        transformGroupsIntoTabs(defaultProperties);
-    } else {
-        hidePropertyIn(defaultProperties, values, "advanced");
     }
 
     return defaultProperties;
