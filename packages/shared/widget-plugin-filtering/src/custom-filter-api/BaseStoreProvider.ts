@@ -3,7 +3,7 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ISetupable } from "@mendix/widget-plugin-mobx-kit/setupable";
 import { FilterCondition } from "mendix/filters";
 import { FilterAPI } from "../context";
-import { Filter } from "../typings/observable-filter-host";
+import { Filter } from "../typings/ObservableFilterHost";
 
 export abstract class BaseStoreProvider<S extends Filter> implements ISetupable {
     protected abstract _store: S;

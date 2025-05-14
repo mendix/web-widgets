@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import { ObservableSortStore, ObservableSortStoreHost } from "../observable-sort-host";
-import { SortInstruction } from "../typings";
+import { ObservableSortStore, ObservableSortStoreHost } from "../ObservableSortStoreHost";
+import { SortInstruction } from "../SortingStoreInterface";
 
 export class SortStoreHost implements ObservableSortStoreHost {
     private readonly _stores: Map<string, [store: ObservableSortStore, dispose: () => void]> = new Map();
