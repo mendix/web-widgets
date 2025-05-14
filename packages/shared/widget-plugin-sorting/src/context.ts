@@ -1,11 +1,11 @@
 import { Context, createContext, useContext } from "react";
 import { APIError } from "./errors";
+import { ObservableSortStoreHost } from "./observable-sort-host";
 import { Result, error, value } from "./result-meta";
-import { SortingStoreObserver } from "./typings";
 
 export interface SortAPI {
     version: 1;
-    store: Result<SortingStoreObserver, APIError>;
+    store: Result<ObservableSortStoreHost, APIError>;
 }
 
 const SORT_PATH = "com.mendix.widgets.web.sortable.sortContext";
