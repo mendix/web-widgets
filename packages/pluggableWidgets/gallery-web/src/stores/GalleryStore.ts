@@ -7,7 +7,7 @@ import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControlle
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SortAPI } from "@mendix/widget-plugin-sorting/context";
-import { SortObserver } from "@mendix/widget-plugin-sorting/controllers/SortObserver";
+import { SortStoreHost } from "@mendix/widget-plugin-sorting/controllers/SortStoreHost";
 import { value } from "@mendix/widget-plugin-sorting/result-meta";
 import { ListValue } from "mendix";
 import { PaginationEnum } from "../../typings/GalleryProps";
@@ -56,7 +56,8 @@ export class GalleryStore extends BaseControllerHost {
         });
 
         const filterObserver = new CustomFilterHost();
-        const sortObserver = new SortObserver();
+
+        const sortObserver = new SortStoreHost();
 
         const paramCtrl = new QueryParamsController(this, this._query, filterObserver, sortObserver);
 
