@@ -1,7 +1,8 @@
-import { SortInstruction } from "./typings";
+import { SortInstruction } from "./SortingStoreInterface";
 
 export interface ObservableSortStore {
     sortOrder: SortInstruction[];
+    setup?: () => void | void;
 }
 
 export interface ObservableSortStoreHost {

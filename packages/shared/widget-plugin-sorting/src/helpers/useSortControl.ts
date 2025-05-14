@@ -1,5 +1,5 @@
-import { useMemo, useCallback } from "react";
-import { Option, SortDirection, SortingStoreInterface } from "../typings";
+import { useCallback, useMemo } from "react";
+import { Option, SortDirection, SortingStoreInterface } from "../SortingStoreInterface";
 
 interface HookProps {
     emptyOptionCaption?: string;
