@@ -25,6 +25,13 @@ exports[`Date Filter with single instance with double attributes renders correct
         >
            
         </button>
+        <ul
+          aria-label="Select filter type"
+          class="filter-selectors hidden"
+          id="downshift-:ra:-menu"
+          role="listbox"
+          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
+        />
       </div>
     </div>
     <div
@@ -96,6 +103,13 @@ exports[`Date Filter with single instance with single attribute renders correctl
         >
            
         </button>
+        <ul
+          aria-label="Select filter type"
+          class="filter-selectors hidden"
+          id="downshift-:r0:-menu"
+          role="listbox"
+          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
+        />
       </div>
     </div>
     <div
