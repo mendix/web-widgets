@@ -113,15 +113,40 @@
             </property>
             <property key="onClickEvent" type="action" required="false">
                 <caption>On click action</caption>
+                <actionVariables>
+                    <actionVariable key="startDate" type="DateTime" caption="Event start date" />
+                    <actionVariable key="endDate" type="DateTime" caption="Event end date" />
+                    <actionVariable key="title" type="String" caption="Event title" />
+                </actionVariables>
                 <description />
             </property>
             <property key="onCreateEvent" type="action" required="false">
                 <caption>On create action</caption>
+                <actionVariables>
+                    <actionVariable key="startDate" type="DateTime" caption="New event start date" />
+                    <actionVariable key="endDate" type="DateTime" caption="New event end date" />
+                    <actionVariable key="allDay" type="Boolean" caption="All day flag" />
+                </actionVariables>
                 <description>The create event is triggered when a time slot is selected, and the 'Enable create' property is set to 'true'</description>
             </property>
             <property key="onChange" type="action" required="false">
                 <caption>On change action</caption>
+                <actionVariables>
+                    <actionVariable key="oldStart" type="DateTime" caption="Old start date" />
+                    <actionVariable key="oldEnd" type="DateTime" caption="Old end date" />
+                    <actionVariable key="newStart" type="DateTime" caption="New start date" />
+                    <actionVariable key="newEnd" type="DateTime" caption="New end date" />
+                </actionVariables>
                 <description>The change event is triggered on moving/dragging an item or changing the start or end time of by resizing an item</description>
+            </property>
+            <property key="onRangeChange" type="action" required="false">
+                <caption>On view range change</caption>
+                <description>Triggered when the calendar view range (start/end) changes</description>
+                <actionVariables>
+                    <actionVariable key="rangeStart" type="DateTime" caption="View range start" />
+                    <actionVariable key="rangeEnd" type="DateTime" caption="View range end" />
+                    <actionVariable key="currentView" type="String" caption="Current view" />
+                </actionVariables>
             </property>
         </propertyGroup>
         <propertyGroup caption="Dimensions">
