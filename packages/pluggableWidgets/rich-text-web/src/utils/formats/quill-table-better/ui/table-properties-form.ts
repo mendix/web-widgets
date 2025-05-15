@@ -85,6 +85,7 @@ class TablePropertiesForm {
         this.borderForm = [];
         this.saveButton = null;
         this.form = this.createPropertiesForm(options);
+        this.createColorPicker();
     }
 
     checkBtnsAction(status: string) {
@@ -108,7 +109,7 @@ class TablePropertiesForm {
             const iconClasses = icon.split(" ");
             iconContainer.classList.add(...iconClasses);
             button.appendChild(iconContainer);
-            setElementAttribute(button, { label });
+            button.setAttribute("label", label);
             if (showLabel) {
                 const labelContainer = ownerDocument.createElement("span");
                 labelContainer.innerText = useLanguage(label);
@@ -156,13 +157,16 @@ class TablePropertiesForm {
         const container = this.tableMenus.quill.root.ownerDocument.createElement("div");
         container.classList.add("ql-table-color-container");
         const input = this.createColorInput(child);
-        this.createColorPicker(child, input.querySelector("input"));
+        const inputEl = input.querySelector("input");
+        if (inputEl) {
+            this.setColorPicker(inputEl);
+        }
         container.appendChild(input);
         return container;
     }
 
     createColorInput(child: Child) {
-        const { attribute, value } = child;
+        const { attribute = {}, propertyName, value } = child;
         const ownerDocument = this.tableMenus.quill.root.ownerDocument;
         const placeholder = attribute?.placeholder ?? "";
         const container = ownerDocument.createElement("div");
@@ -170,57 +174,54 @@ class TablePropertiesForm {
         const label = ownerDocument.createElement("label");
         label.innerText = placeholder;
         const input = ownerDocument.createElement("input");
-        setElementAttribute(input, attribute!);
-        input.classList.add("property-input");
-        input.value = value ?? "";
+        const attributes = {
+            ...attribute,
+            class: "property-input",
+            value: value ?? "",
+            "data-property": propertyName
+        };
+        setElementAttribute(input, attributes);
 
         container.appendChild(input);
         container.appendChild(label);
         return container;
     }
 
-    createColorPicker(child: Child, input: HTMLInputElement | null): void {
-        if (input) {
-            const { propertyName } = child;
-            Coloris.init();
-            Coloris({
-                // a11y: {},
-                el: input,
-                clearButton: true,
-                closeButton: true,
-                onChange: (color: string): void => {
-                    this.setAttribute(propertyName, color);
-                },
-                swatches: COLOR_LIST.map(({ value }) => value),
-                theme: "polaroid"
-            });
-        }
+    createColorPicker(): void {
+        Coloris.init();
+        Coloris({
+            clearButton: true,
+            closeButton: true,
+            // @ts-ignore
+            onChange: (color: string, input: HTMLElement): void => {
+                const propertyName = input.getAttribute("data-property") ?? "";
+                this.setAttribute(propertyName, color, input);
+            },
+            swatches: COLOR_LIST.map(({ value }) => value),
+            theme: "polaroid"
+        });
     }
 
-    createDropdown(value: string, category?: string) {
+    setColorPicker(input: HTMLInputElement) {
+        Coloris.coloris({ el: input });
+    }
+
+    createDropdown(value: string) {
         const ownerDocument = this.tableMenus.quill.root.ownerDocument;
-        const container = ownerDocument.createElement("div");
+        const dropdown = ownerDocument.createElement("div");
         const dropIcon = ownerDocument.createElement("span");
         const dropText = ownerDocument.createElement("span");
-        switch (category) {
-            case "dropdown":
-                dropIcon.classList.add("icons", "icon-Arrow-down", "ql-table-dropdown-icon");
-                break;
-            case "color":
-                break;
-            default:
-                break;
-        }
+        dropIcon.classList.add("icons", "icon-Arrow-down", "ql-table-dropdown-icon");
         value && (dropText.innerText = value);
-        container.classList.add("ql-table-dropdown-properties");
         dropText.classList.add("ql-table-dropdown-text");
-        container.appendChild(dropText);
-        container.appendChild(dropIcon);
-        return { dropdown: container, dropText };
+        dropdown.classList.add("ql-table-dropdown-properties");
+        dropdown.appendChild(dropText);
+        dropdown.appendChild(dropIcon);
+        return { dropdown, dropText };
     }
 
     createInput(child: Child) {
-        const { attribute, message, propertyName, valid, value } = child;
+        const { attribute = {}, message, propertyName, valid, value } = child;
         const ownerDocument = this.tableMenus.quill.root.ownerDocument;
         const placeholder = attribute?.placeholder ?? "";
         const container = ownerDocument.createElement("div");
@@ -231,9 +232,12 @@ class TablePropertiesForm {
         container.classList.add("label-field-view");
         wrapper.classList.add("label-field-view-input-wrapper");
         label.innerText = placeholder;
-        setElementAttribute(input, attribute!);
-        input.classList.add("property-input");
-        input.value = value ?? "";
+        const attributes = {
+            ...attribute,
+            class: "property-input",
+            value: value ?? ""
+        };
+        setElementAttribute(input, attributes);
         input.addEventListener("input", e => {
             const value = (e.target as HTMLInputElement).value;
             valid && this.switchHidden(status, valid(value));
@@ -298,7 +302,7 @@ class TablePropertiesForm {
         const { category, value } = child;
         switch (category) {
             case "dropdown":
-                const { dropdown, dropText } = this.createDropdown(value!, category);
+                const { dropdown, dropText } = this.createDropdown(value!);
                 const list = this.createList(child, dropText);
                 dropdown.appendChild(list!);
                 dropdown.addEventListener("click", () => {
@@ -307,14 +311,11 @@ class TablePropertiesForm {
                 });
                 return dropdown;
             case "color":
-                const colorContainer = this.createColorContainer(child);
-                return colorContainer;
+                return this.createColorContainer(child);
             case "menus":
-                const checkBtns = this.createCheckBtns(child);
-                return checkBtns;
+                return this.createCheckBtns(child);
             case "input":
-                const input = this.createInput(child);
-                return input;
+                return this.createInput(child);
             default:
                 break;
         }
