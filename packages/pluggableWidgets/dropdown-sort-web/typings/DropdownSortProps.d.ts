@@ -4,13 +4,25 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { DynamicValue } from "mendix";
+import { AttributeMetaData, DynamicValue } from "mendix";
+import { Big } from "big.js";
+
+export interface AttributesType {
+    attribute: AttributeMetaData<Big | string | Date | boolean>;
+    caption: DynamicValue<string>;
+}
+
+export interface AttributesPreviewType {
+    attribute: string;
+    caption: string;
+}
 
 export interface DropdownSortContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
+    attributes: AttributesType[];
     emptyOptionCaption?: DynamicValue<string>;
     screenReaderButtonCaption?: DynamicValue<string>;
     screenReaderInputCaption?: DynamicValue<string>;
@@ -27,6 +39,7 @@ export interface DropdownSortPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
+    attributes: AttributesPreviewType[];
     emptyOptionCaption: string;
     screenReaderButtonCaption: string;
     screenReaderInputCaption: string;
