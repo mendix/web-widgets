@@ -1,10 +1,10 @@
 import { createElement, ReactElement } from "react";
 import { withLinkedRefStore } from "../hocs/withLinkedRefStore";
 import { RefFilterContainer } from "@mendix/widget-plugin-dropdown-filter/containers/RefFilterContainer";
-import { RefFilterAPI } from "./typings";
+import { RefFilterProps } from "./typings";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 
-function Connector(props: DatagridDropdownFilterContainerProps & RefFilterAPI): ReactElement {
+function Connector(props: DatagridDropdownFilterContainerProps & RefFilterProps): ReactElement {
     return (
         <RefFilterContainer
             {...props}
