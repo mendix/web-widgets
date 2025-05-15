@@ -1,20 +1,21 @@
+import { ListAttributeValue, ListValue } from "mendix";
 import { SortAPI } from "@mendix/widget-plugin-sorting/context";
-import { SortAPIProvider, SortListType } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
-import { ListAttributeId } from "@mendix/widget-plugin-sorting/typings";
 import { ListAttributeValueBuilder, dynamicValue } from "@mendix/widget-plugin-test-utils";
 import { fireEvent, render } from "@testing-library/react";
-import { ListValue } from "mendix";
 import { createContext, createElement } from "react";
 import { DropdownSortContainerProps } from "../../../typings/DropdownSortProps";
 import { DropdownSort } from "../../DropdownSort";
+import { SortStoreProvider } from "@mendix/widget-plugin-sorting/controllers/SortStoreProvider";
+import { SortStoreHost } from "@mendix/widget-plugin-sorting/controllers/SortStoreHost";
 
 const commonProps: DropdownSortContainerProps = {
     class: "filter-custom-class",
     tabIndex: 0,
-    name: "filter-test"
+    name: "filter-test",
+    attributes: []
 };
 
-const sortList: SortListType[] = [
+const sortList = [
     {
         attribute: new ListAttributeValueBuilder().withId("attribute1").withType("String").withSortable(true).build(),
         caption: dynamicValue<string>("Option 1")
@@ -25,13 +26,10 @@ const sortList: SortListType[] = [
     }
 ];
 
-const sortProvider = new SortAPIProvider({
-    datasource: { sortOrder: [[sortList[0].attribute.id as ListAttributeId, "asc"]] } as ListValue,
-    sortList
+const sortProvider = new SortStoreProvider(new SortStoreHost(), {
+    name: "filter-test",
+    options: sortList
 });
-
-(window as any)["com.mendix.widgets.web.sortable.sortContext"] = createContext<SortAPI>(sortProvider.context);
-// END CONTEXT
 
 describe("Dropdown Sort", () => {
     describe("with single instance", () => {
