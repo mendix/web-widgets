@@ -1,6 +1,6 @@
 import { DynamicValue, AttributeMetaData } from "mendix";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { createElement } from "react";
+import { createElement, FC } from "react";
 import { SortingStoreInterface } from "@mendix/widget-plugin-sorting/SortingStoreInterface";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { SortAPI, useSortAPI } from "@mendix/widget-plugin-sorting/context";
@@ -14,10 +14,8 @@ interface RequiredProps {
     name: string;
 }
 
-export function withSortAPI<P>(
-    Component: (props: P & { sortAPI: SortAPI }) => React.ReactElement
-): (props: P) => React.ReactElement {
-    return function SortAPIProvider(props: P) {
+export function withSortAPI<P>(Component: FC<P & { sortAPI: SortAPI }>): FC<P> {
+    return function SortAPIProvider(props) {
         const sortAPI = useSortAPI();
         if (sortAPI.hasError) {
             return <Alert bootstrapStyle="danger">{sortAPI.error.message}</Alert>;
@@ -27,10 +25,10 @@ export function withSortAPI<P>(
 }
 
 export function withLinkedSortStore<P extends RequiredProps>(
-    Component: (props: P & { sortStore: SortingStoreInterface }) => React.ReactElement
-): (props: P & { sortAPI: SortAPI }) => React.ReactElement {
-    return function SortStoreInjector(props: P & { sortAPI: SortAPI }) {
-        const provider = useSetup(
+    Component: FC<P & { sortStore: SortingStoreInterface }>
+): FC<P & { sortAPI: SortAPI }> {
+    return function SortStoreProviderHost(props) {
+        const { store } = useSetup(
             () =>
                 new SortStoreProvider(props.sortAPI.sortObserver, {
                     options: props.attributes,
@@ -38,6 +36,6 @@ export function withLinkedSortStore<P extends RequiredProps>(
                 })
         );
 
-        return <Component {...props} sortStore={provider.store} />;
+        return <Component {...props} sortStore={store} />;
     };
 }
