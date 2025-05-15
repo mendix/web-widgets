@@ -9,7 +9,7 @@ import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { ListValue, ListAttributeValue, AssociationMetaData } from "mendix";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-import { RefFilterAPI } from "../components/typings";
+import { RefFilterProps } from "../components/typings";
 
 type WidgetProps = Pick<DatagridDropdownFilterContainerProps, "name" | "refEntity" | "refOptions" | "refCaption">;
 
@@ -23,7 +23,7 @@ export interface RequiredProps {
 
 type Component<P extends object> = (props: P) => React.ReactElement;
 
-export function withLinkedRefStore<P extends WidgetProps>(Cmp: Component<P & RefFilterAPI>): Component<P> {
+export function withLinkedRefStore<P extends WidgetProps>(Cmp: Component<P & RefFilterProps>): Component<P> {
     function StoreProvider(props: P & { filterAPI: FilterAPI }): React.ReactElement {
         const gate = useGate(props);
         const provider = useSetup(() => new RefStoreProvider(props.filterAPI, gate));

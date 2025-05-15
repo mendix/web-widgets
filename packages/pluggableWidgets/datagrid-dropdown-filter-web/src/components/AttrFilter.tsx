@@ -1,9 +1,10 @@
 import { ReactElement, createElement } from "react";
 import { StaticFilterContainer } from "@mendix/widget-plugin-dropdown-filter/containers/StaticFilterContainer";
+import { withFilterAPI } from "@mendix/widget-plugin-filtering/helpers/withFilterAPI";
 import { withParentProvidedEnumStore } from "../hocs/withParentProvidedEnumStore";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 import { withLinkedEnumStore } from "../hocs/withLinkedEnumStore";
-import { EnumFilterAPI } from "./typings";
+import { EnumFilterProps } from "./typings";
 
 export function AttrFilter(props: DatagridDropdownFilterContainerProps): ReactElement {
     if (props.auto) {
@@ -15,9 +16,9 @@ export function AttrFilter(props: DatagridDropdownFilterContainerProps): ReactEl
 
 const AutoAttrFilter = withParentProvidedEnumStore(Connector);
 
-const LinkedAttrFilter = withLinkedEnumStore(Connector);
+const LinkedAttrFilter = withFilterAPI(withLinkedEnumStore(Connector));
 
-function Connector(props: DatagridDropdownFilterContainerProps & EnumFilterAPI): ReactElement {
+function Connector(props: DatagridDropdownFilterContainerProps & EnumFilterProps): ReactElement {
     return (
         <StaticFilterContainer
             {...props}
