@@ -1,7 +1,8 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ISetupable } from "@mendix/widget-plugin-mobx-kit/setupable";
 import { AttributeMetaData, DynamicValue } from "mendix";
-import { ObservableSortStore, ObservableSortStoreHost } from "../ObservableSortStoreHost";
+import { ObservableSortStoreHost } from "../ObservableSortStoreHost";
+import { SortingStoreInterface } from "../SortingStoreInterface";
 import { SortingStore } from "../stores/SortingStore";
 
 interface Option {
@@ -15,7 +16,7 @@ interface SortStoreProviderSpec {
 }
 
 export class SortStoreProvider implements ISetupable {
-    private readonly _store: ObservableSortStore;
+    private readonly _store: SortingStoreInterface;
     private readonly _host: ObservableSortStoreHost;
     private readonly _key: string;
 
@@ -27,6 +28,10 @@ export class SortStoreProvider implements ISetupable {
             caption: option.caption?.value ?? ""
         }));
         this._store = new SortingStore(storeOptions, []);
+    }
+
+    get store(): SortingStoreInterface {
+        return this._store;
     }
 
     setup(): () => void {
