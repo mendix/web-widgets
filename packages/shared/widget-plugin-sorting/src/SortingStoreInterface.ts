@@ -1,4 +1,5 @@
 import type { ListAttributeValue } from "mendix";
+import { ObservableSortStore } from "./ObservableSortStoreHost";
 
 export type SortDirection = "asc" | "desc";
 export type ListAttributeId = ListAttributeValue["id"];
@@ -9,7 +10,7 @@ export type Option = {
     value: ListAttributeId | null;
 };
 
-export interface SortingStoreInterface {
+export interface SortingStoreInterface extends ObservableSortStore {
     options: Option[];
     value: ListAttributeId | null;
     direction: SortDirection;
