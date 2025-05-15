@@ -3,10 +3,10 @@ import { useRef, createElement } from "react";
 import { useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "@mendix/widget-plugin-filtering/errors";
 import { Result, error, value } from "@mendix/widget-plugin-filtering/result-meta";
-import { EnumFilterAPI } from "../components/typings";
+import { EnumFilterProps } from "../components/typings";
 
 export function withParentProvidedEnumStore<P extends { filterable: boolean }>(
-    Component: (props: P & EnumFilterAPI) => React.ReactElement
+    Component: (props: P & EnumFilterProps) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props: P): React.ReactElement {
         const api = useEnumFilterAPI();
@@ -20,9 +20,9 @@ export function withParentProvidedEnumStore<P extends { filterable: boolean }>(
     };
 }
 
-function useEnumFilterAPI(): Result<EnumFilterAPI, APIError> {
+function useEnumFilterAPI(): Result<EnumFilterProps, APIError> {
     const ctx = useFilterAPI();
-    const slctAPI = useRef<EnumFilterAPI>();
+    const slctAPI = useRef<EnumFilterProps>();
 
     if (ctx.hasError) {
         return error(ctx.error);
