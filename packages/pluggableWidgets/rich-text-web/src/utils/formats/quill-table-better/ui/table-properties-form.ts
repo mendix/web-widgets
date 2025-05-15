@@ -85,7 +85,6 @@ class TablePropertiesForm {
         this.borderForm = [];
         this.saveButton = null;
         this.form = this.createPropertiesForm(options);
-        this.createColorPicker();
     }
 
     checkBtnsAction(status: string) {
@@ -159,7 +158,7 @@ class TablePropertiesForm {
         const input = this.createColorInput(child);
         const inputEl = input.querySelector("input");
         if (inputEl) {
-            this.setColorPicker(inputEl);
+            this.createColorPicker(inputEl);
         }
         container.appendChild(input);
         return container;
@@ -187,12 +186,12 @@ class TablePropertiesForm {
         return container;
     }
 
-    createColorPicker(): void {
+    createColorPicker(input: HTMLInputElement) {
         Coloris.init();
         Coloris({
+            el: input,
             clearButton: true,
             closeButton: true,
-            // @ts-ignore
             onChange: (color: string, input: HTMLElement): void => {
                 const propertyName = input.getAttribute("data-property") ?? "";
                 this.setAttribute(propertyName, color, input);
@@ -200,10 +199,6 @@ class TablePropertiesForm {
             swatches: COLOR_LIST.map(({ value }) => value),
             theme: "polaroid"
         });
-    }
-
-    setColorPicker(input: HTMLInputElement) {
-        Coloris.coloris({ el: input });
     }
 
     createDropdown(value: string) {
