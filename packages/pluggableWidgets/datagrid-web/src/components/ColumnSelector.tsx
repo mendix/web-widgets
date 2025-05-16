@@ -19,7 +19,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
     const { refs, floatingStyles, context } = useFloating({
         open: show,
         placement: "bottom-end",
-        strategy: "fixed",
+        strategy: "absolute",
         onOpenChange: setShow,
         middleware: [
             size({
