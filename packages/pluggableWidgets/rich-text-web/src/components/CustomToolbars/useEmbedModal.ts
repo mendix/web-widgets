@@ -132,7 +132,7 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                     onSubmit: (value: viewCodeConfigType) => {
                         const newDelta = ref.current?.clipboard.convert({ html: value.src });
                         if (newDelta) {
-                            ref.current?.updateContents(newDelta, Emitter.sources.USER);
+                            ref.current?.setContents(newDelta, Emitter.sources.USER);
                         }
                         closeDialog();
                     },
