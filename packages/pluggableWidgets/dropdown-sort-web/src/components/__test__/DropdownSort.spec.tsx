@@ -1,12 +1,10 @@
-import { ListAttributeValue, ListValue } from "mendix";
-import { SortAPI } from "@mendix/widget-plugin-sorting/context";
-import { ListAttributeValueBuilder, dynamicValue } from "@mendix/widget-plugin-test-utils";
+import { dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/context";
+import { SortStoreHost } from "@mendix/widget-plugin-sorting/controllers/SortStoreHost";
 import { fireEvent, render } from "@testing-library/react";
-import { createContext, createElement } from "react";
+import React, { createElement } from "react";
 import { DropdownSortContainerProps } from "../../../typings/DropdownSortProps";
 import { DropdownSort } from "../../DropdownSort";
-import { SortStoreProvider } from "@mendix/widget-plugin-sorting/controllers/SortStoreProvider";
-import { SortStoreHost } from "@mendix/widget-plugin-sorting/controllers/SortStoreHost";
 
 const commonProps: DropdownSortContainerProps = {
     class: "filter-custom-class",
@@ -15,31 +13,49 @@ const commonProps: DropdownSortContainerProps = {
     attributes: []
 };
 
-const sortList = [
-    {
-        attribute: new ListAttributeValueBuilder().withId("attribute1").withType("String").withSortable(true).build(),
-        caption: dynamicValue<string>("Option 1")
-    },
-    {
-        attribute: new ListAttributeValueBuilder().withId("attribute2").withType("Decimal").withSortable(true).build(),
-        caption: dynamicValue<string>("Option 2")
-    }
-];
-
-const sortProvider = new SortStoreProvider(new SortStoreHost(), {
-    name: "filter-test",
-    options: sortList
+const createAPI = (): SortAPI => ({
+    version: 1,
+    sortObserver: new SortStoreHost()
 });
+
+function renderWithSortAPI(elt: React.ReactElement, api: SortAPI): ReturnType<typeof render> {
+    const SortAPI = getGlobalSortContext();
+    return render(<SortAPI.Provider value={api}>{elt}</SortAPI.Provider>);
+}
 
 describe("Dropdown Sort", () => {
     describe("with single instance", () => {
-        afterEach(() => {
+        beforeEach(() => {
             delete (global as any)["com.mendix.widgets.web.UUID"];
         });
 
         describe("with correct context", () => {
+            let attributes: DropdownSortContainerProps["attributes"];
+            beforeEach(() => {
+                attributes = [
+                    {
+                        attribute: new ListAttributeValueBuilder()
+                            .withId("attribute1")
+                            .withType("String")
+                            .withSortable(true)
+                            .build(),
+                        caption: dynamicValue<string>("Option 1")
+                    },
+                    {
+                        attribute: new ListAttributeValueBuilder()
+                            .withId("attribute2")
+                            .withType("Decimal")
+                            .withSortable(true)
+                            .build(),
+                        caption: dynamicValue<string>("Option 2")
+                    }
+                ];
+            });
             it("loads correct values from attributes", () => {
-                const filter = render(<DropdownSort {...commonProps} />);
+                const filter = renderWithSortAPI(
+                    <DropdownSort {...commonProps} attributes={attributes} />,
+                    createAPI()
+                );
                 fireEvent.click(filter.getByRole("textbox"));
 
                 const items = filter.getAllByRole("menuitem");
@@ -53,14 +69,17 @@ describe("Dropdown Sort", () => {
             });
 
             it("renders correctly", () => {
-                const { asFragment } = render(<DropdownSort {...commonProps} />);
+                const { asFragment } = renderWithSortAPI(
+                    <DropdownSort {...commonProps} attributes={attributes} />,
+                    createAPI()
+                );
                 expect(asFragment()).toMatchSnapshot();
             });
         });
 
         describe("with view state", () => {
             it("loads correct default option", () => {
-                const filter = render(<DropdownSort {...commonProps} />);
+                const filter = renderWithSortAPI(<DropdownSort {...commonProps} />, createAPI());
                 fireEvent.click(filter.getByRole("textbox"));
 
                 expect(filter.getByRole("textbox").getAttribute("value")).toStrictEqual("Option 1");
@@ -73,31 +92,24 @@ describe("Dropdown Sort", () => {
             });
 
             it("renders error message", () => {
-                const filter = render(<DropdownSort {...commonProps} />);
+                const filter = renderWithSortAPI(<DropdownSort {...commonProps} />, createAPI());
                 expect(filter.container.querySelector(".alert")?.textContent).toBe("Out of context");
             });
         });
     });
 
     describe("with multiple instances", () => {
-        beforeAll(() => {
-            (window as any)["com.mendix.widgets.web.sortable.sortContext"] = createContext<SortAPI>(
-                sortProvider.context
-            );
+        beforeEach(() => {
+            delete (global as any)["com.mendix.widgets.web.UUID"];
         });
 
         it("renders with a unique id", () => {
-            const { asFragment: fragment1 } = render(<DropdownSort {...commonProps} />);
-            const { asFragment: fragment2 } = render(<DropdownSort {...commonProps} />);
+            const { asFragment: fragment1 } = renderWithSortAPI(<DropdownSort {...commonProps} />, createAPI());
+            const { asFragment: fragment2 } = renderWithSortAPI(<DropdownSort {...commonProps} />, createAPI());
 
             expect(fragment1().querySelector("input")?.getAttribute("aria-controls")).not.toBe(
                 fragment2().querySelector("input")?.getAttribute("aria-controls")
             );
-        });
-
-        afterAll(() => {
-            (window as any)["com.mendix.widgets.web.sortable.sortContext"] = undefined;
-            delete (global as any)["com.mendix.widgets.web.UUID"];
         });
     });
 });
