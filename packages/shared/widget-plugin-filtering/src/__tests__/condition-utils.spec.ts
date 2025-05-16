@@ -1,27 +1,33 @@
 jest.mock("mendix/filters/builders");
 
+import { AndCondition } from "mendix/filters";
 import { equals, literal } from "mendix/filters/builders";
 import { compactArray, fromCompactArray, tag } from "../condition-utils";
-import { AndCondition } from "mendix/filters";
 
 describe("condition-utils", () => {
     describe("compactArray", () => {
-        it("returns 'and' condition for zero array", () => {
+        it("returns 'tag' condition for zero array", () => {
             const result = compactArray([]);
-            expect(result).toMatchObject({ name: "and", type: "function" });
-            expect((result as AndCondition).args).toHaveLength(2);
+            expect(result).toMatchObject({
+                name: "!=",
+                type: "function",
+                arg1: { value: "[0,[]]", valueType: "String" }
+            });
         });
 
-        it("returns 'and' condition for empty array", () => {
+        it("returns 'tag' condition for array of undefined", () => {
             const result = compactArray([undefined, undefined, undefined]);
-            expect(result).toMatchObject({ name: "and", type: "function" });
-            expect((result as AndCondition).args).toHaveLength(2);
+            expect(result).toMatchObject({
+                name: "!=",
+                type: "function",
+                arg1: { value: "[3,[]]", valueType: "String" }
+            });
         });
 
-        it("returns 'and' condition with 4 args", () => {
+        it("returns 'and' condition with 3 args", () => {
             const result = compactArray([tag("0"), undefined, tag("2")]);
             expect(result).toMatchObject({ name: "and", type: "function" });
-            expect((result as AndCondition).args).toHaveLength(4);
+            expect((result as AndCondition).args).toHaveLength(3);
         });
     });
 

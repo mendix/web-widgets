@@ -1,12 +1,12 @@
 import {
-    FilterCondition,
     AndCondition,
-    OrCondition,
-    LiteralExpression,
     ContainsCondition,
-    EqualsCondition
+    EqualsCondition,
+    FilterCondition,
+    LiteralExpression,
+    OrCondition
 } from "mendix/filters";
-import { equals, literal, and } from "mendix/filters/builders";
+import { and, literal, notEqual } from "mendix/filters/builders";
 
 type BinaryExpression<T = FilterCondition> = T extends { arg1: unknown; arg2: object } ? T : never;
 type Func<T> = T extends { name: infer Fn } ? Fn : never;
@@ -40,25 +40,33 @@ interface TagName {
     readonly valueType: "string";
 }
 
+const MARKER = "#";
+
+interface TagMarker {
+    readonly type: "literal";
+    readonly value: typeof MARKER;
+    readonly valueType: "string";
+}
+
 interface TagCond {
     readonly type: "function";
-    readonly name: "=";
+    readonly name: "!=";
     readonly arg1: TagName;
-    readonly arg2: TagName;
+    readonly arg2: TagMarker;
 }
 
 export function tag(name: string): TagCond {
-    return equals(literal(name), literal(name)) as TagCond;
+    return notEqual(literal(name), literal(MARKER)) as TagCond;
 }
 
 export function isTag(cond: FilterCondition): cond is TagCond {
     return (
-        cond.name === "=" &&
+        cond.name === "!=" &&
         cond.arg1.type === "literal" &&
         cond.arg2.type === "literal" &&
         /string/i.test(cond.arg1.valueType) &&
         /string/i.test(cond.arg2.valueType) &&
-        cond.arg1.value === cond.arg2.value
+        cond.arg2.value === MARKER
     );
 }
 
@@ -88,20 +96,19 @@ function shrink<T>(array: Array<T | undefined>): [indexes: number[], items: T[]]
 
 export function compactArray(input: Array<FilterCondition | undefined>): FilterCondition {
     const [indexes, items] = shrink(input);
-    const arrayMeta = [input.length, indexes] as const;
-    const metaTag = tag(arrayTag(arrayMeta));
-    // As 'and' requires at least 2 args, we add a placeholder
-    const placeholder = tag("_");
-    return and(metaTag, placeholder, ...items);
+    const metaTag = tag(arrayTag([input.length, indexes] as const));
+
+    if (items.length === 0) {
+        return metaTag;
+    }
+
+    return and(metaTag, ...items);
 }
 
 export function fromCompactArray(cond: FilterCondition): Array<FilterCondition | undefined> {
-    if (!isAnd(cond)) {
-        return [];
-    }
+    const tag = isAnd(cond) ? cond.args[0] : cond;
 
-    const [metaTag] = cond.args;
-    const arrayMeta = isTag(metaTag) ? fromArrayTag(metaTag.arg1.value) : undefined;
+    const arrayMeta = isTag(tag) ? fromArrayTag(tag.arg1.value) : undefined;
 
     if (!arrayMeta) {
         return [];
@@ -109,7 +116,12 @@ export function fromCompactArray(cond: FilterCondition): Array<FilterCondition |
 
     const [length, indexes] = arrayMeta;
     const arr: Array<FilterCondition | undefined> = Array(length).fill(undefined);
-    cond.args.slice(2).forEach((cond, i) => {
+
+    if (!isAnd(cond)) {
+        return arr;
+    }
+
+    cond.args.slice(1).forEach((cond, i) => {
         arr[indexes[i]] = cond;
     });
 
