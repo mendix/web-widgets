@@ -4,14 +4,6 @@ import userEvent, { UserEvent } from "@testing-library/user-event";
 import { createElement } from "react";
 import { ColorPicker, ColorPickerProps } from "../ColorPicker";
 
-jest.mock("react-color/lib", () => {
-    const actualModule = jest.requireActual("react-color/lib");
-    return {
-        ...actualModule,
-        SketchPicker: () => <div className="sketch-picker" />
-    };
-});
-
 describe("ColorPicker", () => {
     let colorPickerProps: ColorPickerProps;
     let user: UserEvent;
@@ -44,7 +36,7 @@ describe("ColorPicker", () => {
 
     it("that is disabled renders with the structure", () => {
         const colorPickerComponent = renderColorPicker({ disabled: true });
-        expect(colorPickerComponent.asFragment).toMatchSnapshot();
+        expect(colorPickerComponent.asFragment()).toMatchSnapshot();
     });
 
     it("renders picker with pre-defined default colors", () => {
@@ -172,19 +164,6 @@ describe("ColorPicker", () => {
             await user.click(colorElement);
 
             expect(container.querySelector(".swatches-picker")).toBeInTheDocument();
-        });
-    });
-
-    describe("with a mode as", () => {
-        it("popover or input renders with the structure", () => {
-            const colorPickerComponent = renderColorPicker({ mode: "popover" });
-
-            expect(colorPickerComponent.asFragment()).toMatchSnapshot();
-        });
-
-        it("inline renders with the structure", () => {
-            const colorPickerComponent = renderColorPicker({ mode: "inline" });
-            expect(colorPickerComponent.asFragment()).toMatchSnapshot();
         });
     });
 });

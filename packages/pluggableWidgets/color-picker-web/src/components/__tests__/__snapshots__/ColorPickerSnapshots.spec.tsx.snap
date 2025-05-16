@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ColorPicker with a mode as inline renders with the structure 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-color-picker widget-color-picker-picker"
+  >
+    <div
+      class=""
+    >
+      <sketch-picker
+        color="#000000"
+        disablealpha="true"
+        disabled="false"
+        displaycolorpicker="false"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ColorPicker with a mode as popover or input renders with the structure 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-color-picker widget-color-picker-picker"
+  >
+    <button
+      class="btn"
+    >
+      <div
+        class="widget-color-picker-inner"
+        style="background: rgb(0, 0, 0);"
+      />
+    </button>
+  </div>
+</DocumentFragment>
+`;
