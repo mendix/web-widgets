@@ -25,31 +25,13 @@ exports[`ColorPicker renders the structure correctly 1`] = `
 </DocumentFragment>
 `;
 
-exports[`ColorPicker that is disabled renders with the structure 1`] = `[Function]`;
-
-exports[`ColorPicker with a mode as inline renders with the structure 1`] = `
+exports[`ColorPicker that is disabled renders with the structure 1`] = `
 <DocumentFragment>
   <div
-    class="widget-color-picker widget-color-picker-picker"
-  >
-    <div
-      class=""
-    >
-      <div
-        class="sketch-picker"
-      />
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`ColorPicker with a mode as popover or input renders with the structure 1`] = `
-<DocumentFragment>
-  <div
-    class="widget-color-picker widget-color-picker-picker"
+    class="widget-color-picker widget-color-picker-picker widget-color-picker-disabled"
   >
     <button
-      class="btn"
+      class="btn disabled"
     >
       <div
         class="widget-color-picker-inner"
