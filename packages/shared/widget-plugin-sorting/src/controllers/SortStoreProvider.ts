@@ -27,7 +27,7 @@ export class SortStoreProvider implements ISetupable {
             value: option.attribute.id,
             caption: option.caption?.value ?? ""
         }));
-        this._store = new SortingStore(storeOptions, []);
+        this._store = new SortingStore(storeOptions);
     }
 
     get store(): SortingStoreInterface {
