@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, EditableValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
 
 export type PresetEnum = "basic" | "standard" | "full" | "custom";
 
@@ -23,12 +23,20 @@ export type OverflowYEnum = "auto" | "scroll" | "hidden";
 
 export type OnChangeTypeEnum = "onLeave" | "onDataChange";
 
+export interface CustomFontsType {
+    fontName?: DynamicValue<string>;
+}
+
 export type ToolbarConfigEnum = "basic" | "advanced";
 
 export type CtItemTypeEnum = "separator" | "undo" | "redo" | "bold" | "italic" | "underline" | "strike" | "superScript" | "subScript" | "orderedList" | "bulletList" | "lowerAlphaList" | "checkList" | "minIndent" | "plusIndent" | "direction" | "link" | "image" | "video" | "formula" | "blockquote" | "code" | "codeBlock" | "viewCode" | "align" | "centerAlign" | "rightAlign" | "font" | "size" | "color" | "background" | "header" | "fullscreen" | "clean" | "tableBetter";
 
 export interface AdvancedConfigType {
     ctItemType: CtItemTypeEnum;
+}
+
+export interface CustomFontsPreviewType {
+    fontName: string;
 }
 
 export interface AdvancedConfigPreviewType {
@@ -59,6 +67,7 @@ export interface RichTextContainerProps {
     onLoad?: ActionValue;
     onChangeType: OnChangeTypeEnum;
     spellCheck: boolean;
+    customFonts: CustomFontsType[];
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
@@ -100,6 +109,7 @@ export interface RichTextPreviewProps {
     onLoad: {} | null;
     onChangeType: OnChangeTypeEnum;
     spellCheck: boolean;
+    customFonts: CustomFontsPreviewType[];
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
