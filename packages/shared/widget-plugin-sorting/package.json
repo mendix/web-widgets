@@ -28,7 +28,8 @@
         "dev": "tsc --watch",
         "format": "prettier --write .",
         "lint": "eslint src/ package.json",
-        "prepare": "tsc"
+        "prepare": "tsc",
+        "test": "jest"
     },
     "dependencies": {
         "mobx": "6.12.3",
