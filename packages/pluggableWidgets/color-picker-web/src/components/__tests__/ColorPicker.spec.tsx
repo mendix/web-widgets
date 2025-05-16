@@ -4,6 +4,14 @@ import userEvent, { UserEvent } from "@testing-library/user-event";
 import { createElement } from "react";
 import { ColorPicker, ColorPickerProps } from "../ColorPicker";
 
+jest.mock("react-color/lib", () => {
+    const actualModule = jest.requireActual("react-color/lib");
+    return {
+        ...actualModule,
+        SketchPicker: () => <div className="sketch-picker" />
+    };
+});
+
 describe("ColorPicker", () => {
     let colorPickerProps: ColorPickerProps;
     let user: UserEvent;
