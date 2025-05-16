@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where database selection does not trigger when set to empty value from external logic.
+
 ## [2.3.1] - 2025-05-08
 
 ### Changed
