@@ -5,7 +5,7 @@ import { SortInstruction } from "../SortingStoreInterface";
 export class SortStoreHost implements ObservableSortStoreHost {
     private readonly _stores: Map<string, [store: ObservableSortStore, dispose: () => void]> = new Map();
     private readonly _storeOrder: string[] = [];
-    private readonly _sortOrder: SortInstruction[] = [];
+    private readonly _sortOrder: Array<SortInstruction | null> = [];
 
     constructor() {
         makeAutoObservable<this, "_sortOrder">(this, {
@@ -28,11 +28,7 @@ export class SortStoreHost implements ObservableSortStoreHost {
                 if (index === -1) {
                     return;
                 }
-                if (sortOrder) {
-                    this._sortOrder[index] = sortOrder;
-                } else {
-                    this._sortOrder.splice(index, 1);
-                }
+                this._sortOrder[index] = sortOrder;
             }
         );
 
@@ -55,7 +51,7 @@ export class SortStoreHost implements ObservableSortStoreHost {
     }
 
     get sortOrder(): SortInstruction[] {
-        return [...this._sortOrder];
+        return this._sortOrder.flatMap(sortOrder => (sortOrder ? [sortOrder] : []));
     }
 
     set sortOrder(sortOrder: SortInstruction[]) {
