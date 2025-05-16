@@ -1,7 +1,7 @@
 import { SortInstruction } from "./SortingStoreInterface";
 
 export interface ObservableSortStore {
-    sortOrder: SortInstruction[];
+    sortOrder: SortInstruction | null;
     setup?: () => void | void;
 }
 
