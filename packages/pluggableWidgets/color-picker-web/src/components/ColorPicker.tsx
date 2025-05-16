@@ -54,7 +54,7 @@ export const ColorPicker = (props: ColorPickerProps): ReactElement => {
         rgba: "rgb(255,255,255,1)"
     };
     const { type, mode, disabled, defaultColors, color, format, invalidFormatMessage } = props;
-    const colorElement = getColorPicker(type);
+    const ColorElement = getColorPicker(type);
     const [hidden, setHidden] = useState(mode !== "inline");
     const [currentColor, setCurrentColor] = useState<string | undefined>(color);
     const [alertMessage, setAlertMessage] = useState<string | undefined>();
@@ -129,6 +129,7 @@ export const ColorPicker = (props: ColorPickerProps): ReactElement => {
             close: () => setColorPickerHidden(true),
             ...(isTriangleAvailable && { triangle: "hide" })
         };
+
         return (
             <div
                 className={classNames({
@@ -140,7 +141,7 @@ export const ColorPicker = (props: ColorPickerProps): ReactElement => {
                     <div className={"widget-color-picker-cover"} onClick={() => setColorPickerHidden(true)} />
                 ) : null}
                 {disabled ? <div className={"widget-color-picker-overlay"} /> : null}
-                {createElement(colorElement, { ...config })}
+                {<ColorElement {...config} />}
             </div>
         );
     };
