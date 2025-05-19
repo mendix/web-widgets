@@ -1,7 +1,7 @@
 {
     "name": "@mendix/datagrid-web",
     "widgetName": "Datagrid",
-    "version": "2.30.4",
+    "version": "2.30.5",
     "description": "",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
