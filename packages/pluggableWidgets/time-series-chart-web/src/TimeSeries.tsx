@@ -1,5 +1,4 @@
 import { ChartWidget, ChartWidgetProps, usePlotChartDataSeries, traceEqual } from "@mendix/shared-charts/main";
-import { aggregateDataPoints } from "@mendix/shared-charts/utils/aggregations";
 import "@mendix/shared-charts/ui/Chart.scss";
 import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import classNames from "classnames";
@@ -57,11 +56,7 @@ export const TimeSeries = memo(
     function TimeSeries(props: TimeSeriesContainerProps): ReactElement | null {
         const chartLines = usePlotChartDataSeries(
             props.lines,
-            useCallback((line, dataPoints) => {
-                const pts =
-                    line.aggregationType === "none"
-                        ? dataPoints
-                        : aggregateDataPoints(line.aggregationType, dataPoints);
+            useCallback(line => {
                 return {
                     mode: line.lineStyle === "line" ? "lines" : "lines+markers",
                     fill: line.enableFillArea ? "tonexty" : "none",
