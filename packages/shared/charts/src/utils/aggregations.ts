@@ -1,4 +1,3 @@
-// packages/shared/charts/src/utils/aggregations.ts
 import { Datum } from "plotly.js-dist-min";
 import { PlotChartDataPoints } from "../hooks/usePlotChartDataSeries";
 
