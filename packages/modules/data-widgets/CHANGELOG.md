@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.31.1] DataWidgets - 2025-05-19
+
+### [2.9.2] DatagridNumberFilter
+
+#### Fixed
+
+- We fixed an issue with number filter not working in some locales
+
+### [2.30.4] Datagrid
+
+#### Fixed
+
+- We changed the severity for missing column captions from error to warning
+
 ## [2.31.0] DataWidgets - 2025-04-16
 
 ### Changed

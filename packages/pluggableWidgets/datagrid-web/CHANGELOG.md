@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.30.4] - 2025-05-19
+
 ### Fixed
 
 - We changed the severity for missing column captions from error to warning
