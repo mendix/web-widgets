@@ -6,7 +6,6 @@ import classNames from "classnames";
 import { ReactElement, createElement, memo, useCallback } from "react";
 import { BubbleChartContainerProps, LinesType } from "../typings/BubbleChartProps";
 import { calculateSizeRef } from "./utils";
-import { aggregateDataPoints } from "@mendix/shared-charts/utils/aggregations";
 
 const bubbleChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
     xaxis: {
@@ -70,16 +69,13 @@ export const BubbleChart = memo(
                 );
                 const markerColorExpression =
                     line.dataSet === "static" ? line.staticMarkerColor : line.dynamicMarkerColor;
-                const pts =
-                    line.aggregationType === "none"
-                        ? dataPoints
-                        : aggregateDataPoints(line.aggregationType, dataPoints);
+
                 return {
                     type: "scatter",
                     mode: "markers",
                     marker: {
                         color: markerColorExpression
-                            ? getExpressionValue<string>(markerColorExpression, pts.dataSourceItems)
+                            ? getExpressionValue<string>(markerColorExpression, dataPoints.dataSourceItems)
                             : undefined,
                         symbol: ["circle"],
                         size,

@@ -3,7 +3,6 @@ import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
 import { ReactElement, createElement, memo, useCallback, useMemo } from "react";
 import { ColumnChartContainerProps } from "../typings/ColumnChartProps";
-import { aggregateDataPoints } from "@mendix/shared-charts/utils/aggregations";
 
 const columnChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
     xaxis: {
@@ -46,14 +45,10 @@ export const ColumnChart = memo(function ColumnChart(props: ColumnChartContainer
         useCallback((dataSeries, dataPoints, { getExpressionValue }) => {
             const columnColorExpression =
                 dataSeries.dataSet === "static" ? dataSeries.staticBarColor : dataSeries.dynamicBarColor;
-            const pts =
-                dataSeries.aggregationType === "none"
-                    ? dataPoints
-                    : aggregateDataPoints(dataSeries.aggregationType, dataPoints);
             return {
                 marker: {
                     color: columnColorExpression
-                        ? getExpressionValue<string>(columnColorExpression, pts.dataSourceItems)
+                        ? getExpressionValue<string>(columnColorExpression, dataPoints.dataSourceItems)
                         : undefined
                 }
             };
