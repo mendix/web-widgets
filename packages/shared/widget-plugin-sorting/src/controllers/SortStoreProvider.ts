@@ -37,8 +37,8 @@ export class SortStoreProvider implements ISetupable {
     setup(): () => void {
         const [add, disposeAll] = disposeBatch();
 
-        this._host.observe(this._key, this._store);
-        add(() => this._host.unobserve(this._key));
+        this._host.observe(this._store, this._key);
+        add(() => this._host.unobserve(this._store));
         add(this._store.setup?.());
         return disposeAll;
     }
