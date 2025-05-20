@@ -3,7 +3,7 @@ import { StaticSelectFilterStore } from "@mendix/widget-plugin-dropdown-filter/s
 import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
 import { FilterData } from "@mendix/filter-commons/typings/settings";
 import { value } from "@mendix/widget-plugin-filtering/result-meta";
-import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/observable-filter-host";
+import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ListAttributeListValue, ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
@@ -94,6 +94,6 @@ const isListAttributeValue = (
 };
 
 export interface ObserverBag {
-    customFilterHost: FilterObserver;
+    customFilterHost: ObservableFilterHost;
     sharedInitFilter: Array<FilterCondition | undefined>;
 }
