@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, RenderResult } from "@testing-library/react";
+import { act, render, RenderResult } from "@testing-library/react";
 import { createElement } from "react";
 import { ColorPicker, ColorPickerProps } from "../ColorPicker";
 
@@ -28,6 +28,33 @@ describe("ColorPicker", () => {
     function renderColorPicker(configs: Partial<ColorPickerProps> = {}): RenderResult {
         return render(<ColorPicker {...colorPickerProps} {...configs} />);
     }
+
+    it("renders the structure correctly", () => {
+        const colorPickerComponent = renderColorPicker();
+
+        expect(colorPickerComponent.asFragment()).toMatchSnapshot();
+    });
+
+    it("that is disabled renders with the structure", () => {
+        const colorPickerComponent = renderColorPicker({ disabled: true });
+        expect(colorPickerComponent.asFragment()).toMatchSnapshot();
+    });
+
+    it("renders picker with pre-defined default colors", () => {
+        const colorPickerComponent = renderColorPicker();
+
+        act(() => {
+            colorPickerComponent.rerender(
+                <ColorPicker
+                    {...colorPickerProps}
+                    mode="inline"
+                    defaultColors={[{ color: "#2CCCE4" }, { color: "#555555" }]}
+                />
+            );
+        });
+
+        expect(colorPickerComponent.asFragment()).toMatchSnapshot();
+    });
 
     describe("with a mode as", () => {
         it("popover or input renders with the structure", () => {
