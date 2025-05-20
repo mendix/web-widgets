@@ -85,6 +85,9 @@ describe("The Bubble widget", () => {
             }),
             {}
         );
+        const bubbleChart = renderBubbleChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
+        const data = bubbleChart.find(ChartWidget).prop("data");
+        expect(data).toHaveLength(2);
     });
 });
 
