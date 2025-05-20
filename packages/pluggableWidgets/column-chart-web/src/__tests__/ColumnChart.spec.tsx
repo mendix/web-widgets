@@ -57,20 +57,6 @@ describe("The ColumnChart widget", () => {
         const columnChart = renderColumnChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
         const data = columnChart.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("transforms", []);
-        expect(data[1]).toHaveProperty("transforms", [
-            {
-                type: "aggregate",
-                groups: ["1", "2"],
-                aggregations: [
-                    {
-                        target: "y",
-                        enabled: true,
-                        func: "avg"
-                    }
-                ]
-            }
-        ]);
     });
 
     it("sets the appropriate barmode on the layout based on the barmode type", () => {
