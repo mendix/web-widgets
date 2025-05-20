@@ -3,7 +3,7 @@ import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
-import { ObservableSortStoreHost } from "@mendix/widget-plugin-sorting/observable-sort-host";
+import { ObservableSortStoreHost } from "@mendix/widget-plugin-sorting/ObservableSortStoreHost";
 import { ListValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { makeAutoObservable, reaction } from "mobx";
