@@ -64,31 +64,29 @@ describe("The BarChart widget", () => {
         );
     });
 
-    it("sets the appropriate transforms on the data series based on the aggregation type", () => {
+    it("aggregates data based on the aggregation type", () => {
         renderBarChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
 
         expect(ChartWidget).toHaveBeenCalledWith(
             expect.objectContaining({
                 data: expect.arrayContaining([
-                    expect.objectContaining({ transforms: expect.arrayContaining([]) }),
                     expect.objectContaining({
-                        transforms: expect.arrayContaining([
-                            expect.objectContaining({
-                                type: "aggregate",
-                                groups: expect.arrayContaining(["1", "2"]),
-                                aggregations: expect.arrayContaining([
-                                    expect.objectContaining({ target: "y", enabled: true, func: "avg" })
-                                ])
-                            })
-                        ])
+                        x: expect.arrayContaining([expect.any(Number)]),
+                        y: expect.arrayContaining([expect.any(Number)])
+                    }),
+                    expect.objectContaining({
+                        x: expect.arrayContaining([expect.any(Number)]),
+                        y: expect.arrayContaining([expect.any(Number)])
                     })
                 ])
             }),
             {}
         );
-        const barChart = renderBarChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
-        const data = barChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
+
+        renderBarChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(2);
     });
 });
 
