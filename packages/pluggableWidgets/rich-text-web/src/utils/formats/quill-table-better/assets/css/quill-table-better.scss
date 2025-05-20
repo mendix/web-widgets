@@ -69,9 +69,13 @@ $focused-border: 1px solid $focused-border-color;
     background-color: $focused-cell-background;
 }
 
-.ql-editor {
+.ql-editor td {
+    border: none;
+}
+
+.ql-container:not(.ql-disabled) .ql-table-better {
     td {
-        border: none;
+        border: 1px dotted rgba(0, 0, 0, 0.1);
     }
 }
 
