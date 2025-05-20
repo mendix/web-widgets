@@ -358,7 +358,7 @@ exports[`AccordionGroup loadContent behaviour renders widgets when 'loadContent'
 </DocumentFragment>
 `;
 
-exports[`AccordionGroup not collapsible renders the content when the group becomes visible dinamically 1`] = `
+exports[`AccordionGroup not collapsible renders the content when the group becomes visible dynamically 1`] = `
 <DocumentFragment>
   <section
     class="widget-accordion-group class-name"

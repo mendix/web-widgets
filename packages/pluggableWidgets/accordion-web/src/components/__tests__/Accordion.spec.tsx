@@ -55,8 +55,8 @@ describe("Accordion", () => {
 
             const accordion = renderAccordion({ groups });
             const buttons = accordion.getAllByRole("button");
-            buttons[0].focus();
 
+            await user.tab();
             await user.keyboard("{ArrowDown}");
 
             expect(buttons[1]).toHaveFocus();
@@ -69,8 +69,9 @@ describe("Accordion", () => {
             const accordion = renderAccordion({ groups });
 
             const buttons = accordion.getAllByRole("button");
-            buttons[buttons.length - 1].focus();
 
+            await user.tab();
+            await user.tab();
             await user.keyboard("{ArrowUp}");
 
             expect(buttons[0]).toHaveFocus();
@@ -86,8 +87,10 @@ describe("Accordion", () => {
             const accordion = renderAccordion({ groups });
 
             const buttons = accordion.getAllByRole("button");
-            buttons[buttons.length - 1].focus();
 
+            await user.tab();
+            await user.tab();
+            await user.tab();
             await user.keyboard("{Home}");
 
             expect(buttons[0]).toHaveFocus();
@@ -102,8 +105,10 @@ describe("Accordion", () => {
 
             const accordion = renderAccordion({ groups });
             const buttons = accordion.getAllByRole("button");
-            buttons[buttons.length - 1].focus();
 
+            await user.tab();
+            await user.tab();
+            await user.tab();
             await user.keyboard("{End}");
 
             expect(buttons[buttons.length - 1]).toHaveFocus();
@@ -118,8 +123,10 @@ describe("Accordion", () => {
 
             const accordion = renderAccordion({ groups });
             const buttons = accordion.getAllByRole("button");
-            buttons[buttons.length - 1].focus();
 
+            await user.tab();
+            await user.tab();
+            await user.tab();
             await user.keyboard("{ArrowDown}");
 
             expect(buttons[buttons.length - 1]).toHaveFocus();

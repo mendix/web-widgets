@@ -303,7 +303,7 @@ describe("AccordionGroup", () => {
             expect(accordionGroup.asFragment()).toMatchSnapshot();
         });
 
-        it("renders the content when the group becomes visible dinamically", () => {
+        it("renders the content when the group becomes visible dynamically", () => {
             const accordionGroup = renderAccordionGroup({
                 collapsed: false,
                 visible: false
