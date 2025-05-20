@@ -158,6 +158,10 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
             icon: "icons icon-Cell",
             handler(list: HTMLUListElement, tooltip: HTMLDivElement) {
                 const { selectedTds } = this.tableBetter.cellSelection;
+                const isGridShown = this.isGridShown();
+                if (isGridShown) {
+                    this.showGrid(false);
+                }
                 const attribute =
                     selectedTds.length > 1
                         ? this.getSelectedTdsAttrs(selectedTds)
@@ -165,6 +169,9 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
                 this.toggleAttribute(list, tooltip);
                 this.tablePropertiesForm = new TablePropertiesForm(this, { attribute, type: "cell" });
                 this.hideMenus();
+                if (isGridShown) {
+                    this.showGrid(true);
+                }
             }
         },
         wrap: {
@@ -202,6 +209,13 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
             icon: "icons icon-Copy",
             handler() {
                 this.copyTable();
+            }
+        },
+        grid: {
+            content: useLanguage("showGrid"),
+            icon: "icons icon-Table grid-toggle",
+            handler() {
+                this.showGrid();
             }
         }
     };
@@ -256,6 +270,24 @@ class TableMenus {
             this.quill.scrollSelectionIntoView();
         } catch (error) {
             console.error("Failed to copy table:", error);
+        }
+    }
+
+    isGridShown() {
+        return this.table?.classList.contains("ql-table-grid");
+    }
+
+    showGrid(isShow?: boolean) {
+        const tableGridHelperClass = "ql-table-grid";
+        if (isShow === undefined) {
+            this.table?.classList.toggle(tableGridHelperClass);
+            this.root.classList.toggle(tableGridHelperClass);
+        } else if (isShow) {
+            this.table?.classList.add(tableGridHelperClass);
+            this.root.classList.add(tableGridHelperClass);
+        } else {
+            this.table?.classList.remove(tableGridHelperClass);
+            this.root.classList.remove(tableGridHelperClass);
         }
     }
 
@@ -499,21 +531,25 @@ class TableMenus {
     getSelectedTdAttrs(td: HTMLElement) {
         const cellBlot = Quill.find(td) as TableCell;
         const align = getAlign(cellBlot);
+
         const attr: Props = align
             ? { ...getElementStyle(td, CELL_PROPERTIES), "text-align": align }
             : getElementStyle(td, CELL_PROPERTIES);
+        console.log("getSelectedTd Attrs", align, cellBlot, attr);
         return attr;
     }
 
     getSelectedTdsAttrs(selectedTds: HTMLElement[]) {
         const map = new Map();
         let attribute = null;
+        console.log("selectedTds", selectedTds);
         for (const td of selectedTds) {
             const attr = this.getSelectedTdAttrs(td);
             if (!attribute) {
                 attribute = attr;
                 continue;
             }
+            console.log("attr", attr, Object.keys(attribute));
             for (const key of Object.keys(attribute)) {
                 if (map.has(key)) continue;
                 if (attr[key] !== attribute[key]) {
@@ -695,6 +731,11 @@ class TableMenus {
     }
 
     showMenus() {
+        if (this.table?.classList.contains("ql-table-grid")) {
+            this.root.classList.add("ql-table-grid");
+        } else {
+            this.root.classList.remove("ql-table-grid");
+        }
         this.root.classList.remove("ql-hidden");
     }
 

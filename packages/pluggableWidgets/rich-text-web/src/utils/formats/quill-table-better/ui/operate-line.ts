@@ -35,7 +35,9 @@ class OperateLine {
         this.dragTable = null;
         this.direction = null; // 1.level 2.vertical
         this.tableBetter = tableBetter;
-        this.quill.root.addEventListener("mousemove", this.handleMouseMove.bind(this));
+        if (!this.quill.options.readOnly) {
+            this.quill.root.addEventListener("mousemove", this.handleMouseMove.bind(this));
+        }
     }
 
     createDragBlock() {

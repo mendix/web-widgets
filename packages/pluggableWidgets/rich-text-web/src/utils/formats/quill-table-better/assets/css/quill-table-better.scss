@@ -73,7 +73,7 @@ $focused-border: 1px solid $focused-border-color;
     border: none;
 }
 
-.ql-container:not(.ql-disabled) .ql-table-better {
+.ql-container:not(.ql-disabled) .ql-table-better.ql-table-grid {
     td {
         border: 1px dotted rgba(0, 0, 0, 0.1);
     }
@@ -661,5 +661,11 @@ ol.table-list-container {
     }
     80% {
         transform: translateX(1px);
+    }
+}
+
+.ql-table-menus-container.ql-table-grid {
+    .grid-toggle {
+        color: var(--link-color);
     }
 }

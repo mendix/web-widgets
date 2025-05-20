@@ -16,6 +16,7 @@ export default {
     insAft: "Insérer après",
     copyTable: "Copier le tableau",
     delTable: "Supprimer le tableau",
+    showGrid: "Afficher la grille",
     border: "Bordure",
     color: "Couleur",
     width: "Largeur",

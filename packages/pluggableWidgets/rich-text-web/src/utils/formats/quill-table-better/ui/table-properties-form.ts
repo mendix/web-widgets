@@ -369,7 +369,7 @@ class TablePropertiesForm {
         const change = this.attrs;
         const old = this.options.attribute;
         return Object.keys(change).reduce((attrs: Props, key) => {
-            if (change[key] !== old[key]) {
+            if (change[key] !== old[key] || key.startsWith("border")) {
                 attrs[key] = isDimensions(key) ? addDimensionsUnit(change[key]) : change[key];
             }
             return attrs;
@@ -417,7 +417,7 @@ class TablePropertiesForm {
     saveCellAction() {
         const { selectedTds } = this.tableMenus.tableBetter.cellSelection;
         const { quill, table } = this.tableMenus;
-        const colgroup = (Quill.find(table as Node) as TableContainer).colgroup();
+        const colgroup = (Quill.find(table as Node) as TableContainer)?.colgroup();
         const attrs = this.getDiffProperties();
         const width = parseFloat(attrs["width"]);
         const align = attrs["text-align"];
