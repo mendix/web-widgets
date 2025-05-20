@@ -15,7 +15,7 @@ export function HeaderWidgetsHost(props: { children?: React.ReactNode }): React.
     return (
         <FilterAPI.Provider value={rootStore.filterAPI}>
             <SortAPI.Provider value={rootStore.sortAPI}>
-                <SelectionContext.Provider value={selectionContext}>{props.children}</SelectionContext.Provider>;
+                <SelectionContext.Provider value={selectionContext}>{props.children}</SelectionContext.Provider>
             </SortAPI.Provider>
         </FilterAPI.Provider>
     );
