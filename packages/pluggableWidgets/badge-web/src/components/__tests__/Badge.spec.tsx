@@ -1,11 +1,10 @@
-import { shallow, ShallowWrapper } from "enzyme";
+import "@testing-library/jest-dom";
+import { fireEvent, render, RenderResult } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { createElement } from "react";
-
 import { Badge, BadgeProps } from "../Badge";
 
 describe("Badge", () => {
-    const createBadge = (props: BadgeProps): ShallowWrapper<any, any> => shallow(<Badge {...props} />);
-
     let defaultBadgeProps: BadgeProps;
 
     beforeEach(() => {
@@ -15,76 +14,75 @@ describe("Badge", () => {
         };
     });
 
-    it("renders as a badge", () => {
-        const badge = createBadge(defaultBadgeProps);
+    function renderBadge(props: Partial<BadgeProps> = {}): RenderResult {
+        return render(<Badge {...defaultBadgeProps} {...props} />);
+    }
 
-        expect(badge).toMatchSnapshot();
+    it("renders as a badge", () => {
+        const badge = renderBadge();
+
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("renders as a label", () => {
-        defaultBadgeProps.type = "label";
-        const badge = createBadge(defaultBadgeProps);
+        const badge = renderBadge({ type: "label" });
 
-        expect(badge).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("renders when an empty string is passed as value", () => {
-        defaultBadgeProps.value = "";
-        const badge = createBadge(defaultBadgeProps);
+        const badge = renderBadge({ value: "" });
 
-        expect(badge).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("renders as a button like element when onClick function is passed", () => {
-        defaultBadgeProps.onClick = jest.fn();
-        const badge = createBadge(defaultBadgeProps);
+        const badge = renderBadge({ onClick: jest.fn() });
 
-        expect(badge).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
-    it("triggers onClick function with a click event", () => {
-        defaultBadgeProps.onClick = jest.fn();
-        const badge = createBadge(defaultBadgeProps);
+    it("triggers onClick function with a click event", async () => {
+        const onClickMock = jest.fn();
+        const badge = renderBadge({ onClick: onClickMock });
+        const user = userEvent.setup();
 
-        badge.simulate("click");
+        await user.click(badge.getByRole("button"));
 
-        expect(defaultBadgeProps.onClick).toHaveBeenCalledTimes(1);
+        expect(onClickMock).toHaveBeenCalledTimes(1);
     });
 
     it("renders as a button like element when onKeyDown function is passed", () => {
-        defaultBadgeProps.onKeyDown = jest.fn();
-        const badge = createBadge(defaultBadgeProps);
+        const badge = renderBadge({ onKeyDown: jest.fn() });
 
-        expect(badge).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
-    it("triggers onKeyDown function on key down", () => {
-        defaultBadgeProps.onKeyDown = jest.fn();
-        const badge = createBadge(defaultBadgeProps);
+    it("triggers onKeyDown function on key down", async () => {
+        const onKeyDownMock = jest.fn();
+        const badge = renderBadge({ onKeyDown: onKeyDownMock });
+        const button = badge.getByRole("button");
 
-        badge.simulate("keydown");
+        await fireEvent.keyDown(button, { key: "Enter" });
 
-        expect(defaultBadgeProps.onKeyDown).toHaveBeenCalledTimes(1);
+        expect(onKeyDownMock).toHaveBeenCalledTimes(1);
     });
 
     it("renders with a tabIndex", () => {
-        defaultBadgeProps.tabIndex = 1;
-        const badge = createBadge(defaultBadgeProps);
+        const badge = renderBadge({ tabIndex: 1 });
 
-        expect(badge).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("renders custom classes", () => {
-        defaultBadgeProps.className = "custom-class";
-        const badge = createBadge(defaultBadgeProps);
+        const badge = renderBadge({ className: "custom-class" });
 
-        expect(badge).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 
     it("renders custom styles", () => {
-        defaultBadgeProps.style = { padding: 5 };
-        const badge = createBadge(defaultBadgeProps);
+        const badge = renderBadge({ style: { padding: 5 } });
 
-        expect(badge).toMatchSnapshot();
+        expect(badge.asFragment()).toMatchSnapshot();
     });
 });

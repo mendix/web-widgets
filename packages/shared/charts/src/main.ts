@@ -8,6 +8,7 @@ export * from "./utils/configs";
 export * from "./utils/chartStyles";
 export * from "./utils/equality";
 export { fallback, pprint } from "./utils/json";
+export { setupBasicSeries } from "./utils/setupBasicSeries";
 export { getPlaygroundContext, usePlaygroundContext };
 import { getPlaygroundContext, usePlaygroundContext } from "./helpers/playground-context";
 export * from "./helpers/useEditorStore";

@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ColorPicker renders picker with pre-defined default colors 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-color-picker widget-color-picker-picker"
+  />
+</DocumentFragment>
+`;
+
+exports[`ColorPicker renders the structure correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-color-picker widget-color-picker-picker"
+  >
+    <button
+      class="btn"
+    >
+      <div
+        class="widget-color-picker-inner"
+        style="background: rgb(0, 0, 0);"
+      />
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ColorPicker that is disabled renders with the structure 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-color-picker widget-color-picker-picker widget-color-picker-disabled"
+  >
+    <button
+      class="btn disabled"
+    >
+      <div
+        class="widget-color-picker-inner"
+        style="background: rgb(0, 0, 0);"
+      />
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ColorPicker with a mode as inline renders with the structure 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-color-picker widget-color-picker-picker"
+  >
+    <div
+      class=""
+    >
+      <sketch-picker
+        color="#000000"
+        disablealpha="true"
+        disabled="false"
+        displaycolorpicker="false"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ColorPicker with a mode as popover or input renders with the structure 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-color-picker widget-color-picker-picker"
+  >
+    <button
+      class="btn"
+    >
+      <div
+        class="widget-color-picker-inner"
+        style="background: rgb(0, 0, 0);"
+      />
+    </button>
+  </div>
+</DocumentFragment>
+`;

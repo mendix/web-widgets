@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Barcode scanner does not show the overlay when the user opts out of it 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="mx-barcode-scanner"
     style="width: 100%; height: 100%;"
@@ -14,11 +14,11 @@ exports[`Barcode scanner does not show the overlay when the user opts out of it 
       />
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Barcode scanner renders video and overlay correctly 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="mx-barcode-scanner"
     style="width: 100%; height: 100%;"
@@ -68,15 +68,15 @@ exports[`Barcode scanner renders video and overlay correctly 1`] = `
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Barcode scanner shows an appropriate error when the mediaDevices API is not present (like over http) 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="alert alert-danger"
   >
     The barcode scanner widget is only compatible with certain browsers and requires a secure HTTPS connection in certain browsers. If you encounter this error message as an user, please contact your system administrator. If you are a Mendix developer, please refer to the appropriate docs on how to resolve this issue.
   </div>
-</div>
+</DocumentFragment>
 `;

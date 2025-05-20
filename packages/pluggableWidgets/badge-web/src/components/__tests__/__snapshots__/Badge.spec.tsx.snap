@@ -1,73 +1,83 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Badge renders as a badge 1`] = `
-<span
-  className="widget-badge badge"
->
-  text
-</span>
+<DocumentFragment>
+  <span
+    class="widget-badge badge"
+  >
+    text
+  </span>
+</DocumentFragment>
 `;
 
 exports[`Badge renders as a button like element when onClick function is passed 1`] = `
-<span
-  className="widget-badge badge widget-badge-clickable"
-  onClick={[MockFunction]}
-  role="button"
->
-  text
-</span>
+<DocumentFragment>
+  <span
+    class="widget-badge badge widget-badge-clickable"
+    role="button"
+  >
+    text
+  </span>
+</DocumentFragment>
 `;
 
 exports[`Badge renders as a button like element when onKeyDown function is passed 1`] = `
-<span
-  className="widget-badge badge"
-  onKeyDown={[MockFunction]}
-  role="button"
->
-  text
-</span>
+<DocumentFragment>
+  <span
+    class="widget-badge badge"
+    role="button"
+  >
+    text
+  </span>
+</DocumentFragment>
 `;
 
 exports[`Badge renders as a label 1`] = `
-<span
-  className="widget-badge label"
->
-  text
-</span>
+<DocumentFragment>
+  <span
+    class="widget-badge label"
+  >
+    text
+  </span>
+</DocumentFragment>
 `;
 
 exports[`Badge renders custom classes 1`] = `
-<span
-  className="widget-badge badge custom-class"
->
-  text
-</span>
+<DocumentFragment>
+  <span
+    class="widget-badge badge custom-class"
+  >
+    text
+  </span>
+</DocumentFragment>
 `;
 
 exports[`Badge renders custom styles 1`] = `
-<span
-  className="widget-badge badge"
-  style={
-    {
-      "padding": 5,
-    }
-  }
->
-  text
-</span>
+<DocumentFragment>
+  <span
+    class="widget-badge badge"
+    style="padding: 5px;"
+  >
+    text
+  </span>
+</DocumentFragment>
 `;
 
 exports[`Badge renders when an empty string is passed as value 1`] = `
-<span
-  className="widget-badge badge"
-/>
+<DocumentFragment>
+  <span
+    class="widget-badge badge"
+  />
+</DocumentFragment>
 `;
 
 exports[`Badge renders with a tabIndex 1`] = `
-<span
-  className="widget-badge badge"
-  tabIndex={1}
->
-  text
-</span>
+<DocumentFragment>
+  <span
+    class="widget-badge badge"
+    tabindex="1"
+  >
+    text
+  </span>
+</DocumentFragment>
 `;

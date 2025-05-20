@@ -1,5 +1,7 @@
+import "@testing-library/jest-dom";
 import { createElement } from "react";
-import { mount, ReactWrapper, shallow } from "enzyme";
+import { act, render, RenderResult } from "@testing-library/react";
+import userEvent, { UserEvent } from "@testing-library/user-event";
 import { Accordion, AccordionProps } from "../Accordion";
 
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
@@ -10,8 +12,10 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
 
 describe("Accordion", () => {
     let defaultProps: AccordionProps;
-    function getProps(collapsible: boolean, singleExpandedGroup?: boolean): AccordionProps {
-        return {
+    let user: UserEvent;
+
+    beforeEach(() => {
+        defaultProps = {
             id: "id",
             class: "",
             style: { height: "500px" },
@@ -32,240 +36,206 @@ describe("Accordion", () => {
                     loadContent: "always"
                 }
             ],
-            collapsible,
-            singleExpandedGroup,
+            collapsible: true,
+            singleExpandedGroup: true,
             generateHeaderIcon: jest.fn(),
             showGroupHeaderIcon: "right"
         };
+        user = userEvent.setup();
+    });
+
+    function renderAccordion(props: Partial<AccordionProps> = {}): RenderResult {
+        return render(<Accordion {...defaultProps} {...props} />);
     }
 
     describe("collapsible AccordionGroupWrapper", () => {
-        let accordion: ReactWrapper;
-
-        const container = document.createElement("div");
-        container.id = "container";
-        document.body.appendChild(container);
-
-        beforeEach(() => {
-            defaultProps = getProps(true, true);
-        });
-
-        afterEach(() => {
-            accordion.unmount();
-        });
-
-        it("gives the next accordion group button focus on arrow down key down", () => {
+        it("gives the next accordion group button focus on arrow down key down", async () => {
             const groups = [...defaultProps.groups];
             groups[1].visible = true;
 
-            accordion = mount(<Accordion {...defaultProps} groups={groups} />, {
-                attachTo: document.querySelector("#container") as HTMLDivElement
-            });
+            const accordion = renderAccordion({ groups });
+            const buttons = accordion.getAllByRole("button");
 
-            const firstAccordionGroupButton = accordion.find(".widget-accordion-group-header-button").first();
+            await user.tab();
+            await user.keyboard("{ArrowDown}");
 
-            const keyboardEvent = {
-                key: "ArrowDown",
-                preventDefault: jest.fn(),
-                currentTarget: firstAccordionGroupButton.getDOMNode()
-            };
-
-            firstAccordionGroupButton.simulate("keydown", keyboardEvent);
-            expect(accordion.find(".widget-accordion-group-header-button").last().getDOMNode()).toBe(
-                document.activeElement
-            );
+            expect(buttons[1]).toHaveFocus();
         });
 
-        it("gives the previous accordion group button focus on arrow up key down", () => {
+        it("gives the previous accordion group button focus on arrow up key down", async () => {
             const groups = [...defaultProps.groups];
             groups[1].visible = true;
 
-            accordion = mount(<Accordion {...defaultProps} groups={groups} />, {
-                attachTo: document.querySelector("#container") as HTMLDivElement
-            });
+            const accordion = renderAccordion({ groups });
 
-            const lastAccordionGroupButton = accordion.find(".widget-accordion-group-header-button").last();
-            const keyboardEvent = {
-                key: "ArrowUp",
-                preventDefault: jest.fn(),
-                currentTarget: lastAccordionGroupButton.getDOMNode()
-            };
+            const buttons = accordion.getAllByRole("button");
 
-            (lastAccordionGroupButton.getDOMNode() as HTMLButtonElement).focus();
-            lastAccordionGroupButton.simulate("keydown", keyboardEvent);
-            expect(accordion.find(".widget-accordion-group-header-button").first().getDOMNode()).toBe(
-                document.activeElement
-            );
+            await user.tab();
+            await user.tab();
+            await user.keyboard("{ArrowUp}");
+
+            expect(buttons[0]).toHaveFocus();
         });
 
-        it("gives the first accordion group button focus on Home key down", () => {
+        it("gives the first accordion group button focus on Home key down", async () => {
             const groups = [
                 ...defaultProps.groups,
                 { header: "header3", content: <span>content3</span>, visible: true, loadContent: "always" as const }
             ];
             groups[1].visible = true;
 
-            accordion = mount(<Accordion {...defaultProps} groups={groups} />, {
-                attachTo: document.querySelector("#container") as HTMLDivElement
-            });
+            const accordion = renderAccordion({ groups });
 
-            const lastAccordionGroupButton = accordion.find(".widget-accordion-group-header-button").last();
-            const keyboardEvent = {
-                key: "Home",
-                preventDefault: jest.fn(),
-                currentTarget: lastAccordionGroupButton.getDOMNode()
-            };
+            const buttons = accordion.getAllByRole("button");
 
-            (lastAccordionGroupButton.getDOMNode() as HTMLButtonElement).focus();
-            lastAccordionGroupButton.simulate("keydown", keyboardEvent);
-            expect(accordion.find(".widget-accordion-group-header-button").first().getDOMNode()).toBe(
-                document.activeElement
-            );
+            await user.tab();
+            await user.tab();
+            await user.tab();
+            await user.keyboard("{Home}");
+
+            expect(buttons[0]).toHaveFocus();
         });
 
-        it("gives the last accordion group button focus on End key down", () => {
+        it("gives the last accordion group button focus on End key down", async () => {
             const groups = [
                 ...defaultProps.groups,
                 { header: "header3", content: <span>content3</span>, visible: true, loadContent: "always" as const }
             ];
             groups[1].visible = true;
 
-            accordion = mount(<Accordion {...defaultProps} groups={groups} />, {
-                attachTo: document.querySelector("#container") as HTMLDivElement
-            });
+            const accordion = renderAccordion({ groups });
+            const buttons = accordion.getAllByRole("button");
 
-            const firstAccordionGroupButton = accordion.find(".widget-accordion-group-header-button").first();
-            const keyboardEvent = {
-                key: "End",
-                preventDefault: jest.fn(),
-                currentTarget: firstAccordionGroupButton.getDOMNode()
-            };
+            await user.tab();
+            await user.tab();
+            await user.tab();
+            await user.keyboard("{End}");
 
-            (firstAccordionGroupButton.getDOMNode() as HTMLButtonElement).focus();
-            firstAccordionGroupButton.simulate("keydown", keyboardEvent);
-            expect(accordion.find(".widget-accordion-group-header-button").last().getDOMNode()).toBe(
-                document.activeElement
-            );
+            expect(buttons[buttons.length - 1]).toHaveFocus();
         });
 
-        it("remains focus on the last accordion group button on arrow down key down", () => {
+        it("remains focus on the last accordion group button on arrow down key down", async () => {
             const groups = [
                 ...defaultProps.groups,
                 { header: "header3", content: <span>content3</span>, visible: true, loadContent: "always" as const }
             ];
             groups[1].visible = true;
 
-            accordion = mount(<Accordion {...defaultProps} groups={groups} />, {
-                attachTo: document.querySelector("#container") as HTMLDivElement
-            });
+            const accordion = renderAccordion({ groups });
+            const buttons = accordion.getAllByRole("button");
 
-            const lastAccordionGroupButton = accordion.find(".widget-accordion-group-header-button").last();
-            const keyboardEvent = {
-                key: "ArrowDown",
-                preventDefault: jest.fn(),
-                currentTarget: lastAccordionGroupButton.getDOMNode()
-            };
+            await user.tab();
+            await user.tab();
+            await user.tab();
+            await user.keyboard("{ArrowDown}");
 
-            (lastAccordionGroupButton.getDOMNode() as HTMLButtonElement).focus();
-            lastAccordionGroupButton.simulate("keydown", keyboardEvent);
-            expect(lastAccordionGroupButton.getDOMNode()).toBe(document.activeElement);
+            expect(buttons[buttons.length - 1]).toHaveFocus();
         });
     });
 
     it("renders correctly without tabindex", () => {
-        const accordion = shallow(<Accordion {...getProps(true, true)} tabIndex={undefined} />);
-        expect(accordion).toMatchSnapshot();
+        const accordion = renderAccordion({ tabIndex: undefined });
+
+        expect(accordion.asFragment()).toMatchSnapshot();
     });
 
     describe("in collapsible & single expanded group mode", () => {
-        beforeEach(() => {
-            defaultProps = getProps(true, true);
-        });
-
         it("renders correctly", () => {
-            const accordion = mount(<Accordion {...defaultProps} />);
+            const accordion = renderAccordion();
 
-            expect(accordion).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
-        it("expands a group", () => {
-            const accordion = mount(<Accordion {...defaultProps} />);
+        it("expands a group", async () => {
+            const accordion = renderAccordion();
+            const button = accordion.getAllByRole("button")[1];
 
-            accordion.find(".widget-accordion-group-header-button").simulate("click");
-            expect(accordion).toMatchSnapshot();
+            await user.click(button);
+
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
-        it("allows one group to be expanded only", () => {
+        it("allows one group to be expanded only", async () => {
             const groups = [...defaultProps.groups];
             groups[1].visible = true;
-            const accordion = mount(<Accordion {...defaultProps} groups={groups} />);
 
-            accordion.find(".widget-accordion-group-header-button").first().simulate("click");
-            accordion.find(".widget-accordion-group-header-button").last().simulate("click");
-            expect(accordion).toMatchSnapshot();
+            const accordion = renderAccordion({ groups });
+            const buttons = accordion.getAllByRole("button");
+
+            await user.click(buttons[0]);
+            await user.click(buttons[buttons.length - 1]);
+
+            expect(buttons[1]).toHaveFocus();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
-        it("collapses a group", () => {
-            const accordion = mount(<Accordion {...defaultProps} />);
+        it("collapses a group", async () => {
+            const accordion = renderAccordion();
+            const button = accordion.getAllByRole("button")[0];
 
-            accordion.find(".widget-accordion-group-header-button").first().simulate("click");
-            accordion.find(".widget-accordion-group-header-button").first().simulate("click");
-            expect(accordion).toMatchSnapshot();
+            await user.click(button);
+            await user.click(button);
+
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("inits with group initially collapsed settings", () => {
             const groups = [...defaultProps.groups];
             groups[0].initiallyCollapsed = false;
+            const accordion = renderAccordion({ groups });
 
-            const accordion = shallow(<Accordion {...defaultProps} groups={groups} />);
-            expect(accordion).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("inits with not more than one group expanded", () => {
             const groups = [...defaultProps.groups].map(group => ({ ...group, initiallyCollapsed: false }));
+            const accordion = renderAccordion({ groups });
 
-            const accordion = shallow(<Accordion {...defaultProps} groups={groups} />);
-            expect(accordion).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
     });
 
     describe("in collapsible & multiple expanded group mode", () => {
-        beforeEach(() => {
-            defaultProps = getProps(true, false);
-        });
-
         it("renders correctly", () => {
-            const accordion = mount(<Accordion {...defaultProps} />);
+            const accordion = renderAccordion({ singleExpandedGroup: false });
 
-            expect(accordion).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
-        it("expands a group", () => {
-            const accordion = mount(<Accordion {...defaultProps} />);
+        it("expands a group", async () => {
+            const accordion = renderAccordion({ singleExpandedGroup: false });
+            const button = accordion.getAllByRole("button")[0];
 
-            accordion.find(".widget-accordion-group-header-button").simulate("click");
-            expect(accordion).toMatchSnapshot();
+            await user.click(button);
+
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
-        it("allows multiple groups to be expanded", () => {
+        it("allows multiple groups to be expanded", async () => {
             const groups = [...defaultProps.groups];
             groups[1].visible = true;
-            const accordion = mount(<Accordion {...defaultProps} groups={groups} />);
 
-            accordion.find(".widget-accordion-group-header-button").first().simulate("click");
-            accordion.find(".widget-accordion-group-header-button").last().simulate("click");
-            expect(accordion).toMatchSnapshot();
+            const accordion = renderAccordion({ singleExpandedGroup: false, groups });
+            const buttons = accordion.getAllByRole("button");
+
+            await user.click(buttons[0]);
+            await user.click(buttons[buttons.length - 1]);
+
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
-        it("collapses a group", () => {
+        it("collapses a group", async () => {
             const groups = [...defaultProps.groups];
             groups[1].visible = true;
-            const accordion = mount(<Accordion {...defaultProps} groups={groups} />);
 
-            accordion.find(".widget-accordion-group-header-button").first().simulate("click");
-            accordion.find(".widget-accordion-group-header-button").last().simulate("click");
-            accordion.find(".widget-accordion-group-header-button").first().simulate("click");
-            expect(accordion).toMatchSnapshot();
+            const accordion = renderAccordion({ singleExpandedGroup: false, groups });
+            const buttons = accordion.getAllByRole("button");
+
+            await user.click(buttons[0]);
+            await user.click(buttons[buttons.length - 1]);
+            await user.click(buttons[0]);
+
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("inits with group initially collapsed settings", () => {
@@ -278,29 +248,29 @@ describe("Accordion", () => {
                 loadContent: "always" as const
             });
 
-            const accordion = shallow(<Accordion {...defaultProps} groups={groups} />);
-            expect(accordion).toMatchSnapshot();
+            const accordion = renderAccordion({ singleExpandedGroup: false, groups });
+
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
 
         it("applies group collapsed value changes", () => {
-            const accordion = shallow(<Accordion {...defaultProps} />);
+            const accordion = renderAccordion({ singleExpandedGroup: false });
             const newGroups = [...defaultProps.groups];
             newGroups[1].collapsed = false;
-            accordion.setProps({ groups: newGroups });
 
-            expect(accordion).toMatchSnapshot();
+            act(() => {
+                accordion.rerender(<Accordion {...defaultProps} singleExpandedGroup={false} groups={newGroups} />);
+            });
+
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
     });
 
     describe("not collapsible", () => {
-        beforeEach(() => {
-            defaultProps = getProps(false);
-        });
-
         it("renders correctly", () => {
-            const accordion = mount(<Accordion {...defaultProps} />);
+            const accordion = renderAccordion({ collapsible: false });
 
-            expect(accordion).toMatchSnapshot();
+            expect(accordion.asFragment()).toMatchSnapshot();
         });
     });
 });

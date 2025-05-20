@@ -1,36 +1,48 @@
+import "@testing-library/jest-dom";
+import { act, render, RenderResult } from "@testing-library/react";
 import { createElement } from "react";
-import { render } from "@testing-library/react";
-
-import { shallow, ShallowWrapper } from "enzyme";
-
 import { Button, ButtonProps } from "../Button";
 
 describe("Button", () => {
-    const renderButton = (props: ButtonProps): ShallowWrapper<ButtonProps, any> => shallow(<Button {...props} />);
-    const buttonProps: ButtonProps = {
-        color: "#000000",
-        disabled: false,
-        mode: "popover",
-        onClick: jest.fn()
-    };
+    let buttonProps: ButtonProps;
+
+    beforeEach(() => {
+        buttonProps = {
+            color: "#000000",
+            disabled: false,
+            mode: "popover",
+            onClick: jest.fn()
+        };
+    });
+
+    function renderButton(configs: Partial<ButtonProps> = {}): RenderResult {
+        return render(<Button {...buttonProps} {...configs} />);
+    }
 
     it("render DOM structure", () => {
-        const { asFragment } = render(<Button {...buttonProps} />);
-        expect(asFragment()).toMatchSnapshot();
+        const button = render(<Button {...buttonProps} />);
+        expect(button.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly", () => {
-        const buttonComponent = renderButton(buttonProps);
+        const { getByRole, rerender } = renderButton();
 
-        expect(buttonComponent.hasClass("btn")).toBe(true);
+        const button = getByRole("button");
+        expect(button).toHaveClass("btn");
 
-        buttonComponent.setProps({ disabled: true });
-        expect(buttonComponent.hasClass("disabled")).toBe(true);
+        act(() => {
+            rerender(<Button {...buttonProps} disabled />);
+        });
+        expect(button).toHaveClass("disabled");
 
-        buttonComponent.setProps({ mode: "input" });
-        expect(buttonComponent.hasClass("widget-color-picker-input")).toBe(true);
+        act(() => {
+            rerender(<Button {...buttonProps} mode="input" />);
+        });
+        expect(button).toHaveClass("widget-color-picker-input");
 
-        buttonComponent.setProps({ mode: "inline" });
-        expect(buttonComponent.hasClass("hidden")).toBe(true);
+        act(() => {
+            rerender(<Button {...buttonProps} mode="inline" />);
+        });
+        expect(button).toHaveClass("hidden");
     });
 });
