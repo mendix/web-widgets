@@ -13,6 +13,7 @@ import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 import { useGalleryStore } from "./helpers/useGalleryStore";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { GalleryRootScope, GalleryContext, useGalleryRootScope } from "./helpers/root-context";
+import { HeaderWidgetsHost } from "./components/HeaderWidgetsHost";
 
 const Container = observer(function GalleryContainer(props: GalleryContainerProps): ReactElement {
     const { rootStore, itemSelectHelper } = useGalleryRootScope();
@@ -53,6 +54,8 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
 
     useOnResetFiltersEvent(rootStore.name, rootStore.id);
 
+    const header = <HeaderWidgetsHost>{props.filtersPlaceholder}</HeaderWidgetsHost>;
+
     return (
         <GalleryComponent
             className={props.class}
@@ -63,7 +66,7 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
                 [props.emptyPlaceholder, props.showEmptyPlaceholder]
             )}
             emptyMessageTitle={props.emptyMessageTitle?.value}
-            header={props.filtersPlaceholder}
+            header={header}
             headerTitle={props.filterSectionTitle?.value}
             ariaLabelListBox={props.ariaLabelListBox?.value}
             showHeader={!!props.filtersPlaceholder}
