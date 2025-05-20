@@ -8,6 +8,7 @@ export interface YoutubeProps {
     loop: boolean;
     muted: boolean;
     aspectRatio?: boolean;
+    title?: string;
 }
 
 export class Youtube extends Component<YoutubeProps> {
@@ -21,6 +22,7 @@ export class Youtube extends Component<YoutubeProps> {
                 frameBorder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                title={this.props.title}
             />
         );
     }

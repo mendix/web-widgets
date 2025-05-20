@@ -13,6 +13,7 @@ export default class VideoPlayer extends Component<VideoPlayerContainerProps> {
         const url = useExpressionForLinks ? this.props.urlExpression?.value : this.props.videoUrl?.value;
         const poster = useExpressionForLinks ? this.props.posterExpression?.value : this.props.posterUrl?.value;
         const key = poster ? `${url}-${poster}` : url;
+        const title = this.props.iframeTitle?.value;
 
         return (
             <SizeContainer
@@ -35,6 +36,7 @@ export default class VideoPlayer extends Component<VideoPlayerContainerProps> {
                     muted={this.props.muted}
                     aspectRatio={this.props.heightUnit === "aspectRatio"}
                     preview={false}
+                    title={title}
                 />
             </SizeContainer>
         );

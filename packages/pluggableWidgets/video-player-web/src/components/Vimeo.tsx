@@ -7,6 +7,7 @@ export interface VimeoProps {
     loop: boolean;
     muted: boolean;
     aspectRatio?: boolean;
+    title?: string;
 }
 
 export class Vimeo extends Component<VimeoProps> {
@@ -20,6 +21,7 @@ export class Vimeo extends Component<VimeoProps> {
                 frameBorder="0"
                 allow="autoplay; fullscreen"
                 allowFullScreen
+                title={this.props.title}
             />
         );
     }

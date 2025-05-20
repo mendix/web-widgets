@@ -16,6 +16,8 @@ export interface VideoPlayerProps {
     muted: boolean;
     aspectRatio: boolean;
 
+    title?: string;
+
     preview: boolean;
 }
 
@@ -48,6 +50,7 @@ export class Video extends Component<VideoPlayerProps> {
                 url={url}
                 aspectRatio={this.props.aspectRatio}
                 preview={this.props.preview}
+                title={this.props.title}
             />
         );
     }
@@ -61,6 +64,7 @@ export class Video extends Component<VideoPlayerProps> {
                 muted={this.props.muted}
                 loop={this.props.loop}
                 aspectRatio={this.props.aspectRatio}
+                title={this.props.title}
             />
         );
     }
@@ -73,6 +77,7 @@ export class Video extends Component<VideoPlayerProps> {
                 muted={this.props.muted}
                 loop={this.props.loop}
                 aspectRatio={this.props.aspectRatio}
+                title={this.props.title}
             />
         );
     }
@@ -85,6 +90,7 @@ export class Video extends Component<VideoPlayerProps> {
                 muted={this.props.muted}
                 showControls={this.props.showControls}
                 aspectRatio={this.props.aspectRatio}
+                title={this.props.title}
             />
         );
     }

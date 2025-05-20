@@ -1,5 +1,5 @@
 import { createElement, ReactNode } from "react";
-import { create } from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { SizeContainer, SizeProps } from "../SizeContainer";
 
@@ -17,93 +17,84 @@ describe("Size container", () => {
     };
 
     it("renders correctly with height unit pixels", () => {
-        const sizeContainer = create(<SizeContainer {...defaultProps} />).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        const { asFragment } = render(<SizeContainer {...defaultProps} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with height unit percentage of width", () => {
-        const sizeContainer = create(<SizeContainer {...defaultProps} heightUnit="percentageOfWidth" />).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        const { asFragment } = render(<SizeContainer {...defaultProps} heightUnit="percentageOfWidth" />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with pixel width & height unit percentage of width", () => {
-        const sizeContainer = create(
+        const { asFragment } = render(
             <SizeContainer {...defaultProps} widthUnit="pixels" heightUnit="percentageOfWidth" />
-        ).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with height unit percentage of parent", () => {
-        const sizeContainer = create(<SizeContainer {...defaultProps} heightUnit="percentageOfParent" />).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        const { asFragment } = render(<SizeContainer {...defaultProps} heightUnit="percentageOfParent" />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with height unit aspect ratio 1:1", () => {
-        const sizeContainer = create(
+        const { asFragment } = render(
             <SizeContainer {...defaultProps} heightUnit="aspectRatio" height={undefined} heightAspectRatio="oneByOne" />
-        ).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with height unit aspect ratio 4:3", () => {
-        const sizeContainer = create(
+        const { asFragment } = render(
             <SizeContainer
                 {...defaultProps}
                 heightUnit="aspectRatio"
                 height={undefined}
                 heightAspectRatio="fourByThree"
             />
-        ).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with height unit aspect ratio 3:2", () => {
-        const sizeContainer = create(
+        const { asFragment } = render(
             <SizeContainer
                 {...defaultProps}
                 heightUnit="aspectRatio"
                 height={undefined}
                 heightAspectRatio="threeByTwo"
             />
-        ).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with height unit aspect ratio 16:9", () => {
-        const sizeContainer = create(
+        const { asFragment } = render(
             <SizeContainer
                 {...defaultProps}
                 heightUnit="aspectRatio"
                 height={undefined}
                 heightAspectRatio="sixteenByNine"
             />
-        ).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with height unit aspect ratio 21:9", () => {
-        const sizeContainer = create(
+        const { asFragment } = render(
             <SizeContainer
                 {...defaultProps}
                 heightUnit="aspectRatio"
                 height={undefined}
                 heightAspectRatio="TwentyOneByNine"
             />
-        ).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with height unit aspect ratio & any width", () => {
-        const sizeContainer = create(
+        const { asFragment } = render(
             <SizeContainer
                 {...defaultProps}
                 width={68}
@@ -111,13 +102,12 @@ describe("Size container", () => {
                 height={undefined}
                 heightAspectRatio="TwentyOneByNine"
             />
-        ).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly with pixel width & height unit aspect ratio", () => {
-        const sizeContainer = create(
+        const { asFragment } = render(
             <SizeContainer
                 {...defaultProps}
                 widthUnit="pixels"
@@ -125,8 +115,7 @@ describe("Size container", () => {
                 height={undefined}
                 heightAspectRatio="TwentyOneByNine"
             />
-        ).toJSON();
-
-        expect(sizeContainer).toMatchSnapshot();
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 });

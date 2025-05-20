@@ -40,6 +40,14 @@
                 <systemProperty key="TabIndex" />
             </propertyGroup>
         </propertyGroup>
+        <propertyGroup caption="Accessibility">
+            <propertyGroup caption="Accessibility">
+                <property key="iframeTitle" type="textTemplate" required="false">
+                    <caption>Title</caption>
+                    <description>Describe the purpose of the video (e.g., 'Video tutorial on accessibility').</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
         <propertyGroup caption="Controls">
             <propertyGroup caption="Controls">
                 <property key="autoStart" type="boolean" defaultValue="false">
