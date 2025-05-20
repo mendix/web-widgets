@@ -3,7 +3,7 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { AssociationMetaData, AttributeMetaData, ListValue, ObjectItem } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
-import { association, attribute, contains, literal, or } from "mendix/filters/builders";
+import { association, attribute, contains, equals, literal, or } from "mendix/filters/builders";
 import { action, autorun, computed, makeObservable, observable, reaction, runInAction, when } from "mobx";
 import { OptionWithState } from "../typings/OptionWithState";
 import { BaseSelectStore } from "./BaseSelectStore";
@@ -122,7 +122,11 @@ export class RefFilterStore extends BaseSelectStore {
             const obj = this.selectedItems.find(o => o.id === guid);
 
             if (obj) {
-                return [contains(association(this.refEntity.id), literal(obj))];
+                try {
+                    return [contains(association(this.refEntity.id), literal(obj))];
+                } catch {
+                    return [equals(association(this.refEntity.id), literal(obj))];
+                }
             }
 
             const viewExp = this.initCondArray.find(e => {
