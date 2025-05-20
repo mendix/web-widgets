@@ -16,6 +16,7 @@ export default {
     insAft: "Insert after",
     copyTable: "Copy table",
     delTable: "Delete table",
+    showGrid: "Show grid",
     border: "Border",
     color: "Color",
     width: "Width",

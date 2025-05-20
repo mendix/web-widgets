@@ -131,7 +131,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                         table: false,
                         "table-better": {
                             language: "en_US",
-                            menus: ["column", "row", "merge", "table", "cell", "wrap", "copy", "delete"],
+                            menus: ["column", "row", "merge", "table", "cell", "wrap", "copy", "delete", "grid"],
                             toolbarTable: !readOnly
                         },
                         toolbar

@@ -16,6 +16,7 @@ export default {
     insAft: "在表格后面插入",
     copyTable: "复制表格",
     delTable: "删除表格",
+    showGrid: "显示网格",
     border: "边框",
     color: "颜色",
     width: "宽度",
