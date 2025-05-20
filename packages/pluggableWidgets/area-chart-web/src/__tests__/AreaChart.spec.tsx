@@ -150,6 +150,9 @@ describe("The AreaChart widget", () => {
             }),
             {}
         );
+        const areaChart = renderAreaChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
+        const data = areaChart.find(ChartWidget).prop("data");
+        expect(data).toHaveLength(2);
     });
 });
 

@@ -86,6 +86,9 @@ describe("The BarChart widget", () => {
             }),
             {}
         );
+        const barChart = renderBarChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
+        const data = barChart.find(ChartWidget).prop("data");
+        expect(data).toHaveLength(2);
     });
 });
 

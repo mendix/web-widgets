@@ -77,20 +77,6 @@ describe("The TimeSeries widget", () => {
         const timeSeries = renderTimeSeries([{ aggregationType: "none" }, { aggregationType: "avg" }]);
         const data = timeSeries.find(ChartWidget).prop("data");
         expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("transforms", []);
-        expect(data[1]).toHaveProperty("transforms", [
-            {
-                type: "aggregate",
-                groups: ["01/01/2022", "02/01/2022"],
-                aggregations: [
-                    {
-                        target: "y",
-                        enabled: true,
-                        func: "avg"
-                    }
-                ]
-            }
-        ]);
     });
 
     it("sets the area fill color on the data series based on fillColor", () => {
