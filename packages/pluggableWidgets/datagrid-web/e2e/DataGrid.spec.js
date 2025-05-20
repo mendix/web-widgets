@@ -183,6 +183,16 @@ test.describe("visual testing:", () => {
         await expect(page.locator(".mx-name-datagrid1")).toBeVisible();
         await expect(page.locator(".mx-name-datagrid1")).toHaveScreenshot(`datagrid.png`);
     });
+
+    test("compares with a screenshot baseline and checks datagrid using virtual scrolling are rendered as expected", async ({
+        page
+    }) => {
+        await page.goto("/p/virtual-scrolling");
+        await page.waitForLoadState("networkidle");
+        await expect(page.locator(".mx-name-dataGrid21")).toBeVisible();
+        await page.locator(".mx-name-dataGrid21 .mx-name-textFilter1 .filter-selector-content .btn").click();
+        await expect(page.locator(".mx-name-dataGrid21")).toHaveScreenshot(`datagrid-virtual-scrolling.png`);
+    });
 });
 
 test.describe("a11y testing:", () => {
