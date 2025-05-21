@@ -535,21 +535,18 @@ class TableMenus {
         const attr: Props = align
             ? { ...getElementStyle(td, CELL_PROPERTIES), "text-align": align }
             : getElementStyle(td, CELL_PROPERTIES);
-        console.log("getSelectedTd Attrs", align, cellBlot, attr);
         return attr;
     }
 
     getSelectedTdsAttrs(selectedTds: HTMLElement[]) {
         const map = new Map();
         let attribute = null;
-        console.log("selectedTds", selectedTds);
         for (const td of selectedTds) {
             const attr = this.getSelectedTdAttrs(td);
             if (!attribute) {
                 attribute = attr;
                 continue;
             }
-            console.log("attr", attr, Object.keys(attribute));
             for (const key of Object.keys(attribute)) {
                 if (map.has(key)) continue;
                 if (attr[key] !== attribute[key]) {
