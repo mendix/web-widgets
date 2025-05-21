@@ -137,8 +137,6 @@ export function getProperties(
                 "columnsHidable",
                 "configurationAttribute",
                 "onConfigurationChange",
-                "filterList",
-                "filtersPlaceholder",
                 "filterSectionTitle"
             ]);
         }
