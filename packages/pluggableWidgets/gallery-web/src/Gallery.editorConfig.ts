@@ -22,6 +22,9 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
         hidePropertiesIn(defaultProperties, values, ["onSelectionChange", "itemSelectionMode"]);
     }
 
+    // Hide scrolling settings for now.
+    hidePropertiesIn(defaultProperties, values, ["showPagingButtons", "showTotalCount"]);
+
     return defaultProperties;
 }
 
