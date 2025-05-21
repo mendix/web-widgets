@@ -30,7 +30,7 @@ exports[`Text Filter with single instance with multiple attributes renders corre
           class="filter-selectors hidden"
           id="downshift-:r8:-menu"
           role="listbox"
-          style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
+          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
         />
       </div>
     </div>
@@ -83,7 +83,7 @@ exports[`Text Filter with single instance with single attribute renders correctl
           class="filter-selectors hidden"
           id="downshift-:r5:-menu"
           role="listbox"
-          style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
+          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
         />
       </div>
     </div>

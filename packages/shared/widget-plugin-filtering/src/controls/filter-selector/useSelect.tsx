@@ -1,6 +1,6 @@
 import { autoUpdate, useFloating } from "@floating-ui/react-dom";
 import { UseSelectPropGetters, useSelect as useDownshiftSelect } from "downshift";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useEffect } from "react";
 
 interface Option {
     value: string;
@@ -39,12 +39,18 @@ export function useSelect(props: useSelectProps): ViewProps {
         onSelectedItemChange: ({ selectedItem }) => props.onSelect(selectedItem.value)
     });
 
-    const { refs, floatingStyles } = useFloating({
+    const { refs, floatingStyles, update } = useFloating({
         open: isOpen,
         placement: "bottom-start",
-        strategy: "absolute",
-        whileElementsMounted: autoUpdate
+        strategy: "fixed"
     });
+
+    useEffect(() => {
+        if (!isOpen || !refs.reference.current || !refs.floating.current) {
+            return;
+        }
+        return autoUpdate(refs.reference.current, refs.floating.current, update);
+    }, [isOpen, refs.reference, refs.floating, update]);
 
     const listboxLabel = props.ariaLabel || "Select filter type";
     const buttonLabel = selectedItem?.caption || listboxLabel;
