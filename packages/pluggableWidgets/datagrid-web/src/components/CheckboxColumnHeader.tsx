@@ -1,10 +1,12 @@
-import { ThreeStateCheckBox } from "@mendix/widget-plugin-grid/components/ThreeStateCheckBox";
-import { Fragment, ReactElement, createElement } from "react";
+import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
+import { Fragment, ReactElement, createElement, useCallback } from "react";
 import { useWidgetProps } from "../helpers/useWidgetProps";
 
 export function CheckboxColumnHeader(): ReactElement {
-    const { selectActionHelper, selectionStatus } = useWidgetProps();
+    const { selectActionHelper, selectionStatus, selectAllRowsLabel } = useWidgetProps();
     const { showCheckboxColumn, showSelectAllToggle, onSelectAll } = selectActionHelper;
+
+    const onChange = useCallback(() => onSelectAll(), [onSelectAll]);
 
     if (showCheckboxColumn === false) {
         return <Fragment />;
@@ -17,7 +19,13 @@ export function CheckboxColumnHeader(): ReactElement {
             throw new Error("Don't know how to render checkbox with selectionStatus=unknown");
         }
 
-        checkbox = <ThreeStateCheckBox value={selectionStatus} onChange={onSelectAll} />;
+        checkbox = (
+            <ThreeStateCheckBox
+                value={selectionStatus}
+                onChange={onChange}
+                aria-label={selectAllRowsLabel ?? "Select all rows"}
+            />
+        );
     }
 
     return (
