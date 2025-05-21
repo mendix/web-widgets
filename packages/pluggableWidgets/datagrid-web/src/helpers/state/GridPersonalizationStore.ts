@@ -1,6 +1,6 @@
 import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
-import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/observable-filter-host";
+import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { action, comparer, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId } from "../../typings/GridColumn";
