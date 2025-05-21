@@ -30,7 +30,7 @@ exports[`Number Filter with single instance with multiple attributes renders cor
           class="filter-selectors hidden"
           id="downshift-:r7:-menu"
           role="listbox"
-          style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
+          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
         />
       </div>
     </div>
@@ -83,7 +83,7 @@ exports[`Number Filter with single instance with single attribute renders correc
           class="filter-selectors hidden"
           id="downshift-:r0:-menu"
           role="listbox"
-          style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
+          style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
         />
       </div>
     </div>
