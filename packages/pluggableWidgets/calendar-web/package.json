@@ -62,5 +62,11 @@
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "@types/react-big-calendar": "^1.16.1",
         "cross-env": "^7.0.3"
+    },
+    "pnpm": {
+        "overrides": {
+            "@prettier/plugin-xml": "^3.4.1",
+            "prettier": "3.5.3"
+        }
     }
 }
