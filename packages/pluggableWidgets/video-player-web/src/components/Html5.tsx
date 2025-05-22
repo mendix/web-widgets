@@ -12,6 +12,7 @@ export interface Html5PlayerProps {
     style?: any;
     aspectRatio?: boolean;
     preview: boolean;
+    title?: string;
 }
 
 export class Html5 extends Component<Html5PlayerProps> {
@@ -57,6 +58,7 @@ export class Html5 extends Component<Html5PlayerProps> {
                     ref={this.videoElement}
                     height={!this.props.aspectRatio ? "100%" : undefined}
                     preload={this.props.poster ? "metadata" : "auto"}
+                    title={this.props.title}
                 >
                     {!this.props.preview ? (
                         <source

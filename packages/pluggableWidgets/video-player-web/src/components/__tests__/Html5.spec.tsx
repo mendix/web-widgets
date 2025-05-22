@@ -1,5 +1,5 @@
 import { createElement, ReactElement } from "react";
-import { create } from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { Html5, Html5PlayerProps } from "../Html5";
 
@@ -17,50 +17,48 @@ describe("Html5 Player", () => {
 
     const defaulPlayer = (props: Html5PlayerProps): ReactElement => <Html5 {...props} />;
 
-    it("should renders correctly", () => {
-        const player = create(defaulPlayer(defaultProps)).toJSON();
-
-        expect(player).toMatchSnapshot();
+    it("should render correctly", () => {
+        const { asFragment } = render(defaulPlayer(defaultProps));
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should renders correctly with autoplay", () => {
-        const player = create(defaulPlayer({ ...defaultProps, autoPlay: true })).toJSON();
-
-        expect(player).toMatchSnapshot();
+    it("should render correctly with autoplay", () => {
+        const { asFragment } = render(defaulPlayer({ ...defaultProps, autoPlay: true }));
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should renders correctly with muted", () => {
-        const player = create(defaulPlayer({ ...defaultProps, muted: true })).toJSON();
-
-        expect(player).toMatchSnapshot();
+    it("should render correctly with muted", () => {
+        const { asFragment } = render(defaulPlayer({ ...defaultProps, muted: true }));
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should renders correctly with controls", () => {
-        const player = create(defaulPlayer({ ...defaultProps, showControls: true })).toJSON();
-
-        expect(player).toMatchSnapshot();
+    it("should render correctly with controls", () => {
+        const { asFragment } = render(defaulPlayer({ ...defaultProps, showControls: true }));
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should renders correctly with loop", () => {
-        const player = create(defaulPlayer({ ...defaultProps, loop: true })).toJSON();
-
-        expect(player).toMatchSnapshot();
+    it("should render correctly with loop", () => {
+        const { asFragment } = render(defaulPlayer({ ...defaultProps, loop: true }));
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should renders correctly with poster", () => {
-        const player = create(
+    it("should render correctly with poster", () => {
+        const { asFragment } = render(
             defaulPlayer({
                 ...defaultProps,
                 poster: "https://www.mendix.com/wp-content/themes/mendix/ui/images/homepage/air-status-app@2x.png"
             })
-        ).toJSON();
-
-        expect(player).toMatchSnapshot();
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly in preview mode", () => {
-        const player = create(defaulPlayer({ ...defaultProps, preview: true })).toJSON();
+        const { asFragment } = render(defaulPlayer({ ...defaultProps, preview: true }));
+        expect(asFragment()).toMatchSnapshot();
+    });
 
-        expect(player).toMatchSnapshot();
+    it("should render correctly with title", () => {
+        const { asFragment } = render(defaulPlayer({ ...defaultProps, title: "Sample Video Title" }));
+        expect(asFragment()).toMatchSnapshot();
     });
 });

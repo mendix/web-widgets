@@ -1,41 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dailymotion Player should renders correctly 1`] = `
-<iframe
-  allow="autoplay; fullscreen"
-  allowFullScreen={true}
-  className="widget-video-player-iframe"
-  frameBorder="0"
-  src="https://www.dailymotion.com/embed/video/test?sharing-enable=false&autoplay=false&mute=false&controls=false"
-/>
+exports[`Dailymotion Player should render correctly 1`] = `
+<DocumentFragment>
+  <iframe
+    allow="autoplay; fullscreen"
+    allowfullscreen=""
+    class="widget-video-player-iframe"
+    frameborder="0"
+    src="https://www.dailymotion.com/embed/video/test?sharing-enable=false&autoplay=false&mute=false&controls=false"
+  />
+</DocumentFragment>
 `;
 
-exports[`Dailymotion Player should renders correctly with autoplay 1`] = `
-<iframe
-  allow="autoplay; fullscreen"
-  allowFullScreen={true}
-  className="widget-video-player-iframe"
-  frameBorder="0"
-  src="https://www.dailymotion.com/embed/video/test?sharing-enable=false&autoplay=true&mute=false&controls=false"
-/>
+exports[`Dailymotion Player should render correctly with autoplay 1`] = `
+<DocumentFragment>
+  <iframe
+    allow="autoplay; fullscreen"
+    allowfullscreen=""
+    class="widget-video-player-iframe"
+    frameborder="0"
+    src="https://www.dailymotion.com/embed/video/test?sharing-enable=false&autoplay=true&mute=false&controls=false"
+  />
+</DocumentFragment>
 `;
 
-exports[`Dailymotion Player should renders correctly with controls 1`] = `
-<iframe
-  allow="autoplay; fullscreen"
-  allowFullScreen={true}
-  className="widget-video-player-iframe"
-  frameBorder="0"
-  src="https://www.dailymotion.com/embed/video/test?sharing-enable=false&autoplay=false&mute=false&controls=true"
-/>
+exports[`Dailymotion Player should render correctly with controls 1`] = `
+<DocumentFragment>
+  <iframe
+    allow="autoplay; fullscreen"
+    allowfullscreen=""
+    class="widget-video-player-iframe"
+    frameborder="0"
+    src="https://www.dailymotion.com/embed/video/test?sharing-enable=false&autoplay=false&mute=false&controls=true"
+  />
+</DocumentFragment>
 `;
 
-exports[`Dailymotion Player should renders correctly with muted 1`] = `
-<iframe
-  allow="autoplay; fullscreen"
-  allowFullScreen={true}
-  className="widget-video-player-iframe"
-  frameBorder="0"
-  src="https://www.dailymotion.com/embed/video/test?sharing-enable=false&autoplay=false&mute=true&controls=false"
-/>
+exports[`Dailymotion Player should render correctly with muted 1`] = `
+<DocumentFragment>
+  <iframe
+    allow="autoplay; fullscreen"
+    allowfullscreen=""
+    class="widget-video-player-iframe"
+    frameborder="0"
+    src="https://www.dailymotion.com/embed/video/test?sharing-enable=false&autoplay=false&mute=true&controls=false"
+  />
+</DocumentFragment>
+`;
+
+exports[`Dailymotion Player should render correctly with title 1`] = `
+<DocumentFragment>
+  <iframe
+    allow="autoplay; fullscreen"
+    allowfullscreen=""
+    class="widget-video-player-iframe"
+    frameborder="0"
+    src="https://www.dailymotion.com/embed/video/test?sharing-enable=false&autoplay=false&mute=false&controls=false"
+    title="Sample Video Title"
+  />
+</DocumentFragment>
 `;

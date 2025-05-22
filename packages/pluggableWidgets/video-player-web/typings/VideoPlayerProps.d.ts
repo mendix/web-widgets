@@ -24,6 +24,7 @@ export interface VideoPlayerContainerProps {
     posterExpression?: DynamicValue<string>;
     videoUrl?: DynamicValue<string>;
     posterUrl?: DynamicValue<string>;
+    iframeTitle?: DynamicValue<string>;
     autoStart: boolean;
     showControls: boolean;
     muted: boolean;
@@ -51,6 +52,7 @@ export interface VideoPlayerPreviewProps {
     posterExpression: string;
     videoUrl: string;
     posterUrl: string;
+    iframeTitle: string;
     autoStart: boolean;
     showControls: boolean;
     muted: boolean;

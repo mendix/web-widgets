@@ -7,6 +7,7 @@ export interface DailymotionProps {
     showControls: boolean;
     muted: boolean;
     aspectRatio?: boolean;
+    title?: string;
 }
 
 export class Dailymotion extends Component<DailymotionProps> {
@@ -20,6 +21,7 @@ export class Dailymotion extends Component<DailymotionProps> {
                 frameBorder="0"
                 allow="autoplay; fullscreen"
                 allowFullScreen
+                title={this.props.title}
             />
         );
     }
