@@ -7,7 +7,7 @@ import { withLinkedEnumStore } from "../hocs/withLinkedEnumStore";
 import { EnumFilterProps } from "./typings";
 
 export function AttrFilter(props: DatagridDropdownFilterContainerProps): ReactElement {
-    if (props.auto) {
+    if (props.attrChoice === "auto") {
         return <AutoAttrFilter {...props} />;
     }
 
