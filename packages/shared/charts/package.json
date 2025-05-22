@@ -1,6 +1,6 @@
 {
     "name": "@mendix/shared-charts",
-    "version": "2.2.0",
+    "version": "2.1.0",
     "description": "Shared components for charts",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "private": true,
