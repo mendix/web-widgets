@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { ActionValue, EditableValue } from "mendix";
 
 export type PresetEnum = "basic" | "standard" | "full" | "custom";
 
@@ -24,7 +24,8 @@ export type OverflowYEnum = "auto" | "scroll" | "hidden";
 export type OnChangeTypeEnum = "onLeave" | "onDataChange";
 
 export interface CustomFontsType {
-    fontName?: DynamicValue<string>;
+    fontName: string;
+    fontStyle: string;
 }
 
 export type ToolbarConfigEnum = "basic" | "advanced";
@@ -37,6 +38,7 @@ export interface AdvancedConfigType {
 
 export interface CustomFontsPreviewType {
     fontName: string;
+    fontStyle: string;
 }
 
 export interface AdvancedConfigPreviewType {

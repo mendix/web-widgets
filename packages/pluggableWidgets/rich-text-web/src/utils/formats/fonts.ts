@@ -54,10 +54,10 @@ export class FontStyleAttributor extends StyleAttributor {
     }
 }
 
-export function formatFonts(fonts: CustomFontsType[] = []): typeof FONT_LIST {
+export function formatCustomFonts(fonts: CustomFontsType[] = []): typeof FONT_LIST {
     return fonts.map(font => ({
-        value: font.fontName?.value?.toLowerCase().split(" ").join("-") ?? "",
-        description: font.fontName?.value ?? "",
-        style: `'${font.fontName?.value}'`
+        value: font.fontName?.toLowerCase().split(" ").join("-") ?? "",
+        description: font.fontName ?? "",
+        style: font.fontStyle ?? ""
     }));
 }

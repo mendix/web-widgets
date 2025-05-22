@@ -2,7 +2,7 @@ import classNames from "classnames";
 import Quill from "quill";
 import { CSSProperties, ReactElement, RefObject, createElement, forwardRef } from "react";
 import { CustomFontsType, PresetEnum } from "../../typings/RichTextProps";
-import { formatFonts } from "../utils/formats/fonts";
+import { formatCustomFonts } from "../utils/formats/fonts";
 import { FormatsContainer, ToolbarContext, presetToNumberConverter } from "./CustomToolbars/ToolbarWrapper";
 import { TOOLBAR_MAPPING, toolbarContentType } from "./CustomToolbars/constants";
 
@@ -73,7 +73,7 @@ const Toolbar = forwardRef((props: ToolbarProps, ref: RefObject<HTMLDivElement>)
                                     type FontListType = Array<{ value: string; description: string; style: string }>;
                                     value = [
                                         ...(currentToolbar.value as FontListType),
-                                        ...formatFonts(props.customFonts ?? [])
+                                        ...formatCustomFonts(props.customFonts ?? [])
                                     ].sort((a, b) => (a.value ?? "").localeCompare(b.value ?? ""));
                                 }
 

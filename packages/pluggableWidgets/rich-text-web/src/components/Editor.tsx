@@ -15,7 +15,7 @@ import { CustomFontsType } from "../../typings/RichTextProps";
 import { EditorDispatchContext } from "../store/EditorProvider";
 import { SET_FULLSCREEN_ACTION } from "../store/store";
 import "../utils/customPluginRegisters";
-import { FontStyleAttributor, formatFonts } from "../utils/formats/fonts";
+import { FontStyleAttributor, formatCustomFonts } from "../utils/formats/fonts";
 import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
 import QuillTableBetter from "../utils/formats/quill-table-better/quill-table-better";
 import { RESIZE_MODULE_CONFIG } from "../utils/formats/resizeModuleConfig";
@@ -45,7 +45,7 @@ export interface EditorProps {
 
 // Editor is an uncontrolled React component
 const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | null>) => {
-    const fonts = formatFonts(props.customFonts);
+    const fonts = formatCustomFonts(props.customFonts);
     const FontStyle = new FontStyleAttributor(fonts);
     Quill.register(FontStyle, true);
     const { theme, defaultValue, style, className, toolbarId, onTextChange, onSelectionChange, readOnly } = props;
