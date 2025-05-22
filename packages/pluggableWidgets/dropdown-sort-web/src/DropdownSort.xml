@@ -8,6 +8,36 @@
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="General">
+                <property key="linkedDs" type="datasource" isLinked="true" isList="true">
+                    <caption>Datasource to sort</caption>
+                    <description />
+                </property>
+                <property key="attributes" type="object" isList="true" required="false">
+                    <caption>Attributes</caption>
+                    <description>Select the attributes that the end-user may use for sorting</description>
+                    <properties>
+                        <propertyGroup caption="General">
+                            <property key="attribute" type="attribute" dataSource="../linkedDs" isMetaData="true" required="true">
+                                <caption>Attribute</caption>
+                                <description />
+                                <attributeTypes>
+                                    <attributeType name="AutoNumber" />
+                                    <attributeType name="Decimal" />
+                                    <attributeType name="Integer" />
+                                    <attributeType name="Long" />
+                                    <attributeType name="String" />
+                                    <attributeType name="DateTime" />
+                                    <attributeType name="Boolean" />
+                                    <attributeType name="Enum" />
+                                </attributeTypes>
+                            </property>
+                            <property key="caption" type="textTemplate" required="true">
+                                <caption>Caption</caption>
+                                <description />
+                            </property>
+                        </propertyGroup>
+                    </properties>
+                </property>
                 <property key="emptyOptionCaption" type="textTemplate" required="false">
                     <caption>Empty option caption</caption>
                     <description />

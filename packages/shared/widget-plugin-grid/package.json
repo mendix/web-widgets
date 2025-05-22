@@ -1,6 +1,6 @@
 {
     "name": "@mendix/widget-plugin-grid",
-    "version": "0.2.0",
+    "version": "1.0.0",
     "description": "Data grid related code.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -32,6 +32,9 @@
         "lint": "eslint src/ package.json",
         "prepare": "tsc",
         "test": "jest"
+    },
+    "dependencies": {
+        "@mendix/widget-plugin-mobx-kit": "workspace:^"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
