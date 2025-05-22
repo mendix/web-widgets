@@ -113,12 +113,12 @@
             </property>
             <property key="onClickEvent" type="action" required="false">
                 <caption>On click action</caption>
+                <description />
                 <actionVariables>
                     <actionVariable key="startDate" type="DateTime" caption="Event start date" />
                     <actionVariable key="endDate" type="DateTime" caption="Event end date" />
                     <actionVariable key="title" type="String" caption="Event title" />
                 </actionVariables>
-                <description />
             </property>
             <property key="onCreateEvent" type="action" required="false">
                 <caption>On create action</caption>
