@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Breaking
+
+- We remove listened to selection in order for charts to works on Studio Pro 9.24.
+
 ## [6.0.0] - 2025-02-28
 
 ### Changed
