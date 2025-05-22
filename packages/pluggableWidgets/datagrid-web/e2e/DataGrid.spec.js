@@ -191,7 +191,7 @@ test.describe("visual testing:", () => {
         await page.waitForLoadState("networkidle");
         await expect(page.locator(".mx-name-dataGrid21")).toBeVisible();
         await page.locator(".mx-name-dataGrid21 .mx-name-textFilter1 .filter-selector-content .btn").click();
-        await expect(page.locator(".mx-name-dataGrid21")).toHaveScreenshot(`datagrid-virtual-scrolling.png`);
+        await expect(page.locator(".mx-page")).toHaveScreenshot(`datagrid-virtual-scrolling.png`);
     });
 });
 
