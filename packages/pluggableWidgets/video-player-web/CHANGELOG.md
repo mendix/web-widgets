@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.2.3] - 2025-05-22
+
 ### Added
 
 - We improved accessibility by adding Title property for meaningful descriptions of embedded video content.
