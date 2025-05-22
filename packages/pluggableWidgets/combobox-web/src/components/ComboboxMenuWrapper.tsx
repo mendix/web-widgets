@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
 import { createElement, MouseEvent, PropsWithChildren, ReactElement, ReactNode } from "react";
+import { flushSync } from "react-dom";
 import { useMenuStyle } from "../hooks/useMenuStyle";
 import { NoOptionsPlaceholder } from "./Placeholder";
 
@@ -20,12 +21,16 @@ interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseCombobo
 }
 
 function PreventMenuCloseEventHandler(e: MouseEvent): void {
-    e.stopPropagation();
+    flushSync(() => {
+        e.stopPropagation();
+    });
 }
 
 function ForcePreventMenuCloseEventHandler(e: MouseEvent): void {
-    e.preventDefault();
-    e.stopPropagation();
+    flushSync(() => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
 }
 
 export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactElement {
