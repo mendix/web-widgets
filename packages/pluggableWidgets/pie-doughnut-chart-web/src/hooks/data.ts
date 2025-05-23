@@ -18,7 +18,6 @@ type PieChartDataSeriesHooks = Pick<
     | "seriesSortOrder"
     | "seriesValueAttribute"
     | "tooltipHoverText"
-    | "seriesItemSelection"
 >;
 
 type LocalPieChartData = {
@@ -39,8 +38,7 @@ export const usePieChartDataSeries = ({
     seriesSortOrder,
     seriesValueAttribute,
     onClickAction,
-    tooltipHoverText,
-    seriesItemSelection
+    tooltipHoverText
 }: PieChartDataSeriesHooks): ChartWidgetProps["data"] => {
     const [pieChartData, setPieChartData] = useState<LocalPieChartData[]>([]);
 
@@ -76,11 +74,8 @@ export const usePieChartDataSeries = ({
     const onClick = useCallback(
         (item: ObjectItem) => {
             executeAction(onClickAction?.get(item));
-            if (seriesItemSelection && seriesItemSelection.type === "Single") {
-                seriesItemSelection.setSelection(item);
-            }
         },
-        [onClickAction, seriesItemSelection]
+        [onClickAction]
     );
 
     return useMemo<ChartWidgetProps["data"]>(
