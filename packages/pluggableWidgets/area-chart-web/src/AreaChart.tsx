@@ -3,7 +3,6 @@ import {
     ChartWidgetProps,
     SeriesMapper,
     containerPropsEqual,
-    getPlotChartDataTransforms,
     usePlotChartDataSeries
 } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
@@ -37,6 +36,7 @@ export const AreaChart = memo(function AreaChart(props: AreaChartContainerProps)
         const lineColorExpression = line.dataSet === "static" ? line.staticLineColor : line.dynamicLineColor;
         const markerColorExpression = line.dataSet === "static" ? line.staticMarkerColor : line.dynamicMarkerColor;
         const fillColorExpression = line.dataSet === "static" ? line.staticFillColor : line.dynamicFillColor;
+
         return {
             type: "scatter",
             fill: "tonexty",
@@ -54,8 +54,7 @@ export const AreaChart = memo(function AreaChart(props: AreaChartContainerProps)
                 color: markerColorExpression
                     ? getExpressionValue<string>(markerColorExpression, dataPoints.dataSourceItems)
                     : undefined
-            },
-            transforms: getPlotChartDataTransforms(line.aggregationType, dataPoints)
+            }
         };
     }, []);
 

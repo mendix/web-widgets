@@ -1,10 +1,4 @@
-import {
-    ChartWidget,
-    ChartWidgetProps,
-    containerPropsEqual,
-    getPlotChartDataTransforms,
-    usePlotChartDataSeries
-} from "@mendix/shared-charts/main";
+import { ChartWidget, ChartWidgetProps, containerPropsEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
 import { ReactElement, createElement, memo, useCallback, useMemo } from "react";
@@ -56,8 +50,7 @@ export const ColumnChart = memo(function ColumnChart(props: ColumnChartContainer
                     color: columnColorExpression
                         ? getExpressionValue<string>(columnColorExpression, dataPoints.dataSourceItems)
                         : undefined
-                },
-                transforms: getPlotChartDataTransforms(dataSeries.aggregationType, dataPoints)
+                }
             };
         }, [])
     );
