@@ -109,6 +109,7 @@ const Container = observer((props: Props): ReactElement => {
             exportDialogLabel={props.exportDialogLabel?.value}
             cancelExportLabel={props.cancelExportLabel?.value}
             selectRowLabel={props.selectRowLabel?.value}
+            selectAllRowsLabel={props.selectAllRowsLabel?.value}
             visibleColumns={columnsStore.visibleColumns}
             availableColumns={columnsStore.availableColumns}
             setIsResizing={(status: boolean) => columnsStore.setIsResizing(status)}

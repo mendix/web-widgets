@@ -64,6 +64,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;
+    selectAllRowsLabel?: string;
     isLoading: boolean;
     isFetchingNextBatch: boolean;
     loadingType: LoadingTypeEnum;

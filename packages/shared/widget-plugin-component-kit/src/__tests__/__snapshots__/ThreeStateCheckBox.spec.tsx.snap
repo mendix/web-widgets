@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ThreeStateCheckBox matches snapshot when value is 'all' 1`] = `
+<DocumentFragment>
+  <input
+    aria-label="Test Checkbox"
+    checked=""
+    class="three-state-checkbox test-class"
+    type="checkbox"
+  />
+</DocumentFragment>
+`;
+
+exports[`ThreeStateCheckBox matches snapshot when value is 'none' 1`] = `
+<DocumentFragment>
+  <input
+    aria-label="Test Checkbox"
+    class="three-state-checkbox test-class"
+    type="checkbox"
+  />
+</DocumentFragment>
+`;
+
+exports[`ThreeStateCheckBox matches snapshot when value is 'some' 1`] = `
+<DocumentFragment>
+  <input
+    aria-label="Test Checkbox"
+    checked=""
+    class="three-state-checkbox test-class"
+    type="checkbox"
+  />
+</DocumentFragment>
+`;

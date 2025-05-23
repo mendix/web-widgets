@@ -420,6 +420,13 @@
                         <translation lang="en_US">Select row</translation>
                     </translations>
                 </property>
+                <property key="selectAllRowsLabel" type="textTemplate" required="false">
+                    <caption>Select all row</caption>
+                    <description>If selection is enabled, assistive technology will read this upon reaching 'Select all' checkbox.</description>
+                    <translations>
+                        <translation lang="en_US">Select all rows</translation>
+                    </translations>
+                </property>
             </propertyGroup>
         </propertyGroup>
     </properties>
