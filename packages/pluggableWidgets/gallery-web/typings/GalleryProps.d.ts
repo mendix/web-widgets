@@ -63,6 +63,7 @@ export interface GalleryContainerProps {
     filterSectionTitle?: DynamicValue<string>;
     emptyMessageTitle?: DynamicValue<string>;
     ariaLabelListBox?: DynamicValue<string>;
+    ariaLabelItem?: ListExpressionValue<string>;
 }
 
 export interface GalleryPreviewProps {
@@ -99,4 +100,5 @@ export interface GalleryPreviewProps {
     filterSectionTitle: string;
     emptyMessageTitle: string;
     ariaLabelListBox: string;
+    ariaLabelItem: string;
 }

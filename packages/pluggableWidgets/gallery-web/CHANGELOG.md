@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added an option to specify item descriptions in the gallery widget, improving accessibility for screen reader users.
+
 ## [1.13.0] - 2024-11-13
 
 ### Fixed
