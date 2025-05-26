@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Combo box (Static values) renders combobox widget 1`] = `
+<div>
+  <div
+    class="widget-combobox"
+  >
+    <div
+      class="widget-combobox-input-container form-control"
+      id="downshift-0-toggle-button"
+      tabindex="-1"
+    >
+      <div
+        class="widget-combobox-selected-items"
+      >
+        <input
+          aria-activedescendant=""
+          aria-autocomplete="list"
+          aria-controls="downshift-0-menu"
+          aria-expanded="false"
+          aria-labelledby="comboBox1-label"
+          aria-required="true"
+          autocomplete="off"
+          class="widget-combobox-input"
+          id="comboBox1"
+          placeholder=" "
+          role="combobox"
+          tabindex="0"
+          value="caption1"
+        />
+        <div
+          class="widget-combobox-placeholder-text"
+        >
+          <span
+            class="widget-combobox-caption-text"
+          >
+            caption1
+          </span>
+        </div>
+      </div>
+      <button
+        aria-label="Clear selection"
+        class="widget-combobox-clear-button"
+        tabindex="0"
+      >
+        <span
+          class="widget-combobox-icon-container"
+        >
+          <svg
+            class="widget-combobox-clear-button-icon"
+            height="14"
+            viewBox="0 0 32 32"
+            width="14"
+          >
+            <path
+              d="M27.71 5.71004L26.29 4.29004L16 14.59L5.71004 4.29004L4.29004 5.71004L14.59 16L4.29004 26.29L5.71004 27.71L16 17.41L26.29 27.71L27.71 26.29L17.41 16L27.71 5.71004Z"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+      </button>
+      <div
+        class="widget-combobox-down-arrow"
+      >
+        <span
+          class="widget-combobox-icon-container"
+        >
+          <svg
+            class="widget-combobox-down-arrow-icon mx-icon-lined mx-icon-chevron-down"
+            height="16"
+            viewBox="0 0 32 32"
+            width="16"
+          >
+            <path
+              d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div
+      class="widget-combobox-menu widget-combobox-menu-hidden"
+      style="visibility: hidden; position: fixed;"
+    >
+      <ul
+        aria-labelledby="comboBox1-label"
+        class="widget-combobox-menu-list"
+        id="downshift-0-menu"
+        role="listbox"
+      />
+    </div>
+  </div>
+</div>
+`;
