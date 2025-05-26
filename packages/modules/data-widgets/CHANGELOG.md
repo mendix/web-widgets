@@ -6,6 +6,48 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.32.0] DataWidgets - 2025-05-26
+
+### [2.11.3] DatagridDateFilter
+
+#### Fixed
+
+- We fixed an issue with filter popup positioning.
+
+### [2.9.3] DatagridNumberFilter
+
+#### Fixed
+
+- We fixed an issue with filter popup positioning.
+
+### [2.9.2] DatagridTextFilter
+
+#### Fixed
+
+- We fixed an issue with filter popup positioning.
+
+### [2.30.5] Datagrid
+
+#### Added
+
+- We improved accessibility by making it possible to specify label for Select all checkbox.
+
+#### Fixed
+
+- We fixed an issue with column selector popup positioning.
+
+### [1.14.1] Gallery
+
+#### Added
+
+- We added an option to specify item descriptions in the gallery widget, improving accessibility for screen reader users.
+
+### [1.0.4] SelectionHelper
+
+#### Changed
+
+- Internal improvements.
+
 ## [2.31.1] DataWidgets - 2025-05-19
 
 ### [2.9.2] DatagridNumberFilter

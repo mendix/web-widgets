@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.30.5] - 2025-05-26
+
 ### Added
 
 - We improved accessibility by making it possible to specify label for Select all checkbox.
