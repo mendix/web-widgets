@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.9.2] - 2025-05-26
+
 ### Fixed
 
 - We fixed an issue with filter popup positioning.
