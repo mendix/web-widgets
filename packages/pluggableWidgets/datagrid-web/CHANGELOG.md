@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We improved accessibility by making it possible to specify label for Select all checkbox.
+
 ### Fixed
 
 - We fixed an issue with column selector popup positioning.
