@@ -6,7 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.11.1] - 2025-01-20
+## [2.11.3] - 2025-05-26
+
+### Fixed
+
+-   We fixed an issue with filter popup positioning.
+
+## [2.11.2] - 2025-03-20
+
+### Fixed
+
+-   We fixed an issue where non-adjustable default filters were overridden by personalization settings.
+
+## [2.11.1] - 2025-01-21
 
 ### Fixed
 
@@ -25,10 +37,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 -   We improved screen reader integration.
-
-### Fixed
-
--   We fixed an issue with the widget failing to render in Design mode.
 
 ## [2.10.3] - 2024-10-31
 

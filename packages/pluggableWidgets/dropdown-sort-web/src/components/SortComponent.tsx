@@ -125,7 +125,6 @@ export function SortComponent(props: SortComponentProps): ReactElement {
                     aria-expanded={show}
                     aria-controls={`${props.id}-dropdown-list`}
                     aria-label={props.screenReaderInputCaption}
-                    readOnly
                 />
                 <button
                     aria-label={props.screenReaderButtonCaption}

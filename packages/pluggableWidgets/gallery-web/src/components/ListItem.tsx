@@ -16,12 +16,13 @@ type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
     itemIndex: number;
     selectHelper: SelectActionHandler;
     preview?: boolean;
+    label?: string;
 };
 
 export function ListItem(props: ListItemProps): ReactElement {
-    const { eventsController, getPosition, helper, item, itemIndex, selectHelper, ...rest } = props;
+    const { eventsController, getPosition, helper, item, itemIndex, selectHelper, label, ...rest } = props;
     const clickable = helper.hasOnClick(item) || selectHelper.selectionType !== "None";
-    const ariaProps = getAriaProps(item, selectHelper);
+    const ariaProps = getAriaProps(item, selectHelper, label);
     const { columnIndex, rowIndex } = getPosition(itemIndex);
     const keyNavProps = useFocusTargetProps({ columnIndex: columnIndex ?? -1, rowIndex });
     const handlers = useMemo(() => eventsController.getProps(item), [eventsController, item]);

@@ -15,7 +15,6 @@ exports[`Sort selector renders correctly with a11y properties 1`] = `
         aria-haspopup="true"
         aria-label="my input"
         class="form-control dropdown-triggerer"
-        readonly=""
         value=""
       />
       <button
@@ -41,7 +40,6 @@ exports[`Sort selector renders correctly with no options 1`] = `
         aria-expanded="false"
         aria-haspopup="true"
         class="form-control dropdown-triggerer"
-        readonly=""
         value=""
       />
       <button
@@ -66,7 +64,6 @@ exports[`Sort selector renders correctly with options 1`] = `
         aria-expanded="false"
         aria-haspopup="true"
         class="form-control dropdown-triggerer"
-        readonly=""
         value=""
       />
       <button
@@ -92,7 +89,6 @@ exports[`Sort selector renders correctly with placeholder 1`] = `
         aria-haspopup="true"
         class="form-control dropdown-triggerer"
         placeholder="find me"
-        readonly=""
         value=""
       />
       <button

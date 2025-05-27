@@ -38,6 +38,7 @@ function Container(props: ContainerProps): React.ReactElement {
         filter: props.filterStore,
         changeDelay: props.delay,
         defaultFilter: props.defaultFilter,
+        adjustableFilterFunction: props.adjustable,
         defaultValue: props.defaultValue?.value,
         disableInputs: fn => fn === "empty" || fn === "notEmpty"
     });
@@ -68,7 +69,6 @@ function Container(props: ContainerProps): React.ReactElement {
             screenReaderInputCaption={props.screenReaderInputCaption?.value}
             styles={props.style}
             tabIndex={props.tabIndex}
-            type="text"
         />
     );
 }

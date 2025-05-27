@@ -184,6 +184,10 @@
                     <caption>Content description</caption>
                     <description>Assistive technology will read this upon reaching gallery.</description>
                 </property>
+                <property key="ariaLabelItem" type="textTemplate" dataSource="datasource" required="false">
+                    <caption>Item description</caption>
+                    <description>Assistive technology will read this upon reaching each gallery item.</description>
+                </property>
             </propertyGroup>
         </propertyGroup>
     </properties>

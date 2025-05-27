@@ -1,6 +1,9 @@
 import "@testing-library/jest-dom";
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
-import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
+import {
+    HeaderFiltersStore,
+    HeaderFiltersStoreProps
+} from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import {
     actionValue,
     dynamicValue,
@@ -15,7 +18,7 @@ import DatagridTextFilter from "../../DatagridTextFilter";
 import { DatagridTextFilterContainerProps } from "../../../typings/DatagridTextFilterProps";
 import { resetIdCounter } from "downshift";
 
-export interface StaticInfo {
+interface StaticInfo {
     name: string;
     filtersChannelName: string;
 }

@@ -115,7 +115,60 @@ exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Gallery with accessibility properties renders correctly 1`] = `
+exports[`Gallery with accessibility properties renders correctly with items 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-gallery my-gallery"
+    data-focusindex="0"
+  >
+    <section
+      aria-label="filter title"
+      class="widget-gallery-header widget-gallery-filter"
+    >
+      <input />
+    </section>
+    <div
+      class="widget-gallery-content infinite-loading"
+    >
+      <div
+        aria-label="Mock props ListBox aria label"
+        class="widget-gallery-items widget-gallery-lg-4 widget-gallery-md-3 widget-gallery-sm-2"
+        role="list"
+      >
+        <div
+          aria-label="title for '1'"
+          class="widget-gallery-item item-class"
+          data-position="0,0"
+          role="listitem"
+          tabindex="0"
+        >
+          Item content
+        </div>
+        <div
+          aria-label="title for '2'"
+          class="widget-gallery-item item-class"
+          data-position="1,0"
+          role="listitem"
+          tabindex="-1"
+        >
+          Item content
+        </div>
+        <div
+          aria-label="title for '3'"
+          class="widget-gallery-item item-class"
+          data-position="2,0"
+          role="listitem"
+          tabindex="-1"
+        >
+          Item content
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Gallery with accessibility properties renders correctly without items 1`] = `
 <DocumentFragment>
   <div
     class="widget-gallery my-gallery"

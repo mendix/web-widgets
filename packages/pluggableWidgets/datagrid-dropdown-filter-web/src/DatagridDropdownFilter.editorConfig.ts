@@ -1,19 +1,18 @@
-import { DatagridDropdownFilterPreviewProps } from "../typings/DatagridDropdownFilterProps";
+import { hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import { chevronDownIcon, chevronDownIconDark } from "@mendix/widget-plugin-filtering/preview/editor-preview-icons";
 import {
     ContainerProps,
     ImageProps,
+    structurePreviewPalette,
     StructurePreviewProps,
-    text,
-    structurePreviewPalette
+    text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { DatagridDropdownFilterPreviewProps } from "../typings/DatagridDropdownFilterProps";
 
-export function getProperties(
-    values: DatagridDropdownFilterPreviewProps,
-    defaultProperties: Properties,
-    platform: "web" | "desktop"
-): Properties {
+export function getProperties(values: DatagridDropdownFilterPreviewProps, defaultProperties: Properties): Properties {
+    const showSelectedItemsStyle = values.filterable && values.multiSelect;
+    const showSelectionMethod = showSelectedItemsStyle && values.selectedItemsStyle === "boxes";
+
     if (values.auto) {
         hidePropertyIn(defaultProperties, values, "filterOptions");
     }
