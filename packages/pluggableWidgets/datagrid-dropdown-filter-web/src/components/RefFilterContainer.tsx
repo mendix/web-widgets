@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 import { RefSelectController } from "@mendix/widget-plugin-filtering/controllers/picker/RefSelectController";
 import { RefComboboxController } from "@mendix/widget-plugin-filtering/controllers/picker/RefComboboxController";
 import { RefTagPickerController } from "@mendix/widget-plugin-filtering/controllers/picker/RefTagPickerController";

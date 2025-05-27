@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 import { useDateSync } from "@mendix/widget-plugin-filtering/helpers/useDateSync";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { observer } from "mobx-react-lite";

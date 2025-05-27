@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 import { StaticSelectController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticSelectController";
 import { StaticComboboxController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticComboboxController";
 import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";

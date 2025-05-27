@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 import { observer } from "mobx-react-lite";
 import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
