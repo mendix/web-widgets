@@ -1,15 +1,19 @@
 import { useRef } from "react";
-import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
+import { APIError, EMISSINGSTORE, EStoreTypeMisMatch, OPTIONS_NOT_FILTERABLE } from "../errors";
 import { Result, error, value } from "../result-meta";
-import { OptionListFilterInterface } from "../typings/OptionListFilterInterface";
+import { PickerFilterStore } from "../typings/PickerFilterStore";
 
 export interface Select_FilterAPIv2 {
-    filterStore: OptionListFilterInterface;
+    filterStore: PickerFilterStore;
     parentChannelName?: string;
 }
 
-export function useSelectFilterAPI(key: string): Result<Select_FilterAPIv2, APIError> {
+interface Props {
+    filterable: boolean;
+}
+
+export function useSelectFilterAPI({ filterable }: Props): Result<Select_FilterAPIv2, APIError> {
     const ctx = useFilterContextValue();
     const slctAPI = useRef<Select_FilterAPIv2>();
 
@@ -23,18 +27,21 @@ export function useSelectFilterAPI(key: string): Result<Select_FilterAPIv2, APIE
         return error(api.provider.error);
     }
 
-    if (api.provider.value.type === "key-value" && key === "") {
-        return error(EKEYMISSING);
-    }
-
-    const store = getFilterStore(api.provider.value, FilterType.ENUMERATION, key);
+    const store = getFilterStore(api.provider.value, FilterType.ENUMERATION, "");
 
     if (store === null) {
         return error(EMISSINGSTORE);
     }
 
-    if (store.storeType !== "optionlist") {
+    if (store.storeType !== "select" && store.storeType !== "refselect") {
         return error(EStoreTypeMisMatch("dropdown filter", store.arg1.type));
+    }
+
+    if (store.storeType === "refselect") {
+        const configurationConflict = filterable && store.optionsFilterable === false;
+        if (configurationConflict) {
+            return error(OPTIONS_NOT_FILTERABLE);
+        }
     }
 
     return value((slctAPI.current ??= { filterStore: store, parentChannelName: api.parentChannelName }));

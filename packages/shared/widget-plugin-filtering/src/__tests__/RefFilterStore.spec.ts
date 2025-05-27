@@ -1,7 +1,7 @@
+import { cases, list, listExpression, listReference, ListValueBuilder, obj } from "@mendix/widget-plugin-test-utils";
 import { ObjectItem } from "mendix";
-import { list, listReference, listExpression, obj, cases, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
-import { RefFilterStore, RefFilterStoreProps } from "../stores/RefFilterStore";
-import { autorun, _resetGlobalState } from "mobx";
+import { _resetGlobalState, autorun } from "mobx";
+import { RefFilterStore, RefFilterStoreProps } from "../stores/picker/RefFilterStore";
 
 describe("RefFilterStore", () => {
     afterEach(() => _resetGlobalState());
@@ -17,7 +17,7 @@ describe("RefFilterStore", () => {
             store = new RefFilterStore(
                 {
                     ref: listReference(),
-                    refOptions: list(items),
+                    datasource: list(items),
                     caption: listExpression(mapItem)
                 },
                 null
@@ -57,7 +57,7 @@ describe("RefFilterStore", () => {
             store = new RefFilterStore(
                 {
                     ref: listReference(),
-                    refOptions: list(3),
+                    datasource: list(3),
                     caption: listExpression(() => "[string]")
                 },
                 null
@@ -92,7 +92,7 @@ describe("RefFilterStore", () => {
             store = new RefFilterStore(
                 {
                     ref: listReference(),
-                    refOptions: list([obj("id3n"), obj("f8x3"), obj("932c")]),
+                    datasource: list([obj("id3n"), obj("f8x3"), obj("932c")]),
                     caption: listExpression(() => "[string]")
                 },
                 null
@@ -139,7 +139,7 @@ describe("RefFilterStore", () => {
             store = new RefFilterStore(
                 {
                     ref: listReference(),
-                    refOptions: list([obj("id3n"), obj("f8x3"), obj("932c")]),
+                    datasource: list([obj("id3n"), obj("f8x3"), obj("932c")]),
                     caption: listExpression(() => "[string]")
                 },
                 null
@@ -167,7 +167,7 @@ describe("RefFilterStore", () => {
             const datasource = list.loading();
             const props = {
                 ref: listReference(),
-                refOptions: datasource,
+                datasource,
                 caption: listExpression(() => "[string]"),
                 fetchOptionsLazy: true
             };
@@ -181,7 +181,7 @@ describe("RefFilterStore", () => {
             const datasource = list.loading();
             const props = {
                 ref: listReference(),
-                refOptions: datasource,
+                datasource,
                 caption: listExpression(() => "[string]"),
                 fetchOptionsLazy: false
             };
@@ -197,7 +197,7 @@ describe("RefFilterStore", () => {
             const a = obj("id3n");
             const props = {
                 ref: listReference(),
-                refOptions: list.loading(),
+                datasource: list.loading(),
                 caption: listExpression(cases([a, "Alice"], [undefined, "No caption"]))
             };
             const store = new RefFilterStore(props, null);
@@ -205,7 +205,7 @@ describe("RefFilterStore", () => {
             autorun(() => output.push(store.options));
 
             expect(output[0]).toEqual([]);
-            store.updateProps({ ...props, refOptions: list([a]) });
+            store.updateProps({ ...props, datasource: list([a]) });
             expect(output[1]).toEqual([
                 {
                     caption: "Alice",
@@ -220,7 +220,7 @@ describe("RefFilterStore", () => {
         const savedJson = ["obj_xx", "obj_xiii", "obj_deleted", "obj_yy", "obj_unknown"];
         let a: ObjectItem;
         let b: ObjectItem;
-        let props: Omit<RefFilterStoreProps, "refOptions">;
+        let props: Omit<RefFilterStoreProps, "datasource">;
         beforeEach(() => {
             a = obj("xx");
             b = obj("yy");
@@ -230,57 +230,25 @@ describe("RefFilterStore", () => {
             };
         });
 
-        it("discard any unknown selected GUIDs on datasource change", () => {
-            const store = new RefFilterStore({ ...props, refOptions: list.loading() }, null);
-            // Restore state
-            store.fromJSON(savedJson);
-            // Check state
-            expect(store.toJSON()).toEqual(savedJson);
-            // Update datasource
-            const datasource = new ListValueBuilder().withItems([a, b]).withHasMore(false).build();
-            store.updateProps({ ...props, refOptions: datasource });
-            // Check state don't have any extra GUIDs
-            expect(store.toJSON()).toEqual(["obj_xx", "obj_yy"]);
-        });
-
         it("skip filtering if has just part of the list", () => {
-            const store = new RefFilterStore({ ...props, refOptions: list.loading() }, null);
+            const store = new RefFilterStore({ ...props, datasource: list.loading() }, null);
             // Restore state
             store.fromJSON(savedJson);
             // Check state
             expect(store.toJSON()).toEqual(savedJson);
             // Update with partial data
             const datasource = new ListValueBuilder().withItems([a, b]).withHasMore(true).build();
-            store.updateProps({ ...props, refOptions: datasource });
+            store.updateProps({ ...props, datasource });
             // Check that state still has unknown GUIDs
             expect(store.toJSON()).toEqual(savedJson);
         });
 
         it("allows to restore any state if datasource is loading", () => {
-            const store = new RefFilterStore({ ...props, refOptions: list.loading() }, null);
+            const store = new RefFilterStore({ ...props, datasource: list.loading() }, null);
             // Restore state
             store.fromJSON(savedJson);
             // Check state
             expect(store.toJSON()).toEqual(savedJson);
-        });
-
-        it("when datasource is loaded, ignore any unknown ids when restored from json", () => {
-            const store = new RefFilterStore({ ...props, refOptions: list.loading() }, null);
-            // Update datasource
-            const ds = new ListValueBuilder().withItems([a, b]).withHasMore(false).build();
-            store.updateProps({ ...props, refOptions: ds });
-            // Restore state
-            store.fromJSON(savedJson);
-            // Check state don't have any extra GUIDs
-            expect(store.toJSON()).toEqual(["obj_xx", "obj_yy"]);
-            // Trying restore unknown ids
-            store.fromJSON(["foo", "bar", "obj_xx", "obj_yy"]);
-            // Check state don't have any extra GUIDs
-            expect(store.toJSON()).toEqual(["obj_xx", "obj_yy"]);
-            // Trying restore unknown ids
-            store.fromJSON(["foo", "bar"]);
-            // Check state
-            expect(store.toJSON()).toEqual([]);
         });
     });
 });

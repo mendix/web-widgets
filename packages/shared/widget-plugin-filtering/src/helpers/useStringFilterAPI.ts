@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
-import { error, value, Result } from "../result-meta";
-import { String_InputFilterInterface } from "../typings/InputFilterInterface";
 import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
-import { isStringFilter } from "../stores/store-utils";
+import { error, Result, value } from "../result-meta";
+import { isStringFilter } from "../stores/input/store-utils";
+import { String_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export interface String_FilterAPIv2 {
     filterStore: String_InputFilterInterface;
@@ -34,10 +34,8 @@ export function useStringFilterAPI(key: string): Result<String_FilterAPIv2, APIE
         return error(EMISSINGSTORE);
     }
 
-    if (store.storeType === "optionlist" || !isStringFilter(store)) {
-        return error(
-            EStoreTypeMisMatch("text filter", store.storeType === "optionlist" ? "option list" : store.arg1.type)
-        );
+    if (store.storeType !== "input" || !isStringFilter(store)) {
+        return error(EStoreTypeMisMatch("text filter", store.storeType !== "input" ? "option list" : store.arg1.type));
     }
 
     return value((strAPI.current ??= { filterStore: store, parentChannelName: api.parentChannelName }));

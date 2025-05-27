@@ -15,11 +15,11 @@ import {
     or
 } from "mendix/filters/builders";
 import { action, comparer, IReactionDisposer, makeObservable, observable, reaction } from "mobx";
-import { betweenToState, isAnd, isEmptyExp, isNotEmptyExp, isOr, singularToState } from "../condition-utils";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
-import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
-import { FilterFunction } from "../typings/mendix";
-import { FilterData, InputData } from "../typings/settings";
+import { betweenToState, isAnd, isEmptyExp, isNotEmptyExp, isOr, singularToState } from "../../condition-utils";
+import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
+import { Date_InputFilterInterface } from "../../typings/InputFilterInterface";
+import { FilterFunction } from "../../typings/mendix";
+import { FilterData, InputData } from "../../typings/settings";
 import { DateArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 
@@ -195,7 +195,10 @@ export class DateInputFilterStore
         );
     }
 
-    toJSON(): InputData {
+    toJSON(): InputData | undefined {
+        if (!this.isInitialized) {
+            return undefined;
+        }
         return [
             this.filterFunction,
             this.arg1.value ? this.arg1.value.toJSON() : null,
@@ -210,9 +213,7 @@ export class DateInputFilterStore
         }
 
         const [fn, date1, date2] = inputData;
-        this.filterFunction = fn;
-        this.arg1.value = parseDateValue(date1);
-        this.arg2.value = parseDateValue(date2);
+        this.setState([fn, parseDateValue(date1), parseDateValue(date2)]);
         this.isInitialized = true;
     }
 

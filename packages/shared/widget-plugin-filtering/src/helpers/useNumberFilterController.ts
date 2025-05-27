@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NumberFilterController, Params } from "../controllers/NumberFilterController";
+import { NumberFilterController, Params } from "../controllers/input/NumberInputController";
 import { ArgumentInterface } from "../typings/ArgumentInterface";
 import { AllFunctions } from "../typings/FilterFunctions";
 import { FilterFn, InputFilterBaseInterface } from "../typings/InputFilterInterface";

@@ -2,7 +2,8 @@ enum Code {
     EMISSINGSTORE = 2,
     ENOCONTEXT = 1,
     ESTORETYPE = 3,
-    EKEYMISSING = 7
+    EKEYMISSING = 7,
+    OPTIONS_NOT_FILTERABLE = 8
 }
 
 export { Code as APIErrorCode };
@@ -33,4 +34,10 @@ export const EStoreTypeMisMatch = (filterType: string, receivedStoreType: string
 export const EKEYMISSING: APIError = Object.freeze({
     code: Code.EKEYMISSING,
     message: "The key for filter is missing."
+});
+
+export const OPTIONS_NOT_FILTERABLE: APIError = Object.freeze({
+    code: Code.OPTIONS_NOT_FILTERABLE,
+    message:
+        "Drop-down options can't be filtered with current column configuration. To enable filtering, change 'Option caption type'  to 'Attribute' in column settings."
 });

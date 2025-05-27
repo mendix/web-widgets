@@ -2,10 +2,10 @@ import { Big } from "big.js";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { action, comparer, makeObservable } from "mobx";
-import { inputStateFromCond } from "../condition-utils";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
-import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
-import { FilterData, InputData } from "../typings/settings";
+import { inputStateFromCond } from "../../condition-utils";
+import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
+import { Number_InputFilterInterface } from "../../typings/InputFilterInterface";
+import { FilterData, InputData } from "../../typings/settings";
 import { NumberArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
@@ -40,7 +40,10 @@ export class NumberInputFilterStore
         }
     }
 
-    toJSON(): InputData {
+    toJSON(): InputData | undefined {
+        if (!this.isInitialized) {
+            return undefined;
+        }
         return [
             this.filterFunction,
             this.arg1.value ? this.arg1.value.toJSON() : null,
@@ -55,18 +58,8 @@ export class NumberInputFilterStore
         }
 
         const [fn, val1, val2] = inputData;
-        this.filterFunction = fn;
 
-        try {
-            this.arg1.value = new Big(val1 ?? "");
-        } catch {
-            this.arg1.value = undefined;
-        }
-        try {
-            this.arg2.value = new Big(val2 ?? "");
-        } catch {
-            this.arg2.value = undefined;
-        }
+        this.setState([fn, asBig(val1), asBig(val2)]);
         this.isInitialized = true;
     }
 
@@ -104,4 +97,12 @@ function formatterFix(formatter: Formatter): Formatter {
             }
         }
     };
+}
+
+function asBig(val: string | null): Big | undefined {
+    try {
+        return new Big(val ?? "");
+    } catch {
+        return undefined;
+    }
 }

@@ -1,12 +1,16 @@
 import { computed, makeObservable } from "mobx";
-import { OptionListFilterInterface } from "../typings/OptionListFilterInterface";
 
 interface Params {
-    store: OptionListFilterInterface;
+    store: Store;
+}
+
+interface Store {
+    /** @reactive */
+    selected: Iterable<string>;
 }
 
 export class OptionsSerializer {
-    private store: OptionListFilterInterface;
+    private store: Store;
 
     constructor(params: Params) {
         makeObservable(this, {
@@ -17,11 +21,11 @@ export class OptionsSerializer {
     }
 
     get value(): string | undefined {
-        const selected = this.store.options.flatMap(opt => (opt.selected ? [opt.value] : []));
+        const selected = [...this.store.selected];
         return this.toStorableValue(selected);
     }
 
-    fromStorableValue(value: string | undefined): string[] | undefined {
+    fromStorableValue(value: string | undefined): Iterable<string> | undefined {
         if (!value) {
             return undefined;
         }

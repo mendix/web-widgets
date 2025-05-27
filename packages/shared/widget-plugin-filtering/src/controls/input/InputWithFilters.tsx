@@ -5,7 +5,6 @@ import { FilterSelector } from "../filter-selector/FilterSelector";
 import { InputComponentProps } from "./typings";
 import { AllFunctions } from "../../typings/FilterFunctions";
 
-// eslint-disable-next-line prefer-arrow-callback
 export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputComponentProps<Fn>): React.ReactElement {
     const {
         inputStores: [input1]
@@ -20,7 +19,7 @@ export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputC
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption}
                     value={props.filterFn}
-                    onChange={props.onFilterChange}
+                    onSelect={props.onFilterChange}
                     options={props.filterFnList}
                 />
             )}
@@ -32,8 +31,8 @@ export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputC
                 onChange={input1.onChange}
                 placeholder={props.placeholder}
                 ref={props.inputRef}
-                type={props.type}
                 value={input1.value}
+                type="text"
             />
         </div>
     );

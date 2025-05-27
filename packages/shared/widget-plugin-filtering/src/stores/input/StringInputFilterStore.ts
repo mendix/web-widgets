@@ -1,17 +1,17 @@
 import { ListAttributeValue } from "mendix";
-import { action, makeObservable, comparer } from "mobx";
-import { StringArgument } from "./Argument";
-import { BaseInputFilterStore } from "./BaseInputFilterStore";
-import { String_InputFilterInterface } from "../typings/InputFilterInterface";
+import { FilterCondition } from "mendix/filters";
+import { action, comparer, makeObservable } from "mobx";
+import { inputStateFromCond } from "../../condition-utils";
 import {
     FilterFunctionBinary,
     FilterFunctionGeneric,
     FilterFunctionNonValue,
     FilterFunctionString
-} from "../typings/FilterFunctions";
-import { FilterData, InputData } from "../typings/settings";
-import { FilterCondition } from "mendix/filters";
-import { inputStateFromCond } from "../condition-utils";
+} from "../../typings/FilterFunctions";
+import { String_InputFilterInterface } from "../../typings/InputFilterInterface";
+import { FilterData, InputData } from "../../typings/settings";
+import { StringArgument } from "./Argument";
+import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
 
 type StrFns = FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
@@ -44,7 +44,11 @@ export class StringInputFilterStore
         this.arg2.updateProps(formatter as ListAttributeValue<string>["formatter"]);
     }
 
-    toJSON(): InputData {
+    toJSON(): InputData | undefined {
+        if (!this.isInitialized) {
+            return undefined;
+        }
+
         return [this.filterFunction, this.arg1.value ?? null, this.arg2.value ?? null];
     }
 
@@ -54,9 +58,7 @@ export class StringInputFilterStore
             return;
         }
         const [fn, s1, s2] = inputData;
-        this.filterFunction = fn;
-        this.arg1.value = s1 ? s1 : undefined;
-        this.arg2.value = s2 ? s2 : undefined;
+        this.setState([fn, s1 ? s1 : undefined, s2 ? s2 : undefined]);
         this.isInitialized = true;
     }
 
