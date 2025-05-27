@@ -34,6 +34,7 @@ export interface ContainerProps extends DatagridTextFilterContainerProps {
     filterStore: String_InputFilterInterface;
 }
 
+// eslint-disable-next-line prefer-arrow-callback
 export const TextFilterContainer: (props: ContainerProps) => React.ReactElement = observer(function TextFilterContainer(
     props
 ) {

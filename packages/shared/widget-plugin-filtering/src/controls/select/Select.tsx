@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 import cn from "classnames";
 import { useSelect, UseSelectProps } from "downshift";
 import { observer } from "mobx-react-lite";
