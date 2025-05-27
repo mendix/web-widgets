@@ -3,6 +3,17 @@ import { PlotChartDataPoints } from "../hooks/usePlotChartDataSeries";
 
 export type AggregationType = "none" | "count" | "sum" | "avg" | "min" | "max" | "median" | "mode" | "first" | "last";
 
+function getXValueKey(xVal: Datum | null): string {
+    if (xVal == null) {
+        return "";
+    }
+    if (typeof xVal === "string" || typeof xVal === "number") {
+        return xVal.toString();
+    }
+    // Assuming it's a Date object if not string, number, or null
+    return (xVal as Date).toISOString();
+}
+
 export function aggregateDataPoints(
     aggregationType: AggregationType,
     points: PlotChartDataPoints
@@ -19,12 +30,7 @@ export function aggregateDataPoints(
     const originalHover = points.hovertext;
 
     points.x.forEach((xVal, i) => {
-        const key =
-            xVal == null
-                ? ""
-                : typeof xVal === "string" || typeof xVal === "number"
-                  ? xVal.toString()
-                  : (xVal as Date).toISOString();
+        const key = getXValueKey(xVal);
         const yVal = points.y[i] as number | undefined;
         if (yVal == null) {
             return; // skip nulls
@@ -46,8 +52,15 @@ export function aggregateDataPoints(
 
     for (const [key, { yVals, hoverTexts }] of groups) {
         aggregatedX.push(key);
-        aggregatedY.push(computeAggregate(yVals, aggregationType));
-        aggregatedHover.push(hoverTexts.length > 0 ? hoverTexts.join("; ") : undefined);
+        const aggregatedValue = computeAggregate(yVals, aggregationType);
+        aggregatedY.push(aggregatedValue);
+
+        const aggregatedHoverText =
+            yVals.length > 1
+                ? `${aggregationType.toUpperCase()}: ${aggregatedValue} (${yVals.length} values)`
+                : hoverTexts[0];
+
+        aggregatedHover.push(aggregatedHoverText);
     }
 
     const hasText = aggregatedHover.some(text => text !== undefined && text !== "");
@@ -80,25 +93,28 @@ function computeAggregate(arr: number[], type: AggregationType): number {
         case "last":
             return arr[arr.length - 1];
         case "median": {
-            const sorted = arr.slice().sort((a, b) => a - b);
+            const sorted = [...arr].sort((a, b) => a - b);
             const m = Math.floor(sorted.length / 2);
             return sorted.length % 2 === 1 ? sorted[m] : (sorted[m - 1] + sorted[m]) / 2;
         }
         case "mode": {
+            if (arr.length === 0) return NaN;
             const freq = new Map<number, number>();
-            let best = arr[0];
-            let bestCount = 0;
-            arr.forEach(n => {
-                const c = (freq.get(n) || 0) + 1;
-                freq.set(n, c);
-                if (c > bestCount) {
-                    best = n;
-                    bestCount = c;
+            let maxFreq = 0;
+            let mode = arr[0];
+
+            for (const n of arr) {
+                const count = (freq.get(n) || 0) + 1;
+                freq.set(n, count);
+                if (count > maxFreq) {
+                    maxFreq = count;
+                    mode = n;
                 }
-            });
-            return best;
+            }
+            return mode;
         }
         default:
+            console.warn(`Unknown aggregation type: ${type}`);
             return NaN;
     }
 }
