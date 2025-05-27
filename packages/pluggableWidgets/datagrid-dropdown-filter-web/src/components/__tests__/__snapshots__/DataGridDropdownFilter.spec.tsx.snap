@@ -3,17 +3,57 @@
 exports[`Dropdown Filter with single instance with single attribute DOM structure renders correctly 1`] = `
 <DocumentFragment>
   <div
-    class="dropdown-container filter-custom-class"
-    data-focusindex="0"
+    class="widget-dropdown-filter form-control variant-select filter-custom-class"
+    data-empty="true"
+    data-expanded="false"
   >
-    <input
-      aria-controls="Dropdown1-dropdown-list"
+    <button
+      aria-activedescendant=""
+      aria-controls="downshift-:r1:-menu"
       aria-expanded="false"
-      aria-haspopup="true"
-      class="form-control dropdown-triggerer"
-      placeholder=""
-      value=""
-    />
+      aria-haspopup="listbox"
+      aria-label="Select"
+      class="widget-dropdown-filter-input-container"
+      id="downshift-:r1:-toggle-button"
+      role="combobox"
+      tabindex="0"
+    >
+      <span
+        class="widget-dropdown-filter-toggle"
+      >
+        Select
+      </span>
+      <div
+        class="widget-dropdown-filter-controls"
+      >
+        <svg
+          class="widget-dropdown-filter-state-icon"
+          height="16"
+          viewBox="0 0 32 32"
+          width="16"
+        >
+          <path
+            d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z"
+          />
+        </svg>
+      </div>
+    </button>
+    <div
+      class="widget-dropdown-filter-popover"
+      hidden=""
+      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
+    >
+      <div
+        class="widget-dropdown-filter-menu-slot"
+      >
+        <ul
+          aria-labelledby="downshift-:r1:-label"
+          class="widget-dropdown-filter-menu"
+          id="downshift-:r1:-menu"
+          role="listbox"
+        />
+      </div>
+    </div>
   </div>
 </DocumentFragment>
 `;

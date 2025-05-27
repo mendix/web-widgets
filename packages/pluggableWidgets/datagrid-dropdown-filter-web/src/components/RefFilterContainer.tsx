@@ -1,69 +1,121 @@
-import { RefFilterController } from "@mendix/widget-plugin-filtering/controllers/RefFilterController";
-import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { Select } from "@mendix/widget-plugin-filtering/controls";
-import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
-import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { ActionValue } from "mendix";
+import { RefSelectController } from "@mendix/widget-plugin-filtering/controllers/picker/RefSelectController";
+import { RefComboboxController } from "@mendix/widget-plugin-filtering/controllers/picker/RefComboboxController";
+import { RefTagPickerController } from "@mendix/widget-plugin-filtering/controllers/picker/RefTagPickerController";
+import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
+import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Combobox";
+import { TagPicker } from "@mendix/widget-plugin-filtering/controls/tag-picker/TagPicker";
+import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
+import { RefFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/RefFilterStore";
+import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
+import { createElement, CSSProperties } from "react";
+import { useSetupUpdate } from "@mendix/widget-plugin-filtering/helpers/useSetupUpdate";
+import { useFrontendType } from "../hooks/useFrontendType";
+import { SelectedItemsStyleEnum, SelectionMethodEnum } from "../../typings/DatagridDropdownFilterProps";
+import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
+
 export interface RefFilterContainerProps {
-    name: string;
-    parentChannelName?: string;
-    filterStore: OptionListFilterInterface;
-    multiselect: boolean;
-    emptyCaption?: string;
     ariaLabel?: string;
     className?: string;
-    tabIndex?: number;
-    styles?: CSSProperties;
+    defaultValue?: string;
+    emptyCaption?: string;
+    filterStore: RefFilterStore;
+    multiselect: boolean;
+    name: string;
     onChange?: ActionValue;
+    parentChannelName?: string;
+    styles?: CSSProperties;
+    valueAttribute?: EditableValue<string>;
+    filterable: boolean;
+    selectionMethod: SelectionMethodEnum;
+    selectedItemsStyle: SelectedItemsStyleEnum;
+    clearable: boolean;
 }
 
 function Container(props: RefFilterContainerProps): React.ReactElement {
-    const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
-    const [controller] = useState(
-        () =>
-            new RefFilterController({
-                store: props.filterStore,
-                multiselect: props.multiselect,
-                emptyCaption: props.emptyCaption,
-                onChange: props.onChange
-            })
-    );
+    const frontendType = useFrontendType(props);
 
-    useEffect(() => controller.setup(), [controller]);
-    useEffect(() => controller.updateProps({ onChange: props.onChange }), [controller, props.onChange]);
-    useOnResetValueEvent({
-        widgetName: props.name,
-        parentChannelName: props.parentChannelName,
-        listener: controller.handleResetValue
-    });
+    switch (frontendType) {
+        case "select":
+            return <SelectWidget {...props} />;
+        case "combobox":
+            return <ComboboxWidget {...props} />;
+        case "tagPicker":
+            return <TagPickerWidget {...props} />;
+        default:
+            return <div>Unknown frontend type: {frontendType}</div>;
+    }
+}
 
-    useOnSetValueEvent({
-        widgetName: props.name,
-        parentChannelName: props.parentChannelName,
-        listener: controller.handleSetValue
-    });
+const SelectWidget = observer(function SelectWidget(props: RefFilterContainerProps): React.ReactElement {
+    const ctrl1 = useSetupUpdate(() => new RefSelectController(props), props);
+    const handleMenuScroll = useOnScrollBottom(ctrl1.handleMenuScrollEnd, { triggerZoneHeight: 100 });
 
-    const handleContentScroll = useOnScrollBottom(controller.handleScrollEnd, { triggerZoneHeight: 100 });
+    usePickerJSActions(ctrl1, props);
 
     return (
         <Select
-            options={controller.options}
-            empty={controller.empty}
-            onSelect={controller.handleSelect}
-            multiSelect={controller.multiselect}
-            inputValue={controller.inputValue}
-            onTriggerClick={controller.handleTriggerClick}
-            onContentScroll={handleContentScroll}
-            id={id}
-            ariaLabel={props.ariaLabel}
+            value={ctrl1.value}
+            useSelectProps={ctrl1.useSelectProps}
+            options={ctrl1.options}
+            onClear={ctrl1.handleClear}
+            clearable={props.clearable}
+            empty={ctrl1.isEmpty}
+            onFocus={ctrl1.handleFocus}
+            onMenuScroll={handleMenuScroll}
+            showCheckboxes={ctrl1.multiselect}
             className={props.className}
-            tabIndex={props.tabIndex}
-            styles={props.styles}
+            style={props.styles}
         />
     );
-}
+});
 
-export const RefFilterContainer = observer(Container);
+const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContainerProps): React.ReactElement {
+    const ctrl2 = useSetupUpdate(() => new RefComboboxController(props), props);
+    const handleMenuScroll = useOnScrollBottom(ctrl2.handleMenuScrollEnd, { triggerZoneHeight: 100 });
+
+    usePickerJSActions(ctrl2, props);
+
+    return (
+        <Combobox
+            options={ctrl2.options}
+            inputPlaceholder={ctrl2.inputPlaceholder}
+            useComboboxProps={ctrl2.useComboboxProps}
+            onClear={ctrl2.handleClear}
+            onFocus={ctrl2.handleFocus}
+            onBlur={ctrl2.handleBlur}
+            onMenuScroll={handleMenuScroll}
+            empty={ctrl2.isEmpty}
+            className={props.className}
+            style={props.styles}
+        />
+    );
+});
+
+const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContainerProps): React.ReactElement {
+    const ctrl3 = useSetupUpdate(() => new RefTagPickerController(props), props);
+    const handleMenuScroll = useOnScrollBottom(ctrl3.handleMenuScrollEnd, { triggerZoneHeight: 100 });
+
+    usePickerJSActions(ctrl3, props);
+
+    return (
+        <TagPicker
+            options={ctrl3.options}
+            selected={ctrl3.selectedOptions}
+            useMultipleSelectionProps={ctrl3.useMultipleSelectionProps}
+            useComboboxProps={ctrl3.useComboboxProps}
+            onClear={ctrl3.handleClear}
+            onBlur={ctrl3.handleBlur}
+            onFocus={ctrl3.handleFocus}
+            onMenuScroll={handleMenuScroll}
+            inputPlaceholder={ctrl3.inputPlaceholder}
+            empty={ctrl3.isEmpty}
+            showCheckboxes={props.selectionMethod === "checkbox"}
+            selectedStyle={props.selectedItemsStyle}
+            className={props.className}
+            style={props.styles}
+        />
+    );
+});
+
+export const RefFilterContainer = Container;

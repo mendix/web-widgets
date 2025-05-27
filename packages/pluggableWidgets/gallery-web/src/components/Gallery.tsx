@@ -37,6 +37,7 @@ export interface GalleryProps<T extends ObjectItem> {
     tabletItems: number;
     tabIndex?: number;
     ariaLabelListBox?: string;
+    ariaLabelItem?: (item: T) => string | undefined;
     preview?: boolean;
 
     // Helpers
@@ -59,6 +60,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                 page={props.page}
                 pageSize={props.pageSize}
                 previousPage={() => props.setPage && props.setPage(prev => prev - 1)}
+                pagination={props.paging ? "buttons" : "virtualScrolling"}
             />
         </div>
     ) : null;
@@ -95,6 +97,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                                     eventsController={props.itemEventsController}
                                     getPosition={props.getPosition}
                                     itemIndex={index}
+                                    label={props.ariaLabelItem?.(item)}
                                 />
                             ))}
                         </KeyNavProvider>

@@ -2,7 +2,7 @@ import { createElement } from "react";
 import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import { getGlobalSortContext } from "@mendix/widget-plugin-sorting/context";
 import { SortAPIProvider } from "@mendix/widget-plugin-sorting/providers/SortAPIProvider";
-import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
+import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import {
     getGlobalSelectionContext,
     SelectionHelper,

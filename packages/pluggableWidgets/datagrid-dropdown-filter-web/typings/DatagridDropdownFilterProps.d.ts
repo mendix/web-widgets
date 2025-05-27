@@ -11,6 +11,10 @@ export interface FilterOptionsType {
     value: DynamicValue<string>;
 }
 
+export type SelectedItemsStyleEnum = "text" | "boxes";
+
+export type SelectionMethodEnum = "checkbox" | "rowClick";
+
 export interface FilterOptionsPreviewType {
     caption: string;
     value: string;
@@ -22,7 +26,6 @@ export interface DatagridDropdownFilterContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     auto: boolean;
-    advanced: boolean;
     defaultValue?: DynamicValue<string>;
     filterOptions: FilterOptionsType[];
     filterable: boolean;
@@ -47,7 +50,6 @@ export interface DatagridDropdownFilterPreviewProps {
     readOnly: boolean;
     renderMode?: "design" | "xray" | "structure";
     auto: boolean;
-    advanced: boolean;
     defaultValue: string;
     filterOptions: FilterOptionsPreviewType[];
     filterable: boolean;

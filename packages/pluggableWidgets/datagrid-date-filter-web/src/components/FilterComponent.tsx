@@ -30,7 +30,7 @@ export function FilterComponent(props: FilterComponentProps): ReactElement {
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption ?? "Select filter type"}
                     value={props.filterFn ?? "equal"}
-                    onChange={props.onFilterChange}
+                    onSelect={props.onFilterChange}
                     options={OPTIONS}
                 />
             )}

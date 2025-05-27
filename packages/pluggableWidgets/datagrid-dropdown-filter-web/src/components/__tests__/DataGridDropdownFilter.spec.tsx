@@ -1,12 +1,15 @@
 import "@testing-library/jest-dom";
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
-import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
+import {
+    HeaderFiltersStore,
+    HeaderFiltersStoreProps
+} from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import { dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { createContext, createElement } from "react";
 import DatagridDropdownFilter from "../../DatagridDropdownFilter";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-export interface StaticInfo {
+interface StaticInfo {
     name: string;
     filtersChannelName: string;
 }
@@ -16,13 +19,28 @@ const commonProps = {
     tabIndex: 0,
     name: "filter-test",
     advanced: false,
-    groupKey: "dropdown-filter"
+    groupKey: "dropdown-filter",
+    filterable: false,
+    clearable: true,
+    selectionMethod: "checkbox" as const,
+    selectedItemsStyle: "text" as const
 };
 
 const headerFilterStoreInfo: StaticInfo = {
     name: commonProps.name,
     filtersChannelName: ""
 };
+
+const consoleError = global.console.error;
+jest.spyOn(global.console, "error").mockImplementation((...args: any[]) => {
+    const [msg] = args;
+
+    if (typeof msg === "string" && msg.startsWith("downshift:")) {
+        return;
+    }
+
+    consoleError(...args);
+});
 
 describe("Dropdown Filter", () => {
     describe("with single instance", () => {
@@ -62,11 +80,11 @@ describe("Dropdown Filter", () => {
                         <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                     );
 
-                    const trigger = filter.getByRole("textbox");
+                    const trigger = filter.getByRole("combobox");
 
                     await fireEvent.click(trigger);
 
-                    const items = filter.getAllByRole("menuitem");
+                    const items = filter.getAllByRole("option");
 
                     items.forEach((item, index) => {
                         if (index === 0) {
@@ -99,7 +117,7 @@ describe("Dropdown Filter", () => {
                         />
                     );
 
-                    expect(screen.getByRole("textbox")).toHaveValue("enum_value_1");
+                    expect(screen.getByRole("combobox")).toHaveAccessibleName("enum_value_1");
                 });
 
                 it("don't sync defaultValue with state when defaultValue changes from undefined to string", async () => {
@@ -114,7 +132,7 @@ describe("Dropdown Filter", () => {
                     );
 
                     await waitFor(() => {
-                        expect(screen.getByRole("textbox")).toHaveValue("");
+                        expect(screen.getByRole("combobox")).toHaveAccessibleName("Select");
                     });
 
                     // “Real” context causes widgets to re-renders multiple times, replicate this in mocked context.
@@ -138,7 +156,7 @@ describe("Dropdown Filter", () => {
                     );
 
                     await waitFor(() => {
-                        expect(screen.getByRole("textbox")).toHaveValue("");
+                        expect(screen.getByRole("combobox")).toHaveAccessibleName("Select");
                     });
                 });
 
@@ -154,7 +172,7 @@ describe("Dropdown Filter", () => {
                         />
                     );
 
-                    expect(screen.getByRole("textbox")).toHaveValue("xyz");
+                    expect(screen.getByRole("combobox")).toHaveAccessibleName("xyz");
 
                     // “Real” context causes widgets to re-renders multiple times, replicate this in mocked context.
                     rerender(
@@ -177,7 +195,7 @@ describe("Dropdown Filter", () => {
                     );
 
                     await waitFor(() => {
-                        expect(screen.getByRole("textbox")).toHaveValue("xyz");
+                        expect(screen.getByRole("combobox")).toHaveAccessibleName("xyz");
                     });
                 });
             });
@@ -229,11 +247,11 @@ describe("Dropdown Filter", () => {
                         <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
                     );
 
-                    const trigger = filter.getByRole("textbox");
+                    const trigger = filter.getByRole("combobox");
                     await fireEvent.click(trigger);
 
-                    expect(filter.getAllByRole("menuitem").map(item => item.textContent)).toStrictEqual([
-                        "",
+                    expect(filter.getAllByRole("option").map(item => item.textContent)).toStrictEqual([
+                        "None",
                         "enum_value_1",
                         "enum_value_2",
                         "Yes",
@@ -453,8 +471,8 @@ describe("Dropdown Filter", () => {
                 <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
             );
 
-            expect(fragment1().querySelector("input")?.getAttribute("aria-controls")).not.toBe(
-                fragment2().querySelector("input")?.getAttribute("aria-controls")
+            expect(fragment1().querySelector("button")?.getAttribute("aria-controls")).not.toBe(
+                fragment2().querySelector("button")?.getAttribute("aria-controls")
             );
         });
 

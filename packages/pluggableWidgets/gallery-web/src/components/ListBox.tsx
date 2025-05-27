@@ -1,6 +1,6 @@
 import { SelectionType } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
-import { createElement, ReactElement } from "react";
+import { createElement, JSX, ReactElement } from "react";
 
 type ListBoxProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
     lg: number;

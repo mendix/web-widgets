@@ -12,10 +12,6 @@
                     <caption>Automatic options</caption>
                     <description>Show options based on the references or the enumeration values and captions.</description>
                 </property>
-                <property key="advanced" type="boolean" defaultValue="false">
-                    <caption>Enable advanced options</caption>
-                    <description />
-                </property>
                 <property key="defaultValue" type="expression" required="false">
                     <caption>Default value</caption>
                     <description>Empty option caption will be shown by default or if configured default value matches none of the options</description>

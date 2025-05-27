@@ -6,11 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.9.3] - 2025-05-26
+
+### Fixed
+
+-   We fixed an issue with filter popup positioning.
+
+## [2.9.2] - 2025-05-19
+
 ### Fixed
 
 -   We fixed an issue with number filter not working in some locales
 
-## [2.8.5] - 2024-11-13
+## [2.9.1] - 2025-03-20
+
+### Fixed
+
+-   We fixed an issue where non-adjustable default filters were overridden by personalization settings.
+
+## [2.8.4] - 2024-11-13
 
 ### Changed
 
@@ -19,8 +33,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 -   We fixed an issue where onChange wouldn't triggered on empty or not empty filter.
-
--   We fixed an issue with the widget failing to render in Design mode.
 
 ### Breaking changes
 

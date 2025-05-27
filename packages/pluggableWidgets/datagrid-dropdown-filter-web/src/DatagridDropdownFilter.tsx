@@ -14,29 +14,22 @@ function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAP
         onChange: props.onChange,
         valueAttribute: props.valueAttribute,
         parentChannelName: props.parentChannelName,
-        name: props.name
+        name: props.name,
+        multiselect: props.multiSelect,
+        emptyCaption: props.emptyOptionCaption?.value,
+        defaultValue: props.defaultValue?.value,
+        filterable: props.filterable,
+        selectionMethod: props.selectionMethod,
+        selectedItemsStyle: props.selectedItemsStyle,
+        clearable: props.clearable
     };
 
-    if (props.filterStore.type === "refselect") {
-        return (
-            <RefFilterContainer
-                {...commonProps}
-                filterStore={props.filterStore}
-                multiselect={props.multiSelect}
-                emptyCaption={props.emptyOptionCaption?.value}
-            />
-        );
+    if (props.filterStore.storeType === "refselect") {
+        return <RefFilterContainer {...commonProps} filterStore={props.filterStore} />;
     }
 
     return (
-        <StaticFilterContainer
-            {...commonProps}
-            filterStore={props.filterStore}
-            filterOptions={props.filterOptions}
-            multiselect={props.multiSelect}
-            defaultValue={props.defaultValue?.value}
-            emptyCaption={props.emptyOptionCaption?.value}
-        />
+        <StaticFilterContainer {...commonProps} filterStore={props.filterStore} filterOptions={props.filterOptions} />
     );
 }
 

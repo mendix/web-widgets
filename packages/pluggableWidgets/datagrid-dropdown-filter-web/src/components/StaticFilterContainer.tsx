@@ -1,63 +1,118 @@
-import { StaticFilterController } from "@mendix/widget-plugin-filtering/controllers/StaticFilterController";
-import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
-import { Select } from "@mendix/widget-plugin-filtering/controls";
-import { OptionListFilterInterface } from "@mendix/widget-plugin-filtering/typings/OptionListFilterInterface";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { StaticSelectController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticSelectController";
+import { StaticComboboxController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticComboboxController";
+import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
+import { Combobox } from "@mendix/widget-plugin-filtering/controls/combobox/Combobox";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, CSSProperties, useEffect, useRef, useState } from "react";
-import { FilterOptionsType } from "../../typings/DatagridDropdownFilterProps";
+import { createElement, CSSProperties } from "react";
+import {
+    FilterOptionsType,
+    SelectedItemsStyleEnum,
+    SelectionMethodEnum
+} from "../../typings/DatagridDropdownFilterProps";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
+import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/StaticSelectFilterStore";
+import { StaticTagPickerController } from "@mendix/widget-plugin-filtering/controllers/picker/StaticTagPickerController";
+import { TagPicker } from "@mendix/widget-plugin-filtering/controls/tag-picker/TagPicker";
+import { useSetupUpdate } from "@mendix/widget-plugin-filtering/helpers/useSetupUpdate";
+import { usePickerJSActions } from "@mendix/widget-plugin-filtering/helpers/usePickerJSActions";
+import { useFrontendType } from "../hooks/useFrontendType";
 
 export interface StaticFilterContainerProps {
-    parentChannelName: string | undefined;
-    name: string;
-    filterStore: OptionListFilterInterface;
-    filterOptions: FilterOptionsType[];
-    multiselect: boolean;
-    defaultValue?: string;
     ariaLabel?: string;
     className?: string;
-    tabIndex?: number;
-    styles?: CSSProperties;
-    onChange?: ActionValue;
+    defaultValue?: string;
     emptyCaption?: string;
+    filterOptions: FilterOptionsType[];
+    filterStore: StaticSelectFilterStore;
+    multiselect: boolean;
+    name: string;
+    onChange?: ActionValue;
+    parentChannelName: string | undefined;
+    styles?: CSSProperties;
     valueAttribute?: EditableValue<string>;
+    filterable: boolean;
+    selectionMethod: SelectionMethodEnum;
+    selectedItemsStyle: SelectedItemsStyleEnum;
+    clearable: boolean;
 }
 
 function Container(props: StaticFilterContainerProps): React.ReactElement {
-    const id = (useRef<string>().current ??= `Dropdown${generateUUID()}`);
-    const [controller] = useState(() => new StaticFilterController(props));
+    const frontendType = useFrontendType(props);
 
-    useEffect(() => controller.setup(), [controller]);
-    useEffect(() => controller.updateProps(props));
+    switch (frontendType) {
+        case "select":
+            return <SelectWidget {...props} />;
+        case "combobox":
+            return <ComboboxWidget {...props} />;
+        case "tagPicker":
+            return <TagPickerWidget {...props} />;
+        default:
+            return <div>Unknown frontend type: {frontendType}</div>;
+    }
+}
 
-    useOnResetValueEvent({
-        widgetName: props.name,
-        parentChannelName: props.parentChannelName,
-        listener: controller.handleResetValue
-    });
+const SelectWidget = observer(function SelectWidget(props: StaticFilterContainerProps): React.ReactElement {
+    const ctrl1 = useSetupUpdate(() => new StaticSelectController(props), props);
 
-    useOnSetValueEvent({
-        widgetName: props.name,
-        listener: controller.handleSetValue
-    });
+    usePickerJSActions(ctrl1, props);
 
     return (
         <Select
-            options={controller.options}
-            empty={controller.empty}
-            onSelect={controller.onSelect}
-            multiSelect={controller.multiselect}
-            inputValue={controller.inputValue}
-            id={id}
-            ariaLabel={props.ariaLabel}
+            value={ctrl1.value}
+            useSelectProps={ctrl1.useSelectProps}
+            options={ctrl1.options}
+            onClear={ctrl1.handleClear}
+            clearable={props.clearable}
+            empty={ctrl1.isEmpty}
+            showCheckboxes={ctrl1.multiselect}
             className={props.className}
-            tabIndex={props.tabIndex}
-            placeholder={controller.empty.caption}
-            styles={props.styles}
+            style={props.styles}
         />
     );
-}
+});
 
-export const StaticFilterContainer = withCustomOptionsGuard(observer(Container));
+const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
+    const ctrl2 = useSetupUpdate(() => new StaticComboboxController(props), props);
+
+    usePickerJSActions(ctrl2, props);
+
+    return (
+        <Combobox
+            options={ctrl2.options}
+            inputPlaceholder={ctrl2.inputPlaceholder}
+            useComboboxProps={ctrl2.useComboboxProps}
+            onClear={ctrl2.handleClear}
+            onFocus={ctrl2.handleFocus}
+            onBlur={ctrl2.handleBlur}
+            empty={ctrl2.isEmpty}
+            className={props.className}
+            style={props.styles}
+        />
+    );
+});
+
+const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterContainerProps): React.ReactElement {
+    const ctrl3 = useSetupUpdate(() => new StaticTagPickerController(props), props);
+
+    usePickerJSActions(ctrl3, props);
+
+    return (
+        <TagPicker
+            options={ctrl3.options}
+            selected={ctrl3.selectedOptions}
+            useMultipleSelectionProps={ctrl3.useMultipleSelectionProps}
+            useComboboxProps={ctrl3.useComboboxProps}
+            onClear={ctrl3.handleClear}
+            onBlur={ctrl3.handleBlur}
+            inputPlaceholder={ctrl3.inputPlaceholder}
+            empty={ctrl3.isEmpty}
+            showCheckboxes={props.selectionMethod === "checkbox"}
+            selectedStyle={props.selectedItemsStyle}
+            className={props.className}
+            style={props.styles}
+        />
+    );
+});
+
+export const StaticFilterContainer = withCustomOptionsGuard(Container);

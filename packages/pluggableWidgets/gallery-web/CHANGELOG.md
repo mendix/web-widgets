@@ -6,17 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.14.1] - 2025-05-26
+
+### Added
+
+-   We added an option to specify item descriptions in the gallery widget, improving accessibility for screen reader users.
+
 ## [1.13.0] - 2024-11-13
 
 ### Fixed
 
 -   Fixed issue with xpath when widget has many filters.
-
-## [1.12.3] - 2024-11-04
-
-### Fixed
-
--   We fixed an issue with the widget failing to render in Design mode.
 
 ## [1.12.2] - 2024-10-31
 

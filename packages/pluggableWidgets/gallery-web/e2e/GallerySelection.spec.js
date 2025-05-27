@@ -14,10 +14,7 @@ test.describe("gallery-web", () => {
             await expect(page.locator(".mx-name-gallery1")).toBeVisible();
             await page.locator(".mx-name-image1").first().click();
             await page.locator(".mx-name-feedback1").isHidden();
-            await expect(page.locator(".mx-name-layoutGrid1").nth(1)).toHaveScreenshot(
-                `gallerySingleSelection.png`,
-                0.1
-            );
+            await expect(page.locator(".mx-name-layoutGrid1").nth(1)).toHaveScreenshot(`gallerySingleSelection.png`);
         });
 
         test("applies multi select", async ({ page }) => {
@@ -29,10 +26,7 @@ test.describe("gallery-web", () => {
             await page.locator(".mx-name-image1").nth(1).click();
             await page.locator(".mx-name-image1").nth(2).click();
             await page.locator(".mx-name-feedback1").isHidden();
-            await expect(page.locator(".mx-name-layoutGrid1").nth(1)).toHaveScreenshot(
-                `galleryMultiSelection.png`,
-                0.1
-            );
+            await expect(page.locator(".mx-name-layoutGrid1").nth(1)).toHaveScreenshot(`galleryMultiSelection.png`);
         });
     });
 
