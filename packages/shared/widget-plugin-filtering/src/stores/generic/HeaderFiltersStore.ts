@@ -1,11 +1,11 @@
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { computed, makeObservable } from "mobx";
-import { FilterAPIv2 } from "../context";
-import { APIError } from "../errors";
-import { LegacyPv } from "../providers/LegacyPv";
-import { Result, value } from "../result-meta";
-import { FiltersSettingsMap } from "../typings/settings";
+import { FilterAPIv2 } from "../../context";
+import { APIError } from "../../errors";
+import { LegacyPv } from "../../providers/LegacyPv";
+import { Result, value } from "../../result-meta";
+import { FiltersSettingsMap } from "../../typings/settings";
 
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;

@@ -1,8 +1,4 @@
-export interface Option {
-    caption: string;
-    value: string;
-    selected: boolean;
-}
+import { OptionWithState } from "./OptionWithState";
 
 export interface CustomOption {
     caption: string;
@@ -11,12 +7,13 @@ export interface CustomOption {
 
 export interface OptionListFilterInterface {
     type: "refselect" | "select";
-    storeType: "optionlist";
-    options: Option[];
+    storeType: "optionlist" | "refselect" | "select";
+    options: OptionWithState[];
+    selected: string[];
     isLoading: boolean;
     hasMore: boolean;
-    hasSearch: boolean;
-    selectedCount?: number;
+    canSearch: boolean;
+
     replace(value: string[]): void;
     toggle(value: string): void;
     loadMore(): void;

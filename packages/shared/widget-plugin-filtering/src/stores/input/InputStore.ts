@@ -11,7 +11,6 @@ export class InputStore {
             value: observable,
             isValid: observable,
             setValue: action,
-            setIsValid: action,
             onChange: action
         });
     }

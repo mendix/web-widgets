@@ -1,9 +1,9 @@
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { action, autorun, computed, makeObservable, reaction, runInAction } from "mobx";
 import { createRef } from "react";
-import { InputStore } from "../stores/InputStore";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
-import { FilterV, Number_InputFilterInterface } from "../typings/InputFilterInterface";
+import { InputStore } from "../../stores/input/InputStore";
+import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
+import { FilterV, Number_InputFilterInterface } from "../../typings/InputFilterInterface";
 
 export type Params = {
     filter: Number_InputFilterInterface;
@@ -11,6 +11,7 @@ export type Params = {
     defaultValue?: FilterV<Number_InputFilterInterface>;
     changeDelay?: number;
     disableInputs?: (fn: NumberFilterFunction) => boolean;
+    adjustableFilterFunction: boolean;
 };
 
 type NumberFilterFunction = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
@@ -23,6 +24,7 @@ export class NumberFilterController {
     input2: InputStore;
     inputRef = createRef<HTMLInputElement>();
     defaults: Number_InputFilterInterface["defaultState"];
+    adjustableFilterFunction: boolean;
     inputs: [InputStore, InputStore];
 
     constructor(params: Params) {
@@ -34,6 +36,7 @@ export class NumberFilterController {
         this.filter = filter;
         this.defaults = [params.defaultFilter, params.defaultValue];
         this.disabledFn = params.disableInputs;
+        this.adjustableFilterFunction = params.adjustableFilterFunction;
 
         makeObservable(this, {
             selectedFn: computed,
@@ -92,7 +95,7 @@ export class NumberFilterController {
         );
 
         // Set default state for the filter, if present.
-        this.filter.UNSAFE_setDefaults(this.defaults);
+        this.filter.UNSAFE_setDefaults(this.defaults, this.adjustableFilterFunction);
 
         return () => {
             disposers.forEach(dispose => dispose());
@@ -116,7 +119,7 @@ export class NumberFilterController {
             return;
         }
         if (params.operators) {
-            this.filter.filterFunction = params.operators;
+            this.filter.UNSAFE_overwriteFilterFunction(params.operators);
         }
         this.filter.arg1.value = params.numberValue;
     };

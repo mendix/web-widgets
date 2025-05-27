@@ -1,5 +1,5 @@
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../typings/FilterFunctions";
-import { FilterFunction } from "../typings/mendix";
+import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
+import { FilterFunction } from "../../typings/mendix";
 
 export function baseNames(
     fn: FilterFunction | "between" | "empty" | "notEmpty"
