@@ -20,6 +20,7 @@ interface PickerState {
 type Params = {
     filter: Date_InputFilterInterface;
     defaultFilter: FilterFn<Date_InputFilterInterface>;
+    adjustableFilterFunction: boolean;
     defaultValue?: Date;
     defaultStart?: Date;
     defaultEnd?: Date;
@@ -31,10 +32,12 @@ export class DatePickerController {
     private _defaultState: Date_InputFilterInterface["defaultState"];
     expanded = false;
     pickerRef = createRef<ReactDatePicker>();
+    adjustableFilterFunction: boolean;
 
     constructor(params: Params) {
         this._filter = params.filter;
         this._defaultState = this.getDefaults(params);
+        this.adjustableFilterFunction = params.adjustableFilterFunction;
 
         makeObservable(this, {
             pickerState: computed,
@@ -127,7 +130,7 @@ export class DatePickerController {
             this._filter.reset();
         } else {
             runInAction(() => {
-                this._filter.setFilterFn(valueOptions.operators as Date_InputFilterInterface["filterFunction"]);
+                this._filter.filterFunction = valueOptions.operators as Date_InputFilterInterface["filterFunction"];
                 this._filter.arg1.value = valueOptions.dateTimeValue;
                 this._filter.arg2.value = valueOptions.dateTimeValue2;
             });
@@ -135,7 +138,7 @@ export class DatePickerController {
     };
 
     handleFilterChange = (fn: FilterFn<Date_InputFilterInterface>): void => {
-        this._filter.setFilterFn(fn);
+        this._filter.filterFunction = fn;
         this._setActive();
     };
 
@@ -163,7 +166,7 @@ export class DatePickerController {
     }
 
     setup(): (() => void) | void {
-        this._filter.UNSAFE_setDefaults(this._defaultState);
+        this._filter.UNSAFE_setDefaults(this._defaultState, this.adjustableFilterFunction);
     }
 
     private getDefaults(params: Params): Date_InputFilterInterface["defaultState"] {

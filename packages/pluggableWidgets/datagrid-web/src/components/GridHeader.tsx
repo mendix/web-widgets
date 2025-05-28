@@ -56,46 +56,48 @@ export function GridHeader({
     }
 
     return (
-        <div key="headers_row" className="tr" role="row">
-            <CheckboxColumnHeader key="headers_column_select_all" />
-            {columns.map((column, index) =>
-                headerWrapperRenderer(
-                    index,
-                    <Header
-                        key={`${column.columnId}`}
-                        className={`align-column-${column.alignment}`}
-                        gridId={id}
-                        column={column}
-                        draggable={columnsDraggable}
-                        dropTarget={dragOver}
-                        filterable={columnsFilterable}
-                        filterWidget={filterRenderer(renderFilterWrapper, column.columnIndex)}
-                        hidable={columnsHidable}
-                        isDragging={isDragging}
-                        preview={preview}
-                        resizable={columnsResizable && columns.at(-1) !== column}
-                        resizer={
-                            <ColumnResizer
-                                onResizeStart={() => setIsResizing(true)}
-                                onResizeEnds={() => setIsResizing(false)}
-                                setColumnWidth={(width: number) => column.setSize(width)}
-                            />
-                        }
-                        swapColumns={columnsSwap}
-                        setDropTarget={setDragOver}
-                        setIsDragging={setIsDragging}
-                        sortable={columnsSortable}
+        <div className="widget-datagrid-grid-head" role="rowgroup">
+            <div key="headers_row" className="tr" role="row">
+                <CheckboxColumnHeader key="headers_column_select_all" />
+                {columns.map((column, index) =>
+                    headerWrapperRenderer(
+                        index,
+                        <Header
+                            key={`${column.columnId}`}
+                            className={`align-column-${column.alignment}`}
+                            gridId={id}
+                            column={column}
+                            draggable={columnsDraggable}
+                            dropTarget={dragOver}
+                            filterable={columnsFilterable}
+                            filterWidget={filterRenderer(renderFilterWrapper, column.columnIndex)}
+                            hidable={columnsHidable}
+                            isDragging={isDragging}
+                            preview={preview}
+                            resizable={columnsResizable && columns.at(-1) !== column}
+                            resizer={
+                                <ColumnResizer
+                                    onResizeStart={() => setIsResizing(true)}
+                                    onResizeEnds={() => setIsResizing(false)}
+                                    setColumnWidth={(width: number) => column.setSize(width)}
+                                />
+                            }
+                            swapColumns={columnsSwap}
+                            setDropTarget={setDragOver}
+                            setIsDragging={setIsDragging}
+                            sortable={columnsSortable}
+                        />
+                    )
+                )}
+                {columnsHidable && (
+                    <ColumnSelector
+                        key="headers_column_selector"
+                        columns={availableColumns}
+                        id={id}
+                        visibleLength={columns.length}
                     />
-                )
-            )}
-            {columnsHidable && (
-                <ColumnSelector
-                    key="headers_column_selector"
-                    columns={availableColumns}
-                    id={id}
-                    visibleLength={columns.length}
-                />
-            )}
+                )}
+            </div>
         </div>
     );
 }

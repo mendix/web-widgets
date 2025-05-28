@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 import { observer } from "mobx-react-lite";
 import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
@@ -13,6 +14,7 @@ import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 import { useRootGalleryStore } from "./helpers/useRootGalleryStore";
 import { RootGalleryStore } from "./stores/RootGalleryStore";
 import { HeaderContainer } from "./components/HeaderContainer";
+import { ObjectItem } from "mendix";
 
 interface RootAPI {
     rootStore: RootGalleryStore;
@@ -97,6 +99,7 @@ function Container(props: GalleryContainerProps & RootAPI): ReactElement {
             }
             headerTitle={props.filterSectionTitle?.value}
             ariaLabelListBox={props.ariaLabelListBox?.value}
+            ariaLabelItem={(item: ObjectItem) => props.ariaLabelItem?.get(item).value}
             showHeader={showHeader}
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             items={items}
@@ -119,7 +122,6 @@ function Container(props: GalleryContainerProps & RootAPI): ReactElement {
     );
 }
 
-// eslint-disable-next-line prefer-arrow-callback
 const Widget = observer(function RootStoreProvider(props: GalleryContainerProps) {
     const store = useRootGalleryStore(props);
 

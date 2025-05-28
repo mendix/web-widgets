@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { FilterType, getFilterStore, useFilterContextValue } from "../context";
-import { error, value, Result } from "../result-meta";
-import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
 import { APIError, EKEYMISSING, EMISSINGSTORE, EStoreTypeMisMatch } from "../errors";
-import { isNumberFilter } from "../stores/store-utils";
+import { error, Result, value } from "../result-meta";
+import { isNumberFilter } from "../stores/input/store-utils";
+import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export interface Number_FilterAPIv2 {
     filterStore: Number_InputFilterInterface;
@@ -34,9 +34,9 @@ export function useNumberFilterAPI(key: string): Result<Number_FilterAPIv2, APIE
         return error(EMISSINGSTORE);
     }
 
-    if (store.storeType === "optionlist" || !isNumberFilter(store)) {
+    if (store.storeType !== "input" || !isNumberFilter(store)) {
         return error(
-            EStoreTypeMisMatch("number filter", store.storeType === "optionlist" ? "option list" : store.arg1.type)
+            EStoreTypeMisMatch("number filter", store.storeType !== "input" ? "option list" : store.arg1.type)
         );
     }
 

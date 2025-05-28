@@ -6,20 +6,16 @@ exports[`Table renders the structure correctly 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -47,6 +43,11 @@ exports[`Table renders the structure correctly 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -80,20 +81,16 @@ exports[`Table renders the structure correctly for preview when no header is pro
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -121,6 +118,11 @@ exports[`Table renders the structure correctly for preview when no header is pro
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr tr-preview"
             role="row"
@@ -154,20 +156,16 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr 1fr;"
         >
           <div
             class="tr"
@@ -216,6 +214,11 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -261,20 +264,16 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -306,6 +305,11 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -339,20 +343,16 @@ exports[`Table renders the structure correctly with dragging 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -380,6 +380,11 @@ exports[`Table renders the structure correctly with dragging 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -413,20 +418,16 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -454,6 +455,11 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr myclass"
             role="row"
@@ -487,20 +493,16 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -528,6 +530,11 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -561,20 +568,16 @@ exports[`Table renders the structure correctly with filtering 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -606,6 +609,11 @@ exports[`Table renders the structure correctly with filtering 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -649,20 +657,16 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
       </div>
     </div>
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -690,6 +694,11 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -723,20 +732,16 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -768,6 +773,11 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -801,20 +811,16 @@ exports[`Table renders the structure correctly with hiding 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr 54px;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr 54px;"
         >
           <div
             class="tr"
@@ -878,6 +884,11 @@ exports[`Table renders the structure correctly with hiding 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -916,20 +927,16 @@ exports[`Table renders the structure correctly with paging 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -957,6 +964,11 @@ exports[`Table renders the structure correctly with paging 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -1080,20 +1092,16 @@ exports[`Table renders the structure correctly with resizing 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -1121,6 +1129,11 @@ exports[`Table renders the structure correctly with resizing 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -1154,20 +1167,16 @@ exports[`Table renders the structure correctly with sorting 1`] = `
     class="test widget-datagrid"
   >
     <div
-      class="widget-datagrid-content sticky-table-container infinite-loading"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -1195,6 +1204,11 @@ exports[`Table renders the structure correctly with sorting 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             class="tr"
             role="row"
@@ -1228,21 +1242,17 @@ exports[`Table with selection method checkbox render an extra column and add cla
     class="test widget-datagrid widget-datagrid-selectable-rows widget-datagrid-selection-method-checkbox"
   >
     <div
-      class="widget-datagrid-content sticky-table-container"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         aria-multiselectable="false"
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 48px 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 48px 1fr;"
         >
           <div
             class="tr"
@@ -1274,6 +1284,11 @@ exports[`Table with selection method checkbox render an extra column and add cla
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             aria-selected="true"
             class="tr tr-selected"
@@ -1473,21 +1488,17 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
     class="test widget-datagrid widget-datagrid-selectable-rows widget-datagrid-selection-method-click"
   >
     <div
-      class="widget-datagrid-content sticky-table-container"
+      class="widget-datagrid-content"
     >
-      <div
-        class="sticky-sentinel"
-        style="height: 1px; margin-bottom: -1px;"
-      />
       <div
         aria-multiselectable="false"
         class="widget-datagrid-grid table"
         role="grid"
+        style="grid-template-columns: 1fr;"
       >
         <div
-          class="widget-datagrid-grid-body table-content"
+          class="widget-datagrid-grid-head"
           role="rowgroup"
-          style="grid-template-columns: 1fr;"
         >
           <div
             class="tr"
@@ -1515,6 +1526,11 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+        >
           <div
             aria-selected="true"
             class="tr tr-selected"

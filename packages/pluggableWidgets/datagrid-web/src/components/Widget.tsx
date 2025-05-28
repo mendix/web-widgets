@@ -64,7 +64,9 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;
+    selectAllRowsLabel?: string;
     isLoading: boolean;
+    isFetchingNextBatch: boolean;
     loadingType: LoadingTypeEnum;
     columnsLoading: boolean;
 
@@ -134,7 +136,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         visibleColumns
     } = props;
 
-    const isInfinite = !paging;
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
 
@@ -149,6 +150,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             pageSize={pageSize}
             showPagingButtons={props.showPagingButtons}
             previousPage={() => setPage && setPage(prev => prev - 1)}
+            pagination={paginationType}
         />
     ) : null;
 
@@ -163,34 +165,39 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         <Fragment>
             {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
             {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
-            <WidgetContent
-                isInfinite={isInfinite}
-                hasMoreItems={hasMoreItems}
-                setPage={setPage}
-                paginationType={paginationType}
-                isLoading={props.isLoading && props.loadingType === "spinner"}
-                pageSize={props.pageSize}
-            >
+            <WidgetContent>
                 <Grid
                     aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
+                    style={cssGridStyles}
+                    setPage={setPage}
+                    paginationType={paginationType}
+                    hasMoreItems={hasMoreItems}
                 >
-                    <GridBody style={cssGridStyles}>
-                        <GridHeader
-                            availableColumns={props.availableColumns}
-                            columns={visibleColumns}
-                            setIsResizing={props.setIsResizing}
-                            columnsDraggable={props.columnsDraggable}
-                            columnsFilterable={props.columnsFilterable}
-                            columnsHidable={props.columnsHidable}
-                            columnsResizable={props.columnsResizable}
-                            columnsSortable={props.columnsSortable}
-                            columnsSwap={props.columnsSwap}
-                            filterRenderer={props.filterRenderer}
-                            headerWrapperRenderer={props.headerWrapperRenderer}
-                            id={props.id}
-                            isLoading={props.columnsLoading}
-                            preview={props.preview}
-                        />
+                    <GridHeader
+                        availableColumns={props.availableColumns}
+                        columns={visibleColumns}
+                        setIsResizing={props.setIsResizing}
+                        columnsDraggable={props.columnsDraggable}
+                        columnsFilterable={props.columnsFilterable}
+                        columnsHidable={props.columnsHidable}
+                        columnsResizable={props.columnsResizable}
+                        columnsSortable={props.columnsSortable}
+                        columnsSwap={props.columnsSwap}
+                        filterRenderer={props.filterRenderer}
+                        headerWrapperRenderer={props.headerWrapperRenderer}
+                        id={props.id}
+                        isLoading={props.columnsLoading}
+                        preview={props.preview}
+                    />
+                    <GridBody
+                        isLoading={props.isLoading}
+                        isFetchingNextBatch={props.isFetchingNextBatch}
+                        loadingType={props.loadingType}
+                        columnsHidable={columnsHidable}
+                        columnsSize={visibleColumns.length}
+                        rowsSize={rows.length}
+                        pageSize={pageSize}
+                    >
                         <RowsRenderer
                             preview={props.preview ?? false}
                             interactive={props.gridInteractive}
@@ -203,7 +210,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                             selectActionHelper={selectActionHelper}
                             focusController={props.focusController}
                             eventsController={props.cellEventsController}
-                            isLoading={props.isLoading}
                             pageSize={props.pageSize}
                         />
                         {(rows.length === 0 || preview) &&

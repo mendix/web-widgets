@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 import { useDateSync } from "@mendix/widget-plugin-filtering/helpers/useDateSync";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { observer } from "mobx-react-lite";
@@ -12,11 +13,11 @@ interface ContainerProps extends DatagridDateFilterContainerProps {
     parentChannelName?: string;
 }
 
-// eslint-disable-next-line prefer-arrow-callback
 export const Container: (props: ContainerProps) => React.ReactElement = observer(function Container(props) {
     const staticProps = useSetup({
         defaultEndValue: props.defaultEndDate?.value,
         defaultFilter: props.defaultFilter,
+        adjustableFilterFunction: props.adjustable,
         defaultStartValue: props.defaultStartDate?.value,
         defaultValue: props.defaultValue?.value,
         filterStore: props.filterStore

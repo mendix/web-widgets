@@ -1,0 +1,324 @@
+@mixin scroll-shadow {
+    background:
+        /* Shadow Cover TOP */ linear-gradient(white 30%, rgba(255, 255, 255, 0)) center top,
+        /* Shadow Cover BOTTOM */ linear-gradient(rgba(255, 255, 255, 0), white 70%) center bottom,
+        /* Shadow TOP */ linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center top,
+        /* Shadow BOTTOM */ linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(197, 197, 197, 0.6)) center bottom;
+
+    background-repeat: no-repeat;
+    background-size: 100% 70px, 100% 70px, 100% 35px, 100% 35px;
+    background-attachment: local, local, scroll, scroll;
+}
+
+@mixin btn-with-cross {
+    path {
+        stroke-width: 0;
+    }
+    &:hover {
+        color: var(--brand-primary, #264ae5);
+        path {
+            stroke-width: 1px;
+        }
+    }
+}
+
+$root: ".widget-dropdown-filter";
+
+#{$root} {
+    --wdf-outer-spacing: var(--dropdown-outer-spacing, 10px);
+    --wdf-spacing: var(--spacing-smaller, 4px);
+    --wdf-spacing-tiny: var(--spacing-smallest, 2px);
+    --wdf-popover-spacing: 0;
+    --wdf-popover-z-index: 50;
+    --wdf-popover-shadow: 0px 0px var(--wdf-outer-spacing) 0px var(--shadow-color-border, rgba(0, 0, 0, 0.2));
+    --wdf-bd-radius: var(--dropdown-border-radius, 7px);
+    --wdf-menu-bg-color: var(--label-info-color, #ffffff);
+    --wdf-menu-max-height: var(--dropdown-menu-max-height, 320px);
+    --wdf-menu-item-padding: 6px 10px;
+    --wdf-highlighted-bg-color: var(--color-default-light, #f5f6f6);
+    --wdf-selected-bg-color: var(--color-primary-lighter, #e6eaff);
+    --wdf-button-spacing: 8px;
+    --wdf-color: var(--gray-dark, black);
+    --wdf-state-icon-size: 16px;
+    --wdf-toggle-width: calc(4px + var(--wdf-state-icon-size) + var(--wdf-button-spacing));
+    --wdf-toggle-inline-end: var(--wdf-toggle-width);
+    --wdf-clear-margin: var(--wdf-toggle-inline-end);
+    --wdf-clear-inline-spacing: 6px;
+    --wdf-clear-border-width: 1px;
+    --wdf-clear-width: calc(14px + (var(--wdf-clear-inline-spacing) * 2) + var(--wdf-clear-border-width));
+    --wdf-toggle-inline-end-clearable: calc(var(--wdf-clear-width) + var(--wdf-toggle-inline-end));
+    --wdf-tag-padding: var(--wdf-spacing-tiny) var(--dropdown-outer-spacing, 10px);
+
+    &.form-control {
+        display: flex;
+        min-width: 65px;
+        padding-block: var(--wdf-button-spacing);
+        padding-inline-end: var(--wdf-button-spacing);
+        padding-inline-start: var(--wdf-button-spacing);
+    }
+
+    &-popover {
+        z-index: var(--wdf-popover-z-index);
+        box-shadow: var(--wdf-popover-shadow);
+        margin-top: var(--wdf-spacing);
+        border-radius: var(--wdf-bd-radius);
+    }
+
+    &-menu-slot {
+        border-radius: inherit;
+        background-color: var(--wdf-menu-bg-color);
+    }
+
+    &-menu {
+        @include scroll-shadow;
+        border-radius: inherit;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        max-height: var(--wdf-menu-max-height);
+        overflow-y: auto;
+    }
+
+    &-menu-item {
+        display: flex;
+        flex-flow: row nowrap;
+        align-content: center;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        padding: var(--wdf-menu-item-padding);
+        height: fit-content;
+        overflow: hidden;
+        font-weight: normal;
+        color: var(--wdf-color);
+
+        &:where([data-selected]) {
+            background-color: var(--wdf-selected-bg-color);
+        }
+
+        &:where([data-highlighted]) {
+            background-color: var(--wdf-highlighted-bg-color);
+        }
+    }
+
+    &-checkbox-slot {
+        display: flex;
+        margin-inline-end: var(--wdf-outer-spacing);
+    }
+
+    &-input {
+        border: none;
+        flex: 1;
+        margin: 0;
+        min-width: 50px;
+        padding: 0;
+    }
+
+    &-toggle,
+    &-clear {
+        background-color: transparent;
+        border: none;
+    }
+
+    &-input,
+    &-toggle {
+        color: var(--wdf-color);
+        font-weight: normal;
+        overflow: hidden;
+        text-align: start;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &-clear {
+        @include btn-with-cross;
+        align-items: center;
+        align-self: center;
+        display: flex;
+        flex-shrink: 0;
+        justify-self: end;
+        margin-inline-end: var(--wdf-spacing);
+        padding: 3px 6px;
+        position: relative;
+
+        &:has(+ #{$root}-state-icon),
+        &:has(+ #{$root}-toggle) {
+            border-inline-end: 1px solid var(--gray, #787d87);
+        }
+    }
+
+    &-state-icon {
+        transition: transform 0.2s;
+        :where(#{$root}[data-expanded="true"]) & {
+            transform: rotate(180deg);
+        }
+    }
+
+    &-input-container {
+        align-items: center;
+        display: flex;
+        flex: 1;
+        flex-flow: row wrap;
+        margin: 0;
+        min-width: 0;
+        overflow: hidden;
+        padding: 0;
+        position: relative;
+    }
+
+    &-remove-icon {
+        cursor: pointer;
+        display: flex;
+        @include btn-with-cross;
+    }
+
+    &-separator {
+        position: absolute;
+        margin-inline-end: var(--wdf-clear-margin);
+        background-color: var(--gray, #787d87);
+        justify-self: end;
+        inset-block: var(--wdf-button-spacing);
+        width: 1px;
+    }
+
+    &-state-icon,
+    &-toggle {
+        align-items: center;
+        display: flex;
+        flex-shrink: 0;
+        justify-content: center;
+        padding-inline-end: 0;
+        padding-inline-start: 0;
+    }
+}
+
+:where([data-highlighted]) #{$root}-checkbox:not(:checked)::after {
+    content: "";
+    border-color: var(--form-input-bg-hover, #e7e7e9);
+}
+
+/* Select variant */
+:where(#{$root}.variant-select) {
+    #{$root}-toggle {
+        display: block;
+        flex: 1 1 0;
+        justify-content: flex-start;
+        min-width: 0;
+    }
+
+    #{$root}-state-icon {
+        align-self: center;
+        box-sizing: content-box;
+        justify-self: end;
+        pointer-events: none;
+    }
+
+    #{$root}-input-container {
+        border: none;
+        background-color: transparent;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    #{$root}-controls {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+    }
+}
+
+:where(#{$root}.variant-select[data-empty]) {
+    --wdf-input-placeholder-color: rgb(117, 117, 117);
+    #{$root}-toggle {
+        color: var(--wdf-input-placeholder-color);
+    }
+}
+
+/* Combobox variant */
+:where(#{$root}.variant-combobox) {
+    #{$root}-input {
+        border-radius: inherit;
+        padding-inline-start: 0;
+        padding-inline-end: 0;
+    }
+}
+
+/* Tag Picker variant */
+:where(#{$root}.variant-tag-picker) {
+    #{$root}-selected-item {
+        align-items: center;
+        background-color: var(--color-primary-lighter, #e6eaff);
+        border-radius: 26px;
+        color: #000;
+        display: inline-flex;
+        flex-flow: row nowrap;
+        font-size: var(--font-size-small, 12px);
+        gap: 8px;
+        justify-content: center;
+        line-height: 1.334;
+        padding: var(--wdf-tag-padding);
+        &:focus-visible {
+            outline: var(--brand-primary, #264ae5) auto 1px;
+        }
+    }
+
+    #{$root}-input {
+        flex-basis: 0;
+        min-width: 50px;
+        width: initial;
+    }
+
+    #{$root}-clear {
+        border-color: transparent;
+    }
+}
+
+/* Tag Picker variant text */
+:where(#{$root}.variant-tag-picker-text) {
+    #{$root}-selected-item {
+        background-color: transparent;
+        border-radius: 2px;
+        color: var(--wdf-color);
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        z-index: 0;
+
+        &-hidden {
+            display: none;
+        }
+
+        &:focus-visible {
+            outline: var(--brand-primary, #264ae5) solid 1px;
+            outline-offset: 2px;
+        }
+    }
+
+    #{$root}-remove-icon {
+        padding: var(--wdf-spacing-tiny);
+        border-radius: 50%;
+
+        path {
+            stroke-width: 1px;
+        }
+    }
+
+    #{$root}-input {
+        background-color: transparent;
+        min-width: 75px;
+        opacity: 0;
+        width: 100%;
+        z-index: 1;
+
+        &:focus,
+        &:not(:has(+ #{$root}-selected-item)) {
+            opacity: 1;
+        }
+    }
+}

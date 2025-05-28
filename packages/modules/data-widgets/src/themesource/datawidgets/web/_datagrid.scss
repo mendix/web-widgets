@@ -22,16 +22,12 @@ $dg-brand-light: #e6eaff;
 $dg-grid-selected-row-background: $dg-brand-light;
 $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d2 100%);
 
+$root: ".widget-datagrid";
+
 .table {
     position: relative;
     border-width: 0;
     background-color: var(--bg-color-secondary, $dg-background-color);
-
-    /* Table Content */
-    .table-content {
-        display: grid;
-        position: relative;
-    }
 
     /* Pseudo Row, to target this object please use .tr > .td or .tr > div */
     .tr {
@@ -39,18 +35,21 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
     }
 
     /* Column Header */
-    .th {
-        display: flex;
-        align-items: flex-start;
-        font-weight: 600;
-        background-color: var(--bg-color-secondary, $dg-background-color);
-        border-width: 0;
-        border-color: var(--grid-border-color, $dg-grid-border-color);
-        padding: var(--spacing-medium, $dg-spacing-medium);
-        top: 0;
-        min-width: 0;
-        position: relative;
+    @at-root {
+        :where(.widget-datagrid-grid .th) {
+            display: flex;
+            align-items: flex-start;
+            background-color: var(--bg-color-secondary, $dg-background-color);
+            border-width: 0;
+            border-color: var(--grid-border-color, $dg-grid-border-color);
+            padding: var(--spacing-medium, $dg-spacing-medium);
+            top: 0;
+            min-width: 0;
+            position: relative;
+        }
+    }
 
+    .th {
         &.dragging {
             opacity: 0.5;
             &.dragging-over-self {
@@ -98,6 +97,7 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
             padding: 0 4px;
             align-self: stretch;
             cursor: col-resize;
+            margin-right: -12px;
 
             &:hover .column-resizer-bar {
                 background-color: var(--brand-primary, $dg-brand-primary);
@@ -132,6 +132,7 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
             margin: 1px 1px calc((-1 * var(--spacing-smaller, $dg-dragging-effect-size)) + 2px);
             display: flex;
             align-items: baseline;
+            font-weight: 600;
 
             span {
                 min-width: 0;
@@ -163,17 +164,8 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
         .filter {
             display: flex;
             margin-top: 4px;
-            input:not([type="checkbox"]) {
-                font-weight: normal;
-                flex-grow: 1;
-                width: 100%;
-            }
             > .form-group {
                 margin-bottom: 0;
-            }
-            > .form-control {
-                flex: unset;
-                min-width: unset;
             }
         }
     }
@@ -231,6 +223,9 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
                 padding: 0 16px;
                 background: var(--bg-color-secondary, $dg-background-color);
                 z-index: 102;
+                overflow-y: auto;
+                width: fit-content;
+                max-width: 500px;
                 border-radius: 3px;
                 border: 1px solid transparent;
                 list-style-type: none;
@@ -246,6 +241,8 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
                         margin: 8px;
                         font-weight: normal;
                         white-space: nowrap;
+                        overflow-x: hidden;
+                        text-overflow: ellipsis;
                     }
                 }
             }
@@ -323,6 +320,12 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
     }
 }
 
+:where(.table .th .filter input:not([type="checkbox"])) {
+    font-weight: normal;
+    flex-grow: 1;
+    width: 100%;
+}
+
 .pagination-bar {
     display: flex;
     justify-content: flex-end;
@@ -378,17 +381,15 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
     padding: 0 16px;
     background: var(--bg-color-secondary, $dg-background-color);
     z-index: 102;
+    overflow-y: auto;
+    width: fit-content;
+    max-width: 500px;
     border-radius: 3px;
     border: 1px solid transparent;
     list-style-type: none;
     -webkit-box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
     -moz-box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
     box-shadow: 0 2px 20px 1px rgba(32, 43, 54, 0.08);
-
-    &.overflow {
-        height: 250px;
-        overflow-y: scroll;
-    }
 
     li {
         display: flex;
@@ -399,12 +400,26 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
             margin: 8px;
             font-weight: normal;
             white-space: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
         }
     }
 }
 
-.widget-datagrid {
+#{$root} {
     position: relative;
+
+    &-grid {
+        display: grid !important;
+    }
+
+    &-grid-head {
+        display: contents;
+    }
+
+    &-grid-body {
+        display: contents;
+    }
 
     &.widget-datagrid-selection-method-click {
         .tr.tr-selected .td {
@@ -434,16 +449,13 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
         outline-offset: 0;
     }
 
-    &-content {
-        overflow-y: auto;
-    }
-
     &-loader-container {
         align-items: center;
         background-color: rgba(255, 255, 255, 1);
         display: flex;
         height: 400px;
         justify-content: center;
+        grid-column: 1/-1;
     }
 
     &-skeleton,
@@ -457,7 +469,9 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
     }
 
     &-skeleton {
-        padding: 6px var(--dropdown-outer-padding, 10px);
+        padding: 2px var(--dropdown-outer-padding, 0);
+        overflow: hidden;
+        flex: 1;
 
         &-loader {
             animation: skeleton-loading 1s linear infinite alternate;
@@ -465,7 +479,9 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
             background-size: 300% 100%;
             border-radius: 4px;
             height: 16px;
-            width: 148px;
+            width: 100%;
+            min-width: 32px;
+            max-width: 148px;
 
             &-small {
                 margin-right: 8px;
@@ -514,6 +530,15 @@ $dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2
 .widget-datagrid .widget-datagrid-load-more {
     display: block !important;
     margin: 0 auto;
+}
+
+:where(.widget-datagrid-grid.infinite-loading) {
+    overflow-y: auto;
+}
+
+:where(.infinite-loading .widget-datagrid-grid-head .th) {
+    position: sticky;
+    z-index: 1;
 }
 
 @keyframes skeleton-loading {

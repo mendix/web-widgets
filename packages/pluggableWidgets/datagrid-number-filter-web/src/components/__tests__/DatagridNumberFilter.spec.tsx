@@ -1,7 +1,10 @@
 import "@testing-library/jest-dom";
 import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
 import { requirePlugin } from "@mendix/widget-plugin-external-events/plugin";
-import { HeaderFiltersStore, HeaderFiltersStoreProps } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
+import {
+    HeaderFiltersStore,
+    HeaderFiltersStoreProps
+} from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import {
     actionValue,
     dynamic,
@@ -18,7 +21,7 @@ import { Big } from "big.js";
 import { DatagridNumberFilterContainerProps } from "../../../typings/DatagridNumberFilterProps";
 import { resetIdCounter } from "downshift";
 
-export interface StaticInfo {
+interface StaticInfo {
     name: string;
     filtersChannelName: string;
 }

@@ -12,10 +12,6 @@
                     <caption>Automatic options</caption>
                     <description>Show options based on the references or the enumeration values and captions.</description>
                 </property>
-                <property key="advanced" type="boolean" defaultValue="false">
-                    <caption>Enable advanced options</caption>
-                    <description />
-                </property>
                 <property key="defaultValue" type="expression" required="false">
                     <caption>Default value</caption>
                     <description>Empty option caption will be shown by default or if configured default value matches none of the options</description>
@@ -38,13 +34,37 @@
                         </property>
                     </properties>
                 </property>
-                <property key="emptyOptionCaption" type="textTemplate" required="false">
-                    <caption>Empty option caption</caption>
+                <property key="filterable" type="boolean" defaultValue="false">
+                    <caption>Filterable</caption>
                     <description />
                 </property>
                 <property key="multiSelect" type="boolean" defaultValue="false">
                     <caption>Multiselect</caption>
                     <description />
+                </property>
+                <property key="emptyOptionCaption" type="textTemplate" required="false">
+                    <caption>Empty option caption</caption>
+                    <description />
+                </property>
+                <property key="clearable" type="boolean" defaultValue="true">
+                    <caption>Clearable</caption>
+                    <description />
+                </property>
+                <property key="selectedItemsStyle" type="enumeration" defaultValue="text" required="true">
+                    <caption>Show selected items as</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="text">Text</enumerationValue>
+                        <enumerationValue key="boxes">Labels</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="selectionMethod" type="enumeration" defaultValue="checkbox">
+                    <caption>Selection method</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
+                        <enumerationValue key="rowClick">Row click</enumerationValue>
+                    </enumerationValues>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Configurations">

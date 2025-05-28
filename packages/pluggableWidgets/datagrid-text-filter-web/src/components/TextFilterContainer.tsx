@@ -43,6 +43,7 @@ export const TextFilterContainer: (props: ContainerProps) => React.ReactElement 
     const controller = useStringFilterController({
         filter: props.filterStore,
         defaultFilter: props.defaultFilter,
+        adjustableFilterFunction: props.adjustable,
         defaultValue: props.defaultValue?.value,
         changeDelay: props.delay,
         disableInputs: fn => fn === "empty" || fn === "notEmpty"
@@ -75,7 +76,6 @@ export const TextFilterContainer: (props: ContainerProps) => React.ReactElement 
             screenReaderInputCaption={props.screenReaderInputCaption?.value}
             styles={props.style}
             tabIndex={props.tabIndex}
-            type="text"
             defaultValue={props.defaultValue?.value}
         />
     );

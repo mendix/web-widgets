@@ -15,6 +15,8 @@ export type LoadingTypeEnum = "spinner" | "skeleton";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
 
+export type FilterCaptionTypeEnum = "attribute" | "expression";
+
 export type HidableEnum = "yes" | "hidden" | "no";
 
 export type WidthEnum = "autoFill" | "autoFit" | "manual";
@@ -32,11 +34,13 @@ export interface ColumnsType {
     header?: DynamicValue<string>;
     tooltip?: ListExpressionValue<string>;
     filter?: ReactNode;
+    visible: DynamicValue<boolean>;
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
     fetchOptionsLazy: boolean;
+    filterCaptionType: FilterCaptionTypeEnum;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
-    visible: DynamicValue<boolean>;
+    filterAssociationOptionLabelAttr?: ListAttributeValue<string>;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
@@ -53,9 +57,9 @@ export interface ColumnsType {
 
 export type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 
-export type PagingPositionEnum = "bottom" | "top" | "both";
-
 export type ShowPagingButtonsEnum = "always" | "auto";
+
+export type PagingPositionEnum = "bottom" | "top" | "both";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
@@ -76,11 +80,13 @@ export interface ColumnsPreviewType {
     header: string;
     tooltip: string;
     filter: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    visible: string;
     filterAssociation: string;
     filterAssociationOptions: {} | { caption: string } | { type: string } | null;
     fetchOptionsLazy: boolean;
+    filterCaptionType: FilterCaptionTypeEnum;
     filterAssociationOptionLabel: string;
-    visible: string;
+    filterAssociationOptionLabelAttr: string;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
@@ -116,8 +122,9 @@ export interface DatagridContainerProps {
     columnsFilterable: boolean;
     pageSize: number;
     pagination: PaginationEnum;
-    pagingPosition: PagingPositionEnum;
     showPagingButtons: ShowPagingButtonsEnum;
+    showNumberOfRows: boolean;
+    pagingPosition: PagingPositionEnum;
     loadMoreButtonCaption?: DynamicValue<string>;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
@@ -138,6 +145,7 @@ export interface DatagridContainerProps {
     exportDialogLabel?: DynamicValue<string>;
     cancelExportLabel?: DynamicValue<string>;
     selectRowLabel?: DynamicValue<string>;
+    selectAllRowsLabel?: DynamicValue<string>;
 }
 
 export interface DatagridPreviewProps {
@@ -162,8 +170,9 @@ export interface DatagridPreviewProps {
     columnsFilterable: boolean;
     pageSize: number | null;
     pagination: PaginationEnum;
-    pagingPosition: PagingPositionEnum;
     showPagingButtons: ShowPagingButtonsEnum;
+    showNumberOfRows: boolean;
+    pagingPosition: PagingPositionEnum;
     loadMoreButtonCaption: string;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
@@ -185,4 +194,5 @@ export interface DatagridPreviewProps {
     exportDialogLabel: string;
     cancelExportLabel: string;
     selectRowLabel: string;
+    selectAllRowsLabel: string;
 }

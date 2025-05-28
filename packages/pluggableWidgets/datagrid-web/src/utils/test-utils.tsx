@@ -30,7 +30,8 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
         minWidth: "auto",
         minWidthLimit: 100,
         allowEventPropagation: true,
-        fetchOptionsLazy: true
+        fetchOptionsLazy: true,
+        filterCaptionType: "attribute"
     };
 
     if (patch) {
@@ -107,6 +108,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         cellEventsController: { getProps: () => Object.create({}) },
         checkboxEventsController: { getProps: () => Object.create({}) },
         isLoading: false,
+        isFetchingNextBatch: false,
         loadingType: "spinner",
         columnsLoading: false,
         focusController: new FocusTargetController(

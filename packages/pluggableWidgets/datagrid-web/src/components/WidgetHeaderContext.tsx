@@ -1,5 +1,5 @@
 import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
-import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
+import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
 import {
     getGlobalSelectionContext,
     SelectionHelper,

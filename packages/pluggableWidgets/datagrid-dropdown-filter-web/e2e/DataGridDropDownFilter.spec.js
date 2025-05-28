@@ -26,19 +26,24 @@ test.describe("datagrid-dropdown-filter-web", () => {
 
     test.describe("using enumeration as attribute", () => {
         test("shows the expected result", async ({ page }) => {
-            await page.click(".mx-name-datagrid1 .dropdown-container:first-child");
-            await page.click(".dropdown-list > li:nth-child(2)");
+            await page.click(".mx-name-datagrid1 .mx-name-dataGridDrop_downFilter1");
+            await page.waitForSelector(".widget-dropdown-filter-menu-slot > ul > li:nth-child(2)");
+            await page.click(".widget-dropdown-filter-menu-slot > ul > li:nth-child(2)");
+            await page.waitForTimeout(300); // wait for filter to apply
             await page.click("#DataGrid4-column0");
             const cells = await page.$$eval(".mx-name-datagrid1 .td", elements =>
                 elements.map(element => element.textContent)
             );
-            expect(cells).toEqual(["10", "test", "test", "Yes", ""]);
+            await expect(cells).toEqual(["10", "test", "test", "Yes", ""]);
         });
 
         test("shows the expected result with multiple selected items", async ({ page }) => {
-            await page.click(".mx-name-datagrid1 .dropdown-container:first-child");
-            await page.click(".dropdown-list > li:nth-child(2)");
-            await page.click(".dropdown-list > li:nth-child(3)");
+            await page.click(".mx-name-datagrid1 .mx-name-dataGridDrop_downFilter1");
+            await page.waitForSelector(".widget-dropdown-filter-menu-slot > ul > li:nth-child(2)");
+            await page.click(".widget-dropdown-filter-menu-slot > ul > li:nth-child(2)");
+            await page.waitForSelector(".widget-dropdown-filter-menu-slot > ul > li:nth-child(3)");
+            await page.click(".widget-dropdown-filter-menu-slot > ul > li:nth-child(3)");
+            await page.waitForTimeout(300); // wait for filter to apply
             await page.click("#DataGrid4-column0");
             const cells = await page.$$eval(".mx-name-datagrid1 .td", elements =>
                 elements.map(element => element.textContent)
@@ -49,13 +54,22 @@ test.describe("datagrid-dropdown-filter-web", () => {
 
     test.describe("using boolean as attribute", () => {
         test("shows the expected result", async ({ page }) => {
-            await page.getByPlaceholder("Empty").click();
-            const dropdownItem = await page.locator(".dropdown-list > li:nth-child(3)");
+            await page.getByRole("combobox", { name: "Empty" }).click();
+            const dropdownItem = await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(3)");
             await expect(dropdownItem).toHaveText("No");
             await dropdownItem.click();
             await page.locator("#DataGrid4-column1").click();
             const cells = await page.locator(".mx-name-datagrid1 .tr");
             expect(cells).toHaveCount(1);
+        });
+
+        test("shows no results when no items selected", async ({ page }) => {
+            await page.getByRole("combobox", { name: "Empty" }).click();
+            const dropdownItem = await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)"); //the first item means none selected
+            await dropdownItem.click();
+            await page.locator("#DataGrid4-column1").click();
+            const cells = await page.locator(".mx-name-datagrid1 .tr");
+            expect(cells).toHaveCount(4);
         });
     });
 });
