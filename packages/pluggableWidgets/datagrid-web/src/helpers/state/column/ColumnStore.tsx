@@ -185,7 +185,7 @@ export class ColumnStore implements GridColumn {
     }
 
     takeSizeSnapshot(): void {
-        const size = this.headerElementRef?.clientWidth;
+        const size = this.headerElementRef?.offsetWidth;
         this.frozenSize = this.size;
         if (size) {
             this.setSize(size);

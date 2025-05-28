@@ -27,7 +27,7 @@ export function ColumnResizer({
             setIsResizing(true);
             if (resizerReference.current) {
                 const column = resizerReference.current.parentElement!;
-                setCurrentWidth(column.clientWidth);
+                setCurrentWidth(column.offsetWidth);
             }
             onStart();
         },
