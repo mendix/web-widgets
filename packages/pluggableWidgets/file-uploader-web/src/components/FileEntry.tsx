@@ -4,8 +4,8 @@ import { UploadInfo } from "./UploadInfo";
 import { createElement, ReactElement, useCallback, MouseEvent, KeyboardEvent, ReactNode } from "react";
 import { FileStatus, FileStore } from "../stores/FileStore";
 import { observer } from "mobx-react-lite";
-import fileSize from "filesize.js";
 import { FileIcon } from "./FileIcon";
+import { fileSize } from "../utils/fileSize";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { ActionsBar } from "./ActionsBar";
 
