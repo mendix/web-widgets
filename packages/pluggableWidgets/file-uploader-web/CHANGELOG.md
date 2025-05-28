@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We updated file size display in the file uploader to show commonly used units (KB, MB, GB) instead of previously incorrect units (Kb, Mb, Gb). Instead of using technically correct binary units (KiB, MiB, GiB), we chose a format more familiar to users.
+
 ## [2.2.0] - 2025-05-07
 
 ### Added

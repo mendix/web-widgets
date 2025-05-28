@@ -1,7 +1,7 @@
 {
     "name": "@mendix/file-uploader-web",
     "widgetName": "FileUploader",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "description": "",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -43,7 +43,6 @@
     },
     "dependencies": {
         "classnames": "^2.2.6",
-        "filesize.js": "^2.0.0",
         "mime-types": "^2.1.35",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7",

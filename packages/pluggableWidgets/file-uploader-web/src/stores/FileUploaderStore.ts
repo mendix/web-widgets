@@ -23,7 +23,7 @@ export class FileUploaderStore {
 
     _widgetName: string;
     _uploadMode: UploadModeEnum;
-    _maxFileSizeMb = 0;
+    _maxFileSizeMiB = 0;
     _maxFileSize = 0;
     _ds?: ListValue;
     _maxFilesPerUpload: number;
@@ -34,8 +34,8 @@ export class FileUploaderStore {
 
     constructor(props: FileUploaderContainerProps, translations: TranslationsStore) {
         this._widgetName = props.name;
-        this._maxFileSizeMb = props.maxFileSize;
-        this._maxFileSize = this._maxFileSizeMb * 1024 * 1024;
+        this._maxFileSizeMiB = props.maxFileSize;
+        this._maxFileSize = this._maxFileSizeMiB * 1024 * 1024;
         this._maxFilesPerUpload = props.maxFilesPerUpload;
         this._uploadMode = props.uploadMode;
 
@@ -149,7 +149,7 @@ export class FileUploaderStore {
                         if (e.code === "file-too-large") {
                             return this.translations.get(
                                 "uploadFailureFileIsTooBigMessage",
-                                this._maxFileSizeMb.toString()
+                                this._maxFileSizeMiB.toString()
                             );
                         }
                         return e.message;
