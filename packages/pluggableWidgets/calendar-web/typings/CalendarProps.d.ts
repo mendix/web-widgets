@@ -43,7 +43,7 @@ export interface CalendarContainerProps {
     defaultView: DefaultViewEnum;
     startDateAttribute?: EditableValue<Date>;
     eventDataAttribute?: EditableValue<string>;
-    onClickEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; title: Option<string> }>;
+    onClickEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean>; title: Option<string> }>;
     onCreateEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean> }>;
     onChange?: ActionValue<{ oldStart: Option<Date>; oldEnd: Option<Date>; newStart: Option<Date>; newEnd: Option<Date> }>;
     onRangeChange?: ActionValue<{ rangeStart: Option<Date>; rangeEnd: Option<Date>; currentView: Option<string> }>;

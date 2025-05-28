@@ -117,6 +117,7 @@
                 <actionVariables>
                     <actionVariable key="startDate" type="DateTime" caption="Event start date" />
                     <actionVariable key="endDate" type="DateTime" caption="Event end date" />
+                    <actionVariable key="allDay" type="Boolean" caption="Event all day" />
                     <actionVariable key="title" type="String" caption="Event title" />
                 </actionVariables>
             </property>
