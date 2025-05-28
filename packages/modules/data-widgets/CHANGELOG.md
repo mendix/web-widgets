@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.32.1] DataWidgets - 2025-05-28
+
+### [2.30.6] Datagrid
+
+#### Fixed
+
+- We fixed an issue where columns weren't resizing correctly when vertical borders were enabled.
+
 ## [2.32.0] DataWidgets - 2025-05-26
 
 ### [2.11.3] DatagridDateFilter
