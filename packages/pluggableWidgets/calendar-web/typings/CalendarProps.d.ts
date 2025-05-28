@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue } from "mendix";
+import { ActionValue, EditableValue, ListValue, Option, ListAttributeValue, ListExpressionValue } from "mendix";
 
 export type TitleTypeEnum = "attribute" | "expression";
 
@@ -43,9 +43,10 @@ export interface CalendarContainerProps {
     defaultView: DefaultViewEnum;
     startDateAttribute?: EditableValue<Date>;
     eventDataAttribute?: EditableValue<string>;
-    onClickEvent?: ActionValue;
-    onCreateEvent?: ActionValue;
-    onChange?: ActionValue;
+    onClickEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean>; title: Option<string> }>;
+    onCreateEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean> }>;
+    onChange?: ActionValue<{ oldStart: Option<Date>; oldEnd: Option<Date>; newStart: Option<Date>; newEnd: Option<Date> }>;
+    onRangeChange?: ActionValue<{ rangeStart: Option<Date>; rangeEnd: Option<Date>; currentView: Option<string> }>;
     widthUnit: WidthUnitEnum;
     width: number;
     heightUnit: HeightUnitEnum;
@@ -85,6 +86,7 @@ export interface CalendarPreviewProps {
     onClickEvent: {} | null;
     onCreateEvent: {} | null;
     onChange: {} | null;
+    onRangeChange: {} | null;
     widthUnit: WidthUnitEnum;
     width: number | null;
     heightUnit: HeightUnitEnum;
