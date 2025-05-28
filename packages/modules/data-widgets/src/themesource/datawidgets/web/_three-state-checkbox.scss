@@ -11,6 +11,11 @@ input[type="checkbox"].three-state-checkbox {
     -webkit-appearance: none;
     transform: translateZ(0);
 
+    &:disabled {
+        // reset default disabled cursor
+        cursor: initial;
+    }
+
     &:before,
     &:after {
         position: absolute;
@@ -41,7 +46,7 @@ input[type="checkbox"].three-state-checkbox {
     }
 
     &:indeterminate:after {
-        // Checkmark
+        // Dash-mark for indeterminate
         width: 8px;
         height: 4px;
         margin: 5px 4px;
@@ -72,13 +77,13 @@ input[type="checkbox"].three-state-checkbox {
         background-color: #f8f8f8;
     }
 
+    &:indeterminate:disabled:before,
     &:checked:disabled:before {
         border-color: transparent;
         background-color: rgba(#264ae5, 0.4);
     }
 
-    &:disabled:after,
-    &:checked:disabled:after {
+    &:disabled:after {
         border-color: #f8f8f8;
     }
 

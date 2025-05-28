@@ -52,7 +52,9 @@ const initColumns: ColumnsPreviewType[] = [
         minWidthLimit: 100,
         allowEventPropagation: true,
         exportValue: "",
-        fetchOptionsLazy: true
+        fetchOptionsLazy: true,
+        filterCaptionType: "attribute",
+        filterAssociationOptionLabelAttr: "Label"
     }
 ];
 
