@@ -64,6 +64,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     exportDialogLabel?: string;
     cancelExportLabel?: string;
     selectRowLabel?: string;
+    selectAllRowsLabel?: string;
     isLoading: boolean;
     isFetchingNextBatch: boolean;
     loadingType: LoadingTypeEnum;
@@ -167,6 +168,10 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             <WidgetContent>
                 <Grid
                     aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
+                    style={cssGridStyles}
+                    setPage={setPage}
+                    paginationType={paginationType}
+                    hasMoreItems={hasMoreItems}
                 >
                     <GridHeader
                         availableColumns={props.availableColumns}
@@ -183,7 +188,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         id={props.id}
                         isLoading={props.columnsLoading}
                         preview={props.preview}
-                        style={cssGridStyles}
                     />
                     <GridBody
                         isLoading={props.isLoading}
@@ -193,10 +197,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         columnsSize={visibleColumns.length}
                         rowsSize={rows.length}
                         pageSize={pageSize}
-                        style={cssGridStyles}
-                        setPage={setPage}
-                        paginationType={paginationType}
-                        hasMoreItems={hasMoreItems}
                     >
                         <RowsRenderer
                             preview={props.preview ?? false}
