@@ -71,6 +71,7 @@ export function extractCalendarProps(props: CalendarContainerProps) {
             props.onClickEvent.execute({
                 startDate: event.start,
                 endDate: event.end,
+                allDay: event.allDay,
                 title: event.title
             });
         }
