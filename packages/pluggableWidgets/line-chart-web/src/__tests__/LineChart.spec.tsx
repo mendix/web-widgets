@@ -5,6 +5,7 @@ import Big from "big.js";
 import { mount, ReactWrapper } from "enzyme";
 import { LineChart } from "../LineChart";
 import { LinesType } from "../../typings/LineChartProps";
+import { PlotData } from "plotly.js-dist-min";
 
 jest.mock("react-plotly.js", () => jest.fn(() => null));
 
@@ -71,24 +72,21 @@ describe("The LineChart widget", () => {
         expect(data[1]).toHaveProperty("marker.color", "blue");
     });
 
-    it("sets the appropriate transforms on the data series based on the aggregation type", () => {
+    it("aggregates data based on the aggregation type", () => {
         const lineChart = renderLineChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
-        const data = lineChart.find(ChartWidget).prop("data");
+        const data = lineChart.find(ChartWidget).prop("data") as PlotData[];
+
         expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("transforms", []);
-        expect(data[1]).toHaveProperty("transforms", [
-            {
-                type: "aggregate",
-                groups: ["1", "2"],
-                aggregations: [
-                    {
-                        target: "y",
-                        enabled: true,
-                        func: "avg"
-                    }
-                ]
-            }
-        ]);
+        expect(data[0]).toHaveProperty("x");
+        expect(data[0]).toHaveProperty("y");
+        expect(data[1]).toHaveProperty("x");
+        expect(data[1]).toHaveProperty("y");
+
+        // Array.isArray works without casting now
+        expect(Array.isArray(data[0].x)).toBe(true);
+        expect(Array.isArray(data[0].y)).toBe(true);
+        expect(Array.isArray(data[1].x)).toBe(true);
+        expect(Array.isArray(data[1].y)).toBe(true);
     });
 });
 

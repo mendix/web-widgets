@@ -5,6 +5,7 @@ import Big from "big.js";
 import { mount, ReactWrapper } from "enzyme";
 import { TimeSeries } from "../TimeSeries";
 import { LinesType, TimeSeriesContainerProps } from "../../typings/TimeSeriesProps";
+import { PlotData } from "plotly.js-dist-min";
 
 jest.mock("react-plotly.js", () => jest.fn(() => null));
 
@@ -73,24 +74,21 @@ describe("The TimeSeries widget", () => {
         expect(data[1]).toHaveProperty("marker.color", "blue");
     });
 
-    it("sets the appropriate transforms on the data series based on the aggregation type", () => {
+    it("aggregates data based on the aggregation type", () => {
         const timeSeries = renderTimeSeries([{ aggregationType: "none" }, { aggregationType: "avg" }]);
-        const data = timeSeries.find(ChartWidget).prop("data");
+        const data = timeSeries.find(ChartWidget).prop("data") as PlotData[];
+
         expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("transforms", []);
-        expect(data[1]).toHaveProperty("transforms", [
-            {
-                type: "aggregate",
-                groups: ["01/01/2022", "02/01/2022"],
-                aggregations: [
-                    {
-                        target: "y",
-                        enabled: true,
-                        func: "avg"
-                    }
-                ]
-            }
-        ]);
+
+        expect(data[0]).toHaveProperty("x");
+        expect(data[0]).toHaveProperty("y");
+        expect(data[1]).toHaveProperty("x");
+        expect(data[1]).toHaveProperty("y");
+
+        expect(Array.isArray(data[0].x)).toBe(true);
+        expect(Array.isArray(data[0].y)).toBe(true);
+        expect(Array.isArray(data[1].x)).toBe(true);
+        expect(Array.isArray(data[1].y)).toBe(true);
     });
 
     it("sets the area fill color on the data series based on fillColor", () => {

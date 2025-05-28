@@ -1,10 +1,4 @@
-import {
-    ChartWidget,
-    ChartWidgetProps,
-    getPlotChartDataTransforms,
-    traceEqual,
-    usePlotChartDataSeries
-} from "@mendix/shared-charts/main";
+import { ChartWidget, ChartWidgetProps, traceEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import Big from "big.js";
@@ -75,6 +69,7 @@ export const BubbleChart = memo(
                 );
                 const markerColorExpression =
                     line.dataSet === "static" ? line.staticMarkerColor : line.dynamicMarkerColor;
+
                 return {
                     type: "scatter",
                     mode: "markers",
@@ -85,8 +80,7 @@ export const BubbleChart = memo(
                         symbol: ["circle"],
                         size,
                         ...markerOptions
-                    },
-                    transforms: getPlotChartDataTransforms(line.aggregationType, dataPoints)
+                    }
                 };
             }, [])
         );
