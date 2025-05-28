@@ -1,17 +1,12 @@
-import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import classNames from "classnames";
 import { createElement, Fragment, ReactElement } from "react";
-import { LoadingTypeEnum, PaginationEnum } from "../../typings/DatagridProps";
+import { LoadingTypeEnum } from "../../typings/DatagridProps";
 import { SpinnerLoader } from "./loader/SpinnerLoader";
 import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
 
 interface Props {
     className?: string;
     children?: React.ReactNode;
-    style?: React.CSSProperties;
-    paginationType: PaginationEnum;
-    hasMoreItems: boolean;
-    setPage?: (update: (page: number) => number) => void;
     loadingType: LoadingTypeEnum;
     isLoading: boolean;
     isFetchingNextBatch?: boolean;
@@ -22,13 +17,7 @@ interface Props {
 }
 
 export function GridBody(props: Props): ReactElement {
-    const { paginationType, setPage, hasMoreItems, style, children } = props;
-    const isInfinite = paginationType === "virtualScrolling";
-    const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
-        hasMoreItems,
-        isInfinite,
-        setPage
-    });
+    const { children } = props;
 
     const content = (): React.ReactElement => {
         if (props.isLoading) {
@@ -43,17 +32,7 @@ export function GridBody(props: Props): ReactElement {
     };
 
     return (
-        <div
-            ref={containerRef}
-            className={classNames(
-                "widget-datagrid-grid-body table-content",
-                { "infinite-loading": isInfinite },
-                props.className
-            )}
-            role="rowgroup"
-            onScroll={isInfinite ? trackScrolling : undefined}
-            style={isInfinite && bodySize > 0 ? { ...style, maxHeight: bodySize } : style}
-        >
+        <div className={classNames("widget-datagrid-grid-body table-content", props.className)} role="rowgroup">
             {content()}
         </div>
     );

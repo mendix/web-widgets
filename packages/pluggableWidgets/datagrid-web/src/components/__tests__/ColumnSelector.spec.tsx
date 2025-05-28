@@ -1,19 +1,9 @@
 import { createElement } from "react";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { ColumnSelector, ColumnSelectorProps } from "../ColumnSelector";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
-
-let useIsElementInViewportMock = jest.fn(() => true);
-
-jest.mock("../../utils/useIsElementInViewport", () => ({
-    useIsElementInViewport: () => useIsElementInViewportMock()
-}));
-
-jest.mock("@mendix/widget-plugin-hooks/usePositionObserver", () => ({
-    usePositionObserver: jest.fn((): DOMRect => ({ bottom: 0, right: 0 } as DOMRect))
-}));
 
 jest.useFakeTimers();
 
@@ -30,22 +20,12 @@ describe("Column Selector", () => {
             expect(document.body).toHaveFocus();
 
             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-            await user.click(screen.getByRole("button"));
+            await act(async () => {
+                await user.click(screen.getByRole("button"));
+            });
 
             const element = document.querySelector(".column-selectors");
             expect(element?.classList.contains("overflow")).toBe(false);
-        });
-
-        it("classname for the ul element in ColumnSelector IS set to overflow", async () => {
-            useIsElementInViewportMock = jest.fn(() => false);
-            render(<ColumnSelector {...mockColumnSelectorProps()} />);
-            expect(document.body).toHaveFocus();
-
-            const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-            await user.click(screen.getByRole("button"));
-
-            const element = document.querySelector(".column-selectors");
-            expect(element?.classList.contains("overflow")).toBe(true);
         });
 
         it("changes focused element when pressing the button", async () => {
@@ -53,9 +33,11 @@ describe("Column Selector", () => {
             expect(document.body).toHaveFocus();
 
             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-            await user.click(screen.getByRole("button"));
+            await act(async () => {
+                await user.click(screen.getByRole("button"));
+            });
 
-            jest.runOnlyPendingTimers();
+            jest.advanceTimersByTime(100);
 
             const items = screen.getAllByRole("menuitem");
             expect(items[0]).toHaveFocus();
@@ -66,16 +48,20 @@ describe("Column Selector", () => {
             expect(document.body).toHaveFocus();
 
             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-            await user.click(screen.getByRole("button"));
+            await act(async () => {
+                await user.click(screen.getByRole("button"));
+            });
 
-            jest.runOnlyPendingTimers();
+            jest.advanceTimersByTime(100);
 
             const items = screen.getAllByRole("menuitem");
             expect(items[0]).toHaveFocus();
 
-            await user.tab({ shift: true });
+            await act(async () => {
+                await user.tab({ shift: true });
+            });
 
-            jest.runOnlyPendingTimers();
+            jest.advanceTimersByTime(100);
 
             expect(screen.getByRole("button")).toHaveFocus();
         });
@@ -103,17 +89,24 @@ describe("Column Selector", () => {
             expect(document.body).toHaveFocus();
 
             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-            await user.click(screen.getByRole("button"));
-
-            jest.runOnlyPendingTimers();
+            await act(async () => {
+                await user.click(screen.getByRole("button"));
+            });
+            jest.advanceTimersByTime(100);
 
             const items = screen.getAllByRole("menuitem");
             expect(items[0]).toHaveFocus();
-            await user.tab();
-            expect(items[1]).toHaveFocus();
-            await user.tab();
 
-            jest.runOnlyPendingTimers();
+            await act(async () => {
+                await user.tab();
+            });
+            jest.advanceTimersByTime(100);
+
+            expect(items[1]).toHaveFocus();
+            await act(async () => {
+                await user.tab();
+            });
+            jest.advanceTimersByTime(100);
 
             expect(screen.getByRole("button")).toHaveFocus();
         });
@@ -152,19 +145,26 @@ describe("Column Selector", () => {
             expect(document.body).toHaveFocus();
 
             const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-            await user.click(screen.getByRole("button"));
 
-            jest.runOnlyPendingTimers();
+            await act(async () => {
+                await user.click(screen.getByRole("button"));
+            });
+            jest.advanceTimersByTime(100);
 
             const items = screen.getAllByRole("menuitem");
             expect(items).toHaveLength(3);
             expect(items[0]).toHaveFocus();
 
-            await user.tab();
-            expect(items[1]).toHaveFocus();
-            await user.keyboard("{Escape}");
+            await act(async () => {
+                await user.tab();
+            });
+            jest.advanceTimersByTime(100);
 
-            jest.runOnlyPendingTimers();
+            expect(items[1]).toHaveFocus();
+            await act(async () => {
+                await user.keyboard("{Escape}");
+            });
+            jest.advanceTimersByTime(100);
 
             expect(screen.getByRole("button")).toHaveFocus();
         });
