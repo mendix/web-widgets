@@ -43,7 +43,8 @@ describe("Rich Text", () => {
             maxHeightUnit: "none",
             maxHeight: 0,
             minHeight: 75,
-            OverflowY: "auto"
+            OverflowY: "auto",
+            customFonts: []
         };
     });
 

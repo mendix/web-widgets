@@ -11,9 +11,15 @@ import {
     useLayoutEffect,
     useRef
 } from "react";
-import QuillTableBetter from "../utils/formats/quill-table-better/quill-table-better";
-import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
+import { CustomFontsType } from "../../typings/RichTextProps";
+import { EditorDispatchContext } from "../store/EditorProvider";
+import { SET_FULLSCREEN_ACTION } from "../store/store";
 import "../utils/customPluginRegisters";
+import { FontStyleAttributor, formatCustomFonts } from "../utils/formats/fonts";
+import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
+import QuillTableBetter from "../utils/formats/quill-table-better/quill-table-better";
+import { RESIZE_MODULE_CONFIG } from "../utils/formats/resizeModuleConfig";
+import { ACTION_DISPATCHER } from "../utils/helpers";
 import MxQuill from "../utils/MxQuill";
 import {
     enterKeyKeyboardHandler,
@@ -24,12 +30,9 @@ import {
 } from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
-import { RESIZE_MODULE_CONFIG } from "../utils/formats/resizeModuleConfig";
-import { ACTION_DISPATCHER } from "../utils/helpers";
-import { EditorDispatchContext } from "../store/EditorProvider";
-import { SET_FULLSCREEN_ACTION } from "../store/store";
 
 export interface EditorProps {
+    customFonts: CustomFontsType[];
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
     onSelectionChange?: (...args: [range: Range, oldRange: Range, source: EmitterSource]) => void;
@@ -42,6 +45,9 @@ export interface EditorProps {
 
 // Editor is an uncontrolled React component
 const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | null>) => {
+    const fonts = formatCustomFonts(props.customFonts);
+    const FontStyle = new FontStyleAttributor(fonts);
+    Quill.register(FontStyle, true);
     const { theme, defaultValue, style, className, toolbarId, onTextChange, onSelectionChange, readOnly } = props;
     const containerRef = useRef<HTMLDivElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);

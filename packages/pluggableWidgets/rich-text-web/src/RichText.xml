@@ -163,6 +163,22 @@
                     <caption>Enable spell checking</caption>
                     <description />
                 </property>
+                <property key="customFonts" type="object" isList="true" required="false">
+                    <caption>Custom fonts</caption>
+                    <description />
+                    <properties>
+                        <property key="fontName" type="string" required="false">
+                            <caption>Font name</caption>
+                            <category>Item</category>
+                            <description>A title for this font combination (e.g., Arial).</description>
+                        </property>
+                        <property key="fontStyle" type="string" required="false">
+                            <caption>Font style</caption>
+                            <category>Item</category>
+                            <description>The full CSS font-family declaration that will be applied (e.g., arial, helvetica, sans-serif).</description>
+                        </property>
+                    </properties>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Custom toolbar">
