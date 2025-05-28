@@ -111,31 +111,48 @@
                                 <caption>Filter</caption>
                                 <description />
                             </property>
+                            <property key="visible" type="expression" required="true" defaultValue="true">
+                                <caption>Visible</caption>
+                                <description />
+                                <returnType type="Boolean" />
+                            </property>
+                        </propertyGroup>
+                        <propertyGroup caption="Drop-down filter settings">
                             <property key="filterAssociation" type="association" selectableObjects="filterAssociationOptions" required="false" dataSource="../datasource">
-                                <caption>Reference</caption>
-                                <description>Set the reference to enable filtering over association with the Drop-down filter widget.</description>
+                                <caption>Entity</caption>
+                                <description>Set the entity to enable filtering over association with the Drop-down filter widget.</description>
                                 <associationTypes>
                                     <associationType name="Reference" />
                                     <associationType name="ReferenceSet" />
                                 </associationTypes>
                             </property>
                             <property key="filterAssociationOptions" type="datasource" isList="true" required="false">
-                                <caption>Data source</caption>
+                                <caption>Selectable objects</caption>
                                 <description>The options to show in the Drop-down filter widget.</description>
                             </property>
                             <property key="fetchOptionsLazy" type="boolean" defaultValue="true">
                                 <caption>Use lazy load</caption>
                                 <description>Lazy loading enables faster data grid loading, but with personalization enabled, value restoration will be limited.</description>
                             </property>
+                            <property key="filterCaptionType" type="enumeration" defaultValue="expression">
+                                <caption>Option caption type</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="attribute">Attribute</enumerationValue>
+                                    <enumerationValue key="expression">Expression</enumerationValue>
+                                </enumerationValues>
+                            </property>
                             <property key="filterAssociationOptionLabel" type="expression" dataSource="filterAssociationOptions" required="false">
                                 <caption>Option caption</caption>
                                 <description />
                                 <returnType type="String" />
                             </property>
-                            <property key="visible" type="expression" required="true" defaultValue="true">
-                                <caption>Visible</caption>
+                            <property key="filterAssociationOptionLabelAttr" type="attribute" dataSource="filterAssociationOptions" required="false">
+                                <caption>Option caption</caption>
                                 <description />
-                                <returnType type="Boolean" />
+                                <attributeTypes>
+                                    <attributeType name="String" />
+                                </attributeTypes>
                             </property>
                         </propertyGroup>
                         <propertyGroup caption="Column capabilities">
@@ -232,21 +249,25 @@
                         <enumerationValue key="loadMore">Load more</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="pagingPosition" type="enumeration" defaultValue="bottom">
-                    <caption>Position of paging buttons</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="bottom">Below grid</enumerationValue>
-                        <enumerationValue key="top">Above grid</enumerationValue>
-                        <enumerationValue key="both">Both</enumerationValue>
-                    </enumerationValues>
-                </property>
                 <property key="showPagingButtons" type="enumeration" defaultValue="always">
                     <caption>Show paging buttons</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="always">Always</enumerationValue>
                         <enumerationValue key="auto">Auto</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="showNumberOfRows" type="boolean" defaultValue="false">
+                    <caption>Show number of rows</caption>
+                    <description />
+                </property>
+                <property key="pagingPosition" type="enumeration" defaultValue="bottom">
+                    <caption>Position of pagination</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="bottom">Below grid</enumerationValue>
+                        <enumerationValue key="top">Above grid</enumerationValue>
+                        <enumerationValue key="both">Both</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="loadMoreButtonCaption" type="textTemplate" required="false">
@@ -393,6 +414,13 @@
                     <description>If selection is enabled, assistive technology will read this upon reaching a checkbox.</description>
                     <translations>
                         <translation lang="en_US">Select row</translation>
+                    </translations>
+                </property>
+                <property key="selectAllRowsLabel" type="textTemplate" required="false">
+                    <caption>Select all row</caption>
+                    <description>If selection is enabled, assistive technology will read this upon reaching 'Select all' checkbox.</description>
+                    <translations>
+                        <translation lang="en_US">Select all rows</translation>
                     </translations>
                 </property>
             </propertyGroup>

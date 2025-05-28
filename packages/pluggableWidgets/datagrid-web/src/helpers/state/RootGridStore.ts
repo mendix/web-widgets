@@ -14,8 +14,6 @@ import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
-import { HeaderFiltersStore } from "@mendix/widget-plugin-filtering/stores/HeaderFiltersStore";
-import { compactArray, fromCompactArray, isAnd } from "@mendix/widget-plugin-filtering/condition-utils";
 
 type Gate = DerivedPropsGate<DatagridContainerProps>;
 
@@ -74,7 +72,6 @@ export class RootGridStore extends BaseControllerHost {
     setup(): () => void {
         const [add, disposeAll] = disposeBatch();
         add(super.setup());
-        add(this.columnsStore.setup());
         add(this.headerFiltersStore.setup() ?? (() => {}));
         add(() => this.settingsStore.dispose());
         add(autorun(() => this.updateProps(this.gate.props)));

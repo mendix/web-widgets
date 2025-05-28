@@ -149,6 +149,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             pageSize={pageSize}
             showPagingButtons={props.showPagingButtons}
             previousPage={() => setPage && setPage(prev => prev - 1)}
+            pagination={paginationType}
         />
     ) : null;
 
