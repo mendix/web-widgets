@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [4.6.1] - 2025-05-21
+## [4.7.0] - 2025-06-02
 
 ### Added
 
 - We added support to add custom font families to Rich Text.
+
+## [4.6.1] - 2025-05-21
+
+### Added
+
 - We added table support to Rich Text, now it is possible to add tables and configure their layout.
 
 ### Fixed
