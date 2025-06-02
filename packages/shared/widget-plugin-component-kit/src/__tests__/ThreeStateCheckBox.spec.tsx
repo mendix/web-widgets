@@ -1,9 +1,9 @@
 import { createElement } from "react";
-import { render } from "@testing-library/react";
+import { render, RenderResult } from "@testing-library/react";
 import { ThreeStateCheckBox, ThreeStateCheckBoxEnum } from "../ThreeStateCheckBox";
 
 describe("ThreeStateCheckBox", () => {
-    const renderComponent = (value: ThreeStateCheckBoxEnum) =>
+    const renderComponent = (value: ThreeStateCheckBoxEnum): RenderResult =>
         render(
             <ThreeStateCheckBox value={value} className="test-class" aria-label="Test Checkbox" onChange={jest.fn()} />
         );
