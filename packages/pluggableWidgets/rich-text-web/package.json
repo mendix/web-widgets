@@ -1,7 +1,7 @@
 {
     "name": "@mendix/rich-text-web",
     "widgetName": "RichText",
-    "version": "4.6.1",
+    "version": "4.7.0",
     "description": "Rich inline or toolbar text editing",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
