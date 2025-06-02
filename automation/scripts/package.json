@@ -26,8 +26,5 @@
         "extends": [
             "@commitlint/config-conventional"
         ]
-    },
-    "engines": {
-        "node": ">=18.20.4"
     }
 }
