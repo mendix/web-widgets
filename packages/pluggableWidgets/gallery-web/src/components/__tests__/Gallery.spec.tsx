@@ -1,14 +1,16 @@
 import "@testing-library/jest-dom";
-import { listAction, listExp } from "@mendix/widget-plugin-test-utils";
+import { listAction, listExp, setupIntersectionObserverStub } from "@mendix/widget-plugin-test-utils";
 import { waitFor, render } from "@testing-library/react";
 import { createElement } from "react";
 import { Gallery } from "../Gallery";
 import { ItemHelperBuilder } from "../../utils/builders/ItemHelperBuilder";
 import { mockProps, mockItemHelperWithAction, setup } from "../../utils/test-utils";
-import "./__mocks__/intersectionObserverMock";
 import { ObjectItem } from "mendix";
 
 describe("Gallery", () => {
+    beforeAll(() => {
+        setupIntersectionObserverStub();
+    });
     describe("DOM Structure", () => {
         it("renders correctly", () => {
             const { asFragment } = render(<Gallery {...mockProps()} />);

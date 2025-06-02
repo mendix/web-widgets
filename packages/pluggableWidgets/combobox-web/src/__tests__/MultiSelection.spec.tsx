@@ -5,9 +5,9 @@ import {
     ReferenceSetValueBuilder,
     listExp,
     obj,
-    list
+    list,
+    setupIntersectionObserverStub
 } from "@mendix/widget-plugin-test-utils";
-import "./__mocks__/intersectionObserverMock";
 import "@testing-library/jest-dom";
 import { fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { ListValue } from "mendix";
@@ -20,6 +20,9 @@ async function getInput(component: RenderResult): Promise<HTMLInputElement> {
 }
 
 describe("Combo box (Association)", () => {
+    beforeAll(() => {
+        setupIntersectionObserverStub();
+    });
     let defaultProps: ComboboxContainerProps;
     beforeEach(() => {
         defaultProps = {

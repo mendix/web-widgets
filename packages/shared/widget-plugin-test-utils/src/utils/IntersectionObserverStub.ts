@@ -20,5 +20,8 @@ export class IntersectionObserver {
         return null;
     }
 }
-window.IntersectionObserver = IntersectionObserver;
-global.IntersectionObserver = IntersectionObserver;
+
+export function setupIntersectionObserverStub(): void {
+    window.IntersectionObserver = IntersectionObserver;
+    globalThis.IntersectionObserver = IntersectionObserver;
+}

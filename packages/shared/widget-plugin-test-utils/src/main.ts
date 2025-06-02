@@ -21,3 +21,4 @@ export * from "./primitives/dynamic.js";
 export * from "./primitives/editable.js";
 export * from "./primitives/obj.js";
 export * from "./primitives/objArray.js";
+export * from "./utils/IntersectionObserverStub.js";

@@ -229,7 +229,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
   >
     <div
       class="widget-combobox-input-container form-control"
-      id="downshift-7-toggle-button"
+      id="downshift-6-toggle-button"
       tabindex="-1"
     >
       <div
@@ -238,7 +238,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
         <input
           aria-activedescendant=""
           aria-autocomplete="list"
-          aria-controls="downshift-7-menu"
+          aria-controls="downshift-6-menu"
           aria-expanded="false"
           aria-labelledby="comboBox1-label"
           aria-required="true"
@@ -325,7 +325,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
       <ul
         aria-labelledby="comboBox1-label"
         class="widget-combobox-menu-list"
-        id="downshift-7-menu"
+        id="downshift-6-menu"
         role="listbox"
       />
     </div>
