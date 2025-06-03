@@ -41,9 +41,16 @@ const checkAssociationSettings = (
         return;
     }
 
-    if (!column.filterAssociationOptionLabel) {
+    if (column.filterCaptionType === "expression" && !column.filterAssociationOptionLabel) {
         return {
             property: columnPropPath("filterAssociationOptionLabel", index),
+            message: `A caption is required when using associations. Please set 'Option caption' property for column (${column.header})`
+        };
+    }
+
+    if (column.filterCaptionType === "attribute" && !column.filterAssociationOptionLabelAttr) {
+        return {
+            property: columnPropPath("filterAssociationOptionLabelAttr", index),
             message: `A caption is required when using associations. Please set 'Option caption' property for column (${column.header})`
         };
     }
@@ -104,6 +111,7 @@ const checkHidableSettings = (
     if (values.columnsHidable && column.hidable !== "no" && !column.header) {
         return {
             property: columnPropPath("hidable", index),
+            severity: "warning",
             message:
                 "A caption is required if 'Can hide' is Yes or Yes, hidden by default. This can be configured under 'Column capabilities' in the column item properties"
         };

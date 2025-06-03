@@ -4,12 +4,14 @@ import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/
 import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { FilterCondition } from "mendix/filters";
+import { ListAttributeValue, ListAttributeListValue } from "mendix";
 import { action, computed, makeObservable } from "mobx";
 import { ReactNode, createElement } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
 import { FilterData } from "@mendix/widget-plugin-filtering/typings/settings";
 import { value } from "@mendix/widget-plugin-filtering/result-meta";
+import { disposeFx } from "@mendix/widget-plugin-filtering/mobx-utils";
 export interface IColumnFilterStore {
     renderFilterWidgets(): ReactNode;
 }
@@ -35,6 +37,14 @@ export class ColumnFilterStore implements IColumnFilterStore {
         });
     }
 
+    setup(): () => void {
+        const [disposers, dispose] = disposeFx();
+        if (this._filterStore && "setup" in this._filterStore) {
+            disposers.push(this._filterStore.setup());
+        }
+        return dispose;
+    }
+
     updateProps(props: ColumnsType): void {
         this._widget = props.filter;
         this._updateStore(props);
@@ -49,17 +59,24 @@ export class ColumnFilterStore implements IColumnFilterStore {
 
         if (store.storeType === "refselect") {
             store.updateProps(this.toRefselectProps(props));
-        } else if (props.attribute) {
+        } else if (isListAttributeValue(props.attribute)) {
             store.updateProps([props.attribute]);
         }
     }
 
     private toRefselectProps(props: ColumnsType): RefFilterStoreProps {
+        const searchAttrId = props.filterAssociationOptionLabelAttr?.id;
+        const caption =
+            props.filterCaptionType === "expression"
+                ? ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel"))
+                : ensure(props.filterAssociationOptionLabelAttr, errorMessage("filterAssociationOptionLabelAttr"));
+
         return {
             ref: ensure(props.filterAssociation, errorMessage("filterAssociation")),
             datasource: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
-            caption: ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel")),
-            fetchOptionsLazy: props.fetchOptionsLazy
+            searchAttrId,
+            fetchOptionsLazy: props.fetchOptionsLazy,
+            caption
         };
     }
 
@@ -68,7 +85,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
             return new RefFilterStore(this.toRefselectProps(props), dsViewState);
         }
 
-        if (props.attribute) {
+        if (isListAttributeValue(props.attribute)) {
             return attrgroupFilterStore(props.attribute.type, [props.attribute], dsViewState);
         }
 
@@ -106,6 +123,12 @@ export class ColumnFilterStore implements IColumnFilterStore {
         }
     }
 }
+
+const isListAttributeValue = (
+    attribute?: ListAttributeValue | ListAttributeListValue
+): attribute is ListAttributeValue => {
+    return !!(attribute && attribute.isList === false);
+};
 
 const errorMessage = (propName: string): string =>
     `Can't map ColumnsType to AssociationProperties: ${propName} is undefined`;
