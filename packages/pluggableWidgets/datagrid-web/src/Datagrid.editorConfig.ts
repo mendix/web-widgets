@@ -79,14 +79,27 @@ export function getProperties(
             hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
                 "filterAssociationOptions",
                 "filterAssociationOptionLabel",
-                "fetchOptionsLazy"
+                "fetchOptionsLazy",
+                "filterCaptionType",
+                "filterAssociationOptionLabelAttr"
             ]);
         }
+        if (column.filterCaptionType === "attribute") {
+            hidePropertyIn(defaultProperties, values, "columns", index, "filterAssociationOptionLabel");
+        } else {
+            hidePropertyIn(defaultProperties, values, "columns", index, "filterAssociationOptionLabelAttr");
+        }
     });
-    if (values.pagination !== "buttons") {
+    if (values.pagination === "buttons") {
+        hidePropertyIn(defaultProperties, values, "showNumberOfRows");
+    } else {
         hidePropertyIn(defaultProperties, values, "showPagingButtons");
-        hidePropertyIn(defaultProperties, values, "pagingPosition");
+
+        if (values.showNumberOfRows === false) {
+            hidePropertyIn(defaultProperties, values, "pagingPosition");
+        }
     }
+
     if (values.pagination !== "loadMore") {
         hidePropertyIn(defaultProperties, values, "loadMoreButtonCaption");
     }
@@ -198,7 +211,9 @@ export const getPreview = (
                   filter: { widgetCount: 0, renderer: () => null },
                   filterAssociation: "",
                   filterAssociationOptionLabel: "",
+                  filterAssociationOptionLabelAttr: "",
                   filterAssociationOptions: {},
+                  filterCaptionType: "attribute",
                   header: "Column",
                   hidable: "no",
                   resizable: false,
@@ -213,9 +228,7 @@ export const getPreview = (
                   minWidthLimit: 100,
                   allowEventPropagation: true,
                   exportValue: "",
-                  fetchOptionsLazy: true,
-                  filterCaptionType: "attribute",
-                  filterAssociationOptionLabelAttr: "Label"
+                  fetchOptionsLazy: true
               }
           ];
     const columns = rowLayout({
