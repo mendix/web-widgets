@@ -34,7 +34,7 @@ describe("aggregateDataPoints", () => {
 
                 expect(result.x).toEqual(["A", "B", "C"]);
                 expect(result.y).toEqual([25, 45, 30]);
-                expect(result.hovertext).toEqual(["SUM: 25 (2 values)", "SUM: 45 (2 values)", "hover4"]);
+                expect(result.hovertext).toEqual(["25", "45", "hover4"]);
             });
 
             it("should preserve original hover text for single values", () => {
@@ -100,7 +100,7 @@ describe("aggregateDataPoints", () => {
                 expect(result.y).toEqual([25, 20]);
                 // For A (grouped): "SUM: 25 (2 values)"
                 // For B (single, no original hovertext): undefined
-                expect(result.hovertext).toEqual(["SUM: 25 (2 values)", undefined]);
+                expect(result.hovertext).toEqual(["25", undefined]);
                 expect(result.hoverinfo).toBe("text"); // Because "SUM: 25 (2 values)" is present
             });
 
@@ -133,7 +133,7 @@ describe("aggregateDataPoints", () => {
         ] as Array<[AggregationType, number]>)("should correctly compute aggregation", (aggregationType, expected) => {
             const result = aggregateDataPoints(aggregationType, points);
             expect(result.y).toEqual([expected]);
-            expect(result.hovertext).toEqual([`${aggregationType.toUpperCase()}: ${expected} (4 values)`]);
+            expect(result.hovertext).toEqual([expected.toLocaleString()]);
         });
 
         describe("median aggregation", () => {
@@ -197,7 +197,7 @@ describe("aggregateDataPoints", () => {
             points.hovertext = ["hover1", undefined as any, "hover3", "hover4"];
             const result = aggregateDataPoints("sum", points);
 
-            expect(result.hovertext).toEqual(["SUM: 25 (2 values)", "SUM: 45 (2 values)"]);
+            expect(result.hovertext).toEqual(["25", "45"]);
         });
 
         it("should preserve other properties and original data for non-aggregated points", () => {
@@ -223,21 +223,21 @@ describe("aggregateDataPoints", () => {
             const points = createMockDataPoints(["A", "A"], [10, 15], ["hover1", "hover2"]);
             const result = aggregateDataPoints("avg", points);
 
-            expect(result.hovertext).toEqual(["AVG: 12.5 (2 values)"]);
+            expect(result.hovertext).toEqual(["12.5"]);
         });
 
         it("should handle decimal values in hover text", () => {
             const points = createMockDataPoints(["A", "A"], [1, 2], ["hover1", "hover2"]);
             const result = aggregateDataPoints("avg", points);
 
-            expect(result.hovertext).toEqual(["AVG: 1.5 (2 values)"]);
+            expect(result.hovertext).toEqual(["1.5"]);
         });
 
         it("should show count in hover text", () => {
             const points = createMockDataPoints(["A", "A", "A"], [1, 2, 3], ["h1", "h2", "h3"]);
             const result = aggregateDataPoints("sum", points);
 
-            expect(result.hovertext).toEqual(["SUM: 6 (3 values)"]);
+            expect(result.hovertext).toEqual(["6"]);
         });
     });
 });
