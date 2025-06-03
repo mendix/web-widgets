@@ -55,10 +55,7 @@ export function aggregateDataPoints(
         const aggregatedValue = computeAggregate(yVals, aggregationType);
         aggregatedY.push(aggregatedValue);
 
-        const aggregatedHoverText =
-            yVals.length > 1
-                ? `${aggregationType.toUpperCase()}: ${aggregatedValue} (${yVals.length} values)`
-                : hoverTexts[0];
+        const aggregatedHoverText = yVals.length > 1 ? aggregatedValue.toLocaleString() : hoverTexts[0];
 
         aggregatedHover.push(aggregatedHoverText);
     }
