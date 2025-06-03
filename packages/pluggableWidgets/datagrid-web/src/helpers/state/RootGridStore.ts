@@ -59,7 +59,7 @@ export class RootGridStore extends BaseControllerHost {
 
         new RefreshController(this, {
             query: computed(() => query.computedCopy),
-            delay: props.refreshInterval
+            delay: props.refreshInterval * 1000
         });
 
         this.loaderCtrl = new DerivedLoaderController({
@@ -72,6 +72,7 @@ export class RootGridStore extends BaseControllerHost {
     setup(): () => void {
         const [add, disposeAll] = disposeBatch();
         add(super.setup());
+        add(this.columnsStore.setup());
         add(this.headerFiltersStore.setup() ?? (() => {}));
         add(() => this.settingsStore.dispose());
         add(autorun(() => this.updateProps(this.gate.props)));

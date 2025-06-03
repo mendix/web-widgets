@@ -1,19 +1,20 @@
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { disposeFx } from "@mendix/widget-plugin-filtering/mobx-utils";
+import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
+import { FilterCondition } from "mendix/filters";
 import { action, computed, makeObservable, observable } from "mobx";
+import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { ColumnId, GridColumn } from "../../typings/GridColumn";
+import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
+import { SortInstruction } from "../../typings/sorting";
+import { StaticInfo } from "../../typings/static-info";
 import {
     ColumnsSortingStore,
     IColumnSortingStore,
     sortInstructionsToSortRules,
     sortRulesToSortInstructions
 } from "./ColumnsSortingStore";
-import { ColumnStore } from "./column/ColumnStore";
-import { FilterCondition } from "mendix/filters";
-import { SortInstruction } from "../../typings/sorting";
-import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterStore } from "./column/ColumnFilterStore";
-import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
-import { StaticInfo } from "../../typings/static-info";
-import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
+import { ColumnStore } from "./column/ColumnStore";
 
 export interface IColumnGroupStore {
     loaded: boolean;
@@ -40,7 +41,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     readonly columnFilters: ColumnFilterStore[];
 
     sorting: ColumnsSortingStore;
-    isResizing: boolean = false;
+    isResizing = false;
 
     constructor(
         props: Pick<DatagridContainerProps, "columns" | "datasource">,
@@ -78,6 +79,14 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             swapColumns: action,
             setColumnSettings: action
         });
+    }
+
+    setup(): () => void {
+        const [disposers, dispose] = disposeFx();
+        for (const filter of this.columnFilters) {
+            disposers.push(filter.setup());
+        }
+        return dispose;
     }
 
     updateProps(props: Pick<DatagridContainerProps, "columns">): void {
