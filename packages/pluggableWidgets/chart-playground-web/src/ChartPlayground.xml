@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.web.chartplayground.ChartPlayground" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Chart playground</name>
-    <description>A helper for easy and quick chart customization</description>
-    <studioProCategory>Charts</studioProCategory>
-    <studioCategory>Charts</studioCategory>
-    <helpUrl>https://docs.mendix.com/appstore/widgets/ChartPlayground</helpUrl>
-    <properties />
-</widget>

@@ -1,4 +1,0 @@
-{
-    "root": true,
-    "extends": ["@mendix/eslint-config-web-widgets/cypress"]
-}
