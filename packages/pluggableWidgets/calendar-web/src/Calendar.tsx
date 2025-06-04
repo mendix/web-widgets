@@ -2,7 +2,7 @@ import classnames from "classnames";
 import { ReactElement, createElement } from "react";
 import { DnDCalendar, extractCalendarProps } from "./utils/calendar-utils";
 import { CalendarContainerProps } from "../typings/CalendarProps";
-import { constructWrapperStyle } from "./utils/utils";
+import { constructWrapperStyle } from "./utils/style-utils";
 import "./ui/Calendar.scss";
 
 export default function MxCalendar(props: CalendarContainerProps): ReactElement {
