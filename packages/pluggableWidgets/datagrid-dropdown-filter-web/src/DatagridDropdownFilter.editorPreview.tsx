@@ -4,11 +4,11 @@ enableStaticRendering(true);
 import { createElement, ReactElement } from "react";
 import { DatagridDropdownFilterPreviewProps } from "../typings/DatagridDropdownFilterProps";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
-import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
+import { Select_inner } from "@mendix/widget-plugin-filtering/controls/select/Select";
 
 function Preview(props: DatagridDropdownFilterPreviewProps): ReactElement {
     return (
-        <Select
+        <Select_inner
             className={props.class}
             style={parseStyle(props.style)}
             options={[]}
