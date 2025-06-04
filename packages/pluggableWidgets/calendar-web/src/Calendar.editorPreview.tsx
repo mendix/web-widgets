@@ -5,7 +5,7 @@ import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
 import { CustomToolbar } from "./components/Toolbar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { constructWrapperStyle, WrapperStyleProps } from "./utils/utils";
+import { constructWrapperStyle, WrapperStyleProps } from "./utils/style-utils";
 import { eventPropGetter } from "./utils/calendar-utils";
 
 const localizer = dateFnsLocalizer({
@@ -17,7 +17,7 @@ const localizer = dateFnsLocalizer({
 });
 
 export function preview(props: CalendarPreviewProps): ReactElement {
-    const className = props.class;
+    const { class: className } = props;
     const wrapperStyle = constructWrapperStyle(props as WrapperStyleProps);
     const events = [
         {

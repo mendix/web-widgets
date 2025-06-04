@@ -1,10 +1,7 @@
 import { CSSProperties } from "react";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
 
-export function getHeightScale(
-    height: number,
-    heightUnit: "pixels" | "percentageOfParent" | "percentageOfView"
-): string {
+function getHeightScale(height: number, heightUnit: "pixels" | "percentageOfParent" | "percentageOfView"): string {
     return `${height}${heightUnit === "pixels" ? "px" : heightUnit === "percentageOfView" ? "vh" : "%"}`;
 }
 
@@ -36,8 +33,7 @@ export function constructWrapperStyle(props: WrapperStyleProps): CSSProperties {
         style
     } = props;
 
-    const wrapperStyle: Pick<CSSProperties, "width" | "height" | "minHeight" | "maxHeight" | "maxWidth" | "overflowY"> =
-        {};
+    const wrapperStyle: Pick<CSSProperties, "width" | "height" | "minHeight" | "maxHeight" | "overflowY"> = {};
 
     wrapperStyle.width = `${width}${widthUnit === "pixels" ? "px" : "%"}`;
     if (heightUnit === "percentageOfWidth") {
