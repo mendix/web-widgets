@@ -23,7 +23,7 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "datagrid-web-referenceSet"
+        "branchName": "datagrid-web/referenceSet"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:ts",
