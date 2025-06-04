@@ -6,6 +6,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [6.1.0] Charts - 2025-06-04
+
+### [6.1.0] AreaChart
+
+#### Fixed
+
+- We fixed an issue with aggregate being removed on plotly 3.0
+
+### [6.1.0] BarChart
+
+#### Fixed
+
+- We fixed an issue with aggregate being removed on plotly 3.0
+
+### [6.1.0] BubbleChart
+
+#### Fixed
+
+- We fixed an issue with aggregate being removed on plotly 3.0
+
+### [6.1.0] ColumnChart
+
+#### Fixed
+
+- We fixed an issue with aggregate being removed on plotly 3.0
+
+### [1.1.0] CustomChart
+
+#### Changed
+
+- We increase the version to update shared code.
+
+### [6.1.0] TimeSeries
+
+#### Fixed
+
+- We fixed an issue with aggregate being removed on plotly 3.0
+
 ## [6.0.1] Charts - 2025-05-14
 
 ### [1.0.1] CustomChart
