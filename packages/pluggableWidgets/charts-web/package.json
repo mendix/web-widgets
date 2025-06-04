@@ -28,7 +28,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "9.6.0.27784",
+        "minimumMXVersion": "10.6.0.23934",
         "appNumber": 105695,
         "appName": "Charts",
         "reactReady": true
