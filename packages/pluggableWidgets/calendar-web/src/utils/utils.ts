@@ -8,9 +8,33 @@ export function getHeightScale(
     return `${height}${heightUnit === "pixels" ? "px" : heightUnit === "percentageOfView" ? "vh" : "%"}`;
 }
 
-export function constructWrapperStyle(props: CalendarContainerProps): CSSProperties {
-    const { widthUnit, heightUnit, minHeightUnit, maxHeightUnit, width, height, minHeight, maxHeight, overflowY } =
-        props;
+export type WrapperStyleProps = Pick<
+    CalendarContainerProps,
+    | "widthUnit"
+    | "heightUnit"
+    | "minHeightUnit"
+    | "maxHeightUnit"
+    | "width"
+    | "height"
+    | "minHeight"
+    | "maxHeight"
+    | "overflowY"
+    | "style"
+>;
+
+export function constructWrapperStyle(props: WrapperStyleProps): CSSProperties {
+    const {
+        widthUnit,
+        heightUnit,
+        minHeightUnit,
+        maxHeightUnit,
+        width,
+        height,
+        minHeight,
+        maxHeight,
+        overflowY,
+        style
+    } = props;
 
     const wrapperStyle: Pick<CSSProperties, "width" | "height" | "minHeight" | "maxHeight" | "maxWidth" | "overflowY"> =
         {};
@@ -31,5 +55,5 @@ export function constructWrapperStyle(props: CalendarContainerProps): CSSPropert
         wrapperStyle.height = getHeightScale(height, heightUnit);
     }
 
-    return wrapperStyle;
+    return { ...style, ...wrapperStyle };
 }
