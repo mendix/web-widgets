@@ -23,7 +23,7 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "datagrid-number-filter-web"
+        "branchName": "datagrid-number-filter-web/data-widgets-2.30"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:ts",

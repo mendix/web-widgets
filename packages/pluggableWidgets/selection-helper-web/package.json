@@ -23,7 +23,7 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "gallery-web"
+        "branchName": "gallery-web/data-widgets-2.30"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:web",
