@@ -35,7 +35,7 @@
         "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
         "start": "pluggable-widgets-tools start:server",
-        "test": "pluggable-widgets-tools test:unit:web",
+        "test": "pluggable-widgets-tools test:unit:web:enzyme-free",
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
     },

@@ -1,8 +1,16 @@
-import { ChartWidget } from "@mendix/shared-charts/main";
-import { EditableValueBuilder, ListAttributeValueBuilder, list, listExp } from "@mendix/widget-plugin-test-utils";
-import Big from "big.js";
-import { mount, ReactWrapper } from "enzyme";
+jest.mock("@mendix/shared-charts/main", () => {
+    const actualModule = jest.requireActual("@mendix/shared-charts/main");
+    return {
+        ...actualModule,
+        ChartWidget: jest.fn(() => null)
+    };
+});
+
+import { ChartWidget, setupBasicSeries } from "@mendix/shared-charts/main";
+import { listExpression } from "@mendix/widget-plugin-test-utils";
+import "@testing-library/jest-dom";
 import { createElement } from "react";
+import { render, RenderResult } from "@testing-library/react";
 import { ColumnChartContainerProps, SeriesType } from "../../typings/ColumnChartProps";
 import { ColumnChart } from "../ColumnChart";
 
@@ -10,15 +18,15 @@ jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The ColumnChart widget", () => {
     function renderColumnChart(
-        configs: Array<Partial<SeriesType>>,
+        configs: Array<Partial<SeriesType>> = [{}],
         chartProps?: Partial<ColumnChartContainerProps>
-    ): ReactWrapper {
-        return mount(
+    ): RenderResult {
+        return render(
             <ColumnChart
                 name="column-chart-test"
                 class="column-chart-class"
                 barmode="group"
-                series={configs.map(setupBasicSeries)}
+                series={configs.map(setupBasicColumnSeries)}
                 showLegend={false}
                 widthUnit="percentage"
                 width={0}
@@ -36,70 +44,73 @@ describe("The ColumnChart widget", () => {
     }
 
     it("visualizes data as a bar chart", () => {
-        const columnChart = renderColumnChart([{}]);
-        const seriesOptions = columnChart.find(ChartWidget).prop("seriesOptions");
-        expect(seriesOptions).toHaveProperty("type", "bar");
-        expect(seriesOptions).toHaveProperty("orientation", "v");
+        renderColumnChart();
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                seriesOptions: expect.objectContaining({ type: "bar", orientation: "v" })
+            }),
+            {}
+        );
     });
 
     it("sets the bar color on the data series based on the barColor value", () => {
-        const columnChart = renderColumnChart([
-            { staticBarColor: listExp(() => "red") },
-            { staticBarColor: undefined }
-        ]);
-        const data = columnChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("marker.color", "red");
-        expect(data[1]).toHaveProperty("marker.color", undefined);
+        renderColumnChart([{ staticBarColor: listExpression(() => "red") }, { staticBarColor: undefined }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ marker: { color: "red" } }),
+                    expect.objectContaining({ marker: { color: undefined } })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the appropriate transforms on the data series based on the aggregation type", () => {
-        const columnChart = renderColumnChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
-        const data = columnChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("transforms", []);
-        expect(data[1]).toHaveProperty("transforms", [
-            {
-                type: "aggregate",
-                groups: ["1", "2"],
-                aggregations: [
-                    {
-                        target: "y",
-                        enabled: true,
-                        func: "avg"
-                    }
-                ]
-            }
-        ]);
+        renderColumnChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ transforms: [] }),
+                    expect.objectContaining({
+                        transforms: [
+                            {
+                                type: "aggregate",
+                                groups: ["1", "2"],
+                                aggregations: [
+                                    {
+                                        target: "y",
+                                        enabled: true,
+                                        func: "avg"
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the appropriate barmode on the layout based on the barmode type", () => {
-        const columnChart = renderColumnChart([], { barmode: "stack" });
-        const layoutOptions = columnChart.find(ChartWidget).prop("layoutOptions");
-        expect(layoutOptions).toHaveProperty("barmode", "stack");
+        renderColumnChart([], { barmode: "stack" });
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                layoutOptions: expect.objectContaining({ barmode: "stack" })
+            }),
+            {}
+        );
     });
 });
 
-function setupBasicSeries(overwriteConfig: Partial<SeriesType>): SeriesType {
-    const xAttribute = new ListAttributeValueBuilder<Big>().build();
-    const getXAttributeMock = jest.fn();
-    getXAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(1)).build());
-    getXAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(2)).build());
-    xAttribute.get = getXAttributeMock;
-
-    const yAttribute = new ListAttributeValueBuilder<Big>().build();
-    const getYAttributeMock = jest.fn();
-    getYAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(3)).build());
-    getYAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(6)).build());
-    yAttribute.get = getYAttributeMock;
+function setupBasicColumnSeries(overwriteConfig: Partial<SeriesType>): SeriesType {
+    const basicSeries = setupBasicSeries(overwriteConfig) as SeriesType;
 
     return {
-        dataSet: "static",
-        customSeriesOptions: overwriteConfig.customSeriesOptions ?? "",
-        aggregationType: overwriteConfig.aggregationType ?? "avg",
-        staticBarColor: overwriteConfig.staticBarColor ?? undefined,
-        staticDataSource: list(2),
-        staticXAttribute: xAttribute,
-        staticYAttribute: yAttribute
+        ...basicSeries,
+        staticBarColor: overwriteConfig.staticBarColor ?? undefined
     };
 }
