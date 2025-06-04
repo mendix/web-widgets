@@ -48,13 +48,12 @@
     "dependencies": {
         "classnames": "^2.3.2",
         "date-fns": "^4.1.0",
-        "mendix": "^10.16.49747",
         "react-big-calendar": "^1.17.1"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
-        "@mendix/pluggable-widgets-tools": "10.21.0",
+        "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:^*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
