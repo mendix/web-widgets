@@ -42,7 +42,8 @@ const mockColumn = (columnIndex: number): ColumnsType => {
         size: 1,
         alignment: "left",
         wrapText: false,
-        fetchOptionsLazy: true
+        fetchOptionsLazy: true,
+        filterCaptionType: "attribute"
     };
 
     return column;
@@ -85,7 +86,8 @@ describe("Datagrid", () => {
             configurationStorageType: "attribute",
             configurationAttribute: undefined,
             loadingType: "spinner",
-            storeFiltersInPersonalization: true
+            storeFiltersInPersonalization: true,
+            showNumberOfRows: false
         };
         const user = userEvent.setup();
         let renderCount = 0;
