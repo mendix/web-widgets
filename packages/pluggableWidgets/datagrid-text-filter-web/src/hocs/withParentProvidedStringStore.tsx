@@ -6,7 +6,7 @@ import { isStringFilter } from "@mendix/widget-plugin-filtering/stores/input/sto
 import { createElement, useRef } from "react";
 import { StringFilterProps } from "../components/typings";
 
-export function withParentProvidedStringStore<P extends { filterable: boolean }>(
+export function withParentProvidedStringStore<P>(
     Component: (props: P & StringFilterProps) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props: P): React.ReactElement {

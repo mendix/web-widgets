@@ -6,7 +6,7 @@ import { isNumberFilter } from "@mendix/widget-plugin-filtering/stores/input/sto
 import { createElement, useRef } from "react";
 import { NumberFilterProps } from "../components/typings";
 
-export function withParentProvidedNumberStore<P extends { filterable: boolean }>(
+export function withParentProvidedNumberStore<P>(
     Component: (props: P & NumberFilterProps) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props: P): React.ReactElement {
