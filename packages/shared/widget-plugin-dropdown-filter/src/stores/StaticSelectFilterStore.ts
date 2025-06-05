@@ -13,7 +13,7 @@ interface CustomOption {
     value: string;
 }
 
-export class StaticSelectFilterStore extends BaseSelectStore {
+export class EnumFilterStore extends BaseSelectStore {
     readonly storeType = "select";
     _attributes: AttributeMetaData[] = [];
     _customOptions: CustomOption[] = [];

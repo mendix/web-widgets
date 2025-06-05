@@ -1,4 +1,4 @@
-import { StaticSelectFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
+import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
 import { FilterCondition } from "mendix/filters";
 import { Context, createContext, useContext } from "react";
 import { APIError, ENOCONTEXT } from "./errors";
@@ -14,7 +14,7 @@ export interface FilterAPI {
     sharedInitFilter: Array<FilterCondition | undefined>;
 }
 
-export type FilterStore = InputFilterInterface | StaticSelectFilterStore;
+export type FilterStore = InputFilterInterface | EnumFilterStore;
 
 interface DirectProvider {
     type: "direct";

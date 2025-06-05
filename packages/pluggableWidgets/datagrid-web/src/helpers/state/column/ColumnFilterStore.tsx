@@ -1,8 +1,8 @@
-import { FilterAPI, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
-import { StaticSelectFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
-import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
 import { FilterData } from "@mendix/filter-commons/typings/settings";
+import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
+import { FilterAPI, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import { value } from "@mendix/widget-plugin-filtering/result-meta";
+import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ListAttributeListValue, ListAttributeValue } from "mendix";
@@ -16,7 +16,7 @@ export interface IColumnFilterStore {
     renderFilterWidgets(): ReactNode;
 }
 
-type FilterStore = InputFilterStore | StaticSelectFilterStore;
+type FilterStore = InputFilterStore | EnumFilterStore;
 
 const { Provider } = getGlobalFilterContextObject();
 
