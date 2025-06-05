@@ -1,5 +1,5 @@
 import { FilterData } from "@mendix/filter-commons/typings/settings";
-import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
+import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { FilterAPI, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import { value } from "@mendix/widget-plugin-filtering/result-meta";
 import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
