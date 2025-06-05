@@ -23,7 +23,7 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "dropdown-sort-web"
+        "branchName": "dropdown-sort-web/main"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:ts",
