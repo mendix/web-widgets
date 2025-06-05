@@ -1,5 +1,5 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
-import { StaticBaseController, StaticBaseControllerProps } from "./StaticBaseController";
+import { EnumBaseController, StaticBaseControllerProps } from "./EnumBaseController";
 import { TagPickerControllerMixin } from "./mixins/TagPickerControllerMixin";
 
 type SelectionMethodEnum = "checkbox" | "rowClick";
@@ -10,7 +10,7 @@ interface Props extends StaticBaseControllerProps {
     selectedItemsStyle: SelectedItemsStyleEnum;
 }
 
-export class StaticTagPickerController extends TagPickerControllerMixin(StaticBaseController) {
+export class StaticTagPickerController extends TagPickerControllerMixin(EnumBaseController) {
     selectionMethod: SelectionMethodEnum;
     selectedStyle: SelectedItemsStyleEnum;
 

@@ -1,8 +1,8 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { EnumBaseController, StaticBaseControllerProps } from "./EnumBaseController";
 import { SelectControllerMixin } from "./mixins/SelectControllerMixin";
-import { StaticBaseController, StaticBaseControllerProps } from "./StaticBaseController";
 
-export class StaticSelectController extends SelectControllerMixin(StaticBaseController) {
+export class StaticSelectController extends SelectControllerMixin(EnumBaseController) {
     constructor({ gate }: { gate: DerivedPropsGate<StaticBaseControllerProps> }) {
         super({ gate, multiselect: gate.props.multiselect });
         this.emptyOption.caption = gate.props.emptyCaption || "None";
