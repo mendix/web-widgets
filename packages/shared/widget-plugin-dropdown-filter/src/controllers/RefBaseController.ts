@@ -2,9 +2,9 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ActionValue, EditableValue } from "mendix";
 import { RefFilterStore } from "../stores/RefFilterStore";
-import { PickerBaseController } from "./PickerBaseController";
+import { BaseController } from "./BaseController";
 
-export class RefBaseController extends PickerBaseController<RefFilterStore> {
+export class RefBaseController extends BaseController<RefFilterStore> {
     constructor({ gate, multiselect }: { gate: DerivedPropsGate<RefBaseControllerProps>; multiselect: boolean }) {
         super({ gate, multiselect });
     }

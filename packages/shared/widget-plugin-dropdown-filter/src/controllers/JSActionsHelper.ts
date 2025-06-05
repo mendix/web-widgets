@@ -8,7 +8,7 @@ interface FilterStore {
 
 type Parse = (value: string) => Iterable<string>;
 
-export class PickerJSActionsHelper implements IJSActionsControlled {
+export class JSActionsHelper implements IJSActionsControlled {
     private filterStore: FilterStore;
     private parse: Parse;
     private multiselect: boolean;

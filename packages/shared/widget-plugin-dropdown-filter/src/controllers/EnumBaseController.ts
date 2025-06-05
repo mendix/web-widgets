@@ -3,9 +3,9 @@ import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { autorun, computed, makeObservable } from "mobx";
 import { EnumFilterStore } from "../stores/EnumFilterStore";
-import { PickerBaseController } from "./PickerBaseController";
+import { BaseController } from "./BaseController";
 
-export class EnumBaseController extends PickerBaseController<EnumFilterStore> {
+export class EnumBaseController extends BaseController<EnumFilterStore> {
     private readonly gate: DerivedPropsGate<EnumBaseControllerProps>;
 
     constructor({ gate, multiselect }: { gate: DerivedPropsGate<EnumBaseControllerProps>; multiselect: boolean }) {
