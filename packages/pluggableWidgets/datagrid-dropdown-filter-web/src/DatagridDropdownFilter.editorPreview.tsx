@@ -8,7 +8,7 @@ import { Select } from "@mendix/widget-plugin-filtering/controls/select/Select";
 
 function Preview(props: DatagridDropdownFilterPreviewProps): ReactElement {
     return (
-        <Select
+        <Select_inner
             className={props.class}
             style={parseStyle(props.style)}
             options={[]}

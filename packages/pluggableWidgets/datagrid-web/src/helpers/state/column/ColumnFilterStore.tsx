@@ -127,7 +127,13 @@ export class ColumnFilterStore implements IColumnFilterStore {
 const isListAttributeValue = (
     attribute?: ListAttributeValue | ListAttributeListValue
 ): attribute is ListAttributeValue => {
-    return !!(attribute && attribute.isList === false);
+    if (!attribute) {
+        return false;
+    }
+    if ("isList" in attribute) {
+        return attribute.isList === false;
+    }
+    return true;
 };
 
 const errorMessage = (propName: string): string =>

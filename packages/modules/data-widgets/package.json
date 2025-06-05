@@ -1,8 +1,7 @@
 {
     "name": "@mendix/data-widgets",
     "moduleName": "Data Widgets",
-    "version": "2.32.1",
-    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "version": "2.27.4",
     "license": "Apache-2.0",
     "private": true,
     "repository": {
@@ -27,13 +26,13 @@
     },
     "moduleFolderNameInModeler": "datawidgets",
     "marketplace": {
-        "minimumMXVersion": "10.21.0.64362",
+        "minimumMXVersion": "9.24.0.2965",
         "appNumber": 116540,
         "appName": "Data Widgets"
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/DataWidgets-module",
-        "branchName": "mts/10.21"
+        "branchName": "data-widgets-backport-9-24"
     },
     "scripts": {
         "build:deps": "turbo run build --filter=data-widgets^...",
