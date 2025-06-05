@@ -1,12 +1,12 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useRef, createElement } from "react";
 import { useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "@mendix/widget-plugin-filtering/errors";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { isDateFilter } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
+import { createElement, useRef } from "react";
 import { DateFilterProps } from "../components/typings";
 
-export function withParentProvidedDateStore<P extends { filterable: boolean }>(
+export function withParentProvidedDateStore<P>(
     Component: (props: P & DateFilterProps) => React.ReactElement
 ): (props: P) => React.ReactElement {
     return function FilterAPIProvider(props: P): React.ReactElement {

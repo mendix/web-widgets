@@ -28,7 +28,7 @@ const filters: FilterFnList<DefaultFilterEnum> = Object.entries(filterDefs).map(
 
 export interface ContainerProps extends DatagridNumberFilterContainerProps {
     filterStore: Number_InputFilterInterface;
-    parentChannelName: string | undefined;
+    parentChannelName?: string;
 }
 
 function Container(props: ContainerProps): React.ReactElement {
