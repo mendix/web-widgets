@@ -1,9 +1,9 @@
-import { ReactElement, createElement } from "react";
-import { StaticFilterContainer } from "@mendix/widget-plugin-dropdown-filter/containers/StaticFilterContainer";
+import { EnumFilterContainer } from "@mendix/widget-plugin-dropdown-filter/containers/EnumFilterContainer";
 import { withFilterAPI } from "@mendix/widget-plugin-filtering/helpers/withFilterAPI";
-import { withParentProvidedEnumStore } from "../hocs/withParentProvidedEnumStore";
+import { ReactElement, createElement } from "react";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 import { withLinkedEnumStore } from "../hocs/withLinkedEnumStore";
+import { withParentProvidedEnumStore } from "../hocs/withParentProvidedEnumStore";
 import { EnumFilterProps } from "./typings";
 
 export function AttrFilter(props: DatagridDropdownFilterContainerProps): ReactElement {
@@ -20,7 +20,7 @@ const LinkedAttrFilter = withFilterAPI(withLinkedEnumStore(Connector));
 
 function Connector(props: DatagridDropdownFilterContainerProps & EnumFilterProps): ReactElement {
     return (
-        <StaticFilterContainer
+        <EnumFilterContainer
             {...props}
             multiselect={props.multiSelect}
             ariaLabel={props.ariaLabel?.value}

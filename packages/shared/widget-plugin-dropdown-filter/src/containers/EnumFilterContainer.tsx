@@ -17,7 +17,7 @@ import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
 import { EnumFilterStore } from "../stores/EnumFilterStore";
 import { FilterOptionsType, SelectedItemsStyleEnum, SelectionMethodEnum } from "../typings/widget";
 
-export interface StaticFilterContainerProps {
+export interface EnumFilterContainerProps {
     ariaLabel?: string;
     className?: string;
     defaultValue?: string;
@@ -36,7 +36,7 @@ export interface StaticFilterContainerProps {
     clearable: boolean;
 }
 
-function Container(props: StaticFilterContainerProps): React.ReactElement {
+function Container(props: EnumFilterContainerProps): React.ReactElement {
     const frontendType = useFrontendType(props);
 
     switch (frontendType) {
@@ -51,7 +51,7 @@ function Container(props: StaticFilterContainerProps): React.ReactElement {
     }
 }
 
-const SelectWidget = observer(function SelectWidget(props: StaticFilterContainerProps): React.ReactElement {
+const SelectWidget = observer(function SelectWidget(props: EnumFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
     const ctrl1 = useSetup(() => new StaticSelectController({ gate }));
 
@@ -72,7 +72,7 @@ const SelectWidget = observer(function SelectWidget(props: StaticFilterContainer
     );
 });
 
-const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterContainerProps): React.ReactElement {
+const ComboboxWidget = observer(function ComboboxWidget(props: EnumFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
     const ctrl2 = useSetup(() => new StaticComboboxController({ gate }));
 
@@ -93,7 +93,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: StaticFilterConta
     );
 });
 
-const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterContainerProps): React.ReactElement {
+const TagPickerWidget = observer(function TagPickerWidget(props: EnumFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
     const ctrl3 = useSetup(() => new StaticTagPickerController({ gate }));
 
@@ -117,9 +117,9 @@ const TagPickerWidget = observer(function TagPickerWidget(props: StaticFilterCon
     );
 });
 
-export const StaticFilterContainer = withCustomOptionsGuard(Container);
+export const EnumFilterContainer = withCustomOptionsGuard(Container);
 
-function useGate(props: StaticFilterContainerProps): DerivedPropsGate<StaticFilterContainerProps> {
+function useGate(props: EnumFilterContainerProps): DerivedPropsGate<EnumFilterContainerProps> {
     const gp = useConst(() => new GateProvider(props));
     useEffect(() => gp.setProps(props));
     return gp.gate;
