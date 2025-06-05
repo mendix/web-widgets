@@ -5,7 +5,7 @@ import { autorun, computed, makeObservable } from "mobx";
 import { EnumFilterStore } from "../stores/EnumFilterStore";
 import { PickerBaseController } from "./PickerBaseController";
 
-export class StaticBaseController extends PickerBaseController<EnumFilterStore> {
+export class EnumBaseController extends PickerBaseController<EnumFilterStore> {
     private readonly gate: DerivedPropsGate<StaticBaseControllerProps>;
 
     constructor({ gate, multiselect }: { gate: DerivedPropsGate<StaticBaseControllerProps>; multiselect: boolean }) {
