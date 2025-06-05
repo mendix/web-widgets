@@ -1,18 +1,22 @@
+import { Button } from "@mendix/widget-plugin-component-kit/Button";
+import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
+import classNames from "classnames";
 import { createElement, ReactElement } from "react";
 import { Navigate, ToolbarProps } from "react-big-calendar";
-import { Button } from "./Button";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 export function CustomToolbar({ label, localizer, onNavigate, onView, view, views }: ToolbarProps): ReactElement {
     return (
         <div className="calendar-toolbar">
             <div className="align-left btn-group">
-                <Button onClick={() => onNavigate(Navigate.PREVIOUS)}>
-                    <span className="glyphicon glyphicon-backward" />
+                <Button className="btn btn-default" onClick={() => onNavigate(Navigate.PREVIOUS)}>
+                    <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-backward" }} />
                 </Button>
-                <Button onClick={() => onNavigate(Navigate.TODAY)}>{localizer.messages.today}</Button>
-                <Button onClick={() => onNavigate(Navigate.NEXT)}>
-                    <span className="glyphicon glyphicon-forward" />
+                <Button className="btn btn-default" onClick={() => onNavigate(Navigate.TODAY)}>
+                    {localizer.messages.today}
+                </Button>
+                <Button className="btn btn-default" onClick={() => onNavigate(Navigate.NEXT)}>
+                    <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-forward" }} />
                 </Button>
             </div>
 
@@ -24,7 +28,11 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
                 {Array.isArray(views) &&
                     views.map(name => {
                         return (
-                            <Button key={name} onClick={() => onView(name)} isActive={view === name}>
+                            <Button
+                                key={name}
+                                onClick={() => onView(name)}
+                                className={classNames("btn", "btn-default", { active: view === name })}
+                            >
                                 {localizer.messages[name]}
                             </Button>
                         );
