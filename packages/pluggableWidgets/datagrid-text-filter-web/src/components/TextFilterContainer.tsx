@@ -1,8 +1,9 @@
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { StringFilterController } from "@mendix/widget-plugin-filtering/controllers/input/StringInputController";
 import { FilterFnList, InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
 import { useBasicSync } from "@mendix/widget-plugin-filtering/helpers/useBasicSync";
-import { useStringFilterController } from "@mendix/widget-plugin-filtering/helpers/useStringFilterController";
 import { String_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { observer } from "mobx-react-lite";
 import { createElement, useRef } from "react";
@@ -38,14 +39,17 @@ export const TextFilterContainer: (props: ContainerProps) => React.ReactElement 
     function TextFilterContainer(props) {
         const id = (useRef<string>().current ??= `TextFilter${generateUUID()}`);
 
-        const controller = useStringFilterController({
-            filter: props.filterStore,
-            defaultFilter: props.defaultFilter,
-            adjustableFilterFunction: props.adjustable,
-            defaultValue: props.defaultValue?.value,
-            changeDelay: props.delay,
-            disableInputs: fn => fn === "empty" || fn === "notEmpty"
-        });
+        const controller = useSetup(
+            () =>
+                new StringFilterController({
+                    filter: props.filterStore,
+                    defaultFilter: props.defaultFilter,
+                    adjustableFilterFunction: props.adjustable,
+                    defaultValue: props.defaultValue?.value,
+                    changeDelay: props.delay,
+                    disableInputs: fn => fn === "empty" || fn === "notEmpty"
+                })
+        );
 
         useBasicSync(props, props.filterStore);
 
