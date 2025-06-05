@@ -150,6 +150,12 @@ $cb-skeleton-dark: #d2d2d2;
                 background-color: transparent;
             }
         }
+
+        &:not(.widget-combobox-input-container-active) {
+            .widget-combobox-input {
+                width: 1px;
+            }
+        }
     }
 
     &-input {
@@ -276,8 +282,7 @@ $cb-skeleton-dark: #d2d2d2;
             &.widget-combobox-boxes {
                 margin: -2px 0;
                 .widget-combobox-input {
-                    &-nofilter,
-                    &:not(:focus) {
+                    &-nofilter {
                         width: 1px;
                     }
                 }
