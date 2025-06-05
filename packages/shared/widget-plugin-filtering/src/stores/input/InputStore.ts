@@ -1,4 +1,4 @@
-import { makeObservable, observable, action } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 
 export class InputStore {
     value: string;
@@ -11,6 +11,7 @@ export class InputStore {
             value: observable,
             isValid: observable,
             setValue: action,
+            setIsValid: action,
             onChange: action
         });
     }
