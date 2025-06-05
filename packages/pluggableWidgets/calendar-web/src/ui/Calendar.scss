@@ -9,8 +9,9 @@
 
     min-height: 350px;
     margin-bottom: var(--form-group-margin-bottom, $cal-form-group-margin-bottom);
-    user-select: none;
     -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 
     .rbc-calendar {
         width: 100%;
@@ -30,7 +31,7 @@
     }
 
     .calendar-label {
-        font-size: 16px;
+        font-size: var(--font-size-default, 16px);
     }
 
     .calendar-toolbar {
@@ -38,7 +39,7 @@
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
-        padding-bottom: 10px;
+        padding-bottom: var(--spacing-medium, 10px);
     }
 
     .rbc-current-time-indicator {
