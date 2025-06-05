@@ -1,6 +1,7 @@
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
-import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useEffect } from "react";
@@ -13,9 +14,8 @@ import { TagPicker } from "../controls/tag-picker/TagPicker";
 import { useFrontendType } from "../helpers/useFrontendType";
 import { usePickerJSActions } from "../helpers/usePickerJSActions";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
-import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
+import { EnumFilterStore } from "../stores/StaticSelectFilterStore";
 import { FilterOptionsType, SelectedItemsStyleEnum, SelectionMethodEnum } from "../typings/widget";
-import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 
 export interface StaticFilterContainerProps {
     ariaLabel?: string;
@@ -23,7 +23,7 @@ export interface StaticFilterContainerProps {
     defaultValue?: string;
     emptyCaption?: string;
     filterOptions: FilterOptionsType[];
-    filterStore: StaticSelectFilterStore;
+    filterStore: EnumFilterStore;
     multiselect: boolean;
     name: string;
     onChange?: ActionValue;
