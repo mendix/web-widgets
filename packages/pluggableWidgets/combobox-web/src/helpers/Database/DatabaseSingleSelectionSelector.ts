@@ -115,6 +115,7 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
         this.status = targetAttribute?.status ?? ds.status;
         this.validation = targetAttribute?.validation;
         this.selection = props.optionsSourceDatabaseItemSelection as SelectionSingleValue;
+        this.selection.setKeepSelection?.(() => true);
 
         this.clearable = clearable;
         this.customContentType = customContentType;
