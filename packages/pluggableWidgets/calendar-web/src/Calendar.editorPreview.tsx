@@ -16,59 +16,60 @@ const localizer = dateFnsLocalizer({
     locales: {}
 });
 
+const events = [
+    {
+        title: "Leave",
+        allDay: true,
+        start: new Date(new Date().setDate(new Date().getDate() - 15)),
+        end: new Date(new Date().setDate(new Date().getDate() - 7)),
+        guid: "",
+        color: ""
+    },
+    {
+        title: "Leave",
+        allDay: true,
+        start: new Date(new Date().setDate(new Date().getDate() - 9)),
+        end: new Date(new Date().setDate(new Date().getDate() - 5)),
+        guid: "",
+        color: "green"
+    },
+    {
+        title: "BD",
+        allDay: true,
+        start: new Date(),
+        end: new Date(),
+        guid: "",
+        color: "red"
+    },
+    {
+        title: "Bank Holiday",
+        allDay: true,
+        start: new Date(new Date().valueOf() + 6000 * 3600 * 24),
+        end: new Date(new Date().valueOf() + 9000 * 3600 * 24),
+        guid: "",
+        color: "grey"
+    },
+    {
+        title: "Bank Holiday",
+        allDay: true,
+        start: new Date(new Date().valueOf() + 4000 * 3600 * 24),
+        end: new Date(new Date().valueOf() + 8000 * 3600 * 24),
+        guid: "",
+        color: "purple"
+    },
+    {
+        title: "Leave",
+        allDay: true,
+        start: new Date(new Date().valueOf() + 10000 * 3600 * 24),
+        end: new Date(new Date().valueOf() + 14000 * 3600 * 24),
+        guid: "",
+        color: ""
+    }
+];
+
 export function preview(props: CalendarPreviewProps): ReactElement {
     const { class: className } = props;
     const wrapperStyle = constructWrapperStyle(props as WrapperStyleProps);
-    const events = [
-        {
-            title: "Leave",
-            allDay: true,
-            start: new Date(new Date().setDate(new Date().getDate() - 15)),
-            end: new Date(new Date().setDate(new Date().getDate() - 7)),
-            guid: "",
-            color: ""
-        },
-        {
-            title: "Leave",
-            allDay: true,
-            start: new Date(new Date().setDate(new Date().getDate() - 9)),
-            end: new Date(new Date().setDate(new Date().getDate() - 5)),
-            guid: "",
-            color: "green"
-        },
-        {
-            title: "BD",
-            allDay: true,
-            start: new Date(),
-            end: new Date(),
-            guid: "",
-            color: "red"
-        },
-        {
-            title: "Bank Holiday",
-            allDay: true,
-            start: new Date(new Date().valueOf() + 6000 * 3600 * 24),
-            end: new Date(new Date().valueOf() + 9000 * 3600 * 24),
-            guid: "",
-            color: "grey"
-        },
-        {
-            title: "Bank Holiday",
-            allDay: true,
-            start: new Date(new Date().valueOf() + 4000 * 3600 * 24),
-            end: new Date(new Date().valueOf() + 8000 * 3600 * 24),
-            guid: "",
-            color: "purple"
-        },
-        {
-            title: "Leave",
-            allDay: true,
-            start: new Date(new Date().valueOf() + 10000 * 3600 * 24),
-            end: new Date(new Date().valueOf() + 14000 * 3600 * 24),
-            guid: "",
-            color: ""
-        }
-    ];
 
     return (
         <div className={classnames("widget-events-preview", "widget-calendar", className)} style={wrapperStyle}>
