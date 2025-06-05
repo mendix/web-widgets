@@ -5,9 +5,9 @@ import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { createElement, CSSProperties, useEffect } from "react";
-import { StaticComboboxController } from "../controllers/StaticComboboxController";
-import { StaticSelectController } from "../controllers/StaticSelectController";
-import { StaticTagPickerController } from "../controllers/StaticTagPickerController";
+import { EnumComboboxController } from "../controllers/EnumComboboxController";
+import { EnumSelectController } from "../controllers/EnumSelectController";
+import { EnumTagPickerController } from "../controllers/EnumTagPickerController";
 import { Combobox } from "../controls/combobox/Combobox";
 import { Select } from "../controls/select/Select";
 import { TagPicker } from "../controls/tag-picker/TagPicker";
@@ -53,7 +53,7 @@ function Container(props: EnumFilterContainerProps): React.ReactElement {
 
 const SelectWidget = observer(function SelectWidget(props: EnumFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
-    const ctrl1 = useSetup(() => new StaticSelectController({ gate }));
+    const ctrl1 = useSetup(() => new EnumSelectController({ gate }));
 
     usePickerJSActions(ctrl1, props);
 
@@ -74,7 +74,7 @@ const SelectWidget = observer(function SelectWidget(props: EnumFilterContainerPr
 
 const ComboboxWidget = observer(function ComboboxWidget(props: EnumFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
-    const ctrl2 = useSetup(() => new StaticComboboxController({ gate }));
+    const ctrl2 = useSetup(() => new EnumComboboxController({ gate }));
 
     usePickerJSActions(ctrl2, props);
 
@@ -95,7 +95,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: EnumFilterContain
 
 const TagPickerWidget = observer(function TagPickerWidget(props: EnumFilterContainerProps): React.ReactElement {
     const gate = useGate(props);
-    const ctrl3 = useSetup(() => new StaticTagPickerController({ gate }));
+    const ctrl3 = useSetup(() => new EnumTagPickerController({ gate }));
 
     usePickerJSActions(ctrl3, props);
 

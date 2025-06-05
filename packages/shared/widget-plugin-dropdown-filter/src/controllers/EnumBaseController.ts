@@ -6,9 +6,9 @@ import { EnumFilterStore } from "../stores/EnumFilterStore";
 import { PickerBaseController } from "./PickerBaseController";
 
 export class EnumBaseController extends PickerBaseController<EnumFilterStore> {
-    private readonly gate: DerivedPropsGate<StaticBaseControllerProps>;
+    private readonly gate: DerivedPropsGate<EnumBaseControllerProps>;
 
-    constructor({ gate, multiselect }: { gate: DerivedPropsGate<StaticBaseControllerProps>; multiselect: boolean }) {
+    constructor({ gate, multiselect }: { gate: DerivedPropsGate<EnumBaseControllerProps>; multiselect: boolean }) {
         super({ gate, multiselect });
         this.gate = gate;
         makeObservable<this, "filterOptions">(this, {
@@ -46,7 +46,7 @@ export class EnumBaseController extends PickerBaseController<EnumFilterStore> {
     });
 }
 
-export interface StaticBaseControllerProps {
+export interface EnumBaseControllerProps {
     defaultValue?: string;
     filterOptions: Array<CustomOption<DynamicValue<string>>>;
     filterStore: EnumFilterStore;
