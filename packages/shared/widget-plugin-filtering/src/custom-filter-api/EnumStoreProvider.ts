@@ -1,10 +1,10 @@
-import { StaticSelectFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
+import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
 import { FilterAPI } from "../context";
 import { BaseStoreProvider } from "./BaseStoreProvider";
 import { FilterSpec } from "./typings";
 
-export class EnumStoreProvider extends BaseStoreProvider<StaticSelectFilterStore> {
-    protected _store: StaticSelectFilterStore;
+export class EnumStoreProvider extends BaseStoreProvider<EnumFilterStore> {
+    protected _store: EnumFilterStore;
     protected filterAPI: FilterAPI;
     readonly dataKey: string;
 
@@ -12,13 +12,13 @@ export class EnumStoreProvider extends BaseStoreProvider<StaticSelectFilterStore
         super();
         this.filterAPI = filterAPI;
         this.dataKey = spec.dataKey;
-        this._store = new StaticSelectFilterStore(
+        this._store = new EnumFilterStore(
             spec.attributes,
             this.findInitFilter(filterAPI.sharedInitFilter, this.dataKey)
         );
     }
 
-    get store(): StaticSelectFilterStore {
+    get store(): EnumFilterStore {
         return this._store;
     }
 }

@@ -2,10 +2,10 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { autorun, computed, makeObservable } from "mobx";
-import { StaticSelectFilterStore } from "../stores/StaticSelectFilterStore";
+import { EnumFilterStore } from "../stores/StaticSelectFilterStore";
 import { PickerBaseController } from "./PickerBaseController";
 
-export class StaticBaseController extends PickerBaseController<StaticSelectFilterStore> {
+export class StaticBaseController extends PickerBaseController<EnumFilterStore> {
     private readonly gate: DerivedPropsGate<StaticBaseControllerProps>;
 
     constructor({ gate, multiselect }: { gate: DerivedPropsGate<StaticBaseControllerProps>; multiselect: boolean }) {
@@ -49,7 +49,7 @@ export class StaticBaseController extends PickerBaseController<StaticSelectFilte
 export interface StaticBaseControllerProps {
     defaultValue?: string;
     filterOptions: Array<CustomOption<DynamicValue<string>>>;
-    filterStore: StaticSelectFilterStore;
+    filterStore: EnumFilterStore;
     multiselect: boolean;
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
