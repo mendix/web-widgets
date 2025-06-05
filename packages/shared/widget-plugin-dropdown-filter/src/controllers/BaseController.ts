@@ -3,8 +3,8 @@ import { ActionValue, EditableValue } from "mendix";
 import { OptionsSerializer } from "../stores/OptionsSerializer";
 import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../typings/IJSActionsControlled";
 import { OptionWithState } from "../typings/OptionWithState";
-import { PickerChangeHelper } from "./PickerChangeHelper";
-import { PickerJSActionsHelper } from "./PickerJSActionsHelper";
+import { JSActionsHelper } from "./JSActionsHelper";
+import { ValueChangeHelper } from "./ValueChangeHelper";
 
 interface FilterStore {
     reset: () => void;
@@ -14,7 +14,7 @@ interface FilterStore {
     options: OptionWithState[];
 }
 
-export interface PickerBaseControllerProps<S extends FilterStore> {
+export interface BaseControllerProps<S extends FilterStore> {
     defaultValue?: string;
     filterStore: S;
     multiselect: boolean;
@@ -23,11 +23,11 @@ export interface PickerBaseControllerProps<S extends FilterStore> {
     emptyCaption?: string;
 }
 
-type Gate<S extends FilterStore> = DerivedPropsGate<PickerBaseControllerProps<S>>;
+type Gate<S extends FilterStore> = DerivedPropsGate<BaseControllerProps<S>>;
 
-export class PickerBaseController<S extends FilterStore> implements IJSActionsControlled {
-    protected actionHelper: PickerJSActionsHelper;
-    protected changeHelper: PickerChangeHelper;
+export class BaseController<S extends FilterStore> implements IJSActionsControlled {
+    protected actionHelper: JSActionsHelper;
+    protected changeHelper: ValueChangeHelper;
     protected defaultValue?: Iterable<string>;
     protected serializer: OptionsSerializer;
     filterStore: S;
@@ -39,12 +39,12 @@ export class PickerBaseController<S extends FilterStore> implements IJSActionsCo
         this.multiselect = multiselect;
         this.serializer = new OptionsSerializer({ store: this.filterStore });
         this.defaultValue = this.parseDefaultValue(props.defaultValue);
-        this.actionHelper = new PickerJSActionsHelper({
+        this.actionHelper = new JSActionsHelper({
             filterStore: props.filterStore,
             parse: value => this.serializer.fromStorableValue(value) ?? [],
             multiselect: props.multiselect
         });
-        this.changeHelper = new PickerChangeHelper(gate, () => this.serializer.value);
+        this.changeHelper = new ValueChangeHelper(gate, () => this.serializer.value);
     }
 
     parseDefaultValue = (value: string | undefined): Iterable<string> | undefined => {
