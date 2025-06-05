@@ -1,17 +1,14 @@
-$form-group-margin-bottom: 15px !default;
-$brand-default: #dddddd !default;
-$brand-primary: #0595db !default;
-$brand-danger: #ed1c24 !default;
-
-$gray-primary: #d7d7d7 !default;
-
-$border-color-default: $gray-primary !default;
-$color-default-lighter: mix($brand-default, white, 20%) !default;
-$color-primary-lighter: mix($brand-primary, white, 20%) !default;
-
 .widget-calendar {
+    $cal-form-group-margin-bottom: 15px !default;
+    $cal-brand-default: #dddddd;
+    $cal-brand-primary: #0595db;
+    $cal-brand-danger: #ed1c24 !default;
+    $cal-border-color-default: #d7d7d7;
+    $cal-color-default-lighter: mix($cal-brand-default, white, 20%) !default;
+    $cal-color-primary-lighter: mix($cal-brand-primary, white, 20%) !default;
+
     min-height: 350px;
-    margin-bottom: $form-group-margin-bottom;
+    margin-bottom: var(--form-group-margin-bottom, $cal-form-group-margin-bottom);
     user-select: none;
     -ms-user-select: none;
 
@@ -45,25 +42,25 @@ $color-primary-lighter: mix($brand-primary, white, 20%) !default;
     }
 
     .rbc-current-time-indicator {
-        background-color: $brand-danger;
+        background-color: var(--brand-danger, $cal-brand-danger);
     }
 
     .rbc-day-slot .rbc-event {
-        border-top-color: $border-color-default;
-        border-right-color: $border-color-default;
-        border-bottom-color: $border-color-default;
-        border-left-color: $border-color-default;
+        border-top-color: var(--border-color-default, $cal-border-color-default);
+        border-right-color: var(--border-color-default, $cal-border-color-default);
+        border-bottom-color: var(--border-color-default, $cal-border-color-default);
+        border-left-color: var(--border-color-default, $cal-border-color-default);
     }
 
     .rbc-off-range-bg {
-        background-color: $color-default-lighter;
+        background-color: var(--color-default-lighter, $cal-color-default-lighter);
     }
 
     .rbc-today {
-        background-color: $color-primary-lighter;
+        background-color: var(--color-primary-lighter, $cal-color-primary-lighter);
     }
 
     .rbc-event {
-        background-color: $brand-primary;
+        background-color: var(--brand-primary, $cal-brand-primary);
     }
 }
