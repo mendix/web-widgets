@@ -1,6 +1,6 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { createElement, useState } from "react";
-import { EnumFilterStore } from "../stores/StaticSelectFilterStore";
+import { EnumFilterStore } from "../stores/EnumFilterStore";
 import { FilterOptionsType } from "../typings/widget";
 
 interface Props {

@@ -1,4 +1,4 @@
-import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
+import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { FilterAPI } from "../context";
 import { BaseStoreProvider } from "./BaseStoreProvider";
 import { FilterSpec } from "./typings";
