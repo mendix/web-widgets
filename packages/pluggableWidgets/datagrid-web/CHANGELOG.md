@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.27.7] - 2025-06-05
+
 ### Changed
 
 - We have removed support for reference set associations to allow data grid to work on SP 9.24.
