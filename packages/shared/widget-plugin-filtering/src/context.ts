@@ -1,4 +1,4 @@
-import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/StaticSelectFilterStore";
+import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { FilterCondition } from "mendix/filters";
 import { Context, createContext, useContext } from "react";
 import { APIError, ENOCONTEXT } from "./errors";

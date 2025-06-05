@@ -2,7 +2,7 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { autorun, computed, makeObservable } from "mobx";
-import { EnumFilterStore } from "../stores/StaticSelectFilterStore";
+import { EnumFilterStore } from "../stores/EnumFilterStore";
 import { PickerBaseController } from "./PickerBaseController";
 
 export class StaticBaseController extends PickerBaseController<EnumFilterStore> {

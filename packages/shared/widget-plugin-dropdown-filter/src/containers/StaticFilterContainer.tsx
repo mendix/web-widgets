@@ -14,7 +14,7 @@ import { TagPicker } from "../controls/tag-picker/TagPicker";
 import { useFrontendType } from "../helpers/useFrontendType";
 import { usePickerJSActions } from "../helpers/usePickerJSActions";
 import { withCustomOptionsGuard } from "../hocs/withCustomOptionsGuard";
-import { EnumFilterStore } from "../stores/StaticSelectFilterStore";
+import { EnumFilterStore } from "../stores/EnumFilterStore";
 import { FilterOptionsType, SelectedItemsStyleEnum, SelectionMethodEnum } from "../typings/widget";
 
 export interface StaticFilterContainerProps {
