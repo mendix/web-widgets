@@ -8,7 +8,7 @@ interface Props {
     onChange?: ActionValue;
 }
 
-export class PickerChangeHelper {
+export class ValueChangeHelper {
     private readonly gate: DerivedPropsGate<Props>;
     private valueFn: () => string | undefined;
 
