@@ -4,7 +4,6 @@ import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/
 import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
 import { FilterCondition } from "mendix/filters";
-import { ListAttributeValue, ListAttributeListValue } from "mendix";
 import { action, computed, makeObservable } from "mobx";
 import { ReactNode, createElement } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
@@ -59,7 +58,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
 
         if (store.storeType === "refselect") {
             store.updateProps(this.toRefselectProps(props));
-        } else if (isListAttributeValue(props.attribute)) {
+        } else if (props.attribute) {
             store.updateProps([props.attribute]);
         }
     }
@@ -85,7 +84,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
             return new RefFilterStore(this.toRefselectProps(props), dsViewState);
         }
 
-        if (isListAttributeValue(props.attribute)) {
+        if (props.attribute) {
             return attrgroupFilterStore(props.attribute.type, [props.attribute], dsViewState);
         }
 
@@ -123,12 +122,6 @@ export class ColumnFilterStore implements IColumnFilterStore {
         }
     }
 }
-
-const isListAttributeValue = (
-    attribute?: ListAttributeValue | ListAttributeListValue
-): attribute is ListAttributeValue => {
-    return !!(attribute && attribute.isList === false);
-};
 
 const errorMessage = (propName: string): string =>
     `Can't map ColumnsType to AssociationProperties: ${propName} is undefined`;

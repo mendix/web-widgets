@@ -18,7 +18,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "9.17.0",
+        "minimumMXVersion": "9.24.0.2965",
         "appName": "Drop-down Filter"
     },
     "testProject": {

@@ -24,7 +24,7 @@ interface SelectProps {
 
 const cls = classes();
 
-export const Select = observer(function Select(props: SelectProps): React.ReactElement {
+export function Select_inner(props: SelectProps): React.ReactElement {
     const { empty: isEmpty, showCheckboxes, clearable } = props;
     const toggleRef = useRef<HTMLButtonElement>(null);
     const { getToggleButtonProps, getMenuProps, getItemProps, isOpen, highlightedIndex } = useSelect(
@@ -79,4 +79,6 @@ export const Select = observer(function Select(props: SelectProps): React.ReactE
             />
         </div>
     );
-});
+}
+
+export const Select = observer(Select_inner);
