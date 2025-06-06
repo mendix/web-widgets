@@ -1,21 +1,19 @@
-import "@testing-library/jest-dom";
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
-import {
-    HeaderFiltersStore,
-    HeaderFiltersStoreSpec
-} from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
+import { DateInputFilterStore } from "@mendix/widget-plugin-filtering/stores/input/DateInputFilterStore";
+import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import {
     actionValue,
     dynamicValue,
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { render, fireEvent, screen, act } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { AttributeMetaData } from "mendix";
 import { createContext, createElement } from "react";
-import DatagridDateFilter from "../../DatagridDateFilter";
 import { DatagridDateFilterContainerProps } from "../../../typings/DatagridDateFilterProps";
 import { MXGlobalObject, MXSessionConfig } from "../../../typings/global";
-import { FilterObserver } from "@mendix/widget-plugin-filtering/typings/FilterObserver";
+import DatagridDateFilter from "../../DatagridDateFilter";
 
 function createMXObjectMock(
     code: string,
@@ -47,19 +45,11 @@ const commonProps: DatagridDateFilterContainerProps = {
     name: "filter-test",
     defaultFilter: "equal" as const,
     adjustable: true,
-    advanced: false
+    attrChoice: "auto",
+    attributes: []
 };
 
 const mxObject = createMXObjectMock("en_US", "en-US");
-
-const mockSpec = (spec: Partial<HeaderFiltersStoreSpec>): HeaderFiltersStoreSpec => ({
-    filterList: [],
-    filterChannelName: "datagrid/1",
-    headerInitFilter: [],
-    sharedInitFilter: [],
-    customFilterHost: {} as FilterObserver,
-    ...spec
-});
 
 describe("Date Filter", () => {
     describe("with single instance", () => {
@@ -69,14 +59,26 @@ describe("Date Filter", () => {
 
         describe("with single attribute", () => {
             beforeEach(() => {
-                const spec = mockSpec({
-                    filterList: [
-                        { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
-                    ]
-                });
-                const headerFilterStore = new HeaderFiltersStore(spec);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
-                    headerFilterStore.context
+                const dateTimeAttribute = new ListAttributeValueBuilder()
+                    .withType("DateTime")
+                    .withFilterable(true)
+                    .build() as unknown as AttributeMetaData<Date>;
+
+                const dateFilterStore = new DateInputFilterStore([dateTimeAttribute], null);
+
+                const filterAPI: FilterAPI = {
+                    version: 3,
+                    parentChannelName: "datagrid/1",
+                    provider: {
+                        hasError: false,
+                        value: { type: "direct", store: dateFilterStore }
+                    },
+                    filterObserver: {} as ObservableFilterHost,
+                    sharedInitFilter: []
+                };
+
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI | null>(
+                    filterAPI
                 );
                 (window as any).mx = mxObject;
 
@@ -144,27 +146,34 @@ describe("Date Filter", () => {
 
         describe("with double attributes", () => {
             beforeAll(() => {
-                const spec = mockSpec({
-                    filterList: [
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withId("attr1")
-                                .withType("DateTime")
-                                .withFilterable(true)
-                                .build()
-                        },
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withId("attr2")
-                                .withType("DateTime")
-                                .withFilterable(true)
-                                .build()
-                        }
-                    ]
-                });
-                const headerFilterStore = new HeaderFiltersStore(spec);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
-                    headerFilterStore.context
+                const dateTimeAttributes = [
+                    new ListAttributeValueBuilder()
+                        .withId("attr1")
+                        .withType("DateTime")
+                        .withFilterable(true)
+                        .build() as unknown as AttributeMetaData<Date>,
+                    new ListAttributeValueBuilder()
+                        .withId("attr2")
+                        .withType("DateTime")
+                        .withFilterable(true)
+                        .build() as unknown as AttributeMetaData<Date>
+                ];
+
+                const dateFilterStore = new DateInputFilterStore(dateTimeAttributes, null);
+
+                const filterAPI: FilterAPI = {
+                    version: 3,
+                    parentChannelName: "datagrid/1",
+                    provider: {
+                        hasError: false,
+                        value: { type: "direct", store: dateFilterStore }
+                    },
+                    filterObserver: {} as ObservableFilterHost,
+                    sharedInitFilter: []
+                };
+
+                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI | null>(
+                    filterAPI
                 );
                 (window as any).mx = mxObject;
 
@@ -175,73 +184,6 @@ describe("Date Filter", () => {
                 const { asFragment } = render(<DatagridDateFilter {...commonProps} />);
 
                 expect(asFragment()).toMatchSnapshot();
-            });
-
-            afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
-            });
-        });
-
-        describe("with wrong attribute's type", () => {
-            beforeAll(() => {
-                const spec = mockSpec({
-                    filterList: [
-                        { filter: new ListAttributeValueBuilder().withType("Decimal").withFilterable(true).build() }
-                    ]
-                });
-                const headerFilterStore = new HeaderFiltersStore(spec);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
-                    headerFilterStore.context
-                );
-                (window as any).mx = mxObject;
-            });
-
-            it("renders error message", () => {
-                const { container } = render(<DatagridDateFilter {...commonProps} />);
-
-                expect(container.querySelector(".alert")?.textContent).toEqual(
-                    "Unable to get filter store. Check parent widget configuration."
-                );
-            });
-
-            afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
-            });
-        });
-
-        describe("with wrong multiple attributes' types", () => {
-            beforeAll(() => {
-                const spec = mockSpec({
-                    filterList: [
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withId("attr1")
-                                .withType("String")
-                                .withFilterable(true)
-                                .build()
-                        },
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withId("attr2")
-                                .withType("Decimal")
-                                .withFilterable(true)
-                                .build()
-                        }
-                    ]
-                });
-                const headerFilterStore = new HeaderFiltersStore(spec);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
-                    headerFilterStore.context
-                );
-                (window as any).mx = mxObject;
-            });
-
-            it("renders error message", () => {
-                const { container } = render(<DatagridDateFilter {...commonProps} />);
-
-                expect(container.querySelector(".alert")?.textContent).toEqual(
-                    "Unable to get filter store. Check parent widget configuration."
-                );
             });
 
             afterAll(() => {
@@ -267,14 +209,26 @@ describe("Date Filter", () => {
 
     describe("with multiple instances", () => {
         beforeAll(() => {
-            const spec = mockSpec({
-                filterList: [
-                    { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
-                ]
-            });
-            const headerFilterStore = new HeaderFiltersStore(spec);
-            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
-                headerFilterStore.context
+            const dateTimeAttribute = new ListAttributeValueBuilder()
+                .withType("DateTime")
+                .withFilterable(true)
+                .build() as unknown as AttributeMetaData<Date>;
+
+            const dateFilterStore = new DateInputFilterStore([dateTimeAttribute], null);
+
+            const filterAPI: FilterAPI = {
+                version: 3,
+                parentChannelName: "datagrid/1",
+                provider: {
+                    hasError: false,
+                    value: { type: "direct", store: dateFilterStore }
+                },
+                filterObserver: {} as ObservableFilterHost,
+                sharedInitFilter: []
+            };
+
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI | null>(
+                filterAPI
             );
             (window as any).mx = mxObject;
 
@@ -296,14 +250,26 @@ describe("Date Filter", () => {
 
     describe("with session config", () => {
         beforeEach(() => {
-            const spec = mockSpec({
-                filterList: [
-                    { filter: new ListAttributeValueBuilder().withType("DateTime").withFilterable(true).build() }
-                ]
-            });
-            const headerFilterStore = new HeaderFiltersStore(spec);
-            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(
-                headerFilterStore.context
+            const dateTimeAttribute = new ListAttributeValueBuilder()
+                .withType("DateTime")
+                .withFilterable(true)
+                .build() as unknown as AttributeMetaData<Date>;
+
+            const dateFilterStore = new DateInputFilterStore([dateTimeAttribute], null);
+
+            const filterAPI: FilterAPI = {
+                version: 3,
+                parentChannelName: "datagrid/1",
+                provider: {
+                    hasError: false,
+                    value: { type: "direct", store: dateFilterStore }
+                },
+                filterObserver: {} as ObservableFilterHost,
+                sharedInitFilter: []
+            };
+
+            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI | null>(
+                filterAPI
             );
         });
 
