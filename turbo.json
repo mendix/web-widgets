@@ -33,6 +33,7 @@
             "dependsOn": ["^build"]
         },
         "lint": {
+            "dependsOn": ["^build"],
             "outputs": []
         },
         "create-gh-release": {
