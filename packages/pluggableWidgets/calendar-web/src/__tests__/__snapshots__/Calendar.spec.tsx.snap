@@ -20,20 +20,25 @@ exports[`Calendar renders correctly with basic props 1`] = `
             >
               <button
                 class="btn btn-default"
+                type="button"
               >
                 <span
+                  aria-hidden="true"
                   class="glyphicon glyphicon-backward"
                 />
               </button>
               <button
                 class="btn btn-default"
+                type="button"
               >
                 Today
               </button>
               <button
                 class="btn btn-default"
+                type="button"
               >
                 <span
+                  aria-hidden="true"
                   class="glyphicon glyphicon-forward"
                 />
               </button>
@@ -52,16 +57,19 @@ exports[`Calendar renders correctly with basic props 1`] = `
             >
               <button
                 class="btn btn-default"
+                type="button"
               >
                 Day
               </button>
               <button
                 class="btn btn-default"
+                type="button"
               >
                 Week
               </button>
               <button
                 class="btn btn-default active"
+                type="button"
               >
                 Month
               </button>
@@ -763,20 +771,25 @@ exports[`Calendar renders correctly with basic props 1`] = `
           >
             <button
               class="btn btn-default"
+              type="button"
             >
               <span
+                aria-hidden="true"
                 class="glyphicon glyphicon-backward"
               />
             </button>
             <button
               class="btn btn-default"
+              type="button"
             >
               Today
             </button>
             <button
               class="btn btn-default"
+              type="button"
             >
               <span
+                aria-hidden="true"
                 class="glyphicon glyphicon-forward"
               />
             </button>
@@ -795,16 +808,19 @@ exports[`Calendar renders correctly with basic props 1`] = `
           >
             <button
               class="btn btn-default"
+              type="button"
             >
               Day
             </button>
             <button
               class="btn btn-default"
+              type="button"
             >
               Week
             </button>
             <button
               class="btn btn-default active"
+              type="button"
             >
               Month
             </button>
