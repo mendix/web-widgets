@@ -1,5 +1,5 @@
 import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { RefreshController } from "../controllers/RefreshController";
+import { RefreshController } from "../query/RefreshController";
 
 describe("RefreshController", () => {
     let host: ReactiveControllerHost;

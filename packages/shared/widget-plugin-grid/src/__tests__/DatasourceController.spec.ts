@@ -2,7 +2,7 @@ import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { list } from "@mendix/widget-plugin-test-utils";
 import { ListValue } from "mendix";
-import { DatasourceController } from "../controllers/DatasourceController";
+import { DatasourceController } from "../query/DatasourceController";
 
 describe("DatasourceController loading states", () => {
     let controller: DatasourceController;
