@@ -26,7 +26,6 @@
         "dev": "tsc -p tsconfig.build.json --watch",
         "format": "prettier --write .",
         "lint": "eslint src/ package.json",
-        "prepare": "pnpm build",
         "test": "jest"
     },
     "dependencies": {
