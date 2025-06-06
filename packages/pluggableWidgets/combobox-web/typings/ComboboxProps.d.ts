@@ -43,10 +43,7 @@ export type FilterTypeEnum = "contains" | "containsExact" | "startsWith" | "none
 
 export interface OptionsSourceStaticDataSourcePreviewType {
     staticDataSourceValue: string;
-    staticDataSourceCustomContent: {
-        widgetCount: number;
-        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
-    };
+    staticDataSourceCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     staticDataSourceCaption: string;
 }
 
@@ -130,15 +127,9 @@ export interface ComboboxPreviewProps {
     noOptionsText: string;
     clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
-    optionsSourceAssociationCustomContent: {
-        widgetCount: number;
-        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
-    };
+    optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
-    optionsSourceDatabaseCustomContent: {
-        widgetCount: number;
-        renderer: ComponentType<{ children: ReactNode; caption?: string }>;
-    };
+    optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
     showFooter: boolean;
     menuFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

@@ -9,7 +9,8 @@ export class SelectionMultiValueBuilder {
             selection: [] as ObjectItem[],
             setSelection(next: ObjectItem[]) {
                 this.selection = next;
-            }
+            },
+            setKeepSelection(): void {}
         };
 
         this.selectionValue = value as SelectionMultiValue;
