@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.4.1] - 2025-06-06
+
 ### Fixed
 
 - We fixed an issue where events from element in footer not directly triggered when input being focused.
