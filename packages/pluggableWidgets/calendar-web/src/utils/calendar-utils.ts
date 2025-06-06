@@ -1,10 +1,11 @@
+import * as dateFns from "date-fns";
 import { Calendar, dateFnsLocalizer, ViewsProps } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import { CalendarContainerProps } from "../../typings/CalendarProps";
+import { CustomToolbar } from "../components/Toolbar";
+
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
-import * as dateFns from "date-fns";
-import { CalendarContainerProps } from "../../typings/CalendarProps";
 
 // Define the event shape
 export interface CalEvent {
@@ -43,6 +44,12 @@ function getViewRange(view: string, date: Date) {
     }
 }
 
+export function eventPropGetter(event: CalEvent) {
+    return {
+        style: event.color ? { backgroundColor: event.color } : undefined
+    };
+}
+
 export function extractCalendarProps(props: CalendarContainerProps) {
     const items = props.databaseDataSource?.items ?? [];
     const events: CalEvent[] = items.map(item => {
@@ -60,11 +67,7 @@ export function extractCalendarProps(props: CalendarContainerProps) {
     });
 
     const viewsOption: ViewsProps<CalEvent, object> =
-        props.view === "standard" ? ["month", "week", "day"] : ["month", "week", "work_week", "day", "agenda"];
-
-    const eventPropGetter = (event: CalEvent) => ({
-        style: event.color ? { backgroundColor: event.color } : undefined
-    });
+        props.view === "standard" ? ["day", "week", "month"] : ["month", "week", "work_week", "day", "agenda"];
 
     const handleSelectEvent = (event: CalEvent) => {
         if (props.onClickEvent?.canExecute) {
@@ -110,21 +113,24 @@ export function extractCalendarProps(props: CalendarContainerProps) {
     };
 
     return {
-        localizer,
-        events,
+        components: {
+            toolbar: CustomToolbar
+        },
         defaultView: props.defaultView,
-        startAccessor: (event: unknown) => (event as CalEvent).start,
-        endAccessor: (event: unknown) => (event as CalEvent).end,
-        selectable: props.enableCreate,
+        events,
+        localizer,
         resizable: props.editable !== "never",
-        onSelectEvent: handleSelectEvent,
-        onSelectSlot: handleSelectSlot,
+        selectable: props.enableCreate,
+        views: viewsOption,
+        allDayAccessor: (event: CalEvent) => event.allDay,
+        endAccessor: (event: CalEvent) => event.end,
+        eventPropGetter,
         onEventDrop: handleEventDropOrResize,
         onEventResize: handleEventDropOrResize,
         onNavigate: handleRangeChange,
-        views: viewsOption,
-        titleAccessor: (event: unknown) => (event as CalEvent).title,
-        allDayAccessor: (event: unknown) => (event as CalEvent).allDay,
-        eventPropGetter
+        onSelectEvent: handleSelectEvent,
+        onSelectSlot: handleSelectSlot,
+        startAccessor: (event: CalEvent) => event.start,
+        titleAccessor: (event: CalEvent) => event.title
     };
 }

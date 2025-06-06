@@ -1,0 +1,67 @@
+.widget-calendar {
+    $cal-form-group-margin-bottom: 15px !default;
+    $cal-brand-default: #dddddd;
+    $cal-brand-primary: #0595db;
+    $cal-brand-danger: #ed1c24 !default;
+    $cal-border-color-default: #d7d7d7;
+    $cal-color-default-lighter: mix($cal-brand-default, white, 20%) !default;
+    $cal-color-primary-lighter: mix($cal-brand-primary, white, 20%) !default;
+
+    min-height: 350px;
+    margin-bottom: var(--form-group-margin-bottom, $cal-form-group-margin-bottom);
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+
+    .rbc-calendar {
+        width: 100%;
+        height: 100%;
+    }
+
+    .rbc-event {
+        min-height: 20px;
+    }
+
+    .rbc-addons-dnd .rbc-addons-dnd-resize-ns-icon {
+        cursor: row-resize;
+    }
+
+    .rbc-addons-dnd .rbc-addons-dnd-resize-ew-icon {
+        cursor: col-resize;
+    }
+
+    .calendar-label {
+        font-size: var(--font-size-default, 16px);
+    }
+
+    .calendar-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding-bottom: var(--spacing-medium, 10px);
+    }
+
+    .rbc-current-time-indicator {
+        background-color: var(--brand-danger, $cal-brand-danger);
+    }
+
+    .rbc-day-slot .rbc-event {
+        border-top-color: var(--border-color-default, $cal-border-color-default);
+        border-right-color: var(--border-color-default, $cal-border-color-default);
+        border-bottom-color: var(--border-color-default, $cal-border-color-default);
+        border-left-color: var(--border-color-default, $cal-border-color-default);
+    }
+
+    .rbc-off-range-bg {
+        background-color: var(--color-default-lighter, $cal-color-default-lighter);
+    }
+
+    .rbc-today {
+        background-color: var(--color-primary-lighter, $cal-color-primary-lighter);
+    }
+
+    .rbc-event {
+        background-color: var(--brand-primary, $cal-brand-primary);
+    }
+}

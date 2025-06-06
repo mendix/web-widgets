@@ -13,54 +13,67 @@ exports[`Calendar renders correctly with basic props 1`] = `
           class="rbc-addons-dnd rbc-calendar"
         >
           <div
-            class="rbc-toolbar"
+            class="calendar-toolbar"
           >
-            <span
-              class="rbc-btn-group"
+            <div
+              class="align-left btn-group"
             >
               <button
+                class="btn btn-default"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  class="glyphicon glyphicon-backward"
+                />
+              </button>
+              <button
+                class="btn btn-default"
                 type="button"
               >
                 Today
               </button>
               <button
+                class="btn btn-default"
                 type="button"
               >
-                Back
+                <span
+                  aria-hidden="true"
+                  class="glyphicon glyphicon-forward"
+                />
               </button>
-              <button
-                type="button"
-              >
-                Next
-              </button>
-            </span>
-            <span
-              class="rbc-toolbar-label"
+            </div>
+            <div
+              class="align-center btn-group"
             >
-              April 2025
-            </span>
-            <span
-              class="rbc-btn-group"
+              <span
+                class="calendar-label"
+              >
+                April 2025
+              </span>
+            </div>
+            <div
+              class="align-right btn-group"
             >
               <button
-                class="rbc-active"
+                class="btn btn-default"
                 type="button"
               >
-                Month
+                Day
               </button>
               <button
-                class=""
+                class="btn btn-default"
                 type="button"
               >
                 Week
               </button>
               <button
-                class=""
+                class="btn btn-default active"
                 type="button"
               >
-                Day
+                Month
               </button>
-            </span>
+            </div>
           </div>
           <div
             aria-label="Month View"
@@ -751,54 +764,67 @@ exports[`Calendar renders correctly with basic props 1`] = `
         class="rbc-addons-dnd rbc-calendar"
       >
         <div
-          class="rbc-toolbar"
+          class="calendar-toolbar"
         >
-          <span
-            class="rbc-btn-group"
+          <div
+            class="align-left btn-group"
           >
             <button
+              class="btn btn-default"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="glyphicon glyphicon-backward"
+              />
+            </button>
+            <button
+              class="btn btn-default"
               type="button"
             >
               Today
             </button>
             <button
+              class="btn btn-default"
               type="button"
             >
-              Back
+              <span
+                aria-hidden="true"
+                class="glyphicon glyphicon-forward"
+              />
             </button>
-            <button
-              type="button"
-            >
-              Next
-            </button>
-          </span>
-          <span
-            class="rbc-toolbar-label"
+          </div>
+          <div
+            class="align-center btn-group"
           >
-            April 2025
-          </span>
-          <span
-            class="rbc-btn-group"
+            <span
+              class="calendar-label"
+            >
+              April 2025
+            </span>
+          </div>
+          <div
+            class="align-right btn-group"
           >
             <button
-              class="rbc-active"
+              class="btn btn-default"
               type="button"
             >
-              Month
+              Day
             </button>
             <button
-              class=""
+              class="btn btn-default"
               type="button"
             >
               Week
             </button>
             <button
-              class=""
+              class="btn btn-default active"
               type="button"
             >
-              Day
+              Month
             </button>
-          </span>
+          </div>
         </div>
         <div
           aria-label="Month View"
