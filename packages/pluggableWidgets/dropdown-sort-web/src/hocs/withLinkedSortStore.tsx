@@ -1,10 +1,10 @@
-import { DynamicValue, AttributeMetaData } from "mendix";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { createElement, FC } from "react";
-import { SortingStoreInterface } from "@mendix/widget-plugin-sorting/SortingStoreInterface";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { SortAPI, useSortAPI } from "@mendix/widget-plugin-sorting/context";
 import { SortStoreProvider } from "@mendix/widget-plugin-sorting/controllers/SortStoreProvider";
+import { SortingStoreInterface } from "@mendix/widget-plugin-sorting/SortingStoreInterface";
+import { AttributeMetaData, DynamicValue } from "mendix";
+import { createElement, FC } from "react";
 
 interface RequiredProps {
     attributes: Array<{
