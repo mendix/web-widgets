@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.30.6] DataWidgets - 2025-06-03
+
 ### Changed
 
 - We backported fixes and improvements from DataWidgets 2.32.1 to DataWidgets 2.30, ensuring older versions benefit from recent updates.
