@@ -1,31 +1,31 @@
-import { dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/context";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/controllers/SortStoreHost";
+import { ObservableSortStoreHost } from "@mendix/widget-plugin-sorting/ObservableSortStoreHost";
+import { attrId, dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { fireEvent, render } from "@testing-library/react";
 import React, { createElement } from "react";
 import { AttributesType, DropdownSortContainerProps } from "../../../typings/DropdownSortProps";
 import { DropdownSort } from "../../DropdownSort";
-import { ListAttributeId } from "@mendix/widget-plugin-sorting/SortingStoreInterface";
 
 const commonProps: DropdownSortContainerProps = {
     class: "filter-custom-class",
     tabIndex: 0,
-    name: "filter-test",
+    name: "test-key",
     attributes: []
 };
 
-const createAPI = (): SortAPI => ({
+const createAPI = (observer: ObservableSortStoreHost): SortAPI => ({
     version: 1,
-    sortObserver: new SortStoreHost()
+    sortObserver: observer
 });
 
 const mockAttributes = (): AttributesType[] => [
     {
-        attribute: new ListAttributeValueBuilder().withId("attribute1").withType("String").withSortable(true).build(),
+        attribute: new ListAttributeValueBuilder().withId(attrId("1")).withType("String").withSortable(true).build(),
         caption: dynamicValue<string>("Option 1")
     },
     {
-        attribute: new ListAttributeValueBuilder().withId("attribute2").withType("Decimal").withSortable(true).build(),
+        attribute: new ListAttributeValueBuilder().withId(attrId("2")).withType("Decimal").withSortable(true).build(),
         caption: dynamicValue<string>("Option 2")
     }
 ];
@@ -45,11 +45,13 @@ describe("Dropdown Sort", () => {
             let attributes: DropdownSortContainerProps["attributes"];
             let api: SortAPI;
             beforeEach(() => {
-                api = createAPI();
-                api.sortObserver.sortOrder = [["attribute1" as ListAttributeId, "asc"]];
+                const host = new SortStoreHost();
+                api = createAPI(host);
+                host.state = [{ key: "test-key", attrId: attrId("1"), dir: "asc" }];
                 attributes = mockAttributes();
             });
             it("loads correct values from attributes", () => {
+                expect(attributes.length).toBe(2);
                 const filter = renderWithSortAPI(<DropdownSort {...commonProps} attributes={attributes} />, api);
                 fireEvent.click(filter.getByRole("textbox"));
 
@@ -76,8 +78,9 @@ describe("Dropdown Sort", () => {
             let attributes: DropdownSortContainerProps["attributes"];
             let api: SortAPI;
             beforeEach(() => {
-                api = createAPI();
-                api.sortObserver.sortOrder = [["attribute1" as ListAttributeId, "asc"]];
+                const host = new SortStoreHost();
+                api = createAPI(host);
+                host.state = [{ key: "test-key", attrId: attrId("1"), dir: "asc" }];
                 attributes = mockAttributes();
             });
             it("loads correct default option", () => {
@@ -105,7 +108,9 @@ describe("Dropdown Sort", () => {
         let api: SortAPI;
         beforeEach(() => {
             delete (global as any)["com.mendix.widgets.web.UUID"];
-            api = createAPI();
+            const host = new SortStoreHost();
+            api = createAPI(host);
+            host.state = [{ key: "test-key", attrId: attrId("1"), dir: "asc" }];
             attributes = mockAttributes();
         });
 
