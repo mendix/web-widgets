@@ -28,6 +28,7 @@
         "dev": "tsc --watch",
         "format": "prettier --write .",
         "lint": "eslint src/ package.json",
+        "prepare": "tsc",
         "test": "jest"
     },
     "dependencies": {
