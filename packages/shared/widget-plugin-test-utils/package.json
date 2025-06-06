@@ -26,11 +26,10 @@
         "dev": "tsc -p tsconfig.build.json --watch",
         "format": "prettier --write .",
         "lint": "eslint src/ package.json",
-        "prepare": "pnpm build",
         "test": "jest"
     },
     "dependencies": {
-        "mendix": "^10.16.49747"
+        "mendix": "^10.21.64362"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
