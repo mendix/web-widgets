@@ -29,7 +29,8 @@
         },
         "test": {
             "outputs": [],
-            "inputs": ["src/**", "typings/**", "package.json", "tsconfig.json"]
+            "inputs": ["src/**", "typings/**", "package.json", "tsconfig.json"],
+            "dependsOn": ["^build"]
         },
         "lint": {
             "outputs": []
@@ -60,5 +61,11 @@
             "outputs": []
         }
     },
-    "globalDependencies": ["automation/**", ".npmrc", ".nvmrc", ".github/**", "package.json"]
+    "globalDependencies": [
+        "automation/**",
+        ".npmrc",
+        ".nvmrc",
+        ".github/**",
+        "package.json"
+    ]
 }
