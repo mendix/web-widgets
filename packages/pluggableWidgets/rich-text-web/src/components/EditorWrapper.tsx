@@ -216,6 +216,11 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     {wordCount} word{wordCount === 1 ? "" : "s"}
                 </div>
             )}
+            {props.imageDataSource &&
+                props.imageDataSource.status === "available" &&
+                props.imageDataSource.items?.map((item, _i) => {
+                    return <div key={item.id}> {item.id}</div>;
+                })}
         </div>
     );
 }
