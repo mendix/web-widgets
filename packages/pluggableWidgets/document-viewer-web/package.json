@@ -35,6 +35,8 @@
         "test": "echo 'FIXME: Add unit tests'"
     },
     "dependencies": {
+        "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
         "classnames": "^2.3.2",
         "docx-preview": "^0.3.5",
         "pdfjs-dist": "^5.0.375",

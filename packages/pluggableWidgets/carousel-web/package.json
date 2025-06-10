@@ -42,6 +42,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
+        "@mendix/widget-plugin-component-kit": "workspace:*",
         "@types/react-test-renderer": "^18.0.7",
         "classnames": "^2.3.2",
         "react-test-renderer": "^18.2.0",
