@@ -42,7 +42,8 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
-        "@floating-ui/react": "^0.26.27"
+        "@floating-ui/react": "^0.26.27",
+        "@mendix/widget-plugin-component-kit": "workspace:*"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
