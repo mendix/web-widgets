@@ -10,6 +10,7 @@
         "prepare": "husky install",
         "lint": "turbo run lint --continue --concurrency 1",
         "test": "turbo run test --continue --concurrency 1",
+        "verify": "turbo run verify --continue --concurrency 1",
         "build": "turbo run build",
         "release": "turbo run release",
         "create-gh-release": "turbo run create-gh-release --concurrency 1",

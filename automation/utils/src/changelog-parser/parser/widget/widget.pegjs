@@ -3,10 +3,13 @@
 //
 
 ChangelogFile
-  = header:ChangelogHead _ content:(VersionEntry/OtherNotes)+  _ { return { header, content } }
+  = header:ChangelogHead _ content:(UnreleasedVersionEntry/ReleasedVersionEntry/OtherNotes)+  _ { return { header, content } }
 
-VersionEntry
-  = header:(VersionHeader/UnreleasedVersionHeader) _ sections:WidgetSection* _ { return { ...header, sections } }
+UnreleasedVersionEntry
+  = header:(UnreleasedVersionHeader) _ sections:WidgetSection* _ { return { ...header, sections } }
+
+ReleasedVersionEntry
+  = header:(VersionHeader/UnreleasedVersionHeader) _ sections:WidgetSection+ _ { return { ...header, sections } }
 
 VersionHeader
   = "##" _ "[" version:SemVer "]" _ "-" _ date:Date { return { type: "normal", version, date }}
@@ -15,11 +18,11 @@ UnreleasedVersionHeader
   = "##" _ "[Unreleased]" _ { return { type: "unreleased" }}
 
 OtherNotes
-  = "##" _ title:OneLineSentence _ txt:OneLineSentence _ { return { type: "note", title, text: txt }}
+  = "##" _ title:"Older releases" _ txt:OneLineSentence+ _ { return { type: "note", title, text: txt }}
 
-// Logs section #### Changed and its entries
+// Logs section ### Changed, Added, etc and its entries
 WidgetSection
-  = _ "###" _ type:(SectionType) _ logs:LogLine* { return { type, logs } }
+  = _ "###" _ type:(SectionType) _ logs:LogLine+ { return { type, logs } }
 
 LogLine
   = _ "-" _ log:OneLineSentence _ { return log }

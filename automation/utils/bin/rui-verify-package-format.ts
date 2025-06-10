@@ -10,6 +10,7 @@ import {
 } from "../src";
 import { verify as verifyWidget } from "../src/verify-widget-manifest";
 import { fgCyan, fgGreen, fgYellow } from "../src/ansi-colors";
+import { getModuleChangelog, getWidgetChangelog } from "../src";
 
 async function main(): Promise<void> {
     const path = process.cwd();
@@ -40,6 +41,17 @@ async function main(): Promise<void> {
             }
             case "jsactions": {
                 JSActionsPackageSchema.parse(target);
+                break;
+            }
+        }
+
+        switch (info.mxpackage.changelogType ?? info.mxpackage.type) {
+            case "widget": {
+                getWidgetChangelog(path);
+                break;
+            }
+            case "module": {
+                getModuleChangelog(path, info.mxpackage.name);
                 break;
             }
         }

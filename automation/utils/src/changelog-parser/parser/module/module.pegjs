@@ -21,7 +21,7 @@ OtherNotes
 
 // Module
 WidgetSection
-  = _ "###" _ type:(SectionType) _ logs:LogLine* { return { type, logs } }
+  = _ "###" _ type:(SectionType) _ logs:LogLine+ { return { type, logs } }
 
 
 // Subwidgets

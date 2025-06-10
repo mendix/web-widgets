@@ -53,6 +53,7 @@ export const MxPackageTypeSchema = z.enum([MODULE, WIDGET, JSACTIONS]);
 export const MxPackageSchema = z.object({
     name: MxPackageNameSchema,
     type: MxPackageTypeSchema,
+    changelogType: z.enum([MODULE, WIDGET]).optional(),
     mpkName: z.string().endsWith(".mpk"),
     dependencies: z.string().array().optional().default([])
 });

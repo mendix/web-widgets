@@ -59,6 +59,8 @@ jobs:
               run: pnpm install
             - name: Lint code
               run: pnpm run lint ${{ env.since_flag }}
+            - name: Verify package format
+              run: pnpm run verify ${{ env.since_flag }}
             - name: Run unit tests
               run: pnpm run test ${{ env.since_flag }}
 
