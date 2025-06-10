@@ -51,7 +51,6 @@
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
-        "@mendix/widget-plugin-platform": "workspace:*",
-        "@types/react-resize-detector": "^5.0.0"
+        "@mendix/widget-plugin-platform": "workspace:*"
     }
 }

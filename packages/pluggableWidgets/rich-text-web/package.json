@@ -71,7 +71,6 @@
         "@rollup/plugin-image": "^3.0.3",
         "@rollup/plugin-json": "^6.1.0",
         "@rollup/plugin-replace": "^6.0.2",
-        "@types/dompurify": "^2.4.0",
         "@types/js-beautify": "^1.14.3",
         "@types/katex": "^0.16.7",
         "@types/sanitize-html": "^1.27.2",
