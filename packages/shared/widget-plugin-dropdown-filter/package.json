@@ -33,7 +33,7 @@
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-mobx-kit": "workspace:^",
         "downshift": "^9.0.9",
-        "mendix": "^10.21.64362",
+        "mendix": "^10.23.70273",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7"
     },
