@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.0] DataWidgets - 2025-06-10
+
 ### Breaking changes
 
 - We removing grid wide filtering in favor of new, in widget, configuration for more flexible filtering.
