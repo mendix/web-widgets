@@ -1089,6 +1089,9 @@ importers:
 
   packages/pluggableWidgets/datagrid-dropdown-filter-web:
     dependencies:
+      '@mendix/widget-plugin-dropdown-filter':
+        specifier: workspace:^
+        version: link:../../shared/widget-plugin-dropdown-filter
       '@mendix/widget-plugin-external-events':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-external-events
@@ -1469,6 +1472,9 @@ importers:
       '@mendix/widget-plugin-filtering':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
+      '@mendix/widget-plugin-mobx-kit':
+        specifier: workspace:^
+        version: link:../../shared/widget-plugin-mobx-kit
       '@mendix/widget-plugin-sorting':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-sorting
@@ -2447,6 +2453,34 @@ importers:
         specifier: ^8.29.0
         version: 8.29.0(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
 
+  packages/shared/filter-commons:
+    dependencies:
+      mendix:
+        specifier: ^10.21.64362
+        version: 10.23.70273
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react@18.2.0)
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:*
+        version: link:../tsconfig-web-widgets
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../widget-plugin-test-utils
+      '@swc/core':
+        specifier: ^1.7.26
+        version: 1.7.26(@swc/helpers@0.5.15)
+
   packages/shared/prettier-config-web-widgets:
     dependencies:
       '@eslint/js':
@@ -2491,6 +2525,46 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0
 
+  packages/shared/widget-plugin-dropdown-filter:
+    dependencies:
+      '@mendix/filter-commons':
+        specifier: workspace:*
+        version: link:../filter-commons
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../widget-plugin-component-kit
+      '@mendix/widget-plugin-external-events':
+        specifier: workspace:*
+        version: link:../widget-plugin-external-events
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../widget-plugin-hooks
+      '@mendix/widget-plugin-mobx-kit':
+        specifier: workspace:^
+        version: link:../widget-plugin-mobx-kit
+      downshift:
+        specifier: ^9.0.9
+        version: 9.0.9(react@18.2.0)
+      mendix:
+        specifier: ^10.21.64362
+        version: 10.23.70273
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react@18.2.0)
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:*
+        version: link:../tsconfig-web-widgets
+
   packages/shared/widget-plugin-external-events:
     dependencies:
       nanoevents:
@@ -2524,6 +2598,12 @@ importers:
       '@floating-ui/react-dom':
         specifier: ^2.1.2
         version: 2.1.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@mendix/filter-commons':
+        specifier: workspace:*
+        version: link:../filter-commons
+      '@mendix/widget-plugin-dropdown-filter':
+        specifier: workspace:*
+        version: link:../widget-plugin-dropdown-filter
       '@mendix/widget-plugin-external-events':
         specifier: workspace:*
         version: link:../widget-plugin-external-events
@@ -2575,6 +2655,10 @@ importers:
         version: 29.7.0
 
   packages/shared/widget-plugin-grid:
+    dependencies:
+      '@mendix/widget-plugin-mobx-kit':
+        specifier: workspace:^
+        version: link:../widget-plugin-mobx-kit
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -6323,6 +6407,11 @@ packages:
 
   downshift@9.0.8:
     resolution: {integrity: sha512-59BWD7+hSUQIM1DeNPLirNNnZIO9qMdIK5GQ/Uo8q34gT4B78RBlb9dhzgnh0HfQTJj4T/JKYD8KoLAlMWnTsA==}
+    peerDependencies:
+      react: ^18.0.0
+
+  downshift@9.0.9:
+    resolution: {integrity: sha512-ygOT8blgiz5liDuEFAIaPeU4dDEa+w9p6PHVUisPIjrkF5wfR59a52HpGWAVVMoWnoFO8po2mZSScKZueihS7g==}
     peerDependencies:
       react: ^18.0.0
 
@@ -16281,6 +16370,15 @@ snapshots:
       react: 18.2.0
       react-is: 18.2.0
       tslib: 2.7.0
+
+  downshift@9.0.9(react@18.2.0):
+    dependencies:
+      '@babel/runtime': 7.25.7
+      compute-scroll-into-view: 3.1.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-is: 18.2.0
+      tslib: 2.8.1
 
   draw-svg-path@1.0.0:
     dependencies:
