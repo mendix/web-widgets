@@ -173,7 +173,7 @@
                     <enumerationValue key="percentageOfView">Viewport</enumerationValue>
                 </enumerationValues>
             </property>
-            <property key="height" type="integer" defaultValue="250">
+            <property key="height" type="integer" defaultValue="580">
                 <caption>Height</caption>
                 <description />
             </property>
