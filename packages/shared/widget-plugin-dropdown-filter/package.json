@@ -27,6 +27,10 @@
         "test": "jest"
     },
     "dependencies": {
+        "@mendix/filter-commons": "workspace:*",
+        "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-external-events": "workspace:*",
+        "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-mobx-kit": "workspace:^",
         "downshift": "^9.0.9",
         "mendix": "^10.21.64362",
