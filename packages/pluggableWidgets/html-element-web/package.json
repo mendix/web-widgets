@@ -41,6 +41,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
+        "@mendix/widget-plugin-component-kit": "workspace:*",
         "dompurify": "^3.2.4"
     },
     "devDependencies": {

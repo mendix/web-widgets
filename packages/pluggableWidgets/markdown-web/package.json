@@ -45,6 +45,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
+        "@mendix/widget-plugin-component-kit": "workspace:*",
         "classnames": "^2.3.2",
         "markdown-it": "^14.1.0"
     },
