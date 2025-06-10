@@ -6,13 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where combobox selection was reset during search operations (requires Mendix 10.21 or above).
+
 ## [2.4.1] - 2025-06-06
 
 ### Fixed
 
 - We fixed an issue where events from element in footer not directly triggered when input being focused.
-
-- We fixed an issue where combobox selection was reset during search operations (requires Mendix 10.21 or above).
 
 ## [2.4.0] - 2025-05-19
 
