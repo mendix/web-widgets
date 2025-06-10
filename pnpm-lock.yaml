@@ -23,7 +23,7 @@ overrides:
   '@codemirror/view': ^6.34.2
   enzyme>cheerio: 1.0.0-rc.10
   ts-node: 10.9.2
-  react-big-calendar@1>clsx: 2.1.0
+  react-big-calendar@1>clsx: 2.1.1
 
 pnpmfileChecksum: sha256-s93SB6R9/asG3ZoJ8Hr+99P758r3p0dOebXMUkycQnk=
 
@@ -2054,9 +2054,6 @@ importers:
       '@rollup/plugin-replace':
         specifier: ^6.0.2
         version: 6.0.2(rollup@3.29.5)
-      '@types/dompurify':
-        specifier: ^2.4.0
-        version: 2.4.0
       '@types/js-beautify':
         specifier: ^1.14.3
         version: 1.14.3
@@ -2331,9 +2328,6 @@ importers:
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
-      '@types/react-resize-detector':
-        specifier: ^5.0.0
-        version: 5.0.0
 
   packages/shared/charts:
     dependencies:
@@ -4533,9 +4527,6 @@ packages:
   '@types/dojo@1.9.44':
     resolution: {integrity: sha512-PXRBomRsnsKOntYqDmamJE9pJ95Bkcuynrvb46PHunClyek+AkuQQdF+MQpaUZUk/FhP+DQrleedtIWAfJe7Rg==}
 
-  '@types/dompurify@2.4.0':
-    resolution: {integrity: sha512-IDBwO5IZhrKvHFUl+clZxgf3hn2b/lU6H1KaBShPkQyGJUQ0xwebezIPSuiyGwfz1UzJWQl4M7BDxtHtCCPlTg==}
-
   '@types/enzyme@3.10.13':
     resolution: {integrity: sha512-FCtoUhmFsud0Yx9fmZk179GkdZ4U9B0GFte64/Md+W/agx0L5SxsIIbhLBOxIb9y2UfBA4WQnaG1Od/UsUQs9Q==}
 
@@ -4670,9 +4661,6 @@ packages:
 
   '@types/react-plotly.js@2.6.3':
     resolution: {integrity: sha512-HBQwyGuu/dGXDsWhnQrhH+xcJSsHvjkwfSRjP+YpOsCCWryIuXF78ZCBjpfgO3sCc0Jo8sYp4NOGtqT7Cn3epQ==}
-
-  '@types/react-resize-detector@5.0.0':
-    resolution: {integrity: sha512-JTqR0G+RcC6Guqi/JXQBq3jewflumUGd4fDUucmZN9L1d8TZuRHzDTtrmgYWrgLvRTBTV6FjegmLeV1UnrIuzw==}
 
   '@types/react-test-renderer@18.0.7':
     resolution: {integrity: sha512-1+ANPOWc6rB3IkSnElhjv6VLlKg2dSv/OWClUyZimbLsQyBn8Js9Vtdsi3UICJ2rIQ3k2la06dkB+C92QfhKmg==}
@@ -5633,6 +5621,10 @@ packages:
 
   clsx@2.1.0:
     resolution: {integrity: sha512-m3iNNWpd9rl3jvvcBnu70ylMdrXt8Vlq4HYadnU5fwcOtvkSQWPmj7amUcDT2qYI7risszBjI5AUIUox9D16pg==}
+    engines: {node: '>=6'}
+
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
 
   co@4.6.0:
@@ -14214,10 +14206,6 @@ snapshots:
 
   '@types/dojo@1.9.44': {}
 
-  '@types/dompurify@2.4.0':
-    dependencies:
-      '@types/trusted-types': 2.0.7
-
   '@types/enzyme@3.10.13':
     dependencies:
       '@types/cheerio': 0.22.31
@@ -14404,10 +14392,6 @@ snapshots:
       '@types/plotly.js': 2.12.30
       '@types/react': 18.2.36
 
-  '@types/react-resize-detector@5.0.0':
-    dependencies:
-      '@types/react': 18.2.36
-
   '@types/react-test-renderer@18.0.7':
     dependencies:
       '@types/react': 18.2.36
@@ -14444,7 +14428,8 @@ snapshots:
 
   '@types/tough-cookie@4.0.2': {}
 
-  '@types/trusted-types@2.0.7': {}
+  '@types/trusted-types@2.0.7':
+    optional: true
 
   '@types/use-sync-external-store@0.0.3': {}
 
@@ -14459,6 +14444,25 @@ snapshots:
   '@types/yargs@17.0.29':
     dependencies:
       '@types/yargs-parser': 21.0.3
+
+  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)':
+    dependencies:
+      '@eslint-community/regexpp': 4.12.1
+      '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
+      '@typescript-eslint/scope-manager': 5.62.0
+      '@typescript-eslint/type-utils': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
+      '@typescript-eslint/utils': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
+      debug: 4.3.7
+      eslint: 7.32.0
+      graphemer: 1.4.0
+      ignore: 5.3.2
+      natural-compare-lite: 1.4.0
+      semver: 7.7.1
+      tsutils: 3.21.0(typescript@5.8.2)
+    optionalDependencies:
+      typescript: 5.1.6
+    transitivePeerDependencies:
+      - supports-color
 
   '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)':
     dependencies:
@@ -15599,6 +15603,8 @@ snapshots:
   clone@1.0.4: {}
 
   clsx@2.1.0: {}
+
+  clsx@2.1.1: {}
 
   co@4.6.0: {}
 
@@ -20863,7 +20869,7 @@ snapshots:
   react-big-calendar@1.18.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.25.7
-      clsx: 2.1.0
+      clsx: 2.1.1
       date-arithmetic: 4.1.0
       dayjs: 1.11.13
       dom-helpers: 5.2.1
