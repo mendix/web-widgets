@@ -14,8 +14,6 @@ import { createElement } from "react";
 import { SeriesType } from "../../typings/AreaChartProps";
 import { AreaChart } from "../AreaChart";
 
-jest.mock("react-plotly.js", () => jest.fn(() => null));
-
 describe("The AreaChart widget", () => {
     function renderAreaChart(configs: Array<Partial<SeriesType>>): RenderResult {
         return render(
