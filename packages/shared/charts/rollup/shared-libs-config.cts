@@ -20,8 +20,6 @@ interface Args {
 
 const bundles = {
     plotly: {
-        // react-plotly.js@2.6.0 use: `import Plotly from 'plotly.js/dist/plotly';`
-        // We redirect this import to min version.
         input: "plotly.js-dist-min",
         file: {
             amd: "plotly.min.js",
@@ -29,10 +27,10 @@ const bundles = {
         }
     },
     reactPlotly: {
-        input: "react-plotly.js",
+        input: "react-plotly.js/factory",
         file: {
-            amd: "react-plotly.js",
-            esm: "react-plotly.mjs"
+            amd: "react-plotly_factory.js",
+            esm: "react-plotly_factory.mjs"
         }
     },
     sharedCharts: {
@@ -116,7 +114,9 @@ function sharedCode(bundle: BundleBuildConfig): RollupOptions {
         file: format({ dir: bundle.esmDir, base: bundle.sharedCharts.file.esm }),
         paths: {
             // Replace imports of react-plotly.js with relative path.
-            [bundle.reactPlotly.input]: `./${bundle.reactPlotly.file.esm}`
+            [bundle.reactPlotly.input]: `./${bundle.reactPlotly.file.esm}`,
+            // Replace imports of plotly.js with relative path.
+            [bundle.plotly.input]: `./${bundle.plotly.file.esm}`
         }
     };
 
@@ -125,7 +125,9 @@ function sharedCode(bundle: BundleBuildConfig): RollupOptions {
         file: format({ dir: bundle.amdDir, base: bundle.sharedCharts.file.amd }),
         paths: {
             // Replace imports of react-plotly.js with relative path.
-            [bundle.reactPlotly.input]: `./${bundle.reactPlotly.file.amd}`
+            [bundle.reactPlotly.input]: `./${bundle.reactPlotly.file.amd}`,
+            // Replace imports of plotly.js with relative path.
+            [bundle.plotly.input]: `./${bundle.plotly.file.amd}`
         }
     };
 
@@ -133,36 +135,28 @@ function sharedCode(bundle: BundleBuildConfig): RollupOptions {
         input: bundle.sharedCharts.input,
         plugins: stdPlugins(bundle),
         // Mark reactPlotly as external to not include react-plotly.js in bundle.
-        external: [...bundle.external, bundle.reactPlotly.input],
+        // Mark plotly as external to not include plotly.js in bundle.
+        external: [...bundle.external, bundle.reactPlotly.input, bundle.plotly.input],
         output: [esmOutput, amdOutput]
     };
 }
 
-/** react-plotly.js bundle config */
+/** This entry create standalone react-plotly.js/factory bundle */
 function reactPlotly(bundle: BundleBuildConfig): RollupOptions {
-    const plotlyImport = "plotly.js/dist/plotly";
     const esmOutput: OutputOptions = {
         format: "es",
-        file: format({ dir: bundle.esmDir, base: bundle.reactPlotly.file.esm }),
-        paths: {
-            // Replace imports of plotly.js with relative path.
-            [plotlyImport]: `./${bundle.plotly.file.esm}`
-        }
+        file: format({ dir: bundle.esmDir, base: bundle.reactPlotly.file.esm })
     };
 
     const amdOutput: OutputOptions = {
         format: "amd",
-        file: format({ dir: bundle.amdDir, base: bundle.reactPlotly.file.amd }),
-        paths: {
-            // Replace imports of plotly.js with relative path.
-            [plotlyImport]: `./${bundle.plotly.file.amd}`
-        }
+        file: format({ dir: bundle.amdDir, base: bundle.reactPlotly.file.amd })
     };
 
     return {
         input: bundle.reactPlotly.input,
         // Mark plotly as external to not include plotly.js in bundle.
-        external: [...bundle.external, plotlyImport],
+        external: [...bundle.external],
         plugins: stdPlugins(bundle),
         output: [esmOutput, amdOutput]
     };
@@ -199,8 +193,8 @@ function plotly(bundle: BundleBuildConfig): RollupOptions {
             // Here we just copy the license file.
             copy({
                 targets: [
-                    { src: "node_modules/plotly.js/dist/plotly.min.js.LICENSE.txt", dest: bundle.amdDir },
-                    { src: "node_modules/plotly.js/dist/plotly.min.js.LICENSE.txt", dest: bundle.esmDir }
+                    { src: "node_modules/plotly.js-dist-min/LICENSE", dest: bundle.amdDir },
+                    { src: "node_modules/plotly.js-dist-min/LICENSE", dest: bundle.esmDir }
                 ],
                 verbose: true
             })

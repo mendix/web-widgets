@@ -1,10 +1,13 @@
-import { Config, Data, Layout } from "plotly.js-dist-min";
-import { createElement, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
-import ReactPlotlyChartComponent, { PlotParams } from "react-plotly.js";
 import deepmerge from "deepmerge";
+import Plotly, { Config, Data, Layout } from "plotly.js-dist-min";
+import { createElement, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
+import { type PlotParams } from "react-plotly.js";
+import createPlotComponent from "react-plotly.js/factory";
 import { ChartViewProps, PlotTrace } from "./types";
 
 const PREVENT_DEFAULT_INLINE_STYLES_BY_PASSING_EMPTY_OBJ = {};
+
+const Plot = createPlotComponent(Plotly);
 
 export const ChartView = ({
     data,
@@ -43,7 +46,7 @@ export const ChartView = ({
     useResizeOnDataReadyEffect(data);
 
     return (
-        <ReactPlotlyChartComponent
+        <Plot
             className="mx-react-plotly-chart"
             data={plotlyData}
             style={PREVENT_DEFAULT_INLINE_STYLES_BY_PASSING_EMPTY_OBJ}
