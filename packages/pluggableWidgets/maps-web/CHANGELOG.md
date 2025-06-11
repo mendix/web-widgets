@@ -104,7 +104,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [2.0.3] - 2021-08-04
 
-## Changed
+### Changed
 
 - We renamed Markers and Marker list properties to Static and Dynamic markers.
 

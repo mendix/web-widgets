@@ -12,6 +12,7 @@
     "mxpackage": {
         "name": "Charts",
         "type": "widget",
+        "changelogType": "module",
         "mpkName": "Charts.mpk",
         "dependencies": [
             "@mendix/area-chart-web",

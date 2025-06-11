@@ -532,6 +532,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Update `fast-json-patch` dependency.
 
-## Previous versions
+## Older releases
 
 See [marketplace](https://marketplace.mendix.com/link/component/105695) notes.

@@ -154,7 +154,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added lazy loading feature. By default it is turned off. When turned on, the items will be loaded in batches when scrolling.
 
-## # Breaking
+### Breaking changes
 
 - The Combo box now uses Atlas variables for its styling. This may change how the widget looks depending on the custom variables.
 
