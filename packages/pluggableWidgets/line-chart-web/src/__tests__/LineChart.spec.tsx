@@ -1,17 +1,23 @@
-import { createElement } from "react";
-import { ChartWidget } from "@mendix/shared-charts/main";
-import { EditableValueBuilder, ListAttributeValueBuilder, list, listExp } from "@mendix/widget-plugin-test-utils";
-import Big from "big.js";
-import { mount, ReactWrapper } from "enzyme";
-import { LineChart } from "../LineChart";
-import { LinesType } from "../../typings/LineChartProps";
-import { PlotData } from "plotly.js-dist-min";
+jest.mock("@mendix/shared-charts/main", () => {
+    const actualModule = jest.requireActual("@mendix/shared-charts/main");
+    return {
+        ...actualModule,
+        ChartWidget: jest.fn(() => null)
+    };
+});
 
-jest.mock("react-plotly.js", () => jest.fn(() => null));
+import { ChartWidget } from "@mendix/shared-charts/main";
+import { EditableValueBuilder, list, ListAttributeValueBuilder, listExp } from "@mendix/widget-plugin-test-utils";
+import "@testing-library/jest-dom";
+import { render, RenderResult } from "@testing-library/react";
+import Big from "big.js";
+import { createElement } from "react";
+import { LinesType } from "../../typings/LineChartProps";
+import { LineChart } from "../LineChart";
 
 describe("The LineChart widget", () => {
-    function renderLineChart(configs: Array<Partial<LinesType>>): ReactWrapper {
-        return mount(
+    function renderLineChart(configs: Array<Partial<LinesType>>): RenderResult {
+        return render(
             <LineChart
                 name="line-chart-test"
                 class="line-chart-class"
@@ -31,62 +37,99 @@ describe("The LineChart widget", () => {
         );
     }
     it("visualizes data as a line chart", () => {
-        const lineChart = renderLineChart([{}]);
-        const data = lineChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        expect(data[0]).toHaveProperty("type", "scatter");
+        renderLineChart([{}]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({
+                        type: "scatter"
+                    })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the mode on the data series based on the lineStyle value", () => {
-        const lineChart = renderLineChart([{ lineStyle: "lineWithMarkers" }, { lineStyle: "line" }]);
-        const data = lineChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("mode", "lines+markers");
-        expect(data[1]).toHaveProperty("mode", "lines");
+        renderLineChart([{ lineStyle: "lineWithMarkers" }, { lineStyle: "line" }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ mode: "lines+markers" }),
+                    expect.objectContaining({ mode: "lines" })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the line shape on the data series based on the interpolation value", () => {
-        const lineChart = renderLineChart([{ interpolation: "linear" }, { interpolation: "spline" }]);
-        const data = lineChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("line.shape", "linear");
-        expect(data[1]).toHaveProperty("line.shape", "spline");
+        renderLineChart([{ interpolation: "linear" }, { interpolation: "spline" }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ line: expect.objectContaining({ shape: "linear" }) }),
+                    expect.objectContaining({ line: expect.objectContaining({ shape: "spline" }) })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the line color on the data series based on the lineColor value", () => {
-        const lineChart = renderLineChart([{ staticLineColor: listExp(() => "red") }, { staticLineColor: undefined }]);
-        const data = lineChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("line.color", "red");
-        expect(data[1]).toHaveProperty("line.color", undefined);
+        renderLineChart([{ staticLineColor: listExp(() => "red") }, { staticLineColor: undefined }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ line: expect.objectContaining({ color: "red" }) }),
+                    expect.objectContaining({ line: expect.objectContaining({ color: undefined }) })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
-        const lineChart = renderLineChart([
-            { staticMarkerColor: undefined },
-            { staticMarkerColor: listExp(() => "blue") }
-        ]);
-        const data = lineChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("marker.color", undefined);
-        expect(data[1]).toHaveProperty("marker.color", "blue");
+        renderLineChart([{ staticMarkerColor: undefined }, { staticMarkerColor: listExp(() => "blue") }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ marker: expect.objectContaining({ color: undefined }) }),
+                    expect.objectContaining({ marker: expect.objectContaining({ color: "blue" }) })
+                ])
+            }),
+            {}
+        );
     });
 
     it("aggregates data based on the aggregation type", () => {
-        const lineChart = renderLineChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
-        const data = lineChart.find(ChartWidget).prop("data") as PlotData[];
+        renderLineChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
 
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("x");
-        expect(data[0]).toHaveProperty("y");
-        expect(data[1]).toHaveProperty("x");
-        expect(data[1]).toHaveProperty("y");
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({
+                        x: expect.arrayContaining([expect.any(Number)]),
+                        y: expect.arrayContaining([expect.any(Number)])
+                    }),
+                    expect.objectContaining({
+                        x: expect.arrayContaining([expect.any(Number)]),
+                        y: expect.arrayContaining([expect.any(Number)])
+                    })
+                ])
+            }),
+            {}
+        );
 
-        // Array.isArray works without casting now
-        expect(Array.isArray(data[0].x)).toBe(true);
-        expect(Array.isArray(data[0].y)).toBe(true);
-        expect(Array.isArray(data[1].x)).toBe(true);
-        expect(Array.isArray(data[1].y)).toBe(true);
+        renderLineChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(2);
     });
 });
 

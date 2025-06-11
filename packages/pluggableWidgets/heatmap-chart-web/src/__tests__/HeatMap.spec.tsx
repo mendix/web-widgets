@@ -1,16 +1,23 @@
-import { createElement } from "react";
-import { ChartWidget } from "@mendix/shared-charts/main";
-import { EditableValueBuilder, ListAttributeValueBuilder, list } from "@mendix/widget-plugin-test-utils";
-import { mount, ReactWrapper } from "enzyme";
-import { HeatMap } from "../HeatMap";
-import Big from "big.js";
-import { HeatMapContainerProps } from "../../typings/HeatMapProps";
+jest.mock("@mendix/shared-charts/main", () => {
+    const actualModule = jest.requireActual("@mendix/shared-charts/main");
+    return {
+        ...actualModule,
+        ChartWidget: jest.fn(() => null)
+    };
+});
 
-jest.mock("react-plotly.js", () => jest.fn(() => null));
+import { ChartWidget } from "@mendix/shared-charts/main";
+import { EditableValueBuilder, list, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
+import "@testing-library/jest-dom";
+import { render, RenderResult } from "@testing-library/react";
+import Big from "big.js";
+import { createElement } from "react";
+import { HeatMapContainerProps } from "../../typings/HeatMapProps";
+import { HeatMap } from "../HeatMap";
 
 describe("The HeatMap widget", () => {
-    function renderHeatMap(props: Partial<HeatMapContainerProps>): ReactWrapper {
-        return mount(
+    function renderHeatMap(props: Partial<HeatMapContainerProps>): RenderResult {
+        return render(
             <HeatMap
                 name="line-chart-test"
                 class="line-chart-class"
@@ -41,9 +48,16 @@ describe("The HeatMap widget", () => {
     }
 
     it("visualizes data as a heatmap chart", () => {
-        const heatmapChart = renderHeatMap({});
-        const data = heatmapChart.find(ChartWidget).prop("seriesOptions");
-        expect(data).toHaveProperty("type", "heatmap");
+        renderHeatMap({});
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                seriesOptions: expect.objectContaining({
+                    type: "heatmap"
+                })
+            }),
+            {}
+        );
     });
 
     it("visualizes a heatmap chart properly even if there is no data", () => {
@@ -56,52 +70,85 @@ describe("The HeatMap widget", () => {
     });
 
     it("has a default colorscale", () => {
-        const heatmapChart = renderHeatMap({});
-        const data = heatmapChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        expect(data[0]).toHaveProperty("colorscale", [
-            [0, "#17347B"],
-            [0.5, "#0595DB"],
-            [1, "#76CA02"]
-        ]);
+        renderHeatMap({});
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({
+                        colorscale: [
+                            [0, "#17347B"],
+                            [0.5, "#0595DB"],
+                            [1, "#76CA02"]
+                        ]
+                    })
+                ])
+            }),
+            {}
+        );
     });
 
     it("creates a color scale based on scaleColors property", () => {
-        const heatmapChart = renderHeatMap({
+        renderHeatMap({
             scaleColors: [
                 { colour: "red", valuePercentage: 0 },
                 { colour: "blue", valuePercentage: 100 }
             ]
         });
-        const data = heatmapChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        expect(data[0]).toHaveProperty("colorscale", [
-            [0, "red"],
-            [1, "blue"]
-        ]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({
+                        colorscale: [
+                            [0, "red"],
+                            [1, "blue"]
+                        ]
+                    })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets unique x values on the data series based on the horizontalValueAttribute", () => {
-        const heatmapChart = renderHeatMap({});
-        const data = heatmapChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        expect(data[0]).toHaveProperty("x", ["x0", "x1", "x2"]);
+        renderHeatMap({});
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({
+                        x: ["x0", "x1", "x2"]
+                    })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets unique y values on the data series based on the verticalValueAttribute", () => {
-        const heatmapChart = renderHeatMap({});
-        const data = heatmapChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        expect(data[0]).toHaveProperty("y", ["y0", "y1", "y2", "y3"]);
+        renderHeatMap({});
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({
+                        y: ["y0", "y1", "y2", "y3"]
+                    })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets a proper z values matrix on the data series based on seriesValueAttribute", () => {
-        const heatmapChart = renderHeatMap({});
-        const data = heatmapChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        expect(data[0]).toHaveProperty("z");
-        // @ts-expect-error we checked it
-        const zValues: number[][] = data[0].z;
+        renderHeatMap({});
+
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        expect(lastCallProps.data[0]).toHaveProperty("z");
+        const zValues: number[][] = lastCallProps.data[0].z;
         expect(zValues).toHaveLength(4);
         zValues.forEach(values => {
             expect(values).toHaveLength(3);
@@ -109,10 +156,12 @@ describe("The HeatMap widget", () => {
     });
 
     it("sets annotations with the z values on the data series based on showValues", () => {
-        const heatmapChart = renderHeatMap({ showValues: true });
-        const layout = heatmapChart.find(ChartWidget).prop("layoutOptions");
-        expect(layout.annotations).toHaveLength(12);
-        const annotationsTexts = layout.annotations?.map(anno => anno.text);
+        renderHeatMap({ showValues: true });
+
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.layoutOptions.annotations).toHaveLength(12);
+        const annotationsTexts = lastCallProps.layoutOptions.annotations?.map((anno: any) => anno.text);
         allItems.forEach((_value, index) => {
             expect(annotationsTexts?.includes(index.toString())).toBe(true);
         });
@@ -125,14 +174,15 @@ describe("The HeatMap widget", () => {
                 prev.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(index)).build()),
             jest.fn()
         );
-        const heatmapChart = renderHeatMap({
+        renderHeatMap({
             horizontalSortAttribute,
             horizontalSortOrder: "desc"
         });
-        const data = heatmapChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        // @ts-expect-error we checked it
-        const zValues: number[][] = data[0].z;
+
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        const zValues: number[][] = lastCallProps.data[0].z;
         expect(zValues).toEqual([
             [2, 1, 0],
             [5, 4, 3],
@@ -148,14 +198,15 @@ describe("The HeatMap widget", () => {
                 prev.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(index)).build()),
             jest.fn()
         );
-        const heatmapChart = renderHeatMap({
+        renderHeatMap({
             verticalSortAttribute,
             verticalSortOrder: "desc"
         });
-        const data = heatmapChart.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        // @ts-expect-error we checked it
-        const zValues: number[][] = data[0].z;
+
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        const zValues: number[][] = lastCallProps.data[0].z;
         expect(zValues).toEqual([
             [11, 10, 9],
             [8, 7, 6],

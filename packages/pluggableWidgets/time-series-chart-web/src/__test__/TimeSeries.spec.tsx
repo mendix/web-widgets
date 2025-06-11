@@ -1,20 +1,26 @@
-import { createElement } from "react";
-import { ChartWidget } from "@mendix/shared-charts/main";
-import { dynamic, EditableValueBuilder, ListAttributeValueBuilder, list } from "@mendix/widget-plugin-test-utils";
-import Big from "big.js";
-import { mount, ReactWrapper } from "enzyme";
-import { TimeSeries } from "../TimeSeries";
-import { LinesType, TimeSeriesContainerProps } from "../../typings/TimeSeriesProps";
-import { PlotData } from "plotly.js-dist-min";
+jest.mock("@mendix/shared-charts/main", () => {
+    const actualModule = jest.requireActual("@mendix/shared-charts/main");
+    return {
+        ...actualModule,
+        ChartWidget: jest.fn(() => null)
+    };
+});
 
-jest.mock("react-plotly.js", () => jest.fn(() => null));
+import { ChartWidget } from "@mendix/shared-charts/main";
+import { dynamic, EditableValueBuilder, list, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
+import "@testing-library/jest-dom";
+import { render, RenderResult } from "@testing-library/react";
+import Big from "big.js";
+import { createElement } from "react";
+import { LinesType, TimeSeriesContainerProps } from "../../typings/TimeSeriesProps";
+import { TimeSeries } from "../TimeSeries";
 
 describe("The TimeSeries widget", () => {
     function renderTimeSeries(
         configs: Array<Partial<LinesType>>,
         props?: Partial<TimeSeriesContainerProps>
-    ): ReactWrapper {
-        return mount(
+    ): RenderResult {
+        return render(
             <TimeSeries
                 name="time-series-test"
                 class="time-series-class"
@@ -37,77 +43,136 @@ describe("The TimeSeries widget", () => {
         );
     }
     it("visualizes data as a line chart", () => {
-        const timeSeries = renderTimeSeries([{}]);
-        const seriesOptions = timeSeries.find(ChartWidget).prop("seriesOptions");
-        expect(seriesOptions).toHaveProperty("type", "scatter");
+        renderTimeSeries([{}]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                seriesOptions: expect.objectContaining({
+                    type: "scatter"
+                })
+            }),
+            {}
+        );
     });
 
     it("sets the mode on the data series based on the lineStyle value", () => {
-        const timeSeries = renderTimeSeries([{ lineStyle: "lineWithMarkers" }, { lineStyle: "line" }]);
-        const data = timeSeries.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("mode", "lines+markers");
-        expect(data[1]).toHaveProperty("mode", "lines");
+        renderTimeSeries([{ lineStyle: "lineWithMarkers" }, { lineStyle: "line" }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ mode: "lines+markers" }),
+                    expect.objectContaining({ mode: "lines" })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the line shape on the data series based on the interpolation value", () => {
-        const timeSeries = renderTimeSeries([{ interpolation: "linear" }, { interpolation: "spline" }]);
-        const data = timeSeries.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("line.shape", "linear");
-        expect(data[1]).toHaveProperty("line.shape", "spline");
+        renderTimeSeries([{ interpolation: "linear" }, { interpolation: "spline" }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ line: expect.objectContaining({ shape: "linear" }) }),
+                    expect.objectContaining({ line: expect.objectContaining({ shape: "spline" }) })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the line color on the data series based on the lineColor value", () => {
-        const timeSeries = renderTimeSeries([{ lineColor: dynamic("red") }, { lineColor: undefined }]);
-        const data = timeSeries.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("line.color", "red");
-        expect(data[1]).toHaveProperty("line.color", undefined);
+        renderTimeSeries([{ lineColor: dynamic("red") }, { lineColor: undefined }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ line: expect.objectContaining({ color: "red" }) }),
+                    expect.objectContaining({ line: expect.objectContaining({ color: undefined }) })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
-        const timeSeries = renderTimeSeries([{ markerColor: undefined }, { markerColor: dynamic("blue") }]);
-        const data = timeSeries.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(2);
-        expect(data[0]).toHaveProperty("marker.color", undefined);
-        expect(data[1]).toHaveProperty("marker.color", "blue");
+        renderTimeSeries([{ markerColor: undefined }, { markerColor: dynamic("blue") }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({ marker: expect.objectContaining({ color: undefined }) }),
+                    expect.objectContaining({ marker: expect.objectContaining({ color: "blue" }) })
+                ])
+            }),
+            {}
+        );
     });
 
     it("aggregates data based on the aggregation type", () => {
-        const timeSeries = renderTimeSeries([{ aggregationType: "none" }, { aggregationType: "avg" }]);
-        const data = timeSeries.find(ChartWidget).prop("data") as PlotData[];
+        renderTimeSeries([{ aggregationType: "none" }, { aggregationType: "avg" }]);
 
-        expect(data).toHaveLength(2);
-
-        expect(data[0]).toHaveProperty("x");
-        expect(data[0]).toHaveProperty("y");
-        expect(data[1]).toHaveProperty("x");
-        expect(data[1]).toHaveProperty("y");
-
-        expect(Array.isArray(data[0].x)).toBe(true);
-        expect(Array.isArray(data[0].y)).toBe(true);
-        expect(Array.isArray(data[1].x)).toBe(true);
-        expect(Array.isArray(data[1].y)).toBe(true);
+        expect(ChartWidget).toHaveBeenCalledTimes(2);
+        expect(ChartWidget).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([
+                    expect.objectContaining({
+                        x: expect.arrayContaining([expect.any(Date)]),
+                        y: expect.arrayContaining([expect.any(Number)])
+                    }),
+                    expect.objectContaining({
+                        x: expect.arrayContaining([expect.any(String)]),
+                        y: expect.arrayContaining([expect.any(Number)])
+                    })
+                ])
+            }),
+            {}
+        );
     });
 
     it("sets the area fill color on the data series based on fillColor", () => {
-        const timeSeries = renderTimeSeries([{ fillColor: dynamic("red") }]);
-        const data = timeSeries.find(ChartWidget).prop("data");
-        expect(data).toHaveLength(1);
-        expect(data[0]).toHaveProperty("fillcolor", "red");
+        renderTimeSeries([{ fillColor: dynamic("red") }]);
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.arrayContaining([expect.objectContaining({ fillcolor: "red" })])
+            }),
+            {}
+        );
     });
 
     it("sets rangeslider visibility on the layout configuration based on showRangeSlider", () => {
-        const timeSeries = renderTimeSeries([], { showRangeSlider: true });
-        const layoutOptions = timeSeries.find(ChartWidget).prop("layoutOptions");
-        expect(layoutOptions).toHaveProperty("xaxis.rangeslider.visible", true);
+        renderTimeSeries([], { showRangeSlider: true });
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                layoutOptions: expect.objectContaining({
+                    xaxis: expect.objectContaining({
+                        rangeslider: expect.objectContaining({
+                            visible: true
+                        })
+                    })
+                })
+            }),
+            {}
+        );
     });
 
     it("sets yaxis rangemode on the layout configuration based on yAxisRangeMode", () => {
-        const timeSeries = renderTimeSeries([], { yAxisRangeMode: "nonnegative" });
-        const layoutOptions = timeSeries.find(ChartWidget).prop("layoutOptions");
-        expect(layoutOptions).toHaveProperty("yaxis.rangemode", "nonnegative");
+        renderTimeSeries([], { yAxisRangeMode: "nonnegative" });
+
+        expect(ChartWidget).toHaveBeenCalledWith(
+            expect.objectContaining({
+                layoutOptions: expect.objectContaining({
+                    yaxis: expect.objectContaining({
+                        rangemode: "nonnegative"
+                    })
+                })
+            }),
+            {}
+        );
     });
 });
 
