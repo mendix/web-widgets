@@ -36,7 +36,7 @@ export function getPreview(values: EventsPreviewProps, isDarkMode: boolean): Str
     return rowLayout({ columnSize: "grow", borders: true, backgroundColor: palette.background.containerFill })(
         container()(),
         rowLayout({ grow: 2, padding: 8 })(
-            svgImage(doc, 15, 15),
+            svgImage({ width: 15, height: 15 })(doc),
             text({ fontColor: palette.text.primary, grow: 10 })(getCaption(eventsCount))
         ),
         container()()

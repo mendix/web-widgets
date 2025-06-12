@@ -26,21 +26,28 @@ export interface ImageProps extends BaseStylingProps {
     height?: number; // sets a fixed maximum height
 }
 
-export function svgImage(svgTextData: string, width?: number, height?: number): ImageProps {
-    return {
-        type: "Image",
-        document: svgTextData,
-        width,
-        height
+interface ImageStyleProps extends BaseStylingProps {
+    width?: number;
+    height?: number;
+}
+
+export function svgImage(style: ImageStyleProps): (document: string) => ImageProps {
+    return (document: string) => {
+        return {
+            type: "Image",
+            document,
+            ...style
+        };
     };
 }
 
-export function image(base64Data: string, width?: number, height?: number): ImageProps {
-    return {
-        type: "Image",
-        data: base64Data,
-        width,
-        height
+export function image(style: ImageStyleProps): (data: string) => ImageProps {
+    return (data: string) => {
+        return {
+            type: "Image",
+            data,
+            ...style
+        };
     };
 }
 

@@ -4,9 +4,11 @@ import { ReactElement, createElement } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
 import { CustomToolbar } from "./components/Toolbar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 import { constructWrapperStyle, WrapperStyleProps } from "./utils/style-utils";
 import { eventPropGetter } from "./utils/calendar-utils";
+
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "./ui/Calendar.scss";
 
 const localizer = dateFnsLocalizer({
     format: dateFns.format,
