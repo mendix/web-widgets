@@ -25,7 +25,7 @@ const localizer = dateFnsLocalizer({
     locales: {}
 });
 
-export const DnDCalendar = withDragAndDrop(Calendar);
+export const DnDCalendar = withDragAndDrop(Calendar<CalEvent, object>);
 
 function getViewRange(view: string, date: Date): { start: Date; end: Date } {
     switch (view) {
