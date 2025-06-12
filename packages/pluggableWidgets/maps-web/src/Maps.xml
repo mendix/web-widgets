@@ -261,14 +261,69 @@
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="GeoJSON">
-            <property key="geoJSON" type="expression" required="false">
-                <caption>GeoJSON String</caption>
-                <description>When used this will display the geoJSON on the map and zoom to the boundaries of the geoJSON</description>
-                <returnType type="String" />
-            </property>
-            <property key="onGeoJSONClick" type="action" required="false">
-                <caption>On GeoJSON Click</caption>
-                <description>Triggered when a GeoJSON feature is clicked. The input parameter should match the GeoJSON feature entity.</description>
+            <property key="features" type="object" isList="true" required="false">
+                <caption>GeoJSON Feature list</caption>
+                <description>A list of GeoJSON features showing dynamic geometry (Point, LineString, or Polygon) on the map.</description>
+                <properties>
+                    <propertyGroup caption="Features">
+                        <propertyGroup caption="Feature">
+                            <property key="featureDS" type="datasource" isList="true" required="false">
+                                <caption>Data source</caption>
+                                <description />
+                            </property>
+                            <property key="geoJSON" type="attribute" dataSource="featureDS" required="false">
+                                <caption>GeoJSON</caption>
+                                <description>The GeoJSON geometry (Point, LineString, or Polygon).</description>
+                                <attributeTypes>
+                                    <attributeType name="String" />
+                                </attributeTypes>
+                            </property>
+                        </propertyGroup>
+                        <propertyGroup caption="Events">
+                            <property key="onClickAttribute" type="action" dataSource="featureDS" required="false">
+                                <caption>On click</caption>
+                                <description />
+                            </property>
+                        </propertyGroup>
+                        <propertyGroup caption="Visualization">
+                            <property key="stroke" type="expression" required="true" dataSource="featureDS" defaultValue="true">
+                                <caption>Stroke</caption>
+                                <description>Whether to draw a border around the polygon.</description>
+                                <returnType type="Boolean" />
+                            </property>
+                            <property key="color" type="expression" dataSource="featureDS" required="false" defaultValue="'#3388ff'">
+                                <caption>Border Color</caption>
+                                <description>The color of the border (default: #3388ff).</description>
+                                <returnType type="String" />
+                            </property>
+                            <property key="weight" type="expression" dataSource="featureDS" required="true" defaultValue="3">
+                                <caption>Border Width</caption>
+                                <description>The width of the border in pixels.</description>
+                                <returnType type="Integer" />
+                            </property>
+                            <property key="opacity" type="expression" dataSource="featureDS" required="true" defaultValue="1.0">
+                                <caption>Border Opacity</caption>
+                                <description>The opacity of the border (0.0 to 1.0).</description>
+                                <returnType type="Decimal" />
+                            </property>
+                            <property key="fill" type="expression" dataSource="featureDS" required="true" defaultValue="true">
+                                <caption>Fill</caption>
+                                <description>Whether to fill the polygon with a color.</description>
+                                <returnType type="Boolean" />
+                            </property>
+                            <property key="fillColor" type="expression" dataSource="featureDS" required="false" defaultValue="'#3388ff'">
+                                <caption>Fill Color</caption>
+                                <description>The fill color of the polygon (default: same as border color).</description>
+                                <returnType type="String" />
+                            </property>
+                            <property key="fillOpacity" type="expression" dataSource="featureDS" required="true" defaultValue="0.2">
+                                <caption>Fill Opacity</caption>
+                                <description>The opacity of the fill color (0.0 to 1.0).</description>
+                                <returnType type="Decimal" />
+                            </property>
+                        </propertyGroup>
+                    </propertyGroup>
+                </properties>
             </property>
         </propertyGroup>
     </properties>

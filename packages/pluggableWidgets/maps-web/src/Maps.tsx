@@ -3,6 +3,7 @@ import { MapSwitcher } from "./components/MapSwitcher";
 
 import { MapsContainerProps } from "../typings/MapsProps";
 import { useLocationResolver } from "./utils/geodecode";
+import { useGeoJSONResolver } from "./utils/geojsonfeature";
 import { getCurrentUserLocation } from "./utils/location";
 import { Marker } from "../typings/shared";
 import { translateZoom } from "./utils/zoom";
@@ -17,6 +18,8 @@ export default function Maps(props: MapsContainerProps): ReactNode {
     );
     const [currentLocation, setCurrentLocation] = useState<Marker>();
 
+    const features = useGeoJSONResolver(props.features);
+
     useEffect(() => {
         if (props.showCurrentLocation) {
             getCurrentUserLocation()
@@ -24,6 +27,8 @@ export default function Maps(props: MapsContainerProps): ReactNode {
                 .catch(e => console.error(e));
         }
     }, [props.showCurrentLocation]);
+
+    console.log("Maps props", props);
 
     return (
         <MapSwitcher
@@ -49,8 +54,7 @@ export default function Maps(props: MapsContainerProps): ReactNode {
             width={props.width}
             widthUnit={props.widthUnit}
             zoomLevel={translateZoom(props.zoom)}
-            geoJSON={typeof props.geoJSON === "string" ? props.geoJSON : props.geoJSON?.value}
-            onGeoJSONClick={props.onGeoJSONClick}
+            features={features}
         />
     );
 }

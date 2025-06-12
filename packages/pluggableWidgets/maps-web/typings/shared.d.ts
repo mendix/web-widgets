@@ -1,5 +1,6 @@
 import { Dimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { CSSProperties } from "react";
+import { GeoJSONFeaturesType } from "./MapsProps";
 export interface ModeledMarker {
     address?: string;
     latitude?: number;
@@ -19,6 +20,31 @@ export interface Marker {
     id?: string;
 }
 
+export interface ModeledGeoJSONFeature {
+    geoJSON: string; // Mendix attribute for GeoJSON string
+    color?: string; // Optional styling properties
+    stroke?: boolean;
+    weight?: number;
+    opacity?: number;
+    fill?: boolean;
+    fillColor?: string;
+    fillOpacity?: number;
+    onClickAttribute?: () => void; // Optional click handler
+}
+
+export interface GeoJSONFeature {
+    geoJSON: string; // Mendix attribute for GeoJSON string
+    color?: string; // Optional styling properties
+    stroke?: boolean;
+    weight?: number;
+    opacity?: number;
+    fill?: boolean;
+    fillColor?: string;
+    fillOpacity?: number;
+    onClickAttribute?: () => void; // Optional click handler
+}
+
+
 export interface SharedProps extends Dimensions {
     autoZoom: boolean;
     optionZoomControl: boolean;
@@ -31,6 +57,5 @@ export interface SharedProps extends Dimensions {
     mapsToken?: string;
     className?: string;
     style?: CSSProperties;
-    geoJSON?: string;
-    onGeoJSONClick?: ActionValue;
+    features: GeoJSONFeature[];
 }

@@ -1,13 +1,15 @@
-import { createElement, ReactElement, useEffect } from "react";
+import { createElement, ReactElement, useEffect, useState } from "react";
+import { FeatureCollection } from "geojson";
 import { MapContainer, Marker as MarkerComponent, Popup, TileLayer, useMap, GeoJSON } from "react-leaflet";
 import classNames from "classnames";
 import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { SharedProps } from "../../typings/shared";
 import { MapProviderEnum } from "../../typings/MapsProps";
 import { translateZoom } from "../utils/zoom";
-import { latLngBounds, Icon as LeafletIcon, DivIcon, LeafletMouseEvent } from "leaflet";
+import { latLngBounds, Icon as LeafletIcon, DivIcon, geoJSON } from "leaflet";
 import { baseMapLayer } from "../utils/leaflet";
-import { ActionValue } from "mendix";
+import { GeoJSONFeature } from "../../typings/shared";
+
 export interface LeafletProps extends SharedProps {
     mapProvider: MapProviderEnum;
     attributionControl: boolean;
@@ -32,24 +34,48 @@ const defaultMarkerIcon = new LeafletIcon({
     iconAnchor: [12, 41]
 });
 
-function SetBoundsComponent(props: Pick<LeafletProps, "autoZoom" | "currentLocation" | "locations">): null {
+function SetBoundsComponent(
+    props: Pick<LeafletProps, "autoZoom" | "currentLocation" | "locations" | "features">
+): null {
     const map = useMap();
-    const { autoZoom, currentLocation, locations } = props;
+    const { autoZoom, currentLocation, locations, features } = props;
+    const [initialBoundsSet, setInitialBoundsSet] = useState(false);
 
-    const bounds = latLngBounds(
-        locations
-            .concat(currentLocation ? [currentLocation] : [])
-            .filter(m => !!m)
-            .map(m => [m.latitude, m.longitude])
-    );
-
-    if (bounds.isValid()) {
-        if (autoZoom) {
-            map.flyToBounds(bounds, { padding: [0.5, 0.5], animate: false }).invalidateSize();
-        } else {
-            map.panTo(bounds.getCenter(), { animate: false });
+    useEffect(() => {
+        // Only update bounds if they haven't been set already
+        if (initialBoundsSet) {
+            return;
         }
-    }
+        const bounds = latLngBounds(
+            locations
+                .concat(currentLocation ? [currentLocation] : [])
+                .filter(m => !!m)
+                .map(m => [m.latitude, m.longitude])
+        );
+
+        // If there are GeoJSON features, compute their bounds
+        if (features && features.length > 0) {
+            const featureCollection: FeatureCollection = {
+                type: "FeatureCollection",
+                features: features.map(feature => JSON.parse(feature.geoJSON))
+            };
+
+            const tempLayer = geoJSON(featureCollection);
+            const geoJsonBounds = tempLayer.getBounds();
+            if (geoJsonBounds.isValid()) {
+                bounds.extend(geoJsonBounds);
+            }
+        }
+
+        if (bounds.isValid()) {
+            if (autoZoom) {
+                map.flyToBounds(bounds, { padding: [0.5, 0.5], animate: false }).invalidateSize();
+            } else {
+                map.panTo(bounds.getCenter(), { animate: false });
+            }
+            setInitialBoundsSet(true);
+        }
+    }, [autoZoom, currentLocation, locations, features, map, initialBoundsSet]);
 
     return null;
 }
@@ -65,41 +91,69 @@ function ExposeMapInstance() {
     return null;
 }
 
-function GeoJSONLayer({
-    geoJSON,
-    onGeoJSONClick
-}: {
-    geoJSON?: string;
-    onGeoJSONClick?: ActionValue;
-}): React.ReactElement | null {
-    const map = useMap();
-
-    if (!geoJSON) {
-        console.warn("No GeoJSON data provided.");
+function GeoJSONLayer({ features }: { features: GeoJSONFeature[] }): React.ReactElement | null {
+    if (!features || features.length === 0) {
         return null;
     }
 
-    const handleFeatureClick = (event: LeafletMouseEvent) => {
-        if (onGeoJSONClick && onGeoJSONClick.canExecute) {
-            console.log("GeoJSON feature clicked:", event);
-            onGeoJSONClick.execute(); // Execute the Mendix action
-        }
+    // const geoJSONData: FeatureCollection = {
+    //     type: "FeatureCollection",
+    //     features: features.map((feature) => ({
+    //         type: "Feature",
+    //         geometry: JSON.parse(feature.geoJSON),
+    //         properties: {
+    //             color: feature.color ?? "#3388ff",
+    //             stroke: feature.stroke ?? true,
+    //             weight: feature.weight ?? 3,
+    //             opacity: feature.opacity ?? 1.0,
+    //             fill: feature.fill ?? true,
+    //             fillColor: feature.fillColor ?? "#3388ff",
+    //             fillOpacity: feature.fillOpacity ?? 0.2,
+    //             onClick: feature.onClickAttribute,
+    //         },
+    //     }))
+    // };
+
+    const geoJSONData: FeatureCollection = {
+        type: "FeatureCollection",
+        features: features.map(feature => {
+            const parsedGeoJSON = JSON.parse(feature.geoJSON); // Parse the full GeoJSON feature
+
+            console.log("Feature:", feature);
+            // Merge additional properties with the parsed properties
+            return {
+                ...parsedGeoJSON, // Use the parsed Feature as the base
+                properties: {
+                    ...parsedGeoJSON.properties, // Keep existing properties
+                    color: feature.color ?? "#3388ff",
+                    stroke: feature.stroke ?? true,
+                    weight: feature.weight ?? 3,
+                    opacity: feature.opacity ?? 1.0,
+                    fill: feature.fill ?? true,
+                    fillColor: feature.fillColor ?? "#3388ff",
+                    fillOpacity: feature.fillOpacity ?? 0.2,
+                    onClick: feature.onClickAttribute // Add the click action
+                }
+            };
+        })
     };
 
     return (
         <GeoJSON
-            data={JSON.parse(geoJSON)}
-            ref={layer => {
-                if (layer) {
-                    // Adjust the map bounds to fit the GeoJSON layer
-                    const bounds = layer.getBounds();
-                    if (bounds.isValid()) {
-                        map.fitBounds(bounds);
-                    }
+            data={geoJSONData}
+            onEachFeature={(feature, layer) => {
+                console.log("onEachFeature called for feature:", feature);
+                if (feature.properties?.onClick) {
+                    layer.on("click", () => {
+                        console.log("GeoJSON feature clicked:", feature);
+                        // If the Mendix action requires executing, call execute(), otherwise call it directly.
+                        if (feature.properties.onClick.execute) {
+                            feature.properties.onClick.execute();
+                        } else {
+                            feature.properties.onClick();
+                        }
+                    });
                 }
-            }}
-            eventHandlers={{
-                click: handleFeatureClick // Pass the wrapper function
             }}
         />
     );
@@ -120,11 +174,10 @@ export function LeafletMap(props: LeafletProps): ReactElement {
         style,
         zoomLevel: zoom,
         optionDrag: dragging,
-        geoJSON,
-        onGeoJSONClick
+        features
     } = props;
 
-    console.log("[LeafletMap] GeoJSON passed to GeoJSONLayer:", geoJSON);
+    console.log("[LeafletMap] Features: ", features);
 
     return (
         <div className={classNames("widget-maps", className)} style={{ ...style, ...getDimensions(props) }}>
@@ -173,9 +226,14 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                                 )}
                             </MarkerComponent>
                         ))}
-                    <SetBoundsComponent autoZoom={autoZoom} currentLocation={currentLocation} locations={locations} />
+                    <SetBoundsComponent
+                        autoZoom={autoZoom}
+                        currentLocation={currentLocation}
+                        locations={locations}
+                        features={features}
+                    />
                     <ExposeMapInstance />
-                    {geoJSON && <GeoJSONLayer geoJSON={geoJSON} onGeoJSONClick={onGeoJSONClick} />}
+                    {features && <GeoJSONLayer features={features} />}
                 </MapContainer>
             </div>
         </div>

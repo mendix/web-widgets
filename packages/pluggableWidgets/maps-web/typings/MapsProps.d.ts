@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, WebImage } from "mendix";
+import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, WebImage } from "mendix";
 import { Big } from "big.js";
 
 export type LocationTypeEnum = "address" | "latlng";
@@ -46,6 +46,19 @@ export type ZoomEnum = "automatic" | "world" | "continent" | "city" | "street" |
 
 export type MapProviderEnum = "googleMaps" | "openStreet" | "mapBox" | "hereMaps";
 
+export interface FeaturesType {
+    featureDS?: ListValue;
+    geoJSON?: ListAttributeValue<string>;
+    onClickAttribute?: ListActionValue;
+    stroke?: ListExpressionValue<boolean>;
+    color?: ListExpressionValue<string>;
+    weight?: ListExpressionValue<Big>;
+    opacity?: ListExpressionValue<Big>;
+    fill?: ListExpressionValue<boolean>;
+    fillColor?: ListExpressionValue<string>;
+    fillOpacity?: ListExpressionValue<Big>;
+}
+
 export interface MarkersPreviewType {
     locationType: LocationTypeEnum;
     address: string;
@@ -67,6 +80,19 @@ export interface DynamicMarkersPreviewType {
     onClickAttribute: {} | null;
     markerStyleDynamic: MarkerStyleDynamicEnum;
     customMarkerDynamic: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
+}
+
+export interface FeaturesPreviewType {
+    featureDS: {} | { caption: string } | { type: string } | null;
+    geoJSON: string;
+    onClickAttribute: {} | null;
+    stroke: string;
+    color: string;
+    weight: string;
+    opacity: string;
+    fill: string;
+    fillColor: string;
+    fillOpacity: string;
 }
 
 export interface MapsContainerProps {
@@ -97,8 +123,7 @@ export interface MapsContainerProps {
     zoom: ZoomEnum;
     mapProvider: MapProviderEnum;
     googleMapId: string;
-    geoJSON?: DynamicValue<string>;
-    onGeoJSONClick?: ActionValue;
+    features: FeaturesType[];
 }
 
 export interface MapsPreviewProps {
@@ -135,6 +160,5 @@ export interface MapsPreviewProps {
     zoom: ZoomEnum;
     mapProvider: MapProviderEnum;
     googleMapId: string;
-    geoJSON: string;
-    onGeoJSONClick: {} | null;
+    features: FeaturesPreviewType[];
 }
