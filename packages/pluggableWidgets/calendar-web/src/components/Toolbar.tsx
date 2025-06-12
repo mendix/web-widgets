@@ -8,7 +8,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 export function CustomToolbar({ label, localizer, onNavigate, onView, view, views }: ToolbarProps): ReactElement {
     return (
         <div className="calendar-toolbar">
-            <div className="align-left btn-group">
+            <div className="btn-group">
                 <Button className="btn btn-default" onClick={() => onNavigate(Navigate.PREVIOUS)}>
                     <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-backward" }} />
                 </Button>
@@ -20,11 +20,11 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
                 </Button>
             </div>
 
-            <div className="align-center btn-group">
+            <div className="btn-group">
                 <span className="calendar-label">{label}</span>
             </div>
 
-            <div className="align-right btn-group">
+            <div className="btn-group">
                 {Array.isArray(views) &&
                     views.map(name => {
                         return (
