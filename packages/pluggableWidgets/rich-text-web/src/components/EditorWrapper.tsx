@@ -49,7 +49,8 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         readOnlyStyle,
         toolbarOptions,
         enableStatusBar,
-        tabIndex
+        tabIndex,
+        imageSource
     } = props;
 
     const globalState = useContext(EditorContext);
@@ -209,6 +210,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     readOnly={stringAttribute.readOnly}
                     key={`${toolbarId}_${stringAttribute.readOnly}`}
                     customFonts={props.customFonts}
+                    imageSource={imageSource}
                 />
             </div>
             {enableStatusBar && (
