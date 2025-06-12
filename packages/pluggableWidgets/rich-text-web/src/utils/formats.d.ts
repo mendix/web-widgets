@@ -25,4 +25,5 @@ export type imageConfigType = {
     width?: number;
     height?: number;
     src?: string;
+    entityGuid?: string;
 };

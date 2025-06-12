@@ -179,6 +179,10 @@
                         </property>
                     </properties>
                 </property>
+                <property key="imageSource" type="datasource" isList="true" required="false">
+                    <caption>Selectable images</caption>
+                    <description />
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Custom toolbar">
