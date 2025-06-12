@@ -11,7 +11,7 @@ import {
     useLayoutEffect,
     useRef
 } from "react";
-import { CustomFontsType } from "../../typings/RichTextProps";
+import { CustomFontsType, RichTextContainerProps } from "../../typings/RichTextProps";
 import { EditorDispatchContext } from "../store/EditorProvider";
 import { SET_FULLSCREEN_ACTION } from "../store/store";
 import "../utils/customPluginRegisters";
@@ -31,7 +31,7 @@ import {
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
 
-export interface EditorProps {
+export interface EditorProps extends Pick<RichTextContainerProps, "imageSource"> {
     customFonts: CustomFontsType[];
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
@@ -200,6 +200,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 isOpen={showDialog}
                 onOpenChange={open => setShowDialog(open)}
                 parentNode={modalRef.current?.ownerDocument.body}
+                imageSource={props.imageSource}
                 {...dialogConfig}
             ></Dialog>
         </Fragment>

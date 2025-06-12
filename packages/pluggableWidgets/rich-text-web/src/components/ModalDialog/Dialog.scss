@@ -38,6 +38,60 @@
                 }
             }
         }
+
+        .mx-image-dialog-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .mx-image-dialog-item {
+            padding-right: var(--spacing-small, 8px);
+            padding-bottom: var(--spacing-small, 8px);
+            cursor: pointer;
+
+            &:hover {
+                transform: scale3d(1.05, 1.05, 1);
+                transition: transform 0.2s ease-in-out;
+            }
+        }
+
+        .mx-image-dialog-thumbnail {
+            max-height: 100px;
+            &-small {
+                max-height: 50px;
+            }
+
+            &-container {
+                position: relative;
+
+                .icon-container {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    top: 0;
+                    align-items: center;
+                    justify-content: center;
+                    display: none;
+
+                    .icons {
+                        border-radius: var(--border-radius-default, 4px);
+                        background-color: var(--color-background, #fff);
+                        cursor: pointer;
+                        transition: transform 0.2s ease-in-out;
+                        &:hover {
+                            transform: scale3d(1.05, 1.05, 1);
+                        }
+                    }
+                }
+
+                &:hover {
+                    .icon-container {
+                        display: flex;
+                    }
+                }
+            }
+        }
     }
 
     &-header {
