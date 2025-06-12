@@ -58,7 +58,9 @@
         "@mendix/heatmap-chart-web": "workspace:*",
         "@mendix/line-chart-web": "workspace:*",
         "@mendix/pie-doughnut-chart-web": "workspace:*",
-        "@mendix/time-series-chart-web": "workspace:*"
+        "@mendix/time-series-chart-web": "workspace:*",
+        "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",

@@ -75,6 +75,8 @@ test.describe("gallery-web", () => {
 
             await page.locator(textFilter).first().fill("Ana");
 
+            await expect(page.locator(galleryItem).first()).toHaveText("Ana Carol0");
+
             await page.locator(galleryItem).first().click();
 
             const context = "You've clicked at Ana Carol's face.";

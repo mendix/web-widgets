@@ -12,7 +12,7 @@ interface ContainerProps extends DatagridDateFilterContainerProps {
     parentChannelName?: string;
 }
 
-export const Container: (props: ContainerProps) => React.ReactElement = observer(function Container(props) {
+export const DateFilterContainer: (props: ContainerProps) => React.ReactElement = observer(function Container(props) {
     const staticProps = useSetup({
         defaultEndValue: props.defaultEndDate?.value,
         defaultFilter: props.defaultFilter,

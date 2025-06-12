@@ -1,17 +1,22 @@
+import { inputStateFromCond } from "@mendix/filter-commons/condition-utils";
+import {
+    FilterFunctionBinary,
+    FilterFunctionGeneric,
+    FilterFunctionNonValue
+} from "@mendix/filter-commons/typings/FilterFunctions";
+import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
 import { Big } from "big.js";
-import { ListAttributeValue } from "mendix";
+import { AttributeMetaData, ListAttributeValue, SimpleFormatter } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { action, comparer, makeObservable } from "mobx";
-import { inputStateFromCond } from "../../condition-utils";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
 import { Number_InputFilterInterface } from "../../typings/InputFilterInterface";
-import { FilterData, InputData } from "../../typings/settings";
 import { NumberArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
 
 type NumFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
-type Formatter = ListAttributeValue<Big>["formatter"];
+type Formatter = SimpleFormatter<Big>;
+type AttrMeta = AttributeMetaData<Big> & { formatter?: SimpleFormatter<Big> };
 
 export class NumberInputFilterStore
     extends BaseInputFilterStore<NumberArgument, NumFns>
@@ -20,9 +25,8 @@ export class NumberInputFilterStore
     readonly storeType = "input";
     readonly type = "number";
 
-    constructor(attributes: Array<ListAttributeValue<Big>>, initCond: FilterCondition | null) {
-        let { formatter } = attributes[0];
-        formatter = formatterFix(formatter);
+    constructor(attributes: AttrMeta[], initCond: FilterCondition | null) {
+        const formatter = formatterFix(attributes[0].formatter);
         super(new NumberArgument(formatter), new NumberArgument(formatter), "equal", attributes);
         makeObservable(this, {
             updateProps: action,
@@ -79,11 +83,12 @@ export class NumberInputFilterStore
     }
 }
 
-function formatterFix(formatter: Formatter): Formatter {
+function formatterFix(formatter: Formatter | undefined): Formatter {
     // Check formatter.parse to see if it is a valid formatter.
-    if (formatter.parse("none")?.valid === false) {
+    if (formatter && formatter.parse("none")?.valid === false) {
         return formatter;
     }
+
     // Create a new formatter that will handle the autonumber values.
     return {
         format: (value: Big) => {

@@ -1,13 +1,22 @@
+import { withFilterAPI } from "@mendix/widget-plugin-filtering/helpers/withFilterAPI";
 import { withPreloader } from "@mendix/widget-plugin-platform/hoc/withPreloader";
 import { createElement, ReactElement } from "react";
 import { DatagridDateFilterContainerProps } from "../typings/DatagridDateFilterProps";
-import { Container } from "./components/DateFilterContainer";
-import { withDateFilterAPI } from "./hocs/withDateFilterAPI";
+import { DateFilterContainer } from "./components/DateFilterContainer";
+import { withLinkedDateStore } from "./hocs/withLinkedDateStore";
+import { withParentProvidedDateStore } from "./hocs/withParentProvidedDateStore";
 import { isLoadingDefaultValues } from "./utils/widget-utils";
 
-const container = withPreloader(Container, isLoadingDefaultValues);
-const Widget = withDateFilterAPI(container);
+const Container = withPreloader(DateFilterContainer, isLoadingDefaultValues);
+
+const FilterAuto = withParentProvidedDateStore(Container);
+
+const FilterLinked = withFilterAPI(withLinkedDateStore(Container));
 
 export default function DatagridDateFilter(props: DatagridDateFilterContainerProps): ReactElement | null {
-    return <Widget {...props} />;
+    if (props.attrChoice === "auto") {
+        return <FilterAuto {...props} />;
+    }
+
+    return <FilterLinked {...props} />;
 }

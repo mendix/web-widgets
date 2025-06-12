@@ -4,13 +4,7 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridPro
 export function check(values: DatagridPreviewProps): Problem[] {
     const errors: Problem[] = [];
 
-    const columnChecks = [
-        checkAssociationSettings,
-        checkFilteringSettings,
-        checkDisplaySettings,
-        checkSortingSettings,
-        checkHidableSettings
-    ];
+    const columnChecks = [checkDisplaySettings, checkSortingSettings, checkHidableSettings];
 
     values.columns.forEach((column: ColumnsPreviewType, index) => {
         for (const check of columnChecks) {
@@ -27,51 +21,6 @@ export function check(values: DatagridPreviewProps): Problem[] {
 }
 
 const columnPropPath = (prop: string, index: number): string => `columns/${index + 1}/${prop}`;
-
-const checkAssociationSettings = (
-    values: DatagridPreviewProps,
-    column: ColumnsPreviewType,
-    index: number
-): Problem | undefined => {
-    if (!values.columnsFilterable) {
-        return;
-    }
-
-    if (!column.filterAssociation) {
-        return;
-    }
-
-    if (column.filterCaptionType === "expression" && !column.filterAssociationOptionLabel) {
-        return {
-            property: columnPropPath("filterAssociationOptionLabel", index),
-            message: `A caption is required when using associations. Please set 'Option caption' property for column (${column.header})`
-        };
-    }
-
-    if (column.filterCaptionType === "attribute" && !column.filterAssociationOptionLabelAttr) {
-        return {
-            property: columnPropPath("filterAssociationOptionLabelAttr", index),
-            message: `A caption is required when using associations. Please set 'Option caption' property for column (${column.header})`
-        };
-    }
-};
-
-const checkFilteringSettings = (
-    values: DatagridPreviewProps,
-    column: ColumnsPreviewType,
-    index: number
-): Problem | undefined => {
-    if (!values.columnsFilterable) {
-        return;
-    }
-
-    if (!column.attribute && !column.filterAssociation) {
-        return {
-            property: columnPropPath("attribute", index),
-            message: `An attribute or reference is required when filtering is enabled. Please select 'Attribute' or 'Reference' property for column (${column.header})`
-        };
-    }
-};
 
 const checkDisplaySettings = (
     _values: DatagridPreviewProps,

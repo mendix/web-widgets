@@ -4,8 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
-import { Big } from "big.js";
+import { ActionValue, DynamicValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 
 export type ItemSelectionModeEnum = "toggle" | "clear";
 
@@ -13,34 +12,18 @@ export type PaginationEnum = "buttons" | "virtualScrolling";
 
 export type PagingPositionEnum = "below" | "above";
 
+export type ShowPagingButtonsEnum = "always" | "auto";
+
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
 export type OnClickTriggerEnum = "single" | "double";
-
-export interface FilterListType {
-    filter: ListAttributeValue<string | Big | boolean | Date>;
-}
-
-export interface SortListType {
-    attribute: ListAttributeValue<string | Big | boolean | Date>;
-    caption: DynamicValue<string>;
-}
-
-export interface FilterListPreviewType {
-    filter: string;
-}
-
-export interface SortListPreviewType {
-    attribute: string;
-    caption: string;
-}
 
 export interface GalleryContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    advanced: boolean;
+    filtersPlaceholder?: ReactNode;
     datasource: ListValue;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMode: ItemSelectionModeEnum;
@@ -51,15 +34,14 @@ export interface GalleryContainerProps {
     pageSize: number;
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
+    showTotalCount: boolean;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     itemClass?: ListExpressionValue<string>;
     onClickTrigger: OnClickTriggerEnum;
     onClick?: ListActionValue;
     onSelectionChange?: ActionValue;
-    filterList: FilterListType[];
-    filtersPlaceholder?: ReactNode;
-    sortList: SortListType[];
     filterSectionTitle?: DynamicValue<string>;
     emptyMessageTitle?: DynamicValue<string>;
     ariaLabelListBox?: DynamicValue<string>;
@@ -77,7 +59,7 @@ export interface GalleryPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    advanced: boolean;
+    filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     datasource: {} | { caption: string } | { type: string } | null;
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMode: ItemSelectionModeEnum;
@@ -88,15 +70,14 @@ export interface GalleryPreviewProps {
     pageSize: number | null;
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
+    showTotalCount: boolean;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemClass: string;
     onClickTrigger: OnClickTriggerEnum;
     onClick: {} | null;
     onSelectionChange: {} | null;
-    filterList: FilterListPreviewType[];
-    filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
-    sortList: SortListPreviewType[];
     filterSectionTitle: string;
     emptyMessageTitle: string;
     ariaLabelListBox: string;

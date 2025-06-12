@@ -30,7 +30,6 @@
         "dev": "tsc --build --verbose --watch tsconfig.json",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint . package.json && tsc --noEmit",
-        "prepare": "turbo build",
         "release": "pnpm build",
         "test": "jest"
     },

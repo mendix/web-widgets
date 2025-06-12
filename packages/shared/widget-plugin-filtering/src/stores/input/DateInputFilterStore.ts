@@ -1,4 +1,19 @@
-import { DateTimeFormatter, ListAttributeValue } from "mendix";
+import {
+    betweenToState,
+    isAnd,
+    isEmptyExp,
+    isNotEmptyExp,
+    isOr,
+    singularToState
+} from "@mendix/filter-commons/condition-utils";
+import {
+    FilterFunctionBinary,
+    FilterFunctionGeneric,
+    FilterFunctionNonValue
+} from "@mendix/filter-commons/typings/FilterFunctions";
+import { FilterName } from "@mendix/filter-commons/typings/mendix";
+import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
+import { AttributeMetaData, DateTimeFormatter, ListAttributeValue, SimpleFormatter } from "mendix";
 import { AndCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import {
     and,
@@ -15,17 +30,14 @@ import {
     or
 } from "mendix/filters/builders";
 import { action, comparer, IReactionDisposer, makeObservable, observable, reaction } from "mobx";
-import { betweenToState, isAnd, isEmptyExp, isNotEmptyExp, isOr, singularToState } from "../../condition-utils";
-import { FilterFunctionBinary, FilterFunctionGeneric, FilterFunctionNonValue } from "../../typings/FilterFunctions";
 import { Date_InputFilterInterface } from "../../typings/InputFilterInterface";
-import { FilterFunction } from "../../typings/mendix";
-import { FilterData, InputData } from "../../typings/settings";
 import { DateArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 
 type DateFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type StateTuple = [DateFns, Date | undefined, Date | undefined];
 type InitState = [DateFns, Date | undefined, Date | undefined] | [DateFns, Date | undefined];
+type AttrMeta = AttributeMetaData<Date> & { formatter?: SimpleFormatter<Date> };
 
 export class DateInputFilterStore
     extends BaseInputFilterStore<DateArgument, DateFns>
@@ -36,8 +48,8 @@ export class DateInputFilterStore
     private readonly rangeMarkerTag = "__RANGE_MARKER__";
     private computedState: StateTuple;
 
-    constructor(attributes: Array<ListAttributeValue<Date>>, initCond: FilterCondition | null) {
-        const { formatter } = attributes[0];
+    constructor(attributes: Array<AttributeMetaData<Date>>, initCond: FilterCondition | null) {
+        const formatter = getFormatter(attributes[0]);
         super(new DateArgument(formatter), new DateArgument(formatter), "equal", attributes);
         // NOTE: some fields already become observable in `super`.
         makeObservable<this, "computedState">(this, {
@@ -76,7 +88,7 @@ export class DateInputFilterStore
     updateProps(attributes: ListAttributeValue[]): void {
         if (!comparer.shallow(this._attributes, attributes)) {
             this._attributes = attributes;
-            const formatter = attributes.at(0)?.formatter;
+            const formatter = getFormatter(attributes[0] as AttributeMetaData<Date>);
             this.arg1.updateProps(formatter as DateTimeFormatter);
             this.arg2.updateProps(formatter as DateTimeFormatter);
         }
@@ -103,7 +115,7 @@ export class DateInputFilterStore
     }
 
     private getCondition(
-        attr: ListAttributeValue,
+        attr: AttributeMetaData,
         filterFn: DateFns,
         v1: Date | undefined,
         v2: Date | undefined
@@ -121,7 +133,7 @@ export class DateInputFilterStore
     }
 
     private getAttrCondition(
-        attr: ListAttributeValue,
+        attr: AttributeMetaData,
         filterFn: Exclude<DateFns, "between">,
         date: Date | undefined
     ): [FilterCondition] | [] {
@@ -153,7 +165,7 @@ export class DateInputFilterStore
         }
     }
 
-    private getRangeCondition(attr: ListAttributeValue, [start, end]: [Date, Date]): [FilterCondition] | [] {
+    private getRangeCondition(attr: AttributeMetaData, [start, end]: [Date, Date]): [FilterCondition] | [] {
         const attrExp = attribute(attr.id);
 
         return [
@@ -248,7 +260,7 @@ export class DateInputFilterStore
         }
     }
 
-    private mapFn = (name: FilterFunction | "between" | "empty" | "notEmpty"): DateFns => {
+    private mapFn = (name: FilterName | "between" | "empty" | "notEmpty"): DateFns => {
         switch (name) {
             case "day:=":
                 return "equal";
@@ -295,4 +307,24 @@ function subDay(date: Date): Date {
     const newDate = new Date(date.getTime());
     newDate.setUTCDate(newDate.getUTCDate() - 1);
     return newDate;
+}
+
+function getFormatter(attr: AttrMeta): SimpleFormatter<Date> {
+    if (attr.formatter) {
+        return attr.formatter;
+    }
+
+    return {
+        format: v => v?.toString() ?? "",
+        parse: v => {
+            const date = Date.parse(v);
+            if (isNaN(date)) {
+                return { valid: false };
+            }
+            return {
+                valid: true,
+                value: new Date(date)
+            };
+        }
+    };
 }

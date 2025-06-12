@@ -7,7 +7,7 @@ export async function fetchThemeFolderConfigFile(): Promise<any> {
         if (response.ok) {
             return await response.json();
         }
-    } catch (e) {
+    } catch {
         return null;
     }
 }
