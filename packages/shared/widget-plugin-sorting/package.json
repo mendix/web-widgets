@@ -31,13 +31,14 @@
         "test": "jest"
     },
     "dependencies": {
-        "@mendix/widget-plugin-test-utils": "workspace:*",
+        "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@mendix/tsconfig-web-widgets": "workspace:*"
+        "@mendix/tsconfig-web-widgets": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*"
     }
 }
