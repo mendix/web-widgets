@@ -1,6 +1,6 @@
 import * as dateFns from "date-fns";
-import { Calendar, dateFnsLocalizer, ViewsProps } from "react-big-calendar";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import { Calendar, CalendarProps, dateFnsLocalizer, ViewsProps } from "react-big-calendar";
+import withDragAndDrop, { withDragAndDropProps } from "react-big-calendar/lib/addons/dragAndDrop";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
 import { CustomToolbar } from "../components/Toolbar";
 
@@ -27,7 +27,7 @@ const localizer = dateFnsLocalizer({
 
 export const DnDCalendar = withDragAndDrop(Calendar);
 
-function getViewRange(view: string, date: Date) {
+function getViewRange(view: string, date: Date): { start: Date; end: Date } {
     switch (view) {
         case "month":
             return { start: dateFns.startOfMonth(date), end: dateFns.endOfMonth(date) };
@@ -44,13 +44,25 @@ function getViewRange(view: string, date: Date) {
     }
 }
 
-export function eventPropGetter(event: CalEvent) {
+type EventPropGetterReturnType = {
+    style:
+        | {
+              backgroundColor: string;
+          }
+        | undefined;
+};
+
+export function eventPropGetter(event: CalEvent): EventPropGetterReturnType {
     return {
         style: event.color ? { backgroundColor: event.color } : undefined
     };
 }
 
-export function extractCalendarProps(props: CalendarContainerProps) {
+interface DragAndDropCalendarProps<TEvent extends object = Event, TResource extends object = object>
+    extends CalendarProps<TEvent, TResource>,
+        withDragAndDropProps<TEvent, TResource> {}
+
+export function extractCalendarProps(props: CalendarContainerProps): DragAndDropCalendarProps<CalEvent, object> {
     const items = props.databaseDataSource?.items ?? [];
     const events: CalEvent[] = items.map(item => {
         const title =
@@ -69,7 +81,7 @@ export function extractCalendarProps(props: CalendarContainerProps) {
     const viewsOption: ViewsProps<CalEvent, object> =
         props.view === "standard" ? ["day", "week", "month"] : ["month", "week", "work_week", "day", "agenda"];
 
-    const handleSelectEvent = (event: CalEvent) => {
+    const handleSelectEvent = (event: CalEvent): void => {
         if (props.onClickEvent?.canExecute) {
             props.onClickEvent.execute({
                 startDate: event.start,
@@ -80,7 +92,7 @@ export function extractCalendarProps(props: CalendarContainerProps) {
         }
     };
 
-    const handleSelectSlot = (slotInfo: { start: Date; end: Date; action: string }) => {
+    const handleSelectSlot = (slotInfo: { start: Date; end: Date; action: string }): void => {
         if (props.enableCreate && props.onCreateEvent?.canExecute) {
             props.onCreateEvent.execute({
                 startDate: slotInfo.start,
@@ -90,7 +102,7 @@ export function extractCalendarProps(props: CalendarContainerProps) {
         }
     };
 
-    const handleEventDropOrResize = ({ event, start, end }: { event: CalEvent; start: Date; end: Date }) => {
+    const handleEventDropOrResize = ({ event, start, end }: { event: CalEvent; start: Date; end: Date }): void => {
         if (props.onChange?.canExecute) {
             props.onChange.execute({
                 oldStart: event.start,
@@ -101,7 +113,7 @@ export function extractCalendarProps(props: CalendarContainerProps) {
         }
     };
 
-    const handleRangeChange = (date: Date, view: string) => {
+    const handleRangeChange = (date: Date, view: string): void => {
         if (props.onRangeChange?.canExecute) {
             const { start, end } = getViewRange(view, date);
             props.onRangeChange.execute({
