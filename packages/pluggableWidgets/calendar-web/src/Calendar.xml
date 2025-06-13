@@ -226,6 +226,10 @@
                     <enumerationValue key="hidden">Hidden</enumerationValue>
                 </enumerationValues>
             </property>
+            <property key="showAllEvents" type="boolean" defaultValue="true">
+                <caption>Show all events</caption>
+                <description>Auto-adjust calendar height to display all events without "more" links</description>
+            </property>
         </propertyGroup>
     </properties>
 </widget>
