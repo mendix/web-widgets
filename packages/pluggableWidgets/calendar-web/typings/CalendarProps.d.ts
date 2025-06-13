@@ -58,6 +58,7 @@ export interface CalendarContainerProps {
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number;
     overflowY: OverflowYEnum;
+    showAllEvents: boolean;
 }
 
 export interface CalendarPreviewProps {
@@ -100,4 +101,5 @@ export interface CalendarPreviewProps {
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number | null;
     overflowY: OverflowYEnum;
+    showAllEvents: boolean;
 }
