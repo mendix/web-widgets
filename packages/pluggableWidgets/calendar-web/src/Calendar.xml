@@ -105,6 +105,14 @@
                         <attributeType name="DateTime" />
                     </attributeTypes>
                 </property>
+                <property key="minHour" type="integer" defaultValue="0">
+                    <caption>Day start hour</caption>
+                    <description>The hour at which the day view starts (0-23)</description>
+                </property>
+                <property key="maxHour" type="integer" defaultValue="24">
+                    <caption>Day end hour</caption>
+                    <description>The hour at which the day view ends (1-24)</description>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Events">

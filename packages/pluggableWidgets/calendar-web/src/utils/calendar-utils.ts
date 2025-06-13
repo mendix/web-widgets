@@ -81,6 +81,12 @@ export function extractCalendarProps(props: CalendarContainerProps): DragAndDrop
     const viewsOption: ViewsProps<CalEvent, object> =
         props.view === "standard" ? ["day", "week", "month"] : ["month", "week", "work_week", "day", "agenda"];
 
+    // Compute minimum and maximum times for the day based on configured hours
+    const minTime = new Date();
+    minTime.setHours(props.minHour ?? 0, 0, 0, 0);
+    const maxTime = new Date();
+    maxTime.setHours(props.maxHour ?? 24, 0, 0, 0);
+
     const handleSelectEvent = (event: CalEvent): void => {
         if (props.onClickEvent?.canExecute) {
             props.onClickEvent.execute({
@@ -146,6 +152,8 @@ export function extractCalendarProps(props: CalendarContainerProps): DragAndDrop
         onSelectEvent: handleSelectEvent,
         onSelectSlot: handleSelectSlot,
         startAccessor: (event: CalEvent) => event.start,
-        titleAccessor: (event: CalEvent) => event.title
+        titleAccessor: (event: CalEvent) => event.title,
+        min: minTime,
+        max: maxTime
     };
 }
