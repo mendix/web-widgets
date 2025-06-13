@@ -153,6 +153,7 @@ export function extractCalendarProps(props: CalendarContainerProps): DragAndDrop
         onSelectSlot: handleSelectSlot,
         startAccessor: (event: CalEvent) => event.start,
         titleAccessor: (event: CalEvent) => event.title,
+        showAllEvents: props.showAllEvents,
         min: minTime,
         max: maxTime
     };
