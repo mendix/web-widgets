@@ -42,6 +42,8 @@ export interface CalendarContainerProps {
     enableCreate: boolean;
     defaultView: DefaultViewEnum;
     startDateAttribute?: EditableValue<Date>;
+    minHour: number;
+    maxHour: number;
     eventDataAttribute?: EditableValue<string>;
     onClickEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean>; title: Option<string> }>;
     onCreateEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean> }>;
@@ -82,6 +84,8 @@ export interface CalendarPreviewProps {
     enableCreate: boolean;
     defaultView: DefaultViewEnum;
     startDateAttribute: string;
+    minHour: number | null;
+    maxHour: number | null;
     eventDataAttribute: string;
     onClickEvent: {} | null;
     onCreateEvent: {} | null;
