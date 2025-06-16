@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- We added support to choose image from entity.
+- We added support to choose image from entity using external widget.
 
 ## [4.7.0] - 2025-06-02
 

@@ -49,13 +49,15 @@ export type ChildDialogProps =
     | ViewCodeDialogBaseProps
     | ImageDialogBaseProps;
 
-export type DialogProps = BaseDialogProps & ChildDialogProps & Pick<RichTextContainerProps, "imageSource">;
+export type DialogProps = BaseDialogProps &
+    ChildDialogProps &
+    Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "enableDefaultUpload">;
 
 /**
  * Dialog components that will be shown on toolbar's button
  */
 export default function Dialog(props: DialogProps): ReactElement {
-    const { isOpen, onOpenChange, dialogType, config, imageSource } = props;
+    const { isOpen, onOpenChange, dialogType, config, imageSource, imageSourceContent, enableDefaultUpload } = props;
     const { refs, context } = useFloating({
         open: isOpen,
         onOpenChange
@@ -70,7 +72,7 @@ export default function Dialog(props: DialogProps): ReactElement {
     const { getFloatingProps } = useInteractions([click, dismiss, role]);
 
     return (
-        <FloatingPortal>
+        <FloatingPortal id="root">
             {isOpen && (
                 <Fragment>
                     <FloatingOverlay
@@ -95,7 +97,12 @@ export default function Dialog(props: DialogProps): ReactElement {
                                 <ViewCodeDialog {...(config as ViewCodeDialogProps)}></ViewCodeDialog>
                             </If>
                             <If condition={dialogType === "image"}>
-                                <ImageDialog imageSource={imageSource} {...(config as ImageDialogProps)}></ImageDialog>
+                                <ImageDialog
+                                    imageSource={imageSource}
+                                    imageSourceContent={imageSourceContent}
+                                    enableDefaultUpload={enableDefaultUpload}
+                                    {...(config as ImageDialogProps)}
+                                ></ImageDialog>
                             </If>
                         </div>
                     </FloatingFocusManager>
