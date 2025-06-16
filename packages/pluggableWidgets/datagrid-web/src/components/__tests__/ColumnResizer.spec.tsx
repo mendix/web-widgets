@@ -1,4 +1,5 @@
-import { render } from "enzyme";
+import "@testing-library/jest-dom";
+import { render } from "@testing-library/react";
 import { createElement } from "react";
 import { ColumnResizer } from "../ColumnResizer";
 
