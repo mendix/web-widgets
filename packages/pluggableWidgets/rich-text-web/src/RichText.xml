@@ -183,6 +183,14 @@
                     <caption>Selectable images</caption>
                     <description />
                 </property>
+                <property key="imageSourceContent" type="widgets" required="false">
+                    <caption>Content</caption>
+                    <description>Content of a image uploader</description>
+                </property>
+                <property key="enableDefaultUpload" type="boolean" defaultValue="true">
+                    <caption>Enable default upload</caption>
+                    <description />
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Custom toolbar">
