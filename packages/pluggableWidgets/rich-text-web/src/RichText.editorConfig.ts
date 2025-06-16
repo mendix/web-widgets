@@ -1,5 +1,10 @@
 import { Properties, hidePropertyIn, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
-import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import {
+    StructurePreviewProps,
+    dropzone,
+    container,
+    rowLayout
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { RichTextPreviewProps } from "typings/RichTextProps";
 import RichTextPreviewSVGDark from "./assets/rich-text-preview-dark.svg";
 import RichTextPreviewSVGLight from "./assets/rich-text-preview-light.svg";
@@ -58,6 +63,10 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
     if (values.toolbarLocation === "hide") {
         hidePropertyIn(defaultProperties, values, "preset");
     }
+
+    if (values.imageSource === "none" || values.imageSource === null) {
+        hidePropertiesIn(defaultProperties, values, ["imageSourceContent", "enableDefaultUpload"]);
+    }
     return defaultProperties;
 }
 
@@ -65,9 +74,25 @@ export function getPreview(props: RichTextPreviewProps, isDarkMode: boolean): St
     const variant = isDarkMode ? RichTextPreviewSVGDark : RichTextPreviewSVGLight;
     const doc = decodeURIComponent(variant.replace("data:image/svg+xml,", ""));
 
-    return {
-        type: "Image",
-        document: props.stringAttribute ? doc.replace("[No attribute selected]", `[${props.stringAttribute}]`) : doc,
-        height: 150
-    };
+    const richTextPreview = container()(
+        rowLayout({ columnSize: "grow", borders: false })({
+            type: "Image",
+            document: props.stringAttribute
+                ? doc.replace("[No attribute selected]", `[${props.stringAttribute}]`)
+                : doc,
+            height: 150
+        })
+    );
+
+    if (props.imageSource) {
+        richTextPreview.children?.push(
+            rowLayout({ columnSize: "grow", borders: true, borderWidth: 1, borderRadius: 2 })(
+                dropzone(
+                    dropzone.placeholder(" image upload placeholder widget"),
+                    dropzone.hideDataSourceHeaderIf(false)
+                )(props.imageSourceContent)
+            )
+        );
+    }
+    return richTextPreview;
 }

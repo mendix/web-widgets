@@ -1,3 +1,4 @@
+import { If } from "@mendix/widget-plugin-component-kit/If";
 import classNames from "classnames";
 import { createElement, Fragment, PropsWithChildren, ReactElement } from "react";
 
@@ -49,10 +50,12 @@ export function FormControl(props: FormControlProps): ReactElement {
     const { children, className, label } = props;
 
     return (
-        <div className={classNames("form-group", className)}>
-            {label && <label className="control-label col-sm-3">{label}</label>}
-            <div className={`col-sm-${label ? "9" : "12"}`}> {children}</div>
-        </div>
+        <If condition={children !== undefined && children !== null}>
+            <div className={classNames("form-group", className)}>
+                {label && <label className="control-label col-sm-3">{label}</label>}
+                <div className={`col-sm-${label ? "9" : "12"}`}> {children}</div>
+            </div>
+        </If>
     );
 }
 
