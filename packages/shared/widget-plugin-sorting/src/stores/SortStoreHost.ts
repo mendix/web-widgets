@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { ObservableSortStore, SortInstruction } from "../types/store";
 
 export class SortStoreHost {
@@ -34,7 +34,7 @@ export class SortStoreHost {
 
     useHost(id: string): () => void {
         this._usedBy = id;
-        return () => (this._usedBy = null);
+        return () => runInAction(() => (this._usedBy = null));
     }
 
     get usedBy(): string | null {

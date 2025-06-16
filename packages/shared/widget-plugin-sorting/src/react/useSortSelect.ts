@@ -4,24 +4,24 @@ import { BasicSortStore, SortDirection } from "../types/store";
 
 interface HookProps {
     emptyOptionCaption?: string;
-    store: BasicSortStore;
-}
-
-interface Option {
-    caption: string;
-    value: string;
+    sortStore: BasicSortStore;
 }
 
 interface ControlProps {
     value: string | null;
-    options: Option[];
+    options: Array<{
+        caption: string;
+        value: string;
+    }>;
     direction: SortDirection;
     onSelect: (value: string) => void;
     onDirectionClick: () => void;
 }
 
-export function useSortSelect(props: HookProps, store: BasicSortStore): ControlProps {
-    const ctrl = useSetup(() => new SingleSortController({ store }));
+export function useSortSelect(props: HookProps): ControlProps {
+    const ctrl = useSetup(
+        () => new SingleSortController({ store: props.sortStore, emptyOptionCaption: props.emptyOptionCaption })
+    );
 
     return {
         value: ctrl.selected,

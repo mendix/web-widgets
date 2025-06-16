@@ -1,6 +1,5 @@
-import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/context";
-import { SortStoreHost } from "@mendix/widget-plugin-sorting/controllers/SortStoreHost";
-import { ObservableSortStoreHost } from "@mendix/widget-plugin-sorting/ObservableSortStoreHost";
+import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/react/context";
+import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
 import { attrId, dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { fireEvent, render } from "@testing-library/react";
 import React, { createElement } from "react";
@@ -14,9 +13,10 @@ const commonProps: DropdownSortContainerProps = {
     attributes: []
 };
 
-const createAPI = (observer: ObservableSortStoreHost): SortAPI => ({
+const createAPI = (observer: SortStoreHost): SortAPI => ({
     version: 1,
-    sortObserver: observer
+    host: observer,
+    initSortOrder: []
 });
 
 const mockAttributes = (): AttributesType[] => [
@@ -47,7 +47,7 @@ describe("Dropdown Sort", () => {
             beforeEach(() => {
                 const host = new SortStoreHost();
                 api = createAPI(host);
-                host.state = [{ key: "test-key", attrId: attrId("1"), dir: "asc" }];
+                api.initSortOrder = [[attrId("1"), "asc"]];
                 attributes = mockAttributes();
             });
             it("loads correct values from attributes", () => {
@@ -80,7 +80,7 @@ describe("Dropdown Sort", () => {
             beforeEach(() => {
                 const host = new SortStoreHost();
                 api = createAPI(host);
-                host.state = [{ key: "test-key", attrId: attrId("1"), dir: "asc" }];
+                api.initSortOrder = [[attrId("1"), "asc"]];
                 attributes = mockAttributes();
             });
             it("loads correct default option", () => {
@@ -97,8 +97,11 @@ describe("Dropdown Sort", () => {
             });
 
             it("renders error message", () => {
+                jest.spyOn(console, "error").mockImplementation(() => {});
                 const filter = render(<DropdownSort {...commonProps} />);
-                expect(filter.container.querySelector(".alert")?.textContent).toBe("Out of context");
+                expect(filter.container.querySelector(".alert")?.textContent).toBe(
+                    "SortAPI is not available. Widget is out of parent context."
+                );
             });
         });
     });
@@ -110,7 +113,7 @@ describe("Dropdown Sort", () => {
             delete (global as any)["com.mendix.widgets.web.UUID"];
             const host = new SortStoreHost();
             api = createAPI(host);
-            host.state = [{ key: "test-key", attrId: attrId("1"), dir: "asc" }];
+            api.initSortOrder = [[attrId("1"), "asc"]];
             attributes = mockAttributes();
         });
 

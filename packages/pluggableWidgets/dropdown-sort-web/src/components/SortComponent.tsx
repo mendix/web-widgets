@@ -4,23 +4,21 @@ import classNames from "classnames";
 import { createElement, CSSProperties, ReactElement, useCallback, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-export interface SortOption {
-    caption: string;
-    value: string | null;
-}
-
 interface SortComponentProps<Dir = "asc" | "desc"> {
     className?: string;
     placeholder?: string;
     id?: string;
-    options: SortOption[];
+    options: Array<{
+        caption: string;
+        value: string;
+    }>;
     value: string | null;
     direction: Dir;
     tabIndex?: number;
     screenReaderButtonCaption?: string;
     screenReaderInputCaption?: string;
     styles?: CSSProperties;
-    onSelect?: (option: SortOption) => void;
+    onSelect?: (value: string) => void;
     onDirectionClick?: () => void;
 }
 
@@ -33,8 +31,8 @@ export function SortComponent(props: SortComponentProps): ReactElement {
     const position = usePositionObserver(componentRef.current, show);
 
     const onClick = useCallback(
-        (option: SortOption) => {
-            onSelect?.(option);
+        (option: { value: string }) => {
+            onSelect?.(option.value);
             setShow(false);
         },
         [onSelect]
@@ -92,7 +90,9 @@ export function SortComponent(props: SortComponentProps): ReactElement {
     const containerClick = useCallback(() => {
         setShow(show => !show);
         setTimeout(() => {
-            (optionsRef.current?.querySelector("li.filter-selected") as HTMLElement)?.focus();
+            const selectedElement = optionsRef.current?.querySelector("li.filter-selected") as HTMLElement;
+            const firstElement = optionsRef.current?.querySelector("li") as HTMLElement;
+            (selectedElement || firstElement)?.focus();
         }, 10);
     }, []);
 
