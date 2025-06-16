@@ -1,6 +1,5 @@
-import { ChartWidget } from "@mendix/shared-charts/main";
-import { EditableValueBuilder, ListAttributeValueBuilder, list, listExp } from "@mendix/widget-plugin-test-utils";
-import Big from "big.js";
+import { ChartWidget, setupBasicSeries } from "@mendix/shared-charts/main";
+import { listExpression } from "@mendix/widget-plugin-test-utils";
 import { render, RenderResult } from "@testing-library/react";
 import { createElement } from "react";
 import { ColumnChartContainerProps, SeriesType } from "../../typings/ColumnChartProps";
@@ -26,7 +25,7 @@ describe("The ColumnChart widget", () => {
                 name="column-chart-test"
                 class="column-chart-class"
                 barmode="group"
-                series={configs.map(setupBasicSeries)}
+                series={configs.map(setupBasicColumnSeries)}
                 showLegend={false}
                 widthUnit="percentage"
                 width={0}
@@ -58,7 +57,7 @@ describe("The ColumnChart widget", () => {
     });
 
     it("sets the bar color on the data series based on the barColor value", () => {
-        renderColumnChart([{ staticBarColor: listExp(() => "red") }, { staticBarColor: undefined }]);
+        renderColumnChart([{ staticBarColor: listExpression(() => "red") }, { staticBarColor: undefined }]);
 
         const mockCalls = (ChartWidget as jest.Mock).mock.calls;
         const lastCallProps = mockCalls[mockCalls.length - 1][0];
@@ -105,26 +104,11 @@ describe("The ColumnChart widget", () => {
     });
 });
 
-function setupBasicSeries(overwriteConfig: Partial<SeriesType>): SeriesType {
-    const xAttribute = new ListAttributeValueBuilder<Big>().build();
-    const getXAttributeMock = jest.fn();
-    getXAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(1)).build());
-    getXAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(2)).build());
-    xAttribute.get = getXAttributeMock;
-
-    const yAttribute = new ListAttributeValueBuilder<Big>().build();
-    const getYAttributeMock = jest.fn();
-    getYAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(3)).build());
-    getYAttributeMock.mockReturnValueOnce(new EditableValueBuilder<Big>().withValue(new Big(6)).build());
-    yAttribute.get = getYAttributeMock;
+function setupBasicColumnSeries(overwriteConfig: Partial<SeriesType>): SeriesType {
+    const basicSeries = setupBasicSeries(overwriteConfig) as SeriesType;
 
     return {
-        dataSet: "static",
-        customSeriesOptions: overwriteConfig.customSeriesOptions ?? "",
-        aggregationType: overwriteConfig.aggregationType ?? "avg",
-        staticBarColor: overwriteConfig.staticBarColor ?? undefined,
-        staticDataSource: list(2),
-        staticXAttribute: xAttribute,
-        staticYAttribute: yAttribute
+        ...basicSeries,
+        staticBarColor: overwriteConfig.staticBarColor ?? undefined
     };
 }
