@@ -31,7 +31,8 @@ import {
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
 
-export interface EditorProps extends Pick<RichTextContainerProps, "imageSource"> {
+export interface EditorProps
+    extends Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "enableDefaultUpload"> {
     customFonts: CustomFontsType[];
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
@@ -201,6 +202,8 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 onOpenChange={open => setShowDialog(open)}
                 parentNode={modalRef.current?.ownerDocument.body}
                 imageSource={props.imageSource}
+                imageSourceContent={props.imageSourceContent}
+                enableDefaultUpload={props.enableDefaultUpload}
                 {...dialogConfig}
             ></Dialog>
         </Fragment>

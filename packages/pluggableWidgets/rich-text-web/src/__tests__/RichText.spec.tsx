@@ -44,7 +44,8 @@ describe("Rich Text", () => {
             maxHeight: 0,
             minHeight: 75,
             OverflowY: "auto",
-            customFonts: []
+            customFonts: [],
+            enableDefaultUpload: true
         };
     });
 

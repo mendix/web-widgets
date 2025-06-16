@@ -1,11 +1,10 @@
-import { ChangeEvent, createElement, Fragment, ReactElement, useEffect, useRef, useState } from "react";
-import { type imageConfigType } from "../../utils/formats";
-import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
-import { IMG_MIME_TYPES } from "../CustomToolbars/constants";
-import classNames from "classnames";
 import { If } from "@mendix/widget-plugin-component-kit/If";
+import classNames from "classnames";
+import { ChangeEvent, createElement, ReactElement, useEffect, useRef, useState } from "react";
 import { RichTextContainerProps } from "../../../typings/RichTextProps";
-import { fetchDocumentUrl, fetchImageThumbnail } from "../../utils/mx-data";
+import { type imageConfigType } from "../../utils/formats";
+import { IMG_MIME_TYPES } from "../CustomToolbars/constants";
+import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 
 type imageListType = {
     id: string;
@@ -13,75 +12,26 @@ type imageListType = {
     thumbnailUrl?: string;
 };
 
-export interface ImageDialogProps extends Pick<RichTextContainerProps, "imageSource"> {
+interface CustomEvent<T = any> extends Event {
+    /**
+     * Returns any custom data event was created with. Typically used for synthetic events.
+     */
+    readonly detail: T;
+    initCustomEvent(typeArg: string, canBubbleArg: boolean, cancelableArg: boolean, detailArg: T): void;
+}
+
+export interface ImageDialogProps extends Pick<RichTextContainerProps, "imageSource" | "imageSourceContent"> {
     onSubmit(value: imageConfigType): void;
     onClose(): void;
     defaultValue?: imageConfigType;
-}
-
-export interface EntityImageDialogProps extends ImageDialogProps {
-    onSelect(image: imageListType): void;
-}
-
-function EntityImageDialog(props: EntityImageDialogProps): ReactElement {
-    const { imageSource, onSelect } = props;
-    const [images, setImages] = useState<imageListType[]>([]);
-
-    useEffect(() => {
-        if (imageSource && imageSource.items && imageSource.items.length > 0 && imageSource.status === "available") {
-            const newImages: imageListType[] = imageSource.items.map(item => {
-                const guid = item.id;
-                const src = fetchDocumentUrl(item.id);
-                return {
-                    id: guid,
-                    url: src
-                };
-            });
-
-            Promise.all(
-                newImages.map(async image => {
-                    if (image.url) {
-                        const thumbnailUrl = await fetchImageThumbnail(image.url);
-                        console.log("Fetched thumbnail for image:", image.id, thumbnailUrl);
-                        return { ...image, thumbnailUrl };
-                    }
-                    return image;
-                })
-            ).then(fetchedImages => {
-                setImages(fetchedImages);
-            });
-        }
-    }, [imageSource, imageSource?.status, imageSource?.items]);
-
-    if (!imageSource || imageSource.status !== "available") {
-        return <div className="mx-text mx-text-error">Image source is not available</div>;
-    }
-
-    return (
-        <Fragment>
-            {images.length > 0 ? (
-                <div className="mx-image-dialog-list">
-                    {images.map(image => (
-                        <div key={image.id} className="mx-image-dialog-item" onClick={() => onSelect(image)}>
-                            <img
-                                src={image.thumbnailUrl || image.url}
-                                alt={image.id}
-                                className="mx-image-dialog-thumbnail"
-                            />
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <div className="mx-text mx-text-error">No images found in the datasource</div>
-            )}
-        </Fragment>
-    );
+    enableDefaultUpload?: boolean;
 }
 
 export default function ImageDialog(props: ImageDialogProps): ReactElement {
-    const { onClose, defaultValue, onSubmit, imageSource } = props;
+    const { onClose, defaultValue, onSubmit, imageSource, imageSourceContent, enableDefaultUpload } = props;
     const [activeTab, setActiveTab] = useState("general");
     const [selectedImageEntity, setSelectedImageEntity] = useState<imageListType>();
+    const imageUploadElementRef = useRef<HTMLDivElement>(null);
     // disable embed tab if it is about modifying current video
     const disableEmbed =
         (defaultValue?.src && defaultValue.src.length > 0) ||
@@ -117,10 +67,29 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
         setActiveTab("general");
     };
 
+    const handleImageSelected = (event: CustomEvent<imageListType>): void => {
+        const image = event.detail;
+        onEmbedSelected(image);
+    };
+
     const onEmbedDeleted = (): void => {
         setFormState({ ...formState, entityGuid: undefined, src: undefined });
         setSelectedImageEntity(undefined);
     };
+
+    useEffect(() => {
+        const imgRef = imageUploadElementRef.current;
+
+        // const element = ref.current;
+        if (imgRef !== null) {
+            imgRef.addEventListener("imageSelected", handleImageSelected);
+        }
+        // element.addEventListener("click", handleClick);
+
+        return () => {
+            imgRef?.removeEventListener("imageSelected", handleImageSelected);
+        };
+    }, [imageUploadElementRef.current]);
 
     return (
         <DialogContent className="video-dialog">
@@ -149,12 +118,12 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                     e.preventDefault();
                                 }}
                             >
-                                <a href="#">From datasource</a>
+                                <a href="#">Attachments</a>
                             </li>
                         </ul>
                     </div>
                 )}
-                <div>
+                <div ref={imageUploadElementRef}>
                     <If condition={activeTab === "general"}>
                         <FormControl label="Source">
                             {defaultValue?.src ? (
@@ -174,7 +143,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                         <span className="icons icon-Delete" onClick={onEmbedDeleted}></span>
                                     </span>
                                 </div>
-                            ) : (
+                            ) : enableDefaultUpload ? (
                                 <input
                                     name="files"
                                     className="form-control mx-textarea-input mx-textarea-noresize code-input"
@@ -182,7 +151,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                     accept={IMG_MIME_TYPES.join(", ")}
                                     onChange={onFileChange}
                                 ></input>
-                            )}
+                            ) : undefined}
                         </FormControl>
                         <FormControl label="Alternative description">
                             <input
@@ -217,7 +186,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                         <DialogFooter onSubmit={() => onSubmit(formState)} onClose={onClose}></DialogFooter>
                     </If>
                     <If condition={activeTab === "embed"}>
-                        <EntityImageDialog {...props} onSelect={onEmbedSelected} />
+                        <div>{imageSourceContent}</div>
                     </If>
                 </div>
             </DialogBody>

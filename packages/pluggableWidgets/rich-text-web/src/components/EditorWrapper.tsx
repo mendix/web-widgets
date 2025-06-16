@@ -50,7 +50,9 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         toolbarOptions,
         enableStatusBar,
         tabIndex,
-        imageSource
+        imageSource,
+        imageSourceContent,
+        enableDefaultUpload
     } = props;
 
     const globalState = useContext(EditorContext);
@@ -211,6 +213,8 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     key={`${toolbarId}_${stringAttribute.readOnly}`}
                     customFonts={props.customFonts}
                     imageSource={imageSource}
+                    imageSourceContent={imageSourceContent}
+                    enableDefaultUpload={enableDefaultUpload}
                 />
             </div>
             {enableStatusBar && (
