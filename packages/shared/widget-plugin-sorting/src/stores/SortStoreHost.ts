@@ -1,18 +1,20 @@
-import { action, computed, makeObservable, observable, runInAction } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { ObservableSortStore, SortInstruction } from "../types/store";
 
 export class SortStoreHost {
     private _store: ObservableSortStore | null = null;
-    private _usedBy: string | null = null;
+    private _usedBy: string[] = [];
 
     get sortOrder(): SortInstruction[] {
         return this._store?.sortOrder ?? [];
     }
 
     constructor() {
-        makeObservable<this, "_usedBy">(this, {
+        makeObservable<this, "_usedBy" | "_add" | "_remove">(this, {
             sortOrder: computed,
-            useHost: action,
+            lock: action,
+            _add: action,
+            _remove: action,
             _usedBy: observable,
             usedBy: computed,
             observe: action,
@@ -32,12 +34,25 @@ export class SortStoreHost {
         this._store = null;
     }
 
-    useHost(id: string): () => void {
-        this._usedBy = id;
-        return () => runInAction(() => (this._usedBy = null));
+    lock(id: string): () => void {
+        this._add(id);
+        return () => this._remove(id);
+    }
+
+    private _add(id: string): void {
+        if (this._usedBy.indexOf(id) === -1) {
+            this._usedBy.push(id);
+        }
+    }
+
+    private _remove(id: string): void {
+        const index = this._usedBy.indexOf(id);
+        if (index !== -1) {
+            this._usedBy.splice(index, 1);
+        }
     }
 
     get usedBy(): string | null {
-        return this._usedBy;
+        return this._usedBy.at(0) ?? null;
     }
 }

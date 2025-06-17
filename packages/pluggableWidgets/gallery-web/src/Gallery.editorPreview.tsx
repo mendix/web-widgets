@@ -1,20 +1,24 @@
 import { enableStaticRendering } from "mobx-react-lite";
 enableStaticRendering(true);
 
-import { GUID, ObjectItem } from "mendix";
-import { createElement, ReactElement, ReactNode, useCallback } from "react";
+import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
+import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
+import { getGlobalSortContext } from "@mendix/widget-plugin-sorting/react/context";
+import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
+import { GUID, ObjectItem } from "mendix";
+import { createElement, ReactElement, ReactNode, useCallback, useMemo } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
 import { useGridPositions } from "./features/useGridPositions";
-import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
-import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
 import "./ui/GalleryPreview.scss";
 
 const numberOfItems = 3;
+
+const SortAPI = getGlobalSortContext();
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
@@ -51,6 +55,15 @@ function Preview(props: GalleryPreviewProps): ReactElement {
         props.itemSelectionMode
     );
 
+    const sortAPI = useMemo(
+        () =>
+            ({
+                version: 1,
+                host: new SortStoreHost()
+            }) as const,
+        []
+    );
+
     return (
         <GalleryComponent
             className={props.class}
@@ -64,9 +77,11 @@ function Preview(props: GalleryPreviewProps): ReactElement {
                 [emptyPlaceholder]
             )}
             header={
-                <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
-                    <div />
-                </props.filtersPlaceholder.renderer>
+                <SortAPI.Provider value={sortAPI}>
+                    <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
+                        <div />
+                    </props.filtersPlaceholder.renderer>
+                </SortAPI.Provider>
             }
             showHeader
             hasMoreItems={false}
