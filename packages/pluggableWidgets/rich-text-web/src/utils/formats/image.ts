@@ -18,8 +18,10 @@ class CustomImage extends Image {
             super.format(name, value);
         }
 
-        if (name === "data-src") {
+        if (name === "data-src" && !this.domNode.dataset.entity) {
             this.domNode.setAttribute("src", fetchDocumentUrl(value, Date.now()));
+            // Mark the image as an entity to prevent further src changes
+            this.domNode.setAttribute("data-entity", "true");
         }
     }
 

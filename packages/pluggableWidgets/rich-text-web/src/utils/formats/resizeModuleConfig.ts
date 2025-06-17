@@ -1,46 +1,11 @@
 import Quill from "quill";
 import QuillResize from "quill-resize-module";
 import { ACTION_DISPATCHER } from "../helpers";
-
-type ToolbarTool = {
-    text: string;
-    className: string;
-    verify: (activeEle: HTMLElement) => boolean;
-    handler: (
-        this: typeof QuillResize.Modules.Base,
-        _evt: MouseEvent,
-        _button: HTMLElement,
-        activeEle: HTMLIFrameElement
-    ) => void;
-};
-
-// eslint-disable-next-line no-unsafe-optional-chaining
-class MxResizeToolbar extends QuillResize.Modules?.Toolbar {
-    _addToolbarButtons(): void {
-        const buttons: HTMLButtonElement[] = [];
-        this.options.tools.forEach((tool: ToolbarTool) => {
-            if (tool.verify && tool.verify.call(this, this.activeEle) === false) {
-                return;
-            }
-
-            const button = document.createElement("button");
-            button.className = tool.className;
-            buttons.push(button);
-            button.setAttribute("aria-label", tool.text);
-            button.setAttribute("type", "button");
-
-            button.addEventListener("click", evt => {
-                tool.handler.call(this, evt, button, this.activeEle);
-                // image may change position; redraw drag handles
-                this.requestUpdate();
-            });
-            this.toolbar.appendChild(button);
-        });
-    }
-}
+import MxResizeToolbar from "../modules/resizeToolbar";
+import MxResize from "../modules/resize";
 
 export const RESIZE_MODULE_CONFIG = {
-    modules: ["DisplaySize", MxResizeToolbar, "Resize", "Keyboard"],
+    modules: ["DisplaySize", MxResizeToolbar, MxResize, "Keyboard"],
     tools: [
         {
             text: "Edit Image",

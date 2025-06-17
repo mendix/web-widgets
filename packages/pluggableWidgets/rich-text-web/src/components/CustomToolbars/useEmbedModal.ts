@@ -152,14 +152,16 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
             dialogType: "image",
             config: {
                 onSubmit: (value: imageConfigType) => {
+                    const defaultImageConfig = {
+                        alt: value.alt,
+                        width: value.width,
+                        height: value.keepAspectRatio ? undefined : value.height
+                    };
+
                     if (value.src) {
                         const index = selection?.index ?? 0;
                         const length = 1;
-                        const imageConfig = {
-                            alt: value.alt,
-                            width: value.width,
-                            height: value.height
-                        };
+                        const imageConfig = defaultImageConfig;
                         // update existing image attribute
                         const imageUpdateDelta = new Delta().retain(index).retain(length, imageConfig);
                         ref.current?.updateContents(imageUpdateDelta, Emitter.sources.USER);
@@ -170,9 +172,7 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                                 uploadImage(ref, selection, value);
                             } else if (value.entityGuid) {
                                 const imageConfig = {
-                                    alt: value.alt,
-                                    width: value.width,
-                                    height: value.height,
+                                    ...defaultImageConfig,
                                     "data-src": value.entityGuid
                                 };
                                 const delta = new Delta()
