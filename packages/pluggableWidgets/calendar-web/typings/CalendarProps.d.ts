@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, EditableValue, ListValue, Option, ListAttributeValue, ListExpressionValue } from "mendix";
+import { ActionValue, EditableValue, ListValue, Option, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 
 export type TitleTypeEnum = "attribute" | "expression";
 
@@ -45,10 +45,18 @@ export interface CalendarContainerProps {
     startDateAttribute?: EditableValue<Date>;
     minHour: number;
     maxHour: number;
+    customViewCaption?: any;
+    showMonday: boolean;
+    showTuesday: boolean;
+    showWednesday: boolean;
+    showThursday: boolean;
+    showFriday: boolean;
+    showSunday: boolean;
+    showSaturday: boolean;
     eventDataAttribute?: EditableValue<string>;
-    onClickEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean>; title: Option<string> }>;
+    onClickEvent?: ListActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean>; title: Option<string> }>;
     onCreateEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean> }>;
-    onChange?: ActionValue<{ oldStart: Option<Date>; oldEnd: Option<Date>; newStart: Option<Date>; newEnd: Option<Date> }>;
+    onChange?: ListActionValue<{ oldStart: Option<Date>; oldEnd: Option<Date>; newStart: Option<Date>; newEnd: Option<Date> }>;
     onRangeChange?: ActionValue<{ rangeStart: Option<Date>; rangeEnd: Option<Date>; currentView: Option<string> }>;
     widthUnit: WidthUnitEnum;
     width: number;
@@ -89,6 +97,14 @@ export interface CalendarPreviewProps {
     startDateAttribute: string;
     minHour: number | null;
     maxHour: number | null;
+    customViewCaption: any;
+    showMonday: boolean;
+    showTuesday: boolean;
+    showWednesday: boolean;
+    showThursday: boolean;
+    showFriday: boolean;
+    showSunday: boolean;
+    showSaturday: boolean;
     eventDataAttribute: string;
     onClickEvent: {} | null;
     onCreateEvent: {} | null;
