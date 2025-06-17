@@ -83,7 +83,7 @@
                     <caption>Enable create</caption>
                     <description />
                 </property>
-                <property key="defaultView" type="enumeration" defaultValue="month">
+                <property key="defaultViewCustom" type="enumeration" defaultValue="month">
                     <caption>Initial selected view</caption>
                     <description>Work week and agenda are only available in custom views</description>
                     <enumerationValues>
@@ -92,6 +92,15 @@
                         <enumerationValue key="month">Month</enumerationValue>
                         <enumerationValue key="work_week">Custom</enumerationValue>
                         <enumerationValue key="agenda">Agenda</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="defaultViewStandard" type="enumeration" defaultValue="month">
+                    <caption>Default view</caption>
+                    <description>The default view to show when the calendar is loaded</description>
+                    <enumerationValues>
+                        <enumerationValue key="day">Day</enumerationValue>
+                        <enumerationValue key="week">Week</enumerationValue>
+                        <enumerationValue key="month">Month</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="startDateAttribute" type="attribute" required="false">
