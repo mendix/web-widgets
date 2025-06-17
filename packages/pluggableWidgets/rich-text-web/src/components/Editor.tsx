@@ -30,6 +30,7 @@ import {
 } from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
+import MxUploader from "../utils/modules/uploader";
 
 export interface EditorProps
     extends Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "enableDefaultUpload"> {
@@ -166,6 +167,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                         if (arg[0].href) {
                             customLinkHandler(arg[0]);
                         } else if (arg[0].src) {
+                            // open dialog editor for updating imag or video
                             if (arg[0].type === "video") {
                                 customVideoHandler(arg[0]);
                             } else {
@@ -176,6 +178,9 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                 if (contextDispatch) {
                                     contextDispatch(arg[0]);
                                 }
+                            } else if (arg[0].type === "image") {
+                                // open dialog editor for updating image (triggered by module uploader)
+                                customImageUploadHandler(arg[0]);
                             }
                         }
                     }
@@ -192,6 +197,13 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [ref, toolbarId]
     );
+
+    useEffect(() => {
+        // if image source is set from entity, handle upload differently
+        if (props.imageSource && props.imageSource.status === "available") {
+            (ref.current?.getModule("uploader") as MxUploader)?.setEntityUpload?.(true);
+        }
+    }, [props.imageSource, props.imageSource?.status, ref]);
 
     return (
         <Fragment>
