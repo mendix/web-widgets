@@ -80,7 +80,7 @@ export function preview(props: CalendarPreviewProps): ReactElement {
         <div className={classnames("widget-events-preview", "widget-calendar", className)} style={wrapperStyle}>
             <Calendar
                 components={{ toolbar: CustomToolbar }}
-                defaultView={props.defaultView}
+                defaultView={props.defaultViewStandard}
                 events={events}
                 localizer={localizer}
                 messages={{ ...localizer.messages, work_week: "Custom" }}

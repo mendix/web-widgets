@@ -89,7 +89,7 @@
                 </property>
                 <property key="defaultViewCustom" type="enumeration" defaultValue="month">
                     <caption>Initial selected view</caption>
-                    <description>Work week and agenda are only available in custom views</description>
+                    <description>The default view to show when the calendar is loaded</description>
                     <enumerationValues>
                         <enumerationValue key="day">Day</enumerationValue>
                         <enumerationValue key="week">Week</enumerationValue>
@@ -99,7 +99,7 @@
                     </enumerationValues>
                 </property>
                 <property key="defaultViewStandard" type="enumeration" defaultValue="month">
-                    <caption>Default view</caption>
+                    <caption>Initial selected view</caption>
                     <description>The default view to show when the calendar is loaded</description>
                     <enumerationValues>
                         <enumerationValue key="day">Day</enumerationValue>
@@ -123,9 +123,8 @@
                     <description>The hour at which the day view ends (1-24)</description>
                 </property>
                 <!-- Custom week caption -->
-                <property key="customViewCaption" type="translatableString" required="false">
+                <property key="customViewCaption" type="textTemplate" required="false">
                     <caption>Custom view caption</caption>
-                    <category>View</category>
                     <description>Label used for the custom work-week button and title. Defaults to "Custom".</description>
                     <translations>
                         <translation lang="en_US">Custom</translation>
