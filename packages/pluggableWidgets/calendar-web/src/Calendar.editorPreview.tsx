@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import * as dateFns from "date-fns";
 import { ReactElement, createElement } from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer, EventPropGetter } from "react-big-calendar";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
 import { CustomToolbar } from "./components/Toolbar";
 import { constructWrapperStyle, WrapperStyleProps } from "./utils/style-utils";
@@ -73,6 +73,9 @@ export function preview(props: CalendarPreviewProps): ReactElement {
     const { class: className } = props;
     const wrapperStyle = constructWrapperStyle(props as WrapperStyleProps);
 
+    // Cast eventPropGetter to satisfy preview Calendar generic
+    const previewEventPropGetter = eventPropGetter as unknown as EventPropGetter<(typeof events)[0]>;
+
     return (
         <div className={classnames("widget-events-preview", "widget-calendar", className)} style={wrapperStyle}>
             <Calendar
@@ -80,8 +83,9 @@ export function preview(props: CalendarPreviewProps): ReactElement {
                 defaultView={props.defaultView}
                 events={events}
                 localizer={localizer}
-                views={["day", "week", "month"]}
-                eventPropGetter={eventPropGetter}
+                messages={{ ...localizer.messages, work_week: "Custom" }}
+                views={["day", "week", "month", "work_week"]}
+                eventPropGetter={previewEventPropGetter}
             />
         </div>
     );
