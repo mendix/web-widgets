@@ -232,9 +232,7 @@ function uploadImage(ref: MutableRefObject<Quill | null>, range: Range, options:
                         {
                             alt: options.alt,
                             width: options.width,
-                            height: options.height,
-                            "data-src": "10696049115005183",
-                            "data-mx-timestamp": "1749298464712"
+                            height: options.height
                         }
                     );
                 }, new Delta().retain(range.index).delete(range.length)) as Delta;
