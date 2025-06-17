@@ -12,7 +12,9 @@ export type ViewEnum = "standard" | "custom";
 
 export type EditableEnum = "default" | "never";
 
-export type DefaultViewEnum = "day" | "week" | "month" | "work_week" | "agenda";
+export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda";
+
+export type DefaultViewStandardEnum = "day" | "week" | "month";
 
 export type WidthUnitEnum = "pixels" | "percentage";
 
@@ -41,7 +43,8 @@ export interface CalendarContainerProps {
     editable: EditableEnum;
     enableCreate: boolean;
     showEventDate: boolean;
-    defaultView: DefaultViewEnum;
+    defaultViewCustom: DefaultViewCustomEnum;
+    defaultViewStandard: DefaultViewStandardEnum;
     startDateAttribute?: EditableValue<Date>;
     minHour: number;
     maxHour: number;
@@ -93,7 +96,8 @@ export interface CalendarPreviewProps {
     editable: EditableEnum;
     enableCreate: boolean;
     showEventDate: boolean;
-    defaultView: DefaultViewEnum;
+    defaultViewCustom: DefaultViewCustomEnum;
+    defaultViewStandard: DefaultViewStandardEnum;
     startDateAttribute: string;
     minHour: number | null;
     maxHour: number | null;
