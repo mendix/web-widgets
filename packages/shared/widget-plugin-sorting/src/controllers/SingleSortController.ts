@@ -46,6 +46,9 @@ export class SingleSortController {
 
     toggleDirection = (): void => {
         this.direction = this.direction === "asc" ? "desc" : "asc";
+        if (this.selected) {
+            this._sortOrderStore.replace([this.selected, this.direction]);
+        }
     };
 
     select = (value: string): void => {

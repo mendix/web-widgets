@@ -1,8 +1,8 @@
-import { createElement } from "react";
-import { getGlobalSortContext } from "@mendix/widget-plugin-sorting/context";
-import { getGlobalSelectionContext, useCreateSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
-import { useGalleryRootScope } from "../helpers/root-context";
 import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
+import { getGlobalSelectionContext, useCreateSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
+import { getGlobalSortContext } from "@mendix/widget-plugin-sorting/react/context";
+import { createElement } from "react";
+import { useGalleryRootScope } from "../helpers/root-context";
 
 const SelectionContext = getGlobalSelectionContext();
 const SortAPI = getGlobalSortContext();
