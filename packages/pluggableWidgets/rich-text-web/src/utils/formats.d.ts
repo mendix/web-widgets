@@ -26,4 +26,5 @@ export type imageConfigType = {
     height?: number;
     src?: string;
     entityGuid?: string;
+    keepAspectRatio?: boolean;
 };
