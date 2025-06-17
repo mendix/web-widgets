@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, EditableValue, ListValue, Option, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, Option, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 
 export type TitleTypeEnum = "attribute" | "expression";
 
@@ -48,7 +48,7 @@ export interface CalendarContainerProps {
     startDateAttribute?: EditableValue<Date>;
     minHour: number;
     maxHour: number;
-    customViewCaption?: any;
+    customViewCaption?: DynamicValue<string>;
     showMonday: boolean;
     showTuesday: boolean;
     showWednesday: boolean;
@@ -101,7 +101,7 @@ export interface CalendarPreviewProps {
     startDateAttribute: string;
     minHour: number | null;
     maxHour: number | null;
-    customViewCaption: any;
+    customViewCaption: string;
     showMonday: boolean;
     showTuesday: boolean;
     showWednesday: boolean;

@@ -69,7 +69,7 @@ interface DragAndDropCalendarProps<TEvent extends object = Event, TResource exte
 export function extractCalendarProps(props: CalendarContainerProps): DragAndDropCalendarProps<CalEvent, object> {
     const isCustomView = props.view === "custom";
     const defaultView = isCustomView ? props.defaultViewCustom : props.defaultViewStandard;
-    const customCaption: string = props.customViewCaption ?? "Custom";
+    const customCaption: string = props.customViewCaption?.value ?? "Custom";
     const visibleSet = new Set<number>();
     const dayProps = [
         { prop: props.showSunday, day: 0 },
