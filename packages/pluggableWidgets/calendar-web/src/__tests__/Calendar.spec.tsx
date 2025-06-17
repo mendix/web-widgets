@@ -10,19 +10,29 @@ const defaultProps: CalendarContainerProps = {
     tabIndex: 0,
     databaseDataSource: new ListValueBuilder().withItems([]).build(),
     titleType: "attribute",
-    view: "standard",
-    defaultView: "month",
+    view: "custom",
+    defaultView: "work_week",
     editable: "default",
     enableCreate: true,
     widthUnit: "percentage",
     width: 100,
     heightUnit: "pixels",
     height: 400,
+    minHour: 0,
+    maxHour: 24,
     minHeightUnit: "pixels",
     minHeight: 400,
     maxHeightUnit: "none",
     maxHeight: 400,
-    overflowY: "auto"
+    overflowY: "auto",
+    showSunday: false,
+    showMonday: true,
+    showTuesday: true,
+    showWednesday: true,
+    showThursday: true,
+    showFriday: true,
+    showSaturday: false,
+    showAllEvents: true
 };
 
 beforeAll(() => {
