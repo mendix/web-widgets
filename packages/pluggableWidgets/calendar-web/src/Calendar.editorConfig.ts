@@ -35,14 +35,18 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
     // Hide custom week range properties when view is set to 'standard'
     if (values.view === "standard") {
         hidePropertiesIn(defaultProperties, values, [
+            "defaultViewCustom",
             "showSunday",
             "showMonday",
             "showTuesday",
             "showWednesday",
             "showThursday",
             "showFriday",
-            "showSaturday"
+            "showSaturday",
+            "customViewCaption"
         ]);
+    } else {
+        hidePropertyIn(defaultProperties, values, "defaultViewStandard");
     }
 
     // Show/hide title properties based on selection
