@@ -67,10 +67,10 @@ interface DragAndDropCalendarProps<TEvent extends object = Event, TResource exte
         withDragAndDropProps<TEvent, TResource> {}
 
 export function extractCalendarProps(props: CalendarContainerProps): DragAndDropCalendarProps<CalEvent, object> {
-    const visibleSet = new Set<number>();
-    // Caption for custom work week button / title
-
+    const isCustomView = props.view === "custom";
+    const defaultView = isCustomView ? props.defaultViewCustom : props.defaultViewStandard;
     const customCaption: string = props.customViewCaption ?? "Custom";
+    const visibleSet = new Set<number>();
     const dayProps = [
         { prop: props.showSunday, day: 0 },
         { prop: props.showMonday, day: 1 },
@@ -158,16 +158,9 @@ export function extractCalendarProps(props: CalendarContainerProps): DragAndDrop
         return { title, start, end, allDay, color, item };
     });
 
-    // Update button label inside localizer messages
-    (localizer as any).messages = {
-        ...localizer.messages,
-        work_week: customCaption
-    };
-
-    const viewsOption: ViewsProps<CalEvent, object> =
-        props.view === "standard"
-            ? { day: true, week: true, month: true }
-            : { day: true, week: true, month: true, work_week: CustomWeek, agenda: true };
+    const viewsOption: ViewsProps<CalEvent, object> = isCustomView
+        ? { day: true, week: true, month: true, work_week: CustomWeek, agenda: true }
+        : { day: true, week: true, month: true };
 
     // Compute minimum and maximum times for the day based on configured hours
     const minTime = new Date();
@@ -224,7 +217,7 @@ export function extractCalendarProps(props: CalendarContainerProps): DragAndDrop
         components: {
             toolbar: CustomToolbar
         },
-        defaultView: props.defaultView,
+        defaultView,
         messages: {
             work_week: customCaption
         },
