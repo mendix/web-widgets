@@ -42,6 +42,7 @@ test.describe("gallery-web", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
             await page.locator(textFilter).nth(1).fill("32");
+            await expect(page.locator(".widget-gallery-item")).toHaveCount(2);
             await expect(page.locator(gallery)).toHaveScreenshot(`galleryNumberFilter.png`);
         });
 
