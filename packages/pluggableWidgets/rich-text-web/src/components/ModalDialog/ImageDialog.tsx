@@ -39,9 +39,35 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
         imageSource?.status !== "available";
 
     const inputReference = useRef<HTMLInputElement>(null);
+    const isInputProcessed = useRef(false);
     useEffect(() => {
         setTimeout(() => inputReference?.current?.focus(), 50);
-    }, []);
+        if (
+            !disableEmbed &&
+            imageSource &&
+            imageSource.status === "available" &&
+            defaultValue?.files &&
+            !isInputProcessed.current
+        ) {
+            // if there is a file given, and imageSource is available
+            // asume that we want to do image upload to entity
+            // and switch to embed tab
+            setActiveTab("embed");
+        }
+    }, [defaultValue?.files, disableEmbed, imageSource]);
+
+    useEffect(() => {
+        if (activeTab === "embed" && defaultValue?.files && !isInputProcessed.current) {
+            // upload image directly to entity using external file uploader widget (if available)
+            const inputFiles = imageUploadElementRef.current?.querySelector("input[type='file']") as HTMLInputElement;
+            if (inputFiles) {
+                inputFiles.files = defaultValue.files as FileList;
+                inputFiles.dispatchEvent(new Event("change", { bubbles: true }));
+            }
+            isInputProcessed.current = true;
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeTab]);
 
     const [formState, setFormState] = useState<imageConfigType>({
         files: null,
@@ -78,116 +104,117 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
     };
 
     useEffect(() => {
+        // event listener for image selection triggered from custom widgets JS Action
         const imgRef = imageUploadElementRef.current;
 
-        // const element = ref.current;
         if (imgRef !== null) {
             imgRef.addEventListener("imageSelected", handleImageSelected);
         }
-        // element.addEventListener("click", handleClick);
-
         return () => {
             imgRef?.removeEventListener("imageSelected", handleImageSelected);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [imageUploadElementRef.current]);
 
     return (
         <DialogContent className="video-dialog">
             <DialogHeader onClose={onClose}>{activeTab === "general" ? "Insert/Edit" : "Embed"} Images</DialogHeader>
             <DialogBody>
-                {!disableEmbed && (
-                    <div>
-                        <ul className="nav nav-tabs mx-tabcontainer-tabs" role="tablist">
-                            <li
-                                role="presentation"
-                                className={classNames({
-                                    active: activeTab === "general"
-                                })}
-                                onClick={() => setActiveTab("general")}
-                            >
-                                <a href="#">General</a>
-                            </li>
-                            <li
-                                role="presentation"
-                                className={classNames({
-                                    active: activeTab === "embed"
-                                })}
-                                onClick={(e: React.MouseEvent) => {
-                                    setActiveTab("embed");
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                }}
-                            >
-                                <a href="#">Attachments</a>
-                            </li>
-                        </ul>
-                    </div>
-                )}
                 <div ref={imageUploadElementRef}>
-                    <If condition={activeTab === "general"}>
-                        <FormControl label="Source">
-                            {defaultValue?.src ? (
-                                <img
-                                    src={defaultValue.src}
-                                    alt={defaultValue.alt}
-                                    className="mx-image-dialog-thumbnail-small"
-                                />
-                            ) : formState.entityGuid && selectedImageEntity ? (
-                                <div className="mx-image-dialog-thumbnail-container">
+                    {!disableEmbed && (
+                        <div>
+                            <ul className="nav nav-tabs mx-tabcontainer-tabs" role="tablist">
+                                <li
+                                    role="presentation"
+                                    className={classNames({
+                                        active: activeTab === "general"
+                                    })}
+                                    onClick={() => setActiveTab("general")}
+                                >
+                                    <a href="#">General</a>
+                                </li>
+                                <li
+                                    role="presentation"
+                                    className={classNames({
+                                        active: activeTab === "embed"
+                                    })}
+                                    onClick={(e: React.MouseEvent) => {
+                                        setActiveTab("embed");
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                    }}
+                                >
+                                    <a href="#">Attachments</a>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
+                    <div>
+                        <If condition={activeTab === "general"}>
+                            <FormControl label="Source">
+                                {defaultValue?.src ? (
                                     <img
-                                        src={selectedImageEntity.thumbnailUrl || selectedImageEntity.url}
-                                        alt={selectedImageEntity.id}
+                                        src={defaultValue.src}
+                                        alt={defaultValue.alt}
                                         className="mx-image-dialog-thumbnail-small"
                                     />
-                                    <span className="icon-container">
-                                        <span className="icons icon-Delete" onClick={onEmbedDeleted}></span>
-                                    </span>
-                                </div>
-                            ) : enableDefaultUpload ? (
+                                ) : formState.entityGuid && selectedImageEntity ? (
+                                    <div className="mx-image-dialog-thumbnail-container">
+                                        <img
+                                            src={selectedImageEntity.thumbnailUrl || selectedImageEntity.url}
+                                            alt={selectedImageEntity.id}
+                                            className="mx-image-dialog-thumbnail-small"
+                                        />
+                                        <span className="icon-container">
+                                            <span className="icons icon-Delete" onClick={onEmbedDeleted}></span>
+                                        </span>
+                                    </div>
+                                ) : enableDefaultUpload ? (
+                                    <input
+                                        name="files"
+                                        className="form-control mx-textarea-input mx-textarea-noresize code-input"
+                                        type="file"
+                                        accept={IMG_MIME_TYPES.join(", ")}
+                                        onChange={onFileChange}
+                                    ></input>
+                                ) : undefined}
+                            </FormControl>
+                            <FormControl label="Alternative description">
                                 <input
-                                    name="files"
-                                    className="form-control mx-textarea-input mx-textarea-noresize code-input"
-                                    type="file"
-                                    accept={IMG_MIME_TYPES.join(", ")}
-                                    onChange={onFileChange}
-                                ></input>
-                            ) : undefined}
-                        </FormControl>
-                        <FormControl label="Alternative description">
-                            <input
-                                className="form-control"
-                                type="text"
-                                name="alt"
-                                onChange={onInputChange}
-                                value={formState.alt}
-                                ref={inputReference}
-                            />
-                        </FormControl>
-                        <FormControl label="Width">
-                            <input
-                                className="form-control"
-                                type="number"
-                                name="width"
-                                onChange={onInputChange}
-                                value={formState.width}
-                            />
-                            px
-                        </FormControl>
-                        <FormControl label="Height">
-                            <input
-                                className="form-control"
-                                type="number"
-                                name="height"
-                                onChange={onInputChange}
-                                value={formState.height}
-                            />
-                            px
-                        </FormControl>
-                        <DialogFooter onSubmit={() => onSubmit(formState)} onClose={onClose}></DialogFooter>
-                    </If>
-                    <If condition={activeTab === "embed"}>
-                        <div>{imageSourceContent}</div>
-                    </If>
+                                    className="form-control"
+                                    type="text"
+                                    name="alt"
+                                    onChange={onInputChange}
+                                    value={formState.alt}
+                                    ref={inputReference}
+                                />
+                            </FormControl>
+                            <FormControl label="Width">
+                                <input
+                                    className="form-control"
+                                    type="number"
+                                    name="width"
+                                    onChange={onInputChange}
+                                    value={formState.width}
+                                />
+                                px
+                            </FormControl>
+                            <FormControl label="Height">
+                                <input
+                                    className="form-control"
+                                    type="number"
+                                    name="height"
+                                    onChange={onInputChange}
+                                    value={formState.height}
+                                />
+                                px
+                            </FormControl>
+                            <DialogFooter onSubmit={() => onSubmit(formState)} onClose={onClose}></DialogFooter>
+                        </If>
+                        <If condition={activeTab === "embed"}>
+                            <div>{imageSourceContent}</div>
+                        </If>
+                    </div>
                 </div>
             </DialogBody>
         </DialogContent>
