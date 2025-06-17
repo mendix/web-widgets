@@ -74,7 +74,8 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
         alt: defaultValue?.alt ?? "",
         width: defaultValue?.width ?? 100,
         height: defaultValue?.height ?? 100,
-        src: defaultValue?.src ?? undefined
+        src: defaultValue?.src ?? undefined,
+        keepAspectRatio: true
     });
 
     const onFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -85,6 +86,11 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
         e.preventDefault();
         e.stopPropagation();
         setFormState({ ...formState, [e.target.name]: e.target.value });
+    };
+
+    const onInputCheckboxChange = (e: ChangeEvent<HTMLInputElement>): void => {
+        e.stopPropagation();
+        setFormState({ ...formState, keepAspectRatio: !formState.keepAspectRatio });
     };
 
     const onEmbedSelected = (image: imageListType): void => {
@@ -206,8 +212,17 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                     name="height"
                                     onChange={onInputChange}
                                     value={formState.height}
+                                    disabled={formState.keepAspectRatio}
                                 />
                                 px
+                            </FormControl>
+                            <FormControl label="Keep aspect ratio">
+                                <input
+                                    type="checkbox"
+                                    name="keepAspectRatio"
+                                    checked={formState.keepAspectRatio}
+                                    onChange={onInputCheckboxChange}
+                                />
                             </FormControl>
                             <DialogFooter onSubmit={() => onSubmit(formState)} onClose={onClose}></DialogFooter>
                         </If>
