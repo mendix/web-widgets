@@ -22,7 +22,7 @@ type limitType = {
 
 type eventType = { clientX: number; clientY: number };
 // eslint-disable-next-line no-unsafe-optional-chaining
-export default class MxResize extends QuillResize.Modules?.Resize {
+export default class MxResize extends QuillResize.Modules.Resize {
     // modified from https://github.com/mudoo/quill-resize-module/blob/master/src/modules/Resize.js
     calcSize(evt: eventType, limit: limitType = {}): resultSizeType {
         // update size
