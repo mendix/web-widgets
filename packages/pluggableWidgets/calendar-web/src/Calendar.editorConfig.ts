@@ -1,12 +1,15 @@
 import {
-    StructurePreviewProps,
     container,
     rowLayout,
     structurePreviewPalette,
+    StructurePreviewProps,
+    svgImage,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { Properties, hidePropertyIn, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
+import IconSVGDark from "./assets/StructureCalendarDark.svg";
+import IconSVG from "./assets/StructureCalendarLight.svg";
 
 export function getProperties(values: CalendarPreviewProps, defaultProperties: Properties): Properties {
     if (values.heightUnit === "percentageOfWidth") {
@@ -41,10 +44,20 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
 
 export function getPreview(_values: CalendarPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+    const readOnly = _values.readOnly;
 
-    return rowLayout({ columnSize: "grow", borders: true, backgroundColor: palette.background.containerFill })(
-        container()(),
-        rowLayout({ grow: 2, padding: 8 })(text({ fontColor: palette.text.primary, grow: 10 })("calendar")),
-        container()()
+    return container({
+        backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.topbarData,
+        borders: true
+    })(
+        rowLayout({
+            columnSize: "grow",
+            padding: 6
+        })(
+            svgImage({ width: 16, height: 16, grow: 0 })(
+                decodeURIComponent((isDarkMode ? IconSVGDark : IconSVG).replace("data:image/svg+xml,", ""))
+            ),
+            text({ fontColor: palette.text.primary })("Calendar")
+        )
     );
 }

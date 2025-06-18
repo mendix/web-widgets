@@ -30,7 +30,9 @@ export function getPreview(
         return container()(
             rowLayout({ columnSize: "grow" })(
                 container({ grow: 1 })(
-                    svgImage(decodeURIComponent(CheckBoxIndeterminateSVG.replace("data:image/svg+xml,", "")), 24, 24)
+                    svgImage({ width: 24, height: 24 })(
+                        decodeURIComponent(CheckBoxIndeterminateSVG.replace("data:image/svg+xml,", ""))
+                    )
                 ),
                 container({ grow: 100, padding: 3 })(text({ fontSize: 10 })(values.checkboxCaption))
             )
