@@ -56,9 +56,7 @@ export class EnumFilterStore extends BaseSelectStore {
             Array.from(attr.universe ?? [], value => {
                 const stringValue = `${value}`;
                 return {
-                    // TODO: fix when formatter is available
-                    // caption: attr.formatter.format(value),
-                    caption: stringValue,
+                    caption: attr.formatter.format(value),
                     value: stringValue,
                     selected: selected.has(stringValue)
                 };
