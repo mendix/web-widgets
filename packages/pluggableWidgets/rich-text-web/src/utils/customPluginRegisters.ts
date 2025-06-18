@@ -15,6 +15,7 @@ import Formula from "./formats/formula";
 import QuillResize from "quill-resize-module";
 import QuillTableBetter from "./formats/quill-table-better/quill-table-better";
 import MxUploader from "./modules/uploader";
+import MxBlock from "./formats/block";
 
 class Empty {
     doSomething(): string {
@@ -36,6 +37,7 @@ Quill.register(IndentLeftStyle, true);
 Quill.register(IndentRightStyle, true);
 Quill.register(Formula, true);
 Quill.register(Button, true);
+Quill.register(MxBlock, true);
 Quill.register({ "modules/uploader": MxUploader }, true);
 Quill.register("modules/resize", QuillResize, true);
 // add empty handler for view code, this format is handled by toolbar's custom config via ViewCodeDialog
