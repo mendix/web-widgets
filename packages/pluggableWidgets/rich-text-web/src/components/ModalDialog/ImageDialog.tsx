@@ -1,6 +1,6 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import classNames from "classnames";
-import { ChangeEvent, createElement, ReactElement, useEffect, useRef, useState } from "react";
+import { ChangeEvent, createElement, ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { RichTextContainerProps } from "../../../typings/RichTextProps";
 import { type imageConfigType } from "../../utils/formats";
 import { IMG_MIME_TYPES } from "../CustomToolbars/constants";
@@ -109,6 +109,10 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
         setSelectedImageEntity(undefined);
     };
 
+    const onImageLoaded = (e: SyntheticEvent<HTMLImageElement>): void => {
+        setFormState({ ...formState, width: e.currentTarget.naturalWidth, height: e.currentTarget.naturalHeight });
+    };
+
     useEffect(() => {
         // event listener for image selection triggered from custom widgets JS Action
         const imgRef = imageUploadElementRef.current;
@@ -123,7 +127,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
     }, [imageUploadElementRef.current]);
 
     return (
-        <DialogContent className="video-dialog">
+        <DialogContent className="image-dialog">
             <DialogHeader onClose={onClose}>{activeTab === "general" ? "Insert/Edit" : "Embed"} Images</DialogHeader>
             <DialogBody>
                 <div ref={imageUploadElementRef}>
@@ -170,6 +174,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                             src={selectedImageEntity.thumbnailUrl || selectedImageEntity.url}
                                             alt={selectedImageEntity.id}
                                             className="mx-image-dialog-thumbnail-small"
+                                            onLoad={onImageLoaded}
                                         />
                                         <span className="icon-container">
                                             <span className="icons icon-Delete" onClick={onEmbedDeleted}></span>
@@ -195,28 +200,35 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                     ref={inputReference}
                                 />
                             </FormControl>
-                            <FormControl label="Width">
-                                <input
-                                    className="form-control"
-                                    type="number"
-                                    name="width"
-                                    onChange={onInputChange}
-                                    value={formState.width}
-                                />
-                                px
+                            <FormControl label="Width" className="image-dialog-size">
+                                <div className="flexcontainer image-dialog-size-container">
+                                    <div className="flexcontainer image-dialog-size-input">
+                                        <input
+                                            className="form-control"
+                                            type="number"
+                                            name="width"
+                                            onChange={onInputChange}
+                                            value={formState.width}
+                                        />
+                                        <span>px</span>
+                                    </div>
+                                    <div className="flexcontainer image-dialog-size-label">
+                                        <label className="control-label">Height</label>
+                                    </div>
+                                    <div className="flexcontainer image-dialog-size-input">
+                                        <input
+                                            className="form-control"
+                                            type="number"
+                                            name="height"
+                                            onChange={onInputChange}
+                                            value={formState.height}
+                                            disabled={formState.keepAspectRatio}
+                                        />
+                                        <span>px</span>
+                                    </div>
+                                </div>
                             </FormControl>
-                            <FormControl label="Height">
-                                <input
-                                    className="form-control"
-                                    type="number"
-                                    name="height"
-                                    onChange={onInputChange}
-                                    value={formState.height}
-                                    disabled={formState.keepAspectRatio}
-                                />
-                                px
-                            </FormControl>
-                            <FormControl label="Keep aspect ratio">
+                            <FormControl label="Keep ratio">
                                 <input
                                     type="checkbox"
                                     name="keepAspectRatio"
@@ -227,7 +239,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                             <DialogFooter onSubmit={() => onSubmit(formState)} onClose={onClose}></DialogFooter>
                         </If>
                         <If condition={activeTab === "embed"}>
-                            <div>{imageSourceContent}</div>
+                            <div className="image-dialog-upload">{imageSourceContent}</div>
                         </If>
                     </div>
                 </div>

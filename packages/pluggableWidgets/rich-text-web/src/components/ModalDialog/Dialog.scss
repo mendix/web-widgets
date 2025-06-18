@@ -30,9 +30,44 @@
             }
         }
 
+        &.image-dialog {
+            .image-dialog-size {
+                input {
+                    min-width: 20px;
+                    &[disabled] {
+                        text-decoration: line-through;
+                    }
+                }
+
+                &-input {
+                    flex: 2;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                &-label {
+                    flex: 1;
+                    align-items: center;
+                    justify-content: flex-end;
+                    padding-right: var(--spacing-medium, 16px);
+                }
+
+                &-container {
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+
+            .image-dialog-upload {
+                max-height: var(--max-dialog-height, 70vh);
+                overflow-y: auto;
+            }
+        }
+
         .nav-tabs {
             li {
                 cursor: pointer;
+
                 a {
                     pointer-events: none;
                 }
@@ -57,6 +92,7 @@
 
         .mx-image-dialog-thumbnail {
             max-height: 100px;
+
             &-small {
                 max-height: 50px;
             }
@@ -79,6 +115,7 @@
                         background-color: var(--color-background, #fff);
                         cursor: pointer;
                         transition: transform 0.2s ease-in-out;
+
                         &:hover {
                             transform: scale3d(1.05, 1.05, 1);
                         }
