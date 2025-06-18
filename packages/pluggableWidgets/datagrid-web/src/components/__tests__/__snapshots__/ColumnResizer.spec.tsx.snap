@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Column Resizer renders the structure correctly 1`] = `
-<div
-  aria-hidden="true"
-  class="column-resizer"
->
+<DocumentFragment>
   <div
-    class="column-resizer-bar"
-  />
-</div>
+    aria-hidden="true"
+    class="column-resizer"
+  >
+    <div
+      class="column-resizer-bar"
+    />
+  </div>
+</DocumentFragment>
 `;
