@@ -100,7 +100,7 @@ describe("Dropdown Sort", () => {
                 jest.spyOn(console, "error").mockImplementation(() => {});
                 const filter = render(<DropdownSort {...commonProps} />);
                 expect(filter.container.querySelector(".alert")?.textContent).toBe(
-                    "SortAPI is not available. Widget is out of parent context."
+                    "Error: widget is out of context. Please place the widget inside the Gallery header."
                 );
             });
         });
