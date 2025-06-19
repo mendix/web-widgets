@@ -39,7 +39,7 @@
             ]
         },
         "overrides": {
-            "@mendix/pluggable-widgets-tools": "10.21.0",
+            "@mendix/pluggable-widgets-tools": "10.21.1",
             "react": "^18.0.0",
             "react-dom": "^18.0.0",
             "prettier": "3.5.3",
