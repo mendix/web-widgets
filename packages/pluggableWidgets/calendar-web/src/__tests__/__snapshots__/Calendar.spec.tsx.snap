@@ -49,7 +49,7 @@ exports[`Calendar renders correctly with basic props 1`] = `
               <span
                 class="calendar-label"
               >
-                April 2025
+                Apr 28 – May 02
               </span>
             </div>
             <div
@@ -68,686 +68,207 @@ exports[`Calendar renders correctly with basic props 1`] = `
                 Week
               </button>
               <button
-                class="btn btn-default active"
+                class="btn btn-default"
                 type="button"
               >
                 Month
               </button>
+              <button
+                class="btn btn-default active"
+                type="button"
+              >
+                Custom
+              </button>
+              <button
+                class="btn btn-default"
+                type="button"
+              >
+                Agenda
+              </button>
             </div>
           </div>
           <div
-            aria-label="Month View"
-            class="rbc-month-view"
-            role="table"
+            class="rbc-time-view"
           >
             <div
-              class="rbc-row rbc-month-header"
-              role="row"
+              class="rbc-time-header"
             >
               <div
-                class="rbc-header"
-              >
-                <span
-                  aria-sort="none"
-                  role="columnheader"
-                >
-                  Sun
-                </span>
-              </div>
+                class="rbc-label rbc-time-header-gutter"
+              />
               <div
-                class="rbc-header"
-              >
-                <span
-                  aria-sort="none"
-                  role="columnheader"
-                >
-                  Mon
-                </span>
-              </div>
-              <div
-                class="rbc-header"
-              >
-                <span
-                  aria-sort="none"
-                  role="columnheader"
-                >
-                  Tue
-                </span>
-              </div>
-              <div
-                class="rbc-header"
-              >
-                <span
-                  aria-sort="none"
-                  role="columnheader"
-                >
-                  Wed
-                </span>
-              </div>
-              <div
-                class="rbc-header"
-              >
-                <span
-                  aria-sort="none"
-                  role="columnheader"
-                >
-                  Thu
-                </span>
-              </div>
-              <div
-                class="rbc-header"
-              >
-                <span
-                  aria-sort="none"
-                  role="columnheader"
-                >
-                  Fri
-                </span>
-              </div>
-              <div
-                class="rbc-header"
-              >
-                <span
-                  aria-sort="none"
-                  role="columnheader"
-                >
-                  Sat
-                </span>
-              </div>
-            </div>
-            <div
-              class="rbc-month-row"
-              role="rowgroup"
-            >
-              <div
-                class="rbc-row-bg"
+                class="rbc-time-header-content"
               >
                 <div
-                  class="rbc-day-bg rbc-off-range-bg"
-                />
-                <div
-                  class="rbc-day-bg rbc-off-range-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-              </div>
-              <div
-                class="rbc-row-content"
-                role="row"
-              >
-                <div
-                  class="rbc-row "
+                  class="rbc-row rbc-time-header-cell"
                 >
                   <div
-                    class="rbc-date-cell rbc-off-range"
-                    role="cell"
+                    class="rbc-header rbc-today"
                   >
                     <button
                       class="rbc-button-link"
                       type="button"
                     >
-                      30
+                      <span
+                        aria-sort="none"
+                        role="columnheader"
+                      >
+                        28 Mon
+                      </span>
                     </button>
                   </div>
                   <div
-                    class="rbc-date-cell rbc-off-range"
-                    role="cell"
+                    class="rbc-header"
                   >
                     <button
                       class="rbc-button-link"
                       type="button"
                     >
-                      31
+                      <span
+                        aria-sort="none"
+                        role="columnheader"
+                      >
+                        29 Tue
+                      </span>
                     </button>
                   </div>
                   <div
-                    class="rbc-date-cell"
-                    role="cell"
+                    class="rbc-header"
                   >
                     <button
                       class="rbc-button-link"
                       type="button"
                     >
-                      01
+                      <span
+                        aria-sort="none"
+                        role="columnheader"
+                      >
+                        30 Wed
+                      </span>
                     </button>
                   </div>
                   <div
-                    class="rbc-date-cell"
-                    role="cell"
+                    class="rbc-header"
                   >
                     <button
                       class="rbc-button-link"
                       type="button"
                     >
-                      02
+                      <span
+                        aria-sort="none"
+                        role="columnheader"
+                      >
+                        01 Thu
+                      </span>
                     </button>
                   </div>
                   <div
-                    class="rbc-date-cell"
-                    role="cell"
+                    class="rbc-header"
                   >
                     <button
                       class="rbc-button-link"
                       type="button"
                     >
-                      03
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      04
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      05
+                      <span
+                        aria-sort="none"
+                        role="columnheader"
+                      >
+                        02 Fri
+                      </span>
                     </button>
                   </div>
                 </div>
                 <div
-                  class="rbc-addons-dnd-row-body"
-                />
+                  class="rbc-allday-cell"
+                  role="rowgroup"
+                >
+                  <div
+                    class="rbc-row-bg"
+                  >
+                    <div
+                      class="rbc-day-bg rbc-today"
+                    />
+                    <div
+                      class="rbc-day-bg"
+                    />
+                    <div
+                      class="rbc-day-bg"
+                    />
+                    <div
+                      class="rbc-day-bg"
+                    />
+                    <div
+                      class="rbc-day-bg"
+                    />
+                  </div>
+                  <div
+                    class="rbc-row-content"
+                    role="row"
+                  >
+                    <div
+                      class="rbc-addons-dnd-row-body"
+                    >
+                      <div
+                        class="rbc-row"
+                      />
+                      <div
+                        class="rbc-row"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div
-              class="rbc-month-row"
-              role="rowgroup"
+              class="rbc-time-content"
             >
               <div
-                class="rbc-row-bg"
-              >
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-              </div>
+                class="rbc-time-gutter rbc-time-column"
+              />
               <div
-                class="rbc-row-content"
-                role="row"
+                class="rbc-day-slot rbc-time-column rbc-now rbc-today"
               >
-                <div
-                  class="rbc-row "
-                >
+                <div>
                   <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      06
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      07
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      08
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      09
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      10
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      11
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      12
-                    </button>
-                  </div>
+                    class="rbc-events-container"
+                  />
                 </div>
-                <div
-                  class="rbc-addons-dnd-row-body"
-                />
-              </div>
-            </div>
-            <div
-              class="rbc-month-row"
-              role="rowgroup"
-            >
-              <div
-                class="rbc-row-bg"
-              >
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
               </div>
               <div
-                class="rbc-row-content"
-                role="row"
+                class="rbc-day-slot rbc-time-column"
               >
-                <div
-                  class="rbc-row "
-                >
+                <div>
                   <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      13
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      14
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      15
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      16
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      17
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      18
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      19
-                    </button>
-                  </div>
+                    class="rbc-events-container"
+                  />
                 </div>
-                <div
-                  class="rbc-addons-dnd-row-body"
-                />
-              </div>
-            </div>
-            <div
-              class="rbc-month-row"
-              role="rowgroup"
-            >
-              <div
-                class="rbc-row-bg"
-              >
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
               </div>
               <div
-                class="rbc-row-content"
-                role="row"
+                class="rbc-day-slot rbc-time-column"
               >
-                <div
-                  class="rbc-row "
-                >
+                <div>
                   <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      20
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      21
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      22
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      23
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      24
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      25
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      26
-                    </button>
-                  </div>
+                    class="rbc-events-container"
+                  />
                 </div>
-                <div
-                  class="rbc-addons-dnd-row-body"
-                />
-              </div>
-            </div>
-            <div
-              class="rbc-month-row"
-              role="rowgroup"
-            >
-              <div
-                class="rbc-row-bg"
-              >
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg rbc-today"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg"
-                />
-                <div
-                  class="rbc-day-bg rbc-off-range-bg"
-                />
-                <div
-                  class="rbc-day-bg rbc-off-range-bg"
-                />
-                <div
-                  class="rbc-day-bg rbc-off-range-bg"
-                />
               </div>
               <div
-                class="rbc-row-content"
-                role="row"
+                class="rbc-day-slot rbc-time-column"
               >
-                <div
-                  class="rbc-row "
-                >
+                <div>
                   <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      27
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell rbc-now rbc-current"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      28
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      29
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      30
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell rbc-off-range"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      01
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell rbc-off-range"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      02
-                    </button>
-                  </div>
-                  <div
-                    class="rbc-date-cell rbc-off-range"
-                    role="cell"
-                  >
-                    <button
-                      class="rbc-button-link"
-                      type="button"
-                    >
-                      03
-                    </button>
-                  </div>
+                    class="rbc-events-container"
+                  />
                 </div>
-                <div
-                  class="rbc-addons-dnd-row-body"
-                />
+              </div>
+              <div
+                class="rbc-day-slot rbc-time-column"
+              >
+                <div>
+                  <div
+                    class="rbc-events-container"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -800,7 +321,7 @@ exports[`Calendar renders correctly with basic props 1`] = `
             <span
               class="calendar-label"
             >
-              April 2025
+              Apr 28 – May 02
             </span>
           </div>
           <div
@@ -819,686 +340,207 @@ exports[`Calendar renders correctly with basic props 1`] = `
               Week
             </button>
             <button
-              class="btn btn-default active"
+              class="btn btn-default"
               type="button"
             >
               Month
             </button>
+            <button
+              class="btn btn-default active"
+              type="button"
+            >
+              Custom
+            </button>
+            <button
+              class="btn btn-default"
+              type="button"
+            >
+              Agenda
+            </button>
           </div>
         </div>
         <div
-          aria-label="Month View"
-          class="rbc-month-view"
-          role="table"
+          class="rbc-time-view"
         >
           <div
-            class="rbc-row rbc-month-header"
-            role="row"
+            class="rbc-time-header"
           >
             <div
-              class="rbc-header"
-            >
-              <span
-                aria-sort="none"
-                role="columnheader"
-              >
-                Sun
-              </span>
-            </div>
+              class="rbc-label rbc-time-header-gutter"
+            />
             <div
-              class="rbc-header"
-            >
-              <span
-                aria-sort="none"
-                role="columnheader"
-              >
-                Mon
-              </span>
-            </div>
-            <div
-              class="rbc-header"
-            >
-              <span
-                aria-sort="none"
-                role="columnheader"
-              >
-                Tue
-              </span>
-            </div>
-            <div
-              class="rbc-header"
-            >
-              <span
-                aria-sort="none"
-                role="columnheader"
-              >
-                Wed
-              </span>
-            </div>
-            <div
-              class="rbc-header"
-            >
-              <span
-                aria-sort="none"
-                role="columnheader"
-              >
-                Thu
-              </span>
-            </div>
-            <div
-              class="rbc-header"
-            >
-              <span
-                aria-sort="none"
-                role="columnheader"
-              >
-                Fri
-              </span>
-            </div>
-            <div
-              class="rbc-header"
-            >
-              <span
-                aria-sort="none"
-                role="columnheader"
-              >
-                Sat
-              </span>
-            </div>
-          </div>
-          <div
-            class="rbc-month-row"
-            role="rowgroup"
-          >
-            <div
-              class="rbc-row-bg"
+              class="rbc-time-header-content"
             >
               <div
-                class="rbc-day-bg rbc-off-range-bg"
-              />
-              <div
-                class="rbc-day-bg rbc-off-range-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-            </div>
-            <div
-              class="rbc-row-content"
-              role="row"
-            >
-              <div
-                class="rbc-row "
+                class="rbc-row rbc-time-header-cell"
               >
                 <div
-                  class="rbc-date-cell rbc-off-range"
-                  role="cell"
+                  class="rbc-header rbc-today"
                 >
                   <button
                     class="rbc-button-link"
                     type="button"
                   >
-                    30
+                    <span
+                      aria-sort="none"
+                      role="columnheader"
+                    >
+                      28 Mon
+                    </span>
                   </button>
                 </div>
                 <div
-                  class="rbc-date-cell rbc-off-range"
-                  role="cell"
+                  class="rbc-header"
                 >
                   <button
                     class="rbc-button-link"
                     type="button"
                   >
-                    31
+                    <span
+                      aria-sort="none"
+                      role="columnheader"
+                    >
+                      29 Tue
+                    </span>
                   </button>
                 </div>
                 <div
-                  class="rbc-date-cell"
-                  role="cell"
+                  class="rbc-header"
                 >
                   <button
                     class="rbc-button-link"
                     type="button"
                   >
-                    01
+                    <span
+                      aria-sort="none"
+                      role="columnheader"
+                    >
+                      30 Wed
+                    </span>
                   </button>
                 </div>
                 <div
-                  class="rbc-date-cell"
-                  role="cell"
+                  class="rbc-header"
                 >
                   <button
                     class="rbc-button-link"
                     type="button"
                   >
-                    02
+                    <span
+                      aria-sort="none"
+                      role="columnheader"
+                    >
+                      01 Thu
+                    </span>
                   </button>
                 </div>
                 <div
-                  class="rbc-date-cell"
-                  role="cell"
+                  class="rbc-header"
                 >
                   <button
                     class="rbc-button-link"
                     type="button"
                   >
-                    03
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    04
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    05
+                    <span
+                      aria-sort="none"
+                      role="columnheader"
+                    >
+                      02 Fri
+                    </span>
                   </button>
                 </div>
               </div>
               <div
-                class="rbc-addons-dnd-row-body"
-              />
+                class="rbc-allday-cell"
+                role="rowgroup"
+              >
+                <div
+                  class="rbc-row-bg"
+                >
+                  <div
+                    class="rbc-day-bg rbc-today"
+                  />
+                  <div
+                    class="rbc-day-bg"
+                  />
+                  <div
+                    class="rbc-day-bg"
+                  />
+                  <div
+                    class="rbc-day-bg"
+                  />
+                  <div
+                    class="rbc-day-bg"
+                  />
+                </div>
+                <div
+                  class="rbc-row-content"
+                  role="row"
+                >
+                  <div
+                    class="rbc-addons-dnd-row-body"
+                  >
+                    <div
+                      class="rbc-row"
+                    />
+                    <div
+                      class="rbc-row"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div
-            class="rbc-month-row"
-            role="rowgroup"
+            class="rbc-time-content"
           >
             <div
-              class="rbc-row-bg"
-            >
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-            </div>
+              class="rbc-time-gutter rbc-time-column"
+            />
             <div
-              class="rbc-row-content"
-              role="row"
+              class="rbc-day-slot rbc-time-column rbc-now rbc-today"
             >
-              <div
-                class="rbc-row "
-              >
+              <div>
                 <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    06
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    07
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    08
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    09
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    10
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    11
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    12
-                  </button>
-                </div>
+                  class="rbc-events-container"
+                />
               </div>
-              <div
-                class="rbc-addons-dnd-row-body"
-              />
-            </div>
-          </div>
-          <div
-            class="rbc-month-row"
-            role="rowgroup"
-          >
-            <div
-              class="rbc-row-bg"
-            >
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
             </div>
             <div
-              class="rbc-row-content"
-              role="row"
+              class="rbc-day-slot rbc-time-column"
             >
-              <div
-                class="rbc-row "
-              >
+              <div>
                 <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    13
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    14
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    15
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    16
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    17
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    18
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    19
-                  </button>
-                </div>
+                  class="rbc-events-container"
+                />
               </div>
-              <div
-                class="rbc-addons-dnd-row-body"
-              />
-            </div>
-          </div>
-          <div
-            class="rbc-month-row"
-            role="rowgroup"
-          >
-            <div
-              class="rbc-row-bg"
-            >
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
             </div>
             <div
-              class="rbc-row-content"
-              role="row"
+              class="rbc-day-slot rbc-time-column"
             >
-              <div
-                class="rbc-row "
-              >
+              <div>
                 <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    20
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    21
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    22
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    23
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    24
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    25
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    26
-                  </button>
-                </div>
+                  class="rbc-events-container"
+                />
               </div>
-              <div
-                class="rbc-addons-dnd-row-body"
-              />
-            </div>
-          </div>
-          <div
-            class="rbc-month-row"
-            role="rowgroup"
-          >
-            <div
-              class="rbc-row-bg"
-            >
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg rbc-today"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg"
-              />
-              <div
-                class="rbc-day-bg rbc-off-range-bg"
-              />
-              <div
-                class="rbc-day-bg rbc-off-range-bg"
-              />
-              <div
-                class="rbc-day-bg rbc-off-range-bg"
-              />
             </div>
             <div
-              class="rbc-row-content"
-              role="row"
+              class="rbc-day-slot rbc-time-column"
             >
-              <div
-                class="rbc-row "
-              >
+              <div>
                 <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    27
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell rbc-now rbc-current"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    28
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    29
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    30
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell rbc-off-range"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    01
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell rbc-off-range"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    02
-                  </button>
-                </div>
-                <div
-                  class="rbc-date-cell rbc-off-range"
-                  role="cell"
-                >
-                  <button
-                    class="rbc-button-link"
-                    type="button"
-                  >
-                    03
-                  </button>
-                </div>
+                  class="rbc-events-container"
+                />
               </div>
-              <div
-                class="rbc-addons-dnd-row-body"
-              />
+            </div>
+            <div
+              class="rbc-day-slot rbc-time-column"
+            >
+              <div>
+                <div
+                  class="rbc-events-container"
+                />
+              </div>
             </div>
           </div>
         </div>
