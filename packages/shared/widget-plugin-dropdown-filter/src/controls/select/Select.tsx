@@ -3,10 +3,9 @@ import { useSelect, UseSelectProps } from "downshift";
 import { observer } from "mobx-react-lite";
 import React, { createElement, useRef } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
-import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
-import { Arrow, classes } from "../picker-primitives";
+import { Arrow, classes, Cross } from "../picker-primitives";
 
 interface SelectProps {
     value: string;
@@ -52,15 +51,20 @@ export const Select = observer(function Select(props: SelectProps): React.ReactE
             >
                 <span className={cls.toggle}>{props.value}</span>
                 <div className={`${cls.root}-controls`}>
-                    <ClearButton
-                        cls={cls}
-                        onClick={() => {
-                            props.onClear();
-                            toggleRef.current?.focus();
-                        }}
-                        showSeparator={false}
-                        visible={showClear}
-                    />
+                    {showClear && (
+                        <div
+                            className={cls.clear}
+                            tabIndex={-1}
+                            aria-label="Clear combobox"
+                            onClick={event => {
+                                event.stopPropagation();
+                                props.onClear();
+                                toggleRef.current?.focus();
+                            }}
+                        >
+                            <Cross />
+                        </div>
+                    )}
                     <Arrow className={cls.stateIcon} />
                 </div>
             </button>
