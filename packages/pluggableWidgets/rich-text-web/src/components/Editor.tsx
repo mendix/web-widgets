@@ -11,7 +11,7 @@ import {
     useLayoutEffect,
     useRef
 } from "react";
-import { CustomFontsType } from "../../typings/RichTextProps";
+import { CustomFontsType, RichTextContainerProps } from "../../typings/RichTextProps";
 import { EditorDispatchContext } from "../store/EditorProvider";
 import { SET_FULLSCREEN_ACTION } from "../store/store";
 import "../utils/customPluginRegisters";
@@ -30,8 +30,10 @@ import {
 } from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
+import MxUploader from "../utils/modules/uploader";
 
-export interface EditorProps {
+export interface EditorProps
+    extends Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "enableDefaultUpload"> {
     customFonts: CustomFontsType[];
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
@@ -165,6 +167,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                         if (arg[0].href) {
                             customLinkHandler(arg[0]);
                         } else if (arg[0].src) {
+                            // open dialog editor for updating imag or video
                             if (arg[0].type === "video") {
                                 customVideoHandler(arg[0]);
                             } else {
@@ -175,6 +178,9 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                                 if (contextDispatch) {
                                     contextDispatch(arg[0]);
                                 }
+                            } else if (arg[0].type === "image") {
+                                // open dialog editor for updating image (triggered by module uploader)
+                                customImageUploadHandler(arg[0]);
                             }
                         }
                     }
@@ -192,6 +198,13 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
         [ref, toolbarId]
     );
 
+    useEffect(() => {
+        // if image source is set from entity, handle upload differently
+        if (props.imageSource && props.imageSource.status === "available") {
+            (ref.current?.getModule("uploader") as MxUploader)?.setEntityUpload?.(true);
+        }
+    }, [props.imageSource, props.imageSource?.status, ref]);
+
     return (
         <Fragment>
             <div ref={containerRef} style={style} className={className}></div>
@@ -200,6 +213,9 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 isOpen={showDialog}
                 onOpenChange={open => setShowDialog(open)}
                 parentNode={modalRef.current?.ownerDocument.body}
+                imageSource={props.imageSource}
+                imageSourceContent={props.imageSourceContent}
+                enableDefaultUpload={props.enableDefaultUpload}
                 {...dialogConfig}
             ></Dialog>
         </Fragment>
