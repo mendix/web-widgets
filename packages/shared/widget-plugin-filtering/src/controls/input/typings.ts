@@ -1,5 +1,5 @@
+import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
 import { InputStore } from "../../stores/input/InputStore";
-import { AllFunctions } from "../../typings/FilterFunctions";
 import { InputFilterInterface } from "../../typings/InputFilterInterface";
 
 export interface BaseProps {

@@ -1,8 +1,9 @@
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { NumberFilterController } from "@mendix/widget-plugin-filtering/controllers/input/NumberInputController";
 import { FilterFnList, InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
 import { useBasicSync } from "@mendix/widget-plugin-filtering/helpers/useBasicSync";
-import { useNumberFilterController } from "@mendix/widget-plugin-filtering/helpers/useNumberFilterController";
 import { Number_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { observer } from "mobx-react-lite";
 import { createElement, useRef } from "react";
@@ -28,20 +29,23 @@ const filters: FilterFnList<DefaultFilterEnum> = Object.entries(filterDefs).map(
 
 export interface ContainerProps extends DatagridNumberFilterContainerProps {
     filterStore: Number_InputFilterInterface;
-    parentChannelName: string | undefined;
+    parentChannelName?: string;
 }
 
 function Container(props: ContainerProps): React.ReactElement {
     const id = (useRef<string>().current ??= `NumberFilter${generateUUID()}`);
 
-    const controller = useNumberFilterController({
-        filter: props.filterStore,
-        changeDelay: props.delay,
-        defaultFilter: props.defaultFilter,
-        adjustableFilterFunction: props.adjustable,
-        defaultValue: props.defaultValue?.value,
-        disableInputs: fn => fn === "empty" || fn === "notEmpty"
-    });
+    const controller = useSetup(
+        () =>
+            new NumberFilterController({
+                filter: props.filterStore,
+                changeDelay: props.delay,
+                defaultFilter: props.defaultFilter,
+                adjustableFilterFunction: props.adjustable,
+                defaultValue: props.defaultValue?.value,
+                disableInputs: fn => fn === "empty" || fn === "notEmpty"
+            })
+    );
 
     useBasicSync(props, props.filterStore);
 
@@ -52,6 +56,7 @@ function Container(props: ContainerProps): React.ReactElement {
     });
 
     useOnSetValueEvent({ widgetName: props.name, listener: controller.handleSetValue });
+
     return (
         <InputWithFilters
             adjustable={props.adjustable}

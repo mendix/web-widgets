@@ -95,23 +95,3 @@ exports[`Text Filter with single instance with single attribute renders correctl
   </div>
 </DocumentFragment>
 `;
-
-exports[`Text Filter with single instance with wrong attribute's type renders error message 1`] = `
-<DocumentFragment>
-  <div
-    class="alert alert-danger"
-  >
-    Unable to get filter store. Check parent widget configuration.
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Text Filter with single instance with wrong multiple attributes' types renders error message 1`] = `
-<DocumentFragment>
-  <div
-    class="alert alert-danger"
-  >
-    Unable to get filter store. Check parent widget configuration.
-  </div>
-</DocumentFragment>
-`;

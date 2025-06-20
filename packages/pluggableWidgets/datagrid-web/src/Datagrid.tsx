@@ -82,7 +82,7 @@ const Container = observer((props: Props): ReactElement => {
             headerTitle={props.filterSectionTitle?.value}
             headerContent={
                 props.filtersPlaceholder && (
-                    <WidgetHeaderContext selectionHelper={selectionHelper} filtersStore={rootStore.headerFiltersStore}>
+                    <WidgetHeaderContext selectionHelper={selectionHelper} rootStore={rootStore}>
                         {props.filtersPlaceholder}
                     </WidgetHeaderContext>
                 )

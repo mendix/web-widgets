@@ -12,7 +12,7 @@
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "release": {
-            "dependsOn": ["^release", "verify"],
+            "dependsOn": ["^build", "verify"],
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "build:module": {
@@ -29,9 +29,11 @@
         },
         "test": {
             "outputs": [],
-            "inputs": ["src/**", "typings/**", "package.json", "tsconfig.json"]
+            "inputs": ["src/**", "typings/**", "package.json", "tsconfig.json"],
+            "dependsOn": ["^build"]
         },
         "lint": {
+            "dependsOn": ["^build"],
             "outputs": []
         },
         "create-gh-release": {
@@ -60,5 +62,11 @@
             "outputs": []
         }
     },
-    "globalDependencies": ["automation/**", ".npmrc", ".nvmrc", ".github/**", "package.json"]
+    "globalDependencies": [
+        "automation/**",
+        ".npmrc",
+        ".nvmrc",
+        ".github/**",
+        "package.json"
+    ]
 }

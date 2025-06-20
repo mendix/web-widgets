@@ -1,11 +1,14 @@
-import { createElement, ReactElement } from "react";
-import { SortComponent } from "./components/SortComponent";
-import { DropdownSortPreviewProps } from "../typings/DropdownSortProps";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
+import { withSortAPI } from "@mendix/widget-plugin-sorting/react/hocs/withSortAPI";
+import { createElement, ReactElement } from "react";
+import { DropdownSortPreviewProps } from "../typings/DropdownSortProps";
+import { SortComponent } from "./components/SortComponent";
+
+const DropdownPreview = withSortAPI(SortComponent);
 
 export function preview(props: DropdownSortPreviewProps): ReactElement {
     return (
-        <SortComponent
+        <DropdownPreview
             value={null}
             direction="asc"
             className={props.className}

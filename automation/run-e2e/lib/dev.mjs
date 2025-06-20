@@ -14,10 +14,12 @@ export async function dev() {
 
     const parseArgsOptions = {
         string: ["browser"],
-        boolean: ["with-preps"],
+        boolean: ["with-preps", "update-project", "setup-project"],
         default: {
             browser: "chromium",
-            "with-preps": false
+            "with-preps": false,
+            "update-project": true,
+            "setup-project": false
         },
         configuration: {
             // https://github.com/yargs/yargs-parser#boolean-negation
@@ -33,9 +35,11 @@ export async function dev() {
     process.env.PATH += `${delimiter}${packageBinariesPath}`;
     const options = parseArgs(process.argv.slice(2), parseArgsOptions);
 
-    if (options.withPreps) {
+    if (options.withPreps || options.setupProject) {
         // Download test project from github
         await setupTestProject();
+    }
+    if (options.withPreps || options.updateProject) {
         // Run update project hook
         await updateTestProject();
 
@@ -51,12 +55,10 @@ export async function dev() {
 
         await enquirer.prompt({
             type: "confirm",
-            name: "__ingore__",
+            name: "__ignore__",
             result: () => "continue",
             message: "Press Enter to continue"
         });
-    } else {
-        console.log(c.yellow("Skip preparations"));
     }
 
     const url = process.env.URL ?? "http://127.0.0.1:8080";

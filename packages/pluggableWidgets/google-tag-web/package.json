@@ -42,6 +42,10 @@
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
     },
+    "dependencies": {
+        "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*"
+    },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",

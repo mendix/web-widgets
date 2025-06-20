@@ -1,7 +1,7 @@
 {
     "name": "@mendix/datagrid-web",
     "widgetName": "Datagrid",
-    "version": "2.30.6",
+    "version": "3.0.0",
     "description": "",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -23,7 +23,7 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "datagrid-web/referenceSet"
+        "branchName": "datagrid-web/data-widgets-3.0"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:ts",
@@ -42,6 +42,7 @@
     },
     "dependencies": {
         "@floating-ui/react": "^0.26.27",
+        "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-external-events": "workspace:*",
         "@mendix/widget-plugin-filtering": "workspace:*",
         "@mendix/widget-plugin-grid": "workspace:*",

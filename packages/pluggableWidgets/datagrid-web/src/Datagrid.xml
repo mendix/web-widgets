@@ -121,44 +121,6 @@
                                 <returnType type="Boolean" />
                             </property>
                         </propertyGroup>
-                        <propertyGroup caption="Drop-down filter settings">
-                            <property key="filterAssociation" type="association" selectableObjects="filterAssociationOptions" required="false" dataSource="../datasource">
-                                <caption>Entity</caption>
-                                <description>Set the entity to enable filtering over association with the Drop-down filter widget.</description>
-                                <associationTypes>
-                                    <associationType name="Reference" />
-                                    <associationType name="ReferenceSet" />
-                                </associationTypes>
-                            </property>
-                            <property key="filterAssociationOptions" type="datasource" isList="true" required="false">
-                                <caption>Selectable objects</caption>
-                                <description>The options to show in the Drop-down filter widget.</description>
-                            </property>
-                            <property key="fetchOptionsLazy" type="boolean" defaultValue="true">
-                                <caption>Use lazy load</caption>
-                                <description>Lazy loading enables faster data grid loading, but with personalization enabled, value restoration will be limited.</description>
-                            </property>
-                            <property key="filterCaptionType" type="enumeration" defaultValue="expression">
-                                <caption>Option caption type</caption>
-                                <description />
-                                <enumerationValues>
-                                    <enumerationValue key="attribute">Attribute</enumerationValue>
-                                    <enumerationValue key="expression">Expression</enumerationValue>
-                                </enumerationValues>
-                            </property>
-                            <property key="filterAssociationOptionLabel" type="expression" dataSource="filterAssociationOptions" required="false">
-                                <caption>Option caption</caption>
-                                <description />
-                                <returnType type="String" />
-                            </property>
-                            <property key="filterAssociationOptionLabelAttr" type="attribute" dataSource="filterAssociationOptions" required="false">
-                                <caption>Option caption</caption>
-                                <description />
-                                <attributeTypes>
-                                    <attributeType name="String" />
-                                </attributeTypes>
-                            </property>
-                        </propertyGroup>
                         <propertyGroup caption="Column capabilities">
                             <property key="sortable" type="boolean" defaultValue="true">
                                 <caption>Can sort</caption>
@@ -316,6 +278,10 @@
                     <caption>On selection change</caption>
                     <description />
                 </property>
+                <property key="filtersPlaceholder" type="widgets" required="false">
+                    <caption>Filters placeholder</caption>
+                    <description />
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Personalization">
@@ -359,36 +325,6 @@
                 </property>
                 <property key="onConfigurationChange" type="action" required="false">
                     <caption>On change</caption>
-                    <description />
-                </property>
-            </propertyGroup>
-        </propertyGroup>
-        <propertyGroup caption="Grid wide filtering">
-            <propertyGroup caption="Grid wide filtering">
-                <property key="filterList" type="object" isList="true" required="false">
-                    <caption>Filters</caption>
-                    <description>The list of attributes is used by the filter widgets that are placed in the placeholder above the data grid. This enables filtering across multiple attributes or columns instead of limiting to a single column.</description>
-                    <properties>
-                        <propertyGroup caption="General">
-                            <property key="filter" type="attribute" dataSource="../datasource">
-                                <caption>Filter attribute</caption>
-                                <description />
-                                <attributeTypes>
-                                    <attributeType name="String" />
-                                    <attributeType name="AutoNumber" />
-                                    <attributeType name="Boolean" />
-                                    <attributeType name="DateTime" />
-                                    <attributeType name="Decimal" />
-                                    <attributeType name="Enum" />
-                                    <attributeType name="Integer" />
-                                    <attributeType name="Long" />
-                                </attributeTypes>
-                            </property>
-                        </propertyGroup>
-                    </properties>
-                </property>
-                <property key="filtersPlaceholder" type="widgets" required="false">
-                    <caption>Filters placeholder</caption>
                     <description />
                 </property>
             </propertyGroup>

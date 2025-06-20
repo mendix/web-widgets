@@ -1,4 +1,4 @@
-import { hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import { chevronDownIcon, chevronDownIconDark } from "@mendix/widget-plugin-filtering/preview/editor-preview-icons";
 import {
     ContainerProps,
@@ -13,8 +13,10 @@ export function getProperties(values: DatagridDropdownFilterPreviewProps, defaul
     const showSelectedItemsStyle = values.filterable && values.multiSelect;
     const showSelectionMethod = showSelectedItemsStyle && values.selectedItemsStyle === "boxes";
 
-    if (values.auto) {
-        hidePropertyIn(defaultProperties, values, "filterOptions");
+    if (values.baseType === "attr") {
+        defaultProperties = attrGroupProperties(values, defaultProperties);
+    } else {
+        hidePropertiesIn(defaultProperties, values, ["attr", "attrChoice", "filterOptions", "auto"]);
     }
 
     if (values.filterable) {
@@ -28,6 +30,21 @@ export function getProperties(values: DatagridDropdownFilterPreviewProps, defaul
 
     if (!showSelectionMethod) {
         hidePropertyIn(defaultProperties, values, "selectionMethod");
+    }
+
+    return defaultProperties;
+}
+
+function attrGroupProperties(values: DatagridDropdownFilterPreviewProps, defaultProperties: Properties): Properties {
+    hidePropertiesIn(defaultProperties, values, ["refEntity", "refOptions", "refCaption", "fetchOptionsLazy"]);
+
+    if (values.attrChoice === "auto") {
+        hidePropertyIn(defaultProperties, {} as { linkedDs: unknown }, "linkedDs");
+        hidePropertyIn(defaultProperties, values, "attr");
+    }
+
+    if (values.auto) {
+        hidePropertyIn(defaultProperties, values, "filterOptions");
     }
 
     return defaultProperties;

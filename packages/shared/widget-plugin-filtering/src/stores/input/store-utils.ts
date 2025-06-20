@@ -1,3 +1,4 @@
+import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import {
@@ -9,7 +10,6 @@ import {
 import { DateInputFilterStore } from "../input/DateInputFilterStore";
 import { NumberInputFilterStore } from "../input/NumberInputFilterStore";
 import { StringInputFilterStore } from "../input/StringInputFilterStore";
-import { StaticSelectFilterStore } from "../picker/StaticSelectFilterStore";
 
 export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore | DateInputFilterStore;
 
@@ -17,7 +17,7 @@ export function attrgroupFilterStore(
     type: ListAttributeValue["type"],
     attributes: ListAttributeValue[],
     initCond: FilterCondition | null
-): InputFilterStore | StaticSelectFilterStore | null {
+): InputFilterStore | EnumFilterStore | null {
     switch (type) {
         case "DateTime":
             return new DateInputFilterStore(attributes as Array<ListAttributeValue<Date>>, initCond);
@@ -34,7 +34,7 @@ export function attrgroupFilterStore(
 
         case "Boolean":
         case "Enum":
-            return new StaticSelectFilterStore(attributes, initCond);
+            return new EnumFilterStore(attributes, initCond);
         default:
             console.error("attrgroupFilterStore: not supported type " + type, attributes);
             return null;

@@ -1,5 +1,5 @@
-import { disposeFx } from "@mendix/widget-plugin-filtering/mobx-utils";
-import { FiltersSettingsMap } from "@mendix/widget-plugin-filtering/typings/settings";
+import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { FilterCondition } from "mendix/filters";
 import { action, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
@@ -13,7 +13,7 @@ import {
     sortInstructionsToSortRules,
     sortRulesToSortInstructions
 } from "./ColumnsSortingStore";
-import { ColumnFilterStore } from "./column/ColumnFilterStore";
+import { ColumnFilterStore, ObserverBag } from "./column/ColumnFilterStore";
 import { ColumnStore } from "./column/ColumnStore";
 
 export interface IColumnGroupStore {
@@ -46,17 +46,18 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     constructor(
         props: Pick<DatagridContainerProps, "columns" | "datasource">,
         info: StaticInfo,
-        dsViewState: Array<FilterCondition | undefined> | null
+        initFilter: Array<FilterCondition | undefined>,
+        observerBag: ObserverBag
     ) {
         this._allColumns = [];
         this.columnFilters = [];
 
         props.columns.forEach((columnProps, i) => {
-            const initCond = dsViewState?.at(i) ?? null;
+            const initCond = initFilter.at(i) ?? null;
             const column = new ColumnStore(i, columnProps, this);
             this._allColumnsById.set(column.columnId, column);
             this._allColumns[i] = column;
-            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, initCond);
+            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, initCond, observerBag);
         });
 
         this.sorting = new ColumnsSortingStore(
@@ -82,9 +83,9 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     }
 
     setup(): () => void {
-        const [disposers, dispose] = disposeFx();
+        const [add, dispose] = disposeBatch();
         for (const filter of this.columnFilters) {
-            disposers.push(filter.setup());
+            add(filter.setup());
         }
         return dispose;
     }
@@ -92,7 +93,6 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     updateProps(props: Pick<DatagridContainerProps, "columns">): void {
         props.columns.forEach((columnProps, i) => {
             this._allColumns[i].updateProps(columnProps);
-            this.columnFilters[i].updateProps(columnProps);
         });
 
         if (this.visibleColumns.length < 1) {
@@ -144,7 +144,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
     get conditions(): Array<FilterCondition | undefined> {
         return this.columnFilters.map((store, index) => {
-            return this._allColumns[index].isHidden ? undefined : store.condition2;
+            return this._allColumns[index].isHidden ? undefined : store.condition;
         });
     }
 

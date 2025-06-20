@@ -1,6 +1,6 @@
 {
     "name": "@mendix/widget-plugin-sorting",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Sorting API plugin.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -24,19 +24,23 @@
         }
     },
     "scripts": {
-        "compile": "tsc",
+        "build": "tsc",
         "dev": "tsc --watch",
         "format": "prettier --write .",
         "lint": "eslint src/ package.json",
-        "prepare": "tsc"
+        "test": "jest"
     },
     "dependencies": {
+        "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-mobx-kit": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@mendix/tsconfig-web-widgets": "workspace:*"
+        "@mendix/tsconfig-web-widgets": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*"
     }
 }

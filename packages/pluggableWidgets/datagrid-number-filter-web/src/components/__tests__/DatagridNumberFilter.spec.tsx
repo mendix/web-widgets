@@ -1,10 +1,9 @@
-import "@testing-library/jest-dom";
-import { FilterAPIv2 } from "@mendix/widget-plugin-filtering/context";
 import { requirePlugin } from "@mendix/widget-plugin-external-events/plugin";
-import {
-    HeaderFiltersStore,
-    HeaderFiltersStoreProps
-} from "@mendix/widget-plugin-filtering/stores/generic/HeaderFiltersStore";
+import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
+import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
+import "@testing-library/jest-dom";
+import { AttributeMetaData } from "mendix";
+
 import {
     actionValue,
     dynamic,
@@ -12,19 +11,15 @@ import {
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { render, screen, waitFor, act } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createContext, createElement } from "react";
 
-import DatagridNumberFilter from "../../DatagridNumberFilter";
+import { NumberInputFilterStore } from "@mendix/widget-plugin-filtering/stores/input/NumberInputFilterStore";
 import { Big } from "big.js";
-import { DatagridNumberFilterContainerProps } from "../../../typings/DatagridNumberFilterProps";
 import { resetIdCounter } from "downshift";
-
-interface StaticInfo {
-    name: string;
-    filtersChannelName: string;
-}
+import { DatagridNumberFilterContainerProps } from "../../../typings/DatagridNumberFilterProps";
+import DatagridNumberFilter from "../../DatagridNumberFilter";
 
 const commonProps: DatagridNumberFilterContainerProps = {
     class: "filter-custom-class",
@@ -32,13 +27,9 @@ const commonProps: DatagridNumberFilterContainerProps = {
     name: "filter-test",
     defaultFilter: "equal" as const,
     adjustable: true,
-    advanced: false,
-    delay: 1000
-};
-
-const headerFilterStoreInfo: StaticInfo = {
-    name: commonProps.name,
-    filtersChannelName: "datagrid1"
+    delay: 1000,
+    attrChoice: "auto",
+    attributes: []
 };
 
 jest.useFakeTimers();
@@ -52,6 +43,22 @@ beforeEach(() => {
 
 afterEach(() => (console.warn as jest.Mock).mockRestore());
 
+const CHANNEL_NAME = "datagrid/1";
+
+const setContext = (store: NumberInputFilterStore) => {
+    const filterAPI: FilterAPI = {
+        version: 3,
+        parentChannelName: CHANNEL_NAME,
+        provider: {
+            hasError: false,
+            value: { type: "direct", store }
+        },
+        filterObserver: {} as ObservableFilterHost,
+        sharedInitFilter: []
+    };
+    (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(filterAPI);
+};
+
 describe("Number Filter", () => {
     describe("with single instance", () => {
         afterEach(() => {
@@ -60,25 +67,16 @@ describe("Number Filter", () => {
 
         describe("with single attribute", () => {
             beforeEach(() => {
-                const props: HeaderFiltersStoreProps = {
-                    filterList: [
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withType("Long")
-                                .withFormatter(
-                                    value => (value ? value.toString() : ""),
-                                    (value: string) => ({ valid: true, value })
-                                )
-                                .withFilterable(true)
-                                .build()
-                        }
-                    ],
-                    parentChannelName: headerFilterStoreInfo.filtersChannelName
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
-                    headerFilterStore.context
-                );
+                const attr = new ListAttributeValueBuilder()
+                    .withType("Long")
+                    .withFormatter(
+                        value => (value ? value.toString() : ""),
+                        (value: string) => ({ valid: true, value })
+                    )
+                    .withFilterable(true)
+                    .build();
+
+                setContext(new NumberInputFilterStore([attr as unknown as AttributeMetaData<Big>], null));
             });
 
             it("renders correctly", () => {
@@ -124,7 +122,7 @@ describe("Number Filter", () => {
                 // Trigger reset event
                 const plugin = requirePlugin();
                 act(() => {
-                    plugin.emit("datagrid1", "reset.value", false);
+                    plugin.emit(CHANNEL_NAME, "reset.value", false);
                 });
 
                 expect(input).toHaveValue("");
@@ -179,7 +177,7 @@ describe("Number Filter", () => {
                     // Trigger reset event
                     const plugin = requirePlugin();
                     act(() => {
-                        plugin.emit("datagrid1", "reset.value", true);
+                        plugin.emit(CHANNEL_NAME, "reset.value", true);
                     });
 
                     expect(input).toHaveValue("123");
@@ -194,41 +192,33 @@ describe("Number Filter", () => {
 
         describe("with multiple attributes", () => {
             beforeEach(() => {
-                const props: HeaderFiltersStoreProps = {
-                    filterList: [
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withId("attribute1")
-                                .withType("Long")
-                                .withFormatter(
-                                    value => value,
-                                    () => {
-                                        // noop
-                                    }
-                                )
-                                .withFilterable(true)
-                                .build()
-                        },
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withId("attribute2")
-                                .withType("Decimal")
-                                .withFormatter(
-                                    value => value,
-                                    () => {
-                                        // noop
-                                    }
-                                )
-                                .withFilterable(true)
-                                .build()
-                        }
-                    ],
-                    parentChannelName: headerFilterStoreInfo.filtersChannelName
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
-                    headerFilterStore.context
-                );
+                const attrs = [
+                    new ListAttributeValueBuilder()
+                        .withId("attribute1")
+                        .withType("Long")
+                        .withFormatter(
+                            value => value,
+                            () => {
+                                // noop
+                            }
+                        )
+                        .withFilterable(true)
+                        .build(),
+
+                    new ListAttributeValueBuilder()
+                        .withId("attribute2")
+                        .withType("Decimal")
+                        .withFormatter(
+                            value => value,
+                            () => {
+                                // noop
+                            }
+                        )
+                        .withFilterable(true)
+                        .build()
+                ] as unknown as Array<AttributeMetaData<Big>>;
+
+                setContext(new NumberInputFilterStore(attrs, null));
             });
 
             it("renders correctly", () => {
@@ -255,7 +245,7 @@ describe("Number Filter", () => {
 
                 const plugin = requirePlugin();
                 act(() => {
-                    plugin.emit("datagrid1", "reset.value", false);
+                    plugin.emit(CHANNEL_NAME, "reset.value", false);
                 });
 
                 expect(input).toHaveValue("");
@@ -294,67 +284,6 @@ describe("Number Filter", () => {
             });
         });
 
-        describe("with wrong attribute's type", () => {
-            beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
-                    filterList: [
-                        { filter: new ListAttributeValueBuilder().withType("Boolean").withFilterable(true).build() }
-                    ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
-                    headerFilterStore.context
-                );
-            });
-
-            it("renders error message", () => {
-                const { asFragment } = render(<DatagridNumberFilter {...commonProps} />);
-
-                expect(asFragment()).toMatchSnapshot();
-            });
-
-            afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
-            });
-        });
-
-        describe("with wrong multiple attributes' types", () => {
-            beforeAll(() => {
-                const props: HeaderFiltersStoreProps = {
-                    filterList: [
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withId("attribute1")
-                                .withType("String")
-                                .withSortable(true)
-                                .build()
-                        },
-                        {
-                            filter: new ListAttributeValueBuilder()
-                                .withId("attribute2")
-                                .withType("HashString")
-                                .withFilterable(true)
-                                .build()
-                        }
-                    ]
-                };
-                const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
-                    headerFilterStore.context
-                );
-            });
-
-            it("renders error message", () => {
-                const { asFragment } = render(<DatagridNumberFilter {...commonProps} />);
-
-                expect(asFragment()).toMatchSnapshot();
-            });
-
-            afterAll(() => {
-                (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
-            });
-        });
-
         describe("with no context", () => {
             beforeAll(() => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
@@ -370,26 +299,18 @@ describe("Number Filter", () => {
 
     describe("with multiple instances", () => {
         beforeEach(() => {
-            const props: HeaderFiltersStoreProps = {
-                filterList: [
-                    {
-                        filter: new ListAttributeValueBuilder()
-                            .withType("Long")
-                            .withFormatter(
-                                value => value,
-                                () => {
-                                    // noop
-                                }
-                            )
-                            .withFilterable(true)
-                            .build()
+            const attr = new ListAttributeValueBuilder()
+                .withType("Long")
+                .withFormatter(
+                    value => value,
+                    () => {
+                        // noop
                     }
-                ]
-            };
-            const headerFilterStore = new HeaderFiltersStore(props, headerFilterStoreInfo, null);
-            (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPIv2>(
-                headerFilterStore.context
-            );
+                )
+                .withFilterable(true)
+                .build() as unknown as AttributeMetaData<Big>;
+
+            setContext(new NumberInputFilterStore([attr], null));
         });
 
         it("renders with a unique id", () => {

@@ -1,90 +1,51 @@
-import { FilterAPIv2, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
-import { RefFilterStore, RefFilterStoreProps } from "@mendix/widget-plugin-filtering/stores/picker/RefFilterStore";
-import { StaticSelectFilterStore } from "@mendix/widget-plugin-filtering/stores/picker/StaticSelectFilterStore";
+import { FilterData } from "@mendix/filter-commons/typings/settings";
+import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
+import { FilterAPI, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
+import { value } from "@mendix/widget-plugin-filtering/result-meta";
 import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
-import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";
+import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
+import { ListAttributeListValue, ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { ListAttributeValue, ListAttributeListValue } from "mendix";
-import { action, computed, makeObservable } from "mobx";
+import { computed, makeObservable } from "mobx";
 import { ReactNode, createElement } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
-import { FilterData } from "@mendix/widget-plugin-filtering/typings/settings";
-import { value } from "@mendix/widget-plugin-filtering/result-meta";
-import { disposeFx } from "@mendix/widget-plugin-filtering/mobx-utils";
+
 export interface IColumnFilterStore {
     renderFilterWidgets(): ReactNode;
 }
 
-type FilterStore = InputFilterStore | StaticSelectFilterStore | RefFilterStore;
+type FilterStore = InputFilterStore | EnumFilterStore;
 
 const { Provider } = getGlobalFilterContextObject();
 
 export class ColumnFilterStore implements IColumnFilterStore {
     private _widget: ReactNode;
     private _filterStore: FilterStore | null = null;
-    private _context: FilterAPIv2;
+    private _context: FilterAPI;
+    private _observerBag: ObserverBag;
 
-    constructor(props: ColumnsType, info: StaticInfo, dsViewState: FilterCondition | null) {
+    constructor(props: ColumnsType, info: StaticInfo, dsViewState: FilterCondition | null, observerBag: ObserverBag) {
+        this._observerBag = observerBag;
         this._widget = props.filter;
         this._filterStore = this.createFilterStore(props, dsViewState);
         this._context = this.createContext(this._filterStore, info);
 
-        makeObservable<this, "_updateStore">(this, {
-            _updateStore: action,
-            condition2: computed,
-            updateProps: action
+        makeObservable<this>(this, {
+            condition: computed
         });
     }
 
     setup(): () => void {
-        const [disposers, dispose] = disposeFx();
+        const [add, disposeAll] = disposeBatch();
         if (this._filterStore && "setup" in this._filterStore) {
-            disposers.push(this._filterStore.setup());
+            add(this._filterStore.setup());
         }
-        return dispose;
-    }
-
-    updateProps(props: ColumnsType): void {
-        this._widget = props.filter;
-        this._updateStore(props);
-    }
-
-    private _updateStore(props: ColumnsType): void {
-        const store = this._filterStore;
-
-        if (store === null) {
-            return;
-        }
-
-        if (store.storeType === "refselect") {
-            store.updateProps(this.toRefselectProps(props));
-        } else if (isListAttributeValue(props.attribute)) {
-            store.updateProps([props.attribute]);
-        }
-    }
-
-    private toRefselectProps(props: ColumnsType): RefFilterStoreProps {
-        const searchAttrId = props.filterAssociationOptionLabelAttr?.id;
-        const caption =
-            props.filterCaptionType === "expression"
-                ? ensure(props.filterAssociationOptionLabel, errorMessage("filterAssociationOptionLabel"))
-                : ensure(props.filterAssociationOptionLabelAttr, errorMessage("filterAssociationOptionLabelAttr"));
-
-        return {
-            ref: ensure(props.filterAssociation, errorMessage("filterAssociation")),
-            datasource: ensure(props.filterAssociationOptions, errorMessage("filterAssociationOptions")),
-            searchAttrId,
-            fetchOptionsLazy: props.fetchOptionsLazy,
-            caption
-        };
+        return disposeAll;
     }
 
     private createFilterStore(props: ColumnsType, dsViewState: FilterCondition | null): FilterStore | null {
-        if (props.filterAssociation) {
-            return new RefFilterStore(this.toRefselectProps(props), dsViewState);
-        }
-
         if (isListAttributeValue(props.attribute)) {
             return attrgroupFilterStore(props.attribute.type, [props.attribute], dsViewState);
         }
@@ -92,14 +53,16 @@ export class ColumnFilterStore implements IColumnFilterStore {
         return null;
     }
 
-    private createContext(store: FilterStore | null, info: StaticInfo): FilterAPIv2 {
+    private createContext(store: FilterStore | null, info: StaticInfo): FilterAPI {
         return {
-            version: 2,
+            version: 3,
             parentChannelName: info.filtersChannelName,
             provider: value({
                 type: "direct",
                 store
-            })
+            }),
+            filterObserver: this._observerBag.customFilterHost,
+            sharedInitFilter: this._observerBag.sharedInitFilter
         };
     }
 
@@ -107,7 +70,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
         return <Provider value={this._context}>{this._widget}</Provider>;
     }
 
-    get condition2(): FilterCondition | undefined {
+    get condition(): FilterCondition | undefined {
         return this._filterStore ? this._filterStore.condition : undefined;
     }
 
@@ -130,5 +93,7 @@ const isListAttributeValue = (
     return !!(attribute && attribute.isList === false);
 };
 
-const errorMessage = (propName: string): string =>
-    `Can't map ColumnsType to AssociationProperties: ${propName} is undefined`;
+export interface ObserverBag {
+    customFilterHost: ObservableFilterHost;
+    sharedInitFilter: Array<FilterCondition | undefined>;
+}

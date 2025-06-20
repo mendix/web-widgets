@@ -33,7 +33,6 @@
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "run-e2e ci",
-        "e2e-update-project": "pnpm --filter data-widgets run build:include-deps",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
@@ -45,6 +44,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
+        "@mendix/widget-plugin-component-kit": "workspace:*",
         "classnames": "^2.3.2",
         "markdown-it": "^14.1.0"
     },

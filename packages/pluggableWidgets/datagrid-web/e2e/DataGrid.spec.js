@@ -113,14 +113,14 @@ test.describe("capabilities: hiding", () => {
         const textAreaValue = await textArea.inputValue();
         expect(JSON.parse(textAreaValue)).toEqual({
             name: "datagrid5",
-            schemaVersion: 2,
+            schemaVersion: 3,
             settingsHash: "1530160614",
             columns: [
                 { columnId: "0", hidden: true },
                 { columnId: "1", hidden: false }
             ],
             columnFilters: [],
-            groupFilters: [],
+            customFilters: [],
             sortOrder: [],
             columnOrder: ["0", "1"]
         });

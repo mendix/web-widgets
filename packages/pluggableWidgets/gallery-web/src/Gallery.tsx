@@ -10,35 +10,13 @@ import { useItemEventsController } from "./features/item-interaction/ItemEventsC
 import { GridPositionsProps, useGridPositions } from "./features/useGridPositions";
 import { useItemHelper } from "./helpers/ItemHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
-import { useRootGalleryStore } from "./helpers/useRootGalleryStore";
-import { RootGalleryStore } from "./stores/RootGalleryStore";
-import { HeaderContainer } from "./components/HeaderContainer";
-import { ObjectItem } from "mendix";
+import { useGalleryStore } from "./helpers/useGalleryStore";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { GalleryRootScope, GalleryContext, useGalleryRootScope } from "./helpers/root-context";
+import { HeaderWidgetsHost } from "./components/HeaderWidgetsHost";
 
-interface RootAPI {
-    rootStore: RootGalleryStore;
-}
-
-function Container(props: GalleryContainerProps & RootAPI): ReactElement {
-    const isInfiniteLoad = props.pagination === "virtualScrolling";
-    const currentPage = isInfiniteLoad
-        ? props.datasource.limit / props.pageSize
-        : props.datasource.offset / props.pageSize;
-    const setPage = useCallback(
-        (computePage: (prevPage: number) => number) => {
-            const newPage = computePage(currentPage);
-
-            if (isInfiniteLoad) {
-                props.datasource.setLimit(newPage * props.pageSize);
-            } else {
-                props.datasource.setOffset(newPage * props.pageSize);
-            }
-        },
-        [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
-    );
-
-    const selection = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
-    const selectHelper = useItemSelectHelper(props.itemSelection, selection);
+const Container = observer(function GalleryContainer(props: GalleryContainerProps): ReactElement {
+    const { rootStore, itemSelectHelper } = useGalleryRootScope();
     const items = props.datasource.items ?? [];
     const config: GridPositionsProps = {
         desktopItems: props.desktopItems,
@@ -57,23 +35,26 @@ function Container(props: GalleryContainerProps & RootAPI): ReactElement {
         columns: numberOfColumns,
         pageSize: props.pageSize
     });
+
     const clickActionHelper = useClickActionHelper({ onClick: props.onClick, onClickTrigger: props.onClickTrigger });
+
     const itemEventsController = useItemEventsController(
-        selectHelper,
+        itemSelectHelper,
         clickActionHelper,
         focusController,
         numberOfColumns,
         props.itemSelectionMode
     );
 
-    const showHeader = props.filterList.length > 0 || props.sortList.length > 0 || selection?.type === "Multi";
     const itemHelper = useItemHelper({
         classValue: props.itemClass,
         contentValue: props.content,
         clickValue: props.onClick
     });
 
-    useOnResetFiltersEvent(props.rootStore.staticInfo.name, props.rootStore.staticInfo.filtersChannelName);
+    useOnResetFiltersEvent(rootStore.name, rootStore.id);
+
+    const header = <HeaderWidgetsHost>{props.filtersPlaceholder}</HeaderWidgetsHost>;
 
     return (
         <GalleryComponent
@@ -85,48 +66,49 @@ function Container(props: GalleryContainerProps & RootAPI): ReactElement {
                 [props.emptyPlaceholder, props.showEmptyPlaceholder]
             )}
             emptyMessageTitle={props.emptyMessageTitle?.value}
-            header={
-                showHeader && (
-                    <HeaderContainer
-                        filtersStore={props.rootStore.headerFiltersStore}
-                        selectionHelper={selection}
-                        sortProvider={props.rootStore.sortProvider}
-                    >
-                        {props.filtersPlaceholder}
-                    </HeaderContainer>
-                )
-            }
+            header={header}
             headerTitle={props.filterSectionTitle?.value}
             ariaLabelListBox={props.ariaLabelListBox?.value}
-            ariaLabelItem={(item: ObjectItem) => props.ariaLabelItem?.get(item).value}
-            showHeader={showHeader}
+            showHeader={!!props.filtersPlaceholder}
             hasMoreItems={props.datasource.hasMoreItems ?? false}
             items={items}
             itemHelper={itemHelper}
             numberOfItems={props.datasource.totalCount}
-            page={currentPage}
+            page={rootStore.paging.currentPage}
             pageSize={props.pageSize}
             paging={props.pagination === "buttons"}
             paginationPosition={props.pagingPosition}
             phoneItems={props.phoneItems}
-            setPage={setPage}
+            setPage={rootStore.paging.setPage}
             style={props.style}
             tabletItems={props.tabletItems}
             tabIndex={props.tabIndex}
-            selectHelper={selectHelper}
+            selectHelper={itemSelectHelper}
             itemEventsController={itemEventsController}
             focusController={focusController}
             getPosition={getPositionCallback}
         />
     );
-}
-
-const Widget = observer(function RootStoreProvider(props: GalleryContainerProps) {
-    const store = useRootGalleryStore(props);
-
-    return <Container {...props} rootStore={store} />;
 });
 
+function useCreateGalleryScope(props: GalleryContainerProps): GalleryRootScope {
+    const rootStore = useGalleryStore(props);
+    const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const itemSelectHelper = useItemSelectHelper(props.itemSelection, selectionHelper);
+
+    return useConst<GalleryRootScope>({
+        rootStore,
+        selectionHelper,
+        itemSelectHelper
+    });
+}
+
 export function Gallery(props: GalleryContainerProps): ReactElement {
-    return <Widget {...props} />;
+    const scope = useCreateGalleryScope(props);
+
+    return (
+        <GalleryContext.Provider value={scope}>
+            <Container {...props} />
+        </GalleryContext.Provider>
+    );
 }

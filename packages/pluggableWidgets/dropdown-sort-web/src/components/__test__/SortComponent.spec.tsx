@@ -1,11 +1,11 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createElement } from "react";
-import { SortComponent, SortOption } from "../SortComponent";
+import { SortComponent } from "../SortComponent";
 
-const defaultOptions: SortOption[] = [
-    { caption: "Empty option", value: null },
+const defaultOptions: Array<{ caption: string; value: string }> = [
+    { caption: "Empty option", value: "none" },
     { caption: "1", value: "_1" },
     { caption: "2", value: "_2" },
     { caption: "3", value: "_3" }
@@ -88,7 +88,9 @@ describe("Sort selector", () => {
                     options={defaultOptions}
                     value={defaultOption.value}
                     direction="asc"
-                    onSelect={option => (defaultOption = option)}
+                    onSelect={optionValue => {
+                        defaultOption = defaultOptions.find(opt => opt.value === optionValue) || defaultOption;
+                    }}
                 />
             );
 
@@ -105,7 +107,9 @@ describe("Sort selector", () => {
                     options={defaultOptions}
                     value={defaultOption.value}
                     direction="asc"
-                    onSelect={option => (defaultOption = option)}
+                    onSelect={optionValue => {
+                        defaultOption = defaultOptions.find(opt => opt.value === optionValue) || defaultOption;
+                    }}
                 />
             );
             expect(component.container.querySelector("input")?.getAttribute("value")).toBe(defaultOptions[3].caption);
@@ -123,7 +127,10 @@ describe("Sort selector", () => {
 
             await user.click(input);
 
-            jest.runOnlyPendingTimers();
+            // Wait for setTimeout(10ms) to execute the focus logic
+            act(() => {
+                jest.advanceTimersByTime(20);
+            });
 
             const items = screen.queryAllByRole("menuitem");
             expect(items[0]).toHaveFocus();
@@ -138,14 +145,20 @@ describe("Sort selector", () => {
             expect(input).toBeDefined();
             await user.click(input);
 
-            jest.runOnlyPendingTimers();
+            // Wait for setTimeout(10ms) to execute the focus logic
+            act(() => {
+                jest.advanceTimersByTime(20);
+            });
 
             const items = screen.getAllByRole("menuitem");
             expect(items[0]).toHaveFocus();
 
             await user.tab({ shift: true });
 
-            jest.runOnlyPendingTimers();
+            // Wait for focus change
+            act(() => {
+                jest.advanceTimersByTime(20);
+            });
 
             expect(input).toHaveFocus();
         });
@@ -154,7 +167,7 @@ describe("Sort selector", () => {
             render(
                 <SortComponent
                     options={[
-                        { caption: "Click me", value: null },
+                        { caption: "Click me", value: "click_me" },
                         { caption: "1", value: "_1" }
                     ]}
                     placeholder="Click me"
@@ -169,7 +182,10 @@ describe("Sort selector", () => {
             const input = screen.getByPlaceholderText("Click me");
             await user.click(input);
 
-            jest.runOnlyPendingTimers();
+            // Wait for setTimeout(10ms) to execute the focus logic
+            act(() => {
+                jest.advanceTimersByTime(20);
+            });
 
             const items = screen.getAllByRole("menuitem");
             expect(items[0]).toHaveFocus();
@@ -178,7 +194,10 @@ describe("Sort selector", () => {
             expect(items[1]).toHaveFocus();
             await user.tab();
 
-            jest.runOnlyPendingTimers();
+            // Wait for focus change
+            act(() => {
+                jest.advanceTimersByTime(20);
+            });
 
             const button = screen.getByRole("button");
 
@@ -189,7 +208,7 @@ describe("Sort selector", () => {
             render(
                 <SortComponent
                     options={[
-                        { caption: "Click me", value: null },
+                        { caption: "Click me", value: "click_me" },
                         { caption: "1", value: "_1" },
                         { caption: "2", value: "_2" }
                     ]}
@@ -203,7 +222,11 @@ describe("Sort selector", () => {
 
             const input = screen.getByPlaceholderText("Click me");
             await user.click(input);
-            jest.runOnlyPendingTimers();
+
+            // Wait for setTimeout(10ms) to execute the focus logic
+            act(() => {
+                jest.advanceTimersByTime(20);
+            });
 
             const items = screen.getAllByRole("menuitem");
             expect(items).toHaveLength(3);
@@ -215,7 +238,10 @@ describe("Sort selector", () => {
 
             await user.keyboard("{Escape}");
 
-            jest.runOnlyPendingTimers();
+            // Wait for focus change
+            act(() => {
+                jest.advanceTimersByTime(20);
+            });
 
             expect(input).toHaveFocus();
         });

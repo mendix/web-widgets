@@ -10,7 +10,7 @@ exports[`Dropdown Sort with single instance with correct context renders correct
       class="dropdown-triggerer-wrapper"
     >
       <input
-        aria-controls="DropdownSort1-dropdown-list"
+        aria-controls="DropdownSort3-dropdown-list"
         aria-expanded="false"
         aria-haspopup="true"
         class="form-control dropdown-triggerer"

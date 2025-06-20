@@ -1,58 +1,48 @@
+import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
+import { FilterCondition } from "mendix/filters";
 import { Context, createContext, useContext } from "react";
-import { APIError, ENOCONTEXT } from "./errors.js";
-import { Result, error, value } from "./result-meta.js";
-import { InputFilterInterface } from "./typings/InputFilterInterface.js";
-import { PickerFilterStore } from "./typings/PickerFilterStore.js";
+import { APIError, ENOCONTEXT } from "./errors";
+import { Result, error, value } from "./result-meta";
+import { InputFilterInterface } from "./typings/InputFilterInterface";
+import { ObservableFilterHost } from "./typings/ObservableFilterHost";
 
-export interface FilterAPIv2 {
-    version: 2;
+export interface FilterAPI {
+    version: 3;
     parentChannelName: string;
-    provider: Result<FilterStoreProvider, APIError>;
+    provider: Result<DirectProvider | ProviderStub, APIError>;
+    filterObserver: ObservableFilterHost;
+    sharedInitFilter: Array<FilterCondition | undefined>;
 }
 
-/** @deprecated */
-export enum FilterType {
-    STRING = "string",
-    NUMBER = "number",
-    ENUMERATION = "enum",
-    DATE = "date"
-}
-
-export type FilterStoreProvider = DirectProvider | KeyProvider | LegacyProvider;
-
-export type FilterStore = InputFilterInterface | PickerFilterStore;
+export type FilterStore = InputFilterInterface | EnumFilterStore;
 
 interface DirectProvider {
     type: "direct";
     store: FilterStore | null;
 }
 
-export interface KeyProvider {
-    type: "key-value";
-    get: (key: string) => FilterStore | null;
+interface ProviderStub {
+    type: "stub";
+    hint: "No filter store available";
 }
 
-/** @deprecated */
-export interface LegacyProvider {
-    type: "legacy";
-    get: (type: FilterType) => FilterStore | null;
-}
+export const PROVIDER_STUB = Object.freeze({ type: "stub", hint: "No filter store available" } as const);
 
-type Context_v2 = Context<FilterAPIv2 | null>;
+type FilterAPIContext = Context<FilterAPI | null>;
 
 const CONTEXT_OBJECT_PATH = "com.mendix.widgets.web.filterable.filterContext.v2" as const;
 
 declare global {
     interface Window {
-        [CONTEXT_OBJECT_PATH]: Context_v2 | undefined;
+        [CONTEXT_OBJECT_PATH]: FilterAPIContext | undefined;
     }
 }
 
-export function getGlobalFilterContextObject(): Context_v2 {
-    return (window[CONTEXT_OBJECT_PATH] ??= createContext<FilterAPIv2 | null>(null));
+export function getGlobalFilterContextObject(): FilterAPIContext {
+    return (window[CONTEXT_OBJECT_PATH] ??= createContext<FilterAPI | null>(null));
 }
 
-export function useFilterContextValue(): Result<FilterAPIv2, APIError> {
+export function useFilterAPI(): Result<FilterAPI, APIError> {
     const context = getGlobalFilterContextObject();
     const contextValue = useContext(context);
 
@@ -63,15 +53,19 @@ export function useFilterContextValue(): Result<FilterAPIv2, APIError> {
     return value(contextValue);
 }
 
-export function getFilterStore(provider: FilterStoreProvider, legacyType: FilterType, key: string): FilterStore | null {
-    switch (provider.type) {
-        case "direct":
-            return provider.store;
-        case "key-value":
-            return provider.get(key);
-        case "legacy":
-            return provider.get(legacyType);
-        default:
-            return null;
-    }
+/** @deprecated This hook is renamed, use `useFilterAPI` instead. */
+export const useFilterContextValue = useFilterAPI;
+
+export function createContextWithStub(options: {
+    filterObserver: ObservableFilterHost;
+    parentChannelName: string;
+    sharedInitFilter: Array<FilterCondition | undefined>;
+}): FilterAPI {
+    return {
+        version: 3,
+        parentChannelName: options.parentChannelName,
+        provider: value(PROVIDER_STUB),
+        filterObserver: options.filterObserver,
+        sharedInitFilter: options.sharedInitFilter
+    };
 }

@@ -1,6 +1,6 @@
 {
     "name": "@mendix/widget-plugin-filtering",
-    "version": "1.1.1",
+    "version": "2.0.0",
     "description": "Filtering API plugin.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -28,14 +28,16 @@
         "dev": "tsc --watch",
         "format": "prettier --write .",
         "lint": "eslint src/ package.json",
-        "prepare": "tsc",
         "test": "jest"
     },
     "dependencies": {
         "@floating-ui/react": "^0.26.27",
         "@floating-ui/react-dom": "^2.1.2",
+        "@mendix/filter-commons": "workspace:*",
+        "@mendix/widget-plugin-dropdown-filter": "workspace:*",
         "@mendix/widget-plugin-external-events": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-mobx-kit": "workspace:^",
         "@mendix/widget-plugin-platform": "workspace:*",
         "downshift": "^9.0.8",
         "mendix": "10.23.70273",

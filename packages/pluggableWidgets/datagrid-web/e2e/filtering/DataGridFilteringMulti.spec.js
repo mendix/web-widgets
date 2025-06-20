@@ -57,7 +57,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(await rows()).toHaveCount(6);
         await option("Public librarian").click();
         await expect(await rows()).toHaveCount(10);
-        await page.getByRole("columnheader", { name: "Roles (ref set)" }).getByRole("combobox").click();
+        await roleSelect().click();
         const columnTexts = await column(3).allTextContents();
         expectedColumnText.forEach((text, index) => {
             expect(columnTexts[index]).toBe(text);
