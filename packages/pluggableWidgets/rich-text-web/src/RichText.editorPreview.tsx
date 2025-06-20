@@ -9,6 +9,11 @@ export function preview(props: RichTextPreviewProps): ReactElement {
     return (
         <div className="widget-rich-text">
             <img src={doc} alt="" />
+            {props.imageSource && (
+                <props.imageSourceContent.renderer caption="Place image selection widget here">
+                    <div />
+                </props.imageSourceContent.renderer>
+            )}
         </div>
     );
 }

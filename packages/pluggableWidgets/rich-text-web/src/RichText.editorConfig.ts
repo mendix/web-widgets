@@ -88,7 +88,7 @@ export function getPreview(props: RichTextPreviewProps, isDarkMode: boolean): St
         richTextPreview.children?.push(
             rowLayout({ columnSize: "grow", borders: true, borderWidth: 1, borderRadius: 2 })(
                 dropzone(
-                    dropzone.placeholder(" image upload placeholder widget"),
+                    dropzone.placeholder("Place image selection widget here"),
                     dropzone.hideDataSourceHeaderIf(false)
                 )(props.imageSourceContent)
             )
