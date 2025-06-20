@@ -2,8 +2,8 @@ import classNames from "classnames";
 import { Fragment, ReactElement, createElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
+import { getInputLabel } from "../../helpers/utils";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
-import { useHasLabel } from "../../hooks/useHasLabel";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
@@ -65,7 +65,9 @@ export function SingleSelection({
         },
         { suppressRefError: true }
     );
-    const hasLabel = useHasLabel(inputProps.id);
+
+    const inputLabel = getInputLabel(inputProps.id);
+    const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
 
     return (
         <Fragment>

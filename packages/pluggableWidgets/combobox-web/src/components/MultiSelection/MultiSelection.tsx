@@ -2,9 +2,8 @@ import classNames from "classnames";
 import { Fragment, KeyboardEvent, ReactElement, createElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
-import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
+import { getInputLabel, getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
-import { useHasLabel } from "../../hooks/useHasLabel";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
@@ -65,7 +64,9 @@ export function MultiSelection({
         readOnly: selector.options.filterType === "none",
         "aria-required": ariaRequired.value
     });
-    const hasLabel = useHasLabel(inputProps.id);
+
+    const inputLabel = getInputLabel(inputProps.id);
+    const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
 
     const memoizedselectedCaptions = useMemo(
         () => getSelectedCaptionsPlaceholder(selector, selectedItems),
