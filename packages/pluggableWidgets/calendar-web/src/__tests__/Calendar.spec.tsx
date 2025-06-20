@@ -22,7 +22,8 @@ const defaultProps: CalendarContainerProps = {
     minHeight: 400,
     maxHeightUnit: "none",
     maxHeight: 400,
-    overflowY: "auto"
+    overflowY: "auto",
+    showEventDate: true
 };
 
 beforeAll(() => {
