@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { Fragment, ReactElement, createElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
+import { getInputLabel } from "../../helpers/utils";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
@@ -44,6 +45,7 @@ export function SingleSelection({
 
     const selectedItemCaption = useMemo(
         () => selector.caption.render(selectedItem, "label"),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [
             selectedItem,
             selector.status,
@@ -53,6 +55,19 @@ export function SingleSelection({
             selector.caption.formatter
         ]
     );
+
+    const inputProps = getInputProps(
+        {
+            disabled: selector.readOnly,
+            readOnly: selector.options.filterType === "none",
+            ref: inputRef,
+            "aria-required": ariaRequired.value
+        },
+        { suppressRefError: true }
+    );
+
+    const inputLabel = getInputLabel(inputProps.id);
+    const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
 
     return (
         <Fragment>
@@ -74,16 +89,9 @@ export function SingleSelection({
                             "widget-combobox-input-nofilter": selector.options.filterType === "none"
                         })}
                         tabIndex={tabIndex}
-                        {...getInputProps(
-                            {
-                                disabled: selector.readOnly,
-                                readOnly: selector.options.filterType === "none",
-                                ref: inputRef,
-                                "aria-required": ariaRequired.value
-                            },
-                            { suppressRefError: true }
-                        )}
+                        {...inputProps}
                         placeholder=" "
+                        aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
                     />
                     <InputPlaceholder
                         isEmpty={!selector.currentId || !selector.caption.render(selectedItem, "label")}

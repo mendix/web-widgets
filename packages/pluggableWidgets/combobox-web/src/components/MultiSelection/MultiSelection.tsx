@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { Fragment, KeyboardEvent, ReactElement, createElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
-import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
+import { getInputLabel, getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
@@ -37,6 +37,36 @@ export function MultiSelection({
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
+    const inputProps = getInputProps({
+        ...getDropdownProps(
+            {
+                preventKeyAction: isOpen
+            },
+            { suppressRefError: true }
+        ),
+        ref: inputRef,
+        onKeyDown: (event: KeyboardEvent) => {
+            if (
+                (event.key === "Backspace" && inputRef.current?.selectionStart === 0) ||
+                (event.key === "ArrowLeft" && isSelectedItemsBoxStyle && inputRef.current?.selectionStart === 0)
+            ) {
+                setActiveIndex(selectedItems.length - 1);
+            }
+            if (event.key === " ") {
+                if (highlightedIndex >= 0) {
+                    toggleSelectedItem(highlightedIndex);
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }
+        },
+        disabled: selector.readOnly,
+        readOnly: selector.options.filterType === "none",
+        "aria-required": ariaRequired.value
+    });
+
+    const inputLabel = getInputLabel(inputProps.id);
+    const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
 
     const memoizedselectedCaptions = useMemo(
         () => getSelectedCaptionsPlaceholder(selector, selectedItems),
@@ -106,35 +136,8 @@ export function MultiSelection({
                         })}
                         tabIndex={tabIndex}
                         placeholder=" "
-                        {...getInputProps({
-                            ...getDropdownProps(
-                                {
-                                    preventKeyAction: isOpen
-                                },
-                                { suppressRefError: true }
-                            ),
-                            ref: inputRef,
-                            onKeyDown: (event: KeyboardEvent) => {
-                                if (
-                                    (event.key === "Backspace" && inputRef.current?.selectionStart === 0) ||
-                                    (event.key === "ArrowLeft" &&
-                                        isSelectedItemsBoxStyle &&
-                                        inputRef.current?.selectionStart === 0)
-                                ) {
-                                    setActiveIndex(selectedItems.length - 1);
-                                }
-                                if (event.key === " ") {
-                                    if (highlightedIndex >= 0) {
-                                        toggleSelectedItem(highlightedIndex);
-                                        event.preventDefault();
-                                        event.stopPropagation();
-                                    }
-                                }
-                            },
-                            disabled: selector.readOnly,
-                            readOnly: selector.options.filterType === "none",
-                            "aria-required": ariaRequired.value
-                        })}
+                        {...inputProps}
+                        aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
                     />
                     <InputPlaceholder isEmpty={selectedItems.length <= 0}>{memoizedselectedCaptions}</InputPlaceholder>
                 </div>
