@@ -40,6 +40,7 @@ export interface CalendarContainerProps {
     view: ViewEnum;
     editable: EditableEnum;
     enableCreate: boolean;
+    showEventDate: boolean;
     defaultView: DefaultViewEnum;
     startDateAttribute?: EditableValue<Date>;
     eventDataAttribute?: EditableValue<string>;
@@ -80,6 +81,7 @@ export interface CalendarPreviewProps {
     view: ViewEnum;
     editable: EditableEnum;
     enableCreate: boolean;
+    showEventDate: boolean;
     defaultView: DefaultViewEnum;
     startDateAttribute: string;
     eventDataAttribute: string;

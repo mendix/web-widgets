@@ -124,12 +124,15 @@ export function extractCalendarProps(props: CalendarContainerProps): DragAndDrop
         }
     };
 
+    const formats = props.showEventDate ? {} : { eventTimeRangeFormat: () => "" };
+
     return {
         components: {
             toolbar: CustomToolbar
         },
         defaultView: props.defaultView,
         events,
+        formats,
         localizer,
         resizable: props.editable !== "never",
         selectable: props.enableCreate,
