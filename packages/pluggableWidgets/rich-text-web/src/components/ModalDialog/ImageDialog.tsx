@@ -6,7 +6,7 @@ import { type imageConfigType } from "../../utils/formats";
 import { IMG_MIME_TYPES } from "../CustomToolbars/constants";
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 
-type imageListType = {
+type Image = {
     id: string;
     url: string;
     thumbnailUrl?: string;
@@ -30,7 +30,7 @@ export interface ImageDialogProps extends Pick<RichTextContainerProps, "imageSou
 export default function ImageDialog(props: ImageDialogProps): ReactElement {
     const { onClose, defaultValue, onSubmit, imageSource, imageSourceContent, enableDefaultUpload } = props;
     const [activeTab, setActiveTab] = useState("general");
-    const [selectedImageEntity, setSelectedImageEntity] = useState<imageListType>();
+    const [selectedImageEntity, setSelectedImageEntity] = useState<Image>();
     const imageUploadElementRef = useRef<HTMLDivElement>(null);
     // disable embed tab if it is about modifying current video
     const disableEmbed =
@@ -50,7 +50,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
             !isInputProcessed.current
         ) {
             // if there is a file given, and imageSource is available
-            // asume that we want to do image upload to entity
+            // assume that we want to do image upload to entity
             // and switch to embed tab
             setActiveTab("embed");
         }
@@ -93,13 +93,13 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
         setFormState({ ...formState, keepAspectRatio: !formState.keepAspectRatio });
     };
 
-    const onEmbedSelected = (image: imageListType): void => {
+    const onEmbedSelected = (image: Image): void => {
         setFormState({ ...formState, entityGuid: image.id, src: undefined, files: null });
         setSelectedImageEntity(image);
         setActiveTab("general");
     };
 
-    const handleImageSelected = (event: CustomEvent<imageListType>): void => {
+    const handleImageSelected = (event: CustomEvent<Image>): void => {
         const image = event.detail;
         onEmbedSelected(image);
     };
