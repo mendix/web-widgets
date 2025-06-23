@@ -54,7 +54,7 @@
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-sorting": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@types/enzyme": "^3.10.13",
+        "@types/enzyme": "^3.10.19",
         "classnames": "^2.3.2",
         "jest": "^29.7.0"
     }
