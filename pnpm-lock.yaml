@@ -64,8 +64,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       enquirer:
-        specifier: ^2.3.6
-        version: 2.3.6
+        specifier: ^2.4.1
+        version: 2.4.1
       find-free-port:
         specifier: ^2.0.0
         version: 2.0.0
@@ -76,8 +76,8 @@ importers:
         specifier: ^10.4.0
         version: 10.4.0
       node-fetch:
-        specifier: ^2.6.9
-        version: 2.6.9
+        specifier: ^2.7.0
+        version: 2.7.0
       shelljs:
         specifier: ^0.8.5
         version: 0.8.5
@@ -153,8 +153,8 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
       '@types/node-fetch':
-        specifier: 2.6.2
-        version: 2.6.2
+        specifier: 2.6.12
+        version: 2.6.12
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -162,8 +162,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       enquirer:
-        specifier: ^2.3.6
-        version: 2.3.6
+        specifier: ^2.4.1
+        version: 2.4.1
       execa:
         specifier: ^5.1.1
         version: 5.1.1
@@ -171,8 +171,8 @@ importers:
         specifier: ^4.1.3
         version: 4.4.1
       node-fetch:
-        specifier: ^2.6.9
-        version: 2.6.9
+        specifier: ^2.7.0
+        version: 2.7.0
       ora:
         specifier: ^5.4.1
         version: 5.4.1
@@ -186,14 +186,14 @@ importers:
         specifier: 10.9.2
         version: 10.9.2(@swc/core@1.7.26(@swc/helpers@0.5.15))(@types/node@22.14.1)(typescript@5.8.2)
       zod:
-        specifier: ^3.20.6
-        version: 3.22.3
+        specifier: ^3.25.67
+        version: 3.25.67
 
   packages/customWidgets/calendar-custom-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       date-arithmetic:
         specifier: ^3.1.0
         version: 3.1.0
@@ -216,8 +216,8 @@ importers:
   packages/customWidgets/signature-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       react-resize-detector:
         specifier: ^9.1.1
         version: 9.1.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -407,8 +407,8 @@ importers:
   packages/pluggableWidgets/accordion-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -441,8 +441,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       plotly.js-dist-min:
         specifier: ^3.0.0
         version: 3.0.1
@@ -475,8 +475,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -506,8 +506,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -540,8 +540,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       plotly.js-dist-min:
         specifier: ^3.0.0
         version: 3.0.1
@@ -574,8 +574,8 @@ importers:
         specifier: ~0.21.3
         version: 0.21.3
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -614,8 +614,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       plotly.js-dist-min:
         specifier: ^3.0.0
         version: 3.0.1
@@ -645,8 +645,8 @@ importers:
   packages/pluggableWidgets/calendar-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -697,8 +697,8 @@ importers:
         specifier: ^18.0.7
         version: 18.0.7
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       react-test-renderer:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
@@ -835,8 +835,8 @@ importers:
   packages/pluggableWidgets/color-picker-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       react-color:
         specifier: ^2.19.3
         version: 2.19.3(react@18.2.0)
@@ -878,8 +878,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       plotly.js-dist-min:
         specifier: ^3.0.0
         version: 3.0.1
@@ -912,8 +912,8 @@ importers:
   packages/pluggableWidgets/combobox-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       downshift:
         specifier: ^7.6.2
         version: 7.6.2(react@18.2.0)
@@ -970,8 +970,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       plotly.js-dist-min:
         specifier: ^3.0.0
         version: 3.0.1
@@ -1001,8 +1001,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -1053,8 +1053,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1093,8 +1093,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-filtering
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1145,8 +1145,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -1203,8 +1203,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3(@types/react-dom@18.2.14)(@types/react@18.2.36)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -1243,8 +1243,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       docx-preview:
         specifier: ^0.3.5
         version: 0.3.5
@@ -1314,8 +1314,8 @@ importers:
         specifier: ^3.10.13
         version: 3.10.13
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@22.14.1)(ts-node@10.9.2(@swc/core@1.7.26(@swc/helpers@0.5.15))(@types/node@22.14.1)(typescript@5.8.2))
@@ -1323,8 +1323,8 @@ importers:
   packages/pluggableWidgets/events-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1391,8 +1391,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.2.6
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35(patch_hash=f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb)
@@ -1455,8 +1455,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-sorting
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -1523,8 +1523,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -1588,8 +1588,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       react-overlays:
         specifier: ^5.2.1
         version: 5.2.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -1622,8 +1622,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1653,8 +1653,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       plotly.js-dist-min:
         specifier: ^3.0.0
         version: 3.0.1
@@ -1690,8 +1690,8 @@ importers:
         specifier: ^0.8.3
         version: 0.8.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       deep-equal:
         specifier: ^2.2.3
         version: 2.2.3
@@ -1745,8 +1745,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -1788,8 +1788,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -1853,14 +1853,14 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
 
   packages/pluggableWidgets/progress-bar-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1890,8 +1890,8 @@ importers:
   packages/pluggableWidgets/progress-circle-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       shifty:
         specifier: ^3.0.3
         version: 3.0.3
@@ -1927,8 +1927,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       rc-slider:
         specifier: ^8.7.1
         version: 8.7.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -1970,8 +1970,8 @@ importers:
   packages/pluggableWidgets/rating-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2019,8 +2019,8 @@ importers:
         specifier: ^4.21.25
         version: 4.22.2(@babel/runtime@7.27.6)(@codemirror/autocomplete@6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.34.2)(@lezer/common@1.2.2))(@codemirror/language@6.10.2)(@codemirror/lint@6.8.5)(@codemirror/search@6.5.6)(@codemirror/state@6.4.1)(@codemirror/theme-one-dark@6.1.2)(@codemirror/view@6.34.2)(codemirror@6.0.1(@lezer/common@1.2.2))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       classnames:
-        specifier: ^2.2.6
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       dompurify:
         specifier: ^3.2.4
         version: 3.2.4
@@ -2143,8 +2143,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       rc-slider:
         specifier: ^8.7.1
         version: 8.7.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -2186,8 +2186,8 @@ importers:
   packages/pluggableWidgets/switch-web:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2226,8 +2226,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       plotly.js-dist-min:
         specifier: ^3.0.0
         version: 3.0.1
@@ -2263,8 +2263,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2297,8 +2297,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2328,8 +2328,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2356,8 +2356,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2381,8 +2381,8 @@ importers:
   packages/shared/charts:
     dependencies:
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
@@ -2550,8 +2550,8 @@ importers:
         specifier: ^0.2.36
         version: 0.2.36(@swc/core@1.7.26(@swc/helpers@0.5.15))
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       jest-environment-jsdom:
         specifier: ^29.7.0
         version: 29.7.0
@@ -2716,8 +2716,8 @@ importers:
         specifier: ^0.2.36
         version: 0.2.36(@swc/core@1.7.26(@swc/helpers@0.5.15))
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       jest-environment-jsdom:
         specifier: ^29.7.0
         version: 29.7.0
@@ -2743,8 +2743,8 @@ importers:
         specifier: ^0.2.36
         version: 0.2.36(@swc/core@1.7.26(@swc/helpers@0.5.15))
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       jest-environment-jsdom:
         specifier: ^29.7.0
         version: 29.7.0
@@ -2796,8 +2796,8 @@ importers:
         specifier: ^0.2.36
         version: 0.2.36(@swc/core@1.7.26(@swc/helpers@0.5.15))
       classnames:
-        specifier: ^2.3.2
-        version: 2.3.2
+        specifier: ^2.5.1
+        version: 2.5.1
       jest-environment-jsdom:
         specifier: ^29.7.0
         version: 29.7.0
@@ -5226,8 +5226,8 @@ packages:
   '@types/minimatch@3.0.5':
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
 
-  '@types/node-fetch@2.6.2':
-    resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
+  '@types/node-fetch@2.6.12':
+    resolution: {integrity: sha512-8nneRWKCg3rMtF69nLQJnOYUcbafYeFSjqkw3jCRLsqkWFlHaoQrr5mXmofFGOx3DKn7UfmBMyov8ySvLRVldA==}
 
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
@@ -6211,8 +6211,8 @@ packages:
   clamp@1.0.1:
     resolution: {integrity: sha512-kgMuFyE78OC6Dyu3Dy7vcx4uy97EIbVxJB/B0eJ3bUNAkwdNcxYzgKltnyADiYwsR7SEqkkUPsEUT//OVS6XMA==}
 
-  classnames@2.3.2:
-    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
+  classnames@2.5.1:
+    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
 
   cli-cursor@3.1.0:
     resolution: {integrity: sha512-I/zHAwsKf9FqGoXM4WWRACob9+SNukZTd94DWF57E4toouRulbCxcUh6RKUEOQlYTHJnzkPMySvPNaaSLNfLZw==}
@@ -7026,10 +7026,6 @@ packages:
     resolution: {integrity: sha512-LMHl3dXhTcfv8gM4kEzIUeTQ+7fpdA0l2tUf34BddXPkz2A5xJ5L/Pchd5BL6rdccM9QGvu0sWZzK1Z1t4wwyg==}
     engines: {node: '>=10.13.0'}
 
-  enquirer@2.3.6:
-    resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
-    engines: {node: '>=8.6'}
-
   enquirer@2.4.1:
     resolution: {integrity: sha512-rRqJg/6gd538VHvR3PSrdRBb/1Vy2YfzHqzvbhGIQpDRKIa4FgV/54b5Q1xYSxOOwKvjXweS26E0Q+nAMwp2pQ==}
     engines: {node: '>=8.6'}
@@ -7618,10 +7614,6 @@ packages:
   foreground-child@3.3.1:
     resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
     engines: {node: '>=14'}
-
-  form-data@3.0.1:
-    resolution: {integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==}
-    engines: {node: '>= 6'}
 
   form-data@4.0.0:
     resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
@@ -9355,15 +9347,6 @@ packages:
   node-dir@0.1.17:
     resolution: {integrity: sha512-tmPX422rYgofd4epzrNoOXiE8XFZYOcCq1vD7MAXCDO+O+zndlA2ztdKKMa+EeuBG5tHETpr4ml4RGgpqDCCAg==}
     engines: {node: '>= 0.10.5'}
-
-  node-fetch@2.6.9:
-    resolution: {integrity: sha512-DJm/CJkZkRjKKj4Zi4BsKVZh3ValV5IR5s7LVZnW+6YMh0W1BfNA8XSs6DLMGYlId5F3KnA70uu2qepcR08Qqg==}
-    engines: {node: 4.x || >=6.0.0}
-    peerDependencies:
-      encoding: ^0.1.0
-    peerDependenciesMeta:
-      encoding:
-        optional: true
 
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
@@ -11895,8 +11878,8 @@ packages:
     resolution: {integrity: sha512-EkXc2JGcKhO5N5aZ7TmuNo45budRaFGHOmz24wtJR7znbNqDPmdZtUauKX6et8KAVseAMBOyWJqEpXcHTBsh7Q==}
     engines: {node: '>= 6'}
 
-  zod@3.22.3:
-    resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
+  zod@3.25.67:
+    resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
 
 snapshots:
 
@@ -14701,7 +14684,7 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
       jest-mock: 29.7.0
 
   '@jest/expect-utils@29.7.0':
@@ -14719,7 +14702,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.1.0
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -14967,7 +14950,7 @@ snapshots:
       '@types/react-dom': 18.2.14
       '@types/react-native': 0.72.8(react-native@0.75.3(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))
       '@types/testing-library__jest-dom': 5.14.9
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)
       '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
       ansi-colors: 4.1.1
       babel-eslint: 10.1.0(eslint@7.32.0)
@@ -14980,7 +14963,7 @@ snapshots:
       enzyme-to-json: 3.6.2(enzyme@3.11.0)
       eslint: 7.32.0
       eslint-config-prettier: 8.10.0(eslint@7.32.0)
-      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
+      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
       eslint-plugin-prettier: 3.4.1(eslint-config-prettier@8.10.0(eslint@7.32.0))(eslint@7.32.0)(prettier@3.5.3)
       eslint-plugin-promise: 4.3.1
       eslint-plugin-react: 7.28.0(eslint@7.32.0)
@@ -16324,15 +16307,15 @@ snapshots:
 
   '@types/cheerio@0.22.31':
     dependencies:
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
 
   '@types/cheerio@0.22.33':
     dependencies:
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
 
   '@types/conventional-commits-parser@5.0.1':
     dependencies:
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
 
   '@types/cross-zip@4.0.2': {}
 
@@ -16359,7 +16342,7 @@ snapshots:
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
 
   '@types/geojson-vt@3.2.5':
     dependencies:
@@ -16404,7 +16387,7 @@ snapshots:
 
   '@types/jsdom@20.0.1':
     dependencies:
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
       '@types/tough-cookie': 4.0.2
       parse5: 7.1.2
 
@@ -16441,10 +16424,10 @@ snapshots:
 
   '@types/minimatch@3.0.5': {}
 
-  '@types/node-fetch@2.6.2':
+  '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 22.14.0
-      form-data: 3.0.1
+      '@types/node': 22.14.1
+      form-data: 4.0.0
 
   '@types/node-forge@1.3.11':
     dependencies:
@@ -16593,7 +16576,7 @@ snapshots:
     dependencies:
       '@types/yargs-parser': 21.0.3
 
-  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)':
+  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
       '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
@@ -16608,7 +16591,7 @@ snapshots:
       semver: 7.7.1
       tsutils: 3.21.0(typescript@5.8.2)
     optionalDependencies:
-      typescript: 5.8.2
+      typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
 
@@ -17818,7 +17801,7 @@ snapshots:
 
   clamp@1.0.1: {}
 
-  classnames@2.3.2: {}
+  classnames@2.5.1: {}
 
   cli-cursor@3.1.0:
     dependencies:
@@ -18777,10 +18760,6 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.2.1
 
-  enquirer@2.3.6:
-    dependencies:
-      ansi-colors: 4.1.3
-
   enquirer@2.4.1:
     dependencies:
       ansi-colors: 4.1.3
@@ -19114,22 +19093,12 @@ snapshots:
       eslint: 9.23.0(jiti@2.4.2)
       globals: 15.15.0
 
-  eslint-plugin-jest@24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2):
-    dependencies:
-      '@typescript-eslint/experimental-utils': 4.33.0(eslint@7.32.0)(typescript@5.8.2)
-      eslint: 7.32.0
-    optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
   eslint-plugin-jest@24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2):
     dependencies:
       '@typescript-eslint/experimental-utils': 4.33.0(eslint@7.32.0)(typescript@5.8.2)
       eslint: 7.32.0
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -19664,12 +19633,6 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  form-data@3.0.1:
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35(patch_hash=f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb)
-
   form-data@4.0.0:
     dependencies:
       asynckit: 0.4.0
@@ -20040,7 +20003,7 @@ snapshots:
 
   happy-dom@18.0.1:
     dependencies:
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
       '@types/whatwg-mimetype': 3.0.2
       whatwg-mimetype: 3.0.0
 
@@ -20814,7 +20777,7 @@ snapshots:
       '@jest/source-map': 29.6.3
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
       chalk: 4.1.2
       co: 4.6.0
       is-generator-fn: 2.1.0
@@ -20863,7 +20826,7 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
       jest-util: 29.7.0
 
   jest-pnp-resolver@1.2.3(jest-resolve@29.7.0):
@@ -20930,7 +20893,7 @@ snapshots:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
       chalk: 4.1.2
       cjs-module-lexer: 1.2.3
       collect-v8-coverage: 1.0.2
@@ -20976,7 +20939,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.14.0
+      '@types/node': 22.14.1
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -21964,10 +21927,6 @@ snapshots:
   node-dir@0.1.17:
     dependencies:
       minimatch: 3.1.2
-
-  node-fetch@2.6.9:
-    dependencies:
-      whatwg-url: 5.0.0
 
   node-fetch@2.7.0:
     dependencies:
@@ -23038,7 +22997,7 @@ snapshots:
   rc-animate@2.11.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       babel-runtime: 6.26.0
-      classnames: 2.3.2
+      classnames: 2.5.1
       css-animation: 1.6.1
       prop-types: 15.8.1
       raf: 3.4.1
@@ -23050,7 +23009,7 @@ snapshots:
   rc-slider@8.7.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       babel-runtime: 6.26.0
-      classnames: 2.3.2
+      classnames: 2.5.1
       prop-types: 15.8.1
       rc-tooltip: 3.7.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       rc-util: 4.21.1
@@ -23073,7 +23032,7 @@ snapshots:
   rc-trigger@2.6.5(patch_hash=ed1e3ff08d043fe0d57534d0d74502691ed5cc3297839600375d33bb84c7be99)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       babel-runtime: 6.26.0
-      classnames: 2.3.2
+      classnames: 2.5.1
       prop-types: 15.8.1
       rc-align: 2.4.5
       rc-animate: 2.11.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -23101,7 +23060,7 @@ snapshots:
 
   react-big-calendar@0.19.2(patch_hash=d8f03ab5a445efa65feb8cf9de6d013131afabc5b7e269c61364b2997ef90f94)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
-      classnames: 2.3.2
+      classnames: 2.5.1
       date-arithmetic: 3.1.0
       dom-helpers: 3.4.0
       invariant: 2.2.4
@@ -23380,7 +23339,7 @@ snapshots:
 
   react-overlays@0.7.4(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
-      classnames: 2.3.2
+      classnames: 2.5.1
       dom-helpers: 3.4.0
       prop-types: 15.8.1
       prop-types-extra: 1.1.1(react@18.2.0)
@@ -25344,4 +25303,4 @@ snapshots:
       compress-commons: 2.1.1
       readable-stream: 3.6.2
 
-  zod@3.22.3: {}
+  zod@3.25.67: {}

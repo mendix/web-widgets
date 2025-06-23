@@ -5,6 +5,7 @@
     "labels": ["dependencies"],
     "rebaseLabel": "renovate-rebase",
     "branchPrefix": "deps/",
+    "branchNameStrict": true,
     "prHourlyLimit": 5,
     "prConcurrentLimit": 5,
     "prCreation": "immediate",

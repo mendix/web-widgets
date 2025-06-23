@@ -34,17 +34,17 @@
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@types/cross-zip": "^4.0.2",
-        "@types/node-fetch": "2.6.2",
+        "@types/node-fetch": "2.6.12",
         "chalk": "^4.1.2",
         "cross-zip": "^4.0.1",
-        "enquirer": "^2.3.6",
+        "enquirer": "^2.4.1",
         "execa": "^5.1.1",
         "fast-xml-parser": "^4.1.3",
-        "node-fetch": "^2.6.9",
+        "node-fetch": "^2.7.0",
         "ora": "^5.4.1",
         "peggy": "^1.2.0",
         "shelljs": "^0.8.5",
         "ts-node": "^10.9.2",
-        "zod": "^3.20.6"
+        "zod": "^3.25.67"
     }
 }

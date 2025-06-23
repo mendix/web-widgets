@@ -46,7 +46,7 @@
         "@mendix/widget-plugin-filtering": "workspace:*",
         "@mendix/widget-plugin-mobx-kit": "workspace:^",
         "@mendix/widget-plugin-sorting": "workspace:*",
-        "classnames": "^2.3.2",
+        "classnames": "^2.5.1",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7"
     },
