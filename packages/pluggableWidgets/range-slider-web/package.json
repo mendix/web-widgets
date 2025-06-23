@@ -57,7 +57,7 @@
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@types/rc-slider": "^8.6.6",
-        "@types/rc-tooltip": "^3.7.7",
+        "@types/rc-tooltip": "^3.7.14",
         "cross-env": "^7.0.3"
     }
 }
