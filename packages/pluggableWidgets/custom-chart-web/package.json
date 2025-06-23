@@ -49,7 +49,7 @@
         "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "classnames": "^2.3.2",
-        "plotly.js-dist-min": "^3.0.0"
+        "plotly.js-dist-min": "^3.0.1"
     },
     "devDependencies": {
         "@happy-dom/jest-environment": "^18.0.1",
