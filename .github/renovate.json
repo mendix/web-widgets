@@ -27,6 +27,7 @@
     "allowScripts": true,
     "ignoreScripts": false,
     "ignoreDeps": ["typescript"],
+    "ignorePaths": ["**/customWidgets/**"],
     "packageRules": [
         { "matchCategories": ["docker"], "enabled": false },
         { "matchPackagePatterns": ["*"], "rangeStrategy": "bump" },
