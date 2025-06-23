@@ -323,8 +323,8 @@ importers:
         specifier: ^6.5.1
         version: 6.5.1
       copy-and-watch:
-        specifier: ^0.1.6
-        version: 0.1.6
+        specifier: ^0.1.8
+        version: 0.1.8
       rollup:
         specifier: '*'
         version: 3.29.5
@@ -2433,8 +2433,8 @@ importers:
         specifier: ^2.6.3
         version: 2.6.3
       copy-and-watch:
-        specifier: ^0.1.6
-        version: 0.1.6
+        specifier: ^0.1.8
+        version: 0.1.8
       rimraf:
         specifier: ^4.4.1
         version: 4.4.1
@@ -6171,12 +6171,12 @@ packages:
   chevrotain@7.1.1:
     resolution: {integrity: sha512-wy3mC1x4ye+O+QkEinVJkPf5u2vsrDIYW9G7ZuwFl6v/Yu0LwUuT2POsb+NUWApebyxfkQq6+yDfRExbnI5rcw==}
 
-  chokidar@3.5.2:
-    resolution: {integrity: sha512-ekGhOnNVPgT77r4K/U3GDhu+FQ2S8TnK/s2KbIGXi0SZWuwkZ2QNyfWdZW+TVfn84DpEP7rLeCt2UI6bJ8GwbQ==}
-    engines: {node: '>= 8.10.0'}
-
   chokidar@3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
+    engines: {node: '>= 8.10.0'}
+
+  chokidar@3.6.0:
+    resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
 
   chokidar@4.0.3:
@@ -6405,8 +6405,8 @@ packages:
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
-  copy-and-watch@0.1.6:
-    resolution: {integrity: sha512-lTdQK2V/7T3fsRXwiG9CORZMtiTgjIW1SMUdWctV1CagV4bzXgjXz0WS+/zpeotZ27RJvoPeR21T4pZEnUzAUQ==}
+  copy-and-watch@0.1.8:
+    resolution: {integrity: sha512-Prw3k4Za+C/m/OutNtjy1+7Fq+JTiryrFc5JiR0wRrYQ+yPUnsXV8DNPna7plzEcmNbm8x87fqegp9+ogNqKNQ==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -7760,13 +7760,14 @@ packages:
   glob-to-regexp@0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
+  glob@10.3.12:
+    resolution: {integrity: sha512-TCNv8vJ+xz4QiqTpfOJA7HvYv+tNIRHKfUWw/q+v2jdgN4ebz+KY9tGx5J4rHP0o84mNP+ApH66HRX8us3Khqg==}
+    engines: {node: '>=16 || 14 >=14.17'}
+    hasBin: true
+
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
     hasBin: true
-
-  glob@7.2.0:
-    resolution: {integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
@@ -8477,6 +8478,10 @@ packages:
   iterator.prototype@1.1.5:
     resolution: {integrity: sha512-H0dkQoCa3b2VEeKQBOxFph+JAbcrQdE7KC0UkqwpLmv2EC4P41QXP+rqo9wYodACiG5/WM5s9oDApTU8utwj9g==}
     engines: {node: '>= 0.4'}
+
+  jackspeak@2.3.6:
+    resolution: {integrity: sha512-N3yCS/NegsOBokc8GAdM8UcmfsKiSS8cipheD/nivzr700H+nsMOxJjQnvwOcRYVuFkdH0wGUvW2WbXGmrZGbQ==}
+    engines: {node: '>=14'}
 
   jackspeak@3.4.3:
     resolution: {integrity: sha512-OGlZQpz2yfahA/Rd1Y8Cd9SIEsqvXkLVoSw/cgwhnhFMDbsQFeZYoJJ7bIZBS9BcamUW96asq/npPWugM+RQBw==}
@@ -14967,7 +14972,7 @@ snapshots:
       '@types/react-dom': 18.2.14
       '@types/react-native': 0.72.8(react-native@0.75.3(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))
       '@types/testing-library__jest-dom': 5.14.9
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)
       '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
       ansi-colors: 4.1.1
       babel-eslint: 10.1.0(eslint@7.32.0)
@@ -14980,7 +14985,7 @@ snapshots:
       enzyme-to-json: 3.6.2(enzyme@3.11.0)
       eslint: 7.32.0
       eslint-config-prettier: 8.10.0(eslint@7.32.0)
-      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
+      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
       eslint-plugin-prettier: 3.4.1(eslint-config-prettier@8.10.0(eslint@7.32.0))(eslint@7.32.0)(prettier@3.5.3)
       eslint-plugin-promise: 4.3.1
       eslint-plugin-react: 7.28.0(eslint@7.32.0)
@@ -16593,7 +16598,7 @@ snapshots:
     dependencies:
       '@types/yargs-parser': 21.0.3
 
-  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)':
+  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
       '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
@@ -16608,7 +16613,7 @@ snapshots:
       semver: 7.7.1
       tsutils: 3.21.0(typescript@5.8.2)
     optionalDependencies:
-      typescript: 5.8.2
+      typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
 
@@ -17757,7 +17762,7 @@ snapshots:
     dependencies:
       regexp-to-ast: 0.5.0
 
-  chokidar@3.5.2:
+  chokidar@3.5.3:
     dependencies:
       anymatch: 3.1.3
       braces: 3.0.2
@@ -17769,10 +17774,10 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  chokidar@3.5.3:
+  chokidar@3.6.0:
     dependencies:
       anymatch: 3.1.3
-      braces: 3.0.2
+      braces: 3.0.3
       glob-parent: 5.1.2
       is-binary-path: 2.1.0
       is-glob: 4.0.3
@@ -18051,11 +18056,11 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  copy-and-watch@0.1.6:
+  copy-and-watch@0.1.8:
     dependencies:
-      chokidar: 3.5.2
+      chokidar: 3.6.0
       colors: 1.4.0
-      glob: 7.2.0
+      glob: 10.3.12
       glob-parent: 6.0.2
 
   copy-webpack-plugin@11.0.0(webpack@5.94.0):
@@ -19114,22 +19119,12 @@ snapshots:
       eslint: 9.23.0(jiti@2.4.2)
       globals: 15.15.0
 
-  eslint-plugin-jest@24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2):
-    dependencies:
-      '@typescript-eslint/experimental-utils': 4.33.0(eslint@7.32.0)(typescript@5.8.2)
-      eslint: 7.32.0
-    optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
   eslint-plugin-jest@24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2):
     dependencies:
       '@typescript-eslint/experimental-utils': 4.33.0(eslint@7.32.0)(typescript@5.8.2)
       eslint: 7.32.0
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -19841,6 +19836,14 @@ snapshots:
 
   glob-to-regexp@0.4.1: {}
 
+  glob@10.3.12:
+    dependencies:
+      foreground-child: 3.3.1
+      jackspeak: 2.3.6
+      minimatch: 9.0.5
+      minipass: 7.1.2
+      path-scurry: 1.11.1
+
   glob@10.4.5:
     dependencies:
       foreground-child: 3.3.1
@@ -19849,15 +19852,6 @@ snapshots:
       minipass: 7.1.2
       package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
-
-  glob@7.2.0:
-    dependencies:
-      fs.realpath: 1.0.0
-      inflight: 1.0.6
-      inherits: 2.0.4
-      minimatch: 3.1.2
-      once: 1.4.0
-      path-is-absolute: 1.0.1
 
   glob@7.2.3:
     dependencies:
@@ -20588,6 +20582,12 @@ snapshots:
       get-proto: 1.0.1
       has-symbols: 1.1.0
       set-function-name: 2.0.2
+
+  jackspeak@2.3.6:
+    dependencies:
+      '@isaacs/cliui': 8.0.2
+    optionalDependencies:
+      '@pkgjs/parseargs': 0.11.0
 
   jackspeak@3.4.3:
     dependencies:

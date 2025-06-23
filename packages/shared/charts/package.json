@@ -53,7 +53,7 @@
         "@rollup/plugin-terser": "^0.4.4",
         "@types/plotly.js-dist-min": "^2.3.4",
         "@types/react-plotly.js": "^2.6.3",
-        "copy-and-watch": "^0.1.6",
+        "copy-and-watch": "^0.1.8",
         "rimraf": "^4.4.1",
         "rollup": "*",
         "rollup-plugin-copy": "^3.5.0"
