@@ -59,7 +59,7 @@
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@types/deep-equal": "^1.0.1",
-        "@types/leaflet": "^1.9.3",
+        "@types/leaflet": "^1.9.18",
         "@types/react-leaflet": "^2.8.3",
         "cross-env": "^7.0.3"
     }
