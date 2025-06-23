@@ -48,7 +48,7 @@
     "dependencies": {
         "classnames": "^2.3.2",
         "date-fns": "^4.1.0",
-        "react-big-calendar": "^1.17.1"
+        "react-big-calendar": "^1.19.4"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -60,7 +60,7 @@
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@types/react-big-calendar": "^1.16.1",
+        "@types/react-big-calendar": "^1.16.2",
         "cross-env": "^7.0.3"
     }
 }
