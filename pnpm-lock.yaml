@@ -186,8 +186,8 @@ importers:
         specifier: 10.9.2
         version: 10.9.2(@swc/core@1.7.26(@swc/helpers@0.5.15))(@types/node@22.14.1)(typescript@5.8.2)
       zod:
-        specifier: ^3.20.6
-        version: 3.22.3
+        specifier: ^3.25.67
+        version: 3.25.67
 
   packages/customWidgets/calendar-custom-web:
     dependencies:
@@ -11878,8 +11878,8 @@ packages:
     resolution: {integrity: sha512-EkXc2JGcKhO5N5aZ7TmuNo45budRaFGHOmz24wtJR7znbNqDPmdZtUauKX6et8KAVseAMBOyWJqEpXcHTBsh7Q==}
     engines: {node: '>= 6'}
 
-  zod@3.22.3:
-    resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
+  zod@3.25.67:
+    resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
 
 snapshots:
 
@@ -25303,4 +25303,4 @@ snapshots:
       compress-commons: 2.1.1
       readable-stream: 3.6.2
 
-  zod@3.22.3: {}
+  zod@3.25.67: {}
