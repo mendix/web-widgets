@@ -46,7 +46,7 @@
         "@codemirror/lang-html": "^6.4.9",
         "@floating-ui/react": "^0.26.27",
         "@melloware/coloris": "^0.24.2",
-        "@uiw/codemirror-theme-github": "^4.21.25",
+        "@uiw/codemirror-theme-github": "^4.23.13",
         "@uiw/react-codemirror": "^4.21.25",
         "classnames": "^2.2.6",
         "dompurify": "^3.2.4",
