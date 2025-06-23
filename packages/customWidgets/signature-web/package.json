@@ -46,7 +46,7 @@
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "copy-webpack-plugin": "^11.0.0",
-        "css-loader": "^6.7.3",
+        "css-loader": "^6.11.0",
         "jest-canvas-mock": "^2.4.0",
         "loader-utils": "1.4.2",
         "mendix-client": "^7.15.8",
