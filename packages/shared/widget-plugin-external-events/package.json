@@ -31,7 +31,7 @@
         "test": "jest"
     },
     "dependencies": {
-        "nanoevents": "^9.0.0"
+        "nanoevents": "^9.1.0"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
