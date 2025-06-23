@@ -49,7 +49,7 @@
         "@mendix/widget-plugin-platform": "workspace:*",
         "classnames": "^2.3.2",
         "mobx": "6.12.3",
-        "mobx-react-lite": "4.0.7"
+        "mobx-react-lite": "4.1.0"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",

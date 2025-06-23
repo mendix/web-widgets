@@ -46,7 +46,7 @@
         "classnames": "^2.2.6",
         "mime-types": "^2.1.35",
         "mobx": "6.12.3",
-        "mobx-react-lite": "4.0.7",
+        "mobx-react-lite": "4.1.0",
         "react-dropzone": "^14.2.3"
     },
     "devDependencies": {

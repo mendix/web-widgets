@@ -1151,8 +1151,8 @@ importers:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       mobx-react-lite:
-        specifier: 4.0.7
-        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
+        specifier: 4.1.0
+        version: 4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1209,8 +1209,8 @@ importers:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       mobx-react-lite:
-        specifier: 4.0.7
-        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
+        specifier: 4.1.0
+        version: 4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
       nanoevents:
         specifier: ^9.0.0
         version: 9.0.0
@@ -1400,8 +1400,8 @@ importers:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       mobx-react-lite:
-        specifier: 4.0.7
-        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
+        specifier: 4.1.0
+        version: 4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
       react-dropzone:
         specifier: ^14.2.3
         version: 14.2.9(react@18.2.0)
@@ -1461,8 +1461,8 @@ importers:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       mobx-react-lite:
-        specifier: 4.0.7
-        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
+        specifier: 4.1.0
+        version: 4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2493,8 +2493,8 @@ importers:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       mobx-react-lite:
-        specifier: 4.0.7
-        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react@18.2.0)
+        specifier: 4.1.0
+        version: 4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react@18.2.0)
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -2583,8 +2583,8 @@ importers:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       mobx-react-lite:
-        specifier: 4.0.7
-        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react@18.2.0)
+        specifier: 4.1.0
+        version: 4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react@18.2.0)
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -2657,8 +2657,8 @@ importers:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       mobx-react-lite:
-        specifier: 4.0.7
-        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: 4.1.0
+        version: 4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -2817,8 +2817,8 @@ importers:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       mobx-react-lite:
-        specifier: 4.0.7
-        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react@18.2.0)
+        specifier: 4.1.0
+        version: 4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react@18.2.0)
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -9228,8 +9228,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  mobx-react-lite@4.0.7:
-    resolution: {integrity: sha512-RjwdseshK9Mg8On5tyJZHtGD+J78ZnCnRaxeQDSiciKVQDUbfZcXhmld0VMxAwvcTnPEHZySGGewm467Fcpreg==}
+  mobx-react-lite@4.1.0:
+    resolution: {integrity: sha512-QEP10dpHHBeQNv1pks3WnHRCem2Zp636lq54M2nKO2Sarr13pL4u6diQXf65yzXUn0mkk18SyIDCm9UOJYTi1w==}
     peerDependencies:
       mobx: ^6.9.0
       react: ^18.0.0
@@ -11546,8 +11546,8 @@ packages:
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
 
-  use-sync-external-store@1.2.0:
-    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+  use-sync-external-store@1.5.0:
+    resolution: {integrity: sha512-Rb46I4cGGVBmjamjphe8L/UnvJD+uPPtTkNvX5mZgqdbavhI4EbgIWJiIHXJ8bc/i9EQGPRh4DwEURJ552Do0A==}
     peerDependencies:
       react: ^18.0.0
 
@@ -14967,7 +14967,7 @@ snapshots:
       '@types/react-dom': 18.2.14
       '@types/react-native': 0.72.8(react-native@0.75.3(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))
       '@types/testing-library__jest-dom': 5.14.9
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)
       '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
       ansi-colors: 4.1.1
       babel-eslint: 10.1.0(eslint@7.32.0)
@@ -14980,7 +14980,7 @@ snapshots:
       enzyme-to-json: 3.6.2(enzyme@3.11.0)
       eslint: 7.32.0
       eslint-config-prettier: 8.10.0(eslint@7.32.0)
-      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
+      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
       eslint-plugin-prettier: 3.4.1(eslint-config-prettier@8.10.0(eslint@7.32.0))(eslint@7.32.0)(prettier@3.5.3)
       eslint-plugin-promise: 4.3.1
       eslint-plugin-react: 7.28.0(eslint@7.32.0)
@@ -16593,7 +16593,7 @@ snapshots:
     dependencies:
       '@types/yargs-parser': 21.0.3
 
-  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)':
+  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
       '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
@@ -16608,7 +16608,7 @@ snapshots:
       semver: 7.7.1
       tsutils: 3.21.0(typescript@5.8.2)
     optionalDependencies:
-      typescript: 5.8.2
+      typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
 
@@ -19114,22 +19114,12 @@ snapshots:
       eslint: 9.23.0(jiti@2.4.2)
       globals: 15.15.0
 
-  eslint-plugin-jest@24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2):
-    dependencies:
-      '@typescript-eslint/experimental-utils': 4.33.0(eslint@7.32.0)(typescript@5.8.2)
-      eslint: 7.32.0
-    optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
   eslint-plugin-jest@24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2):
     dependencies:
       '@typescript-eslint/experimental-utils': 4.33.0(eslint@7.32.0)(typescript@5.8.2)
       eslint: 7.32.0
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -21827,28 +21817,28 @@ snapshots:
 
   mkdirp@1.0.4: {}
 
-  mobx-react-lite@4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0):
+  mobx-react-lite@4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0):
     dependencies:
       mobx: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
+      use-sync-external-store: 1.5.0(react@18.2.0)
     optionalDependencies:
       react-dom: 18.2.0(react@18.2.0)
       react-native: 0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0)
 
-  mobx-react-lite@4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  mobx-react-lite@4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       mobx: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
+      use-sync-external-store: 1.5.0(react@18.2.0)
     optionalDependencies:
       react-dom: 18.2.0(react@18.2.0)
 
-  mobx-react-lite@4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react@18.2.0):
+  mobx-react-lite@4.1.0(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react@18.2.0):
     dependencies:
       mobx: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
       react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
+      use-sync-external-store: 1.5.0(react@18.2.0)
 
   mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9): {}
 
@@ -24935,7 +24925,7 @@ snapshots:
       querystringify: 2.2.0
       requires-port: 1.0.0
 
-  use-sync-external-store@1.2.0(react@18.2.0):
+  use-sync-external-store@1.5.0(react@18.2.0):
     dependencies:
       react: 18.2.0
 
