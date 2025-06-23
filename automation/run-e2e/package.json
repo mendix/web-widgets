@@ -29,7 +29,7 @@
         "yargs-parser": "^21.1.1"
     },
     "devDependencies": {
-        "@axe-core/playwright": "^4.10.1",
+        "@axe-core/playwright": "^4.10.2",
         "@eslint/js": "^9.24.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@playwright/test": "^1.51.1",
