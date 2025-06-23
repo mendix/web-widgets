@@ -53,6 +53,6 @@
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
-        "classnames": "^2.3.2"
+        "classnames": "^2.5.1"
     }
 }
