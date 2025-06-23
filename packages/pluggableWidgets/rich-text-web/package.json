@@ -45,7 +45,7 @@
     "dependencies": {
         "@codemirror/lang-html": "^6.4.9",
         "@floating-ui/react": "^0.26.27",
-        "@melloware/coloris": "^0.24.2",
+        "@melloware/coloris": "^0.25.0",
         "@uiw/codemirror-theme-github": "^4.21.25",
         "@uiw/react-codemirror": "^4.21.25",
         "classnames": "^2.2.6",
