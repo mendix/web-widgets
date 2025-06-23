@@ -47,7 +47,7 @@
         "mime-types": "^2.1.35",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7",
-        "react-dropzone": "^14.2.3"
+        "react-dropzone": "^14.3.8"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
