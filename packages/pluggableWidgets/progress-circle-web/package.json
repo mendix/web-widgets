@@ -44,7 +44,7 @@
     },
     "dependencies": {
         "classnames": "^2.3.2",
-        "shifty": "^3.0.3"
+        "shifty": "^3.0.6"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
