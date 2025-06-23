@@ -51,7 +51,7 @@
         "loader-utils": "1.4.2",
         "mendix-client": "^7.15.8",
         "mini-css-extract-plugin": "^2.7.2",
-        "sass-loader": "^13.2.0",
+        "sass-loader": "^13.3.3",
         "to-string-loader": "^1.1.6",
         "ts-loader": "^9.4.2",
         "ts-node": "^10.9.2",
