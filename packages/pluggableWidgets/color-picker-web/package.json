@@ -54,7 +54,7 @@
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
-        "@types/react-color": "^2.17.6",
+        "@types/react-color": "^2.17.12",
         "cross-env": "^7.0.3"
     }
 }
