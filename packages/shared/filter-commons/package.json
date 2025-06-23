@@ -34,7 +34,7 @@
         "mendix": "^10.23.70273"
     },
     "peerDependencies": {
-        "mobx": "6.12.3",
+        "mobx": "6.13.7",
         "mobx-react-lite": "4.0.7"
     },
     "devDependencies": {

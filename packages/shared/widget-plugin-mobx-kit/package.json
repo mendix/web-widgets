@@ -31,7 +31,7 @@
         "test": "jest"
     },
     "dependencies": {
-        "mobx": "6.12.3"
+        "mobx": "6.13.7"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
