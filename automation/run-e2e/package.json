@@ -23,7 +23,7 @@
         "enquirer": "^2.3.6",
         "find-free-port": "^2.0.0",
         "ip": "^1.1.9",
-        "mocha": "^10.4.0",
+        "mocha": "^10.8.2",
         "node-fetch": "^2.6.9",
         "shelljs": "^0.8.5",
         "yargs-parser": "^21.1.1"
