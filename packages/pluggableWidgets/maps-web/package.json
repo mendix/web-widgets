@@ -43,7 +43,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
-        "@vis.gl/react-google-maps": "^0.8.3",
+        "@vis.gl/react-google-maps": "^0.11.2",
         "classnames": "^2.3.2",
         "deep-equal": "^2.2.3",
         "leaflet": "^1.9.4",
