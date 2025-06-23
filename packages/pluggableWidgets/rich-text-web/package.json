@@ -49,7 +49,7 @@
         "@uiw/codemirror-theme-github": "^4.21.25",
         "@uiw/react-codemirror": "^4.21.25",
         "classnames": "^2.2.6",
-        "dompurify": "^3.2.4",
+        "dompurify": "^3.2.6",
         "js-beautify": "^1.15.4",
         "katex": "^0.16.21",
         "linkifyjs": "^4.1.3",
