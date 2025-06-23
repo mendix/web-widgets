@@ -1703,8 +1703,8 @@ importers:
         version: 4.2.1(leaflet@1.9.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@googlemaps/jest-mocks':
-        specifier: ^2.10.0
-        version: 2.10.0
+        specifier: ^2.22.6
+        version: 2.22.6
       '@mendix/automation-utils':
         specifier: workspace:*
         version: link:../../../automation/utils
@@ -4185,8 +4185,8 @@ packages:
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
 
-  '@googlemaps/jest-mocks@2.10.0':
-    resolution: {integrity: sha512-s+srnInqmzAXJwnx9mEwQYaOweFVfGikxo8bW6HHlnGxVo+YNh5flspLGk8jpBZA4mEn/sqPE2hPYE/9SdnE5A==}
+  '@googlemaps/jest-mocks@2.22.6':
+    resolution: {integrity: sha512-t3n0l03OdGPEUCfWVC1a4xGgcE21+58tGdNsIjGWsTbsaMZBOfCxwTHvzmAx/H0dyPeKZ4uWmtahsyUQIcGInA==}
 
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
@@ -14545,7 +14545,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.8': {}
 
-  '@googlemaps/jest-mocks@2.10.0': {}
+  '@googlemaps/jest-mocks@2.22.6': {}
 
   '@hapi/hoek@9.3.0': {}
 
@@ -14967,7 +14967,7 @@ snapshots:
       '@types/react-dom': 18.2.14
       '@types/react-native': 0.72.8(react-native@0.75.3(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.2.36)(react@18.2.0)(typescript@5.1.6))
       '@types/testing-library__jest-dom': 5.14.9
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)
       '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
       ansi-colors: 4.1.1
       babel-eslint: 10.1.0(eslint@7.32.0)
@@ -14980,7 +14980,7 @@ snapshots:
       enzyme-to-json: 3.6.2(enzyme@3.11.0)
       eslint: 7.32.0
       eslint-config-prettier: 8.10.0(eslint@7.32.0)
-      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
+      eslint-plugin-jest: 24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
       eslint-plugin-prettier: 3.4.1(eslint-config-prettier@8.10.0(eslint@7.32.0))(eslint@7.32.0)(prettier@3.5.3)
       eslint-plugin-promise: 4.3.1
       eslint-plugin-react: 7.28.0(eslint@7.32.0)
@@ -16593,7 +16593,7 @@ snapshots:
     dependencies:
       '@types/yargs-parser': 21.0.3
 
-  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)':
+  '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
       '@typescript-eslint/parser': 5.62.0(eslint@7.32.0)(typescript@5.8.2)
@@ -16608,7 +16608,7 @@ snapshots:
       semver: 7.7.1
       tsutils: 3.21.0(typescript@5.8.2)
     optionalDependencies:
-      typescript: 5.8.2
+      typescript: 5.1.6
     transitivePeerDependencies:
       - supports-color
 
@@ -19114,22 +19114,12 @@ snapshots:
       eslint: 9.23.0(jiti@2.4.2)
       globals: 15.15.0
 
-  eslint-plugin-jest@24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2):
-    dependencies:
-      '@typescript-eslint/experimental-utils': 4.33.0(eslint@7.32.0)(typescript@5.8.2)
-      eslint: 7.32.0
-    optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.8.2)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
   eslint-plugin-jest@24.7.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2):
     dependencies:
       '@typescript-eslint/experimental-utils': 4.33.0(eslint@7.32.0)(typescript@5.8.2)
       eslint: 7.32.0
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.8.2))(eslint@7.32.0)(typescript@5.8.2)
+      '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.1.6))(eslint@7.32.0)(typescript@5.1.6)
     transitivePeerDependencies:
       - supports-color
       - typescript

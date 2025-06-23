@@ -50,7 +50,7 @@
         "react-leaflet": "^4.2.1"
     },
     "devDependencies": {
-        "@googlemaps/jest-mocks": "^2.10.0",
+        "@googlemaps/jest-mocks": "^2.22.6",
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/pluggable-widgets-tools": "*",
