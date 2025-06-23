@@ -47,7 +47,7 @@
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@uiw/codemirror-theme-github": "^4.21.25",
-        "@uiw/react-codemirror": "^4.21.25"
+        "@uiw/react-codemirror": "^4.23.13"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
