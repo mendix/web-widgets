@@ -35,7 +35,7 @@
         "@playwright/test": "^1.51.1",
         "@types/node": "*",
         "eslint-plugin-playwright": "^2.2.0",
-        "globals": "^16.0.0",
+        "globals": "^16.2.0",
         "playwright-ctrf-json-reporter": "^0.0.20"
     }
 }
