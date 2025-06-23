@@ -40,7 +40,7 @@
     "dependencies": {
         "@mendix/shared-charts": "workspace:*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
-        "classnames": "^2.3.2",
+        "classnames": "^2.5.1",
         "plotly.js-dist-min": "^3.0.0"
     },
     "devDependencies": {

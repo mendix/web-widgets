@@ -43,7 +43,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
-        "classnames": "^2.3.2",
+        "classnames": "^2.5.1",
         "react-color": "^2.19.3"
     },
     "devDependencies": {
