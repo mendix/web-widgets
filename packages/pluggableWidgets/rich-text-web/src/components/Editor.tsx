@@ -167,7 +167,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                         if (arg[0].href) {
                             customLinkHandler(arg[0]);
                         } else if (arg[0].src) {
-                            // open dialog editor for updating imag or video
+                            // open dialog editor for updating image or video
                             if (arg[0].type === "video") {
                                 customVideoHandler(arg[0]);
                             } else {

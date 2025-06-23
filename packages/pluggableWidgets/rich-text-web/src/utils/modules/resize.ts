@@ -1,17 +1,18 @@
 import QuillResize from "quill-resize-module";
 
-type sizeType = {
+type ImageSize = {
     width?: number;
     height?: number;
 };
-type resultSizeType =
-    | sizeType
-    | {
-          width?: string;
-          height?: string;
-      };
 
-type limitType = {
+type ImageSizeWithUnit = {
+    width?: string;
+    height?: string;
+};
+
+type ImageSizes = ImageSize | ImageSizeWithUnit;
+
+type LimitConfig = {
     ratio?: number;
     minWidth?: number;
     maxWidth?: number;
@@ -20,22 +21,24 @@ type limitType = {
     unit?: string;
 };
 
-type eventType = { clientX: number; clientY: number };
-// eslint-disable-next-line no-unsafe-optional-chaining
+type CalculateSizeEvent = { clientX: number; clientY: number };
+
 export default class MxResize extends QuillResize.Modules.Resize {
     // modified from https://github.com/mudoo/quill-resize-module/blob/master/src/modules/Resize.js
-    calcSize(evt: eventType, limit: limitType = {}): resultSizeType {
+    calcSize(evt: CalculateSizeEvent, limit: LimitConfig = {}): ImageSizes {
         // update size
         const deltaX = evt.clientX - this.dragStartX;
         const deltaY = evt.clientY - this.dragStartY;
 
-        const size: sizeType = {};
+        const size: ImageSize = {};
         let direction = 1;
 
         (this.blotOptions.attribute || ["width"]).forEach((key: "width" | "height") => {
             size[key] = this.preDragSize[key];
         });
 
+        // modification to check if height attribute is exist from current image
+        // this is to maintain ratio by resizing width only
         const allowHeight =
             this.activeEle.getAttribute("height") !== undefined && this.activeEle.getAttribute("height") !== null;
         if (!allowHeight) {
@@ -86,7 +89,7 @@ export default class MxResize extends QuillResize.Modules.Resize {
                 if (limit.maxHeight) height = Math.min(limit.maxHeight, height!);
             }
         }
-        const res: resultSizeType = {};
+        const res: ImageSizes = {};
 
         if (limit.unit) {
             if (width) res.width = width + "px";
