@@ -31,7 +31,7 @@
         "test": "jest"
     },
     "dependencies": {
-        "@floating-ui/react": "^0.26.27",
+        "@floating-ui/react": "^0.27.12",
         "@floating-ui/react-dom": "^2.1.2",
         "@mendix/filter-commons": "workspace:*",
         "@mendix/widget-plugin-dropdown-filter": "workspace:*",

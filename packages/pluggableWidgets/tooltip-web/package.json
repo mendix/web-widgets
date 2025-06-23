@@ -43,7 +43,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
-        "@floating-ui/react": "^0.26.27",
+        "@floating-ui/react": "^0.27.12",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "classnames": "^2.3.2"
     },
