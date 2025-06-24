@@ -1,7 +1,6 @@
 import { actionValue } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
-// import { mount } from "enzyme";
 import { createElement } from "react";
 import { EventsContainerProps } from "../../typings/EventsProps";
 import Events from "../Events";
