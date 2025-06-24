@@ -1,10 +1,11 @@
-import { ValueStatus } from "mendix";
-import { useEffect, useMemo, useState } from "react";
+import { ValueStatus, ObjectItem } from "mendix";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { HeatMapContainerProps } from "../../typings/HeatMapProps";
 import { ChartWidgetProps, compareAttrValuesAsc } from "@mendix/shared-charts/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import Big from "big.js";
+import { PlotDatum } from "plotly.js-dist-min";
 
 type HeatMapDataSeriesHooks = Pick<
     HeatMapContainerProps,
@@ -22,6 +23,7 @@ type HeatMapDataSeriesHooks = Pick<
     | "verticalAxisAttribute"
     | "verticalSortAttribute"
     | "verticalSortOrder"
+    | "seriesItemSelection"
 >;
 
 type AttributeValue = string | number | Date | undefined;
@@ -33,6 +35,7 @@ type LocalHeatMapData = {
     verticalAxisValue: AttributeValue;
     horizontalSortValue: string | Big | Date | undefined;
     verticalSortValue: string | Big | Date | undefined;
+    id: string;
 };
 
 function getUniqueValues<T>(values: T[]): T[] {
@@ -64,20 +67,28 @@ export const useHeatMapDataSeries = ({
     tooltipHoverText,
     verticalAxisAttribute,
     verticalSortAttribute,
-    verticalSortOrder
+    verticalSortOrder,
+    seriesItemSelection
 }: HeatMapDataSeriesHooks): HeatMapHookData => {
     const [heatmapChartData, setHeatMapData] = useState<LocalHeatMapData[]>([]);
+    const objectMap = useRef<Map<string, ObjectItem>>(new Map());
 
     useEffect(() => {
         if (seriesDataSource.status === ValueStatus.Available && seriesDataSource.items) {
-            const dataSourceItems = seriesDataSource.items.map(dataSourceItem => ({
-                value: ensure(seriesValueAttribute).get(dataSourceItem).value?.toNumber(),
-                hoverText: tooltipHoverText?.get(dataSourceItem).value,
-                horizontalAxisValue: formatValueAttribute(horizontalAxisAttribute?.get(dataSourceItem).value),
-                horizontalSortValue: horizontalSortAttribute?.get(dataSourceItem).value,
-                verticalAxisValue: formatValueAttribute(verticalAxisAttribute?.get(dataSourceItem).value),
-                verticalSortValue: verticalSortAttribute?.get(dataSourceItem).value
-            }));
+            objectMap.current = new Map();
+            const dataSourceItems = seriesDataSource.items.map(dataSourceItem => {
+                objectMap.current.set(dataSourceItem.id, dataSourceItem);
+                const item = {
+                    value: ensure(seriesValueAttribute).get(dataSourceItem).value?.toNumber(),
+                    hoverText: tooltipHoverText?.get(dataSourceItem).value,
+                    horizontalAxisValue: formatValueAttribute(horizontalAxisAttribute?.get(dataSourceItem).value),
+                    horizontalSortValue: horizontalSortAttribute?.get(dataSourceItem).value,
+                    verticalAxisValue: formatValueAttribute(verticalAxisAttribute?.get(dataSourceItem).value),
+                    verticalSortValue: verticalSortAttribute?.get(dataSourceItem).value,
+                    id: dataSourceItem.id
+                };
+                return item;
+            });
             setHeatMapData(dataSourceItems);
         }
     }, [
@@ -90,7 +101,32 @@ export const useHeatMapDataSeries = ({
         verticalSortAttribute
     ]);
 
-    const onClick = useMemo(() => (onClickAction ? () => executeAction(onClickAction) : undefined), [onClickAction]);
+    const onClick = useCallback(
+        (item: ObjectItem, data: PlotDatum) => {
+            let selectedObjectItem: ObjectItem | undefined = item;
+            if (selectedObjectItem === null || selectedObjectItem === undefined) {
+                const selectedLocalHeatmapData = heatmapChartData.values().find(heatMapPointData => {
+                    return (
+                        heatMapPointData.horizontalAxisValue === data.x &&
+                        heatMapPointData.verticalAxisValue === data.y &&
+                        heatMapPointData.value === data.z
+                    );
+                });
+
+                if (selectedLocalHeatmapData) {
+                    selectedObjectItem = objectMap.current.get(selectedLocalHeatmapData.id);
+                }
+            }
+
+            if (selectedObjectItem) {
+                executeAction(onClickAction?.get(selectedObjectItem));
+                if (seriesItemSelection && seriesItemSelection.type === "Single") {
+                    seriesItemSelection.setSelection(selectedObjectItem);
+                }
+            }
+        },
+        [onClickAction, heatmapChartData, seriesItemSelection]
+    );
 
     return useMemo<HeatMapHookData>(() => {
         // `Array.reverse` mutates, so we make a copy.
