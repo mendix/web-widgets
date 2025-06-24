@@ -1,7 +1,8 @@
 import { FilterData } from "@mendix/filter-commons/typings/settings";
 import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { FilterAPI, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
-import { value } from "@mendix/widget-plugin-filtering/result-meta";
+import { APIError } from "@mendix/widget-plugin-filtering/errors";
+import { error, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
@@ -22,6 +23,7 @@ const { Provider } = getGlobalFilterContextObject();
 
 export class ColumnFilterStore implements IColumnFilterStore {
     private _widget: ReactNode;
+    private _error: APIError | null;
     private _filterStore: FilterStore | null = null;
     private _context: FilterAPI;
     private _observerBag: ObserverBag;
@@ -29,7 +31,16 @@ export class ColumnFilterStore implements IColumnFilterStore {
     constructor(props: ColumnsType, info: StaticInfo, dsViewState: FilterCondition | null, observerBag: ObserverBag) {
         this._observerBag = observerBag;
         this._widget = props.filter;
-        this._filterStore = this.createFilterStore(props, dsViewState);
+        const storeResult = this.createFilterStore(props, dsViewState);
+        if (storeResult === null) {
+            this._error = this._filterStore = null;
+        } else if (storeResult.hasError) {
+            this._error = storeResult.error;
+            this._filterStore = null;
+        } else {
+            this._error = null;
+            this._filterStore = storeResult.value;
+        }
         this._context = this.createContext(this._filterStore, info);
 
         makeObservable<this>(this, {
@@ -45,9 +56,12 @@ export class ColumnFilterStore implements IColumnFilterStore {
         return disposeAll;
     }
 
-    private createFilterStore(props: ColumnsType, dsViewState: FilterCondition | null): FilterStore | null {
+    private createFilterStore(
+        props: ColumnsType,
+        dsViewState: FilterCondition | null
+    ): ReturnType<typeof attrgroupFilterStore> | null {
         if (isListAttributeValue(props.attribute)) {
-            return attrgroupFilterStore(props.attribute.type, [props.attribute], dsViewState);
+            return attrgroupFilterStore(props.attribute.type, props.attribute, dsViewState);
         }
 
         return null;
@@ -57,10 +71,12 @@ export class ColumnFilterStore implements IColumnFilterStore {
         return {
             version: 3,
             parentChannelName: info.filtersChannelName,
-            provider: value({
-                type: "direct",
-                store
-            }),
+            provider: this._error
+                ? error(this._error)
+                : value({
+                      type: "direct",
+                      store
+                  }),
             filterObserver: this._observerBag.customFilterHost,
             sharedInitFilter: this._observerBag.sharedInitFilter
         };
