@@ -42,6 +42,6 @@
         "@testing-library/react-hooks": "^8.0.1"
     },
     "optionalDependencies": {
-        "react": "^18.0.0"
+        "react": "^18.3.1"
     }
 }
