@@ -1,6 +1,8 @@
 import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
+import { APIError, NOT_FILTERABLE, UNSUPPORTED_ATTRIBUTE_TYPE } from "../../errors";
+import { error, Result, value } from "../../result-meta";
 import {
     Date_InputFilterInterface,
     InputFilterInterface,
@@ -15,29 +17,31 @@ export type InputFilterStore = StringInputFilterStore | NumberInputFilterStore |
 
 export function attrgroupFilterStore(
     type: ListAttributeValue["type"],
-    attributes: ListAttributeValue[],
+    attribute: ListAttributeValue,
     initCond: FilterCondition | null
-): InputFilterStore | EnumFilterStore | null {
+): Result<InputFilterStore | EnumFilterStore, APIError> {
+    if (!attribute.filterable) {
+        return error(NOT_FILTERABLE);
+    }
     switch (type) {
         case "DateTime":
-            return new DateInputFilterStore(attributes as Array<ListAttributeValue<Date>>, initCond);
+            return value(new DateInputFilterStore([attribute] as Array<ListAttributeValue<Date>>, initCond));
 
         case "AutoNumber":
         case "Decimal":
         case "Integer":
         case "Long":
-            return new NumberInputFilterStore(attributes as Array<ListAttributeValue<Big>>, initCond);
+            return value(new NumberInputFilterStore([attribute] as Array<ListAttributeValue<Big>>, initCond));
 
         case "String":
         case "HashString":
-            return new StringInputFilterStore(attributes as Array<ListAttributeValue<string>>, initCond);
+            return value(new StringInputFilterStore([attribute] as Array<ListAttributeValue<string>>, initCond));
 
         case "Boolean":
         case "Enum":
-            return new EnumFilterStore(attributes, initCond);
+            return value(new EnumFilterStore([attribute], initCond));
         default:
-            console.error("attrgroupFilterStore: not supported type " + type, attributes);
-            return null;
+            return error(UNSUPPORTED_ATTRIBUTE_TYPE);
     }
 }
 

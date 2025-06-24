@@ -3,7 +3,9 @@ enum Code {
     ENOCONTEXT = 1,
     ESTORETYPE = 3,
     EKEYMISSING = 7,
-    OPTIONS_NOT_FILTERABLE = 8
+    OPTIONS_NOT_FILTERABLE = 8,
+    NOT_FILTERABLE = 9,
+    UNSUPPORTED_ATTRIBUTE_TYPE = 10
 }
 
 export { Code as APIErrorCode };
@@ -40,4 +42,14 @@ export const OPTIONS_NOT_FILTERABLE: APIError = Object.freeze({
     code: Code.OPTIONS_NOT_FILTERABLE,
     message:
         "Drop-down options can't be filtered with current column configuration. To enable filtering, change 'Option caption type'  to 'Attribute' in column settings."
+});
+
+export const NOT_FILTERABLE: APIError = Object.freeze({
+    code: Code.NOT_FILTERABLE,
+    message: "The attribute is not filterable. Please choose a different attribute."
+});
+
+export const UNSUPPORTED_ATTRIBUTE_TYPE: APIError = Object.freeze({
+    code: Code.UNSUPPORTED_ATTRIBUTE_TYPE,
+    message: "Unsupported attribute type for filtering. Please choose a different attribute."
 });
