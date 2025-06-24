@@ -88,7 +88,7 @@ importers:
     devDependencies:
       '@axe-core/playwright':
         specifier: ^4.10.1
-        version: 4.10.1(playwright-core@1.51.1)
+        version: 4.10.1(playwright-core@1.53.1)
       '@eslint/js':
         specifier: ^9.24.0
         version: 9.24.0
@@ -96,8 +96,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/shared/prettier-config-web-widgets
       '@playwright/test':
-        specifier: ^1.51.1
-        version: 1.51.1
+        specifier: ^1.53.1
+        version: 1.53.1
       '@types/node':
         specifier: ~22.14.0
         version: 22.14.0
@@ -4266,8 +4266,8 @@ packages:
     resolution: {integrity: sha512-vsJDAkYR6qCPu+ioGScGiMYR7LvZYIXh/dlQeviqoTWNCVfKTLYD/LkNWH4Mxsv2a5vpIRc77FN5DnmK1eBggQ==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@playwright/test@1.51.1':
-    resolution: {integrity: sha512-nM+kEaTSAoVlXmMPH10017vn3FSiFqr/bh4fKg9vmAdMfd9SDqRZNvPSiAHADc/itWak+qPvMPZQOPwCBW7k7Q==}
+  '@playwright/test@1.53.1':
+    resolution: {integrity: sha512-Z4c23LHV0muZ8hfv4jw6HngPJkbbtZxTkxPNIg7cJcTc9C28N/p2q7g3JZS2SiKBBHJ3uM1dgDye66bB7LEk5w==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -9338,16 +9338,16 @@ packages:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
 
-  playwright-core@1.51.1:
-    resolution: {integrity: sha512-/crRMj8+j/Nq5s8QcvegseuyeZPxpQCZb6HNk3Sos3BlZyAknRjoyJPFWkpNn8v0+P3WiwqFF8P+zQo4eqiNuw==}
+  playwright-core@1.53.1:
+    resolution: {integrity: sha512-Z46Oq7tLAyT0lGoFx4DOuB1IA9D1TPj0QkYxpPVUnGDqHHvDpCftu1J2hM2PiWsNMoZh8+LQaarAWcDfPBc6zg==}
     engines: {node: '>=18'}
     hasBin: true
 
   playwright-ctrf-json-reporter@0.0.20:
     resolution: {integrity: sha512-pv8ZZ1PBgztgQ1iShB8NqcFigTWGeZZ8zowld3wLlaeRF3bo4O9QrB5qlb2W7HcgppVWbM8SDvUszRLiLi923A==}
 
-  playwright@1.51.1:
-    resolution: {integrity: sha512-kkx+MB2KQRkyxjYPc3a0wLZZoDczmppyGJIvQ43l+aZihkaVvmu/21kiyaHeHjiFxjxNNFnUncKmcGIyOojsaw==}
+  playwright@1.53.1:
+    resolution: {integrity: sha512-LJ13YLr/ocweuwxyGf1XNFWIU4M2zUSo149Qbp+A4cpwDjsxRPj7k6H25LBrEHiEwxvRbD8HdwvQmRMSvquhYw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -11510,10 +11510,10 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@axe-core/playwright@4.10.1(playwright-core@1.51.1)':
+  '@axe-core/playwright@4.10.1(playwright-core@1.53.1)':
     dependencies:
       axe-core: 4.10.2
-      playwright-core: 1.51.1
+      playwright-core: 1.53.1
 
   '@babel/code-frame@7.12.11':
     dependencies:
@@ -13488,9 +13488,9 @@ snapshots:
 
   '@pkgr/core@0.2.0': {}
 
-  '@playwright/test@1.51.1':
+  '@playwright/test@1.53.1':
     dependencies:
-      playwright: 1.51.1
+      playwright: 1.53.1
 
   '@plotly/d3-sankey-circular@0.33.1':
     dependencies:
@@ -19956,13 +19956,13 @@ snapshots:
     dependencies:
       find-up: 4.1.0
 
-  playwright-core@1.51.1: {}
+  playwright-core@1.53.1: {}
 
   playwright-ctrf-json-reporter@0.0.20: {}
 
-  playwright@1.51.1:
+  playwright@1.53.1:
     dependencies:
-      playwright-core: 1.51.1
+      playwright-core: 1.53.1
     optionalDependencies:
       fsevents: 2.3.2
 

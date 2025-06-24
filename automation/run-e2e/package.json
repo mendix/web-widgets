@@ -32,7 +32,7 @@
         "@axe-core/playwright": "^4.10.1",
         "@eslint/js": "^9.24.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@playwright/test": "^1.51.1",
+        "@playwright/test": "^1.53.1",
         "@types/node": "*",
         "eslint-plugin-playwright": "^2.2.0",
         "globals": "^16.0.0",
