@@ -1,7 +1,7 @@
 {
     "name": "@mendix/chart-playground-web",
     "widgetName": "ChartPlayground",
-    "version": "2.0.0",
+    "version": "2.1.1",
     "description": "A small playground widget for charts",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
