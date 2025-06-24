@@ -47,7 +47,7 @@
         "@babel/plugin-transform-class-properties": "^7.27.1",
         "@babel/plugin-transform-private-methods": "^7.27.1",
         "@babel/plugin-transform-private-property-in-object": "^7.27.1",
-        "@mendix/pluggable-widgets-tools": "^10.0.0",
+        "@mendix/pluggable-widgets-tools": "*",
         "@rollup/plugin-replace": "^6.0.2"
     }
 }
