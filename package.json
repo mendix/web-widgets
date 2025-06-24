@@ -54,7 +54,7 @@
             "jest-environment-jsdom": "^29.7.0",
             "json5@1.x": ">=1.0.2",
             "json5@0.x": ">=1.0.2",
-            "@codemirror/view": "^6.34.2",
+            "@codemirror/view": "^6.37.2",
             "enzyme>cheerio": "1.0.0-rc.10",
             "ts-node": "10.9.2",
             "react-big-calendar@1>clsx": "2.1.1",
