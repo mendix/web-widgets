@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, ListValue, ListAttributeValue, ListExpressionValue } from "mendix";
+import { DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, SelectionSingleValue } from "mendix";
 import { Big } from "big.js";
 
 export type HorizontalSortOrderEnum = "asc" | "desc";
@@ -34,6 +34,7 @@ export interface HeatMapContainerProps {
     tabIndex?: number;
     seriesDataSource: ListValue;
     seriesValueAttribute: ListAttributeValue<Big>;
+    seriesItemSelection?: SelectionSingleValue;
     horizontalAxisAttribute?: ListAttributeValue<string>;
     horizontalSortAttribute?: ListAttributeValue<Big | string | Date>;
     horizontalSortOrder: HorizontalSortOrderEnum;
@@ -55,7 +56,7 @@ export interface HeatMapContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
-    onClickAction?: ActionValue;
+    onClickAction?: ListActionValue;
     tooltipHoverText?: ListExpressionValue<string>;
     enableThemeConfig: boolean;
     customLayout: string;
@@ -76,6 +77,7 @@ export interface HeatMapPreviewProps {
     translate: (text: string) => string;
     seriesDataSource: {} | { caption: string } | { type: string } | null;
     seriesValueAttribute: string;
+    seriesItemSelection: "None" | "Single";
     horizontalAxisAttribute: string;
     horizontalSortAttribute: string;
     horizontalSortOrder: HorizontalSortOrderEnum;
