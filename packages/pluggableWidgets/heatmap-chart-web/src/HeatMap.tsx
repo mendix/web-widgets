@@ -68,7 +68,8 @@ export function HeatMap(props: HeatMapContainerProps): ReactElement | null {
         tooltipHoverText: props.tooltipHoverText,
         verticalAxisAttribute: props.verticalAxisAttribute,
         verticalSortAttribute: props.verticalSortAttribute,
-        verticalSortOrder: props.verticalSortOrder
+        verticalSortOrder: props.verticalSortOrder,
+        seriesItemSelection: props.seriesItemSelection
     });
 
     const heatmapChartLayout = useMemo<ChartWidgetProps["layoutOptions"]>(() => {
