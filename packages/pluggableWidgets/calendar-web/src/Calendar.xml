@@ -55,7 +55,7 @@
                 </property>
                 <property key="eventColor" type="attribute" dataSource="databaseDataSource" required="false">
                     <caption>Color attribute</caption>
-                    <description>Attribute containing a valid html color eg: red #FF0000 rgb(250,10,20) rgba(10,10,10, 0.5)</description>
+                    <description>Attribute containing a valid HTML color eg: red #FF0000 rgb(250,10,20) rgba(10,10,10, 0.5)</description>
                     <attributeTypes>
                         <attributeType name="Enum" />
                         <attributeType name="String" />
@@ -89,7 +89,7 @@
                 </property>
                 <property key="defaultViewCustom" type="enumeration" defaultValue="month">
                     <caption>Initial selected view</caption>
-                    <description>The default view to show when the calendar is loaded</description>
+                    <description>The default view showed when the calendar is loaded</description>
                     <enumerationValues>
                         <enumerationValue key="day">Day</enumerationValue>
                         <enumerationValue key="week">Week</enumerationValue>
@@ -100,7 +100,7 @@
                 </property>
                 <property key="defaultViewStandard" type="enumeration" defaultValue="month">
                     <caption>Initial selected view</caption>
-                    <description>The default view to show when the calendar is loaded</description>
+                    <description>The default view showed when the calendar is loaded</description>
                     <enumerationValues>
                         <enumerationValue key="day">Day</enumerationValue>
                         <enumerationValue key="week">Week</enumerationValue>
@@ -116,11 +116,11 @@
                 </property>
                 <property key="minHour" type="integer" defaultValue="0">
                     <caption>Day start hour</caption>
-                    <description>The hour at which the day view starts (0-23)</description>
+                    <description>The hour at which the day view starts (0–23)</description>
                 </property>
                 <property key="maxHour" type="integer" defaultValue="24">
                     <caption>Day end hour</caption>
-                    <description>The hour at which the day view ends (1-24)</description>
+                    <description>The hour at which the day view ends (1–24)</description>
                 </property>
                 <!-- Custom week caption -->
                 <property key="customViewCaption" type="textTemplate" required="false">

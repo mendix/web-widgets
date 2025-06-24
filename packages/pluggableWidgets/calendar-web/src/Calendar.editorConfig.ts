@@ -32,7 +32,7 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
         hidePropertiesIn(defaultProperties, values, ["maxHeight", "overflowY"]);
     }
 
-    // Hide custom week range properties when view is set to 'standard'
+    // Hide custom week range properties when the view is set to 'standard'
     if (values.view === "standard") {
         hidePropertiesIn(defaultProperties, values, [
             "defaultViewCustom",
