@@ -1,8 +1,9 @@
-import { createElement, ReactElement } from "react";
-import { withLinkedRefStore } from "../hocs/withLinkedRefStore";
 import { RefFilterContainer } from "@mendix/widget-plugin-dropdown-filter/containers/RefFilterContainer";
-import { RefFilterProps } from "./typings";
+import { createElement, ReactElement } from "react";
+import { withAttrGuard } from "src/hocs/withAttrGuard";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
+import { withLinkedRefStore } from "../hocs/withLinkedRefStore";
+import { RefFilterProps } from "./typings";
 
 function Connector(props: DatagridDropdownFilterContainerProps & RefFilterProps): ReactElement {
     return (
@@ -19,4 +20,4 @@ function Connector(props: DatagridDropdownFilterContainerProps & RefFilterProps)
     );
 }
 
-export const RefFilter = withLinkedRefStore(Connector);
+export const RefFilter = withAttrGuard(withLinkedRefStore(Connector));

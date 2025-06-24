@@ -1,3 +1,4 @@
+import { withAttributeGuard } from "@mendix/widget-plugin-filtering/helpers/withAttributeGuard";
 import { withFilterAPI } from "@mendix/widget-plugin-filtering/helpers/withFilterAPI";
 import { withPreloader } from "@mendix/widget-plugin-platform/hoc/withPreloader";
 import { createElement, ReactElement } from "react";
@@ -11,7 +12,7 @@ const Container = withPreloader(DateFilterContainer, isLoadingDefaultValues);
 
 const FilterAuto = withParentProvidedDateStore(Container);
 
-const FilterLinked = withFilterAPI(withLinkedDateStore(Container));
+const FilterLinked = withAttributeGuard(withFilterAPI(withLinkedDateStore(Container)));
 
 export default function DatagridDateFilter(props: DatagridDateFilterContainerProps): ReactElement | null {
     if (props.attrChoice === "auto") {

@@ -1,3 +1,4 @@
+import { withAttributeGuard } from "@mendix/widget-plugin-filtering/helpers/withAttributeGuard";
 import { withFilterAPI } from "@mendix/widget-plugin-filtering/helpers/withFilterAPI";
 import { withPreloader } from "@mendix/widget-plugin-platform/hoc/withPreloader";
 import { ReactElement, createElement } from "react";
@@ -11,7 +12,7 @@ const Container = withPreloader<DatagridNumberFilterContainerProps>(NumberFilter
 
 const FilterAuto = withParentProvidedNumberStore(Container);
 
-const FilterLinked = withFilterAPI(withLinkedNumberStore(Container));
+const FilterLinked = withAttributeGuard(withFilterAPI(withLinkedNumberStore(Container)));
 
 export default function DatagridNumberFilter(props: DatagridNumberFilterContainerProps): ReactElement {
     if (props.attrChoice === "auto") {
