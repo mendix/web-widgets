@@ -40,14 +40,14 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
-        "@codemirror/lang-json": "^6.0.1",
-        "@codemirror/lint": "^6.8.2",
+        "@codemirror/lang-json": "^6.0.2",
+        "@codemirror/lint": "^6.8.5",
         "@mendix/shared-charts": "workspace:*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
-        "@uiw/codemirror-theme-github": "^4.21.25",
-        "@uiw/react-codemirror": "^4.21.25"
+        "@uiw/codemirror-theme-github": "^4.23.13",
+        "@uiw/react-codemirror": "^4.23.13"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
