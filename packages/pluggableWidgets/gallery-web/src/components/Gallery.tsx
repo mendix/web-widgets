@@ -13,6 +13,7 @@ import { GalleryTopBar } from "./GalleryTopBar";
 import { ListBox } from "./ListBox";
 import { ListItem } from "./ListItem";
 
+import { LoadMore, LoadMoreButton as LoadMorePreview } from "src/components/LoadMore";
 import { PaginationEnum, ShowPagingButtonsEnum } from "typings/GalleryProps";
 import { ItemEventsController } from "../typings/ItemEventsController";
 
@@ -69,8 +70,10 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
         </div>
     ) : null;
 
-    const showTopBar = props.paging && (props.paginationPosition === "top" || props.paginationPosition === "both");
-    const showFooter = props.paging && (props.paginationPosition === "bottom" || props.paginationPosition === "both");
+    const showTopPagination =
+        props.paging && (props.paginationPosition === "top" || props.paginationPosition === "both");
+    const showBottomPagination =
+        props.paging && (props.paginationPosition === "bottom" || props.paginationPosition === "both");
 
     return (
         <GalleryRoot
@@ -79,7 +82,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
             selectable={false}
             data-focusindex={props.tabIndex || 0}
         >
-            {showTopBar && <GalleryTopBar>{pagination}</GalleryTopBar>}
+            <GalleryTopBar>{showTopPagination && pagination}</GalleryTopBar>
             {props.showHeader && <GalleryHeader aria-label={props.headerTitle}>{props.header}</GalleryHeader>}
             <GalleryContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
                 {props.items.length > 0 && (
@@ -115,7 +118,15 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         <div className="empty-placeholder">{children}</div>
                     </section>
                 ))}
-            {showFooter && <GalleryFooter>{pagination}</GalleryFooter>}
+            <GalleryFooter>
+                {showBottomPagination && pagination}
+                <div className="widget-gallery-load-more">
+                    {props.preview && props.paginationType === "loadMore" && (
+                        <LoadMorePreview>Load more</LoadMorePreview>
+                    )}
+                    {!props.preview && <LoadMore>Load more</LoadMore>}
+                </div>
+            </GalleryFooter>
         </GalleryRoot>
     );
 }
