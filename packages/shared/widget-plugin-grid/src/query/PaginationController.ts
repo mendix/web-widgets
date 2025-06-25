@@ -67,6 +67,10 @@ export class PaginationController implements ReactiveController {
         }
     }
 
+    get hasMoreItems(): boolean {
+        return this._query.hasMoreItems;
+    }
+
     private _setInitParams(): void {
         if (this.pagination === "buttons" || this.showTotalCount) {
             this._query.requestTotalCount(true);
