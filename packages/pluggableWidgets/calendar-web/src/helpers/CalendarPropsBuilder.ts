@@ -108,7 +108,14 @@ export class CalendarPropsBuilder {
 
     private buildTime(hour: number): Date {
         const time = new Date();
-        time.setHours(hour, 0, 0, 0);
+        time.setMinutes(0, 0, 0);
+
+        if (hour >= 24) {
+            time.setHours(23, 59, 59);
+        } else {
+            time.setHours(hour);
+        }
+
         return time;
     }
 
@@ -126,7 +133,7 @@ export class CalendarPropsBuilder {
         return new Set(visibleDays);
     }
 
-    private handleEventDropOrResize({ event, start, end }: EventDropOrResize): void {
+    private handleEventDropOrResize = ({ event, start, end }: EventDropOrResize): void => {
         const action = this.props.onChange?.get(event.item);
 
         if (action?.canExecute) {
@@ -137,9 +144,9 @@ export class CalendarPropsBuilder {
                 newEnd: end
             });
         }
-    }
+    };
 
-    private handleRangeChange(date: Date, view: string, _action: NavigateAction): void {
+    private handleRangeChange = (date: Date, view: string, _action: NavigateAction): void => {
         const action = this.props.onRangeChange;
 
         if (action?.canExecute) {
@@ -150,9 +157,9 @@ export class CalendarPropsBuilder {
                 currentView: view
             });
         }
-    }
+    };
 
-    private handleSelectEvent(event: CalendarEvent): void {
+    private handleSelectEvent = (event: CalendarEvent): void => {
         const action = this.props.onClickEvent?.get(event.item);
 
         if (action?.canExecute) {
@@ -163,9 +170,9 @@ export class CalendarPropsBuilder {
                 title: event.title
             });
         }
-    }
+    };
 
-    private handleSelectSlot(slotInfo: { start: Date; end: Date; action: string }): void {
+    private handleSelectSlot = (slotInfo: { start: Date; end: Date; action: string }): void => {
         const action = this.props.onCreateEvent;
 
         if (action?.canExecute && this.props.enableCreate) {
@@ -175,5 +182,5 @@ export class CalendarPropsBuilder {
                 allDay: slotInfo.action === "select"
             });
         }
-    }
+    };
 }
