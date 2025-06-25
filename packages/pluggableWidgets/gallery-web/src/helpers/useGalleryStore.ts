@@ -7,9 +7,7 @@ import { GalleryPropsGate, GalleryStore } from "../stores/GalleryStore";
 
 export function useGalleryStore(props: GalleryContainerProps): GalleryStore {
     const gate = useGate(props);
-    const store = useSetup(
-        () => new GalleryStore({ gate, ...props, showPagingButtons: "auto", showTotalCount: false })
-    );
+    const store = useSetup(() => new GalleryStore({ gate, ...props }));
     return store;
 }
 
