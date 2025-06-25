@@ -1,11 +1,11 @@
-import "@testing-library/jest-dom";
 import { listAction, listExp, setupIntersectionObserverStub } from "@mendix/widget-plugin-test-utils";
-import { waitFor, render } from "@testing-library/react";
-import { createElement } from "react";
-import { Gallery } from "../Gallery";
-import { ItemHelperBuilder } from "../../utils/builders/ItemHelperBuilder";
-import { mockProps, mockItemHelperWithAction, setup } from "../../utils/test-utils";
+import "@testing-library/jest-dom";
+import { render, waitFor } from "@testing-library/react";
 import { ObjectItem } from "mendix";
+import { createElement } from "react";
+import { ItemHelperBuilder } from "../../utils/builders/ItemHelperBuilder";
+import { mockItemHelperWithAction, mockProps, setup } from "../../utils/test-utils";
+import { Gallery } from "../Gallery";
 
 describe("Gallery", () => {
     beforeAll(() => {
@@ -96,7 +96,7 @@ describe("Gallery", () => {
     describe("with pagination", () => {
         it("renders correctly", () => {
             const { asFragment } = render(
-                <Gallery {...mockProps()} paging paginationPosition="above" numberOfItems={20} hasMoreItems />
+                <Gallery {...mockProps()} paging paginationPosition="top" numberOfItems={20} hasMoreItems />
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -108,7 +108,7 @@ describe("Gallery", () => {
                 <Gallery
                     {...mockProps()}
                     paging
-                    paginationPosition="above"
+                    paginationPosition="top"
                     numberOfItems={20}
                     hasMoreItems
                     setPage={setPage}
