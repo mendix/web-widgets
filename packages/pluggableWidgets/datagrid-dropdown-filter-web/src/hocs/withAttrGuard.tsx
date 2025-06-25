@@ -1,6 +1,10 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { FC, createElement } from "react";
 
+/**
+ * @remark Any changes made in this hoc should be reflected in
+ * 'withAttributeGuard' hoc as well.
+ */
 export function withAttrGuard<P extends { attr: { filterable: boolean } } | { refEntity: { filterable: boolean } }>(
     Component: FC<P>
 ): FC<P> {
@@ -10,8 +14,9 @@ export function withAttrGuard<P extends { attr: { filterable: boolean } } | { re
         if (!meta.filterable) {
             return (
                 <Alert bootstrapStyle="danger">
-                    Only filterable attributes are allowed. The attributes in the current widget configuration is not
-                    filterable. Please change the widget configuration.
+                    The attribute in the current widget configuration is{" "}
+                    <a href="https://docs.mendix.com/refguide/attributes/#limitations">not filterable</a>. Please change
+                    the widget configuration.
                 </Alert>
             );
         }
