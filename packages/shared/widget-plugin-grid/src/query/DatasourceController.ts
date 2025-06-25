@@ -90,6 +90,10 @@ export class DatasourceController implements ReactiveController, QueryController
         return this.datasource.totalCount;
     }
 
+    get hasMoreItems(): boolean {
+        return this.datasource.hasMoreItems ?? false;
+    }
+
     /**
      * Returns computed value that holds controller copy.
      * Recomputes the copy every time the datasource changes.
