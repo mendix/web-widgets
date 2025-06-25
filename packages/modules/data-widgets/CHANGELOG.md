@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Breaking changes
 
-- We removing grid wide filtering in favor of new, in widget, configuration for more flexible filtering.
+- Grid-wide filtering is now configurable directly within the filter widget settings, offering greater flexibility and control over filtering in both the Data Grid and Gallery widgets. Existing configurations using grid-wide filtering will be automatically converted to the new setup when updating the widget.
 
 ## [2.32.1] DataWidgets - 2025-05-28
 
