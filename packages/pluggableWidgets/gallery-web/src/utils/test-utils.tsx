@@ -1,17 +1,17 @@
-import { createElement } from "react";
 import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { SelectActionHandler, getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
+import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
+import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
+import { getColumnAndRowBasedOnIndex, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
 import { listAction, objectItems } from "@mendix/widget-plugin-test-utils";
 import { render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ObjectItem } from "mendix";
+import { createElement } from "react";
 import { GalleryProps } from "../components/Gallery";
 import { ItemEventsController } from "../features/item-interaction/ItemEventsController";
 import { ItemHelper } from "../helpers/ItemHelper";
 import { ItemHelperBuilder } from "./builders/ItemHelperBuilder";
-import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
-import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 
 export function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
     return {
@@ -76,6 +76,8 @@ export function mockProps(params: Helpers & Mocks = {}): GalleryProps<ObjectItem
         page: 0,
         pageSize: 10,
         paging: false,
+        paginationType: "buttons",
+        showPagingButtons: "always",
         phoneItems: 2,
         tabletItems: 3,
         desktopItems: 4,
