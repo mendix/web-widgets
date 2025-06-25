@@ -21,7 +21,7 @@ export function withAttributeGuard<P extends RequiredProps>(Component: FC<P>): F
         if (!isValid) {
             return (
                 <Alert bootstrapStyle="danger">
-                    The attributes in the current widget configuration is{" "}
+                    The attributes in the current widget configuration are{" "}
                     <a href="https://docs.mendix.com/refguide/attributes/#limitations">not filterable</a>. Please change
                     the widget configuration.
                 </Alert>
