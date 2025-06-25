@@ -7,6 +7,10 @@ interface RequiredProps {
     }>;
 }
 
+/**
+ * @remark Any changes made in this hoc should be reflected in
+ * 'withAttrGuard' hoc as well.
+ */
 export function withAttributeGuard<P extends RequiredProps>(Component: FC<P>): FC<P> {
     return function AttributesGuard(props) {
         const isValid = useMemo(
@@ -17,8 +21,9 @@ export function withAttributeGuard<P extends RequiredProps>(Component: FC<P>): F
         if (!isValid) {
             return (
                 <Alert bootstrapStyle="danger">
-                    Only filterable attributes are allowed. One of the attributes in the current widget configuration is
-                    not filterable. Please change the widget configuration.
+                    The attributes in the current widget configuration is{" "}
+                    <a href="https://docs.mendix.com/refguide/attributes/#limitations">not filterable</a>. Please change
+                    the widget configuration.
                 </Alert>
             );
         }
