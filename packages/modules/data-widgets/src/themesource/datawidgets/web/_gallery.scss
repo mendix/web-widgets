@@ -3,8 +3,8 @@
 
    Override styles of Gallery widget
 ========================================================================== */
-$gallery-screen-lg: 992px;
-$gallery-screen-md: 768px;
+$gallery-screen-lg: $screen-lg;
+$gallery-screen-md: $screen-md;
 
 @mixin grid-items($number, $suffix) {
     @for $i from 1 through $number {
