@@ -1,8 +1,8 @@
 import { EnumFilterContainer } from "@mendix/widget-plugin-dropdown-filter/containers/EnumFilterContainer";
 import { withFilterAPI } from "@mendix/widget-plugin-filtering/helpers/withFilterAPI";
 import { ReactElement, createElement } from "react";
-import { withAttrGuard } from "src/hocs/withAttrGuard";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
+import { withAttrGuard } from "../hocs/withAttrGuard";
 import { withLinkedEnumStore } from "../hocs/withLinkedEnumStore";
 import { withParentProvidedEnumStore } from "../hocs/withParentProvidedEnumStore";
 import { EnumFilterProps } from "./typings";

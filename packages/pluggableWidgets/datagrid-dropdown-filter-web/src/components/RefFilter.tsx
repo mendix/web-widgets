@@ -1,7 +1,7 @@
 import { RefFilterContainer } from "@mendix/widget-plugin-dropdown-filter/containers/RefFilterContainer";
 import { createElement, ReactElement } from "react";
-import { withAttrGuard } from "src/hocs/withAttrGuard";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
+import { withAttrGuard } from "../hocs/withAttrGuard";
 import { withLinkedRefStore } from "../hocs/withLinkedRefStore";
 import { RefFilterProps } from "./typings";
 
