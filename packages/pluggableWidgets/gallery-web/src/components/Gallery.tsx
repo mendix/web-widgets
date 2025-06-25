@@ -5,14 +5,15 @@ import { PositionInGrid, SelectActionHandler } from "@mendix/widget-plugin-grid/
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
-import { ListBox } from "./ListBox";
-import { ListItem } from "./ListItem";
 import { GalleryContent } from "./GalleryContent";
 import { GalleryFooter } from "./GalleryFooter";
 import { GalleryHeader } from "./GalleryHeader";
 import { GalleryRoot } from "./GalleryRoot";
 import { GalleryTopBar } from "./GalleryTopBar";
+import { ListBox } from "./ListBox";
+import { ListItem } from "./ListItem";
 
+import { PaginationEnum, ShowPagingButtonsEnum } from "typings/GalleryProps";
 import { ItemEventsController } from "../typings/ItemEventsController";
 
 export interface GalleryProps<T extends ObjectItem> {
@@ -29,7 +30,9 @@ export interface GalleryProps<T extends ObjectItem> {
     paging: boolean;
     page: number;
     pageSize: number;
-    paginationPosition?: "below" | "above";
+    paginationPosition?: "top" | "bottom" | "both";
+    paginationType: PaginationEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
     showEmptyStatePreview?: boolean;
     phoneItems: number;
     setPage?: (computePage: (prevPage: number) => number) => void;
@@ -60,13 +63,14 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                 page={props.page}
                 pageSize={props.pageSize}
                 previousPage={() => props.setPage && props.setPage(prev => prev - 1)}
-                pagination={props.paging ? "buttons" : "virtualScrolling"}
+                pagination={props.paginationType}
+                showPagingButtons={props.showPagingButtons}
             />
         </div>
     ) : null;
 
-    const showTopBar = props.paging && props.paginationPosition === "above";
-    const showFooter = props.paging && props.paginationPosition === "below";
+    const showTopBar = props.paging && (props.paginationPosition === "top" || props.paginationPosition === "both");
+    const showFooter = props.paging && (props.paginationPosition === "bottom" || props.paginationPosition === "both");
 
     return (
         <GalleryRoot

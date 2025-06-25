@@ -10,10 +10,6 @@ import {
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 
 export function getProperties(values: GalleryPreviewProps, defaultProperties: Properties): Properties {
-    if (values.pagination !== "buttons") {
-        hidePropertyIn(defaultProperties, values, "pagingPosition");
-    }
-
     if (values.showEmptyPlaceholder === "none") {
         hidePropertyIn(defaultProperties, values, "emptyPlaceholder");
     }
@@ -22,8 +18,21 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
         hidePropertiesIn(defaultProperties, values, ["onSelectionChange", "itemSelectionMode"]);
     }
 
-    // Hide scrolling settings for now.
-    hidePropertiesIn(defaultProperties, values, ["showPagingButtons", "showTotalCount"]);
+    /** Pagination */
+
+    if (values.pagination === "buttons") {
+        hidePropertyIn(defaultProperties, values, "showTotalCount");
+    } else {
+        hidePropertyIn(defaultProperties, values, "showPagingButtons");
+
+        if (values.showTotalCount === false) {
+            hidePropertyIn(defaultProperties, values, "pagingPosition");
+        }
+    }
+
+    if (values.pagination !== "loadMore") {
+        hidePropertyIn(defaultProperties, values, "loadMoreButtonCaption");
+    }
 
     return defaultProperties;
 }

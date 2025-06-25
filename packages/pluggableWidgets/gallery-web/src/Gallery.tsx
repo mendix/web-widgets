@@ -1,22 +1,23 @@
-import { observer } from "mobx-react-lite";
 import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { getColumnAndRowBasedOnIndex, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { observer } from "mobx-react-lite";
 import { ReactElement, ReactNode, createElement, useCallback } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
+import { HeaderWidgetsHost } from "./components/HeaderWidgetsHost";
 import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
 import { GridPositionsProps, useGridPositions } from "./features/useGridPositions";
 import { useItemHelper } from "./helpers/ItemHelper";
-import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
+import { GalleryContext, GalleryRootScope, useGalleryRootScope } from "./helpers/root-context";
 import { useGalleryStore } from "./helpers/useGalleryStore";
-import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
-import { GalleryRootScope, GalleryContext, useGalleryRootScope } from "./helpers/root-context";
-import { HeaderWidgetsHost } from "./components/HeaderWidgetsHost";
+import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 
 const Container = observer(function GalleryContainer(props: GalleryContainerProps): ReactElement {
     const { rootStore, itemSelectHelper } = useGalleryRootScope();
+
     const items = props.datasource.items ?? [];
     const config: GridPositionsProps = {
         desktopItems: props.desktopItems,
@@ -76,10 +77,12 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
             numberOfItems={props.datasource.totalCount}
             page={rootStore.paging.currentPage}
             pageSize={props.pageSize}
-            paging={props.pagination === "buttons"}
+            paging={rootStore.paging.showPagination}
             paginationPosition={props.pagingPosition}
-            phoneItems={props.phoneItems}
+            paginationType={props.pagination}
             setPage={rootStore.paging.setPage}
+            showPagingButtons={props.showPagingButtons}
+            phoneItems={props.phoneItems}
             style={props.style}
             tabletItems={props.tabletItems}
             tabIndex={props.tabIndex}

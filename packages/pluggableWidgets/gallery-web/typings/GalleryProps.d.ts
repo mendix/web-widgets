@@ -8,11 +8,11 @@ import { ActionValue, DynamicValue, ListValue, ListActionValue, ListExpressionVa
 
 export type ItemSelectionModeEnum = "toggle" | "clear";
 
-export type PaginationEnum = "buttons" | "virtualScrolling";
-
-export type PagingPositionEnum = "below" | "above";
+export type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 
 export type ShowPagingButtonsEnum = "always" | "auto";
+
+export type PagingPositionEnum = "bottom" | "top" | "both";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
@@ -33,9 +33,10 @@ export interface GalleryContainerProps {
     phoneItems: number;
     pageSize: number;
     pagination: PaginationEnum;
-    pagingPosition: PagingPositionEnum;
-    showPagingButtons: ShowPagingButtonsEnum;
     showTotalCount: boolean;
+    showPagingButtons: ShowPagingButtonsEnum;
+    pagingPosition: PagingPositionEnum;
+    loadMoreButtonCaption?: DynamicValue<string>;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     itemClass?: ListExpressionValue<string>;
@@ -69,9 +70,10 @@ export interface GalleryPreviewProps {
     phoneItems: number | null;
     pageSize: number | null;
     pagination: PaginationEnum;
-    pagingPosition: PagingPositionEnum;
-    showPagingButtons: ShowPagingButtonsEnum;
     showTotalCount: boolean;
+    showPagingButtons: ShowPagingButtonsEnum;
+    pagingPosition: PagingPositionEnum;
+    loadMoreButtonCaption: string;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemClass: string;
