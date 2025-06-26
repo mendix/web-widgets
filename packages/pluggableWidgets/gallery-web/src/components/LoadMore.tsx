@@ -4,7 +4,11 @@ import { createElement } from "react";
 import { useGalleryRootScope } from "src/helpers/root-context";
 
 export function LoadMoreButton(props: JSX.IntrinsicElements["button"]): React.ReactNode {
-    return <button {...props} className={cn("btn btn-primary widget-gallery-load-more-btn", props.className)}></button>;
+    return (
+        <button {...props} className={cn("btn btn-primary widget-gallery-load-more-btn", props.className)}>
+            {props.children}
+        </button>
+    );
 }
 
 export const LoadMore = observer(function LoadMore(props: { children: React.ReactNode }): React.ReactNode {
