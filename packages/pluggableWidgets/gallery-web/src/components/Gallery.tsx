@@ -50,9 +50,11 @@ export interface GalleryProps<T extends ObjectItem> {
     itemHelper: GalleryItemHelper;
     selectHelper: SelectActionHandler;
     getPosition: (index: number) => PositionInGrid;
+    loadMoreButtonCaption?: string;
 }
 
 export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
+    const { loadMoreButtonCaption = "Load more" } = props;
     const pagination = props.paging ? (
         <div className="widget-gallery-pagination">
             <Pagination
@@ -122,9 +124,9 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                 {showBottomPagination && pagination}
                 <div className="widget-gallery-load-more">
                     {props.preview && props.paginationType === "loadMore" && (
-                        <LoadMorePreview>Load more</LoadMorePreview>
+                        <LoadMorePreview>{loadMoreButtonCaption}</LoadMorePreview>
                     )}
-                    {!props.preview && <LoadMore>Load more</LoadMore>}
+                    {!props.preview && <LoadMore>{loadMoreButtonCaption}</LoadMore>}
                 </div>
             </GalleryFooter>
         </GalleryRoot>

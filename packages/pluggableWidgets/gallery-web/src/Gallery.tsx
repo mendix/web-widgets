@@ -90,6 +90,7 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
             itemEventsController={itemEventsController}
             focusController={focusController}
             getPosition={getPositionCallback}
+            loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
         />
     );
 });
