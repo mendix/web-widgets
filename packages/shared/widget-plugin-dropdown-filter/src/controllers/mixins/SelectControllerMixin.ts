@@ -41,6 +41,9 @@ export function SelectControllerMixin<TBase extends BaseController>(Base: TBase)
         }
 
         get options(): OptionWithState[] {
+            if (this.multiselect) {
+                return this.filterStore.options;
+            }
             return [this.emptyOption, ...this.filterStore.options];
         }
 
