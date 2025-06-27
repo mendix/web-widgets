@@ -133,6 +133,37 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
+        <propertyGroup caption="Personalization">
+            <propertyGroup caption="Configuration">
+                <property key="stateStorageType" type="enumeration" defaultValue="attribute">
+                    <caption>Store configuration in</caption>
+                    <description>When Browser local storage is selected, the configuration is scoped to a browser profile. This configuration is not tied to a Mendix user.</description>
+                    <enumerationValues>
+                        <enumerationValue key="attribute">Attribute</enumerationValue>
+                        <enumerationValue key="localStorage">Browser local storage</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="stateStorageAttr" type="attribute" required="false" onChange="onConfigurationChange">
+                    <caption>Attribute</caption>
+                    <description>Attribute containing the personalized configuration of the capabilities. This configuration is automatically stored and loaded. The attribute requires Unlimited String.</description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="storeFilters" type="boolean" defaultValue="true">
+                    <caption>Store filters</caption>
+                    <description />
+                </property>
+                <property key="storeSort" type="boolean" defaultValue="true">
+                    <caption>Store sort</caption>
+                    <description />
+                </property>
+                <property key="onConfigurationChange" type="action" required="false">
+                    <caption>On change</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+        </propertyGroup>
         <propertyGroup caption="Accessibility">
             <propertyGroup caption="Aria labels">
                 <property key="filterSectionTitle" type="textTemplate" required="false">

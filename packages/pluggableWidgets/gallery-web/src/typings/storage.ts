@@ -1,6 +1,6 @@
-import { Json } from "@mendix/filter-commons/typings/settings";
+import { PlainJs } from "@mendix/filter-commons/typings/settings";
 
-export interface ObservableJsonStorage {
-    data: Json;
-    setData(data: Json): void;
+export interface ObservableStorage {
+    data: PlainJs;
+    setData(data: PlainJs): void;
 }

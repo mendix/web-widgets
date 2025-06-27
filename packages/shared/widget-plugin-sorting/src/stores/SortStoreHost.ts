@@ -1,4 +1,4 @@
-import { Json, Serializable } from "@mendix/filter-commons/typings/settings";
+import { PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
 import { action, computed, makeObservable, observable } from "mobx";
 import { ObservableSortStore, SortInstruction } from "../types/store";
 
@@ -53,16 +53,16 @@ export class SortStoreHost implements Serializable {
         return this._usedBy.at(0) ?? null;
     }
 
-    toJSON(): Json {
-        return this.sortOrder.map(arr => arr.slice()) as Json;
+    toJSON(): PlainJs {
+        return this.sortOrder.map(arr => arr.slice());
     }
 
-    fromJSON(data: Json): void {
+    fromJSON(data: PlainJs): void {
         if (data == null || !Array.isArray(data)) {
             return;
         }
         if (this._store) {
-            this._store.sortOrder = data as SortInstruction[];
+            this._store.setSortOrder(...(data as SortInstruction[]));
         }
     }
 }
