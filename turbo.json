@@ -12,7 +12,7 @@
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "release": {
-            "dependsOn": ["^build", "verify"],
+            "dependsOn": ["build", "^build", "verify"],
             "outputs": ["dist/**", "!dist/tmp/**"]
         },
         "build:module": {
