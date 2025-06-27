@@ -270,6 +270,9 @@ $root: ".widget-dropdown-filter";
         &:focus-visible {
             outline: var(--brand-primary, #264ae5) auto 1px;
         }
+        &:focus {
+            background-color: var(--color-primary-light, $color-primary-light);
+        }
     }
 
     #{$root}-input {
