@@ -1,7 +1,7 @@
 {
     "name": "@mendix/bar-chart-web",
     "widgetName": "BarChart",
-    "version": "6.2.0",
+    "version": "6.2.1",
     "description": "Shows difference between the data points for one or more categories.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
