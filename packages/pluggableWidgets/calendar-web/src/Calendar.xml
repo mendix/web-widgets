@@ -114,6 +114,10 @@
                         <attributeType name="DateTime" />
                     </attributeTypes>
                 </property>
+                <property key="timeFormat" type="textTemplate" required="false">
+                    <caption>Time format</caption>
+                    <description>Default time format is "hh:mm a"</description>
+                </property>
                 <property key="minHour" type="integer" defaultValue="0">
                     <caption>Day start hour</caption>
                     <description>The hour at which the day view starts (0–23)</description>
