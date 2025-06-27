@@ -31,12 +31,20 @@ const cls = classes();
 export const TagPicker = observer(function TagPicker(props: TagPickerProps): React.ReactElement {
     const [inputContainerId, helperText1] = [useId(), useId()];
     const { showCheckboxes, selectedStyle = "boxes", ariaLabel: inputLabel = "Search" } = props;
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputContainerRef = useRef<HTMLDivElement>(null);
     const { getSelectedItemProps, getDropdownProps, removeSelectedItem } = useMultipleSelection(
         props.useMultipleSelectionProps()
     );
-    const { inputValue, isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps } =
-        useCombobox(props.useComboboxProps());
+    const {
+        inputValue,
+        isOpen,
+        highlightedIndex,
+        getInputProps,
+        getToggleButtonProps,
+        getMenuProps,
+        getItemProps,
+        openMenu
+    } = useCombobox(props.useComboboxProps());
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
 
     return (
@@ -54,19 +62,16 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
             data-expanded={isOpen}
             data-empty={props.empty ? true : undefined}
             style={props.style}
+            onClick={event => {
+                if (!isOpen && (event.target === event.currentTarget || event.target === inputContainerRef.current)) {
+                    openMenu();
+                }
+            }}
         >
             <span id={helperText1} className="sr-only">
                 Current filter values:
             </span>
-            <div
-                id={inputContainerId}
-                className={cls.inputContainer}
-                onClick={event => {
-                    if (event.currentTarget === event.target) {
-                        inputRef.current?.focus();
-                    }
-                }}
-            >
+            <div id={inputContainerId} className={cls.inputContainer} ref={inputContainerRef}>
                 {selectedStyle === "boxes" &&
                     props.selected.map((item, index) => (
                         <div
@@ -93,7 +98,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                         onBlur: props.onBlur,
                         onFocus: props.onFocus,
                         placeholder: props.empty ? props.inputPlaceholder : undefined,
-                        ...getDropdownProps({ preventKeyAction: isOpen, ref: inputRef }),
+                        ...getDropdownProps({ preventKeyAction: isOpen }),
                         "aria-describedby": props.empty ? undefined : `${helperText1} ${inputContainerId}`
                     })}
                 />
