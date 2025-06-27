@@ -60,7 +60,7 @@ export class StringInputFilterStore
             return;
         }
         const [fn, s1, s2] = inputData;
-        this.setState([fn, s1 ? s1 : undefined, s2 ? s2 : undefined]);
+        this.setState([fn, s1 ?? undefined, s2 ?? undefined]);
         this.isInitialized = true;
     }
 
