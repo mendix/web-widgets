@@ -1,7 +1,7 @@
 import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
-import { listAttribute } from "@mendix/widget-plugin-test-utils";
+import { listAttribute, dynamicValue } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render, waitFor } from "@testing-library/react";
 import { AssociationMetaData, AttributeMetaData } from "mendix";
@@ -23,6 +23,7 @@ const commonProps: DatagridDropdownFilterContainerProps = {
     filterable: false,
     multiSelect: false,
     clearable: false,
+    emptySelectionCaption: dynamicValue("Select"),
     selectedItemsStyle: "text",
     selectionMethod: "checkbox"
 };
