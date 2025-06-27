@@ -22,8 +22,3 @@ export interface BasicSortStore extends ObservableSortStore {
     remove(index: number): void;
     replace(...item: SortInstruction[]): void;
 }
-
-export interface Serializable {
-    toJSON(): unknown;
-    fromJSON(json: unknown): void;
-}

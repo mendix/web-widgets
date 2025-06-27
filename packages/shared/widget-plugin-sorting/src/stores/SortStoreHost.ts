@@ -1,7 +1,8 @@
+import { Json, Serializable } from "@mendix/filter-commons/typings/settings";
 import { action, computed, makeObservable, observable } from "mobx";
 import { ObservableSortStore, SortInstruction } from "../types/store";
 
-export class SortStoreHost {
+export class SortStoreHost implements Serializable {
     private _store: ObservableSortStore | null = null;
     private _usedBy: string[] = [];
 
@@ -21,10 +22,6 @@ export class SortStoreHost {
             unobserve: action
         });
     }
-
-    // TODO: toJSON
-
-    // TODO: fromJSON
 
     observe(store: ObservableSortStore): void {
         this._store = store;
@@ -54,5 +51,18 @@ export class SortStoreHost {
 
     get usedBy(): string | null {
         return this._usedBy.at(0) ?? null;
+    }
+
+    toJSON(): Json {
+        return this.sortOrder.map(arr => arr.slice()) as Json;
+    }
+
+    fromJSON(data: Json): void {
+        if (data == null || !Array.isArray(data)) {
+            return;
+        }
+        if (this._store) {
+            this._store.sortOrder = data as SortInstruction[];
+        }
     }
 }
