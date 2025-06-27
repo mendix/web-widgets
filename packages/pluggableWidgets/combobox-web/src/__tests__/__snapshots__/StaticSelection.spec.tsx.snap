@@ -18,7 +18,6 @@ exports[`Combo box (Static values) renders combobox widget 1`] = `
           aria-autocomplete="list"
           aria-controls="downshift-0-menu"
           aria-expanded="false"
-          aria-labelledby="comboBox1-label"
           aria-required="true"
           autocomplete="off"
           class="widget-combobox-input"
