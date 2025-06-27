@@ -1,4 +1,5 @@
-import { shallow } from "enzyme";
+import "@testing-library/jest-dom";
+import { render } from "@testing-library/react";
 import { createElement, Fragment, ReactNode } from "react";
 
 import { Fieldset, FieldsetProps } from "../components/Fieldset";
@@ -20,17 +21,17 @@ describe("Fieldset", () => {
     );
 
     it("renders children and legend", () => {
-        const fieldset = shallow(<Fieldset {...defaultFieldsetProps}>{defaultChildren}</Fieldset>);
+        const fieldset = render(<Fieldset {...defaultFieldsetProps}>{defaultChildren}</Fieldset>);
 
-        expect(fieldset).toMatchSnapshot();
+        expect(fieldset.asFragment()).toMatchSnapshot();
     });
     it("renders only children when no legend is passed", () => {
-        const fieldset = shallow(
+        const fieldset = render(
             <Fieldset {...defaultFieldsetProps} legend={undefined}>
                 {defaultChildren}
             </Fieldset>
         );
 
-        expect(fieldset).toMatchSnapshot();
+        expect(fieldset.asFragment()).toMatchSnapshot();
     });
 });
