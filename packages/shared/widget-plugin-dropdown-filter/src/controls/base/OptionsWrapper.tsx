@@ -39,7 +39,14 @@ export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefOb
                                 data-highlighted={highlightedIndex === index || undefined}
                                 key={item.value || index}
                                 className={cls.menuItem}
-                                {...getItemProps({ item, index, "aria-selected": item.selected })}
+                                {...getItemProps({
+                                    item,
+                                    index,
+                                    "aria-selected": item.selected,
+                                    onClick: e => {
+                                        e.stopPropagation();
+                                    }
+                                })}
                             >
                                 {showCheckboxes && (
                                     <span className={cls.checkboxSlot}>

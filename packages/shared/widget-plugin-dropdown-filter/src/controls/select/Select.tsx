@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useSelect, UseSelectProps } from "downshift";
 import { observer } from "mobx-react-lite";
-import React, { createElement, useRef } from "react";
+import React, { createElement } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
@@ -18,7 +18,7 @@ interface SelectProps {
     style?: React.CSSProperties;
     useSelectProps: () => UseSelectProps<OptionWithState>;
     onClear: () => void;
-    onFocus?: React.FocusEventHandler<HTMLButtonElement>;
+    onFocus?: React.FocusEventHandler<HTMLDivElement>;
     onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
 }
 
@@ -26,7 +26,6 @@ const cls = classes();
 
 export const Select = observer(function Select(props: SelectProps): React.ReactElement {
     const { empty: isEmpty, showCheckboxes, clearable } = props;
-    const toggleRef = useRef<HTMLButtonElement>(null);
     const { getToggleButtonProps, getMenuProps, getItemProps, isOpen, highlightedIndex } = useSelect(
         props.useSelectProps()
     );
@@ -37,25 +36,22 @@ export const Select = observer(function Select(props: SelectProps): React.ReactE
     return (
         <div
             className={cn(cls.root, "form-control", "variant-select", props.className)}
-            ref={refs.setReference}
             data-expanded={isOpen}
             data-empty={isEmpty ? true : undefined}
             style={props.style}
+            {...getToggleButtonProps({
+                "aria-label": props.value,
+                ref: refs.setReference,
+                onFocus: props.onFocus
+            })}
         >
-            <button
-                className={cls.inputContainer}
-                {...getToggleButtonProps({
-                    "aria-label": props.value,
-                    ref: toggleRef,
-                    onFocus: props.onFocus
-                })}
-            >
+            <div className={cls.inputContainer}>
                 <span className={cls.toggle}>{props.value}</span>
                 <div className={`${cls.root}-controls`}>
                     <ClearButton cls={cls} onClick={props.onClear} visible={showClear} />
                     <Arrow className={cls.stateIcon} />
                 </div>
-            </button>
+            </div>
             <OptionsWrapper
                 cls={cls}
                 ref={refs.setFloating}
