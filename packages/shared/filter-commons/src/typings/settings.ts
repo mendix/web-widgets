@@ -8,9 +8,9 @@ export type FilterData = InputData | SelectData | null | undefined;
 
 export type FiltersSettingsMap<T> = Map<T, FilterData>;
 
-export type Json = string | number | boolean | null | Json[] | { [key: string]: Json };
+export type PlainJs = string | number | boolean | null | PlainJs[] | { [key: string]: PlainJs };
 
 export interface Serializable {
-    toJSON(): Json;
-    fromJSON(data: Json): void;
+    toJSON(): PlainJs;
+    fromJSON(data: PlainJs): void;
 }

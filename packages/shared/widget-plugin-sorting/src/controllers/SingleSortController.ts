@@ -47,15 +47,15 @@ export class SingleSortController {
     toggleDirection = (): void => {
         this.direction = this.direction === "asc" ? "desc" : "asc";
         if (this.selected) {
-            this._sortOrderStore.replace([this.selected, this.direction]);
+            this._sortOrderStore.setSortOrder([this.selected, this.direction]);
         }
     };
 
     select = (value: string): void => {
         if (value === "none") {
-            this._sortOrderStore.replace();
+            this._sortOrderStore.setSortOrder();
         } else {
-            this._sortOrderStore.replace([value as ListAttributeId, this.direction]);
+            this._sortOrderStore.setSortOrder([value as ListAttributeId, this.direction]);
         }
     };
 

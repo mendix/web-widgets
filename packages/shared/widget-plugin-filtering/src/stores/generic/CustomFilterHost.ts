@@ -1,5 +1,5 @@
 import { tag } from "@mendix/filter-commons/condition-utils";
-import { FilterData, FiltersSettingsMap, Json, Serializable } from "@mendix/filter-commons/typings/settings";
+import { FilterData, FiltersSettingsMap, PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { autorun, makeAutoObservable } from "mobx";
@@ -47,11 +47,11 @@ export class CustomFilterHost implements ObservableFilterHost, Serializable {
         }
     }
 
-    toJSON(): Json {
-        return [...this.settings.entries()] as Json[];
+    toJSON(): PlainJs {
+        return [...this.settings.entries()] as PlainJs;
     }
 
-    fromJSON(data: Json): void {
+    fromJSON(data: PlainJs): void {
         if (data == null || !Array.isArray(data)) {
             return;
         }
