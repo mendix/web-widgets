@@ -58,7 +58,6 @@ export const Select = observer(function Select(props: SelectProps): React.ReactE
                             props.onClear();
                             toggleRef.current?.focus();
                         }}
-                        showSeparator={false}
                         visible={showClear}
                     />
                     <Arrow className={cls.stateIcon} />
