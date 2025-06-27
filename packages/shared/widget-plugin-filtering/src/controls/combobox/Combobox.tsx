@@ -55,7 +55,6 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                     props.onClear();
                     inputRef.current?.focus();
                 }}
-                showSeparator={false}
                 visible={!props.empty}
             />
             <button className={cls.toggle} {...getToggleButtonProps({ "aria-label": "Show options" })}>
