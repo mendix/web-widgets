@@ -1,5 +1,11 @@
 import { ObjectItem } from "mendix";
-import { CalendarProps as ReactCalendarProps, Formats, NavigateAction, ViewsProps } from "react-big-calendar";
+import {
+    CalendarProps as ReactCalendarProps,
+    DateLocalizer,
+    Formats,
+    NavigateAction,
+    ViewsProps
+} from "react-big-calendar";
 import { withDragAndDropProps } from "react-big-calendar/lib/addons/dragAndDrop";
 
 import { CalendarContainerProps } from "../../typings/CalendarProps";
@@ -113,6 +119,14 @@ export class CalendarPropsBuilder {
 
         if (this.props.showEventDate === false) {
             formats.eventTimeRangeFormat = () => "";
+        }
+
+        if (this.props.timeFormat?.status === "available") {
+            const timeFormat = this.props.timeFormat.value ?? "hh:mm a";
+
+            formats.timeGutterFormat = (date: Date, _culture: string, localizer: DateLocalizer) => {
+                return localizer.format(date, timeFormat);
+            };
         }
 
         return formats;
