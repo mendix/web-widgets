@@ -49,14 +49,7 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                     placeholder: props.inputPlaceholder
                 })}
             />
-            <ClearButton
-                cls={cls}
-                onClick={() => {
-                    props.onClear();
-                    inputRef.current?.focus();
-                }}
-                visible={!props.empty}
-            />
+            <ClearButton cls={cls} onClick={props.onClear} visible={!props.empty} />
             <button className={cls.toggle} {...getToggleButtonProps({ "aria-label": "Show options" })}>
                 <Arrow className={cls.stateIcon} />
             </button>
