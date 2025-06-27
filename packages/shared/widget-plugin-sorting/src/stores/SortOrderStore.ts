@@ -17,7 +17,7 @@ export class SortOrderStore implements BasicSortStore {
         makeObservable<this, "_sortOrder">(this, {
             _sortOrder: observable,
             sortOrder: computed,
-            replace: action,
+            setSortOrder: action,
             push: action,
             remove: action
         });
@@ -27,7 +27,7 @@ export class SortOrderStore implements BasicSortStore {
         return [...this._sortOrder];
     }
 
-    replace(...order: SortInstruction[]): void {
+    setSortOrder(...order: SortInstruction[]): void {
         this._sortOrder.splice(0, this._sortOrder.length, ...order);
     }
 
