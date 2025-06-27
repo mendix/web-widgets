@@ -46,6 +46,7 @@ export interface CalendarContainerProps {
     defaultViewCustom: DefaultViewCustomEnum;
     defaultViewStandard: DefaultViewStandardEnum;
     startDateAttribute?: EditableValue<Date>;
+    timeFormat?: DynamicValue<string>;
     minHour: number;
     maxHour: number;
     customViewCaption?: DynamicValue<string>;
@@ -99,6 +100,7 @@ export interface CalendarPreviewProps {
     defaultViewCustom: DefaultViewCustomEnum;
     defaultViewStandard: DefaultViewStandardEnum;
     startDateAttribute: string;
+    timeFormat: string;
     minHour: number | null;
     maxHour: number | null;
     customViewCaption: string;
