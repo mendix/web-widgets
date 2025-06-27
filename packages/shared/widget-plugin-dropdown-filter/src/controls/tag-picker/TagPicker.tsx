@@ -63,8 +63,12 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
             data-empty={props.empty ? true : undefined}
             style={props.style}
             onClick={event => {
-                if (!isOpen && (event.target === event.currentTarget || event.target === inputContainerRef.current)) {
-                    openMenu();
+                if (event.target === event.currentTarget || event.target === inputContainerRef.current) {
+                    if (!isOpen) {
+                        openMenu();
+                    } else {
+                        inputContainerRef.current?.querySelector("input")?.focus();
+                    }
                 }
             }}
         >
@@ -98,7 +102,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                         onBlur: props.onBlur,
                         onFocus: props.onFocus,
                         placeholder: props.empty ? props.inputPlaceholder : undefined,
-                        ...getDropdownProps({ preventKeyAction: isOpen }),
+                        ...getDropdownProps(),
                         "aria-describedby": props.empty ? undefined : `${helperText1} ${inputContainerId}`
                     })}
                 />
