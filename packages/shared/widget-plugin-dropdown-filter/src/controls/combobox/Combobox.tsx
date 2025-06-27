@@ -69,7 +69,6 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                 options={props.options}
                 highlightedIndex={highlightedIndex}
                 showCheckboxes={false}
-                haveEmptyFirstOption={false}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
             />

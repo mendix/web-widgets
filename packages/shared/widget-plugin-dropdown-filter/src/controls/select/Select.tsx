@@ -14,7 +14,7 @@ interface SelectProps {
     clearable: boolean;
     empty: boolean;
     className?: string;
-    showCheckboxes?: boolean;
+    showCheckboxes: boolean;
     style?: React.CSSProperties;
     useSelectProps: () => UseSelectProps<OptionWithState>;
     onClear: () => void;
@@ -72,7 +72,6 @@ export const Select = observer(function Select(props: SelectProps): React.ReactE
                 options={props.options}
                 highlightedIndex={highlightedIndex}
                 showCheckboxes={showCheckboxes}
-                haveEmptyFirstOption
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
             />

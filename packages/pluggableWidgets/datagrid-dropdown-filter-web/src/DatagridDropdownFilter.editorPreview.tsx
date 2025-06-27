@@ -14,6 +14,7 @@ function Preview(props: DatagridDropdownFilterPreviewProps): ReactElement {
             options={[]}
             empty={!props.clearable}
             clearable={props.clearable}
+            showCheckboxes={false}
             value={getPreviewValue(props)}
             onClear={noop}
             useSelectProps={() => ({ items: [] })}

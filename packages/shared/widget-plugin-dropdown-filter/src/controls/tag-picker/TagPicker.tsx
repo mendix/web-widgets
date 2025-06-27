@@ -123,7 +123,6 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                 options={props.options}
                 highlightedIndex={highlightedIndex}
                 showCheckboxes={showCheckboxes}
-                haveEmptyFirstOption={false}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
             />
