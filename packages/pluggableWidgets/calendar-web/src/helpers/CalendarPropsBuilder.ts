@@ -1,5 +1,5 @@
 import { ObjectItem } from "mendix";
-import { CalendarProps as ReactCalendarProps, NavigateAction, ViewsProps } from "react-big-calendar";
+import { CalendarProps as ReactCalendarProps, Formats, NavigateAction, ViewsProps } from "react-big-calendar";
 import { withDragAndDropProps } from "react-big-calendar/lib/addons/dragAndDrop";
 
 import { CalendarContainerProps } from "../../typings/CalendarProps";
@@ -47,6 +47,7 @@ export class CalendarPropsBuilder {
 
     build(): DragAndDropCalendarProps<CalendarEvent> {
         const CustomWeek = CustomWeekController.getComponent(this.visibleDays);
+        const formats = this.buildFormats();
         const views: ViewsProps<CalendarEvent> = this.isCustomView
             ? { day: true, week: true, month: true, work_week: CustomWeek, agenda: true }
             : { day: true, week: true, month: true };
@@ -60,6 +61,7 @@ export class CalendarPropsBuilder {
                 work_week: this.customCaption
             },
             events: this.events,
+            formats,
             localizer,
             resizable: this.props.editable !== "never",
             selectable: this.props.enableCreate,
@@ -104,6 +106,16 @@ export class CalendarPropsBuilder {
         } else {
             return "Untitled Event";
         }
+    }
+
+    private buildFormats(): Formats {
+        const formats: Formats = {};
+
+        if (this.props.showEventDate === false) {
+            formats.eventTimeRangeFormat = () => "";
+        }
+
+        return formats;
     }
 
     private buildTime(hour: number): Date {
