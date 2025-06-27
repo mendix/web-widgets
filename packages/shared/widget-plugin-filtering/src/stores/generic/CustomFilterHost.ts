@@ -1,11 +1,11 @@
 import { tag } from "@mendix/filter-commons/condition-utils";
-import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
+import { FilterData, FiltersSettingsMap, Json, Serializable } from "@mendix/filter-commons/typings/settings";
 import { FilterCondition } from "mendix/filters";
 import { and } from "mendix/filters/builders";
 import { autorun, makeAutoObservable } from "mobx";
 import { Filter, ObservableFilterHost } from "../../typings/ObservableFilterHost";
 
-export class CustomFilterHost implements ObservableFilterHost {
+export class CustomFilterHost implements ObservableFilterHost, Serializable {
     private filters: Map<string, [store: Filter, dispose: () => void]> = new Map();
     private settingsBuffer: FiltersSettingsMap<string> = new Map();
 
@@ -45,5 +45,17 @@ export class CustomFilterHost implements ObservableFilterHost {
         if (this.filters.has(key)) {
             this.filters.get(key)?.[1]();
         }
+    }
+
+    toJSON(): Json {
+        return [...this.settings.entries()] as Json[];
+    }
+
+    fromJSON(data: Json): void {
+        if (data == null || !Array.isArray(data)) {
+            return;
+        }
+
+        this.settings = new Map(data as Array<[string, FilterData]>);
     }
 }
