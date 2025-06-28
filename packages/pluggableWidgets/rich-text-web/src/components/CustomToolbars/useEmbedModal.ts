@@ -152,21 +152,35 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
             dialogType: "image",
             config: {
                 onSubmit: (value: imageConfigType) => {
+                    const defaultImageConfig = {
+                        alt: value.alt,
+                        width: value.width,
+                        height: value.keepAspectRatio ? undefined : value.height
+                    };
+
                     if (value.src) {
                         const index = selection?.index ?? 0;
                         const length = 1;
-                        const imageConfig = {
-                            alt: value.alt,
-                            width: value.width,
-                            height: value.height
-                        };
+                        const imageConfig = defaultImageConfig;
                         // update existing image attribute
                         const imageUpdateDelta = new Delta().retain(index).retain(length, imageConfig);
                         ref.current?.updateContents(imageUpdateDelta, Emitter.sources.USER);
                     } else {
                         // upload new image
-                        if (selection && value.files) {
-                            uploadImage(ref, selection, value);
+                        if (selection) {
+                            if (value.files) {
+                                uploadImage(ref, selection, value);
+                            } else if (value.entityGuid) {
+                                const imageConfig = {
+                                    ...defaultImageConfig,
+                                    "data-src": value.entityGuid
+                                };
+                                const delta = new Delta()
+                                    .retain(selection.index)
+                                    .delete(selection.length)
+                                    .insert({ image: value.entityGuid }, imageConfig);
+                                ref.current?.updateContents(delta, Emitter.sources.USER);
+                            }
                         }
                     }
                     closeDialog();
@@ -213,7 +227,14 @@ function uploadImage(ref: MutableRefObject<Quill | null>, range: Range, options:
             });
             Promise.all(promises).then(images => {
                 const update = images.reduce((delta: Delta, image) => {
-                    return delta.insert({ image }, { alt: options.alt, width: options.width, height: options.height });
+                    return delta.insert(
+                        { image },
+                        {
+                            alt: options.alt,
+                            width: options.width,
+                            height: options.height
+                        }
+                    );
                 }, new Delta().retain(range.index).delete(range.length)) as Delta;
                 ref.current?.updateContents(update, Emitter.sources.USER);
                 ref.current?.setSelection(range.index + images.length, Emitter.sources.SILENT);

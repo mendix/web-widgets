@@ -15,6 +15,7 @@ import VideoDialog, { VideoDialogProps } from "./VideoDialog";
 import ViewCodeDialog, { ViewCodeDialogProps } from "./ViewCodeDialog";
 import ImageDialog, { ImageDialogProps } from "./ImageDialog";
 import "./Dialog.scss";
+import { RichTextContainerProps } from "../../../typings/RichTextProps";
 
 interface BaseDialogProps {
     isOpen: boolean;
@@ -48,13 +49,15 @@ export type ChildDialogProps =
     | ViewCodeDialogBaseProps
     | ImageDialogBaseProps;
 
-export type DialogProps = BaseDialogProps & ChildDialogProps;
+export type DialogProps = BaseDialogProps &
+    ChildDialogProps &
+    Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "enableDefaultUpload">;
 
 /**
  * Dialog components that will be shown on toolbar's button
  */
 export default function Dialog(props: DialogProps): ReactElement {
-    const { isOpen, onOpenChange, dialogType, config } = props;
+    const { isOpen, onOpenChange, dialogType, config, imageSource, imageSourceContent, enableDefaultUpload } = props;
     const { refs, context } = useFloating({
         open: isOpen,
         onOpenChange
@@ -69,7 +72,7 @@ export default function Dialog(props: DialogProps): ReactElement {
     const { getFloatingProps } = useInteractions([click, dismiss, role]);
 
     return (
-        <FloatingPortal>
+        <FloatingPortal id="root">
             {isOpen && (
                 <Fragment>
                     <FloatingOverlay
@@ -78,7 +81,7 @@ export default function Dialog(props: DialogProps): ReactElement {
                     ></FloatingOverlay>
                     <FloatingFocusManager context={context}>
                         <div
-                            className="Dialog mx-layoutgrid"
+                            className="Dialog mx-layoutgrid widget-rich-text"
                             ref={refs.setFloating}
                             aria-labelledby={dialogType}
                             aria-describedby={dialogType}
@@ -94,7 +97,12 @@ export default function Dialog(props: DialogProps): ReactElement {
                                 <ViewCodeDialog {...(config as ViewCodeDialogProps)}></ViewCodeDialog>
                             </If>
                             <If condition={dialogType === "image"}>
-                                <ImageDialog {...(config as ImageDialogProps)}></ImageDialog>
+                                <ImageDialog
+                                    imageSource={imageSource}
+                                    imageSourceContent={imageSourceContent}
+                                    enableDefaultUpload={enableDefaultUpload}
+                                    {...(config as ImageDialogProps)}
+                                ></ImageDialog>
                             </If>
                         </div>
                     </FloatingFocusManager>
