@@ -1,8 +1,10 @@
+import "@testing-library/jest-dom";
+import { render } from "@testing-library/react";
+import userEvent, { UserEvent } from "@testing-library/user-event";
 import { createElement } from "react";
-import { mount, render } from "enzyme";
+import { ModalProps } from "react-overlays/esm/Modal";
 import { Image, ImageProps } from "../Image/Image";
 import { Lightbox } from "../Lightbox";
-import { ModalProps } from "react-overlays/esm/Modal";
 
 jest.mock("../../assets/ic24-close.svg", () => "close-button-icon-svg");
 
@@ -70,33 +72,38 @@ const iconProps: ImageProps = {
 
 describe("Image", () => {
     it("renders the structure with an image", () => {
-        expect(render(<Image {...imageProps} />)).toMatchSnapshot();
+        const image = render(<Image {...imageProps} />);
+        expect(image.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure with an image and percentage dimensions", () => {
-        expect(
-            render(<Image {...imageProps} height={100} width={100} heightUnit="auto" widthUnit="percentage" />)
-        ).toMatchSnapshot();
+        const image = render(
+            <Image {...imageProps} height={100} width={100} heightUnit="auto" widthUnit="percentage" />
+        );
+        expect(image.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure with a glyph icon", () => {
-        expect(render(<Image {...glyphiconProps} />)).toMatchSnapshot();
+        const image = render(<Image {...glyphiconProps} />);
+        expect(image.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure with an icon", () => {
-        expect(render(<Image {...iconProps} />)).toMatchSnapshot();
+        const image = render(<Image {...iconProps} />);
+        expect(image.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure as a background image", () => {
-        expect(
-            render(<Image {...imageProps} renderAsBackground backgroundImageContent={<div>Image content</div>} />)
-        ).toMatchSnapshot();
+        const image = render(
+            <Image {...imageProps} renderAsBackground backgroundImageContent={<div>Image content</div>} />
+        );
+        expect(image.asFragment()).toMatchSnapshot();
     });
 
     describe("when the onClickType is action", () => {
         it("calls the onClick when clicking on an image", () => {
             const onClickMock = jest.fn();
-            const imageRender = mount(<Image {...imageProps} onClick={onClickMock} onClickType="action" />);
+            const imageRender = render(<Image {...imageProps} onClick={onClickMock} onClickType="action" />);
 
             const image = imageRender.find("img");
             expect(image).toHaveLength(1);
@@ -107,7 +114,7 @@ describe("Image", () => {
 
         it("has tabindex if there is an action with OnClick", () => {
             const onClickMock = jest.fn();
-            const imageRender = mount(
+            const imageRender = render(
                 <Image {...imageProps} onClick={onClickMock} onClickType="action" tabIndex={1} />
             );
             const image = imageRender.find("img");
@@ -117,7 +124,7 @@ describe("Image", () => {
         });
 
         it("has no tabindex if there is no action with OnClick", () => {
-            const imageRender = mount(<Image {...imageProps} />);
+            const imageRender = render(<Image {...imageProps} />);
             const image = imageRender.find("img");
 
             expect(image.prop("tabIndex")).toBeUndefined();
@@ -125,7 +132,7 @@ describe("Image", () => {
 
         it("calls the onClick when clicking on a glyph icon", () => {
             const onClickMock = jest.fn();
-            const imageRender = mount(<Image {...glyphiconProps} onClick={onClickMock} onClickType="action" />);
+            const imageRender = render(<Image {...glyphiconProps} onClick={onClickMock} onClickType="action" />);
 
             const glyphicon = imageRender.find("span");
             expect(glyphicon).toHaveLength(1);
@@ -136,7 +143,7 @@ describe("Image", () => {
 
         it("calls the onClick when clicking on an icon", () => {
             const onClickMock = jest.fn();
-            const imageRender = mount(<Image {...iconProps} onClick={onClickMock} onClickType="action" />);
+            const imageRender = render(<Image {...iconProps} onClick={onClickMock} onClickType="action" />);
 
             const glyphicon = imageRender.find("span");
             expect(glyphicon).toHaveLength(1);
@@ -148,7 +155,7 @@ describe("Image", () => {
 
     describe("when the onClickType is enlarge", () => {
         it("shows a lightbox when the user clicks on the image", () => {
-            const imageRender = mount(<Image {...imageProps} onClickType="enlarge" />);
+            const imageRender = render(<Image {...imageProps} onClickType="enlarge" />);
             expect(imageRender.find(Lightbox)).toHaveLength(0);
 
             const image = imageRender.find("img");
@@ -159,7 +166,7 @@ describe("Image", () => {
         });
 
         it("closes the lightbox when the user clicks on the close button after opening it", () => {
-            const imageRender = mount(<Image {...imageProps} onClickType="enlarge" />);
+            const imageRender = render(<Image {...imageProps} onClickType="enlarge" />);
 
             const image = imageRender.find("img");
             expect(image).toHaveLength(1);
@@ -178,7 +185,7 @@ describe("Image", () => {
     it("does not trigger on clicks from containers if clicked on the image", () => {
         const onClickOuterMock = jest.fn();
         const onClickImageMock = jest.fn();
-        const imageRender = mount(
+        const imageRender = render(
             <div onClick={onClickOuterMock}>
                 <Image {...imageProps} onClickType="action" onClick={onClickImageMock} />
             </div>
@@ -194,20 +201,20 @@ describe("Image", () => {
 
     describe("when there is an accessibility alt text", () => {
         it("is set properly on an image", () => {
-            const imageRender = mount(<Image {...imageProps} altText="this is an awesome image" />);
+            const imageRender = render(<Image {...imageProps} altText="this is an awesome image" />);
             const image = imageRender.find("img");
             expect(image.prop("alt")).toBe("this is an awesome image");
         });
 
         it("is set properly on a glyphicon", () => {
-            const imageRender = mount(<Image {...glyphiconProps} altText="this is an awesome glyphicon" />);
+            const imageRender = render(<Image {...glyphiconProps} altText="this is an awesome glyphicon" />);
             const image = imageRender.find("span");
             expect(image.prop("aria-label")).toBe("this is an awesome glyphicon");
             expect(image.prop("role")).toBe("img");
         });
 
         it("is set properly on an icon", () => {
-            const imageRender = mount(<Image {...iconProps} altText="this is an awesome icon" />);
+            const imageRender = render(<Image {...iconProps} altText="this is an awesome icon" />);
             const image = imageRender.find("span");
             expect(image.prop("aria-label")).toBe("this is an awesome icon");
             expect(image.prop("role")).toBe("img");
@@ -216,20 +223,20 @@ describe("Image", () => {
 
     describe("when there is no accessibility alt text", () => {
         it("nothing is set on an image", () => {
-            const imageRender = mount(<Image {...imageProps} />);
+            const imageRender = render(<Image {...imageProps} />);
             const image = imageRender.find("img");
             expect(image.prop("alt")).toBe(undefined);
         });
 
         it("nothing is set on a glyphicon", () => {
-            const imageRender = mount(<Image {...glyphiconProps} />);
+            const imageRender = render(<Image {...glyphiconProps} />);
             const image = imageRender.find("span");
             expect(image).not.toHaveProperty("aria-label");
             expect(image).not.toHaveProperty("role");
         });
 
         it("nothing is set on an icon", () => {
-            const imageRender = mount(<Image {...iconProps} />);
+            const imageRender = render(<Image {...iconProps} />);
             const image = imageRender.find("span");
             expect(image).not.toHaveProperty("aria-label");
             expect(image).not.toHaveProperty("role");
@@ -238,13 +245,13 @@ describe("Image", () => {
 
     describe("when showing an image as a thumbnail", () => {
         it("includes the thumb=true URL param in the image", () => {
-            const imageRender = mount(<Image {...imageProps} displayAs="thumbnail" />);
+            const imageRender = render(<Image {...imageProps} displayAs="thumbnail" />);
             const image = imageRender.find("img");
             expect(image.prop("src")).toContain("thumb=true");
         });
 
         it("does not include the thumb=true URL param in the lightbox image", () => {
-            const imageRender = mount(<Image {...imageProps} displayAs="thumbnail" onClickType="enlarge" />);
+            const imageRender = render(<Image {...imageProps} displayAs="thumbnail" onClickType="enlarge" />);
 
             const image = imageRender.find("img");
             expect(image.prop("src")).toContain("thumb=true");
@@ -264,7 +271,7 @@ describe("Image", () => {
 
     describe("when showing as a background image", () => {
         it("shows the content", () => {
-            const imageRender = mount(
+            const imageRender = render(
                 <Image {...imageProps} renderAsBackground backgroundImageContent={<div>Image content</div>} />
             );
             expect(imageRender.text()).toContain("Image content");
@@ -272,7 +279,7 @@ describe("Image", () => {
 
         it("properly handles on click event if configured by the user", () => {
             const onClickMock = jest.fn();
-            const imageRender = mount(
+            const imageRender = render(
                 <Image
                     {...imageProps}
                     renderAsBackground
