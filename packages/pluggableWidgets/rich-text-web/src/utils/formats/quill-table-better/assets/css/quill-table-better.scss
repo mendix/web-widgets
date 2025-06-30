@@ -31,14 +31,17 @@ $focused-border: 1px solid $focused-border-color;
     left: 50%;
     bottom: -10px;
     transform: translate(-50%, 100%);
+
     &::before {
         @extend .ql-table-triangle-common;
         border-bottom-color: $color !important;
         top: -20px;
     }
+
     &:hover {
         display: block;
     }
+
     &-hidden {
         display: none !important;
     }
@@ -50,6 +53,7 @@ $focused-border: 1px solid $focused-border-color;
         #{$direction1}: -20px;
         border-#{$direction2}-color: $color1 !important;
     }
+
     &:not(.ql-table-triangle-none)::after {
         @extend .ql-table-triangle-common;
         #{$direction1}: -19px;
@@ -299,6 +303,7 @@ $focused-border: 1px solid $focused-border-color;
                 line-height: 30px;
                 list-style: none;
                 padding-left: 10px;
+
                 &:hover {
                     background-color: $hover-background;
                 }
@@ -521,8 +526,11 @@ $focused-border: 1px solid $focused-border-color;
 
         &-error {
             @include qlTableTooltip($tooltip-color-error);
-            white-space: pre-wrap;
-            z-index: 9;
+
+            & {
+                white-space: pre-wrap;
+                z-index: 9;
+            }
         }
     }
 
@@ -559,6 +567,7 @@ $focused-border: 1px solid $focused-border-color;
         z-index: 10;
         border: 1px solid #979797;
         cursor: nwse-resize;
+
         &-move {
             cursor: crosshair;
             border: none;
@@ -574,6 +583,7 @@ $focused-border: 1px solid $focused-border-color;
         position: absolute;
         z-index: 10;
         @extend .ql-table-center;
+
         .ql-operate-line {
             background-color: $line-color;
         }
@@ -653,12 +663,15 @@ ol.table-list-container {
     20% {
         transform: translateX(-2px);
     }
+
     40% {
         transform: translateX(2px);
     }
+
     60% {
         transform: translateX(-1px);
     }
+
     80% {
         transform: translateX(1px);
     }
