@@ -42,6 +42,14 @@ import TextBlot, { escapeText } from "quill/blots/text";
 import { Delta, Op } from "quill/core";
 import Editor from "quill/core/editor";
 
+interface ListItem {
+    child: Blot;
+    offset: number;
+    length: number;
+    indent: number;
+    type: string;
+}
+
 /**
  * Rich Text's extended Quill Editor
  * allowing us to override certain editor's function, such as: getHTML
@@ -110,25 +118,23 @@ function getExpectedType(type: string | undefined, indent: number): string {
 /**
  * Copy with modification from https://github.com/slab/quill/blob/main/packages/quill/src/core/editor.ts
  */
-function convertListHTML(items: any[], lastIndent: number, types: string[]): string {
+function convertListHTML(items: ListItem[], lastIndent: number, types: string[]): string {
     if (items.length === 0) {
         const [endTag] = getListType(types.pop());
         if (lastIndent <= 0) {
-            // modified by web-content: adding new line \n
-            return `</li></${endTag}>\n`;
+            return `</li></${endTag}>`;
         }
-        // modified by web-content: adding new line \n
-        return `</li></${endTag}>\n${convertListHTML([], lastIndent - 1, types)}`;
+        return `</li></${endTag}>${convertListHTML([], lastIndent - 1, types)}`;
     }
     const [{ child, offset, length, indent, type }, ...rest] = items;
     const [tag, attribute] = getListType(type);
-    // modified by web-content: get proper list-style-type
-    const expectedType = getExpectedType(type, indent);
+
     if (indent > lastIndent) {
+        // modified by web-content: get proper list-style-type
+        const expectedType = getExpectedType(type, indent);
         types.push(type);
         if (indent === lastIndent + 1) {
-            // modified by web-content: adding list-style-type to allow retaining list style when converted to html and new line \n
-            return `<${tag} style="list-style-type: ${expectedType}">\n<li${attribute}>${convertHTML(
+            return `<${tag} style="list-style-type: ${expectedType}"><li${attribute}>${convertHTML(
                 child,
                 offset,
                 length
@@ -138,12 +144,10 @@ function convertListHTML(items: any[], lastIndent: number, types: string[]): str
     }
     const previousType = types[types.length - 1];
     if (indent === lastIndent && type === previousType) {
-        // modified by web-content: adding new line \n
-        return `</li>\n<li${attribute}>${convertHTML(child, offset, length)}${convertListHTML(rest, indent, types)}`;
+        return `</li><li${attribute}>${convertHTML(child, offset, length)}${convertListHTML(rest, indent, types)}`;
     }
     const [endTag] = getListType(types.pop());
-    // modified by web-content: adding new line \n
-    return `</li></${endTag}>\n${convertListHTML(items, lastIndent - 1, types)}`;
+    return `</li></${endTag}>${convertListHTML(items, lastIndent - 1, types)}`;
 }
 
 /**
@@ -156,7 +160,8 @@ function convertHTML(blot: Blot, index: number, length: number, isRoot = false):
         return blot.html(index, length);
     }
     if (blot instanceof TextBlot) {
-        return escapeText(blot.value().slice(index, index + length));
+        const escapedText = escapeText(blot.value().slice(index, index + length));
+        return escapedText.replaceAll(" ", "&nbsp;");
     }
     if (blot instanceof ParentBlot) {
         // TODO fix API
