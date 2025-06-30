@@ -1,4 +1,8 @@
-import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
+import {
+    useOnResetValueEvent,
+    useOnSetValueEvent,
+    useAccessibilityValues
+} from "@mendix/widget-plugin-external-events/hooks";
 import { StringFilterController } from "@mendix/widget-plugin-filtering/controllers/input/StringInputController";
 import { FilterFnList, InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
 import { useBasicSync } from "@mendix/widget-plugin-filtering/helpers/useBasicSync";
@@ -59,6 +63,11 @@ export const TextFilterContainer: (props: ContainerProps) => React.ReactElement 
             listener: controller.handleResetValue
         });
 
+        const { screenReaderInputCaption } = useAccessibilityValues({
+            inputRef: controller.inputRef,
+            defaultValue: props.screenReaderInputCaption?.value
+        });
+
         useOnSetValueEvent({ widgetName: props.name, listener: controller.handleSetValue });
 
         return (
@@ -75,7 +84,7 @@ export const TextFilterContainer: (props: ContainerProps) => React.ReactElement 
                 onFilterChange={controller.handleFilterFnChange}
                 placeholder={props.placeholder?.value}
                 screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
-                screenReaderInputCaption={props.screenReaderInputCaption?.value}
+                screenReaderInputCaption={screenReaderInputCaption}
                 styles={props.style}
                 tabIndex={props.tabIndex}
                 defaultValue={props.defaultValue?.value}
