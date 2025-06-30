@@ -281,7 +281,7 @@ $root: ".widget-dropdown-filter";
         width: initial;
     }
 
-    &:not(:focus-within) {
+    &:not(:focus-within):not([data-empty]) {
         #{$root}-input {
             opacity: 0;
             flex-shrink: 1;

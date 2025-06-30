@@ -5,7 +5,8 @@ import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 export class RefComboboxController extends ComboboxControllerMixin(RefBaseController) {
     constructor({ gate }: { gate: DerivedPropsGate<RefBaseControllerProps> }) {
         super({ gate, multiselect: false });
-        this.inputPlaceholder = gate.props.placeholder ?? "Search";
+        this.inputPlaceholder = gate.props.placeholder;
+        this.emptyCaption = gate.props.emptySelectionCaption;
     }
 
     handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {

@@ -13,6 +13,7 @@ interface TagPickerProps {
     options: OptionWithState[];
     empty: boolean;
     inputPlaceholder: string;
+    emptyCaption: string;
     showCheckboxes: boolean;
     selectedStyle?: "boxes" | "text";
     ariaLabel?: string;
@@ -101,7 +102,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                         "aria-label": inputLabel,
                         onBlur: props.onBlur,
                         onFocus: props.onFocus,
-                        placeholder: props.empty ? props.inputPlaceholder : undefined,
+                        placeholder: props.empty ? (isOpen ? props.inputPlaceholder : props.emptyCaption) : undefined,
                         ...getDropdownProps(),
                         "aria-describedby": props.empty ? undefined : `${helperText1} ${inputContainerId}`
                     })}
