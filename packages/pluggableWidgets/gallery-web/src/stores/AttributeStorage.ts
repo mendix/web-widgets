@@ -46,6 +46,6 @@ export class AttributeStorage implements ObservableStorage, ReactiveController {
 
     setData(data: PlainJs): void {
         data = data === "" ? null : data;
-        this._attribute.setValue(JSON.stringify(data, null, 2));
+        this._attribute.setValue(JSON.stringify(data));
     }
 }
