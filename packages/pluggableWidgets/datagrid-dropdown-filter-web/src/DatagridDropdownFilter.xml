@@ -162,11 +162,21 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
-        <propertyGroup caption="Accessibility">
+        <propertyGroup caption="Advanced">
             <propertyGroup caption="Accessibility">
                 <property key="ariaLabel" type="textTemplate" required="false">
                     <caption>Input caption</caption>
                     <description>Assistive technology will read this upon reaching the input element.</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Texts">
+                <property key="emptySelectionCaption" type="textTemplate" required="false">
+                    <caption>Empty selection caption</caption>
+                    <description>This text is shown if no options are selected. For example 'No options are selected' or 'Select color'.</description>
+                </property>
+                <property key="filterInputPlaceholderCaption" type="textTemplate" required="false">
+                    <caption>Filter input placeholder</caption>
+                    <description>This text is shown as placeholder for filterable filters. For example 'type to search'.</description>
                 </property>
             </propertyGroup>
         </propertyGroup>

@@ -22,6 +22,8 @@ export function getProperties(values: DatagridDropdownFilterPreviewProps, defaul
     if (values.filterable) {
         hidePropertyIn(defaultProperties, values, "clearable");
         hidePropertyIn(defaultProperties, values, "emptyOptionCaption");
+    } else {
+        hidePropertyIn(defaultProperties, values, "filterInputPlaceholderCaption");
     }
 
     if (!values.filterable) {
@@ -89,7 +91,7 @@ export const getPreview = (values: DatagridDropdownFilterPreviewProps, isDarkMod
                             text({
                                 fontColor: palette.text.secondary,
                                 italic: true
-                            })(values.emptyOptionCaption || " ")
+                            })(values.emptySelectionCaption || " ")
                         ],
                         grow: 1
                     } as ContainerProps,

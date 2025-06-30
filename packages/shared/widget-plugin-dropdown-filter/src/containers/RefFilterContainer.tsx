@@ -22,7 +22,9 @@ export interface RefFilterContainerProps {
     ariaLabel?: string;
     className?: string;
     defaultValue?: string;
-    emptyCaption?: string;
+    emptyOptionCaption: string;
+    emptySelectionCaption: string;
+    placeholder: string;
     filterStore: RefFilterStore;
     multiselect: boolean;
     name: string;
@@ -86,6 +88,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
         <Combobox
             options={ctrl2.options}
             inputPlaceholder={ctrl2.inputPlaceholder}
+            emptyCaption={ctrl2.emptyCaption}
             useComboboxProps={ctrl2.useComboboxProps}
             onClear={ctrl2.handleClear}
             onFocus={ctrl2.handleFocus}
@@ -116,6 +119,7 @@ const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContai
             onFocus={ctrl3.handleFocus}
             onMenuScroll={handleMenuScroll}
             inputPlaceholder={ctrl3.inputPlaceholder}
+            emptyCaption={ctrl3.emptyCaption}
             empty={ctrl3.isEmpty}
             showCheckboxes={props.selectionMethod === "checkbox"}
             selectedStyle={props.selectedItemsStyle}
