@@ -27,6 +27,7 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
         touched = false;
         inputValue = "";
         inputPlaceholder = "";
+        emptyCaption = "";
         filterSelectedOptions = false;
 
         constructor(...args: any[]) {

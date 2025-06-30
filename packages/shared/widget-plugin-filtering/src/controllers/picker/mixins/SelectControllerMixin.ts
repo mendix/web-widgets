@@ -22,11 +22,11 @@ const none = "[[__none__]]" as const;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function SelectControllerMixin<TBase extends BaseController>(Base: TBase) {
     return class SelectControllerMixin extends Base {
-        placeholder = "Select";
+        emptyCaption = "";
 
         readonly emptyOption = {
             value: none,
-            caption: "None",
+            caption: "",
             selected: false
         };
 
@@ -55,7 +55,7 @@ export function SelectControllerMixin<TBase extends BaseController>(Base: TBase)
             const selected = this.filterStore.selectedOptions;
 
             if (selected.length < 1) {
-                return this.placeholder;
+                return this.emptyCaption;
             }
 
             return selected.map(option => option.caption).join(", ");

@@ -11,6 +11,7 @@ import { Arrow, classes } from "../picker-primitives";
 interface ComboboxProps {
     options: OptionWithState[];
     inputPlaceholder: string;
+    emptyCaption: string;
     empty: boolean;
     className?: string;
     style?: React.CSSProperties;
@@ -46,7 +47,7 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                     ref: inputRef,
                     onBlur: props.onBlur,
                     onFocus: props.onFocus,
-                    placeholder: props.inputPlaceholder
+                    placeholder: props.empty ? (isOpen ? props.inputPlaceholder : props.emptyCaption) : undefined
                 })}
             />
             <ClearButton cls={cls} onClick={props.onClear} visible={!props.empty} />

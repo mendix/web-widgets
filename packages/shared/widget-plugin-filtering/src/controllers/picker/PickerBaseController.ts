@@ -58,5 +58,6 @@ export interface PickerBaseControllerProps<S extends FilterStore> {
     multiselect: boolean;
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
-    emptyCaption?: string;
+    emptyOptionCaption?: string;
+    emptySelectionCaption?: string;
 }
