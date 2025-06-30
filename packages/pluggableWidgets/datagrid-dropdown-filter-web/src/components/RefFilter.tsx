@@ -13,7 +13,9 @@ function Connector(props: DatagridDropdownFilterContainerProps & RefFilterProps)
             ariaLabel={props.ariaLabel?.value}
             className={props.class}
             styles={props.style}
-            emptyCaption={props.emptyOptionCaption?.value}
+            emptyOptionCaption={props.emptyOptionCaption?.value ?? ""}
+            emptySelectionCaption={props.emptySelectionCaption?.value ?? ""}
+            placeholder={props.filterInputPlaceholderCaption?.value ?? ""}
             defaultValue={props.defaultValue?.value}
             parentChannelName={props.parentChannelName}
         />

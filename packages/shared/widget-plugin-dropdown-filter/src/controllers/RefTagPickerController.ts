@@ -16,7 +16,8 @@ export class RefTagPickerController extends TagPickerControllerMixin(RefBaseCont
 
     constructor({ gate }: { gate: DerivedPropsGate<Props> }) {
         super({ gate, multiselect: gate.props.multiselect });
-        this.inputPlaceholder = gate.props.placeholder ?? "Search";
+        this.inputPlaceholder = gate.props.placeholder;
+        this.emptyCaption = gate.props.emptySelectionCaption;
         this.filterSelectedOptions = gate.props.selectionMethod === "rowClick";
         this.selectedStyle = gate.props.selectedItemsStyle;
         this.selectionMethod = this.selectedStyle === "boxes" ? gate.props.selectionMethod : "checkbox";

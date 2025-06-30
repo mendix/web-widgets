@@ -61,7 +61,7 @@ export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefOb
                                         />
                                     </span>
                                 )}
-                                {item.caption}
+                                {item.caption || "\u00A0"}
                             </li>
                         ))}
                 </ul>
