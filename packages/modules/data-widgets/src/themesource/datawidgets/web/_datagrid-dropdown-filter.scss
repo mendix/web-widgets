@@ -281,6 +281,14 @@ $root: ".widget-dropdown-filter";
         width: initial;
     }
 
+    &:not(:focus-within) {
+        #{$root}-input {
+            opacity: 0;
+            flex-shrink: 1;
+            min-width: 1px;
+        }
+    }
+
     #{$root}-clear {
         border-color: transparent;
     }
