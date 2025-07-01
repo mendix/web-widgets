@@ -32,8 +32,8 @@ export async function updateChangelogsAndCreatePR(
 
     console.log(`Creating pull request for '${releaseBranchName}'`);
     await gh.createGithubPRFrom({
-        title: `${appName} v${info.version.format()}: Update changelog`,
-        body: "This is an automated PR that merges changelog update to master.",
+        title: `[LTS 2.30] ${appName} v${info.version.format()}: Update changelog`,
+        body: "This is an automated PR that merges changelog update to LTS branch.",
         base: "lts/data-widgets/2.30",
         head: releaseBranchName,
         repo: info.repository.url
