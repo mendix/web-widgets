@@ -13,8 +13,8 @@ import { GalleryTopBar } from "./GalleryTopBar";
 import { ListBox } from "./ListBox";
 import { ListItem } from "./ListItem";
 
-import { LoadMore, LoadMoreButton as LoadMorePreview } from "src/components/LoadMore";
 import { PaginationEnum, ShowPagingButtonsEnum } from "typings/GalleryProps";
+import { LoadMore, LoadMoreButton as LoadMorePreview } from "../components/LoadMore";
 import { ItemEventsController } from "../typings/ItemEventsController";
 
 export interface GalleryProps<T extends ObjectItem> {

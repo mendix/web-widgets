@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { observer } from "mobx-react-lite";
 import { createElement } from "react";
-import { useGalleryRootScope } from "src/helpers/root-context";
+import { useGalleryRootScope } from "../helpers/root-context";
 
 export function LoadMoreButton(props: JSX.IntrinsicElements["button"]): React.ReactNode {
     return (
