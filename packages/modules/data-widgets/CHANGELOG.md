@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.32.2] DataWidgets - 2025-07-01
+
+### [1.14.2] Gallery
+
+#### Fixed
+
+- We fixed an issue where gallery widget wasn't following screen breakpoints defined in custom-variables file.
+
 ## [2.32.1] DataWidgets - 2025-05-28
 
 ### [2.30.6] Datagrid
