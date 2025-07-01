@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.1] - 2025-07-01
+
 ### Fixed
 
 - We fixed an issue where gallery widget wasn't following screen breakpoints defined in custom-variables file.
