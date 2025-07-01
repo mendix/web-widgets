@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed image thumbnail issue that was failed to reload on refresh page.
+
 ## [2.2.1] - 2025-05-28
 
 ### Fixed

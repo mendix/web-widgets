@@ -8,7 +8,6 @@ import {
     fetchDocumentUrl,
     fetchImageThumbnail,
     fetchMxObject,
-    isImageObject,
     MxObject,
     removeObject,
     saveFile
@@ -179,7 +178,7 @@ export class FileStore {
         }
 
         this._thumbnailUrl = undefined;
-        if (this._mxObject && isImageObject(this._mxObject)) {
+        if (this._mxObject) {
             const url = await fetchImageThumbnail(this._mxObject);
             runInAction(() => {
                 this._thumbnailUrl = url;
