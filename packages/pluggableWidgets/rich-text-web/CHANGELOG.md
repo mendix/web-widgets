@@ -6,14 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.8.0] - 2025-07-01
+
 ### Added
 
 - We added support to choose image from entity using external widget.
+
 - We added support to keep image ratio when resizing images.
 
 ### Fixed
 
 - We fixed issue when empty paragraph do not shown as line break in html viewer by adding empty space content `&nbsp;`.
+
 - We fixed an issue where indented list throws error when reopen.
 
 ## [4.7.0] - 2025-06-02
