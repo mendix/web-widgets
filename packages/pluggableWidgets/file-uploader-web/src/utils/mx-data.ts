@@ -39,10 +39,6 @@ export function fetchMxObject(objectItem: ObjectItem): Promise<MxObject> {
     });
 }
 
-export function isImageObject(mxObject: MxObject): boolean {
-    return (window as any).mx.meta.getEntity(mxObject.getEntity()).isA("System.Image");
-}
-
 export function fetchDocumentUrl(mxObject: MxObject): string {
     return (window as any).mx.data.getDocumentUrl(mxObject.getGuid(), mxObject.get("changedDate"), false);
 }
