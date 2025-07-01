@@ -3,14 +3,18 @@ import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navig
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import { getColumnAndRowBasedOnIndex, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
-import { listAction, objectItems } from "@mendix/widget-plugin-test-utils";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { list, listAction, objectItems } from "@mendix/widget-plugin-test-utils";
 import { render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ObjectItem } from "mendix";
 import { createElement } from "react";
+import { GalleryContainerProps } from "../../typings/GalleryProps";
 import { GalleryProps } from "../components/Gallery";
 import { ItemEventsController } from "../features/item-interaction/ItemEventsController";
 import { ItemHelper } from "../helpers/ItemHelper";
+import { GalleryContext, GalleryRootScope } from "../helpers/root-context";
+import { GalleryStore } from "../stores/GalleryStore";
 import { ItemHelperBuilder } from "./builders/ItemHelperBuilder";
 
 export function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
@@ -30,6 +34,53 @@ export function mockItemHelperWithAction(execute: () => void): ItemHelper {
             })
         )
     );
+}
+
+export function createMockGalleryContext(): GalleryRootScope {
+    // Create minimal GalleryContainerProps for the store
+    const mockContainerProps: GalleryContainerProps = {
+        name: "gallery-test",
+        class: "gallery-test-class",
+        datasource: list(3),
+        itemSelectionMode: "clear",
+        desktopItems: 4,
+        tabletItems: 3,
+        phoneItems: 2,
+        pageSize: 10,
+        pagination: "buttons",
+        showTotalCount: false,
+        showPagingButtons: "always",
+        pagingPosition: "bottom",
+        showEmptyPlaceholder: "none",
+        onClickTrigger: "single"
+    };
+
+    // Create a proper gate provider and gate
+    const gateProvider = new GateProvider(mockContainerProps);
+    const gate = gateProvider.gate;
+
+    // Create real GalleryStore instance
+    const mockStore = new GalleryStore({
+        gate,
+        name: "gallery-test",
+        pagination: "buttons",
+        showPagingButtons: "always",
+        showTotalCount: false,
+        pageSize: 10
+    });
+
+    const mockSelectHelper = new SelectActionHandler("None", undefined);
+
+    return {
+        rootStore: mockStore,
+        selectionHelper: undefined,
+        itemSelectHelper: mockSelectHelper
+    };
+}
+
+export function withGalleryContext(component: React.ReactElement, context?: GalleryRootScope): React.ReactElement {
+    const contextValue = context || createMockGalleryContext();
+    return createElement(GalleryContext.Provider, { value: contextValue }, component);
 }
 
 type Helpers = {

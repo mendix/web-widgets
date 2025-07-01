@@ -4,7 +4,7 @@ import { render, waitFor } from "@testing-library/react";
 import { ObjectItem } from "mendix";
 import { createElement } from "react";
 import { ItemHelperBuilder } from "../../utils/builders/ItemHelperBuilder";
-import { mockItemHelperWithAction, mockProps, setup } from "../../utils/test-utils";
+import { mockItemHelperWithAction, mockProps, setup, withGalleryContext } from "../../utils/test-utils";
 import { Gallery } from "../Gallery";
 
 describe("Gallery", () => {
@@ -13,14 +13,14 @@ describe("Gallery", () => {
     });
     describe("DOM Structure", () => {
         it("renders correctly", () => {
-            const { asFragment } = render(<Gallery {...mockProps()} />);
+            const { asFragment } = render(withGalleryContext(<Gallery {...mockProps()} />));
 
             expect(asFragment()).toMatchSnapshot();
         });
 
         it("renders correctly with onclick event", () => {
             const { asFragment } = render(
-                <Gallery {...mockProps()} itemHelper={mockItemHelperWithAction(jest.fn())} />
+                withGalleryContext(<Gallery {...mockProps()} itemHelper={mockItemHelperWithAction(jest.fn())} />)
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -31,7 +31,7 @@ describe("Gallery", () => {
         it("runs action on item click", async () => {
             const execute = jest.fn();
             const props = mockProps({ onClick: listAction(mock => ({ ...mock(), execute })) });
-            const { user, getAllByRole } = setup(<Gallery {...props} />);
+            const { user, getAllByRole } = setup(withGalleryContext(<Gallery {...props} />));
             const [item] = getAllByRole("listitem");
 
             await user.click(item);
@@ -41,7 +41,7 @@ describe("Gallery", () => {
         it("runs action on Enter|Space press when item is in focus", async () => {
             const execute = jest.fn();
             const props = mockProps({ onClick: listAction(mock => ({ ...mock(), execute })) });
-            const { user, getAllByRole } = setup(<Gallery {...props} header={<span />} />);
+            const { user, getAllByRole } = setup(withGalleryContext(<Gallery {...props} header={<span />} />));
             const [item] = getAllByRole("listitem");
 
             await user.tab();
@@ -55,19 +55,19 @@ describe("Gallery", () => {
 
     describe("with different configurations per platform", () => {
         it("contains correct classes for desktop", () => {
-            const { getByRole } = render(<Gallery {...mockProps()} desktopItems={12} />);
+            const { getByRole } = render(withGalleryContext(<Gallery {...mockProps()} desktopItems={12} />));
             const list = getByRole("list");
             expect(list).toHaveClass("widget-gallery-lg-12");
         });
 
         it("contains correct classes for tablet", () => {
-            const { getByRole } = render(<Gallery {...mockProps()} tabletItems={6} />);
+            const { getByRole } = render(withGalleryContext(<Gallery {...mockProps()} tabletItems={6} />));
             const list = getByRole("list");
             expect(list).toHaveClass("widget-gallery-md-6");
         });
 
         it("contains correct classes for phone", () => {
-            const { getByRole } = render(<Gallery {...mockProps()} phoneItems={3} />);
+            const { getByRole } = render(withGalleryContext(<Gallery {...mockProps()} phoneItems={3} />));
             const list = getByRole("list");
             expect(list).toHaveClass("widget-gallery-sm-3");
         });
@@ -75,17 +75,19 @@ describe("Gallery", () => {
 
     describe("with custom classes", () => {
         it("contains correct classes in the wrapper", () => {
-            const { container } = render(<Gallery {...mockProps()} className="custom-class" />);
+            const { container } = render(withGalleryContext(<Gallery {...mockProps()} className="custom-class" />));
 
             expect(container.querySelector(".custom-class")).toBeVisible();
         });
 
         it("contains correct classes in the items", () => {
             const { getAllByRole } = render(
-                <Gallery
-                    {...mockProps()}
-                    itemHelper={ItemHelperBuilder.sample(b => b.withItemClass(listExp(() => "custom-class")))}
-                />
+                withGalleryContext(
+                    <Gallery
+                        {...mockProps()}
+                        itemHelper={ItemHelperBuilder.sample(b => b.withItemClass(listExp(() => "custom-class")))}
+                    />
+                )
             );
             const [item] = getAllByRole("listitem");
 
@@ -96,7 +98,9 @@ describe("Gallery", () => {
     describe("with pagination", () => {
         it("renders correctly", () => {
             const { asFragment } = render(
-                <Gallery {...mockProps()} paging paginationPosition="top" numberOfItems={20} hasMoreItems />
+                withGalleryContext(
+                    <Gallery {...mockProps()} paging paginationPosition="top" numberOfItems={20} hasMoreItems />
+                )
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -105,14 +109,16 @@ describe("Gallery", () => {
         it("triggers correct events on click next button", async () => {
             const setPage = jest.fn();
             const { user, getByLabelText } = setup(
-                <Gallery
-                    {...mockProps()}
-                    paging
-                    paginationPosition="top"
-                    numberOfItems={20}
-                    hasMoreItems
-                    setPage={setPage}
-                />
+                withGalleryContext(
+                    <Gallery
+                        {...mockProps()}
+                        paging
+                        paginationPosition="top"
+                        numberOfItems={20}
+                        hasMoreItems
+                        setPage={setPage}
+                    />
+                )
             );
 
             const next = getByLabelText("Go to next page");
@@ -124,11 +130,13 @@ describe("Gallery", () => {
     describe("with empty option", () => {
         it("renders correctly", () => {
             const { asFragment } = render(
-                <Gallery
-                    {...mockProps()}
-                    items={[]}
-                    emptyPlaceholderRenderer={renderWrapper => renderWrapper(<span>No items found</span>)}
-                />
+                withGalleryContext(
+                    <Gallery
+                        {...mockProps()}
+                        items={[]}
+                        emptyPlaceholderRenderer={renderWrapper => renderWrapper(<span>No items found</span>)}
+                    />
+                )
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -138,13 +146,15 @@ describe("Gallery", () => {
     describe("with accessibility properties", () => {
         it("renders correctly without items", () => {
             const { asFragment } = render(
-                <Gallery
-                    {...mockProps()}
-                    items={[]}
-                    headerTitle="filter title"
-                    emptyMessageTitle="empty message"
-                    emptyPlaceholderRenderer={renderWrapper => renderWrapper(<span>No items found</span>)}
-                />
+                withGalleryContext(
+                    <Gallery
+                        {...mockProps()}
+                        items={[]}
+                        headerTitle="filter title"
+                        emptyMessageTitle="empty message"
+                        emptyPlaceholderRenderer={renderWrapper => renderWrapper(<span>No items found</span>)}
+                    />
+                )
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -152,14 +162,16 @@ describe("Gallery", () => {
 
         it("renders correctly with items", () => {
             const { asFragment } = render(
-                <Gallery
-                    {...mockProps()}
-                    items={[{ id: "1" } as ObjectItem, { id: "2" } as ObjectItem, { id: "3" } as ObjectItem]}
-                    ariaLabelItem={(item: ObjectItem) => `title for '${item.id}'`}
-                    headerTitle="filter title"
-                    emptyMessageTitle="empty message"
-                    emptyPlaceholderRenderer={renderWrapper => renderWrapper(<span>No items found</span>)}
-                />
+                withGalleryContext(
+                    <Gallery
+                        {...mockProps()}
+                        items={[{ id: "1" } as ObjectItem, { id: "2" } as ObjectItem, { id: "3" } as ObjectItem]}
+                        ariaLabelItem={(item: ObjectItem) => `title for '${item.id}'`}
+                        headerTitle="filter title"
+                        emptyMessageTitle="empty message"
+                        emptyPlaceholderRenderer={renderWrapper => renderWrapper(<span>No items found</span>)}
+                    />
+                )
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -169,7 +181,7 @@ describe("Gallery", () => {
     describe("without filters", () => {
         it("renders structure without header container", () => {
             const props = { ...mockProps(), showHeader: false, header: undefined };
-            const { asFragment } = render(<Gallery {...props} />);
+            const { asFragment } = render(withGalleryContext(<Gallery {...props} />));
 
             expect(asFragment()).toMatchSnapshot();
         });
