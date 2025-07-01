@@ -31,4 +31,5 @@ export interface RefBaseControllerProps {
     emptyOptionCaption: string;
     emptySelectionCaption: string;
     placeholder: string;
+    ariaLabel: string;
 }

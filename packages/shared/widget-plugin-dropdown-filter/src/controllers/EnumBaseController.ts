@@ -56,6 +56,7 @@ export interface EnumBaseControllerProps {
     emptyOptionCaption: string;
     emptySelectionCaption: string;
     placeholder: string;
+    ariaLabel: string;
 }
 
 export interface CustomOption<T> {

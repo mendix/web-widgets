@@ -47,7 +47,7 @@ exports[`Dropdown Filter with single instance with single attribute renders corr
         class="widget-dropdown-filter-menu-slot"
       >
         <ul
-          aria-labelledby="downshift-:r0:-label"
+          aria-label="AriaLabel"
           class="widget-dropdown-filter-menu"
           id="downshift-:r0:-menu"
           role="listbox"

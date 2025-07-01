@@ -7,5 +7,6 @@ export class EnumSelectController extends SelectControllerMixin(EnumBaseControll
         super({ gate, multiselect: gate.props.multiselect });
         this.emptyOption.caption = gate.props.emptyOptionCaption;
         this.emptyCaption = gate.props.emptySelectionCaption;
+        this.ariaLabel = gate.props.ariaLabel;
     }
 }

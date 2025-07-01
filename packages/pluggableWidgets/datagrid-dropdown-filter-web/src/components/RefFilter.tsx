@@ -10,7 +10,7 @@ function Connector(props: DatagridDropdownFilterContainerProps & RefFilterProps)
         <RefFilterContainer
             {...props}
             multiselect={props.multiSelect}
-            ariaLabel={props.ariaLabel?.value}
+            ariaLabel={props.ariaLabel?.value ?? ""}
             className={props.class}
             styles={props.style}
             emptyOptionCaption={props.emptyOptionCaption?.value ?? ""}

@@ -24,6 +24,8 @@ const commonProps: DatagridDropdownFilterContainerProps = {
     multiSelect: false,
     clearable: false,
     emptySelectionCaption: dynamicValue("Select"),
+    emptyOptionCaption: dynamicValue("None"),
+    ariaLabel: dynamicValue("AriaLabel"),
     selectedItemsStyle: "text",
     selectionMethod: "checkbox"
 };

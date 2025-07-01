@@ -20,6 +20,7 @@ interface SelectProps {
     onClear: () => void;
     onFocus?: React.FocusEventHandler<HTMLDivElement>;
     onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
+    ariaLabel: string;
 }
 
 const cls = classes();
@@ -54,6 +55,7 @@ export const Select = observer(function Select(props: SelectProps): React.ReactE
             </div>
             <OptionsWrapper
                 cls={cls}
+                label={props.ariaLabel}
                 ref={refs.setFloating}
                 style={floatingStyles}
                 onMenuScroll={props.onMenuScroll}

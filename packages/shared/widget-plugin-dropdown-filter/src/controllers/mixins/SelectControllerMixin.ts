@@ -23,6 +23,7 @@ const none = "[[__none__]]" as const;
 export function SelectControllerMixin<TBase extends BaseController>(Base: TBase) {
     return class SelectControllerMixin extends Base {
         emptyCaption = "";
+        ariaLabel = "";
 
         readonly emptyOption = {
             value: none,
