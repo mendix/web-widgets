@@ -6,6 +6,7 @@ on:
         inputs:
             package:
                 description: "Package name to release (name in package.json)"
+                default: "data-widgets"
                 required: true
 jobs:
     create-release:
