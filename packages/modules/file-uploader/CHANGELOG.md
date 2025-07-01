@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.2.2] FileUploader - 2025-07-01
+
+### [2.2.2] FileUploader
+
+#### Fixed
+
+- We fixed image thumbnail issue that was failed to reload on refresh page.
+
 ## [2.2.1] FileUploader - 2025-05-28
 
 ### [2.2.1] FileUploader
