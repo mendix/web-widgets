@@ -23,7 +23,7 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "datagrid-dropdown-filter-web/data-widgets-3.0"
+        "branchName": "datagrid-dropdown-filter-web/dw3.0-dropdown-rework"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:ts",
