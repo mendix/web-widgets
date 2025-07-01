@@ -10,6 +10,7 @@ function Preview(props: DatagridDropdownFilterPreviewProps): ReactElement {
     return (
         <Select
             className={props.class}
+            ariaLabel={props.ariaLabel}
             style={parseStyle(props.style)}
             options={[]}
             empty={!props.clearable}

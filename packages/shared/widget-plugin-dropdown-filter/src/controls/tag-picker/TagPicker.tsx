@@ -16,7 +16,7 @@ interface TagPickerProps {
     emptyCaption: string;
     showCheckboxes: boolean;
     selectedStyle?: "boxes" | "text";
-    ariaLabel?: string;
+    ariaLabel: string;
     className?: string;
     style?: React.CSSProperties;
     useMultipleSelectionProps: () => UseMultipleSelectionProps<OptionWithState>;
@@ -119,6 +119,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
             </button>
             <OptionsWrapper
                 cls={cls}
+                label={inputLabel}
                 ref={refs.setFloating}
                 style={floatingStyles}
                 onMenuScroll={props.onMenuScroll}

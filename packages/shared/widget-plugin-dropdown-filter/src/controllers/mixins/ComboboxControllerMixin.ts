@@ -27,6 +27,7 @@ export function ComboboxControllerMixin<TBase extends BaseController>(Base: TBas
         inputValue = "";
         inputPlaceholder = "";
         emptyCaption = "";
+        ariaLabel = "";
 
         constructor(...args: any[]) {
             super(...args);

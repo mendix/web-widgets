@@ -7,6 +7,7 @@ export class RefComboboxController extends ComboboxControllerMixin(RefBaseContro
         super({ gate, multiselect: false });
         this.inputPlaceholder = gate.props.placeholder;
         this.emptyCaption = gate.props.emptySelectionCaption;
+        this.ariaLabel = gate.props.ariaLabel;
     }
 
     handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {

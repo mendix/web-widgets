@@ -18,7 +18,7 @@ import { EnumFilterStore } from "../stores/EnumFilterStore";
 import { FilterOptionsType, SelectedItemsStyleEnum, SelectionMethodEnum } from "../typings/widget";
 
 export interface EnumFilterContainerProps {
-    ariaLabel?: string;
+    ariaLabel: string;
     className?: string;
     defaultValue?: string;
     emptyOptionCaption: string;
@@ -70,6 +70,7 @@ const SelectWidget = observer(function SelectWidget(props: EnumFilterContainerPr
             showCheckboxes={ctrl1.multiselect}
             className={props.className}
             style={props.styles}
+            ariaLabel={props.ariaLabel}
         />
     );
 });
@@ -85,6 +86,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: EnumFilterContain
             options={ctrl2.options}
             inputPlaceholder={ctrl2.inputPlaceholder}
             emptyCaption={ctrl2.emptyCaption}
+            ariaLabel={props.ariaLabel}
             useComboboxProps={ctrl2.useComboboxProps}
             onClear={ctrl2.handleClear}
             onFocus={ctrl2.handleFocus}
@@ -112,6 +114,7 @@ const TagPickerWidget = observer(function TagPickerWidget(props: EnumFilterConta
             onBlur={ctrl3.handleBlur}
             inputPlaceholder={ctrl3.inputPlaceholder}
             emptyCaption={ctrl3.emptyCaption}
+            ariaLabel={props.ariaLabel}
             empty={ctrl3.isEmpty}
             showCheckboxes={props.selectionMethod === "checkbox"}
             selectedStyle={props.selectedItemsStyle}
