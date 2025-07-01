@@ -12,6 +12,7 @@ interface ComboboxProps {
     options: OptionWithState[];
     inputPlaceholder: string;
     emptyCaption: string;
+    ariaLabel: string;
     empty: boolean;
     className?: string;
     style?: React.CSSProperties;
@@ -43,7 +44,7 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
             <input
                 className={cls.input}
                 {...getInputProps({
-                    "aria-label": props.inputPlaceholder || "Search",
+                    "aria-label": props.ariaLabel,
                     ref: inputRef,
                     onBlur: props.onBlur,
                     onFocus: props.onFocus,
@@ -56,6 +57,7 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
             </button>
             <OptionsWrapper
                 cls={cls}
+                label={props.ariaLabel}
                 ref={refs.setFloating}
                 style={floatingStyles}
                 onMenuScroll={props.onMenuScroll}

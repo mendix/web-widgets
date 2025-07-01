@@ -19,6 +19,7 @@ type OptionsWrapperProps = {
     options: OptionWithState[];
     highlightedIndex: number;
     showCheckboxes: boolean;
+    label: string;
 } & (
     | Pick<UseComboboxPropGetters<OptionWithState>, "getMenuProps" | "getItemProps">
     | Pick<UseSelectPropGetters<OptionWithState>, "getMenuProps" | "getItemProps">
@@ -27,13 +28,24 @@ type OptionsWrapperProps = {
 const noop = (): void => {};
 
 export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefObject<HTMLDivElement>): ReactElement => {
-    const { cls, style, onMenuScroll, isOpen, highlightedIndex, showCheckboxes, getMenuProps, getItemProps } = props;
+    const {
+        cls,
+        style,
+        onMenuScroll,
+        isOpen,
+        highlightedIndex,
+        showCheckboxes,
+        getMenuProps,
+        getItemProps,
+        label,
+        options
+    } = props;
     return (
         <div className={cls.popover} hidden={!isOpen} ref={ref} style={style}>
             <div className={cls.menuSlot}>
-                <ul {...getMenuProps({ className: cls.menu })} onScroll={onMenuScroll}>
+                <ul {...getMenuProps({ className: cls.menu, "aria-label": label })} onScroll={onMenuScroll}>
                     {isOpen &&
-                        props.options.map((item, index) => (
+                        options.map((item, index) => (
                             <li
                                 data-selected={item.selected || undefined}
                                 data-highlighted={highlightedIndex === index || undefined}
@@ -51,7 +63,7 @@ export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefOb
                                 {showCheckboxes && (
                                     <span className={cls.checkboxSlot}>
                                         <input
-                                            className={props.cls.checkbox}
+                                            className={cls.checkbox}
                                             role="presentation"
                                             type="checkbox"
                                             checked={item.selected}
