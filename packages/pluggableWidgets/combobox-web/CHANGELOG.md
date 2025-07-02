@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where combobox failed to reload if user typed too fast on lazy load.
+
 ## [2.4.2] - 2025-06-10
 
 ### Fixed
