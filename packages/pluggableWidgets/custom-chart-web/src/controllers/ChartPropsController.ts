@@ -4,7 +4,7 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import { makeAutoObservable } from "mobx";
 import { Config, Data, Layout } from "plotly.js-dist-min";
 import { ChartProps } from "../components/PlotlyChart";
-import { parseConfig, parseData, parseLayout } from "../utils/utils";
+import { parseConfig, parseData, parseLayout, mergeChartProps } from "../utils/utils";
 import { ControllerProps } from "./typings";
 
 interface SizeProvider {
@@ -158,29 +158,6 @@ export class ChartPropsController implements ReactiveController {
     get mergedProps(): ChartProps {
         const props = this.chartProps;
         const state = this.editorStateGate.props;
-        return {
-            ...props,
-            config: {
-                ...props.config,
-                ...parseConfig(state.config)
-            },
-            layout: {
-                ...props.layout,
-                ...parseLayout(state.layout)
-            },
-            data: props.data.map((trace, index) => {
-                let stateTrace: Data;
-                try {
-                    stateTrace = JSON.parse(state.data[index]);
-                } catch {
-                    console.warn(`Failed to parse data for trace(${index})`);
-                    stateTrace = {};
-                }
-                return {
-                    ...trace,
-                    ...stateTrace
-                } as Data;
-            })
-        };
+        return mergeChartProps(props, state);
     }
 }
