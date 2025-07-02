@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where datagrid styling being overwritten by table styling from atlas core.
+- We fixed an issue where horizontal scrolling failed to show if width is too big.
+
 ## [3.0.2] DataWidgets - 2025-07-10
 
 ### [3.0.2] DatagridDropdownFilter
