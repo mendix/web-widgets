@@ -8,7 +8,7 @@ on:
         branches: [main]
 
     pull_request:
-        branches: [main]
+        branches: [lts/data-widgets/2.32]
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
