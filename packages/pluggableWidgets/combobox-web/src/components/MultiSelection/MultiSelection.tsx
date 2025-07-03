@@ -37,6 +37,8 @@ export function MultiSelection({
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
+    const inputLabel = getInputLabel(options.inputId);
+    const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
     const inputProps = getInputProps({
         ...getDropdownProps(
             {
@@ -62,11 +64,9 @@ export function MultiSelection({
         },
         disabled: selector.readOnly,
         readOnly: selector.options.filterType === "none",
-        "aria-required": ariaRequired.value
+        "aria-required": ariaRequired.value,
+        "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined
     });
-
-    const inputLabel = getInputLabel(inputProps.id);
-    const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
 
     const memoizedselectedCaptions = useMemo(
         () => getSelectedCaptionsPlaceholder(selector, selectedItems),

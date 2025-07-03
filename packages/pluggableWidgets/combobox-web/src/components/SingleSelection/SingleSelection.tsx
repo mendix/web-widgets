@@ -56,18 +56,19 @@ export function SingleSelection({
         ]
     );
 
+    const inputLabel = getInputLabel(options.inputId);
+    const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
+
     const inputProps = getInputProps(
         {
             disabled: selector.readOnly,
             readOnly: selector.options.filterType === "none",
             ref: inputRef,
-            "aria-required": ariaRequired.value
+            "aria-required": ariaRequired.value,
+            "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined
         },
         { suppressRefError: true }
     );
-
-    const inputLabel = getInputLabel(inputProps.id);
-    const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
 
     return (
         <Fragment>
