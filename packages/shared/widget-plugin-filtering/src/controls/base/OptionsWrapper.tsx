@@ -18,8 +18,7 @@ type OptionsWrapperProps = {
     isOpen: boolean;
     options: OptionWithState[];
     highlightedIndex: number;
-    showCheckboxes?: boolean;
-    haveEmptyFirstOption?: boolean;
+    showCheckboxes: boolean;
 } & (
     | Pick<UseComboboxPropGetters<OptionWithState>, "getMenuProps" | "getItemProps">
     | Pick<UseSelectPropGetters<OptionWithState>, "getMenuProps" | "getItemProps">
@@ -28,17 +27,7 @@ type OptionsWrapperProps = {
 const noop = (): void => {};
 
 export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefObject<HTMLDivElement>): ReactElement => {
-    const {
-        cls,
-        style,
-        onMenuScroll,
-        isOpen,
-        highlightedIndex,
-        showCheckboxes,
-        haveEmptyFirstOption,
-        getMenuProps,
-        getItemProps
-    } = props;
+    const { cls, style, onMenuScroll, isOpen, highlightedIndex, showCheckboxes, getMenuProps, getItemProps } = props;
     return (
         <div className={cls.popover} hidden={!isOpen} ref={ref} style={style}>
             <div className={cls.menuSlot}>
@@ -50,26 +39,29 @@ export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefOb
                                 data-highlighted={highlightedIndex === index || undefined}
                                 key={item.value || index}
                                 className={cls.menuItem}
-                                {...getItemProps({ item, index, "aria-selected": item.selected })}
+                                {...getItemProps({
+                                    item,
+                                    index,
+                                    "aria-selected": item.selected,
+                                    onClick: e => {
+                                        e.stopPropagation();
+                                    }
+                                })}
                             >
                                 {showCheckboxes && (
                                     <span className={cls.checkboxSlot}>
-                                        {haveEmptyFirstOption && index === 0 ? (
-                                            <div style={{ width: 16, height: 16 }} />
-                                        ) : (
-                                            <input
-                                                className={props.cls.checkbox}
-                                                role="presentation"
-                                                type="checkbox"
-                                                checked={item.selected}
-                                                value={item.caption}
-                                                onChange={noop}
-                                                tabIndex={-1}
-                                            />
-                                        )}
+                                        <input
+                                            className={props.cls.checkbox}
+                                            role="presentation"
+                                            type="checkbox"
+                                            checked={item.selected}
+                                            value={item.caption}
+                                            onChange={noop}
+                                            tabIndex={-1}
+                                        />
                                     </span>
                                 )}
-                                {item.caption}
+                                {item.caption || "\u00A0"}
                             </li>
                         ))}
                 </ul>

@@ -13,6 +13,7 @@ interface TagPickerProps {
     options: OptionWithState[];
     empty: boolean;
     inputPlaceholder: string;
+    emptyCaption: string;
     showCheckboxes: boolean;
     selectedStyle?: "boxes" | "text";
     ariaLabel?: string;
@@ -31,12 +32,20 @@ const cls = classes();
 export const TagPicker = observer(function TagPicker(props: TagPickerProps): React.ReactElement {
     const [inputContainerId, helperText1] = [useId(), useId()];
     const { showCheckboxes, selectedStyle = "boxes", ariaLabel: inputLabel = "Search" } = props;
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputContainerRef = useRef<HTMLDivElement>(null);
     const { getSelectedItemProps, getDropdownProps, removeSelectedItem } = useMultipleSelection(
         props.useMultipleSelectionProps()
     );
-    const { inputValue, isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps } =
-        useCombobox(props.useComboboxProps());
+    const {
+        inputValue,
+        isOpen,
+        highlightedIndex,
+        getInputProps,
+        getToggleButtonProps,
+        getMenuProps,
+        getItemProps,
+        openMenu
+    } = useCombobox(props.useComboboxProps());
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
 
     return (
@@ -54,19 +63,20 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
             data-expanded={isOpen}
             data-empty={props.empty ? true : undefined}
             style={props.style}
+            onClick={event => {
+                if (event.target === event.currentTarget || event.target === inputContainerRef.current) {
+                    if (!isOpen) {
+                        openMenu();
+                    } else {
+                        inputContainerRef.current?.querySelector("input")?.focus();
+                    }
+                }
+            }}
         >
             <span id={helperText1} className="sr-only">
                 Current filter values:
             </span>
-            <div
-                id={inputContainerId}
-                className={cls.inputContainer}
-                onClick={event => {
-                    if (event.currentTarget === event.target) {
-                        inputRef.current?.focus();
-                    }
-                }}
-            >
+            <div id={inputContainerId} className={cls.inputContainer} ref={inputContainerRef}>
                 {selectedStyle === "boxes" &&
                     props.selected.map((item, index) => (
                         <div
@@ -92,8 +102,8 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                         "aria-label": inputLabel,
                         onBlur: props.onBlur,
                         onFocus: props.onFocus,
-                        placeholder: props.empty ? props.inputPlaceholder : undefined,
-                        ...getDropdownProps({ preventKeyAction: isOpen, ref: inputRef }),
+                        placeholder: props.empty ? (isOpen ? props.inputPlaceholder : props.emptyCaption) : undefined,
+                        ...getDropdownProps(),
                         "aria-describedby": props.empty ? undefined : `${helperText1} ${inputContainerId}`
                     })}
                 />
@@ -103,14 +113,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                     </div>
                 )}
             </div>
-            <ClearButton
-                cls={cls}
-                onClick={() => {
-                    props.onClear();
-                    inputRef.current?.focus();
-                }}
-                visible={!props.empty}
-            />
+            <ClearButton cls={cls} onClick={props.onClear} visible={!props.empty} />
             <button className={cls.toggle} {...getToggleButtonProps({ "aria-label": "Show options" })}>
                 <Arrow className={cls.stateIcon} />
             </button>
@@ -123,7 +126,6 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                 options={props.options}
                 highlightedIndex={highlightedIndex}
                 showCheckboxes={showCheckboxes}
-                haveEmptyFirstOption={false}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
             />

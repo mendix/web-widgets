@@ -11,6 +11,7 @@ import { Arrow, classes } from "../picker-primitives";
 interface ComboboxProps {
     options: OptionWithState[];
     inputPlaceholder: string;
+    emptyCaption: string;
     empty: boolean;
     className?: string;
     style?: React.CSSProperties;
@@ -25,9 +26,8 @@ const cls = classes();
 
 export const Combobox = observer(function Combobox(props: ComboboxProps) {
     const inputRef = useRef<HTMLInputElement>(null);
-    const { isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps } = useCombobox(
-        props.useComboboxProps()
-    );
+    const { isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps, getLabelProps } =
+        useCombobox(props.useComboboxProps());
 
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
 
@@ -39,25 +39,19 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
             data-empty={props.empty ? true : undefined}
             style={props.style}
         >
+            <div className={"sr-only"} {...getLabelProps()}>
+                {props.emptyCaption}
+            </div>
             <input
                 className={cls.input}
                 {...getInputProps({
-                    "aria-label": props.inputPlaceholder || "Search",
                     ref: inputRef,
                     onBlur: props.onBlur,
                     onFocus: props.onFocus,
-                    placeholder: props.inputPlaceholder
+                    placeholder: props.empty ? (isOpen ? props.inputPlaceholder : props.emptyCaption) : undefined
                 })}
             />
-            <ClearButton
-                cls={cls}
-                onClick={() => {
-                    props.onClear();
-                    inputRef.current?.focus();
-                }}
-                showSeparator={false}
-                visible={!props.empty}
-            />
+            <ClearButton cls={cls} onClick={props.onClear} visible={!props.empty} />
             <button className={cls.toggle} {...getToggleButtonProps({ "aria-label": "Show options" })}>
                 <Arrow className={cls.stateIcon} />
             </button>
@@ -70,7 +64,6 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                 options={props.options}
                 highlightedIndex={highlightedIndex}
                 showCheckboxes={false}
-                haveEmptyFirstOption={false}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
             />

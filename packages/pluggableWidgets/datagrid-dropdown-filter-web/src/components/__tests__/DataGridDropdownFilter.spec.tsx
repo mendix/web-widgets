@@ -22,6 +22,8 @@ const commonProps = {
     groupKey: "dropdown-filter",
     filterable: false,
     clearable: true,
+    emptyOptionCaption: dynamicValue("None"),
+    emptySelectOptionCaption: dynamicValue("Select"),
     selectionMethod: "checkbox" as const,
     selectedItemsStyle: "text" as const
 };
