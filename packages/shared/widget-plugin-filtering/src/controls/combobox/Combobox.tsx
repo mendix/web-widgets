@@ -26,9 +26,8 @@ const cls = classes();
 
 export const Combobox = observer(function Combobox(props: ComboboxProps) {
     const inputRef = useRef<HTMLInputElement>(null);
-    const { isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps } = useCombobox(
-        props.useComboboxProps()
-    );
+    const { isOpen, highlightedIndex, getInputProps, getToggleButtonProps, getMenuProps, getItemProps, getLabelProps } =
+        useCombobox(props.useComboboxProps());
 
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
 
@@ -40,10 +39,12 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
             data-empty={props.empty ? true : undefined}
             style={props.style}
         >
+            <div className={"sr-only"} {...getLabelProps()}>
+                {props.emptyCaption}
+            </div>
             <input
                 className={cls.input}
                 {...getInputProps({
-                    "aria-label": props.inputPlaceholder || "Search",
                     ref: inputRef,
                     onBlur: props.onBlur,
                     onFocus: props.onFocus,
