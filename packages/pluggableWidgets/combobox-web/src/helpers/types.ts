@@ -100,6 +100,7 @@ export interface SelectionBaseProps<Selector> {
     menuFooterContent?: ReactNode;
     tabIndex: number;
     ariaRequired: DynamicValue<boolean>;
+    ariaLabel?: string;
     a11yConfig: {
         ariaLabels: {
             clearSelection: string;
