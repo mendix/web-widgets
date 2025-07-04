@@ -1,33 +1,35 @@
-import * as dateFns from "date-fns";
-import { Calendar, CalendarProps, dateFnsLocalizer, ViewsProps } from "react-big-calendar";
-import withDragAndDrop, { withDragAndDropProps } from "react-big-calendar/lib/addons/dragAndDrop";
-import { CalendarContainerProps } from "../../typings/CalendarProps";
-import { CustomToolbar } from "../components/Toolbar";
-
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import { CalendarEvent } from "../helpers/CalendarPropsBuilder";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import * as dateFns from "date-fns";
 
-// Define the event shape
-export interface CalEvent {
-    title: string;
-    start: Date;
-    end: Date;
-    allDay: boolean;
-    color?: string;
+export const DnDCalendar = withDragAndDrop(Calendar<CalendarEvent>);
+
+type EventPropGetterReturnType = {
+    style:
+        | {
+              backgroundColor: string;
+          }
+        | undefined;
+};
+
+export function eventPropGetter(event: CalendarEvent): EventPropGetterReturnType {
+    return {
+        style: event.color ? { backgroundColor: event.color } : undefined
+    };
 }
 
-// Configure date-fns localizer
-const localizer = dateFnsLocalizer({
-    format: dateFns.format,
-    parse: dateFns.parse,
-    startOfWeek: dateFns.startOfWeek,
-    getDay: dateFns.getDay,
-    locales: {}
-});
+export function getRange(date: Date, visibleDays: Set<number>): Date[] {
+    const startOfWeekDate = dateFns.startOfWeek(date, { weekStartsOn: 0 });
 
-export const DnDCalendar = withDragAndDrop(Calendar<CalEvent, object>);
+    return Array.from({ length: 7 }, (_, i) => dateFns.addDays(startOfWeekDate, i)).flatMap(current =>
+        visibleDays.has(current.getDay()) ? [current] : []
+    );
+}
 
-function getViewRange(view: string, date: Date): { start: Date; end: Date } {
+export function getViewRange(view: string, date: Date): { start: Date; end: Date } {
     switch (view) {
         case "month":
             return { start: dateFns.startOfMonth(date), end: dateFns.endOfMonth(date) };
@@ -44,108 +46,10 @@ function getViewRange(view: string, date: Date): { start: Date; end: Date } {
     }
 }
 
-type EventPropGetterReturnType = {
-    style:
-        | {
-              backgroundColor: string;
-          }
-        | undefined;
-};
-
-export function eventPropGetter(event: CalEvent): EventPropGetterReturnType {
-    return {
-        style: event.color ? { backgroundColor: event.color } : undefined
-    };
-}
-
-interface DragAndDropCalendarProps<TEvent extends object = Event, TResource extends object = object>
-    extends CalendarProps<TEvent, TResource>,
-        withDragAndDropProps<TEvent, TResource> {}
-
-export function extractCalendarProps(props: CalendarContainerProps): DragAndDropCalendarProps<CalEvent, object> {
-    const items = props.databaseDataSource?.items ?? [];
-    const events: CalEvent[] = items.map(item => {
-        const title =
-            props.titleType === "attribute" && props.titleAttribute
-                ? (props.titleAttribute.get(item).value ?? "")
-                : props.titleType === "expression" && props.titleExpression
-                  ? String(props.titleExpression.get(item) ?? "")
-                  : "Untitled Event";
-        const start = props.startAttribute?.get(item).value ?? new Date();
-        const end = props.endAttribute?.get(item).value ?? start;
-        const allDay = props.allDayAttribute?.get(item).value ?? false;
-        const color = props.eventColor?.get(item).value;
-        return { title, start, end, allDay, color };
-    });
-
-    const viewsOption: ViewsProps<CalEvent, object> =
-        props.view === "standard" ? ["day", "week", "month"] : ["month", "week", "work_week", "day", "agenda"];
-
-    const handleSelectEvent = (event: CalEvent): void => {
-        if (props.onClickEvent?.canExecute) {
-            props.onClickEvent.execute({
-                startDate: event.start,
-                endDate: event.end,
-                allDay: event.allDay,
-                title: event.title
-            });
-        }
-    };
-
-    const handleSelectSlot = (slotInfo: { start: Date; end: Date; action: string }): void => {
-        if (props.enableCreate && props.onCreateEvent?.canExecute) {
-            props.onCreateEvent.execute({
-                startDate: slotInfo.start,
-                endDate: slotInfo.end,
-                allDay: slotInfo.action === "select"
-            });
-        }
-    };
-
-    const handleEventDropOrResize = ({ event, start, end }: { event: CalEvent; start: Date; end: Date }): void => {
-        if (props.onChange?.canExecute) {
-            props.onChange.execute({
-                oldStart: event.start,
-                oldEnd: event.end,
-                newStart: start,
-                newEnd: end
-            });
-        }
-    };
-
-    const handleRangeChange = (date: Date, view: string): void => {
-        if (props.onRangeChange?.canExecute) {
-            const { start, end } = getViewRange(view, date);
-            props.onRangeChange.execute({
-                rangeStart: start,
-                rangeEnd: end,
-                currentView: view
-            });
-        }
-    };
-
-    const formats = props.showEventDate ? {} : { eventTimeRangeFormat: () => "" };
-
-    return {
-        components: {
-            toolbar: CustomToolbar
-        },
-        defaultView: props.defaultView,
-        events,
-        formats,
-        localizer,
-        resizable: props.editable !== "never",
-        selectable: props.enableCreate,
-        views: viewsOption,
-        allDayAccessor: (event: CalEvent) => event.allDay,
-        endAccessor: (event: CalEvent) => event.end,
-        eventPropGetter,
-        onEventDrop: handleEventDropOrResize,
-        onEventResize: handleEventDropOrResize,
-        onNavigate: handleRangeChange,
-        onSelectEvent: handleSelectEvent,
-        onSelectSlot: handleSelectSlot,
-        startAccessor: (event: CalEvent) => event.start,
-        titleAccessor: (event: CalEvent) => event.title
-    };
-}
+export const localizer = dateFnsLocalizer({
+    format: dateFns.format,
+    parse: dateFns.parse,
+    startOfWeek: dateFns.startOfWeek,
+    getDay: dateFns.getDay,
+    locales: {}
+});
