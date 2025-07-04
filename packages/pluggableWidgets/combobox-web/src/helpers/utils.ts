@@ -149,3 +149,7 @@ function sortSelections(
     }
     return newValueIds;
 }
+
+export function getInputLabel(inputId: string): Element | null {
+    return document.querySelector(`label[for="${inputId}"]`);
+}

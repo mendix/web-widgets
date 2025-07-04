@@ -339,6 +339,14 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Aria labels">
+                <property key="ariaLabel" type="textTemplate" required="false">
+                    <caption>Aria label</caption>
+                    <description>Used to describe the combo box.</description>
+                    <translations>
+                        <translation lang="en_US">Combo box</translation>
+                        <translation lang="nl_NL">Keuzelijst</translation>
+                    </translations>
+                </property>
                 <property key="clearButtonAriaLabel" type="textTemplate" required="false">
                     <caption>Clear selection button</caption>
                     <description>Used to clear all selected values.</description>
