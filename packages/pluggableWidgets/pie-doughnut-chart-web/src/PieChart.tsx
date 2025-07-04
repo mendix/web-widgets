@@ -39,11 +39,10 @@ export function PieChart(props: PieChartContainerProps): ReactElement | null {
         seriesSortOrder: props.seriesSortOrder,
         seriesValueAttribute: props.seriesValueAttribute,
         onClickAction: props.onClickAction,
-        tooltipHoverText: props.tooltipHoverText,
-        seriesItemSelection: props.seriesItemSelection
+        tooltipHoverText: props.tooltipHoverText
     });
 
-    const isPieClickable = props.seriesItemSelection?.type === "Single" || props.onClickAction;
+    const isPieClickable = props.onClickAction;
 
     return (
         <ChartWidget

@@ -1,10 +1,11 @@
-import { ValueStatus } from "mendix";
-import { useEffect, useMemo, useState } from "react";
+import { ObjectItem, ValueStatus } from "mendix";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { HeatMapContainerProps } from "../../typings/HeatMapProps";
 import { ChartWidgetProps, compareAttrValuesAsc } from "@mendix/shared-charts/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import Big from "big.js";
+import { PlotDatum } from "plotly.js-dist-min";
 
 type HeatMapDataSeriesHooks = Pick<
     HeatMapContainerProps,
@@ -67,6 +68,7 @@ export const useHeatMapDataSeries = ({
     verticalSortOrder
 }: HeatMapDataSeriesHooks): HeatMapHookData => {
     const [heatmapChartData, setHeatMapData] = useState<LocalHeatMapData[]>([]);
+    const objectMap = useRef<Map<string, ObjectItem>>(new Map());
 
     useEffect(() => {
         if (seriesDataSource.status === ValueStatus.Available && seriesDataSource.items) {
@@ -90,7 +92,29 @@ export const useHeatMapDataSeries = ({
         verticalSortAttribute
     ]);
 
-    const onClick = useMemo(() => (onClickAction ? () => executeAction(onClickAction) : undefined), [onClickAction]);
+    const onClick = useCallback(
+        (item: ObjectItem, data: PlotDatum) => {
+            let selectedObjectItem: ObjectItem | undefined = item;
+            if (selectedObjectItem === null || selectedObjectItem === undefined) {
+                const selectedLocalHeatmapData = heatmapChartData.values().find(heatMapPointData => {
+                    return (
+                        heatMapPointData.horizontalAxisValue === data.x &&
+                        heatMapPointData.verticalAxisValue === data.y &&
+                        heatMapPointData.value === data.z
+                    );
+                });
+
+                if (selectedLocalHeatmapData) {
+                    selectedObjectItem = objectMap.current.get(selectedLocalHeatmapData.id);
+                }
+            }
+
+            if (selectedObjectItem) {
+                executeAction(onClickAction?.get(selectedObjectItem));
+            }
+        },
+        [onClickAction, heatmapChartData, seriesItemSelection]
+    );
 
     return useMemo<HeatMapHookData>(() => {
         // `Array.reverse` mutates, so we make a copy.

@@ -1,7 +1,7 @@
 {
     "name": "@mendix/area-chart-web",
     "widgetName": "AreaChart",
-    "version": "6.2.0",
+    "version": "6.1.1",
     "description": "An area chart displays a solid color between the traces of a graph.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -18,7 +18,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "9.6.0",
+        "minimumMXVersion": "9.24.0.2965",
         "appName": "Area Chart"
     },
     "testProject": {

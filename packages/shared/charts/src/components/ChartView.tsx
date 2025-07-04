@@ -35,10 +35,16 @@ export const ChartView = ({
             const [{ curveNumber, pointIndex, pointIndices, pointNumber, pointNumbers }] = event.points;
             const index = pointIndex ?? pointNumber;
             const indices = pointIndices ?? pointNumbers;
-            const itemIndex = getItemIndex(index, indices);
-            const { dataSourceItems, onClick } = data[curveNumber];
-            const item = dataSourceItems[itemIndex];
-            onClick?.(item);
+            try {
+                const itemIndex = getItemIndex(index, indices);
+                const { dataSourceItems, onClick } = data[curveNumber];
+                const item = dataSourceItems[itemIndex];
+                onClick?.(item);
+            } catch (_e: any) {
+                // let the chart handle it's own onClick
+                const { onClick } = data[curveNumber];
+                onClick?.(null, event.points[0]);
+            }
         },
         [data]
     );
