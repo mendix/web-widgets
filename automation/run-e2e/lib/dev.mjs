@@ -64,10 +64,24 @@ export async function dev() {
     const url = process.env.URL ?? "http://127.0.0.1:8080";
 
     console.log(c.cyan(`Make sure app is running on ${url}`));
-    try {
-        await await200(url);
-    } catch {
-        throw new Error(`Can't reach app on ${url}`);
+    let appRunning = false;
+
+    while (!appRunning) {
+        try {
+            await await200(url);
+            appRunning = true;
+        } catch {
+            const { retry } = await enquirer.prompt({
+                type: "confirm",
+                name: "retry",
+                initial: true,
+                message: `Can't reach app on ${url}. Do you want to retry?`
+            });
+
+            if (!retry) {
+                throw new Error(`App is not running on ${url}. Exiting.`);
+            }
+        }
     }
 
     console.log(c.cyan("Launch Playwright"));

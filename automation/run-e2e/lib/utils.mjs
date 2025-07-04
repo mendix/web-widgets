@@ -39,14 +39,19 @@ export async function fetchGithubRestAPI(url, init = {}) {
 
 export async function await200(url = "http://127.0.0.1:8080", attempts = 50) {
     let n = 0;
-    while (++n <= attempts) {
-        console.log(c.cyan(`GET ${url} ${n}`));
-        const response = await fetch(url);
-        const { ok, status } = response;
+    while (n < attempts) {
+        n++;
+        console.log(c.cyan(`GET ${url} attempt ${n}/${attempts}`));
+        try {
+            const response = await fetch(url);
+            const { ok, status } = response;
 
-        if (ok && status === 200) {
-            console.log(c.green(`200 OK, continue`));
-            return;
+            if (ok && status === 200) {
+                console.log(c.green(`200 OK, continue`));
+                return;
+            }
+        } catch (error) {
+            console.error(c.red(`Error during fetch: ${error.message}`));
         }
 
         await new Promise(resolve => setTimeout(resolve, 1000));
