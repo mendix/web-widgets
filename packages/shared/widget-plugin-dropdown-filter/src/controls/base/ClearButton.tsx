@@ -13,6 +13,10 @@ type ClearButtonProps = {
     visible: boolean;
 };
 
+const stopKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+};
+
 export function ClearButton(props: ClearButtonProps): ReactElement | null {
     const { cls, onClick, visible } = props;
 
@@ -28,7 +32,7 @@ export function ClearButton(props: ClearButtonProps): ReactElement | null {
     );
 
     return visible ? (
-        <button className={cls.clear} aria-label="Clear selection" onClick={onClickHandler}>
+        <button className={cls.clear} aria-label="Clear selection" onClick={onClickHandler} onKeyDown={stopKeyDown}>
             <Cross className={cls.clearIcon} />
         </button>
     ) : null;
