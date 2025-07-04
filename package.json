@@ -70,5 +70,6 @@
         "onlyBuiltDependencies": [
             "canvas"
         ]
-    }
+    },
+    "prettier": "@mendix/prettier-config-web-widgets"
 }

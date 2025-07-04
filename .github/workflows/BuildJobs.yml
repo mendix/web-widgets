@@ -125,16 +125,10 @@ jobs:
                   key: turbo-cache-${{ runner.os }}-${{ matrix.target }}-${{ env.main_sha }}
                   restore-keys: |
                       turbo-cache-${{ runner.os }}-${{ matrix.target }}
-            - if: runner.os == 'Windows'
-              name: Set concurrency on Windows
-              run: echo "task_concurrency=3" >> $env:GITHUB_ENV
-            - if: runner.os == 'Linux'
-              name: Set concurrency on Linux
-              run: echo "task_concurrency=5" >> $GITHUB_ENV
             - name: Install dependencies
               run: pnpm install
             - name: Run ${{ matrix.target }} task
-              run: pnpm run ${{ matrix.target }} --concurrency=${{ env.task_concurrency }} ${{ env.since_flag }}
+              run: pnpm run ${{ matrix.target }} --concurrency=1 ${{ env.since_flag }}
               env:
                   # Limit memory to avoid out of memory issues
                   NODE_OPTIONS: "--max-old-space-size=5120 --max_old_space_size=5120"
@@ -211,10 +205,7 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: >-
-                  node ./automation/run-e2e/bin/run-e2e-in-chunks.mjs
-                  --chunks ${{ matrix.chunks }}
-                  --index ${{ matrix.index }}
-                  --event-name ${{ github.event_name }}
+                  node ./automation/run-e2e/bin/run-e2e-in-chunks.mjs --chunks ${{ matrix.chunks }} --index ${{ matrix.index }} --event-name ${{ github.event_name }}
             - name: Check file existence
               id: check_files
               uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
