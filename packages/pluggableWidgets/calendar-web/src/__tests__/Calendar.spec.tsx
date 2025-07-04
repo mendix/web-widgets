@@ -4,13 +4,6 @@ import { ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 
 import Calendar from "../Calendar";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
-
-// We capture any existing value, switch to UTC, and restore the original value
-// when the suite finishes.
-
-const ORIGINAL_TZ = process.env.TZ;
-process.env.TZ = "UTC";
-
 const customViewProps: CalendarContainerProps = {
     name: "calendar-test",
     class: "calendar-class",
@@ -56,10 +49,6 @@ beforeAll(() => {
 
 afterAll(() => {
     jest.useRealTimers();
-
-    // Restore whatever time-zone the process was originally using so other
-    // test files are unaffected.
-    process.env.TZ = ORIGINAL_TZ;
 });
 
 describe("Calendar", () => {
