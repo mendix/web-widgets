@@ -64,6 +64,11 @@ async function updateAtlasThemeSource() {
     }
 
     cp("-r", themeSourcePath, config.testProjectDir);
+
+    // Fix file permissions to ensure Docker can write to theme files
+    // The Atlas theme files are copied with read-only permissions
+    // but mxbuild needs to write to some generated files during build
+    sh.exec(`chmod -R +w "${config.testProjectDir}/themesource"`, { silent: true });
 }
 
 async function updateAtlasTheme() {
@@ -71,12 +76,16 @@ async function updateAtlasTheme() {
 
     rm("-rf", "tests/testProject/theme");
 
-    const release = await getLatestReleaseByName("Atlas UI - Theme Folder Files", config.atlasCoreReleaseUrl);
-
-    if (!release) {
-        throw new Error("Can't fetch latest Atlas UI theme release");
+    // Fetch the specific release by tag from GitHub API
+    const tag = "atlasui-theme-files-2024-01-25";
+    const releaseResponse = await fetchGithubRestAPI(`${config.atlasCoreReleaseUrl}/tags/${tag}`);
+    if (!releaseResponse.ok) {
+        throw new Error(`Can't fetch release for tag: ${tag}`);
     }
-
+    const release = await releaseResponse.json();
+    if (!release.assets || release.assets.length === 0) {
+        throw new Error(`No assets found for release tag: ${tag}`);
+    }
     const [{ browser_download_url }] = release.assets;
     const downloadedPath = join(await usetmp(), config.nameForDownloadedAtlasTheme);
     const outPath = await usetmp();
