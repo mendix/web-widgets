@@ -49,7 +49,14 @@ export const Select = observer(function Select(props: SelectProps): React.ReactE
             <div className={cls.inputContainer}>
                 <span className={cls.toggle}>{props.value}</span>
                 <div className={`${cls.root}-controls`}>
-                    <ClearButton cls={cls} onClick={props.onClear} visible={showClear} />
+                    <ClearButton
+                        cls={cls}
+                        onClick={() => {
+                            props.onClear();
+                            refs.reference.current?.focus();
+                        }}
+                        visible={showClear}
+                    />
                     <Arrow className={cls.stateIcon} />
                 </div>
             </div>
