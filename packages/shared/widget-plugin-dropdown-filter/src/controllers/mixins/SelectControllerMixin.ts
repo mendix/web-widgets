@@ -22,11 +22,12 @@ const none = "[[__none__]]" as const;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function SelectControllerMixin<TBase extends BaseController>(Base: TBase) {
     return class SelectControllerMixin extends Base {
-        placeholder = "Select";
+        emptyCaption = "";
+        ariaLabel = "";
 
         readonly emptyOption = {
             value: none,
-            caption: "None",
+            caption: "",
             selected: false
         };
 
@@ -41,6 +42,9 @@ export function SelectControllerMixin<TBase extends BaseController>(Base: TBase)
         }
 
         get options(): OptionWithState[] {
+            if (this.multiselect) {
+                return this.filterStore.options;
+            }
             return [this.emptyOption, ...this.filterStore.options];
         }
 
@@ -52,7 +56,7 @@ export function SelectControllerMixin<TBase extends BaseController>(Base: TBase)
             const selected = this.filterStore.selectedOptions;
 
             if (selected.length < 1) {
-                return this.placeholder;
+                return this.emptyCaption;
             }
 
             return selected.map(option => option.caption).join(", ");
@@ -84,6 +88,18 @@ export function SelectControllerMixin<TBase extends BaseController>(Base: TBase)
             if (this.multiselect) {
                 props.stateReducer = (state, { changes, type }) => {
                     switch (type) {
+                        case useSelect.stateChangeTypes.ToggleButtonClick:
+                            if (state.isOpen) {
+                                return {
+                                    ...changes,
+                                    isOpen: true,
+                                    highlightedIndex: state.highlightedIndex
+                                };
+                            }
+
+                            return {
+                                ...changes
+                            };
                         case useSelect.stateChangeTypes.ToggleButtonKeyDownEnter:
                         case useSelect.stateChangeTypes.ItemClick:
                             return {
