@@ -24,6 +24,16 @@ export function getProperties(values: DatagridDropdownFilterPreviewProps, defaul
         hidePropertyIn(defaultProperties, values, "emptyOptionCaption");
     }
 
+    if (!values.filterable) {
+        hidePropertyIn(defaultProperties, values, "refSearchAttr");
+    }
+
+    if (values.refCaptionSource === "attr") {
+        hidePropertiesIn(defaultProperties, values, ["refCaptionExp", "refSearchAttr"]);
+    } else {
+        hidePropertyIn(defaultProperties, values, "refCaption");
+    }
+
     if (!showSelectedItemsStyle) {
         hidePropertyIn(defaultProperties, values, "selectedItemsStyle");
     }
@@ -36,7 +46,15 @@ export function getProperties(values: DatagridDropdownFilterPreviewProps, defaul
 }
 
 function attrGroupProperties(values: DatagridDropdownFilterPreviewProps, defaultProperties: Properties): Properties {
-    hidePropertiesIn(defaultProperties, values, ["refEntity", "refOptions", "refCaption", "fetchOptionsLazy"]);
+    hidePropertiesIn(defaultProperties, values, [
+        "fetchOptionsLazy",
+        "refCaption",
+        "refCaptionExp",
+        "refCaptionSource",
+        "refEntity",
+        "refOptions",
+        "refSearchAttr"
+    ]);
 
     if (values.attrChoice === "auto") {
         hidePropertyIn(defaultProperties, {} as { linkedDs: unknown }, "linkedDs");

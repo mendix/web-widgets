@@ -74,9 +74,29 @@
                     <caption>Selectable objects</caption>
                     <description>The options to show in the Drop-down filter widget.</description>
                 </property>
+                <property key="refCaptionSource" type="enumeration" defaultValue="attr">
+                    <caption>Caption source</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="attr">Attribute</enumerationValue>
+                        <enumerationValue key="exp">Expression</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="refCaption" type="attribute" dataSource="refOptions" required="false">
                     <caption>Caption</caption>
                     <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="refCaptionExp" type="expression" dataSource="refOptions" required="false">
+                    <caption>Caption</caption>
+                    <description />
+                    <returnType type="String" />
+                </property>
+                <property key="refSearchAttr" type="attribute" dataSource="refOptions" required="true">
+                    <caption>Search attribute</caption>
+                    <description>Required when Filterable is set to yes</description>
                     <attributeTypes>
                         <attributeType name="String" />
                     </attributeTypes>
