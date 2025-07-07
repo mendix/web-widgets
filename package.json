@@ -21,7 +21,7 @@
     },
     "devDependencies": {
         "husky": "^8.0.3",
-        "turbo": "^1.13.4"
+        "turbo": "^2.5.4"
     },
     "engines": {
         "node": ">=22",

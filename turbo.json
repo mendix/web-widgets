@@ -1,72 +1,111 @@
 {
-    "$schema": "https://turborepo.org/schema.json",
-    "pipeline": {
-        "update-changelog": {
-            "cache": false
-        },
-        "verify": {
-            "inputs": ["package.json", "**/package.xml"]
-        },
-        "build": {
-            "dependsOn": ["^build"],
-            "outputs": ["dist/**", "!dist/tmp/**"]
-        },
-        "release": {
-            "dependsOn": ["build", "^build", "verify"],
-            "outputs": ["dist/**", "!dist/tmp/**"]
-        },
-        "build:module": {
-            "dependsOn": ["^build"],
-            "outputs": []
-        },
-        "release:module": {
-            "cache": false,
-            "dependsOn": ["^release", "verify"]
-        },
-        "push-update": {
-            "cache": false,
-            "dependsOn": ["release:module"]
-        },
-        "test": {
-            "outputs": [],
-            "inputs": ["src/**", "typings/**", "package.json", "tsconfig.json"],
-            "dependsOn": ["^build"]
-        },
-        "lint": {
-            "dependsOn": ["^build"],
-            "outputs": []
-        },
-        "create-gh-release": {
-            "cache": false,
-            "dependsOn": ["release", "release:module", "push-update", "verify"]
-        },
-        "create-translation": {
-            "cache": false,
-            "outputs": [],
-            "inputs": ["src/**/*.xml", "!src/**/package.xml"]
-        },
-        "publish-marketplace": {
-            "cache": false
-        },
-        "e2e": {
-            "inputs": [
-                "assets/**",
-                "src/**",
-                "cypress/**",
-                "cypress-visual-screenshots/**",
-                "cypress.config.*",
-                "package.json",
-                "!src/*.{editorConfig,editorPreview,icon,tile,xml}*",
-                "!**/__tests__/**"
-            ],
-            "outputs": []
-        }
+  "$schema": "https://turborepo.org/schema.json",
+  "globalDependencies": [
+    "automation/**",
+    ".npmrc",
+    ".nvmrc",
+    ".github/**",
+    "package.json"
+  ],
+  "tasks": {
+    "update-changelog": {
+      "cache": false
     },
-    "globalDependencies": [
-        "automation/**",
-        ".npmrc",
-        ".nvmrc",
-        ".github/**",
-        "package.json"
-    ]
+    "verify": {
+      "inputs": [
+        "package.json",
+        "**/package.xml"
+      ]
+    },
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        "!dist/tmp/**"
+      ]
+    },
+    "release": {
+      "dependsOn": [
+        "build",
+        "^build",
+        "verify"
+      ],
+      "outputs": [
+        "dist/**",
+        "!dist/tmp/**"
+      ]
+    },
+    "build:module": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": []
+    },
+    "release:module": {
+      "cache": false,
+      "dependsOn": [
+        "^release",
+        "verify"
+      ]
+    },
+    "push-update": {
+      "cache": false,
+      "dependsOn": [
+        "release:module"
+      ]
+    },
+    "test": {
+      "outputs": [],
+      "inputs": [
+        "src/**",
+        "typings/**",
+        "package.json",
+        "tsconfig.json"
+      ],
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": []
+    },
+    "create-gh-release": {
+      "cache": false,
+      "dependsOn": [
+        "release",
+        "release:module",
+        "push-update",
+        "verify"
+      ]
+    },
+    "create-translation": {
+      "cache": false,
+      "outputs": [],
+      "inputs": [
+        "src/**/*.xml",
+        "!src/**/package.xml"
+      ]
+    },
+    "publish-marketplace": {
+      "cache": false
+    },
+    "e2e": {
+      "inputs": [
+        "assets/**",
+        "src/**",
+        "cypress/**",
+        "cypress-visual-screenshots/**",
+        "cypress.config.*",
+        "package.json",
+        "!src/*.{editorConfig,editorPreview,icon,tile,xml}*",
+        "!*/**/__tests__/**"
+      ],
+      "outputs": []
+    }
+  }
 }
