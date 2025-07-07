@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, AssociationMetaData, AttributeMetaData, DynamicValue, EditableValue, ListValue, ListAttributeValue } from "mendix";
+import { ActionValue, AssociationMetaData, AttributeMetaData, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue } from "mendix";
 
 export type BaseTypeEnum = "attr" | "ref";
 
@@ -14,6 +14,8 @@ export interface FilterOptionsType {
     caption: DynamicValue<string>;
     value: DynamicValue<string>;
 }
+
+export type RefCaptionSourceEnum = "attr" | "exp";
 
 export type SelectedItemsStyleEnum = "text" | "boxes";
 
@@ -36,7 +38,10 @@ export interface DatagridDropdownFilterContainerProps {
     filterOptions: FilterOptionsType[];
     refEntity: AssociationMetaData;
     refOptions?: ListValue;
+    refCaptionSource: RefCaptionSourceEnum;
     refCaption?: ListAttributeValue<string>;
+    refCaptionExp?: ListExpressionValue<string>;
+    refSearchAttr?: ListAttributeValue<string>;
     fetchOptionsLazy: boolean;
     defaultValue?: DynamicValue<string>;
     filterable: boolean;
@@ -68,7 +73,10 @@ export interface DatagridDropdownFilterPreviewProps {
     filterOptions: FilterOptionsPreviewType[];
     refEntity: string;
     refOptions: {} | { caption: string } | { type: string } | null;
+    refCaptionSource: RefCaptionSourceEnum;
     refCaption: string;
+    refCaptionExp: string;
+    refSearchAttr: string;
     fetchOptionsLazy: boolean;
     defaultValue: string;
     filterable: boolean;

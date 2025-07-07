@@ -1,24 +1,27 @@
-import { useEffect, createElement } from "react";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { RefFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/RefFilterStore";
 import { FilterAPI, useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { BaseStoreProvider } from "@mendix/widget-plugin-filtering/custom-filter-api/BaseStoreProvider";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
-import { ListValue, ListAttributeValue, AssociationMetaData } from "mendix";
-import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
+import { AssociationMetaData, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
+import { createElement, useEffect } from "react";
+import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 import { RefFilterProps } from "../components/typings";
 
-type WidgetProps = Pick<DatagridDropdownFilterContainerProps, "name" | "refEntity" | "refOptions" | "refCaption">;
+type WidgetProps = Pick<
+    DatagridDropdownFilterContainerProps,
+    "name" | "refEntity" | "refOptions" | "refCaption" | "refCaptionExp" | "refCaptionSource" | "refSearchAttr"
+>;
 
 export interface RequiredProps {
     name: string;
     refEntity: AssociationMetaData;
     refOptions: ListValue;
-    refCaption: ListAttributeValue<string>;
-    searchAttrId: ListAttributeValue["id"];
+    refCaption: ListAttributeValue<string> | ListExpressionValue<string>;
+    searchAttrId?: ListAttributeValue["id"];
 }
 
 type Component<P extends object> = (props: P) => React.ReactElement;
@@ -49,16 +52,29 @@ function mapProps(props: WidgetProps): RequiredProps {
         throw new Error("RefFilterStoreProvider: refOptions is required");
     }
 
-    if (!props.refCaption) {
-        throw new Error("RefFilterStoreProvider: refCaption is required");
+    if (props.refCaptionSource === "attr") {
+        if (!props.refCaption) {
+            throw new Error("RefFilterStoreProvider: 'Caption' settings is required");
+        }
+        return {
+            name: props.name,
+            refEntity: props.refEntity,
+            refOptions: props.refOptions,
+            refCaption: props.refCaption,
+            searchAttrId: props.refCaption.id
+        };
+    } else {
+        if (!props.refCaptionExp) {
+            throw new Error("RefFilterStoreProvider: 'Caption' settings is required");
+        }
+        return {
+            name: props.name,
+            refEntity: props.refEntity,
+            refOptions: props.refOptions,
+            refCaption: props.refCaptionExp,
+            searchAttrId: props.refSearchAttr?.id
+        };
     }
-    return {
-        name: props.name,
-        refEntity: props.refEntity,
-        refOptions: props.refOptions,
-        refCaption: props.refCaption,
-        searchAttrId: props.refCaption.id
-    };
 }
 
 function useGate(props: WidgetProps): DerivedPropsGate<RequiredProps> {
