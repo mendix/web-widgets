@@ -57,6 +57,33 @@ export const drawCropOnCanvas = (
     return captureCanvas;
 };
 
+export function decodeBarcodeDetector(
+    resolve: (value: Result | string) => void,
+    reject: (reason?: Error) => void,
+    captureCanvas: HTMLCanvasElement,
+    videoRef: HTMLVideoElement,
+    canvasMiddle: HTMLDivElement,
+    barcodeDetector?: any
+): void {
+    const croppedOnCanvas = drawCropOnCanvas(captureCanvas, videoRef, canvasMiddle);
+    barcodeDetector
+        .detect(croppedOnCanvas)
+        .then((barcodes: any) => {
+            if (barcodes[0]?.rawValue) {
+                resolve(barcodes[0]?.rawValue);
+            } else {
+                setTimeout(
+                    () =>
+                        decodeBarcodeDetector(resolve, reject, captureCanvas, videoRef, canvasMiddle, barcodeDetector),
+                    50
+                );
+            }
+        })
+        .catch((err: any) => {
+            reject(err);
+        });
+}
+
 export const decodeCanvas = (reader: BrowserMultiFormatReader, captureCanvas: HTMLCanvasElement): Result => {
     const luminanceSource = new HTMLCanvasElementLuminanceSource(captureCanvas);
 

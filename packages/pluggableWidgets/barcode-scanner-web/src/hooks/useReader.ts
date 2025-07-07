@@ -2,7 +2,7 @@ import { useEffect, useRef, RefObject } from "react";
 import { BrowserMultiFormatReader, NotFoundException, Result } from "@zxing/library";
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { BarcodeFormatsType } from "../../typings/BarcodeScannerProps";
-import { createHints, decodeCanvas, drawCropOnCanvas } from "../components/utils";
+import { createHints, decodeBarcodeDetector, decodeCanvas, drawCropOnCanvas } from "../components/utils";
 
 const mediaStreamConstraints: MediaStreamConstraints = {
     audio: false,
@@ -35,7 +35,7 @@ export const useReader: UseReaderHook = args => {
 
     const decodeCropFromVideo = (
         // loop decode canvas till it finds a result
-        resolve: (value: Result) => void,
+        resolve: (value: Result | string) => void,
         reject: (reason?: Error) => void,
         captureCanvas: HTMLCanvasElement
     ): void => {
@@ -44,12 +44,28 @@ export const useReader: UseReaderHook = args => {
                 setTimeout(() => decodeCropFromVideo(resolve, reject, captureCanvas), 50);
                 return;
             }
-            const croppedOnCanvas = drawCropOnCanvas(captureCanvas, videoRef.current, args.canvasMiddleRef.current);
-            const result = decodeCanvas(reader.current, croppedOnCanvas);
-            if (result === null) {
-                throw new NotFoundException();
+
+            if ("BarcodeDetector" in window) {
+                const barcodeDetector = new (window as any).BarcodeDetector({
+                    // TODO: add support for more formats from configurations
+                    formats: ["code_39", "codabar", "ean_13"]
+                });
+                decodeBarcodeDetector(
+                    resolve,
+                    reject,
+                    captureCanvas,
+                    videoRef.current,
+                    args.canvasMiddleRef.current,
+                    barcodeDetector
+                );
+            } else {
+                const croppedOnCanvas = drawCropOnCanvas(captureCanvas, videoRef.current, args.canvasMiddleRef.current);
+                const result = decodeCanvas(reader.current, croppedOnCanvas);
+                if (result === null) {
+                    throw new NotFoundException();
+                }
+                resolve(result);
             }
-            resolve(result);
         } catch (error) {
             if (checkNotFound(error)) {
                 setTimeout(() => decodeCropFromVideo(resolve, reject, captureCanvas), 50);
@@ -76,7 +92,7 @@ export const useReader: UseReaderHook = args => {
             try {
                 stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
 
-                let result: Result;
+                let result: Result | string;
                 if (args.useCrop) {
                     videoRef.current.srcObject = stream;
                     videoRef.current.autofocus = true;
@@ -90,7 +106,7 @@ export const useReader: UseReaderHook = args => {
                     result = await newReader.decodeOnceFromStream(stream, videoRef.current);
                 }
                 if (!stopped.current) {
-                    onSuccess(result.getText());
+                    onSuccess(typeof result === "string" ? result : result?.getText());
                 }
             } catch (error) {
                 // Suppress not found error if widget is closed normally (eg. leaving page);
