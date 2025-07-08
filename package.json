@@ -17,7 +17,8 @@
         "create-translation": "turbo run create-translation",
         "publish-marketplace": "turbo run publish-marketplace",
         "version": "pnpm --filter @mendix/automation-utils run version",
-        "changelog": "pnpm --filter @mendix/automation-utils run changelog"
+        "changelog": "pnpm --filter @mendix/automation-utils run changelog",
+        "postinstall": "turbo run agent-rules"
     },
     "devDependencies": {
         "husky": "^8.0.3",

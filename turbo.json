@@ -107,6 +107,13 @@
         "!*/**/__tests__/**"
       ],
       "outputs": []
+    },
+    "agent-rules": {
+      "cache": false,
+      "inputs": [
+        "docs/requirements/**"
+      ],
+      "outputs": []
     }
   }
 }
