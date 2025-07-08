@@ -1,4 +1,5 @@
-import { shallow, ShallowWrapper } from "enzyme";
+import "@testing-library/jest-dom";
+import { render, RenderResult } from "@testing-library/react";
 import { createElement } from "react";
 import { LeafletMap, LeafletProps } from "../LeafletMap";
 
@@ -23,79 +24,47 @@ describe("Leaflet maps", () => {
         zoomLevel: 10
     };
 
-    const renderLeafletMap = (props: LeafletProps): ShallowWrapper<LeafletProps, any> =>
-        shallow(createElement(LeafletMap, props));
+    function renderLeafletMap(props: Partial<LeafletProps> = {}): RenderResult {
+        return render(<LeafletMap {...defaultProps} {...props} />);
+    }
 
     it("renders a map with right structure", () => {
-        const leafletMaps = renderLeafletMap(defaultProps);
-        leafletMaps.setProps({
-            heightUnit: "percentageOfWidth",
-            widthUnit: "pixels"
-        });
-
-        expect(leafletMaps).toMatchSnapshot();
+        const { asFragment } = renderLeafletMap({ heightUnit: "percentageOfWidth", widthUnit: "pixels" });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with pixels renders structure correctly", () => {
-        const leafletMaps = renderLeafletMap(defaultProps);
-        leafletMaps.setProps({
-            heightUnit: "pixels",
-            widthUnit: "pixels"
-        });
-
-        expect(leafletMaps).toMatchSnapshot();
+        const { asFragment } = renderLeafletMap({ heightUnit: "pixels", widthUnit: "pixels" });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with percentage of width and height units renders the structure correctly", () => {
-        const leafletMaps = renderLeafletMap(defaultProps);
-        leafletMaps.setProps({
-            heightUnit: "percentageOfWidth",
-            widthUnit: "percentage"
-        });
-
-        expect(leafletMaps).toMatchSnapshot();
+        const { asFragment } = renderLeafletMap({ heightUnit: "percentageOfWidth", widthUnit: "percentage" });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with percentage of parent units renders the structure correctly", () => {
-        const leafletMaps = renderLeafletMap(defaultProps);
-        leafletMaps.setProps({
-            heightUnit: "percentageOfParent",
-            widthUnit: "percentage"
-        });
-
-        expect(leafletMaps).toMatchSnapshot();
+        const { asFragment } = renderLeafletMap({ heightUnit: "percentageOfParent", widthUnit: "percentage" });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with HERE maps as provider", () => {
-        const leafletMaps = renderLeafletMap(defaultProps);
-        leafletMaps.setProps({
-            mapProvider: "hereMaps"
-        });
-
-        expect(leafletMaps).toMatchSnapshot();
+        const { asFragment } = renderLeafletMap({ mapProvider: "hereMaps" });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with MapBox maps as provider", () => {
-        const leafletMaps = renderLeafletMap(defaultProps);
-        leafletMaps.setProps({
-            mapProvider: "mapBox"
-        });
-
-        expect(leafletMaps).toMatchSnapshot();
+        const { asFragment } = renderLeafletMap({ mapProvider: "mapBox" });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with attribution", () => {
-        const leafletMaps = renderLeafletMap(defaultProps);
-        leafletMaps.setProps({
-            attributionControl: true
-        });
-
-        expect(leafletMaps).toMatchSnapshot();
+        const { asFragment } = renderLeafletMap({ attributionControl: true });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with markers", () => {
-        const leafletMaps = renderLeafletMap(defaultProps);
-        leafletMaps.setProps({
+        const { asFragment } = renderLeafletMap({
             locations: [
                 {
                     title: "Mendix HQ",
@@ -111,13 +80,11 @@ describe("Leaflet maps", () => {
                 }
             ]
         });
-
-        expect(leafletMaps).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with current location", () => {
-        const leafletMaps = renderLeafletMap(defaultProps);
-        leafletMaps.setProps({
+        const { asFragment } = renderLeafletMap({
             showCurrentLocation: true,
             currentLocation: {
                 latitude: 51.906688,
@@ -125,7 +92,6 @@ describe("Leaflet maps", () => {
                 url: "image:url"
             }
         });
-
-        expect(leafletMaps).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
     });
 });

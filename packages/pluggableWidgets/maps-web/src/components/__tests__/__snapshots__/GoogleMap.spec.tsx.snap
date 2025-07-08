@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Google maps renders a map with current location 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-maps"
+    style="width: 50%; height: 75px;"
+  >
+    <div
+      class="widget-google-maps-wrapper"
+    >
+      <div
+        class="spinner"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Google maps renders a map with markers 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-maps"
+    style="width: 50%; height: 75px;"
+  >
+    <div
+      class="widget-google-maps-wrapper"
+    >
+      <div
+        class="spinner"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Google maps renders a map with percentage of parent units renders the structure correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-maps"
+    style="width: 50%; height: 75%;"
+  >
+    <div
+      class="widget-google-maps-wrapper"
+    >
+      <div
+        class="spinner"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Google maps renders a map with percentage of width and height units renders the structure correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-maps"
+    style="width: 50%; height: auto; padding-bottom: 37.5%;"
+  >
+    <div
+      class="widget-google-maps-wrapper"
+    >
+      <div
+        class="spinner"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Google maps renders a map with pixels renders structure correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-maps"
+    style="width: 50px; height: 75px;"
+  >
+    <div
+      class="widget-google-maps-wrapper"
+    >
+      <div
+        class="spinner"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Google maps renders a map with right structure 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-maps"
+    style="width: 50px; height: 37.5px;"
+  >
+    <div
+      class="widget-google-maps-wrapper"
+    >
+      <div
+        class="spinner"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
