@@ -58,7 +58,9 @@ function ContentIcon(props: ImageContentIcon): ReactElement {
               "aria-label": props.altText,
               role: "img"
           }
-        : {};
+        : {
+              role: "img"
+          };
 
     const onClickProps = getImageContentOnClickProps(props.onClick, props.tabIndex);
 
@@ -103,7 +105,9 @@ function getImageContentOnClickProps(
     tabIndex?: number
 ): HTMLAttributes<HTMLElement> {
     if (!onClick) {
-        return {};
+        return {
+            role: "img"
+        };
     }
     return {
         onClick,
