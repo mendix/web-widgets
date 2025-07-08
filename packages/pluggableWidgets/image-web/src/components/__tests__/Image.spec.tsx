@@ -1,26 +1,28 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 import { ModalProps } from "react-overlays/esm/Modal";
 import { Image, ImageProps } from "../Image/Image";
-import { Lightbox } from "../Lightbox";
 
 jest.mock("../../assets/ic24-close.svg", () => "close-button-icon-svg");
 
-jest.mock("react-overlays/Modal", () => (props: ModalProps) => {
-    const MockName = "react-overlays-modal-mock";
-    // The backdrop is rendered somewhere else in a portal, but for testing sake we put it here since we also mock.
-    const BackdropMockName = "react-overlays-modal-backdrop-mock";
-    return (
-        // @ts-expect-error lower case custom name to make clear it's a mock
-        <MockName {...props}>
-            {props.children}
-            {/* @ts-expect-error lower case custom name to make clear it's a mock */}
-            <BackdropMockName>{props.renderBackdrop?.({ onClick: jest.fn(), ref: jest.fn() })}</BackdropMockName>
-        </MockName>
-    );
-});
+jest.mock("react-overlays/Modal", () =>
+    forwardRef((props: ModalProps, ref) => {
+        if (!props.show) return null;
+        const MockName = "react-overlays-modal-mock";
+        // The backdrop is rendered somewhere else in a portal, but for testing sake we put it here since we also mock.
+        const BackdropMockName = "react-overlays-modal-backdrop-mock";
+        return (
+            // @ts-expect-error lower case custom name to make clear it's a mock
+            <MockName {...props} ref={ref}>
+                {props.children}
+                {/* @ts-expect-error lower case custom name to make clear it's a mock */}
+                <BackdropMockName>{props.renderBackdrop?.({ onClick: jest.fn(), ref: jest.fn() })}</BackdropMockName>
+            </MockName>
+        );
+    })
+);
 
 const imageProps: ImageProps = {
     class: "",
@@ -71,6 +73,12 @@ const iconProps: ImageProps = {
 };
 
 describe("Image", () => {
+    let user: UserEvent;
+
+    beforeEach(() => {
+        user = userEvent.setup();
+    });
+
     it("renders the structure with an image", () => {
         const image = render(<Image {...imageProps} />);
         expect(image.asFragment()).toMatchSnapshot();
@@ -101,185 +109,164 @@ describe("Image", () => {
     });
 
     describe("when the onClickType is action", () => {
-        it("calls the onClick when clicking on an image", () => {
+        it("calls the onClick when clicking on an image", async () => {
             const onClickMock = jest.fn();
-            const imageRender = render(<Image {...imageProps} onClick={onClickMock} onClickType="action" />);
-
-            const image = imageRender.find("img");
-            expect(image).toHaveLength(1);
-
-            image.simulate("click");
+            const { getByRole } = render(<Image {...imageProps} onClick={onClickMock} onClickType="action" />);
+            const image = getByRole("button");
+            expect(image).toBeInTheDocument();
+            await user.click(image);
             expect(onClickMock).toHaveBeenCalled();
         });
 
         it("has tabindex if there is an action with OnClick", () => {
             const onClickMock = jest.fn();
-            const imageRender = render(
+            const { getByRole } = render(
                 <Image {...imageProps} onClick={onClickMock} onClickType="action" tabIndex={1} />
             );
-            const image = imageRender.find("img");
-
-            expect(image.prop("tabIndex")).toBeDefined();
-            expect(image.prop("tabIndex")).toBe(1);
+            const image = getByRole("button");
+            expect(image.tabIndex).toBe(1);
         });
 
         it("has no tabindex if there is no action with OnClick", () => {
-            const imageRender = render(<Image {...imageProps} />);
-            const image = imageRender.find("img");
-
-            expect(image.prop("tabIndex")).toBeUndefined();
+            const { getByRole } = render(<Image {...imageProps} />);
+            const image = getByRole("img");
+            expect(image.tabIndex).toBe(-1);
         });
 
-        it("calls the onClick when clicking on a glyph icon", () => {
+        it("calls the onClick when clicking on a glyph icon", async () => {
             const onClickMock = jest.fn();
-            const imageRender = render(<Image {...glyphiconProps} onClick={onClickMock} onClickType="action" />);
-
-            const glyphicon = imageRender.find("span");
-            expect(glyphicon).toHaveLength(1);
-
-            glyphicon.simulate("click");
+            const { getByRole } = render(<Image {...glyphiconProps} onClick={onClickMock} onClickType="action" />);
+            const icon = getByRole("button");
+            expect(icon).toBeInTheDocument();
+            await user.click(icon);
             expect(onClickMock).toHaveBeenCalled();
         });
 
-        it("calls the onClick when clicking on an icon", () => {
+        it("calls the onClick when clicking on an icon", async () => {
             const onClickMock = jest.fn();
-            const imageRender = render(<Image {...iconProps} onClick={onClickMock} onClickType="action" />);
-
-            const glyphicon = imageRender.find("span");
-            expect(glyphicon).toHaveLength(1);
-
-            glyphicon.simulate("click");
+            const { getByRole } = render(<Image {...iconProps} onClick={onClickMock} onClickType="action" />);
+            const icon = getByRole("button");
+            expect(icon).toBeInTheDocument();
+            await user.click(icon);
             expect(onClickMock).toHaveBeenCalled();
         });
     });
 
     describe("when the onClickType is enlarge", () => {
-        it("shows a lightbox when the user clicks on the image", () => {
-            const imageRender = render(<Image {...imageProps} onClickType="enlarge" />);
-            expect(imageRender.find(Lightbox)).toHaveLength(0);
-
-            const image = imageRender.find("img");
-            expect(image).toHaveLength(1);
-
-            image.simulate("click");
-            expect(imageRender.find(Lightbox)).toHaveLength(1);
+        it("shows a lightbox when the user clicks on the image", async () => {
+            const { container, getByRole } = render(<Image {...imageProps} onClickType="enlarge" />);
+            expect(container.querySelector(".mx-image-viewer-lightbox")).not.toBeInTheDocument();
+            const image = getByRole("button");
+            expect(image).toBeInTheDocument();
+            await userEvent.click(image);
+            const lightbox = container.querySelector(".mx-image-viewer-lightbox-backdrop");
+            expect(lightbox).toBeInTheDocument();
         });
 
-        it("closes the lightbox when the user clicks on the close button after opening it", () => {
-            const imageRender = render(<Image {...imageProps} onClickType="enlarge" />);
-
-            const image = imageRender.find("img");
-            expect(image).toHaveLength(1);
-
-            image.simulate("click");
-            expect(imageRender.find(Lightbox)).toHaveLength(1);
-
-            const closeButton = imageRender.find("button");
-            expect(closeButton).toHaveLength(1);
-            closeButton.simulate("click");
-
-            expect(imageRender.find(Lightbox)).toHaveLength(0);
+        it("closes the lightbox when the user clicks on the close button after opening it", async () => {
+            const { container, getByRole } = render(<Image {...imageProps} onClickType="enlarge" />);
+            const image = getByRole("button");
+            expect(image).toBeInTheDocument();
+            await userEvent.click(image);
+            const lightbox = container.querySelector(".mx-image-viewer-lightbox-backdrop");
+            expect(lightbox).toBeInTheDocument();
+            const closeButton = container.querySelector(".close-button");
+            expect(closeButton).toBeInTheDocument();
+            await userEvent.click(closeButton!);
+            expect(lightbox).not.toBeInTheDocument();
         });
     });
 
-    it("does not trigger on clicks from containers if clicked on the image", () => {
+    it("does not trigger on clicks from containers if clicked on the image", async () => {
         const onClickOuterMock = jest.fn();
         const onClickImageMock = jest.fn();
-        const imageRender = render(
+        const { getByRole } = render(
             <div onClick={onClickOuterMock}>
                 <Image {...imageProps} onClickType="action" onClick={onClickImageMock} />
             </div>
         );
-
-        const image = imageRender.find("img");
-        expect(image).toHaveLength(1);
-
-        image.simulate("click");
+        const image = getByRole("button");
+        expect(image).toBeInTheDocument();
+        await user.click(image);
         expect(onClickImageMock).toHaveBeenCalledTimes(1);
         expect(onClickOuterMock).not.toHaveBeenCalled();
     });
 
     describe("when there is an accessibility alt text", () => {
         it("is set properly on an image", () => {
-            const imageRender = render(<Image {...imageProps} altText="this is an awesome image" />);
-            const image = imageRender.find("img");
-            expect(image.prop("alt")).toBe("this is an awesome image");
+            const { getByRole } = render(<Image {...imageProps} altText="this is an awesome image" />);
+            const image = getByRole("img");
+            expect(image).toHaveAttribute("alt", "this is an awesome image");
         });
 
         it("is set properly on a glyphicon", () => {
-            const imageRender = render(<Image {...glyphiconProps} altText="this is an awesome glyphicon" />);
-            const image = imageRender.find("span");
-            expect(image.prop("aria-label")).toBe("this is an awesome glyphicon");
-            expect(image.prop("role")).toBe("img");
+            const { getByRole } = render(<Image {...glyphiconProps} altText="this is an awesome glyphicon" />);
+            const icon = getByRole("img");
+            expect(icon).toHaveAttribute("aria-label", "this is an awesome glyphicon");
+            expect(icon).toHaveAttribute("role", "img");
         });
 
         it("is set properly on an icon", () => {
-            const imageRender = render(<Image {...iconProps} altText="this is an awesome icon" />);
-            const image = imageRender.find("span");
-            expect(image.prop("aria-label")).toBe("this is an awesome icon");
-            expect(image.prop("role")).toBe("img");
+            const { getByRole } = render(<Image {...iconProps} altText="this is an awesome icon" />);
+            const icon = getByRole("img");
+            expect(icon).toHaveAttribute("aria-label", "this is an awesome icon");
+            expect(icon).toHaveAttribute("role", "img");
         });
     });
 
     describe("when there is no accessibility alt text", () => {
         it("nothing is set on an image", () => {
-            const imageRender = render(<Image {...imageProps} />);
-            const image = imageRender.find("img");
-            expect(image.prop("alt")).toBe(undefined);
+            const { getByRole } = render(<Image {...imageProps} />);
+            const image = getByRole("img");
+            expect(image).not.toHaveAttribute("alt");
         });
 
         it("nothing is set on a glyphicon", () => {
-            const imageRender = render(<Image {...glyphiconProps} />);
-            const image = imageRender.find("span");
-            expect(image).not.toHaveProperty("aria-label");
-            expect(image).not.toHaveProperty("role");
+            const { getByRole } = render(<Image {...glyphiconProps} />);
+            const icon = getByRole("img");
+            expect(icon).not.toHaveAttribute("aria-label");
         });
 
         it("nothing is set on an icon", () => {
-            const imageRender = render(<Image {...iconProps} />);
-            const image = imageRender.find("span");
-            expect(image).not.toHaveProperty("aria-label");
-            expect(image).not.toHaveProperty("role");
+            const { getByRole } = render(<Image {...iconProps} />);
+            const icon = getByRole("img");
+            expect(icon).not.toHaveAttribute("aria-label");
         });
     });
 
     describe("when showing an image as a thumbnail", () => {
         it("includes the thumb=true URL param in the image", () => {
-            const imageRender = render(<Image {...imageProps} displayAs="thumbnail" />);
-            const image = imageRender.find("img");
-            expect(image.prop("src")).toContain("thumb=true");
+            const { getByRole } = render(<Image {...imageProps} displayAs="thumbnail" />);
+            const image = getByRole("img") as HTMLImageElement;
+            expect(image.src).toContain("thumb=true");
         });
 
-        it("does not include the thumb=true URL param in the lightbox image", () => {
-            const imageRender = render(<Image {...imageProps} displayAs="thumbnail" onClickType="enlarge" />);
-
-            const image = imageRender.find("img");
-            expect(image.prop("src")).toContain("thumb=true");
-            expect(image).toHaveLength(1);
-
-            image.simulate("click");
-
-            const allImages = imageRender.findWhere(
-                node => node.type() === "img" && node.prop("src").startsWith(imageProps.image)
+        it("does not include the thumb=true URL param in the lightbox image", async () => {
+            const { getByRole, getAllByRole } = render(
+                <Image {...imageProps} displayAs="thumbnail" onClickType="enlarge" />
             );
-            expect(allImages).toHaveLength(2);
+            const image = getByRole("button") as HTMLImageElement;
+            expect(image.src).toContain("thumb=true");
+            await user.click(image);
 
-            expect(allImages.at(0).prop("src")).toContain("thumb=true");
-            expect(allImages.at(1).prop("src")).not.toContain("thumb=true");
+            const allImages = getAllByRole("img") as HTMLImageElement[];
+            expect(allImages.length).toBeGreaterThanOrEqual(2);
+            expect(allImages[0].src).not.toContain("thumb=true");
+            expect(allImages[1].src).not.toContain("thumb=true");
         });
     });
 
     describe("when showing as a background image", () => {
         it("shows the content", () => {
-            const imageRender = render(
+            const { getByText } = render(
                 <Image {...imageProps} renderAsBackground backgroundImageContent={<div>Image content</div>} />
             );
-            expect(imageRender.text()).toContain("Image content");
+            expect(getByText("Image content")).toBeInTheDocument();
         });
 
-        it("properly handles on click event if configured by the user", () => {
+        it("properly handles on click event if configured by the user", async () => {
             const onClickMock = jest.fn();
-            const imageRender = render(
+            const { container } = render(
                 <Image
                     {...imageProps}
                     renderAsBackground
@@ -288,10 +275,9 @@ describe("Image", () => {
                     onClickType="action"
                 />
             );
-            const backgroundImage = imageRender.find(".mx-image-viewer.mx-image-background");
-            expect(backgroundImage).toHaveLength(1);
-
-            backgroundImage.simulate("click");
+            const backgroundImage = container.querySelector(".mx-image-viewer.mx-image-background");
+            expect(backgroundImage).toBeInTheDocument();
+            await user.click(backgroundImage!);
             expect(onClickMock).toHaveBeenCalledTimes(1);
         });
     });

@@ -1,58 +1,72 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Image renders the structure as a background image 1`] = `
-<div
-  class="mx-image-viewer mx-image-background"
-  style="height:300px;width:300px;background-image:url('https://pbs.twimg.com/profile_images/1905729715/llamas_1_.jpg')"
->
-  <div>
-    Image content
+<DocumentFragment>
+  <div
+    class="mx-image-viewer mx-image-background"
+    style="height: 300px; width: 300px; background-image: url(https://pbs.twimg.com/profile_images/1905729715/llamas_1_.jpg);"
+  >
+    <div>
+      Image content
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`Image renders the structure with a glyph icon 1`] = `
-<div
-  class="mx-image-viewer mx-image-viewer-responsive"
->
-  <span
-    class="glyphicon-asterisk glyphicon"
-    style="font-size:20px"
-  />
-</div>
+<DocumentFragment>
+  <div
+    class="mx-image-viewer mx-image-viewer-responsive"
+  >
+    <span
+      class="glyphicon-asterisk glyphicon"
+      role="img"
+      style="font-size: 20px;"
+    />
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Image renders the structure with an icon 1`] = `
-<div
-  class="mx-image-viewer mx-image-viewer-responsive"
->
-  <span
-    class="mx-icon mx-icon-asterisk"
-    style="font-size:20px"
-  />
-</div>
+<DocumentFragment>
+  <div
+    class="mx-image-viewer mx-image-viewer-responsive"
+  >
+    <span
+      class="mx-icon mx-icon-asterisk"
+      role="img"
+      style="font-size: 20px;"
+    />
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Image renders the structure with an image 1`] = `
-<div
-  class="mx-image-viewer mx-image-viewer-responsive"
->
-  <img
-    class=""
-    src="https://pbs.twimg.com/profile_images/1905729715/llamas_1_.jpg"
-    style="height:300px;width:300px"
-  />
-</div>
+<DocumentFragment>
+  <div
+    class="mx-image-viewer mx-image-viewer-responsive"
+  >
+    <img
+      class=""
+      role="img"
+      src="https://pbs.twimg.com/profile_images/1905729715/llamas_1_.jpg"
+      style="height: 300px; width: 300px;"
+    />
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Image renders the structure with an image and percentage dimensions 1`] = `
-<div
-  class="mx-image-viewer mx-image-viewer-responsive"
->
-  <img
-    class=""
-    src="https://pbs.twimg.com/profile_images/1905729715/llamas_1_.jpg"
-    style="width:100%"
-  />
-</div>
+<DocumentFragment>
+  <div
+    class="mx-image-viewer mx-image-viewer-responsive"
+  >
+    <img
+      class=""
+      role="img"
+      src="https://pbs.twimg.com/profile_images/1905729715/llamas_1_.jpg"
+      style="width: 100%;"
+    />
+  </div>
+</DocumentFragment>
 `;
