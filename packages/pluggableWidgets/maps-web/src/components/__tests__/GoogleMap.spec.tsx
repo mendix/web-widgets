@@ -1,4 +1,5 @@
-import { shallow, ShallowWrapper } from "enzyme";
+import "@testing-library/jest-dom";
+import { render, RenderResult } from "@testing-library/react";
 import { createElement } from "react";
 import { GoogleMapContainer, GoogleMapsProps } from "../GoogleMap";
 import { initialize } from "@googlemaps/jest-mocks";
@@ -35,52 +36,32 @@ describe("Google maps", () => {
         jest.clearAllMocks();
     });
 
-    const renderGoogleMap = (props: GoogleMapsProps): ShallowWrapper<GoogleMapsProps, any> =>
-        shallow(createElement(GoogleMapContainer, props));
+    function renderGoogleMap(props: Partial<GoogleMapsProps> = {}): RenderResult {
+        return render(<GoogleMapContainer {...defaultProps} {...props} />);
+    }
 
     it("renders a map with right structure", () => {
-        const googleMaps = renderGoogleMap(defaultProps);
-        googleMaps.setProps({
-            heightUnit: "percentageOfWidth",
-            widthUnit: "pixels"
-        });
-
-        expect(googleMaps).toMatchSnapshot();
+        const { asFragment } = renderGoogleMap({ heightUnit: "percentageOfWidth", widthUnit: "pixels" });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with pixels renders structure correctly", () => {
-        const googleMaps = renderGoogleMap(defaultProps);
-        googleMaps.setProps({
-            heightUnit: "pixels",
-            widthUnit: "pixels"
-        });
-
-        expect(googleMaps).toMatchSnapshot();
+        const { asFragment } = renderGoogleMap({ heightUnit: "pixels", widthUnit: "pixels" });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with percentage of width and height units renders the structure correctly", () => {
-        const googleMaps = renderGoogleMap(defaultProps);
-        googleMaps.setProps({
-            heightUnit: "percentageOfWidth",
-            widthUnit: "percentage"
-        });
-
-        expect(googleMaps).toMatchSnapshot();
+        const { asFragment } = renderGoogleMap({ heightUnit: "percentageOfWidth", widthUnit: "percentage" });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with percentage of parent units renders the structure correctly", () => {
-        const googleMaps = renderGoogleMap(defaultProps);
-        googleMaps.setProps({
-            heightUnit: "percentageOfParent",
-            widthUnit: "percentage"
-        });
-
-        expect(googleMaps).toMatchSnapshot();
+        const { asFragment } = renderGoogleMap({ heightUnit: "percentageOfParent", widthUnit: "percentage" });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with markers", () => {
-        const googleMaps = renderGoogleMap(defaultProps);
-        googleMaps.setProps({
+        const { asFragment } = renderGoogleMap({
             locations: [
                 {
                     title: "Mendix HQ",
@@ -96,13 +77,11 @@ describe("Google maps", () => {
                 }
             ]
         });
-
-        expect(googleMaps).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders a map with current location", () => {
-        const googleMaps = renderGoogleMap(defaultProps);
-        googleMaps.setProps({
+        const { asFragment } = renderGoogleMap({
             showCurrentLocation: true,
             currentLocation: {
                 latitude: 51.906688,
@@ -110,7 +89,6 @@ describe("Google maps", () => {
                 url: "image:url"
             }
         });
-
-        expect(googleMaps).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
     });
 });
