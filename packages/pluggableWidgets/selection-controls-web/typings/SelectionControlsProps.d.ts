@@ -27,19 +27,9 @@ export type OptionsSourceDatabaseCustomContentTypeEnum = "yes" | "listItem" | "n
 
 export type StaticDataSourceCustomContentTypeEnum = "yes" | "listItem" | "no";
 
-export type SelectionMethodEnum = "checkbox" | "rowclick";
-
-export type SelectedItemsStyleEnum = "text" | "boxes";
-
 export type CustomEditabilityEnum = "default" | "never" | "conditionally";
 
 export type ReadOnlyStyleEnum = "bordered" | "text";
-
-export type LoadingTypeEnum = "spinner" | "skeleton";
-
-export type SelectedItemsSortingEnum = "caption" | "none";
-
-export type FilterTypeEnum = "contains" | "containsExact" | "startsWith" | "none";
 
 export interface OptionsSourceStaticDataSourcePreviewType {
     staticDataSourceValue: string;
@@ -71,18 +61,11 @@ export interface SelectionControlsContainerProps {
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
     emptyOptionText?: DynamicValue<string>;
     noOptionsText?: DynamicValue<string>;
-    clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent?: ListWidgetValue;
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent?: ListWidgetValue;
     staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
-    showFooter: boolean;
-    menuFooterContent?: ReactNode;
-    selectionMethod: SelectionMethodEnum;
-    selectedItemsStyle: SelectedItemsStyleEnum;
-    selectAllButton: boolean;
-    selectAllButtonCaption: DynamicValue<string>;
     customEditability: CustomEditabilityEnum;
     customEditabilityExpression: DynamicValue<boolean>;
     readOnlyStyle: ReadOnlyStyleEnum;
@@ -95,10 +78,6 @@ export interface SelectionControlsContainerProps {
     a11ySelectedValue?: DynamicValue<string>;
     a11yOptionsAvailable?: DynamicValue<string>;
     a11yInstructions?: DynamicValue<string>;
-    lazyLoading: boolean;
-    loadingType: LoadingTypeEnum;
-    selectedItemsSorting: SelectedItemsSortingEnum;
-    filterType: FilterTypeEnum;
 }
 
 export interface SelectionControlsPreviewProps {
@@ -125,18 +104,11 @@ export interface SelectionControlsPreviewProps {
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
     emptyOptionText: string;
     noOptionsText: string;
-    clearable: boolean;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
-    showFooter: boolean;
-    menuFooterContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
-    selectionMethod: SelectionMethodEnum;
-    selectedItemsStyle: SelectedItemsStyleEnum;
-    selectAllButton: boolean;
-    selectAllButtonCaption: string;
     customEditability: CustomEditabilityEnum;
     customEditabilityExpression: string;
     readOnlyStyle: ReadOnlyStyleEnum;
@@ -150,8 +122,4 @@ export interface SelectionControlsPreviewProps {
     a11ySelectedValue: string;
     a11yOptionsAvailable: string;
     a11yInstructions: string;
-    lazyLoading: boolean;
-    loadingType: LoadingTypeEnum;
-    selectedItemsSorting: SelectedItemsSortingEnum;
-    filterType: FilterTypeEnum;
 }

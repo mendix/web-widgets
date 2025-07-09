@@ -1,7 +1,7 @@
-import { CaptionPlacement } from "src/helpers/types";
-import { CaptionContent } from "src/helpers/utils";
-import { OptionsSourceAssociationCustomContentTypeEnum } from "typings/ComboboxProps";
-import { AssociationSimpleCaptionsProvider } from "../AssociationSimpleCaptionsProvider";
+import { CaptionPlacement } from "./types";
+import { CaptionContent } from "./utils";
+import { OptionsSourceAssociationCustomContentTypeEnum } from "../../typings/SelectionControlsProps";
+import { SimpleCaptionsProvider } from "./SimpleCaptionsProvider";
 import { createElement, ReactNode, ComponentType } from "react";
 interface PreviewProps {
     customContentRenderer:
@@ -10,7 +10,7 @@ interface PreviewProps {
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
 }
 
-export class AssociationPreviewCaptionsProvider extends AssociationSimpleCaptionsProvider {
+export class PreviewCaptionsProvider extends SimpleCaptionsProvider {
     emptyCaption = "Combo box";
     private customContentRenderer: ComponentType<{ children: ReactNode; caption?: string }> = () => <div></div>;
     get(value: string | null): string {

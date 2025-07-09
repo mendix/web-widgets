@@ -1,10 +1,8 @@
 import { EditableValue, ListAttributeValue, ObjectItem, SelectionSingleValue } from "mendix";
 import {
-    ComboboxContainerProps,
-    LoadingTypeEnum,
+    SelectionControlsContainerProps,
     OptionsSourceAssociationCustomContentTypeEnum
-} from "../../../typings/ComboboxProps";
-import { LazyLoadProvider } from "../LazyLoadProvider";
+} from "../../../typings/SelectionControlsProps";
 import { SingleSelector, Status } from "../types";
 import { _valuesIsEqual } from "../utils";
 import { DatabaseCaptionsProvider } from "./DatabaseCaptionsProvider";
@@ -16,17 +14,14 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
     implements SingleSelector
 {
     caption: DatabaseCaptionsProvider;
-    clearable = false;
     currentId: string | null = null;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
-    lazyLoading = false;
-    loadingType?: LoadingTypeEnum;
     options: DatabaseOptionsProvider;
     readOnly = false;
     status: Status = "unavailable";
     type = "single" as const;
+    groupName: string;
     protected _objectsMap: Map<string, ObjectItem> = new Map();
-    protected lazyLoader: LazyLoadProvider = new LazyLoadProvider();
 
     validation?: string = undefined;
     values: DatabaseValuesProvider;
@@ -35,23 +30,20 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
-        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap);
+        this.options = new DatabaseOptionsProvider(this._objectsMap);
         this.values = new DatabaseValuesProvider(this._objectsMap);
+        this.groupName = `single-selection-${Math.random().toString(36).substring(2, 15)}`;
     }
 
-    updateProps(props: ComboboxContainerProps): void {
+    updateProps(props: SelectionControlsContainerProps): void {
         const {
             targetAttribute,
             captionProvider,
             captionType,
-            clearable,
             customContent,
             customContentType,
             ds,
             emptyOption,
-            filterType,
-            lazyLoading,
-            loadingType,
             valueSourceAttribute
         } = extractDatabaseProps(props);
 
@@ -60,10 +52,6 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
         }
         this._attr = targetAttribute as R;
         this.readOnly = getReadonly(targetAttribute, props.customEditability, props.customEditabilityExpression);
-        this.lazyLoader.updateProps(ds);
-        this.lazyLoader.setLimit(
-            this.lazyLoader.getLimit(ds.limit, this.readOnly, targetAttribute?.status ?? ds.status, lazyLoading)
-        );
 
         this.caption.updateProps({
             emptyOptionText: emptyOption,
@@ -76,8 +64,6 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
 
         this.options._updateProps({
             ds,
-            filterType,
-            lazyLoading,
             attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
         });
 
@@ -88,7 +74,6 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
         if (!ds || ds.status === "unavailable" || !emptyOption || emptyOption.status === "unavailable") {
             this.status = "unavailable";
             this.currentId = null;
-            this.clearable = false;
             return;
         }
         if (targetAttribute?.status === "available") {
@@ -102,7 +87,7 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
                         this.currentId = obj;
                     }
                 } else {
-                    this.options.loadSelectedValue(targetAttribute.value?.toString());
+                    // this.options.loadSelectedValue(targetAttribute.value?.toString());
                 }
             } else if (!targetAttribute.value && this.currentId) {
                 this.currentId = null;
@@ -115,11 +100,7 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
         this.status = targetAttribute?.status ?? ds.status;
         this.validation = targetAttribute?.validation;
         this.selection = props.optionsSourceDatabaseItemSelection as SelectionSingleValue;
-
-        this.clearable = clearable;
         this.customContentType = customContentType;
-        this.lazyLoading = lazyLoading;
-        this.loadingType = loadingType;
 
         if (this.selection.selection === undefined) {
             const objectId = this.options.getAll().find(option => {

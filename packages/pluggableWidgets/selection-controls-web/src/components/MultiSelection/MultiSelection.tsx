@@ -1,19 +1,16 @@
-import { ReactElement, createElement, useRef, Fragment } from "react";
+import { Fragment, ReactElement, createElement } from "react";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
-import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
-import { useLazyLoading } from "../../hooks/useLazyLoading";
+// import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 
 export function MultiSelection({
     selector,
-    tabIndex,
-    a11yConfig,
-    menuFooterContent,
-    ariaRequired,
-    ...options
+    tabIndex
+    // a11yConfig,
+    // menuFooterContent,
+    // ariaRequired,
+    // ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
-    const inputRef = useRef<HTMLInputElement>(null);
-    const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
-    const isOptionsSelected = selector.isOptionsSelected();
+    // const inputRef = useRef<HTMLInputElement>(null);
 
     // const memoizedselectedCaptions = useMemo(
     //     () => getSelectedCaptionsPlaceholder(selector, selectedItems),
@@ -39,7 +36,7 @@ export function MultiSelection({
                 ? items.map((item, index) => (
                       <div key={item} className={`widget-selection-option`} tabIndex={tabIndex}>
                           <input type="checkbox" id={`${item}_${index}`} name="fav_language" value={item} />
-                          <label htmlFor={`${item}_${index}`}>HTML</label>
+                          <label htmlFor={`${item}_${index}`}>{selector.caption.render(item)}</label>
                       </div>
                   ))
                 : null}

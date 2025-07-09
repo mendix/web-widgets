@@ -1,27 +1,22 @@
 import { ListAttributeValue, ListValue, ObjectItem } from "mendix";
-import { FilterTypeEnum } from "../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "./BaseOptionsProvider";
-import { datasourceFilter } from "./datasourceFilter";
-import { CaptionsProvider, Status, SortOrder } from "./types";
+import { SortOrder, Status } from "./types";
 import { DEFAULT_LIMIT_SIZE } from "./utils";
 
 export interface BaseProps {
     attributeId?: ListAttributeValue["id"];
     ds: ListValue;
-    filterType: FilterTypeEnum;
-    lazyLoading: boolean;
 }
 
 export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectItem, BaseProps> {
     private ds?: ListValue;
-    private attributeId?: ListAttributeValue["id"];
-    protected loading: boolean = false;
+    // private attributeId?: ListAttributeValue["id"];
 
     constructor(
-        caption: CaptionsProvider,
+        // caption: CaptionsProvider,
         protected valuesMap: Map<string, ObjectItem>
     ) {
-        super(caption);
+        super();
     }
 
     get sortOrder(): SortOrder {
@@ -40,36 +35,17 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         return this.ds?.hasMoreItems ?? false;
     }
 
-    get isLoading(): boolean {
-        return this.loading;
-    }
-
     get datasourceFilter(): ListValue["filter"] | undefined {
         return this.ds?.filter;
     }
 
     getAll(): string[] {
-        if (this.lazyLoading && this.attributeId) {
-            if (this.searchTerm === "") {
-                this.ds?.setFilter(undefined);
-            } else {
-                const filterCondition = datasourceFilter(this.filterType, this.searchTerm, this.attributeId);
-                this.ds?.setFilter(filterCondition);
-            }
-
-            return this.options;
-        } else {
-            return this.getAllWithMatchSorter();
-        }
+        return this.options;
     }
 
     loadMore(): void {
         if (this.ds && this.hasMore) {
             this.ds.setLimit(this.ds.limit + DEFAULT_LIMIT_SIZE);
-
-            if (this.lazyLoading) {
-                this.loading = true;
-            }
         }
     }
 
@@ -85,28 +61,9 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         return (value?.id as string) ?? null;
     }
 
-    // used for initial load of selected value in case options are lazy loaded
-    loadSelectedValue(attributeValue: string): void {
-        if (this.lazyLoading && this.ds && this.attributeId) {
-            const filterCondition = datasourceFilter("containsExact", attributeValue, this.attributeId);
-            this.ds?.setFilter(filterCondition);
-            this.ds.setLimit(1);
-        }
-    }
-
     _updateProps(props: BaseProps): void {
-        this.attributeId = props.attributeId;
+        // this.attributeId = props.attributeId;
         this.ds = props.ds;
-        this.filterType = props.filterType;
-        this.lazyLoading = props.lazyLoading;
-
-        if (this.lazyLoading) {
-            if (props.ds.status === "loading") {
-                this.loading = true;
-            } else {
-                this.loading = false;
-            }
-        }
 
         const items = this.ds.items ?? [];
         this.valuesMap.clear();

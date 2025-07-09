@@ -192,10 +192,6 @@
                     <caption>No options text</caption>
                     <description />
                 </property>
-                <property key="clearable" type="boolean" defaultValue="true">
-                    <caption>Clearable</caption>
-                    <description />
-                </property>
                 <property key="optionsSourceAssociationCustomContentType" type="enumeration" defaultValue="no" required="true">
                     <caption>Custom content</caption>
                     <description />
@@ -231,50 +227,9 @@
                         <enumerationValue key="no">No</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="showFooter" type="boolean" defaultValue="false">
-                    <caption>Show footer</caption>
-                    <description />
-                </property>
-                <property key="menuFooterContent" type="widgets" required="false">
-                    <caption>Footer content</caption>
-                    <description />
-                </property>
                 <!-- END MISC PROPS -->
             </propertyGroup>
             <!-- END GENERAL -->
-
-            <!-- MULTI SELECTION (REFERENCE SET) -->
-            <propertyGroup caption="Multiple-selection (reference set)">
-                <property key="selectionMethod" type="enumeration" defaultValue="checkbox" required="true">
-                    <caption>Selection method</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
-                        <enumerationValue key="rowclick">Row click</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="selectedItemsStyle" type="enumeration" defaultValue="text" required="true">
-                    <caption>Show selected items as</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="text">Text</enumerationValue>
-                        <enumerationValue key="boxes">Labels</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="selectAllButton" type="boolean" defaultValue="false" required="true">
-                    <caption>Show select all</caption>
-                    <description>Add a button to select/deselect all options.</description>
-                </property>
-                <property key="selectAllButtonCaption" type="textTemplate" required="true">
-                    <caption>Caption for select all</caption>
-                    <description />
-                    <translations>
-                        <translation lang="en_US">Select all</translation>
-                        <translation lang="nl_NL">Selecteer alles</translation>
-                    </translations>
-                </property>
-            </propertyGroup>
-            <!-- END MULTI SELECTION (REFERENCE SET) -->
 
             <!-- SYSTEM PROPS -->
             <propertyGroup caption="Label">
@@ -380,44 +335,6 @@
                         <translation lang="en_US">Use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.</translation>
                         <translation lang="nl_NL">Gebruik de pijltjestoetsen (omhoog en omlaag) om te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.</translation>
                     </translations>
-                </property>
-            </propertyGroup>
-        </propertyGroup>
-        <propertyGroup caption="Advanced">
-            <propertyGroup caption="Performance">
-                <property key="lazyLoading" type="boolean" defaultValue="true">
-                    <caption>Lazy loading</caption>
-                    <description />
-                </property>
-                <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
-                    <caption>Loading type</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="spinner">Spinner</enumerationValue>
-                        <enumerationValue key="skeleton">Skeleton</enumerationValue>
-                    </enumerationValues>
-                </property>
-            </propertyGroup>
-            <propertyGroup caption="Multiple-selection">
-                <property key="selectedItemsSorting" type="enumeration" defaultValue="none" required="true">
-                    <caption>Selected items sorting</caption>
-                    <description>How selected items should be sorted.</description>
-                    <enumerationValues>
-                        <enumerationValue key="caption">Caption</enumerationValue>
-                        <enumerationValue key="none">Default</enumerationValue>
-                    </enumerationValues>
-                </property>
-            </propertyGroup>
-            <propertyGroup caption="Filter">
-                <property key="filterType" type="enumeration" defaultValue="contains">
-                    <caption>Filter type</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="contains">Contains (fuzzy)</enumerationValue>
-                        <enumerationValue key="containsExact">Contains (exact)</enumerationValue>
-                        <enumerationValue key="startsWith">Starts-with</enumerationValue>
-                        <enumerationValue key="none">None</enumerationValue>
-                    </enumerationValues>
                 </property>
             </propertyGroup>
         </propertyGroup>

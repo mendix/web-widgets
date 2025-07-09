@@ -1,18 +1,16 @@
-import { Fragment, ReactElement, createElement, useMemo, useRef } from "react";
+import { Fragment, ReactElement, createElement } from "react";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
-import { useLazyLoading } from "../../hooks/useLazyLoading";
 
 export function SingleSelection({
     selector,
-    tabIndex = 0,
-    a11yConfig,
-    keepMenuOpen,
-    menuFooterContent,
-    ariaRequired,
-    ...options
+    tabIndex = 0
+    // a11yConfig,
+    // keepMenuOpen,
+    // menuFooterContent,
+    // ariaRequired,
+    // ...options
 }: SelectionBaseProps<SingleSelector>): ReactElement {
-    const inputRef = useRef<HTMLInputElement>(null);
-    const lazyLoading = selector.lazyLoading ?? false;
+    // const inputRef = useRef<HTMLInputElement>(null);
     // const { onScroll } = useLazyLoading({
     //     hasMoreItems: selector.options.hasMore ?? false,
     //     isInfinite: lazyLoading,
@@ -47,8 +45,8 @@ export function SingleSelection({
                           className={`widget-selection-option ${selector.currentId === item ? "selected" : ""}`}
                           tabIndex={tabIndex}
                       >
-                          <input type="radio" id={`${item}_${index}`} name="fav_language" value={item} />
-                          <label htmlFor={`${item}_${index}`}>HTML</label>
+                          <input type="radio" id={`${item}_${index}`} name={selector.groupName} value={item} />
+                          <label htmlFor={`${item}_${index}`}>{selector.caption.render(item)}</label>
                       </div>
                   ))
                 : null}

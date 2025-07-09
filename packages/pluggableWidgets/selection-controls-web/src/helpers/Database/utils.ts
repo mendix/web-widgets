@@ -7,32 +7,25 @@ import {
     ListWidgetValue
 } from "mendix";
 import {
-    ComboboxContainerProps,
-    FilterTypeEnum,
-    LoadingTypeEnum,
+    SelectionControlsContainerProps,
     OptionsSourceAssociationCustomContentTypeEnum,
     OptionsSourceDatabaseCaptionTypeEnum
-} from "../../../typings/ComboboxProps";
+} from "../../../typings/SelectionControlsProps";
 import Big from "big.js";
 
 type ExtractionReturnValue = {
     targetAttribute?: EditableValue<string | Big>;
     captionProvider?: ListAttributeValue<string> | ListExpressionValue<string>;
     captionType: OptionsSourceDatabaseCaptionTypeEnum;
-    clearable: boolean;
     customContent?: ListWidgetValue;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
     ds: ListValue;
     emptyOption?: DynamicValue<string>;
-    filterType: FilterTypeEnum;
-    lazyLoading: boolean;
-    loadingType: LoadingTypeEnum;
     valueSourceAttribute: ListAttributeValue<string | Big> | undefined;
 };
 
-export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
+export function extractDatabaseProps(props: SelectionControlsContainerProps): ExtractionReturnValue {
     const targetAttribute = props.databaseAttributeString;
-    const filterType = props.filterType;
 
     const ds = props.optionsSourceDatabaseDataSource;
     if (!ds) {
@@ -42,12 +35,9 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
     const captionAttribute = props.optionsSourceDatabaseCaptionAttribute;
     const captionExpression = props.optionsSourceDatabaseCaptionExpression;
     const emptyOption = props.emptyOptionText;
-    const clearable = props.clearable;
     const customContent = props.optionsSourceDatabaseCustomContent;
     const customContentType = props.optionsSourceDatabaseCustomContentType;
     const valueSourceAttribute = props.optionsSourceDatabaseValueAttribute;
-    const lazyLoading = (props.lazyLoading && props.optionsSourceDatabaseCaptionType !== "expression") ?? false;
-    const loadingType = props.loadingType;
 
     if (targetAttribute) {
         if (
@@ -75,22 +65,18 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         targetAttribute,
         captionProvider: captionType === "attribute" ? captionAttribute : captionExpression,
         captionType,
-        clearable,
         customContent,
         customContentType,
         ds,
         emptyOption,
-        filterType,
-        lazyLoading,
-        loadingType,
         valueSourceAttribute
     };
 }
 
 export function getReadonly(
     targetAttribute: EditableValue<string | Big> | undefined,
-    customEditability: ComboboxContainerProps["customEditability"],
-    customEditabilityExpression: ComboboxContainerProps["customEditabilityExpression"]
+    customEditability: SelectionControlsContainerProps["customEditability"],
+    customEditabilityExpression: SelectionControlsContainerProps["customEditabilityExpression"]
 ): boolean {
     if (targetAttribute) {
         return targetAttribute.readOnly;

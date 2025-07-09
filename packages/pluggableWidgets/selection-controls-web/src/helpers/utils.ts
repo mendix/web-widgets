@@ -1,9 +1,7 @@
 import { Big } from "big.js";
-import { MatchSorterOptions, matchSorter } from "match-sorter";
 import { PropsWithChildren, ReactElement, createElement } from "react";
-import { ComboboxPreviewProps, FilterTypeEnum, SelectedItemsSortingEnum } from "typings/ComboboxProps";
-import { MultiSelector, SortOrder } from "./types";
-import { ObjectItem } from "mendix";
+import { SelectionControlsPreviewProps } from "typings/SelectionControlsProps";
+import { MultiSelector } from "./types";
 
 export const DEFAULT_LIMIT_SIZE = 100;
 
@@ -14,11 +12,7 @@ export function getSelectedCaptionsPlaceholder(selector: MultiSelector, selected
         return selector.caption.emptyCaption;
     }
 
-    if (
-        selector.selectedItemsStyle !== "text" ||
-        selector.customContentType === "yes" ||
-        selector.selectionMethod === "rowclick"
-    ) {
+    if (selector.customContentType === "yes") {
         return "";
     }
 
@@ -36,7 +30,7 @@ export function CaptionContent(props: CaptionContentProps): ReactElement {
     const { htmlFor, children, onClick } = props;
     return createElement(htmlFor == null ? "span" : "label", {
         children,
-        className: "widget-combobox-caption-text",
+        className: "widget-controls-caption-text",
         htmlFor,
         onClick: onClick
             ? onClick
@@ -48,7 +42,7 @@ export function CaptionContent(props: CaptionContentProps): ReactElement {
     });
 }
 
-export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string {
+export function getDatasourcePlaceholderText(args: SelectionControlsPreviewProps): string {
     const {
         optionsSourceType,
         optionsSourceAssociationDataSource,
@@ -84,25 +78,6 @@ export function getDatasourcePlaceholderText(args: ComboboxPreviewProps): string
     return emptyStringFormat;
 }
 
-export function getFilterTypeOptions(filter: FilterTypeEnum): MatchSorterOptions<string> {
-    switch (filter) {
-        case "contains":
-            return {};
-        case "containsExact":
-            return {
-                threshold: matchSorter.rankings.CONTAINS
-            };
-        case "startsWith":
-            return {
-                threshold: matchSorter.rankings.WORD_STARTS_WITH
-            };
-        case "none":
-            return {
-                threshold: matchSorter.rankings.NO_MATCH
-            };
-    }
-}
-
 export function _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {
     if (valueA === undefined || valueB === undefined) {
         return valueA === valueB;
@@ -114,38 +89,4 @@ export function _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {
         return valueA.getTime() === valueB.getTime();
     }
     return valueA === valueB;
-}
-
-export function sortSelectedItems(
-    values: ObjectItem[] | null | undefined,
-    sortingType: SelectedItemsSortingEnum,
-    sortOrder: SortOrder,
-    captionGetter: (id: string) => string | undefined
-): string[] | null {
-    if (values) {
-        return sortSelections(
-            values.map(v => (v?.id as string) ?? null),
-            sortingType,
-            sortOrder,
-            captionGetter
-        );
-    } else {
-        return null;
-    }
-}
-
-function sortSelections(
-    newValueIds: string[],
-    sortingType: SelectedItemsSortingEnum,
-    sortOrder: SortOrder,
-    captionGetter: (id: string) => string | undefined
-): string[] {
-    if (sortingType === "caption") {
-        return newValueIds.sort((a, b) => {
-            const captionA = captionGetter(a)?.toString() ?? "";
-            const captionB = captionGetter(b)?.toString() ?? "";
-            return sortOrder === "asc" ? captionA.localeCompare(captionB) : captionB.localeCompare(captionA);
-        });
-    }
-    return newValueIds;
 }

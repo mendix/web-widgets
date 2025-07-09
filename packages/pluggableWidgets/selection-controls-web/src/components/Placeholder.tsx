@@ -1,5 +1,4 @@
-import classNames from "classnames";
-import { PropsWithChildren, ReactElement, createElement } from "react";
+import { ReactElement, createElement } from "react";
 import { DownArrow } from "../assets/icons";
 
 export function Placeholder(): ReactElement {
@@ -12,26 +11,26 @@ export function Placeholder(): ReactElement {
     );
 }
 
-export function NoOptionsPlaceholder(props: PropsWithChildren): ReactElement {
-    return (
-        <li className="widget-combobox-item widget-combobox-no-options" role="option">
-            {props.children}
-        </li>
-    );
-}
+// export function NoOptionsPlaceholder(props: PropsWithChildren): ReactElement {
+//     return (
+//         <li className="widget-combobox-item widget-combobox-no-options" role="option">
+//             {props.children}
+//         </li>
+//     );
+// }
 
-interface InputPlaceholderProps extends PropsWithChildren {
-    isEmpty: boolean;
-    type?: "text" | "custom";
-}
-export function InputPlaceholder(props: InputPlaceholderProps): ReactElement {
-    return (
-        <div
-            className={classNames(`widget-combobox-placeholder-${props.type ?? "text"}`, {
-                "widget-combobox-placeholder-empty": props.isEmpty
-            })}
-        >
-            {props.children}
-        </div>
-    );
-}
+// interface InputPlaceholderProps extends PropsWithChildren {
+//     isEmpty: boolean;
+//     type?: "text" | "custom";
+// }
+// export function InputPlaceholder(props: InputPlaceholderProps): ReactElement {
+//     return (
+//         <div
+//             className={classNames(`widget-combobox-placeholder-${props.type ?? "text"}`, {
+//                 "widget-combobox-placeholder-empty": props.isEmpty
+//             })}
+//         >
+//             {props.children}
+//         </div>
+//     );
+// }

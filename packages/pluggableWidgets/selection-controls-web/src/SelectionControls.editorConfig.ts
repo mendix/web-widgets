@@ -1,18 +1,18 @@
-import { Properties, hidePropertiesIn, hideNestedPropertiesIn } from "@mendix/pluggable-widgets-tools";
+import { hideNestedPropertiesIn, hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     ContainerProps,
     StructurePreviewProps,
-    structurePreviewPalette,
+    container,
     dropzone,
-    container
+    structurePreviewPalette
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { ComboboxPreviewProps } from "../typings/ComboboxProps";
-import { getDatasourcePlaceholderText } from "./helpers/utils";
+import { SelectionControlsPreviewProps } from "../typings/SelectionControlsProps";
 import IconSVG from "./assets/StructurePreviewIcon.svg";
 import IconSVGDark from "./assets/StructurePreviewIconDark.svg";
+import { getDatasourcePlaceholderText } from "./helpers/utils";
 
-const LAZY_LOADING_CONFIG: Array<keyof ComboboxPreviewProps> = ["lazyLoading", "loadingType"];
-const DATABASE_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
+// const LAZY_LOADING_CONFIG: Array<keyof SelectionControlsPreviewProps> = ["lazyLoading", "loadingType"];
+const DATABASE_SOURCE_CONFIG: Array<keyof SelectionControlsPreviewProps> = [
     "optionsSourceDatabaseCaptionAttribute",
     "optionsSourceDatabaseCaptionExpression",
     "optionsSourceDatabaseCaptionType",
@@ -25,7 +25,7 @@ const DATABASE_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
     "onChangeDatabaseEvent"
 ];
 
-const ASSOCIATION_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
+const ASSOCIATION_SOURCE_CONFIG: Array<keyof SelectionControlsPreviewProps> = [
     "optionsSourceAssociationCaptionAttribute",
     "optionsSourceAssociationCaptionExpression",
     "optionsSourceAssociationCaptionType",
@@ -36,7 +36,7 @@ const ASSOCIATION_SOURCE_CONFIG: Array<keyof ComboboxPreviewProps> = [
 ];
 
 export function getProperties(
-    values: ComboboxPreviewProps & { Editability?: unknown },
+    values: SelectionControlsPreviewProps & { Editability?: unknown },
     defaultProperties: Properties
 ): Properties {
     if (values.source !== "database") {
@@ -51,17 +51,8 @@ export function getProperties(
             ...DATABASE_SOURCE_CONFIG
         ]);
         if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
-            hidePropertiesIn(defaultProperties, values, [
-                "selectedItemsStyle",
-                "selectionMethod",
-                "selectAllButton",
-                "selectAllButtonCaption",
-                "selectedItemsSorting",
-                ...ASSOCIATION_SOURCE_CONFIG,
-                ...LAZY_LOADING_CONFIG
-            ]);
+            hidePropertiesIn(defaultProperties, values, [...ASSOCIATION_SOURCE_CONFIG]);
             if (values.optionsSourceType === "boolean") {
-                hidePropertiesIn(defaultProperties, values, ["clearable"]);
                 hidePropertiesIn(defaultProperties, values, ["attributeEnumeration"]);
             } else {
                 hidePropertiesIn(defaultProperties, values, ["attributeBoolean"]);
@@ -71,10 +62,7 @@ export function getProperties(
             if (values.optionsSourceAssociationCaptionType === "attribute") {
                 hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionExpression"]);
             } else {
-                hidePropertiesIn(defaultProperties, values, [
-                    "optionsSourceAssociationCaptionAttribute",
-                    ...LAZY_LOADING_CONFIG
-                ]);
+                hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionAttribute"]);
             }
 
             if (values.optionsSourceAssociationDataSource === null) {
@@ -83,16 +71,6 @@ export function getProperties(
 
             if (values.optionsSourceAssociationCustomContentType === "no") {
                 hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCustomContent"]);
-            } else {
-                hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
-            }
-
-            if (values.showFooter === false) {
-                hidePropertiesIn(defaultProperties, values, ["menuFooterContent"]);
-            }
-
-            if (values.selectAllButton === false) {
-                hidePropertiesIn(defaultProperties, values, ["selectAllButtonCaption"]);
             }
         }
     } else if (values.source === "database") {
@@ -103,10 +81,6 @@ export function getProperties(
             "staticAttribute",
             "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
-            "selectedItemsStyle",
-            "selectionMethod",
-            "selectAllButton",
-            "selectAllButtonCaption",
             "onChangeEvent",
             ...ASSOCIATION_SOURCE_CONFIG
         ]);
@@ -116,23 +90,16 @@ export function getProperties(
         if (values.optionsSourceDatabaseCaptionType === "attribute") {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionExpression"]);
         } else {
-            hidePropertiesIn(defaultProperties, values, [
-                "optionsSourceDatabaseCaptionAttribute",
-                ...LAZY_LOADING_CONFIG
-            ]);
+            hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionAttribute"]);
         }
         if (values.optionsSourceDatabaseCustomContentType === "no") {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCustomContent"]);
-        } else {
-            hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
         }
         if (values.optionsSourceDatabaseItemSelection === "Multi") {
             hidePropertiesIn(defaultProperties, values, [
                 "optionsSourceDatabaseValueAttribute",
                 "databaseAttributeString"
             ]);
-        } else {
-            hidePropertiesIn(defaultProperties, values, ["selectedItemsSorting"]);
         }
         if (values.databaseAttributeString.length === 0) {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseValueAttribute"]);
@@ -148,13 +115,8 @@ export function getProperties(
             "attributeEnumeration",
             "attributeBoolean",
             "optionsSourceType",
-            "selectedItemsStyle",
-            "selectionMethod",
-            "selectAllButton",
-            "selectAllButtonCaption",
             ...ASSOCIATION_SOURCE_CONFIG,
-            ...DATABASE_SOURCE_CONFIG,
-            ...LAZY_LOADING_CONFIG
+            ...DATABASE_SOURCE_CONFIG
         ]);
     }
 
@@ -164,18 +126,6 @@ export function getProperties(
                 "staticDataSourceCustomContent"
             ]);
         });
-    }
-
-    if (values.filterType === "none" && values.selectionMethod !== "rowclick") {
-        hidePropertiesIn(defaultProperties, values, ["noOptionsText"]);
-    }
-
-    if (values.selectionMethod === "rowclick") {
-        hidePropertiesIn(defaultProperties, values, ["selectedItemsStyle"]);
-    }
-
-    if (values.lazyLoading === false) {
-        hidePropertiesIn(defaultProperties, values, ["loadingType"]);
     }
 
     return defaultProperties;
@@ -196,10 +146,10 @@ function getIconPreview(isDarkMode: boolean): ContainerProps {
     };
 }
 
-export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+export function getPreview(_values: SelectionControlsPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const structurePreviewChildren: StructurePreviewProps[] = [];
-    let dropdownPreviewChildren: StructurePreviewProps[] = [];
+    // let dropdownPreviewChildren: StructurePreviewProps[] = [];
     let readOnly = _values.readOnly;
     if (
         _values.source === "context" &&
@@ -252,21 +202,6 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
             );
         });
     }
-    if (_values.showFooter === true) {
-        dropdownPreviewChildren = [
-            container({ padding: 1 })(),
-            container({
-                borders: true,
-                borderWidth: 1,
-                borderRadius: 2
-            })(
-                dropzone(
-                    dropzone.placeholder("Configure footer: place widgets here"),
-                    dropzone.hideDataSourceHeaderIf(false)
-                )(_values.menuFooterContent)
-            )
-        ];
-    }
     if (structurePreviewChildren.length === 0) {
         structurePreviewChildren.push({
             type: "Text",
@@ -299,12 +234,12 @@ export function getPreview(_values: ComboboxPreviewProps, isDarkMode: boolean): 
                               ...{ grow: 0, padding: 4 }
                           }
                 ]
-            },
-            ...dropdownPreviewChildren
+            }
+            // ...dropdownPreviewChildren
         ]
     };
 }
 
-export function getCustomCaption(values: ComboboxPreviewProps): string {
+export function getCustomCaption(values: SelectionControlsPreviewProps): string {
     return getDatasourcePlaceholderText(values);
 }

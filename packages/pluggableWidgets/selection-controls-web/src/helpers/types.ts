@@ -1,26 +1,19 @@
-import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import { DynamicValue, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
 import { ReactNode } from "react";
 import {
-    ComboboxContainerProps,
-    FilterTypeEnum,
-    LoadingTypeEnum,
     OptionsSourceAssociationCustomContentTypeEnum,
     ReadOnlyStyleEnum,
-    SelectedItemsSortingEnum,
-    SelectedItemsStyleEnum,
-    SelectionMethodEnum
-} from "../../typings/ComboboxProps";
+    SelectionControlsContainerProps
+} from "../../typings/SelectionControlsProps";
 
 export type Status = "unavailable" | "loading" | "available";
-export type CaptionPlacement = "label" | "options";
 export type SelectionType = "single" | "multi";
 export type Selector = SingleSelector | MultiSelector;
 export type SortOrder = "asc" | "desc";
 
 export interface CaptionsProvider {
     get(value: string | null): string;
-    render(value: (string | null) | (number | null), placement?: CaptionPlacement, htmlFor?: string): ReactNode;
+    render(value: (string | null) | (number | null), htmlFor?: string): ReactNode;
     emptyCaption: string;
     formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
 }
@@ -30,21 +23,10 @@ export interface ValuesProvider<T> {
 
 export interface OptionsProvider<T = unknown, P = object> {
     status: Status;
-    filterType: FilterTypeEnum;
-    searchTerm: string;
     sortOrder?: SortOrder;
 
     getAll(): string[];
     datasourceFilter?: ListValue["filter"] | undefined;
-
-    // search related
-    setSearchTerm(term: string): void;
-    onAfterSearchTermChange(callback: () => void): void;
-
-    // lazy loading related
-    hasMore?: boolean;
-    loadMore?(): void;
-    isLoading: boolean;
 
     // for private use
     _updateProps(props: P): void;
@@ -53,14 +35,12 @@ export interface OptionsProvider<T = unknown, P = object> {
 }
 
 interface SelectorBase<T, V> {
-    updateProps(props: ComboboxContainerProps): void;
+    updateProps(props: SelectionControlsContainerProps): void;
     status: Status;
     attributeType?: "string" | "big" | "boolean" | "date";
     selectorType?: "context" | "database" | "static";
     type: T;
     readOnly: boolean;
-    lazyLoading?: boolean;
-    loadingType?: LoadingTypeEnum;
     validation?: string;
 
     // options related
@@ -69,11 +49,9 @@ interface SelectorBase<T, V> {
     // caption related
     caption: CaptionsProvider;
 
-    // value related
-    clearable: boolean;
-
     currentId: V | null;
     setValue(value: V | null): void;
+    groupName: string;
 
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
 
@@ -83,12 +61,7 @@ interface SelectorBase<T, V> {
 
 export interface SingleSelector extends SelectorBase<"single", string> {}
 export interface MultiSelector extends SelectorBase<"multi", string[]> {
-    selectedItemsStyle: SelectedItemsStyleEnum;
-    selectionMethod: SelectionMethodEnum;
-    selectAllButton: boolean;
-    selectedItemsSorting: SelectedItemsSortingEnum;
     getOptions(): string[];
-    isOptionsSelected(): ThreeStateCheckBoxEnum;
 }
 export interface SelectionBaseProps<Selector> {
     inputId: string;
@@ -101,11 +74,6 @@ export interface SelectionBaseProps<Selector> {
     tabIndex: number;
     ariaRequired: DynamicValue<boolean>;
     a11yConfig: {
-        ariaLabels: {
-            clearSelection: string;
-            removeSelection: string;
-            selectAll: string;
-        };
         a11yStatusMessage: A11yStatusMessage;
     };
 }

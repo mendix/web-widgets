@@ -1,8 +1,8 @@
 import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
 import { ReactNode, createElement } from "react";
-import { OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
-import { CaptionPlacement, CaptionsProvider } from "../types";
-import { CaptionContent } from "../utils";
+import { OptionsSourceAssociationCustomContentTypeEnum } from "../../typings/SelectionControlsProps";
+import { CaptionPlacement, CaptionsProvider } from "./types";
+import { CaptionContent } from "./utils";
 
 interface Props {
     emptyOptionText?: DynamicValue<string>;
@@ -11,7 +11,7 @@ interface Props {
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
 }
 
-export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
+export class SimpleCaptionsProvider implements CaptionsProvider {
     private unavailableCaption = "<...>";
     formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
     protected customContent?: ListWidgetValue;
@@ -37,7 +37,7 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
             return this.emptyCaption;
         }
         if (!this.formatter) {
-            throw new Error("AssociationSimpleCaptionRenderer: no formatter available.");
+            throw new Error("SimpleCaptionsProvider: no formatter available.");
         }
         const item = this.optionsMap.get(value);
         if (!item) {

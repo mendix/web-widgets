@@ -1,6 +1,6 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { FocusEvent, useMemo } from "react";
-import { ComboboxContainerProps } from "../../typings/ComboboxProps";
+import { SelectionControlsContainerProps } from "../../typings/SelectionControlsProps";
 import { Selector } from "../helpers/types";
 
 type UseActionEventsReturnValue = {
@@ -8,7 +8,7 @@ type UseActionEventsReturnValue = {
     onBlur: (e: FocusEvent) => void;
 };
 
-interface useActionEventsProps extends Pick<ComboboxContainerProps, "onEnterEvent" | "onLeaveEvent"> {
+interface useActionEventsProps extends Pick<SelectionControlsContainerProps, "onEnterEvent" | "onLeaveEvent"> {
     selector: Selector;
 }
 

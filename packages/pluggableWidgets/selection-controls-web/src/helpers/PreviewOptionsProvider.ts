@@ -1,10 +1,8 @@
 import { ObjectItem } from "mendix";
-import { BaseProps } from "../../../helpers/BaseDatasourceOptionsProvider";
-import { CaptionsProvider, OptionsProvider, Status } from "../../types";
-import { FilterTypeEnum } from "../../../../typings/ComboboxProps";
+import { BaseProps } from "./BaseDatasourceOptionsProvider";
+import { CaptionsProvider, OptionsProvider, Status } from "./types";
 
-export class AssociationPreviewOptionsProvider implements OptionsProvider<ObjectItem, BaseProps> {
-    filterType: FilterTypeEnum = "contains";
+export class PreviewOptionsProvider implements OptionsProvider<ObjectItem, BaseProps> {
     hasMore?: boolean | undefined = undefined;
     searchTerm: string = "";
     status: Status = "available";

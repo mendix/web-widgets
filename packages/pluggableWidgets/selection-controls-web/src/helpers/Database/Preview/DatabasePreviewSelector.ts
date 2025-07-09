@@ -1,43 +1,40 @@
 import {
-    ComboboxContainerProps,
-    ComboboxPreviewProps,
-    LoadingTypeEnum,
+    SelectionControlsContainerProps,
+    SelectionControlsPreviewProps,
     OptionsSourceAssociationCustomContentTypeEnum
-} from "../../../../typings/ComboboxProps";
+} from "../../../../typings/SelectionControlsProps";
 import { CaptionsProvider, OptionsProvider, SingleSelector, Status } from "../../../helpers/types";
 import { getDatasourcePlaceholderText } from "../../../helpers/utils";
-import { AssociationPreviewCaptionsProvider } from "../../Association/Preview/AssociationPreviewCaptionsProvider";
-import { AssociationPreviewOptionsProvider } from "../../Association/Preview/AssociationPreviewOptionsProvider";
+import { PreviewCaptionsProvider } from "../../PreviewCaptionsProvider";
+import { PreviewOptionsProvider } from "../../PreviewOptionsProvider";
 
 export class DatabasePreviewSelector implements SingleSelector {
     attributeType?: "string" | "big" | "boolean" | "date";
     caption: CaptionsProvider;
-    clearable: boolean;
     currentId: string | null;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
-    lazyLoading?: boolean = false;
-    loadingType?: LoadingTypeEnum = "skeleton";
     options: OptionsProvider;
     readOnly: boolean;
     selectorType?: "context" | "database" | "static";
     status: Status = "available";
     type = "single" as const;
     validation?: string;
+    groupName: string;
 
     onEnterEvent?: () => void;
     onLeaveEvent?: () => void;
 
-    constructor(props: ComboboxPreviewProps) {
-        this.caption = new AssociationPreviewCaptionsProvider(new Map());
-        this.clearable = props.clearable;
+    constructor(props: SelectionControlsPreviewProps) {
+        this.caption = new PreviewCaptionsProvider(new Map());
         this.currentId = getDatasourcePlaceholderText(props);
         this.customContentType = props.optionsSourceDatabaseCustomContentType;
-        this.options = new AssociationPreviewOptionsProvider(this.caption, new Map());
+        this.options = new PreviewOptionsProvider(this.caption, new Map());
         this.readOnly = props.readOnly;
-        (this.caption as AssociationPreviewCaptionsProvider).updatePreviewProps({
-            customContentRenderer: props.optionsSourceDatabaseCustomContent.renderer,
-            customContentType: props.optionsSourceDatabaseCustomContentType
-        });
+        this.groupName = `single-selection-${Math.random().toString(36).substring(2, 15)}`;
+        // (this.caption as AssociationPreviewCaptionsProvider).updatePreviewProps({
+        //     customContentRenderer: props.optionsSourceDatabaseCustomContent.renderer,
+        //     customContentType: props.optionsSourceDatabaseCustomContentType
+        // });
 
         if (props.optionsSourceDatabaseCustomContentType === "listItem") {
             // always render custom content dropzone in design mode if type is options only
@@ -48,7 +45,7 @@ export class DatabasePreviewSelector implements SingleSelector {
     setValue(_: string | null): void {
         throw new Error("Method not implemented.");
     }
-    updateProps(_: ComboboxContainerProps): void {
+    updateProps(_: SelectionControlsContainerProps): void {
         throw new Error("Method not implemented.");
     }
 }
