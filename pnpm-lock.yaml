@@ -2790,6 +2790,34 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0
 
+  packages/shared/widget-plugin-i18n:
+    dependencies:
+      i18next-http-backend:
+        specifier: ^3.0.2
+        version: 3.0.2
+      mendix:
+        specifier: '*'
+        version: 10.23.70273
+    devDependencies:
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../eslint-config-web-widgets
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../prettier-config-web-widgets
+      '@mendix/tsconfig-web-widgets':
+        specifier: workspace:*
+        version: link:../tsconfig-web-widgets
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../widget-plugin-test-utils
+      '@swc/core':
+        specifier: ^1.7.26
+        version: 1.7.26(@swc/helpers@0.5.15)
+      i18next:
+        specifier: ^25.3.2
+        version: 25.3.2(typescript@5.8.2)
+
   packages/shared/widget-plugin-mobx-kit:
     dependencies:
       mobx:
@@ -6151,6 +6179,9 @@ packages:
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
     hasBin: true
 
+  cross-fetch@4.0.0:
+    resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
+
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -7683,6 +7714,17 @@ packages:
     resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
     engines: {node: '>=14'}
     hasBin: true
+
+  i18next-http-backend@3.0.2:
+    resolution: {integrity: sha512-PdlvPnvIp4E1sYi46Ik4tBYh/v/NbYfFFgTjkwFl0is8A18s7/bx9aXqsrOax9WUbeNS6mD2oix7Z0yGGf6m5g==}
+
+  i18next@25.3.2:
+    resolution: {integrity: sha512-JSnbZDxRVbphc5jiptxr3o2zocy5dEqpVm9qCGdJwRNO+9saUJS0/u4LnM/13C23fUEWxAylPqKU/NpMV/IjqA==}
+    peerDependencies:
+      typescript: '>5.8.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -13566,21 +13608,21 @@ snapshots:
 
   '@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.36)(react@18.2.0)':
     dependencies:
-      '@babel/runtime': 7.25.7
+      '@babel/runtime': 7.27.6
       react: 18.2.0
     optionalDependencies:
       '@types/react': 18.2.36
 
   '@radix-ui/react-context@1.0.1(@types/react@18.2.36)(react@18.2.0)':
     dependencies:
-      '@babel/runtime': 7.25.7
+      '@babel/runtime': 7.27.6
       react: 18.2.0
     optionalDependencies:
       '@types/react': 18.2.36
 
   '@radix-ui/react-primitive@1.0.3(@types/react-dom@18.2.14)(@types/react@18.2.36)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
-      '@babel/runtime': 7.25.7
+      '@babel/runtime': 7.27.6
       '@radix-ui/react-slot': 1.0.2(@types/react@18.2.36)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -13601,7 +13643,7 @@ snapshots:
 
   '@radix-ui/react-slot@1.0.2(@types/react@18.2.36)(react@18.2.0)':
     dependencies:
-      '@babel/runtime': 7.25.7
+      '@babel/runtime': 7.27.6
       '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.2.36)(react@18.2.0)
       react: 18.2.0
     optionalDependencies:
@@ -15945,6 +15987,12 @@ snapshots:
     dependencies:
       cross-spawn: 7.0.6
 
+  cross-fetch@4.0.0:
+    dependencies:
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
+
   cross-spawn@7.0.3:
     dependencies:
       path-key: 3.1.1
@@ -16370,7 +16418,7 @@ snapshots:
 
   dom-helpers@5.2.1:
     dependencies:
-      '@babel/runtime': 7.25.7
+      '@babel/runtime': 7.27.6
       csstype: 3.1.2
 
   dom-serializer@1.4.1:
@@ -17872,6 +17920,18 @@ snapshots:
   human-signals@2.1.0: {}
 
   husky@8.0.3: {}
+
+  i18next-http-backend@3.0.2:
+    dependencies:
+      cross-fetch: 4.0.0
+    transitivePeerDependencies:
+      - encoding
+
+  i18next@25.3.2(typescript@5.8.2):
+    dependencies:
+      '@babel/runtime': 7.27.6
+    optionalDependencies:
+      typescript: 5.8.2
 
   iconv-lite@0.4.24:
     dependencies:
@@ -20602,7 +20662,7 @@ snapshots:
 
   react-error-boundary@3.1.4(react@18.2.0):
     dependencies:
-      '@babel/runtime': 7.25.7
+      '@babel/runtime': 7.27.6
       react: 18.2.0
 
   react-is@16.13.1: {}
@@ -20888,7 +20948,7 @@ snapshots:
 
   redux@4.2.1:
     dependencies:
-      '@babel/runtime': 7.22.5
+      '@babel/runtime': 7.27.6
 
   reflect.getprototypeof@1.0.10:
     dependencies:
@@ -22135,7 +22195,7 @@ snapshots:
 
   uncontrollable@7.2.1(react@18.2.0):
     dependencies:
-      '@babel/runtime': 7.25.7
+      '@babel/runtime': 7.27.6
       '@types/react': 18.2.36
       invariant: 2.2.4
       react: 18.2.0

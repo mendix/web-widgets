@@ -1,0 +1,45 @@
+{
+    "name": "@mendix/widget-plugin-i18n",
+    "version": "0.1.0",
+    "description": "Translations and i18n plugin",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "type": "module",
+    "files": [
+        "dist",
+        "!*.map"
+    ],
+    "exports": {
+        "./*": "./dist/*.js"
+    },
+    "typesVersions": {
+        "*": {
+            "*": [
+                "dist/*"
+            ]
+        }
+    },
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch",
+        "format": "prettier --write .",
+        "lint": "eslint src/ package.json",
+        "test": "jest"
+    },
+    "dependencies": {
+        "i18next": "^25.3.2",
+        "i18next-http-backend": "^3.0.2",
+        "mendix": "*"
+    },
+    "devDependencies": {
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/tsconfig-web-widgets": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*",
+        "@swc/core": "^1.7.26"
+    }
+}
