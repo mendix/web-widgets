@@ -14,5 +14,5 @@ declare global {
 }
 
 export function getGlobalI18nPluginContext(): I18nContext {
-    return window[contextPath] ?? createI18nContext();
+    return (window[contextPath] ??= createI18nContext());
 }

@@ -5,9 +5,20 @@
     <icon />
     <properties>
         <propertyGroup caption="General">
-            <property key="sampleText" type="string" required="false">
-                <caption>Default value</caption>
-                <description>Sample text input</description>
+            <property key="data" type="datasource" isList="true" required="true">
+                <caption>Data source</caption>
+                <description>Recommended: System.User or other entity with language</description>
+            </property>
+            <property key="langAttr" type="attribute" dataSource="data" required="true">
+                <caption>Language code</caption>
+                <description>Recommended: System.User_Language/System.Language/Code</description>
+                <attributeTypes>
+                    <attributeType name="String" />
+                </attributeTypes>
+            </property>
+            <property key="children" type="widgets">
+                <caption>Children</caption>
+                <description />
             </property>
         </propertyGroup>
     </properties>

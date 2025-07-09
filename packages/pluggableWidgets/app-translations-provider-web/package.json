@@ -41,6 +41,7 @@
     "dependencies": {
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-i18n": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "classnames": "^2.2.6"
     },

@@ -3,14 +3,17 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
+import { ComponentType, CSSProperties, ReactNode } from "react";
+import { ListValue, ListAttributeValue } from "mendix";
 
 export interface AppTranslationsProviderContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    sampleText: string;
+    data: ListValue;
+    langAttr: ListAttributeValue<string>;
+    children: ReactNode;
 }
 
 export interface AppTranslationsProviderPreviewProps {
@@ -24,5 +27,7 @@ export interface AppTranslationsProviderPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    sampleText: string;
+    data: {} | { caption: string } | { type: string } | null;
+    langAttr: string;
+    children: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
 }
