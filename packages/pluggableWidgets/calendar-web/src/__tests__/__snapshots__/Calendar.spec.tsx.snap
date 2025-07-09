@@ -860,7 +860,7 @@ exports[`Calendar renders correctly with basic props 1`] = `
                 </div>
                 <div
                   class="rbc-current-time-indicator"
-                  style="top: 58.333333333333336%;"
+                  style="top: 50%;"
                 />
               </div>
               <div
@@ -2721,7 +2721,7 @@ exports[`Calendar renders correctly with basic props 1`] = `
               </div>
               <div
                 class="rbc-current-time-indicator"
-                style="top: 58.333333333333336%;"
+                style="top: 50%;"
               />
             </div>
             <div
