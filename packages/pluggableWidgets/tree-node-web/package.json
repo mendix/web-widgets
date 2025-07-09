@@ -30,7 +30,7 @@
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "run-e2e ci",
-        "e2e-update-project": "pnpm -w exec turbo run build:module --filter data-widgets --force",
+        "e2e-update-project": "pnpm -w exec turbo run build:module --filter @mendix/data-widgets --force",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
