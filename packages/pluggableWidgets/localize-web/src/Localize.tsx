@@ -10,7 +10,7 @@ export function Localize({ tKey, component: Component }: LocalizeContainerProps)
         return <Fragment />;
     }
     if (i18n.exists(tKey)) {
-        return <Component>{i18n.t(tKey)}</Component>;
+        return <Component className="mx-text">{i18n.t(tKey)}</Component>;
     }
 
     return <code>{formatKey(tKey)}</code>;
