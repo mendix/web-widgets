@@ -1,0 +1,57 @@
+{
+    "name": "@mendix/app-translations-provider-web",
+    "widgetName": "AppTranslationsProvider",
+    "version": "0.1.0",
+    "description": "i18n provider",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "config": {},
+    "mxpackage": {
+        "name": "AppTranslationsProvider",
+        "type": "widget",
+        "mpkName": "com.mendix.widget.web.AppTranslationsProvider.mpk"
+    },
+    "packagePath": "com.mendix.widget.web",
+    "marketplace": {
+        "minimumMXVersion": "10.22.0.68245",
+        "appName": "App translations provider"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "app-translations-provider-web"
+    },
+    "scripts": {
+        "build": "pluggable-widgets-tools build:web",
+        "create-gh-release": "rui-create-gh-release",
+        "create-translation": "rui-create-translation",
+        "dev": "pluggable-widgets-tools start:web",
+        "lint": "eslint src/ package.json",
+        "publish-marketplace": "rui-publish-marketplace",
+        "prerelease": "npm run lint",
+        "release": "pluggable-widgets-tools release:web",
+        "start": "pluggable-widgets-tools start:server",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "classnames": "^2.2.6"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:^*",
+        "@mendix/widget-plugin-test-utils": "workspace:*",
+        "@types/big.js": "^6.0.2",
+        "mendix": "*"
+    }
+}
