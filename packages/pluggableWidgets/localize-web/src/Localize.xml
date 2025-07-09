@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.localize.Localize" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Localize</name>
+    <description>Text localization</description>
+    <icon />
+    <properties>
+        <propertyGroup caption="General">
+            <propertyGroup caption="Translation">
+                <property key="tKey" type="string">
+                    <caption>Translation key</caption>
+                    <description>The translation key in one of i18n JSON files</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="General">
+                <property key="component" type="enumeration" defaultValue="span">
+                    <caption>Render mode</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="span">Text</enumerationValue>
+                        <enumerationValue key="p">Paragraph</enumerationValue>
+                        <enumerationValue key="h1">Heading 1</enumerationValue>
+                        <enumerationValue key="h2">Heading 2</enumerationValue>
+                        <enumerationValue key="h3">Heading 3</enumerationValue>
+                        <enumerationValue key="h4">Heading 4</enumerationValue>
+                        <enumerationValue key="h5">Heading 5</enumerationValue>
+                        <enumerationValue key="h6">Heading 6</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Format">
+                <property key="formatParams" type="object" isList="true" required="false">
+                    <caption>Parameters</caption>
+                    <description />
+                    <properties>
+                        <propertyGroup caption="Config">
+                            <property key="name" type="string">
+                                <caption>Name</caption>
+                                <description />
+                            </property>
+                            <property key="expType" type="enumeration" defaultValue="str">
+                                <caption>Type</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="date">DateTime</enumerationValue>
+                                    <enumerationValue key="str">String</enumerationValue>
+                                    <enumerationValue key="num">Number</enumerationValue>
+                                </enumerationValues>
+                            </property>
+                            <property key="str" type="expression">
+                                <caption>Value (String)</caption>
+                                <description />
+                                <returnType type="String" />
+                            </property>
+                            <property key="int" type="expression">
+                                <caption>Value (Integer)</caption>
+                                <description />
+                                <returnType type="Integer" />
+                            </property>
+                            <property key="dec" type="expression">
+                                <caption>Value (Decimal)</caption>
+                                <description />
+                                <returnType type="Decimal" />
+                            </property>
+                            <property key="date" type="expression">
+                                <caption>Value (DateTime)</caption>
+                                <description />
+                                <returnType type="DateTime" />
+                            </property>
+                        </propertyGroup>
+                    </properties>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+    </properties>
+</widget>

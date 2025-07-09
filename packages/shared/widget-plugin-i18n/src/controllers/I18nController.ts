@@ -1,4 +1,4 @@
-import { createInstance, TFunction } from "i18next";
+import { createInstance, ExistsFunction, TFunction } from "i18next";
 import HttpBackend from "i18next-http-backend";
 import { PluginI18n } from "../types";
 
@@ -41,8 +41,13 @@ export class I18nController {
     private _createPlugin(t: TFunction): PluginI18n {
         return {
             t,
-            changeLanguage: (languageCode: string) => this.changeLanguage(languageCode)
+            changeLanguage: (languageCode: string) => this.changeLanguage(languageCode),
+            exists: (...args: Parameters<ExistsFunction>): boolean => this.exists(...args)
         };
+    }
+
+    exists(...args: Parameters<ExistsFunction>): boolean {
+        return this._i18n.exists(...args);
     }
 
     changeLanguage(languageCode: string): void {
