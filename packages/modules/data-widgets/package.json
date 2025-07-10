@@ -36,11 +36,11 @@
         "branchName": "main"
     },
     "scripts": {
-        "build:deps": "turbo run build --filter=data-widgets^...",
+        "build:deps": "turbo run build --filter=@mendix/data-widgets^...",
         "build:include-deps": "pnpm run build:deps && pnpm run build:module",
         "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
         "create-gh-release": "rui-create-gh-release",
-        "create-module-mpk": "turbo release:module --filter data-widgets",
+        "create-module-mpk": "turbo release:module --filter @mendix/data-widgets",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "tsc --project scripts/tsconfig.json",
         "publish-marketplace": "rui-publish-marketplace",
