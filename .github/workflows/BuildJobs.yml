@@ -16,6 +16,7 @@ concurrency:
 
 env:
     since_flag: ${{ github.event_name == 'pull_request' && format('--filter "...[origin/{0}]"', github.base_ref) || '' }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
     check-sha:
