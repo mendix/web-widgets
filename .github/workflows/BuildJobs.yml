@@ -151,16 +151,14 @@ jobs:
                 github.event_name == 'pull_request' && 
                 github.event.pull_request.head.repo.full_name == 'mendix/web-widgets' }}
         runs-on: ubuntu-latest
-        permissions:
-            packages: read
-            contents: read
+        permissions: read-all
         env:
             MENDIX_VERSION: ${{needs.mxversion.outputs.mxversion}}
             MXBUILD_PATH: ${{needs.mxversion.outputs.mxbuild_path}}
             MXBUILD_TAG: ${{needs.mxversion.outputs.mxbuild_tag}}
             MXRUNTIME_PATH: ${{needs.mxversion.outputs.mxruntime_path}}
             MXRUNTIME_TAG: ${{needs.mxversion.outputs.mxruntime_tag}}
-            GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         strategy:
             # when one test fails, DO NOT cancel the other
@@ -212,8 +210,8 @@ jobs:
               run: pnpm exec playwright install --with-deps chromium
             - name: "Executing E2E tests"
               env:
-                  GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-              run: >-
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
                   echo "GITHUB_TOKEN starts with: ${GITHUB_TOKEN:0:4}... (length: ${#GITHUB_TOKEN})"
                   node ./automation/run-e2e/bin/run-e2e-in-chunks.mjs --chunks ${{ matrix.chunks }} --index ${{ matrix.index }} --event-name ${{ github.event_name }}
             - name: Check file existence

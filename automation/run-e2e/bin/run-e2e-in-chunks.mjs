@@ -45,7 +45,12 @@ function main() {
 
     // Run e2e only we have packages in chunk
     if (filters.length > 0) {
-        execSync(command, { stdio: "inherit" });
+        // Ensure GITHUB_TOKEN is passed to the child process, even if pnpm run mangles env
+        const env = {
+            ...process.env,
+            GITHUB_TOKEN: process.env.GITHUB_TOKEN || process.env.github_token || ""
+        };
+        execSync(command, { stdio: "inherit", env });
     } else {
         console.log(c.yellow("No packages in chunk, skip e2e."));
     }
