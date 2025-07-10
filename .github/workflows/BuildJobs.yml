@@ -15,7 +15,6 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     since_flag: >-
       ${{
         github.event_name == 'pull_request'
@@ -161,6 +160,7 @@ jobs:
             MXBUILD_TAG: ${{needs.mxversion.outputs.mxbuild_tag}}
             MXRUNTIME_PATH: ${{needs.mxversion.outputs.mxruntime_path}}
             MXRUNTIME_TAG: ${{needs.mxversion.outputs.mxruntime_tag}}
+            
         strategy:
             # when one test fails, DO NOT cancel the other
             fail-fast: false
@@ -211,7 +211,7 @@ jobs:
               run: pnpm exec playwright install --with-deps chromium
             - name: "Executing E2E tests"
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GH_PAT }}
               run: >-
                   node ./automation/run-e2e/bin/run-e2e-in-chunks.mjs --chunks ${{ matrix.chunks }} --index ${{ matrix.index }} --event-name ${{ github.event_name }}
             - name: Check file existence
