@@ -1,7 +1,6 @@
 import c from "ansi-colors";
 import { readFileSync } from "fs";
 import fetch from "node-fetch";
-import assert from "node:assert/strict";
 import { mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -24,8 +23,17 @@ export async function fetchWithReport(url, init) {
 
 export async function fetchGithubRestAPI(url, init = {}) {
     const token = process.env.GITHUB_TOKEN;
-    assert.ok(typeof token === "string" && token.length > 0, "GITHUB_TOKEN is missing");
-
+    if (!token || typeof token !== "string" || token.length === 0) {
+        console.warn("Warning: GITHUB_TOKEN is missing. GitHub API requests may fail or be rate-limited.");
+        return fetchWithReport(url, {
+            ...init,
+            headers: {
+                Accept: "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+                ...init.headers
+            }
+        });
+    }
     return fetchWithReport(url, {
         ...init,
         headers: {

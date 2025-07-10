@@ -15,8 +15,15 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    since_flag: ${{ github.event_name == 'pull_request' && format('--filter "...[origin/{0}]"', github.base_ref) || '' }}
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    since_flag: >-
+      ${{
+        github.event_name == 'pull_request'
+          && (contains(join(github.event.pull_request.changed_files.*.filename, ','), 'automation/')
+              && ''
+              || format('--filter "...[origin/{0}]"', github.base_ref))
+          || ''
+      }}
 
 jobs:
     check-sha:
