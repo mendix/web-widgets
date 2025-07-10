@@ -124,6 +124,10 @@
                 <property key="emptyOptionCaption" type="textTemplate" required="false">
                     <caption>Empty option caption</caption>
                     <description />
+                    <translations>
+                        <translation lang="en_US">None</translation>
+                        <translation lang="nl_NL">Niets</translation>
+                    </translations>
                 </property>
                 <property key="clearable" type="boolean" defaultValue="true">
                     <caption>Clearable</caption>
@@ -162,11 +166,29 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
-        <propertyGroup caption="Accessibility">
+        <propertyGroup caption="Advanced">
             <propertyGroup caption="Accessibility">
                 <property key="ariaLabel" type="textTemplate" required="false">
                     <caption>Input caption</caption>
                     <description>Assistive technology will read this upon reaching the input element.</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Texts">
+                <property key="emptySelectionCaption" type="textTemplate" required="false">
+                    <caption>Empty selection caption</caption>
+                    <description>This text is shown if no options are selected. For example 'Select color' or 'No options are selected'.</description>
+                    <translations>
+                        <translation lang="en_US">Select</translation>
+                        <translation lang="nl_NL">Selecteer</translation>
+                    </translations>
+                </property>
+                <property key="filterInputPlaceholderCaption" type="textTemplate" required="false">
+                    <caption>Filter input placeholder</caption>
+                    <description>This text is shown as placeholder for filterable filters. For example 'Type to search'.</description>
+                    <translations>
+                        <translation lang="en_US">Search</translation>
+                        <translation lang="nl_NL">Zoeken</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>

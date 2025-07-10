@@ -5,7 +5,8 @@ import { SelectControllerMixin } from "./mixins/SelectControllerMixin";
 export class EnumSelectController extends SelectControllerMixin(EnumBaseController) {
     constructor({ gate }: { gate: DerivedPropsGate<EnumBaseControllerProps> }) {
         super({ gate, multiselect: gate.props.multiselect });
-        this.emptyOption.caption = gate.props.emptyCaption || "None";
-        this.placeholder = gate.props.emptyCaption || "Select";
+        this.emptyOption.caption = gate.props.emptyOptionCaption;
+        this.emptyCaption = gate.props.emptySelectionCaption;
+        this.ariaLabel = gate.props.ariaLabel;
     }
 }
