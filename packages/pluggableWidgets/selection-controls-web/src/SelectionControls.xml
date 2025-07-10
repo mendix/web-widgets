@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.selectioncontrols.SelectionControls" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Selection Controls</name>
+    <description />
+    <studioProCategory>Input elements</studioProCategory>
+    <studioCategory>Display</studioCategory>
+    <helpUrl>https://docs.mendix.com/appstore/widgets/selectioncontrols</helpUrl>
+    <properties>
+        <propertyGroup caption="General">
+            <!-- OPTIONS SOURCE -->
+            <propertyGroup caption="Data source">
+                <property key="source" type="enumeration" defaultValue="context" required="true">
+                    <caption>Source</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="context">Context</enumerationValue>
+                        <enumerationValue key="database">Database</enumerationValue>
+                        <enumerationValue key="static">Static</enumerationValue>
+                    </enumerationValues>
+                </property>
+
+                <property key="optionsSourceType" type="enumeration" defaultValue="association" required="true">
+                    <caption>Type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="association">Association</enumerationValue>
+                        <enumerationValue key="enumeration">Enumeration</enumerationValue>
+                        <enumerationValue key="boolean">Boolean</enumerationValue>
+                    </enumerationValues>
+                </property>
+
+                <!-- ENUM & BOOLEAN-->
+                <property key="attributeEnumeration" type="attribute" required="true" setLabel="true">
+                    <caption>Attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="Enum" />
+                    </attributeTypes>
+                </property>
+                <property key="attributeBoolean" type="attribute" required="true" setLabel="true">
+                    <caption>Attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="Boolean" />
+                    </attributeTypes>
+                </property>
+                <!-- END ENUM & BOOLEAN -->
+                <!-- DATABASE / STRING -->
+                <property key="optionsSourceDatabaseDataSource" type="datasource" isList="true" required="false">
+                    <caption>Selectable objects</caption>
+                    <description />
+                </property>
+                <property key="optionsSourceDatabaseItemSelection" type="selection" dataSource="optionsSourceDatabaseDataSource" onChange="onChangeDatabaseEvent">
+                    <caption>Selection type</caption>
+                    <description />
+                    <selectionTypes>
+                        <selectionType name="Single" />
+                        <selectionType name="Multi" />
+                    </selectionTypes>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Caption">
+                <!-- CAPTIONS -->
+                <property key="optionsSourceAssociationCaptionType" type="enumeration" defaultValue="attribute">
+                    <caption>Caption type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="attribute">Attribute</enumerationValue>
+                        <enumerationValue key="expression">Expression</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="optionsSourceDatabaseCaptionType" type="enumeration" defaultValue="attribute">
+                    <caption>Caption type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="attribute">Attribute</enumerationValue>
+                        <enumerationValue key="expression">Expression</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="optionsSourceAssociationCaptionAttribute" type="attribute" dataSource="optionsSourceAssociationDataSource" required="true">
+                    <caption>Caption</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="optionsSourceDatabaseCaptionAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource" required="true">
+                    <caption>Caption</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="optionsSourceAssociationCaptionExpression" type="expression" dataSource="optionsSourceAssociationDataSource" required="true">
+                    <caption>Caption</caption>
+                    <description />
+                    <returnType type="String" />
+                </property>
+                <property key="optionsSourceDatabaseCaptionExpression" type="expression" dataSource="optionsSourceDatabaseDataSource" required="true">
+                    <caption>Caption</caption>
+                    <description />
+                    <returnType type="String" />
+                </property>
+                <!-- END CAPTIONS -->
+            </propertyGroup>
+            <propertyGroup caption="Store value">
+                <property key="optionsSourceDatabaseValueAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource">
+                    <caption>Value</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Long" />
+                        <attributeType name="Enum" />
+                    </attributeTypes>
+                </property>
+                <property key="databaseAttributeString" type="attribute" setLabel="true" required="false">
+                    <caption>Target attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Long" />
+                        <attributeType name="Enum" />
+                    </attributeTypes>
+                </property>
+            </propertyGroup>
+            <!-- END DATABASE / STRING -->
+            <propertyGroup caption="Attribute">
+                <!-- ASSOCIATION -->
+                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true" setLabel="true">
+                    <caption>Entity</caption>
+                    <description />
+                    <associationTypes>
+                        <associationType name="Reference" />
+                        <associationType name="ReferenceSet" />
+                    </associationTypes>
+                </property>
+                <property key="optionsSourceAssociationDataSource" type="datasource" isList="true" required="false">
+                    <caption>Selectable objects</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+            <!-- END OPTIONS SOURCE -->
+            <!-- STATIC-->
+            <propertyGroup caption="Values">
+                <property key="staticAttribute" type="attribute" required="true" setLabel="true">
+                    <caption>Attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                        <attributeType name="Enum" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Long" />
+                        <attributeType name="Boolean" />
+                        <attributeType name="DateTime" />
+                        <attributeType name="Decimal" />
+                    </attributeTypes>
+                </property>
+                <property key="optionsSourceStaticDataSource" type="object" isList="true" required="true">
+                    <caption>Values</caption>
+                    <description />
+                    <properties>
+                        <propertyGroup caption="Static values">
+                            <property key="staticDataSourceValue" type="expression">
+                                <caption>Value</caption>
+                                <description>Value to be set</description>
+                                <returnType assignableTo="../staticAttribute" />
+                            </property>
+                            <property key="staticDataSourceCustomContent" type="widgets">
+                                <caption>Custom content</caption>
+                                <description />
+                            </property>
+                            <property key="staticDataSourceCaption" type="textTemplate">
+                                <caption>Caption</caption>
+                                <description>Caption to be shown</description>
+                            </property>
+                        </propertyGroup>
+                    </properties>
+                </property>
+            </propertyGroup>
+            <!-- STATIC END-->
+            <!-- GENERAL -->
+            <propertyGroup caption="General">
+                <property key="optionsSourceAssociationCustomContentType" type="enumeration" defaultValue="no" required="true">
+                    <caption>Custom content</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="yes">Yes</enumerationValue>
+                        <enumerationValue key="listItem">List items only</enumerationValue>
+                        <enumerationValue key="no">No</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="optionsSourceAssociationCustomContent" type="widgets" required="true" dataSource="optionsSourceAssociationDataSource">
+                    <caption>Custom content</caption>
+                    <description />
+                </property>
+                <property key="optionsSourceDatabaseCustomContentType" type="enumeration" defaultValue="no" required="true">
+                    <caption>Custom content</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="yes">Yes</enumerationValue>
+                        <enumerationValue key="listItem">List items only</enumerationValue>
+                        <enumerationValue key="no">No</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="optionsSourceDatabaseCustomContent" type="widgets" required="true" dataSource="optionsSourceDatabaseDataSource">
+                    <caption>Custom content</caption>
+                    <description />
+                </property>
+                <property key="staticDataSourceCustomContentType" type="enumeration" defaultValue="no">
+                    <caption>Custom content</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="yes">Yes</enumerationValue>
+                        <enumerationValue key="listItem">List items only</enumerationValue>
+                        <enumerationValue key="no">No</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <!-- END MISC PROPS -->
+            </propertyGroup>
+            <!-- END GENERAL -->
+
+            <!-- SYSTEM PROPS -->
+            <propertyGroup caption="Label">
+                <systemProperty key="Label" />
+            </propertyGroup>
+
+            <propertyGroup caption="Conditional visibility">
+                <systemProperty key="Visibility" />
+            </propertyGroup>
+            <propertyGroup caption="Editability">
+                <systemProperty key="Editability" />
+                <property key="customEditability" type="enumeration" defaultValue="default">
+                    <caption>Editable</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="default">Default</enumerationValue>
+                        <enumerationValue key="never">Never</enumerationValue>
+                        <enumerationValue key="conditionally">Conditionally</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="customEditabilityExpression" type="expression" defaultValue="false">
+                    <caption>Condition</caption>
+                    <description />
+                    <returnType type="Boolean" />
+                </property>
+                <property key="readOnlyStyle" type="enumeration" defaultValue="text">
+                    <caption>Read-only style</caption>
+                    <description>How the combo box will appear in read-only mode.</description>
+                    <enumerationValues>
+                        <enumerationValue key="bordered">Control</enumerationValue>
+                        <enumerationValue key="text">Content only</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+            <!-- END SYSTEM PROPS -->
+        </propertyGroup>
+
+        <propertyGroup caption="Events">
+            <property key="onChangeEvent" type="action" required="false">
+                <caption>On change action</caption>
+                <description />
+            </property>
+            <property key="onChangeDatabaseEvent" type="action" required="false">
+                <caption>On change action</caption>
+                <description />
+            </property>
+            <property key="onEnterEvent" type="action" required="false">
+                <caption>On enter action</caption>
+                <description />
+            </property>
+            <property key="onLeaveEvent" type="action" required="false">
+                <caption>On leave action</caption>
+                <description />
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="Accessibility">
+            <propertyGroup caption="Accessibility">
+                <property key="ariaRequired" type="expression" defaultValue="false">
+                    <caption>Aria required</caption>
+                    <description />
+                    <returnType type="Boolean" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Aria labels">
+                <property key="clearButtonAriaLabel" type="textTemplate" required="false">
+                    <caption>Clear selection button</caption>
+                    <description>Used to clear all selected values.</description>
+                    <translations>
+                        <translation lang="en_US">Clear selection</translation>
+                        <translation lang="nl_NL">Selectie wissen</translation>
+                    </translations>
+                </property>
+                <property key="removeValueAriaLabel" type="textTemplate" required="false">
+                    <caption>Remove value button</caption>
+                    <description>Used to remove individual selected values when using labels with multi-selection.</description>
+                    <translations>
+                        <translation lang="en_US">Remove value</translation>
+                        <translation lang="nl_NL">Waarde verwijderen</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Accessibility status message ">
+                <property key="a11ySelectedValue" type="textTemplate" required="false">
+                    <caption>Selected value</caption>
+                    <description>Output example: "Selected value: Avocado, Apple, Banana."</description>
+                    <translations>
+                        <translation lang="en_US">Selected value:</translation>
+                        <translation lang="nl_NL">Geselecteerde waarde:</translation>
+                    </translations>
+                </property>
+                <property key="a11yOptionsAvailable" type="textTemplate" required="false">
+                    <caption>Options available</caption>
+                    <description>Output example: "Number of options available: 1"</description>
+                    <translations>
+                        <translation lang="en_US">Number of options available:</translation>
+                        <translation lang="nl_NL">Aantal beschikbare opties:</translation>
+                    </translations>
+                </property>
+                <property key="a11yInstructions" type="textTemplate" required="false">
+                    <caption>Instructions</caption>
+                    <description>Instructions to be read after announcing the status.</description>
+                    <translations>
+                        <translation lang="en_US">Use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.</translation>
+                        <translation lang="nl_NL">Gebruik de pijltjestoetsen (omhoog en omlaag) om te navigeren. Druk op Enter of de spatiebalk om de waarde te selecteren.</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+    </properties>
+</widget>
