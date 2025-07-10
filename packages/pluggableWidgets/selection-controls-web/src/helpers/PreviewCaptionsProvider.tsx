@@ -1,5 +1,3 @@
-import { CaptionPlacement } from "./types";
-import { CaptionContent } from "./utils";
 import { OptionsSourceAssociationCustomContentTypeEnum } from "../../typings/SelectionControlsProps";
 import { SimpleCaptionsProvider } from "./SimpleCaptionsProvider";
 import { createElement, ReactNode, ComponentType } from "react";
@@ -38,12 +36,7 @@ export class PreviewCaptionsProvider extends SimpleCaptionsProvider {
         this.customContentType = props.customContentType;
     }
 
-    render(value: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
-        // always render custom content dropzone in design mode if type is options only
-        if (placement === "options") {
-            return <CaptionContent htmlFor={htmlFor}>{this.get(value)}</CaptionContent>;
-        }
-
-        return super.render(value, placement === "label" ? "options" : placement);
+    render(value: string | null, htmlFor?: string): ReactNode {
+        return super.render(value, htmlFor);
     }
 }

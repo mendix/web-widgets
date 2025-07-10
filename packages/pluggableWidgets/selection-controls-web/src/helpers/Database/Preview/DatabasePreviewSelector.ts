@@ -4,7 +4,6 @@ import {
     OptionsSourceAssociationCustomContentTypeEnum
 } from "../../../../typings/SelectionControlsProps";
 import { CaptionsProvider, OptionsProvider, SingleSelector, Status } from "../../../helpers/types";
-import { getDatasourcePlaceholderText } from "../../../helpers/utils";
 import { PreviewCaptionsProvider } from "../../PreviewCaptionsProvider";
 import { PreviewOptionsProvider } from "../../PreviewOptionsProvider";
 
@@ -26,7 +25,7 @@ export class DatabasePreviewSelector implements SingleSelector {
 
     constructor(props: SelectionControlsPreviewProps) {
         this.caption = new PreviewCaptionsProvider(new Map());
-        this.currentId = getDatasourcePlaceholderText(props);
+        this.currentId = null;
         this.customContentType = props.optionsSourceDatabaseCustomContentType;
         this.options = new PreviewOptionsProvider(this.caption, new Map());
         this.readOnly = props.readOnly;

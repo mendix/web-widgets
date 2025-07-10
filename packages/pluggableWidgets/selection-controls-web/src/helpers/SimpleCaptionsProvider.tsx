@@ -1,7 +1,7 @@
 import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
 import { ReactNode, createElement } from "react";
 import { OptionsSourceAssociationCustomContentTypeEnum } from "../../typings/SelectionControlsProps";
-import { CaptionPlacement, CaptionsProvider } from "./types";
+import { CaptionsProvider } from "./types";
 import { CaptionContent } from "./utils";
 
 interface Props {
@@ -64,12 +64,10 @@ export class SimpleCaptionsProvider implements CaptionsProvider {
         return this.customContent?.get(item);
     }
 
-    render(value: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
+    render(value: string | null, htmlFor?: string): ReactNode {
         const { customContentType } = this;
 
-        return customContentType === "no" ||
-            (placement === "label" && customContentType === "listItem") ||
-            value === null ? (
+        return customContentType === "no" || value === null ? (
             <CaptionContent htmlFor={htmlFor}>{this.get(value)}</CaptionContent>
         ) : (
             <div className="widget-combobox-caption-custom">{this.getCustomContent(value)}</div>

@@ -34,7 +34,6 @@ export function extractDatabaseProps(props: SelectionControlsContainerProps): Ex
     const captionType = props.optionsSourceDatabaseCaptionType;
     const captionAttribute = props.optionsSourceDatabaseCaptionAttribute;
     const captionExpression = props.optionsSourceDatabaseCaptionExpression;
-    const emptyOption = props.emptyOptionText;
     const customContent = props.optionsSourceDatabaseCustomContent;
     const customContentType = props.optionsSourceDatabaseCustomContentType;
     const valueSourceAttribute = props.optionsSourceDatabaseValueAttribute;
@@ -68,7 +67,6 @@ export function extractDatabaseProps(props: SelectionControlsContainerProps): Ex
         customContent,
         customContentType,
         ds,
-        emptyOption,
         valueSourceAttribute
     };
 }

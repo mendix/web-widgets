@@ -31,23 +31,10 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
     }
 
     updateProps(props: SelectionControlsContainerProps): void {
-        const {
-            captionProvider,
-            captionType,
-            customContent,
-            customContentType,
-            ds,
-            emptyOption,
-            valueSourceAttribute
-        } = extractDatabaseProps(props);
+        const { captionProvider, captionType, customContent, customContentType, ds, valueSourceAttribute } =
+            extractDatabaseProps(props);
 
-        if (
-            !ds ||
-            ds.status === "unavailable" ||
-            !captionProvider ||
-            !emptyOption ||
-            emptyOption.status === "unavailable"
-        ) {
+        if (!ds || ds.status === "unavailable" || !captionProvider) {
             this.status = "unavailable";
             this.currentId = null;
             return;
@@ -56,7 +43,6 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         }
 
         this.caption.updateProps({
-            emptyOptionText: emptyOption,
             formattingAttributeOrExpression: captionProvider,
             customContent,
             customContentType,

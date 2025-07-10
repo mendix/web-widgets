@@ -1,0 +1,62 @@
+import { ActionValue, ListAttributeValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mendix";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import {
+    SelectionControlsContainerProps,
+    OptionsSourceAssociationCustomContentTypeEnum
+} from "../../../typings/SelectionControlsProps";
+import { Status } from "../types";
+import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
+import { AssociationSimpleCaptionsProvider } from "./AssociationSimpleCaptionsProvider";
+import { extractAssociationProps } from "./utils";
+
+export class BaseAssociationSelector<T extends string | string[], R extends ReferenceSetValue | ReferenceValue> {
+    status: Status = "unavailable";
+    options: AssociationOptionsProvider;
+    currentId: T | null = null;
+    caption: AssociationSimpleCaptionsProvider;
+    readOnly = false;
+    customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
+    validation?: string = undefined;
+    protected _attr: R | undefined;
+    private onChangeEvent?: ActionValue;
+    private _valuesMap: Map<string, ObjectItem> = new Map();
+
+    constructor() {
+        this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);
+        this.options = new AssociationOptionsProvider(this._valuesMap);
+    }
+
+    updateProps(props: SelectionControlsContainerProps): void {
+        const [attr, ds, captionProvider, captionType, onChangeEvent, customContent, customContentType] =
+            extractAssociationProps(props);
+
+        this._attr = attr as R;
+        this.caption.updateProps({
+            formattingAttributeOrExpression: captionProvider,
+            customContent,
+            customContentType
+        });
+
+        this.options._updateProps({
+            attr,
+            ds,
+            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
+        });
+
+        if (!attr || attr.status === "unavailable" || !ds || ds.status === "unavailable" || !captionProvider) {
+            this.status = "unavailable";
+            this.currentId = null;
+
+            return;
+        }
+        this.status = attr.status;
+        this.readOnly = attr.readOnly;
+        this.onChangeEvent = onChangeEvent;
+        this.customContentType = customContentType;
+        this.validation = attr.validation;
+    }
+
+    setValue(_value: T | null): void {
+        executeAction(this.onChangeEvent);
+    }
+}

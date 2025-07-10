@@ -1,6 +1,5 @@
 import { Big } from "big.js";
 import { PropsWithChildren, ReactElement, createElement } from "react";
-import { SelectionControlsPreviewProps } from "typings/SelectionControlsProps";
 import { MultiSelector } from "./types";
 
 export const DEFAULT_LIMIT_SIZE = 100;
@@ -40,42 +39,6 @@ export function CaptionContent(props: CaptionContentProps): ReactElement {
                 }
               : undefined
     });
-}
-
-export function getDatasourcePlaceholderText(args: SelectionControlsPreviewProps): string {
-    const {
-        optionsSourceType,
-        optionsSourceAssociationDataSource,
-        attributeEnumeration,
-        attributeBoolean,
-        databaseAttributeString,
-        emptyOptionText,
-        source,
-        optionsSourceDatabaseDataSource,
-        staticAttribute,
-        optionsSourceStaticDataSource
-    } = args;
-    const emptyStringFormat = emptyOptionText ? `[${emptyOptionText}]` : "Combo box";
-    if (source === "context") {
-        switch (optionsSourceType) {
-            case "association":
-                return (optionsSourceAssociationDataSource as { caption?: string })?.caption || emptyStringFormat;
-            case "enumeration":
-                return `[${optionsSourceType}, ${attributeEnumeration}]`;
-            case "boolean":
-                return `[${optionsSourceType}, ${attributeBoolean}]`;
-            default:
-                return emptyStringFormat;
-        }
-    } else if (source === "database" && optionsSourceDatabaseDataSource) {
-        return (
-            (optionsSourceDatabaseDataSource as { caption?: string })?.caption ||
-            `${source}, ${databaseAttributeString}`
-        );
-    } else if (source === "static") {
-        return (optionsSourceStaticDataSource as { caption?: string })?.caption || `[${source}, ${staticAttribute}]`;
-    }
-    return emptyStringFormat;
 }
 
 export function _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {

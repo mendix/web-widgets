@@ -45,7 +45,15 @@ export function SingleSelection({
                           className={`widget-selection-option ${selector.currentId === item ? "selected" : ""}`}
                           tabIndex={tabIndex}
                       >
-                          <input type="radio" id={`${item}_${index}`} name={selector.groupName} value={item} />
+                          <input
+                              type="radio"
+                              id={`${item}_${index}`}
+                              name={selector.groupName}
+                              value={item}
+                              onChange={() => {
+                                  selector.setValue(item);
+                              }}
+                          />
                           <label htmlFor={`${item}_${index}`}>{selector.caption.render(item)}</label>
                       </div>
                   ))

@@ -9,7 +9,7 @@ import {
 import { SelectionControlsPreviewProps } from "../typings/SelectionControlsProps";
 import IconSVG from "./assets/StructurePreviewIcon.svg";
 import IconSVGDark from "./assets/StructurePreviewIconDark.svg";
-import { getDatasourcePlaceholderText } from "./helpers/utils";
+// import { getDatasourcePlaceholderText } from "./helpers/utils";
 
 // const LAZY_LOADING_CONFIG: Array<keyof SelectionControlsPreviewProps> = ["lazyLoading", "loadingType"];
 const DATABASE_SOURCE_CONFIG: Array<keyof SelectionControlsPreviewProps> = [
@@ -181,7 +181,7 @@ export function getPreview(_values: SelectionControlsPreviewProps, isDarkMode: b
         structurePreviewChildren.push(
             container({ borders: true, borderWidth: 1, backgroundColor: palette.background.topbarData, padding: 1 })({
                 type: "Text",
-                content: getDatasourcePlaceholderText(_values),
+                content: "Configure the selection",
                 fontColor: palette.text.data
             })
         );
@@ -205,7 +205,7 @@ export function getPreview(_values: SelectionControlsPreviewProps, isDarkMode: b
     if (structurePreviewChildren.length === 0) {
         structurePreviewChildren.push({
             type: "Text",
-            content: getDatasourcePlaceholderText(_values),
+            content: "",
             fontColor: palette.text.data
         });
     }
@@ -240,6 +240,6 @@ export function getPreview(_values: SelectionControlsPreviewProps, isDarkMode: b
     };
 }
 
-export function getCustomCaption(values: SelectionControlsPreviewProps): string {
-    return getDatasourcePlaceholderText(values);
+export function getCustomCaption(_values: SelectionControlsPreviewProps): string {
+    return "";
 }

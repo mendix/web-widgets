@@ -182,16 +182,6 @@
             <!-- STATIC END-->
             <!-- GENERAL -->
             <propertyGroup caption="General">
-                <!-- Empty option -->
-                <property key="emptyOptionText" type="textTemplate" required="false">
-                    <caption>Placeholder text</caption>
-                    <description />
-                </property>
-                <!-- MISC PROPS -->
-                <property key="noOptionsText" type="textTemplate" required="false">
-                    <caption>No options text</caption>
-                    <description />
-                </property>
                 <property key="optionsSourceAssociationCustomContentType" type="enumeration" defaultValue="no" required="true">
                     <caption>Custom content</caption>
                     <description />

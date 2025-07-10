@@ -6,61 +6,50 @@ import { CaptionContent } from "../utils";
 
 interface Props {
     emptyOptionText?: DynamicValue<string>;
-    formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string> | undefined;
+    formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string>;
     customContent?: ListWidgetValue | undefined;
     customContentType: OptionsSourceAssociationCustomContentTypeEnum;
-    attribute: ListAttributeValue<string | Big> | undefined;
-    caption?: string;
 }
 
-export class DatabaseCaptionsProvider implements CaptionsProvider {
+export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
     private unavailableCaption = "<...>";
     formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
     protected customContent?: ListWidgetValue;
     protected customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
-    attribute?: ListAttributeValue<string | Big>;
     emptyCaption = "";
-    overrideCaption: string | null | undefined = undefined;
 
     constructor(private optionsMap: Map<string, ObjectItem>) {}
 
     updateProps(props: Props): void {
-        // if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {
-        //     this.emptyCaption = "";
-        // } else {
-        //     this.emptyCaption = props.emptyOptionText.value!;
-        // }
+        if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {
+            this.emptyCaption = "";
+        } else {
+            this.emptyCaption = props.emptyOptionText.value!;
+        }
 
         this.formatter = props.formattingAttributeOrExpression;
         this.customContent = props.customContent;
         this.customContentType = props.customContentType;
-        this.attribute = props.attribute;
-        this.overrideCaption = props.caption;
     }
 
-    get(id: string | null): string {
-        if (id === null) {
-            if (this.overrideCaption) {
-                return this.overrideCaption;
-            }
+    get(value: string | null): string {
+        if (value === null) {
             return this.emptyCaption;
         }
-        if (!this.formatter && this.attribute) {
-            const item = this.optionsMap.get(id);
-            if (item) {
-                return this.attribute.get(item).displayValue;
-            }
+        if (!this.formatter) {
+            throw new Error("AssociationSimpleCaptionRenderer: no formatter available.");
         }
-        const item = this.optionsMap.get(id);
+        const item = this.optionsMap.get(value);
         if (!item) {
             return this.unavailableCaption;
         }
-        const captionValue = this.formatter?.get(item);
+
+        const captionValue = this.formatter.get(item);
         if (!captionValue || captionValue.status === "unavailable") {
             return this.unavailableCaption;
         }
 
-        return captionValue?.value ?? "";
+        return captionValue.value ?? "";
     }
 
     getCustomContent(value: string | null): ReactNode | null {
@@ -71,6 +60,7 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
         if (!item) {
             return null;
         }
+
         return this.customContent?.get(item);
     }
 
@@ -80,7 +70,7 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
         return customContentType === "no" || value === null ? (
             <CaptionContent htmlFor={htmlFor}>{this.get(value)}</CaptionContent>
         ) : (
-            <div className="widget-controls-caption-custom">{this.getCustomContent(value)}</div>
+            <div className="widget-combobox-caption-custom">{this.getCustomContent(value)}</div>
         );
     }
 }

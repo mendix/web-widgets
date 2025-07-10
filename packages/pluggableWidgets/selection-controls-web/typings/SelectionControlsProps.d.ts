@@ -59,8 +59,6 @@ export interface SelectionControlsContainerProps {
     optionsSourceAssociationDataSource?: ListValue;
     staticAttribute: EditableValue<string | Big | boolean | Date>;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
-    emptyOptionText?: DynamicValue<string>;
-    noOptionsText?: DynamicValue<string>;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent?: ListWidgetValue;
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
@@ -102,8 +100,6 @@ export interface SelectionControlsPreviewProps {
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     staticAttribute: string;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
-    emptyOptionText: string;
-    noOptionsText: string;
     optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;

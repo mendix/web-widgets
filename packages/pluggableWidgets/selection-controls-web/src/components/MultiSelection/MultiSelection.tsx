@@ -1,4 +1,4 @@
-import { Fragment, ReactElement, createElement } from "react";
+import { Fragment, ReactElement, createElement, useState } from "react";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 // import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
 
@@ -10,6 +10,7 @@ export function MultiSelection({
     // ariaRequired,
     // ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
+    const [selectedItems, setSelectedItems] = useState<string[]>([]);
     // const inputRef = useRef<HTMLInputElement>(null);
 
     // const memoizedselectedCaptions = useMemo(
@@ -29,13 +30,30 @@ export function MultiSelection({
     //     },
     //     readOnly: selector.readOnly
     // });
+
+    const handleCheckboxChange = (item: string, checked: boolean) => {
+        setSelectedItems(prevSelected => {
+            if (checked) {
+                return [...prevSelected, item];
+            } else {
+                return prevSelected.filter(selectedItem => selectedItem !== item);
+            }
+        });
+        selector.setValue(selectedItems);
+    };
     const items = selector.options.getAll();
     return (
         <Fragment>
             {items.length > 0
                 ? items.map((item, index) => (
                       <div key={item} className={`widget-selection-option`} tabIndex={tabIndex}>
-                          <input type="checkbox" id={`${item}_${index}`} name="fav_language" value={item} />
+                          <input
+                              type="checkbox"
+                              id={`${item}_${index}`}
+                              name={selector.groupName}
+                              value={item}
+                              onChange={e => handleCheckboxChange(item, e.target.checked)}
+                          />
                           <label htmlFor={`${item}_${index}`}>{selector.caption.render(item)}</label>
                       </div>
                   ))

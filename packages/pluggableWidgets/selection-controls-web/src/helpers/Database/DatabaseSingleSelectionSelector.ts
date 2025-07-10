@@ -43,7 +43,6 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
             customContent,
             customContentType,
             ds,
-            emptyOption,
             valueSourceAttribute
         } = extractDatabaseProps(props);
 
@@ -54,7 +53,6 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
         this.readOnly = getReadonly(targetAttribute, props.customEditability, props.customEditabilityExpression);
 
         this.caption.updateProps({
-            emptyOptionText: emptyOption,
             formattingAttributeOrExpression: captionProvider,
             customContent,
             customContentType,
@@ -71,7 +69,7 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
             valueAttribute: valueSourceAttribute
         });
 
-        if (!ds || ds.status === "unavailable" || !emptyOption || emptyOption.status === "unavailable") {
+        if (!ds || ds.status === "unavailable") {
             this.status = "unavailable";
             this.currentId = null;
             return;

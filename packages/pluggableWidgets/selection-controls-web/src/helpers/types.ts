@@ -82,5 +82,4 @@ export interface A11yStatusMessage {
     a11ySelectedValue: string;
     a11yOptionsAvailable: string;
     a11yInstructions: string;
-    a11yNoOption: string;
 }

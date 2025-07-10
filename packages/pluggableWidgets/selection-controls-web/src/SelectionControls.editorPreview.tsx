@@ -21,8 +21,7 @@ export const preview = (props: SelectionControlsPreviewProps): ReactElement => {
             a11yStatusMessage: {
                 a11ySelectedValue: props.a11ySelectedValue,
                 a11yOptionsAvailable: props.a11yOptionsAvailable,
-                a11yInstructions: props.a11yInstructions,
-                a11yNoOption: props.noOptionsText
+                a11yInstructions: props.a11yInstructions
             }
         }
     };
