@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.2] DataWidgets - 2025-07-10
+
+### [3.0.2] DatagridDropdownFilter
+
+#### Added
+
+- We added back missing expression configuration for caption after the major upgrade.
+
 ## [3.0.1] DataWidgets - 2025-07-01
 
 ### [3.0.1] Gallery
