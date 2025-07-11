@@ -89,7 +89,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                     {locations
                         .concat(currentLocation ? [currentLocation] : [])
                         .filter(m => !!m)
-                        .map((marker, index) => (
+                        .map(marker => (
                             <MarkerComponent
                                 icon={
                                     marker.url
@@ -100,7 +100,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                                         : defaultMarkerIcon
                                 }
                                 interactive={!!marker.title || !!marker.onClick}
-                                key={`marker_${index}`}
+                                key={`marker_${marker.id ?? marker.latitude + "_" + marker.longitude}`}
                                 eventHandlers={{
                                     click: marker.title ? undefined : marker.onClick
                                 }}
