@@ -1,4 +1,4 @@
-import "./SkipLink.css";
+import "./ui/SkipLink.css";
 import { useEffect } from "react";
 
 export interface SkipLinkProps {
