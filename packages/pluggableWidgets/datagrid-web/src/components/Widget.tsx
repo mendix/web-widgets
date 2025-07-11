@@ -25,6 +25,7 @@ import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navig
 import { observer } from "mobx-react-lite";
 import { RowsRenderer } from "./RowsRenderer";
 import { GridHeader } from "./GridHeader";
+import { RefreshIndicator } from "./RefreshIndicator";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -189,6 +190,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         isLoading={props.columnsLoading}
                         preview={props.preview}
                     />
+                    <RefreshIndicator />
                     <GridBody
                         isLoading={props.isLoading}
                         isFetchingNextBatch={props.isFetchingNextBatch}
