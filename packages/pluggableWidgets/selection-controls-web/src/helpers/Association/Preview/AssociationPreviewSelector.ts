@@ -36,6 +36,4 @@ export class AssociationPreviewSelector implements SingleSelector {
 
     updateProps() {}
     setValue() {}
-    onEnterEvent() {}
-    onLeaveEvent() {}
 }

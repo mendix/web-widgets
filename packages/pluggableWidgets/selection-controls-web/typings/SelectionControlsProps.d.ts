@@ -62,8 +62,6 @@ export interface SelectionControlsContainerProps {
     customEditabilityExpression: DynamicValue<boolean>;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent?: ActionValue;
-    onEnterEvent?: ActionValue;
-    onLeaveEvent?: ActionValue;
     ariaRequired: DynamicValue<boolean>;
     a11ySelectedValue?: DynamicValue<string>;
     a11yOptionsAvailable?: DynamicValue<string>;
@@ -100,8 +98,6 @@ export interface SelectionControlsPreviewProps {
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent: {} | null;
     onChangeDatabaseEvent: {} | null;
-    onEnterEvent: {} | null;
-    onLeaveEvent: {} | null;
     ariaRequired: string;
     a11ySelectedValue: string;
     a11yOptionsAvailable: string;
