@@ -17,7 +17,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "9.6.0",
+        "minimumMXVersion": "11.1.0",
         "appNumber": 119999,
         "appName": "SkipLink",
         "reactReady": true
@@ -30,7 +30,7 @@
         "e2e": "run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
-        "lint": "eslint src/ package.json",
+        "lint": "eslint src package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "pluggable-widgets-tools release:web",
         "start": "pluggable-widgets-tools start:server",
