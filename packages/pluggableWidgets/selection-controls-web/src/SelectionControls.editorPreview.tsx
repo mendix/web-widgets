@@ -18,10 +18,6 @@ export const preview = (props: SelectionControlsPreviewProps): ReactElement => {
         readOnlyStyle: props.readOnlyStyle,
         ariaRequired: dynamic(false),
         a11yConfig: {
-            ariaLabels: {
-                clearSelection: props.clearButtonAriaLabel,
-                removeSelection: props.removeValueAriaLabel
-            },
             a11yStatusMessage: {
                 a11ySelectedValue: props.a11ySelectedValue,
                 a11yOptionsAvailable: props.a11yOptionsAvailable,

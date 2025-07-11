@@ -264,24 +264,6 @@
                     <returnType type="Boolean" />
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Aria labels">
-                <property key="clearButtonAriaLabel" type="textTemplate" required="false">
-                    <caption>Clear selection button</caption>
-                    <description>Used to clear all selected values.</description>
-                    <translations>
-                        <translation lang="en_US">Clear selection</translation>
-                        <translation lang="nl_NL">Selectie wissen</translation>
-                    </translations>
-                </property>
-                <property key="removeValueAriaLabel" type="textTemplate" required="false">
-                    <caption>Remove value button</caption>
-                    <description>Used to remove individual selected values when using labels with multi-selection.</description>
-                    <translations>
-                        <translation lang="en_US">Remove value</translation>
-                        <translation lang="nl_NL">Waarde verwijderen</translation>
-                    </translations>
-                </property>
-            </propertyGroup>
             <propertyGroup caption="Accessibility status message ">
                 <property key="a11ySelectedValue" type="textTemplate" required="false">
                     <caption>Selected value</caption>

@@ -1,5 +1,5 @@
 import { DynamicValue } from "mendix";
-import { ReactNode, createElement } from "react";
+import { ReactNode } from "react";
 import {
     OptionsSourceCustomContentTypeEnum,
     OptionsSourceStaticDataSourceType
@@ -44,21 +44,22 @@ export class StaticCaptionsProvider implements CaptionsProvider {
         return item.staticDataSourceCaption.value || "";
     }
 
-    render(value: string | null, _placement?: "label" | "options", _htmlFor?: string): ReactNode {
+    getCustomContent(value: string | null): ReactNode | null {
         if (value === null) {
-            return <span className="widget-selection-controls-caption-text">{this.emptyCaption}</span>;
+            return null;
         }
-
         const item = this._objectsMap.get(value);
         if (!item) {
-            return <span className="widget-selection-controls-caption-text"></span>;
+            return null;
         }
 
-        if (this.customContentType === "yes" && item.staticDataSourceCustomContent) {
-            return item.staticDataSourceCustomContent;
-        }
+        return item.staticDataSourceCustomContent;
+    }
 
-        const caption = item.staticDataSourceCaption.value || "";
-        return <span className="widget-selection-controls-caption-text">{caption}</span>;
+    render(value: string | null): ReactNode {
+        if (this.customContentType === "yes") {
+            return this.getCustomContent(value);
+        }
+        return this.get(value);
     }
 }
