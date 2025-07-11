@@ -2,7 +2,7 @@ import { ActionValue, ObjectItem, ReferenceSetValue, ReferenceValue } from "mend
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import {
     SelectionControlsContainerProps,
-    OptionsSourceAssociationCustomContentTypeEnum
+    OptionsSourceCustomContentTypeEnum
 } from "../../../typings/SelectionControlsProps";
 import { Status } from "../types";
 import { AssociationOptionsProvider } from "./AssociationOptionsProvider";
@@ -16,7 +16,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     currentId: T | null = null;
     caption: AssociationSimpleCaptionsProvider;
     readOnly = false;
-    customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
+    customContentType: OptionsSourceCustomContentTypeEnum = "no";
     validation?: string = undefined;
     onEnterEvent?: () => void;
     onLeaveEvent?: () => void;

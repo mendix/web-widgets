@@ -2,7 +2,7 @@ import { ActionValue, DynamicValue, EditableValue, ValueStatus } from "mendix";
 import { Big } from "big.js";
 import {
     SelectionControlsContainerProps,
-    StaticDataSourceCustomContentTypeEnum,
+    OptionsSourceCustomContentTypeEnum,
     OptionsSourceStaticDataSourceType
 } from "../../../typings/SelectionControlsProps";
 
@@ -14,7 +14,7 @@ export function extractStaticProps(
     DynamicValue<string>,
     boolean,
     ActionValue | undefined,
-    StaticDataSourceCustomContentTypeEnum
+    OptionsSourceCustomContentTypeEnum
 ] {
     const attribute = props.staticAttribute;
     const ds = props.optionsSourceStaticDataSource;
@@ -29,7 +29,7 @@ export function extractStaticProps(
     const clearable = false;
 
     const onChangeEvent = props.onChangeEvent;
-    const customContentType = props.staticDataSourceCustomContentType;
+    const customContentType = props.optionsSourceCustomContentType;
 
     return [attribute, ds, emptyOption, clearable, onChangeEvent, customContentType];
 }
