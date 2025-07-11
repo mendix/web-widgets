@@ -67,9 +67,6 @@ interface SelectorBase<T, V> {
     setValue(value: V | null): void;
 
     customContentType: OptionsSourceCustomContentTypeEnum;
-
-    onEnterEvent?: () => void;
-    onLeaveEvent?: () => void;
 }
 
 export interface SingleSelector extends SelectorBase<"single", string> {}

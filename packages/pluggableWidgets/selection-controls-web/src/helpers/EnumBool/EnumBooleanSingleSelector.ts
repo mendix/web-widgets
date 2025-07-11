@@ -16,8 +16,6 @@ export class EnumBooleanSingleSelector implements SingleSelector {
     private isBoolean = false;
     private _attr: EditableValue<string | boolean> | undefined;
     private onChangeEvent?: ActionValue;
-    onEnterEvent?: () => void;
-    onLeaveEvent?: () => void;
 
     currentId: string | null = null;
     caption: EnumAndBooleanSimpleCaptionsProvider;
@@ -54,8 +52,6 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         }
 
         this.onChangeEvent = props.onChangeEvent;
-        this.onEnterEvent = props.onEnterEvent ? () => executeAction(props.onEnterEvent) : undefined;
-        this.onLeaveEvent = props.onLeaveEvent ? () => executeAction(props.onLeaveEvent) : undefined;
         this.status = attr.status;
         this.isBoolean = typeof attr.universe?.[0] === "boolean";
         this.clearable = this.isBoolean ? false : clearable;
