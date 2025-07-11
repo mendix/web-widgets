@@ -247,14 +247,6 @@
                 <caption>On change action</caption>
                 <description />
             </property>
-            <property key="onEnterEvent" type="action" required="false">
-                <caption>On enter action</caption>
-                <description />
-            </property>
-            <property key="onLeaveEvent" type="action" required="false">
-                <caption>On leave action</caption>
-                <description />
-            </property>
         </propertyGroup>
         <propertyGroup caption="Accessibility">
             <propertyGroup caption="Accessibility">
