@@ -23,8 +23,6 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
     readOnly = false;
     customContentType: OptionsSourceCustomContentTypeEnum = "no";
     validation?: string = undefined;
-    onEnterEvent?: () => void;
-    onLeaveEvent?: () => void;
     values: DatabaseValuesProvider;
     protected _objectsMap: Map<string, ObjectItem> = new Map();
     protected _attr: R | undefined;
