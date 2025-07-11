@@ -182,12 +182,11 @@
             <!-- STATIC END-->
             <!-- GENERAL -->
             <propertyGroup caption="General">
-                <property key="optionsSourceAssociationCustomContentType" type="enumeration" defaultValue="no" required="true">
+                <property key="optionsSourceCustomContentType" type="enumeration" defaultValue="no" required="true">
                     <caption>Custom content</caption>
                     <description />
                     <enumerationValues>
                         <enumerationValue key="yes">Yes</enumerationValue>
-                        <enumerationValue key="listItem">List items only</enumerationValue>
                         <enumerationValue key="no">No</enumerationValue>
                     </enumerationValues>
                 </property>
@@ -195,27 +194,9 @@
                     <caption>Custom content</caption>
                     <description />
                 </property>
-                <property key="optionsSourceDatabaseCustomContentType" type="enumeration" defaultValue="no" required="true">
-                    <caption>Custom content</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="yes">Yes</enumerationValue>
-                        <enumerationValue key="listItem">List items only</enumerationValue>
-                        <enumerationValue key="no">No</enumerationValue>
-                    </enumerationValues>
-                </property>
                 <property key="optionsSourceDatabaseCustomContent" type="widgets" required="true" dataSource="optionsSourceDatabaseDataSource">
                     <caption>Custom content</caption>
                     <description />
-                </property>
-                <property key="staticDataSourceCustomContentType" type="enumeration" defaultValue="no">
-                    <caption>Custom content</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="yes">Yes</enumerationValue>
-                        <enumerationValue key="listItem">List items only</enumerationValue>
-                        <enumerationValue key="no">No</enumerationValue>
-                    </enumerationValues>
                 </property>
                 <!-- END MISC PROPS -->
             </propertyGroup>
