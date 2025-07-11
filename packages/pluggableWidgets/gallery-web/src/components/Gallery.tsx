@@ -5,14 +5,16 @@ import { PositionInGrid, SelectActionHandler } from "@mendix/widget-plugin-grid/
 import { ObjectItem } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
-import { ListBox } from "./ListBox";
-import { ListItem } from "./ListItem";
 import { GalleryContent } from "./GalleryContent";
 import { GalleryFooter } from "./GalleryFooter";
 import { GalleryHeader } from "./GalleryHeader";
 import { GalleryRoot } from "./GalleryRoot";
 import { GalleryTopBar } from "./GalleryTopBar";
+import { ListBox } from "./ListBox";
+import { ListItem } from "./ListItem";
 
+import { PaginationEnum, ShowPagingButtonsEnum } from "typings/GalleryProps";
+import { LoadMore, LoadMoreButton as LoadMorePreview } from "../components/LoadMore";
 import { ItemEventsController } from "../typings/ItemEventsController";
 
 export interface GalleryProps<T extends ObjectItem> {
@@ -29,7 +31,9 @@ export interface GalleryProps<T extends ObjectItem> {
     paging: boolean;
     page: number;
     pageSize: number;
-    paginationPosition?: "below" | "above";
+    paginationPosition?: "top" | "bottom" | "both";
+    paginationType: PaginationEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
     showEmptyStatePreview?: boolean;
     phoneItems: number;
     setPage?: (computePage: (prevPage: number) => number) => void;
@@ -46,9 +50,11 @@ export interface GalleryProps<T extends ObjectItem> {
     itemHelper: GalleryItemHelper;
     selectHelper: SelectActionHandler;
     getPosition: (index: number) => PositionInGrid;
+    loadMoreButtonCaption?: string;
 }
 
 export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
+    const { loadMoreButtonCaption = "Load more" } = props;
     const pagination = props.paging ? (
         <div className="widget-gallery-pagination">
             <Pagination
@@ -60,13 +66,16 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                 page={props.page}
                 pageSize={props.pageSize}
                 previousPage={() => props.setPage && props.setPage(prev => prev - 1)}
-                pagination={props.paging ? "buttons" : "virtualScrolling"}
+                pagination={props.paginationType}
+                showPagingButtons={props.showPagingButtons}
             />
         </div>
     ) : null;
 
-    const showTopBar = props.paging && props.paginationPosition === "above";
-    const showFooter = props.paging && props.paginationPosition === "below";
+    const showTopPagination =
+        props.paging && (props.paginationPosition === "top" || props.paginationPosition === "both");
+    const showBottomPagination =
+        props.paging && (props.paginationPosition === "bottom" || props.paginationPosition === "both");
 
     return (
         <GalleryRoot
@@ -75,9 +84,13 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
             selectable={false}
             data-focusindex={props.tabIndex || 0}
         >
-            {showTopBar && <GalleryTopBar>{pagination}</GalleryTopBar>}
+            <GalleryTopBar>{showTopPagination && pagination}</GalleryTopBar>
             {props.showHeader && <GalleryHeader aria-label={props.headerTitle}>{props.header}</GalleryHeader>}
-            <GalleryContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
+            <GalleryContent
+                hasMoreItems={props.hasMoreItems}
+                setPage={props.setPage}
+                isInfinite={props.paginationType === "virtualScrolling"}
+            >
                 {props.items.length > 0 && (
                     <ListBox
                         lg={props.desktopItems}
@@ -111,7 +124,15 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         <div className="empty-placeholder">{children}</div>
                     </section>
                 ))}
-            {showFooter && <GalleryFooter>{pagination}</GalleryFooter>}
+            <GalleryFooter>
+                {showBottomPagination && pagination}
+                <div className="widget-gallery-load-more">
+                    {props.preview && props.paginationType === "loadMore" && (
+                        <LoadMorePreview>{loadMoreButtonCaption}</LoadMorePreview>
+                    )}
+                    {!props.preview && <LoadMore>{loadMoreButtonCaption}</LoadMore>}
+                </div>
+            </GalleryFooter>
         </GalleryRoot>
     );
 }

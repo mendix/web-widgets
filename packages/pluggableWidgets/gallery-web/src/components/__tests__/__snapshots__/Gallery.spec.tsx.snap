@@ -6,6 +6,9 @@ exports[`Gallery DOM Structure renders correctly 1`] = `
     class="widget-gallery my-gallery"
     data-focusindex="0"
   >
+    <div
+      class="widget-gallery-top-bar"
+    />
     <section
       aria-label="Mock props header aria label"
       class="widget-gallery-header widget-gallery-filter"
@@ -45,6 +48,13 @@ exports[`Gallery DOM Structure renders correctly 1`] = `
           Item content
         </div>
       </div>
+    </div>
+    <div
+      class="widget-gallery-footer"
+    >
+      <div
+        class="widget-gallery-load-more"
+      />
     </div>
   </div>
 </DocumentFragment>
@@ -56,6 +66,9 @@ exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
     class="widget-gallery my-gallery"
     data-focusindex="0"
   >
+    <div
+      class="widget-gallery-top-bar"
+    />
     <section
       aria-label="Mock props header aria label"
       class="widget-gallery-header widget-gallery-filter"
@@ -111,6 +124,13 @@ exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
         </div>
       </div>
     </div>
+    <div
+      class="widget-gallery-footer"
+    >
+      <div
+        class="widget-gallery-load-more"
+      />
+    </div>
   </div>
 </DocumentFragment>
 `;
@@ -121,6 +141,9 @@ exports[`Gallery with accessibility properties renders correctly with items 1`] 
     class="widget-gallery my-gallery"
     data-focusindex="0"
   >
+    <div
+      class="widget-gallery-top-bar"
+    />
     <section
       aria-label="filter title"
       class="widget-gallery-header widget-gallery-filter"
@@ -164,6 +187,13 @@ exports[`Gallery with accessibility properties renders correctly with items 1`] 
         </div>
       </div>
     </div>
+    <div
+      class="widget-gallery-footer"
+    >
+      <div
+        class="widget-gallery-load-more"
+      />
+    </div>
   </div>
 </DocumentFragment>
 `;
@@ -174,6 +204,9 @@ exports[`Gallery with accessibility properties renders correctly without items 1
     class="widget-gallery my-gallery"
     data-focusindex="0"
   >
+    <div
+      class="widget-gallery-top-bar"
+    />
     <section
       aria-label="filter title"
       class="widget-gallery-header widget-gallery-filter"
@@ -195,6 +228,13 @@ exports[`Gallery with accessibility properties renders correctly without items 1
         </span>
       </div>
     </section>
+    <div
+      class="widget-gallery-footer"
+    >
+      <div
+        class="widget-gallery-load-more"
+      />
+    </div>
   </div>
 </DocumentFragment>
 `;
@@ -205,6 +245,9 @@ exports[`Gallery with empty option renders correctly 1`] = `
     class="widget-gallery my-gallery"
     data-focusindex="0"
   >
+    <div
+      class="widget-gallery-top-bar"
+    />
     <section
       aria-label="Mock props header aria label"
       class="widget-gallery-header widget-gallery-filter"
@@ -225,6 +268,13 @@ exports[`Gallery with empty option renders correctly 1`] = `
         </span>
       </div>
     </section>
+    <div
+      class="widget-gallery-footer"
+    >
+      <div
+        class="widget-gallery-load-more"
+      />
+    </div>
   </div>
 </DocumentFragment>
 `;
@@ -397,6 +447,13 @@ exports[`Gallery with pagination renders correctly 1`] = `
         </div>
       </div>
     </div>
+    <div
+      class="widget-gallery-footer"
+    >
+      <div
+        class="widget-gallery-load-more"
+      />
+    </div>
   </div>
 </DocumentFragment>
 `;
@@ -407,6 +464,9 @@ exports[`Gallery without filters renders structure without header container 1`] 
     class="widget-gallery my-gallery"
     data-focusindex="0"
   >
+    <div
+      class="widget-gallery-top-bar"
+    />
     <div
       class="widget-gallery-content infinite-loading"
     >
@@ -440,6 +500,13 @@ exports[`Gallery without filters renders structure without header container 1`] 
           Item content
         </div>
       </div>
+    </div>
+    <div
+      class="widget-gallery-footer"
+    >
+      <div
+        class="widget-gallery-load-more"
+      />
     </div>
   </div>
 </DocumentFragment>
