@@ -2,7 +2,7 @@ import { DynamicValue, ListAttributeValue, ListExpressionValue, ListValue } from
 import { ReactNode } from "react";
 import {
     SelectionControlsContainerProps,
-    OptionsSourceAssociationCustomContentTypeEnum,
+    OptionsSourceCustomContentTypeEnum,
     ReadOnlyStyleEnum
 } from "../../typings/SelectionControlsProps";
 
@@ -67,7 +67,7 @@ interface SelectorBase<T, V> {
     currentId: V | null;
     setValue(value: V | null): void;
 
-    customContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    customContentType: OptionsSourceCustomContentTypeEnum;
 
     onEnterEvent?: () => void;
     onLeaveEvent?: () => void;

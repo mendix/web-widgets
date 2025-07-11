@@ -1,14 +1,14 @@
 import { DynamicValue } from "mendix";
 import { ReactNode, createElement } from "react";
 import {
-    StaticDataSourceCustomContentTypeEnum,
+    OptionsSourceCustomContentTypeEnum,
     OptionsSourceStaticDataSourceType
 } from "../../../typings/SelectionControlsProps";
 import { CaptionsProvider } from "../types";
 
 interface StaticCaptionsProviderProps {
     emptyOptionText?: DynamicValue<string>;
-    customContentType: StaticDataSourceCustomContentTypeEnum;
+    customContentType: OptionsSourceCustomContentTypeEnum;
     caption?: string;
 }
 
@@ -16,7 +16,7 @@ export class StaticCaptionsProvider implements CaptionsProvider {
     emptyCaption = "";
     formatter?: undefined;
     private _objectsMap: Map<string, OptionsSourceStaticDataSourceType>;
-    private customContentType: StaticDataSourceCustomContentTypeEnum = "no";
+    private customContentType: OptionsSourceCustomContentTypeEnum = "no";
 
     constructor(objectsMap: Map<string, OptionsSourceStaticDataSourceType>) {
         this._objectsMap = objectsMap;
