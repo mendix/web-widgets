@@ -1,13 +1,13 @@
 import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
 import { ReactNode, createElement } from "react";
-import { OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/SelectionControlsProps";
+import { OptionsSourceCustomContentTypeEnum } from "../../../typings/SelectionControlsProps";
 import { CaptionsProvider } from "../types";
 
 interface AssociationSimpleCaptionsProviderProps {
     emptyOptionText?: DynamicValue<string>;
     formattingAttributeOrExpression?: ListAttributeValue<string> | ListExpressionValue<string>;
     customContent?: ListWidgetValue;
-    customContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    customContentType: OptionsSourceCustomContentTypeEnum;
 }
 
 export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
@@ -15,7 +15,7 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
     formatter?: ListAttributeValue<string> | ListExpressionValue<string>;
     private _objectsMap: Map<string, ObjectItem>;
     private customContent?: ListWidgetValue;
-    private customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
+    private customContentType: OptionsSourceCustomContentTypeEnum = "no";
 
     constructor(objectsMap: Map<string, ObjectItem>) {
         this._objectsMap = objectsMap;

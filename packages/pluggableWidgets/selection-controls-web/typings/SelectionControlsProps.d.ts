@@ -21,11 +21,7 @@ export interface OptionsSourceStaticDataSourceType {
     staticDataSourceCaption: DynamicValue<string>;
 }
 
-export type OptionsSourceAssociationCustomContentTypeEnum = "yes" | "listItem" | "no";
-
-export type OptionsSourceDatabaseCustomContentTypeEnum = "yes" | "listItem" | "no";
-
-export type StaticDataSourceCustomContentTypeEnum = "yes" | "listItem" | "no";
+export type OptionsSourceCustomContentTypeEnum = "yes" | "no";
 
 export type CustomEditabilityEnum = "default" | "never" | "conditionally";
 
@@ -59,11 +55,9 @@ export interface SelectionControlsContainerProps {
     optionsSourceAssociationDataSource?: ListValue;
     staticAttribute: EditableValue<string | Big | boolean | Date>;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
-    optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    optionsSourceCustomContentType: OptionsSourceCustomContentTypeEnum;
     optionsSourceAssociationCustomContent?: ListWidgetValue;
-    optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent?: ListWidgetValue;
-    staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
     customEditability: CustomEditabilityEnum;
     customEditabilityExpression: DynamicValue<boolean>;
     readOnlyStyle: ReadOnlyStyleEnum;
@@ -100,11 +94,9 @@ export interface SelectionControlsPreviewProps {
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     staticAttribute: string;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
-    optionsSourceAssociationCustomContentType: OptionsSourceAssociationCustomContentTypeEnum;
+    optionsSourceCustomContentType: OptionsSourceCustomContentTypeEnum;
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
-    optionsSourceDatabaseCustomContentType: OptionsSourceDatabaseCustomContentTypeEnum;
     optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
-    staticDataSourceCustomContentType: StaticDataSourceCustomContentTypeEnum;
     customEditability: CustomEditabilityEnum;
     customEditabilityExpression: string;
     readOnlyStyle: ReadOnlyStyleEnum;
