@@ -65,8 +65,6 @@ export interface SelectionControlsContainerProps {
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
     ariaRequired: DynamicValue<boolean>;
-    clearButtonAriaLabel?: DynamicValue<string>;
-    removeValueAriaLabel?: DynamicValue<string>;
     a11ySelectedValue?: DynamicValue<string>;
     a11yOptionsAvailable?: DynamicValue<string>;
     a11yInstructions?: DynamicValue<string>;
@@ -105,8 +103,6 @@ export interface SelectionControlsPreviewProps {
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;
     ariaRequired: string;
-    clearButtonAriaLabel: string;
-    removeValueAriaLabel: string;
     a11ySelectedValue: string;
     a11yOptionsAvailable: string;
     a11yInstructions: string;

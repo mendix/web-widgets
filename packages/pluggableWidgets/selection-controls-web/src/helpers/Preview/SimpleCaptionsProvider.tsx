@@ -2,7 +2,6 @@ import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue,
 import { ReactNode, createElement } from "react";
 import { OptionsSourceCustomContentTypeEnum } from "../../../typings/SelectionControlsProps";
 import { CaptionsProvider } from "../types";
-import { CaptionContent } from "../utils";
 
 interface Props {
     emptyOptionText?: DynamicValue<string>;
@@ -64,13 +63,21 @@ export class SimpleCaptionsProvider implements CaptionsProvider {
         return this.customContent?.get(item);
     }
 
-    render(value: string | null, htmlFor?: string): ReactNode {
-        const { customContentType } = this;
+    render(value: string | null): ReactNode {
+        if (value === null) {
+            return <span className="widget-selection-controls-caption-text">{this.emptyCaption}</span>;
+        }
 
-        return customContentType === "no" || value === null ? (
-            <CaptionContent htmlFor={htmlFor}>{this.get(value)}</CaptionContent>
-        ) : (
-            <div className="widget-combobox-caption-custom">{this.getCustomContent(value)}</div>
-        );
+        const item = this.optionsMap.get(value);
+        if (!item) {
+            return <span className="widget-selection-controls-caption-text"></span>;
+        }
+
+        if (this.customContentType === "yes" && this.customContent) {
+            return this.customContent.get(item);
+        }
+
+        const caption = this.formatter?.get(item).value || "";
+        return <span className="widget-selection-controls-caption-text">{caption}</span>;
     }
 }

@@ -25,10 +25,6 @@ export default function SelectionControls(props: SelectionControlsContainerProps
         readOnlyStyle: props.readOnlyStyle,
         ariaRequired: props.ariaRequired,
         a11yConfig: {
-            ariaLabels: {
-                clearSelection: props.clearButtonAriaLabel?.value ?? "",
-                removeSelection: props.removeValueAriaLabel?.value ?? ""
-            },
             a11yStatusMessage: {
                 a11ySelectedValue: props.a11ySelectedValue?.value ?? "",
                 a11yOptionsAvailable: props.a11yOptionsAvailable?.value ?? "",
