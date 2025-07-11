@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.skiplink.SkipLink" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
+    <name>SkipLink</name>
+    <description>A skip link for accessibility, allowing users to jump directly to the main content.</description>
+    <studioProCategory>Accessibility</studioProCategory>
+    <studioCategory>Accessibility</studioCategory>
+    <helpUrl>https://docs.mendix.com/appstore/widgets/skiplink</helpUrl>
+    <properties>
+        <propertyGroup caption="General">
+            <property key="linkText" type="string" defaultValue="Skip to main content">
+                <caption>Link text</caption>
+                <description>The text displayed for the skip link.</description>
+            </property>
+            <property key="mainContentId" type="string" defaultValue="main-content">
+                <caption>Main content ID</caption>
+                <description>The id of the main content element to jump to.</description>
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>
