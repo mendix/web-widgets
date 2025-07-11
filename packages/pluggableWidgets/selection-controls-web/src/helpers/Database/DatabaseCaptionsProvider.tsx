@@ -1,6 +1,6 @@
-import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
-import { ReactNode, createElement } from "react";
 import { Big } from "big.js";
+import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
+import { ReactNode } from "react";
 import { OptionsSourceCustomContentTypeEnum } from "../../../typings/SelectionControlsProps";
 import { CaptionsProvider } from "../types";
 
@@ -48,21 +48,22 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
         return this.formatter.get(item).value || "";
     }
 
-    render(value: string | null, _placement?: "label" | "options", _htmlFor?: string): ReactNode {
+    getCustomContent(value: string | null): ReactNode | null {
         if (value === null) {
-            return <span className="widget-selection-controls-caption-text">{this.emptyCaption}</span>;
+            return null;
         }
-
         const item = this._objectsMap.get(value);
         if (!item) {
-            return <span className="widget-selection-controls-caption-text"></span>;
+            return null;
         }
 
+        return this.customContent?.get(item);
+    }
+
+    render(value: string | null): ReactNode {
         if (this.customContentType === "yes" && this.customContent) {
-            return this.customContent.get(item);
+            return this.getCustomContent(value);
         }
-
-        const caption = this.formatter?.get(item).value || "";
-        return <span className="widget-selection-controls-caption-text">{caption}</span>;
+        return this.get(value);
     }
 }
