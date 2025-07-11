@@ -11,7 +11,7 @@ import { Big } from "big.js";
 import {
     SelectionControlsContainerProps,
     CustomEditabilityEnum,
-    OptionsSourceDatabaseCustomContentTypeEnum
+    OptionsSourceCustomContentTypeEnum
 } from "../../../typings/SelectionControlsProps";
 
 export function extractDatabaseProps(props: SelectionControlsContainerProps): {
@@ -19,7 +19,7 @@ export function extractDatabaseProps(props: SelectionControlsContainerProps): {
     captionProvider: ListAttributeValue<string> | ListExpressionValue<string>;
     clearable: boolean;
     customContent: ListWidgetValue | undefined;
-    customContentType: OptionsSourceDatabaseCustomContentTypeEnum;
+    customContentType: OptionsSourceCustomContentTypeEnum;
     ds: ListValue;
     emptyOption: DynamicValue<string>;
     valueSourceAttribute: ListAttributeValue<string | Big> | undefined;
@@ -43,7 +43,7 @@ export function extractDatabaseProps(props: SelectionControlsContainerProps): {
     const clearable = false;
 
     const customContent = props.optionsSourceDatabaseCustomContent;
-    const customContentType = props.optionsSourceDatabaseCustomContentType;
+    const customContentType = props.optionsSourceCustomContentType;
     const valueSourceAttribute = props.optionsSourceDatabaseValueAttribute;
 
     return {

@@ -12,7 +12,6 @@ const DATABASE_SOURCE_CONFIG: Array<keyof SelectionControlsPreviewProps> = [
     "optionsSourceDatabaseCaptionExpression",
     "optionsSourceDatabaseCaptionType",
     "optionsSourceDatabaseCustomContent",
-    "optionsSourceDatabaseCustomContentType",
     "optionsSourceDatabaseDataSource",
     "optionsSourceDatabaseValueAttribute",
     "optionsSourceDatabaseItemSelection",
@@ -25,7 +24,6 @@ const ASSOCIATION_SOURCE_CONFIG: Array<keyof SelectionControlsPreviewProps> = [
     "optionsSourceAssociationCaptionExpression",
     "optionsSourceAssociationCaptionType",
     "optionsSourceAssociationCustomContent",
-    "optionsSourceAssociationCustomContentType",
     "optionsSourceAssociationDataSource",
     "attributeAssociation"
 ];
@@ -42,7 +40,6 @@ export function getProperties(
     if (values.source === "context") {
         hidePropertiesIn(defaultProperties, values, [
             "staticAttribute",
-            "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
             ...DATABASE_SOURCE_CONFIG
         ]);
@@ -65,7 +62,7 @@ export function getProperties(
                 hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCaptionType"]);
             }
 
-            if (values.optionsSourceAssociationCustomContentType === "no") {
+            if (values.optionsSourceCustomContentType === "no") {
                 hidePropertiesIn(defaultProperties, values, ["optionsSourceAssociationCustomContent"]);
             }
         }
@@ -75,7 +72,6 @@ export function getProperties(
             "attributeBoolean",
             "optionsSourceType",
             "staticAttribute",
-            "staticDataSourceCustomContentType",
             "optionsSourceStaticDataSource",
             "onChangeEvent",
             ...ASSOCIATION_SOURCE_CONFIG
@@ -88,7 +84,7 @@ export function getProperties(
         } else {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCaptionAttribute"]);
         }
-        if (values.optionsSourceDatabaseCustomContentType === "no") {
+        if (values.optionsSourceCustomContentType === "no") {
             hidePropertiesIn(defaultProperties, values, ["optionsSourceDatabaseCustomContent"]);
         }
         if (values.optionsSourceDatabaseItemSelection === "Multi") {
@@ -116,7 +112,7 @@ export function getProperties(
         ]);
     }
 
-    if (values.staticDataSourceCustomContentType === "no") {
+    if (values.optionsSourceCustomContentType === "no") {
         values.optionsSourceStaticDataSource.forEach((_, index) => {
             hideNestedPropertiesIn(defaultProperties, values, "optionsSourceStaticDataSource", index, [
                 "staticDataSourceCustomContent"
