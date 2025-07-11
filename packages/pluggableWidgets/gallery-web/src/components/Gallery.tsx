@@ -86,7 +86,11 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
         >
             <GalleryTopBar>{showTopPagination && pagination}</GalleryTopBar>
             {props.showHeader && <GalleryHeader aria-label={props.headerTitle}>{props.header}</GalleryHeader>}
-            <GalleryContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
+            <GalleryContent
+                hasMoreItems={props.hasMoreItems}
+                setPage={props.setPage}
+                isInfinite={props.paginationType === "virtualScrolling"}
+            >
                 {props.items.length > 0 && (
                     <ListBox
                         lg={props.desktopItems}
