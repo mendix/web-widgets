@@ -7,14 +7,13 @@ import {
 } from "../../typings/SelectionControlsProps";
 
 export type Status = "unavailable" | "loading" | "available";
-export type CaptionPlacement = "label" | "options";
 export type SelectionType = "single" | "multi";
 export type Selector = SingleSelector | MultiSelector;
 export type SortOrder = "asc" | "desc";
 
 export interface CaptionsProvider {
     get(value: string | null): string;
-    render(value: (string | null) | (number | null), placement?: CaptionPlacement, htmlFor?: string): ReactNode;
+    render(value: (string | null) | (number | null)): ReactNode;
     emptyCaption: string;
     formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
 }
@@ -87,10 +86,6 @@ export interface SelectionBaseProps<Selector> {
     tabIndex: number;
     ariaRequired: DynamicValue<boolean>;
     a11yConfig: {
-        ariaLabels: {
-            clearSelection: string;
-            removeSelection: string;
-        };
         a11yStatusMessage: A11yStatusMessage;
     };
 }
