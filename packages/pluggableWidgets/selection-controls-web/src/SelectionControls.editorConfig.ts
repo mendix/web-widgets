@@ -3,6 +3,7 @@ import {
     ContainerProps,
     StructurePreviewProps,
     structurePreviewPalette,
+    dropzone,
     container
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { SelectionControlsPreviewProps } from "../typings/SelectionControlsProps";
@@ -139,29 +140,104 @@ function getIconPreview(_isDarkMode: boolean): ContainerProps {
 
 export function getPreview(_values: SelectionControlsPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+    const structurePreviewChildren: StructurePreviewProps[] = [];
+    let readOnly = _values.readOnly;
 
+    // Handle custom content dropzones when enabled
+    if (_values.optionsSourceCustomContentType !== "no") {
+        if (_values.source === "context" && _values.optionsSourceType === "association") {
+            structurePreviewChildren.push(
+                dropzone(
+                    dropzone.placeholder("Configure the selection controls: Place widgets here"),
+                    dropzone.hideDataSourceHeaderIf(false)
+                )(_values.optionsSourceAssociationCustomContent)
+            );
+        } else if (_values.source === "database") {
+            structurePreviewChildren.push(
+                dropzone(
+                    dropzone.placeholder("Configure the selection controls: Place widgets here"),
+                    dropzone.hideDataSourceHeaderIf(false)
+                )(_values.optionsSourceDatabaseCustomContent)
+            );
+        } else if (_values.source === "static") {
+            _values.optionsSourceStaticDataSource.forEach(value => {
+                structurePreviewChildren.push(
+                    container({
+                        borders: true,
+                        borderWidth: 1,
+                        borderRadius: 2
+                    })(
+                        dropzone(
+                            dropzone.placeholder(
+                                `Configure the selection controls: Place widgets for option ${value.staticDataSourceCaption} here`
+                            ),
+                            dropzone.hideDataSourceHeaderIf(false)
+                        )(value.staticDataSourceCustomContent)
+                    )
+                );
+            });
+        }
+    }
+
+    // Handle database-specific read-only logic
+    if (_values.source === "database" && _values.databaseAttributeString.length === 0) {
+        readOnly = _values.customEditability === "never";
+    }
+
+    // If no custom content dropzones, show default preview
+    if (structurePreviewChildren.length === 0) {
+        return {
+            type: "RowLayout",
+            columnSize: "fixed",
+            backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.containerFill,
+            children: [
+                {
+                    type: "RowLayout",
+                    columnSize: "grow",
+                    children: [
+                        getIconPreview(isDarkMode),
+                        {
+                            type: "Container",
+                            padding: 4,
+                            children: [
+                                {
+                                    type: "Text",
+                                    content: "Selection Controls",
+                                    fontColor: palette.text.primary,
+                                    fontSize: 10
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+    }
+
+    // Return container with dropzones
     return {
-        type: "RowLayout",
-        columnSize: "fixed",
-        backgroundColor: palette.background.containerFill,
+        type: "Container",
         children: [
             {
                 type: "RowLayout",
                 columnSize: "grow",
+                borders: true,
+                borderWidth: 1,
+                borderRadius: 2,
+                backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.container,
                 children: [
-                    getIconPreview(isDarkMode),
                     {
                         type: "Container",
+                        grow: 1,
                         padding: 4,
-                        children: [
-                            {
-                                type: "Text",
-                                content: "Selection Controls",
-                                fontColor: palette.text.primary,
-                                fontSize: 10
-                            }
-                        ]
-                    }
+                        children: structurePreviewChildren
+                    },
+                    readOnly && _values.readOnlyStyle === "text"
+                        ? container({ grow: 0, padding: 4 })()
+                        : {
+                              ...getIconPreview(isDarkMode),
+                              ...{ grow: 0, padding: 4 }
+                          }
                 ]
             }
         ]
