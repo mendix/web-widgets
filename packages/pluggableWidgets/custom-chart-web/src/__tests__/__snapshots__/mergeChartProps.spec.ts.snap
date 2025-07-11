@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mergeChartProps utility function Data merging behavior should only process traces that exist in chart props 1`] = `[]`;
+
+exports[`mergeChartProps utility function Data merging behavior should preserve original trace data when editor state has missing or falsy entries 1`] = `[]`;
+
+exports[`mergeChartProps utility function Edge cases should handle empty chart props data 1`] = `[]`;
+
+exports[`mergeChartProps utility function Edge cases should handle falsy values in editor state data without warnings 1`] = `[]`;
+
+exports[`mergeChartProps utility function Edge cases should handle null JSON parsing 1`] = `[]`;
+
+exports[`mergeChartProps utility function Edge cases should handle various malformed JSON types 1`] = `
+[
+  [
+    "Editor props for trace(1) is not a valid JSON:{invalid json}",
+  ],
+  [
+    "Please make sure the props is a valid JSON string.",
+  ],
+  [
+    "Editor props for trace(3) is not a valid JSON:undefined",
+  ],
+  [
+    "Please make sure the props is a valid JSON string.",
+  ],
+]
+`;
+
+exports[`mergeChartProps utility function JSON parsing failures generate console warnings should handle mixed valid and invalid JSON 1`] = `
+[
+  [
+    "Editor props for trace(1) is not a valid JSON:invalid json",
+  ],
+  [
+    "Please make sure the props is a valid JSON string.",
+  ],
+]
+`;
+
+exports[`mergeChartProps utility function JSON parsing failures generate console warnings should not warn for valid JSON 1`] = `[]`;
+
+exports[`mergeChartProps utility function JSON parsing failures generate console warnings should not warn when editor state has undefined entries 1`] = `[]`;
+
+exports[`mergeChartProps utility function JSON parsing failures generate console warnings should warn for invalid JSON in editor state data 1`] = `
+[
+  [
+    "Editor props for trace(0) is not a valid JSON:invalid json",
+  ],
+  [
+    "Please make sure the props is a valid JSON string.",
+  ],
+]
+`;
+
+exports[`mergeChartProps utility function JSON parsing failures generate console warnings should warn for multiple invalid JSON entries 1`] = `
+[
+  [
+    "Editor props for trace(0) is not a valid JSON:invalid json",
+  ],
+  [
+    "Please make sure the props is a valid JSON string.",
+  ],
+  [
+    "Editor props for trace(1) is not a valid JSON:{broken: json}",
+  ],
+  [
+    "Please make sure the props is a valid JSON string.",
+  ],
+]
+`;
