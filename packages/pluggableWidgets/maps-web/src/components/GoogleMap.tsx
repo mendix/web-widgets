@@ -102,7 +102,10 @@ function GoogleMap(props: GoogleMapsProps): ReactElement {
                             .concat(currentLocation ? [currentLocation] : [])
                             .filter(m => !!m)
                             .map((marker, index) => (
-                                <GoogleMapsMarker key={`marker_${index}`} {...marker} />
+                                <GoogleMapsMarker
+                                    key={`marker_${marker.id ?? marker.latitude + "_" + marker.longitude}`}
+                                    {...marker}
+                                />
                             ))}
                     </GoogleMapComponent>
                 ) : (

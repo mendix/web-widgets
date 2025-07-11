@@ -7,6 +7,7 @@ export interface ModeledMarker {
     title?: string;
     customMarker?: string;
     action?: () => void;
+    id?: string;
 }
 
 export interface Marker {
@@ -15,6 +16,7 @@ export interface Marker {
     url: string;
     onClick?: () => void;
     title?: string;
+    id?: string;
 }
 
 export interface SharedProps extends Dimensions {
