@@ -1,5 +1,5 @@
 import { DynamicValue, EditableValue } from "mendix";
-import { ReactNode, createElement } from "react";
+import { ReactNode } from "react";
 import { CaptionsProvider } from "../types";
 
 interface EnumAndBooleanSimpleCaptionsProviderProps {
@@ -29,8 +29,7 @@ export class EnumAndBooleanSimpleCaptionsProvider implements CaptionsProvider {
         return this.attr?.formatter.format(value) ?? "";
     }
 
-    render(value: string | null, _placement?: "label" | "options", _htmlFor?: string): ReactNode {
-        const caption = this.get(value);
-        return <span className="widget-selection-controls-caption-text">{caption}</span>;
+    render(value: string | null): ReactNode {
+        return this.get(value);
     }
 }

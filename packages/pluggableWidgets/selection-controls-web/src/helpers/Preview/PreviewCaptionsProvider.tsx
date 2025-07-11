@@ -9,8 +9,8 @@ interface PreviewProps {
 }
 
 export class PreviewCaptionsProvider extends SimpleCaptionsProvider {
-    emptyCaption = "Combo box";
-    private customContentRenderer: ComponentType<{ children: ReactNode; caption?: string }> = () => <div></div>;
+    emptyCaption = "Selection controls";
+    private customContentRenderer: ComponentType<{ children: ReactNode; caption?: string }> = () => <div>Dropzone</div>;
     get(value: string | null): string {
         return value || this.emptyCaption;
     }
@@ -36,7 +36,7 @@ export class PreviewCaptionsProvider extends SimpleCaptionsProvider {
         this.customContentType = props.customContentType;
     }
 
-    render(value: string | null, htmlFor?: string): ReactNode {
-        return super.render(value, htmlFor);
+    render(value: string | null): ReactNode {
+        return super.render(value);
     }
 }

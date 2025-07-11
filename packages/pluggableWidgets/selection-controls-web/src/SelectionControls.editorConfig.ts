@@ -45,7 +45,10 @@ export function getProperties(
             ...DATABASE_SOURCE_CONFIG
         ]);
         if (["enumeration", "boolean"].includes(values.optionsSourceType)) {
-            hidePropertiesIn(defaultProperties, values, [...ASSOCIATION_SOURCE_CONFIG]);
+            hidePropertiesIn(defaultProperties, values, [
+                "optionsSourceCustomContentType",
+                ...ASSOCIATION_SOURCE_CONFIG
+            ]);
             if (values.optionsSourceType === "boolean") {
                 hidePropertiesIn(defaultProperties, values, ["attributeEnumeration"]);
             } else {
