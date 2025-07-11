@@ -4,43 +4,10 @@ import { SelectionControlsPreviewProps } from "../typings/SelectionControlsProps
 import { RadioSelection } from "./components/RadioSelection/RadioSelection";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
 import { SingleSelector, SelectionBaseProps } from "./helpers/types";
+import { StaticPreviewSelector } from "./helpers/Static/Preview/StaticPreviewSelector";
+import { DatabasePreviewSelector } from "./helpers/Database/Preview/DatabasePreviewSelector";
+import { AssociationPreviewSelector } from "./helpers/Association/Preview/AssociationPreviewSelector";
 import "./ui/SelectionControls.scss";
-
-// Preview selector implementation - simplified for preview
-class PreviewSelector implements SingleSelector {
-    type = "single" as const;
-    status = "available" as const;
-    readOnly = false;
-    validation = undefined;
-    clearable = false;
-    currentId = null;
-    customContentType = "no" as const;
-
-    constructor(_props: SelectionControlsPreviewProps) {}
-
-    updateProps() {}
-    setValue() {}
-    onEnterEvent() {}
-    onLeaveEvent() {}
-
-    options = {
-        status: "available" as const,
-        searchTerm: "",
-        getAll: () => ["Option 1", "Option 2", "Option 3"],
-        setSearchTerm: () => {},
-        onAfterSearchTermChange: () => {},
-        isLoading: false,
-        _updateProps: () => {},
-        _optionToValue: () => undefined,
-        _valueToOption: () => null
-    };
-
-    caption = {
-        get: (value: string | null) => value || "Preview Option",
-        render: (value: string | null) => value || "Preview Option",
-        emptyCaption: "Select an option"
-    };
-}
 
 export const preview = (props: SelectionControlsPreviewProps): ReactElement => {
     const id = generateUUID().toString();
@@ -65,7 +32,13 @@ export const preview = (props: SelectionControlsPreviewProps): ReactElement => {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const selector: SingleSelector = useMemo(() => {
-        return new PreviewSelector(props);
+        if (props.source === "static") {
+            return new StaticPreviewSelector(props);
+        }
+        if (props.source === "database") {
+            return new DatabasePreviewSelector(props);
+        }
+        return new AssociationPreviewSelector(props);
     }, [props]);
 
     return (
