@@ -24,8 +24,6 @@ export class StaticSingleSelector implements SingleSelector {
     readOnly = false;
     customContentType: OptionsSourceCustomContentTypeEnum = "no";
     validation?: string = undefined;
-    onEnterEvent?: () => void;
-    onLeaveEvent?: () => void;
     protected _attr: EditableValue<string | Big | boolean | Date> | undefined;
     private onChangeEvent?: ActionValue;
     private _objectsMap: Map<string, OptionsSourceStaticDataSourceType> = new Map();
@@ -72,8 +70,6 @@ export class StaticSingleSelector implements SingleSelector {
         this.status = attr.status;
         this.readOnly = attr.readOnly;
         this.onChangeEvent = onChangeEvent;
-        this.onEnterEvent = props.onEnterEvent ? () => executeAction(props.onEnterEvent) : undefined;
-        this.onLeaveEvent = props.onLeaveEvent ? () => executeAction(props.onLeaveEvent) : undefined;
         this.customContentType = customContentType;
         this.validation = attr.validation;
         this.attributeType =

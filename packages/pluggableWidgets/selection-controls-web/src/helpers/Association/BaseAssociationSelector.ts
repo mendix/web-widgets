@@ -18,8 +18,6 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     readOnly = false;
     customContentType: OptionsSourceCustomContentTypeEnum = "no";
     validation?: string = undefined;
-    onEnterEvent?: () => void;
-    onLeaveEvent?: () => void;
     protected _attr: R | undefined;
     private onChangeEvent?: ActionValue;
     private _valuesMap: Map<string, ObjectItem> = new Map();
@@ -64,8 +62,6 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
         this.status = attr.status;
         this.readOnly = attr.readOnly;
         this.onChangeEvent = onChangeEvent;
-        this.onEnterEvent = props.onEnterEvent ? () => executeAction(props.onEnterEvent) : undefined;
-        this.onLeaveEvent = props.onLeaveEvent ? () => executeAction(props.onLeaveEvent) : undefined;
         this.customContentType = customContentType;
         this.validation = attr.validation;
     }

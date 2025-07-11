@@ -36,6 +36,4 @@ export class DatabasePreviewSelector implements SingleSelector {
 
     updateProps() {}
     setValue() {}
-    onEnterEvent() {}
-    onLeaveEvent() {}
 }

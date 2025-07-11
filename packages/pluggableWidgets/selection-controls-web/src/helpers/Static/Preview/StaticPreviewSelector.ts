@@ -31,6 +31,4 @@ export class StaticPreviewSelector implements SingleSelector {
 
     updateProps() {}
     setValue() {}
-    onEnterEvent() {}
-    onLeaveEvent() {}
 }
