@@ -7,7 +7,6 @@ export function RadioSelection({
     tabIndex = 0,
     inputId,
     ariaRequired,
-    a11yConfig,
     readOnlyStyle
 }: SelectionBaseProps<SingleSelector>): ReactElement {
     const options = selector.options.getAll();
@@ -78,11 +77,11 @@ export function RadioSelection({
             </div>
 
             {/* Accessibility status message */}
-            <div id={`${inputId}-description`} className="sr-only" aria-live="polite" aria-atomic="true">
+            {/* <div id={`${inputId}-description`} className="sr-only" aria-live="polite" aria-atomic="true">
                 {currentId && `${a11yConfig.a11yStatusMessage.a11ySelectedValue} ${selector.caption.get(currentId)}`}
                 {` ${a11yConfig.a11yStatusMessage.a11yOptionsAvailable} ${options.length}`}
                 {` ${a11yConfig.a11yStatusMessage.a11yInstructions}`}
-            </div>
+            </div> */}
         </div>
     );
 }

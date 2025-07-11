@@ -2,7 +2,7 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import { ActionValue, EditableValue } from "mendix";
 import {
     SelectionControlsContainerProps,
-    OptionsSourceAssociationCustomContentTypeEnum
+    OptionsSourceCustomContentTypeEnum
 } from "../../../typings/SelectionControlsProps";
 import { SingleSelector, Status } from "../types";
 import { EnumAndBooleanSimpleCaptionsProvider } from "./EnumAndBooleanSimpleCaptionsProvider";
@@ -22,7 +22,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
     currentId: string | null = null;
     caption: EnumAndBooleanSimpleCaptionsProvider;
     options: EnumBoolOptionsProvider<string | boolean>;
-    customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
+    customContentType: OptionsSourceCustomContentTypeEnum = "no";
     clearable = true;
     readOnly = false;
 

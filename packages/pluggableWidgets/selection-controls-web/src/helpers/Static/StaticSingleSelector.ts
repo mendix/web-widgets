@@ -2,7 +2,7 @@ import { ActionValue, EditableValue } from "mendix";
 import { Big } from "big.js";
 import {
     SelectionControlsContainerProps,
-    StaticDataSourceCustomContentTypeEnum,
+    OptionsSourceCustomContentTypeEnum,
     OptionsSourceStaticDataSourceType
 } from "../../../typings/SelectionControlsProps";
 import { SingleSelector, Status } from "../types";
@@ -22,7 +22,7 @@ export class StaticSingleSelector implements SingleSelector {
     clearable = false;
     currentId: string | null = null;
     readOnly = false;
-    customContentType: StaticDataSourceCustomContentTypeEnum = "no";
+    customContentType: OptionsSourceCustomContentTypeEnum = "no";
     validation?: string = undefined;
     onEnterEvent?: () => void;
     onLeaveEvent?: () => void;

@@ -7,7 +7,6 @@ export function CheckboxSelection({
     tabIndex = 0,
     inputId,
     ariaRequired,
-    a11yConfig,
     readOnlyStyle
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const options = selector.getOptions();
@@ -78,7 +77,7 @@ export function CheckboxSelection({
             </div>
 
             {/* Clear all button */}
-            {!isReadOnly && currentIds.length > 0 && (
+            {/* {!isReadOnly && currentIds.length > 0 && (
                 <button
                     type="button"
                     className="widget-selection-controls-clear-all"
@@ -87,15 +86,15 @@ export function CheckboxSelection({
                 >
                     Clear all selections
                 </button>
-            )}
+            )} */}
 
             {/* Accessibility status message */}
-            <div id={`${inputId}-description`} className="sr-only" aria-live="polite" aria-atomic="true">
+            {/* <div id={`${inputId}-description`} className="sr-only" aria-live="polite" aria-atomic="true">
                 {currentIds.length > 0 &&
                     `${a11yConfig.a11yStatusMessage.a11ySelectedValue} ${currentIds.map(id => selector.caption.get(id)).join(", ")}`}
                 {` ${a11yConfig.a11yStatusMessage.a11yOptionsAvailable} ${options.length}`}
                 {` ${a11yConfig.a11yStatusMessage.a11yInstructions}`}
-            </div>
+            </div> */}
         </div>
     );
 }

@@ -11,7 +11,7 @@ import {
 } from "mendix";
 import {
     SelectionControlsContainerProps,
-    OptionsSourceAssociationCustomContentTypeEnum
+    OptionsSourceCustomContentTypeEnum
 } from "../../../typings/SelectionControlsProps";
 
 export function extractAssociationProps(
@@ -24,7 +24,7 @@ export function extractAssociationProps(
     boolean,
     ActionValue | undefined,
     ListWidgetValue | undefined,
-    OptionsSourceAssociationCustomContentTypeEnum
+    OptionsSourceCustomContentTypeEnum
 ] {
     const attr = props.attributeAssociation;
     const ds = props.optionsSourceAssociationDataSource!;
@@ -46,7 +46,7 @@ export function extractAssociationProps(
 
     const onChangeEvent = props.onChangeEvent;
     const customContent = props.optionsSourceAssociationCustomContent;
-    const customContentType = props.optionsSourceAssociationCustomContentType;
+    const customContentType = props.optionsSourceCustomContentType;
 
     return [attr, ds, captionProvider, emptyOption, clearable, onChangeEvent, customContent, customContentType];
 }

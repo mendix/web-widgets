@@ -2,7 +2,7 @@ import { EditableValue, ObjectItem, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 import {
     SelectionControlsContainerProps,
-    OptionsSourceDatabaseCustomContentTypeEnum
+    OptionsSourceCustomContentTypeEnum
 } from "../../../typings/SelectionControlsProps";
 import { MultiSelector, Status } from "../types";
 import { _valuesIsEqual } from "../utils";
@@ -21,7 +21,7 @@ export class DatabaseMultiSelector<T extends string | Big, R extends EditableVal
     clearable = false;
     currentId: string[] | null = null;
     readOnly = false;
-    customContentType: OptionsSourceDatabaseCustomContentTypeEnum = "no";
+    customContentType: OptionsSourceCustomContentTypeEnum = "no";
     validation?: string = undefined;
     onEnterEvent?: () => void;
     onLeaveEvent?: () => void;
