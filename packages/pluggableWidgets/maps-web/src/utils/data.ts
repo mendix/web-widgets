@@ -39,7 +39,8 @@ function fromDatasource(marker: DynamicMarkersType, item: ObjectItem): ModeledMa
         longitude,
         title: title ? title.get(item).value : "",
         action: onClickAttribute ? onClickAttribute.get(item).execute : undefined,
-        customMarker: marker.customMarkerDynamic?.value?.uri
+        customMarker: marker.customMarkerDynamic?.value?.uri,
+        id: item.id
     };
 }
 
