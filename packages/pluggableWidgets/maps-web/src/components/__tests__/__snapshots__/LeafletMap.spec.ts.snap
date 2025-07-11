@@ -236,11 +236,6 @@ exports[`Leaflet maps renders a map with markers 1`] = `
         url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
       />
       <ForwardRef(ContainerComponent)
-        eventHandlers={
-          {
-            "click": undefined,
-          }
-        }
         icon={
           NewClass {
             "_initHooksCalled": true,
@@ -273,11 +268,6 @@ exports[`Leaflet maps renders a map with markers 1`] = `
         </ForwardRef(OverlayComponent)>
       </ForwardRef(ContainerComponent)>
       <ForwardRef(ContainerComponent)
-        eventHandlers={
-          {
-            "click": undefined,
-          }
-        }
         icon={
           NewClass {
             "_initHooksCalled": true,
