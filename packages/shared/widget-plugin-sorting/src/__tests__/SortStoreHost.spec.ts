@@ -12,7 +12,8 @@ describe("SortStoreHost", () => {
             sortOrder: [
                 [attrId("attr1"), "asc"],
                 [attrId("attr2"), "desc"]
-            ] as SortInstruction[]
+            ] as SortInstruction[],
+            setSortOrder: jest.fn()
         };
     });
 
@@ -58,7 +59,8 @@ describe("SortStoreHost", () => {
 
         it("should replace previously observed store", () => {
             const anotherMockStore: ObservableSortStore = {
-                sortOrder: [[attrId("attr3"), "asc"]] as SortInstruction[]
+                sortOrder: [[attrId("attr3"), "asc"]] as SortInstruction[],
+                setSortOrder: jest.fn()
             };
 
             sortStoreHost.observe(mockStore);
@@ -203,7 +205,8 @@ describe("SortStoreHost", () => {
 
         it("should handle store changes after observation", () => {
             const mutableStore = {
-                sortOrder: [[attrId("attr1"), "asc"]] as SortInstruction[]
+                sortOrder: [[attrId("attr1"), "asc"]] as SortInstruction[],
+                setSortOrder: jest.fn()
             };
 
             sortStoreHost.observe(mutableStore);

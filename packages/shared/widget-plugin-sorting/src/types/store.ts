@@ -13,17 +13,11 @@ export type Option = {
 
 export interface ObservableSortStore {
     sortOrder: SortInstruction[];
+    setSortOrder(...item: SortInstruction[]): void;
 }
 
 export interface BasicSortStore extends ObservableSortStore {
     options: Option[];
-    sortOrder: SortInstruction[];
     push(...item: SortInstruction[]): void;
     remove(index: number): void;
-    replace(...item: SortInstruction[]): void;
-}
-
-export interface Serializable {
-    toJSON(): unknown;
-    fromJSON(json: unknown): void;
 }

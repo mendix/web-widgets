@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 
 export type ItemSelectionModeEnum = "toggle" | "clear";
 
@@ -17,6 +17,8 @@ export type ShowPagingButtonsEnum = "always" | "auto";
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
 export type OnClickTriggerEnum = "single" | "double";
+
+export type StateStorageTypeEnum = "attribute" | "localStorage";
 
 export interface GalleryContainerProps {
     name: string;
@@ -42,6 +44,10 @@ export interface GalleryContainerProps {
     onClickTrigger: OnClickTriggerEnum;
     onClick?: ListActionValue;
     onSelectionChange?: ActionValue;
+    stateStorageType: StateStorageTypeEnum;
+    stateStorageAttr?: EditableValue<string>;
+    storeFilters: boolean;
+    storeSort: boolean;
     filterSectionTitle?: DynamicValue<string>;
     emptyMessageTitle?: DynamicValue<string>;
     ariaLabelListBox?: DynamicValue<string>;
@@ -78,6 +84,11 @@ export interface GalleryPreviewProps {
     onClickTrigger: OnClickTriggerEnum;
     onClick: {} | null;
     onSelectionChange: {} | null;
+    stateStorageType: StateStorageTypeEnum;
+    stateStorageAttr: string;
+    storeFilters: boolean;
+    storeSort: boolean;
+    onConfigurationChange: {} | null;
     filterSectionTitle: string;
     emptyMessageTitle: string;
     ariaLabelListBox: string;
