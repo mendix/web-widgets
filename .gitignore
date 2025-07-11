@@ -26,3 +26,5 @@ mendixProject
 tests
 .turbo
 automation/run-e2e/ctrf/*.json
+.cursor
+.windsurf
