@@ -101,9 +101,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                                 }
                                 interactive={!!marker.title || !!marker.onClick}
                                 key={`marker_${marker.id ?? marker.latitude + "_" + marker.longitude}`}
-                                eventHandlers={{
-                                    click: marker.title ? undefined : marker.onClick
-                                }}
+                                eventHandlers={marker.title ? undefined : { click: marker.onClick }}
                                 position={{ lat: marker.latitude, lng: marker.longitude }}
                                 title={marker.title}
                             >
