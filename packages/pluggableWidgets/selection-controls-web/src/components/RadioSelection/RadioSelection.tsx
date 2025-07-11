@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { ReactElement, createElement } from "react";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
+import { CaptionContent } from "../CaptionContent";
 
 export function RadioSelection({
     selector,
@@ -41,7 +42,6 @@ export function RadioSelection({
                 aria-required={ariaRequired?.value}
             >
                 {options.map((optionId, index) => {
-                    const caption = selector.caption.get(optionId);
                     const isSelected = currentId === optionId;
                     const radioId = `${inputId}-radio-${index}`;
 
@@ -63,11 +63,7 @@ export function RadioSelection({
                                 onChange={() => handleChange(optionId)}
                                 aria-describedby={`${inputId}-description`}
                             />
-                            <label htmlFor={radioId} className="widget-selection-controls-radio-label">
-                                {selector.customContentType === "no"
-                                    ? caption
-                                    : selector.caption.render(optionId, "options")}
-                            </label>
+                            <CaptionContent htmlFor={radioId}>{selector.caption.render(optionId)}</CaptionContent>
                         </div>
                     );
                 })}
@@ -75,13 +71,6 @@ export function RadioSelection({
                     <div className="widget-selection-controls-no-options">No options available</div>
                 )}
             </div>
-
-            {/* Accessibility status message */}
-            {/* <div id={`${inputId}-description`} className="sr-only" aria-live="polite" aria-atomic="true">
-                {currentId && `${a11yConfig.a11yStatusMessage.a11ySelectedValue} ${selector.caption.get(currentId)}`}
-                {` ${a11yConfig.a11yStatusMessage.a11yOptionsAvailable} ${options.length}`}
-                {` ${a11yConfig.a11yStatusMessage.a11yInstructions}`}
-            </div> */}
         </div>
     );
 }
