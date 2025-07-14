@@ -30,7 +30,7 @@ export interface EventsContainerProps {
     onEventChange?: ActionValue;
     onEventChangeDelayParameterType: OnEventChangeDelayParameterTypeEnum;
     onEventChangeDelayInteger: number;
-    onEventChangeDelayExpression: DynamicValue<Big>;
+    onEventChangeDelayExpression?: DynamicValue<Big>;
 }
 
 export interface EventsPreviewProps {
