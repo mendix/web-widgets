@@ -11,6 +11,8 @@ export type ComponentLoadDelayParameterTypeEnum = "number" | "expression";
 
 export type ComponentLoadRepeatParameterTypeEnum = "number" | "expression";
 
+export type OnEventChangeDelayParameterTypeEnum = "number" | "expression";
+
 export interface EventsContainerProps {
     name: string;
     class: string;
@@ -26,7 +28,9 @@ export interface EventsContainerProps {
     componentLoadRepeatExpression?: DynamicValue<Big>;
     onEventChangeAttribute?: EditableValue<Big | any | boolean | Date | string>;
     onEventChange?: ActionValue;
-    onEventChangeDelay: number;
+    onEventChangeDelayParameterType: OnEventChangeDelayParameterTypeEnum;
+    onEventChangeDelayInteger: number;
+    onEventChangeDelayExpression: DynamicValue<Big>;
 }
 
 export interface EventsPreviewProps {
@@ -50,5 +54,7 @@ export interface EventsPreviewProps {
     componentLoadRepeatExpression: string;
     onEventChangeAttribute: string;
     onEventChange: {} | null;
-    onEventChangeDelay: number | null;
+    onEventChangeDelayParameterType: OnEventChangeDelayParameterTypeEnum;
+    onEventChangeDelayInteger: number | null;
+    onEventChangeDelayExpression: string;
 }
