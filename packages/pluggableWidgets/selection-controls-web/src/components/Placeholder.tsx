@@ -7,7 +7,3 @@ export function Placeholder(): ReactElement {
         </div>
     );
 }
-
-export function NoOptionsPlaceholder(): ReactElement {
-    return <div className="widget-selection-controls-no-options">No options available</div>;
-}

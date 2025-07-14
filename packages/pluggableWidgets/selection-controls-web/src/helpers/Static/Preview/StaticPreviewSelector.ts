@@ -6,6 +6,7 @@ import {
 import { PreviewCaptionsProvider } from "../../Preview/PreviewCaptionsProvider";
 import { PreviewOptionsProvider } from "../../Preview/PreviewOptionsProvider";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { getCustomCaption } from "../../utils";
 
 export class StaticPreviewSelector implements SingleSelector {
     type = "single" as const;
@@ -25,7 +26,7 @@ export class StaticPreviewSelector implements SingleSelector {
         this.currentId = `single-${generateUUID()}`;
         this.customContentType = props.optionsSourceCustomContentType;
         this.readOnly = props.readOnly;
-        this.caption = new PreviewCaptionsProvider(new Map());
+        this.caption = new PreviewCaptionsProvider(new Map(), getCustomCaption(props));
         this.options = new PreviewOptionsProvider(this.caption, new Map());
     }
 

@@ -4,9 +4,15 @@ import {
     StructurePreviewProps,
     structurePreviewPalette,
     dropzone,
-    container
+    container,
+    rowLayout,
+    text,
+    svgImage
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { SelectionControlsPreviewProps } from "../typings/SelectionControlsProps";
+import { getCustomCaption } from "./helpers/utils";
+import IconRadioButtonSVG from "./assets/radiobutton.svg";
+import IconCheckboxSVG from "./assets/checkbox.svg";
 
 const DATABASE_SOURCE_CONFIG: Array<keyof SelectionControlsPreviewProps> = [
     "optionsSourceDatabaseCaptionAttribute",
@@ -127,43 +133,40 @@ export function getProperties(
     return defaultProperties;
 }
 
-function getIconPreview(_isDarkMode: boolean): ContainerProps {
-    return {
-        type: "Container",
-        children: [
-            container({ padding: 1 })(),
-            {
-                type: "Text",
-                content: "☑",
-                fontSize: 16
-            }
-        ]
-    };
+function getIconPreview(isMultiSelect: boolean): ContainerProps {
+    return container({ grow: 0 })(
+        container({ padding: 3 })(),
+        svgImage({ width: 16, height: 16, grow: 0 })(
+            decodeURIComponent(
+                (isMultiSelect ? IconCheckboxSVG : IconRadioButtonSVG).replace("data:image/svg+xml,", "")
+            )
+        )
+    );
 }
 
-export function getPreview(_values: SelectionControlsPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+export function getPreview(values: SelectionControlsPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const structurePreviewChildren: StructurePreviewProps[] = [];
-    let readOnly = _values.readOnly;
+    let readOnly = values.readOnly;
 
     // Handle custom content dropzones when enabled
-    if (_values.optionsSourceCustomContentType !== "no") {
-        if (_values.source === "context" && _values.optionsSourceType === "association") {
+    if (values.optionsSourceCustomContentType !== "no") {
+        if (values.source === "context" && values.optionsSourceType === "association") {
             structurePreviewChildren.push(
                 dropzone(
                     dropzone.placeholder("Configure the selection controls: Place widgets here"),
                     dropzone.hideDataSourceHeaderIf(false)
-                )(_values.optionsSourceAssociationCustomContent)
+                )(values.optionsSourceAssociationCustomContent)
             );
-        } else if (_values.source === "database") {
+        } else if (values.source === "database") {
             structurePreviewChildren.push(
                 dropzone(
                     dropzone.placeholder("Configure the selection controls: Place widgets here"),
                     dropzone.hideDataSourceHeaderIf(false)
-                )(_values.optionsSourceDatabaseCustomContent)
+                )(values.optionsSourceDatabaseCustomContent)
             );
-        } else if (_values.source === "static") {
-            _values.optionsSourceStaticDataSource.forEach(value => {
+        } else if (values.source === "static") {
+            values.optionsSourceStaticDataSource.forEach(value => {
                 structurePreviewChildren.push(
                     container({
                         borders: true,
@@ -183,76 +186,31 @@ export function getPreview(_values: SelectionControlsPreviewProps, isDarkMode: b
     }
 
     // Handle database-specific read-only logic
-    if (_values.source === "database" && _values.databaseAttributeString.length === 0) {
-        readOnly = _values.customEditability === "never";
+    if (values.source === "database" && values.databaseAttributeString.length === 0) {
+        readOnly = values.customEditability === "never";
     }
 
     // If no custom content dropzones, show default preview
     if (structurePreviewChildren.length === 0) {
-        return {
-            type: "RowLayout",
-            columnSize: "fixed",
-            backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.containerFill,
-            children: [
-                {
-                    type: "RowLayout",
-                    columnSize: "grow",
-                    children: [
-                        getIconPreview(isDarkMode),
-                        {
-                            type: "Container",
-                            padding: 4,
-                            children: [
-                                {
-                                    type: "Text",
-                                    content: "Selection Controls",
-                                    fontColor: palette.text.primary,
-                                    fontSize: 10
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        };
+        const isMultiSelect = values.optionsSourceDatabaseItemSelection === "Multi";
+        return container()(
+            rowLayout({
+                columnSize: "grow",
+                backgroundColor: palette.background.container
+            })(
+                getIconPreview(isMultiSelect),
+                container()(container({ padding: 3 })(), text()(getCustomCaption(values)))
+            )
+        );
     }
 
     // Return container with dropzones
-    return {
-        type: "Container",
-        children: [
-            {
-                type: "RowLayout",
-                columnSize: "grow",
-                borders: true,
-                borderWidth: 1,
-                borderRadius: 2,
-                backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.container,
-                children: [
-                    {
-                        type: "Container",
-                        grow: 1,
-                        padding: 4,
-                        children: structurePreviewChildren
-                    },
-                    readOnly && _values.readOnlyStyle === "text"
-                        ? container({ grow: 0, padding: 4 })()
-                        : {
-                              ...getIconPreview(isDarkMode),
-                              ...{ grow: 0, padding: 4 }
-                          }
-                ]
-            }
-        ]
-    };
-}
-
-export function getCustomCaption(values: SelectionControlsPreviewProps): string {
-    if (values.source === "static" && values.optionsSourceStaticDataSource.length > 0) {
-        return "Selection Controls (Static)";
-    }
-    if (values.source === "database") {
-        return "Selection Controls (Database)";
-    }
-    return "Selection Controls";
+    return container()(
+        rowLayout({
+            columnSize: "grow",
+            borders: true,
+            borderWidth: 1,
+            borderRadius: 2
+        })(container({ grow: 1, padding: 4 })(...structurePreviewChildren))
+    );
 }
