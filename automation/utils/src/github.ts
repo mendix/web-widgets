@@ -147,6 +147,46 @@ export class GitHub {
 
         return filePath;
     }
+
+    private async triggerGithubWorkflow(params: {
+        workflowId: string;
+        ref: string;
+        inputs: Record<string, string>;
+        owner?: string;
+        repo?: string;
+    }): Promise<void> {
+        await this.ensureAuth();
+
+        const { workflowId, ref, inputs, owner = "mendix", repo = "web-widgets" } = params;
+
+        // Convert inputs object to CLI parameters
+        const inputParams = Object.entries(inputs)
+            .map(([key, value]) => `-f ${key}=${value}`)
+            .join(" ");
+
+        const repoParam = `${owner}/${repo}`;
+
+        const command = [`gh workflow run`, `"${workflowId}"`, `--ref "${ref}"`, inputParams, `-R "${repoParam}"`]
+            .filter(Boolean)
+            .join(" ");
+
+        try {
+            await exec(command);
+            console.log(`Successfully triggered workflow '${workflowId}'`);
+        } catch (error) {
+            throw new Error(`Failed to trigger workflow '${workflowId}': ${error}`);
+        }
+    }
+
+    async triggerCreateReleaseWorkflow(packageName: string, ref = "main"): Promise<void> {
+        return this.triggerGithubWorkflow({
+            workflowId: "CreateGitHubRelease.yml",
+            ref,
+            inputs: {
+                package: packageName
+            }
+        });
+    }
 }
 
 export const gh = new GitHub();

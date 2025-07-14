@@ -83,12 +83,12 @@ export async function selectPackage(): Promise<PackageListing> {
 }
 
 function extractPathInfo(path: string): [string, string] {
-    const automationMatch = path.match(/automation\/([^\/]+)/);
+    const automationMatch = path.match(/automation\/([^/]+)/);
     if (automationMatch) {
         return ["automation", automationMatch[1]];
     }
 
-    const packagesMatch = path.match(/packages\/([^\/]+)\/([^\/]+)/);
+    const packagesMatch = path.match(/packages\/([^/]+)\/([^/]+)/);
     if (packagesMatch) {
         return [packagesMatch[1], packagesMatch[2]];
     }
