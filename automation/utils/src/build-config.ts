@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { fgGreen } from "./ansi-colors";
+import chalk from "chalk";
 import { getModuleInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
 
 export interface Output<Dirs, Files> {
@@ -65,7 +65,7 @@ export async function getWidgetBuildConfig({
     console.info(`Creating build config for ${packageName}...`);
 
     if (MX_PROJECT_PATH) {
-        console.info(fgGreen(`targetProject: using project path from MX_PROJECT_PATH.`));
+        console.info(chalk.green(`targetProject: using project path from MX_PROJECT_PATH.`));
     }
 
     const paths = {
@@ -118,7 +118,7 @@ export async function getModuleBuildConfig({
     console.info(`Creating build config for ${packageName}...`);
 
     if (MX_PROJECT_PATH) {
-        console.info(fgGreen(`targetProject: using project path from MX_PROJECT_PATH.`));
+        console.info(chalk.green(`targetProject: using project path from MX_PROJECT_PATH.`));
     }
 
     const paths = {
