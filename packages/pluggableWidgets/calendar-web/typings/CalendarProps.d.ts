@@ -50,6 +50,7 @@ export interface CalendarContainerProps {
     minHour: number;
     maxHour: number;
     customViewCaption?: DynamicValue<string>;
+    showAllEvents: boolean;
     showMonday: boolean;
     showTuesday: boolean;
     showWednesday: boolean;
@@ -58,10 +59,10 @@ export interface CalendarContainerProps {
     showSunday: boolean;
     showSaturday: boolean;
     eventDataAttribute?: EditableValue<string>;
-    onClickEvent?: ListActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean>; title: Option<string> }>;
+    onEditEvent?: ListActionValue;
     onCreateEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean> }>;
-    onChange?: ListActionValue<{ oldStart: Option<Date>; oldEnd: Option<Date>; newStart: Option<Date>; newEnd: Option<Date> }>;
-    onRangeChange?: ActionValue<{ rangeStart: Option<Date>; rangeEnd: Option<Date>; currentView: Option<string> }>;
+    onDragDropResize?: ListActionValue<{ oldStart: Option<Date>; oldEnd: Option<Date>; newStart: Option<Date>; newEnd: Option<Date> }>;
+    onViewRangeChange?: ActionValue<{ rangeStart: Option<Date>; rangeEnd: Option<Date>; currentView: Option<string> }>;
     widthUnit: WidthUnitEnum;
     width: number;
     heightUnit: HeightUnitEnum;
@@ -71,7 +72,6 @@ export interface CalendarContainerProps {
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number;
     overflowY: OverflowYEnum;
-    showAllEvents: boolean;
 }
 
 export interface CalendarPreviewProps {
@@ -104,6 +104,7 @@ export interface CalendarPreviewProps {
     minHour: number | null;
     maxHour: number | null;
     customViewCaption: string;
+    showAllEvents: boolean;
     showMonday: boolean;
     showTuesday: boolean;
     showWednesday: boolean;
@@ -112,10 +113,10 @@ export interface CalendarPreviewProps {
     showSunday: boolean;
     showSaturday: boolean;
     eventDataAttribute: string;
-    onClickEvent: {} | null;
+    onEditEvent: {} | null;
     onCreateEvent: {} | null;
-    onChange: {} | null;
-    onRangeChange: {} | null;
+    onDragDropResize: {} | null;
+    onViewRangeChange: {} | null;
     widthUnit: WidthUnitEnum;
     width: number | null;
     heightUnit: HeightUnitEnum;
@@ -125,5 +126,4 @@ export interface CalendarPreviewProps {
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number | null;
     overflowY: OverflowYEnum;
-    showAllEvents: boolean;
 }
