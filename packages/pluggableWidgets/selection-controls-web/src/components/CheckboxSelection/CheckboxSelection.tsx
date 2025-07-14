@@ -21,14 +21,6 @@ export function CheckboxSelection({
         }
     };
 
-    if (selector.status === "unavailable") {
-        return (
-            <div className="widget-selection-controls-checkbox">
-                <div className="widget-selection-controls-checkbox-loading">Loading...</div>
-            </div>
-        );
-    }
-
     return (
         <div
             className={classNames("widget-selection-controls-checkbox", {
@@ -45,6 +37,7 @@ export function CheckboxSelection({
                 {options.map((optionId, index) => {
                     const isSelected = currentIds.includes(optionId);
                     const checkboxId = `${inputId}-checkbox-${index}`;
+                    const name = selector.caption.get(optionId);
 
                     return (
                         <div
@@ -56,12 +49,12 @@ export function CheckboxSelection({
                             <input
                                 type="checkbox"
                                 id={checkboxId}
+                                name={name && name.length > 0 ? name : inputId}
                                 value={optionId}
                                 checked={isSelected}
                                 disabled={isReadOnly}
                                 tabIndex={tabIndex}
                                 onChange={e => handleChange(optionId, e.target.checked)}
-                                aria-describedby={`${inputId}-description`}
                             />
                             <CaptionContent htmlFor={checkboxId}>{selector.caption.render(optionId)}</CaptionContent>
                         </div>

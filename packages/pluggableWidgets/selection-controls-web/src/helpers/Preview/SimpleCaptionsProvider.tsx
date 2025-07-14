@@ -17,7 +17,10 @@ export class SimpleCaptionsProvider implements CaptionsProvider {
     protected customContentType: OptionsSourceCustomContentTypeEnum = "no";
     emptyCaption = "";
 
-    constructor(private optionsMap: Map<string, ObjectItem>) {}
+    constructor(
+        private optionsMap: Map<string, ObjectItem>,
+        private dataSourcePlaceholder: string
+    ) {}
 
     updateProps(props: Props): void {
         if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {
@@ -64,20 +67,10 @@ export class SimpleCaptionsProvider implements CaptionsProvider {
     }
 
     render(value: string | null): ReactNode {
-        if (value === null) {
-            return <span className="widget-selection-controls-caption-text">{this.emptyCaption}</span>;
+        if (this.customContentType === "yes") {
+            return this.getCustomContent(value);
         }
-
-        const item = this.optionsMap.get(value);
-        if (!item) {
-            return <span className="widget-selection-controls-caption-text"></span>;
-        }
-
-        if (this.customContentType === "yes" && this.customContent) {
-            return this.customContent.get(item);
-        }
-
-        const caption = this.formatter?.get(item).value || "";
-        return <span className="widget-selection-controls-caption-text">{caption}</span>;
+        return <div>{this.dataSourcePlaceholder}</div>;
+        // return this.get(value);
     }
 }
