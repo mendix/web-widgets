@@ -134,6 +134,10 @@
                         <translation lang="en_US">Custom</translation>
                     </translations>
                 </property>
+                <property key="showAllEvents" type="boolean" defaultValue="true">
+                    <caption>Show all events</caption>
+                    <description>Auto-adjust calendar height to display all events without "more" links</description>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Visible days">
                 <property key="showMonday" type="boolean" defaultValue="true">
@@ -174,27 +178,21 @@
                     <attributeType name="String" />
                 </attributeTypes>
             </property>
-            <property key="onClickEvent" type="action" required="false" dataSource="databaseDataSource">
-                <caption>On click action</caption>
+            <property key="onEditEvent" type="action" required="false" dataSource="databaseDataSource">
+                <caption>On edit</caption>
                 <description />
-                <actionVariables>
-                    <actionVariable key="startDate" type="DateTime" caption="Event start date" />
-                    <actionVariable key="endDate" type="DateTime" caption="Event end date" />
-                    <actionVariable key="allDay" type="Boolean" caption="Event all day" />
-                    <actionVariable key="title" type="String" caption="Event title" />
-                </actionVariables>
             </property>
             <property key="onCreateEvent" type="action" required="false">
-                <caption>On create action</caption>
+                <caption>On create</caption>
                 <description>The create event is triggered when a time slot is selected, and the 'Enable create' property is set to 'true'</description>
                 <actionVariables>
                     <actionVariable key="startDate" type="DateTime" caption="New event start date" />
                     <actionVariable key="endDate" type="DateTime" caption="New event end date" />
-                    <actionVariable key="allDay" type="Boolean" caption="All day flag" />
+                    <actionVariable key="allDay" type="Boolean" caption="New event all day" />
                 </actionVariables>
             </property>
-            <property key="onChange" type="action" required="false" dataSource="databaseDataSource">
-                <caption>On change action</caption>
+            <property key="onDragDropResize" type="action" required="false" dataSource="databaseDataSource">
+                <caption>On drag/drop/resize</caption>
                 <description>The change event is triggered on moving/dragging an item or changing the start or end time of by resizing an item</description>
                 <actionVariables>
                     <actionVariable key="oldStart" type="DateTime" caption="Old start date" />
@@ -203,7 +201,7 @@
                     <actionVariable key="newEnd" type="DateTime" caption="New end date" />
                 </actionVariables>
             </property>
-            <property key="onRangeChange" type="action" required="false">
+            <property key="onViewRangeChange" type="action" required="false">
                 <caption>On view range change</caption>
                 <description>Triggered when the calendar view range (start/end) changes</description>
                 <actionVariables>
@@ -276,10 +274,6 @@
                     <enumerationValue key="scroll">Scroll</enumerationValue>
                     <enumerationValue key="hidden">Hidden</enumerationValue>
                 </enumerationValues>
-            </property>
-            <property key="showAllEvents" type="boolean" defaultValue="true">
-                <caption>Show all events</caption>
-                <description>Auto-adjust calendar height to display all events without "more" links</description>
             </property>
         </propertyGroup>
     </properties>

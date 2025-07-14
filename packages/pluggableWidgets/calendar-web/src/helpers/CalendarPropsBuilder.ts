@@ -78,8 +78,8 @@ export class CalendarPropsBuilder {
             onEventDrop: this.handleEventDropOrResize,
             onEventResize: this.handleEventDropOrResize,
             onNavigate: this.handleRangeChange,
-            onSelectEvent: this.handleSelectEvent,
-            onSelectSlot: this.handleSelectSlot,
+            onSelectEvent: this.handleEditEvent,
+            onSelectSlot: this.handleCreateEvent,
             startAccessor: (event: CalendarEvent) => event.start,
             titleAccessor: (event: CalendarEvent) => event.title,
             showAllEvents: this.props.showAllEvents,
@@ -122,10 +122,22 @@ export class CalendarPropsBuilder {
         }
 
         if (this.props.timeFormat?.status === "available") {
-            const timeFormat = this.props.timeFormat.value ?? "hh:mm a";
+            const timeFormat = this.props.timeFormat.value?.trim() || "p";
 
             formats.timeGutterFormat = (date: Date, _culture: string, localizer: DateLocalizer) => {
-                return localizer.format(date, timeFormat);
+                // Some versions of date-fns (used internally by react-big-calendar) throw
+                // when the supplied format string does not contain any long-format tokens
+                // ("P" or "p"). This try/catch ensures that we gracefully fall back to a
+                // locale-aware default ("p") instead of crashing the whole widget.
+                try {
+                    return localizer.format(date, timeFormat);
+                } catch (e) {
+                    console.warn(
+                        `[Calendar] Failed to format time using pattern "${timeFormat}" – falling back to default pattern "p".`,
+                        e
+                    );
+                    return localizer.format(date, "p");
+                }
             };
         }
 
@@ -160,7 +172,7 @@ export class CalendarPropsBuilder {
     }
 
     private handleEventDropOrResize = ({ event, start, end }: EventDropOrResize): void => {
-        const action = this.props.onChange?.get(event.item);
+        const action = this.props.onDragDropResize?.get(event.item);
 
         if (action?.canExecute) {
             action.execute({
@@ -173,7 +185,7 @@ export class CalendarPropsBuilder {
     };
 
     private handleRangeChange = (date: Date, view: string, _action: NavigateAction): void => {
-        const action = this.props.onRangeChange;
+        const action = this.props.onViewRangeChange;
 
         if (action?.canExecute) {
             const { start, end } = getViewRange(view, date);
@@ -185,20 +197,15 @@ export class CalendarPropsBuilder {
         }
     };
 
-    private handleSelectEvent = (event: CalendarEvent): void => {
-        const action = this.props.onClickEvent?.get(event.item);
+    private handleEditEvent = (event: CalendarEvent): void => {
+        const action = this.props.onEditEvent?.get(event.item);
 
         if (action?.canExecute) {
-            action.execute({
-                startDate: event.start,
-                endDate: event.end,
-                allDay: event.allDay,
-                title: event.title
-            });
+            action.execute();
         }
     };
 
-    private handleSelectSlot = (slotInfo: { start: Date; end: Date; action: string }): void => {
+    private handleCreateEvent = (slotInfo: { start: Date; end: Date; action: string }): void => {
         const action = this.props.onCreateEvent;
 
         if (action?.canExecute && this.props.enableCreate) {
