@@ -82,13 +82,4 @@ export interface SelectionBaseProps<Selector> {
     selector: Selector;
     tabIndex: number;
     ariaRequired: DynamicValue<boolean>;
-    a11yConfig: {
-        a11yStatusMessage: A11yStatusMessage;
-    };
-}
-
-export interface A11yStatusMessage {
-    a11ySelectedValue: string;
-    a11yOptionsAvailable: string;
-    a11yInstructions: string;
 }

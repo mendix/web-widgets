@@ -20,14 +20,6 @@ export function RadioSelection({
         }
     };
 
-    if (selector.status === "unavailable") {
-        return (
-            <div className="widget-selection-controls-radio">
-                <div className="widget-selection-controls-radio-loading">Loading...</div>
-            </div>
-        );
-    }
-
     return (
         <div
             className={classNames("widget-selection-controls-radio", {
@@ -44,6 +36,7 @@ export function RadioSelection({
                 {options.map((optionId, index) => {
                     const isSelected = currentId === optionId;
                     const radioId = `${inputId}-radio-${index}`;
+                    const name = selector.caption.get(optionId);
 
                     return (
                         <div
@@ -55,13 +48,12 @@ export function RadioSelection({
                             <input
                                 type="radio"
                                 id={radioId}
-                                name={inputId}
+                                name={name && name.length > 0 ? name : inputId}
                                 value={optionId}
                                 checked={isSelected}
                                 disabled={isReadOnly}
                                 tabIndex={tabIndex}
                                 onChange={() => handleChange(optionId)}
-                                aria-describedby={`${inputId}-description`}
                             />
                             <CaptionContent htmlFor={radioId}>{selector.caption.render(optionId)}</CaptionContent>
                         </div>
