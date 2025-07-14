@@ -122,6 +122,7 @@ const Container = observer((props: Props): ReactElement => {
             isFetchingNextBatch={rootStore.loaderCtrl.isFetchingNextBatch}
             loadingType={props.loadingType}
             columnsLoading={!columnsStore.loaded}
+            refreshIndicator={props.refreshIndicator}
         />
     );
 });
