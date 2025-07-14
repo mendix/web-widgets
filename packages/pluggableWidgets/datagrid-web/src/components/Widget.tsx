@@ -70,6 +70,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     isFetchingNextBatch: boolean;
     loadingType: LoadingTypeEnum;
     columnsLoading: boolean;
+    refreshIndicator: boolean;
 
     // Helpers
     cellEventsController: EventsController;
@@ -132,6 +133,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         paging,
         pagingPosition,
         preview,
+        refreshIndicator,
         selectActionHelper,
         setPage,
         visibleColumns
@@ -190,9 +192,9 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         isLoading={props.columnsLoading}
                         preview={props.preview}
                     />
-                    <RefreshIndicator />
+                    {refreshIndicator && props.isLoading ? <RefreshIndicator /> : null}
                     <GridBody
-                        isLoading={props.isLoading}
+                        // isLoading={props.isLoading}
                         isFetchingNextBatch={props.isFetchingNextBatch}
                         loadingType={props.loadingType}
                         columnsHidable={columnsHidable}
