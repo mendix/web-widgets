@@ -18,11 +18,14 @@ export default function Events(props: EventsContainerProps): ReactElement {
         componentLoadRepeatParameterType,
         componentLoadRepeatExpression,
         componentLoadDelayParameterType,
-        onEventChangeDelay
+        onEventChangeDelayInteger,
+        onEventChangeDelayParameterType,
+        onEventChangeDelayExpression
     } = props;
     const prevOnChangeAttributeValue = useRef<EditableValue<any> | undefined>();
     let loadDelay;
     let repeatInterval;
+    let onEventChangeDelay;
     if (componentLoadDelayParameterType === "number") {
         loadDelay = componentLoadDelayInteger;
     } else {
@@ -37,6 +40,14 @@ export default function Events(props: EventsContainerProps): ReactElement {
         repeatInterval =
             componentLoadRepeatExpression?.status === "available"
                 ? componentLoadRepeatExpression.value.toNumber()
+                : undefined;
+    }
+    if (onEventChangeDelayParameterType === "number") {
+        onEventChangeDelay = onEventChangeDelayInteger;
+    } else {
+        onEventChangeDelay =
+            onEventChangeDelayExpression?.status === "available"
+                ? onEventChangeDelayExpression.value.toNumber()
                 : undefined;
     }
     useActionTimer({
@@ -54,7 +65,6 @@ export default function Events(props: EventsContainerProps): ReactElement {
                 return;
             }
             if (prevOnChangeAttributeValue?.current?.value === undefined) {
-                // ignore initial load
                 prevOnChangeAttributeValue.current = onEventChangeAttribute;
             } else {
                 if (onEventChangeAttribute?.value !== prevOnChangeAttributeValue.current?.value) {

@@ -78,9 +78,25 @@
                     <caption>Action</caption>
                     <description />
                 </property>
-                <property key="onEventChangeDelay" type="integer" required="true" defaultValue="0">
+
+                <property key="onEventChangeDelayParameterType" type="enumeration" defaultValue="number" required="true">
+                    <caption>Parameter type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="number">Value</enumerationValue>
+                        <enumerationValue key="expression">Expression</enumerationValue>
+                    </enumerationValues>
+                </property>
+
+                <property key="onEventChangeDelayInteger" type="integer" required="true" defaultValue="0">
                     <caption>Delay</caption>
                     <description>Timer delay to first action execution. Value is in milliseconds. If set to 0, action will be triggered immediately.</description>
+                </property>
+
+                <property key="onEventChangeDelayExpression" type="expression">
+                    <caption>Delay</caption>
+                    <description>Timer delay to first action execution. Value is in milliseconds. If set to 0, action will be triggered immediately.</description>
+                    <returnType type="Integer" />
                 </property>
             </propertyGroup>
             <!-- END OPTIONS SOURCE -->
