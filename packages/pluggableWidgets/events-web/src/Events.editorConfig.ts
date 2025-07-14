@@ -19,7 +19,22 @@ export function getProperties(
     defaultProperties: Properties /* , target: Platform*/
 ): Properties {
     if (!values.componentLoadRepeat) {
-        hidePropertiesIn(defaultProperties, values, ["componentLoadRepeatInterval"]);
+        hidePropertiesIn(defaultProperties, values, [
+            "componentLoadRepeatInterval",
+            "componentLoadRepeatExpression",
+            "componentLoadRepeatParameterType"
+        ]);
+    } else {
+        if (values.componentLoadRepeatParameterType === "expression") {
+            hidePropertiesIn(defaultProperties, values, ["componentLoadRepeatInterval"]);
+        } else {
+            hidePropertiesIn(defaultProperties, values, ["componentLoadRepeatExpression"]);
+        }
+    }
+    if (values.componentLoadDelayParameterType === "expression") {
+        hidePropertiesIn(defaultProperties, values, ["componentLoadDelayInteger"]);
+    } else {
+        hidePropertiesIn(defaultProperties, values, ["componentLoadDelayExpression"]);
     }
     return defaultProperties;
 }

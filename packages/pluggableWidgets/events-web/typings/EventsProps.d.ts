@@ -4,8 +4,12 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, EditableValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { Big } from "big.js";
+
+export type ComponentLoadDelayParameterTypeEnum = "number" | "expression";
+
+export type ComponentLoadRepeatParameterTypeEnum = "number" | "expression";
 
 export interface EventsContainerProps {
     name: string;
@@ -13,9 +17,13 @@ export interface EventsContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     onComponentLoad?: ActionValue;
-    componentLoadDelay: number;
+    componentLoadDelayParameterType: ComponentLoadDelayParameterTypeEnum;
+    componentLoadDelayInteger: number;
+    componentLoadDelayExpression: DynamicValue<Big>;
     componentLoadRepeat: boolean;
+    componentLoadRepeatParameterType: ComponentLoadRepeatParameterTypeEnum;
     componentLoadRepeatInterval: number;
+    componentLoadRepeatExpression?: DynamicValue<Big>;
     onEventChangeAttribute?: EditableValue<Big | any | boolean | Date | string>;
     onEventChange?: ActionValue;
     onEventChangeDelay: number;
@@ -33,9 +41,13 @@ export interface EventsPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     onComponentLoad: {} | null;
-    componentLoadDelay: number | null;
+    componentLoadDelayParameterType: ComponentLoadDelayParameterTypeEnum;
+    componentLoadDelayInteger: number | null;
+    componentLoadDelayExpression: string;
     componentLoadRepeat: boolean;
+    componentLoadRepeatParameterType: ComponentLoadRepeatParameterTypeEnum;
     componentLoadRepeatInterval: number | null;
+    componentLoadRepeatExpression: string;
     onEventChangeAttribute: string;
     onEventChange: {} | null;
     onEventChangeDelay: number | null;
