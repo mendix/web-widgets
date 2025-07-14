@@ -9,20 +9,41 @@ export default function Events(props: EventsContainerProps): ReactElement {
     const {
         class: className,
         onComponentLoad,
-        componentLoadDelay,
+        componentLoadDelayExpression,
+        componentLoadDelayInteger,
         componentLoadRepeat,
-        componentLoadRepeatInterval,
         onEventChangeAttribute,
         onEventChange,
+        componentLoadRepeatInterval,
+        componentLoadRepeatParameterType,
+        componentLoadRepeatExpression,
+        componentLoadDelayParameterType,
         onEventChangeDelay
-        // optionsSourceType
     } = props;
     const prevOnChangeAttributeValue = useRef<EditableValue<any> | undefined>();
+    let loadDelay;
+    let repeatInterval;
+    if (componentLoadDelayParameterType === "number") {
+        loadDelay = componentLoadDelayInteger;
+    } else {
+        loadDelay =
+            componentLoadDelayExpression.status === "available"
+                ? componentLoadDelayExpression.value.toNumber()
+                : undefined;
+    }
+    if (componentLoadRepeatParameterType === "number") {
+        repeatInterval = componentLoadRepeatInterval;
+    } else {
+        repeatInterval =
+            componentLoadRepeatExpression?.status === "available"
+                ? componentLoadRepeatExpression.value.toNumber()
+                : undefined;
+    }
     useActionTimer({
         canExecute: onComponentLoad?.canExecute,
         execute: onComponentLoad?.execute,
-        delay: componentLoadDelay,
-        interval: componentLoadRepeatInterval,
+        delay: loadDelay,
+        interval: repeatInterval,
         repeat: componentLoadRepeat,
         attribute: undefined
     });
