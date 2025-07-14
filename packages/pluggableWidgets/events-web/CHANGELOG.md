@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- On component load: Added support for expressions when setting the delay value
+- On component load: Added support for expressions when setting the repeat interval
+- On attribute change: Added support for expressions when setting the delay value
+
 ## [1.0.1] - 2024-04-25
 
 ### Fixed
