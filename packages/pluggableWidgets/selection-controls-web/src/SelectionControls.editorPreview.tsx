@@ -3,11 +3,15 @@ import { ReactElement, createElement, useMemo } from "react";
 import { SelectionControlsPreviewProps } from "../typings/SelectionControlsProps";
 import { RadioSelection } from "./components/RadioSelection/RadioSelection";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
-import { SingleSelector, SelectionBaseProps } from "./helpers/types";
+import { SingleSelector, SelectionBaseProps, MultiSelector } from "./helpers/types";
 import { StaticPreviewSelector } from "./helpers/Static/Preview/StaticPreviewSelector";
-import { DatabasePreviewSelector } from "./helpers/Database/Preview/DatabasePreviewSelector";
+import {
+    DatabaseMultiPreviewSelector,
+    DatabasePreviewSelector
+} from "./helpers/Database/Preview/DatabasePreviewSelector";
 import { AssociationPreviewSelector } from "./helpers/Association/Preview/AssociationPreviewSelector";
 import "./ui/SelectionControls.scss";
+import { CheckboxSelection } from "./components/CheckboxSelection/CheckboxSelection";
 
 export const preview = (props: SelectionControlsPreviewProps): ReactElement => {
     const id = generateUUID().toString();
@@ -16,30 +20,31 @@ export const preview = (props: SelectionControlsPreviewProps): ReactElement => {
         inputId: id,
         labelId: `${id}-label`,
         readOnlyStyle: props.readOnlyStyle,
-        ariaRequired: dynamic(false),
-        a11yConfig: {
-            a11yStatusMessage: {
-                a11ySelectedValue: props.a11ySelectedValue,
-                a11yOptionsAvailable: props.a11yOptionsAvailable,
-                a11yInstructions: props.a11yInstructions
-            }
-        }
+        ariaRequired: dynamic(false)
     };
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const selector: SingleSelector = useMemo(() => {
+    const selector: SingleSelector | MultiSelector = useMemo(() => {
         if (props.source === "static") {
             return new StaticPreviewSelector(props);
         }
         if (props.source === "database") {
-            return new DatabasePreviewSelector(props);
+            if (props.optionsSourceDatabaseItemSelection === "Multi") {
+                return new DatabaseMultiPreviewSelector(props);
+            } else {
+                return new DatabasePreviewSelector(props);
+            }
         }
         return new AssociationPreviewSelector(props);
     }, [props]);
 
     return (
         <div className="widget-selection-controls widget-selection-controls-editor-preview">
-            <RadioSelection selector={selector} {...commonProps} />
+            {selector.type === "single" ? (
+                <RadioSelection selector={selector} {...commonProps} />
+            ) : (
+                <CheckboxSelection selector={selector} {...commonProps} />
+            )}
         </div>
     );
 };

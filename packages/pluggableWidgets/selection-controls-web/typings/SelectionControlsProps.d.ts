@@ -63,9 +63,6 @@ export interface SelectionControlsContainerProps {
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent?: ActionValue;
     ariaRequired: DynamicValue<boolean>;
-    a11ySelectedValue?: DynamicValue<string>;
-    a11yOptionsAvailable?: DynamicValue<string>;
-    a11yInstructions?: DynamicValue<string>;
 }
 
 export interface SelectionControlsPreviewProps {
@@ -99,7 +96,4 @@ export interface SelectionControlsPreviewProps {
     onChangeEvent: {} | null;
     onChangeDatabaseEvent: {} | null;
     ariaRequired: string;
-    a11ySelectedValue: string;
-    a11yOptionsAvailable: string;
-    a11yInstructions: string;
 }
