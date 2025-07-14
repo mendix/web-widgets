@@ -6,6 +6,7 @@ import {
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { PreviewCaptionsProvider } from "../../Preview/PreviewCaptionsProvider";
 import { PreviewOptionsProvider } from "../../Preview/PreviewOptionsProvider";
+import { getCustomCaption } from "../../utils";
 
 export class AssociationPreviewSelector implements SingleSelector {
     type = "single" as const;
@@ -26,7 +27,7 @@ export class AssociationPreviewSelector implements SingleSelector {
         this.currentId = `single-${generateUUID()}`;
         this.customContentType = props.optionsSourceCustomContentType;
         this.readOnly = props.readOnly;
-        this.caption = new PreviewCaptionsProvider(new Map());
+        this.caption = new PreviewCaptionsProvider(new Map(), getCustomCaption(props));
         this.options = new PreviewOptionsProvider(this.caption, new Map());
         (this.caption as PreviewCaptionsProvider).updatePreviewProps({
             customContentRenderer: props.optionsSourceAssociationCustomContent?.renderer,

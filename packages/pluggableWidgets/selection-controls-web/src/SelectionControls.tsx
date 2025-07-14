@@ -17,14 +17,7 @@ export default function SelectionControls(props: SelectionControlsContainerProps
         inputId: props.id,
         labelId: `${props.id}-label`,
         readOnlyStyle: props.readOnlyStyle,
-        ariaRequired: props.ariaRequired,
-        a11yConfig: {
-            a11yStatusMessage: {
-                a11ySelectedValue: props.a11ySelectedValue?.value ?? "",
-                a11yOptionsAvailable: props.a11yOptionsAvailable?.value ?? "",
-                a11yInstructions: props.a11yInstructions?.value ?? ""
-            }
-        }
+        ariaRequired: props.ariaRequired
     };
 
     return (
