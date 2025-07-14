@@ -6,8 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [1.0.0] - 2025-01-20
-
 ### Added
 
 - Initial release of Checkbox Radio Selection widget
@@ -17,5 +15,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Database data source support
 - Static data source support
 - Custom content options
-- Accessibility features with ARIA labels
-- Keyboard navigation support
