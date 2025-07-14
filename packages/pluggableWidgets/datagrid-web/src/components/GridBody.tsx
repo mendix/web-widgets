@@ -8,7 +8,7 @@ interface Props {
     className?: string;
     children?: React.ReactNode;
     loadingType: LoadingTypeEnum;
-    isLoading: boolean;
+    // isLoading: boolean;
     isFetchingNextBatch?: boolean;
     columnsHidable: boolean;
     columnsSize: number;
@@ -20,9 +20,9 @@ export function GridBody(props: Props): ReactElement {
     const { children } = props;
 
     const content = (): React.ReactElement => {
-        if (props.isLoading) {
-            return <Loader {...props} rowsSize={props.rowsSize > 0 ? props.rowsSize : props.pageSize} />;
-        }
+        // if (props.isLoading) {
+        //     return <Loader {...props} rowsSize={props.rowsSize > 0 ? props.rowsSize : props.pageSize} />;
+        // }
         return (
             <Fragment>
                 {children}
