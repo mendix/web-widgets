@@ -109,6 +109,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         isFetchingNextBatch: false,
         loadingType: "spinner",
         columnsLoading: false,
+        refreshIndicator: false,
         focusController: new FocusTargetController(
             new PositionController(),
             new VirtualGridLayout(1, columns.length, 10)
