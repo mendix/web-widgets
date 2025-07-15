@@ -8,9 +8,32 @@ jest.mock("../helpers/getSelector", () => ({
     getSelector: jest.fn(() => ({
         type: "single",
         status: "available",
+        readOnly: false,
+        currentId: "option1",
+        clearable: false,
+        customContentType: "no",
         updateProps: jest.fn(),
+        setValue: jest.fn(),
         options: {
-            onAfterSearchTermChange: jest.fn()
+            status: "available",
+            searchTerm: "",
+            sortOrder: undefined,
+            datasourceFilter: undefined,
+            hasMore: false,
+            isLoading: false,
+            getAll: jest.fn(() => ["option1", "option2", "option3"]),
+            setSearchTerm: jest.fn(),
+            onAfterSearchTermChange: jest.fn(),
+            loadMore: jest.fn(),
+            _updateProps: jest.fn(),
+            _optionToValue: jest.fn(),
+            _valueToOption: jest.fn()
+        },
+        caption: {
+            get: jest.fn(value => `Caption ${value}`),
+            render: jest.fn(value => `Caption ${value}`),
+            emptyCaption: "Select an option",
+            formatter: undefined
         }
     }))
 }));
