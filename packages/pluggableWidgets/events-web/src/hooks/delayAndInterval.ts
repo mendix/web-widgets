@@ -4,7 +4,7 @@ interface ParameterTypeProps {
     onEventChangeDelayParameterType: string;
     componentLoadDelay?: number;
     componentLoadRepeatInterval?: number;
-    onEventChangeDelayInteger?: number;
+    onEventChangeDelay?: number;
     componentLoadRepeatIntervalExpression?: { status: string; value: { toNumber: () => number } | undefined };
     componentLoadDelayExpression?: { status: string; value: { toNumber: () => number } | undefined };
     onEventChangeDelayExpression?: { status: string; value: { toNumber: () => number } | undefined };
@@ -19,7 +19,7 @@ export function useDelayAndInterval(props: ParameterTypeProps): [number | undefi
         onEventChangeDelayParameterType,
         componentLoadDelay,
         componentLoadRepeatInterval,
-        onEventChangeDelayInteger,
+        onEventChangeDelay,
         componentLoadRepeatIntervalExpression,
         componentLoadDelayExpression,
         onEventChangeDelayExpression
@@ -42,7 +42,7 @@ export function useDelayAndInterval(props: ParameterTypeProps): [number | undefi
                 : undefined;
     }
     if (onEventChangeDelayParameterType === "number") {
-        delayValue = onEventChangeDelayInteger;
+        delayValue = onEventChangeDelay;
     } else {
         delayValue =
             onEventChangeDelayExpression?.status === "available" && onEventChangeDelayExpression.value !== undefined

@@ -37,7 +37,7 @@ export function getProperties(
         hidePropertiesIn(defaultProperties, values, ["componentLoadDelayExpression"]);
     }
     if (values.onEventChangeDelayParameterType === "expression") {
-        hidePropertiesIn(defaultProperties, values, ["onEventChangeDelayInteger"]);
+        hidePropertiesIn(defaultProperties, values, ["onEventChangeDelay"]);
     } else {
         hidePropertiesIn(defaultProperties, values, ["onEventChangeDelayExpression"]);
     }
