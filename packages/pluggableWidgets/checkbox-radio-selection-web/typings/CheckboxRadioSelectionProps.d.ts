@@ -63,6 +63,7 @@ export interface CheckboxRadioSelectionContainerProps {
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent?: ActionValue;
     ariaRequired: DynamicValue<boolean>;
+    groupName?: DynamicValue<string>;
 }
 
 export interface CheckboxRadioSelectionPreviewProps {
@@ -96,4 +97,5 @@ export interface CheckboxRadioSelectionPreviewProps {
     onChangeEvent: {} | null;
     onChangeDatabaseEvent: {} | null;
     ariaRequired: string;
+    groupName: string;
 }
