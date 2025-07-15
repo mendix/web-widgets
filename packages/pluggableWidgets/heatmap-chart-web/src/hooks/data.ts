@@ -34,6 +34,7 @@ type LocalHeatMapData = {
     verticalAxisValue: AttributeValue;
     horizontalSortValue: string | Big | Date | undefined;
     verticalSortValue: string | Big | Date | undefined;
+    id: string;
 };
 
 function getUniqueValues<T>(values: T[]): T[] {
@@ -78,7 +79,8 @@ export const useHeatMapDataSeries = ({
                 horizontalAxisValue: formatValueAttribute(horizontalAxisAttribute?.get(dataSourceItem).value),
                 horizontalSortValue: horizontalSortAttribute?.get(dataSourceItem).value,
                 verticalAxisValue: formatValueAttribute(verticalAxisAttribute?.get(dataSourceItem).value),
-                verticalSortValue: verticalSortAttribute?.get(dataSourceItem).value
+                verticalSortValue: verticalSortAttribute?.get(dataSourceItem).value,
+                id: dataSourceItem.id
             }));
             setHeatMapData(dataSourceItems);
         }
@@ -113,7 +115,7 @@ export const useHeatMapDataSeries = ({
                 executeAction(onClickAction?.get(selectedObjectItem));
             }
         },
-        [onClickAction, heatmapChartData, seriesItemSelection]
+        [onClickAction, heatmapChartData]
     );
 
     return useMemo<HeatMapHookData>(() => {

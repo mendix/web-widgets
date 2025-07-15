@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, ListValue, ListAttributeValue, ListExpressionValue } from "mendix";
+import { DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 import { Big } from "big.js";
 
 export type HorizontalSortOrderEnum = "asc" | "desc";
@@ -55,7 +55,7 @@ export interface HeatMapContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
-    onClickAction?: ActionValue;
+    onClickAction?: ListActionValue;
     tooltipHoverText?: ListExpressionValue<string>;
     enableThemeConfig: boolean;
     customLayout: string;
