@@ -1,9 +1,8 @@
-import * as dateFns from "date-fns";
 import { createElement, ReactElement } from "react";
 import { CalendarProps, NavigateAction } from "react-big-calendar";
 // @ts-expect-error - TimeGrid is not part of public typings
 import TimeGrid from "react-big-calendar/lib/TimeGrid";
-import { getRange } from "../utils/calendar-utils";
+import { getRange, addWeeks, differenceInCalendarDays } from "../utils/calendar-utils";
 
 type CustomWeekComponent = ((viewProps: CalendarProps) => ReactElement) & {
     navigate: (date: Date, action: NavigateAction) => Date;
@@ -33,9 +32,9 @@ export class CustomWeekController {
     static navigate(date: Date, action: NavigateAction): Date {
         switch (action) {
             case "PREV":
-                return dateFns.addWeeks(date, -1);
+                return addWeeks(date, -1);
             case "NEXT":
-                return dateFns.addWeeks(date, 1);
+                return addWeeks(date, 1);
             default:
                 return date;
         }
@@ -49,7 +48,7 @@ export class CustomWeekController {
         };
 
         const isContiguous = range.every(
-            (curr, idx, arr) => idx === 0 || dateFns.differenceInCalendarDays(curr, arr[idx - 1]) === 1
+            (curr, idx, arr) => idx === 0 || differenceInCalendarDays(curr, arr[idx - 1]) === 1
         );
 
         if (isContiguous) {

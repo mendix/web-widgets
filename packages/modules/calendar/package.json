@@ -1,0 +1,46 @@
+{
+    "name": "@mendix/calendar",
+    "moduleName": "Calendar module",
+    "version": "1.0.0",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "mxpackage": {
+        "type": "module",
+        "name": "Calendar",
+        "mpkName": "Calendar.mpk",
+        "dependencies": [
+            "@mendix/calendar-web"
+        ]
+    },
+    "moduleFolderNameInModeler": "calendar",
+    "marketplace": {
+        "minimumMXVersion": "9.24.0",
+        "appName": "Calendar"
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "calendar-web"
+    },
+    "scripts": {
+        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
+        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
+        "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+        "update-changelog": "rui-update-changelog-module",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "@mendix/calendar-web": "workspace:*"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "cross-env": "^7.0.3"
+    }
+}
