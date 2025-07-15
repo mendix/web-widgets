@@ -3,7 +3,7 @@ import { EditableValue } from "mendix";
 import { ReactElement, createElement, useRef } from "react";
 import { EventsContainerProps } from "../typings/EventsProps";
 import { useActionTimer } from "./hooks/timer";
-import { useDelayAndInterval } from "./hooks/delayAndInterval";
+import { useParameterValue } from "./hooks/parameterValue";
 import "./ui/Events.scss";
 
 export default function Events(props: EventsContainerProps): ReactElement {
@@ -25,16 +25,20 @@ export default function Events(props: EventsContainerProps): ReactElement {
     } = props;
     const prevOnChangeAttributeValue = useRef<EditableValue<any> | undefined>();
 
-    const [delayValue, intervalValue] = useDelayAndInterval({
-        componentLoadDelayParameterType,
-        componentLoadRepeatIntervalParameterType,
-        onEventChangeDelayParameterType,
-        componentLoadDelay,
-        componentLoadRepeatInterval,
-        onEventChangeDelay,
-        componentLoadRepeatIntervalExpression,
-        componentLoadDelayExpression,
-        onEventChangeDelayExpression
+    const delayValue = useParameterValue({
+        parameterType: componentLoadDelayParameterType,
+        parameterValue: componentLoadDelay,
+        parameterExpression: componentLoadDelayExpression
+    });
+    const intervalValue = useParameterValue({
+        parameterType: componentLoadRepeatIntervalParameterType,
+        parameterValue: componentLoadRepeatInterval,
+        parameterExpression: componentLoadRepeatIntervalExpression
+    });
+    const onEventChangeDelayValue = useParameterValue({
+        parameterType: onEventChangeDelayParameterType,
+        parameterValue: onEventChangeDelay,
+        parameterExpression: onEventChangeDelayExpression
     });
 
     useActionTimer({
@@ -60,7 +64,7 @@ export default function Events(props: EventsContainerProps): ReactElement {
                 }
             }
         },
-        delay: delayValue,
+        delay: onEventChangeDelayValue,
         interval: 0,
         repeat: false,
         attribute: onEventChangeAttribute
