@@ -1,1 +1,3 @@
-export { default } from "@mendix/eslint-config-web-widgets";
+import config from "@mendix/eslint-config-web-widgets/widget-ts.mjs";
+
+export default config;

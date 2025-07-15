@@ -6,9 +6,7 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
 
     searchTerm = "";
 
-    constructor(_caption: CaptionsProvider) {
-        // Caption provider stored for potential future use
-    }
+    constructor(protected caption: CaptionsProvider) {}
 
     get hasMore(): boolean {
         return false;
@@ -22,11 +20,11 @@ export class BaseOptionsProvider<T = unknown, P = object> implements OptionsProv
         return "available";
     }
 
-    get sortOrder() {
+    get sortOrder(): undefined {
         return undefined;
     }
 
-    get datasourceFilter() {
+    get datasourceFilter(): undefined {
         return undefined;
     }
 
