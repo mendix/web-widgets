@@ -9,9 +9,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Initial release of Checkbox Radio Selection widget
-- Support for radio button lists (single selection)
-- Support for checkbox lists (multiple selection)
-- Context data source support (associations)
-- Database data source support
-- Static data source support
-- Custom content options

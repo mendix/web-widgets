@@ -11,6 +11,7 @@ import {
 } from "./helpers/Database/Preview/DatabasePreviewSelector";
 import { AssociationPreviewSelector } from "./helpers/Association/Preview/AssociationPreviewSelector";
 import "./ui/CheckboxRadioSelection.scss";
+import "./ui/CheckboxRadioSelectionPreview.scss";
 import { CheckboxSelection } from "./components/CheckboxSelection/CheckboxSelection";
 
 export const preview = (props: CheckboxRadioSelectionPreviewProps): ReactElement => {
@@ -20,7 +21,8 @@ export const preview = (props: CheckboxRadioSelectionPreviewProps): ReactElement
         inputId: id,
         labelId: `${id}-label`,
         readOnlyStyle: props.readOnlyStyle,
-        ariaRequired: dynamic(false)
+        ariaRequired: dynamic(false),
+        groupName: dynamic(`${id}-group`)
     };
 
     // eslint-disable-next-line react-hooks/rules-of-hooks

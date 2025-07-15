@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ReactElement, createElement } from "react";
+import { ChangeEvent, ReactElement, createElement, MouseEvent } from "react";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { CaptionContent } from "../CaptionContent";
 
@@ -8,15 +8,18 @@ export function RadioSelection({
     tabIndex = 0,
     inputId,
     ariaRequired,
-    readOnlyStyle
+    readOnlyStyle,
+    groupName
 }: SelectionBaseProps<SingleSelector>): ReactElement {
     const options = selector.options.getAll();
     const currentId = selector.currentId;
     const isReadOnly = selector.readOnly;
+    const name = groupName?.value ?? inputId;
 
-    const handleChange = (optionId: string): void => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+        const selectedItem = e.target.value;
         if (!isReadOnly) {
-            selector.setValue(optionId);
+            selector.setValue(selectedItem);
         }
     };
 
@@ -36,8 +39,6 @@ export function RadioSelection({
                 {options.map((optionId, index) => {
                     const isSelected = currentId === optionId;
                     const radioId = `${inputId}-radio-${index}`;
-                    const name = selector.caption.get(optionId);
-
                     return (
                         <div
                             key={optionId}
@@ -48,14 +49,26 @@ export function RadioSelection({
                             <input
                                 type="radio"
                                 id={radioId}
-                                name={name && name.length > 0 ? name : inputId}
+                                name={name}
                                 value={optionId}
                                 checked={isSelected}
                                 disabled={isReadOnly}
                                 tabIndex={tabIndex}
-                                onChange={() => handleChange(optionId)}
+                                onChange={handleChange}
                             />
-                            <CaptionContent htmlFor={radioId}>{selector.caption.render(optionId)}</CaptionContent>
+                            <CaptionContent
+                                onClick={(e: MouseEvent<HTMLDivElement>) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    e.nativeEvent.stopImmediatePropagation();
+                                    if (!isReadOnly) {
+                                        selector.setValue(optionId);
+                                    }
+                                }}
+                                htmlFor={radioId}
+                            >
+                                {selector.caption.render(optionId)}
+                            </CaptionContent>
                         </div>
                     );
                 })}

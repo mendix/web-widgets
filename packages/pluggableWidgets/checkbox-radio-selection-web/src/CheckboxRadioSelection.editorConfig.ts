@@ -147,7 +147,7 @@ function getIconPreview(isMultiSelect: boolean): ContainerProps {
 export function getPreview(values: CheckboxRadioSelectionPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const structurePreviewChildren: StructurePreviewProps[] = [];
-    // let readOnly = values.readOnly;
+    let readOnly = values.readOnly;
 
     // Handle custom content dropzones when enabled
     if (values.optionsSourceCustomContentType !== "no") {
@@ -165,6 +165,10 @@ export function getPreview(values: CheckboxRadioSelectionPreviewProps, isDarkMod
                     dropzone.hideDataSourceHeaderIf(false)
                 )(values.optionsSourceDatabaseCustomContent)
             );
+
+            if (values.databaseAttributeString.length === 0) {
+                readOnly = values.customEditability === "never";
+            }
         } else if (values.source === "static") {
             values.optionsSourceStaticDataSource.forEach(value => {
                 structurePreviewChildren.push(
@@ -196,7 +200,8 @@ export function getPreview(values: CheckboxRadioSelectionPreviewProps, isDarkMod
         return container()(
             rowLayout({
                 columnSize: "grow",
-                backgroundColor: palette.background.container
+                borderRadius: 2,
+                backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.container
             })(
                 getIconPreview(isMultiSelect),
                 container()(container({ padding: 3 })(), text()(getCustomCaption(values)))
@@ -210,7 +215,8 @@ export function getPreview(values: CheckboxRadioSelectionPreviewProps, isDarkMod
             columnSize: "grow",
             borders: true,
             borderWidth: 1,
-            borderRadius: 2
+            borderRadius: 2,
+            backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.container
         })(container({ grow: 1, padding: 4 })(...structurePreviewChildren))
     );
 }
