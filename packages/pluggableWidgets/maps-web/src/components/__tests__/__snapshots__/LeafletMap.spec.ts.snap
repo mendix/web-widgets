@@ -178,7 +178,7 @@ exports[`Leaflet maps renders a map with current location 1`] = `
           }
         }
         interactive={false}
-        key="marker_0"
+        key="marker_51.906688_4.48837"
         position={
           {
             "lat": 51.906688,
@@ -251,7 +251,7 @@ exports[`Leaflet maps renders a map with markers 1`] = `
           }
         }
         interactive={true}
-        key="marker_0"
+        key="marker_51.906688_4.48837"
         position={
           {
             "lat": 51.906688,
@@ -288,7 +288,7 @@ exports[`Leaflet maps renders a map with markers 1`] = `
           }
         }
         interactive={true}
-        key="marker_1"
+        key="marker_51.922823_4.479632"
         position={
           {
             "lat": 51.922823,
