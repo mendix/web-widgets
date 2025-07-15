@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ReactElement, createElement } from "react";
+import { ReactElement, createElement, MouseEvent } from "react";
 import { SelectionBaseProps, MultiSelector } from "../../helpers/types";
 import { CaptionContent } from "../CaptionContent";
 
@@ -8,11 +8,13 @@ export function CheckboxSelection({
     tabIndex = 0,
     inputId,
     ariaRequired,
-    readOnlyStyle
+    readOnlyStyle,
+    groupName
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const options = selector.getOptions();
     const currentIds = selector.currentId || [];
     const isReadOnly = selector.readOnly;
+    const name = groupName?.value ?? inputId;
 
     const handleChange = (optionId: string, checked: boolean): void => {
         if (!isReadOnly) {
@@ -37,7 +39,6 @@ export function CheckboxSelection({
                 {options.map((optionId, index) => {
                     const isSelected = currentIds.includes(optionId);
                     const checkboxId = `${inputId}-checkbox-${index}`;
-                    const name = selector.caption.get(optionId);
 
                     return (
                         <div
@@ -49,14 +50,24 @@ export function CheckboxSelection({
                             <input
                                 type="checkbox"
                                 id={checkboxId}
-                                name={name && name.length > 0 ? name : inputId}
+                                name={name}
                                 value={optionId}
                                 checked={isSelected}
                                 disabled={isReadOnly}
                                 tabIndex={tabIndex}
                                 onChange={e => handleChange(optionId, e.target.checked)}
                             />
-                            <CaptionContent htmlFor={checkboxId}>{selector.caption.render(optionId)}</CaptionContent>
+                            <CaptionContent
+                                onClick={(e: MouseEvent<HTMLDivElement>) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    e.nativeEvent.stopImmediatePropagation();
+                                    handleChange(optionId, !isSelected);
+                                }}
+                                htmlFor={checkboxId}
+                            >
+                                {selector.caption.render(optionId)}
+                            </CaptionContent>
                         </div>
                     );
                 })}
