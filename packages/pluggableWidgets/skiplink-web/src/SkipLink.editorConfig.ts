@@ -1,4 +1,4 @@
-import { hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     StructurePreviewProps,
     RowLayoutProps,
@@ -7,7 +7,7 @@ import {
     structurePreviewPalette
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
-export function getProperties(values: any, defaultValues: Properties): Properties {
+export function getProperties(defaultValues: Properties): Properties {
     // No conditional properties for skiplink, but function provided for consistency
     return defaultValues;
 }
