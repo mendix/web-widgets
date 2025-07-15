@@ -21,18 +21,18 @@ export function getProperties(
     if (!values.componentLoadRepeat) {
         hidePropertiesIn(defaultProperties, values, [
             "componentLoadRepeatInterval",
-            "componentLoadRepeatExpression",
-            "componentLoadRepeatParameterType"
+            "componentLoadRepeatIntervalExpression",
+            "componentLoadRepeatIntervalParameterType"
         ]);
     } else {
-        if (values.componentLoadRepeatParameterType === "expression") {
+        if (values.componentLoadRepeatIntervalParameterType === "expression") {
             hidePropertiesIn(defaultProperties, values, ["componentLoadRepeatInterval"]);
         } else {
-            hidePropertiesIn(defaultProperties, values, ["componentLoadRepeatExpression"]);
+            hidePropertiesIn(defaultProperties, values, ["componentLoadRepeatIntervalExpression"]);
         }
     }
     if (values.componentLoadDelayParameterType === "expression") {
-        hidePropertiesIn(defaultProperties, values, ["componentLoadDelayInteger"]);
+        hidePropertiesIn(defaultProperties, values, ["componentLoadDelay"]);
     } else {
         hidePropertiesIn(defaultProperties, values, ["componentLoadDelayExpression"]);
     }

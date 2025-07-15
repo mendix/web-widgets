@@ -21,7 +21,7 @@
                     </enumerationValues>
                 </property>
 
-                <property key="componentLoadDelayInteger" type="integer" required="true" defaultValue="0">
+                <property key="componentLoadDelay" type="integer" required="true" defaultValue="0">
                     <caption>Delay</caption>
                     <description>Timer delay to first action execution. Value is in milliseconds. If set to 0, action will be triggered immediately.</description>
                 </property>
@@ -37,7 +37,7 @@
                     <description />
                 </property>
 
-                <property key="componentLoadRepeatParameterType" type="enumeration" defaultValue="number" required="true">
+                <property key="componentLoadRepeatIntervalParameterType" type="enumeration" defaultValue="number" required="true">
                     <caption>Parameter type</caption>
                     <description />
                     <enumerationValues>
@@ -51,7 +51,7 @@
                     <description>Interval between repeat action execution. Value is in milliseconds.</description>
                 </property>
 
-                <property key="componentLoadRepeatExpression" type="expression" required="false">
+                <property key="componentLoadRepeatIntervalExpression" type="expression" required="false">
                     <caption>Interval</caption>
                     <description>Interval between repeat action execution. Value is in milliseconds.</description>
                     <returnType type="Integer" />
@@ -88,7 +88,7 @@
                     </enumerationValues>
                 </property>
 
-                <property key="onEventChangeDelayInteger" type="integer" required="true" defaultValue="0">
+                <property key="onEventChangeDelay" type="integer" required="true" defaultValue="0">
                     <caption>Delay</caption>
                     <description>Timer delay to first action execution. Value is in milliseconds. If set to 0, action will be triggered immediately.</description>
                 </property>

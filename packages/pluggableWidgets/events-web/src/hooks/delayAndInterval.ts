@@ -1,11 +1,11 @@
 interface ParameterTypeProps {
     componentLoadDelayParameterType: string;
-    componentLoadRepeatParameterType: string;
+    componentLoadRepeatIntervalParameterType: string;
     onEventChangeDelayParameterType: string;
-    componentLoadDelayInteger?: number;
+    componentLoadDelay?: number;
     componentLoadRepeatInterval?: number;
     onEventChangeDelayInteger?: number;
-    componentLoadRepeatExpression?: { status: string; value: { toNumber: () => number } | undefined };
+    componentLoadRepeatIntervalExpression?: { status: string; value: { toNumber: () => number } | undefined };
     componentLoadDelayExpression?: { status: string; value: { toNumber: () => number } | undefined };
     onEventChangeDelayExpression?: { status: string; value: { toNumber: () => number } | undefined };
 }
@@ -15,29 +15,30 @@ export function useDelayAndInterval(props: ParameterTypeProps): [number | undefi
     let intervalValue: number | undefined;
     const {
         componentLoadDelayParameterType,
-        componentLoadRepeatParameterType,
+        componentLoadRepeatIntervalParameterType,
         onEventChangeDelayParameterType,
-        componentLoadDelayInteger,
+        componentLoadDelay,
         componentLoadRepeatInterval,
         onEventChangeDelayInteger,
-        componentLoadRepeatExpression,
+        componentLoadRepeatIntervalExpression,
         componentLoadDelayExpression,
         onEventChangeDelayExpression
     } = props;
     if (componentLoadDelayParameterType === "number") {
-        delayValue = componentLoadDelayInteger;
+        delayValue = componentLoadDelay;
     } else {
         delayValue =
             componentLoadDelayExpression?.status === "available" && componentLoadDelayExpression.value !== undefined
                 ? componentLoadDelayExpression.value.toNumber()
                 : undefined;
     }
-    if (componentLoadRepeatParameterType === "number") {
+    if (componentLoadRepeatIntervalParameterType === "number") {
         intervalValue = componentLoadRepeatInterval;
     } else {
         intervalValue =
-            componentLoadRepeatExpression?.status === "available" && componentLoadRepeatExpression.value !== undefined
-                ? componentLoadRepeatExpression.value.toNumber()
+            componentLoadRepeatIntervalExpression?.status === "available" &&
+            componentLoadRepeatIntervalExpression.value !== undefined
+                ? componentLoadRepeatIntervalExpression.value.toNumber()
                 : undefined;
     }
     if (onEventChangeDelayParameterType === "number") {

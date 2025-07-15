@@ -9,7 +9,7 @@ import { Big } from "big.js";
 
 export type ComponentLoadDelayParameterTypeEnum = "number" | "expression";
 
-export type ComponentLoadRepeatParameterTypeEnum = "number" | "expression";
+export type ComponentLoadRepeatIntervalParameterTypeEnum = "number" | "expression";
 
 export type OnEventChangeDelayParameterTypeEnum = "number" | "expression";
 
@@ -20,12 +20,12 @@ export interface EventsContainerProps {
     tabIndex?: number;
     onComponentLoad?: ActionValue;
     componentLoadDelayParameterType: ComponentLoadDelayParameterTypeEnum;
-    componentLoadDelayInteger: number;
+    componentLoadDelay: number;
     componentLoadDelayExpression: DynamicValue<Big>;
     componentLoadRepeat: boolean;
-    componentLoadRepeatParameterType: ComponentLoadRepeatParameterTypeEnum;
+    componentLoadRepeatIntervalParameterType: ComponentLoadRepeatIntervalParameterTypeEnum;
     componentLoadRepeatInterval: number;
-    componentLoadRepeatExpression?: DynamicValue<Big>;
+    componentLoadRepeatIntervalExpression?: DynamicValue<Big>;
     onEventChangeAttribute?: EditableValue<Big | any | boolean | Date | string>;
     onEventChange?: ActionValue;
     onEventChangeDelayParameterType: OnEventChangeDelayParameterTypeEnum;
@@ -46,12 +46,12 @@ export interface EventsPreviewProps {
     translate: (text: string) => string;
     onComponentLoad: {} | null;
     componentLoadDelayParameterType: ComponentLoadDelayParameterTypeEnum;
-    componentLoadDelayInteger: number | null;
+    componentLoadDelay: number | null;
     componentLoadDelayExpression: string;
     componentLoadRepeat: boolean;
-    componentLoadRepeatParameterType: ComponentLoadRepeatParameterTypeEnum;
+    componentLoadRepeatIntervalParameterType: ComponentLoadRepeatIntervalParameterTypeEnum;
     componentLoadRepeatInterval: number | null;
-    componentLoadRepeatExpression: string;
+    componentLoadRepeatIntervalExpression: string;
     onEventChangeAttribute: string;
     onEventChange: {} | null;
     onEventChangeDelayParameterType: OnEventChangeDelayParameterTypeEnum;
