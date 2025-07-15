@@ -126,7 +126,7 @@ export function mockProps(params: Helpers & Mocks = {}): GalleryProps<ObjectItem
         hasMoreItems: false,
         page: 0,
         pageSize: 10,
-        paging: false,
+        paging: true,
         paginationType: "buttons",
         showPagingButtons: "always",
         phoneItems: 2,
