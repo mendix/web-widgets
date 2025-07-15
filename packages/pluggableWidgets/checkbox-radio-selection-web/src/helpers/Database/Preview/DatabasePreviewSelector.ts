@@ -35,8 +35,8 @@ export class DatabasePreviewSelector implements SingleSelector {
         // Show dropzones in design mode when custom content is enabled
     }
 
-    updateProps() {}
-    setValue() {}
+    updateProps(): void {}
+    setValue(): void {}
 }
 
 export class DatabaseMultiPreviewSelector implements MultiSelector {
@@ -68,6 +68,6 @@ export class DatabaseMultiPreviewSelector implements MultiSelector {
         return this.currentId || [];
     }
 
-    updateProps() {}
-    setValue() {}
+    updateProps(): void {}
+    setValue(): void {}
 }
