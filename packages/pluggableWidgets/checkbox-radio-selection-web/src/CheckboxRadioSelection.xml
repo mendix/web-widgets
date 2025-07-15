@@ -228,7 +228,7 @@
                 </property>
                 <property key="readOnlyStyle" type="enumeration" defaultValue="text">
                     <caption>Read-only style</caption>
-                    <description>How the combo box will appear in read-only mode.</description>
+                    <description>How the checkbox radio selection will appear in read-only mode.</description>
                     <enumerationValues>
                         <enumerationValue key="bordered">Control</enumerationValue>
                         <enumerationValue key="text">Content only</enumerationValue>
@@ -254,6 +254,11 @@
                     <caption>Aria required</caption>
                     <description />
                     <returnType type="Boolean" />
+                </property>
+                <property key="groupName" type="expression" required="false">
+                    <caption>Group name</caption>
+                    <description />
+                    <returnType type="String" />
                 </property>
             </propertyGroup>
         </propertyGroup>
