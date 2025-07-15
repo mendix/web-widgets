@@ -3,7 +3,31 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { CalendarEvent } from "../helpers/CalendarPropsBuilder";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import * as dateFns from "date-fns";
+import {
+    format,
+    parse,
+    startOfWeek,
+    getDay,
+    addDays,
+    startOfMonth,
+    endOfMonth,
+    endOfWeek,
+    addWeeks,
+    differenceInCalendarDays
+} from "date-fns";
+
+export {
+    format,
+    parse,
+    startOfWeek,
+    getDay,
+    addDays,
+    startOfMonth,
+    endOfMonth,
+    endOfWeek,
+    addWeeks,
+    differenceInCalendarDays
+};
 
 export const DnDCalendar = withDragAndDrop(Calendar<CalendarEvent>);
 
@@ -22,9 +46,9 @@ export function eventPropGetter(event: CalendarEvent): EventPropGetterReturnType
 }
 
 export function getRange(date: Date, visibleDays: Set<number>): Date[] {
-    const startOfWeekDate = dateFns.startOfWeek(date, { weekStartsOn: 0 });
+    const startOfWeekDate = startOfWeek(date, { weekStartsOn: 0 });
 
-    return Array.from({ length: 7 }, (_, i) => dateFns.addDays(startOfWeekDate, i)).flatMap(current =>
+    return Array.from({ length: 7 }, (_, i) => addDays(startOfWeekDate, i)).flatMap(current =>
         visibleDays.has(current.getDay()) ? [current] : []
     );
 }
@@ -32,12 +56,12 @@ export function getRange(date: Date, visibleDays: Set<number>): Date[] {
 export function getViewRange(view: string, date: Date): { start: Date; end: Date } {
     switch (view) {
         case "month":
-            return { start: dateFns.startOfMonth(date), end: dateFns.endOfMonth(date) };
+            return { start: startOfMonth(date), end: endOfMonth(date) };
         case "week":
-            return { start: dateFns.startOfWeek(date), end: dateFns.endOfWeek(date) };
+            return { start: startOfWeek(date), end: endOfWeek(date) };
         case "work_week": {
-            const start = dateFns.startOfWeek(date);
-            return { start, end: dateFns.addDays(start, 4) };
+            const start = startOfWeek(date);
+            return { start, end: addDays(start, 4) };
         }
         case "day":
             return { start: date, end: date };
@@ -47,9 +71,9 @@ export function getViewRange(view: string, date: Date): { start: Date; end: Date
 }
 
 export const localizer = dateFnsLocalizer({
-    format: dateFns.format,
-    parse: dateFns.parse,
-    startOfWeek: dateFns.startOfWeek,
-    getDay: dateFns.getDay,
+    format,
+    parse,
+    startOfWeek,
+    getDay,
     locales: {}
 });

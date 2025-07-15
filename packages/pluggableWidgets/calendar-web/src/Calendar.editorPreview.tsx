@@ -1,20 +1,19 @@
 import classnames from "classnames";
-import * as dateFns from "date-fns";
 import { ReactElement, createElement } from "react";
 import { Calendar, dateFnsLocalizer, EventPropGetter } from "react-big-calendar";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
 import { CustomToolbar } from "./components/Toolbar";
 import { constructWrapperStyle, WrapperStyleProps } from "./utils/style-utils";
-import { eventPropGetter } from "./utils/calendar-utils";
+import { format, parse, startOfWeek, getDay, eventPropGetter } from "./utils/calendar-utils";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./ui/Calendar.scss";
 
 const localizer = dateFnsLocalizer({
-    format: dateFns.format,
-    parse: dateFns.parse,
-    startOfWeek: dateFns.startOfWeek,
-    getDay: dateFns.getDay,
+    format,
+    parse,
+    startOfWeek,
+    getDay,
     locales: {}
 });
 
