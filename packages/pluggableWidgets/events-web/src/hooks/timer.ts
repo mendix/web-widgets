@@ -16,7 +16,6 @@ export function useActionTimer(props: ActionTimerProps): void {
     useEffect(() => {
         // If the delay is set to undefined, we should not start a timer.
         if (delay === undefined || delay < 0 || (interval === undefined && repeat)) {
-            console.log("Events: Timer delay or interval is not set, skipping timer execution.");
             return;
         }
         let counter: NodeJS.Timeout;

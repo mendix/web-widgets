@@ -11,13 +11,13 @@ export default function Events(props: EventsContainerProps): ReactElement {
         class: className,
         onComponentLoad,
         componentLoadDelayExpression,
-        componentLoadDelayInteger,
+        componentLoadDelay,
         componentLoadRepeat,
         onEventChangeAttribute,
         onEventChange,
         componentLoadRepeatInterval,
-        componentLoadRepeatParameterType,
-        componentLoadRepeatExpression,
+        componentLoadRepeatIntervalParameterType,
+        componentLoadRepeatIntervalExpression,
         componentLoadDelayParameterType,
         onEventChangeDelayInteger,
         onEventChangeDelayParameterType,
@@ -27,12 +27,12 @@ export default function Events(props: EventsContainerProps): ReactElement {
 
     const [delayValue, intervalValue] = useDelayAndInterval({
         componentLoadDelayParameterType,
-        componentLoadRepeatParameterType,
+        componentLoadRepeatIntervalParameterType,
         onEventChangeDelayParameterType,
-        componentLoadDelayInteger,
+        componentLoadDelay,
         componentLoadRepeatInterval,
         onEventChangeDelayInteger,
-        componentLoadRepeatExpression,
+        componentLoadRepeatIntervalExpression,
         componentLoadDelayExpression,
         onEventChangeDelayExpression
     });
