@@ -35,6 +35,6 @@ export class AssociationPreviewSelector implements SingleSelector {
         });
     }
 
-    updateProps() {}
-    setValue() {}
+    updateProps(): void {}
+    setValue(): void {}
 }
