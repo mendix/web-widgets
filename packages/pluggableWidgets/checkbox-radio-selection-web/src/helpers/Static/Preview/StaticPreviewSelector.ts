@@ -30,6 +30,6 @@ export class StaticPreviewSelector implements SingleSelector {
         this.options = new PreviewOptionsProvider(this.caption, new Map());
     }
 
-    updateProps() {}
-    setValue() {}
+    updateProps(): void {}
+    setValue(): void {}
 }
