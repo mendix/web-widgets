@@ -31,6 +31,7 @@
         "test": "jest"
     },
     "dependencies": {
+        "@mendix/filter-commons": "workspace:^",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
