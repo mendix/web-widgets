@@ -14,7 +14,7 @@ jobs:
         name: "Publish a new package version from GitHub release"
         runs-on: ubuntu-latest
         env:
-            TAG: ${{ github.event_name == 'release' && github.ref_name || github.event.inputs.package }}
+            TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event.inputs.package }}
 
         steps:
             - name: Check release tag
