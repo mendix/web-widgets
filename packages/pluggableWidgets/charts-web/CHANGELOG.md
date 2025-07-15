@@ -6,6 +6,68 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [6.2.1] Charts - 2025-07-15
+
+### [6.2.1] AreaChart
+
+#### Changed
+
+- We updated shared charts dependency.
+
+### [6.2.1] BarChart
+
+#### Changed
+
+- We updated shared charts dependency.
+
+### [6.2.1] BubbleChart
+
+#### Changed
+
+- We updated shared charts dependency.
+
+### [6.2.1] ColumnChart
+
+#### Changed
+
+- We updated shared charts dependency.
+
+### [1.2.1] CustomChart
+
+#### Fixed
+
+- We fixed an issue with incorrect parsing and merging of layout and data properties.
+
+### [6.2.1] HeatMap
+
+#### Fixed
+
+- We fixed on click events by correctly adding datasource and allow to listen to selection.
+
+### [6.2.1] LineChart
+
+#### Changed
+
+- We updated shared charts dependency.
+
+### [6.2.1] PieChart
+
+#### Changed
+
+- We updated shared charts dependency.
+
+### [6.2.1] TimeSeries
+
+#### Changed
+
+- We updated shared charts dependency.
+
+### [2.1.1] ChartPlayground
+
+#### Changed
+
+- We updated shared charts dependency.
+
 ## [6.2.0] Charts - 2025-06-03
 
 ### [6.2.0] AreaChart

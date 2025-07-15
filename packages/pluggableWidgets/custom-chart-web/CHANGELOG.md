@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.2.1] - 2025-07-15
+
 ### Fixed
 
 - We fixed an issue with incorrect parsing and merging of layout and data properties.
