@@ -17,7 +17,8 @@ export default function CheckboxRadioSelection(props: CheckboxRadioSelectionCont
         inputId: props.id,
         labelId: `${props.id}-label`,
         readOnlyStyle: props.readOnlyStyle,
-        ariaRequired: props.ariaRequired
+        ariaRequired: props.ariaRequired,
+        groupName: props.groupName
     };
 
     return (
