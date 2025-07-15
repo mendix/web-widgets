@@ -29,8 +29,8 @@ export interface EventsContainerProps {
     onEventChangeAttribute?: EditableValue<Big | any | boolean | Date | string>;
     onEventChange?: ActionValue;
     onEventChangeDelayParameterType: OnEventChangeDelayParameterTypeEnum;
-    onEventChangeDelayInteger: number;
-    onEventChangeDelayExpression?: DynamicValue<Big>;
+    onEventChangeDelay: number;
+    onEventChangeDelayExpression: DynamicValue<Big>;
 }
 
 export interface EventsPreviewProps {
@@ -55,6 +55,6 @@ export interface EventsPreviewProps {
     onEventChangeAttribute: string;
     onEventChange: {} | null;
     onEventChangeDelayParameterType: OnEventChangeDelayParameterTypeEnum;
-    onEventChangeDelayInteger: number | null;
+    onEventChangeDelay: number | null;
     onEventChangeDelayExpression: string;
 }

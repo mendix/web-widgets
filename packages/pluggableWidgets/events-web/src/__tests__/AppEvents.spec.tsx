@@ -22,7 +22,7 @@ describe("App events (load)", () => {
             onEventChangeAttribute: undefined,
             onEventChange: undefined,
             onEventChangeDelayParameterType: "number",
-            onEventChangeDelayInteger: 0,
+            onEventChangeDelay: 0,
             onEventChangeDelayExpression: dynamicValue()
         };
     });

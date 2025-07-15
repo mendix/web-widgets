@@ -19,7 +19,7 @@ export default function Events(props: EventsContainerProps): ReactElement {
         componentLoadRepeatIntervalParameterType,
         componentLoadRepeatIntervalExpression,
         componentLoadDelayParameterType,
-        onEventChangeDelayInteger,
+        onEventChangeDelay,
         onEventChangeDelayParameterType,
         onEventChangeDelayExpression
     } = props;
@@ -31,7 +31,7 @@ export default function Events(props: EventsContainerProps): ReactElement {
         onEventChangeDelayParameterType,
         componentLoadDelay,
         componentLoadRepeatInterval,
-        onEventChangeDelayInteger,
+        onEventChangeDelay,
         componentLoadRepeatIntervalExpression,
         componentLoadDelayExpression,
         onEventChangeDelayExpression
