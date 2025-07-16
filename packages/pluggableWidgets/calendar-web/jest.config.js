@@ -1,5 +1,4 @@
-const { join } = require("path");
-const base = require("@mendix/pluggable-widgets-tools/test-config/jest.config");
+const base = require("@mendix/pluggable-widgets-tools/test-config/jest.enzyme-free.config.js");
 
 module.exports = {
     ...base,
