@@ -607,7 +607,8 @@ class TableMenus {
     }
 
     handleClick(e: MouseEvent) {
-        const table = (e.target as Element).closest("table");
+        const table = (e.target as Element).closest("table.ql-table-better");
+        if (!table) return;
         this.prevList && this.prevList.classList.add("ql-hidden");
         this.prevTooltip && this.prevTooltip.classList.remove("ql-table-tooltip-hidden");
         this.prevList = null;
