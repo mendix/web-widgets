@@ -148,7 +148,7 @@ class Table extends Module {
 
     handleMousedown(e: MouseEvent) {
         this.tableSelect?.hide(this.tableSelect.root);
-        const table = (e.target as Element).closest("table");
+        const table = (e.target as Element).closest("table.ql-table-better");
         if (!table) return this.hideTools();
         this.cellSelection.handleMousedown(e);
         this.cellSelection.setDisabled(true);

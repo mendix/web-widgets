@@ -304,7 +304,7 @@ class CellSelection {
 
     handleMousedown(e: MouseEvent) {
         this.clearSelected();
-        const table = (e.target as Element).closest("table");
+        const table = (e.target as Element).closest("table.ql-table-better");
         if (!table) return;
         this.tableBetter.tableMenus.destroyTablePropertiesForm();
         const startTd = (e.target as Element).closest("td");
