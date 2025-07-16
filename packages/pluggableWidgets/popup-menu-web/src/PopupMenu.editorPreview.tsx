@@ -36,12 +36,10 @@ export function preview(props: PopupMenuPreviewProps): ReactElement {
             });
         });
     }
-
-    const isDesign = props.renderMode === "design";
     const isDropzoneEmpty = props.menuTrigger.widgetCount === 0;
 
-    const popupMenuClass = classNames("popupmenu", {
-        "popupmenu--design-empty": isDesign && isDropzoneEmpty
+    const popupMenuClass = classNames(props.className, "popupmenu", {
+        "popupmenu--design-empty": isDropzoneEmpty
     });
 
     return (
