@@ -41,6 +41,7 @@ import Quill, { EmitterSource, QuillOptions } from "quill";
 import TextBlot, { escapeText } from "quill/blots/text";
 import { Delta, Op } from "quill/core";
 import Editor from "quill/core/editor";
+import { STANDARD_LIST_TYPES } from "./formats/customList";
 
 interface ListItem {
     child: Blot;
@@ -109,6 +110,18 @@ const ListSequence = ["ordered", "lower-alpha", "lower-roman"];
 
 // construct proper "list-style-type" style attribute
 function getExpectedType(type: string | undefined, indent: number): string {
+    // bullet is standard list type, convert to disc for correct css display
+    if (type === "bullet") {
+        return "disc";
+    }
+
+    // custom list type is not dependant on indent level, use as is
+    const isCustomList = !STANDARD_LIST_TYPES.find(x => x === type);
+    if (isCustomList && type) {
+        return type;
+    }
+
+    // list type that is dependant on indent level, find the expected type based on indent level
     const currentIndex = ListSequence.indexOf(type || "ordered");
     const expectedIndex = (currentIndex + indent) % 3;
     const expectedType = ListSequence[expectedIndex] ?? type;
