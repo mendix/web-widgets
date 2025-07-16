@@ -1,4 +1,5 @@
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
+import classNames from "classnames";
 import { createElement, ReactElement } from "react";
 import { PopupMenu as PopupMenuComponent } from "./components/PopupMenu";
 
@@ -36,10 +37,17 @@ export function preview(props: PopupMenuPreviewProps): ReactElement {
         });
     }
 
+    const isDesign = props.renderMode === "design";
+    const isDropzoneEmpty = props.menuTrigger.widgetCount === 0;
+
+    const popupMenuClass = classNames("popupmenu", {
+        "popupmenu--design-empty": isDesign && isDropzoneEmpty
+    });
+
     return (
         <PopupMenuComponent
             {...props}
-            class={props.className}
+            class={popupMenuClass}
             basicItems={basicItems}
             customItems={customItems}
             menuTrigger={
