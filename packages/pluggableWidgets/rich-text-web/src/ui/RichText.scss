@@ -124,6 +124,13 @@ $rte-brand-primary: #264ae5;
         }
     }
 
+    .ql-editor li[data-list="ordered"][data-custom-list="lower-roman"] {
+        counter-increment: custom-list-roman;
+        & > .ql-ui:before {
+            content: counter(custom-list-roman, lower-roman) ". ";
+        }
+    }
+
     .widget-rich-text-prompt {
         position: absolute;
         top: 0;
