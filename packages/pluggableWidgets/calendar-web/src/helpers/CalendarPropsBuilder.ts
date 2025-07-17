@@ -159,13 +159,13 @@ export class CalendarPropsBuilder {
 
     private buildVisibleDays(): Set<number> {
         const visibleDays = [
-            this.props.showSunday,
-            this.props.showMonday,
-            this.props.showTuesday,
-            this.props.showWednesday,
-            this.props.showThursday,
-            this.props.showFriday,
-            this.props.showSaturday
+            this.props.customViewShowSunday,
+            this.props.customViewShowMonday,
+            this.props.customViewShowTuesday,
+            this.props.customViewShowWednesday,
+            this.props.customViewShowThursday,
+            this.props.customViewShowFriday,
+            this.props.customViewShowSaturday
         ].flatMap((isVisible, dayIndex) => (isVisible ? [dayIndex] : []));
 
         return new Set(visibleDays);
