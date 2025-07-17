@@ -68,7 +68,7 @@
                     <description>Standard has day, week and month</description>
                     <enumerationValues>
                         <enumerationValue key="standard">Standard</enumerationValue>
-                        <enumerationValue key="custom">Custom</enumerationValue>
+                        <enumerationValue key="custom">Custom work-week</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="editable" type="enumeration" defaultValue="default">
@@ -140,33 +140,33 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Visible days">
-                <property key="showMonday" type="boolean" defaultValue="true">
+                <property key="customViewShowMonday" type="boolean" defaultValue="true">
                     <caption>Monday</caption>
                     <description>Show Monday in the custom work-week view</description>
                 </property>
-                <property key="showTuesday" type="boolean" defaultValue="true">
+                <property key="customViewShowTuesday" type="boolean" defaultValue="true">
                     <caption>Tuesday</caption>
                     <description>Show Tuesday in the custom work-week view</description>
                 </property>
-                <property key="showWednesday" type="boolean" defaultValue="true">
+                <property key="customViewShowWednesday" type="boolean" defaultValue="true">
                     <caption>Wednesday</caption>
                     <description>Show Wednesday in the custom work-week view</description>
                 </property>
-                <property key="showThursday" type="boolean" defaultValue="true">
+                <property key="customViewShowThursday" type="boolean" defaultValue="true">
                     <caption>Thursday</caption>
                     <description>Show Thursday in the custom work-week view</description>
                 </property>
-                <property key="showFriday" type="boolean" defaultValue="true">
+                <property key="customViewShowFriday" type="boolean" defaultValue="true">
                     <caption>Friday</caption>
                     <description>Show Friday in the custom work-week view</description>
                 </property>
-                <property key="showSunday" type="boolean" defaultValue="false">
-                    <caption>Sunday</caption>
-                    <description>Show Sunday in the custom work-week view</description>
-                </property>
-                <property key="showSaturday" type="boolean" defaultValue="false">
+                <property key="customViewShowSaturday" type="boolean" defaultValue="false">
                     <caption>Saturday</caption>
                     <description>Show Saturday in the custom work-week view</description>
+                </property>
+                <property key="customViewShowSunday" type="boolean" defaultValue="false">
+                    <caption>Sunday</caption>
+                    <description>Show Sunday in the custom work-week view</description>
                 </property>
             </propertyGroup>
         </propertyGroup>
