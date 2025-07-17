@@ -278,6 +278,22 @@ importers:
         specifier: ^5.0.1
         version: 5.0.1(webpack@5.94.0)
 
+  packages/modules/calendar:
+    dependencies:
+      '@mendix/calendar-web':
+        specifier: workspace:*
+        version: link:../../pluggableWidgets/calendar-web
+    devDependencies:
+      '@mendix/automation-utils':
+        specifier: workspace:*
+        version: link:../../../automation/utils
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/prettier-config-web-widgets
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+
   packages/modules/data-widgets:
     dependencies:
       '@mendix/datagrid-date-filter-web':

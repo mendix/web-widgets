@@ -19,7 +19,7 @@
     },
     "moduleFolderNameInModeler": "calendar",
     "marketplace": {
-        "minimumMXVersion": "9.24.0",
+        "minimumMXVersion": "10.22.0.68245",
         "appName": "Calendar"
     },
     "testProject": {
