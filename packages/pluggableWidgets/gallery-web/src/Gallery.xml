@@ -150,16 +150,16 @@
                         <attributeType name="String" />
                     </attributeTypes>
                 </property>
+                <property key="onConfigurationChange" type="action" required="false">
+                    <caption>On change</caption>
+                    <description />
+                </property>
                 <property key="storeFilters" type="boolean" defaultValue="true">
                     <caption>Store filters</caption>
                     <description />
                 </property>
                 <property key="storeSort" type="boolean" defaultValue="true">
                     <caption>Store sort</caption>
-                    <description />
-                </property>
-                <property key="onConfigurationChange" type="action" required="false">
-                    <caption>On change</caption>
                     <description />
                 </property>
             </propertyGroup>

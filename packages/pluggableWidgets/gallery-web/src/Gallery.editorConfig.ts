@@ -18,6 +18,13 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
         hidePropertiesIn(defaultProperties, values, ["onSelectionChange", "itemSelectionMode"]);
     }
 
+    if (values.stateStorageType === "localStorage") {
+        hidePropertyIn(defaultProperties, values, "stateStorageAttr");
+        hidePropertyIn(defaultProperties, values, "onConfigurationChange");
+    }
+
+    // Hide scrolling settings for now.
+    hidePropertiesIn(defaultProperties, values, ["showPagingButtons", "showTotalCount"]);
     /** Pagination */
 
     if (values.pagination === "buttons") {

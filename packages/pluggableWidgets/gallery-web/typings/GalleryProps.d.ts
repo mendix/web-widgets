@@ -88,9 +88,9 @@ export interface GalleryPreviewProps {
     onSelectionChange: {} | null;
     stateStorageType: StateStorageTypeEnum;
     stateStorageAttr: string;
+    onConfigurationChange: {} | null;
     storeFilters: boolean;
     storeSort: boolean;
-    onConfigurationChange: {} | null;
     filterSectionTitle: string;
     emptyMessageTitle: string;
     ariaLabelListBox: string;
