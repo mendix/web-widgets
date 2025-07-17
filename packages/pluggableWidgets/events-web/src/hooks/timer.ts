@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 interface ActionTimerProps {
     canExecute?: boolean;
     execute?: () => void;
-    delay: number;
-    interval: number;
+    delay: number | undefined;
+    interval: number | undefined;
     repeat: boolean;
     attribute?: EditableValue;
 }
@@ -14,6 +14,10 @@ export function useActionTimer(props: ActionTimerProps): void {
     const { canExecute, execute, delay, interval, repeat, attribute } = props;
     const [toggleTimer, setToggleTimer] = useState(-1);
     useEffect(() => {
+        // If the delay is set to undefined, we should not start a timer.
+        if (delay === undefined || delay < 0 || (interval === undefined && repeat)) {
+            return;
+        }
         let counter: NodeJS.Timeout;
         if (canExecute) {
             if (repeat) {
