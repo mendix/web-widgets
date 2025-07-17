@@ -412,6 +412,7 @@ $root: ".widget-datagrid";
     &-grid {
         &.table {
             display: grid !important;
+            min-width: fit-content;
         }
     }
 
