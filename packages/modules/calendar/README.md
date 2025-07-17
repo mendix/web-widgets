@@ -1,13 +1,13 @@
 # Calendar module
 
-This module bundles the **Calendar** pluggable widget together with sample pages, domain model, and helper flows so that app builders can drag-and-drop a fully working calendar including _New Event_ and _Edit Event_ dialogs.
+This module bundles the **Calendar** pluggable widget together with sample pages, domain model, and helper flows so that app builders can drag-and-drop a fully working calendar including _New/Edit Event_ dialog.
 
 ## Contents
 
 - Calendar widget (`@mendix/calendar-web`)
-- Pages: `Calendar_Overview`, `Calendar_NewEvent`, `Calendar_EditEvent`
+- Pages: `Calendar_Overview`, `Calendar_New Edit Event`
 - Microflows for creating, editing and persisting events
-- Domain model for `Event` entity
+- Domain model for `CalendarEvent` entity
 
 ## Usage
 
