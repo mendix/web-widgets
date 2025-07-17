@@ -54,7 +54,7 @@ export class SortStoreHost implements Serializable {
     }
 
     toJSON(): PlainJs {
-        return this.sortOrder.map(arr => arr.slice());
+        return this._store ? this._store.toJSON() : null;
     }
 
     fromJSON(data: PlainJs): void {
@@ -62,7 +62,7 @@ export class SortStoreHost implements Serializable {
             return;
         }
         if (this._store) {
-            this._store.setSortOrder(...(data as SortInstruction[]));
+            this._store.fromJSON(data);
         }
     }
 }
