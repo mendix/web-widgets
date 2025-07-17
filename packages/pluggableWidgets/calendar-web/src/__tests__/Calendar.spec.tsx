@@ -27,13 +27,13 @@ const customViewProps: CalendarContainerProps = {
     maxHeight: 400,
     overflowY: "auto",
     showEventDate: true,
-    showSunday: false,
-    showMonday: true,
-    showTuesday: true,
-    showWednesday: true,
-    showThursday: true,
-    showFriday: true,
-    showSaturday: false,
+    customViewShowSunday: false,
+    customViewShowMonday: true,
+    customViewShowTuesday: true,
+    customViewShowWednesday: true,
+    customViewShowThursday: true,
+    customViewShowFriday: true,
+    customViewShowSaturday: false,
     showAllEvents: true
 };
 

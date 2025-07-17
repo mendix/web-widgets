@@ -36,13 +36,13 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
     if (values.view === "standard") {
         hidePropertiesIn(defaultProperties, values, [
             "defaultViewCustom",
-            "showSunday",
-            "showMonday",
-            "showTuesday",
-            "showWednesday",
-            "showThursday",
-            "showFriday",
-            "showSaturday",
+            "customViewShowSunday",
+            "customViewShowMonday",
+            "customViewShowTuesday",
+            "customViewShowWednesday",
+            "customViewShowThursday",
+            "customViewShowFriday",
+            "customViewShowSaturday",
             "customViewCaption"
         ]);
     } else {
