@@ -89,12 +89,7 @@ export function check(values: FileUploaderPreviewProps): Problem[] {
             }
         }
 
-        if (!values.maxFilesPerUpload || values.maxFilesPerUpload < 1) {
-            errors.push({
-                property: "maxFilesPerUpload",
-                message: "There must be at least one file per upload allowed."
-            });
-        }
+        // Note: maxFilesPerUpload validation is handled at runtime since it's an expression
 
         if (values.enableCustomButtons) {
             // check that at max one actions is default

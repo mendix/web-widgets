@@ -12,15 +12,24 @@ interface DropzoneProps {
     maxSize: number;
     maxFilesPerUpload: number;
     acceptFileTypes: MimeCheckFormat;
+    disabled: boolean;
 }
 
 export const Dropzone = observer(
-    ({ warningMessage, onDrop, maxSize, maxFilesPerUpload, acceptFileTypes }: DropzoneProps): ReactElement => {
+    ({
+        warningMessage,
+        onDrop,
+        maxSize,
+        maxFilesPerUpload,
+        acceptFileTypes,
+        disabled
+    }: DropzoneProps): ReactElement => {
         const { getRootProps, getInputProps, isDragAccept, isDragReject } = useDropzone({
             onDrop,
             maxSize: maxSize || undefined,
             maxFiles: maxFilesPerUpload,
-            accept: acceptFileTypes
+            accept: acceptFileTypes,
+            disabled
         });
 
         const translations = useTranslationsStore();
@@ -31,14 +40,15 @@ export const Dropzone = observer(
                 <div
                     className={classNames("dropzone", {
                         active: type === "active",
+                        disabled,
                         warning: !!warningMessage || type === "warning"
                     })}
                     {...getRootProps()}
                 >
                     <div className={"file-icon"} />
-                    <p className={"upload-text"}>{msg}</p>
+                    {!disabled && <p className={"upload-text"}>{msg}</p>}
 
-                    <input {...getInputProps()} />
+                    {!disabled && <input {...getInputProps()} />}
                 </div>
                 {warningMessage && <div className={classNames("dropzone-message")}>{warningMessage}</div>}
             </Fragment>
