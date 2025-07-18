@@ -20,7 +20,7 @@ export function withLinkedSortStore<P extends RequiredProps>(
             () =>
                 new SortStoreProvider({
                     host: props.sortAPI.host,
-                    initSortOrder: props.sortAPI.initSortOrder,
+                    initSortOrder: props.sortAPI.host.sortOrder,
                     attributes: props.attributes
                 })
         );
