@@ -18,8 +18,8 @@ type OptionsWrapperProps = {
     isOpen: boolean;
     options: OptionWithState[];
     highlightedIndex: number;
-    showCheckboxes?: boolean;
-    haveEmptyFirstOption?: boolean;
+    showCheckboxes: boolean;
+    label: string;
 } & (
     | Pick<UseComboboxPropGetters<OptionWithState>, "getMenuProps" | "getItemProps">
     | Pick<UseSelectPropGetters<OptionWithState>, "getMenuProps" | "getItemProps">
@@ -35,41 +35,45 @@ export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefOb
         isOpen,
         highlightedIndex,
         showCheckboxes,
-        haveEmptyFirstOption,
         getMenuProps,
-        getItemProps
+        getItemProps,
+        label,
+        options
     } = props;
     return (
         <div className={cls.popover} hidden={!isOpen} ref={ref} style={style}>
             <div className={cls.menuSlot}>
-                <ul {...getMenuProps({ className: cls.menu })} onScroll={onMenuScroll}>
+                <ul {...getMenuProps({ className: cls.menu, "aria-label": label })} onScroll={onMenuScroll}>
                     {isOpen &&
-                        props.options.map((item, index) => (
+                        options.map((item, index) => (
                             <li
                                 data-selected={item.selected || undefined}
                                 data-highlighted={highlightedIndex === index || undefined}
                                 key={item.value || index}
                                 className={cls.menuItem}
-                                {...getItemProps({ item, index, "aria-selected": item.selected })}
+                                {...getItemProps({
+                                    item,
+                                    index,
+                                    "aria-selected": item.selected,
+                                    onClick: e => {
+                                        e.stopPropagation();
+                                    }
+                                })}
                             >
                                 {showCheckboxes && (
                                     <span className={cls.checkboxSlot}>
-                                        {haveEmptyFirstOption && index === 0 ? (
-                                            <div style={{ width: 16, height: 16 }} />
-                                        ) : (
-                                            <input
-                                                className={props.cls.checkbox}
-                                                role="presentation"
-                                                type="checkbox"
-                                                checked={item.selected}
-                                                value={item.caption}
-                                                onChange={noop}
-                                                tabIndex={-1}
-                                            />
-                                        )}
+                                        <input
+                                            className={cls.checkbox}
+                                            role="presentation"
+                                            type="checkbox"
+                                            checked={item.selected}
+                                            value={item.caption}
+                                            onChange={noop}
+                                            tabIndex={-1}
+                                        />
                                     </span>
                                 )}
-                                {item.caption}
+                                {item.caption || "\u00A0"}
                             </li>
                         ))}
                 </ul>
