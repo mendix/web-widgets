@@ -13,7 +13,14 @@ import { RefFilterProps } from "../components/typings";
 
 type WidgetProps = Pick<
     DatagridDropdownFilterContainerProps,
-    "name" | "refEntity" | "refOptions" | "refCaption" | "refCaptionExp" | "refCaptionSource" | "refSearchAttr"
+    | "name"
+    | "refEntity"
+    | "refOptions"
+    | "refCaption"
+    | "refCaptionExp"
+    | "refCaptionSource"
+    | "refSearchAttr"
+    | "fetchOptionsLazy"
 >;
 
 export interface RequiredProps {
@@ -22,6 +29,7 @@ export interface RequiredProps {
     refOptions: ListValue;
     refCaption: ListAttributeValue<string> | ListExpressionValue<string>;
     searchAttrId?: ListAttributeValue["id"];
+    fetchOptionsLazy: boolean;
 }
 
 type Component<P extends object> = (props: P) => React.ReactElement;
@@ -61,7 +69,8 @@ function mapProps(props: WidgetProps): RequiredProps {
             refEntity: props.refEntity,
             refOptions: props.refOptions,
             refCaption: props.refCaption,
-            searchAttrId: props.refCaption.id
+            searchAttrId: props.refCaption.id,
+            fetchOptionsLazy: props.fetchOptionsLazy
         };
     } else {
         if (!props.refCaptionExp) {
@@ -72,7 +81,8 @@ function mapProps(props: WidgetProps): RequiredProps {
             refEntity: props.refEntity,
             refOptions: props.refOptions,
             refCaption: props.refCaptionExp,
-            searchAttrId: props.refSearchAttr?.id
+            searchAttrId: props.refSearchAttr?.id,
+            fetchOptionsLazy: props.fetchOptionsLazy
         };
     }
 }
