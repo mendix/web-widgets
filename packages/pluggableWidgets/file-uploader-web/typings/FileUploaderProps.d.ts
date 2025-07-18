@@ -21,8 +21,6 @@ export interface AllowedFileFormatsType {
     typeFormatDescription: DynamicValue<string>;
 }
 
-export type MaxFilePerUploadTypeEnum = "number" | "expression";
-
 export interface CustomButtonsType {
     buttonCaption: DynamicValue<string>;
     buttonIcon: DynamicValue<WebIcon>;
@@ -61,9 +59,7 @@ export interface FileUploaderContainerProps {
     createFileAction?: ActionValue;
     createImageAction?: ActionValue;
     allowedFileFormats: AllowedFileFormatsType[];
-    maxFilePerUploadType: MaxFilePerUploadTypeEnum;
-    maxFilesPerUploadExpression: DynamicValue<Big>;
-    maxFilesPerUpload: number;
+    maxFilesPerUpload: DynamicValue<Big>;
     maxFileSize: number;
     dropzoneIdleMessage: DynamicValue<string>;
     dropzoneAcceptedMessage: DynamicValue<string>;
@@ -102,9 +98,7 @@ export interface FileUploaderPreviewProps {
     createFileAction: {} | null;
     createImageAction: {} | null;
     allowedFileFormats: AllowedFileFormatsPreviewType[];
-    maxFilePerUploadType: MaxFilePerUploadTypeEnum;
-    maxFilesPerUploadExpression: string;
-    maxFilesPerUpload: number | null;
+    maxFilesPerUpload: string;
     maxFileSize: number | null;
     dropzoneIdleMessage: string;
     dropzoneAcceptedMessage: string;
