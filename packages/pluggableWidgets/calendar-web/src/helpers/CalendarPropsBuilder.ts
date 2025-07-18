@@ -41,6 +41,17 @@ export class CalendarPropsBuilder {
     private readonly minTime: Date;
     private readonly maxTime: Date;
 
+    // Keeps the currently focused/selected event. Updated on every selection.
+    private selectedEvent?: CalendarEvent;
+    /**
+     * Stores the event that should be ignored on the next onSelectEvent call.
+     * This is set when a double-click is detected so we can ignore the
+     * secondary click that React-Big-Calendar dispatches as part of the same
+     * interaction. After the click has been ignored, the field is cleared so
+     * that future selections are handled normally.
+     */
+    private ignoreNextClickFor?: CalendarEvent;
+
     constructor(private props: CalendarContainerProps) {
         this.isCustomView = props.view === "custom";
         this.defaultView = this.isCustomView ? props.defaultViewCustom : props.defaultViewStandard;
@@ -75,10 +86,14 @@ export class CalendarPropsBuilder {
             allDayAccessor: (event: CalendarEvent) => event.allDay,
             endAccessor: (event: CalendarEvent) => event.end,
             eventPropGetter,
+            // @ts-expect-error – navigatable prop not yet in typings but exists in runtime component
+            navigatable: true,
             onEventDrop: this.handleEventDropOrResize,
             onEventResize: this.handleEventDropOrResize,
             onNavigate: this.handleRangeChange,
-            onSelectEvent: this.handleEditEvent,
+            onSelectEvent: this.handleSelectEvent,
+            onDoubleClickEvent: this.handleDoubleClickEvent,
+            onKeyPressEvent: this.handleKeyPressEvent,
             onSelectSlot: this.handleCreateEvent,
             startAccessor: (event: CalendarEvent) => event.start,
             titleAccessor: (event: CalendarEvent) => event.title,
@@ -197,13 +212,51 @@ export class CalendarPropsBuilder {
         }
     };
 
-    private handleEditEvent = (event: CalendarEvent): void => {
+    /**
+     * Called when an event is single-clicked (selected).
+     * First click only stores the selection; a consecutive click on the same event triggers edit.
+     */
+    private handleSelectEvent = (event: CalendarEvent): void => {
+        if (this.ignoreNextClickFor === event) {
+            // Skip this click – it belongs to a double-click we've already handled.
+            this.ignoreNextClickFor = undefined;
+            return;
+        }
+
+        if (this.selectedEvent === event) {
+            // Second click on the already-selected event => open edit panel.
+            this.invokeEdit(event);
+        } else {
+            // Update current selection.
+            this.selectedEvent = event;
+        }
+    };
+
+    /**
+     * Fast double click should open edit immediately.
+     */
+    private handleDoubleClickEvent = (event: CalendarEvent): void => {
+        // Open edit immediately & prevent the subsequent single-click handler from firing edit again.
+        this.invokeEdit(event);
+        this.ignoreNextClickFor = event;
+    };
+
+    /**
+     * When the event has focus, pressing Enter should open edit.
+     */
+    private handleKeyPressEvent = (event: CalendarEvent, e: any): void => {
+        if (e.key === "Enter") {
+            this.invokeEdit(event);
+        }
+    };
+
+    private invokeEdit(event: CalendarEvent): void {
         const action = this.props.onEditEvent?.get(event.item);
 
         if (action?.canExecute) {
             action.execute();
         }
-    };
+    }
 
     private handleCreateEvent = (slotInfo: { start: Date; end: Date; action: string }): void => {
         const action = this.props.onCreateEvent;
