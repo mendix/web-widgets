@@ -5,46 +5,46 @@ test.afterEach("Cleanup session", async ({ page }) => {
     await page.evaluate(() => window.mx.session.logout());
 });
 
-test.describe("selection-controls-web", () => {
+test.describe("checkbox-radio-selection-web", () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto("/p/selectioncontrols");
+        await page.goto("p/CheckboxRadioSelection");
         await page.waitForLoadState("networkidle");
     });
 
     test.describe("data source types", () => {
-        test("renders selection controls using association", async ({ page }) => {
-            const selectionControls = page.locator(".mx-name-selectionControls1");
+        test("renders checkbox radio selection using association", async ({ page }) => {
+            const selectionControls = page.locator(".mx-name-checkboxRadioSelection1");
             await expect(selectionControls).toBeVisible({ timeout: 10000 });
-            await expect(selectionControls).toHaveScreenshot(`selectionControlsAssociation.png`);
+            await expect(selectionControls).toHaveScreenshot(`checkboxRadioSelectionAssociation.png`);
         });
 
-        test("renders selection controls using enum", async ({ page }) => {
-            const selectionControls = page.locator(".mx-name-selectionControls2");
+        test("renders checkbox radio selection using enum", async ({ page }) => {
+            const selectionControls = page.locator(".mx-name-checkboxRadioSelection2");
             await expect(selectionControls).toBeVisible({ timeout: 10000 });
-            await expect(selectionControls).toHaveScreenshot(`selectionControlsEnum.png`);
+            await expect(selectionControls).toHaveScreenshot(`checkboxRadioSelectionEnum.png`);
         });
 
-        test("renders selection controls using boolean", async ({ page }) => {
-            const selectionControls = page.locator(".mx-name-selectionControls3");
+        test("renders checkbox radio selection using boolean", async ({ page }) => {
+            const selectionControls = page.locator(".mx-name-checkboxRadioSelection3");
             await expect(selectionControls).toBeVisible({ timeout: 10000 });
-            await expect(selectionControls).toHaveScreenshot(`selectionControlsBoolean.png`);
+            await expect(selectionControls).toHaveScreenshot(`checkboxRadioSelectionBoolean.png`);
         });
 
-        test("renders selection controls using static values", async ({ page }) => {
-            const selectionControls = page.locator(".mx-name-selectionControls4");
+        test("renders checkbox radio selection using static values", async ({ page }) => {
+            const selectionControls = page.locator(".mx-name-checkboxRadioSelection4");
             await expect(selectionControls).toBeVisible({ timeout: 10000 });
-            await expect(selectionControls).toHaveScreenshot(`selectionControlsStatic.png`);
+            await expect(selectionControls).toHaveScreenshot(`checkboxRadioSelectionStatic.png`);
         });
 
-        test("renders selection controls using database", async ({ page }) => {
-            const selectionControls = page.locator(".mx-name-selectionControls5");
+        test("renders checkbox radio selection using database", async ({ page }) => {
+            const selectionControls = page.locator(".mx-name-checkboxRadioSelection5");
             await expect(selectionControls).toBeVisible({ timeout: 10000 });
-            await expect(selectionControls).toHaveScreenshot(`selectionControlsDatabase.png`);
+            await expect(selectionControls).toHaveScreenshot(`checkboxRadioSelectionDatabase.png`);
         });
 
         test.describe("selection behavior", () => {
             test("handles radio button selection", async ({ page }) => {
-                const selectionControls = page.locator(".mx-name-selectionControls1");
+                const selectionControls = page.locator(".mx-name-checkboxRadioSelection1");
                 await expect(selectionControls).toBeVisible({ timeout: 10000 });
 
                 const radioOption = selectionControls.locator('input[type="radio"]').first();
@@ -53,7 +53,7 @@ test.describe("selection-controls-web", () => {
             });
 
             test("handles checkbox selection", async ({ page }) => {
-                const selectionControls = page.locator(".mx-name-selectionControls6"); // multi selection
+                const selectionControls = page.locator(".mx-name-checkboxRadioSelection6"); // multi selection
                 await expect(selectionControls).toBeVisible({ timeout: 10000 });
 
                 const checkboxOption = selectionControls.locator('input[type="checkbox"]').first();
