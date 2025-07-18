@@ -40,6 +40,12 @@ export function getProperties(
         hidePropertiesIn(properties, values, ["customButtons"]);
     }
 
+    if (values.maxFilePerUploadType === "expression") {
+        hidePropertiesIn(properties, values, ["maxFilesPerUpload"]);
+    } else {
+        hidePropertiesIn(properties, values, ["maxFilesPerUploadExpression"]);
+    }
+
     return properties;
 }
 
