@@ -52,7 +52,10 @@ export function createMockGalleryContext(): GalleryRootScope {
         showPagingButtons: "always",
         pagingPosition: "bottom",
         showEmptyPlaceholder: "none",
-        onClickTrigger: "single"
+        onClickTrigger: "single",
+        stateStorageType: "localStorage",
+        storeFilters: false,
+        storeSort: false
     };
 
     // Create a proper gate provider and gate
@@ -66,7 +69,10 @@ export function createMockGalleryContext(): GalleryRootScope {
         pagination: "buttons",
         showPagingButtons: "always",
         showTotalCount: false,
-        pageSize: 10
+        pageSize: 10,
+        stateStorageType: "localStorage",
+        storeFilters: false,
+        storeSort: false
     });
 
     const mockSelectHelper = new SelectActionHandler("None", undefined);
