@@ -6,8 +6,7 @@ import {
     dropzone,
     container,
     rowLayout,
-    text,
-    svgImage
+    text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { CheckboxRadioSelectionPreviewProps } from "../typings/CheckboxRadioSelectionProps";
 import { getCustomCaption } from "./helpers/utils";
@@ -134,14 +133,14 @@ export function getProperties(
 }
 
 function getIconPreview(isMultiSelect: boolean): ContainerProps {
-    return container({ grow: 0 })(
-        container({ padding: 3 })(),
-        svgImage({ width: 16, height: 16, grow: 0 })(
-            decodeURIComponent(
-                (isMultiSelect ? IconCheckboxSVG : IconRadioButtonSVG).replace("data:image/svg+xml,", "")
-            )
-        )
-    );
+    return container({ grow: 0 })(container({ padding: 3 })(), {
+        type: "Image",
+        document: decodeURIComponent(
+            (isMultiSelect ? IconCheckboxSVG : IconRadioButtonSVG).replace("data:image/svg+xml,", "")
+        ),
+        width: 16,
+        height: 16
+    });
 }
 
 export function getPreview(values: CheckboxRadioSelectionPreviewProps, isDarkMode: boolean): StructurePreviewProps {
@@ -188,11 +187,6 @@ export function getPreview(values: CheckboxRadioSelectionPreviewProps, isDarkMod
             });
         }
     }
-
-    // Handle database-specific read-only logic
-    // if (values.source === "database" && values.databaseAttributeString.length === 0) {
-    //     readOnly = values.customEditability === "never";
-    // }
 
     // If no custom content dropzones, show default preview
     if (structurePreviewChildren.length === 0) {
