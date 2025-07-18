@@ -16,6 +16,30 @@ import {
     differenceInCalendarDays
 } from "date-fns";
 
+// Utility to lighten hex colors. Accepts #RGB or #RRGGBB.
+function lightenColor(color: string, amount = 0.2): string {
+    if (color.startsWith("#")) {
+        let hex = color.slice(1);
+        if (hex.length === 3) {
+            hex = hex
+                .split("")
+                .map(c => c + c)
+                .join("");
+        }
+        if (hex.length === 6) {
+            /* eslint-disable no-bitwise */
+            const num = parseInt(hex, 16);
+            const r = Math.min(255, Math.round(((num >> 16) & 0xff) * (1 + amount)));
+            const g = Math.min(255, Math.round(((num >> 8) & 0xff) * (1 + amount)));
+            const b = Math.min(255, Math.round((num & 0xff) * (1 + amount)));
+            return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+            /* eslint-enable no-bitwise */
+        }
+    }
+    // Fallback: return same color
+    return color;
+}
+
 export {
     format,
     parse,
@@ -39,9 +63,21 @@ type EventPropGetterReturnType = {
         | undefined;
 };
 
-export function eventPropGetter(event: CalendarEvent): EventPropGetterReturnType {
+export function eventPropGetter(
+    event: CalendarEvent,
+    _start?: Date,
+    _end?: Date,
+    isSelected?: boolean
+): EventPropGetterReturnType {
+    if (!event.color) {
+        // Let RBC handle default styling
+        return { style: undefined };
+    }
+
+    const backgroundColor = isSelected ? lightenColor(event.color, 0.25) : event.color;
+
     return {
-        style: event.color ? { backgroundColor: event.color } : undefined
+        style: { backgroundColor }
     };
 }
 
