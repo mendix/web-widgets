@@ -2,13 +2,11 @@ import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Context, createContext, useContext, useEffect } from "react";
 import { SortStoreHost } from "../stores/SortStoreHost";
-import { SortInstruction } from "../types/store";
 import { Result, error, value } from "./result-meta";
 
 export interface SortAPI {
     version: 1;
     host: SortStoreHost;
-    initSortOrder?: SortInstruction[];
 }
 
 const SORT_PATH = "com.mendix.widgets.web.sortable.sortContext";

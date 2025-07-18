@@ -55,7 +55,10 @@ export class GalleryStore extends BaseControllerHost {
         });
 
         const filterObserver = new CustomFilterHost();
-        const sortObserver = new SortStoreHost();
+
+        const sortObserver = new SortStoreHost({
+            initSort: spec.gate.props.datasource.sortOrder
+        });
 
         const paramCtrl = new QueryParamsController(this, this._query, filterObserver, sortObserver);
 
@@ -67,8 +70,7 @@ export class GalleryStore extends BaseControllerHost {
 
         this.sortAPI = {
             version: 1,
-            host: sortObserver,
-            initSortOrder: spec.gate.props.datasource.sortOrder
+            host: sortObserver
         };
 
         new RefreshController(this, {

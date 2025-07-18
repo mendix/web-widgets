@@ -15,8 +15,7 @@ const commonProps: DropdownSortContainerProps = {
 
 const createAPI = (observer: SortStoreHost): SortAPI => ({
     version: 1,
-    host: observer,
-    initSortOrder: []
+    host: observer
 });
 
 const mockAttributes = (): AttributesType[] => [
@@ -45,9 +44,10 @@ describe("Dropdown Sort", () => {
             let attributes: DropdownSortContainerProps["attributes"];
             let api: SortAPI;
             beforeEach(() => {
-                const host = new SortStoreHost();
+                const host = new SortStoreHost({
+                    initSort: [[attrId("1"), "asc"]]
+                });
                 api = createAPI(host);
-                api.initSortOrder = [[attrId("1"), "asc"]];
                 attributes = mockAttributes();
             });
             it("loads correct values from attributes", () => {
@@ -78,9 +78,10 @@ describe("Dropdown Sort", () => {
             let attributes: DropdownSortContainerProps["attributes"];
             let api: SortAPI;
             beforeEach(() => {
-                const host = new SortStoreHost();
+                const host = new SortStoreHost({
+                    initSort: [[attrId("1"), "asc"]]
+                });
                 api = createAPI(host);
-                api.initSortOrder = [[attrId("1"), "asc"]];
                 attributes = mockAttributes();
             });
             it("loads correct default option", () => {
@@ -111,9 +112,10 @@ describe("Dropdown Sort", () => {
         let api: SortAPI;
         beforeEach(() => {
             delete (global as any)["com.mendix.widgets.web.UUID"];
-            const host = new SortStoreHost();
+            const host = new SortStoreHost({
+                initSort: [[attrId("1"), "asc"]]
+            });
             api = createAPI(host);
-            api.initSortOrder = [[attrId("1"), "asc"]];
             attributes = mockAttributes();
         });
 
