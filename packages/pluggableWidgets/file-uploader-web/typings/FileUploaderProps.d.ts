@@ -5,6 +5,7 @@
  */
 import { CSSProperties } from "react";
 import { ActionValue, DynamicValue, ListValue, ListActionValue, WebIcon } from "mendix";
+import { Big } from "big.js";
 
 export type UploadModeEnum = "files" | "images";
 
@@ -19,6 +20,8 @@ export interface AllowedFileFormatsType {
     extensions: string;
     typeFormatDescription: DynamicValue<string>;
 }
+
+export type MaxFilePerUploadTypeEnum = "number" | "expression";
 
 export interface CustomButtonsType {
     buttonCaption: DynamicValue<string>;
@@ -58,6 +61,8 @@ export interface FileUploaderContainerProps {
     createFileAction?: ActionValue;
     createImageAction?: ActionValue;
     allowedFileFormats: AllowedFileFormatsType[];
+    maxFilePerUploadType: MaxFilePerUploadTypeEnum;
+    maxFilesPerUploadExpression: DynamicValue<Big>;
     maxFilesPerUpload: number;
     maxFileSize: number;
     dropzoneIdleMessage: DynamicValue<string>;
@@ -97,6 +102,8 @@ export interface FileUploaderPreviewProps {
     createFileAction: {} | null;
     createImageAction: {} | null;
     allowedFileFormats: AllowedFileFormatsPreviewType[];
+    maxFilePerUploadType: MaxFilePerUploadTypeEnum;
+    maxFilesPerUploadExpression: string;
     maxFilesPerUpload: number | null;
     maxFileSize: number | null;
     dropzoneIdleMessage: string;
