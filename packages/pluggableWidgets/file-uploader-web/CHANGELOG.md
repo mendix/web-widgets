@@ -10,9 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where file uploader can still add more files when refreshed eventhough the number of maximum uploaded files has been reached.
 
-### Added
+### Changed
 
-- We added a configuration to set maximum number of uploaded files through expression.
+- We change the max file configuration to set maximum number of uploaded files through expression.
 
 ## [2.2.2] - 2025-07-01
 
