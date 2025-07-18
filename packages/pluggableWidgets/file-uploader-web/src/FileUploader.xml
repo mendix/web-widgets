@@ -80,22 +80,10 @@
                     </propertyGroup>
                 </properties>
             </property>
-            <property key="maxFilePerUploadType" type="enumeration" defaultValue="number">
-                <caption>Maximum number of files per upload type</caption>
-                <description />
-                <enumerationValues>
-                    <enumerationValue key="number">Number</enumerationValue>
-                    <enumerationValue key="expression">Expression</enumerationValue>
-                </enumerationValues>
-            </property>
-            <property key="maxFilesPerUploadExpression" type="expression" defaultValue="10">
+            <property key="maxFilesPerUpload" type="expression" defaultValue="10">
                 <caption>Maximum number of files</caption>
                 <description>Limit the number of files per upload.</description>
                 <returnType type="Integer" />
-            </property>
-            <property key="maxFilesPerUpload" type="integer" defaultValue="10">
-                <caption>Maximum number of files</caption>
-                <description>Limit the number of files per upload.</description>
             </property>
             <property key="maxFileSize" type="integer" defaultValue="25">
                 <caption>Maximum file size (MB)</caption>
