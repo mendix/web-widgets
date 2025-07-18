@@ -8,12 +8,16 @@ interface GalleryPersistentStateControllerSpec {
     filtersHost: Serializable;
     sortHost: Serializable;
     storage: ObservableStorage;
+    storeFilters: boolean;
+    storeSort: boolean;
 }
 
 export class GalleryPersistentStateController {
     private readonly _storage: ObservableStorage;
     private readonly _filtersHost: Serializable;
     private readonly _sortHost: Serializable;
+    readonly storeFilters: boolean;
+    readonly storeSort: boolean;
 
     readonly schemaVersion: number = 1;
 
@@ -22,6 +26,8 @@ export class GalleryPersistentStateController {
         this._storage = spec.storage;
         this._filtersHost = spec.filtersHost;
         this._sortHost = spec.sortHost;
+        this.storeFilters = spec.storeFilters;
+        this.storeSort = spec.storeSort;
 
         makeObservable<this, "_persistentState">(this, {
             _persistentState: computed,
@@ -77,15 +83,22 @@ export class GalleryPersistentStateController {
         if (!this._validate(data)) {
             return;
         }
-        this._filtersHost.fromJSON(data.filters);
-        this._sortHost.fromJSON(data.sort);
+        if (this.storeFilters) {
+            this._filtersHost.fromJSON(data.filters);
+        }
+        if (this.storeSort) {
+            this._sortHost.fromJSON(data.sort);
+        }
     }
 
     toJSON(): PlainJs {
-        return {
-            version: 1,
-            filters: this._filtersHost.toJSON(),
-            sort: this._sortHost.toJSON()
-        };
+        const data: PlainJs = { version: 1 };
+        if (this.storeFilters) {
+            data.filters = this._filtersHost.toJSON();
+        }
+        if (this.storeSort) {
+            data.sort = this._sortHost.toJSON();
+        }
+        return data;
     }
 }

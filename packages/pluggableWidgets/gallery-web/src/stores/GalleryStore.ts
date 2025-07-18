@@ -87,10 +87,13 @@ export class GalleryStore extends BaseControllerHost {
             query: this._query.derivedQuery
         });
 
-        this.initStateController(spec, spec.gate);
+        const useStorage = spec.storeFilters || spec.storeSort;
+        if (useStorage) {
+            this.initPersistentStorage(spec, spec.gate);
+        }
     }
 
-    initStateController(props: StaticProps, gate: GalleryPropsGate): void {
+    initPersistentStorage(props: StaticProps, gate: GalleryPropsGate): void {
         if (props.stateStorageType === "localStorage") {
             this._storage = new BrowserStorage(this.name);
         } else if (gate.props.stateStorageAttr) {
@@ -107,7 +110,9 @@ export class GalleryStore extends BaseControllerHost {
         new GalleryPersistentStateController(this, {
             storage: this._storage,
             filtersHost: this._filtersHost,
-            sortHost: this._sortHost
+            sortHost: this._sortHost,
+            storeFilters: props.storeFilters,
+            storeSort: props.storeSort
         });
     }
 }
