@@ -413,6 +413,7 @@ $root: ".widget-datagrid";
         &.table {
             display: grid !important;
             min-width: fit-content;
+            margin-bottom: 0;
         }
     }
 
