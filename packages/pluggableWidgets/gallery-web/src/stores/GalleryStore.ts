@@ -78,8 +78,7 @@ export class GalleryStore extends BaseControllerHost {
 
         this.sortAPI = {
             version: 1,
-            host: this._sortHost,
-            initSortOrder: spec.gate.props.datasource.sortOrder
+            host: this._sortHost
         };
 
         new RefreshController(this, {
