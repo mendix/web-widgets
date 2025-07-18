@@ -180,7 +180,8 @@ class OperateLine {
     }
 
     handleMouseMove(e: MouseEvent) {
-        const tableNode = (e.target as Element).closest("table");
+        const tableNode = (e.target as Element).closest("table.ql-table-better");
+        if (!tableNode) return;
         const cellNode = (e.target as Element).closest("td");
         const mousePosition = {
             clientX: e.clientX,
