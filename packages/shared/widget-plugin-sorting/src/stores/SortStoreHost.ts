@@ -84,9 +84,9 @@ export class SortStoreHost {
         return this._usedBy.at(0) ?? null;
     }
 
-    toJSON(): PlainJs {
-        return this._store ? this._store.toJSON() : null;
-    }
+    // toJSON(): PlainJs {
+    //     return this._store ? this._store.toJSON() : null;
+    // }
 
     fromJSON(data: PlainJs): void {
         this._jsonBuffer = data;
