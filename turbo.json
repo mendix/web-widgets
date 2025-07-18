@@ -1,6 +1,6 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "globalPassThroughEnv": ["GITHUB_TOKEN", "GH_PAT", "GH_USERNAME", "GH_EMAIL", "GH_NAME", "CPAPI_PASS", "CPAPI_URL", "CPAPI_USER", "CPAPI_USER_OPENID"],
+  "globalPassThroughEnv": ["GITHUB_TOKEN", "GH_PAT", "GH_USERNAME", "GH_EMAIL", "GH_NAME", "CPAPI_PASS", "CPAPI_URL", "CPAPI_USER", "CPAPI_USER_OPENID", "MX_PROJECT_PATH"],
   "globalDependencies": [
     "automation/**",
     ".npmrc",

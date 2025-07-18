@@ -18,6 +18,16 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
         hidePropertiesIn(defaultProperties, values, ["onSelectionChange", "itemSelectionMode"]);
     }
 
+    const usePersonalization = values.storeFilters || values.storeSort;
+    if (!usePersonalization) {
+        hidePropertiesIn(defaultProperties, values, ["stateStorageType", "stateStorageAttr", "onConfigurationChange"]);
+    } else if (values.stateStorageType === "localStorage") {
+        hidePropertyIn(defaultProperties, values, "stateStorageAttr");
+        hidePropertyIn(defaultProperties, values, "onConfigurationChange");
+    }
+
+    // Hide scrolling settings for now.
+    hidePropertiesIn(defaultProperties, values, ["showPagingButtons", "showTotalCount"]);
     /** Pagination */
 
     if (values.pagination === "buttons") {

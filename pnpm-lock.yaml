@@ -2805,6 +2805,9 @@ importers:
 
   packages/shared/widget-plugin-sorting:
     dependencies:
+      '@mendix/filter-commons':
+        specifier: workspace:^
+        version: link:../filter-commons
       '@mendix/widget-plugin-component-kit':
         specifier: workspace:*
         version: link:../widget-plugin-component-kit
