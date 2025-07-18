@@ -1,68 +1,77 @@
-import { PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, autorun, computed, makeObservable, observable, runInAction } from "mobx";
 import { ObservableSortStore, SortInstruction } from "../types/store";
 
-export class SortStoreHost implements Serializable {
-    private _store: ObservableSortStore | null = null;
+export class SortStoreHost {
     private _usedBy: string[] = [];
+    private _state: SortInstruction[];
+    private _cleanup: (() => void) | null = null;
 
-    get sortOrder(): SortInstruction[] {
-        return this._store?.sortOrder ?? [];
-    }
+    constructor(spec: { initSort?: SortInstruction[] } = {}) {
+        this._state = spec.initSort ?? [];
 
-    constructor() {
-        makeObservable<this, "_usedBy" | "_add" | "_remove">(this, {
+        makeObservable<this, "_usedBy" | "_state" | "_setState">(this, {
+            _state: observable.ref,
             sortOrder: computed,
             lock: action,
-            _add: action,
-            _remove: action,
             _usedBy: observable,
             usedBy: computed,
             observe: action,
-            unobserve: action
+            unobserve: action,
+            _setState: action
         });
     }
 
+    private _setState(state: SortInstruction[]): void {
+        this._state = state;
+    }
+
+    get sortOrder(): SortInstruction[] {
+        return this._state;
+    }
+
     observe(store: ObservableSortStore): void {
-        this._store = store;
+        if (this._cleanup) {
+            this._cleanup();
+        }
+        this._cleanup = autorun(() => {
+            this._setState(store.sortOrder);
+        });
     }
 
     unobserve(): void {
-        this._store = null;
+        this._cleanup?.();
+        this._cleanup = null;
     }
 
     lock(id: string): () => void {
-        this._add(id);
-        return () => this._remove(id);
-    }
-
-    private _add(id: string): void {
         if (this._usedBy.indexOf(id) === -1) {
             this._usedBy.push(id);
         }
-    }
-
-    private _remove(id: string): void {
-        const index = this._usedBy.indexOf(id);
-        if (index !== -1) {
-            this._usedBy.splice(index, 1);
-        }
+        const remove = (): void => {
+            runInAction(() => {
+                const index = this._usedBy.indexOf(id);
+                if (index !== -1) {
+                    this._usedBy.splice(index, 1);
+                }
+            });
+        };
+        return remove;
     }
 
     get usedBy(): string | null {
         return this._usedBy.at(0) ?? null;
     }
 
-    toJSON(): PlainJs {
-        return this._store ? this._store.toJSON() : null;
-    }
+    // toJSON(): PlainJs {
+    //     return this._store ? this._store.toJSON() : null;
+    // }
 
-    fromJSON(data: PlainJs): void {
-        if (data == null || !Array.isArray(data)) {
-            return;
-        }
-        if (this._store) {
-            this._store.fromJSON(data);
-        }
-    }
+    // fromJSON(data: PlainJs): void {
+    //     if (data == null || !Array.isArray(data)) {
+    //         return;
+    //     }
+    //     if (this._store) {
+    //         this._store.fromJSON(data);
+    //     }
+    // }
 }
