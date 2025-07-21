@@ -105,6 +105,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         selectActionHelper: mockSelectionProps(),
         cellEventsController: { getProps: () => Object.create({}) },
         checkboxEventsController: { getProps: () => Object.create({}) },
+        isFirstLoad: false,
         isLoading: false,
         isFetchingNextBatch: false,
         loadingType: "spinner",

@@ -21,8 +21,8 @@ describe("DatasourceController loading states", () => {
             provider.setProps({ datasource });
         });
 
-        it("isLoading returns true by default", () => {
-            expect(controller.isLoading).toBe(true);
+        it("isFirstLoad returns true by default", () => {
+            expect(controller.isFirstLoad).toBe(true);
         });
 
         it("refresh has no effect if ds is loading", () => {
@@ -39,13 +39,13 @@ describe("DatasourceController loading states", () => {
             provider.setProps({ datasource: list.loading() });
             expect(provider.gate.props.datasource.status).toBe("loading");
             expect(controller.isRefreshing).toBe(true);
-            expect(controller.isLoading).toBe(false);
+            expect(controller.isFirstLoad).toBe(true);
         });
 
         it("isFetchingNextBatch returns true after setLimit call", () => {
             controller.setLimit(20);
             expect(controller.isFetchingNextBatch).toBe(true);
-            expect(controller.isLoading).toBe(false);
+            expect(controller.isFirstLoad).toBe(true);
         });
     });
 
@@ -56,7 +56,7 @@ describe("DatasourceController loading states", () => {
         });
 
         it("all loading states return false", () => {
-            expect(controller.isLoading).toBe(false);
+            expect(controller.isFirstLoad).toBe(true);
             expect(controller.isRefreshing).toBe(false);
             expect(controller.isFetchingNextBatch).toBe(false);
         });

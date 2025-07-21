@@ -66,6 +66,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     cancelExportLabel?: string;
     selectRowLabel?: string;
     selectAllRowsLabel?: string;
+    isFirstLoad: boolean;
     isLoading: boolean;
     isFetchingNextBatch: boolean;
     loadingType: LoadingTypeEnum;
@@ -164,6 +165,8 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
 
+    const showRefreshIndicator = refreshIndicator && props.isLoading && !props.isFirstLoad;
+
     return (
         <Fragment>
             {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
@@ -192,9 +195,9 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         isLoading={props.columnsLoading}
                         preview={props.preview}
                     />
-                    {refreshIndicator && props.isLoading ? <RefreshIndicator /> : null}
+                    {showRefreshIndicator ? <RefreshIndicator /> : null}
                     <GridBody
-                        // isLoading={props.isLoading}
+                        isFirstLoad={props.isFirstLoad}
                         isFetchingNextBatch={props.isFetchingNextBatch}
                         loadingType={props.loadingType}
                         columnsHidable={columnsHidable}
