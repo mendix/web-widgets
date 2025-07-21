@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { render } from "@testing-library/react";
-import { ListValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { dynamic, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 
 import Calendar from "../Calendar";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
@@ -13,8 +13,8 @@ const customViewProps: CalendarContainerProps = {
     view: "custom",
     defaultViewStandard: "month",
     defaultViewCustom: "work_week",
-    editable: "default",
-    enableCreate: true,
+    editable: dynamic(true),
+    enableCreate: dynamic(true),
     widthUnit: "percentage",
     width: 100,
     heightUnit: "pixels",
