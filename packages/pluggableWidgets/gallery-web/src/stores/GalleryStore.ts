@@ -9,12 +9,12 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
 import { EditableValue, ListValue } from "mendix";
-import { AttributeStorage } from "src/stores/AttributeStorage";
-import { BrowserStorage } from "src/stores/BrowserStorage";
-import { GalleryPersistentStateController } from "src/stores/GalleryPersistentStateController";
-import { ObservableStorage } from "src/typings/storage";
 import { PaginationEnum, StateStorageTypeEnum } from "../../typings/GalleryProps";
 import { QueryParamsController } from "../controllers/QueryParamsController";
+import { ObservableStorage } from "../typings/storage";
+import { AttributeStorage } from "./AttributeStorage";
+import { BrowserStorage } from "./BrowserStorage";
+import { GalleryPersistentStateController } from "./GalleryPersistentStateController";
 
 interface DynamicProps {
     datasource: ListValue;
