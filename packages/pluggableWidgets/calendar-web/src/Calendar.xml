@@ -62,6 +62,8 @@
                     </attributeTypes>
                 </property>
             </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Customization">
             <propertyGroup caption="Options">
                 <property key="view" type="enumeration" defaultValue="standard">
                     <caption>View</caption>
