@@ -15,7 +15,7 @@ export interface QueryController extends Pick<ListValue, Members> {
     refresh(): void;
     setPageSize(size: number): void;
     hasMoreItems: boolean;
-    isLoading: boolean;
+    isFirstLoad: boolean;
     isRefreshing: boolean;
     isFetchingNextBatch: boolean;
 }
