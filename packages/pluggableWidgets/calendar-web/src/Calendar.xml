@@ -71,17 +71,15 @@
                         <enumerationValue key="custom">Custom work-week</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="editable" type="enumeration" defaultValue="default">
+                <property key="editable" type="expression" defaultValue="true">
                     <caption>Editable</caption>
                     <description />
-                    <enumerationValues>
-                        <enumerationValue key="default">Default</enumerationValue>
-                        <enumerationValue key="never">Never</enumerationValue>
-                    </enumerationValues>
+                    <returnType type="Boolean" />
                 </property>
-                <property key="enableCreate" type="boolean" defaultValue="true">
+                <property key="enableCreate" type="expression" defaultValue="true">
                     <caption>Enable create</caption>
                     <description />
+                    <returnType type="Boolean" />
                 </property>
                 <property key="showEventDate" type="boolean" defaultValue="true">
                     <caption>Show event date range</caption>
@@ -171,13 +169,6 @@
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Events">
-            <property key="eventDataAttribute" type="attribute" required="false">
-                <caption>Event data attribute</caption>
-                <description>The attribute to store received raw data</description>
-                <attributeTypes>
-                    <attributeType name="String" />
-                </attributeTypes>
-            </property>
             <property key="onEditEvent" type="action" required="false" dataSource="databaseDataSource">
                 <caption>On edit</caption>
                 <description />

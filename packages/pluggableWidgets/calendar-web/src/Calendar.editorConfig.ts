@@ -3,7 +3,6 @@ import {
     rowLayout,
     structurePreviewPalette,
     StructurePreviewProps,
-    svgImage,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { Properties, hidePropertyIn, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
@@ -71,9 +70,12 @@ export function getPreview(_values: CalendarPreviewProps, isDarkMode: boolean): 
             columnSize: "grow",
             padding: 6
         })(
-            svgImage({ width: 16, height: 16, grow: 0 })(
-                decodeURIComponent((isDarkMode ? IconSVGDark : IconSVG).replace("data:image/svg+xml,", ""))
-            ),
+            {
+                type: "Image",
+                document: decodeURIComponent((isDarkMode ? IconSVGDark : IconSVG).replace("data:image/svg+xml,", "")),
+                width: 16,
+                height: 16
+            },
             text({ fontColor: palette.text.primary })("Calendar")
         )
     );

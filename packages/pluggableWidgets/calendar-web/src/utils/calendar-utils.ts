@@ -1,6 +1,6 @@
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-import { CalendarEvent } from "../helpers/CalendarPropsBuilder";
+import { CalendarEvent } from "./typings";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import {
