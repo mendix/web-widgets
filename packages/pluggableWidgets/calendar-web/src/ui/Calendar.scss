@@ -22,6 +22,10 @@
 
     .rbc-event {
         min-height: 20px;
+
+        &.rbc-selected {
+            filter: brightness(0.85);
+        }
     }
 
     .rbc-addons-dnd .rbc-addons-dnd-resize-ns-icon {

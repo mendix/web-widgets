@@ -10,8 +10,6 @@ export type TitleTypeEnum = "attribute" | "expression";
 
 export type ViewEnum = "standard" | "custom";
 
-export type EditableEnum = "default" | "never";
-
 export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda";
 
 export type DefaultViewStandardEnum = "day" | "week" | "month";
@@ -40,8 +38,8 @@ export interface CalendarContainerProps {
     endAttribute?: ListAttributeValue<Date>;
     eventColor?: ListAttributeValue<string>;
     view: ViewEnum;
-    editable: EditableEnum;
-    enableCreate: boolean;
+    editable: DynamicValue<boolean>;
+    enableCreate: DynamicValue<boolean>;
     showEventDate: boolean;
     defaultViewCustom: DefaultViewCustomEnum;
     defaultViewStandard: DefaultViewStandardEnum;
@@ -58,7 +56,6 @@ export interface CalendarContainerProps {
     customViewShowFriday: boolean;
     customViewShowSaturday: boolean;
     customViewShowSunday: boolean;
-    eventDataAttribute?: EditableValue<string>;
     onEditEvent?: ListActionValue;
     onCreateEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean> }>;
     onDragDropResize?: ListActionValue<{ oldStart: Option<Date>; oldEnd: Option<Date>; newStart: Option<Date>; newEnd: Option<Date> }>;
@@ -94,8 +91,8 @@ export interface CalendarPreviewProps {
     endAttribute: string;
     eventColor: string;
     view: ViewEnum;
-    editable: EditableEnum;
-    enableCreate: boolean;
+    editable: string;
+    enableCreate: string;
     showEventDate: boolean;
     defaultViewCustom: DefaultViewCustomEnum;
     defaultViewStandard: DefaultViewStandardEnum;
@@ -112,7 +109,6 @@ export interface CalendarPreviewProps {
     customViewShowFriday: boolean;
     customViewShowSaturday: boolean;
     customViewShowSunday: boolean;
-    eventDataAttribute: string;
     onEditEvent: {} | null;
     onCreateEvent: {} | null;
     onDragDropResize: {} | null;
