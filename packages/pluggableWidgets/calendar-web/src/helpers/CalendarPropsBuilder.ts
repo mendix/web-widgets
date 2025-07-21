@@ -1,58 +1,32 @@
 import { ObjectItem } from "mendix";
-import {
-    CalendarProps as ReactCalendarProps,
-    DateLocalizer,
-    Formats,
-    NavigateAction,
-    ViewsProps
-} from "react-big-calendar";
-import { withDragAndDropProps } from "react-big-calendar/lib/addons/dragAndDrop";
-
+import { DateLocalizer, Formats, ViewsProps } from "react-big-calendar";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
 import { CustomToolbar } from "../components/Toolbar";
-import { eventPropGetter, getViewRange, localizer } from "../utils/calendar-utils";
+import { eventPropGetter, localizer } from "../utils/calendar-utils";
+import { CalendarEvent, DragAndDropCalendarProps } from "../utils/typings";
 import { CustomWeekController } from "./CustomWeekController";
 
-export interface CalendarEvent {
-    title: string;
-    start: Date;
-    end: Date;
-    allDay: boolean;
-    color?: string;
-    item: ObjectItem;
-}
-
-type EventDropOrResize = {
-    event: CalendarEvent;
-    start: Date;
-    end: Date;
-};
-
-interface DragAndDropCalendarProps<TEvent extends object = Event, TResource extends object = object>
-    extends ReactCalendarProps<TEvent, TResource>,
-        withDragAndDropProps<TEvent, TResource> {}
-
 export class CalendarPropsBuilder {
-    private readonly visibleDays: Set<number>;
-    private readonly defaultView: "month" | "week" | "work_week" | "day" | "agenda";
-    private readonly customCaption: string;
-    private readonly isCustomView: boolean;
-    private readonly events: CalendarEvent[];
-    private readonly minTime: Date;
-    private readonly maxTime: Date;
-
-    // Keeps the currently focused/selected event. Updated on every selection.
-    private selectedEvent?: CalendarEvent;
-    /**
-     * Stores the event that should be ignored on the next onSelectEvent call.
-     * This is set when a double-click is detected so we can ignore the
-     * secondary click that React-Big-Calendar dispatches as part of the same
-     * interaction. After the click has been ignored, the field is cleared so
-     * that future selections are handled normally.
-     */
-    private ignoreNextClickFor?: CalendarEvent;
+    private visibleDays: Set<number>;
+    private defaultView: "month" | "week" | "work_week" | "day" | "agenda";
+    private customCaption: string;
+    private isCustomView: boolean;
+    private events: CalendarEvent[];
+    private minTime: Date;
+    private maxTime: Date;
 
     constructor(private props: CalendarContainerProps) {
+        this.isCustomView = props.view === "custom";
+        this.defaultView = this.isCustomView ? props.defaultViewCustom : props.defaultViewStandard;
+        this.customCaption = props.customViewCaption?.value ?? "Custom";
+        this.visibleDays = this.buildVisibleDays();
+        this.events = this.buildEvents(props.databaseDataSource?.items ?? []);
+        this.minTime = this.buildTime(props.minHour ?? 0);
+        this.maxTime = this.buildTime(props.maxHour ?? 24);
+    }
+
+    updateProps(props: CalendarContainerProps): void {
+        this.props = props;
         this.isCustomView = props.view === "custom";
         this.defaultView = this.isCustomView ? props.defaultViewCustom : props.defaultViewStandard;
         this.customCaption = props.customViewCaption?.value ?? "Custom";
@@ -80,21 +54,14 @@ export class CalendarPropsBuilder {
             events: this.events,
             formats,
             localizer,
-            resizable: this.props.editable !== "never",
-            selectable: this.props.enableCreate,
+            resizable: this.props.editable.value ?? true,
+            selectable: this.props.enableCreate.value ?? true,
             views,
             allDayAccessor: (event: CalendarEvent) => event.allDay,
             endAccessor: (event: CalendarEvent) => event.end,
             eventPropGetter,
             // @ts-expect-error – navigatable prop not yet in typings but exists in runtime component
             navigatable: true,
-            onEventDrop: this.handleEventDropOrResize,
-            onEventResize: this.handleEventDropOrResize,
-            onNavigate: this.handleRangeChange,
-            onSelectEvent: this.handleSelectEvent,
-            onDoubleClickEvent: this.handleDoubleClickEvent,
-            onKeyPressEvent: this.handleKeyPressEvent,
-            onSelectSlot: this.handleCreateEvent,
             startAccessor: (event: CalendarEvent) => event.start,
             titleAccessor: (event: CalendarEvent) => event.title,
             showAllEvents: this.props.showAllEvents,
@@ -186,87 +153,29 @@ export class CalendarPropsBuilder {
         return new Set(visibleDays);
     }
 
-    private handleEventDropOrResize = ({ event, start, end }: EventDropOrResize): void => {
-        const action = this.props.onDragDropResize?.get(event.item);
+    // private handleEventDropOrResize = ({ event, start, end }: EventDropOrResize): void => {
+    //     const action = this.props.onDragDropResize?.get(event.item);
 
-        if (action?.canExecute) {
-            action.execute({
-                oldStart: event.start,
-                oldEnd: event.end,
-                newStart: start,
-                newEnd: end
-            });
-        }
-    };
+    //     if (action?.canExecute) {
+    //         action.execute({
+    //             oldStart: event.start,
+    //             oldEnd: event.end,
+    //             newStart: start,
+    //             newEnd: end
+    //         });
+    //     }
+    // };
 
-    private handleRangeChange = (date: Date, view: string, _action: NavigateAction): void => {
-        const action = this.props.onViewRangeChange;
+    // private handleRangeChange = (date: Date, view: string, _action: NavigateAction): void => {
+    //     const action = this.props.onViewRangeChange;
 
-        if (action?.canExecute) {
-            const { start, end } = getViewRange(view, date);
-            action.execute({
-                rangeStart: start,
-                rangeEnd: end,
-                currentView: view
-            });
-        }
-    };
-
-    /**
-     * Called when an event is single-clicked (selected).
-     * First click only stores the selection; a consecutive click on the same event triggers edit.
-     */
-    private handleSelectEvent = (event: CalendarEvent): void => {
-        if (this.ignoreNextClickFor === event) {
-            // Skip this click – it belongs to a double-click we've already handled.
-            this.ignoreNextClickFor = undefined;
-            return;
-        }
-
-        if (this.selectedEvent === event) {
-            // Second click on the already-selected event => open edit panel.
-            this.invokeEdit(event);
-        } else {
-            // Update current selection.
-            this.selectedEvent = event;
-        }
-    };
-
-    /**
-     * Fast double click should open edit immediately.
-     */
-    private handleDoubleClickEvent = (event: CalendarEvent): void => {
-        // Open edit immediately & prevent the subsequent single-click handler from firing edit again.
-        this.invokeEdit(event);
-        this.ignoreNextClickFor = event;
-    };
-
-    /**
-     * When the event has focus, pressing Enter should open edit.
-     */
-    private handleKeyPressEvent = (event: CalendarEvent, e: any): void => {
-        if (e.key === "Enter") {
-            this.invokeEdit(event);
-        }
-    };
-
-    private invokeEdit(event: CalendarEvent): void {
-        const action = this.props.onEditEvent?.get(event.item);
-
-        if (action?.canExecute) {
-            action.execute();
-        }
-    }
-
-    private handleCreateEvent = (slotInfo: { start: Date; end: Date; action: string }): void => {
-        const action = this.props.onCreateEvent;
-
-        if (action?.canExecute && this.props.enableCreate) {
-            action?.execute({
-                startDate: slotInfo.start,
-                endDate: slotInfo.end,
-                allDay: slotInfo.action === "select"
-            });
-        }
-    };
+    //     if (action?.canExecute) {
+    //         const { start, end } = getViewRange(view, date);
+    //         action.execute({
+    //             rangeStart: start,
+    //             rangeEnd: end,
+    //             currentView: view
+    //         });
+    //     }
+    // };
 }
