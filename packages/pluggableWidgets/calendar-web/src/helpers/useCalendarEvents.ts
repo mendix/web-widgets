@@ -36,7 +36,6 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
             }
 
             clickRef.current = setTimeout(() => {
-                console.log("handleSelectEvent", event);
                 if (event.item.id === selected?.item.id) {
                     invokeEdit(event);
                 } else {
@@ -55,7 +54,6 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
             }
 
             clickRef.current = setTimeout(() => {
-                console.log("handleDoubleClickEvent", event);
                 invokeEdit(event);
             }, 250);
         },
@@ -64,7 +62,6 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
 
     const handleKeyPressEvent = useCallback(
         (event: CalendarEvent, e: any) => {
-            console.log("handleKeyPressEvent", event, e);
             if (e.key === "Enter" && selected?.item.id === event.item.id) {
                 invokeEdit(event);
             }
@@ -74,14 +71,16 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
 
     const handleCreateEvent = useCallback(
         (slotInfo: { start: Date; end: Date; action: string }) => {
-            console.log("handleCreateEvent", slotInfo);
             const action = onCreateEvent;
 
             if (action?.canExecute && enableCreate) {
+                // is all day : if the difference between start and end is a multiple of 24 hours
+                const isAllday =
+                    ((slotInfo.end.getTime() - slotInfo.start.getTime()) / (24 * 60 * 60 * 1000)) % 1 === 0;
                 action?.execute({
                     startDate: slotInfo.start,
                     endDate: slotInfo.end,
-                    allDay: slotInfo.action === "select"
+                    allDay: isAllday
                 });
             }
         },
@@ -131,9 +130,6 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
             }
         };
     }, []);
-    // private invokeEdit(event: CalendarEvent): void {
-
-    // }
 
     return {
         onSelectEvent: handleSelectEvent,

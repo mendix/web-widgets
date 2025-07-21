@@ -20,8 +20,8 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "9.24.0",
-        "appNumber": 224259,
+        "minimumMXVersion": "10.22.0",
+        "appNumber": 107954,
         "appName": "Calendar",
         "reactReady": true
     },
@@ -30,17 +30,17 @@
         "branchName": "calendar-web"
     },
     "scripts": {
-        "build": "pluggable-widgets-tools build:web",
+        "build": "cross-env MPKOUTPUT=Calendar.mpk pluggable-widgets-tools build:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
-        "dev": "pluggable-widgets-tools start:web",
+        "dev": "cross-env MPKOUTPUT=Calendar.mpk pluggable-widgets-tools start:web",
         "e2e": "echo \"Skipping this e2e test\"",
         "e2edev": "run-e2e dev --with-preps",
         "format": "pluggable-widgets-tools format",
         "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
         "publish-marketplace": "rui-publish-marketplace",
-        "release": "pluggable-widgets-tools release:web",
-        "start": "pluggable-widgets-tools start:server",
+        "release": "cross-env MPKOUTPUT=Calendar.mpk pluggable-widgets-tools release:web",
+        "start": "cross-env MPKOUTPUT=Calendar.mpk pluggable-widgets-tools start:server",
         "test": "cross-env TZ=UTC jest --projects jest.config.js",
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
@@ -48,7 +48,7 @@
     "dependencies": {
         "classnames": "^2.5.1",
         "date-fns": "^4.1.0",
-        "react-big-calendar": "^1.17.1"
+        "react-big-calendar": "^1.19.4"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -60,7 +60,7 @@
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@types/react-big-calendar": "^1.16.1",
+        "@types/react-big-calendar": "^1.16.2",
         "cross-env": "^7.0.3"
     }
 }

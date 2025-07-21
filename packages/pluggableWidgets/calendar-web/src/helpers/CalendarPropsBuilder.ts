@@ -152,30 +152,4 @@ export class CalendarPropsBuilder {
 
         return new Set(visibleDays);
     }
-
-    // private handleEventDropOrResize = ({ event, start, end }: EventDropOrResize): void => {
-    //     const action = this.props.onDragDropResize?.get(event.item);
-
-    //     if (action?.canExecute) {
-    //         action.execute({
-    //             oldStart: event.start,
-    //             oldEnd: event.end,
-    //             newStart: start,
-    //             newEnd: end
-    //         });
-    //     }
-    // };
-
-    // private handleRangeChange = (date: Date, view: string, _action: NavigateAction): void => {
-    //     const action = this.props.onViewRangeChange;
-
-    //     if (action?.canExecute) {
-    //         const { start, end } = getViewRange(view, date);
-    //         action.execute({
-    //             rangeStart: start,
-    //             rangeEnd: end,
-    //             currentView: view
-    //         });
-    //     }
-    // };
 }
