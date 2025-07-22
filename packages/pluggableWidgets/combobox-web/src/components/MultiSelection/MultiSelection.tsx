@@ -33,7 +33,7 @@ export function MultiSelection({
         items,
         setSelectedItems,
         toggleSelectedItem
-    } = useDownshiftMultiSelectProps(selector, options, a11yConfig.a11yStatusMessage);
+    } = useDownshiftMultiSelectProps(selector, { ...options }, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
