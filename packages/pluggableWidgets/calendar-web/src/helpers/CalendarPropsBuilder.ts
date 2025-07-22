@@ -26,22 +26,15 @@ export class CalendarPropsBuilder {
     }
 
     updateProps(props: CalendarContainerProps): void {
+        // Update the props object, skipping props that are static (on construction only)
         this.props = props;
-        this.isCustomView = props.view === "custom";
-        this.defaultView = this.isCustomView ? props.defaultViewCustom : props.defaultViewStandard;
         this.customCaption = props.customViewCaption?.value ?? "Custom";
-        this.visibleDays = this.buildVisibleDays();
         this.events = this.buildEvents(props.databaseDataSource?.items ?? []);
-        this.minTime = this.buildTime(props.minHour ?? 0);
-        this.maxTime = this.buildTime(props.maxHour ?? 24);
     }
 
     build(): DragAndDropCalendarProps<CalendarEvent> {
-        const CustomWeek = CustomWeekController.getComponent(this.visibleDays);
         const formats = this.buildFormats();
-        const views: ViewsProps<CalendarEvent> = this.isCustomView
-            ? { day: true, week: true, month: true, work_week: CustomWeek, agenda: true }
-            : { day: true, week: true, month: true };
+        const views = this.buildVisibleViews();
 
         return {
             components: {
@@ -55,7 +48,7 @@ export class CalendarPropsBuilder {
             formats,
             localizer,
             resizable: this.props.editable.value ?? true,
-            selectable: this.props.enableCreate.value ?? true,
+            selectable: this.props.editable.value ?? true,
             views,
             allDayAccessor: (event: CalendarEvent) => event.allDay,
             endAccessor: (event: CalendarEvent) => event.end,
@@ -99,7 +92,7 @@ export class CalendarPropsBuilder {
     private buildFormats(): Formats {
         const formats: Formats = {};
 
-        if (this.props.showEventDate === false) {
+        if (this.props.showEventDate?.value === false) {
             formats.eventTimeRangeFormat = () => "";
         }
 
@@ -151,5 +144,26 @@ export class CalendarPropsBuilder {
         ].flatMap((isVisible, dayIndex) => (isVisible ? [dayIndex] : []));
 
         return new Set(visibleDays);
+    }
+
+    private buildVisibleViews(): ViewsProps<CalendarEvent> {
+        if (this.isCustomView) {
+            const {
+                customViewShowDay,
+                customViewShowWeek,
+                customViewShowMonth,
+                customViewShowAgenda,
+                customViewShowCustomWeek
+            } = this.props;
+            return {
+                day: customViewShowDay,
+                week: customViewShowWeek,
+                work_week: customViewShowCustomWeek ? CustomWeekController.getComponent(this.visibleDays) : false,
+                month: customViewShowMonth,
+                agenda: customViewShowAgenda
+            };
+        } else {
+            return { day: true, week: true, month: true };
+        }
     }
 }

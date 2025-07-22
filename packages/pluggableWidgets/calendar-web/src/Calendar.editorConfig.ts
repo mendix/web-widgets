@@ -10,6 +10,26 @@ import { CalendarPreviewProps } from "../typings/CalendarProps";
 import IconSVGDark from "./assets/StructureCalendarDark.svg";
 import IconSVG from "./assets/StructureCalendarLight.svg";
 
+const CUSTOM_VIEW_CONFIG: Array<keyof CalendarPreviewProps> = [
+    "customViewShowDay",
+    "customViewShowWeek",
+    "customViewShowMonth",
+    "customViewShowAgenda",
+    "customViewShowCustomWeek",
+    "customViewCaption",
+    "defaultViewCustom"
+];
+
+const CUSTOM_VIEW_DAYS_CONFIG: Array<keyof CalendarPreviewProps> = [
+    "customViewShowMonday",
+    "customViewShowTuesday",
+    "customViewShowWednesday",
+    "customViewShowThursday",
+    "customViewShowFriday",
+    "customViewShowSaturday",
+    "customViewShowSunday"
+];
+
 export function getProperties(values: CalendarPreviewProps, defaultProperties: Properties): Properties {
     if (values.heightUnit === "percentageOfWidth") {
         hidePropertyIn(defaultProperties, values, "height");
@@ -33,19 +53,13 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
 
     // Hide custom week range properties when the view is set to 'standard'
     if (values.view === "standard") {
-        hidePropertiesIn(defaultProperties, values, [
-            "defaultViewCustom",
-            "customViewShowSunday",
-            "customViewShowMonday",
-            "customViewShowTuesday",
-            "customViewShowWednesday",
-            "customViewShowThursday",
-            "customViewShowFriday",
-            "customViewShowSaturday",
-            "customViewCaption"
-        ]);
+        hidePropertiesIn(defaultProperties, values, [...CUSTOM_VIEW_CONFIG, ...CUSTOM_VIEW_DAYS_CONFIG]);
     } else {
         hidePropertyIn(defaultProperties, values, "defaultViewStandard");
+
+        if (values.customViewShowCustomWeek === false) {
+            hidePropertiesIn(defaultProperties, values, ["customViewCaption", ...CUSTOM_VIEW_DAYS_CONFIG]);
+        }
     }
 
     // Show/hide title properties based on selection
