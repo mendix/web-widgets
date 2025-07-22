@@ -1,3 +1,4 @@
+import { PlainJs } from "@mendix/filter-commons/typings/settings";
 import { action, autorun, computed, makeObservable, observable, runInAction } from "mobx";
 import { ObservableSortStore, SortInstruction } from "../types/store";
 
@@ -5,19 +6,23 @@ export class SortStoreHost {
     private _usedBy: string[] = [];
     private _state: SortInstruction[];
     private _cleanup: (() => void) | null = null;
+    private _store: ObservableSortStore | null = null;
+    private _jsonBuffer: PlainJs | null = null;
 
     constructor(spec: { initSort?: SortInstruction[] } = {}) {
         this._state = spec.initSort ?? [];
 
-        makeObservable<this, "_usedBy" | "_state" | "_setState">(this, {
+        makeObservable<this, "_usedBy" | "_state" | "_setState" | "_jsonBuffer">(this, {
             _state: observable.ref,
+            _jsonBuffer: observable.ref,
             sortOrder: computed,
             lock: action,
             _usedBy: observable,
             usedBy: computed,
             observe: action,
             unobserve: action,
-            _setState: action
+            _setState: action,
+            fromJSON: action
         });
     }
 
@@ -30,17 +35,34 @@ export class SortStoreHost {
     }
 
     observe(store: ObservableSortStore): void {
-        if (this._cleanup) {
-            this._cleanup();
-        }
-        this._cleanup = autorun(() => {
+        this.unobserve();
+
+        // Set the initial state from the json buffer if available
+        const clearJson = autorun(() => {
+            const data = this._jsonBuffer;
+            if (data == null || !Array.isArray(data)) {
+                return;
+            }
+            store.fromJSON(data);
+        });
+
+        // Sync the store's sort order with the host's state
+        const clearSync = autorun(() => {
             this._setState(store.sortOrder);
         });
+
+        this._store = store;
+        this._cleanup = () => {
+            this._store = null;
+            this._jsonBuffer = null;
+            this._cleanup = null;
+            clearJson();
+            clearSync();
+        };
     }
 
     unobserve(): void {
         this._cleanup?.();
-        this._cleanup = null;
     }
 
     lock(id: string): () => void {
@@ -62,16 +84,11 @@ export class SortStoreHost {
         return this._usedBy.at(0) ?? null;
     }
 
-    // toJSON(): PlainJs {
-    //     return this._store ? this._store.toJSON() : null;
-    // }
+    toJSON(): PlainJs {
+        return this._store ? this._store.toJSON() : null;
+    }
 
-    // fromJSON(data: PlainJs): void {
-    //     if (data == null || !Array.isArray(data)) {
-    //         return;
-    //     }
-    //     if (this._store) {
-    //         this._store.fromJSON(data);
-    //     }
-    // }
+    fromJSON(data: PlainJs): void {
+        this._jsonBuffer = data;
+    }
 }
