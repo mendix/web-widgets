@@ -79,6 +79,7 @@ interface SelectorBase<T, V> {
 
     onEnterEvent?: () => void;
     onLeaveEvent?: () => void;
+    onFilterInputChange?: (filterValue: string) => void;
 }
 
 export interface SingleSelector extends SelectorBase<"single", string> {}
@@ -101,6 +102,7 @@ export interface SelectionBaseProps<Selector> {
     tabIndex: number;
     ariaRequired: DynamicValue<boolean>;
     ariaLabel?: string;
+    onFilterInputChange?: (filterValue: string) => void;
     a11yConfig: {
         ariaLabels: {
             clearSelection: string;

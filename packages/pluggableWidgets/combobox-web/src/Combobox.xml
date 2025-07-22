@@ -329,6 +329,14 @@
                 <caption>On leave action</caption>
                 <description />
             </property>
+
+            <property key="onChangeFilterInputEvent" type="action" required="false">
+                <caption>On change filter input</caption>
+                <description />
+                <actionVariables>
+                    <actionVariable key="filterInput" caption="Filter Input" type="String" />
+                </actionVariables>
+            </property>
         </propertyGroup>
         <propertyGroup caption="Accessibility">
             <propertyGroup caption="Accessibility">
