@@ -1,4 +1,5 @@
 import { attrId } from "@mendix/widget-plugin-test-utils";
+import { makeObservable, observable } from "mobx";
 import { SortStoreHost } from "../stores/SortStoreHost";
 import { ObservableSortStore, SortInstruction } from "../types/store";
 
@@ -45,12 +46,6 @@ describe("SortStoreHost", () => {
                 [attrId("attr2"), "desc"]
             ]);
         });
-
-        it("should return empty array after unobserving", () => {
-            sortStoreHost.observe(mockStore);
-            sortStoreHost.unobserve();
-            expect(sortStoreHost.sortOrder).toEqual([]);
-        });
     });
 
     describe("observe", () => {
@@ -76,10 +71,13 @@ describe("SortStoreHost", () => {
     });
 
     describe("unobserve", () => {
-        it("should clear the internal store", () => {
+        it("should not clear the internal store", () => {
             sortStoreHost.observe(mockStore);
             sortStoreHost.unobserve();
-            expect(sortStoreHost.sortOrder).toEqual([]);
+            expect(sortStoreHost.sortOrder).toEqual([
+                [attrId("attr1"), "asc"],
+                [attrId("attr2"), "desc"]
+            ]);
         });
 
         it("should be safe to call when no store is observed", () => {
@@ -200,7 +198,10 @@ describe("SortStoreHost", () => {
             expect(sortStoreHost.usedBy).toBe("widget1");
 
             sortStoreHost.unobserve();
-            expect(sortStoreHost.sortOrder).toEqual([]);
+            expect(sortStoreHost.sortOrder).toEqual([
+                [attrId("attr1"), "asc"],
+                [attrId("attr2"), "desc"]
+            ]);
             expect(sortStoreHost.usedBy).toBe("widget1"); // Lock should remain
 
             unlock();
@@ -208,12 +209,14 @@ describe("SortStoreHost", () => {
         });
 
         it("should handle store changes after observation", () => {
-            const mutableStore = {
-                sortOrder: [[attrId("attr1"), "asc"]] as SortInstruction[],
-                setSortOrder: jest.fn(),
-                toJSON: jest.fn(),
-                fromJSON: jest.fn()
-            };
+            const mutableStore = makeObservable(
+                {
+                    sortOrder: [[attrId("attr1"), "asc"]] as SortInstruction[]
+                },
+                {
+                    sortOrder: observable.ref
+                }
+            );
 
             sortStoreHost.observe(mutableStore);
             expect(sortStoreHost.sortOrder).toEqual([[attrId("attr1"), "asc"]]);
