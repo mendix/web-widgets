@@ -13,7 +13,7 @@ type CalendarEventHandlers = Pick<
 };
 
 export function useCalendarEvents(props: CalendarContainerProps): CalendarEventHandlers {
-    const { onEditEvent, onCreateEvent, enableCreate, onDragDropResize, onViewRangeChange } = props;
+    const { onEditEvent, onCreateEvent, onDragDropResize, onViewRangeChange, editable } = props;
     const clickRef = useRef<NodeJS.Timeout | null>(null);
     const [selected, setSelected] = useState<CalendarEvent | null>(null);
 
@@ -73,7 +73,7 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
         (slotInfo: { start: Date; end: Date; action: string }) => {
             const action = onCreateEvent;
 
-            if (action?.canExecute && enableCreate) {
+            if (action?.canExecute && editable?.value === true) {
                 // is all day : if the difference between start and end is a multiple of 24 hours
                 const isAllday =
                     ((slotInfo.end.getTime() - slotInfo.start.getTime()) / (24 * 60 * 60 * 1000)) % 1 === 0;
@@ -84,7 +84,7 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
                 });
             }
         },
-        [onCreateEvent, enableCreate]
+        [onCreateEvent, editable]
     );
 
     const handleEventDropOrResize = useCallback(

@@ -61,31 +61,38 @@
                         <attributeType name="String" />
                     </attributeTypes>
                 </property>
+                <property key="startDateAttribute" type="attribute" dataSource="databaseDataSource" required="false">
+                    <caption>Start date attribute</caption>
+                    <description>The start date that should be shown in the view</description>
+                    <attributeTypes>
+                        <attributeType name="DateTime" />
+                    </attributeTypes>
+                </property>
             </propertyGroup>
         </propertyGroup>
-        <propertyGroup caption="Customization">
+        <propertyGroup caption="View">
             <propertyGroup caption="Options">
-                <property key="view" type="enumeration" defaultValue="standard">
-                    <caption>View</caption>
-                    <description>Standard has day, week and month</description>
-                    <enumerationValues>
-                        <enumerationValue key="standard">Standard</enumerationValue>
-                        <enumerationValue key="custom">Custom work-week</enumerationValue>
-                    </enumerationValues>
-                </property>
                 <property key="editable" type="expression" defaultValue="true">
                     <caption>Editable</caption>
                     <description />
                     <returnType type="Boolean" />
                 </property>
-                <property key="enableCreate" type="expression" defaultValue="true">
-                    <caption>Enable create</caption>
-                    <description />
-                    <returnType type="Boolean" />
+                <property key="view" type="enumeration" defaultValue="standard">
+                    <caption>View</caption>
+                    <description>Standard has day, week and month</description>
+                    <enumerationValues>
+                        <enumerationValue key="standard">Standard</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
+                    </enumerationValues>
                 </property>
-                <property key="showEventDate" type="boolean" defaultValue="true">
-                    <caption>Show event date range</caption>
-                    <description>Show the start and end date of the event</description>
+                <property key="defaultViewStandard" type="enumeration" defaultValue="month">
+                    <caption>Initial selected view</caption>
+                    <description>The default view showed when the calendar is loaded</description>
+                    <enumerationValues>
+                        <enumerationValue key="day">Day</enumerationValue>
+                        <enumerationValue key="week">Week</enumerationValue>
+                        <enumerationValue key="month">Month</enumerationValue>
+                    </enumerationValues>
                 </property>
                 <property key="defaultViewCustom" type="enumeration" defaultValue="month">
                     <caption>Initial selected view</caption>
@@ -98,21 +105,10 @@
                         <enumerationValue key="agenda">Agenda</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="defaultViewStandard" type="enumeration" defaultValue="month">
-                    <caption>Initial selected view</caption>
-                    <description>The default view showed when the calendar is loaded</description>
-                    <enumerationValues>
-                        <enumerationValue key="day">Day</enumerationValue>
-                        <enumerationValue key="week">Week</enumerationValue>
-                        <enumerationValue key="month">Month</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="startDateAttribute" type="attribute" required="false">
-                    <caption>Start date attribute</caption>
-                    <description>The start date that should be shown in the view</description>
-                    <attributeTypes>
-                        <attributeType name="DateTime" />
-                    </attributeTypes>
+                <property key="showEventDate" type="expression" defaultValue="true">
+                    <caption>Show event date range</caption>
+                    <description>Show the start and end date of the event</description>
+                    <returnType type="Boolean" />
                 </property>
                 <property key="timeFormat" type="textTemplate" required="false">
                     <caption>Time format</caption>
@@ -126,6 +122,26 @@
                     <caption>Day end hour</caption>
                     <description>The hour at which the day view ends (1–24)</description>
                 </property>
+                <property key="showAllEvents" type="boolean" defaultValue="true">
+                    <caption>Show all events</caption>
+                    <description>Auto-adjust calendar height to display all events without "more" links</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Custom view">
+            <propertyGroup caption="Visible views">
+                <property key="customViewShowDay" type="boolean" defaultValue="true">
+                    <caption>Day</caption>
+                    <description>Show day view in the toolbar</description>
+                </property>
+                <property key="customViewShowWeek" type="boolean" defaultValue="true">
+                    <caption>Week</caption>
+                    <description>Show week view in the toolbar</description>
+                </property>
+                <property key="customViewShowCustomWeek" type="boolean" defaultValue="false">
+                    <caption>Custom Work Week</caption>
+                    <description>Show custom week view in the toolbar</description>
+                </property>
                 <!-- Custom week caption -->
                 <property key="customViewCaption" type="textTemplate" required="false">
                     <caption>Custom view caption</caption>
@@ -134,39 +150,43 @@
                         <translation lang="en_US">Custom</translation>
                     </translations>
                 </property>
-                <property key="showAllEvents" type="boolean" defaultValue="true">
-                    <caption>Show all events</caption>
-                    <description>Auto-adjust calendar height to display all events without "more" links</description>
+                <property key="customViewShowMonth" type="boolean" defaultValue="true">
+                    <caption>Month</caption>
+                    <description>Show month view in the toolbar</description>
+                </property>
+                <property key="customViewShowAgenda" type="boolean" defaultValue="false">
+                    <caption>Agenda</caption>
+                    <description>Show agenda view in the toolbar</description>
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Visible days">
+            <propertyGroup caption="Custom view visible days">
                 <property key="customViewShowMonday" type="boolean" defaultValue="true">
                     <caption>Monday</caption>
-                    <description>Show Monday in the custom work-week view</description>
+                    <description>Show Monday in the custom week view</description>
                 </property>
                 <property key="customViewShowTuesday" type="boolean" defaultValue="true">
                     <caption>Tuesday</caption>
-                    <description>Show Tuesday in the custom work-week view</description>
+                    <description>Show Tuesday in the custom week view</description>
                 </property>
                 <property key="customViewShowWednesday" type="boolean" defaultValue="true">
                     <caption>Wednesday</caption>
-                    <description>Show Wednesday in the custom work-week view</description>
+                    <description>Show Wednesday in the custom week view</description>
                 </property>
                 <property key="customViewShowThursday" type="boolean" defaultValue="true">
                     <caption>Thursday</caption>
-                    <description>Show Thursday in the custom work-week view</description>
+                    <description>Show Thursday in the custom week view</description>
                 </property>
                 <property key="customViewShowFriday" type="boolean" defaultValue="true">
                     <caption>Friday</caption>
-                    <description>Show Friday in the custom work-week view</description>
+                    <description>Show Friday in the custom week view</description>
                 </property>
                 <property key="customViewShowSaturday" type="boolean" defaultValue="false">
                     <caption>Saturday</caption>
-                    <description>Show Saturday in the custom work-week view</description>
+                    <description>Show Saturday in the custom week view</description>
                 </property>
                 <property key="customViewShowSunday" type="boolean" defaultValue="false">
                     <caption>Sunday</caption>
-                    <description>Show Sunday in the custom work-week view</description>
+                    <description>Show Sunday in the custom week view</description>
                 </property>
             </propertyGroup>
         </propertyGroup>
