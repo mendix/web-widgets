@@ -211,7 +211,10 @@ describe("SortStoreHost", () => {
         it("should handle store changes after observation", () => {
             const mutableStore = makeObservable(
                 {
-                    sortOrder: [[attrId("attr1"), "asc"]] as SortInstruction[]
+                    sortOrder: [[attrId("attr1"), "asc"]] as SortInstruction[],
+                    setSortOrder: jest.fn(),
+                    toJSON: jest.fn(),
+                    fromJSON: jest.fn()
                 },
                 {
                     sortOrder: observable.ref
