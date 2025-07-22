@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where GoogleMap and LeafletMap uses array index for the list item which causes issues when filtering large amounts of locations. Thanks to @jeroen-huizer-conclusion for the contribution.
 
+- We fixed an issue where where browser console throw warning of unknown listener when the location has title in LeafletMap. Thanks to @jeroen-huizer-conclusion for the contribution.
+
 ## [4.0.0] - 2024-05-02
 
 ### Fixed
