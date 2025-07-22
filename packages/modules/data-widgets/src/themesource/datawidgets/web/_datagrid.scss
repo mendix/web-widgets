@@ -432,6 +432,10 @@ $root: ".widget-datagrid";
     &-refresh-container {
         grid-column: 1 / -1;
         padding: 0;
+
+        &--hidden {
+            display: none;
+        }
     }
 
     &-refresh-indicator {
@@ -444,6 +448,9 @@ $root: ".widget-datagrid";
         color: var(--brand-primary, $dg-brand-primary);
         height: 4px;
         width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
 
         &::-webkit-progress-bar {
             background-color: transparent;
