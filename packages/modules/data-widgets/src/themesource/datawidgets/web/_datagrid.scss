@@ -432,10 +432,7 @@ $root: ".widget-datagrid";
     &-refresh-container {
         grid-column: 1 / -1;
         padding: 0;
-
-        &--hidden {
-            display: none;
-        }
+        position: relative;
     }
 
     &-refresh-indicator {
