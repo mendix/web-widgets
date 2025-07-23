@@ -140,9 +140,9 @@ export class DatasourceParamsController implements ReactiveController {
         return `${widgetName}:[${hash}]`;
     }
 
-    static restoreMeta(filter: FilterCondition): FiltersMeta | null {
+    static restoreMeta(filter: FilterCondition, widgetName: string): FiltersMeta | null {
         const hash = this.filterHash(filter);
-        const key = this.storageKey("dataKey", hash);
+        const key = this.storageKey(widgetName, hash);
         const metaJson = sessionStorage.getItem(key);
         if (!metaJson) {
             return null;
@@ -151,13 +151,13 @@ export class DatasourceParamsController implements ReactiveController {
     }
 
     static unzipFilter(
-        filter?: FilterCondition,
-        widgetName = "DatasourceParamsController"
+        filter: FilterCondition | undefined,
+        widgetName: string
     ): [columnFilters: Array<FilterCondition | undefined>, customFilters: Array<FilterCondition | undefined>] {
         if (!filter) {
             return [[], []];
         }
-        const meta = this.restoreMeta(filter);
+        const meta = this.restoreMeta(filter, widgetName);
         if (!meta) {
             return [[], []];
         }
