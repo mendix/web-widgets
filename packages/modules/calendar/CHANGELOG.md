@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.0.0] Calendar - 2025-07-23
+
 ### Added
 
 - Initial version of Calendar module.
+
+### [2.0.0] Calendar
+
+#### Added
+
+- initial version of calendar widget.
