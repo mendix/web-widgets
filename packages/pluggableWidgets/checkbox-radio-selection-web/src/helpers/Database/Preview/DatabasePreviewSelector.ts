@@ -13,7 +13,7 @@ export class DatabasePreviewSelector implements SingleSelector {
     status: Status = "available";
     attributeType?: "string" | "boolean" | "big" | "date" | undefined;
     selectorType?: "context" | "database" | "static" | undefined;
-    // type: "single";
+    controlType: "checkbox" | "radio" = "radio";
     readOnly: boolean;
     validation?: string | undefined;
     clearable: boolean = false;

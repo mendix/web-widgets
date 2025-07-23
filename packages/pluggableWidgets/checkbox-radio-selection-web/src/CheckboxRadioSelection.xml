@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="com.mendix.widget.web.checkboxradioselection.CheckboxRadioSelection" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Checkbox Radio Selection</name>
+    <name>Check box / Radio button</name>
     <description />
     <studioProCategory>Input elements</studioProCategory>
     <studioCategory>Display</studioCategory>
@@ -26,6 +26,14 @@
                         <enumerationValue key="association">Association</enumerationValue>
                         <enumerationValue key="enumeration">Enumeration</enumerationValue>
                         <enumerationValue key="boolean">Boolean</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="controlType" type="enumeration" defaultValue="checkbox" required="true">
+                    <caption>Component</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
+                        <enumerationValue key="radio">Radio button</enumerationValue>
                     </enumerationValues>
                 </property>
 

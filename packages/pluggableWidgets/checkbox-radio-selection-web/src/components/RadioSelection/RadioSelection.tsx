@@ -47,7 +47,7 @@ export function RadioSelection({
                             })}
                         >
                             <input
-                                type="radio"
+                                type={selector.controlType}
                                 id={radioId}
                                 name={name}
                                 value={optionId}
