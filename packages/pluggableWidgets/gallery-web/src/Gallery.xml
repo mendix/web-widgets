@@ -52,7 +52,7 @@
                     <description />
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Items">
+            <propertyGroup caption="Pagination">
                 <property key="pageSize" type="integer" defaultValue="20">
                     <caption>Page size</caption>
                     <description />
@@ -63,15 +63,12 @@
                     <enumerationValues>
                         <enumerationValue key="buttons">Paging buttons</enumerationValue>
                         <enumerationValue key="virtualScrolling">Virtual scrolling</enumerationValue>
+                        <enumerationValue key="loadMore">Load more</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="pagingPosition" type="enumeration" defaultValue="below">
-                    <caption>Position of paging buttons</caption>
+                <property key="showTotalCount" type="boolean" defaultValue="false">
+                    <caption>Show total count</caption>
                     <description />
-                    <enumerationValues>
-                        <enumerationValue key="below">Below grid</enumerationValue>
-                        <enumerationValue key="above">Above grid</enumerationValue>
-                    </enumerationValues>
                 </property>
                 <property key="showPagingButtons" type="enumeration" defaultValue="always">
                     <caption>Show paging buttons</caption>
@@ -81,10 +78,24 @@
                         <enumerationValue key="auto">Auto</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="showTotalCount" type="boolean" defaultValue="false">
-                    <caption>Show total count</caption>
+                <property key="pagingPosition" type="enumeration" defaultValue="bottom">
+                    <caption>Position of pagination</caption>
                     <description />
+                    <enumerationValues>
+                        <enumerationValue key="bottom">Below grid</enumerationValue>
+                        <enumerationValue key="top">Above grid</enumerationValue>
+                        <enumerationValue key="both">Both</enumerationValue>
+                    </enumerationValues>
                 </property>
+                <property key="loadMoreButtonCaption" type="textTemplate" required="false">
+                    <caption>Load more caption</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Load More</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Items">
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">
                     <caption>Empty message</caption>
                     <description />
@@ -118,6 +129,37 @@
                 </property>
                 <property key="onSelectionChange" type="action" required="false">
                     <caption>On selection change</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Personalization">
+            <propertyGroup caption="Configuration">
+                <property key="stateStorageType" type="enumeration" defaultValue="attribute">
+                    <caption>Store configuration in</caption>
+                    <description>When Browser local storage is selected, the configuration is scoped to a browser profile. This configuration is not tied to a Mendix user.</description>
+                    <enumerationValues>
+                        <enumerationValue key="attribute">Attribute</enumerationValue>
+                        <enumerationValue key="localStorage">Browser local storage</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="stateStorageAttr" type="attribute" required="false" onChange="onConfigurationChange">
+                    <caption>Attribute</caption>
+                    <description>Attribute containing the personalized configuration of the capabilities. This configuration is automatically stored and loaded. The attribute requires Unlimited String.</description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="onConfigurationChange" type="action" required="false">
+                    <caption>On change</caption>
+                    <description />
+                </property>
+                <property key="storeFilters" type="boolean" defaultValue="true">
+                    <caption>Store filters</caption>
+                    <description />
+                </property>
+                <property key="storeSort" type="boolean" defaultValue="true">
+                    <caption>Store sort</caption>
                     <description />
                 </property>
             </propertyGroup>

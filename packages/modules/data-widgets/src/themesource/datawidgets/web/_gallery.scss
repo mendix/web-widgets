@@ -88,3 +88,8 @@ $gallery-screen-md: $screen-md;
 .widget-gallery-item-button {
     width: inherit;
 }
+
+.widget-gallery-load-more {
+    display: flex;
+    justify-content: center;
+}

@@ -55,7 +55,7 @@
                 </property>
                 <property key="eventColor" type="attribute" dataSource="databaseDataSource" required="false">
                     <caption>Color attribute</caption>
-                    <description>Attribute containing a valid html color eg: red #FF0000 rgb(250,10,20) rgba(10,10,10, 0.5)</description>
+                    <description>Attribute containing a valid HTML color eg: red #FF0000 rgb(250,10,20) rgba(10,10,10, 0.5)</description>
                     <attributeTypes>
                         <attributeType name="Enum" />
                         <attributeType name="String" />
@@ -68,7 +68,7 @@
                     <description>Standard has day, week and month</description>
                     <enumerationValues>
                         <enumerationValue key="standard">Standard</enumerationValue>
-                        <enumerationValue key="custom">Custom</enumerationValue>
+                        <enumerationValue key="custom">Custom work-week</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="editable" type="enumeration" defaultValue="default">
@@ -87,15 +87,24 @@
                     <caption>Show event date range</caption>
                     <description>Show the start and end date of the event</description>
                 </property>
-                <property key="defaultView" type="enumeration" defaultValue="month">
+                <property key="defaultViewCustom" type="enumeration" defaultValue="month">
                     <caption>Initial selected view</caption>
-                    <description>Work week and agenda are only available in custom views</description>
+                    <description>The default view showed when the calendar is loaded</description>
                     <enumerationValues>
                         <enumerationValue key="day">Day</enumerationValue>
                         <enumerationValue key="week">Week</enumerationValue>
                         <enumerationValue key="month">Month</enumerationValue>
-                        <enumerationValue key="work_week">(Work week)</enumerationValue>
-                        <enumerationValue key="agenda">(Agenda)</enumerationValue>
+                        <enumerationValue key="work_week">Custom</enumerationValue>
+                        <enumerationValue key="agenda">Agenda</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="defaultViewStandard" type="enumeration" defaultValue="month">
+                    <caption>Initial selected view</caption>
+                    <description>The default view showed when the calendar is loaded</description>
+                    <enumerationValues>
+                        <enumerationValue key="day">Day</enumerationValue>
+                        <enumerationValue key="week">Week</enumerationValue>
+                        <enumerationValue key="month">Month</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="startDateAttribute" type="attribute" required="false">
@@ -104,6 +113,60 @@
                     <attributeTypes>
                         <attributeType name="DateTime" />
                     </attributeTypes>
+                </property>
+                <property key="timeFormat" type="textTemplate" required="false">
+                    <caption>Time format</caption>
+                    <description>Default time format is "hh:mm a"</description>
+                </property>
+                <property key="minHour" type="integer" defaultValue="0">
+                    <caption>Day start hour</caption>
+                    <description>The hour at which the day view starts (0–23)</description>
+                </property>
+                <property key="maxHour" type="integer" defaultValue="24">
+                    <caption>Day end hour</caption>
+                    <description>The hour at which the day view ends (1–24)</description>
+                </property>
+                <!-- Custom week caption -->
+                <property key="customViewCaption" type="textTemplate" required="false">
+                    <caption>Custom view caption</caption>
+                    <description>Label used for the custom work-week button and title. Defaults to "Custom".</description>
+                    <translations>
+                        <translation lang="en_US">Custom</translation>
+                    </translations>
+                </property>
+                <property key="showAllEvents" type="boolean" defaultValue="true">
+                    <caption>Show all events</caption>
+                    <description>Auto-adjust calendar height to display all events without "more" links</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Visible days">
+                <property key="customViewShowMonday" type="boolean" defaultValue="true">
+                    <caption>Monday</caption>
+                    <description>Show Monday in the custom work-week view</description>
+                </property>
+                <property key="customViewShowTuesday" type="boolean" defaultValue="true">
+                    <caption>Tuesday</caption>
+                    <description>Show Tuesday in the custom work-week view</description>
+                </property>
+                <property key="customViewShowWednesday" type="boolean" defaultValue="true">
+                    <caption>Wednesday</caption>
+                    <description>Show Wednesday in the custom work-week view</description>
+                </property>
+                <property key="customViewShowThursday" type="boolean" defaultValue="true">
+                    <caption>Thursday</caption>
+                    <description>Show Thursday in the custom work-week view</description>
+                </property>
+                <property key="customViewShowFriday" type="boolean" defaultValue="true">
+                    <caption>Friday</caption>
+                    <description>Show Friday in the custom work-week view</description>
+                </property>
+                <property key="customViewShowSaturday" type="boolean" defaultValue="false">
+                    <caption>Saturday</caption>
+                    <description>Show Saturday in the custom work-week view</description>
+                </property>
+                <property key="customViewShowSunday" type="boolean" defaultValue="false">
+                    <caption>Sunday</caption>
+                    <description>Show Sunday in the custom work-week view</description>
                 </property>
             </propertyGroup>
         </propertyGroup>
@@ -115,27 +178,21 @@
                     <attributeType name="String" />
                 </attributeTypes>
             </property>
-            <property key="onClickEvent" type="action" required="false">
-                <caption>On click action</caption>
+            <property key="onEditEvent" type="action" required="false" dataSource="databaseDataSource">
+                <caption>On edit</caption>
                 <description />
-                <actionVariables>
-                    <actionVariable key="startDate" type="DateTime" caption="Event start date" />
-                    <actionVariable key="endDate" type="DateTime" caption="Event end date" />
-                    <actionVariable key="allDay" type="Boolean" caption="Event all day" />
-                    <actionVariable key="title" type="String" caption="Event title" />
-                </actionVariables>
             </property>
             <property key="onCreateEvent" type="action" required="false">
-                <caption>On create action</caption>
+                <caption>On create</caption>
                 <description>The create event is triggered when a time slot is selected, and the 'Enable create' property is set to 'true'</description>
                 <actionVariables>
                     <actionVariable key="startDate" type="DateTime" caption="New event start date" />
                     <actionVariable key="endDate" type="DateTime" caption="New event end date" />
-                    <actionVariable key="allDay" type="Boolean" caption="All day flag" />
+                    <actionVariable key="allDay" type="Boolean" caption="New event all day" />
                 </actionVariables>
             </property>
-            <property key="onChange" type="action" required="false">
-                <caption>On change action</caption>
+            <property key="onDragDropResize" type="action" required="false" dataSource="databaseDataSource">
+                <caption>On drag/drop/resize</caption>
                 <description>The change event is triggered on moving/dragging an item or changing the start or end time of by resizing an item</description>
                 <actionVariables>
                     <actionVariable key="oldStart" type="DateTime" caption="Old start date" />
@@ -144,7 +201,7 @@
                     <actionVariable key="newEnd" type="DateTime" caption="New end date" />
                 </actionVariables>
             </property>
-            <property key="onRangeChange" type="action" required="false">
+            <property key="onViewRangeChange" type="action" required="false">
                 <caption>On view range change</caption>
                 <description>Triggered when the calendar view range (start/end) changes</description>
                 <actionVariables>

@@ -1,3 +1,4 @@
+import { Serializable } from "@mendix/filter-commons/typings/settings";
 import type { ListAttributeValue } from "mendix";
 
 export type SortDirection = "asc" | "desc";
@@ -11,19 +12,13 @@ export type Option = {
     value: ListAttributeId;
 };
 
-export interface ObservableSortStore {
+export interface ObservableSortStore extends Serializable {
     sortOrder: SortInstruction[];
+    setSortOrder(...item: SortInstruction[]): void;
 }
 
 export interface BasicSortStore extends ObservableSortStore {
     options: Option[];
-    sortOrder: SortInstruction[];
     push(...item: SortInstruction[]): void;
     remove(index: number): void;
-    replace(...item: SortInstruction[]): void;
-}
-
-export interface Serializable {
-    toJSON(): unknown;
-    fromJSON(json: unknown): void;
 }

@@ -8,11 +8,13 @@ type Members =
     | "requestTotalCount"
     | "totalCount"
     | "limit"
-    | "offset";
+    | "offset"
+    | "hasMoreItems";
 
 export interface QueryController extends Pick<ListValue, Members> {
     refresh(): void;
     setPageSize(size: number): void;
+    hasMoreItems: boolean;
     isLoading: boolean;
     isRefreshing: boolean;
     isFetchingNextBatch: boolean;

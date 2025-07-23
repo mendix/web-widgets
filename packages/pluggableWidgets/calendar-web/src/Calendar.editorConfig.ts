@@ -32,6 +32,23 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
         hidePropertiesIn(defaultProperties, values, ["maxHeight", "overflowY"]);
     }
 
+    // Hide custom week range properties when the view is set to 'standard'
+    if (values.view === "standard") {
+        hidePropertiesIn(defaultProperties, values, [
+            "defaultViewCustom",
+            "customViewShowSunday",
+            "customViewShowMonday",
+            "customViewShowTuesday",
+            "customViewShowWednesday",
+            "customViewShowThursday",
+            "customViewShowFriday",
+            "customViewShowSaturday",
+            "customViewCaption"
+        ]);
+    } else {
+        hidePropertyIn(defaultProperties, values, "defaultViewStandard");
+    }
+
     // Show/hide title properties based on selection
     if (values.titleType === "attribute") {
         hidePropertyIn(defaultProperties, values, "titleExpression");

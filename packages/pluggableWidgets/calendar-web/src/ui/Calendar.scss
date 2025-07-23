@@ -1,11 +1,13 @@
+@use "sass:color";
+
 .widget-calendar {
     $cal-form-group-margin-bottom: 15px !default;
     $cal-brand-default: #dddddd;
     $cal-brand-primary: #0595db;
     $cal-brand-danger: #ed1c24 !default;
     $cal-border-color-default: #d7d7d7;
-    $cal-color-default-lighter: mix($cal-brand-default, white, 20%) !default;
-    $cal-color-primary-lighter: mix($cal-brand-primary, white, 20%) !default;
+    $cal-color-default-lighter: color.mix($cal-brand-default, white, 20%) !default;
+    $cal-color-primary-lighter: color.mix($cal-brand-primary, white, 20%) !default;
 
     min-height: 350px;
     margin-bottom: var(--form-group-margin-bottom, $cal-form-group-margin-bottom);
