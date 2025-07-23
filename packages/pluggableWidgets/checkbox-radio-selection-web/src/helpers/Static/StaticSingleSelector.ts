@@ -17,6 +17,7 @@ export class StaticSingleSelector implements SingleSelector {
     attributeType: "string" | "big" | "boolean" | "date" = "string";
     selectorType: "context" | "database" | "static" = "static";
     status: Status = "unavailable";
+    controlType: "checkbox" | "radio" = "radio";
     options: StaticOptionsProvider;
     caption: StaticCaptionsProvider;
     clearable = false;

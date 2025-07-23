@@ -12,6 +12,7 @@ import { extractEnumerationProps } from "./utils";
 export class EnumBooleanSingleSelector implements SingleSelector {
     status: Status = "unavailable";
     type = "single" as const;
+    controlType: "checkbox" | "radio" = "radio";
     validation?: string = undefined;
     private isBoolean = false;
     private _attr: EditableValue<string | boolean> | undefined;
@@ -58,6 +59,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         this.currentId = attr.value?.toString() ?? null;
         this.readOnly = attr.readOnly;
         this.validation = attr.validation;
+        this.controlType = props.controlType;
     }
 
     setValue(value: string | null): void {

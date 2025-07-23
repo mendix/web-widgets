@@ -70,7 +70,9 @@ interface SelectorBase<T, V> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface SingleSelector extends SelectorBase<"single", string> {}
+export interface SingleSelector extends SelectorBase<"single", string> {
+    controlType: "checkbox" | "radio";
+}
 
 export interface MultiSelector extends SelectorBase<"multi", string[]> {
     getOptions(): string[];

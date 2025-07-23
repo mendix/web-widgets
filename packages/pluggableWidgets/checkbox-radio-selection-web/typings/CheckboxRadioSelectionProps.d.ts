@@ -11,6 +11,8 @@ export type SourceEnum = "context" | "database" | "static";
 
 export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
+export type ControlTypeEnum = "checkbox" | "radio";
+
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
 export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
@@ -39,6 +41,7 @@ export interface CheckboxRadioSelectionContainerProps {
     id: string;
     source: SourceEnum;
     optionsSourceType: OptionsSourceTypeEnum;
+    controlType: ControlTypeEnum;
     attributeEnumeration: EditableValue<string>;
     attributeBoolean: EditableValue<boolean>;
     optionsSourceDatabaseDataSource?: ListValue;
@@ -72,6 +75,7 @@ export interface CheckboxRadioSelectionPreviewProps {
     translate: (text: string) => string;
     source: SourceEnum;
     optionsSourceType: OptionsSourceTypeEnum;
+    controlType: ControlTypeEnum;
     attributeEnumeration: string;
     attributeBoolean: string;
     optionsSourceDatabaseDataSource: {} | { caption: string } | { type: string } | null;

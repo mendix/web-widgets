@@ -8,6 +8,7 @@ export class AssociationSingleSelector
     implements SingleSelector
 {
     type = "single" as const;
+    controlType: "checkbox" | "radio" = "radio";
 
     updateProps(props: CheckboxRadioSelectionContainerProps): void {
         super.updateProps(props);
