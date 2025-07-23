@@ -13,7 +13,7 @@ export class AssociationPreviewSelector implements SingleSelector {
     status: Status = "available";
     attributeType?: "string" | "boolean" | "big" | "date" | undefined;
     selectorType?: "context" | "database" | "static" | undefined;
-    // type: "single";
+    controlType: "checkbox" | "radio" = "radio";
     readOnly: boolean;
     validation?: string | undefined;
     clearable: boolean = false;
@@ -27,6 +27,7 @@ export class AssociationPreviewSelector implements SingleSelector {
         this.currentId = `single-${generateUUID()}`;
         this.customContentType = props.optionsSourceCustomContentType;
         this.readOnly = props.readOnly;
+        this.controlType = props.controlType;
         this.caption = new PreviewCaptionsProvider(new Map(), getCustomCaption(props));
         this.options = new PreviewOptionsProvider(this.caption, new Map());
         (this.caption as PreviewCaptionsProvider).updatePreviewProps({
