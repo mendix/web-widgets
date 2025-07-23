@@ -153,12 +153,11 @@ function useComboboxProps(
 
                 if (
                     selector.onFilterInputChange &&
-                    type &&
-                    (type === "__input_change__" || type.includes("input_change")) &&
+                    type?.includes("input_change") &&
                     inputValue &&
-                    inputValue.trim().length > 0
+                    inputValue.trim()?.length > 0
                 ) {
-                    selector.onFilterInputChange(inputValue!);
+                    selector.onFilterInputChange(inputValue);
                 }
             },
             getA11yStatusMessage(options) {
