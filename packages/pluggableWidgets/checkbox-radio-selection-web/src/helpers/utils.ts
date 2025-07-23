@@ -30,7 +30,8 @@ export function getCustomCaption(values: CheckboxRadioSelectionPreviewProps): st
         source,
         optionsSourceDatabaseDataSource,
         staticAttribute,
-        optionsSourceStaticDataSource
+        optionsSourceStaticDataSource,
+        controlType
     } = values;
     const emptyStringFormat = "Checkbox Radio Selection";
     if (source === "context") {
@@ -40,7 +41,7 @@ export function getCustomCaption(values: CheckboxRadioSelectionPreviewProps): st
             case "enumeration":
                 return `[${optionsSourceType}, ${attributeEnumeration}]`;
             case "boolean":
-                return `[${optionsSourceType}, ${attributeBoolean}]`;
+                return `[${controlType} ${optionsSourceType}, ${attributeBoolean}]`;
             default:
                 return emptyStringFormat;
         }

@@ -16,6 +16,7 @@ export class DatabaseSingleSelector<T extends string | Big, R extends EditableVa
     attributeType: "string" | "big" | "boolean" | "date" = "string";
     selectorType: "context" | "database" | "static" = "database";
     status: Status = "unavailable";
+    controlType: "checkbox" | "radio" = "radio";
     options: DatabaseOptionsProvider;
     caption: DatabaseCaptionsProvider;
     clearable = false;
