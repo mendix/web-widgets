@@ -1,14 +1,9 @@
-import classNames from "classnames";
 import { createElement, ReactElement } from "react";
 
-export function RefreshIndicator({ show }: { show: boolean }): ReactElement {
+export function RefreshIndicator(): ReactElement {
     return (
         <div className="tr" role="row">
-            <div
-                className={classNames("th widget-datagrid-refresh-container", {
-                    "widget-datagrid-refresh-container--hidden": !show
-                })}
-            >
+            <div className="th widget-datagrid-refresh-container">
                 <progress className="widget-datagrid-refresh-indicator" />
             </div>
         </div>

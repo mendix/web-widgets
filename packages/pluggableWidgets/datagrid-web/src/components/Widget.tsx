@@ -195,7 +195,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         isLoading={props.columnsLoading}
                         preview={props.preview}
                     />
-                    <RefreshIndicator show={showRefreshIndicator} />
+                    {showRefreshIndicator ? <RefreshIndicator /> : null}
                     <GridBody
                         isFirstLoad={props.isFirstLoad}
                         isFetchingNextBatch={props.isFetchingNextBatch}
