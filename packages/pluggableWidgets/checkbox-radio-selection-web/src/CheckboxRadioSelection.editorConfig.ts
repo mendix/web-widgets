@@ -43,6 +43,10 @@ export function getProperties(
         hidePropertiesIn(defaultProperties, values, ["customEditability", "customEditabilityExpression"]);
     }
 
+    if (values.optionsSourceType !== "boolean") {
+        hidePropertiesIn(defaultProperties, values, ["controlType"]);
+    }
+
     if (values.source === "context") {
         hidePropertiesIn(defaultProperties, values, [
             "staticAttribute",
@@ -197,7 +201,9 @@ export function getPreview(values: CheckboxRadioSelectionPreviewProps, isDarkMod
                 borderRadius: 2,
                 backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.container
             })(
-                getIconPreview(isMultiSelect),
+                getIconPreview(
+                    isMultiSelect || (values.optionsSourceType === "boolean" && values.controlType === "checkbox")
+                ),
                 container()(container({ padding: 3 })(), text()(getCustomCaption(values)))
             )
         );
