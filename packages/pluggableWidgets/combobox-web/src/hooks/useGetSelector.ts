@@ -25,10 +25,14 @@ export function useGetSelector(props: ComboboxContainerProps): Selector {
 
             debounceTimeoutRef.current = setTimeout(() => {
                 lastExecutedValueRef.current = filterValue;
-                if (props.onChangeFilterInputEvent?.canExecute && !props.onChangeFilterInputEvent?.isExecuting) {
-                    props.onChangeFilterInputEvent.execute({
-                        filterInput: filterValue
-                    });
+                try {
+                    if (props.onChangeFilterInputEvent?.canExecute && !props.onChangeFilterInputEvent?.isExecuting) {
+                        props.onChangeFilterInputEvent.execute({
+                            filterInput: filterValue
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error executing onChangeFilterInputEvent:", error);
                 }
             }, 300);
         },
