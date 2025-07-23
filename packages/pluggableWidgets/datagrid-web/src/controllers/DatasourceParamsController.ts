@@ -50,12 +50,7 @@ export class DatasourceParamsController implements ReactiveController {
         meta: FiltersMeta;
         hash: string | null;
     } {
-        // return and(compactArray(this.columns.conditions), compactArray(this.customFilters.conditions));
         return this.reduceFilters(this.columns.conditions, this.customFilters.conditions);
-
-        // console.dir(...reduceArray(columns.conditions));
-
-        // return [this.columns.conditions, this.customFilters.conditions];
     }
 
     private get derivedSortOrder(): SortInstruction[] | undefined {
@@ -108,12 +103,12 @@ export class DatasourceParamsController implements ReactiveController {
         return disposeAll;
     }
 
-    storageKey(hash: string): string {
-        return `${this.widgetName}:[${hash}]`;
+    dataKey(hash: string): string {
+        return DatasourceParamsController.storageKey(this.widgetName, hash);
     }
 
     clearFilterMeta(hash: string): void {
-        sessionStorage.removeItem(this.storageKey(hash));
+        sessionStorage.removeItem(this.dataKey(hash));
     }
 
     saveFilterMeta(hash: string | null, meta: FiltersMeta): void {
@@ -121,11 +116,11 @@ export class DatasourceParamsController implements ReactiveController {
             return;
         }
 
-        sessionStorage.setItem(this.storageKey(hash), JSON.stringify(meta));
+        sessionStorage.setItem(this.dataKey(hash), JSON.stringify(meta));
     }
 
     readFilterMeta(hash: string): FiltersMeta | null {
-        const item = sessionStorage.getItem(this.storageKey(hash));
+        const item = sessionStorage.getItem(this.dataKey(hash));
         if (!item) {
             return null;
         }
@@ -141,22 +136,35 @@ export class DatasourceParamsController implements ReactiveController {
         return fnv1aHash(JSON.stringify(filter)).toString();
     }
 
+    static storageKey(widgetName: string, hash: string): string {
+        return `${widgetName}:[${hash}]`;
+    }
+
+    static restoreMeta(filter: FilterCondition): FiltersMeta | null {
+        const hash = this.filterHash(filter);
+        const key = this.storageKey("dataKey", hash);
+        const metaJson = sessionStorage.getItem(key);
+        if (!metaJson) {
+            return null;
+        }
+        return JSON.parse(metaJson) as FiltersMeta;
+    }
+
     static unzipFilter(
         filter?: FilterCondition,
-        widgetName = "dataKey"
+        widgetName = "DatasourceParamsController"
     ): [columnFilters: Array<FilterCondition | undefined>, customFilters: Array<FilterCondition | undefined>] {
         if (!filter) {
             return [[], []];
         }
-        const hash = this.filterHash(filter);
-        const metaJson = sessionStorage.getItem(`${widgetName}:[${hash}]`);
-        if (!metaJson) {
+        const meta = this.restoreMeta(filter);
+        if (!meta) {
             return [[], []];
         }
-        const meta = JSON.parse(metaJson) as FiltersMeta;
-        const [x, y] = restoreArray(filter, meta.combined);
-        const columnFilters = restoreArray(x, meta.columnFilters);
-        const customFilters = restoreArray(y, meta.customFilters);
+
+        const [column, custom] = restoreArray(filter, meta.combined);
+        const columnFilters = restoreArray(column, meta.columnFilters);
+        const customFilters = restoreArray(custom, meta.customFilters);
         return [columnFilters, customFilters];
     }
 }
