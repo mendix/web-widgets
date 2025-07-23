@@ -16,7 +16,7 @@ import QuillResize from "quill-resize-module";
 import QuillTableBetter from "./formats/quill-table-better/quill-table-better";
 import MxUploader from "./modules/uploader";
 import MxBlock from "./formats/block";
-
+import CustomClipboard from "./modules/clipboard";
 class Empty {
     doSomething(): string {
         return "";
@@ -43,3 +43,4 @@ Quill.register("modules/resize", QuillResize, true);
 // add empty handler for view code, this format is handled by toolbar's custom config via ViewCodeDialog
 Quill.register({ "ui/view-code": Empty });
 Quill.register({ "modules/table-better": QuillTableBetter }, true);
+Quill.register({ "modules/clipboard": CustomClipboard }, true);
