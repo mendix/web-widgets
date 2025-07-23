@@ -1,4 +1,11 @@
-import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
+import {
+    DynamicValue,
+    EditableValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListWidgetValue,
+    ObjectItem
+} from "mendix";
 import { ReactNode, createElement } from "react";
 import { OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { CaptionPlacement, CaptionsProvider } from "../types";
@@ -19,6 +26,7 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
     protected customContent?: ListWidgetValue;
     protected customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     attribute?: ListAttributeValue<string | Big>;
+    value?: DynamicValue<string> | EditableValue<string>;
     emptyCaption = "";
     overrideCaption: string | null | undefined = undefined;
 
@@ -55,12 +63,12 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
         if (!item) {
             return this.unavailableCaption;
         }
-        const captionValue = this.formatter?.get(item);
-        if (captionValue?.status === "unavailable") {
+        this.value = this.formatter?.get(item);
+        if (this.value?.status === "unavailable") {
             return this.unavailableCaption;
         }
 
-        return captionValue?.value ?? "";
+        return this.value?.value ?? "";
     }
 
     getCustomContent(value: string | null): ReactNode | null {
