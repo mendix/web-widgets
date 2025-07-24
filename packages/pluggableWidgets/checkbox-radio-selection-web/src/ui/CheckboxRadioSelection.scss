@@ -5,7 +5,7 @@
 
     &-readonly {
         &.widget-checkbox-radio-selection-readonly-text {
-            .widget-checkbox-radio-selection-radio-item {
+            .radio-item {
                 display: none;
 
                 &.widget-checkbox-radio-selection-radio-item-selected {
@@ -16,6 +16,17 @@
                     }
                 }
             }
+        }
+    }
+
+    &-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-item {
+        input {
+            vertical-align: middle;
         }
     }
 
