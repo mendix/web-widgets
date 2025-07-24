@@ -20,7 +20,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "10.7.0",
+        "minimumMXVersion": "10.22.0",
         "appNumber": 219304,
         "appName": "Combo box",
         "reactReady": true
