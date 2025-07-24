@@ -20,6 +20,7 @@ type DatasourceParamsControllerSpec = {
     query: QueryController;
     columns: Columns;
     customFilters: FiltersInput;
+    widgetName: string;
 };
 
 type FiltersMeta = {
@@ -34,13 +35,14 @@ export class DatasourceParamsController implements ReactiveController {
     private columns: Columns;
     private query: QueryController;
     private customFilters: FiltersInput;
-    readonly widgetName: string = "dataKey";
+    readonly widgetName: string;
 
     constructor(host: ReactiveControllerHost, spec: DatasourceParamsControllerSpec) {
         host.addController(this);
         this.columns = spec.columns;
         this.query = spec.query;
         this.customFilters = spec.customFilters;
+        this.widgetName = spec.widgetName;
 
         makeAutoObservable(this, { setup: false });
     }
@@ -137,7 +139,7 @@ export class DatasourceParamsController implements ReactiveController {
     }
 
     static storageKey(widgetName: string, hash: string): string {
-        return `${widgetName}:[${hash}]`;
+        return `[${widgetName}:${hash}]`;
     }
 
     static restoreMeta(filter: FilterCondition, widgetName: string): FiltersMeta | null {
