@@ -1,0 +1,16 @@
+// Checkbox Radio Selection Widget Styles
+.widget-checkbox-radio-selection.widget-checkbox-radio-selection-editor-preview {
+    .widget-checkbox-radio-selection-readonly {
+        &.widget-checkbox-radio-selection-readonly-text {
+            .widget-checkbox-radio-selection-radio-item {
+                display: block;
+
+                &.widget-checkbox-radio-selection-radio-item {
+                    input {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
