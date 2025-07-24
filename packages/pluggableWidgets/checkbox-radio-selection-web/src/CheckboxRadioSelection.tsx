@@ -22,7 +22,7 @@ export default function CheckboxRadioSelection(props: CheckboxRadioSelectionCont
     };
 
     return (
-        <div className="widget-checkbox-radio-selection">
+        <div className={`widget-checkbox-radio-selection`}>
             {selector.status === "unavailable" ? (
                 <Placeholder />
             ) : selector.type === "single" ? (
