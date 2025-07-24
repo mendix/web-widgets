@@ -35,7 +35,7 @@ export function useDownshiftSingleSelectProps(
                 if (
                     selector.onFilterInputChange &&
                     type &&
-                    (type === "__input_change__" || type.includes("input_change")) &&
+                    (type === "__input_change__" || type?.includes("input_change")) &&
                     inputValue &&
                     inputValue.trim().length > 0
                 ) {
