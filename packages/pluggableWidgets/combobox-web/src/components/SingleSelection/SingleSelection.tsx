@@ -44,7 +44,14 @@ export function SingleSelection({
 
     const selectedItemCaption = useMemo(
         () => selector.caption.render(selectedItem, "label"),
-        [selectedItem, selector.status, selector.caption.emptyCaption]
+        [
+            selectedItem,
+            selector.status,
+            selector.caption,
+            selector.caption.emptyCaption,
+            selector.currentId,
+            selector.caption.formatter
+        ]
     );
 
     return (

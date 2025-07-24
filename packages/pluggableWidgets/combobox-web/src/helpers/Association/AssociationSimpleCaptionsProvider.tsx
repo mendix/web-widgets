@@ -13,7 +13,7 @@ interface Props {
 
 export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
     private unavailableCaption = "<...>";
-    private formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
+    formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
     protected customContent?: ListWidgetValue;
     protected customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     emptyCaption = "";

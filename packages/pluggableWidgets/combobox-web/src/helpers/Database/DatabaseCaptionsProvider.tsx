@@ -15,7 +15,7 @@ interface Props {
 
 export class DatabaseCaptionsProvider implements CaptionsProvider {
     private unavailableCaption = "<...>";
-    private formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
+    formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
     protected customContent?: ListWidgetValue;
     protected customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     attribute?: ListAttributeValue<string | Big>;
@@ -56,7 +56,7 @@ export class DatabaseCaptionsProvider implements CaptionsProvider {
             return this.unavailableCaption;
         }
         const captionValue = this.formatter?.get(item);
-        if (captionValue?.status === "unavailable") {
+        if (!captionValue || captionValue.status === "unavailable") {
             return this.unavailableCaption;
         }
 
