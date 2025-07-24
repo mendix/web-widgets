@@ -8,7 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- We improved gallery widget pagination configuration to be similar with datagrid.
+- Similar to Data Grid 2, Gallery now can store filters and sort configurations in an attribute or browser. These new settings can be found in the "Personalization" tab.
+
+### Fixed
+
+- We fixed an issue where the default sort order was not being applied.
 
 ## [3.0.1] - 2025-07-01
 
