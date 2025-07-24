@@ -4,12 +4,17 @@ on:
     release:
         types: [published]
 
+    workflow_dispatch:
+        inputs:
+            package:
+                description: "Package name to release (name in package.json)"
+                required: true
 jobs:
     publish-new-version:
         name: "Publish a new package version from GitHub release"
         runs-on: ubuntu-latest
         env:
-            TAG: ${{ github.ref_name }}
+            TAG: ${{ github.event_name == 'release' && github.ref_name || github.event.inputs.package }}
 
         steps:
             - name: Check release tag
@@ -21,7 +26,7 @@ jobs:
                     exit 1
                   fi
             - name: "Set PACKAGE env var"
-              run: echo "PACKAGE=${TAG%-v*}" >> $GITHUB_ENV
+              run: echo "PACKAGE=@mendix/${TAG%-v*}" >> $GITHUB_ENV
             - name: Checkout
               uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
               with:
