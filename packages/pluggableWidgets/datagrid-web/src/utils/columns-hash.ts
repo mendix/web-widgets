@@ -1,24 +1,5 @@
-/* eslint-disable no-bitwise */
+import { fnv1aHash } from "@mendix/widget-plugin-grid/utils/fnv-1a-hash";
 import { GridColumn } from "../typings/GridColumn";
-
-/**
- * Generates 32 bit FNV-1a hash from the given string.
- * As explained here: http://isthe.com/chongo/tech/comp/fnv/
- *
- * @param s {string} String to generate hash from.
- * @param [h] {number} FNV-1a hash generation init value.
- * @returns {number} The result integer hash.
- */
-function hash(s: string, h = 0x811c9dc5): number {
-    const l = s.length;
-
-    for (let i = 0; i < l; i++) {
-        h ^= s.charCodeAt(i);
-        h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
-    }
-
-    return h >>> 0;
-}
 
 export function getHash(columns: GridColumn[], gridName: string): string {
     const data = JSON.stringify({
@@ -31,5 +12,5 @@ export function getHash(columns: GridColumn[], gridName: string): string {
             canDrag: col.canDrag
         }))
     });
-    return hash(data).toString();
+    return fnv1aHash(data).toString();
 }

@@ -38,7 +38,10 @@ export class RootGridStore extends BaseControllerHost {
         super();
 
         const { props } = gate;
-        const [columnsInitFilter, sharedInitFilter] = DatasourceParamsController.unzipFilter(props.datasource.filter);
+        const [columnsInitFilter, sharedInitFilter] = DatasourceParamsController.unzipFilter(
+            props.datasource.filter,
+            props.name
+        );
 
         this.gate = gate;
         this.staticInfo = {
@@ -63,7 +66,8 @@ export class RootGridStore extends BaseControllerHost {
         new DatasourceParamsController(this, {
             query,
             columns,
-            customFilters: customFilterHost
+            customFilters: customFilterHost,
+            widgetName: props.name
         });
 
         new RefreshController(this, {
