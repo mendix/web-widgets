@@ -4,17 +4,15 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, Option, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
+import { ActionValue, DynamicValue, ListValue, Option, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 
 export type TitleTypeEnum = "attribute" | "expression";
 
 export type ViewEnum = "standard" | "custom";
 
-export type EditableEnum = "default" | "never";
+export type DefaultViewStandardEnum = "day" | "week" | "month";
 
 export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda";
-
-export type DefaultViewStandardEnum = "day" | "week" | "month";
 
 export type WidthUnitEnum = "pixels" | "percentage";
 
@@ -39,18 +37,22 @@ export interface CalendarContainerProps {
     startAttribute?: ListAttributeValue<Date>;
     endAttribute?: ListAttributeValue<Date>;
     eventColor?: ListAttributeValue<string>;
+    startDateAttribute?: ListAttributeValue<Date>;
+    editable: DynamicValue<boolean>;
     view: ViewEnum;
-    editable: EditableEnum;
-    enableCreate: boolean;
-    showEventDate: boolean;
-    defaultViewCustom: DefaultViewCustomEnum;
     defaultViewStandard: DefaultViewStandardEnum;
-    startDateAttribute?: EditableValue<Date>;
+    defaultViewCustom: DefaultViewCustomEnum;
+    showEventDate: DynamicValue<boolean>;
     timeFormat?: DynamicValue<string>;
     minHour: number;
     maxHour: number;
-    customViewCaption?: DynamicValue<string>;
     showAllEvents: boolean;
+    customViewShowDay: boolean;
+    customViewShowWeek: boolean;
+    customViewShowCustomWeek: boolean;
+    customViewCaption?: DynamicValue<string>;
+    customViewShowMonth: boolean;
+    customViewShowAgenda: boolean;
     customViewShowMonday: boolean;
     customViewShowTuesday: boolean;
     customViewShowWednesday: boolean;
@@ -58,7 +60,6 @@ export interface CalendarContainerProps {
     customViewShowFriday: boolean;
     customViewShowSaturday: boolean;
     customViewShowSunday: boolean;
-    eventDataAttribute?: EditableValue<string>;
     onEditEvent?: ListActionValue;
     onCreateEvent?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date>; allDay: Option<boolean> }>;
     onDragDropResize?: ListActionValue<{ oldStart: Option<Date>; oldEnd: Option<Date>; newStart: Option<Date>; newEnd: Option<Date> }>;
@@ -93,18 +94,22 @@ export interface CalendarPreviewProps {
     startAttribute: string;
     endAttribute: string;
     eventColor: string;
-    view: ViewEnum;
-    editable: EditableEnum;
-    enableCreate: boolean;
-    showEventDate: boolean;
-    defaultViewCustom: DefaultViewCustomEnum;
-    defaultViewStandard: DefaultViewStandardEnum;
     startDateAttribute: string;
+    editable: string;
+    view: ViewEnum;
+    defaultViewStandard: DefaultViewStandardEnum;
+    defaultViewCustom: DefaultViewCustomEnum;
+    showEventDate: string;
     timeFormat: string;
     minHour: number | null;
     maxHour: number | null;
-    customViewCaption: string;
     showAllEvents: boolean;
+    customViewShowDay: boolean;
+    customViewShowWeek: boolean;
+    customViewShowCustomWeek: boolean;
+    customViewCaption: string;
+    customViewShowMonth: boolean;
+    customViewShowAgenda: boolean;
     customViewShowMonday: boolean;
     customViewShowTuesday: boolean;
     customViewShowWednesday: boolean;
@@ -112,7 +117,6 @@ export interface CalendarPreviewProps {
     customViewShowFriday: boolean;
     customViewShowSaturday: boolean;
     customViewShowSunday: boolean;
-    eventDataAttribute: string;
     onEditEvent: {} | null;
     onCreateEvent: {} | null;
     onDragDropResize: {} | null;
