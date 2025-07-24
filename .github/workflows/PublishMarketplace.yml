@@ -7,7 +7,7 @@ on:
     workflow_dispatch:
         inputs:
             package:
-                description: "Package name to release (name in package.json)"
+                description: "Release tag (e.g. data-widgets-v1.2.3)"
                 required: true
 jobs:
     publish-new-version:
