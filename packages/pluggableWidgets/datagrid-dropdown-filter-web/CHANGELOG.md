@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.3] - 2025-07-24
+
 ### Fixed
 
 - We fixed an issue where the "Use Lazy Load" flag was not being read properly. This caused the widget to always load lazily in association mode.

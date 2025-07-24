@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.1.0] - 2025-07-24
+
 ### Added
 
 - Similar to Data Grid 2, Gallery now can store filters and sort configurations in an attribute or browser. These new settings can be found in the "Personalization" tab.

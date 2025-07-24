@@ -6,10 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.1.0] DataWidgets - 2025-07-24
+
 ### Fixed
 
 - We fixed an issue where datagrid styling being overwritten by table styling from atlas core.
+
 - We fixed an issue where horizontal scrolling failed to show if width is too big.
+
+### [3.0.3] DatagridDropdownFilter
+
+#### Fixed
+
+- We fixed an issue where the "Use Lazy Load" flag was not being read properly. This caused the widget to always load lazily in association mode.
+
+### [3.1.0] Gallery
+
+#### Added
+
+- Similar to Data Grid 2, Gallery now can store filters and sort configurations in an attribute or browser. These new settings can be found in the "Personalization" tab.
+
+#### Fixed
+
+- We fixed an issue where the default sort order was not being applied.
 
 ## [3.0.2] DataWidgets - 2025-07-10
 
