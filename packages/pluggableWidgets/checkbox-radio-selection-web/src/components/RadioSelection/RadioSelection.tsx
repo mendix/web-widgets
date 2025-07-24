@@ -25,57 +25,51 @@ export function RadioSelection({
 
     return (
         <div
-            className={classNames("widget-checkbox-radio-selection-radio", {
+            className={classNames("widget-checkbox-radio-selection-list", {
                 "widget-checkbox-radio-selection-readonly": isReadOnly,
                 [`widget-checkbox-radio-selection-readonly-${readOnlyStyle}`]: isReadOnly
             })}
+            role="radiogroup"
+            aria-labelledby={`${inputId}-label`}
+            aria-required={ariaRequired?.value}
         >
-            <div
-                className="widget-checkbox-radio-selection-radio-list"
-                role="radiogroup"
-                aria-labelledby={`${inputId}-label`}
-                aria-required={ariaRequired?.value}
-            >
-                {options.map((optionId, index) => {
-                    const isSelected = currentId === optionId;
-                    const radioId = `${inputId}-radio-${index}`;
-                    return (
-                        <div
-                            key={optionId}
-                            className={classNames("widget-checkbox-radio-selection-radio-item", {
-                                "widget-checkbox-radio-selection-radio-item-selected": isSelected
-                            })}
+            {options.map((optionId, index) => {
+                const isSelected = currentId === optionId;
+                const radioId = `${inputId}-radio-${index}`;
+                return (
+                    <div
+                        key={optionId}
+                        className={classNames("widget-checkbox-radio-selection-item", "radio-item", {
+                            "widget-checkbox-radio-selection-item-selected": isSelected
+                        })}
+                    >
+                        <input
+                            type={selector.controlType}
+                            id={radioId}
+                            name={name}
+                            value={optionId}
+                            checked={isSelected}
+                            disabled={isReadOnly}
+                            tabIndex={tabIndex}
+                            onChange={handleChange}
+                        />
+                        <CaptionContent
+                            onClick={(e: MouseEvent<HTMLDivElement>) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                e.nativeEvent.stopImmediatePropagation();
+                                if (!isReadOnly) {
+                                    selector.setValue(optionId);
+                                }
+                            }}
+                            htmlFor={radioId}
                         >
-                            <input
-                                type={selector.controlType}
-                                id={radioId}
-                                name={name}
-                                value={optionId}
-                                checked={isSelected}
-                                disabled={isReadOnly}
-                                tabIndex={tabIndex}
-                                onChange={handleChange}
-                            />
-                            <CaptionContent
-                                onClick={(e: MouseEvent<HTMLDivElement>) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    e.nativeEvent.stopImmediatePropagation();
-                                    if (!isReadOnly) {
-                                        selector.setValue(optionId);
-                                    }
-                                }}
-                                htmlFor={radioId}
-                            >
-                                {selector.caption.render(optionId)}
-                            </CaptionContent>
-                        </div>
-                    );
-                })}
-                {options.length === 0 && (
-                    <div className="widget-checkbox-radio-selection-no-options">No options available</div>
-                )}
-            </div>
+                            {selector.caption.render(optionId)}
+                        </CaptionContent>
+                    </div>
+                );
+            })}
+            {options.length === 0 && <div className="widget-checkbox-radio-selection-no-options">{`<...>`}</div>}
         </div>
     );
 }
