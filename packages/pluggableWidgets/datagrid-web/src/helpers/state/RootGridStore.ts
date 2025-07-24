@@ -66,7 +66,8 @@ export class RootGridStore extends BaseControllerHost {
         new DatasourceParamsController(this, {
             query,
             columns,
-            customFilters: customFilterHost
+            customFilters: customFilterHost,
+            widgetName: props.name
         });
 
         new RefreshController(this, {
