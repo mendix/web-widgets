@@ -1,7 +1,7 @@
-import { exec } from "./shell";
-import { fetch } from "./fetch";
 import { mkdtemp, writeFile } from "fs/promises";
 import { join } from "path";
+import { fetch } from "./fetch";
+import { exec } from "./shell";
 
 interface GitHubReleaseInfo {
     title: string;
@@ -80,13 +80,22 @@ export class GitHub {
         await exec(command);
     }
 
+    get ghAPIHeaders(): Record<string, string> {
+        return {
+            "X-GitHub-Api-Version": "2022-11-28",
+            Authorization: `Bearer ${process.env.GH_PAT}`
+        };
+    }
+
     async getReleaseIdByReleaseTag(releaseTag: string): Promise<string | undefined> {
         console.log(`Searching for release from Github tag '${releaseTag}'`);
         try {
             const release =
                 (await fetch<{ id: string }>(
                     "GET",
-                    `https://api.github.com/repos/mendix/web-widgets/releases/tags/${releaseTag}`
+                    `https://api.github.com/repos/mendix/web-widgets/releases/tags/${releaseTag}`,
+                    undefined,
+                    { ...this.ghAPIHeaders }
                 )) ?? [];
 
             if (!release) {
@@ -115,7 +124,9 @@ export class GitHub {
                 name: string;
                 browser_download_url: string;
             }>
-        >("GET", `https://api.github.com/repos/mendix/web-widgets/releases/${releaseId}/assets`);
+        >("GET", `https://api.github.com/repos/mendix/web-widgets/releases/${releaseId}/assets`, undefined, {
+            ...this.ghAPIHeaders
+        });
     }
 
     async getMPKReleaseArtifactUrl(releaseTag: string): Promise<string> {
