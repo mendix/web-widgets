@@ -1,45 +1,19 @@
 import { ObjectItem } from "mendix";
-import {
-    CalendarProps as ReactCalendarProps,
-    DateLocalizer,
-    Formats,
-    NavigateAction,
-    ViewsProps
-} from "react-big-calendar";
-import { withDragAndDropProps } from "react-big-calendar/lib/addons/dragAndDrop";
-
+import { DateLocalizer, Formats, ViewsProps } from "react-big-calendar";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
 import { CustomToolbar } from "../components/Toolbar";
-import { eventPropGetter, getViewRange, localizer } from "../utils/calendar-utils";
+import { eventPropGetter, localizer } from "../utils/calendar-utils";
+import { CalendarEvent, DragAndDropCalendarProps } from "../utils/typings";
 import { CustomWeekController } from "./CustomWeekController";
 
-export interface CalendarEvent {
-    title: string;
-    start: Date;
-    end: Date;
-    allDay: boolean;
-    color?: string;
-    item: ObjectItem;
-}
-
-type EventDropOrResize = {
-    event: CalendarEvent;
-    start: Date;
-    end: Date;
-};
-
-interface DragAndDropCalendarProps<TEvent extends object = Event, TResource extends object = object>
-    extends ReactCalendarProps<TEvent, TResource>,
-        withDragAndDropProps<TEvent, TResource> {}
-
 export class CalendarPropsBuilder {
-    private readonly visibleDays: Set<number>;
-    private readonly defaultView: "month" | "week" | "work_week" | "day" | "agenda";
-    private readonly customCaption: string;
-    private readonly isCustomView: boolean;
-    private readonly events: CalendarEvent[];
-    private readonly minTime: Date;
-    private readonly maxTime: Date;
+    private visibleDays: Set<number>;
+    private defaultView: "month" | "week" | "work_week" | "day" | "agenda";
+    private customCaption: string;
+    private isCustomView: boolean;
+    private events: CalendarEvent[];
+    private minTime: Date;
+    private maxTime: Date;
 
     constructor(private props: CalendarContainerProps) {
         this.isCustomView = props.view === "custom";
@@ -51,12 +25,16 @@ export class CalendarPropsBuilder {
         this.maxTime = this.buildTime(props.maxHour ?? 24);
     }
 
+    updateProps(props: CalendarContainerProps): void {
+        // Update the props object, skipping props that are static (on construction only)
+        this.props = props;
+        this.customCaption = props.customViewCaption?.value ?? "Custom";
+        this.events = this.buildEvents(props.databaseDataSource?.items ?? []);
+    }
+
     build(): DragAndDropCalendarProps<CalendarEvent> {
-        const CustomWeek = CustomWeekController.getComponent(this.visibleDays);
         const formats = this.buildFormats();
-        const views: ViewsProps<CalendarEvent> = this.isCustomView
-            ? { day: true, week: true, month: true, work_week: CustomWeek, agenda: true }
-            : { day: true, week: true, month: true };
+        const views = this.buildVisibleViews();
 
         return {
             components: {
@@ -69,17 +47,14 @@ export class CalendarPropsBuilder {
             events: this.events,
             formats,
             localizer,
-            resizable: this.props.editable !== "never",
-            selectable: this.props.enableCreate,
+            resizable: this.props.editable.value ?? true,
+            selectable: this.props.editable.value ?? true,
             views,
             allDayAccessor: (event: CalendarEvent) => event.allDay,
             endAccessor: (event: CalendarEvent) => event.end,
             eventPropGetter,
-            onEventDrop: this.handleEventDropOrResize,
-            onEventResize: this.handleEventDropOrResize,
-            onNavigate: this.handleRangeChange,
-            onSelectEvent: this.handleEditEvent,
-            onSelectSlot: this.handleCreateEvent,
+            // @ts-expect-error – navigatable prop not yet in typings but exists in runtime component
+            navigatable: true,
             startAccessor: (event: CalendarEvent) => event.start,
             titleAccessor: (event: CalendarEvent) => event.title,
             showAllEvents: this.props.showAllEvents,
@@ -117,7 +92,7 @@ export class CalendarPropsBuilder {
     private buildFormats(): Formats {
         const formats: Formats = {};
 
-        if (this.props.showEventDate === false) {
+        if (this.props.showEventDate?.value === false) {
             formats.eventTimeRangeFormat = () => "";
         }
 
@@ -171,49 +146,24 @@ export class CalendarPropsBuilder {
         return new Set(visibleDays);
     }
 
-    private handleEventDropOrResize = ({ event, start, end }: EventDropOrResize): void => {
-        const action = this.props.onDragDropResize?.get(event.item);
-
-        if (action?.canExecute) {
-            action.execute({
-                oldStart: event.start,
-                oldEnd: event.end,
-                newStart: start,
-                newEnd: end
-            });
+    private buildVisibleViews(): ViewsProps<CalendarEvent> {
+        if (this.isCustomView) {
+            const {
+                customViewShowDay,
+                customViewShowWeek,
+                customViewShowMonth,
+                customViewShowAgenda,
+                customViewShowCustomWeek
+            } = this.props;
+            return {
+                day: customViewShowDay,
+                week: customViewShowWeek,
+                work_week: customViewShowCustomWeek ? CustomWeekController.getComponent(this.visibleDays) : false,
+                month: customViewShowMonth,
+                agenda: customViewShowAgenda
+            };
+        } else {
+            return { day: true, week: true, month: true };
         }
-    };
-
-    private handleRangeChange = (date: Date, view: string, _action: NavigateAction): void => {
-        const action = this.props.onViewRangeChange;
-
-        if (action?.canExecute) {
-            const { start, end } = getViewRange(view, date);
-            action.execute({
-                rangeStart: start,
-                rangeEnd: end,
-                currentView: view
-            });
-        }
-    };
-
-    private handleEditEvent = (event: CalendarEvent): void => {
-        const action = this.props.onEditEvent?.get(event.item);
-
-        if (action?.canExecute) {
-            action.execute();
-        }
-    };
-
-    private handleCreateEvent = (slotInfo: { start: Date; end: Date; action: string }): void => {
-        const action = this.props.onCreateEvent;
-
-        if (action?.canExecute && this.props.enableCreate) {
-            action?.execute({
-                startDate: slotInfo.start,
-                endDate: slotInfo.end,
-                allDay: slotInfo.action === "select"
-            });
-        }
-    };
+    }
 }
