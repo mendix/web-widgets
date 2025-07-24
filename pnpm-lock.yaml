@@ -445,7 +445,7 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
       '@happy-dom/jest-environment':
@@ -544,7 +544,7 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
       '@happy-dom/jest-environment':
@@ -618,7 +618,7 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
       '@happy-dom/jest-environment':
@@ -882,7 +882,7 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
       '@happy-dom/jest-environment':
@@ -974,7 +974,7 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
       '@happy-dom/jest-environment':
@@ -1530,7 +1530,7 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
       plotly.js-dist-min:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
       '@happy-dom/jest-environment':
@@ -1657,7 +1657,7 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
       '@happy-dom/jest-environment':
@@ -1795,7 +1795,7 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
       plotly.js-dist-min:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
       '@happy-dom/jest-environment':
@@ -2230,7 +2230,7 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
       '@happy-dom/jest-environment':
@@ -2388,7 +2388,7 @@ importers:
         specifier: ^4.3.1
         version: 4.3.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.1
       react-plotly.js:
         specifier: ^2.6.0
