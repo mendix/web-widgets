@@ -314,24 +314,24 @@
 
         <propertyGroup caption="Events">
             <property key="onChangeEvent" type="action" required="false">
-                <caption>On change action</caption>
+                <caption>On change</caption>
                 <description />
             </property>
             <property key="onChangeDatabaseEvent" type="action" required="false">
-                <caption>On change action</caption>
+                <caption>On change</caption>
                 <description />
             </property>
             <property key="onEnterEvent" type="action" required="false">
-                <caption>On enter action</caption>
+                <caption>On enter</caption>
                 <description />
             </property>
             <property key="onLeaveEvent" type="action" required="false">
-                <caption>On leave action</caption>
+                <caption>On leave</caption>
                 <description />
             </property>
 
             <property key="onChangeFilterInputEvent" type="action" required="false">
-                <caption>On change filter input</caption>
+                <caption>On filter input change</caption>
                 <description />
                 <actionVariables>
                     <actionVariable key="filterInput" caption="Filter Input" type="String" />
