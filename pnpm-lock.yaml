@@ -2498,8 +2498,8 @@ importers:
   packages/shared/filter-commons:
     dependencies:
       mendix:
-        specifier: ^10.23.70273
-        version: 10.23.70273
+        specifier: ^10.24.75382
+        version: 10.24.75382
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -2588,8 +2588,8 @@ importers:
         specifier: ^9.0.9
         version: 9.0.9(react@18.2.0)
       mendix:
-        specifier: ^10.23.70273
-        version: 10.23.70273
+        specifier: ^10.24.75382
+        version: 10.24.75382
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -2662,8 +2662,8 @@ importers:
         specifier: ^9.0.8
         version: 9.0.8(react@18.2.0)
       mendix:
-        specifier: 10.23.70273
-        version: 10.23.70273
+        specifier: 10.24.75382
+        version: 10.24.75382
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -2850,8 +2850,8 @@ importers:
   packages/shared/widget-plugin-test-utils:
     dependencies:
       mendix:
-        specifier: 10.23.70273
-        version: 10.23.70273
+        specifier: 10.24.75382
+        version: 10.24.75382
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -8626,6 +8626,9 @@ packages:
 
   mendix@10.23.70273:
     resolution: {integrity: sha512-/CpzhOX3bGA0IFQrOxmhkjQxLA5qzvwE4b04vlad7vjKJazkJLmWWD8gdPHGXQ67C59uddNU9tZ4oOy+3f2wFw==}
+
+  mendix@10.24.75382:
+    resolution: {integrity: sha512-ICMxqkWUejsc3KeFD9BJYvC+T4soi/NB2iapwWPC7oN0lCrFx36upzwI4rU77oMdRHsrVSsFVYLBy7sJJOABHw==}
 
   meow@12.1.1:
     resolution: {integrity: sha512-BhXM0Au22RwUneMPwSCnyhTOizdWoIEPU9sp0Aqa1PnDMR5Wv2FGXYDjuzJEIX+Eo2Rb8xuYe5jrnm5QowQFkw==}
@@ -18981,6 +18984,11 @@ snapshots:
       '@types/dojo': 1.9.44
 
   mendix@10.23.70273:
+    dependencies:
+      '@types/big.js': 6.2.2
+      '@types/react': 18.2.36
+
+  mendix@10.24.75382:
     dependencies:
       '@types/big.js': 6.2.2
       '@types/react': 18.2.36
