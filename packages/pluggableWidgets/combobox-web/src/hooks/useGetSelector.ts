@@ -1,41 +1,31 @@
-import { useRef, useState, useCallback } from "react";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
+import { useMemo, useRef, useState } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import { getSelector } from "../helpers/getSelector";
 import { Selector } from "../helpers/types";
 
+function onInputValueChange(
+    onChangeFilterInputEvent: ComboboxContainerProps["onChangeFilterInputEvent"],
+    filterValue?: string
+): void {
+    if (!onChangeFilterInputEvent) {
+        return;
+    }
+    if (onChangeFilterInputEvent.canExecute && !onChangeFilterInputEvent.isExecuting) {
+        onChangeFilterInputEvent.execute({
+            filterInput: filterValue
+        });
+    }
+}
+
 export function useGetSelector(props: ComboboxContainerProps): Selector {
     const selectorRef = useRef<Selector | undefined>(undefined);
     const [, setInput] = useState({});
-    const debounceTimeoutRef = useRef<NodeJS.Timeout>();
-    const lastExecutedValueRef = useRef<string>("");
-
-    const onFilterInputChange = useCallback(
-        (filterValue: string) => {
-            if (!props.onChangeFilterInputEvent) {
-                return;
-            }
-
-            if (lastExecutedValueRef.current === filterValue) {
-                return;
-            }
-
-            if (debounceTimeoutRef.current) {
-                clearTimeout(debounceTimeoutRef.current);
-            }
-
-            debounceTimeoutRef.current = setTimeout(() => {
-                lastExecutedValueRef.current = filterValue;
-                try {
-                    if (props.onChangeFilterInputEvent?.canExecute && !props.onChangeFilterInputEvent?.isExecuting) {
-                        props.onChangeFilterInputEvent.execute({
-                            filterInput: filterValue
-                        });
-                    }
-                } catch (error) {
-                    console.error("Error executing onChangeFilterInputEvent:", error);
-                }
-            }, 300);
-        },
+    const [onFilterChangeDebounce] = useMemo(
+        () =>
+            debounce((filterValue?: string) => {
+                onInputValueChange(props.onChangeFilterInputEvent, filterValue);
+            }, 200),
         [props.onChangeFilterInputEvent]
     );
 
@@ -43,8 +33,8 @@ export function useGetSelector(props: ComboboxContainerProps): Selector {
         selectorRef.current = getSelector(props);
         selectorRef.current.options.onAfterSearchTermChange(() => setInput({}));
     }
+    selectorRef.current.onFilterInputChange = onFilterChangeDebounce;
     selectorRef.current.updateProps(props);
-    selectorRef.current.onFilterInputChange = onFilterInputChange;
 
     return selectorRef.current;
 }

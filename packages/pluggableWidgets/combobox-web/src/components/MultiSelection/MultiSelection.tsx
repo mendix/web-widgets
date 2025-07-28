@@ -16,11 +16,7 @@ export function MultiSelection({
     a11yConfig,
     menuFooterContent,
     ariaRequired,
-    labelId,
-    inputId,
-    ariaLabel,
-    readOnlyStyle,
-    noOptionsText
+    ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const {
         isOpen,
@@ -37,11 +33,11 @@ export function MultiSelection({
         items,
         setSelectedItems,
         toggleSelectedItem
-    } = useDownshiftMultiSelectProps(selector, { inputId, labelId }, a11yConfig.a11yStatusMessage);
+    } = useDownshiftMultiSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
-    const inputLabel = getInputLabel(inputId);
+    const inputLabel = getInputLabel(options.inputId);
     const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
     const inputProps = getInputProps({
         ...getDropdownProps(
@@ -69,7 +65,7 @@ export function MultiSelection({
         disabled: selector.readOnly,
         readOnly: selector.options.filterType === "none",
         "aria-required": ariaRequired.value,
-        "aria-label": !hasLabel && ariaLabel ? ariaLabel : undefined
+        "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined
     });
 
     const memoizedselectedCaptions = useMemo(
@@ -95,7 +91,7 @@ export function MultiSelection({
             <ComboboxWrapper
                 isOpen={isOpen}
                 readOnly={selector.readOnly}
-                readOnlyStyle={readOnlyStyle}
+                readOnlyStyle={options.readOnlyStyle}
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
                 isLoading={lazyLoading && selector.options.isLoading}
@@ -172,7 +168,7 @@ export function MultiSelection({
                         <SelectAllButton
                             disabled={items.length === 0}
                             value={isOptionsSelected}
-                            id={`${inputId}-select-all-button`}
+                            id={`${options.inputId}-select-all-button`}
                             ariaLabel={a11yConfig.ariaLabels.selectAll}
                             onChange={() => {
                                 if (isOptionsSelected === "all") {
@@ -185,7 +181,7 @@ export function MultiSelection({
                     ) : undefined
                 }
                 menuFooterContent={menuFooterContent}
-                inputId={inputId}
+                inputId={options.inputId}
                 selector={selector}
                 isOpen={isOpen}
                 highlightedIndex={highlightedIndex}
@@ -193,7 +189,7 @@ export function MultiSelection({
                 getItemProps={getItemProps}
                 getMenuProps={getMenuProps}
                 selectedItems={selectedItems}
-                noOptionsText={noOptionsText}
+                noOptionsText={options.noOptionsText}
                 onOptionClick={() => {
                     inputRef.current?.focus();
                 }}

@@ -79,7 +79,7 @@ interface SelectorBase<T, V> {
 
     onEnterEvent?: () => void;
     onLeaveEvent?: () => void;
-    onFilterInputChange?: (filterValue: string) => void;
+    onFilterInputChange?: (filterValue?: string) => void;
 }
 
 export interface SingleSelector extends SelectorBase<"single", string> {}
