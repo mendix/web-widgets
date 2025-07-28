@@ -27,7 +27,7 @@ export function SingleSelection({
         reset,
         isOpen,
         highlightedIndex
-    } = useDownshiftSingleSelectProps(selector, { ...options }, a11yConfig.a11yStatusMessage);
+    } = useDownshiftSingleSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
     const lazyLoading = selector.lazyLoading ?? false;
     const { onScroll } = useLazyLoading({

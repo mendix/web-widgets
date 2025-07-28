@@ -7,7 +7,7 @@ import {
     useCombobox
 } from "downshift";
 
-import { useMemo, useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { A11yStatusMessage, SingleSelector } from "../helpers/types";
 
 interface Options {
@@ -29,16 +29,10 @@ export function useDownshiftSingleSelectProps(
             onSelectedItemChange({ selectedItem }: UseComboboxStateChange<string>) {
                 selector.setValue(selectedItem ?? null);
             },
-            onInputValueChange({ inputValue, type }) {
+            onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
 
-                if (
-                    selector.onFilterInputChange &&
-                    type &&
-                    (type === "__input_change__" || type?.includes("input_change")) &&
-                    inputValue &&
-                    inputValue.trim().length > 0
-                ) {
+                if (selector.onFilterInputChange) {
                     selector.onFilterInputChange(inputValue!);
                 }
             },
