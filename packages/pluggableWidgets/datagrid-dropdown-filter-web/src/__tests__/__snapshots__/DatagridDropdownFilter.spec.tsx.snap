@@ -7,7 +7,7 @@ exports[`Dropdown Filter with single instance with single attribute renders corr
     aria-controls="downshift-:r0:-menu"
     aria-expanded="false"
     aria-haspopup="listbox"
-    aria-label="Select"
+    aria-label="AriaLabel"
     class="widget-dropdown-filter form-control variant-select filter-custom-class"
     data-empty="true"
     data-expanded="false"
