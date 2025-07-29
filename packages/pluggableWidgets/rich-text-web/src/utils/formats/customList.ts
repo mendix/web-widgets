@@ -14,6 +14,7 @@ export default class CustomListItem extends ListItem {
                 this.domNode.setAttribute("data-list", "ordered");
             } else {
                 this.domNode.setAttribute("data-list", value);
+                this.domNode.removeAttribute("data-custom-list");
             }
         } else {
             super.format(name, value);
@@ -27,6 +28,7 @@ export default class CustomListItem extends ListItem {
             node.setAttribute("data-list", "ordered");
         } else {
             node.setAttribute("data-list", value);
+            node.removeAttribute("data-custom-list");
         }
         node.setAttribute("title", this.blotName);
         return node;
