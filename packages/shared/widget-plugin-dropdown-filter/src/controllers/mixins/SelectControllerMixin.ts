@@ -88,18 +88,6 @@ export function SelectControllerMixin<TBase extends BaseController>(Base: TBase)
             if (this.multiselect) {
                 props.stateReducer = (state, { changes, type }) => {
                     switch (type) {
-                        case useSelect.stateChangeTypes.ToggleButtonClick:
-                            if (state.isOpen) {
-                                return {
-                                    ...changes,
-                                    isOpen: true,
-                                    highlightedIndex: state.highlightedIndex
-                                };
-                            }
-
-                            return {
-                                ...changes
-                            };
                         case useSelect.stateChangeTypes.ToggleButtonKeyDownEnter:
                         case useSelect.stateChangeTypes.ToggleButtonKeyDownSpaceButton:
                         case useSelect.stateChangeTypes.ItemClick:
