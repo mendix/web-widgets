@@ -57,7 +57,7 @@ test.describe("gallery-web", () => {
 
         test("filters by enum (dropdown)", async ({ page }) => {
             const gallery = page.locator(".mx-name-gallery1");
-            const dropdown = gallery.getByRole("combobox", { name: "Select a role" });
+            const dropdown = gallery.getByRole("combobox", { name: "Role filter" });
 
             await dropdown.click({ delay: 1 });
             await dropdown.getByRole("listbox").getByRole("option", { name: "QA Engineer" }).click({ delay: 1 });
