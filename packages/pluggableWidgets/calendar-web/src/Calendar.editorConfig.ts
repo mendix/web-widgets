@@ -81,7 +81,7 @@ export function getPreview(_values: CalendarPreviewProps, isDarkMode: boolean): 
         borders: true
     })(
         rowLayout({
-            columnSize: "grow",
+            columnSize: "fixed",
             padding: 6
         })(
             {
