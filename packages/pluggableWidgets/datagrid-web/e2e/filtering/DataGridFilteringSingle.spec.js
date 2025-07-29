@@ -25,10 +25,10 @@ test.describe("datagrid-web filtering single select", () => {
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const booleanSelect = () => page.locator(".mx-name-drop_downFilter2").getByRole("combobox");
+        const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
 
         await booleanSelect().click();
-        await option("Yes").click();
+        await option("Yes").click({ delay: 1 });
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(11);
         const columnTexts = await column(3).allTextContents();
@@ -40,7 +40,7 @@ test.describe("datagrid-web filtering single select", () => {
             return page.locator('.mx-name-dataGrid21 [role="row"]');
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
-        const booleanSelect = () => page.locator(".mx-name-drop_downFilter2").getByRole("combobox");
+        const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
 
         await booleanSelect().click();
 
@@ -57,10 +57,10 @@ test.describe("datagrid-web filtering single select", () => {
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const booleanSelect = () => page.locator(".mx-name-drop_downFilter2").getByRole("combobox");
+        const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
 
         await booleanSelect().click();
-        await option("Yes").click();
+        await option("Yes").click({ delay: 1 });
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(11);
         await expect(await column(3).allTextContents()).toEqual(
@@ -80,10 +80,10 @@ test.describe("datagrid-web filtering single select", () => {
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const enumSelect = () => page.locator(".mx-name-drop_downFilter1").getByRole("combobox");
+        const enumSelect = () => page.locator('.mx-name-drop_downFilter1[role="combobox"]');
 
         await enumSelect().click();
-        await option("Cyan").click();
+        await option("Cyan").click({ delay: 1 });
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(6);
         const columnTexts = await column(2).allTextContents();
@@ -96,10 +96,10 @@ test.describe("datagrid-web filtering single select", () => {
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const enumSelect = () => page.locator(".mx-name-drop_downFilter1").getByRole("combobox");
+        const enumSelect = () => page.locator('.mx-name-drop_downFilter1[role="combobox"]');
 
         await enumSelect().click();
-        await option("Black").click();
+        await option("Black").click({ delay: 1 });
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(9);
         const columnTexts = await column(2).allTextContents();
@@ -112,12 +112,12 @@ test.describe("datagrid-web filtering single select", () => {
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const roleSelect = () => page.locator(".mx-name-drop_downFilter3").getByRole("combobox");
+        const roleSelect = () => page.locator('.mx-name-drop_downFilter3[role="combobox"]');
 
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(11);
         await roleSelect().click();
-        await option("Trader").click();
+        await option("Trader").click({ delay: 1 });
         const rowCount2 = await rows();
         await expect(rowCount2).toHaveCount(8);
         const columnTexts = await column(4).allTextContents();
@@ -130,12 +130,12 @@ test.describe("datagrid-web filtering single select", () => {
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const companySelect = () => page.locator(".mx-name-drop_downFilter4").getByRole("combobox");
+        const companySelect = () => page.locator('.mx-name-drop_downFilter4[role="combobox"]');
 
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(11);
         await companySelect().click();
-        await option("PETsMART Inc").click();
+        await option("PETsMART Inc").click({ delay: 1 });
         const rowCount2 = await rows();
         await expect(rowCount2).toHaveCount(9);
         const columnTexts = await column(5).allTextContents();

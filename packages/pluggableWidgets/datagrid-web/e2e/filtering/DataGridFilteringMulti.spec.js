@@ -12,7 +12,7 @@ test.describe("datagrid-web filtering multi select", () => {
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const enumSelect = () => page.locator(".mx-name-drop_downFilter1 [role=combobox]");
+        const enumSelect = () => page.locator(".mx-name-drop_downFilter1[role=combobox]");
         const rowCount = await rows();
         await page.goto("/p/filtering-multi");
         await page.waitForLoadState("networkidle");
@@ -20,9 +20,9 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(await column(2).first()).toHaveText("Black");
         await expect(await column(2).last()).toHaveText("Blue");
         await enumSelect().click();
-        await option("Pink").click();
+        await option("Pink").click({ delay: 1 });
         await expect(await rows()).toHaveCount(6);
-        await option("Blush").click();
+        await option("Blush").click({ delay: 1 });
         await expect(await rows()).toHaveCount(8);
         await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click();
         const columnText = await column(2).allTextContents();
@@ -37,7 +37,7 @@ test.describe("datagrid-web filtering multi select", () => {
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const roleSelect = () => page.locator(".mx-name-drop_downFilter3 [role=combobox]");
+        const roleSelect = () => page.locator(".mx-name-drop_downFilter3[role=combobox]");
         const expectedColumnText = [
             "EconomistArmed forces officerTraderHealth service manager",
             "EconomistArmed forces officerTrader",
@@ -53,11 +53,12 @@ test.describe("datagrid-web filtering multi select", () => {
         await page.waitForLoadState("networkidle");
         await expect(await column(3).first()).toHaveText(expectedColumnText[0]);
         await roleSelect().click();
-        await option("Economist").click();
+        await option("Economist").click({ delay: 1 });
         await expect(await rows()).toHaveCount(6);
-        await option("Public librarian").click();
+        await option("Public librarian").click({ delay: 1 });
         await expect(await rows()).toHaveCount(10);
-        await roleSelect().click();
+        await roleSelect().click({ delay: 1 });
+        await page.waitForTimeout(300);
         const columnTexts = await column(3).allTextContents();
         expectedColumnText.forEach((text, index) => {
             expect(columnTexts[index]).toBe(text);
@@ -70,7 +71,7 @@ test.describe("datagrid-web filtering multi select", () => {
         };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
-        const companySelect = () => page.locator(".mx-name-drop_downFilter4 [role=combobox]");
+        const companySelect = () => page.locator(".mx-name-drop_downFilter4[role=combobox]");
 
         const rowCount = await rows();
         await page.goto("/p/filtering-multi");
@@ -78,12 +79,13 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(rowCount).toHaveCount(11);
         await expect(await column(4).first()).toHaveText("W.R. Berkley Corporation");
         await expect(await column(4).last()).toHaveText("PETsMART Inc");
-        await companySelect().click();
-        await option("FMC Corp").click();
+        await companySelect().click({ delay: 1 });
+        await option("FMC Corp").click({ delay: 1 });
         await expect(await rows()).toHaveCount(2);
-        await option("ALLETE, Inc.").click();
+        await option("ALLETE, Inc.").click({ delay: 1 });
         await expect(await rows()).toHaveCount(6);
-        await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click();
+        await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click({ delay: 1 });
+        await page.waitForTimeout(300);
         const columnText = await column(4).allTextContents();
         expect(columnText).toEqual(
             expect.arrayContaining(["ALLETE, Inc.", "FMC Corp", "ALLETE, Inc.", "ALLETE, Inc.", "ALLETE, Inc."])

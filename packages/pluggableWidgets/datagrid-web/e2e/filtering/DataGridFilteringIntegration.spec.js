@@ -31,19 +31,19 @@ test("datagrid-web filtering integration", async ({ page }) => {
 
     await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click();
     //await select("Color (enum)").click();
-    await page.locator(`[role="option"]:has-text("Black")`).click();
+    await page.locator(`[role="option"]:has-text("Black")`).click({ delay: 1 });
     //await option("Black").click();
     await expect(await rows()).toHaveCount(4);
 
     await page.getByRole("columnheader", { name: "Roles (ref set)" }).getByRole("combobox").click();
     //await select("Roles (ref set)").click();
-    await page.locator(`[role="option"]:has-text("Careers adviser")`).click();
+    await page.locator(`[role="option"]:has-text("Careers adviser")`).click({ delay: 1 });
     //await option("Careers adviser").click();
     await expect(await rows()).toHaveCount(3);
 
     await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click();
     //await select("Company").click();
-    await page.locator(`[role="option"]:has-text("Sierra Health Services Inc")`).click();
+    await page.locator(`[role="option"]:has-text("Sierra Health Services Inc")`).click({ delay: 1 });
     //await option("Sierra Health Services Inc").click();
     await expect(await rows()).toHaveCount(2);
 
