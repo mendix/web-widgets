@@ -1,6 +1,6 @@
 # Converting a Pluggable Widget into a Mendix **Module**
 
-This guide captures the workflow we followed in chat to turn **@mendix/calendar-web** (a standalone widget) into **@mendix/calendar** (a full-fledged module that ships pages, domain model, microflows _and_ the widget). It mirrors the conventions used by the automation scripts in this mono-repo (`automation/utils`).
+This guide documents a repeatable workflow for converting any pluggable widget package (for example, **@mendix/calendar-web**) into a Mendix **Module** package (for example, **@mendix/calendar**). The resulting module bundles pages, domain model, microflows and the widget itself. The steps below align with the automation scripts located in `automation/utils` within this repository.
 
 ---
 
