@@ -1,12 +1,13 @@
 import { createElement } from "react";
 import { Carousel, CarouselProps } from "../Carousel";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { GUID } from "mendix";
 
-beforeEach(() => {
-    jest.resetAllMocks();
-});
 describe("Carousel", () => {
+    beforeEach(() => {
+        jest.resetAllMocks();
+        jest.spyOn(Math, "random").mockReturnValue(0.123456789);
+    });
     const defaultCarouselProps: CarouselProps = {
         id: "Carousel",
         className: "",
@@ -24,18 +25,21 @@ describe("Carousel", () => {
     };
 
     it("renders correctly", () => {
-        const carousel = renderer.create(<Carousel {...defaultCarouselProps} />);
+        const { asFragment } = render(<Carousel {...defaultCarouselProps} />);
 
-        expect(carousel).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
     });
     it("renders correctly without pagination", () => {
-        const carousel = renderer.create(<Carousel {...defaultCarouselProps} pagination={false} />);
+        const { asFragment } = render(<Carousel {...defaultCarouselProps} pagination={false} />);
 
-        expect(carousel).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
     });
     it("renders correctly without navigation", () => {
-        const carousel = renderer.create(<Carousel {...defaultCarouselProps} navigation={false} />);
+        const { asFragment } = render(<Carousel {...defaultCarouselProps} navigation={false} />);
 
-        expect(carousel).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
+    });
+    afterEach(() => {
+        jest.restoreAllMocks();
     });
 });
