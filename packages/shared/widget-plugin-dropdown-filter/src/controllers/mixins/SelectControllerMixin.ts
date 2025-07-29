@@ -101,11 +101,17 @@ export function SelectControllerMixin<TBase extends BaseController>(Base: TBase)
                                 ...changes
                             };
                         case useSelect.stateChangeTypes.ToggleButtonKeyDownEnter:
+                        case useSelect.stateChangeTypes.ToggleButtonKeyDownSpaceButton:
                         case useSelect.stateChangeTypes.ItemClick:
                             return {
                                 ...changes,
                                 isOpen: true,
                                 highlightedIndex: state.highlightedIndex
+                            };
+                        case useSelect.stateChangeTypes.ToggleButtonBlur:
+                            return {
+                                ...changes,
+                                selectedItem: null
                             };
                         default:
                             return changes;

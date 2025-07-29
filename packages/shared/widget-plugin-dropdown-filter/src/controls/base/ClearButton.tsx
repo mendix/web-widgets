@@ -14,7 +14,9 @@ type ClearButtonProps = {
 };
 
 const stopKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+    if (e.key === "Enter" || e.key === " ") {
+        e.stopPropagation();
+    }
 };
 
 export function ClearButton(props: ClearButtonProps): ReactElement | null {
