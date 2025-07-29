@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.8.1] - 2025-07-29
+
 ### Fixed
 
 - We fixed an issue where rich text table failed to properly functions if the widget is placed inside a table structure.
+
 - We fixed an issue where rich text list-style-type format incorrectly parsed.
 
 ## [4.8.0] - 2025-07-01
