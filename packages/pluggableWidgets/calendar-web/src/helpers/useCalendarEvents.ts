@@ -28,6 +28,24 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
         [onEditEvent]
     );
 
+    const invokeCreate = useCallback(
+        (slotInfo: { start: Date; end: Date; action: string }) => {
+            const action = onCreateEvent;
+
+            if (action?.canExecute && editable?.value === true) {
+                // An event is considered "all day" when the duration is an exact multiple of 24 hours.
+                const isAllDay =
+                    ((slotInfo.end.getTime() - slotInfo.start.getTime()) / (24 * 60 * 60 * 1000)) % 1 === 0;
+                action.execute({
+                    startDate: slotInfo.start,
+                    endDate: slotInfo.end,
+                    allDay: isAllDay
+                });
+            }
+        },
+        [onCreateEvent, editable]
+    );
+
     // https://github.com/jquense/react-big-calendar/blob/master/stories/props/onSelectEvent.stories.js
     const handleSelectEvent = useCallback(
         (event: CalendarEvent) => {
@@ -55,6 +73,7 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
 
             clickRef.current = setTimeout(() => {
                 invokeEdit(event);
+                setSelected(event);
             }, 250);
         },
         [invokeEdit]
@@ -62,6 +81,9 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
 
     const handleKeyPressEvent = useCallback(
         (event: CalendarEvent, e: any) => {
+            if (clickRef?.current) {
+                clearTimeout(clickRef.current);
+            }
             if (e.key === "Enter" && selected?.item.id === event.item.id) {
                 invokeEdit(event);
             }
@@ -71,20 +93,12 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
 
     const handleCreateEvent = useCallback(
         (slotInfo: { start: Date; end: Date; action: string }) => {
-            const action = onCreateEvent;
-
-            if (action?.canExecute && editable?.value === true) {
-                // is all day : if the difference between start and end is a multiple of 24 hours
-                const isAllday =
-                    ((slotInfo.end.getTime() - slotInfo.start.getTime()) / (24 * 60 * 60 * 1000)) % 1 === 0;
-                action?.execute({
-                    startDate: slotInfo.start,
-                    endDate: slotInfo.end,
-                    allDay: isAllday
-                });
+            setSelected(null);
+            if (!selected) {
+                invokeCreate(slotInfo);
             }
         },
-        [onCreateEvent, editable]
+        [invokeCreate, selected]
     );
 
     const handleEventDropOrResize = useCallback(
