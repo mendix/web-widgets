@@ -150,9 +150,9 @@ $root: ".widget-dropdown-filter";
             border-inline-end: 1px solid var(--gray, #787d87);
         }
 
-        &:focus {
-            border-radius: 2px;
-            outline: 2px solid var(--brand-primary, $brand-primary);
+        &:focus-visible {
+            outline-offset: -2px;
+            outline: var(--brand-primary, $brand-primary) solid 1px;
         }
     }
 
