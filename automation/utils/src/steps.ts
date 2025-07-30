@@ -1,6 +1,5 @@
-import { writeFile, readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { dirname, join, parse, relative, resolve } from "path";
-import { fgYellow } from "./ansi-colors";
 import {
     CommonBuildConfig,
     getModuleConfigs,
@@ -13,7 +12,8 @@ import { copyMpkFiles, getMpkPaths } from "./monorepo";
 import { createModuleMpkInDocker } from "./mpk";
 import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
 import { addFilesToPackageXml, PackageType } from "./package-xml";
-import { cp, ensureFileExists, exec, mkdir, popd, pushd, rm, unzip, zip, chmod } from "./shell";
+import { chmod, cp, ensureFileExists, exec, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
+import chalk from "chalk";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
@@ -210,9 +210,9 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
     logStep("Push update to test project");
 
     if (!process.env.CI) {
-        console.warn(fgYellow("You run script in non CI env"));
-        console.warn(fgYellow("Set CI=1 in your env if you want to push changes to remote test project"));
-        console.warn(fgYellow("Skip push step"));
+        console.warn(chalk.yellow("You run script in non CI env"));
+        console.warn(chalk.yellow("Set CI=1 in your env if you want to push changes to remote test project"));
+        console.warn(chalk.yellow("Skip push step"));
         return;
     }
 
@@ -222,8 +222,8 @@ export async function pushUpdateToTestProject({ info, config }: ModuleStepParams
     const status = (await exec(`git status --porcelain`, { stdio: "pipe" })).stdout.trim();
 
     if (status === "") {
-        console.warn(fgYellow("Nothing to commit"));
-        console.warn(fgYellow("Skip push step"));
+        console.warn(chalk.yellow("Nothing to commit"));
+        console.warn(chalk.yellow("Skip push step"));
         return;
     }
 
