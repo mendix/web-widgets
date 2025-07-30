@@ -121,8 +121,8 @@ export class FileUploaderStore {
 
     get maxFilesPerUpload(): number {
         const expressionValue = this._maxFilesPerUpload.value;
-        if (expressionValue && !isNaN(Number(expressionValue))) {
-            return Number(expressionValue);
+        if (expressionValue) {
+            return expressionValue.toNumber();
         }
         // Fallback to unlimited
         return 0;
@@ -153,7 +153,7 @@ export class FileUploaderStore {
 
         if (fileRejections.length && fileRejections[0].errors[0].code === "too-many-files") {
             this.setMessage(
-                this.translations.get("uploadFailureTooManyFilesMessage", this.maxFilesPerUpload?.toString() ?? "")
+                this.translations.get("uploadFailureTooManyFilesMessage", this.maxFilesPerUpload.toString())
             );
             return;
         }

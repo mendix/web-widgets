@@ -89,8 +89,6 @@ export function check(values: FileUploaderPreviewProps): Problem[] {
             }
         }
 
-        // Note: maxFilesPerUpload validation is handled at runtime since it's an expression
-
         if (values.enableCustomButtons) {
             // check that at max one actions is default
             const defaultIdx = new Set<number>();
