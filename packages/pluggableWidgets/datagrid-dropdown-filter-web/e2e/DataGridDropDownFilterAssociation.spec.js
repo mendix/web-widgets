@@ -25,7 +25,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
         });
 
         test("set value after option is clicked", async ({ page }) => {
-            const select = () => page.getByRole("combobox", { name: "Select company" });
+            const select = () => page.getByRole("combobox", { name: "Company column filter" });
             const toggle = page.locator(".widget-dropdown-filter-toggle");
             const menu = () => page.locator("text=FMC Corp");
             const option1 = () => page.getByRole("option", { name: "Brown-Forman Corporation" });
@@ -47,7 +47,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
         let select;
         let menu;
         test.beforeEach(async ({ page }) => {
-            select = () => page.getByRole("combobox", { name: "Select role" });
+            select = () => page.getByRole("combobox", { name: "Role column filter" });
             menu = () => select().getByRole("listbox");
         });
         test("shows list of Roles", async ({ page }) => {

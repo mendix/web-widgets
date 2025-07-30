@@ -54,7 +54,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
 
     test.describe("using boolean as attribute", () => {
         test("shows the expected result", async ({ page }) => {
-            await page.getByRole("combobox", { name: "Select me" }).click({ delay: 1 });
+            await page.getByRole("combobox", { name: "Active column filter" }).click({ delay: 1 });
             const dropdownItem = await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(3)");
             await expect(dropdownItem).toHaveText("No");
             await dropdownItem.click({ delay: 1 });
@@ -64,7 +64,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
         });
 
         test("shows no results when no items selected", async ({ page }) => {
-            await page.getByRole("combobox", { name: "Select me" }).click({ delay: 1 });
+            await page.getByRole("combobox", { name: "Active column filter" }).click({ delay: 1 });
             const dropdownItem = await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)"); //the first item means none selected
             await dropdownItem.click({ delay: 1 });
             await page.locator("#DataGrid4-column1").click({ delay: 1 });
