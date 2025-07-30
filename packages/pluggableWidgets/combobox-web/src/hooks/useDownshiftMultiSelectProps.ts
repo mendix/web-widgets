@@ -148,11 +148,12 @@ function useComboboxProps(
             selectedItem: null,
             inputId: options?.inputId,
             labelId: options?.labelId,
-            onInputValueChange({ inputValue }) {
-                selector.options.setSearchTerm(inputValue!);
-
-                if (selector.onFilterInputChange) {
-                    selector.onFilterInputChange(inputValue);
+            onInputValueChange({ inputValue, type }) {
+                if (type === useCombobox.stateChangeTypes.InputChange) {
+                    selector.options.setSearchTerm(inputValue!);
+                    if (selector.onFilterInputChange) {
+                        selector.onFilterInputChange(inputValue);
+                    }
                 }
             },
             getA11yStatusMessage(options) {

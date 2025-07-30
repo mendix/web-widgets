@@ -44,14 +44,13 @@ export function SingleSelection({
     });
 
     const selectedItemCaption = useMemo(
-        () => selector.caption.render(selectedItem, "label"),
+        () => selector.caption.render(selector.currentId, "label"),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [
-            selectedItem,
+            selector.currentId,
             selector.status,
             selector.caption,
             selector.caption.emptyCaption,
-            selector.currentId,
             selector.caption.formatter
         ]
     );

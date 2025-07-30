@@ -26,7 +26,7 @@ export function useGetSelector(props: ComboboxContainerProps): Selector {
             debounce((filterValue?: string) => {
                 onInputValueChange(props.onChangeFilterInputEvent, filterValue);
             }, props.debounceInterval ?? 200),
-        [props.onChangeFilterInputEvent]
+        [props.onChangeFilterInputEvent, props.debounceInterval]
     );
 
     if (!selectorRef.current) {
