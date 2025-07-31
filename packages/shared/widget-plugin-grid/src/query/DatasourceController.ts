@@ -3,6 +3,7 @@ import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugi
 import { ListValue, ValueStatus } from "mendix";
 import { action, autorun, computed, IComputedValue, makeAutoObservable, when } from "mobx";
 import { QueryController } from "./query-controller";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
 type Gate = DerivedPropsGate<{ datasource: ListValue }>;
 
@@ -114,15 +115,22 @@ export class DatasourceController implements ReactiveController, QueryController
     }
 
     setup(): () => void {
-        when(
-            () => !this.isDSLoading,
-            () => this.setIsLoaded(true)
+        const [add, disposeAll] = disposeBatch();
+
+        add(
+            when(
+                () => !this.isDSLoading,
+                () => this.setIsLoaded(true)
+            )
+        );
+        add(
+            autorun(() => {
+                // Always use actions to set flags to avoid subscribing to them
+                this.updateFlags(this.datasource.status);
+            })
         );
 
-        return autorun(() => {
-            // Always use actions to set flags to avoid subscribing to them
-            this.updateFlags(this.datasource.status);
-        });
+        return disposeAll;
     }
 
     refresh(): void {
