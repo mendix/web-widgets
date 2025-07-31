@@ -17,6 +17,7 @@ describe("DatasourceController loading states", () => {
         provider = new GateProvider({ datasource: list.loading() });
         host.setup();
         controller = new DatasourceController(host, { gate: provider.gate });
+        controller.setup();
     });
 
     describe("when datasource is loading", () => {
@@ -38,7 +39,6 @@ describe("DatasourceController loading states", () => {
         it("isRefreshing is true after refresh call", () => {
             provider.setProps({ datasource: list(0) });
             expect(provider.gate.props.datasource.status).toBe("available");
-            controller.setup();
             controller.refresh();
             expect(controller.isRefreshing).toBe(true);
             provider.setProps({ datasource: list.loading() });
@@ -60,8 +60,8 @@ describe("DatasourceController loading states", () => {
             provider.setProps({ datasource });
         });
 
-        it("isFirstLoad returns true and loading states return false", () => {
-            expect(controller.isFirstLoad).toBe(true);
+        it("All loading states return false", () => {
+            expect(controller.isFirstLoad).toBe(false);
             expect(controller.isRefreshing).toBe(false);
             expect(controller.isFetchingNextBatch).toBe(false);
         });
