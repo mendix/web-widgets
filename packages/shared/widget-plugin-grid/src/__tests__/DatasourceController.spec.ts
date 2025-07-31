@@ -10,11 +10,11 @@ class TestControllerHost extends BaseControllerHost {}
 describe("DatasourceController loading states", () => {
     let controller: DatasourceController;
     let datasource: ListValue;
-    let provider: GateProvider<{ datasource: ListValue }>;
+    let provider: GateProvider<{ datasource: ListValue; refreshIndicator: boolean; refreshInterval: number }>;
 
     beforeEach(() => {
         const host = new TestControllerHost();
-        provider = new GateProvider({ datasource: list.loading() });
+        provider = new GateProvider({ datasource: list.loading(), refreshIndicator: false, refreshInterval: 0 });
         host.setup();
         controller = new DatasourceController(host, { gate: provider.gate });
         controller.setup();
@@ -23,7 +23,7 @@ describe("DatasourceController loading states", () => {
     describe("when datasource is loading", () => {
         beforeEach(() => {
             datasource = list.loading();
-            provider.setProps({ datasource });
+            provider.setProps({ datasource, refreshIndicator: false, refreshInterval: 0 });
         });
 
         it("isFirstLoad returns true by default", () => {
@@ -37,11 +37,11 @@ describe("DatasourceController loading states", () => {
         });
 
         it("isRefreshing is true after refresh call", () => {
-            provider.setProps({ datasource: list(0) });
+            provider.setProps({ datasource: list(0), refreshIndicator: false, refreshInterval: 0 });
             expect(provider.gate.props.datasource.status).toBe("available");
             controller.refresh();
             expect(controller.isRefreshing).toBe(true);
-            provider.setProps({ datasource: list.loading() });
+            provider.setProps({ datasource: list.loading(), refreshIndicator: false, refreshInterval: 0 });
             expect(provider.gate.props.datasource.status).toBe("loading");
             expect(controller.isRefreshing).toBe(true);
             expect(controller.isFirstLoad).toBe(false);
@@ -57,7 +57,7 @@ describe("DatasourceController loading states", () => {
     describe("when datasource is not loading", () => {
         beforeEach(() => {
             datasource = list(0);
-            provider.setProps({ datasource });
+            provider.setProps({ datasource, refreshIndicator: false, refreshInterval: 0 });
         });
 
         it("All loading states return false", () => {

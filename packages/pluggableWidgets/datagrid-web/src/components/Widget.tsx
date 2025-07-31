@@ -71,8 +71,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     isFetchingNextBatch: boolean;
     loadingType: LoadingTypeEnum;
     columnsLoading: boolean;
-    refreshIndicator: boolean;
-    refreshInterval: number;
+    showRefreshIndicator: boolean;
 
     // Helpers
     cellEventsController: EventsController;
@@ -135,8 +134,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         paging,
         pagingPosition,
         preview,
-        refreshIndicator,
-        refreshInterval,
+        showRefreshIndicator,
         selectActionHelper,
         setPage,
         visibleColumns
@@ -166,8 +164,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     });
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
-
-    const showRefreshIndicator = refreshIndicator && refreshInterval > 1 && props.isLoading && !props.isFirstLoad;
 
     return (
         <Fragment>

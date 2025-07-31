@@ -3,7 +3,7 @@ import { computed, makeObservable } from "mobx";
 type DerivedLoaderControllerSpec = {
     exp: { exporting: boolean };
     cols: { loaded: boolean };
-    query: { isFetchingNextBatch: boolean; isFirstLoad: boolean; isRefreshing: boolean };
+    query: { isFetchingNextBatch: boolean; isFirstLoad: boolean; isRefreshing: boolean; showRefreshIndicator: boolean };
 };
 
 export class DerivedLoaderController {
@@ -34,5 +34,9 @@ export class DerivedLoaderController {
 
     get isRefreshing(): boolean {
         return this.spec.query.isRefreshing;
+    }
+
+    get showRefreshIndicator(): boolean {
+        return this.spec.query.showRefreshIndicator;
     }
 }

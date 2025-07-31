@@ -123,8 +123,7 @@ const Container = observer((props: Props): ReactElement => {
             isLoading={props.datasource.status === "loading"}
             loadingType={props.loadingType}
             columnsLoading={!columnsStore.loaded}
-            refreshIndicator={props.refreshIndicator}
-            refreshInterval={props.refreshInterval}
+            showRefreshIndicator={rootStore.loaderCtrl.showRefreshIndicator}
         />
     );
 });

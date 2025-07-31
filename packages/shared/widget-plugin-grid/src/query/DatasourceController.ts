@@ -5,7 +5,7 @@ import { action, autorun, computed, IComputedValue, makeAutoObservable, when } f
 import { QueryController } from "./query-controller";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
-type Gate = DerivedPropsGate<{ datasource: ListValue }>;
+type Gate = DerivedPropsGate<{ datasource: ListValue; refreshIndicator: boolean; refreshInterval: number }>;
 
 type DatasourceControllerSpec = { gate: Gate };
 
@@ -112,6 +112,11 @@ export class DatasourceController implements ReactiveController, QueryController
         const data = (): DatasourceController => [this.datasource].map(() => Object.create(this))[0];
 
         return computed(data);
+    }
+
+    get showRefreshIndicator(): boolean {
+        const { refreshIndicator, refreshInterval } = this.gate.props;
+        return refreshIndicator && refreshInterval > 1 && this.isDSLoading && !this.isFirstLoad;
     }
 
     setup(): () => void {
