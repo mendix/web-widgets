@@ -1,8 +1,11 @@
+import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
+// import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { list } from "@mendix/widget-plugin-test-utils";
 import { ListValue } from "mendix";
 import { DatasourceController } from "../query/DatasourceController";
+
+class TestControllerHost extends BaseControllerHost {}
 
 describe("DatasourceController loading states", () => {
     let controller: DatasourceController;
@@ -10,8 +13,9 @@ describe("DatasourceController loading states", () => {
     let provider: GateProvider<{ datasource: ListValue }>;
 
     beforeEach(() => {
-        const host = { addController: jest.fn() } as unknown as ReactiveControllerHost;
+        const host = new TestControllerHost();
         provider = new GateProvider({ datasource: list.loading() });
+        host.setup();
         controller = new DatasourceController(host, { gate: provider.gate });
     });
 
@@ -34,12 +38,13 @@ describe("DatasourceController loading states", () => {
         it("isRefreshing is true after refresh call", () => {
             provider.setProps({ datasource: list(0) });
             expect(provider.gate.props.datasource.status).toBe("available");
+            controller.setup();
             controller.refresh();
             expect(controller.isRefreshing).toBe(true);
             provider.setProps({ datasource: list.loading() });
             expect(provider.gate.props.datasource.status).toBe("loading");
             expect(controller.isRefreshing).toBe(true);
-            expect(controller.isFirstLoad).toBe(true);
+            expect(controller.isFirstLoad).toBe(false);
         });
 
         it("isFetchingNextBatch returns true after setLimit call", () => {
@@ -55,7 +60,7 @@ describe("DatasourceController loading states", () => {
             provider.setProps({ datasource });
         });
 
-        it("all loading states return false", () => {
+        it("isFirstLoad returns true and loading states return false", () => {
             expect(controller.isFirstLoad).toBe(true);
             expect(controller.isRefreshing).toBe(false);
             expect(controller.isFetchingNextBatch).toBe(false);
