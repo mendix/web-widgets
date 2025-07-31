@@ -124,6 +124,7 @@ const Container = observer((props: Props): ReactElement => {
             loadingType={props.loadingType}
             columnsLoading={!columnsStore.loaded}
             refreshIndicator={props.refreshIndicator}
+            refreshInterval={props.refreshInterval}
         />
     );
 });

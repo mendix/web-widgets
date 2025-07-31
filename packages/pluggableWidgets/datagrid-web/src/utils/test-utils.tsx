@@ -111,6 +111,7 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         loadingType: "spinner",
         columnsLoading: false,
         refreshIndicator: false,
+        refreshInterval: 0,
         focusController: new FocusTargetController(
             new PositionController(),
             new VirtualGridLayout(1, columns.length, 10)
