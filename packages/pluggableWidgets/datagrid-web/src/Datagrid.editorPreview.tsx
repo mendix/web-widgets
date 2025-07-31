@@ -147,6 +147,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             loadingType="spinner"
             columnsLoading={false}
             refreshIndicator={props.refreshIndicator}
+            refreshInterval={props.refreshInterval ?? 0}
         />
     );
 }
