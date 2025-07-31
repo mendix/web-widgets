@@ -90,7 +90,9 @@ export function getPreview(_values: CalendarPreviewProps, isDarkMode: boolean): 
                 width: 16,
                 height: 16
             },
-            text({ fontColor: palette.text.primary })("Calendar")
+            container({
+                padding: 4
+            })(text({ fontColor: palette.text.primary })("Calendar"))
         )
     );
 }
