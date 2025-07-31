@@ -95,6 +95,40 @@ describe("parseAllowedFormats", () => {
             "Value 'application-pdf' is not recognized. Accepted format: 'image/jpeg'"
         );
     });
+    test("handles extensions with special characters like dashes and plus signs", () => {
+        const input: AllowedFileFormatsType[] = [
+            {
+                configMode: "advanced",
+                typeFormatDescription: dynamicValue("special-extensions"),
+                predefinedType: "pdfFile",
+                mimeType: "application/x-custom",
+                extensions: ".tar-gz,.js-map,.c++"
+            }
+        ];
+
+        expect(parseAllowedFormats(input)).toEqual([
+            {
+                description: "special-extensions",
+                entries: [["application/x-custom", [".tar-gz", ".js-map", ".c++"]]]
+            }
+        ]);
+    });
+    test("throws on extension without leading dot", () => {
+        const input: AllowedFileFormatsType[] = [
+            {
+                configMode: "advanced",
+                typeFormatDescription: dynamicValue("test"),
+                predefinedType: "pdfFile",
+                mimeType: "text/*",
+                extensions: ".txt,pdf"
+            }
+        ];
+
+        expect(() => parseAllowedFormats(input)).toThrow(
+            "Value 'pdf' is not recognized. Extension must start with a dot and contain only valid filename characters"
+        );
+    });
+
     test("throws on incorrect extension format", () => {
         const input: AllowedFileFormatsType[] = [
             {
@@ -106,6 +140,24 @@ describe("parseAllowedFormats", () => {
             }
         ];
 
-        expect(() => parseAllowedFormats(input)).toThrow("Value 'abc' is not recognized. Accepted format: '.pdf'");
+        expect(() => parseAllowedFormats(input)).toThrow(
+            "Value 'abc' is not recognized. Extension must start with a dot and contain only valid filename characters"
+        );
+    });
+
+    test("throws on extension with dot in the middle", () => {
+        const input: AllowedFileFormatsType[] = [
+            {
+                configMode: "advanced",
+                typeFormatDescription: dynamicValue("test"),
+                predefinedType: "pdfFile",
+                mimeType: "text/*",
+                extensions: ".txt,.config.json"
+            }
+        ];
+
+        expect(() => parseAllowedFormats(input)).toThrow(
+            "Value '.config.json' is not recognized. Extension must start with a dot and contain only valid filename characters"
+        );
     });
 });
