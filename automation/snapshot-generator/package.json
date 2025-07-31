@@ -16,7 +16,7 @@
         "chance": "^1.1.12"
     },
     "devDependencies": {
-        "@eslint/js": "^9.24.0",
+        "@eslint/js": "^9.32.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "globals": "^16.0.0"
     }
