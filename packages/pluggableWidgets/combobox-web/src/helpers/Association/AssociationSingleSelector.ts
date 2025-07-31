@@ -14,7 +14,6 @@ export class AssociationSingleSelector
     }
     setValue(value: string | null): void {
         this._attr?.setValue(this.options._optionToValue(value));
-        this.currentId = value;
         super.setValue(value);
     }
 }

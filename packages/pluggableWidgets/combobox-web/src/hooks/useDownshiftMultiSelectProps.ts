@@ -7,7 +7,7 @@ import {
     useCombobox,
     useMultipleSelection
 } from "downshift";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useRef, useEffect } from "react";
 import { A11yStatusMessage, MultiSelector } from "../helpers/types";
 
 export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturnValue<string> &
@@ -37,6 +37,12 @@ export function useDownshiftMultiSelectProps(
     options: Options,
     a11yStatusMessage: A11yStatusMessage
 ): UseDownshiftMultiSelectPropsReturnValue {
+    const isInitializing = useRef(true);
+
+    useEffect(() => {
+        isInitializing.current = false;
+    }, []);
+
     const {
         getSelectedItemProps,
         getDropdownProps,
@@ -91,6 +97,7 @@ export function useDownshiftMultiSelectProps(
             removeSelectedItem,
             setSelectedItems,
             a11yStatusMessage,
+            isInitializing,
             options
         )
     );
@@ -140,6 +147,7 @@ function useComboboxProps(
     removeSelectedItem: (item: string) => void,
     setSelectedItems: (item: string[]) => void,
     a11yStatusMessage: A11yStatusMessage,
+    isInitializing: React.MutableRefObject<boolean>,
     options?: Options
 ): UseComboboxProps<string> {
     return useMemo(() => {
@@ -149,11 +157,13 @@ function useComboboxProps(
             inputId: options?.inputId,
             labelId: options?.labelId,
             onInputValueChange({ inputValue, type }) {
-                if (type === useCombobox.stateChangeTypes.InputChange) {
-                    selector.options.setSearchTerm(inputValue!);
-                    if (selector.onFilterInputChange) {
-                        selector.onFilterInputChange(inputValue);
-                    }
+                selector.options.setSearchTerm(inputValue!);
+                if (
+                    !isInitializing.current &&
+                    type === useCombobox.stateChangeTypes.InputChange &&
+                    selector.onFilterInputChange
+                ) {
+                    selector.onFilterInputChange(inputValue);
                 }
             },
             getA11yStatusMessage(options) {
