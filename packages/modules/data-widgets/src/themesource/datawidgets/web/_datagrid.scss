@@ -482,7 +482,7 @@ $root: ".widget-datagrid";
                 currentColor 84%,
                 transparent 84%
             );
-            animation: progress-linear 2s infinite linear;
+            animation: progress-linear 3s infinite linear;
         }
 
         &:indeterminate::-moz-progress-bar {
