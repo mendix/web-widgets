@@ -59,11 +59,13 @@ function parseExtensionsList(config: string): string[] {
         .map(c => c.trim())
         .filter(c => c)
         .map(c => {
-            if (/^\.\w+$/.test(c)) {
-                // ".ext" string
+            if (/^\.[^/\\?*<>|:".]+$/.test(c)) {
+                // ".ext" string - allowing most characters except those invalid in filenames
                 return c;
             }
 
-            throw new Error(`Value '${c}' is not recognized. Accepted format: '.pdf'`);
+            throw new Error(
+                `Value '${c}' is not recognized. Extension must start with a dot and contain only valid filename characters (e.g. '.pdf', '.doc', '.tar-gz')`
+            );
         });
 }

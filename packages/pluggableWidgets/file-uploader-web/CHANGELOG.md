@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We improved the file extension validation to allow special characters like dashes and plus signs (e.g., '.tar-gz', '.c++').
+
+- We clarified error messages for invalid file extensions to better explain the expected format.
+
 ## [2.2.2] - 2025-07-01
 
 ### Fixed
