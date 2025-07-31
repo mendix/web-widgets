@@ -1,7 +1,7 @@
 {
     "name": "@mendix/datagrid-dropdown-filter-web",
     "widgetName": "DatagridDropdownFilter",
-    "version": "3.0.3",
+    "version": "3.0.4",
     "description": "",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -23,7 +23,7 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "datagrid-dropdown-filter-web/data-widgets-3.0"
+        "branchName": "datagrid-dropdown-filter-web/dw3.0-dropdown-rework"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:ts",

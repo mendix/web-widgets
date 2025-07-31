@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We enhanced dropdown widget customization by separating texts for empty selection, empty option caption, and input placeholder. This change allows for more granular control over the widget's text configurations.
+
+- We improved dropdown widget usability with enhanced keyboard navigation, visual feedback, and interaction behavior.
+
+### Breaking changes
+
+- Text configurations for empty option, empty selection, and input placeholder need to be reviewed and reconfigured.
+
 ## [3.0.3] - 2025-07-24
 
 ### Fixed

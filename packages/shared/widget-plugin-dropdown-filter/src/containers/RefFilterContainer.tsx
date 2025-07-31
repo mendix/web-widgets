@@ -19,10 +19,12 @@ import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 
 export interface RefFilterContainerProps {
-    ariaLabel?: string;
+    ariaLabel: string;
     className?: string;
     defaultValue?: string;
-    emptyCaption?: string;
+    emptyOptionCaption: string;
+    emptySelectionCaption: string;
+    placeholder: string;
     filterStore: RefFilterStore;
     multiselect: boolean;
     name: string;
@@ -71,6 +73,7 @@ const SelectWidget = observer(function SelectWidget(props: RefFilterContainerPro
             showCheckboxes={ctrl1.multiselect}
             className={props.className}
             style={props.styles}
+            ariaLabel={props.ariaLabel}
         />
     );
 });
@@ -86,6 +89,8 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
         <Combobox
             options={ctrl2.options}
             inputPlaceholder={ctrl2.inputPlaceholder}
+            emptyCaption={ctrl2.emptyCaption}
+            ariaLabel={props.ariaLabel}
             useComboboxProps={ctrl2.useComboboxProps}
             onClear={ctrl2.handleClear}
             onFocus={ctrl2.handleFocus}
@@ -116,6 +121,8 @@ const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContai
             onFocus={ctrl3.handleFocus}
             onMenuScroll={handleMenuScroll}
             inputPlaceholder={ctrl3.inputPlaceholder}
+            emptyCaption={ctrl3.emptyCaption}
+            ariaLabel={props.ariaLabel}
             empty={ctrl3.isEmpty}
             showCheckboxes={props.selectionMethod === "checkbox"}
             selectedStyle={props.selectedItemsStyle}

@@ -28,6 +28,8 @@ export interface RefBaseControllerProps {
     multiselect: boolean;
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
-    emptyCaption?: string;
-    placeholder?: string;
+    emptyOptionCaption: string;
+    emptySelectionCaption: string;
+    placeholder: string;
+    ariaLabel: string;
 }

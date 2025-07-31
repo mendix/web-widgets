@@ -27,6 +27,8 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
         touched = false;
         inputValue = "";
         inputPlaceholder = "";
+        emptyCaption = "";
+        ariaLabel = "";
         filterSelectedOptions = false;
 
         constructor(...args: any[]) {
@@ -142,6 +144,15 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
                                 highlightedIndex: state.highlightedIndex,
                                 inputValue: state.inputValue
                             };
+                        case useCombobox.stateChangeTypes.InputClick:
+                            if (state.isOpen) {
+                                return {
+                                    ...changes,
+                                    isOpen: true,
+                                    highlightedIndex: state.highlightedIndex
+                                };
+                            }
+                            return changes;
                         default:
                             return {
                                 ...changes,

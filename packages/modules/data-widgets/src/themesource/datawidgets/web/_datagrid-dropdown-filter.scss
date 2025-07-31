@@ -138,7 +138,6 @@ $root: ".widget-dropdown-filter";
     &-clear {
         @include btn-with-cross;
         align-items: center;
-        align-self: center;
         display: flex;
         flex-shrink: 0;
         justify-self: end;
@@ -149,6 +148,11 @@ $root: ".widget-dropdown-filter";
         &:has(+ #{$root}-state-icon),
         &:has(+ #{$root}-toggle) {
             border-inline-end: 1px solid var(--gray, #787d87);
+        }
+
+        &:focus-visible {
+            outline-offset: -2px;
+            outline: var(--brand-primary, $brand-primary) solid 1px;
         }
     }
 
@@ -262,8 +266,12 @@ $root: ".widget-dropdown-filter";
         justify-content: center;
         line-height: 1.334;
         padding: var(--wdf-tag-padding);
+        margin: var(--spacing-smallest, 2px);
         &:focus-visible {
             outline: var(--brand-primary, #264ae5) auto 1px;
+        }
+        &:focus {
+            background-color: var(--color-primary-light, $color-primary-light);
         }
     }
 
@@ -271,6 +279,14 @@ $root: ".widget-dropdown-filter";
         flex-basis: 0;
         min-width: 50px;
         width: initial;
+    }
+
+    &:not(:focus-within):not([data-empty]) {
+        #{$root}-input {
+            opacity: 0;
+            flex-shrink: 1;
+            min-width: 1px;
+        }
     }
 
     #{$root}-clear {
