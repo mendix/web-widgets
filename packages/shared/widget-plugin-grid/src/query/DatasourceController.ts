@@ -1,10 +1,11 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { ListValue, ValueStatus } from "mendix";
-import { action, autorun, computed, IComputedValue, makeAutoObservable } from "mobx";
+import { action, autorun, computed, IComputedValue, makeAutoObservable, when } from "mobx";
 import { QueryController } from "./query-controller";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
-type Gate = DerivedPropsGate<{ datasource: ListValue }>;
+type Gate = DerivedPropsGate<{ datasource: ListValue; refreshIndicator: boolean; refreshInterval: number }>;
 
 type DatasourceControllerSpec = { gate: Gate };
 
@@ -13,19 +14,27 @@ export class DatasourceController implements ReactiveController, QueryController
     private refreshing = false;
     private fetching = false;
     private pageSize = Infinity;
+    private isLoaded = false;
 
     constructor(host: ReactiveControllerHost, spec: DatasourceControllerSpec) {
         host.addController(this);
         this.gate = spec.gate;
 
-        type PrivateMembers = "resetFlags" | "updateFlags" | "setRefreshing" | "setFetching" | "pageSize";
+        type PrivateMembers =
+            | "resetFlags"
+            | "updateFlags"
+            | "setRefreshing"
+            | "setFetching"
+            | "pageSize"
+            | "setIsLoaded";
         makeAutoObservable<this, PrivateMembers>(this, {
             setup: false,
             pageSize: false,
             updateFlags: action,
             resetFlags: action,
             setRefreshing: action,
-            setFetching: action
+            setFetching: action,
+            setIsLoaded: action
         });
     }
 
@@ -51,6 +60,10 @@ export class DatasourceController implements ReactiveController, QueryController
         this.fetching = value;
     }
 
+    private setIsLoaded(value: boolean): void {
+        this.isLoaded = value;
+    }
+
     private resetLimit(): void {
         this.datasource.setLimit(this.pageSize);
     }
@@ -63,11 +76,8 @@ export class DatasourceController implements ReactiveController, QueryController
         return this.gate.props.datasource;
     }
 
-    get isLoading(): boolean {
-        if (this.isRefreshing || this.isFetchingNextBatch) {
-            return false;
-        }
-        return this.isDSLoading;
+    get isFirstLoad(): boolean {
+        return !this.isLoaded;
     }
 
     get isRefreshing(): boolean {
@@ -104,11 +114,28 @@ export class DatasourceController implements ReactiveController, QueryController
         return computed(data);
     }
 
+    get showRefreshIndicator(): boolean {
+        const { refreshIndicator, refreshInterval } = this.gate.props;
+        return refreshIndicator && refreshInterval > 1 && this.isDSLoading && !this.isFirstLoad;
+    }
+
     setup(): () => void {
-        return autorun(() => {
-            // Always use actions to set flags to avoid subscribing to them
-            this.updateFlags(this.datasource.status);
-        });
+        const [add, disposeAll] = disposeBatch();
+
+        add(
+            when(
+                () => !this.isDSLoading,
+                () => this.setIsLoaded(true)
+            )
+        );
+        add(
+            autorun(() => {
+                // Always use actions to set flags to avoid subscribing to them
+                this.updateFlags(this.datasource.status);
+            })
+        );
+
+        return disposeAll;
     }
 
     refresh(): void {
