@@ -7,7 +7,7 @@ import { RefFilterContainer } from "./components/RefFilterContainer";
 
 function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAPIv2): React.ReactElement {
     const commonProps = {
-        ariaLabel: props.ariaLabel?.value,
+        ariaLabel: props.ariaLabel?.value ?? "",
         className: props.class,
         tabIndex: props.tabIndex,
         styles: props.style,
@@ -16,7 +16,9 @@ function Container(props: DatagridDropdownFilterContainerProps & Select_FilterAP
         parentChannelName: props.parentChannelName,
         name: props.name,
         multiselect: props.multiSelect,
-        emptyCaption: props.emptyOptionCaption?.value,
+        emptyOptionCaption: props.emptyOptionCaption?.value ?? "",
+        emptySelectionCaption: props.emptySelectionCaption?.value ?? "",
+        placeholder: props.filterInputPlaceholderCaption?.value ?? "",
         defaultValue: props.defaultValue?.value,
         filterable: props.filterable,
         selectionMethod: props.selectionMethod,
