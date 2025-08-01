@@ -81,15 +81,15 @@ export function getPreview(_values: CalendarPreviewProps, isDarkMode: boolean): 
         borders: true
     })(
         rowLayout({
-            columnSize: "fixed",
+            columnSize: "grow",
             padding: 6
         })(
-            {
+            container({ padding: 4, grow: 0 })({
                 type: "Image",
                 document: decodeURIComponent((isDarkMode ? IconSVGDark : IconSVG).replace("data:image/svg+xml,", "")),
                 width: 16,
                 height: 16
-            },
+            }),
             container({
                 padding: 4
             })(text({ fontColor: palette.text.primary })("Calendar"))
