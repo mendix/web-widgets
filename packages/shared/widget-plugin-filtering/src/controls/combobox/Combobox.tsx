@@ -11,6 +11,8 @@ import { Arrow, classes } from "../picker-primitives";
 interface ComboboxProps {
     options: OptionWithState[];
     inputPlaceholder: string;
+    emptyCaption: string;
+    ariaLabel: string;
     empty: boolean;
     className?: string;
     style?: React.CSSProperties;
@@ -42,11 +44,11 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
             <input
                 className={cls.input}
                 {...getInputProps({
-                    "aria-label": props.inputPlaceholder || "Search",
+                    "aria-label": props.ariaLabel,
                     ref: inputRef,
                     onBlur: props.onBlur,
                     onFocus: props.onFocus,
-                    placeholder: props.inputPlaceholder
+                    placeholder: props.empty ? (isOpen ? props.inputPlaceholder : props.emptyCaption) : undefined
                 })}
             />
             <ClearButton
@@ -55,7 +57,6 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                     props.onClear();
                     inputRef.current?.focus();
                 }}
-                showSeparator={false}
                 visible={!props.empty}
             />
             <button className={cls.toggle} {...getToggleButtonProps({ "aria-label": "Show options" })}>
@@ -63,6 +64,7 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
             </button>
             <OptionsWrapper
                 cls={cls}
+                label={props.ariaLabel}
                 ref={refs.setFloating}
                 style={floatingStyles}
                 onMenuScroll={props.onMenuScroll}
@@ -70,7 +72,6 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                 options={props.options}
                 highlightedIndex={highlightedIndex}
                 showCheckboxes={false}
-                haveEmptyFirstOption={false}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
             />
