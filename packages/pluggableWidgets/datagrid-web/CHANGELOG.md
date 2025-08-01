@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the filter values were restored from previously stored personalized configuration even when Store filters was set to No.
+
 ## [2.30.6] - 2025-05-28
 
 ### Fixed

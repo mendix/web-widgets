@@ -93,8 +93,10 @@ export class GridPersonalizationStore {
 
     private applySettings(settings: GridPersonalizationStorageSettings): void {
         this.columnsStore.setColumnSettings(toColumnSettings(settings));
-        this.columnsStore.setColumnFilterSettings(settings.columnFilters);
-        this.customFilters.settings = new Map(settings.customFilters);
+        if (this.storeFilters) {
+            this.columnsStore.setColumnFilterSettings(settings.columnFilters);
+            this.customFilters.settings = new Map(settings.customFilters);
+        }
     }
 
     private readSettings(
