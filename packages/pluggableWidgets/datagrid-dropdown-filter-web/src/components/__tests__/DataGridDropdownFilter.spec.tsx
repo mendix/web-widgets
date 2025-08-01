@@ -22,6 +22,9 @@ const commonProps = {
     groupKey: "dropdown-filter",
     filterable: false,
     clearable: true,
+    emptySelectionCaption: dynamicValue("Select"),
+    emptyOptionCaption: dynamicValue("None"),
+    ariaLabel: dynamicValue("AriaLabel"),
     selectionMethod: "checkbox" as const,
     selectedItemsStyle: "text" as const
 };
@@ -117,7 +120,7 @@ describe("Dropdown Filter", () => {
                         />
                     );
 
-                    expect(screen.getByRole("combobox")).toHaveAccessibleName("enum_value_1");
+                    expect(document.querySelector(".widget-dropdown-filter-toggle")).toHaveTextContent("enum_value_1");
                 });
 
                 it("don't sync defaultValue with state when defaultValue changes from undefined to string", async () => {
@@ -132,7 +135,7 @@ describe("Dropdown Filter", () => {
                     );
 
                     await waitFor(() => {
-                        expect(screen.getByRole("combobox")).toHaveAccessibleName("Select");
+                        expect(document.querySelector(".widget-dropdown-filter-toggle")).toHaveTextContent("Select");
                     });
 
                     // “Real” context causes widgets to re-renders multiple times, replicate this in mocked context.
@@ -156,7 +159,7 @@ describe("Dropdown Filter", () => {
                     );
 
                     await waitFor(() => {
-                        expect(screen.getByRole("combobox")).toHaveAccessibleName("Select");
+                        expect(document.querySelector(".widget-dropdown-filter-toggle")).toHaveTextContent("Select");
                     });
                 });
 
@@ -172,7 +175,7 @@ describe("Dropdown Filter", () => {
                         />
                     );
 
-                    expect(screen.getByRole("combobox")).toHaveAccessibleName("xyz");
+                    expect(screen.getByText("xyz", { selector: ".widget-dropdown-filter-toggle" })).toBeInTheDocument();
 
                     // “Real” context causes widgets to re-renders multiple times, replicate this in mocked context.
                     rerender(
@@ -195,7 +198,9 @@ describe("Dropdown Filter", () => {
                     );
 
                     await waitFor(() => {
-                        expect(screen.getByRole("combobox")).toHaveAccessibleName("xyz");
+                        expect(
+                            screen.getByText("xyz", { selector: ".widget-dropdown-filter-toggle" })
+                        ).toBeInTheDocument();
                     });
                 });
             });
@@ -471,8 +476,8 @@ describe("Dropdown Filter", () => {
                 <DatagridDropdownFilter {...commonProps} auto multiSelect={false} filterOptions={[]} />
             );
 
-            expect(fragment1().querySelector("button")?.getAttribute("aria-controls")).not.toBe(
-                fragment2().querySelector("button")?.getAttribute("aria-controls")
+            expect(fragment1().querySelector("div[role='combobox']")?.getAttribute("aria-controls")).not.toBe(
+                fragment2().querySelector("div[role='combobox']")?.getAttribute("aria-controls")
             );
         });
 

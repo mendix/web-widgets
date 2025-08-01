@@ -15,7 +15,9 @@ export class RefTagPickerController extends TagPickerControllerMixin(RefBaseCont
 
     constructor(props: Props) {
         super(props);
-        this.inputPlaceholder = props.placeholder ?? "Search";
+        this.inputPlaceholder = props.placeholder;
+        this.emptyCaption = props.emptySelectionCaption;
+        this.ariaLabel = props.ariaLabel;
         this.filterSelectedOptions = props.selectionMethod === "rowClick";
         this.selectedStyle = props.selectedItemsStyle;
         this.selectionMethod = this.selectedStyle === "boxes" ? props.selectionMethod : "checkbox";
