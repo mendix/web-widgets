@@ -32,8 +32,11 @@ export function useGetSelector(props: ComboboxContainerProps): Selector {
     if (!selectorRef.current) {
         selectorRef.current = getSelector(props);
         selectorRef.current.options.onAfterSearchTermChange(() => setInput({}));
+    } else {
+        if (!selectorRef.current.onFilterInputChange) {
+            selectorRef.current.onFilterInputChange = onFilterChangeDebounce;
+        }
     }
-    selectorRef.current.onFilterInputChange = onFilterChangeDebounce;
     selectorRef.current.updateProps(props);
 
     return selectorRef.current;
