@@ -24,6 +24,7 @@ overrides:
   enzyme>cheerio: 1.0.0-rc.10
   ts-node: 10.9.2
   react-big-calendar@1>clsx: 2.1.0
+  mendix: ^10.16
 
 pnpmfileChecksum: sha256-s93SB6R9/asG3ZoJ8Hr+99P758r3p0dOebXMUkycQnk=
 
@@ -744,8 +745,8 @@ importers:
         specifier: ^9.0.8
         version: 9.0.8(react@18.2.0)
       mendix:
-        specifier: ^10.16.49747
-        version: 10.16.49747
+        specifier: ^10.16
+        version: 10.22.68245
       mobx:
         specifier: 6.12.3
         version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
@@ -913,8 +914,8 @@ importers:
   packages/shared/widget-plugin-test-utils:
     dependencies:
       mendix:
-        specifier: ^10.16.49747
-        version: 10.16.49747
+        specifier: ^10.16
+        version: 10.22.68245
     devDependencies:
       '@mendix/eslint-config-web-widgets':
         specifier: workspace:*
@@ -2518,9 +2519,6 @@ packages:
 
   '@types/react-dom@18.2.14':
     resolution: {integrity: sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==}
-
-  '@types/react-native@0.70.16':
-    resolution: {integrity: sha512-zHPWfszSWTctG1O1gsAHTQzOC33GY7Iv/Mk44tSMkcHiUtqB1GjOZz1VLqSyxW3Qw77HX4GUHi8b1ksOFrq2KQ==}
 
   '@types/react-native@0.72.8':
     resolution: {integrity: sha512-St6xA7+EoHN5mEYfdWnfYt0e8u6k2FR0P9s2arYgakQGFgU1f9FlPrIEcj0X24pLCF5c5i3WVuLCUdiCYHmOoA==}
@@ -5291,9 +5289,6 @@ packages:
 
   memoize-one@5.2.1:
     resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
-
-  mendix@10.16.49747:
-    resolution: {integrity: sha512-soc4deezipGgzWVWrfsg1e73w8xXE3ydlW0PyRsV8IHq4BCliloWag1Vh5kYEpYqt+4naBKuLASMHLhSlKKQIw==}
 
   mendix@10.22.68245:
     resolution: {integrity: sha512-20VIWzMZGDlZn4jDga8dLiXb4O/Gqqs+VLH6m21YhdiSbsT9TvUtaoovf/HVQyOUtWegJ5jsymghTKqCIBQuEQ==}
@@ -9615,10 +9610,6 @@ snapshots:
     dependencies:
       '@types/react': 18.2.36
 
-  '@types/react-native@0.70.16':
-    dependencies:
-      '@types/react': 18.2.36
-
   '@types/react-native@0.72.8(react-native@0.75.3(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.2.36)(react@18.2.0)(typescript@5.8.2))':
     dependencies:
       '@react-native/virtualized-lists': 0.72.8(react-native@0.75.3(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@types/react@18.2.36)(react@18.2.0)(typescript@5.8.2))
@@ -13188,12 +13179,6 @@ snapshots:
   mdn-data@2.0.14: {}
 
   memoize-one@5.2.1: {}
-
-  mendix@10.16.49747:
-    dependencies:
-      '@types/big.js': 6.2.2
-      '@types/react': 18.2.36
-      '@types/react-native': 0.70.16
 
   mendix@10.22.68245:
     dependencies:

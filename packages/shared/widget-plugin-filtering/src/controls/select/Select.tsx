@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useSelect, UseSelectProps } from "downshift";
 import { observer } from "mobx-react-lite";
-import React, { createElement, useRef } from "react";
+import React, { createElement } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
@@ -14,19 +14,19 @@ interface SelectProps {
     clearable: boolean;
     empty: boolean;
     className?: string;
-    showCheckboxes?: boolean;
+    showCheckboxes: boolean;
     style?: React.CSSProperties;
     useSelectProps: () => UseSelectProps<OptionWithState>;
     onClear: () => void;
-    onFocus?: React.FocusEventHandler<HTMLButtonElement>;
+    onFocus?: React.FocusEventHandler<HTMLDivElement>;
     onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
+    ariaLabel: string;
 }
 
 const cls = classes();
 
-export function Select_inner(props: SelectProps): React.ReactElement {
+export const Select = observer(function Select(props: SelectProps): React.ReactElement {
     const { empty: isEmpty, showCheckboxes, clearable } = props;
-    const toggleRef = useRef<HTMLButtonElement>(null);
     const { getToggleButtonProps, getMenuProps, getItemProps, isOpen, highlightedIndex } = useSelect(
         props.useSelectProps()
     );
@@ -37,35 +37,32 @@ export function Select_inner(props: SelectProps): React.ReactElement {
     return (
         <div
             className={cn(cls.root, "form-control", "variant-select", props.className)}
-            ref={refs.setReference}
             data-expanded={isOpen}
             data-empty={isEmpty ? true : undefined}
             style={props.style}
+            {...getToggleButtonProps({
+                "aria-label": props.ariaLabel,
+                ref: refs.setReference,
+                onFocus: props.onFocus
+            })}
         >
-            <button
-                className={cls.inputContainer}
-                {...getToggleButtonProps({
-                    "aria-label": props.value,
-                    ref: toggleRef,
-                    onFocus: props.onFocus
-                })}
-            >
+            <div className={cls.inputContainer}>
                 <span className={cls.toggle}>{props.value}</span>
                 <div className={`${cls.root}-controls`}>
                     <ClearButton
                         cls={cls}
                         onClick={() => {
                             props.onClear();
-                            toggleRef.current?.focus();
+                            refs.reference.current?.focus();
                         }}
-                        showSeparator={false}
                         visible={showClear}
                     />
                     <Arrow className={cls.stateIcon} />
                 </div>
-            </button>
+            </div>
             <OptionsWrapper
                 cls={cls}
+                label={props.ariaLabel}
                 ref={refs.setFloating}
                 style={floatingStyles}
                 onMenuScroll={props.onMenuScroll}
@@ -73,12 +70,9 @@ export function Select_inner(props: SelectProps): React.ReactElement {
                 options={props.options}
                 highlightedIndex={highlightedIndex}
                 showCheckboxes={showCheckboxes}
-                haveEmptyFirstOption
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
             />
         </div>
     );
-}
-
-export const Select = observer(Select_inner);
+});
