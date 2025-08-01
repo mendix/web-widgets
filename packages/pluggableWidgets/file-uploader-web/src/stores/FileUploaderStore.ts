@@ -82,6 +82,7 @@ export class FileUploaderStore {
             errorMessage: observable,
             allowedFormatsDescription: computed,
             maxFilesPerUpload: computed,
+            _maxFilesPerUpload: observable,
             isFileUploadLimitReached: computed
         });
 
