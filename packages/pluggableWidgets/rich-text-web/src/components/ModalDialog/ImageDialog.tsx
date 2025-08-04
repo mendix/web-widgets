@@ -25,10 +25,12 @@ export interface ImageDialogProps extends Pick<RichTextContainerProps, "imageSou
     onClose(): void;
     defaultValue?: imageConfigType;
     enableDefaultUpload?: boolean;
+    formOrientation?: "horizontal" | "vertical";
 }
 
 export default function ImageDialog(props: ImageDialogProps): ReactElement {
-    const { onClose, defaultValue, onSubmit, imageSource, imageSourceContent, enableDefaultUpload } = props;
+    const { onClose, defaultValue, onSubmit, imageSource, imageSourceContent, enableDefaultUpload, formOrientation } =
+        props;
     const [activeTab, setActiveTab] = useState("general");
     const [selectedImageEntity, setSelectedImageEntity] = useState<Image>();
     const imageUploadElementRef = useRef<HTMLDivElement>(null);
@@ -127,9 +129,9 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
     }, [imageUploadElementRef.current]);
 
     return (
-        <DialogContent className="image-dialog">
+        <DialogContent className={classNames("image-dialog", formOrientation === "vertical" ? "form-vertical" : "")}>
             <DialogHeader onClose={onClose}>{activeTab === "general" ? "Insert/Edit" : "Embed"} Images</DialogHeader>
-            <DialogBody>
+            <DialogBody formOrientation={formOrientation}>
                 <div ref={imageUploadElementRef}>
                     {!disableEmbed && (
                         <div>

@@ -1,4 +1,5 @@
 import { ChangeEvent, createElement, ReactElement, useState } from "react";
+import classNames from "classnames";
 import { type linkConfigType } from "../../utils/formats";
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 
@@ -6,10 +7,11 @@ export interface LinkDialogProps {
     onSubmit(value: linkConfigType): void;
     onClose(): void;
     defaultValue?: linkConfigType;
+    formOrientation?: "horizontal" | "vertical";
 }
 
 export default function LinkDialog(props: LinkDialogProps): ReactElement {
-    const { onSubmit, onClose } = props;
+    const { onSubmit, onClose, formOrientation } = props;
     const [formState, setFormState] = useState({
         text: props.defaultValue?.text ?? "",
         href: props.defaultValue?.href ?? "",
@@ -22,9 +24,9 @@ export default function LinkDialog(props: LinkDialogProps): ReactElement {
     };
 
     return (
-        <DialogContent className="link-dialog">
+        <DialogContent className={classNames("link-dialog", formOrientation === "vertical" ? "form-vertical" : "")}>
             <DialogHeader onClose={onClose}>Insert/Edit Link</DialogHeader>
-            <DialogBody>
+            <DialogBody formOrientation={formOrientation}>
                 <FormControl label="Text">
                     <input
                         type="text"

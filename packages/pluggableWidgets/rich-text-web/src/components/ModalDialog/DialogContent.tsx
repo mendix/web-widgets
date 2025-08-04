@@ -36,10 +36,22 @@ export function DialogHeader(props: DialogHeaderProps): ReactElement {
     );
 }
 
-export function DialogBody(props: PropsWithChildrenWithClass): ReactElement {
-    const { children, className } = props;
+export function DialogBody(
+    props: PropsWithChildrenWithClass & { formOrientation?: "horizontal" | "vertical" }
+): ReactElement {
+    const { children, className, formOrientation } = props;
 
-    return <div className={classNames("widget-rich-text-modal-content form-horizontal", className)}>{children}</div>;
+    return (
+        <div
+            className={classNames(
+                "widget-rich-text-modal-content",
+                formOrientation === "vertical" ? "form-vertical" : "form-horizontal",
+                className
+            )}
+        >
+            {children}
+        </div>
+    );
 }
 
 export interface FormControlProps extends PropsWithChildrenWithClass {
