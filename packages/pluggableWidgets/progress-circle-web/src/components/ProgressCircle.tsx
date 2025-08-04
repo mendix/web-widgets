@@ -89,7 +89,11 @@ export const ProgressCircle: FunctionComponent<ProgressCircleProps> = ({
             )}
             style={style}
         >
-            {alertMessage ? <Alert bootstrapStyle="danger">{alertMessage}</Alert> : null}
+            {alertMessage ? (
+                <Alert bootstrapStyle="danger" role="alert">
+                    {alertMessage}
+                </Alert>
+            ) : null}
             <div
                 className={classNames("h2", "progress-circle-label-container", {
                     "widget-progress-circle-clickable": !!onClick
