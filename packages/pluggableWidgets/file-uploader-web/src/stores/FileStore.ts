@@ -69,6 +69,11 @@ export class FileStore {
         this._objectItem = undefined;
     }
 
+    markError(errorMessage: string): void {
+        this.fileStatus = "validationError";
+        this.errorDescription = errorMessage;
+    }
+
     canExecute(listAction: ListActionValue): boolean {
         if (!this._objectItem) {
             return false;
