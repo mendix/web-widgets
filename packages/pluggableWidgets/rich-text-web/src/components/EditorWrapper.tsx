@@ -52,7 +52,8 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         tabIndex,
         imageSource,
         imageSourceContent,
-        enableDefaultUpload
+        enableDefaultUpload,
+        formOrientation
     } = props;
 
     const globalState = useContext(EditorContext);
@@ -215,6 +216,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     imageSource={imageSource}
                     imageSourceContent={imageSourceContent}
                     enableDefaultUpload={enableDefaultUpload}
+                    formOrientation={formOrientation}
                 />
             </div>
             {enableStatusBar && (

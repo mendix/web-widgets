@@ -38,6 +38,7 @@ export interface EditorProps
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
     onSelectionChange?: (...args: [range: Range, oldRange: Range, source: EmitterSource]) => void;
+    formOrientation?: "horizontal" | "vertical";
     theme: string;
     style?: CSSProperties;
     className?: string;
@@ -216,6 +217,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 imageSource={props.imageSource}
                 imageSourceContent={props.imageSourceContent}
                 enableDefaultUpload={props.enableDefaultUpload}
+                formOrientation={props.formOrientation}
                 {...dialogConfig}
             ></Dialog>
         </Fragment>

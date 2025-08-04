@@ -13,6 +13,7 @@ export interface VideoDialogProps {
     onClose(): void;
     selection?: Range | null;
     defaultValue?: videoConfigType;
+    formOrientation?: "horizontal" | "vertical";
 }
 
 export function getValueType(value: VideoFormType): VideoFormType {
@@ -111,14 +112,14 @@ function EmbedVideoDialog(props: VideoDialogProps): ReactElement {
 }
 
 export default function VideoDialog(props: VideoDialogProps): ReactElement {
-    const { onClose, defaultValue } = props;
+    const { onClose, defaultValue, formOrientation } = props;
     const [activeTab, setActiveTab] = useState("general");
     // disable embed tab if it is about modifying current video
     const disableEmbed = defaultValue?.src && defaultValue.src.length > 0;
     return (
-        <DialogContent className="video-dialog">
+        <DialogContent className={classNames("video-dialog", formOrientation === "vertical" ? "form-vertical" : "")}>
             <DialogHeader onClose={onClose}>{activeTab === "general" ? "Insert/Edit" : "Embed"} Media</DialogHeader>
-            <DialogBody>
+            <DialogBody formOrientation={formOrientation}>
                 <div>
                     <ul className="nav nav-tabs mx-tabcontainer-tabs" role="tablist">
                         <li
