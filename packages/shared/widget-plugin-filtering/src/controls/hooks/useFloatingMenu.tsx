@@ -1,7 +1,9 @@
 import { useMemo } from "react";
-import { autoUpdate, size, useFloating } from "@floating-ui/react-dom";
+import { autoUpdate, size, useFloating, ReferenceType } from "@floating-ui/react-dom";
 
-export function useFloatingMenu(open: boolean): ReturnType<typeof useFloating> {
+export function useFloatingMenu<T extends ReferenceType = HTMLDivElement>(
+    open: boolean
+): ReturnType<typeof useFloating<T>> {
     const middleware = useMemo(
         () => [
             size({
@@ -15,7 +17,7 @@ export function useFloatingMenu(open: boolean): ReturnType<typeof useFloating> {
         []
     );
 
-    return useFloating({
+    return useFloating<T>({
         open,
         placement: "bottom-start",
         strategy: "fixed",
