@@ -12,7 +12,7 @@ type Members =
     | "hasMoreItems";
 
 export interface QueryController extends Pick<ListValue, Members> {
-    refresh(): void;
+    backgroundRefresh(): void;
     setPageSize(size: number): void;
     hasMoreItems: boolean;
     isFirstLoad: boolean;

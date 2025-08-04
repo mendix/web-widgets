@@ -1,20 +1,19 @@
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { ListValue, ValueStatus } from "mendix";
-import { action, autorun, computed, IComputedValue, makeAutoObservable, when } from "mobx";
+import { action, autorun, computed, IComputedValue, makeAutoObservable } from "mobx";
 import { QueryController } from "./query-controller";
-import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
-type Gate = DerivedPropsGate<{ datasource: ListValue; refreshIndicator: boolean; refreshInterval: number }>;
+type Gate = DerivedPropsGate<{ datasource: ListValue }>;
 
 type DatasourceControllerSpec = { gate: Gate };
 
 export class DatasourceController implements ReactiveController, QueryController {
     private gate: Gate;
-    private refreshing = false;
+    private backgroundCheck = false;
     private fetching = false;
     private pageSize = Infinity;
-    private isLoaded = false;
 
     constructor(host: ReactiveControllerHost, spec: DatasourceControllerSpec) {
         host.addController(this);
@@ -39,29 +38,25 @@ export class DatasourceController implements ReactiveController, QueryController
     }
 
     private resetFlags(): void {
-        this.refreshing = false;
+        this.backgroundCheck = false;
         this.fetching = false;
     }
 
     private updateFlags(status: ValueStatus): void {
-        if (this.refreshing) {
-            this.setRefreshing(status === "loading");
+        if (this.backgroundCheck) {
+            this.setBackgroundCheck(status === "loading");
         }
         if (this.fetching) {
             this.setFetching(status === "loading");
         }
     }
 
-    private setRefreshing(value: boolean): void {
-        this.refreshing = value;
+    private setBackgroundCheck(value: boolean): void {
+        this.backgroundCheck = value;
     }
 
     private setFetching(value: boolean): void {
         this.fetching = value;
-    }
-
-    private setIsLoaded(value: boolean): void {
-        this.isLoaded = value;
     }
 
     private resetLimit(): void {
@@ -77,11 +72,15 @@ export class DatasourceController implements ReactiveController, QueryController
     }
 
     get isFirstLoad(): boolean {
-        return !this.isLoaded;
+        return this.isDSLoading && this.datasource.items === undefined;
     }
 
     get isRefreshing(): boolean {
-        return this.refreshing;
+        return this.isDSLoading && this.datasource.items !== undefined;
+    }
+
+    get isSilentRefresh(): boolean {
+        return this.backgroundCheck;
     }
 
     get isFetchingNextBatch(): boolean {
@@ -114,20 +113,9 @@ export class DatasourceController implements ReactiveController, QueryController
         return computed(data);
     }
 
-    get showRefreshIndicator(): boolean {
-        const { refreshIndicator, refreshInterval } = this.gate.props;
-        return refreshIndicator && refreshInterval > 1 && this.isDSLoading && !this.isFirstLoad;
-    }
-
     setup(): () => void {
         const [add, disposeAll] = disposeBatch();
 
-        add(
-            when(
-                () => !this.isDSLoading,
-                () => this.setIsLoaded(true)
-            )
-        );
         add(
             autorun(() => {
                 // Always use actions to set flags to avoid subscribing to them
@@ -138,11 +126,11 @@ export class DatasourceController implements ReactiveController, QueryController
         return disposeAll;
     }
 
-    refresh(): void {
+    backgroundRefresh(): void {
         if (this.isDSLoading) {
             return;
         }
-        this.setRefreshing(true);
+        this.setBackgroundCheck(true);
         this.datasource.reload();
     }
 

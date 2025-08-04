@@ -1,9 +1,16 @@
 import { computed, makeObservable } from "mobx";
 
 type DerivedLoaderControllerSpec = {
+    showSilentRefresh: boolean;
+    refreshIndicator: boolean;
     exp: { exporting: boolean };
     cols: { loaded: boolean };
-    query: { isFetchingNextBatch: boolean; isFirstLoad: boolean; isRefreshing: boolean; showRefreshIndicator: boolean };
+    query: {
+        isFetchingNextBatch: boolean;
+        isFirstLoad: boolean;
+        isRefreshing: boolean;
+        isSilentRefresh: boolean;
+    };
 };
 
 export class DerivedLoaderController {
@@ -33,10 +40,20 @@ export class DerivedLoaderController {
     }
 
     get isRefreshing(): boolean {
-        return this.spec.query.isRefreshing;
+        const { isSilentRefresh, isRefreshing } = this.spec.query;
+
+        if (this.spec.showSilentRefresh) {
+            return isSilentRefresh || isRefreshing;
+        }
+
+        return !isSilentRefresh && isRefreshing;
     }
 
     get showRefreshIndicator(): boolean {
-        return this.spec.query.showRefreshIndicator;
+        if (!this.spec.refreshIndicator) {
+            return false;
+        }
+
+        return this.isRefreshing;
     }
 }
