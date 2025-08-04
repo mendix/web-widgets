@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Added support for using expressions to configure both delay and repeat interval values during component load. Expression support was also extended to delay values when attributes change dynamically.
+
 ## [1.0.1] - 2024-04-25
 
 ### Fixed
