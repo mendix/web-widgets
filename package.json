@@ -63,8 +63,7 @@
             "react-big-calendar@0.19.2": "patches/react-big-calendar@0.19.2.patch",
             "mobx@6.12.3": "patches/mobx@6.12.3.patch",
             "mobx-react-lite@4.0.7": "patches/mobx-react-lite@4.0.7.patch",
-            "mime-types": "patches/mime-types.patch",
-            "rc-trigger": "patches/rc-trigger.patch"
+            "mime-types": "patches/mime-types.patch"
         },
         "onlyBuiltDependencies": [
             "canvas"
