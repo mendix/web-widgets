@@ -32,14 +32,14 @@ describe("DatasourceController loading states", () => {
 
         it("refresh has no effect if ds is loading", () => {
             expect(provider.gate.props.datasource.status).toBe("loading");
-            controller.refresh();
+            controller.backgroundRefresh();
             expect(controller.isRefreshing).toBe(false);
         });
 
         it("isRefreshing is true after refresh call", () => {
             provider.setProps({ datasource: list(0), refreshIndicator: false, refreshInterval: 0 });
             expect(provider.gate.props.datasource.status).toBe("available");
-            controller.refresh();
+            controller.backgroundRefresh();
             expect(controller.isRefreshing).toBe(true);
             provider.setProps({ datasource: list.loading(), refreshIndicator: false, refreshInterval: 0 });
             expect(provider.gate.props.datasource.status).toBe("loading");
@@ -67,7 +67,7 @@ describe("DatasourceController loading states", () => {
         });
 
         it("triggers refresh when called", () => {
-            controller.refresh();
+            controller.backgroundRefresh();
             expect(datasource.reload).toHaveBeenCalled();
         });
 
