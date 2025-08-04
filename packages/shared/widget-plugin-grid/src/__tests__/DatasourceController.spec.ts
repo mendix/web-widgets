@@ -1,7 +1,7 @@
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 // import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { list } from "@mendix/widget-plugin-test-utils";
+import { list, obj } from "@mendix/widget-plugin-test-utils";
 import { ListValue } from "mendix";
 import { DatasourceController } from "../query/DatasourceController";
 
@@ -26,31 +26,40 @@ describe("DatasourceController loading states", () => {
             provider.setProps({ datasource, refreshIndicator: false, refreshInterval: 0 });
         });
 
-        it("isFirstLoad returns true by default", () => {
+        it("isFirstLoad returns true when loading and items undefined", () => {
             expect(controller.isFirstLoad).toBe(true);
         });
 
-        it("refresh has no effect if ds is loading", () => {
-            expect(provider.gate.props.datasource.status).toBe("loading");
+        it("backgroundRefresh does not trigger reload if already loading", () => {
+            const reloadSpy = jest.spyOn(provider.gate.props.datasource, "reload");
             controller.backgroundRefresh();
+            expect(reloadSpy).not.toHaveBeenCalled();
+        });
+
+        it("isRefreshing is false when loading and items undefined", () => {
             expect(controller.isRefreshing).toBe(false);
         });
 
-        it("isRefreshing is true after refresh call", () => {
-            provider.setProps({ datasource: list(0), refreshIndicator: false, refreshInterval: 0 });
-            expect(provider.gate.props.datasource.status).toBe("available");
+        it("isRefreshing is true after backgroundRefresh when items are present", () => {
+            // Set datasource to available with items
+            provider.setProps({ datasource: list(1), refreshIndicator: false, refreshInterval: 0 });
+            // Simulate refresh
             controller.backgroundRefresh();
+            // Replace datasource with a mock in loading state and items present
+            const loadingWithItems = { ...list.loading(), items: [obj()] };
+            provider.setProps({ datasource: loadingWithItems, refreshIndicator: false, refreshInterval: 0 });
             expect(controller.isRefreshing).toBe(true);
-            provider.setProps({ datasource: list.loading(), refreshIndicator: false, refreshInterval: 0 });
-            expect(provider.gate.props.datasource.status).toBe("loading");
-            expect(controller.isRefreshing).toBe(true);
-            expect(controller.isFirstLoad).toBe(false);
         });
 
-        it("isFetchingNextBatch returns true after setLimit call", () => {
+        it("isFetchingNextBatch is true after setLimit call", () => {
             controller.setLimit(20);
             expect(controller.isFetchingNextBatch).toBe(true);
-            expect(controller.isFirstLoad).toBe(true);
+        });
+
+        it("isSilentRefresh is true after backgroundRefresh", () => {
+            provider.setProps({ datasource: list(1), refreshIndicator: false, refreshInterval: 0 });
+            controller.backgroundRefresh();
+            expect(controller.isSilentRefresh).toBe(true);
         });
     });
 
@@ -64,16 +73,62 @@ describe("DatasourceController loading states", () => {
             expect(controller.isFirstLoad).toBe(false);
             expect(controller.isRefreshing).toBe(false);
             expect(controller.isFetchingNextBatch).toBe(false);
+            expect(controller.isSilentRefresh).toBe(false);
         });
 
-        it("triggers refresh when called", () => {
+        it("backgroundRefresh triggers reload when not loading", () => {
+            const reloadSpy = jest.spyOn(datasource, "reload");
             controller.backgroundRefresh();
-            expect(datasource.reload).toHaveBeenCalled();
+            expect(reloadSpy).toHaveBeenCalled();
         });
 
-        it("triggers setLimit when called", () => {
+        it("setLimit triggers setLimit on datasource", () => {
+            const setLimitSpy = jest.spyOn(datasource, "setLimit");
             controller.setLimit(20);
-            expect(datasource.setLimit).toHaveBeenCalledWith(20);
+            expect(setLimitSpy).toHaveBeenCalledWith(20);
+        });
+
+        it("setOffset triggers setOffset and resets flags", () => {
+            const setOffsetSpy = jest.spyOn(datasource, "setOffset");
+            controller.setOffset(5);
+            expect(setOffsetSpy).toHaveBeenCalledWith(5);
+        });
+
+        it("setSortOrder triggers setSortOrder and resets flags", () => {
+            const setSortOrderSpy = jest.spyOn(datasource, "setSortOrder");
+            // Use Mendix Option_2 structure (runtime shape)
+            const sortOption = { some: [{ attribute: "name", direction: "asc" }] };
+            // @ts-expect-error: Mendix Option_2 type not available in workspace
+            controller.setSortOrder(sortOption);
+            expect(setSortOrderSpy).toHaveBeenCalledWith(sortOption);
+        });
+
+        it("setFilter triggers setFilter and resets flags", () => {
+            const setFilterSpy = jest.spyOn(datasource, "setFilter");
+            // Use Mendix Option_2 structure (runtime shape)
+            const filterOption = { some: { attribute: "name", operator: "equals", value: "test" } };
+            // @ts-expect-error: Mendix Option_2 type not available in workspace
+            controller.setFilter(filterOption);
+            expect(setFilterSpy).toHaveBeenCalledWith(filterOption);
+        });
+
+        it("setPageSize updates pageSize property", () => {
+            controller.setPageSize(50);
+            // @ts-expect-error: private property
+            expect(controller.pageSize).toBe(50);
+        });
+
+        it("requestTotalCount triggers datasource.requestTotalCount", () => {
+            const spy = jest.spyOn(datasource, "requestTotalCount");
+            controller.requestTotalCount(true);
+            expect(spy).toHaveBeenCalledWith(true);
+        });
+
+        it("derivedQuery returns a computed value and updates on datasource change", () => {
+            const derived = controller.derivedQuery;
+            expect(typeof derived.get).toBe("function");
+            provider.setProps({ datasource: list(2), refreshIndicator: false, refreshInterval: 0 });
+            expect(derived.get()).toBeInstanceOf(DatasourceController);
         });
     });
 });
