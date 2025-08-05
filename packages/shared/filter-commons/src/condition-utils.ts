@@ -142,6 +142,58 @@ export function restoreArray(cond: FilterCondition | undefined, meta: string): A
     return arr;
 }
 
+type ReduceMapMeta = {
+    [index: number]: string;
+    length: number;
+    keys: string[];
+};
+
+export function reduceMap(input: Record<string, FilterCondition | undefined>): [FilterCondition | undefined, string] {
+    const meta: ReduceMapMeta = { length: 0, keys: [] };
+    const conditions: FilterCondition[] = [];
+    for (const [key, value] of Object.entries(input)) {
+        meta.keys.push(key);
+        if (value !== undefined) {
+            meta[conditions.length] = key;
+            conditions.push(value);
+        }
+    }
+    meta.length = conditions.length;
+
+    const metaJson = JSON.stringify(meta);
+
+    switch (conditions.length) {
+        case 0:
+            return [undefined, metaJson];
+        case 1:
+            return [conditions[0], metaJson];
+        default:
+            return [and(...conditions), metaJson];
+    }
+}
+/* 
+export function restoreMap(
+    cond: FilterCondition | undefined,
+    metaJson: string
+): Record<string, FilterCondition | undefined> {
+    const meta = JSON.parse(metaJson) as ReduceMapMeta;
+    const result: Record<string, FilterCondition | undefined> = {};
+    const keys = Object.keys(meta).filter(key => key !== "length");
+    for (const key of keys) {
+        result[key] = undefined;
+    }
+
+    if (meta.length === 0) {
+        return result;
+    }
+
+    if (meta.length === 1) {
+        const key = keys[0];
+        result[key] = cond;
+        return result;
+    }
+} */
+
 export function fromCompactArray(cond: FilterCondition): Array<FilterCondition | undefined> {
     const tag = isAnd(cond) ? cond.args[0] : cond;
 
