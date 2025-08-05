@@ -29,9 +29,10 @@ jest.mock("../helpers/getSelector", () => ({
             _optionToValue: jest.fn(),
             _valueToOption: jest.fn()
         },
+        controlType: "radio",
         caption: {
-            get: jest.fn(value => `Caption ${value}`),
-            render: jest.fn(value => `Caption ${value}`),
+            get: jest.fn((value: string) => `Caption ${value}`),
+            render: jest.fn((value: string) => `Caption ${value}`),
             emptyCaption: "Select an option",
             formatter: undefined
         }
@@ -67,7 +68,8 @@ describe("CheckboxRadioSelection", () => {
         customEditability: "default" as const,
         customEditabilityExpression: { status: "available", value: false } as any,
         readOnlyStyle: "bordered" as const,
-        ariaRequired: { status: "available", value: false } as any
+        ariaRequired: { status: "available", value: false } as any,
+        controlType: "checkbox" as const
     };
 
     it("renders without crashing", () => {
