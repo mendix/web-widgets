@@ -8,9 +8,8 @@
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
-    "dependencies": {
+    "devDependencies": {
         "@mendix/pluggable-widgets-tools": "*",
-        "fast-glob": "^3.3.3",
-        "shelljs": "^0.8.5"
+        "rollup-plugin-copy": "^3.5.0"
     }
 }

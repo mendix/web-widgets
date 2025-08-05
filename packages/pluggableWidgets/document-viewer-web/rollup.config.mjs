@@ -1,10 +1,9 @@
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
-import { copyDefaultFiles } from "@mendix/rollup-web-widgets/helper.mjs";
+import { copyDefaultFilesPlugin } from "@mendix/rollup-web-widgets/copyFiles.mjs";
 
 export default args => {
     const result = args.configDefaultConfig;
-    copyDefaultFiles(import.meta.dirname);
     return result.map((config, _index) => {
         config.output.inlineDynamicImports = true;
         if (config.output.format !== "es") {
@@ -43,7 +42,8 @@ export default args => {
                         // Tree-shake client worker initialization logic.
                         "!PDFWorkerUtil.isWorkerDisabled && !PDFWorker.#mainThreadWorkerMessageHandler": "false"
                     }
-                })
+                }),
+                copyDefaultFilesPlugin()
             ]
         };
     });

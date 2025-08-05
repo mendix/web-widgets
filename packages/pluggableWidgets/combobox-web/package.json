@@ -56,6 +56,7 @@
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/rollup-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:^*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-grid": "workspace:*",

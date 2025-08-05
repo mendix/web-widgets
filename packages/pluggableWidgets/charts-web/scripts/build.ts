@@ -33,6 +33,8 @@ async function repackChartWidgets({ config }: WidgetStepParams): Promise<void> {
 
     console.log("Copying package.xml...");
     cp(join(paths.package, "src", "package.xml"), join(paths.tmp, "package.xml"));
+    console.log("Copying License.txt...");
+    cp(join(paths.package, "../../../LICENSE"), join(paths.tmp, "License.txt"));
     console.log("Creating mpk...");
     await zip(paths.tmp, output.files.mpk);
 }
