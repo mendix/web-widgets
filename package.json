@@ -70,7 +70,13 @@
             "rc-trigger": "patches/rc-trigger.patch"
         },
         "onlyBuiltDependencies": [
+            "@swc/core",
             "canvas"
+        ],
+        "ignoredBuiltDependencies": [
+            "@parcel/watcher",
+            "core-js",
+            "es5-ext"
         ]
     },
     "prettier": "@mendix/prettier-config-web-widgets"

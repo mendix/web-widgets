@@ -1,9 +1,9 @@
-import { compactArray, fromCompactArray, isAnd } from "@mendix/filter-commons/condition-utils";
+import { reduceArray, restoreArray } from "@mendix/filter-commons/condition-utils";
 import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
+import { fnv1aHash } from "@mendix/widget-plugin-grid/utils/fnv-1a-hash";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { FilterCondition } from "mendix/filters";
-import { and } from "mendix/filters/builders";
 import { makeAutoObservable, reaction } from "mobx";
 import { SortInstruction } from "../typings/sorting";
 
@@ -22,10 +22,19 @@ type DatasourceParamsControllerSpec = {
     customFilters: FiltersInput;
 };
 
+type FiltersMeta = {
+    columnFilters: string;
+    customFilters: string;
+    combined: string;
+};
+
+type CondArray = Array<FilterCondition | undefined>;
+
 export class DatasourceParamsController implements ReactiveController {
     private columns: Columns;
     private query: QueryController;
     private customFilters: FiltersInput;
+    readonly widgetName: string = "dataKey";
 
     constructor(host: ReactiveControllerHost, spec: DatasourceParamsControllerSpec) {
         host.addController(this);
@@ -36,14 +45,39 @@ export class DatasourceParamsController implements ReactiveController {
         makeAutoObservable(this, { setup: false });
     }
 
-    private get derivedFilter(): FilterCondition | undefined {
-        const { columns, customFilters } = this;
+    private get derivedFilter(): {
+        filter: FilterCondition | undefined;
+        meta: FiltersMeta;
+        hash: string | null;
+    } {
+        // return and(compactArray(this.columns.conditions), compactArray(this.customFilters.conditions));
+        return this.reduceFilters(this.columns.conditions, this.customFilters.conditions);
 
-        return and(compactArray(columns.conditions), compactArray(customFilters.conditions));
+        // console.dir(...reduceArray(columns.conditions));
+
+        // return [this.columns.conditions, this.customFilters.conditions];
     }
 
     private get derivedSortOrder(): SortInstruction[] | undefined {
         return this.columns.sortInstructions;
+    }
+
+    reduceFilters(
+        columnFilters: CondArray,
+        customFilters: CondArray
+    ): {
+        filter: FilterCondition | undefined;
+        meta: FiltersMeta;
+        hash: string | null;
+    } {
+        const [columnsCond, columnsMeta] = reduceArray(columnFilters);
+        const [customCond, customMeta] = reduceArray(customFilters);
+        const [filter, combinedMeta] = reduceArray([columnsCond, customCond]);
+
+        const meta: FiltersMeta = { columnFilters: columnsMeta, customFilters: customMeta, combined: combinedMeta };
+        const hash = filter ? DatasourceParamsController.filterHash(filter) : null;
+
+        return { filter, meta, hash };
     }
 
     setup(): () => void {
@@ -58,7 +92,15 @@ export class DatasourceParamsController implements ReactiveController {
         add(
             reaction(
                 () => this.derivedFilter,
-                filter => this.query.setFilter(filter),
+                (next, prev) => {
+                    if (prev && prev.hash) {
+                        this.clearFilterMeta(prev.hash);
+                    }
+                    if (next.hash) {
+                        this.saveFilterMeta(next.hash, next.meta);
+                    }
+                    this.query.setFilter(next.filter);
+                },
                 { fireImmediately: true }
             )
         );
@@ -66,20 +108,55 @@ export class DatasourceParamsController implements ReactiveController {
         return disposeAll;
     }
 
+    storageKey(hash: string): string {
+        return `${this.widgetName}:[${hash}]`;
+    }
+
+    clearFilterMeta(hash: string): void {
+        sessionStorage.removeItem(this.storageKey(hash));
+    }
+
+    saveFilterMeta(hash: string | null, meta: FiltersMeta): void {
+        if (!hash) {
+            return;
+        }
+
+        sessionStorage.setItem(this.storageKey(hash), JSON.stringify(meta));
+    }
+
+    readFilterMeta(hash: string): FiltersMeta | null {
+        const item = sessionStorage.getItem(this.storageKey(hash));
+        if (!item) {
+            return null;
+        }
+        try {
+            return JSON.parse(item) as FiltersMeta;
+        } catch (e) {
+            console.error(`DatasourceParamsController.readFilterMeta: Error parsing meta for hash ${hash}`, e);
+            return null;
+        }
+    }
+
+    static filterHash(filter: FilterCondition): string {
+        return fnv1aHash(JSON.stringify(filter)).toString();
+    }
+
     static unzipFilter(
-        filter?: FilterCondition
-    ): [columns: Array<FilterCondition | undefined>, sharedFilter: Array<FilterCondition | undefined>] {
+        filter?: FilterCondition,
+        widgetName = "dataKey"
+    ): [columnFilters: Array<FilterCondition | undefined>, customFilters: Array<FilterCondition | undefined>] {
         if (!filter) {
             return [[], []];
         }
-        if (!isAnd(filter)) {
+        const hash = this.filterHash(filter);
+        const metaJson = sessionStorage.getItem(`${widgetName}:[${hash}]`);
+        if (!metaJson) {
             return [[], []];
         }
-        if (filter.args.length !== 2) {
-            return [[], []];
-        }
-
-        const [columns, shared] = filter.args;
-        return [fromCompactArray(columns), fromCompactArray(shared)];
+        const meta = JSON.parse(metaJson) as FiltersMeta;
+        const [x, y] = restoreArray(filter, meta.combined);
+        const columnFilters = restoreArray(x, meta.columnFilters);
+        const customFilters = restoreArray(y, meta.customFilters);
+        return [columnFilters, customFilters];
     }
 }

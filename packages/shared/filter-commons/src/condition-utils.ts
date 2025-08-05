@@ -105,6 +105,43 @@ export function compactArray(input: Array<FilterCondition | undefined>): FilterC
     return and(metaTag, ...items);
 }
 
+export function reduceArray(
+    input: Array<FilterCondition | undefined>
+): [cond: FilterCondition | undefined, meta: string] {
+    const [indexes, items] = shrink(input);
+    const meta = JSON.stringify([input.length, indexes]);
+
+    switch (items.length) {
+        case 0:
+            return [undefined, meta];
+        case 1:
+            return [items[0], meta];
+        default:
+            return [and(...items), meta];
+    }
+}
+
+export function restoreArray(cond: FilterCondition | undefined, meta: string): Array<FilterCondition | undefined> {
+    const [length, indexes] = JSON.parse(meta) as ArrayMeta;
+    const arr: Array<FilterCondition | undefined> = Array(length).fill(undefined);
+
+    if (indexes.length === 0) {
+        return arr;
+    }
+    if (indexes.length === 1) {
+        arr[indexes[0]] = cond;
+        return arr;
+    }
+    if (cond && isAnd(cond)) {
+        cond.args.forEach((c, i) => {
+            arr[indexes[i]] = c;
+        });
+        return arr;
+    }
+
+    return arr;
+}
+
 export function fromCompactArray(cond: FilterCondition): Array<FilterCondition | undefined> {
     const tag = isAnd(cond) ? cond.args[0] : cond;
 
