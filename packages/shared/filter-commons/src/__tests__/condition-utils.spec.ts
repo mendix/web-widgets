@@ -2,7 +2,7 @@ jest.mock("mendix/filters/builders");
 
 import { AndCondition } from "mendix/filters";
 import { equals, literal } from "mendix/filters/builders";
-import { compactArray, fromCompactArray, tag } from "../condition-utils";
+import { compactArray, fromCompactArray, reduceMap, tag } from "../condition-utils";
 
 describe("condition-utils", () => {
     describe("compactArray", () => {
@@ -45,6 +45,94 @@ describe("condition-utils", () => {
             expect(cond).toBeDefined();
             const result = fromCompactArray(cond!);
             expect(result).toEqual(input);
+        });
+    });
+
+    describe("reduceMap", () => {
+        it("returns undefined condition and correct metadata for map with undefined values", () => {
+            const input = { x: undefined, y: undefined };
+            const [condition, metadata] = reduceMap(input);
+
+            expect(condition).toBeUndefined();
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual({
+                length: 0,
+                keys: ["x", "y"]
+            });
+        });
+
+        it("returns single condition and correct metadata for map with one condition", () => {
+            const tagCondition = tag("test");
+            const input = { a: tagCondition, b: undefined, c: undefined };
+            const [condition, metadata] = reduceMap(input);
+
+            expect(condition).toBe(tagCondition);
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual({
+                length: 1,
+                keys: ["a", "b", "c"],
+                0: "a"
+            });
+        });
+
+        it("returns 'and' condition and correct metadata for map with multiple conditions", () => {
+            const tagCondition1 = tag("test1");
+            const tagCondition2 = tag("test2");
+            const input = { x: tagCondition1, y: undefined, z: tagCondition2, w: undefined };
+            const [condition, metadata] = reduceMap(input);
+
+            expect(condition).toMatchObject({ name: "and", type: "function" });
+            expect((condition as AndCondition).args).toHaveLength(2);
+            expect((condition as AndCondition).args[0]).toBe(tagCondition1);
+            expect((condition as AndCondition).args[1]).toBe(tagCondition2);
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual({
+                length: 2,
+                keys: ["x", "y", "z", "w"],
+                0: "x",
+                1: "z"
+            });
+        });
+
+        it("returns undefined condition for empty map", () => {
+            const input = {};
+            const [condition, metadata] = reduceMap(input);
+
+            expect(condition).toBeUndefined();
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual({
+                length: 0,
+                keys: []
+            });
+        });
+
+        it("handles map with mixed condition types", () => {
+            const tagCondition = tag("tag-test");
+            const equalsCondition = equals(literal("field"), literal("value"));
+            const input = {
+                tag: tagCondition,
+                equals: equalsCondition,
+                empty: undefined,
+                another: undefined
+            };
+            const [condition, metadata] = reduceMap(input);
+
+            expect(condition).toMatchObject({ name: "and", type: "function" });
+            expect((condition as AndCondition).args).toHaveLength(2);
+            expect((condition as AndCondition).args[0]).toBe(tagCondition);
+            expect((condition as AndCondition).args[1]).toBe(equalsCondition);
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual({
+                length: 2,
+                keys: ["tag", "equals", "empty", "another"],
+                0: "tag",
+                1: "equals"
+            });
         });
     });
 });
