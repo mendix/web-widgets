@@ -48,6 +48,7 @@
         "@babel/plugin-transform-private-methods": "^7.27.1",
         "@babel/plugin-transform-private-property-in-object": "^7.27.1",
         "@mendix/pluggable-widgets-tools": "*",
+        "@mendix/rollup-web-widgets": "workspace:*",
         "@rollup/plugin-replace": "^6.0.2"
     }
 }
