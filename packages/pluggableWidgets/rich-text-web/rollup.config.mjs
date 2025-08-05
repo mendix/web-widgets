@@ -1,9 +1,11 @@
 import typescript from "@rollup/plugin-typescript";
 import preserveDirectives from "rollup-preserve-directives";
 import alias from "@rollup/plugin-alias";
+import { copyDefaultFiles } from "@mendix/rollup-web-widgets/helper.mjs";
 
 export default args => {
     const result = args.configDefaultConfig;
+    copyDefaultFiles(import.meta.dirname);
     return result.map((config, _index) => {
         config.plugins = [
             ...config.plugins.filter(plugin => plugin?.name !== "typescript"),

@@ -1,0 +1,16 @@
+{
+    "name": "@mendix/rollup-web-widgets",
+    "version": "1.0.0",
+    "description": "Place to keep shared rollup configs.",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "dependencies": {
+        "@mendix/pluggable-widgets-tools": "*",
+        "fast-glob": "^3.3.3",
+        "shelljs": "^0.8.5"
+    }
+}
