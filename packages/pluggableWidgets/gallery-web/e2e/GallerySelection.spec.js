@@ -12,7 +12,7 @@ test.describe("gallery-web", () => {
             await page.goto("/p/single-selection");
             await page.waitForLoadState("networkidle");
             await expect(page.locator(".mx-name-gallery1")).toBeVisible();
-            await page.locator(".mx-name-image1").first().click();
+            await page.locator(".mx-name-image1").first().click({ delay: 1 });
             await page.locator(".mx-name-feedback1").isHidden();
             await expect(page.locator(".mx-name-layoutGrid1").nth(1)).toHaveScreenshot(`gallerySingleSelection.png`);
         });
@@ -22,9 +22,9 @@ test.describe("gallery-web", () => {
             await page.waitForLoadState("networkidle");
             await expect(page.locator(".mx-name-gallery1")).toBeVisible();
             await page.keyboard.down("Shift");
-            await page.locator(".mx-name-image1").nth(0).click();
-            await page.locator(".mx-name-image1").nth(1).click();
-            await page.locator(".mx-name-image1").nth(2).click();
+            await page.locator(".mx-name-image1").nth(0).click({ delay: 1 });
+            await page.locator(".mx-name-image1").nth(1).click({ delay: 1 });
+            await page.locator(".mx-name-image1").nth(2).click({ delay: 1 });
             await page.locator(".mx-name-feedback1").isHidden();
             await expect(page.locator(".mx-name-layoutGrid1").nth(1)).toHaveScreenshot(`galleryMultiSelection.png`);
         });
