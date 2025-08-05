@@ -1,8 +1,16 @@
 jest.mock("mendix/filters/builders");
 
-import { AndCondition } from "mendix/filters";
+import { AndCondition, FilterCondition } from "mendix/filters";
 import { equals, literal } from "mendix/filters/builders";
-import { compactArray, fromCompactArray, reduceMap, restoreMap, tag } from "../condition-utils";
+import {
+    compactArray,
+    fromCompactArray,
+    reduceArray,
+    reduceMap,
+    restoreArray,
+    restoreMap,
+    tag
+} from "../condition-utils";
 
 describe("condition-utils", () => {
     describe("compactArray", () => {
@@ -263,6 +271,196 @@ describe("condition-utils", () => {
                 a: undefined,
                 b: undefined
             });
+        });
+    });
+
+    describe("reduceArray", () => {
+        it("returns undefined condition and correct metadata for array with undefined values", () => {
+            const input = [undefined, undefined, undefined];
+            const [condition, metadata] = reduceArray(input);
+
+            expect(condition).toBeUndefined();
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual([3, []]);
+        });
+
+        it("returns single condition and correct metadata for array with one condition", () => {
+            const tagCondition = tag("test");
+            const input = [undefined, tagCondition, undefined];
+            const [condition, metadata] = reduceArray(input);
+
+            expect(condition).toBe(tagCondition);
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual([3, [1]]);
+        });
+
+        it("returns 'and' condition and correct metadata for array with multiple conditions", () => {
+            const tagCondition1 = tag("test1");
+            const tagCondition2 = tag("test2");
+            const input = [tagCondition1, undefined, tagCondition2, undefined];
+            const [condition, metadata] = reduceArray(input);
+
+            expect(condition).toMatchObject({ name: "and", type: "function" });
+            expect((condition as AndCondition).args).toHaveLength(2);
+            expect((condition as AndCondition).args[0]).toBe(tagCondition1);
+            expect((condition as AndCondition).args[1]).toBe(tagCondition2);
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual([4, [0, 2]]);
+        });
+
+        it("returns undefined condition for empty array", () => {
+            const input: Array<FilterCondition | undefined> = [];
+            const [condition, metadata] = reduceArray(input);
+
+            expect(condition).toBeUndefined();
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual([0, []]);
+        });
+
+        it("handles array with mixed condition types", () => {
+            const tagCondition = tag("tag-test");
+            const equalsCondition = equals(literal("field"), literal("value"));
+            const input = [tagCondition, undefined, equalsCondition, undefined, undefined];
+            const [condition, metadata] = reduceArray(input);
+
+            expect(condition).toMatchObject({ name: "and", type: "function" });
+            expect((condition as AndCondition).args).toHaveLength(2);
+            expect((condition as AndCondition).args[0]).toBe(tagCondition);
+            expect((condition as AndCondition).args[1]).toBe(equalsCondition);
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual([5, [0, 2]]);
+        });
+
+        it("handles array with single condition at beginning", () => {
+            const tagCondition = tag("first");
+            const input = [tagCondition, undefined, undefined];
+            const [condition, metadata] = reduceArray(input);
+
+            expect(condition).toBe(tagCondition);
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual([3, [0]]);
+        });
+
+        it("handles array with single condition at end", () => {
+            const tagCondition = tag("last");
+            const input = [undefined, undefined, tagCondition];
+            const [condition, metadata] = reduceArray(input);
+
+            expect(condition).toBe(tagCondition);
+
+            const parsedMeta = JSON.parse(metadata);
+            expect(parsedMeta).toEqual([3, [2]]);
+        });
+    });
+
+    describe("restoreArray", () => {
+        it("restores array with undefined values from undefined condition", () => {
+            const originalInput = [undefined, undefined, undefined];
+            const [condition, metadata] = reduceArray(originalInput);
+
+            const restored = restoreArray(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
+        });
+
+        it("restores array with single condition", () => {
+            const tagCondition = tag("test");
+            const originalInput = [undefined, tagCondition, undefined];
+            const [condition, metadata] = reduceArray(originalInput);
+
+            const restored = restoreArray(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
+        });
+
+        it("restores array with multiple conditions", () => {
+            const tagCondition1 = tag("test1");
+            const tagCondition2 = tag("test2");
+            const originalInput = [tagCondition1, undefined, tagCondition2, undefined];
+            const [condition, metadata] = reduceArray(originalInput);
+
+            const restored = restoreArray(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
+        });
+
+        it("restores empty array", () => {
+            const originalInput: Array<FilterCondition | undefined> = [];
+            const [condition, metadata] = reduceArray(originalInput);
+
+            const restored = restoreArray(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
+        });
+
+        it("restores array with mixed condition types", () => {
+            const tagCondition = tag("tag-test");
+            const equalsCondition = equals(literal("field"), literal("value"));
+            const originalInput = [tagCondition, undefined, equalsCondition, undefined, undefined];
+            const [condition, metadata] = reduceArray(originalInput);
+
+            const restored = restoreArray(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
+        });
+
+        it("handles manual metadata for single condition case", () => {
+            const tagCondition = tag("manual-test");
+            const metadata = JSON.stringify([4, [2]]);
+
+            const restored = restoreArray(tagCondition, metadata);
+
+            expect(restored).toEqual([undefined, undefined, tagCondition, undefined]);
+        });
+
+        it("handles manual metadata for multiple conditions case", () => {
+            const tagCondition1 = tag("manual1");
+            const tagCondition2 = tag("manual2");
+            const andCondition = {
+                name: "and",
+                type: "function",
+                args: [tagCondition1, tagCondition2]
+            } as AndCondition;
+            const metadata = JSON.stringify([5, [1, 3]]);
+
+            const restored = restoreArray(andCondition, metadata);
+
+            expect(restored).toEqual([undefined, tagCondition1, undefined, tagCondition2, undefined]);
+        });
+
+        it("handles edge case with undefined condition and non-empty indexes", () => {
+            const metadata = JSON.stringify([3, [1]]);
+
+            const restored = restoreArray(undefined, metadata);
+
+            expect(restored).toEqual([undefined, undefined, undefined]);
+        });
+
+        it("handles edge case with non-and condition but multiple indexes", () => {
+            const tagCondition = tag("single");
+            const metadata = JSON.stringify([4, [0, 2]]);
+
+            const restored = restoreArray(tagCondition, metadata);
+
+            expect(restored).toEqual([undefined, undefined, undefined, undefined]);
+        });
+
+        it("round-trip test with complex array", () => {
+            const tag1 = tag("one");
+            const tag2 = tag("two");
+            const eq1 = equals(literal("a"), literal("b"));
+            const originalInput = [tag1, undefined, eq1, undefined, tag2, undefined, undefined];
+
+            const [condition, metadata] = reduceArray(originalInput);
+            const restored = restoreArray(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
         });
     });
 });
