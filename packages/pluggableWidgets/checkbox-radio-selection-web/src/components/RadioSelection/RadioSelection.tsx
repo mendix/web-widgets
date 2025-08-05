@@ -11,15 +11,25 @@ export function RadioSelection({
     readOnlyStyle,
     groupName
 }: SelectionBaseProps<SingleSelector>): ReactElement {
-    const options = selector.options.getAll();
+    const asSingleCheckbox = selector.controlType === "checkbox";
+
+    const allOptions = selector.options.getAll();
+    const checkboxOption = asSingleCheckbox ? (allOptions.includes("true") ? "true" : allOptions[0]) : undefined;
+    const options: string[] = asSingleCheckbox ? (checkboxOption ? [checkboxOption] : []) : allOptions;
+
     const currentId = selector.currentId;
     const isReadOnly = selector.readOnly;
     const name = groupName?.value ?? inputId;
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        const selectedItem = e.target.value;
-        if (!isReadOnly) {
-            selector.setValue(selectedItem);
+        if (isReadOnly) {
+            return;
+        }
+
+        if (asSingleCheckbox) {
+            selector.setValue(e.target.checked ? "true" : "false");
+        } else {
+            selector.setValue(e.target.value);
         }
     };
 
@@ -29,23 +39,24 @@ export function RadioSelection({
                 "widget-checkbox-radio-selection-readonly": isReadOnly,
                 [`widget-checkbox-radio-selection-readonly-${readOnlyStyle}`]: isReadOnly
             })}
-            role="radiogroup"
+            role={asSingleCheckbox ? "group" : "radiogroup"}
             aria-labelledby={`${inputId}-label`}
             aria-required={ariaRequired?.value}
         >
             {options.map((optionId, index) => {
                 const isSelected = currentId === optionId;
-                const radioId = `${inputId}-radio-${index}`;
+                const controlId = `${inputId}-${selector.controlType}-${index}`;
+
                 return (
                     <div
                         key={optionId}
-                        className={classNames("widget-checkbox-radio-selection-item", "radio-item", {
+                        className={classNames("widget-checkbox-radio-selection-item", `${selector.controlType}-item`, {
                             "widget-checkbox-radio-selection-item-selected": isSelected
                         })}
                     >
                         <input
                             type={selector.controlType}
-                            id={radioId}
+                            id={controlId}
                             name={name}
                             value={optionId}
                             checked={isSelected}
@@ -59,10 +70,10 @@ export function RadioSelection({
                                 e.stopPropagation();
                                 e.nativeEvent.stopImmediatePropagation();
                                 if (!isReadOnly) {
-                                    selector.setValue(optionId);
+                                    selector.setValue(asSingleCheckbox ? (isSelected ? "false" : "true") : optionId);
                                 }
                             }}
-                            htmlFor={radioId}
+                            htmlFor={controlId}
                         >
                             {selector.caption.render(optionId)}
                         </CaptionContent>
