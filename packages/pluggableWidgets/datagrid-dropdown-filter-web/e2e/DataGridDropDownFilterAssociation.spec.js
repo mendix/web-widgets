@@ -15,7 +15,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
         test("show list of Companies with empty option on top of the list", async ({ page }) => {
             const menu = () => page.locator("text=FMC Corp");
 
-            await page.locator(".mx-name-drop_downFilter2").click();
+            await page.locator(".mx-name-drop_downFilter2").click({ delay: 1 });
             await expect(menu()).toBeVisible();
             const list = page.locator(".widget-dropdown-filter-menu-slot > ul > li");
             await expect(list).toHaveCount(21);
@@ -25,15 +25,15 @@ test.describe("datagrid-dropdown-filter-web", () => {
         });
 
         test("set value after option is clicked", async ({ page }) => {
-            const select = () => page.getByRole("columnheader", { name: "sort Company" }).getByLabel("Search");
+            const select = () => page.getByRole("combobox", { name: "Company column filter" });
             const toggle = page.locator(".widget-dropdown-filter-toggle");
             const menu = () => page.locator("text=FMC Corp");
             const option1 = () => page.getByRole("option", { name: "Brown-Forman Corporation" });
-            const clickOutside = async () => page.locator("body").click();
+            const clickOutside = async () => page.locator("body").click({ delay: 1 });
 
-            await select().click();
+            await select().click({ delay: 1 });
             await expect(menu()).toBeVisible();
-            await option1().click();
+            await option1().click({ delay: 1 });
             await expect(toggle.nth(3)).toHaveText("Brown-Forman Corporation");
             await clickOutside();
             await expect(menu()).not.toBeVisible();
@@ -45,13 +45,13 @@ test.describe("datagrid-dropdown-filter-web", () => {
 
     test.describe("multiselect", () => {
         test("shows list of Roles", async ({ page }) => {
-            const select = () => page.getByRole("columnheader", { name: "Roles" }).getByLabel("Search");
+            const select = () => page.getByRole("combobox", { name: "Role column filter" });
             const menu = () => page.locator("text=Economist");
             const option1 = () => page.getByRole("option", { name: "Economist" });
             const option2 = () => page.getByRole("option", { name: "Public librarian" });
             const option3 = () => page.getByRole("option", { name: "Prison officer" });
 
-            await select().click();
+            await select().click({ delay: 1 });
             await expect(menu().first()).toBeVisible();
             await expect(option1()).toBeVisible();
             await expect(option2()).toBeVisible();
@@ -59,11 +59,11 @@ test.describe("datagrid-dropdown-filter-web", () => {
         });
 
         test("does filtering when option is checked", async ({ page }) => {
-            const select = () => page.getByRole("columnheader", { name: "Roles" }).getByLabel("Search");
+            const select = () => page.getByRole("combobox", { name: "Role column filter" });
             const option2 = () => page.getByRole("option", { name: "Public librarian" });
 
-            await select().click();
-            await option2().click();
+            await select().click({ delay: 1 });
+            await option2().click({ delay: 1 });
             const rows = page.locator(".mx-name-dataGrid21 .tr");
             await expect(rows).toHaveCount(5); // 4 rows + 1 header row
         });
@@ -73,9 +73,9 @@ test.describe("datagrid-dropdown-filter-web", () => {
         test("open menu with no options selected", async ({ page }) => {
             const select = () => page.locator(".mx-name-drop_downFilter1");
             const menu = () => page.getByRole("option", { name: "Environmental scientist" });
-            const clickOutside = async () => (await page.locator("body")).click();
+            const clickOutside = async () => (await page.locator("body")).click({ delay: 1 });
 
-            await select().click();
+            await select().click({ delay: 1 });
             const checkedOptions = await menu().locator("input:checked");
             await expect(checkedOptions).toHaveCount(0);
             await clickOutside();
@@ -88,8 +88,8 @@ test.describe("datagrid-dropdown-filter-web", () => {
             const menu = () => page.getByRole("option", { name: "Environmental scientist" });
             const option1 = () => page.getByRole("option", { name: "Environmental scientist" });
 
-            await select().click();
-            await option1().click();
+            await select().click({ delay: 1 });
+            await option1().click({ delay: 1 });
             const checkedOptions = await menu().locator("input:checked");
             await expect(checkedOptions).toHaveCount(1);
             await expect(checkedOptions.first()).toBeChecked();
@@ -106,9 +106,9 @@ test.describe("datagrid-dropdown-filter-web", () => {
             const option1 = () => page.getByRole("option", { name: "Environmental scientist" });
             const option2 = () => page.getByRole("option", { name: "Trader" });
 
-            await select().click();
-            await option1().click();
-            await option2().click();
+            await select().click({ delay: 1 });
+            await option1().click({ delay: 1 });
+            await option2().click({ delay: 1 });
             const checkedOptions = await menu().locator("input:checked");
             await expect(checkedOptions).toHaveCount(2);
             await expect(checkedOptions.first()).toBeChecked();

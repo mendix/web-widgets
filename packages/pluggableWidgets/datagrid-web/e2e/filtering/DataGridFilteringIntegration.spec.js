@@ -23,27 +23,27 @@ test("datagrid-web filtering integration", async ({ page }) => {
 
     await page.getByRole("columnheader", { name: "Birth date" }).getByRole("textbox").fill("1/1/1990");
     //await select("Birth date").fill("1/1/1990");
-    await page.getByRole("columnheader", { name: "First name" }).getByRole("textbox").click();
+    await page.getByRole("columnheader", { name: "First name" }).getByRole("textbox").click({ delay: 1 });
     await expect(await rows()).toHaveCount(14);
 
     await page.getByRole("columnheader", { name: "Birth year" }).getByRole("textbox").fill("1995");
     await expect(await rows()).toHaveCount(9);
 
-    await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click();
+    await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click({ delay: 1 });
     //await select("Color (enum)").click();
-    await page.locator(`[role="option"]:has-text("Black")`).click();
+    await page.locator(`[role="option"]:has-text("Black")`).click({ delay: 1 });
     //await option("Black").click();
     await expect(await rows()).toHaveCount(4);
 
-    await page.getByRole("columnheader", { name: "Roles (ref set)" }).getByRole("combobox").click();
+    await page.getByRole("columnheader", { name: "Roles (ref set)" }).getByRole("combobox").click({ delay: 1 });
     //await select("Roles (ref set)").click();
-    await page.locator(`[role="option"]:has-text("Careers adviser")`).click();
+    await page.locator(`[role="option"]:has-text("Careers adviser")`).click({ delay: 1 });
     //await option("Careers adviser").click();
     await expect(await rows()).toHaveCount(3);
 
-    await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click();
+    await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click({ delay: 1 });
     //await select("Company").click();
-    await page.locator(`[role="option"]:has-text("Sierra Health Services Inc")`).click();
+    await page.locator(`[role="option"]:has-text("Sierra Health Services Inc")`).click({ delay: 1 });
     //await option("Sierra Health Services Inc").click();
     await expect(await rows()).toHaveCount(2);
 

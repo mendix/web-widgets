@@ -37,6 +37,8 @@ export interface DatagridDropdownFilterContainerProps {
     valueAttribute?: EditableValue<string>;
     onChange?: ActionValue;
     ariaLabel?: DynamicValue<string>;
+    emptySelectionCaption?: DynamicValue<string>;
+    filterInputPlaceholderCaption?: DynamicValue<string>;
 }
 
 export interface DatagridDropdownFilterPreviewProps {
@@ -62,4 +64,6 @@ export interface DatagridDropdownFilterPreviewProps {
     valueAttribute: string;
     onChange: {} | null;
     ariaLabel: string;
+    emptySelectionCaption: string;
+    filterInputPlaceholderCaption: string;
 }
