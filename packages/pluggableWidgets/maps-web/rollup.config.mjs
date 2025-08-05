@@ -1,8 +1,10 @@
 import { mkdirSync } from "node:fs";
 import { fileURLToPath } from "url";
+import copyFiles from "@mendix/rollup-web-widgets/copyFiles.mjs";
 
 export default args => {
-    const result = args.configDefaultConfig;
+    const result = copyFiles(args);
+
     const [jsConfig, mJsConfig] = result;
 
     const folderUrl = new URL("dist/tmp/widgets/com/mendix/widget/custom/Maps/", import.meta.url);

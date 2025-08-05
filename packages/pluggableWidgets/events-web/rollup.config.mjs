@@ -1,7 +1,5 @@
-import { copyDefaultFiles } from "@mendix/rollup-web-widgets/helper.mjs";
+import copyFiles from "@mendix/rollup-web-widgets/copyFiles.mjs";
 
 export default args => {
-    const result = args.configDefaultConfig;
-    copyDefaultFiles(import.meta.dirname);
-    return result;
+    return copyFiles(args);
 };

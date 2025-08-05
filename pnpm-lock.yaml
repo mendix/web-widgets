@@ -2545,16 +2545,13 @@ importers:
         version: 2.5.10(prettier@3.5.3)
 
   packages/shared/rollup-web-widgets:
-    dependencies:
+    devDependencies:
       '@mendix/pluggable-widgets-tools':
         specifier: 10.21.2
-        version: 10.21.2(@jest/transform@29.7.0)(@jest/types@29.6.3)(@swc/core@1.7.26(@swc/helpers@0.5.15))(@types/babel__core@7.20.3)(@types/node@22.14.1)(picomatch@4.0.2)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0)(typescript@5.8.2))(react@18.2.0)(tslib@2.8.1)
-      fast-glob:
-        specifier: ^3.3.3
-        version: 3.3.3
-      shelljs:
-        specifier: ^0.8.5
-        version: 0.8.5
+        version: 10.21.2(@jest/transform@29.7.0)(@jest/types@29.6.3)(@swc/core@1.7.26(@swc/helpers@0.5.15))(@types/babel__core@7.20.3)(@types/node@22.14.1)(picomatch@4.0.2)(react-dom@18.2.0(react@18.2.0))(react-native@0.75.3(@babel/core@7.27.4)(@babel/preset-env@7.26.9(@babel/core@7.27.4))(@types/react@18.2.36)(react@18.2.0))(react@18.2.0)(tslib@2.8.1)
+      rollup-plugin-copy:
+        specifier: ^3.5.0
+        version: 3.5.0
 
   packages/shared/tsconfig-web-widgets: {}
 
@@ -7156,10 +7153,6 @@ packages:
 
   filelist@1.0.4:
     resolution: {integrity: sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q==}
-
-  fill-range@7.0.1:
-    resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
-    engines: {node: '>=8'}
 
   fill-range@7.1.1:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
@@ -15372,7 +15365,7 @@ snapshots:
 
   braces@3.0.2:
     dependencies:
-      fill-range: 7.0.1
+      fill-range: 7.1.1
 
   braces@3.0.3:
     dependencies:
@@ -15528,7 +15521,7 @@ snapshots:
   chokidar@3.5.2:
     dependencies:
       anymatch: 3.1.3
-      braces: 3.0.2
+      braces: 3.0.3
       glob-parent: 5.1.2
       is-binary-path: 2.1.0
       is-glob: 4.0.3
@@ -17194,10 +17187,6 @@ snapshots:
   filelist@1.0.4:
     dependencies:
       minimatch: 5.0.1
-
-  fill-range@7.0.1:
-    dependencies:
-      to-regex-range: 5.0.1
 
   fill-range@7.1.1:
     dependencies:
