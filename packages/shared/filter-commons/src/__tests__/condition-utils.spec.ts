@@ -2,7 +2,7 @@ jest.mock("mendix/filters/builders");
 
 import { AndCondition } from "mendix/filters";
 import { equals, literal } from "mendix/filters/builders";
-import { compactArray, fromCompactArray, reduceMap, tag } from "../condition-utils";
+import { compactArray, fromCompactArray, reduceMap, restoreMap, tag } from "../condition-utils";
 
 describe("condition-utils", () => {
     describe("compactArray", () => {
@@ -132,6 +132,136 @@ describe("condition-utils", () => {
                 keys: ["tag", "equals", "empty", "another"],
                 0: "tag",
                 1: "equals"
+            });
+        });
+    });
+
+    describe("restoreMap", () => {
+        it("restores map with undefined values from undefined condition", () => {
+            const originalInput = { x: undefined, y: undefined };
+            const [condition, metadata] = reduceMap(originalInput);
+
+            const restored = restoreMap(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
+        });
+
+        it("restores map with single condition", () => {
+            const tagCondition = tag("test");
+            const originalInput = { a: tagCondition, b: undefined, c: undefined };
+            const [condition, metadata] = reduceMap(originalInput);
+
+            const restored = restoreMap(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
+        });
+
+        it("restores map with multiple conditions", () => {
+            const tagCondition1 = tag("test1");
+            const tagCondition2 = tag("test2");
+            const originalInput = { x: tagCondition1, y: undefined, z: tagCondition2, w: undefined };
+            const [condition, metadata] = reduceMap(originalInput);
+
+            const restored = restoreMap(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
+        });
+
+        it("restores empty map", () => {
+            const originalInput = {};
+            const [condition, metadata] = reduceMap(originalInput);
+
+            const restored = restoreMap(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
+        });
+
+        it("restores map with mixed condition types", () => {
+            const tagCondition = tag("tag-test");
+            const equalsCondition = equals(literal("field"), literal("value"));
+            const originalInput = {
+                tag: tagCondition,
+                equals: equalsCondition,
+                empty: undefined,
+                another: undefined
+            };
+            const [condition, metadata] = reduceMap(originalInput);
+
+            const restored = restoreMap(condition, metadata);
+
+            expect(restored).toEqual(originalInput);
+        });
+
+        it("handles manual metadata for single condition case", () => {
+            const tagCondition = tag("manual-test");
+            const metadata = JSON.stringify({
+                length: 1,
+                keys: ["first", "second", "third"],
+                0: "second"
+            });
+
+            const restored = restoreMap(tagCondition, metadata);
+
+            expect(restored).toEqual({
+                first: undefined,
+                second: tagCondition,
+                third: undefined
+            });
+        });
+
+        it("handles manual metadata for multiple conditions case", () => {
+            const tagCondition1 = tag("manual1");
+            const tagCondition2 = tag("manual2");
+            const andCondition = {
+                name: "and",
+                type: "function",
+                args: [tagCondition1, tagCondition2]
+            } as AndCondition;
+            const metadata = JSON.stringify({
+                length: 2,
+                keys: ["a", "b", "c", "d"],
+                0: "a",
+                1: "c"
+            });
+
+            const restored = restoreMap(andCondition, metadata);
+
+            expect(restored).toEqual({
+                a: tagCondition1,
+                b: undefined,
+                c: tagCondition2,
+                d: undefined
+            });
+        });
+
+        it("handles edge case with undefined condition and non-zero length metadata", () => {
+            const metadata = JSON.stringify({
+                length: 1,
+                keys: ["test"],
+                0: "test"
+            });
+
+            const restored = restoreMap(undefined, metadata);
+
+            expect(restored).toEqual({
+                test: undefined
+            });
+        });
+
+        it("handles edge case with non-and condition but multiple length metadata", () => {
+            const tagCondition = tag("single");
+            const metadata = JSON.stringify({
+                length: 2,
+                keys: ["a", "b"],
+                0: "a",
+                1: "b"
+            });
+
+            const restored = restoreMap(tagCondition, metadata);
+
+            expect(restored).toEqual({
+                a: undefined,
+                b: undefined
             });
         });
     });
