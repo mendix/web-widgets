@@ -73,37 +73,8 @@ export function isTag(cond: FilterCondition): cond is TagCond {
 
 type ArrayMeta = readonly [len: number, indexes: number[]];
 
-function arrayTag(meta: ArrayMeta): string {
-    return JSON.stringify(meta);
-}
-
-function fromArrayTag(tag: string): ArrayMeta | undefined {
-    let len: ArrayMeta[0];
-    let indexes: ArrayMeta[1];
-    try {
-        [len, indexes] = JSON.parse(tag);
-    } catch {
-        return undefined;
-    }
-    if (typeof len !== "number" || !Array.isArray(indexes) || !indexes.every(x => typeof x === "number")) {
-        return undefined;
-    }
-    return [len, indexes];
-}
-
 function shrink<T>(array: Array<T | undefined>): [indexes: number[], items: T[]] {
     return [array.flatMap((x, i) => (x === undefined ? [] : [i])), array.filter((x): x is T => x !== undefined)];
-}
-
-export function compactArray(input: Array<FilterCondition | undefined>): FilterCondition {
-    const [indexes, items] = shrink(input);
-    const metaTag = tag(arrayTag([input.length, indexes] as const));
-
-    if (items.length === 0) {
-        return metaTag;
-    }
-
-    return and(metaTag, ...items);
 }
 
 export function reduceArray(
@@ -201,29 +172,6 @@ export function restoreMap(
     }
 
     return result;
-}
-
-export function fromCompactArray(cond: FilterCondition): Array<FilterCondition | undefined> {
-    const tag = isAnd(cond) ? cond.args[0] : cond;
-
-    const arrayMeta = isTag(tag) ? fromArrayTag(tag.arg1.value) : undefined;
-
-    if (!arrayMeta) {
-        return [];
-    }
-
-    const [length, indexes] = arrayMeta;
-    const arr: Array<FilterCondition | undefined> = Array(length).fill(undefined);
-
-    if (!isAnd(cond)) {
-        return arr;
-    }
-
-    cond.args.slice(1).forEach((cond, i) => {
-        arr[indexes[i]] = cond;
-    });
-
-    return arr;
 }
 
 export function inputStateFromCond<Fn, V>(
