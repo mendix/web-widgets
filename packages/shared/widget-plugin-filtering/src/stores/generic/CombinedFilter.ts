@@ -1,13 +1,10 @@
 import { reduceArray, restoreArray } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
+import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { FilterCondition } from "mendix/filters";
-import { autorun, reaction } from "mobx";
+import { action, computed, makeObservable, reaction } from "mobx";
+import { ConditionWithMeta } from "../../typings/ConditionWithMeta";
 import { fnv1aHash } from "../../utils/fnv-1a-hash";
-
-export type ConditionWithMeta = {
-    cond: FilterCondition | undefined;
-    meta: string;
-};
 
 interface ObservableInput {
     condWithMeta: ConditionWithMeta;
@@ -17,18 +14,25 @@ interface ObservableInput {
 
 type MetaBag = Record<string, string>;
 
-export class CombinedFilter {
+export class CombinedFilter implements ReactiveController {
     private _inputs: ObservableInput[];
     readonly stableKey: string;
     readonly ownMetaKey = "CombinedFilter";
 
-    constructor(spec: { stableKey: string; inputs: ObservableInput[] }) {
+    constructor(host: ReactiveControllerHost, spec: { stableKey: string; inputs: ObservableInput[] }) {
+        host.addController(this);
         this._inputs = spec.inputs;
         this.stableKey = spec.stableKey;
+
+        makeObservable(this, {
+            filter: computed,
+            filterWithBag: computed,
+            hydrate: action
+        });
     }
 
     storageKey(hash: string): string {
-        return `${this.stableKey}-${hash}`;
+        return `${this.stableKey}@${hash}`;
     }
 
     readMetaFromStorage(key: string): MetaBag | null {
@@ -110,7 +114,7 @@ export class CombinedFilter {
         return { filter, bag, hash: filter ? this.filterHash(filter) : null };
     }
 
-    private _saveFilterMeta(hash: string | null, bag: MetaBag): void {
+    saveFilterMeta(hash: string | null, bag: MetaBag): void {
         if (!hash) {
             return;
         }
@@ -121,8 +125,6 @@ export class CombinedFilter {
     setup(): () => void {
         const [add, disposeAll] = disposeBatch();
 
-        add(autorun(() => console.dir(this.filter)));
-
         add(
             reaction(
                 () => this.filterWithBag,
@@ -131,7 +133,7 @@ export class CombinedFilter {
                         this.clearFilterMeta(prev.hash);
                     }
                     if (next.hash) {
-                        this._saveFilterMeta(next.hash, next.bag);
+                        this.saveFilterMeta(next.hash, next.bag);
                     }
                 }
             )

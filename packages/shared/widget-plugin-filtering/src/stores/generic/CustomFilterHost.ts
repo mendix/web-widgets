@@ -2,15 +2,15 @@ import { reduceMap, restoreMap } from "@mendix/filter-commons/condition-utils";
 import { FilterData, FiltersSettingsMap, PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
 import { FilterCondition } from "mendix/filters";
 import { action, autorun, makeAutoObservable } from "mobx";
+import { ConditionWithMeta } from "../../typings/ConditionWithMeta";
 import { Filter, ObservableFilterHost } from "../../typings/ObservableFilterHost";
-import { ConditionWithMeta } from "./CombinedFilter";
 
 export class CustomFilterHost implements ObservableFilterHost, Serializable {
     private filters: Map<string, [store: Filter, dispose: () => void]> = new Map();
     private settingsBuffer: FiltersSettingsMap<string> = new Map();
     private _state: Map<string, FilterCondition | undefined> = new Map();
 
-    readonly metaKey = "custom-filter-host";
+    readonly metaKey = "CustomFilterHost";
 
     constructor() {
         makeAutoObservable(this, {
@@ -37,8 +37,9 @@ export class CustomFilterHost implements ObservableFilterHost, Serializable {
             this._state.set(key, filter.condition);
         });
         const skipInit = this.settingsBuffer.has(key);
-        if (!skipInit && this._state.has(key)) {
-            filter.fromViewState(this._state.get(key)!);
+        const initCond = this._state.get(key);
+        if (!skipInit && initCond) {
+            filter.fromViewState(initCond);
         }
 
         const dispose = (): void => {

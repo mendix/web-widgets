@@ -1,4 +1,5 @@
 import { createContextWithStub, FilterAPI } from "@mendix/widget-plugin-filtering/context";
+import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
 import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
@@ -30,44 +31,47 @@ export class RootGridStore extends BaseControllerHost {
     exportProgressCtrl: ProgressStore;
     loaderCtrl: DerivedLoaderController;
     paginationCtrl: PaginationController;
-    readonly autonomousFilterAPI: FilterAPI;
+    readonly filterAPI: FilterAPI;
 
     private gate: Gate;
 
     constructor({ gate, exportCtrl }: Spec) {
         super();
-
         const { props } = gate;
-        const [columnsInitFilter, sharedInitFilter] = DatasourceParamsController.unzipFilter(
-            props.datasource.filter,
-            props.name
-        );
 
         this.gate = gate;
+
         this.staticInfo = {
             name: props.name,
             filtersChannelName: `datagrid/${generateUUID()}`
         };
-        const customFilterHost = new CustomFilterHost();
+
+        const filterHost = new CustomFilterHost();
+
         const query = new DatasourceController(this, { gate });
-        this.autonomousFilterAPI = createContextWithStub({
-            filterObserver: customFilterHost,
-            sharedInitFilter,
+
+        this.filterAPI = createContextWithStub({
+            filterObserver: filterHost,
             parentChannelName: this.staticInfo.filtersChannelName
         });
-        const columns = (this.columnsStore = new ColumnGroupStore(props, this.staticInfo, columnsInitFilter, {
-            customFilterHost,
-            sharedInitFilter
-        }));
-        this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, customFilterHost);
+
+        this.columnsStore = new ColumnGroupStore(props, this.staticInfo, filterHost);
+
+        const combinedFilter = new CombinedFilter(this, {
+            stableKey: props.name,
+            inputs: [filterHost, this.columnsStore]
+        });
+
+        this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, filterHost);
+
         this.paginationCtrl = new PaginationController(this, { gate, query });
+
         this.exportProgressCtrl = exportCtrl;
 
         new DatasourceParamsController(this, {
             query,
-            columns,
-            customFilters: customFilterHost,
-            widgetName: props.name
+            filterHost: combinedFilter,
+            sortHost: this.columnsStore
         });
 
         new RefreshController(this, {
@@ -77,9 +81,11 @@ export class RootGridStore extends BaseControllerHost {
 
         this.loaderCtrl = new DerivedLoaderController({
             exp: exportCtrl,
-            cols: columns,
+            cols: this.columnsStore,
             query
         });
+
+        combinedFilter.hydrate(props.datasource.filter);
     }
 
     setup(): () => void {
