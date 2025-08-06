@@ -4,7 +4,7 @@ import { FilterCondition } from "mendix/filters";
 import { autorun, reaction } from "mobx";
 import { fnv1aHash } from "../../utils/fnv-1a-hash";
 
-type ConditionWithMeta = {
+export type ConditionWithMeta = {
     cond: FilterCondition | undefined;
     meta: string;
 };
@@ -110,7 +110,7 @@ export class CombinedFilter {
         return { filter, bag, hash: filter ? this.filterHash(filter) : null };
     }
 
-    saveFilterMeta(hash: string | null, bag: MetaBag): void {
+    private _saveFilterMeta(hash: string | null, bag: MetaBag): void {
         if (!hash) {
             return;
         }
@@ -131,7 +131,7 @@ export class CombinedFilter {
                         this.clearFilterMeta(prev.hash);
                     }
                     if (next.hash) {
-                        this.saveFilterMeta(next.hash, next.bag);
+                        this._saveFilterMeta(next.hash, next.bag);
                     }
                 }
             )
