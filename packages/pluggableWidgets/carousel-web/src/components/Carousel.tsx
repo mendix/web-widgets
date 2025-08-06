@@ -1,9 +1,11 @@
 import { createElement, ReactNode, ReactElement, useCallback, useState } from "react";
 import { GUID } from "mendix";
 import classNames from "classnames";
-import { SwiperOptions, A11y, Navigation, Pagination, EffectFade, Autoplay } from "swiper";
-import { Swiper as ReactSwiper, SwiperClass, SwiperSlide } from "swiper/react";
-import { PaginationOptions } from "swiper/types";
+import { A11y, Navigation, Pagination, EffectFade, Autoplay } from "swiper/modules";
+import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
+import { PaginationOptions, SwiperOptions } from "swiper/types";
+import "swiper/css";
+import "swiper/css/bundle";
 
 interface CarouselItem {
     id: GUID;
@@ -68,7 +70,7 @@ export function Carousel(props: CarouselProps): ReactElement {
 
     return (
         <div className={classNames(className, "widget-carousel")} tabIndex={tabIndex}>
-            <ReactSwiper
+            <Swiper
                 onActiveIndexChange={updateSwiperIndex}
                 wrapperTag={"ul"}
                 {...options}
@@ -80,7 +82,7 @@ export function Carousel(props: CarouselProps): ReactElement {
                         {item.content}
                     </SwiperSlide>
                 ))}
-            </ReactSwiper>
+            </Swiper>
         </div>
     );
 }
