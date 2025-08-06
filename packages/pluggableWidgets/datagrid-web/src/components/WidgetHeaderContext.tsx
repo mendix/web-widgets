@@ -19,7 +19,7 @@ const FilterContext = getGlobalFilterContextObject();
 function HeaderContainer(props: WidgetHeaderContextProps): ReactElement {
     const selectionContext = useCreateSelectionContextValue(props.selectionHelper);
     return (
-        <FilterContext.Provider value={props.rootStore.autonomousFilterAPI}>
+        <FilterContext.Provider value={props.rootStore.filterAPI}>
             <SelectionContext.Provider value={selectionContext}>{props.children}</SelectionContext.Provider>
         </FilterContext.Provider>
     );

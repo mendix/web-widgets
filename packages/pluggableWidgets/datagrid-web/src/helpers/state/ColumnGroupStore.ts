@@ -1,6 +1,9 @@
+import { reduceArray, restoreArray } from "@mendix/filter-commons/condition-utils";
 import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
+import { ConditionWithMeta } from "@mendix/widget-plugin-filtering/typings/ConditionWithMeta";
+import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { FilterCondition } from "mendix/filters";
+
 import { action, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
@@ -13,7 +16,7 @@ import {
     sortInstructionsToSortRules,
     sortRulesToSortInstructions
 } from "./ColumnsSortingStore";
-import { ColumnFilterStore, ObserverBag } from "./column/ColumnFilterStore";
+import { ColumnFilterStore } from "./column/ColumnFilterStore";
 import { ColumnStore } from "./column/ColumnStore";
 
 export interface IColumnGroupStore {
@@ -40,24 +43,24 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
     readonly columnFilters: ColumnFilterStore[];
 
+    readonly metaKey = "ColumnGroupStore";
+
     sorting: ColumnsSortingStore;
     isResizing = false;
 
     constructor(
         props: Pick<DatagridContainerProps, "columns" | "datasource">,
         info: StaticInfo,
-        initFilter: Array<FilterCondition | undefined>,
-        observerBag: ObserverBag
+        filterHost: ObservableFilterHost
     ) {
         this._allColumns = [];
         this.columnFilters = [];
 
         props.columns.forEach((columnProps, i) => {
-            const initCond = initFilter.at(i) ?? null;
             const column = new ColumnStore(i, columnProps, this);
             this._allColumnsById.set(column.columnId, column);
             this._allColumns[i] = column;
-            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, initCond, observerBag);
+            this.columnFilters[i] = new ColumnFilterStore(columnProps, info, filterHost);
         });
 
         this.sorting = new ColumnsSortingStore(
@@ -72,13 +75,14 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             _allColumnsOrdered: computed,
             availableColumns: computed,
             visibleColumns: computed,
-            conditions: computed.struct,
+            condWithMeta: computed,
             columnSettings: computed.struct,
             filterSettings: computed({ keepAlive: true }),
             updateProps: action,
             setIsResizing: action,
             swapColumns: action,
-            setColumnSettings: action
+            setColumnSettings: action,
+            hydrate: action
         });
     }
 
@@ -142,12 +146,6 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
         return [...this.availableColumns].filter(column => !column.isHidden);
     }
 
-    get conditions(): Array<FilterCondition | undefined> {
-        return this.columnFilters.map((store, index) => {
-            return this._allColumns[index].isHidden ? undefined : store.condition;
-        });
-    }
-
     get sortInstructions(): SortInstruction[] | undefined {
         return sortRulesToSortInstructions(this.sorting.rules, this._allColumns);
     }
@@ -193,5 +191,22 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
 
     isLastVisible(column: ColumnStore): boolean {
         return this.visibleColumns.at(-1) === column;
+    }
+
+    get condWithMeta(): ConditionWithMeta {
+        const conditions = this.columnFilters.map((store, index) => {
+            return this._allColumns[index].isHidden ? undefined : store.condition;
+        });
+        const [cond, meta] = reduceArray(conditions);
+        return { cond, meta };
+    }
+
+    hydrate({ cond, meta }: ConditionWithMeta): void {
+        restoreArray(cond, meta).forEach((condition, index) => {
+            const filter = this.columnFilters[index];
+            if (filter && condition) {
+                filter.fromViewState(condition);
+            }
+        });
     }
 }
