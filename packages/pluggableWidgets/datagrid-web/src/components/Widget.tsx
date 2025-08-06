@@ -1,3 +1,4 @@
+import { RefreshIndicator } from "@mendix/widget-plugin-component-kit/RefreshIndicator";
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
@@ -25,7 +26,6 @@ import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navig
 import { observer } from "mobx-react-lite";
 import { RowsRenderer } from "./RowsRenderer";
 import { GridHeader } from "./GridHeader";
-import { RefreshIndicator } from "./RefreshIndicator";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
