@@ -944,6 +944,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:^*
         version: link:../../../automation/run-e2e
@@ -1731,6 +1734,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
@@ -1777,6 +1783,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
@@ -2072,6 +2081,9 @@ importers:
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
       '@mendix/run-e2e':
         specifier: workspace:*
         version: link:../../../automation/run-e2e
