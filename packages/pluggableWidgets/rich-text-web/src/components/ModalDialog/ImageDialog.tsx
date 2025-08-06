@@ -163,7 +163,11 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                     )}
                     <div>
                         <If condition={activeTab === "general"}>
-                            <FormControl label="Source">
+                            <FormControl
+                                label="Source"
+                                formOrientation={formOrientation}
+                                inputId="rich-text-image-file-input"
+                            >
                                 {defaultValue?.src ? (
                                     <img
                                         src={defaultValue.src}
@@ -184,6 +188,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                     </div>
                                 ) : enableDefaultUpload ? (
                                     <input
+                                        id="rich-text-image-file-input"
                                         name="files"
                                         className="form-control mx-textarea-input mx-textarea-noresize code-input"
                                         type="file"
@@ -192,8 +197,13 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                     ></input>
                                 ) : undefined}
                             </FormControl>
-                            <FormControl label="Alternative description">
+                            <FormControl
+                                label="Alternative description"
+                                formOrientation={formOrientation}
+                                inputId="rich-text-image-alt-input"
+                            >
                                 <input
+                                    id="rich-text-image-alt-input"
                                     className="form-control"
                                     type="text"
                                     name="alt"
@@ -202,10 +212,16 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                     ref={inputReference}
                                 />
                             </FormControl>
-                            <FormControl label="Width" className="image-dialog-size">
+                            <FormControl
+                                label="Width"
+                                className="image-dialog-size"
+                                formOrientation={formOrientation}
+                                inputId="rich-text-image-width-input"
+                            >
                                 <div className="flexcontainer image-dialog-size-container">
                                     <div className="flexcontainer image-dialog-size-input">
                                         <input
+                                            id="rich-text-image-width-input"
                                             className="form-control"
                                             type="number"
                                             name="width"
@@ -219,6 +235,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                     </div>
                                     <div className="flexcontainer image-dialog-size-input">
                                         <input
+                                            id="rich-text-image-height-input"
                                             className="form-control"
                                             type="number"
                                             name="height"
@@ -230,8 +247,13 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                     </div>
                                 </div>
                             </FormControl>
-                            <FormControl label="Keep ratio">
+                            <FormControl
+                                label="Keep ratio"
+                                formOrientation={formOrientation}
+                                inputId="rich-text-image-keep-ratio-input"
+                            >
                                 <input
+                                    id="rich-text-image-keep-ratio-input"
                                     type="checkbox"
                                     name="keepAspectRatio"
                                     checked={formState.keepAspectRatio}

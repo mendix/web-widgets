@@ -23,7 +23,7 @@ export function getValueType(value: VideoFormType): VideoFormType {
 }
 
 function GeneralVideoDialog(props: VideoDialogProps): ReactElement {
-    const { onSubmit, onClose, defaultValue } = props;
+    const { onSubmit, onClose, defaultValue, formOrientation } = props;
     const [formState, setFormState] = useState<videoConfigType>({
         src: defaultValue?.src ?? "",
         width: defaultValue?.width ?? 560,
@@ -48,11 +48,12 @@ function GeneralVideoDialog(props: VideoDialogProps): ReactElement {
 
     return (
         <Fragment>
-            <FormControl label="URL">
+            <FormControl label="URL" formOrientation={formOrientation} inputId="rich-text-video-src-input">
                 {defaultValue?.src ? (
                     <span className="mx-text-muted">{defaultValue?.src}</span>
                 ) : (
                     <input
+                        id="rich-text-video-src-input"
                         className="form-control"
                         type="url"
                         name="src"
@@ -61,8 +62,9 @@ function GeneralVideoDialog(props: VideoDialogProps): ReactElement {
                     />
                 )}
             </FormControl>
-            <FormControl label="Width">
+            <FormControl label="Width" formOrientation={formOrientation} inputId="rich-text-video-width-input">
                 <input
+                    id="rich-text-video-width-input"
                     className="form-control"
                     type="number"
                     name="width"
@@ -70,8 +72,9 @@ function GeneralVideoDialog(props: VideoDialogProps): ReactElement {
                     value={formState.width}
                 />
             </FormControl>
-            <FormControl label="Height">
+            <FormControl label="Height" formOrientation={formOrientation} inputId="rich-text-video-height-input">
                 <input
+                    id="rich-text-video-height-input"
                     className="form-control"
                     type="number"
                     name="height"
@@ -85,7 +88,7 @@ function GeneralVideoDialog(props: VideoDialogProps): ReactElement {
 }
 
 function EmbedVideoDialog(props: VideoDialogProps): ReactElement {
-    const { onSubmit, onClose } = props;
+    const { onSubmit, onClose, formOrientation } = props;
     const [formState, setFormState] = useState<videoEmbedConfigType>({
         embedcode: ""
     });
@@ -96,9 +99,10 @@ function EmbedVideoDialog(props: VideoDialogProps): ReactElement {
 
     return (
         <Fragment>
-            <FormControl label="URL">
+            <FormControl label="URL" formOrientation={formOrientation} inputId="rich-text-video-embed-input">
                 {" "}
                 <textarea
+                    id="rich-text-video-embed-input"
                     className="form-control"
                     name="embedcode"
                     onChange={onInputChange}
