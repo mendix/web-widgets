@@ -73,8 +73,7 @@ describe("Date Filter", () => {
                         hasError: false,
                         value: { type: "direct", store: dateFilterStore }
                     },
-                    filterObserver: {} as ObservableFilterHost,
-                    sharedInitFilter: []
+                    filterObserver: {} as ObservableFilterHost
                 };
 
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI | null>(
@@ -168,8 +167,7 @@ describe("Date Filter", () => {
                         hasError: false,
                         value: { type: "direct", store: dateFilterStore }
                     },
-                    filterObserver: {} as ObservableFilterHost,
-                    sharedInitFilter: []
+                    filterObserver: {} as ObservableFilterHost
                 };
 
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI | null>(
@@ -223,8 +221,7 @@ describe("Date Filter", () => {
                     hasError: false,
                     value: { type: "direct", store: dateFilterStore }
                 },
-                filterObserver: {} as ObservableFilterHost,
-                sharedInitFilter: []
+                filterObserver: {} as ObservableFilterHost
             };
 
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI | null>(
@@ -264,8 +261,7 @@ describe("Date Filter", () => {
                     hasError: false,
                     value: { type: "direct", store: dateFilterStore }
                 },
-                filterObserver: {} as ObservableFilterHost,
-                sharedInitFilter: []
+                filterObserver: {} as ObservableFilterHost
             };
 
             (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI | null>(
