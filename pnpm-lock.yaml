@@ -461,8 +461,8 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@happy-dom/jest-environment':
         specifier: ^18.0.1
@@ -560,8 +560,8 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@happy-dom/jest-environment':
         specifier: ^18.0.1
@@ -634,8 +634,8 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@happy-dom/jest-environment':
         specifier: ^18.0.1
@@ -892,8 +892,8 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@happy-dom/jest-environment':
         specifier: ^18.0.1
@@ -984,8 +984,8 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@happy-dom/jest-environment':
         specifier: ^18.0.1
@@ -1540,8 +1540,8 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
       plotly.js-dist-min:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@happy-dom/jest-environment':
         specifier: ^18.0.1
@@ -1667,8 +1667,8 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@happy-dom/jest-environment':
         specifier: ^18.0.1
@@ -1805,8 +1805,8 @@ importers:
         specifier: ^2.30.0
         version: 2.30.0
       plotly.js-dist-min:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@happy-dom/jest-environment':
         specifier: ^18.0.1
@@ -2240,8 +2240,8 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       '@happy-dom/jest-environment':
         specifier: ^18.0.1
@@ -2398,8 +2398,8 @@ importers:
         specifier: ^4.3.1
         version: 4.3.1
       plotly.js-dist-min:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
       react-plotly.js:
         specifier: ^2.6.0
         version: 2.6.0(plotly.js@3.0.1(mapbox-gl@1.13.3)(webpack@5.94.0))(react@18.2.0)
@@ -9312,8 +9312,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  plotly.js-dist-min@3.0.1:
-    resolution: {integrity: sha512-RReOqr6TfoHaTbVAoHR1UbTCOSRDsQ7Hbthd+3XAxOwaKmxCE3oejMhLG7urQSqWC65DAcSKV23kZd8e+7mG7w==}
+  plotly.js-dist-min@3.0.3:
+    resolution: {integrity: sha512-Y6sbdBbRPebY0bDu7IPtfJivbHDBVPE4T/5rLtwuckH2Hh+69q2lLycKRoJ8pnaZQ8rR1vgPWgbfrWY575cEZg==}
 
   plotly.js@3.0.1:
     resolution: {integrity: sha512-eWEUkqdv4sblmUQJ7xGlEA+LghzEVPJOlPBZMJuagG0CsQxlmBb+7rd0UFVig5jhRnN8PQqRQaLv6qXIjnvzgg==}
@@ -19814,7 +19814,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  plotly.js-dist-min@3.0.1: {}
+  plotly.js-dist-min@3.0.3: {}
 
   plotly.js@3.0.1(mapbox-gl@1.13.3)(webpack@5.94.0):
     dependencies:
