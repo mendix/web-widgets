@@ -55,6 +55,7 @@ interface TagCond {
     readonly arg2: TagMarker;
 }
 
+/** @deprecated use for unit tests only */
 export function tag(name: string): TagCond {
     return notEqual(literal(name), literal(MARKER)) as TagCond;
 }
