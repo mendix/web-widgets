@@ -1,12 +1,15 @@
-import { createElement, ReactElement } from "react";
+import { createElement, ReactElement, useEffect } from "react";
 import { MapContainer, Marker as MarkerComponent, Popup, TileLayer, useMap } from "react-leaflet";
 import classNames from "classnames";
-import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
+import { getDimensions } from "../utils/get-dimensions";
 import { SharedProps } from "../../typings/shared";
 import { MapProviderEnum } from "../../typings/MapsProps";
 import { translateZoom } from "../utils/zoom";
-import { latLngBounds, Icon as LeafletIcon, DivIcon } from "leaflet";
+import { Icon as LeafletIcon, DivIcon } from "leaflet";
 import { baseMapLayer } from "../utils/leaflet";
+
+// Global variable for marker render delay
+const MARKER_RENDER_DELAY = 100;
 
 export interface LeafletProps extends SharedProps {
     mapProvider: MapProviderEnum;
@@ -36,20 +39,44 @@ function SetBoundsComponent(props: Pick<LeafletProps, "autoZoom" | "currentLocat
     const map = useMap();
     const { autoZoom, currentLocation, locations } = props;
 
-    const bounds = latLngBounds(
-        locations
-            .concat(currentLocation ? [currentLocation] : [])
-            .filter(m => !!m)
-            .map(m => [m.latitude, m.longitude])
-    );
+    useEffect(() => {
+        if (map) {
+            // Add a small delay to ensure markers are rendered
+            const timer = setTimeout(() => {
+                const allMarkers = locations.concat(currentLocation ? [currentLocation] : []).filter(m => !!m);
 
-    if (bounds.isValid()) {
-        if (autoZoom) {
-            map.flyToBounds(bounds, { padding: [0.5, 0.5], animate: false }).invalidateSize();
-        } else {
-            map.panTo(bounds.getCenter(), { animate: false });
+                if (allMarkers.length > 0) {
+                    const lats = allMarkers.map(m => m.latitude);
+                    const lngs = allMarkers.map(m => m.longitude);
+
+                    const southWest = [Math.min(...lats), Math.min(...lngs)] as [number, number];
+                    const northEast = [Math.max(...lats), Math.max(...lngs)] as [number, number];
+
+                    if (autoZoom) {
+                        // Use more conservative options for flyToBounds
+                        const flyOptions = {
+                            padding: [20, 20] as [number, number], // Use pixel padding
+                            animate: false,
+                            maxZoom: 15 // Limit maximum zoom to prevent over-zooming
+                        };
+
+                        map.flyToBounds([southWest, northEast], flyOptions);
+
+                        // Force invalidate size after bounds are set
+                        setTimeout(() => {
+                            map.invalidateSize();
+                        }, 50);
+                    } else {
+                        const centerLat = (southWest[0] + northEast[0]) / 2;
+                        const centerLng = (southWest[1] + northEast[1]) / 2;
+                        map.panTo([centerLat, centerLng], { animate: false });
+                    }
+                }
+            }, MARKER_RENDER_DELAY);
+
+            return () => clearTimeout(timer);
         }
-    }
+    }, [map, locations, currentLocation, autoZoom]);
 
     return null;
 }
@@ -71,6 +98,9 @@ export function LeafletMap(props: LeafletProps): ReactElement {
         optionDrag: dragging
     } = props;
 
+    // Use a lower initial zoom when autoZoom is enabled to prevent conflicts
+    const initialZoom = autoZoom ? Math.min(translateZoom("city"), zoom) : zoom;
+
     return (
         <div className={classNames("widget-maps", className)} style={{ ...style, ...getDimensions(props) }}>
             <div className="widget-leaflet-maps-wrapper">
@@ -82,7 +112,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                     maxZoom={18}
                     minZoom={1}
                     scrollWheelZoom={scrollWheelZoom}
-                    zoom={autoZoom ? translateZoom("city") : zoom}
+                    zoom={initialZoom}
                     zoomControl={zoomControl}
                 >
                     <TileLayer {...baseMapLayer(mapProvider, mapsToken)} />

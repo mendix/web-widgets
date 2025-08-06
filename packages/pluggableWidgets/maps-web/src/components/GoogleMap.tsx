@@ -13,7 +13,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import { Marker, SharedProps } from "../../typings/shared";
 import { translateZoom } from "../utils/zoom";
-import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
+import { getDimensions } from "../utils/get-dimensions";
 
 export interface GoogleMapsProps extends SharedProps {
     mapId: string;
