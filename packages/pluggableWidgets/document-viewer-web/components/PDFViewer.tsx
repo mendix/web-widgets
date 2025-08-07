@@ -6,10 +6,15 @@ import { downloadFile } from "../utils/helpers";
 import { useZoomScale } from "../utils/useZoomScale";
 import BaseViewer from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    "/widgets/com/mendix/shared/pdfjs/pdf.worker.mjs",
+    import.meta.url
+).toString();
+
 const options = {
-    cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
-    standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts`
+    cMapUrl: "/widgets/com/mendix/shared/pdfjs/cmaps/",
+    standardFontDataUrl: "/widgets/com/mendix/shared/pdfjs/standard_fonts"
 };
 
 const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
