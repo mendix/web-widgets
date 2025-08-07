@@ -1,3 +1,4 @@
+import { RefreshIndicator } from "@mendix/widget-plugin-component-kit/RefreshIndicator";
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
@@ -86,6 +87,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
         >
             <GalleryTopBar>{showTopPagination && pagination}</GalleryTopBar>
             {props.showHeader && <GalleryHeader aria-label={props.headerTitle}>{props.header}</GalleryHeader>}
+            <RefreshIndicator className="mx-refresh-container-padding" />
             <GalleryContent
                 hasMoreItems={props.hasMoreItems}
                 setPage={props.setPage}

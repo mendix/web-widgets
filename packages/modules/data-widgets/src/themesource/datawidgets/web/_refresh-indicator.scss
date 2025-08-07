@@ -2,6 +2,10 @@
     grid-column: 1 / -1;
     padding: 0;
     position: relative;
+
+    &-padding {
+        padding: var(--spacing-small) 0;
+    }
 }
 
 .mx-refresh-indicator {
