@@ -38,9 +38,9 @@
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "classnames": "^2.5.1",
-        "docx-preview": "^0.3.5",
-        "pdfjs-dist": "^5.0.375",
-        "react-pdf": "^9.2.1",
+        "docx-preview": "^0.3.6",
+        "pdfjs-dist": "^5.4.54",
+        "react-pdf": "^10.0.1",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },
     "devDependencies": {
