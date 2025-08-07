@@ -1,5 +1,6 @@
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
+import copy from "rollup-plugin-copy";
 import { copyDefaultFilesPlugin } from "@mendix/rollup-web-widgets/copyFiles.mjs";
 
 export default args => {
@@ -43,7 +44,26 @@ export default args => {
                         "!PDFWorkerUtil.isWorkerDisabled && !PDFWorker.#mainThreadWorkerMessageHandler": "false"
                     }
                 }),
-                copyDefaultFilesPlugin()
+                copyDefaultFilesPlugin(),
+                copy({
+                    targets: [
+                        {
+                            src: "node_modules/pdfjs-dist/cmaps",
+                            dest: "dist/tmp/widgets/com/mendix/shared/pdfjs/",
+                            flatten: false
+                        },
+                        {
+                            src: "node_modules/pdfjs-dist/standard_fonts",
+                            dest: "dist/tmp/widgets/com/mendix/shared/pdfjs/",
+                            flatten: false
+                        },
+                        {
+                            src: "node_modules/pdfjs-dist/build/pdf.worker.min.mjs",
+                            dest: "dist/tmp/widgets/com/mendix/shared/pdfjs/",
+                            rename: "pdf.worker.mjs"
+                        }
+                    ]
+                })
             ]
         };
     });
