@@ -55,7 +55,8 @@ export function createMockGalleryContext(): GalleryRootScope {
         onClickTrigger: "single",
         stateStorageType: "localStorage",
         storeFilters: false,
-        storeSort: false
+        storeSort: false,
+        refreshIndicator: false
     };
 
     // Create a proper gate provider and gate
