@@ -1,9 +1,14 @@
+import classNames from "classnames";
 import { createElement, ReactElement } from "react";
 
-export function RefreshIndicator(): ReactElement {
+type RefreshIndicatorProps = {
+    className?: string;
+};
+
+export function RefreshIndicator({ className }: RefreshIndicatorProps): ReactElement {
     return (
         <div className="tr" role="row">
-            <div className="th mx-refresh-container">
+            <div className={classNames("th mx-refresh-container", className)}>
                 <progress className="mx-refresh-indicator" />
             </div>
         </div>
