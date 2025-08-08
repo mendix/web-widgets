@@ -12,6 +12,8 @@ export type ToolbarLocationEnum = "auto" | "top" | "bottom" | "hide";
 
 export type ReadOnlyStyleEnum = "text" | "bordered" | "readPanel";
 
+export type FormOrientationEnum = "horizontal" | "vertical";
+
 export type WidthUnitEnum = "pixels" | "percentage";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
@@ -55,6 +57,7 @@ export interface RichTextContainerProps {
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
+    formOrientation: FormOrientationEnum;
     widthUnit: WidthUnitEnum;
     width: number;
     heightUnit: HeightUnitEnum;
@@ -100,6 +103,7 @@ export interface RichTextPreviewProps {
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
+    formOrientation: FormOrientationEnum;
     widthUnit: WidthUnitEnum;
     width: number | null;
     heightUnit: HeightUnitEnum;

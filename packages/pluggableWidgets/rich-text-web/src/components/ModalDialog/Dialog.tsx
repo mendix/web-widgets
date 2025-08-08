@@ -9,13 +9,13 @@ import {
     useRole
 } from "@floating-ui/react";
 import { If } from "@mendix/widget-plugin-component-kit/If";
+import classNames from "classnames";
 import { createElement, Fragment, ReactElement } from "react";
 import LinkDialog, { LinkDialogProps } from "./LinkDialog";
 import VideoDialog, { VideoDialogProps } from "./VideoDialog";
 import ViewCodeDialog, { ViewCodeDialogProps } from "./ViewCodeDialog";
 import ImageDialog, { ImageDialogProps } from "./ImageDialog";
 import "./Dialog.scss";
-import { RichTextContainerProps } from "../../../typings/RichTextProps";
 
 interface BaseDialogProps {
     isOpen: boolean;
@@ -49,15 +49,13 @@ export type ChildDialogProps =
     | ViewCodeDialogBaseProps
     | ImageDialogBaseProps;
 
-export type DialogProps = BaseDialogProps &
-    ChildDialogProps &
-    Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "enableDefaultUpload">;
+export type DialogProps = BaseDialogProps & ChildDialogProps;
 
 /**
  * Dialog components that will be shown on toolbar's button
  */
 export default function Dialog(props: DialogProps): ReactElement {
-    const { isOpen, onOpenChange, dialogType, config, imageSource, imageSourceContent, enableDefaultUpload } = props;
+    const { isOpen, onOpenChange, dialogType, config } = props;
     const { refs, context } = useFloating({
         open: isOpen,
         onOpenChange
@@ -81,7 +79,9 @@ export default function Dialog(props: DialogProps): ReactElement {
                     ></FloatingOverlay>
                     <FloatingFocusManager context={context}>
                         <div
-                            className="Dialog mx-layoutgrid widget-rich-text"
+                            className={classNames("Dialog mx-layoutgrid widget-rich-text", {
+                                "form-vertical": config?.formOrientation === "vertical"
+                            })}
                             ref={refs.setFloating}
                             aria-labelledby={dialogType}
                             aria-describedby={dialogType}
@@ -97,12 +97,7 @@ export default function Dialog(props: DialogProps): ReactElement {
                                 <ViewCodeDialog {...(config as ViewCodeDialogProps)}></ViewCodeDialog>
                             </If>
                             <If condition={dialogType === "image"}>
-                                <ImageDialog
-                                    imageSource={imageSource}
-                                    imageSourceContent={imageSourceContent}
-                                    enableDefaultUpload={enableDefaultUpload}
-                                    {...(config as ImageDialogProps)}
-                                ></ImageDialog>
+                                <ImageDialog {...(config as ImageDialogProps)}></ImageDialog>
                             </If>
                         </div>
                     </FloatingFocusManager>

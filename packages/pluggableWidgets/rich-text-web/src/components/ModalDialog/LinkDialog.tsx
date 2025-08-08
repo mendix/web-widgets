@@ -1,4 +1,5 @@
 import { ChangeEvent, createElement, ReactElement, useState } from "react";
+import classNames from "classnames";
 import { type linkConfigType } from "../../utils/formats";
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 
@@ -6,10 +7,11 @@ export interface LinkDialogProps {
     onSubmit(value: linkConfigType): void;
     onClose(): void;
     defaultValue?: linkConfigType;
+    formOrientation: "horizontal" | "vertical";
 }
 
 export default function LinkDialog(props: LinkDialogProps): ReactElement {
-    const { onSubmit, onClose } = props;
+    const { onSubmit, onClose, formOrientation } = props;
     const [formState, setFormState] = useState({
         text: props.defaultValue?.text ?? "",
         href: props.defaultValue?.href ?? "",
@@ -22,11 +24,12 @@ export default function LinkDialog(props: LinkDialogProps): ReactElement {
     };
 
     return (
-        <DialogContent className="link-dialog">
+        <DialogContent className={classNames("link-dialog", formOrientation === "vertical" ? "form-vertical" : "")}>
             <DialogHeader onClose={onClose}>Insert/Edit Link</DialogHeader>
-            <DialogBody>
-                <FormControl label="Text">
+            <DialogBody formOrientation={formOrientation}>
+                <FormControl label="Text" formOrientation={formOrientation} inputId="rich-text-link-text-input">
                     <input
+                        id="rich-text-link-text-input"
                         type="text"
                         className="form-control"
                         name="text"
@@ -34,8 +37,9 @@ export default function LinkDialog(props: LinkDialogProps): ReactElement {
                         value={formState.text}
                     />
                 </FormControl>
-                <FormControl label="URL">
+                <FormControl label="URL" formOrientation={formOrientation} inputId="rich-text-link-url-input">
                     <input
+                        id="rich-text-link-url-input"
                         type="url"
                         className="form-control"
                         name="href"
@@ -43,8 +47,9 @@ export default function LinkDialog(props: LinkDialogProps): ReactElement {
                         value={formState.href}
                     />
                 </FormControl>
-                <FormControl label="Title">
+                <FormControl label="Title" formOrientation={formOrientation} inputId="rich-text-link-title-input">
                     <input
+                        id="rich-text-link-title-input"
                         type="text"
                         className="form-control"
                         name="title"
@@ -52,8 +57,18 @@ export default function LinkDialog(props: LinkDialogProps): ReactElement {
                         value={formState.title}
                     />
                 </FormControl>
-                <FormControl label="Open link in...">
-                    <select value={formState.target} name="target" onChange={onInputChange} className="form-control">
+                <FormControl
+                    label="Open link in..."
+                    formOrientation={formOrientation}
+                    inputId="rich-text-link-target-select"
+                >
+                    <select
+                        id="rich-text-link-target-select"
+                        value={formState.target}
+                        name="target"
+                        onChange={onInputChange}
+                        className="form-control"
+                    >
                         <option value="_self">Current window</option>
                         <option value="_blank">New window</option>
                     </select>
