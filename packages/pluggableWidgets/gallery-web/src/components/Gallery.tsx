@@ -52,6 +52,7 @@ export interface GalleryProps<T extends ObjectItem> {
     selectHelper: SelectActionHandler;
     getPosition: (index: number) => PositionInGrid;
     loadMoreButtonCaption?: string;
+    showRefreshIndicator: boolean;
 }
 
 export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
@@ -87,7 +88,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
         >
             <GalleryTopBar>{showTopPagination && pagination}</GalleryTopBar>
             {props.showHeader && <GalleryHeader aria-label={props.headerTitle}>{props.header}</GalleryHeader>}
-            <RefreshIndicator className="mx-refresh-container-padding" />
+            {props.showRefreshIndicator ? <RefreshIndicator className="mx-refresh-container-padding" /> : null}
             <GalleryContent
                 hasMoreItems={props.hasMoreItems}
                 setPage={props.setPage}
