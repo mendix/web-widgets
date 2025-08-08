@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.3.0] - 2025-08-08
+
 ### Fixed
 
 - We fixed an issue where file uploader can still add more files when refreshed eventhough the number of maximum uploaded files has been reached.
