@@ -7,7 +7,7 @@ export interface LinkDialogProps {
     onSubmit(value: linkConfigType): void;
     onClose(): void;
     defaultValue?: linkConfigType;
-    formOrientation?: "horizontal" | "vertical";
+    formOrientation: "horizontal" | "vertical";
 }
 
 export default function LinkDialog(props: LinkDialogProps): ReactElement {

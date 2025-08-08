@@ -38,7 +38,7 @@ export interface EditorProps
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
     onSelectionChange?: (...args: [range: Range, oldRange: Range, source: EmitterSource]) => void;
-    formOrientation?: "horizontal" | "vertical";
+    formOrientation: "horizontal" | "vertical";
     theme: string;
     style?: CSSProperties;
     className?: string;
@@ -66,7 +66,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
         customVideoHandler,
         customViewCodeHandler,
         customImageUploadHandler
-    } = useEmbedModal(ref);
+    } = useEmbedModal(ref, props);
     const customIndentHandler = getIndentHandler(ref);
 
     // quill instance is not changing, thus, the function reference has to stays.
@@ -214,10 +214,6 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 isOpen={showDialog}
                 onOpenChange={open => setShowDialog(open)}
                 parentNode={modalRef.current?.ownerDocument.body}
-                imageSource={props.imageSource}
-                imageSourceContent={props.imageSourceContent}
-                enableDefaultUpload={props.enableDefaultUpload}
-                formOrientation={props.formOrientation}
                 {...dialogConfig}
             ></Dialog>
         </Fragment>

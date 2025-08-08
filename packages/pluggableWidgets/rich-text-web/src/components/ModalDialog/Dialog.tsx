@@ -16,7 +16,6 @@ import VideoDialog, { VideoDialogProps } from "./VideoDialog";
 import ViewCodeDialog, { ViewCodeDialogProps } from "./ViewCodeDialog";
 import ImageDialog, { ImageDialogProps } from "./ImageDialog";
 import "./Dialog.scss";
-import { RichTextContainerProps } from "../../../typings/RichTextProps";
 
 interface BaseDialogProps {
     isOpen: boolean;
@@ -50,26 +49,13 @@ export type ChildDialogProps =
     | ViewCodeDialogBaseProps
     | ImageDialogBaseProps;
 
-export type DialogProps = BaseDialogProps &
-    ChildDialogProps &
-    Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "enableDefaultUpload"> & {
-        formOrientation?: "horizontal" | "vertical";
-    };
+export type DialogProps = BaseDialogProps & ChildDialogProps;
 
 /**
  * Dialog components that will be shown on toolbar's button
  */
 export default function Dialog(props: DialogProps): ReactElement {
-    const {
-        isOpen,
-        onOpenChange,
-        dialogType,
-        config,
-        imageSource,
-        imageSourceContent,
-        enableDefaultUpload,
-        formOrientation
-    } = props;
+    const { isOpen, onOpenChange, dialogType, config } = props;
     const { refs, context } = useFloating({
         open: isOpen,
         onOpenChange
@@ -93,38 +79,25 @@ export default function Dialog(props: DialogProps): ReactElement {
                     ></FloatingOverlay>
                     <FloatingFocusManager context={context}>
                         <div
-                            className={classNames(
-                                "Dialog mx-layoutgrid widget-rich-text",
-                                formOrientation === "vertical" ? "form-vertical" : ""
-                            )}
+                            className={classNames("Dialog mx-layoutgrid widget-rich-text", {
+                                "form-vertical": config?.formOrientation === "vertical"
+                            })}
                             ref={refs.setFloating}
                             aria-labelledby={dialogType}
                             aria-describedby={dialogType}
                             {...getFloatingProps()}
                         >
                             <If condition={dialogType === "link"}>
-                                <LinkDialog
-                                    formOrientation={formOrientation}
-                                    {...(config as LinkDialogProps)}
-                                ></LinkDialog>
+                                <LinkDialog {...(config as LinkDialogProps)}></LinkDialog>
                             </If>
                             <If condition={dialogType === "video"}>
-                                <VideoDialog
-                                    formOrientation={formOrientation}
-                                    {...(config as VideoDialogProps)}
-                                ></VideoDialog>
+                                <VideoDialog {...(config as VideoDialogProps)}></VideoDialog>
                             </If>
                             <If condition={dialogType === "view-code"}>
                                 <ViewCodeDialog {...(config as ViewCodeDialogProps)}></ViewCodeDialog>
                             </If>
                             <If condition={dialogType === "image"}>
-                                <ImageDialog
-                                    imageSource={imageSource}
-                                    imageSourceContent={imageSourceContent}
-                                    enableDefaultUpload={enableDefaultUpload}
-                                    formOrientation={formOrientation}
-                                    {...(config as ImageDialogProps)}
-                                ></ImageDialog>
+                                <ImageDialog {...(config as ImageDialogProps)}></ImageDialog>
                             </If>
                         </div>
                     </FloatingFocusManager>

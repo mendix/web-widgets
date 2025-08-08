@@ -37,7 +37,7 @@ export function DialogHeader(props: DialogHeaderProps): ReactElement {
 }
 
 export function DialogBody(
-    props: PropsWithChildrenWithClass & { formOrientation?: "horizontal" | "vertical" }
+    props: PropsWithChildrenWithClass & { formOrientation: "horizontal" | "vertical" }
 ): ReactElement {
     const { children, className, formOrientation } = props;
 
@@ -56,18 +56,16 @@ export function DialogBody(
 
 export interface FormControlProps extends PropsWithChildrenWithClass {
     label?: string;
-    formOrientation?: "horizontal" | "vertical";
+    formOrientation: "horizontal" | "vertical";
     inputId?: string;
 }
 
-export function FormControl(props: FormControlProps & { formOrientation?: "horizontal" | "vertical" }): ReactElement {
+export function FormControl(props: FormControlProps): ReactElement {
     const { children, className, label, formOrientation, inputId } = props;
-
-    console.log("Form orientation:", props.formOrientation);
 
     return (
         <If condition={children !== undefined && children !== null}>
-            <div className={classNames("form-group", formOrientation === "vertical" ? "no-columns" : "", className)}>
+            <div className={classNames("form-group", { "no-columns": formOrientation === "vertical" }, className)}>
                 {label && (
                     <label
                         htmlFor={inputId}

@@ -13,7 +13,7 @@ export interface VideoDialogProps {
     onClose(): void;
     selection?: Range | null;
     defaultValue?: videoConfigType;
-    formOrientation?: "horizontal" | "vertical";
+    formOrientation: "horizontal" | "vertical";
 }
 
 export function getValueType(value: VideoFormType): VideoFormType {

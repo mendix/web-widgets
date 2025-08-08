@@ -45,7 +45,8 @@ describe("Rich Text", () => {
             minHeight: 75,
             OverflowY: "auto",
             customFonts: [],
-            enableDefaultUpload: true
+            enableDefaultUpload: true,
+            formOrientation: "vertical"
         };
     });
 
