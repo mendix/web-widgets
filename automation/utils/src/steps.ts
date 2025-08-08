@@ -187,6 +187,8 @@ export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<voi
 
     console.info(`Add file entries to package.xml`);
     await addFilesToPackageXml(packageXml, packageFilePaths, "modelerProject");
+    console.log(`Copying License.txt...`);
+    cp(join(config.output.dirs.themesource, "LICENSE"), join(target, "License.txt"));
     rm(mpk);
 
     console.info("Create module zip archive");

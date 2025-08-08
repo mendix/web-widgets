@@ -80,9 +80,10 @@
                     </propertyGroup>
                 </properties>
             </property>
-            <property key="maxFilesPerUpload" type="integer" defaultValue="10">
+            <property key="maxFilesPerUpload" type="expression" defaultValue="10">
                 <caption>Maximum number of files</caption>
-                <description>Limit the number of files per one upload.</description>
+                <description>Limit the number of files per upload.</description>
+                <returnType type="Integer" />
             </property>
             <property key="maxFileSize" type="integer" defaultValue="25">
                 <caption>Maximum file size (MB)</caption>

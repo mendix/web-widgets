@@ -1,6 +1,7 @@
-import { ListValue, ObjectItem } from "mendix";
+import { DynamicValue, ListValue, ObjectItem } from "mendix";
 import { FileUploaderContainerProps, UploadModeEnum } from "../../typings/FileUploaderProps";
 import { action, computed, makeObservable, observable } from "mobx";
+import { Big } from "big.js";
 import { getImageUploaderFormats, parseAllowedFormats } from "../utils/parseAllowedFormats";
 import { FileStore } from "./FileStore";
 import { FileRejection } from "react-dropzone";
@@ -26,7 +27,7 @@ export class FileUploaderStore {
     _maxFileSizeMiB = 0;
     _maxFileSize = 0;
     _ds?: ListValue;
-    _maxFilesPerUpload: number;
+    _maxFilesPerUpload: DynamicValue<Big>;
 
     errorMessage?: string = undefined;
 
@@ -79,7 +80,10 @@ export class FileUploaderStore {
             files: observable,
             existingItemsLoaded: observable,
             errorMessage: observable,
-            allowedFormatsDescription: computed
+            allowedFormatsDescription: computed,
+            maxFilesPerUpload: computed,
+            _maxFilesPerUpload: observable,
+            isFileUploadLimitReached: computed
         });
 
         this.updateProps(props);
@@ -93,6 +97,9 @@ export class FileUploaderStore {
             this.objectCreationHelper.updateProps(props.createImageAction);
             this._ds = props.associatedImages;
         }
+
+        // Update max files properties
+        this._maxFilesPerUpload = props.maxFilesPerUpload;
 
         this.translations.updateProps(props);
         this.updateProcessor.processUpdate(this._ds);
@@ -113,6 +120,29 @@ export class FileUploaderStore {
             .join(", ");
     }
 
+    get maxFilesPerUpload(): number {
+        const expressionValue = this._maxFilesPerUpload.value;
+        if (expressionValue) {
+            return expressionValue.toNumber();
+        }
+        // Fallback to unlimited
+        return 0;
+    }
+
+    get isFileUploadLimitReached(): boolean {
+        const activeFiles = this.files.filter(
+            file =>
+                file.fileStatus !== "missing" &&
+                file.fileStatus !== "removedFile" &&
+                file.fileStatus !== "validationError"
+        );
+        if (this.maxFilesPerUpload === 0) {
+            return false;
+        }
+
+        return activeFiles.length >= this.maxFilesPerUpload;
+    }
+
     setMessage(msg?: string): void {
         this.errorMessage = msg;
     }
@@ -128,7 +158,7 @@ export class FileUploaderStore {
 
         if (fileRejections.length && fileRejections[0].errors[0].code === "too-many-files") {
             this.setMessage(
-                this.translations.get("uploadFailureTooManyFilesMessage", this._maxFilesPerUpload.toString())
+                this.translations.get("uploadFailureTooManyFilesMessage", this.maxFilesPerUpload.toString())
             );
             return;
         }
@@ -163,6 +193,12 @@ export class FileUploaderStore {
 
         for (const file of acceptedFiles) {
             const newFileStore = FileStore.newFile(file, this);
+
+            if (this.isFileUploadLimitReached) {
+                newFileStore.markError(
+                    this.translations.get("uploadFailureTooManyFilesMessage", this.maxFilesPerUpload.toString())
+                );
+            }
 
             this.files.unshift(newFileStore);
 

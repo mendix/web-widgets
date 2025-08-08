@@ -35,7 +35,7 @@
         "verify": "rui-verify-package-format"
     },
     "devDependencies": {
-        "@eslint/js": "^9.24.0",
+        "@eslint/js": "^9.32.0",
         "@mendix/automation-utils": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:^",
         "globals": "^16.0.0"

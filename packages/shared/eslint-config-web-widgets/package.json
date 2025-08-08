@@ -11,9 +11,9 @@
         "lint": "eslint . package.json"
     },
     "dependencies": {
-        "@eslint/js": "^9.23.0",
+        "@eslint/js": "^9.32.0",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "eslint": "^9.23.0",
+        "eslint": "^9.32.0",
         "eslint-plugin-cypress": "^4.2.0",
         "eslint-plugin-jest": "^28.11.0",
         "eslint-plugin-package-json": "^0.29.0",
@@ -22,6 +22,6 @@
         "eslint-plugin-react": "~7.37.5",
         "eslint-plugin-react-hooks": "^5.2.0",
         "globals": "^16.0.0",
-        "typescript-eslint": "^8.29.0"
+        "typescript-eslint": "^8.38.0"
     }
 }

@@ -74,6 +74,13 @@ Place your custom CSS here
             border: 1.5px solid var(--brand-primary, $file-brand-primary);
             background-color: var(--color-primary-lighter, $file-color-primary-lighter);
         }
+        &.disabled {
+            border: 1.5px dashed var(--border-color-default, $file-border-color-default);
+            background-color: var(--bg-color, $file-bg-color);
+            .file-icon {
+                opacity: 0.5;
+            }
+        }
 
         .file-icon {
             flex: 0 0 34px;

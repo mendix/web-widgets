@@ -1,5 +1,6 @@
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
+import { copyDefaultFilesPlugin } from "@mendix/rollup-web-widgets/copyFiles.mjs";
 
 export default args => {
     const result = args.configDefaultConfig;
@@ -41,7 +42,8 @@ export default args => {
                         // Tree-shake client worker initialization logic.
                         "!PDFWorkerUtil.isWorkerDisabled && !PDFWorker.#mainThreadWorkerMessageHandler": "false"
                     }
-                })
+                }),
+                copyDefaultFilesPlugin()
             ]
         };
     });
