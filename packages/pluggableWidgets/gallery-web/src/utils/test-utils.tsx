@@ -73,7 +73,8 @@ export function createMockGalleryContext(): GalleryRootScope {
         pageSize: 10,
         stateStorageType: "localStorage",
         storeFilters: false,
-        storeSort: false
+        storeSort: false,
+        refreshIndicator: false
     });
 
     const mockSelectHelper = new SelectActionHandler("None", undefined);
@@ -149,6 +150,7 @@ export function mockProps(params: Helpers & Mocks = {}): GalleryProps<ObjectItem
         header: <input />,
         itemEventsController,
         focusController,
-        getPosition: (index: number) => getColumnAndRowBasedOnIndex(3, 3, index)
+        getPosition: (index: number) => getColumnAndRowBasedOnIndex(3, 3, index),
+        showRefreshIndicator: false
     };
 }

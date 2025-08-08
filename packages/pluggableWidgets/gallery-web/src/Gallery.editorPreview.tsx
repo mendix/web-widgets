@@ -104,6 +104,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
             itemEventsController={itemEventsController}
             focusController={focusController}
             getPosition={getPositionCallback}
+            showRefreshIndicator={false}
             preview
         />
     );
