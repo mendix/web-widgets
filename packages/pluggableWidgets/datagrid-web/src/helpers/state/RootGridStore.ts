@@ -74,6 +74,8 @@ export class RootGridStore extends BaseControllerHost {
         this.loaderCtrl = new DerivedLoaderController({
             exp: exportCtrl,
             cols: columns,
+            showSilentRefresh: props.refreshInterval > 1,
+            refreshIndicator: props.refreshIndicator,
             query
         });
     }

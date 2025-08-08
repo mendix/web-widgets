@@ -2,7 +2,7 @@ import { autoEffect } from "@mendix/widget-plugin-mobx-kit/autoEffect";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
 
 interface QueryHelper {
-    refresh(): void;
+    backgroundRefresh(): void;
 }
 
 interface ObservableAtom {
@@ -34,7 +34,7 @@ export class RefreshController implements ReactiveController {
 
     private scheduleRefresh(helper: QueryHelper, delay: number): () => void {
         const timerId = setTimeout(() => {
-            helper.refresh();
+            helper.backgroundRefresh();
         }, delay);
         return () => {
             clearTimeout(timerId);
