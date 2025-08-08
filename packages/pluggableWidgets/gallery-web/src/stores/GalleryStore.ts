@@ -1,4 +1,5 @@
 import { createContextWithStub, FilterAPI } from "@mendix/widget-plugin-filtering/context";
+import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
 import { PaginationController } from "@mendix/widget-plugin-grid/query/PaginationController";
@@ -67,16 +68,17 @@ export class GalleryStore extends BaseControllerHost {
 
         this._filtersHost = new CustomFilterHost();
 
+        const combinedFilter = new CombinedFilter(this, { stableKey: spec.name, inputs: [this._filtersHost] });
+
         this._sortHost = new SortStoreHost({
             initSort: spec.gate.props.datasource.sortOrder
         });
 
-        const paramCtrl = new QueryParamsController(this, this._query, this._filtersHost, this._sortHost);
+        new QueryParamsController(this, this._query, combinedFilter, this._sortHost);
 
         this.filterAPI = createContextWithStub({
             filterObserver: this._filtersHost,
-            parentChannelName: this.id,
-            sharedInitFilter: paramCtrl.unzipFilter(spec.gate.props.datasource.filter)
+            parentChannelName: this.id
         });
 
         this.sortAPI = {
@@ -93,6 +95,8 @@ export class GalleryStore extends BaseControllerHost {
         if (useStorage) {
             this.initPersistentStorage(spec, spec.gate);
         }
+
+        combinedFilter.hydrate(spec.gate.props.datasource.filter);
     }
 
     initPersistentStorage(props: StaticProps, gate: GalleryPropsGate): void {
