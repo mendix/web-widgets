@@ -1,361 +1,265 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rating renders correctly the structure 1`] = `
-<div
-  className="widget-rating"
-  data-focusindex={0}
-  onKeyDown={[Function]}
-  role="radiogroup"
->
+exports[`Rating rendering renders correctly the structure 1`] = `
+<DocumentFragment>
   <div
-    aria-checked={false}
-    aria-label="1"
-    className="rating-item"
-    key="icon_1"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={0}
+    class="widget-rating"
+    data-focusindex="0"
+    role="radiogroup"
   >
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="2"
-    className="rating-item"
-    key="icon_2"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="1"
+      class="rating-item"
+      role="radio"
+      tabindex="0"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="3"
-    className="rating-item"
-    key="icon_3"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="2"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="4"
-    className="rating-item"
-    key="icon_4"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="3"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="5"
-    className="rating-item"
-    key="icon_5"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="4"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
+      aria-checked="false"
+      aria-label="5"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
-exports[`Rating renders correctly the structure when disabled 1`] = `
-<div
-  className="widget-rating"
-  data-focusindex={0}
-  onKeyDown={[Function]}
-  role="radiogroup"
->
+exports[`Rating rendering renders correctly the structure when disabled 1`] = `
+<DocumentFragment>
   <div
-    aria-checked={false}
-    aria-label="1"
-    className="rating-item disabled"
-    key="icon_1"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={0}
+    class="widget-rating"
+    data-focusindex="0"
+    role="radiogroup"
   >
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="2"
-    className="rating-item disabled"
-    key="icon_2"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="1"
+      class="rating-item disabled"
+      role="radio"
+      tabindex="0"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="3"
-    className="rating-item disabled"
-    key="icon_3"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="2"
+      class="rating-item disabled"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="4"
-    className="rating-item disabled"
-    key="icon_4"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="3"
+      class="rating-item disabled"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="5"
-    className="rating-item disabled"
-    key="icon_5"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="4"
+      class="rating-item disabled"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
+      aria-checked="false"
+      aria-label="5"
+      class="rating-item disabled"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
-exports[`Rating renders correctly the structure with custom class 1`] = `
-<div
-  className="widget-rating my-custom-class"
-  data-focusindex={0}
-  onKeyDown={[Function]}
-  role="radiogroup"
->
+exports[`Rating rendering renders correctly the structure with custom class 1`] = `
+<DocumentFragment>
   <div
-    aria-checked={false}
-    aria-label="1"
-    className="rating-item"
-    key="icon_1"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={0}
+    class="widget-rating my-custom-class"
+    data-focusindex="0"
+    role="radiogroup"
   >
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="2"
-    className="rating-item"
-    key="icon_2"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="1"
+      class="rating-item"
+      role="radio"
+      tabindex="0"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="3"
-    className="rating-item"
-    key="icon_3"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="2"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="4"
-    className="rating-item"
-    key="icon_4"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="3"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="5"
-    className="rating-item"
-    key="icon_5"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="4"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
+      aria-checked="false"
+      aria-label="5"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
-exports[`Rating renders correctly the structure without animations 1`] = `
-<div
-  className="widget-rating"
-  data-focusindex={0}
-  onKeyDown={[Function]}
-  role="radiogroup"
->
+exports[`Rating rendering renders correctly the structure without animations 1`] = `
+<DocumentFragment>
   <div
-    aria-checked={false}
-    aria-label="1"
-    className="rating-item"
-    key="icon_1"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={0}
+    class="widget-rating"
+    data-focusindex="0"
+    role="radiogroup"
   >
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="2"
-    className="rating-item"
-    key="icon_2"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="1"
+      class="rating-item"
+      role="radio"
+      tabindex="0"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="3"
-    className="rating-item"
-    key="icon_3"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="2"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="4"
-    className="rating-item"
-    key="icon_4"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="3"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
-  </div>
-  <div
-    aria-checked={false}
-    aria-label="5"
-    className="rating-item"
-    key="icon_5"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onMouseOut={[Function]}
-    onMouseOver={[Function]}
-    role="radio"
-    tabIndex={-1}
-  >
+      aria-checked="false"
+      aria-label="4"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
     <div
-      className="empty"
-    />
+      aria-checked="false"
+      aria-label="5"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <div
+        class="empty"
+      />
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;

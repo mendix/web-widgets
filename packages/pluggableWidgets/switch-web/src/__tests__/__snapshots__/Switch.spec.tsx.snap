@@ -1,167 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Switch with editable value renders the structure correctly 1`] = `
-<Switch
-  booleanAttribute={
-    {
-      "displayValue": "Formatted false",
-      "formatter": {
-        "config": {},
-        "format": [MockFunction] {
-          "calls": [
-            [
-              false,
-            ],
-          ],
-          "results": [
-            {
-              "type": "return",
-              "value": "Formatted false",
-            },
-          ],
-        },
-        "getFormatPlaceholder": [MockFunction],
-        "parse": [MockFunction],
-        "type": "datetime",
-        "withConfig": [MockFunction],
-      },
-      "isList": false,
-      "readOnly": false,
-      "setFormatter": [MockFunction],
-      "setTextValue": [MockFunction],
-      "setValidator": [MockFunction],
-      "setValue": [MockFunction],
-      "status": "available",
-      "validation": undefined,
-      "value": false,
-    }
-  }
-  id="com.mendix.widgets.custom.switch1"
-  name="switch"
-  tabIndex={0}
->
-  <Switch
-    editable={true}
-    id="com.mendix.widgets.custom.switch1"
-    isChecked={false}
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    tabIndex={0}
+<div>
+  <div
+    class="widget-switch"
   >
     <div
-      className="widget-switch"
+      aria-checked="false"
+      aria-labelledby="com.mendix.widgets.custom.switch1-label"
+      aria-readonly="false"
+      class="widget-switch-btn-wrapper widget-switch-btn-wrapper-default un-checked"
+      id="com.mendix.widgets.custom.switch1"
+      role="switch"
+      tabindex="0"
     >
       <div
-        aria-checked={false}
-        aria-labelledby="com.mendix.widgets.custom.switch1-label"
-        aria-readonly={false}
-        className="widget-switch-btn-wrapper widget-switch-btn-wrapper-default un-checked"
-        id="com.mendix.widgets.custom.switch1"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        role="switch"
-        tabIndex={0}
-      >
-        <div
-          className="widget-switch-btn left"
-        />
-      </div>
-      <Alert
-        bootstrapStyle="danger"
+        class="widget-switch-btn left"
       />
     </div>
-  </Switch>
-</Switch>
+  </div>
+</div>
 `;
 
 exports[`Switch with readonly value renders the structure correctly 1`] = `
-<Switch
-  booleanAttribute={
-    {
-      "displayValue": "Formatted false",
-      "formatter": {
-        "config": {},
-        "format": [MockFunction] {
-          "calls": [
-            [
-              false,
-            ],
-          ],
-          "results": [
-            {
-              "type": "return",
-              "value": "Formatted false",
-            },
-          ],
-        },
-        "getFormatPlaceholder": [MockFunction],
-        "parse": [MockFunction],
-        "type": "datetime",
-        "withConfig": [MockFunction],
-      },
-      "isList": false,
-      "readOnly": true,
-      "setFormatter": [MockFunction],
-      "setTextValue": [MockFunction],
-      "setValidator": [MockFunction],
-      "setValue": [MockFunction],
-      "status": "available",
-      "validation": undefined,
-      "value": false,
-    }
-  }
-  id="com.mendix.widgets.custom.switch1"
-  name="switch"
-  tabIndex={0}
->
-  <Switch
-    editable={false}
-    id="com.mendix.widgets.custom.switch1"
-    isChecked={false}
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    tabIndex={0}
+<div>
+  <div
+    class="widget-switch"
   >
     <div
-      className="widget-switch"
+      aria-checked="false"
+      aria-labelledby="com.mendix.widgets.custom.switch1-label"
+      aria-readonly="true"
+      class="widget-switch-btn-wrapper widget-switch-btn-wrapper-default disabled un-checked"
+      id="com.mendix.widgets.custom.switch1"
+      role="switch"
+      tabindex="0"
     >
       <div
-        aria-checked={false}
-        aria-labelledby="com.mendix.widgets.custom.switch1-label"
-        aria-readonly={true}
-        className="widget-switch-btn-wrapper widget-switch-btn-wrapper-default disabled un-checked"
-        id="com.mendix.widgets.custom.switch1"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        role="switch"
-        tabIndex={0}
-      >
-        <div
-          className="widget-switch-btn left"
-        />
-      </div>
-      <Alert
-        bootstrapStyle="danger"
+        class="widget-switch-btn left"
       />
     </div>
-  </Switch>
-</Switch>
-`;
-
-exports[`Switch with validation message renders correctly 1`] = `
-<Alert
-  bootstrapStyle="danger"
->
-  <div
-    className="alert alert-danger"
-  >
-    error
   </div>
-</Alert>
-`;
-
-exports[`Switch without validation message renders correctly 1`] = `
-<Alert
-  bootstrapStyle="danger"
-/>
+</div>
 `;
