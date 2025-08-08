@@ -55,7 +55,7 @@
                         <enumerationValue key="readPanel">Read panel</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="formOrientation" type="enumeration" defaultValue="horizontal">
+                <property key="formOrientation" type="enumeration" defaultValue="horizontal" required="true">
                     <caption>Form orientation</caption>
                     <description>The form orientation for modals (Insert link, Insert image, Insert video).</description>
                     <enumerationValues>

@@ -20,12 +20,14 @@ interface CustomEvent<T = any> extends Event {
     initCustomEvent(typeArg: string, canBubbleArg: boolean, cancelableArg: boolean, detailArg: T): void;
 }
 
-export interface ImageDialogProps extends Pick<RichTextContainerProps, "imageSource" | "imageSourceContent"> {
+export interface ImageDialogProps
+    extends Pick<
+        RichTextContainerProps,
+        "imageSource" | "imageSourceContent" | "enableDefaultUpload" | "formOrientation"
+    > {
     onSubmit(value: imageConfigType): void;
     onClose(): void;
     defaultValue?: imageConfigType;
-    enableDefaultUpload?: boolean;
-    formOrientation?: "horizontal" | "vertical";
 }
 
 export default function ImageDialog(props: ImageDialogProps): ReactElement {

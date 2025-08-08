@@ -57,7 +57,7 @@ export interface RichTextContainerProps {
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
-    formOrientation?: FormOrientationEnum;
+    formOrientation: FormOrientationEnum;
     widthUnit: WidthUnitEnum;
     width: number;
     heightUnit: HeightUnitEnum;
@@ -103,7 +103,7 @@ export interface RichTextPreviewProps {
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
-    formOrientation?: FormOrientationEnum;
+    formOrientation: FormOrientationEnum;
     widthUnit: WidthUnitEnum;
     width: number | null;
     heightUnit: HeightUnitEnum;
