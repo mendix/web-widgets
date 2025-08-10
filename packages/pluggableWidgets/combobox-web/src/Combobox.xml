@@ -337,10 +337,9 @@
                     <actionVariable key="filterInput" caption="Filter Input" type="String" />
                 </actionVariables>
             </property>
-
-            <property key="debounceInterval" type="integer" required="true" defaultValue="200">
+            <property key="filterInputDebounceInterval" type="integer" required="true" defaultValue="200">
                 <caption>Debounce interval</caption>
-                <description>The debounce interval in milliseconds.</description>
+                <description>The debounce interval for each filter input change event triggered in milliseconds.</description>
             </property>
         </propertyGroup>
         <propertyGroup caption="Accessibility">

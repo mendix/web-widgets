@@ -77,7 +77,8 @@ describe("Combo box (Static values)", () => {
             ],
             selectedItemsSorting: "none",
             customEditability: "default",
-            customEditabilityExpression: dynamic(false)
+            customEditabilityExpression: dynamic(false),
+            filterInputDebounceInterval: 200
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => dynamic(`${i.id}`);

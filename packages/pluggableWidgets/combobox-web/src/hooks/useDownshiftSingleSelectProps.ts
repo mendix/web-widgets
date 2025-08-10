@@ -2,8 +2,8 @@ import {
     UseComboboxProps,
     UseComboboxReturnValue,
     UseComboboxState,
-    UseComboboxStateChange,
     UseComboboxStateChangeOptions,
+    UseComboboxStateChange,
     useCombobox
 } from "downshift";
 
@@ -29,9 +29,9 @@ export function useDownshiftSingleSelectProps(
             onSelectedItemChange({ selectedItem }: UseComboboxStateChange<string>) {
                 selector.setValue(selectedItem ?? null);
             },
-            onInputValueChange({ inputValue }) {
+            onInputValueChange({ inputValue, type }: UseComboboxStateChange<string>) {
                 selector.options.setSearchTerm(inputValue!);
-                if (selector.onFilterInputChange) {
+                if (selector.onFilterInputChange && type === useCombobox.stateChangeTypes.InputChange) {
                     selector.onFilterInputChange(inputValue!);
                 }
             },
