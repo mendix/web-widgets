@@ -90,7 +90,7 @@ export interface ComboboxContainerProps {
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
     onChangeFilterInputEvent?: ActionValue<{ filterInput: Option<string> }>;
-    debounceInterval?: number;
+    filterInputDebounceInterval: number;
     ariaRequired: DynamicValue<boolean>;
     ariaLabel?: DynamicValue<string>;
     clearButtonAriaLabel?: DynamicValue<string>;
@@ -148,7 +148,7 @@ export interface ComboboxPreviewProps {
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;
     onChangeFilterInputEvent: {} | null;
-    debounceInterval: number | null;
+    filterInputDebounceInterval: number | null;
     ariaRequired: string;
     ariaLabel: string;
     clearButtonAriaLabel: string;

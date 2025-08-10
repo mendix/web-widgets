@@ -2,6 +2,7 @@ import {
     UseComboboxProps,
     UseComboboxReturnValue,
     UseComboboxState,
+    UseComboboxStateChange,
     UseComboboxStateChangeOptions,
     UseMultipleSelectionReturnValue,
     useCombobox,
@@ -148,9 +149,9 @@ function useComboboxProps(
             selectedItem: null,
             inputId: options?.inputId,
             labelId: options?.labelId,
-            onInputValueChange({ inputValue }) {
+            onInputValueChange({ inputValue, type }: UseComboboxStateChange<string>) {
                 selector.options.setSearchTerm(inputValue!);
-                if (selector.onFilterInputChange) {
+                if (selector.onFilterInputChange && type === useCombobox.stateChangeTypes.InputChange) {
                     selector.onFilterInputChange(inputValue);
                 }
             },
