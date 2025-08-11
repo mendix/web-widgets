@@ -89,13 +89,7 @@ export class GalleryStore extends BaseControllerHost {
             host: this._sortHost
         };
 
-        this.loaderCtrl = new DerivedLoaderController({
-            refreshIndicator: spec.refreshIndicator,
-            query: {
-                isRefreshing: this._query.isRefreshing,
-                isSilentRefresh: this._query.isSilentRefresh
-            }
-        });
+        this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator);
 
         new RefreshController(this, {
             delay: 0,

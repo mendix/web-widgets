@@ -1,25 +1,23 @@
-type DerivedLoaderControllerSpec = {
-    refreshIndicator: boolean;
-    query: {
-        isRefreshing: boolean;
-        isSilentRefresh: boolean;
-    };
-};
+import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
+import { makeObservable, computed } from "mobx";
 
 export class DerivedLoaderController {
-    constructor(private spec: DerivedLoaderControllerSpec) {}
+    constructor(
+        private datasourceController: DatasourceController,
+        private refreshIndicator: boolean
+    ) {
+        makeObservable(this, {
+            isRefreshing: computed,
+            showRefreshIndicator: computed
+        });
+    }
 
     get isRefreshing(): boolean {
-        const { isSilentRefresh, isRefreshing } = this.spec.query;
-
+        const { isSilentRefresh, isRefreshing } = this.datasourceController;
         return !isSilentRefresh && isRefreshing;
     }
 
     get showRefreshIndicator(): boolean {
-        if (!this.spec.refreshIndicator) {
-            return false;
-        }
-
-        return this.isRefreshing;
+        return this.refreshIndicator && this.isRefreshing;
     }
 }
