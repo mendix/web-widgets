@@ -39,6 +39,7 @@ export interface GalleryContainerProps {
     showPagingButtons: ShowPagingButtonsEnum;
     pagingPosition: PagingPositionEnum;
     loadMoreButtonCaption?: DynamicValue<string>;
+    refreshIndicator: boolean;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     itemClass?: ListExpressionValue<string>;
@@ -80,6 +81,7 @@ export interface GalleryPreviewProps {
     showPagingButtons: ShowPagingButtonsEnum;
     pagingPosition: PagingPositionEnum;
     loadMoreButtonCaption: string;
+    refreshIndicator: boolean;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemClass: string;
