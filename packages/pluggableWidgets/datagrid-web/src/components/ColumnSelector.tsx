@@ -56,9 +56,9 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                 (refs.floating?.current?.querySelector("li") as HTMLElement)?.focus();
             }, 10);
         } else {
-            // focus back to the button when closing
+            // focus back to the button when closing (prevent scroll to prevent horizontal scroll jumps on initial render)
             setTimeout(() => {
-                (refs.reference?.current as HTMLElement)?.focus();
+                (refs.reference?.current as HTMLElement)?.focus({ preventScroll: true });
             }, 10);
         }
     }, [show]);
