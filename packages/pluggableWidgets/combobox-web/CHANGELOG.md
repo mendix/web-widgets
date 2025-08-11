@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.5.0] - 2025-08-11
+
 ### Added
 
 - We added a new "On change filter input" event that triggers when users type in the combobox filter field, passing the current filter text as an action variable to enable custom nanoflows/microflows for dynamic filtering scenarios.
