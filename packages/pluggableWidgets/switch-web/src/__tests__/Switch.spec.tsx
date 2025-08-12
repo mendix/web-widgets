@@ -1,10 +1,7 @@
 import "@testing-library/jest-dom";
-// Removed unused Alert, AlertProps imports
 import { actionValue, EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { render, fireEvent } from "@testing-library/react";
 import { createElement } from "react";
-
-// Removed unused SwitchComponent, SwitchProps imports
 import { SwitchContainerProps } from "../../typings/SwitchProps";
 import { Switch } from "../Switch";
 
@@ -105,8 +102,6 @@ describe("Switch", () => {
             expect(wrapper?.getAttribute("aria-readonly")).toBe("false");
         });
 
-        // Removed preventDefault tests: RTL does not support checking preventDefault on synthetic events
-
         it("invokes action on click", () => {
             const props = createProps({ action: actionValue() });
             const { container } = renderSwitch(props);
@@ -201,7 +196,5 @@ describe("Switch", () => {
             fireEvent.click(button!);
             expect(props.booleanAttribute.setValue).not.toHaveBeenCalled();
         });
-
-        // Removed preventDefault tests: RTL does not support checking preventDefault on synthetic events
     });
 });
