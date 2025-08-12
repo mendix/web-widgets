@@ -95,6 +95,7 @@ export function MultiSelection({
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
                 isLoading={lazyLoading && selector.options.isLoading}
+                isMultiselectActive={selectedItems?.length > 0}
             >
                 <div
                     className={classNames(
