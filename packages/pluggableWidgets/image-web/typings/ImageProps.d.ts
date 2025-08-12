@@ -12,7 +12,11 @@ export type OnClickTypeEnum = "action" | "enlarge";
 
 export type WidthUnitEnum = "auto" | "pixels" | "percentage";
 
-export type HeightUnitEnum = "auto" | "pixels";
+export type HeightUnitEnum = "auto" | "pixels" | "percentage" | "viewport";
+
+export type MinHeightUnitEnum = "none" | "pixels" | "percentage" | "viewport";
+
+export type MaxHeightUnitEnum = "none" | "pixels" | "percentage" | "viewport";
 
 export type DisplayAsEnum = "fullImage" | "thumbnail";
 
@@ -35,6 +39,10 @@ export interface ImageContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
+    minHeightUnit: MinHeightUnitEnum;
+    minHeight: number;
+    maxHeightUnit: MaxHeightUnitEnum;
+    maxHeight: number;
     iconSize: number;
     displayAs: DisplayAsEnum;
     responsive: boolean;
@@ -65,6 +73,10 @@ export interface ImagePreviewProps {
     width: number | null;
     heightUnit: HeightUnitEnum;
     height: number | null;
+    minHeightUnit: MinHeightUnitEnum;
+    minHeight: number | null;
+    maxHeightUnit: MaxHeightUnitEnum;
+    maxHeight: number | null;
     iconSize: number | null;
     displayAs: DisplayAsEnum;
     responsive: boolean;
