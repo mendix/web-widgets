@@ -64,14 +64,6 @@ export const Image: FunctionComponent<ImageContainerProps> = props => {
     const styleObject = constructStyleObject(props);
 
     const imageStyle = { ...props.style, ...styleObject };
-    console.warn("Image styling debug:", {
-        name: props.name,
-        heightUnit: props.heightUnit,
-        minHeightUnit: props.minHeightUnit,
-        minHeight: props.minHeight,
-        styleObject,
-        finalImageStyle: imageStyle
-    });
 
     return (
         <ImageComponent
