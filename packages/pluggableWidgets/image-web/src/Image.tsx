@@ -2,6 +2,7 @@ import { ValueStatus } from "mendix";
 import { createElement, FunctionComponent, useCallback } from "react";
 import { ImageContainerProps } from "../typings/ImageProps";
 import { Image as ImageComponent, ImageType } from "./components/Image/Image";
+import { constructStyleObject } from "./utils/helpers";
 
 function getImageProps({
     datasource,
@@ -60,11 +61,22 @@ export const Image: FunctionComponent<ImageContainerProps> = props => {
     const { type, image } = getImageProps(props);
 
     const altText = props.alternativeText?.status === ValueStatus.Available ? props.alternativeText.value : undefined;
+    const styleObject = constructStyleObject(props);
+
+    const imageStyle = { ...props.style, ...styleObject };
+    console.warn("Image styling debug:", {
+        name: props.name,
+        heightUnit: props.heightUnit,
+        minHeightUnit: props.minHeightUnit,
+        minHeight: props.minHeight,
+        styleObject,
+        finalImageStyle: imageStyle
+    });
 
     return (
         <ImageComponent
             class={props.class}
-            style={props.style}
+            style={imageStyle}
             widthUnit={props.widthUnit}
             width={props.width}
             heightUnit={props.heightUnit}
