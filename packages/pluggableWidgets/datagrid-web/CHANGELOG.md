@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added a selection count display that shows the number of selected rows in the grid footer. The count appears automatically when items are selected and supports customizable text formats for singular and plural forms via the new "Row count singular" and "Row count plural" properties.
+
 ## [3.0.1] - 2025-08-05
 
 ### Fixed

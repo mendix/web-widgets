@@ -1,5 +1,7 @@
-import { createElement, ReactNode, ReactElement } from "react";
-import { PagingPositionEnum, PaginationEnum } from "../../typings/DatagridProps";
+import { observer } from "mobx-react-lite";
+import { createElement, ReactElement, ReactNode } from "react";
+import { PaginationEnum, PagingPositionEnum } from "../../typings/DatagridProps";
+import { useDatagridRootScope } from "../helpers/root-context";
 
 type WidgetFooterProps = {
     pagingPosition: PagingPositionEnum;
@@ -14,16 +16,33 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
     const { pagingPosition, pagination, paginationType, loadMoreButtonCaption, hasMoreItems, setPage, ...rest } = props;
     return (
         <div {...rest} className="widget-datagrid-footer table-footer">
-            {(pagingPosition === "bottom" || pagingPosition === "both") && pagination}
-            {hasMoreItems && paginationType === "loadMore" && (
-                <button
-                    className="btn btn-primary widget-datagrid-load-more"
-                    onClick={() => setPage && setPage(prev => prev + 1)}
-                    tabIndex={0}
-                >
-                    {loadMoreButtonCaption}
-                </button>
-            )}
+            <div className="widget-datagrid-paging-bottom">
+                <div className="widget-datagrid-pb-left">
+                    <SelectionCounter />
+                </div>
+                {hasMoreItems && paginationType === "loadMore" && (
+                    <div className="widget-datagrid-pb-middle">
+                        <button
+                            className="btn btn-primary widget-datagrid-load-more"
+                            onClick={() => setPage && setPage(prev => prev + 1)}
+                            tabIndex={0}
+                        >
+                            {loadMoreButtonCaption}
+                        </button>
+                    </div>
+                )}
+                <div className="widget-datagrid-pb-right">
+                    {(pagingPosition === "bottom" || pagingPosition === "both") && pagination}
+                </div>
+            </div>
         </div>
     );
 }
+
+const SelectionCounter = observer(function SelectionCounter() {
+    const { selectionCountStore } = useDatagridRootScope();
+    if (selectionCountStore.displayCount) {
+        return <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>;
+    }
+    return null;
+});

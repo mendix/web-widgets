@@ -1,8 +1,8 @@
-import { createElement, ReactElement } from "react";
-import { ObjectItem } from "mendix";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
+import { ObjectItem } from "mendix";
+import { createElement, ReactElement } from "react";
+import { useDatagridRootScope } from "../helpers/root-context";
 import { CellElement, CellElementProps } from "./CellElement";
-import { useWidgetProps } from "../helpers/useWidgetProps";
 
 export type CheckboxCellProps = CellElementProps & {
     rowIndex: number;
@@ -16,7 +16,8 @@ export function CheckboxCell({ item, rowIndex, lastRow, ...rest }: CheckboxCellP
         rowIndex
     });
 
-    const { selectActionHelper, checkboxEventsController, selectRowLabel, gridInteractive } = useWidgetProps();
+    const { selectActionHelper, checkboxEventsController, basicData } = useDatagridRootScope();
+    const { selectRowLabel, gridInteractive } = basicData;
     return (
         <CellElement {...rest} clickable={gridInteractive} className="widget-datagrid-col-select" tabIndex={-1}>
             <input
