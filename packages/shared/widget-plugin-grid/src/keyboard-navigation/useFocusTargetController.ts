@@ -1,10 +1,13 @@
 import { useMemo, useRef } from "react";
 import { FocusTargetController } from "./FocusTargetController";
-import { VirtualGridLayout } from "./VirtualGridLayout";
 import { PositionController } from "./PositionController";
+import { VirtualGridLayout } from "./VirtualGridLayout";
 
 export type LayoutProps = { rows: number; columns: number; pageSize: number };
 
+/**
+ * @returns {FocusTargetController} controller that manages focus targets in a grid layout. Object ref is stable across renders.
+ */
 export function useFocusTargetController({ rows, columns, pageSize }: LayoutProps): FocusTargetController {
     const controllerRef = useRef<null | FocusTargetController>(null);
 
