@@ -367,6 +367,14 @@
                         <translation lang="en_US">Select all rows</translation>
                     </translations>
                 </property>
+                <property key="sCountFmtSingular" type="textTemplate" required="false">
+                    <caption>Row count singular</caption>
+                    <description>Must include '%d' to denote number position ('%d row selected')</description>
+                </property>
+                <property key="sCountFmtPlural" type="textTemplate" required="false">
+                    <caption>Row count plural</caption>
+                    <description>Must include '%d' to denote number position ('%d rows selected')</description>
+                </property>
             </propertyGroup>
         </propertyGroup>
     </properties>
