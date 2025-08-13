@@ -56,7 +56,8 @@
             "@codemirror/view": "^6.34.2",
             "enzyme>cheerio": "1.0.0-rc.10",
             "ts-node": "10.9.2",
-            "react-big-calendar@1>clsx": "2.1.0"
+            "react-big-calendar@1>clsx": "2.1.0",
+            "mendix": "^10.16"
         },
         "patchedDependencies": {
             "mobx@6.12.3": "patches/mobx@6.12.3.patch",

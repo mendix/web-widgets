@@ -55,8 +55,10 @@ export interface StaticBaseControllerProps {
     multiselect: boolean;
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
-    emptyCaption?: string;
-    placeholder?: string;
+    emptyOptionCaption: string;
+    emptySelectionCaption: string;
+    placeholder: string;
+    ariaLabel: string;
 }
 
 export interface CustomOption<T> {
