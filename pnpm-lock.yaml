@@ -151,14 +151,14 @@ importers:
         specifier: 2.6.2
         version: 2.6.2
       chalk:
-        specifier: ^4.1.2
-        version: 4.1.2
+        specifier: ^5.4.1
+        version: 5.4.1
       cross-zip:
         specifier: ^4.0.1
         version: 4.0.1
       enquirer:
-        specifier: ^2.3.6
-        version: 2.3.6
+        specifier: ^2.4.1
+        version: 2.4.1
       execa:
         specifier: ^5.1.1
         version: 5.1.1
