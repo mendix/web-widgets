@@ -22,8 +22,8 @@ test.describe("gallery-web", () => {
             const gallery = ".mx-name-gallery1";
             const dropdownSort = ".mx-name-drop_downSort2 input";
 
-            await page.locator(dropdownSort).first().click();
-            await page.locator("[role=menuitem]", { hasText: "Age" }).click();
+            await page.locator(dropdownSort).first().click({ delay: 1 });
+            await page.locator("[role=menuitem]", { hasText: "Age" }).click({ delay: 1 });
             await expect(page.locator(gallery)).toHaveScreenshot(`galleryDropdownSort.png`);
         });
     });
@@ -57,8 +57,8 @@ test.describe("gallery-web", () => {
             const gallery = ".mx-name-gallery1";
             const dropdown = ".mx-name-gallery1 .mx-name-drop_downFilter1";
 
-            await page.locator(dropdown).first().click();
-            await page.locator(".widget-dropdown-filter-menu-slot > ul > li").nth(4).click();
+            await page.locator(dropdown).first().click({ delay: 1 });
+            await page.locator(".widget-dropdown-filter-menu-slot > ul > li").nth(4).click({ delay: 1 });
             await expect(page.locator(gallery)).toHaveScreenshot(`galleryDropdownFilter.png`);
         });
     });
@@ -75,7 +75,7 @@ test.describe("gallery-web", () => {
 
             await page.locator(textFilter).first().fill("Ana");
 
-            await page.locator(galleryItem).first().click();
+            await page.locator(galleryItem).first().click({ delay: 1 });
 
             const context = "You've clicked at Ana Carol's face.";
             await expect(page.locator(popUpElement)).toHaveText(context);
