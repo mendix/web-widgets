@@ -1,109 +1,349 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rating Container renders correctly the structure 1`] = `
-<Rating
-  animated={true}
-  className=""
-  disabled={false}
-  emptyIcon={
-    <Icon
-      animate={true}
-      empty={true}
-      value={
-        {
-          "iconClass": "",
-          "type": "icon",
-        }
-      }
-    />
-  }
-  fullIcon={
-    <Icon
-      animate={true}
-      full={true}
-      value={
-        {
-          "iconClass": "",
-          "type": "icon",
-        }
-      }
-    />
-  }
-  maximumValue={5}
-  onChange={[Function]}
-  tabIndex={0}
-  value={5}
-/>
+exports[`StarRating rendering renders correctly the structure 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-rating"
+    data-focusindex="0"
+    role="radiogroup"
+  >
+    <div
+      aria-checked="false"
+      aria-label="1"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-full animate"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="false"
+      aria-label="2"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-full animate"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="false"
+      aria-label="3"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-full animate"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="false"
+      aria-label="4"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-full animate"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="true"
+      aria-label="5"
+      class="rating-item"
+      role="radio"
+      tabindex="0"
+    >
+      <span
+        class="rating-icon rating-icon-full animate"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
-exports[`Rating Container renders correctly the structure when disabled 1`] = `
-<Rating
-  animated={true}
-  className=""
-  disabled={true}
-  emptyIcon={
-    <Icon
-      animate={true}
-      empty={true}
-      value={
-        {
-          "iconClass": "",
-          "type": "icon",
-        }
-      }
-    />
-  }
-  fullIcon={
-    <Icon
-      animate={true}
-      full={true}
-      value={
-        {
-          "iconClass": "",
-          "type": "icon",
-        }
-      }
-    />
-  }
-  maximumValue={5}
-  onChange={[Function]}
-  tabIndex={0}
-  value={1}
-/>
+exports[`StarRating rendering renders correctly the structure when disabled 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-rating"
+    data-focusindex="0"
+    role="radiogroup"
+  >
+    <div
+      aria-checked="true"
+      aria-label="1"
+      class="rating-item disabled"
+      role="radio"
+      tabindex="0"
+    >
+      <span
+        class="rating-icon rating-icon-full animate"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="false"
+      aria-label="2"
+      class="rating-item disabled"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-empty animate"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M24.59,28.63l-8.54-3.87-8.63,3.86,.97-9.39L2.12,12.34l9.22-2.21L16,1.98l4.65,8.14,9.22,2.21-6.26,6.9,.97,9.4ZM5.88,13.49l4.59,5.06-.7,6.83,6.29-2.81,6.19,2.8-.7-6.82,4.59-5.06-6.78-1.62-3.35-5.86-3.35,5.86-6.78,1.62Z"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="false"
+      aria-label="3"
+      class="rating-item disabled"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-empty animate"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M24.59,28.63l-8.54-3.87-8.63,3.86,.97-9.39L2.12,12.34l9.22-2.21L16,1.98l4.65,8.14,9.22,2.21-6.26,6.9,.97,9.4ZM5.88,13.49l4.59,5.06-.7,6.83,6.29-2.81,6.19,2.8-.7-6.82,4.59-5.06-6.78-1.62-3.35-5.86-3.35,5.86-6.78,1.62Z"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="false"
+      aria-label="4"
+      class="rating-item disabled"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-empty animate"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M24.59,28.63l-8.54-3.87-8.63,3.86,.97-9.39L2.12,12.34l9.22-2.21L16,1.98l4.65,8.14,9.22,2.21-6.26,6.9,.97,9.4ZM5.88,13.49l4.59,5.06-.7,6.83,6.29-2.81,6.19,2.8-.7-6.82,4.59-5.06-6.78-1.62-3.35-5.86-3.35,5.86-6.78,1.62Z"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="false"
+      aria-label="5"
+      class="rating-item disabled"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-empty animate"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M24.59,28.63l-8.54-3.87-8.63,3.86,.97-9.39L2.12,12.34l9.22-2.21L16,1.98l4.65,8.14,9.22,2.21-6.26,6.9,.97,9.4ZM5.88,13.49l4.59,5.06-.7,6.83,6.29-2.81,6.19,2.8-.7-6.82,4.59-5.06-6.78-1.62-3.35-5.86-3.35,5.86-6.78,1.62Z"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
-exports[`Rating Container renders correctly the structure without animation 1`] = `
-<Rating
-  animated={false}
-  className=""
-  disabled={false}
-  emptyIcon={
-    <Icon
-      animate={false}
-      empty={true}
-      value={
-        {
-          "iconClass": "",
-          "type": "icon",
-        }
-      }
-    />
-  }
-  fullIcon={
-    <Icon
-      animate={false}
-      full={true}
-      value={
-        {
-          "iconClass": "",
-          "type": "icon",
-        }
-      }
-    />
-  }
-  maximumValue={5}
-  onChange={[Function]}
-  tabIndex={0}
-  value={5}
-/>
+exports[`StarRating rendering renders correctly the structure without animation 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-rating"
+    data-focusindex="0"
+    role="radiogroup"
+  >
+    <div
+      aria-checked="false"
+      aria-label="1"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-full"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="false"
+      aria-label="2"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-full"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="false"
+      aria-label="3"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-full"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="false"
+      aria-label="4"
+      class="rating-item"
+      role="radio"
+      tabindex="-1"
+    >
+      <span
+        class="rating-icon rating-icon-full"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      aria-checked="true"
+      aria-label="5"
+      class="rating-item"
+      role="radio"
+      tabindex="0"
+    >
+      <span
+        class="rating-icon rating-icon-full"
+      >
+        <svg
+          fill="currentColor"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            points="29.88 12.34 20.65 10.13 16 1.98 11.35 10.13 2.12 12.34 8.38 19.23 7.42 28.62 16.04 24.76 24.59 28.63 23.62 19.23 29.88 12.34"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
 `;
