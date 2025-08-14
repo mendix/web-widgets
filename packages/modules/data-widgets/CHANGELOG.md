@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.32.3] DataWidgets - 2025-08-14
+
+### [2.32.0] DatagridDropdownFilter
+
+#### Fixed
+
+- We enhanced dropdown widget customization by separating texts for empty selection, empty option caption, and input placeholder. This change allows for more granular control over the widget's text configurations.
+
+- We improved dropdown widget usability with enhanced keyboard navigation, visual feedback, and interaction behavior.
+
+#### Breaking changes
+
+- Text configurations for empty option, empty selection, and input placeholder need to be reviewed and reconfigured.
+
 ## [2.32.2] DataWidgets - 2025-07-01
 
 ### [1.14.2] Gallery
