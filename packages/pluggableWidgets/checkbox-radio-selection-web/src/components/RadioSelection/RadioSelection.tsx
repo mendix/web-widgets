@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { ChangeEvent, ReactElement, createElement, MouseEvent } from "react";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { CaptionContent } from "../CaptionContent";
+import { Placeholder } from "../Placeholder";
 
 export function RadioSelection({
     selector,
@@ -9,7 +10,8 @@ export function RadioSelection({
     inputId,
     ariaRequired,
     readOnlyStyle,
-    groupName
+    groupName,
+    emptyOptionText
 }: SelectionBaseProps<SingleSelector>): ReactElement {
     const asSingleCheckbox = selector.controlType === "checkbox";
 
@@ -80,7 +82,7 @@ export function RadioSelection({
                     </div>
                 );
             })}
-            {options.length === 0 && <div className="widget-checkbox-radio-selection-no-options">{`<...>`}</div>}
+            {options.length === 0 && <Placeholder emptyOptionText={emptyOptionText} />}
         </div>
     );
 }

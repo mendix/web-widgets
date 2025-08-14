@@ -22,7 +22,8 @@ export const preview = (props: CheckboxRadioSelectionPreviewProps): ReactElement
         labelId: `${id}-label`,
         readOnlyStyle: props.readOnlyStyle,
         ariaRequired: dynamic(false),
-        groupName: dynamic(`${id}-group`)
+        groupName: dynamic(`${id}-group`),
+        emptyOptionText: "NO OPTIONS AVAILABLE"
     };
 
     // eslint-disable-next-line react-hooks/rules-of-hooks

@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { ReactElement, createElement, MouseEvent } from "react";
 import { SelectionBaseProps, MultiSelector } from "../../helpers/types";
 import { CaptionContent } from "../CaptionContent";
+import { Placeholder } from "../Placeholder";
 
 export function CheckboxSelection({
     selector,
@@ -9,7 +10,8 @@ export function CheckboxSelection({
     inputId,
     ariaRequired,
     readOnlyStyle,
-    groupName
+    groupName,
+    emptyOptionText
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const options = selector.getOptions();
     const currentIds = selector.currentId || [];
@@ -68,7 +70,7 @@ export function CheckboxSelection({
                     </div>
                 );
             })}
-            {options.length === 0 && <div className="widget-checkbox-radio-selection-no-options">{`<...>`}</div>}
+            {options.length === 0 && <Placeholder emptyOptionText={emptyOptionText} />}
         </div>
     );
 }

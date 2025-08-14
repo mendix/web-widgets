@@ -27,6 +27,6 @@ export class PreviewOptionsProvider implements OptionsProvider<ObjectItem, BaseO
         throw new Error("Method not implemented.");
     }
     getAll(): string[] {
-        return ["..."];
+        return ["PREVIEW_OPTION"];
     }
 }
