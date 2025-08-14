@@ -9,7 +9,7 @@ import {
     PublishedPackageSchema
 } from "../src";
 import { verify as verifyWidget } from "../src/verify-widget-manifest";
-import { fgCyan, fgGreen, fgYellow } from "../src/ansi-colors";
+import chalk from "chalk";
 import { getModuleChangelog, getWidgetChangelog } from "../src";
 
 async function main(): Promise<void> {
@@ -63,13 +63,13 @@ async function main(): Promise<void> {
 
         // Changelog check coming soon...
 
-        console.log(fgGreen("Verification success"));
+        console.log(chalk.green("Verification success"));
     } catch (error) {
         if (error instanceof ZodError) {
             for (const issue of error.issues) {
-                const keys = issue.path.map(x => fgYellow(`${x}`));
+                const keys = issue.path.map(x => chalk.yellow(`${x}`));
                 const code = `[${issue.code}]`;
-                console.error(`package.${keys.join(".")} - ${code} ${fgCyan(issue.message)}`);
+                console.error(`package.${keys.join(".")} - ${code} ${chalk.cyan(issue.message)}`);
             }
             // Just for new line
             console.log("");

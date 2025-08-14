@@ -3,13 +3,18 @@ name: "Publishes a package to marketplace"
 on:
     release:
         types: [published]
+    workflow_dispatch:
+        inputs:
+            package:
+                description: Package name (e.g. accordion-web)
+                required: true
 
 jobs:
     publish-new-version:
         name: "Publish a new package version from GitHub release"
         runs-on: ubuntu-latest
         env:
-            TAG: ${{ github.ref_name }}
+            TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event.inputs.package }}
 
         steps:
             - name: Check release tag
