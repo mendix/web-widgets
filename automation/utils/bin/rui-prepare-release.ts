@@ -260,7 +260,7 @@ async function triggerGitHubReleaseWorkflow(
 }
 
 async function createReleaseBranch(packageName: string, version: string): Promise<string> {
-    const tmpBranchName = `tmp-release/${packageName}-v${version}`;
+    const tmpBranchName = `tmp/${packageName}-v${version}`;
 
     let branchToUse = tmpBranchName;
     let branchesAreReady = false;
