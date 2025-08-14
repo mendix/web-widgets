@@ -16,7 +16,8 @@
         "create-translation": "turbo run create-translation",
         "publish-marketplace": "turbo run publish-marketplace",
         "version": "pnpm --filter @mendix/automation-utils run version",
-        "changelog": "pnpm --filter @mendix/automation-utils run changelog"
+        "changelog": "pnpm --filter @mendix/automation-utils run changelog",
+        "prepare-release": "pnpm --filter @mendix/automation-utils run prepare-release"
     },
     "devDependencies": {
         "husky": "^8.0.3",
@@ -53,10 +54,8 @@
             "jest-environment-jsdom": "^29.7.0",
             "json5@1.x": ">=1.0.2",
             "json5@0.x": ">=1.0.2",
-            "@codemirror/view": "^6.34.2",
             "enzyme>cheerio": "1.0.0-rc.10",
             "ts-node": "10.9.2",
-            "react-big-calendar@1>clsx": "2.1.0",
             "mendix": "^10.16"
         },
         "patchedDependencies": {

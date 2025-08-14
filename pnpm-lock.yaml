@@ -20,10 +20,8 @@ overrides:
   jest-environment-jsdom: ^29.7.0
   json5@1.x: '>=1.0.2'
   json5@0.x: '>=1.0.2'
-  '@codemirror/view': ^6.34.2
   enzyme>cheerio: 1.0.0-rc.10
   ts-node: 10.9.2
-  react-big-calendar@1>clsx: 2.1.0
   mendix: ^10.16
 
 pnpmfileChecksum: sha256-s93SB6R9/asG3ZoJ8Hr+99P758r3p0dOebXMUkycQnk=
