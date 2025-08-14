@@ -7,6 +7,7 @@
     "bin": {
         "rui-create-gh-release": "bin/rui-create-gh-release.ts",
         "rui-create-translation": "bin/rui-create-translation.ts",
+        "rui-prepare-release": "bin/rui-prepare-release.ts",
         "rui-publish-marketplace": "bin/rui-publish-marketplace.ts",
         "rui-update-changelog-module": "bin/rui-update-changelog-module.ts",
         "rui-update-changelog-widget": "bin/rui-update-changelog-widget.ts",
@@ -27,6 +28,7 @@
         "format": "prettier --write .",
         "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
         "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",
+        "prepare-release": "ts-node bin/rui-prepare-release.ts",
         "start": "tsc --watch",
         "version": "ts-node bin/rui-bump-version.ts"
     },
@@ -35,9 +37,9 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@types/cross-zip": "^4.0.2",
         "@types/node-fetch": "2.6.2",
-        "chalk": "^4.1.2",
+        "chalk": "^5.4.1",
         "cross-zip": "^4.0.1",
-        "enquirer": "^2.3.6",
+        "enquirer": "^2.4.1",
         "execa": "^5.1.1",
         "fast-xml-parser": "^4.1.3",
         "node-fetch": "^2.6.9",

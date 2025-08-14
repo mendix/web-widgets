@@ -43,11 +43,34 @@ export async function copyMpkFiles(packageNames: string[], dest: string): Promis
 export async function selectPackage(): Promise<PackageListing> {
     const pkgs = await oraPromise(listPackages(["'*'", "!web-widgets"]), "Loading packages...");
 
+    // First, get all display names and find maximum length
+    const displayData = pkgs.map(pkg => {
+        const [category, folderName] = extractPathInfo(pkg.path);
+        const displayName = pkg.name.includes("/") ? pkg.name.split("/").pop()! : pkg.name;
+        const categoryInfo = `[${category}${displayName !== folderName ? "/" + folderName : ""}]`;
+
+        return {
+            displayName,
+            categoryInfo,
+            packageName: pkg.name
+        };
+    });
+
+    // Find maximum display name length for padding
+    const maxDisplayNameLength = Math.max(...displayData.map(item => item.displayName.length));
+
     const { packageName } = await prompt<{ packageName: string }>({
         type: "autocomplete",
         name: "packageName",
         message: "Please select package",
-        choices: pkgs.map(pkg => pkg.name)
+        choices: displayData.map(item => {
+            // Pad the display name with spaces to align the category info
+            const paddedName = item.displayName.padEnd(maxDisplayNameLength + 2, " ");
+            return {
+                name: `${paddedName}${item.categoryInfo}`,
+                value: item.packageName
+            };
+        })
     });
 
     const pkg = pkgs.find(p => p.name === packageName);
@@ -57,4 +80,18 @@ export async function selectPackage(): Promise<PackageListing> {
     }
 
     return pkg;
+}
+
+function extractPathInfo(path: string): [string, string] {
+    const automationMatch = path.match(/automation\/([^/]+)/);
+    if (automationMatch) {
+        return ["automation", automationMatch[1]];
+    }
+
+    const packagesMatch = path.match(/packages\/([^/]+)\/([^/]+)/);
+    if (packagesMatch) {
+        return [packagesMatch[1], packagesMatch[2]];
+    }
+
+    throw new Error(`Invalid path format: ${path}`);
 }
