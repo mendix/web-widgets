@@ -36,7 +36,7 @@
     "dependencies": {
         "classnames": "^2.5.1",
         "deepmerge": "^4.3.1",
-        "plotly.js-dist-min": "^3.0.0",
+        "plotly.js-dist-min": "^3.1.0",
         "react-plotly.js": "^2.6.0"
     },
     "devDependencies": {
