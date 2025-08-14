@@ -1,11 +1,10 @@
-import { SingleSelector, Status, CaptionsProvider, OptionsProvider, MultiSelector } from "../../types";
 import {
     CheckboxRadioSelectionPreviewProps,
     OptionsSourceCustomContentTypeEnum
 } from "../../../../typings/CheckboxRadioSelectionProps";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { PreviewCaptionsProvider } from "../../Preview/PreviewCaptionsProvider";
 import { PreviewOptionsProvider } from "../../Preview/PreviewOptionsProvider";
+import { CaptionsProvider, MultiSelector, OptionsProvider, SingleSelector, Status } from "../../types";
 import { getCustomCaption } from "../../utils";
 
 export class DatabasePreviewSelector implements SingleSelector {
@@ -23,7 +22,7 @@ export class DatabasePreviewSelector implements SingleSelector {
     options: OptionsProvider;
 
     constructor(props: CheckboxRadioSelectionPreviewProps) {
-        this.currentId = `single-${generateUUID()}`;
+        this.currentId = `PREVIEW_OPTION`;
         this.customContentType = props.optionsSourceCustomContentType;
         this.readOnly = props.readOnly;
         this.caption = new PreviewCaptionsProvider(new Map(), getCustomCaption(props));

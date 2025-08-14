@@ -1,11 +1,10 @@
-import { SingleSelector, Status, CaptionsProvider, OptionsProvider } from "../../types";
 import {
     CheckboxRadioSelectionPreviewProps,
     OptionsSourceCustomContentTypeEnum
 } from "../../../../typings/CheckboxRadioSelectionProps";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { PreviewCaptionsProvider } from "../../Preview/PreviewCaptionsProvider";
 import { PreviewOptionsProvider } from "../../Preview/PreviewOptionsProvider";
+import { CaptionsProvider, OptionsProvider, SingleSelector, Status } from "../../types";
 import { getCustomCaption } from "../../utils";
 
 export class AssociationPreviewSelector implements SingleSelector {
@@ -24,7 +23,7 @@ export class AssociationPreviewSelector implements SingleSelector {
 
     constructor(props: CheckboxRadioSelectionPreviewProps) {
         this.readOnly = props.readOnly;
-        this.currentId = `single-${generateUUID()}`;
+        this.currentId = `PREVIEW_OPTION`;
         this.customContentType = props.optionsSourceCustomContentType;
         this.readOnly = props.readOnly;
         this.controlType = props.controlType;
