@@ -17,10 +17,16 @@ export function getProperties(values: DatagridDropdownFilterPreviewProps, defaul
         hidePropertyIn(defaultProperties, values, "filterOptions");
     }
 
-    if (values.filterable) {
-        hidePropertyIn(defaultProperties, values, "clearable");
+    if (values.filterable || values.multiSelect) {
+        // empty option is not shown when any of those are enabled
         hidePropertyIn(defaultProperties, values, "emptyOptionCaption");
+    }
+
+    if (values.filterable) {
+        // when it is filterable, we always imply clearable as true, so we hide the property
+        hidePropertyIn(defaultProperties, values, "clearable");
     } else {
+        // when it is not filterable, we hide the caption for input as input is never shown
         hidePropertyIn(defaultProperties, values, "filterInputPlaceholderCaption");
     }
 
