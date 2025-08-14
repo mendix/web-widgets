@@ -6,29 +6,17 @@ import { join, resolve } from "node:path";
 import sh from "shelljs";
 import * as config from "./config.mjs";
 import { fetchGithubRestAPI, fetchWithReport, packageMeta, streamPipe, usetmp } from "./utils.mjs";
+import { atlasCoreReleaseUrl } from "./config.mjs";
 
 const { cp, rm, mkdir, test } = sh;
 
-async function getLatestReleaseByName(name, atlasCoreReleaseUrl) {
-    const releasesResponse = await fetchGithubRestAPI(`${atlasCoreReleaseUrl}`);
-
-    if (!releasesResponse.ok) {
-        throw new Error("Can't fetch releases");
+async function getReleaseByTag(tag) {
+    const url = `${atlasCoreReleaseUrl}/tags/${tag}`;
+    const response = await fetchGithubRestAPI(url);
+    if (!response.ok) {
+        throw new Error(`Can't fetch release for tag: ${tag}`);
     }
-
-    const releases = await releasesResponse.json();
-
-    if (!Array.isArray(releases)) {
-        throw new Error("Releases response is not an array");
-    }
-
-    const filteredReleases = releases.filter(release => release.name.toLowerCase().includes(name.toLowerCase()));
-
-    if (filteredReleases.length === 0) {
-        throw new Error(`No releases found with name: ${name}`);
-    }
-
-    return filteredReleases[0];
+    return await response.json();
 }
 
 async function downloadAndExtract(url, downloadPath, extractPath) {
@@ -47,10 +35,7 @@ async function updateAtlasThemeSource() {
 
     rm("-rf", config.atlasDirsToRemove);
 
-    const release = await getLatestReleaseByName(
-        "Atlas Core - Marketplace Release v3.17.0",
-        config.atlasCoreReleaseUrl
-    );
+    const release = await getReleaseByTag("atlas-core-v3.17.0");
     const { browser_download_url } = release.assets[0];
     const downloadedPath = join(await usetmp(), config.nameForDownloadedAtlasCore);
     const outPath = await usetmp();
@@ -71,7 +56,9 @@ async function updateAtlasTheme() {
 
     rm("-rf", "tests/testProject/theme");
 
-    const release = await getLatestReleaseByName("Atlas UI - Theme Folder Files", config.atlasCoreReleaseUrl);
+    // Fetch the specific release by tag from GitHub API
+    const tag = "atlasui-theme-files-2024-01-25";
+    const release = await getReleaseByTag(tag);
 
     if (!release) {
         throw new Error("Can't fetch latest Atlas UI theme release");
