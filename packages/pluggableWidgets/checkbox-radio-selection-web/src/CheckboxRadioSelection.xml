@@ -190,6 +190,14 @@
             <!-- STATIC END-->
             <!-- GENERAL -->
             <propertyGroup caption="General">
+                <property key="emptyOptionText" type="textTemplate" required="false">
+                    <caption>Empty option text</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">NO OPTIONS AVAILABLE</translation>
+                        <translation lang="nl_NL">GEEN OPTIES BESCHIKBAAR</translation>
+                    </translations>
+                </property>
                 <property key="optionsSourceCustomContentType" type="enumeration" defaultValue="no" required="true">
                     <caption>Custom content</caption>
                     <description />

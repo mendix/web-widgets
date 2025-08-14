@@ -58,6 +58,7 @@ export interface CheckboxRadioSelectionContainerProps {
     optionsSourceAssociationDataSource?: ListValue;
     staticAttribute: EditableValue<string | Big | boolean | Date>;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
+    emptyOptionText?: DynamicValue<string>;
     optionsSourceCustomContentType: OptionsSourceCustomContentTypeEnum;
     optionsSourceAssociationCustomContent?: ListWidgetValue;
     optionsSourceDatabaseCustomContent?: ListWidgetValue;
@@ -92,6 +93,7 @@ export interface CheckboxRadioSelectionPreviewProps {
     optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     staticAttribute: string;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
+    emptyOptionText: string;
     optionsSourceCustomContentType: OptionsSourceCustomContentTypeEnum;
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
