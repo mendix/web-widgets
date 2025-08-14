@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
-import { fetch, BodyInit } from "../fetch";
+import { BodyInit, fetch } from "../fetch";
 import { z } from "zod";
 import { Version } from "../version";
-import { fgGreen } from "../ansi-colors";
+import chalk from "chalk";
 
 export interface CreateDraftSuccessResponse {
     App: App;
@@ -115,7 +115,7 @@ export async function createDraft(params: CreateDraftParams): Promise<CreateDraf
     const { appName, appNumber, version, studioProVersion, artifactUrl, reactReady } = CreateDraftParams.parse(params);
     console.log(`Creating draft in the Mendix Marketplace...`);
     console.log(
-        fgGreen(
+        chalk.green(
             `AppName: ${appName} - AppNumber: ${appNumber} - Version: ${version.format()} - StudioPro: ${studioProVersion.format()}`
         )
     );
