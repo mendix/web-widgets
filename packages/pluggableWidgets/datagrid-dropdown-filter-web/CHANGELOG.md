@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We resolved overflow issues with option captions. It is not showing ellipsis when the caption is too long.
+- We fixed an issue where tooltips were not displayed correctly when hovering over options.
+
 ## [3.0.4] - 2025-08-05
 
 ### Fixed
