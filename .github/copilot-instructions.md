@@ -21,7 +21,7 @@ Use this guide to review both code and workflow. Focus on Mendix pluggable widge
     - Else: conventional commits (e.g., `feat: ...`, `fix: ...`).
 - **Template adherence** (see `.github/pull_request_template.md`):
     - Lint/test locally: `pnpm lint`, `pnpm test`.
-    - New tests for features/bug fixes.
+    - New tests for features/bug fixes (unit tests in `src/**/__tests__/*.spec.ts`, E2E tests in `e2e/*.spec.js`).
     - Related PRs linked if applicable.
     - If XML or behavior changes: ask for docs PR link in `mendix/docs`.
 - **Multi-package PRs**: Validate each changed package separately.
@@ -128,7 +128,7 @@ Use this guide to review both code and workflow. Focus on Mendix pluggable widge
 - Code or XML changed in `packages/**/<pkg>/` but no version bump or `CHANGELOG.md`:
     - "Behavior changed but no version bump or `CHANGELOG.md`. Please bump semver and add changelog (you can use `pnpm -w changelog`)."
 - Features/bug fixes without tests:
-    - "Please add/adjust unit tests in `src/__tests__/` to cover this change."
+    - "Please add/adjust unit tests in `src/components/__tests__/` or component tests to cover this change. For user-facing features, consider adding E2E tests in `e2e/`."
 - XML changes without TS alignment:
     - "XML props changed but TS props/usage aren't aligned. Please update the component props/types and usage."
 
@@ -170,6 +170,143 @@ Use this guide to review both code and workflow. Focus on Mendix pluggable widge
 
 - Prefer root-cause layout/size fixes instead of programmatic scroll resets.
 
+## Testing requirements and best practices
+
+### Testing strategy overview
+
+This repository uses a comprehensive three-tier testing strategy:
+
+1. **Unit tests** (Jest + React Testing Library) - Test individual components and functions in isolation
+2. **Component tests** - Test React components with Mendix data integration and user interactions
+3. **E2E tests** (Playwright) - Test complete user workflows in real Mendix applications
+
+### Unit testing (Jest + RTL)
+
+- **Location**: `src/components/__tests__/*.spec.ts` or `src/__tests__/*.spec.ts`
+- **Tools**: Jest, React Testing Library (enzyme-free configuration), `@mendix/widget-plugin-test-utils`
+- **Config**: Each package uses `@mendix/pluggable-widgets-tools/test-config/jest.enzyme-free.config.js`
+- **Command**: `pnpm test` (package-level) or `pnpm -w test` (workspace-level)
+
+#### Unit test requirements
+
+- **New features**: Must include unit tests covering all logic branches and edge cases
+- **Bug fixes**: Add regression tests that would have caught the original bug
+- **Component props**: Test all prop combinations, especially error states and loading states
+- **Mendix data handling**: Mock Mendix APIs using builders from `@mendix/widget-plugin-test-utils`:
+
+    ```ts
+    import { dynamicValue, EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
+
+    const mockValue = new EditableValueBuilder().withValue("test").build();
+    ```
+
+- **Error boundaries**: Test error states and graceful fallbacks
+- **Accessibility**: Include basic a11y assertions (roles, labels, ARIA attributes)
+- **Snapshot tests**: Use sparingly, only for complex DOM structures that are unlikely to change
+
+#### Unit test patterns to review
+
+- **Test file naming**: Must follow `*.spec.ts` convention
+- **Test descriptions**: Clear, behavior-focused descriptions ("renders loading state when data is unavailable")
+- **Mocking strategy**: Prefer `@mendix/widget-plugin-test-utils` builders over manual mocks
+- **Async testing**: Proper use of `waitFor`, `findBy*` queries for async operations
+- **Cleanup**: Ensure tests don't leak state between runs
+
+### Component testing
+
+- **Scope**: Test React components integrated with Mendix data layer
+- **Focus**: User interactions, data binding, prop changes, widget lifecycle
+- **Tools**: Same as unit tests but with full Mendix context and data sources
+
+#### Component test requirements
+
+- **Mendix data integration**: Test with various Mendix data states (loading, empty, error, success)
+- **User interactions**: Test clicks, form submissions, keyboard navigation
+- **Widget lifecycle**: Test component mount/unmount, prop updates, re-renders
+- **Data mutations**: Test `EditableValue.setValue()`, `ActionValue.execute()` calls
+- **Validation**: Test form validation, error messages, required field handling
+
+### E2E testing (Playwright)
+
+- **Location**: `e2e/*.spec.js` in each widget package
+- **Tools**: Playwright with custom Mendix test project setup via `automation/run-e2e`
+- **Config**: `automation/run-e2e/playwright.config.cjs`
+- **Commands**:
+    - `pnpm e2edev` - Development mode with GUI debugger
+    - `pnpm e2e` - CI mode (headless)
+
+#### E2E test requirements
+
+- **Complete workflows**: Test end-to-end user journeys, not just individual widgets
+- **Cross-browser**: Tests run in Chromium (CI extends to other browsers)
+- **Visual regression**: Use `toHaveScreenshot()` for visual consistency
+- **Data scenarios**: Test with various data configurations from test projects
+- **Accessibility**: Include `@axe-core/playwright` accessibility scans
+- **Session cleanup**: Always cleanup Mendix sessions to avoid license limits:
+    ```js
+    test.afterEach("Cleanup session", async ({ page }) => {
+        await page.evaluate(() => window.mx.session.logout());
+    });
+    ```
+
+#### E2E test structure
+
+- **Test project**: Each widget has dedicated test project in GitHub (`testProject.githubUrl`, `testProject.branchName`)
+- **Page setup**: Use `page.goto("/")` and `page.waitForLoadState("networkidle")`
+- **Selectors**: Prefer `mx-name-*` class selectors for Mendix widgets
+- **Assertions**: Combine element visibility, screenshot comparisons, and content verification
+
+### Testing coverage expectations
+
+#### For new features
+
+- **Unit tests**: 80%+ code coverage, all public methods and edge cases
+- **Component tests**: Key user interactions and data integration points
+- **E2E tests**: At least one happy path and one error scenario
+
+#### For bug fixes
+
+- **Regression test**: Unit or component test that reproduces the original bug
+- **Fix verification**: Test that confirms the fix works correctly
+- **Edge case coverage**: Additional tests for similar potential issues
+
+#### For refactoring
+
+- **Test preservation**: All existing tests should continue to pass
+- **Test updates**: Update tests if public APIs change, but avoid unnecessary changes
+- **Coverage maintenance**: Code coverage should not decrease
+
+### Test-related heuristics for Copilot
+
+#### Missing test coverage
+
+- New React components without corresponding `.spec.ts` files:
+    - "New component `ComponentName` is missing unit tests. Please add tests in `src/components/__tests__/ComponentName.spec.ts`."
+- Features affecting user workflows without E2E tests:
+    - "This feature changes user interaction patterns. Please add E2E tests in `e2e/WidgetName.spec.js` or update existing ones."
+- Bug fixes without regression tests:
+    - "Bug fix detected but no regression test found. Please add a test that would have caught this issue."
+
+#### Test quality issues
+
+- Tests using deprecated Enzyme patterns:
+    - "Please migrate from Enzyme to React Testing Library using `render()` and `screen` queries."
+- Hard-coded test data instead of builders:
+    - "Consider using `@mendix/widget-plugin-test-utils` builders instead of hardcoded mocks for better maintainability."
+- E2E tests without session cleanup:
+    - "E2E tests must include session cleanup to avoid Mendix license limit issues. Add `test.afterEach()` with logout."
+- Snapshot tests for dynamic content:
+    - "Avoid snapshot tests for dynamic content. Use specific assertions instead."
+
+#### Test configuration issues
+
+- Custom Jest config without extending base config:
+    - "Widget Jest config should extend `@mendix/pluggable-widgets-tools/test-config/jest.enzyme-free.config.js`."
+- Missing test project configuration for E2E:
+    - "Widget package.json missing `testProject.githubUrl` and `testProject.branchName` for E2E tests."
+- E2E specs not following naming convention:
+    - "E2E test files should follow `WidgetName.spec.js` naming convention in `e2e/` directory."
+
 ## Scope/Noise reduction
 
 - Focus on: `src/**`, `*.xml`, `*.scss`, `package.json`, `CHANGELOG.md`, build/test config changes.
@@ -178,8 +315,10 @@ Use this guide to review both code and workflow. Focus on Mendix pluggable widge
 ## Quick commands
 
 - Lint: `pnpm lint`
-- Test: `pnpm test`
+- Test: `pnpm test` (unit tests)
 - Build: `pnpm build`
+- E2E (dev): `pnpm e2edev` (with GUI debugger)
+- E2E (CI): `pnpm e2e` (headless)
 - Prepare changelog/version (workspace): `pnpm -w changelog`, `pnpm -w version`
 
 ## Tone and format for comments
