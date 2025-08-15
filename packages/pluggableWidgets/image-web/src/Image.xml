@@ -88,10 +88,40 @@
                     <enumerationValues>
                         <enumerationValue key="auto">Auto</enumerationValue>
                         <enumerationValue key="pixels">Pixels</enumerationValue>
+                        <enumerationValue key="percentage">Percentage</enumerationValue>
+                        <enumerationValue key="viewport">Viewport</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="height" type="integer" defaultValue="100">
                     <caption>Height</caption>
+                    <description />
+                </property>
+                <property key="minHeightUnit" type="enumeration" defaultValue="none">
+                    <caption>Minimum Height unit</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="none">None</enumerationValue>
+                        <enumerationValue key="pixels">Pixels</enumerationValue>
+                        <enumerationValue key="percentage">Percentage</enumerationValue>
+                        <enumerationValue key="viewport">Viewport</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="minHeight" type="integer" required="true" defaultValue="0">
+                    <caption>Minimum height</caption>
+                    <description />
+                </property>
+                <property key="maxHeightUnit" type="enumeration" defaultValue="none">
+                    <caption>Maximum Height unit</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="none">None</enumerationValue>
+                        <enumerationValue key="pixels">Pixels</enumerationValue>
+                        <enumerationValue key="percentage">Percentage</enumerationValue>
+                        <enumerationValue key="viewport">Viewport</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="maxHeight" type="integer" required="true" defaultValue="0">
+                    <caption>Maximum height</caption>
                     <description />
                 </property>
                 <property key="iconSize" type="integer" defaultValue="14">

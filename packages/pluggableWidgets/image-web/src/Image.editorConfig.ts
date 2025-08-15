@@ -72,12 +72,22 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "defaultImageDynamic");
     }
 
-    if (values.heightUnit === "auto") {
+    if (values.widthUnit === "auto") {
+        hidePropertyIn(defaultProperties, values, "width");
+    }
+
+    if (values.heightUnit !== "auto") {
+        hidePropertiesIn(defaultProperties, values, ["minHeightUnit", "maxHeightUnit", "minHeight", "maxHeight"]);
+    } else {
         hidePropertyIn(defaultProperties, values, "height");
     }
 
-    if (values.widthUnit === "auto") {
-        hidePropertyIn(defaultProperties, values, "width");
+    if (values.minHeightUnit === "none") {
+        hidePropertyIn(defaultProperties, values, "minHeight");
+    }
+
+    if (values.maxHeightUnit === "none") {
+        hidePropertyIn(defaultProperties, values, "maxHeight");
     }
 
     if (values.datasource === "icon" && (values.imageIcon?.type === "glyph" || values.imageIcon?.type === "icon")) {
