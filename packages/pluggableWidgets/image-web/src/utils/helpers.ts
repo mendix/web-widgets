@@ -15,7 +15,6 @@ export function constructStyleObject(props: ImageContainerProps): CSSProperties 
         imageStyle.height = "auto";
 
         if (minHeightUnit !== "none" && minHeight > 0) {
-            console.warn(minHeight);
             imageStyle.minHeight = getHeightScale(minHeight, minHeightUnit);
         }
 
