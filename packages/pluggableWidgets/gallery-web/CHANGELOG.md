@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the configured column count wouldn't show up in the preview of the widget
+
+### Added
+
+- Added functionality where the row count doesn't exceed 3 - in cases where it should because of the column count x page size
+- Added functionality where the rows of the widget slowly fade out in a vertical gradient
+
 ## [3.1.0] - 2025-07-24
 
 ### Added
