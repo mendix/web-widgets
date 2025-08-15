@@ -59,7 +59,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         this.currentId = attr.value?.toString() ?? null;
         this.readOnly = attr.readOnly;
         this.validation = attr.validation;
-        this.controlType = props.controlType;
+        this.controlType = this.isBoolean ? props.controlType : "radio";
     }
 
     setValue(value: string | null): void {

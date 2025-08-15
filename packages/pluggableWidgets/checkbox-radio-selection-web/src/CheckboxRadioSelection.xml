@@ -28,14 +28,6 @@
                         <enumerationValue key="boolean">Boolean</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="controlType" type="enumeration" defaultValue="checkbox" required="true">
-                    <caption>Component</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
-                        <enumerationValue key="radio">Radio button</enumerationValue>
-                    </enumerationValues>
-                </property>
 
                 <!-- ENUM & BOOLEAN-->
                 <property key="attributeEnumeration" type="attribute" required="true" setLabel="true">
@@ -213,6 +205,14 @@
                 <property key="optionsSourceDatabaseCustomContent" type="widgets" required="true" dataSource="optionsSourceDatabaseDataSource">
                     <caption>Custom content</caption>
                     <description />
+                </property>
+                <property key="controlType" type="enumeration" defaultValue="checkbox" required="true">
+                    <caption>Render type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
+                        <enumerationValue key="radio">Radio button</enumerationValue>
+                    </enumerationValues>
                 </property>
                 <!-- END MISC PROPS -->
             </propertyGroup>
