@@ -1,0 +1,61 @@
+// Atlas UI compatible variable naming for data widgets
+// Background colors
+$dg-background-color: #fff !default;
+$dg-grid-bg-striped: #fafafb !default;
+$dg-grid-bg-hover: #f5f6f6 !default;
+$dg-hover-color: #f8f8f8 !default;
+$dg-selected-color: #dadcde !default;
+
+// Brand colors
+$dg-brand-primary: #264ae5 !default;
+$dg-brand-light: #e6eaff !default;
+$dg-grid-selected-row-background: $dg-brand-light !default;
+
+// Text and icon colors
+$dg-icon-color: #606671 !default;
+$dg-pagination-button-color: #3b4251 !default;
+$dg-pagination-caption-color: #0a1325 !default;
+
+// Border colors
+$dg-border-color: #ced0d3 !default;
+$dg-grid-border-color: #ced0d3 !default;
+
+// Sizing and spacing
+$dg-icon-size: 14px !default;
+$dg-spacing-small: 8px !default;
+$dg-spacing-medium: 16px !default;
+$dg-spacing-large: 24px !default;
+$dg-item-min-height: 32px !default;
+
+// Effects and animations
+$dg-dragging-color-effect: rgba(10, 19, 37, 0.8) !default;
+$dg-dragging-effect-size: 4px !default;
+$dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d2 100%) !default;
+
+// Assets
+$dg-arrow: "resources/dropdown-arrow.svg" !default;
+
+:root {
+    --dg-background-color: #{$dg-background-color};
+    --dg-icon-color: #{$dg-icon-color};
+    --dg-icon-size: #{$dg-icon-size};
+    --dg-pagination-button-color: #{$dg-pagination-button-color};
+    --dg-pagination-caption-color: #{$dg-pagination-caption-color};
+    --dg-dragging-color-effect: #{$dg-dragging-color-effect};
+    --dg-dragging-effect-size: #{$dg-dragging-effect-size};
+    --dg-grid-bg-striped: #{$dg-grid-bg-striped};
+    --dg-grid-bg-hover: #{$dg-grid-bg-hover};
+    --dg-spacing-small: #{$dg-spacing-small};
+    --dg-spacing-medium: #{$dg-spacing-medium};
+    --dg-spacing-large: #{$dg-spacing-large};
+    --dg-grid-border-color: #{$dg-grid-border-color};
+    --dg-brand-primary: #{$dg-brand-primary};
+    --dg-brand-light: #{$dg-brand-light};
+    --dg-grid-selected-row-background: #{$dg-grid-selected-row-background};
+    --dg-skeleton-background: #{$dg-skeleton-background};
+    --dg-hover-color: #{$dg-hover-color};
+    --dg-selected-color: #{$dg-selected-color};
+    --dg-border-color: #{$dg-border-color};
+    --dg-item-min-height: #{$dg-item-min-height};
+    --dg-arrow: #{$dg-arrow};
+}

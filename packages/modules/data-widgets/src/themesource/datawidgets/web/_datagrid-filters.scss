@@ -1,11 +1,3 @@
-$dg-hover-color: #f8f8f8;
-$dg-background-color: #fff;
-$dg-selected-color: #dadcde;
-$dg-border-color: #ced0d3;
-$dg-spacing-small: 8px;
-$arrow: "resources/dropdown-arrow.svg";
-$dg-item-min-height: 32px;
-
 @import "date-picker";
 
 @font-face {
@@ -193,7 +185,7 @@ $dg-item-min-height: 32px;
         caret-color: transparent;
         cursor: pointer;
 
-        background-image: url($arrow);
+        background-image: url($dg-arrow);
         background-repeat: no-repeat;
         background-position: center;
         background-position-x: right;
