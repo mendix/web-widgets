@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We removed all metadata stored in xpath to improve integration with other services.
+
 ## [3.0.1] - 2025-08-05
 
 ### Fixed
