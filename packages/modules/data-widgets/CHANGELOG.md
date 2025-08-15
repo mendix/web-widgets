@@ -6,6 +6,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.2.0] DataWidgets - 2025-08-15
+
+### [3.2.0] DatagridDateFilter
+
+#### Changed
+
+- Widget shared code update.
+
+### [3.2.0] DatagridDropdownFilter
+
+#### Changed
+
+- Widget shared code update.
+
+### [3.2.0] DatagridNumberFilter
+
+#### Changed
+
+- Widget shared code update.
+
+### [3.2.0] DatagridTextFilter
+
+#### Changed
+
+- Widget shared code update.
+
+### [3.2.0] Datagrid
+
+#### Changed
+
+- We removed all metadata stored in xpath to improve integration with other services.
+
+### [3.2.0] Gallery
+
+#### Changed
+
+- We removed all metadata stored in xpath to improve integration with other services.
+
 ## [3.1.1] DataWidgets - 2025-08-05
 
 ### [3.0.4] DatagridDropdownFilter
