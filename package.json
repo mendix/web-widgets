@@ -18,6 +18,7 @@
         "publish-marketplace": "turbo run publish-marketplace",
         "version": "pnpm --filter @mendix/automation-utils run version",
         "changelog": "pnpm --filter @mendix/automation-utils run changelog",
+        "prepare-release": "pnpm --filter @mendix/automation-utils run prepare-release",
         "postinstall": "turbo run agent-rules"
     },
     "devDependencies": {
