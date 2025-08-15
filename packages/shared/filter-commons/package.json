@@ -1,6 +1,6 @@
 {
     "name": "@mendix/filter-commons",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Common filter utilities and types for filter widgets",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
