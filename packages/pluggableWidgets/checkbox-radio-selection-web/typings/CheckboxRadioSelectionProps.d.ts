@@ -11,8 +11,6 @@ export type SourceEnum = "context" | "database" | "static";
 
 export type OptionsSourceTypeEnum = "association" | "enumeration" | "boolean";
 
-export type ControlTypeEnum = "checkbox" | "radio";
-
 export type OptionsSourceAssociationCaptionTypeEnum = "attribute" | "expression";
 
 export type OptionsSourceDatabaseCaptionTypeEnum = "attribute" | "expression";
@@ -24,6 +22,8 @@ export interface OptionsSourceStaticDataSourceType {
 }
 
 export type OptionsSourceCustomContentTypeEnum = "yes" | "no";
+
+export type ControlTypeEnum = "checkbox" | "radio";
 
 export type CustomEditabilityEnum = "default" | "never" | "conditionally";
 
@@ -41,7 +41,6 @@ export interface CheckboxRadioSelectionContainerProps {
     id: string;
     source: SourceEnum;
     optionsSourceType: OptionsSourceTypeEnum;
-    controlType: ControlTypeEnum;
     attributeEnumeration: EditableValue<string>;
     attributeBoolean: EditableValue<boolean>;
     optionsSourceDatabaseDataSource?: ListValue;
@@ -62,6 +61,7 @@ export interface CheckboxRadioSelectionContainerProps {
     optionsSourceCustomContentType: OptionsSourceCustomContentTypeEnum;
     optionsSourceAssociationCustomContent?: ListWidgetValue;
     optionsSourceDatabaseCustomContent?: ListWidgetValue;
+    controlType: ControlTypeEnum;
     customEditability: CustomEditabilityEnum;
     customEditabilityExpression: DynamicValue<boolean>;
     readOnlyStyle: ReadOnlyStyleEnum;
@@ -76,7 +76,6 @@ export interface CheckboxRadioSelectionPreviewProps {
     translate: (text: string) => string;
     source: SourceEnum;
     optionsSourceType: OptionsSourceTypeEnum;
-    controlType: ControlTypeEnum;
     attributeEnumeration: string;
     attributeBoolean: string;
     optionsSourceDatabaseDataSource: {} | { caption: string } | { type: string } | null;
@@ -97,6 +96,7 @@ export interface CheckboxRadioSelectionPreviewProps {
     optionsSourceCustomContentType: OptionsSourceCustomContentTypeEnum;
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    controlType: ControlTypeEnum;
     customEditability: CustomEditabilityEnum;
     customEditabilityExpression: string;
     readOnlyStyle: ReadOnlyStyleEnum;

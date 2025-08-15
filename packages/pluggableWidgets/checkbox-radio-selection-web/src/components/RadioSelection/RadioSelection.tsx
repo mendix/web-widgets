@@ -3,6 +3,7 @@ import { ChangeEvent, ReactElement, createElement, MouseEvent } from "react";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { CaptionContent } from "../CaptionContent";
 import { Placeholder } from "../Placeholder";
+import { If } from "@mendix/widget-plugin-component-kit/If";
 
 export function RadioSelection({
     selector,
@@ -48,6 +49,9 @@ export function RadioSelection({
             {options.map((optionId, index) => {
                 const isSelected = currentId === optionId;
                 const controlId = `${inputId}-${selector.controlType}-${index}`;
+                if (isReadOnly && !isSelected && readOnlyStyle === "text") {
+                    return null;
+                }
 
                 return (
                     <div
@@ -56,16 +60,18 @@ export function RadioSelection({
                             "widget-checkbox-radio-selection-item-selected": isSelected
                         })}
                     >
-                        <input
-                            type={selector.controlType}
-                            id={controlId}
-                            name={name}
-                            value={optionId}
-                            checked={isSelected}
-                            disabled={isReadOnly}
-                            tabIndex={tabIndex}
-                            onChange={handleChange}
-                        />
+                        <If condition={!isReadOnly || readOnlyStyle !== "text"}>
+                            <input
+                                type={selector.controlType}
+                                id={controlId}
+                                name={name}
+                                value={optionId}
+                                checked={isSelected}
+                                disabled={isReadOnly}
+                                tabIndex={tabIndex}
+                                onChange={handleChange}
+                            />
+                        </If>
                         <CaptionContent
                             onClick={(e: MouseEvent<HTMLDivElement>) => {
                                 e.preventDefault();
