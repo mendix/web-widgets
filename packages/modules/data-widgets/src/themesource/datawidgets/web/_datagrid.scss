@@ -2,26 +2,6 @@
 @import "export-progress";
 @import "pseudo-modal";
 
-$dg-background-color: #fff;
-$dg-icon-color: #606671;
-$dg-icon-size: 14px;
-$dg-pagination-button-color: #3b4251;
-$dg-pagination-caption-color: #0a1325;
-$dragging-color-effect: rgba(10, 19, 37, 0.8);
-$dg-dragging-effect-size: 4px;
-
-$dg-grid-bg-striped: #fafafb;
-$dg-grid-bg-hover: #f5f6f6;
-$dg-spacing-small: 8px;
-$dg-spacing-medium: 16px;
-$dg-spacing-large: 24px;
-$dg-grid-border-color: #ced0d3;
-
-$dg-brand-primary: #264ae5;
-$dg-brand-light: #e6eaff;
-$dg-grid-selected-row-background: $dg-brand-light;
-$dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d2 100%);
-
 $root: ".widget-datagrid";
 
 .table {
@@ -64,7 +44,7 @@ $root: ".widget-datagrid";
             top: 0;
             height: 100%;
             width: var(--spacing-smaller, $dg-dragging-effect-size);
-            background-color: $dragging-color-effect;
+            background-color: $dg-dragging-color-effect;
 
             z-index: 1;
         }
