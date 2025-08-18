@@ -45,7 +45,10 @@ export function DialogBody(
         <div
             className={classNames(
                 "widget-rich-text-modal-content",
-                formOrientation === "vertical" ? "form-vertical" : "form-horizontal",
+                {
+                    "form-vertical": formOrientation === "vertical",
+                    "form-horizontal": formOrientation !== "vertical"
+                },
                 className
             )}
         >
@@ -70,7 +73,7 @@ export function FormControl(props: FormControlProps): ReactElement {
                     <label
                         htmlFor={inputId}
                         id={`${inputId}-label`}
-                        className={classNames("control-label", formOrientation !== "vertical" && "col-sm-3")}
+                        className={classNames("control-label", { "col-sm-3": formOrientation !== "vertical" })}
                     >
                         {label}
                     </label>

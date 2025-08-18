@@ -24,7 +24,7 @@ export default function LinkDialog(props: LinkDialogProps): ReactElement {
     };
 
     return (
-        <DialogContent className={classNames("link-dialog", formOrientation === "vertical" ? "form-vertical" : "")}>
+        <DialogContent className={classNames("link-dialog", { "form-vertical": formOrientation === "vertical" })}>
             <DialogHeader onClose={onClose}>Insert/Edit Link</DialogHeader>
             <DialogBody formOrientation={formOrientation}>
                 <FormControl label="Text" formOrientation={formOrientation} inputId="rich-text-link-text-input">

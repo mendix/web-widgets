@@ -131,7 +131,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
     }, [imageUploadElementRef.current]);
 
     return (
-        <DialogContent className={classNames("image-dialog", formOrientation === "vertical" ? "form-vertical" : "")}>
+        <DialogContent className={classNames("image-dialog", { "form-vertical": formOrientation === "vertical" })}>
             <DialogHeader onClose={onClose}>{activeTab === "general" ? "Insert/Edit" : "Embed"} Images</DialogHeader>
             <DialogBody formOrientation={formOrientation}>
                 <div ref={imageUploadElementRef}>
