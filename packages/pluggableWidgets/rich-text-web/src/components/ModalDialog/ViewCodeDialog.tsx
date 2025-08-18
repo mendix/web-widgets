@@ -27,7 +27,7 @@ const BEAUTIFY_OPTIONS: beautify.HTMLBeautifyOptions = {
 };
 
 export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement {
-    const { onSubmit, onClose, currentCode } = props;
+    const { onSubmit, onClose, currentCode, formOrientation } = props;
     const [formState, setFormState] = useState({
         src: beautify.html(currentCode ?? "", BEAUTIFY_OPTIONS) || ""
     });
@@ -36,13 +36,13 @@ export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement
     }, []);
 
     return (
-        <DialogContent className="view-code-dialog">
+        <DialogContent className={"view-code-dialog"} formOrientation={formOrientation}>
             <DialogHeader onClose={onClose}>View/Edit Code</DialogHeader>
             <DialogBody formOrientation={props.formOrientation}>
                 <div>
                     <label>Source Code</label>
                 </div>
-                <FormControl label="Title" formOrientation={props.formOrientation} inputId="rich-text-view-code-input">
+                <FormControl label="Code input" formOrientation={props.formOrientation} inputId="rich-text-code-input">
                     <CodeMirror
                         className="form-control mx-textarea-input mx-textarea-noresize code-input"
                         value={formState.src}
