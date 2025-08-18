@@ -6,22 +6,126 @@ exports[`Carousel renders correctly 1`] = `
     class="widget-carousel"
   >
     <div
-      data-testid="swiper-testid"
+      class="swiper swiper-fade swiper-initialized swiper-horizontal swiper-watch-progress"
     >
-      <div
-        data-testid="swiper-slide-testid"
+      <ul
+        aria-live="off"
+        class="swiper-wrapper"
+        id="swiper-wrapper-2222222222222222"
+        style="transition-duration: 0ms;"
       >
-        <div>
-          test1
-        </div>
-      </div>
+        <li
+          aria-hidden="false"
+          aria-label="1 / 2"
+          class="swiper-slide"
+          data-swiper-slide-index="0"
+          id="carousel-slide-Carousel-1"
+          role="listitem"
+        >
+          <div>
+            test1
+          </div>
+        </li>
+        <li
+          aria-hidden="true"
+          aria-label="2 / 2"
+          class="swiper-slide"
+          data-swiper-slide-index="1"
+          id="carousel-slide-Carousel-2"
+          role="listitem"
+        >
+          <div>
+            test2
+          </div>
+        </li>
+      </ul>
       <div
-        data-testid="swiper-slide-testid"
+        aria-controls="swiper-wrapper-2222222222222222"
+        aria-label="Previous slide"
+        class="swiper-button-prev"
+        role="button"
+        tabindex="0"
+      />
+      <div
+        aria-controls="swiper-wrapper-2222222222222222"
+        aria-label="Next slide"
+        class="swiper-button-next"
+        role="button"
+        tabindex="0"
+      />
+      <div
+        class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"
       >
-        <div>
-          test2
-        </div>
+        <span
+          aria-controls="carousel-slide-Carousel-1"
+          aria-current="true"
+          aria-label="Go to slide 0"
+          class="swiper-pagination-bullet swiper-pagination-bullet-active"
+          role="button"
+          tabindex="0"
+        />
+        <span
+          aria-controls="carousel-slide-Carousel-2"
+          aria-label="Go to slide 1"
+          class="swiper-pagination-bullet "
+          role="button"
+          tabindex="0"
+        />
       </div>
+      <span
+        aria-atomic="true"
+        aria-live="assertive"
+        class="swiper-notification"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Carousel renders correctly with minimal setup 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-carousel"
+  >
+    <div
+      class="swiper swiper-fade swiper-initialized swiper-horizontal swiper-watch-progress"
+    >
+      <ul
+        aria-live="off"
+        class="swiper-wrapper"
+        id="swiper-wrapper-2222222222222222"
+        style="transition-duration: 0ms;"
+      >
+        <li
+          aria-hidden="false"
+          aria-label="1 / 2"
+          class="swiper-slide"
+          data-swiper-slide-index="0"
+          id="carousel-slide-Carousel-1"
+          role="listitem"
+        >
+          <div>
+            test1
+          </div>
+        </li>
+        <li
+          aria-hidden="true"
+          aria-label="2 / 2"
+          class="swiper-slide"
+          data-swiper-slide-index="1"
+          id="carousel-slide-Carousel-2"
+          role="listitem"
+        >
+          <div>
+            test2
+          </div>
+        </li>
+      </ul>
+      <span
+        aria-atomic="true"
+        aria-live="assertive"
+        class="swiper-notification"
+      />
     </div>
   </div>
 </DocumentFragment>
@@ -33,22 +137,63 @@ exports[`Carousel renders correctly without navigation 1`] = `
     class="widget-carousel"
   >
     <div
-      data-testid="swiper-testid"
+      class="swiper swiper-fade swiper-initialized swiper-horizontal swiper-watch-progress"
     >
-      <div
-        data-testid="swiper-slide-testid"
+      <ul
+        aria-live="off"
+        class="swiper-wrapper"
+        id="swiper-wrapper-2222222222222222"
+        style="transition-duration: 0ms;"
       >
-        <div>
-          test1
-        </div>
-      </div>
+        <li
+          aria-hidden="false"
+          aria-label="1 / 2"
+          class="swiper-slide"
+          data-swiper-slide-index="0"
+          id="carousel-slide-Carousel-1"
+          role="listitem"
+        >
+          <div>
+            test1
+          </div>
+        </li>
+        <li
+          aria-hidden="true"
+          aria-label="2 / 2"
+          class="swiper-slide"
+          data-swiper-slide-index="1"
+          id="carousel-slide-Carousel-2"
+          role="listitem"
+        >
+          <div>
+            test2
+          </div>
+        </li>
+      </ul>
       <div
-        data-testid="swiper-slide-testid"
+        class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"
       >
-        <div>
-          test2
-        </div>
+        <span
+          aria-controls="carousel-slide-Carousel-1"
+          aria-current="true"
+          aria-label="Go to slide 0"
+          class="swiper-pagination-bullet swiper-pagination-bullet-active"
+          role="button"
+          tabindex="0"
+        />
+        <span
+          aria-controls="carousel-slide-Carousel-2"
+          aria-label="Go to slide 1"
+          class="swiper-pagination-bullet "
+          role="button"
+          tabindex="0"
+        />
       </div>
+      <span
+        aria-atomic="true"
+        aria-live="assertive"
+        class="swiper-notification"
+      />
     </div>
   </div>
 </DocumentFragment>
@@ -60,22 +205,58 @@ exports[`Carousel renders correctly without pagination 1`] = `
     class="widget-carousel"
   >
     <div
-      data-testid="swiper-testid"
+      class="swiper swiper-fade swiper-initialized swiper-horizontal swiper-watch-progress"
     >
-      <div
-        data-testid="swiper-slide-testid"
+      <ul
+        aria-live="off"
+        class="swiper-wrapper"
+        id="swiper-wrapper-2222222222222222"
+        style="transition-duration: 0ms;"
       >
-        <div>
-          test1
-        </div>
-      </div>
+        <li
+          aria-hidden="false"
+          aria-label="1 / 2"
+          class="swiper-slide"
+          data-swiper-slide-index="0"
+          id="carousel-slide-Carousel-1"
+          role="listitem"
+        >
+          <div>
+            test1
+          </div>
+        </li>
+        <li
+          aria-hidden="true"
+          aria-label="2 / 2"
+          class="swiper-slide"
+          data-swiper-slide-index="1"
+          id="carousel-slide-Carousel-2"
+          role="listitem"
+        >
+          <div>
+            test2
+          </div>
+        </li>
+      </ul>
       <div
-        data-testid="swiper-slide-testid"
-      >
-        <div>
-          test2
-        </div>
-      </div>
+        aria-controls="swiper-wrapper-2222222222222222"
+        aria-label="Previous slide"
+        class="swiper-button-prev"
+        role="button"
+        tabindex="0"
+      />
+      <div
+        aria-controls="swiper-wrapper-2222222222222222"
+        aria-label="Next slide"
+        class="swiper-button-next"
+        role="button"
+        tabindex="0"
+      />
+      <span
+        aria-atomic="true"
+        aria-live="assertive"
+        class="swiper-notification"
+      />
     </div>
   </div>
 </DocumentFragment>
