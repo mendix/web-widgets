@@ -12,7 +12,7 @@ type GridPositionReturn = {
     numberOfItems: number;
 };
 
-function useNumberOfRows(): [React.RefObject<HTMLDivElement>, number] {
+function useObservedColumns(): [React.RefObject<HTMLDivElement>, number] {
     const containerRef = useRef<HTMLDivElement>(null);
     const [numberOfColumns, setNumberOfColumns] = useState(12);
 
@@ -31,8 +31,6 @@ function useNumberOfRows(): [React.RefObject<HTMLDivElement>, number] {
 
         resizeObserver.observe(containerRef.current);
 
-        setNumberOfColumns(containerRef.current.offsetWidth);
-
         return () => resizeObserver.disconnect();
     }, []);
 
@@ -42,7 +40,7 @@ function useNumberOfRows(): [React.RefObject<HTMLDivElement>, number] {
 export function useGridPositionsPreview(
     config: GridPositionsProps
 ): GridPositionReturn & { containerRef: React.RefObject<HTMLDivElement> } {
-    const [containerRef, numberOfColumns] = useNumberOfRows();
+    const [containerRef, numberOfColumns] = useObservedColumns();
     const maxItems = numberOfColumns * 3;
     const numberOfItems = Math.min(maxItems, config.totalItems);
     const numberOfRows = Math.ceil(numberOfItems / numberOfColumns);
