@@ -125,10 +125,9 @@ export class ChartPropsController implements ReactiveController {
     private get chartOnClick(): (data: any) => void {
         return (data: any): void => {
             if (this.props.eventDataAttribute) {
-                this.props.eventDataAttribute?.setValue(JSON.stringify(data.points[0].bbox));
-            } else {
-                executeAction(this.props.onClick);
+                this.props.eventDataAttribute.setValue(JSON.stringify(data.points[0].bbox));
             }
+            executeAction(this.props.onClick);
         };
     }
 
