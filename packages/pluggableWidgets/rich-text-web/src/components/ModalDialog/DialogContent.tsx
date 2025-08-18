@@ -6,11 +6,21 @@ interface PropsWithChildrenWithClass extends PropsWithChildren {
     className?: string;
 }
 
-export function DialogContent(props: PropsWithChildrenWithClass): ReactElement {
-    const { children, className } = props;
+export interface DialogContentProps extends PropsWithChildrenWithClass {
+    formOrientation: "horizontal" | "vertical";
+}
+
+export function DialogContent(props: DialogContentProps): ReactElement {
+    const { children, className, formOrientation } = props;
 
     return (
-        <div className={classNames("widget-rich-text-modal-body modal-dialog mx-window mx-window-active", className)}>
+        <div
+            className={classNames(
+                "widget-rich-text-modal-body modal-dialog mx-window mx-window-active",
+                { "form-vertical": formOrientation === "vertical" },
+                className
+            )}
+        >
             <div className="modal-content mx-window-content">{children}</div>
         </div>
     );
@@ -36,16 +46,21 @@ export function DialogHeader(props: DialogHeaderProps): ReactElement {
     );
 }
 
-export function DialogBody(
-    props: PropsWithChildrenWithClass & { formOrientation: "horizontal" | "vertical" }
-): ReactElement {
+export interface DialogBodyProps extends PropsWithChildrenWithClass {
+    formOrientation: "horizontal" | "vertical";
+}
+
+export function DialogBody(props: DialogBodyProps): ReactElement {
     const { children, className, formOrientation } = props;
 
     return (
         <div
             className={classNames(
                 "widget-rich-text-modal-content",
-                formOrientation === "vertical" ? "form-vertical" : "form-horizontal",
+                {
+                    "form-vertical": formOrientation === "vertical",
+                    "form-horizontal": formOrientation !== "vertical"
+                },
                 className
             )}
         >
@@ -70,7 +85,7 @@ export function FormControl(props: FormControlProps): ReactElement {
                     <label
                         htmlFor={inputId}
                         id={`${inputId}-label`}
-                        className={classNames("control-label", formOrientation !== "vertical" && "col-sm-3")}
+                        className={classNames("control-label", { "col-sm-3": formOrientation !== "vertical" })}
                     >
                         {label}
                     </label>

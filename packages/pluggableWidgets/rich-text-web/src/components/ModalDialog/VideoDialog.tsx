@@ -121,7 +121,7 @@ export default function VideoDialog(props: VideoDialogProps): ReactElement {
     // disable embed tab if it is about modifying current video
     const disableEmbed = defaultValue?.src && defaultValue.src.length > 0;
     return (
-        <DialogContent className={classNames("video-dialog", formOrientation === "vertical" ? "form-vertical" : "")}>
+        <DialogContent className={"video-dialog"} formOrientation={formOrientation}>
             <DialogHeader onClose={onClose}>{activeTab === "general" ? "Insert/Edit" : "Embed"} Media</DialogHeader>
             <DialogBody formOrientation={formOrientation}>
                 <div>
