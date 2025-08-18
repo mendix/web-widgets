@@ -36,24 +36,53 @@ export function DialogHeader(props: DialogHeaderProps): ReactElement {
     );
 }
 
-export function DialogBody(props: PropsWithChildrenWithClass): ReactElement {
-    const { children, className } = props;
+export function DialogBody(
+    props: PropsWithChildrenWithClass & { formOrientation: "horizontal" | "vertical" }
+): ReactElement {
+    const { children, className, formOrientation } = props;
 
-    return <div className={classNames("widget-rich-text-modal-content form-horizontal", className)}>{children}</div>;
+    return (
+        <div
+            className={classNames(
+                "widget-rich-text-modal-content",
+                {
+                    "form-vertical": formOrientation === "vertical",
+                    "form-horizontal": formOrientation !== "vertical"
+                },
+                className
+            )}
+        >
+            {children}
+        </div>
+    );
 }
 
 export interface FormControlProps extends PropsWithChildrenWithClass {
     label?: string;
+    formOrientation: "horizontal" | "vertical";
+    inputId?: string;
 }
 
 export function FormControl(props: FormControlProps): ReactElement {
-    const { children, className, label } = props;
+    const { children, className, label, formOrientation, inputId } = props;
 
     return (
         <If condition={children !== undefined && children !== null}>
-            <div className={classNames("form-group", className)}>
-                {label && <label className="control-label col-sm-3">{label}</label>}
-                <div className={`col-sm-${label ? "9" : "12"}`}> {children}</div>
+            <div className={classNames("form-group", { "no-columns": formOrientation === "vertical" }, className)}>
+                {label && (
+                    <label
+                        htmlFor={inputId}
+                        id={`${inputId}-label`}
+                        className={classNames("control-label", { "col-sm-3": formOrientation !== "vertical" })}
+                    >
+                        {label}
+                    </label>
+                )}
+                {formOrientation === "vertical" ? (
+                    children
+                ) : (
+                    <div className={`col-sm-${label ? "9" : "12"}`}>{children}</div>
+                )}
             </div>
         </If>
     );
