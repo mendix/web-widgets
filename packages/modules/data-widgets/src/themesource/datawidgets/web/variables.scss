@@ -1,61 +1,61 @@
 // Atlas UI compatible variable naming for data widgets
 // Background colors
-$dg-background-color: #fff !default;
-$dg-grid-bg-striped: #fafafb !default;
-$dg-grid-bg-hover: #f5f6f6 !default;
-$dg-hover-color: #f8f8f8 !default;
-$dg-selected-color: #dadcde !default;
+$bg-color: #fff !default;
+$bg-color-secondary: #fafafb !default;
+$bg-color-hover: #f5f6f6 !default;
+$hover-color: #f8f8f8 !default;
+$selected-color: #dadcde !default;
 
 // Brand colors
-$dg-brand-primary: #264ae5 !default;
-$dg-brand-light: #e6eaff !default;
-$dg-grid-selected-row-background: $dg-brand-light !default;
+$brand-primary: #264ae5 !default;
+$brand-light: #e6eaff !default;
+$grid-selected-row-background: $brand-light !default;
 
 // Text and icon colors
-$dg-icon-color: #606671 !default;
-$dg-pagination-button-color: #3b4251 !default;
-$dg-pagination-caption-color: #0a1325 !default;
+$icon-color: #606671 !default;
+$pagination-button-color: #3b4251 !default;
+$pagination-caption-color: #0a1325 !default;
 
 // Border colors
-$dg-border-color: #ced0d3 !default;
-$dg-grid-border-color: #ced0d3 !default;
+$border-color-default: #ced0d3 !default;
+$grid-border-color: #ced0d3 !default;
 
 // Sizing and spacing
-$dg-icon-size: 14px !default;
-$dg-spacing-small: 8px !default;
-$dg-spacing-medium: 16px !default;
-$dg-spacing-large: 24px !default;
-$dg-item-min-height: 32px !default;
+$icon-size: 14px !default;
+$spacing-small: 8px !default;
+$spacing-medium: 16px !default;
+$spacing-large: 24px !default;
+$item-min-height: 32px !default;
 
 // Effects and animations
-$dg-dragging-color-effect: rgba(10, 19, 37, 0.8) !default;
-$dg-dragging-effect-size: 4px !default;
-$dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d2 100%) !default;
+$dragging-color-effect: rgba(10, 19, 37, 0.8) !default;
+$dragging-effect-size: 4px !default;
+$skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d2 100%) !default;
 
 // Assets
-$dg-arrow: "resources/dropdown-arrow.svg" !default;
+$arrow: "resources/dropdown-arrow.svg" !default;
 
 :root {
-    --dg-background-color: #{$dg-background-color};
-    --dg-icon-color: #{$dg-icon-color};
-    --dg-icon-size: #{$dg-icon-size};
-    --dg-pagination-button-color: #{$dg-pagination-button-color};
-    --dg-pagination-caption-color: #{$dg-pagination-caption-color};
-    --dg-dragging-color-effect: #{$dg-dragging-color-effect};
-    --dg-dragging-effect-size: #{$dg-dragging-effect-size};
-    --dg-grid-bg-striped: #{$dg-grid-bg-striped};
-    --dg-grid-bg-hover: #{$dg-grid-bg-hover};
-    --dg-spacing-small: #{$dg-spacing-small};
-    --dg-spacing-medium: #{$dg-spacing-medium};
-    --dg-spacing-large: #{$dg-spacing-large};
-    --dg-grid-border-color: #{$dg-grid-border-color};
-    --dg-brand-primary: #{$dg-brand-primary};
-    --dg-brand-light: #{$dg-brand-light};
-    --dg-grid-selected-row-background: #{$dg-grid-selected-row-background};
-    --dg-skeleton-background: #{$dg-skeleton-background};
-    --dg-hover-color: #{$dg-hover-color};
-    --dg-selected-color: #{$dg-selected-color};
-    --dg-border-color: #{$dg-border-color};
-    --dg-item-min-height: #{$dg-item-min-height};
-    --dg-arrow: #{$dg-arrow};
+    --bg-color: #{$bg-color};
+    --icon-color: #{$icon-color};
+    --icon-size: #{$icon-size};
+    --pagination-button-color: #{$pagination-button-color};
+    --pagination-caption-color: #{$pagination-caption-color};
+    --dragging-color-effect: #{$dragging-color-effect};
+    --dragging-effect-size: #{$dragging-effect-size};
+    --bg-color-secondary: #{$bg-color-secondary};
+    --bg-color-hover: #{$bg-color-hover};
+    --spacing-small: #{$spacing-small};
+    --spacing-medium: #{$spacing-medium};
+    --spacing-large: #{$spacing-large};
+    --grid-border-color: #{$grid-border-color};
+    --brand-primary: #{$brand-primary};
+    --brand-light: #{$brand-light};
+    --grid-selected-row-background: #{$grid-selected-row-background};
+    --skeleton-background: #{$skeleton-background};
+    --hover-color: #{$hover-color};
+    --selected-color: #{$selected-color};
+    --border-color-default: #{$border-color-default};
+    --item-min-height: #{$item-min-height};
+    --arrow: #{$arrow};
 }
