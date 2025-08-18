@@ -33,9 +33,14 @@ export class I18nController {
         const lng = this.convertLanguageCode(spec.languageCode);
 
         this._i18n
-            .init({ lng })
+            .init({
+                lng,
+                interpolation: { escapeValue: false } // React already escapes values
+            })
             .then(t => this._onPluginChange(this._createPlugin(t)))
             .catch(this._onError);
+
+        (window as any).changeLanguage = this.changeLanguage.bind(this);
     }
 
     private _createPlugin(t: TFunction): PluginI18n {

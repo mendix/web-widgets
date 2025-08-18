@@ -104,13 +104,19 @@ export type PreviewProps =
 export function getProperties(values: LocalizePreviewProps, defaultProperties: Properties): Properties {
     values.formatParams.forEach((param, index) => {
         if (param.expType === "date") {
-            hideNestedPropertiesIn(defaultProperties, values, "formatParams", index, ["int", "dec", "str"]);
+            hideNestedPropertiesIn(defaultProperties, values, "formatParams", index, ["int", "dec", "str", "bool"]);
         }
         if (param.expType === "str") {
-            hideNestedPropertiesIn(defaultProperties, values, "formatParams", index, ["int", "dec", "date"]);
+            hideNestedPropertiesIn(defaultProperties, values, "formatParams", index, ["int", "dec", "date", "bool"]);
         }
-        if (param.expType === "num") {
-            hideNestedPropertiesIn(defaultProperties, values, "formatParams", index, ["str", "date"]);
+        if (param.expType === "int") {
+            hideNestedPropertiesIn(defaultProperties, values, "formatParams", index, ["str", "date", "bool", "dec"]);
+        }
+        if (param.expType === "dec") {
+            hideNestedPropertiesIn(defaultProperties, values, "formatParams", index, ["str", "date", "bool", "int"]);
+        }
+        if (param.expType === "bool") {
+            hideNestedPropertiesIn(defaultProperties, values, "formatParams", index, ["str", "date", "int", "dec"]);
         }
     });
 

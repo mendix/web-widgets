@@ -41,30 +41,37 @@
                                 <caption>Type</caption>
                                 <description />
                                 <enumerationValues>
+                                    <enumerationValue key="bool">Boolean</enumerationValue>
                                     <enumerationValue key="date">DateTime</enumerationValue>
+                                    <enumerationValue key="dec">Decimal</enumerationValue>
+                                    <enumerationValue key="int">Integer</enumerationValue>
                                     <enumerationValue key="str">String</enumerationValue>
-                                    <enumerationValue key="num">Number</enumerationValue>
                                 </enumerationValues>
                             </property>
-                            <property key="str" type="expression">
-                                <caption>Value (String)</caption>
+                            <property key="bool" type="expression">
+                                <caption>Value (Boolean)</caption>
                                 <description />
-                                <returnType type="String" />
+                                <returnType type="Boolean" />
                             </property>
-                            <property key="int" type="expression">
-                                <caption>Value (Integer)</caption>
+                            <property key="date" type="expression">
+                                <caption>Value (DateTime)</caption>
                                 <description />
-                                <returnType type="Integer" />
+                                <returnType type="DateTime" />
                             </property>
                             <property key="dec" type="expression">
                                 <caption>Value (Decimal)</caption>
                                 <description />
                                 <returnType type="Decimal" />
                             </property>
-                            <property key="date" type="expression">
-                                <caption>Value (DateTime)</caption>
+                            <property key="int" type="expression">
+                                <caption>Value (Integer)</caption>
                                 <description />
-                                <returnType type="DateTime" />
+                                <returnType type="Integer" />
+                            </property>
+                            <property key="str" type="expression">
+                                <caption>Value (String)</caption>
+                                <description />
+                                <returnType type="String" />
                             </property>
                         </propertyGroup>
                     </properties>

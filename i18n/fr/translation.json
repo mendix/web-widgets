@@ -1,4 +1,5 @@
 {
     "com.check.hello": "Bonjour",
-    "getting.started": "Pour commencer :\n- Cette page est la page d'accueil de votre nouvelle application.\n- Le modèle de domaine définit votre structure de données.\n- Le microflux MyFirstLogic montre comment commencer à construire la logique de l'application. \nEn faisant un clic droit sur le module MyFirstModule, vous pouvez ajouter de nouvelles pages, de la logique ou d'autres documents à votre application.\n\nPour un démarrage rapide : https://docs.mendix.com/quickstarts\n\nTraduit avec DeepL.com (version gratuite)"
+    "getting.started": "Pour commencer :\n- Cette page est la page d'accueil de votre nouvelle application.\n- Le modèle de domaine définit votre structure de données.\n- Le microflux MyFirstLogic montre comment commencer à construire la logique de l'application. \nEn faisant un clic droit sur le module MyFirstModule, vous pouvez ajouter de nouvelles pages, de la logique ou d'autres documents à votre application.\n\nPour un démarrage rapide : https://docs.mendix.com/quickstarts\n\nTraduit avec DeepL.com (version gratuite)",
+    "hello.with.params": "Bonjour {{name}} ! Nous sommes le {{today, datetime}} et vous avez {{count, number}} nouveaux messages !"
 }

@@ -1,4 +1,9 @@
 {
     "com.check.hello": "Hello",
-    "getting.started": "Getting started:\n- This page is the home page of your new app.\n- The Domain model defines your data structure.\n- The MyFirstLogic microflow shows how to start building app logic. \nBy doing a Right-click on the MyFirstModule you can add new pages, logic, or other documents to your app.\n\nFor a quick start: https://docs.mendix.com/quickstarts\n\n"
+    "getting.started": "Getting started:\n- This page is the home page of your new app.\n- The Domain model defines your data structure.\n- The MyFirstLogic microflow shows how to start building app logic. \nBy doing a Right-click on the MyFirstModule you can add new pages, logic, or other documents to your app.\n\nFor a quick start: https://docs.mendix.com/quickstarts\n\n",
+    "hello": {
+        "with": {
+            "params": "Hello {{name}}! Today is {{today, datetime}} and you have {{count, number}} new messages!"
+        }
+    }
 }

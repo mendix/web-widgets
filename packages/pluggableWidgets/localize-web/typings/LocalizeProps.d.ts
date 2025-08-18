@@ -9,24 +9,26 @@ import { Big } from "big.js";
 
 export type ComponentEnum = "span" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
-export type ExpTypeEnum = "date" | "str" | "num";
+export type ExpTypeEnum = "bool" | "date" | "dec" | "int" | "str";
 
 export interface FormatParamsType {
     name: string;
     expType: ExpTypeEnum;
-    str: DynamicValue<string>;
-    int: DynamicValue<Big>;
-    dec: DynamicValue<Big>;
+    bool: DynamicValue<boolean>;
     date: DynamicValue<Date>;
+    dec: DynamicValue<Big>;
+    int: DynamicValue<Big>;
+    str: DynamicValue<string>;
 }
 
 export interface FormatParamsPreviewType {
     name: string;
     expType: ExpTypeEnum;
-    str: string;
-    int: string;
-    dec: string;
+    bool: string;
     date: string;
+    dec: string;
+    int: string;
+    str: string;
 }
 
 export interface LocalizeContainerProps {
