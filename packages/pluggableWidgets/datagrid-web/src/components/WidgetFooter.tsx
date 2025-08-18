@@ -1,3 +1,4 @@
+import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
 import { createElement, ReactElement, ReactNode } from "react";
 import { PaginationEnum, PagingPositionEnum } from "../../typings/DatagridProps";
@@ -41,8 +42,10 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
 
 const SelectionCounter = observer(function SelectionCounter() {
     const { selectionCountStore } = useDatagridRootScope();
-    if (selectionCountStore.displayCount) {
-        return <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>;
-    }
-    return null;
+
+    return (
+        <If condition={selectionCountStore.displayCount !== ""}>
+            <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>
+        </If>
+    );
 });
