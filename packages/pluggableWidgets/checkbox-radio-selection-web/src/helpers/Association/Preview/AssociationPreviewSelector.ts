@@ -26,7 +26,7 @@ export class AssociationPreviewSelector implements SingleSelector {
         this.currentId = `PREVIEW_OPTION`;
         this.customContentType = props.optionsSourceCustomContentType;
         this.readOnly = props.readOnly;
-        this.controlType = props.controlType;
+        this.controlType = props.optionsSourceType === "boolean" ? props.controlType : "radio";
         this.caption = new PreviewCaptionsProvider(new Map(), getCustomCaption(props));
         this.options = new PreviewOptionsProvider(this.caption, new Map());
         (this.caption as PreviewCaptionsProvider).updatePreviewProps({
