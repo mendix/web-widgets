@@ -7,8 +7,9 @@ test.afterEach("Cleanup session", async ({ page }) => {
 
 test.describe("checkbox-radio-selection-web", () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto("p/CheckboxRadioSelection");
+        await page.goto("/p/checkboxradioselection");
         await page.waitForLoadState("networkidle");
+        await page.click(".mx-name-actionButton1");
     });
 
     test.describe("data source types", () => {
@@ -31,12 +32,24 @@ test.describe("checkbox-radio-selection-web", () => {
         });
 
         test("renders checkbox radio selection using static values", async ({ page }) => {
+            await page.reload();
+            await page.click(".mx-name-actionButton1", { timeout: 10000 });
+            await page.waitForLoadState("networkidle", { timeout: 10000 });
+            const tabPage2 = page.getByRole("tab", { name: "Page 2" });
+            await expect(tabPage2).toBeVisible({ timeout: 10000 });
+            await tabPage2.click();
             const selectionControls = page.locator(".mx-name-checkboxRadioSelection4");
             await expect(selectionControls).toBeVisible({ timeout: 10000 });
             await expect(selectionControls).toHaveScreenshot(`checkboxRadioSelectionStatic.png`);
         });
 
         test("renders checkbox radio selection using database", async ({ page }) => {
+            await page.reload();
+            await page.click(".mx-name-actionButton1", { timeout: 10000 });
+            await page.waitForLoadState("networkidle", { timeout: 10000 });
+            const tabPage2 = page.getByRole("tab", { name: "Page 2" });
+            await expect(tabPage2).toBeVisible({ timeout: 10000 });
+            await tabPage2.click();
             const selectionControls = page.locator(".mx-name-checkboxRadioSelection5");
             await expect(selectionControls).toBeVisible({ timeout: 10000 });
             await expect(selectionControls).toHaveScreenshot(`checkboxRadioSelectionDatabase.png`);
@@ -44,7 +57,13 @@ test.describe("checkbox-radio-selection-web", () => {
 
         test.describe("selection behavior", () => {
             test("handles radio button selection", async ({ page }) => {
-                const selectionControls = page.locator(".mx-name-checkboxRadioSelection1");
+                await page.reload();
+                await page.click(".mx-name-actionButton1", { timeout: 10000 });
+                await page.waitForLoadState("networkidle", { timeout: 10000 });
+                const tabPage2 = page.getByRole("tab", { name: "Page 2" });
+                await expect(tabPage2).toBeVisible({ timeout: 10000 });
+                await tabPage2.click();
+                const selectionControls = page.locator(".mx-name-checkboxRadioSelection5");
                 await expect(selectionControls).toBeVisible({ timeout: 10000 });
 
                 const radioOption = selectionControls.locator('input[type="radio"]').first();
@@ -53,7 +72,7 @@ test.describe("checkbox-radio-selection-web", () => {
             });
 
             test("handles checkbox selection", async ({ page }) => {
-                const selectionControls = page.locator(".mx-name-checkboxRadioSelection6"); // multi selection
+                const selectionControls = page.locator(".mx-name-checkboxRadioSelection1"); // multi selection
                 await expect(selectionControls).toBeVisible({ timeout: 10000 });
 
                 const checkboxOption = selectionControls.locator('input[type="checkbox"]').first();
