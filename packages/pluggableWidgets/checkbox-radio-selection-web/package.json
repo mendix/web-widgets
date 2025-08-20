@@ -21,7 +21,7 @@
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "10.7.0",
-        "appNumber": 219304,
+        "appNumber": -1,
         "appName": "Checkbox Radio Selection",
         "reactReady": true
     },
