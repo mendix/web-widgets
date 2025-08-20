@@ -41,7 +41,9 @@ exports[`Date Filter with single instance with double attributes renders correct
     <span
       class="sr-only"
       id="DateFilter1-label"
-    />
+    >
+      date filter
+    </span>
     <div
       class="react-datepicker-wrapper"
     >
@@ -119,7 +121,9 @@ exports[`Date Filter with single instance with single attribute renders correctl
     <span
       class="sr-only"
       id="DateFilter1-label"
-    />
+    >
+      date filter
+    </span>
     <div
       class="react-datepicker-wrapper"
     >
