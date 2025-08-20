@@ -39,7 +39,7 @@ export function DatePicker(props: DatePickerProps): ReactElement {
         <Fragment>
             <div id={staticProps.portalId} className="date-filter-container" />
             <span className="sr-only" id={`${props.id}-label`}>
-                {props.screenReaderInputCaption}
+                {props.screenReaderInputCaption || "date filter"}
             </span>
             <ReactDatePicker
                 {...staticProps}
@@ -76,7 +76,7 @@ export function DatePicker(props: DatePickerProps): ReactElement {
                 aria-controls={staticProps.portalId}
                 aria-expanded={props.expanded}
                 aria-haspopup
-                aria-label={props.screenReaderCalendarCaption ?? "Show calendar"}
+                aria-label={props.screenReaderCalendarCaption || "Show calendar"}
                 className="btn btn-default btn-calendar"
                 onMouseDown={props.onButtonMouseDown}
                 onKeyDown={props.onButtonKeyDown}
