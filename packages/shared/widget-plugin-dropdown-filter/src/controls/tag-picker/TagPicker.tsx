@@ -99,7 +99,7 @@ export const TagPicker = observer(function TagPicker(props: TagPickerProps): Rea
                 <input
                     className={cls.input}
                     {...getInputProps({
-                        "aria-label": inputLabel,
+                        "aria-label": inputLabel || "filter",
                         onBlur: props.onBlur,
                         onFocus: props.onFocus,
                         placeholder: props.empty ? (isOpen ? props.inputPlaceholder : props.emptyCaption) : undefined,
