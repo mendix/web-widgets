@@ -35,6 +35,7 @@ exports[`Text Filter with single instance with multiple attributes renders corre
       </div>
     </div>
     <input
+      aria-label="filter"
       class="form-control filter-input"
       type="text"
       value=""
@@ -88,6 +89,7 @@ exports[`Text Filter with single instance with single attribute renders correctl
       </div>
     </div>
     <input
+      aria-label="filter"
       class="form-control filter-input"
       type="text"
       value=""
