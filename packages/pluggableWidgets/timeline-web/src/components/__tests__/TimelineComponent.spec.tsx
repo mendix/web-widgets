@@ -1,4 +1,5 @@
-import { shallow } from "enzyme";
+import { render, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import { createElement } from "react";
 import { actionValue } from "@mendix/widget-plugin-test-utils";
 import TimelineComponent from "../TimelineComponent";
@@ -51,16 +52,16 @@ describe("Timeline", () => {
     };
 
     it("renders timeline with basic configuration", () => {
-        const component = shallow(<TimelineComponent {...basicRenderProps} />);
-        expect(component).toMatchSnapshot();
+        const { container } = render(<TimelineComponent {...basicRenderProps} />);
+        expect(container).toMatchSnapshot();
     });
     it("renders timeline with custom configuration", () => {
-        const component = shallow(<TimelineComponent {...customRenderProps} />);
-        expect(component).toMatchSnapshot();
+        const { container } = render(<TimelineComponent {...customRenderProps} />);
+        expect(container).toMatchSnapshot();
     });
     it("hides the timeline header", () => {
-        const component = shallow(<TimelineComponent {...basicRenderProps} groupEvents={false} />);
-        expect(component).toMatchSnapshot();
+        const { container } = render(<TimelineComponent {...basicRenderProps} groupEvents={false} />);
+        expect(container).toMatchSnapshot();
     });
 
     describe("with action set", () => {
@@ -74,12 +75,10 @@ describe("Timeline", () => {
             basicData.set(secondDate.toDateString(), [basicItemWithAction]);
 
             const basicPropsWithAction = { ...basicRenderProps, data: basicData };
-            const component = shallow(<TimelineComponent {...basicPropsWithAction} />);
-
-            const clickableItem = component.find(".clickable");
-
-            expect(clickableItem).toHaveLength(1);
-            expect(component).toMatchSnapshot();
+            const { container } = render(<TimelineComponent {...basicPropsWithAction} />);
+            const clickableItem = container.querySelector(".clickable");
+            expect(clickableItem).toBeInTheDocument();
+            expect(container).toMatchSnapshot();
         });
         it("triggers actions when clicked", () => {
             const action = actionValue(true, false);
@@ -91,11 +90,9 @@ describe("Timeline", () => {
             basicData.set(secondDate.toDateString(), [basicItemWithAction]);
 
             const basicPropsWithAction = { ...basicRenderProps, data: basicData };
-            const component = shallow(<TimelineComponent {...basicPropsWithAction} />);
-
-            const clickableItem = component.find(".clickable");
-            clickableItem.simulate("click");
-
+            const { container } = render(<TimelineComponent {...basicPropsWithAction} />);
+            const clickableItem = container.querySelector(".clickable");
+            fireEvent.click(clickableItem!);
             expect(action.execute).toHaveBeenCalled();
         });
         it("change style when hovered", () => {
@@ -108,12 +105,10 @@ describe("Timeline", () => {
             basicData.set(secondDate.toDateString(), [basicItemWithAction]);
 
             const basicPropsWithAction = { ...basicRenderProps, data: basicData };
-            const component = shallow(<TimelineComponent {...basicPropsWithAction} />);
-
-            const clickableItem = component.find(".clickable");
-            clickableItem.simulate("mouseover");
-
-            expect(component).toMatchSnapshot();
+            const { container } = render(<TimelineComponent {...basicPropsWithAction} />);
+            const clickableItem = container.querySelector(".clickable");
+            fireEvent.mouseOver(clickableItem!);
+            expect(container).toMatchSnapshot();
         });
     });
 });
