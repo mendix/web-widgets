@@ -57,6 +57,10 @@
                         <enumerationValue key="skeleton">Skeleton</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="refreshIndicator" type="boolean" defaultValue="false">
+                    <caption>Show refresh indicator</caption>
+                    <description>Show a refresh indicator when the data is being loaded.</description>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Columns">
                 <property key="columns" type="object" isList="true">

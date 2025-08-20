@@ -96,6 +96,7 @@ export interface DatagridContainerProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     loadingType: LoadingTypeEnum;
+    refreshIndicator: boolean;
     columns: ColumnsType[];
     columnsFilterable: boolean;
     pageSize: number;
@@ -144,6 +145,7 @@ export interface DatagridPreviewProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     loadingType: LoadingTypeEnum;
+    refreshIndicator: boolean;
     columns: ColumnsPreviewType[];
     columnsFilterable: boolean;
     pageSize: number | null;

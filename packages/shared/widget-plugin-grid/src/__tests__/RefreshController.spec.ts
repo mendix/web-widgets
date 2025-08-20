@@ -3,8 +3,8 @@ import { RefreshController } from "../query/RefreshController";
 
 describe("RefreshController", () => {
     let host: ReactiveControllerHost;
-    let queryHelper: { refresh: jest.Mock };
-    let atom: { get: () => { refresh: jest.Mock } };
+    let queryHelper: { backgroundRefresh: jest.Mock };
+    let atom: { get: () => { backgroundRefresh: jest.Mock } };
     let addControllerMock: jest.Mock;
 
     beforeEach(() => {
@@ -13,7 +13,7 @@ describe("RefreshController", () => {
             addController: addControllerMock
         } as unknown as ReactiveControllerHost;
         queryHelper = {
-            refresh: jest.fn()
+            backgroundRefresh: jest.fn()
         };
         atom = { get: () => queryHelper };
         jest.useFakeTimers();
@@ -40,7 +40,7 @@ describe("RefreshController", () => {
         expect(dispose).toBeInstanceOf(Function);
 
         jest.advanceTimersByTime(1000);
-        expect(queryHelper.refresh).toHaveBeenCalledTimes(1);
+        expect(queryHelper.backgroundRefresh).toHaveBeenCalledTimes(1);
     });
 
     it("should clear the timer when dispose is called", () => {
@@ -50,6 +50,6 @@ describe("RefreshController", () => {
 
         dispose!();
         jest.advanceTimersByTime(1000);
-        expect(queryHelper.refresh).not.toHaveBeenCalled();
+        expect(queryHelper.backgroundRefresh).not.toHaveBeenCalled();
     });
 });

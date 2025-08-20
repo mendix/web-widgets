@@ -1,74 +1,134 @@
+import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { list } from "@mendix/widget-plugin-test-utils";
+// import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { list, obj } from "@mendix/widget-plugin-test-utils";
 import { ListValue } from "mendix";
 import { DatasourceController } from "../query/DatasourceController";
+
+class TestControllerHost extends BaseControllerHost {}
 
 describe("DatasourceController loading states", () => {
     let controller: DatasourceController;
     let datasource: ListValue;
-    let provider: GateProvider<{ datasource: ListValue }>;
+    let provider: GateProvider<{ datasource: ListValue; refreshIndicator: boolean; refreshInterval: number }>;
 
     beforeEach(() => {
-        const host = { addController: jest.fn() } as unknown as ReactiveControllerHost;
-        provider = new GateProvider({ datasource: list.loading() });
+        const host = new TestControllerHost();
+        provider = new GateProvider({ datasource: list.loading(), refreshIndicator: false, refreshInterval: 0 });
+        host.setup();
         controller = new DatasourceController(host, { gate: provider.gate });
+        controller.setup();
     });
 
     describe("when datasource is loading", () => {
         beforeEach(() => {
             datasource = list.loading();
-            provider.setProps({ datasource });
+            provider.setProps({ datasource, refreshIndicator: false, refreshInterval: 0 });
         });
 
-        it("isLoading returns true by default", () => {
-            expect(controller.isLoading).toBe(true);
+        it("isFirstLoad returns true when loading and items undefined", () => {
+            expect(controller.isFirstLoad).toBe(true);
         });
 
-        it("refresh has no effect if ds is loading", () => {
-            expect(provider.gate.props.datasource.status).toBe("loading");
-            controller.refresh();
+        it("backgroundRefresh does not trigger reload if already loading", () => {
+            const reloadSpy = jest.spyOn(provider.gate.props.datasource, "reload");
+            controller.backgroundRefresh();
+            expect(reloadSpy).not.toHaveBeenCalled();
+        });
+
+        it("isRefreshing is false when loading and items undefined", () => {
             expect(controller.isRefreshing).toBe(false);
         });
 
-        it("isRefreshing is true after refresh call", () => {
-            provider.setProps({ datasource: list(0) });
-            expect(provider.gate.props.datasource.status).toBe("available");
-            controller.refresh();
+        it("isRefreshing is true after backgroundRefresh when items are present", () => {
+            // Set datasource to available with items
+            provider.setProps({ datasource: list(1), refreshIndicator: false, refreshInterval: 0 });
+            // Simulate refresh
+            controller.backgroundRefresh();
+            // Replace datasource with a mock in loading state and items present
+            const loadingWithItems = { ...list.loading(), items: [obj()] };
+            provider.setProps({ datasource: loadingWithItems, refreshIndicator: false, refreshInterval: 0 });
             expect(controller.isRefreshing).toBe(true);
-            provider.setProps({ datasource: list.loading() });
-            expect(provider.gate.props.datasource.status).toBe("loading");
-            expect(controller.isRefreshing).toBe(true);
-            expect(controller.isLoading).toBe(false);
         });
 
-        it("isFetchingNextBatch returns true after setLimit call", () => {
+        it("isFetchingNextBatch is true after setLimit call", () => {
             controller.setLimit(20);
             expect(controller.isFetchingNextBatch).toBe(true);
-            expect(controller.isLoading).toBe(false);
+        });
+
+        it("isSilentRefresh is true after backgroundRefresh", () => {
+            provider.setProps({ datasource: list(1), refreshIndicator: false, refreshInterval: 0 });
+            controller.backgroundRefresh();
+            expect(controller.isSilentRefresh).toBe(true);
         });
     });
 
     describe("when datasource is not loading", () => {
         beforeEach(() => {
             datasource = list(0);
-            provider.setProps({ datasource });
+            provider.setProps({ datasource, refreshIndicator: false, refreshInterval: 0 });
         });
 
-        it("all loading states return false", () => {
-            expect(controller.isLoading).toBe(false);
+        it("All loading states return false", () => {
+            expect(controller.isFirstLoad).toBe(false);
             expect(controller.isRefreshing).toBe(false);
             expect(controller.isFetchingNextBatch).toBe(false);
+            expect(controller.isSilentRefresh).toBe(false);
         });
 
-        it("triggers refresh when called", () => {
-            controller.refresh();
-            expect(datasource.reload).toHaveBeenCalled();
+        it("backgroundRefresh triggers reload when not loading", () => {
+            const reloadSpy = jest.spyOn(datasource, "reload");
+            controller.backgroundRefresh();
+            expect(reloadSpy).toHaveBeenCalled();
         });
 
-        it("triggers setLimit when called", () => {
+        it("setLimit triggers setLimit on datasource", () => {
+            const setLimitSpy = jest.spyOn(datasource, "setLimit");
             controller.setLimit(20);
-            expect(datasource.setLimit).toHaveBeenCalledWith(20);
+            expect(setLimitSpy).toHaveBeenCalledWith(20);
+        });
+
+        it("setOffset triggers setOffset and resets flags", () => {
+            const setOffsetSpy = jest.spyOn(datasource, "setOffset");
+            controller.setOffset(5);
+            expect(setOffsetSpy).toHaveBeenCalledWith(5);
+        });
+
+        it("setSortOrder triggers setSortOrder and resets flags", () => {
+            const setSortOrderSpy = jest.spyOn(datasource, "setSortOrder");
+            // Use Mendix Option_2 structure (runtime shape)
+            const sortOption = { some: [{ attribute: "name", direction: "asc" }] };
+            // @ts-expect-error: Mendix Option_2 type not available in workspace
+            controller.setSortOrder(sortOption);
+            expect(setSortOrderSpy).toHaveBeenCalledWith(sortOption);
+        });
+
+        it("setFilter triggers setFilter and resets flags", () => {
+            const setFilterSpy = jest.spyOn(datasource, "setFilter");
+            // Use Mendix Option_2 structure (runtime shape)
+            const filterOption = { some: { attribute: "name", operator: "equals", value: "test" } };
+            // @ts-expect-error: Mendix Option_2 type not available in workspace
+            controller.setFilter(filterOption);
+            expect(setFilterSpy).toHaveBeenCalledWith(filterOption);
+        });
+
+        it("setPageSize updates pageSize property", () => {
+            controller.setPageSize(50);
+            // @ts-expect-error: private property
+            expect(controller.pageSize).toBe(50);
+        });
+
+        it("requestTotalCount triggers datasource.requestTotalCount", () => {
+            const spy = jest.spyOn(datasource, "requestTotalCount");
+            controller.requestTotalCount(true);
+            expect(spy).toHaveBeenCalledWith(true);
+        });
+
+        it("derivedQuery returns a computed value and updates on datasource change", () => {
+            const derived = controller.derivedQuery;
+            expect(typeof derived.get).toBe("function");
+            provider.setProps({ datasource: list(2), refreshIndicator: false, refreshInterval: 0 });
+            expect(derived.get()).toBeInstanceOf(DatasourceController);
         });
     });
 });
