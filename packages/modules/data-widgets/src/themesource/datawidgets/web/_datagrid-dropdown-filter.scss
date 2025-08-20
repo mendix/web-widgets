@@ -109,6 +109,7 @@ $root: ".widget-dropdown-filter";
     &-menu-item-text {
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     &-checkbox-slot {
