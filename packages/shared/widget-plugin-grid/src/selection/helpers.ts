@@ -1,7 +1,7 @@
-import type { ActionValue, ListValue, ObjectItem, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { useEffect, useRef } from "react";
-import { Direction, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size, MoveEvent1D, MoveEvent2D } from "./types";
+import type { ActionValue, ListValue, ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
+import { useEffect, useRef, useState } from "react";
+import { Direction, MoveEvent1D, MoveEvent2D, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size } from "./types";
 
 class SingleSelectionHelper {
     type = "Single" as const;
@@ -269,10 +269,16 @@ const clamp = (num: number, min: number, max: number): number => Math.min(Math.m
 export function useSelectionHelper(
     selection: SelectionSingleValue | SelectionMultiValue | undefined,
     dataSource: ListValue,
-    onSelectionChange: ActionValue | undefined
+    onSelectionChange: ActionValue | undefined,
+    keepSelection: Parameters<typeof selectionStateHandler>[0]
 ): SelectionHelper | undefined {
     const prevObjectListRef = useRef<ObjectItem[]>([]);
     const firstLoadDone = useRef(false);
+    useState(() => {
+        if (selection) {
+            selection.setKeepSelection(selectionStateHandler(keepSelection));
+        }
+    });
     firstLoadDone.current ||= dataSource?.status !== "loading";
 
     useEffect(() => {
@@ -308,6 +314,17 @@ export function useSelectionHelper(
     }
 
     return selectionHelper.current;
+}
+
+type KeepSelectionHandler = (item: ObjectItem) => boolean;
+
+function selectionStateHandler(
+    keepSelection: "always keep" | "always clear" | KeepSelectionHandler
+): KeepSelectionHandler {
+    if (typeof keepSelection === "function") {
+        return keepSelection;
+    }
+    return keepSelection === "always keep" ? () => true : () => false;
 }
 
 export type { SingleSelectionHelper };

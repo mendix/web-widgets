@@ -34,7 +34,12 @@ const Container = observer((props: Props): ReactElement => {
 
     const [exportProgress, abortExport] = useDataExport(props, props.columnsStore, props.progressStore);
 
-    const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const selectionHelper = useSelectionHelper(
+        props.itemSelection,
+        props.datasource,
+        props.onSelectionChange,
+        "always keep"
+    );
 
     const selectActionHelper = useSelectActionHelper(props, selectionHelper);
 
