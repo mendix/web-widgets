@@ -44,11 +44,20 @@ export class MultiSelectionHelper {
     }
 
     get selectionStatus(): MultiSelectionStatus {
-        return this.selectionValue.selection.length === 0
-            ? "none"
-            : this.selectionValue.selection.length === this.selectableItems.length
-              ? "all"
-              : "some";
+        const selectionIds = new Set(this.selectionValue.selection.map(obj => obj.id));
+        const numberOfSelectedOnCurrentPage = this.selectableItems.reduce((acc, item) => {
+            return selectionIds.has(item.id) ? acc + 1 : acc;
+        }, 0);
+
+        if (numberOfSelectedOnCurrentPage === 0) {
+            return "none";
+        }
+
+        if (numberOfSelectedOnCurrentPage === this.selectableItems.length) {
+            return "all";
+        }
+
+        return "some";
     }
 
     add(value: ObjectItem): void {
@@ -148,6 +157,22 @@ export class MultiSelectionHelper {
         this._setRangeEnd(undefined);
     }
 
+    /**
+     * Creates a union of two arrays of ObjectItem, combining unique items based on their ID.
+     * Items from the selection array are preserved first, followed by unique items from the items array.
+     *
+     * @param selection - The primary array of ObjectItem objects
+     * @param items - The secondary array of ObjectItem objects to merge with selection
+     * @returns A new array containing all unique ObjectItem objects from both arrays, with no duplicates based on ID
+     *
+     * @example
+     * ```typescript
+     * const selection = [{ id: '1', name: 'Item 1' }, { id: '2', name: 'Item 2' }];
+     * const items = [{ id: '2', name: 'Item 2' }, { id: '3', name: 'Item 3' }];
+     * const result = this._union(selection, items);
+     * // Returns: [{ id: '1', name: 'Item 1' }, { id: '2', name: 'Item 2' }, { id: '3', name: 'Item 3' }]
+     * ```
+     */
     private _union(selection: ObjectItem[], items: ObjectItem[]): ObjectItem[] {
         const union = [...selection];
         const ids = new Set(selection.map(o => o.id));
@@ -163,6 +188,22 @@ export class MultiSelectionHelper {
         return union;
     }
 
+    /**
+     * Computes the difference between two arrays of ObjectItem by removing items from the selection
+     * that have matching IDs in the items array.
+     *
+     * @param selection - The array of ObjectItem objects to filter from
+     * @param items - The array of ObjectItem objects whose IDs should be removed from selection
+     * @returns A new array containing items from selection that don't have matching IDs in items
+     *
+     * @example
+     * ```typescript
+     * const selection = [{ id: '1' }, { id: '2' }, { id: '3' }];
+     * const items = [{ id: '2' }, { id: '4' }];
+     * const result = this._diff(selection, items);
+     * // Returns: [{ id: '1' }, { id: '3' }]
+     * ```
+     */
     private _diff(selection: ObjectItem[], items: ObjectItem[]): ObjectItem[] {
         const diff = new Set(selection);
         const idsToDelete = new Set(items.map(o => o.id));
@@ -177,12 +218,14 @@ export class MultiSelectionHelper {
     }
 
     selectAll(): void {
-        this.selectionValue.setSelection(this.selectableItems);
+        const newSelection = this._union(this.selectableItems, this.selectionValue.selection);
+        this.selectionValue.setSelection(newSelection);
         this._resetRange();
     }
 
     selectNone(): void {
-        this.selectionValue.setSelection([]);
+        const newSelection = this._diff(this.selectionValue.selection, this.selectableItems);
+        this.selectionValue.setSelection(newSelection);
         this._resetRange();
     }
 
