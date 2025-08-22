@@ -102,7 +102,7 @@ function useCreateGalleryScope(props: GalleryContainerProps): GalleryRootScope {
         props.itemSelection,
         props.datasource,
         props.onSelectionChange,
-        "always clear"
+        "always keep"
     );
     const itemSelectHelper = useItemSelectHelper(props.itemSelection, selectionHelper);
 
