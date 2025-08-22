@@ -159,7 +159,7 @@ $cb-skeleton-dark: #d2d2d2;
     }
 
     &-input {
-        color: var(--cb-text-color, --gray-dark, $cb-gray-dark);
+        color: var(--cb-text-color, var(--gray-dark, $cb-gray-dark));
         flex-grow: 1;
         border: none;
         padding: 0;
@@ -230,7 +230,7 @@ $cb-skeleton-dark: #d2d2d2;
         cursor: not-allowed;
 
         &-text {
-            color: var(--cb-text-color, --gray-darker, $cb-typography-color);
+            color: var(--cb-text-color, var(--gray-darker, $cb-typography-color));
             position: absolute;
             left: 0;
             right: 0;
@@ -244,7 +244,7 @@ $cb-skeleton-dark: #d2d2d2;
         }
 
         &-empty {
-            color: var(--cb-text-color, --gray-dark, $cb-gray-dark);
+            color: var(--cb-text-color, var(--gray-dark, $cb-gray-dark));
         }
     }
 
@@ -413,18 +413,6 @@ $cb-skeleton-dark: #d2d2d2;
                 height: 16px;
                 width: 16px;
                 padding: 2.3px;
-            }
-        }
-    }
-}
-
-.hide-bg.form-group .widget-combobox {
-    .widget-combobox {
-        &-input-container {
-            background-color: transparent;
-            border: unset;
-            input {
-                background-color: transparent;
             }
         }
     }
