@@ -41,11 +41,14 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
 }
 
 const SelectionCounter = observer(function SelectionCounter() {
-    const { selectionCountStore } = useDatagridRootScope();
+    const { selectionCountStore, selectActionHelper } = useDatagridRootScope();
 
     return (
         <If condition={selectionCountStore.displayCount !== ""}>
-            <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>
+            <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>&nbsp;|&nbsp;
+            <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
+                Clear selection
+            </button>
         </If>
     );
 });
