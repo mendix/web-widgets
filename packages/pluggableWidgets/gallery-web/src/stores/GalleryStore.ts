@@ -11,6 +11,7 @@ import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
 import { EditableValue, ListValue } from "mendix";
 import { PaginationEnum, StateStorageTypeEnum } from "../../typings/GalleryProps";
+import { DerivedLoaderController } from "../controllers/DerivedLoaderController";
 import { QueryParamsController } from "../controllers/QueryParamsController";
 import { ObservableStorage } from "../typings/storage";
 import { AttributeStorage } from "./AttributeStorage";
@@ -31,6 +32,7 @@ interface StaticProps {
     stateStorageType: StateStorageTypeEnum;
     storeFilters: boolean;
     storeSort: boolean;
+    refreshIndicator: boolean;
 }
 
 export type GalleryPropsGate = DerivedPropsGate<DynamicProps>;
@@ -50,6 +52,7 @@ export class GalleryStore extends BaseControllerHost {
     readonly paging: PaginationController;
     readonly filterAPI: FilterAPI;
     readonly sortAPI: SortAPI;
+    loaderCtrl: DerivedLoaderController;
 
     constructor(spec: GalleryStoreSpec) {
         super();
@@ -85,6 +88,8 @@ export class GalleryStore extends BaseControllerHost {
             version: 1,
             host: this._sortHost
         };
+
+        this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator);
 
         new RefreshController(this, {
             delay: 0,

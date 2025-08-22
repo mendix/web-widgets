@@ -91,6 +91,7 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
             focusController={focusController}
             getPosition={getPositionCallback}
             loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
+            showRefreshIndicator={rootStore.loaderCtrl.showRefreshIndicator}
         />
     );
 });

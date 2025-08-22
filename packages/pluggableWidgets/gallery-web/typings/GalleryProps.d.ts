@@ -30,6 +30,7 @@ export interface GalleryContainerProps {
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMode: ItemSelectionModeEnum;
     content?: ListWidgetValue;
+    refreshIndicator: boolean;
     desktopItems: number;
     tabletItems: number;
     phoneItems: number;
@@ -71,6 +72,7 @@ export interface GalleryPreviewProps {
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMode: ItemSelectionModeEnum;
     content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    refreshIndicator: boolean;
     desktopItems: number | null;
     tabletItems: number | null;
     phoneItems: number | null;
