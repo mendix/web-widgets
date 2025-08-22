@@ -19,13 +19,13 @@ export default function CheckboxRadioSelection(props: CheckboxRadioSelectionCont
         readOnlyStyle: props.readOnlyStyle,
         ariaRequired: props.ariaRequired,
         groupName: props.groupName,
-        emptyOptionText: props.emptyOptionText?.value ?? "NO OPTIONS AVAILABLE"
+        noOptionsText: props.noOptionsText?.value ?? "No options available"
     };
 
     return (
         <div className={`widget-checkbox-radio-selection`}>
             {selector.status === "unavailable" ? (
-                <Placeholder emptyOptionText={commonProps.emptyOptionText} />
+                <Placeholder noOptionsText={commonProps.noOptionsText} />
             ) : selector.type === "single" ? (
                 <RadioSelection selector={selector} {...commonProps} />
             ) : (

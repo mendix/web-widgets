@@ -31,12 +31,12 @@ export class EnumBooleanSingleSelector implements SingleSelector {
     }
 
     updateProps(props: CheckboxRadioSelectionContainerProps): void {
-        const [attr, emptyOption, clearable, filterType] = extractEnumerationProps(props);
+        const [attr, noOptions, clearable, filterType] = extractEnumerationProps(props);
         this._attr = attr;
 
         this.caption.updateProps({
             attribute: attr,
-            emptyOptionText: emptyOption
+            noOptionsText: noOptions
         });
 
         this.options._updateProps({
@@ -44,7 +44,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
             filterType
         });
 
-        if (!attr || attr.status === "unavailable" || !emptyOption || emptyOption.status === "unavailable") {
+        if (!attr || attr.status === "unavailable" || !noOptions || noOptions.status === "unavailable") {
             this.status = "unavailable";
             this.currentId = null;
             this.clearable = true;

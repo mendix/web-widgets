@@ -7,7 +7,7 @@ export function extractEnumerationProps(
     const attribute = props.optionsSourceType === "enumeration" ? props.attributeEnumeration : props.attributeBoolean;
 
     // For simplicity, we'll create a basic empty option
-    const emptyOption: DynamicValue<string> = {
+    const noOptions: DynamicValue<string> = {
         status: ValueStatus.Available,
         value: ""
     };
@@ -18,5 +18,5 @@ export function extractEnumerationProps(
     // No filtering needed for radio buttons/checkboxes
     const filterType = "none" as const;
 
-    return [attribute, emptyOption, clearable, filterType];
+    return [attribute, noOptions, clearable, filterType];
 }

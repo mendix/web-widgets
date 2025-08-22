@@ -42,7 +42,7 @@ export class DatabaseMultiSelector<T extends string | Big, R extends EditableVal
             customContent,
             customContentType,
             ds,
-            emptyOption,
+            noOptions,
             valueSourceAttribute
         } = extractDatabaseProps(props);
 
@@ -54,7 +54,7 @@ export class DatabaseMultiSelector<T extends string | Big, R extends EditableVal
         this.readOnly = getReadonly(targetAttribute, props.customEditability, props.customEditabilityExpression);
 
         this.caption.updateProps({
-            emptyOptionText: emptyOption,
+            noOptionsText: noOptions,
             formattingAttributeOrExpression: captionProvider,
             customContent,
             customContentType,
@@ -70,7 +70,7 @@ export class DatabaseMultiSelector<T extends string | Big, R extends EditableVal
             valueAttribute: valueSourceAttribute
         });
 
-        if (!ds || ds.status === "unavailable" || !emptyOption || emptyOption.status !== "available") {
+        if (!ds || ds.status === "unavailable" || !noOptions || noOptions.status !== "available") {
             this.status = "unavailable";
             this.currentId = null;
             this.clearable = false;

@@ -12,7 +12,7 @@ export function RadioSelection({
     ariaRequired,
     readOnlyStyle,
     groupName,
-    emptyOptionText
+    noOptionsText
 }: SelectionBaseProps<SingleSelector>): ReactElement {
     const asSingleCheckbox = selector.controlType === "checkbox";
 
@@ -88,7 +88,7 @@ export function RadioSelection({
                     </div>
                 );
             })}
-            {options.length === 0 && <Placeholder emptyOptionText={emptyOptionText} />}
+            {options.length === 0 && <Placeholder noOptionsText={noOptionsText} />}
         </div>
     );
 }

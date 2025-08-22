@@ -182,12 +182,12 @@
             <!-- STATIC END-->
             <!-- GENERAL -->
             <propertyGroup caption="General">
-                <property key="emptyOptionText" type="textTemplate" required="false">
-                    <caption>Empty option text</caption>
+                <property key="noOptionsText" type="textTemplate" required="false">
+                    <caption>No option text</caption>
                     <description />
                     <translations>
-                        <translation lang="en_US">NO OPTIONS AVAILABLE</translation>
-                        <translation lang="nl_NL">GEEN OPTIES BESCHIKBAAR</translation>
+                        <translation lang="en_US">No options available</translation>
+                        <translation lang="nl_NL">Geen opties beschikbaar</translation>
                     </translations>
                 </property>
                 <property key="optionsSourceCustomContentType" type="enumeration" defaultValue="no" required="true">

@@ -21,7 +21,7 @@ export function extractDatabaseProps(props: CheckboxRadioSelectionContainerProps
     customContent: ListWidgetValue | undefined;
     customContentType: OptionsSourceCustomContentTypeEnum;
     ds: ListValue;
-    emptyOption: DynamicValue<string>;
+    noOptions: DynamicValue<string>;
     valueSourceAttribute: ListAttributeValue<string | Big> | undefined;
 } {
     const targetAttribute = props.databaseAttributeString;
@@ -34,7 +34,7 @@ export function extractDatabaseProps(props: CheckboxRadioSelectionContainerProps
             : props.optionsSourceDatabaseCaptionExpression!;
 
     // For simplicity, we'll create a basic empty option
-    const emptyOption: DynamicValue<string> = {
+    const noOptions: DynamicValue<string> = {
         status: ValueStatus.Available,
         value: ""
     };
@@ -53,7 +53,7 @@ export function extractDatabaseProps(props: CheckboxRadioSelectionContainerProps
         customContent,
         customContentType,
         ds,
-        emptyOption,
+        noOptions,
         valueSourceAttribute
     };
 }
