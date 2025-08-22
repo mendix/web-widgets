@@ -35,10 +35,10 @@ export class StaticSingleSelector implements SingleSelector {
     }
 
     updateProps(props: CheckboxRadioSelectionContainerProps): void {
-        const [attr, ds, emptyOption, clearable, onChangeEvent, customContentType] = extractStaticProps(props);
+        const [attr, ds, noOptions, clearable, onChangeEvent, customContentType] = extractStaticProps(props);
         this._attr = attr;
         this.caption.updateProps({
-            emptyOptionText: emptyOption,
+            noOptionsText: noOptions,
             customContentType,
             caption: this._attr.displayValue
         });
@@ -53,8 +53,8 @@ export class StaticSingleSelector implements SingleSelector {
             !ds ||
             ds[0].staticDataSourceValue.status === "unavailable" ||
             ds[0].staticDataSourceCaption.status === "unavailable" ||
-            !emptyOption ||
-            emptyOption.status === "unavailable"
+            !noOptions ||
+            noOptions.status === "unavailable"
         ) {
             this.status = "unavailable";
             this.currentId = null;

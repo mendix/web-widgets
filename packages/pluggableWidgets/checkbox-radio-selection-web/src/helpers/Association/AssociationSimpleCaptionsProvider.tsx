@@ -4,7 +4,7 @@ import { OptionsSourceCustomContentTypeEnum } from "../../../typings/CheckboxRad
 import { CaptionsProvider } from "../types";
 
 interface AssociationSimpleCaptionsProviderProps {
-    emptyOptionText?: DynamicValue<string>;
+    noOptionsText?: DynamicValue<string>;
     formattingAttributeOrExpression?: ListAttributeValue<string> | ListExpressionValue<string>;
     customContent?: ListWidgetValue;
     customContentType: OptionsSourceCustomContentTypeEnum;
@@ -22,10 +22,10 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
     }
 
     updateProps(props: AssociationSimpleCaptionsProviderProps): void {
-        if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {
+        if (!props.noOptionsText || props.noOptionsText.status === "unavailable") {
             this.emptyCaption = "";
         } else {
-            this.emptyCaption = props.emptyOptionText.value!;
+            this.emptyCaption = props.noOptionsText.value!;
         }
         this.formatter = props.formattingAttributeOrExpression;
         this.customContent = props.customContent;

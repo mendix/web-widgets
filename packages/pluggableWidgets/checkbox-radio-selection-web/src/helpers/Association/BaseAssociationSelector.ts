@@ -28,12 +28,12 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     }
 
     updateProps(props: CheckboxRadioSelectionContainerProps): void {
-        const [attr, ds, captionProvider, emptyOption, clearable, onChangeEvent, customContent, customContentType] =
+        const [attr, ds, captionProvider, noOptions, clearable, onChangeEvent, customContent, customContentType] =
             extractAssociationProps(props);
 
         this._attr = attr as R;
         this.caption.updateProps({
-            emptyOptionText: emptyOption,
+            noOptionsText: noOptions,
             formattingAttributeOrExpression: captionProvider,
             customContent,
             customContentType
@@ -49,8 +49,8 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             !ds ||
             ds.status === "unavailable" ||
             !captionProvider ||
-            !emptyOption ||
-            emptyOption.status === "unavailable"
+            !noOptions ||
+            noOptions.status === "unavailable"
         ) {
             this.status = "unavailable";
             this.currentId = null;

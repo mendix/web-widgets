@@ -7,7 +7,7 @@ import {
 import { CaptionsProvider } from "../types";
 
 interface StaticCaptionsProviderProps {
-    emptyOptionText?: DynamicValue<string>;
+    noOptionsText?: DynamicValue<string>;
     customContentType: OptionsSourceCustomContentTypeEnum;
     caption?: string;
 }
@@ -23,10 +23,10 @@ export class StaticCaptionsProvider implements CaptionsProvider {
     }
 
     updateProps(props: StaticCaptionsProviderProps): void {
-        if (!props.emptyOptionText || props.emptyOptionText.status === "unavailable") {
+        if (!props.noOptionsText || props.noOptionsText.status === "unavailable") {
             this.emptyCaption = "";
         } else {
-            this.emptyCaption = props.emptyOptionText.value!;
+            this.emptyCaption = props.noOptionsText.value!;
         }
         this.customContentType = props.customContentType;
     }

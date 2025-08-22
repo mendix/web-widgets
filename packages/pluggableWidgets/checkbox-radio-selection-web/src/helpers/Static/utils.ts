@@ -20,7 +20,7 @@ export function extractStaticProps(
     const ds = props.optionsSourceStaticDataSource;
 
     // For simplicity, we'll create a basic empty option
-    const emptyOption: DynamicValue<string> = {
+    const noOptions: DynamicValue<string> = {
         status: ValueStatus.Available,
         value: ""
     };
@@ -31,5 +31,5 @@ export function extractStaticProps(
     const onChangeEvent = props.onChangeEvent;
     const customContentType = props.optionsSourceCustomContentType;
 
-    return [attribute, ds, emptyOption, clearable, onChangeEvent, customContentType];
+    return [attribute, ds, noOptions, clearable, onChangeEvent, customContentType];
 }

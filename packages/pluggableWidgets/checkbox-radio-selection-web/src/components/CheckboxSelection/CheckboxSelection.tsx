@@ -11,7 +11,7 @@ export function CheckboxSelection({
     ariaRequired,
     readOnlyStyle,
     groupName,
-    emptyOptionText
+    noOptionsText
 }: SelectionBaseProps<MultiSelector>): ReactElement {
     const options = selector.getOptions();
     const currentIds = selector.currentId || [];
@@ -70,7 +70,7 @@ export function CheckboxSelection({
                     </div>
                 );
             })}
-            {options.length === 0 && <Placeholder emptyOptionText={emptyOptionText} />}
+            {options.length === 0 && <Placeholder noOptionsText={noOptionsText} />}
         </div>
     );
 }

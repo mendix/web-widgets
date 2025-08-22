@@ -36,7 +36,7 @@ export function extractAssociationProps(
             : props.optionsSourceAssociationCaptionExpression!;
 
     // For simplicity, we'll create a basic empty option
-    const emptyOption: DynamicValue<string> = {
+    const noOptions: DynamicValue<string> = {
         status: ValueStatus.Available,
         value: ""
     };
@@ -48,5 +48,5 @@ export function extractAssociationProps(
     const customContent = props.optionsSourceAssociationCustomContent;
     const customContentType = props.optionsSourceCustomContentType;
 
-    return [attr, ds, captionProvider, emptyOption, clearable, onChangeEvent, customContent, customContentType];
+    return [attr, ds, captionProvider, noOptions, clearable, onChangeEvent, customContent, customContentType];
 }
