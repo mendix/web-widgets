@@ -15,7 +15,7 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "eslint": "^9.32.0",
         "eslint-plugin-cypress": "^4.2.0",
-        "eslint-plugin-jest": "^28.11.0",
+        "eslint-plugin-jest": "^29.0.1",
         "eslint-plugin-package-json": "^0.29.0",
         "eslint-plugin-prettier": "^5.2.6",
         "eslint-plugin-promise": "^7.2.1",
