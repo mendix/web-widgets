@@ -566,6 +566,16 @@ $root: ".widget-datagrid";
     padding-inline: var(--spacing-medium);
 }
 
+#{$root}-clear-selection {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+    color: var(--link-color);
+    padding: 0;
+    display: inline-block;
+}
+
 @keyframes skeleton-loading {
     0% {
         background-position: right;
