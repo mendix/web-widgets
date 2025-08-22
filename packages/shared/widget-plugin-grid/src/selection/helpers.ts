@@ -223,9 +223,23 @@ export class MultiSelectionHelper {
         this._resetRange();
     }
 
+    /**
+     * Deselects all currently selected items by removing them from the selection.
+     * Resets the selection range after clearing the selection.
+     * @remark This method removes only items that are selectable.
+     * To clear the entire selection, use `clearSelection` instead.
+     */
     selectNone(): void {
         const newSelection = this._diff(this.selectionValue.selection, this.selectableItems);
         this.selectionValue.setSelection(newSelection);
+        this._resetRange();
+    }
+
+    /**
+     * Clears the current selection by removing all selected items and resetting the selection range.
+     */
+    clearSelection(): void {
+        this.selectionValue.setSelection([]);
         this._resetRange();
     }
 
