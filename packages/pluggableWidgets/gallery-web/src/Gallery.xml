@@ -33,6 +33,10 @@
                         <enumerationValue key="clear">No</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="keepSelection" type="boolean" defaultValue="false">
+                    <caption>Keep selection</caption>
+                    <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
+                </property>
                 <property key="content" type="widgets" dataSource="datasource" required="false">
                     <caption>Content placeholder</caption>
                     <description />
