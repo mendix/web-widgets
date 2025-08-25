@@ -17,6 +17,7 @@ import { ListItem } from "./ListItem";
 import { PaginationEnum, ShowPagingButtonsEnum } from "typings/GalleryProps";
 import { LoadMore, LoadMoreButton as LoadMorePreview } from "../components/LoadMore";
 import { ItemEventsController } from "../typings/ItemEventsController";
+import { SelectionCounter } from "./SelectionCounter";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -128,12 +129,15 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                     </section>
                 ))}
             <GalleryFooter>
-                {showBottomPagination && pagination}
-                <div className="widget-gallery-load-more">
-                    {props.preview && props.paginationType === "loadMore" && (
-                        <LoadMorePreview>{loadMoreButtonCaption}</LoadMorePreview>
+                <div className="widget-gallery-footer-controls">
+                    <div className="widget-gallery-fc-start">{!props.preview && <SelectionCounter />}</div>
+                    {props.paginationType === "loadMore" && (
+                        <div className="widget-gallery-fc-middle">
+                            {props.preview && <LoadMorePreview>{loadMoreButtonCaption}</LoadMorePreview>}{" "}
+                            {!props.preview && <LoadMore>{loadMoreButtonCaption}</LoadMore>}
+                        </div>
                     )}
-                    {!props.preview && <LoadMore>{loadMoreButtonCaption}</LoadMore>}
+                    <div className="widget-gallery-fc-end">{showBottomPagination && pagination}</div>
                 </div>
             </GalleryFooter>
         </GalleryRoot>

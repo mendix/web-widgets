@@ -34,6 +34,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
         desktopItems: props.desktopItems ?? 1,
         totalItems: items.length
     });
+
     const getPositionCallback = useCallback(
         (index: number) => getColumnAndRowBasedOnIndex(numberOfColumns, items.length, index),
         [numberOfColumns, items.length]
