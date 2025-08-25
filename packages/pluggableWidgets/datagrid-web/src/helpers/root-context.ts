@@ -1,10 +1,10 @@
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { SelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { createContext, useContext } from "react";
 import { GridBasicData } from "../helpers/state/GridBasicData";
 import { EventsController } from "../typings/CellComponent";
 import { SelectActionHelper } from "./SelectActionHelper";
-import { SelectionCountStore } from "./state/SelectionCountStore";
 
 export interface DatagridRootScope {
     basicData: GridBasicData;

@@ -54,6 +54,8 @@ export interface GalleryContainerProps {
     emptyMessageTitle?: DynamicValue<string>;
     ariaLabelListBox?: DynamicValue<string>;
     ariaLabelItem?: ListExpressionValue<string>;
+    sCountFmtSingular?: DynamicValue<string>;
+    sCountFmtPlural?: DynamicValue<string>;
 }
 
 export interface GalleryPreviewProps {
@@ -97,4 +99,6 @@ export interface GalleryPreviewProps {
     emptyMessageTitle: string;
     ariaLabelListBox: string;
     ariaLabelItem: string;
+    sCountFmtSingular: string;
+    sCountFmtPlural: string;
 }

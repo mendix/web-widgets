@@ -18,7 +18,8 @@ import { ColumnPreview } from "./helpers/ColumnPreview";
 import { DatagridContext } from "./helpers/root-context";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { GridBasicData } from "./helpers/state/GridBasicData";
-import { SelectionCountStore } from "./helpers/state/SelectionCountStore";
+
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import "./ui/DatagridPreview.scss";
 
 // Fix type definition for Selectable

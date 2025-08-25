@@ -82,7 +82,8 @@ export function createMockGalleryContext(): GalleryRootScope {
     return {
         rootStore: mockStore,
         selectionHelper: undefined,
-        itemSelectHelper: mockSelectHelper
+        itemSelectHelper: mockSelectHelper,
+        selectionCountStore: mockStore.selectionCountStore
     };
 }
 
