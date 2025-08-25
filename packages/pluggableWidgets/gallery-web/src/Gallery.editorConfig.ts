@@ -18,6 +18,10 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
         hidePropertiesIn(defaultProperties, values, ["onSelectionChange", "itemSelectionMode"]);
     }
 
+    if (values.itemSelection !== "Multi") {
+        hidePropertiesIn(defaultProperties, values, ["keepSelection"]);
+    }
+
     const usePersonalization = values.storeFilters || values.storeSort;
     if (!usePersonalization) {
         hidePropertiesIn(defaultProperties, values, ["stateStorageType", "stateStorageAttr", "onConfigurationChange"]);
