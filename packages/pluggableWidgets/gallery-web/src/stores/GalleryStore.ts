@@ -74,7 +74,10 @@ export class GalleryStore extends BaseControllerHost {
             showTotalCount: spec.showTotalCount
         });
 
-        this.selectionCountStore = new SelectionCountStore(spec.gate);
+        this.selectionCountStore = new SelectionCountStore(spec.gate, {
+            singular: "%d item selected",
+            plural: "%d items selected"
+        });
 
         this._filtersHost = new CustomFilterHost();
 
