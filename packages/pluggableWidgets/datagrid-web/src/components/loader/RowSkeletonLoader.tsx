@@ -1,8 +1,8 @@
 import { createElement, Fragment, ReactElement } from "react";
+import { useDatagridRootScope } from "../../helpers/root-context";
 import { CellElement } from "../CellElement";
-import { SkeletonLoader } from "./SkeletonLoader";
-import { useWidgetProps } from "../../helpers/useWidgetProps";
 import { SelectorCell } from "../SelectorCell";
+import { SkeletonLoader } from "./SkeletonLoader";
 
 type RowSkeletonLoaderProps = {
     columnsHidable: boolean;
@@ -17,7 +17,7 @@ export function RowSkeletonLoader({
     pageSize,
     useBorderTop = true
 }: RowSkeletonLoaderProps): ReactElement {
-    const { selectActionHelper } = useWidgetProps();
+    const { selectActionHelper } = useDatagridRootScope();
     return (
         <Fragment>
             {Array.from({ length: pageSize }).map((_, i) => {

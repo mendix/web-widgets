@@ -33,6 +33,10 @@
                         <enumerationValue key="clear">No</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="keepSelection" type="boolean" defaultValue="false">
+                    <caption>Keep selection</caption>
+                    <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
+                </property>
                 <property key="content" type="widgets" dataSource="datasource" required="false">
                     <caption>Content placeholder</caption>
                     <description />
@@ -185,6 +189,14 @@
                 <property key="ariaLabelItem" type="textTemplate" dataSource="datasource" required="false">
                     <caption>Item description</caption>
                     <description>Assistive technology will read this upon reaching each gallery item.</description>
+                </property>
+                <property key="sCountFmtSingular" type="textTemplate" required="false">
+                    <caption>Item count singular</caption>
+                    <description>Must include '%d' to denote number position ('%d item selected')</description>
+                </property>
+                <property key="sCountFmtPlural" type="textTemplate" required="false">
+                    <caption>Item count plural</caption>
+                    <description>Must include '%d' to denote number position ('%d items selected')</description>
                 </property>
             </propertyGroup>
         </propertyGroup>

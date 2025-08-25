@@ -3,11 +3,13 @@ import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/C
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
 import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { autorun } from "mobx";
+import { GridBasicData } from "src/helpers/state/GridBasicData";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { DatasourceParamsController } from "../../controllers/DatasourceParamsController";
 import { DerivedLoaderController } from "../../controllers/DerivedLoaderController";
@@ -17,7 +19,24 @@ import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
 
-type Gate = DerivedPropsGate<DatagridContainerProps>;
+type RequiredProps = Pick<
+    DatagridContainerProps,
+    | "name"
+    | "datasource"
+    | "refreshInterval"
+    | "refreshIndicator"
+    | "itemSelection"
+    | "columns"
+    | "configurationStorageType"
+    | "storeFiltersInPersonalization"
+    | "configurationAttribute"
+    | "pageSize"
+    | "pagination"
+    | "showPagingButtons"
+    | "showNumberOfRows"
+>;
+
+type Gate = DerivedPropsGate<RequiredProps>;
 
 type Spec = {
     gate: Gate;
@@ -27,6 +46,8 @@ type Spec = {
 export class RootGridStore extends BaseControllerHost {
     columnsStore: ColumnGroupStore;
     settingsStore: GridPersonalizationStore;
+    selectionCountStore: SelectionCountStore;
+    basicData: GridBasicData;
     staticInfo: StaticInfo;
     exportProgressCtrl: ProgressStore;
     loaderCtrl: DerivedLoaderController;
@@ -64,6 +85,10 @@ export class RootGridStore extends BaseControllerHost {
 
         this.settingsStore = new GridPersonalizationStore(props, this.columnsStore, filterHost);
 
+        this.basicData = new GridBasicData(gate);
+
+        this.selectionCountStore = new SelectionCountStore(gate);
+
         this.paginationCtrl = new PaginationController(this, { gate, query });
 
         this.exportProgressCtrl = exportCtrl;
@@ -100,7 +125,7 @@ export class RootGridStore extends BaseControllerHost {
         return disposeAll;
     }
 
-    private updateProps(props: DatagridContainerProps): void {
+    private updateProps(props: RequiredProps): void {
         this.columnsStore.updateProps(props);
         this.settingsStore.updateProps(props);
     }

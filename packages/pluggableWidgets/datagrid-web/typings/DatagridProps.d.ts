@@ -95,6 +95,7 @@ export interface DatagridContainerProps {
     itemSelectionMethod: ItemSelectionMethodEnum;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
+    keepSelection: boolean;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     columns: ColumnsType[];
@@ -124,6 +125,8 @@ export interface DatagridContainerProps {
     cancelExportLabel?: DynamicValue<string>;
     selectRowLabel?: DynamicValue<string>;
     selectAllRowsLabel?: DynamicValue<string>;
+    sCountFmtSingular?: DynamicValue<string>;
+    sCountFmtPlural?: DynamicValue<string>;
 }
 
 export interface DatagridPreviewProps {
@@ -144,6 +147,7 @@ export interface DatagridPreviewProps {
     itemSelectionMethod: ItemSelectionMethodEnum;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
+    keepSelection: boolean;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     columns: ColumnsPreviewType[];
@@ -174,4 +178,6 @@ export interface DatagridPreviewProps {
     cancelExportLabel: string;
     selectRowLabel: string;
     selectAllRowsLabel: string;
+    sCountFmtSingular: string;
+    sCountFmtPlural: string;
 }

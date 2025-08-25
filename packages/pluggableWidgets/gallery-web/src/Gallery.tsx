@@ -98,13 +98,19 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
 
 function useCreateGalleryScope(props: GalleryContainerProps): GalleryRootScope {
     const rootStore = useGalleryStore(props);
-    const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const selectionHelper = useSelectionHelper(
+        props.itemSelection,
+        props.datasource,
+        props.onSelectionChange,
+        props.keepSelection ? "always keep" : "always clear"
+    );
     const itemSelectHelper = useItemSelectHelper(props.itemSelection, selectionHelper);
 
     return useConst<GalleryRootScope>({
         rootStore,
         selectionHelper,
-        itemSelectHelper
+        itemSelectHelper,
+        selectionCountStore: rootStore.selectionCountStore
     });
 }
 

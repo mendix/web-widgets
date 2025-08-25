@@ -29,6 +29,7 @@ export interface GalleryContainerProps {
     datasource: ListValue;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMode: ItemSelectionModeEnum;
+    keepSelection: boolean;
     content?: ListWidgetValue;
     refreshIndicator: boolean;
     desktopItems: number;
@@ -54,6 +55,8 @@ export interface GalleryContainerProps {
     emptyMessageTitle?: DynamicValue<string>;
     ariaLabelListBox?: DynamicValue<string>;
     ariaLabelItem?: ListExpressionValue<string>;
+    sCountFmtSingular?: DynamicValue<string>;
+    sCountFmtPlural?: DynamicValue<string>;
 }
 
 export interface GalleryPreviewProps {
@@ -71,6 +74,7 @@ export interface GalleryPreviewProps {
     datasource: {} | { caption: string } | { type: string } | null;
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMode: ItemSelectionModeEnum;
+    keepSelection: boolean;
     content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     refreshIndicator: boolean;
     desktopItems: number | null;
@@ -97,4 +101,6 @@ export interface GalleryPreviewProps {
     emptyMessageTitle: string;
     ariaLabelListBox: string;
     ariaLabelItem: string;
+    sCountFmtSingular: string;
+    sCountFmtPlural: string;
 }
