@@ -10,8 +10,12 @@ type Gate = DerivedPropsGate<{
 
 export class SelectionCountStore {
     private gate: Gate;
+    private singular: string = "%d row selected";
+    private plural: string = "%d rows selected";
 
-    constructor(gate: Gate) {
+    constructor(gate: Gate, spec: { singular?: string; plural?: string } = {}) {
+        this.singular = spec.singular ?? this.singular;
+        this.plural = spec.plural ?? this.plural;
         this.gate = gate;
 
         makeObservable(this, {
@@ -23,11 +27,11 @@ export class SelectionCountStore {
     }
 
     get fmtSingular(): string {
-        return this.gate.props.sCountFmtSingular?.value || "%d row selected";
+        return this.gate.props.sCountFmtSingular?.value || this.singular;
     }
 
     get fmtPlural(): string {
-        return this.gate.props.sCountFmtPlural?.value || "%d rows selected";
+        return this.gate.props.sCountFmtPlural?.value || this.plural;
     }
 
     get selectedCount(): number {
