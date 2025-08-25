@@ -49,6 +49,10 @@
                     <caption>Show (un)check all toggle</caption>
                     <description>Show a checkbox in the grid header to check or uncheck multiple items.</description>
                 </property>
+                <property key="keepSelection" type="boolean" defaultValue="false">
+                    <caption>Keep selection</caption>
+                    <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
+                </property>
                 <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
                     <caption>Loading type</caption>
                     <description />

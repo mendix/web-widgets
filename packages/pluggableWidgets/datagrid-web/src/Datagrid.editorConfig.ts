@@ -167,6 +167,10 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
     if (itemSelection !== "Multi" || itemSelectionMethod !== "checkbox") {
         hidePropertyIn(defaultProperties, values, "showSelectAllToggle");
     }
+
+    if (itemSelection !== "Multi") {
+        hidePropertyIn(defaultProperties, values, "keepSelection");
+    }
 }
 
 export const getPreview = (
