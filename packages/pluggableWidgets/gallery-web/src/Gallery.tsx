@@ -109,7 +109,8 @@ function useCreateGalleryScope(props: GalleryContainerProps): GalleryRootScope {
     return useConst<GalleryRootScope>({
         rootStore,
         selectionHelper,
-        itemSelectHelper
+        itemSelectHelper,
+        selectionCountStore: rootStore.selectionCountStore
     });
 }
 

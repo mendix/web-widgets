@@ -4,12 +4,13 @@ import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
 import { PaginationController } from "@mendix/widget-plugin-grid/query/PaginationController";
 import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
-import { EditableValue, ListValue } from "mendix";
+import { DynamicValue, EditableValue, ListValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { PaginationEnum, StateStorageTypeEnum } from "../../typings/GalleryProps";
 import { DerivedLoaderController } from "../controllers/DerivedLoaderController";
 import { QueryParamsController } from "../controllers/QueryParamsController";
@@ -21,6 +22,9 @@ import { GalleryPersistentStateController } from "./GalleryPersistentStateContro
 interface DynamicProps {
     datasource: ListValue;
     stateStorageAttr?: EditableValue<string>;
+    itemSelection?: SelectionSingleValue | SelectionMultiValue;
+    sCountFmtSingular?: DynamicValue<string>;
+    sCountFmtPlural?: DynamicValue<string>;
 }
 
 interface StaticProps {
@@ -53,6 +57,7 @@ export class GalleryStore extends BaseControllerHost {
     readonly filterAPI: FilterAPI;
     readonly sortAPI: SortAPI;
     loaderCtrl: DerivedLoaderController;
+    selectionCountStore: SelectionCountStore;
 
     constructor(spec: GalleryStoreSpec) {
         super();
@@ -68,6 +73,8 @@ export class GalleryStore extends BaseControllerHost {
             showPagingButtons: spec.showPagingButtons,
             showTotalCount: spec.showTotalCount
         });
+
+        this.selectionCountStore = new SelectionCountStore(spec.gate);
 
         this._filtersHost = new CustomFilterHost();
 

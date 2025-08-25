@@ -18,7 +18,7 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
     return (
         <div {...rest} className="widget-datagrid-footer table-footer">
             <div className="widget-datagrid-paging-bottom">
-                <div className="widget-datagrid-pb-left">
+                <div className="widget-datagrid-pb-start">
                     <SelectionCounter />
                 </div>
                 {hasMoreItems && paginationType === "loadMore" && (
@@ -32,7 +32,7 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
                         </button>
                     </div>
                 )}
-                <div className="widget-datagrid-pb-right">
+                <div className="widget-datagrid-pb-end">
                     {(pagingPosition === "bottom" || pagingPosition === "both") && pagination}
                 </div>
             </div>

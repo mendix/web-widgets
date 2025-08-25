@@ -555,13 +555,13 @@ $root: ".widget-datagrid";
     align-items: center;
 }
 
-:where(#{$root}-pb-left, #{$root}-pb-right, #{$root}-pb-middle) {
+:where(#{$root}-pb-start, #{$root}-pb-end, #{$root}-pb-middle) {
     flex-grow: 1;
-    flex-basis: 33.3%;
+    flex-basis: 33.33%;
     min-height: 20px;
 }
 
-:where(#{$root}-pb-left) {
+:where(#{$root}-pb-start) {
     margin-block: var(--spacing-medium);
     padding-inline: var(--spacing-medium);
 }
