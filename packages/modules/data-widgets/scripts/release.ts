@@ -11,7 +11,8 @@ import {
     removeDist,
     runModuleSteps,
     writeModuleVersion,
-    copyActionsFiles
+    copyActionsFiles,
+    addREADMEOSSToMpk
 } from "@mendix/automation-utils/steps";
 
 import { bundleXLSX } from "./steps/bundle-xlsx";
@@ -30,6 +31,7 @@ async function main(): Promise<void> {
             copyModuleLicense,
             createModuleMpk,
             addWidgetsToMpk,
+            addREADMEOSSToMpk,
             moveModuleToDist
         ]
     });

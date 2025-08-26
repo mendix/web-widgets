@@ -14,7 +14,7 @@
         "lint": "echo 'Lint disabled for now, please update package scripts'",
         "lint:enableme": "eslint . --ext .mjs",
         "root-script:commitlint": "commitlint",
-        "root-script:format-staged": "pretty-quick --staged --config \"./.prettierrc.cjs\" --pattern \"**/{src,script,typings,test,**}/**/*.{cjs,mjs,js,jsx,ts,tsx,scss,html,xml,md,json}\""
+        "root-script:format-staged": "pretty-quick --staged --config \"./.prettierrc.cjs\" --pattern \"**/{src,script,typings,test,**}/**/*.{cjs,mjs,js,jsx,ts,tsx,scss,xml,md,json}\""
     },
     "dependencies": {
         "@commitlint/cli": "^19.8.0",
