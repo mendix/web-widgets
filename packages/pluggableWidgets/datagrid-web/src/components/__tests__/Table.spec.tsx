@@ -1,5 +1,6 @@
 import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { SelectionMultiValueBuilder, list, listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { cleanup, getAllByRole, getByRole, queryByRole, render, screen } from "@testing-library/react";
@@ -15,7 +16,6 @@ import {
 import { SelectActionHelper, useSelectActionHelper } from "../../helpers/SelectActionHelper";
 import { DatagridContext, DatagridRootScope } from "../../helpers/root-context";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
-import { SelectionCountStore } from "../../helpers/state/SelectionCountStore";
 import { GridColumn } from "../../typings/GridColumn";
 import { column, mockGridColumn, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";

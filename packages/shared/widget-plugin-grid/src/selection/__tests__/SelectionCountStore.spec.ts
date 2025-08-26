@@ -1,7 +1,7 @@
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { SelectionMultiValueBuilder, SelectionSingleValueBuilder, objectItems } from "@mendix/widget-plugin-test-utils";
 import { SelectionMultiValue, SelectionSingleValue } from "mendix";
-import { SelectionCountStore } from "../SelectionCountStore";
+import { SelectionCountStore } from "../stores/SelectionCountStore";
 
 type Props = {
     itemSelection?: SelectionSingleValue | SelectionMultiValue;

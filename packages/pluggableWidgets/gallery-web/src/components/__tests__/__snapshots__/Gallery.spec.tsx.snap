@@ -53,8 +53,15 @@ exports[`Gallery DOM Structure renders correctly 1`] = `
       class="widget-gallery-footer"
     >
       <div
-        class="widget-gallery-load-more"
-      />
+        class="widget-gallery-footer-controls"
+      >
+        <div
+          class="widget-gallery-fc-start"
+        />
+        <div
+          class="widget-gallery-fc-end"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -128,8 +135,15 @@ exports[`Gallery DOM Structure renders correctly with onclick event 1`] = `
       class="widget-gallery-footer"
     >
       <div
-        class="widget-gallery-load-more"
-      />
+        class="widget-gallery-footer-controls"
+      >
+        <div
+          class="widget-gallery-fc-start"
+        />
+        <div
+          class="widget-gallery-fc-end"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -191,8 +205,15 @@ exports[`Gallery with accessibility properties renders correctly with items 1`] 
       class="widget-gallery-footer"
     >
       <div
-        class="widget-gallery-load-more"
-      />
+        class="widget-gallery-footer-controls"
+      >
+        <div
+          class="widget-gallery-fc-start"
+        />
+        <div
+          class="widget-gallery-fc-end"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -232,8 +253,15 @@ exports[`Gallery with accessibility properties renders correctly without items 1
       class="widget-gallery-footer"
     >
       <div
-        class="widget-gallery-load-more"
-      />
+        class="widget-gallery-footer-controls"
+      >
+        <div
+          class="widget-gallery-fc-start"
+        />
+        <div
+          class="widget-gallery-fc-end"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -272,8 +300,15 @@ exports[`Gallery with empty option renders correctly 1`] = `
       class="widget-gallery-footer"
     >
       <div
-        class="widget-gallery-load-more"
-      />
+        class="widget-gallery-footer-controls"
+      >
+        <div
+          class="widget-gallery-fc-start"
+        />
+        <div
+          class="widget-gallery-fc-end"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -451,8 +486,15 @@ exports[`Gallery with pagination renders correctly 1`] = `
       class="widget-gallery-footer"
     >
       <div
-        class="widget-gallery-load-more"
-      />
+        class="widget-gallery-footer-controls"
+      >
+        <div
+          class="widget-gallery-fc-start"
+        />
+        <div
+          class="widget-gallery-fc-end"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -505,8 +547,15 @@ exports[`Gallery without filters renders structure without header container 1`] 
       class="widget-gallery-footer"
     >
       <div
-        class="widget-gallery-load-more"
-      />
+        class="widget-gallery-footer-controls"
+      >
+        <div
+          class="widget-gallery-fc-start"
+        />
+        <div
+          class="widget-gallery-fc-end"
+        />
+      </div>
     </div>
   </div>
 </DocumentFragment>
