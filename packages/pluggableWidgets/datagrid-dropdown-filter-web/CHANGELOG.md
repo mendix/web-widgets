@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.27.1] - 2025-08-26
+
 ### Fixed
 
 - We implemented ellipsis truncation to resolve option caption overflow issues.

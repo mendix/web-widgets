@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.27.8] DataWidgets - 2025-08-26
+
+### [2.27.1] DatagridDropdownFilter
+
+#### Fixed
+
+- We implemented ellipsis truncation to resolve option caption overflow issues.
+
+- We fixed an issue where tooltips were not displayed correctly when hovering over options.
+
 ## [2.27.7] DataWidgets - 2025-08-13
 
 ### [2.27.0] DatagridDropdownFilter
