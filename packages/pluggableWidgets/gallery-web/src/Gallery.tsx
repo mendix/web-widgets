@@ -1,4 +1,3 @@
-import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { getColumnAndRowBasedOnIndex, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
@@ -12,6 +11,7 @@ import { useItemEventsController } from "./features/item-interaction/ItemEventsC
 import { GridPositionsProps, useGridPositions } from "./features/useGridPositions";
 import { useItemHelper } from "./helpers/ItemHelper";
 import { GalleryContext, GalleryRootScope, useGalleryRootScope } from "./helpers/root-context";
+import { useGalleryJSActions } from "./helpers/useGalleryJSActions";
 import { useGalleryStore } from "./helpers/useGalleryStore";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 
@@ -53,7 +53,7 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
         clickValue: props.onClick
     });
 
-    useOnResetFiltersEvent(rootStore.name, rootStore.id);
+    useGalleryJSActions(rootStore, itemSelectHelper);
 
     const header = <HeaderWidgetsHost>{props.filtersPlaceholder}</HeaderWidgetsHost>;
 
