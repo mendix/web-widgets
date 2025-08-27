@@ -1,5 +1,5 @@
-import { ComboboxContainerProps } from "../../../pluggableWidgets/combobox-web/typings/ComboboxProps";
-import { ObjectItem } from "./mendix";
+import { ComboboxContainerProps } from "../../../../pluggableWidgets/combobox-web/typings/ComboboxProps";
+import { ObjectItem } from "../mendix";
 import {
     createDynamicValue,
     createEditableValue,
@@ -9,7 +9,7 @@ import {
     createReferenceSetValue,
     createMockObjectItem,
     createMockObjectItems
-} from "./widget-tools";
+} from "../widget-tools";
 
 // Mock object items
 const mockObjectItem1: ObjectItem = createMockObjectItem("111");

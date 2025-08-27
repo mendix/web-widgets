@@ -24,7 +24,8 @@ export function createDynamicValue<T>(value: T): DynamicValue<T> {
 
 // Create editable value mock
 export function createEditableValue<T>(value?: T): EditableValue<T> {
-    return {
+    const editableValue = {
+        __mockType: "EditableValue", // Marker for restoration
         value: value as T,
         displayValue: value ? String(value) : "",
         status: ValueStatus.Available,
@@ -33,41 +34,64 @@ export function createEditableValue<T>(value?: T): EditableValue<T> {
         formatter: {
             format: (val: T) => String(val)
         },
-        setValue: (newValue: T) => {
-            console.log("Setting value:", newValue);
+        setValue: function (newValue: T) {
+            console.log("[MOCK] Setting editable value:", newValue);
+            this.value = newValue;
+            this.displayValue = newValue ? String(newValue) : "";
+            // Trigger React re-render if callback is available
+            if (typeof this._triggerRerender === "function") {
+                this._triggerRerender();
+            }
         }
     };
+
+    return editableValue;
 }
 
 // Create list value mock
 export function createListValue(items: ObjectItem[]): ListValue {
-    return {
+    // Create a stateful mock that maintains its own state
+    const listValue = {
         status: ValueStatus.Available,
         items,
         totalCount: items.length,
         hasMoreItems: false,
         limit: 20,
         offset: 0,
-        sortOrder: [["name", "asc"]], // Default sort order
+        sortOrder: [["name", "asc"]] as Array<[string, "asc" | "desc"]>,
         filter: undefined,
-        setLimit: (limit: number) => {
+        setLimit: function (limit: number) {
             console.log("Setting limit:", limit);
+            // Update the limit on this object
+            this.limit = limit;
+            // Simulate potential state changes
+            this.hasMoreItems = limit < this.totalCount;
         },
-        setOffset: (offset: number) => {
+        setOffset: function (offset: number) {
             console.log("Setting offset:", offset);
+            // Update the offset on this object
+            this.offset = offset;
         },
-        setFilter: (filter: any) => {
+        setFilter: function (filter: any) {
             console.log("Setting filter:", filter);
+            // Update the filter on this object
+            this.filter = filter;
         },
-        reload: () => {
+        reload: function () {
             console.log("Reloading list");
+            // Reset to initial state
+            this.offset = 0;
+            this.filter = undefined;
         }
     };
+
+    return listValue;
 }
 
 // Create list attribute value mock
 export function createListAttributeValue<T>(): ListAttributeValue<T> {
     return {
+        __mockType: "ListAttributeValue", // Marker for restoration
         id: "mockAttribute",
         get: (item: ObjectItem) => ({
             value: `Value for ${item.id}` as T,
@@ -88,6 +112,7 @@ export function createListAttributeValue<T>(): ListAttributeValue<T> {
 // Create list expression value mock
 export function createListExpressionValue<T>(expression: string): ListExpressionValue<T> {
     return {
+        __mockType: "ListExpressionValue", // Marker for restoration
         get: (item: ObjectItem) => ({
             value: `Expression result for ${item.id}` as T,
             displayValue: `Expression Display for ${item.id}`,
@@ -99,7 +124,8 @@ export function createListExpressionValue<T>(expression: string): ListExpression
 // Create reference value mock (for single-selection)
 export function createReferenceValue(selectedItem?: ObjectItem): ReferenceValue {
     const refValue = {
-        type: "Reference", // Important: This determines single vs multi selector
+        __mockType: "ReferenceValue", // Marker for restoration
+        type: "Reference" as const, // Important: This determines single vs multi selector
         value: selectedItem || null,
         displayValue: selectedItem ? `Reference ${selectedItem.id}` : "No item selected",
         status: ValueStatus.Available,
@@ -108,11 +134,17 @@ export function createReferenceValue(selectedItem?: ObjectItem): ReferenceValue 
         formatter: {
             format: (val: ObjectItem | null) => (val ? `Reference ${val.id}` : "")
         },
-        setValue: (value: ObjectItem | null) => {
-            console.log("Setting reference value:", value);
+        setValue: function (value: ObjectItem | null) {
+            console.log("[MOCK] Setting reference value:", value);
+            this.value = value;
+            this.displayValue = value ? `Reference ${value.id}` : "No item selected";
+            // Trigger React re-render if callback is available
+            if (typeof this._triggerRerender === "function") {
+                this._triggerRerender();
+            }
         },
-        setValidator: () => {
-            console.log("Setting validator for reference value");
+        setValidator: function () {
+            console.log("[MOCK] Setting validator for reference value");
         }
     } as ReferenceValue;
 
@@ -121,8 +153,9 @@ export function createReferenceValue(selectedItem?: ObjectItem): ReferenceValue 
 
 // Create reference set value mock (for multi-selection)
 export function createReferenceSetValue(selectedItems: ObjectItem[] = []): ReferenceSetValue {
-    return {
-        type: "ReferenceSet", // Important: This determines single vs multi selector
+    const refSetValue = {
+        __mockType: "ReferenceSetValue", // Marker for restoration
+        type: "ReferenceSet" as const, // Important: This determines single vs multi selector
         value: selectedItems,
         displayValue:
             selectedItems.length > 0
@@ -134,13 +167,22 @@ export function createReferenceSetValue(selectedItems: ObjectItem[] = []): Refer
         formatter: {
             format: (val: ObjectItem[]) => (val ? val.map(v => `Reference ${v.id}`).join(", ") : "")
         },
-        setValue: (value: ObjectItem[]) => {
-            console.log("Setting reference set value:", value);
+        setValue: function (value: ObjectItem[]) {
+            console.log("[MOCK] Setting reference set value:", value);
+            this.value = value;
+            this.displayValue =
+                value.length > 0 ? value.map(item => `Reference ${item.id}`).join(", ") : "No items selected";
+            // Trigger React re-render if callback is available
+            if (typeof this._triggerRerender === "function") {
+                this._triggerRerender();
+            }
         },
-        setValidator: () => {
-            console.log("Setting validator for reference set value");
+        setValidator: function () {
+            console.log("[MOCK] Setting validator for reference set value");
         }
     };
+
+    return refSetValue;
 }
 
 // Create mock object items

@@ -32,6 +32,9 @@
                     text-align: left;
                     font-size: 0.875rem;
                     transition: all 0.2s ease;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
 
                     // Default state
                     background-color: #ffffff;
@@ -39,17 +42,36 @@
                     font-weight: 400;
                     box-shadow: none;
 
+                    .widget-name {
+                        flex: 1;
+                        text-align: left;
+                    }
+
+                    .editor-indicator {
+                        font-size: 0.75rem;
+                        opacity: 0.7;
+                        margin-left: 0.5rem;
+                    }
+
                     // Selected state
                     &.selected {
                         background-color: #007bff;
                         color: #ffffff;
                         font-weight: 600;
                         box-shadow: 0 2px 4px rgba(0, 123, 255, 0.25);
+
+                        .editor-indicator {
+                            opacity: 1;
+                        }
                     }
 
                     // Hover state (only for non-selected)
                     &:hover:not(.selected) {
                         background-color: #e9ecef;
+
+                        .editor-indicator {
+                            opacity: 1;
+                        }
                     }
                 }
             }

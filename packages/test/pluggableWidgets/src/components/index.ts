@@ -2,3 +2,5 @@
 export { WidgetLoader } from "./WidgetLoader";
 export { WidgetMenu } from "./WidgetMenu";
 export { WidgetDisplay } from "./WidgetDisplay";
+export { EditableWidgetDisplay } from "./EditableWidgetDisplay";
+export { JsonPropsEditor } from "./JsonPropsEditor";

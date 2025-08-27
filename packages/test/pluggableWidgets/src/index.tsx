@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { widgets, type WidgetType, type WidgetInfo } from "./config/widgets";
-import { WidgetMenu, WidgetDisplay } from "./components";
+import { WidgetMenu, EditableWidgetDisplay } from "./components";
 
 // Import Atlas-based styling
 import "./styles/theme.compiled.css";
@@ -15,7 +15,10 @@ const App: React.FC = () => {
     return (
         <div className="app-container">
             <WidgetMenu widgets={widgets} selectedWidget={selectedWidgetId} onSelectWidget={setSelectedWidgetId} />
-            <WidgetDisplay selectedWidget={selectedWidget} />
+            <EditableWidgetDisplay
+                selectedWidget={selectedWidget}
+                enableJsonEditor={selectedWidget?.enableJsonEditor || false}
+            />
         </div>
     );
 };

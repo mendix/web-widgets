@@ -17,6 +17,8 @@ export interface DynamicValue<T> {
 }
 
 export interface EditableValue<T> {
+    __mockType?: string; // Marker for restoration
+    _triggerRerender?: () => void; // React re-render callback
     value: T;
     displayValue: string;
     status: "available" | "loading" | "unavailable";
@@ -44,6 +46,7 @@ export interface ListValue {
 }
 
 export interface ListAttributeValue<T = any> {
+    __mockType?: string; // Marker for restoration
     id: string;
     get: (item: ObjectItem) => {
         value: T;
@@ -61,6 +64,7 @@ export interface ListAttributeValue<T = any> {
 }
 
 export interface ListExpressionValue<T = any> {
+    __mockType?: string; // Marker for restoration
     get: (item: ObjectItem) => {
         value: T;
         displayValue: string;
@@ -73,6 +77,8 @@ export interface ListWidgetValue {
 }
 
 export interface ReferenceValue {
+    __mockType?: string; // Marker for restoration
+    _triggerRerender?: () => void; // React re-render callback
     type: "Reference";
     value: ObjectItem | null;
     displayValue: string;
@@ -97,6 +103,8 @@ export function isReferenceSetValue(value: any): value is ReferenceSetValue {
 }
 
 export interface ReferenceSetValue {
+    __mockType?: string; // Marker for restoration
+    _triggerRerender?: () => void; // React re-render callback
     type: "ReferenceSet";
     value: ObjectItem[];
     displayValue: string;

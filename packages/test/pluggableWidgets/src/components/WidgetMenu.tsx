@@ -20,7 +20,12 @@ export const WidgetMenu: React.FC<WidgetMenuProps> = ({ widgets, selectedWidget,
                             className={selectedWidget === widget.id ? "selected" : ""}
                             onClick={() => onSelectWidget(widget.id)}
                         >
-                            {widget.name}
+                            <span className="widget-name">{widget.name}</span>
+                            {widget.enableJsonEditor && (
+                                <span className="editor-indicator" title="Interactive props editor available">
+                                    ✏️
+                                </span>
+                            )}
                         </button>
                     </li>
                 ))}

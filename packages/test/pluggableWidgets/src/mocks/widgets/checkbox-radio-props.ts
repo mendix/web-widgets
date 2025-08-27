@@ -1,5 +1,5 @@
-import { CheckboxRadioSelectionContainerProps } from "../../../pluggableWidgets/checkbox-radio-selection-web/typings/CheckboxRadioSelectionProps";
-import { ObjectItem } from "./mendix";
+import { CheckboxRadioSelectionContainerProps } from "../../../../pluggableWidgets/checkbox-radio-selection-web/typings/CheckboxRadioSelectionProps";
+import { ObjectItem } from "../mendix";
 import {
     createDynamicValue,
     createEditableValue,
@@ -10,7 +10,7 @@ import {
     createReferenceSetValue,
     createMockObjectItem,
     createMockObjectItems
-} from "./widget-tools";
+} from "../widget-tools";
 
 // Mock object items for checkbox/radio options
 const mockObjectItem1: ObjectItem = createMockObjectItem("option1");
