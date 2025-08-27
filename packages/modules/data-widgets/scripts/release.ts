@@ -25,7 +25,7 @@ async function main(): Promise<void> {
             cloneTestProject,
             copyWidgetsToProject,
             copyThemesourceToProject,
-            copyActionsFiles(["Export_To_Excel.js", "Reset_All_Filters.js", "Reset_Filter.js"]),
+            copyActionsFiles(["Export_To_Excel.js", "Reset_All_Filters.js", "Reset_Filter.js", "Clear_Selection.js"]),
             bundleXLSX,
             writeModuleVersion,
             copyModuleLicense,
