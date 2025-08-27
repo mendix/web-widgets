@@ -1,0 +1,50 @@
+// Widget display styles
+.widget-display {
+    flex: 1;
+    padding: 2rem;
+    background-color: #ffffff;
+    min-height: 100vh;
+
+    .widget-header {
+        margin-bottom: 2rem;
+
+        h1 {
+            margin: 0 0 0.5rem 0;
+            color: #212529;
+            font-size: 2rem;
+        }
+
+        p {
+            margin: 0 0 1.5rem 0;
+            color: #6c757d;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+    }
+
+    .widget-wrapper {
+        padding: 1.5rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        background-color: #f8f9fa;
+    }
+
+    .welcome-screen {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50vh;
+        text-align: center;
+        color: #6c757d;
+
+        .welcome-content {
+            h2 {
+                margin-bottom: 1rem;
+            }
+
+            p {
+                margin: 0;
+            }
+        }
+    }
+}

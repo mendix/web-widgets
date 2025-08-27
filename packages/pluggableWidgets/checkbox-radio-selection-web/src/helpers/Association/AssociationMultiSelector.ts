@@ -13,6 +13,7 @@ export class AssociationMultiSelector
         super.updateProps(props);
 
         // Convert reference set value to array of IDs
+        console.log("AssociationMultiSelector updateProps", props);
         this.currentId = this._attr?.value?.map(item => item.id) ?? [];
     }
 
