@@ -54,7 +54,14 @@ export default tseslint.config(
             "prefer-rest-params": "error",
             "prefer-spread": "error",
             radix: "error",
-            "spaced-comment": "error"
+            "spaced-comment": "error",
+            "sort-imports": [
+                "error",
+                {
+                    ignoreDeclarationSort: true,
+                    ignoreCase: true
+                }
+            ]
         }
     },
     {

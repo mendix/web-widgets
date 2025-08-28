@@ -4,6 +4,7 @@ import {
     addREADMEOSSToMpk,
     addWidgetsToMpk,
     cloneTestProject,
+    copyActionsFiles,
     copyModuleLicense,
     copyThemesourceToProject,
     copyWidgetsToProject,
@@ -11,8 +12,7 @@ import {
     moveModuleToDist,
     removeDist,
     runModuleSteps,
-    writeModuleVersion,
-    copyActionsFiles
+    writeModuleVersion
 } from "@mendix/automation-utils/steps";
 
 import { bundleXLSX } from "./steps/bundle-xlsx";

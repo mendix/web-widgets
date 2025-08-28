@@ -1,8 +1,8 @@
 import { ActionValue, EditableValue } from "mendix";
 import {
     ComboboxContainerProps,
-    StaticDataSourceCustomContentTypeEnum,
-    OptionsSourceStaticDataSourceType
+    OptionsSourceStaticDataSourceType,
+    StaticDataSourceCustomContentTypeEnum
 } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
 import { StaticOptionsProvider } from "./StaticOptionsProvider";

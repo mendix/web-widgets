@@ -1,4 +1,4 @@
-import { MouseEvent, KeyboardEvent, createElement, ReactElement } from "react";
+import { createElement, KeyboardEvent, MouseEvent, ReactElement } from "react";
 import classNames from "classnames";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { SwitchContainerProps } from "../../typings/SwitchProps";

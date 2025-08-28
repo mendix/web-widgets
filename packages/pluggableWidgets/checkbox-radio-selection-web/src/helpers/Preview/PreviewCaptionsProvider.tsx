@@ -1,6 +1,6 @@
 import { OptionsSourceCustomContentTypeEnum } from "../../../typings/CheckboxRadioSelectionProps";
 import { SimpleCaptionsProvider } from "./SimpleCaptionsProvider";
-import { createElement, ReactNode, ComponentType } from "react";
+import { ComponentType, createElement, ReactNode } from "react";
 interface PreviewProps {
     customContentRenderer:
         | ComponentType<{ children: ReactNode; caption?: string }>

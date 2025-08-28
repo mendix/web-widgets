@@ -1,7 +1,7 @@
 import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { Context, createContext, useContext } from "react";
 import { APIError, ENOCONTEXT } from "./errors";
-import { Result, error, value } from "./result-meta";
+import { error, Result, value } from "./result-meta";
 import { InputFilterInterface } from "./typings/InputFilterInterface";
 import { ObservableFilterHost } from "./typings/ObservableFilterHost";
 

@@ -1,12 +1,12 @@
 import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
-import { SelectionMultiValueBuilder, list, listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
+import { list, listWidget, objectItems, SelectionMultiValueBuilder } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { cleanup, getAllByRole, getByRole, queryByRole, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
-import { ReactElement, createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { ItemSelectionMethodEnum } from "typings/DatagridProps";
 import { CellEventsController, useCellEventsController } from "../../features/row-interaction/CellEventsController";
 import {

@@ -7,8 +7,8 @@ import {
     dropzone,
     structurePreviewPalette,
     StructurePreviewProps,
-    TextProps,
-    text
+    text,
+    TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { isVoidElement, prepareTag } from "./utils/props-utils";
 

@@ -1,10 +1,10 @@
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
-    RowLayoutProps,
-    StructurePreviewProps,
-    structurePreviewPalette,
-    rowLayout,
     container,
+    rowLayout,
+    RowLayoutProps,
+    structurePreviewPalette,
+    StructurePreviewProps,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { DocumentViewerPreviewProps } from "typings/DocumentViewerProps";

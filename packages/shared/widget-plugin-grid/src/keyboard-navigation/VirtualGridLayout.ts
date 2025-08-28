@@ -1,4 +1,4 @@
-import { PositionString, posString, Position } from "./position";
+import { Position, PositionString, posString } from "./position";
 
 export class VirtualGridLayout {
     readonly rows: number;

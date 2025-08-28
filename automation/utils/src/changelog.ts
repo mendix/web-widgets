@@ -1,6 +1,6 @@
 import { gh } from "./github";
 import { PublishedInfo } from "./package-info";
-import { exec, pushd, popd } from "./shell";
+import { exec, popd, pushd } from "./shell";
 
 export async function updateChangelogsAndCreatePR(
     info: PublishedInfo,

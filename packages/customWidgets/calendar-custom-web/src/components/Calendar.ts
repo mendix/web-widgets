@@ -1,4 +1,4 @@
-import { CSSProperties, Component, ReactChild, createElement, ReactNode } from "react";
+import { Component, createElement, CSSProperties, ReactChild, ReactNode } from "react";
 
 import { Alert } from "./Alert";
 import { Container, Style } from "../utils/namespaces";

@@ -1,9 +1,9 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { ReactElement, createElement, useMemo } from "react";
+import { createElement, ReactElement, useMemo } from "react";
 import { CheckboxRadioSelectionPreviewProps } from "../typings/CheckboxRadioSelectionProps";
 import { RadioSelection } from "./components/RadioSelection/RadioSelection";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
-import { SingleSelector, SelectionBaseProps, MultiSelector } from "./helpers/types";
+import { MultiSelector, SelectionBaseProps, SingleSelector } from "./helpers/types";
 import { StaticPreviewSelector } from "./helpers/Static/Preview/StaticPreviewSelector";
 import {
     DatabaseMultiPreviewSelector,

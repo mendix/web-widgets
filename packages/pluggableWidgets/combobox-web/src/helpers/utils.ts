@@ -1,6 +1,6 @@
 import { Big } from "big.js";
-import { MatchSorterOptions, matchSorter } from "match-sorter";
-import { PropsWithChildren, ReactElement, createElement } from "react";
+import { matchSorter, MatchSorterOptions } from "match-sorter";
+import { createElement, PropsWithChildren, ReactElement } from "react";
 import { ComboboxPreviewProps, FilterTypeEnum, SelectedItemsSortingEnum } from "typings/ComboboxProps";
 import { MultiSelector, SortOrder } from "./types";
 import { ObjectItem } from "mendix";

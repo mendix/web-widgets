@@ -3,7 +3,7 @@ import "@mendix/shared-charts/ui/Chart.scss";
 import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import Big from "big.js";
 import classNames from "classnames";
-import { ReactElement, createElement, memo, useCallback } from "react";
+import { createElement, memo, ReactElement, useCallback } from "react";
 import { BubbleChartContainerProps, LinesType } from "../typings/BubbleChartProps";
 import { calculateSizeRef } from "./utils";
 

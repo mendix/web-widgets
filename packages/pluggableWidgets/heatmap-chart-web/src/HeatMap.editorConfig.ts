@@ -1,8 +1,8 @@
 import {
-    StructurePreviewProps,
-    ImageProps,
     ContainerProps,
-    datasource
+    datasource,
+    ImageProps,
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 
@@ -10,9 +10,9 @@ import {
     hidePropertiesIn,
     hidePropertyIn,
     moveProperty,
+    Problem,
     Properties,
-    transformGroupsIntoTabs,
-    Problem
+    transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
 
 import { HeatMapPreviewProps } from "../typings/HeatMapProps";

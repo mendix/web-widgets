@@ -1,15 +1,15 @@
 import {
-    listExp,
     dynamic,
     EditableValueBuilder,
-    ListAttributeValueBuilder,
     list,
+    ListAttributeValueBuilder,
+    listExp,
     obj,
     ReferenceValueBuilder,
     setupIntersectionObserverStub
 } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
-import { fireEvent, render, RenderResult, act, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { ListValue } from "mendix";
 import { createElement } from "react";
 import { ComboboxContainerProps, OptionsSourceAssociationCaptionTypeEnum } from "../../typings/ComboboxProps";

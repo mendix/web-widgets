@@ -69,7 +69,6 @@ interface SelectorBase<T, V> {
     customContentType: OptionsSourceCustomContentTypeEnum;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface SingleSelector extends SelectorBase<"single", string> {
     controlType: "checkbox" | "radio";
 }

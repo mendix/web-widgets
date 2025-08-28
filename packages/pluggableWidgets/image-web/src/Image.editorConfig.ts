@@ -1,8 +1,8 @@
 import {
     DropZoneProps,
     RowLayoutProps,
-    StructurePreviewProps,
-    structurePreviewPalette
+    structurePreviewPalette,
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     hidePropertiesIn,

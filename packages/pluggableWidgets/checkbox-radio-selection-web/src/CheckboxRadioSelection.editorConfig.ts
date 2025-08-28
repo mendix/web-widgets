@@ -1,11 +1,11 @@
-import { Properties, hideNestedPropertiesIn, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
+import { hideNestedPropertiesIn, hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
-    ContainerProps,
-    StructurePreviewProps,
-    structurePreviewPalette,
-    dropzone,
     container,
+    ContainerProps,
+    dropzone,
     rowLayout,
+    structurePreviewPalette,
+    StructurePreviewProps,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { CheckboxRadioSelectionPreviewProps } from "../typings/CheckboxRadioSelectionProps";

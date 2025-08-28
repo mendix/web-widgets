@@ -1,5 +1,5 @@
 import path from "node:path";
-import { ModuleStepParams, logStep, copyActionsFiles } from "@mendix/automation-utils/steps";
+import { copyActionsFiles, logStep, ModuleStepParams } from "@mendix/automation-utils/steps";
 import * as rollup from "rollup";
 import type { InputOptions, OutputOptions } from "rollup";
 import resolve from "@rollup/plugin-node-resolve";

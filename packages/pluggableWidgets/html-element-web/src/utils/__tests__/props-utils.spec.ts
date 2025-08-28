@@ -3,12 +3,12 @@ import { ReactNode } from "react";
 import {
     createAttributeResolver,
     createEventResolver,
+    createSanitize,
     prepareAttributes,
     prepareChildren,
     prepareEvents,
     prepareHtml,
-    prepareTag,
-    createSanitize
+    prepareTag
 } from "../props-utils";
 
 describe("props-utils", () => {

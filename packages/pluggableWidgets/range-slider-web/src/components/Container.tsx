@@ -1,11 +1,11 @@
-import { createElement, useRef, useMemo } from "react";
+import { createElement, useMemo, useRef } from "react";
 import { RangeSliderContainerProps } from "../../typings/RangeSliderProps";
 import { useNumber } from "../utils/useNumber";
 import { RangeSlider as RangeComponent } from "./RangeSlider";
 import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
 import { createHandleGenerator } from "../utils/createHandleGenerator";
 import { useMarks } from "../utils/useMarks";
-import { minProp, maxProp, stepProp, isVertical, getStyleProp } from "../utils/prop-utils";
+import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
 import { useScheduleUpdateOnce } from "@mendix/widget-plugin-hooks/useScheduleUpdateOnce";
 
 export function Container(props: RangeSliderContainerProps): React.ReactElement {

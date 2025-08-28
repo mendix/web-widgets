@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { DatePickerController } from "../helpers/DatePickerController";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";

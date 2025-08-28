@@ -1,4 +1,4 @@
-import { ObjectItem, DynamicValue, ListAttributeValue } from "mendix";
+import { DynamicValue, ListAttributeValue, ObjectItem } from "mendix";
 import { ValuesProvider } from "../types";
 
 interface Props {

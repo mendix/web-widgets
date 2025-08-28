@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { actionValue, EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
-import { render, fireEvent } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { createElement } from "react";
 import { SwitchContainerProps } from "../../typings/SwitchProps";
 import { Switch } from "../Switch";

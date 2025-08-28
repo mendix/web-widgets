@@ -5,7 +5,7 @@ import {
     StructurePreviewProps,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { Properties, hidePropertyIn, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
 import IconSVGDark from "./assets/StructureCalendarDark.svg";
 import IconSVG from "./assets/StructureCalendarLight.svg";

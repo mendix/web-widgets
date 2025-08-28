@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export function useWatchValues<T1, K extends [T1]>(cb: (prev: K, next: K) => any, values: K): void;
 export function useWatchValues<T1, T2, K extends [T1, T2]>(cb: (prev: K, next: K) => any, values: K): void;

@@ -5,7 +5,7 @@ import { Slider as SliderComponent } from "./Slider";
 import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
 import { createHandleGenerator } from "../utils/createHandleGenerator";
 import { useMarks } from "../utils/useMarks";
-import { minProp, maxProp, stepProp, isVertical, getStyleProp } from "../utils/prop-utils";
+import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
 
 export function Container(props: SliderContainerProps): React.ReactElement {
     const min = useNumber(minProp(props));

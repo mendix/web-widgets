@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ReactElement, createElement } from "react";
+import { createElement, ReactElement } from "react";
 
 export type GalleryRootProps = Omit<JSX.IntrinsicElements["div"], "ref"> & {
     selectable?: boolean;

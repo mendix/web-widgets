@@ -1,6 +1,6 @@
-import { createElement, MutableRefObject, ReactElement, useCallback, useEffect, useRef, useMemo } from "react";
+import { createElement, MutableRefObject, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
 
-import { ValueStatus, DynamicValue } from "mendix";
+import { DynamicValue, ValueStatus } from "mendix";
 
 import { AccessibilityHelperContainerProps } from "../typings/AccessibilityHelperProps";
 
