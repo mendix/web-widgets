@@ -11,6 +11,7 @@ export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
+            // Mendix core mocks (only these need to be mocked since they're runtime-only)
             "mendix/filters/builders": path.resolve(__dirname, "src/mocks/mendix-filters.ts"),
             "mendix/filters": path.resolve(__dirname, "src/mocks/mendix-filters.ts"),
             mendix: path.resolve(__dirname, "src/mocks/mendix.ts")

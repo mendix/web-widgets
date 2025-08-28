@@ -42,6 +42,8 @@ export interface ListValue {
     setLimit: (limit: number) => void;
     setOffset: (offset: number) => void;
     setFilter: (filter: any) => void;
+    setSortOrder: (sortOrder: Array<[string, "asc" | "desc"]>) => void;
+    requestTotalCount: (needTotal: boolean) => void;
     reload: () => void;
 }
 

@@ -2938,6 +2938,9 @@ importers:
       '@mendix/combobox-web':
         specifier: workspace:*
         version: link:../../pluggableWidgets/combobox-web
+      '@mendix/datagrid-web':
+        specifier: workspace:*
+        version: link:../../pluggableWidgets/datagrid-web
       big.js:
         specifier: ^6.2.1
         version: 6.2.2

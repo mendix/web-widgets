@@ -77,6 +77,19 @@ export function createListValue(items: ObjectItem[]): ListValue {
             // Update the filter on this object
             this.filter = filter;
         },
+        setSortOrder: function (sortOrder: Array<[string, "asc" | "desc"]>) {
+            console.log("Setting sort order:", sortOrder);
+            // Update the sort order on this object
+            this.sortOrder = sortOrder;
+        },
+        requestTotalCount: function (needTotal: boolean) {
+            console.log("Requesting total count:", needTotal);
+            // Mock implementation - in real Mendix this would trigger a server request
+            // For now, just ensure totalCount is set if needed
+            if (needTotal && this.totalCount === undefined) {
+                this.totalCount = this.items?.length || 0;
+            }
+        },
         reload: function () {
             console.log("Reloading list");
             // Reset to initial state
