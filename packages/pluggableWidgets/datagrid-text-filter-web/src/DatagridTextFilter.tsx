@@ -15,6 +15,7 @@ const FilterAuto = withParentProvidedStringStore(Container);
 const FilterLinked = withAttributeGuard(withFilterAPI(withLinkedStringStore(Container)));
 
 export default function DatagridTextFilter(props: DatagridTextFilterContainerProps): ReactElement {
+    console.log("props datagrid text filter ", props);
     if (props.attrChoice === "auto") {
         return <FilterAuto {...props} />;
     }

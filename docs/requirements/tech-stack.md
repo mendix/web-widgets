@@ -18,6 +18,7 @@ The Mendix pluggable widgets ecosystem leverages a modern web development tech s
 - **Jest:** Used for unit testing widget logic and components.
 - **RTL(react-testing-library):** Used for unit testing widget logic and components.
 - **Linting/Formatting:** ESLint and Prettier enforce code style consistency.
+- **Terminal:** The terminal should use powershell because the current OS is windows.
 
 ## Monorepo Structure and Packaging
 

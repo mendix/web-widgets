@@ -2938,6 +2938,9 @@ importers:
       '@mendix/combobox-web':
         specifier: workspace:*
         version: link:../../pluggableWidgets/combobox-web
+      '@mendix/datagrid-text-filter-web':
+        specifier: workspace:*
+        version: link:../../pluggableWidgets/datagrid-text-filter-web
       '@mendix/datagrid-web':
         specifier: workspace:*
         version: link:../../pluggableWidgets/datagrid-web

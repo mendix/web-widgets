@@ -62,6 +62,7 @@ export interface ListAttributeValue<T = any> {
     sortable: boolean;
     filterable: boolean;
     type: string;
+    isList: false; // Required for filter store creation
     validation?: string;
 }
 

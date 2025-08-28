@@ -13,6 +13,7 @@
     "dependencies": {
         "@mendix/checkbox-radio-selection-web": "workspace:*",
         "@mendix/combobox-web": "workspace:*",
+        "@mendix/datagrid-text-filter-web": "workspace:*",
         "@mendix/datagrid-web": "workspace:*",
         "big.js": "^6.2.1",
         "classnames": "^2.5.1",

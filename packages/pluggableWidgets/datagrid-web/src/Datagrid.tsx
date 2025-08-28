@@ -132,7 +132,7 @@ Container.displayName = "DatagridComponent";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
     const rootStore = useRootStore(props);
-
+    console.log("props datagrid ", props, JSON.stringify(props.columns[1]));
     return (
         <Container
             {...props}

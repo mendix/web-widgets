@@ -6,9 +6,15 @@ interface JsonPropsEditorProps {
     initialProps: any;
     onPropsChange: (newProps: any) => void;
     widgetName: string;
+    createFreshProps?: () => any; // Optional factory function for reset
 }
 
-export const JsonPropsEditor: React.FC<JsonPropsEditorProps> = ({ initialProps, onPropsChange, widgetName }) => {
+export const JsonPropsEditor: React.FC<JsonPropsEditorProps> = ({
+    initialProps,
+    onPropsChange,
+    widgetName,
+    createFreshProps
+}) => {
     const [jsonText, setJsonText] = useState("");
     const [isExpanded, setIsExpanded] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -64,17 +70,19 @@ export const JsonPropsEditor: React.FC<JsonPropsEditorProps> = ({ initialProps, 
 
     const handleReset = useCallback(() => {
         try {
-            const resetJson = JSON.stringify(initialProps, null, 2);
+            // Use factory function if available, otherwise fall back to initialProps
+            const freshProps = createFreshProps ? createFreshProps() : initialProps;
+            const resetJson = JSON.stringify(freshProps, null, 2);
             setJsonText(resetJson);
             setError(null);
             setIsValid(true);
             setHasUnsavedChanges(false);
-            // Reset to original props (which already have proper function references)
-            onPropsChange(initialProps);
+            // Reset to fresh props (with proper function references)
+            onPropsChange(freshProps);
         } catch (err) {
             setError("Failed to reset props");
         }
-    }, [initialProps, onPropsChange]);
+    }, [initialProps, createFreshProps, onPropsChange]);
 
     const toggleExpanded = () => {
         setIsExpanded(!isExpanded);

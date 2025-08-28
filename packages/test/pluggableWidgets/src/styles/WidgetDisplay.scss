@@ -21,19 +21,32 @@
             line-height: 1.5;
         }
 
+        .variant-badge,
         .editor-badge {
+            display: inline-block;
             margin-bottom: 1rem;
+            margin-right: 0.75rem;
 
             .badge-text {
                 display: inline-block;
                 padding: 0.375rem 0.75rem;
-                background-color: #e3f2fd;
-                color: #1565c0;
-                border: 1px solid #bbdefb;
+                border: 1px solid;
                 border-radius: 0.375rem;
                 font-size: 0.875rem;
                 font-weight: 500;
             }
+        }
+
+        .variant-badge .badge-text {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+            border-color: #e1bee7;
+        }
+
+        .editor-badge .badge-text {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border-color: #bbdefb;
         }
     }
 

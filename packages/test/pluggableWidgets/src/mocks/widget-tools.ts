@@ -102,22 +102,46 @@ export function createListValue(items: ObjectItem[]): ListValue {
 }
 
 // Create list attribute value mock
-export function createListAttributeValue<T>(): ListAttributeValue<T> {
-    return {
-        __mockType: "ListAttributeValue", // Marker for restoration
+export function createListAttributeValue<T>(config?: {
+    id?: string;
+    sortable?: boolean;
+    filterable?: boolean;
+    type?: string;
+    formatter?: any;
+    isList?: boolean;
+}): ListAttributeValue<T> {
+    const defaultConfig = {
         id: "mockAttribute",
-        get: (item: ObjectItem) => ({
-            value: `Value for ${item.id}` as T,
-            displayValue: `Display Value for ${item.id}`,
-            status: ValueStatus.Available,
-            readonly: false,
-            formatter: {
-                format: (val: T) => String(val)
-            }
-        }),
         sortable: true,
         filterable: true,
         type: "String",
+        formatter: {},
+        isList: false,
+        ...config
+    };
+
+    return {
+        __mockType: "ListAttributeValue", // Marker for restoration
+        id: defaultConfig.id,
+        get: (item: ObjectItem) => {
+            // Get actual attribute value from the mock object
+            const attributeValue = (item as any)?.attributes?.[defaultConfig.id] || `Value for ${item.id}`;
+
+            return {
+                value: attributeValue as T,
+                displayValue: String(attributeValue),
+                status: ValueStatus.Available,
+                readonly: false,
+                formatter: {
+                    format: (val: T) => String(val),
+                    ...defaultConfig.formatter
+                }
+            };
+        },
+        sortable: defaultConfig.sortable,
+        filterable: defaultConfig.filterable,
+        type: defaultConfig.type,
+        isList: false, // Required for filter store creation
         validation: undefined
     } as ListAttributeValue<T>;
 }
@@ -200,7 +224,16 @@ export function createReferenceSetValue(selectedItems: ObjectItem[] = []): Refer
 
 // Create mock object items
 export function createMockObjectItem(id: string): ObjectItem {
-    return { id };
+    return {
+        id,
+        __mockType: "ObjectItem", // Marker for restoration
+        // Add mock attribute values that can be accessed by ListAttributeValue.get()
+        attributes: {
+            attr_id_mock: id,
+            attr_name_mock: `Mock Item ${id}`,
+            attr_status_mock: id === "data1" || id === "data3" ? "Active" : "Inactive"
+        }
+    } as any; // Use type assertion to allow additional properties
 }
 
 // Create multiple mock object items

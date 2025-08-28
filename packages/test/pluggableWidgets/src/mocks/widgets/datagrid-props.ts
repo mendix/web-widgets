@@ -1,4 +1,4 @@
-import type { DatagridContainerProps } from "@mendix/datagrid-web/typings/DatagridProps";
+import type { DatagridContainerProps, ColumnsType } from "@mendix/datagrid-web/typings/DatagridProps";
 import { ObjectItem } from "../mendix";
 import {
     createDynamicValue,
@@ -8,45 +8,45 @@ import {
     createListExpressionValue,
     createMockObjectItem
 } from "../widget-tools";
+import {
+    createMockDataGridTextFilterProps,
+    createMockDataGridTextFilterPropsStrict
+} from "./datagrid-text-filter-props";
+import { createElement, lazy } from "react";
 
-// Mock object items for DataGrid rows
-const mockDataItem1: ObjectItem = createMockObjectItem("data1");
-const mockDataItem2: ObjectItem = createMockObjectItem("data2");
-const mockDataItem3: ObjectItem = createMockObjectItem("data3");
-const mockDataItem4: ObjectItem = createMockObjectItem("data4");
-const mockDataItem5: ObjectItem = createMockObjectItem("data5");
+// Lazy load the DataGrid text filter component
+const DatagridTextFilter = lazy(() => import("@mendix/datagrid-text-filter-web/src/DatagridTextFilter"));
 
-export const mockDataGridProps: any = {
-    name: "dataGrid",
-    class: "mx-datagrid",
-    tabIndex: 0,
+export function createMockDataGridProps(): any {
+    // Create fresh mock data items for each call
+    const mockDataItem1: ObjectItem = createMockObjectItem("data1");
+    const mockDataItem2: ObjectItem = createMockObjectItem("data2");
+    const mockDataItem3: ObjectItem = createMockObjectItem("data3");
+    const mockDataItem4: ObjectItem = createMockObjectItem("data4");
+    const mockDataItem5: ObjectItem = createMockObjectItem("data5");
 
-    // Core configuration
-    advanced: false,
-    datasource: createListValue([mockDataItem1, mockDataItem2, mockDataItem3, mockDataItem4, mockDataItem5]),
-    refreshInterval: 0,
-
-    // Selection configuration
-    itemSelection: undefined, // No selection for basic demo
-    itemSelectionMethod: "checkbox",
-    itemSelectionMode: "toggle",
-    showSelectAllToggle: true,
-
-    // Loading and display
-    loadingType: "spinner",
-    refreshIndicator: true,
-
-    // Column definitions - simplified for demo
-    columns: [
+    // Define properly typed column configurations with text filters
+    const columns: any[] = [
         {
-            showContentAs: "dynamicText",
-            attribute: undefined,
+            showContentAs: "attribute",
+            attribute: createListAttributeValue({
+                id: "attr_id_mock",
+                sortable: true,
+                filterable: true,
+                formatter: {},
+                type: "String",
+                isList: false
+            }),
             content: undefined,
-            dynamicText: createListExpressionValue<string>("ID: " + "$currentObject/id"),
+            dynamicText: undefined,
             exportValue: undefined,
             header: createDynamicValue("ID"),
             tooltip: undefined,
-            filter: undefined,
+            filter: createElement(DatagridTextFilter, {
+                ...createMockDataGridTextFilterPropsStrict(),
+                name: "idFilter",
+                placeholder: createDynamicValue("Filter by ID...") as any
+            }),
             visible: createDynamicValue(true),
             sortable: true,
             resizable: true,
@@ -62,14 +62,26 @@ export const mockDataGridProps: any = {
             wrapText: false
         },
         {
-            showContentAs: "dynamicText",
-            attribute: undefined,
+            showContentAs: "attribute",
+            attribute: createListAttributeValue({
+                id: "attr_name_mock",
+                sortable: true,
+                filterable: true,
+                formatter: {},
+                type: "String",
+                isList: false
+            }),
             content: undefined,
-            dynamicText: createListExpressionValue<string>("Name: Mock Item " + "$currentObject/id"),
+            dynamicText: undefined,
             exportValue: undefined,
             header: createDynamicValue("Name"),
             tooltip: undefined,
-            filter: undefined,
+            filter: createElement(DatagridTextFilter, {
+                ...createMockDataGridTextFilterProps(),
+                name: "nameFilter",
+                placeholder: createDynamicValue("Filter by name...") as any,
+                defaultFilter: "contains"
+            }),
             visible: createDynamicValue(true),
             sortable: true,
             resizable: true,
@@ -107,77 +119,194 @@ export const mockDataGridProps: any = {
             columnClass: undefined,
             wrapText: false
         }
-    ],
+    ];
 
-    // Column features
-    columnsFilterable: true,
-    columnsSortable: true,
-    columnsResizable: true,
-    columnsDraggable: false,
-    columnsHidable: true,
+    return {
+        name: "dataGrid",
+        class: "mx-datagrid",
+        tabIndex: 0,
 
-    // Pagination
-    pageSize: 10,
-    pagination: "buttons",
-    showPagingButtons: "auto",
-    showNumberOfRows: true,
-    pagingPosition: "bottom",
-    loadMoreButtonCaption: createDynamicValue("Load more..."),
+        // Core configuration
+        advanced: false,
+        datasource: createListValue([mockDataItem1, mockDataItem2, mockDataItem3, mockDataItem4, mockDataItem5]),
+        refreshInterval: 0,
 
-    // Empty state
-    showEmptyPlaceholder: "custom",
-    emptyPlaceholder: undefined,
+        // Selection configuration
+        itemSelection: undefined, // No selection for basic demo
+        itemSelectionMethod: "checkbox",
+        itemSelectionMode: "toggle",
+        showSelectAllToggle: true,
 
-    // Row styling and interactions
-    rowClass: undefined,
-    onClickTrigger: "single",
-    onClick: undefined,
-    onSelectionChange: undefined,
+        // Loading and display
+        loadingType: "spinner",
+        refreshIndicator: true,
 
-    // Filters
-    filtersPlaceholder: undefined,
+        // Column definitions - properly typed
+        columns,
 
-    // Configuration storage
-    configurationStorageType: "localStorage",
-    configurationAttribute: undefined,
-    storeFiltersInPersonalization: false,
+        // Column features
+        columnsFilterable: true,
+        columnsSortable: true,
+        columnsResizable: true,
+        columnsDraggable: false,
+        columnsHidable: true,
 
-    // Accessibility labels
-    filterSectionTitle: createDynamicValue("Filters"),
-    exportDialogLabel: createDynamicValue("Export Data"),
-    cancelExportLabel: createDynamicValue("Cancel"),
-    selectRowLabel: createDynamicValue("Select row"),
-    selectAllRowsLabel: createDynamicValue("Select all rows")
-};
+        // Pagination
+        pageSize: 10,
+        pagination: "buttons",
+        showPagingButtons: "auto",
+        showNumberOfRows: true,
+        pagingPosition: "bottom",
+        loadMoreButtonCaption: createDynamicValue("Load more..."),
 
-// Alternative: DataGrid with selection enabled
-export const mockDataGridWithSelectionProps: any = {
-    ...mockDataGridProps,
-    name: "dataGridWithSelection",
+        // Empty state
+        showEmptyPlaceholder: "custom",
+        emptyPlaceholder: undefined,
 
-    // Enable multi-selection
-    itemSelection: undefined, // This would need to be properly mocked for selection to work
-    itemSelectionMethod: "checkbox",
-    itemSelectionMode: "toggle",
-    showSelectAllToggle: true,
+        // Row styling and interactions
+        rowClass: undefined,
+        onClickTrigger: "single",
+        onClick: undefined,
+        onSelectionChange: undefined,
 
-    // Add selection change handler
-    onSelectionChange: undefined,
+        // Filters
+        filtersPlaceholder: undefined,
 
-    // Make it more interactive
-    onClick: undefined,
-    onClickTrigger: "single"
-};
+        // Configuration storage
+        configurationStorageType: "localStorage",
+        configurationAttribute: undefined,
+        storeFiltersInPersonalization: false,
 
-// Alternative: DataGrid with virtual scrolling
-export const mockDataGridVirtualScrollingProps: any = {
-    ...mockDataGridProps,
-    name: "dataGridVirtualScrolling",
+        // Accessibility labels
+        filterSectionTitle: createDynamicValue("Filters"),
+        exportDialogLabel: createDynamicValue("Export Data"),
+        cancelExportLabel: createDynamicValue("Cancel"),
+        selectRowLabel: createDynamicValue("Select row"),
+        selectAllRowsLabel: createDynamicValue("Select all rows")
+    };
+}
 
-    // Virtual scrolling configuration
-    pagination: "virtualScrolling",
-    pageSize: 25,
-    showPagingButtons: "always",
-    showNumberOfRows: true,
-    pagingPosition: "bottom"
-};
+// Second DataGrid variant with different configuration
+export function createMockDataGridPropsCompact(): any {
+    // Create fresh mock data items for each call - different data for variant
+    const mockDataItem1: ObjectItem = createMockObjectItem("compact1");
+    const mockDataItem2: ObjectItem = createMockObjectItem("compact2");
+    const mockDataItem3: ObjectItem = createMockObjectItem("compact3");
+
+    // Define a more compact column configuration
+    const columns: any[] = [
+        {
+            showContentAs: "dynamicText",
+            attribute: undefined,
+            content: undefined,
+            dynamicText: createListExpressionValue<string>("Item " + "$currentObject/id"),
+            exportValue: undefined,
+            header: createDynamicValue("Item"),
+            tooltip: undefined,
+            filter: undefined,
+            visible: createDynamicValue(true),
+            sortable: true,
+            resizable: false,
+            draggable: false,
+            hidable: "no",
+            allowEventPropagation: true,
+            width: "manual",
+            minWidth: "manual",
+            minWidthLimit: 120,
+            size: 150,
+            alignment: "left",
+            columnClass: undefined,
+            wrapText: false
+        },
+        {
+            showContentAs: "dynamicText",
+            attribute: undefined,
+            content: undefined,
+            dynamicText: createListExpressionValue<string>("✓"),
+            exportValue: undefined,
+            header: createDynamicValue("✓"),
+            tooltip: undefined,
+            filter: undefined,
+            visible: createDynamicValue(true),
+            sortable: false,
+            resizable: false,
+            draggable: false,
+            hidable: "no",
+            allowEventPropagation: true,
+            width: "manual",
+            minWidth: "manual",
+            minWidthLimit: 50,
+            size: 60,
+            alignment: "center",
+            columnClass: undefined,
+            wrapText: false
+        }
+    ];
+
+    return {
+        name: "dataGridCompact",
+        class: "mx-datagrid mx-datagrid-compact",
+        tabIndex: 0,
+
+        // Core configuration - simpler setup
+        advanced: false,
+        datasource: createListValue([mockDataItem1, mockDataItem2, mockDataItem3]),
+        refreshInterval: 0,
+
+        // Selection configuration - enabled for this variant
+        itemSelection: undefined,
+        itemSelectionMethod: "radioButton",
+        itemSelectionMode: "clear",
+        showSelectAllToggle: false,
+
+        // Loading and display - minimal
+        loadingType: "text",
+        refreshIndicator: false,
+
+        // Column definitions - compact setup
+        columns,
+
+        // Column features - minimal
+        columnsFilterable: false,
+        columnsSortable: true,
+        columnsResizable: false,
+        columnsDraggable: false,
+        columnsHidable: false,
+
+        // Pagination - simplified
+        pageSize: 5,
+        pagination: "simple",
+        showPagingButtons: "auto",
+        showNumberOfRows: false,
+        pagingPosition: "bottom",
+        loadMoreButtonCaption: createDynamicValue("More..."),
+
+        // Empty state
+        showEmptyPlaceholder: "default",
+        emptyPlaceholder: undefined,
+
+        // Row styling and interactions
+        rowClass: undefined,
+        onClickTrigger: "double",
+        onClick: undefined,
+        onSelectionChange: undefined,
+
+        // Filters
+        filtersPlaceholder: undefined,
+
+        // Configuration storage
+        configurationStorageType: "none",
+        configurationAttribute: undefined,
+        storeFiltersInPersonalization: false,
+
+        // Accessibility labels
+        filterSectionTitle: createDynamicValue("Filter"),
+        exportDialogLabel: createDynamicValue("Export"),
+        cancelExportLabel: createDynamicValue("Cancel"),
+        selectRowLabel: createDynamicValue("Select"),
+        selectAllRowsLabel: createDynamicValue("Select all")
+    };
+}
+
+// Keep the old export for backward compatibility (deprecated)
+export const mockDataGridProps = createMockDataGridProps();

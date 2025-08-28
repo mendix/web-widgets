@@ -1,18 +1,15 @@
 import React, { Suspense, useState, useCallback } from "react";
-import type { WidgetInfo } from "../config/widgets";
+import type { WidgetInfo, WidgetVariant } from "../config/widgets";
 import { WidgetLoader } from "./WidgetLoader";
 import { JsonPropsEditor } from "./JsonPropsEditor";
 import "../styles/WidgetDisplay.scss";
 
 interface EditableWidgetDisplayProps {
     selectedWidget: WidgetInfo | null;
-    enableJsonEditor?: boolean;
+    selectedVariant: WidgetVariant | null;
 }
 
-export const EditableWidgetDisplay: React.FC<EditableWidgetDisplayProps> = ({
-    selectedWidget,
-    enableJsonEditor = false
-}) => {
+export const EditableWidgetDisplay: React.FC<EditableWidgetDisplayProps> = ({ selectedWidget, selectedVariant }) => {
     // State for editable props (only used when JSON editor is enabled)
     const [editableProps, setEditableProps] = useState<any>(null);
     // State to force re-renders when mock objects change
@@ -23,17 +20,24 @@ export const EditableWidgetDisplay: React.FC<EditableWidgetDisplayProps> = ({
         forceRender({});
     }, []);
 
-    // Initialize editable props when widget changes
+    // Get the active widget configuration (variant takes precedence)
+    const activeWidgetConfig = selectedVariant || selectedWidget;
+    const enableJsonEditor = activeWidgetConfig?.enableJsonEditor || false;
+    const widgetName = selectedVariant?.name || selectedWidget?.name || "Unknown Widget";
+    const widgetDescription = selectedVariant?.description || selectedWidget?.description || "";
+
+    // Initialize editable props when widget/variant changes
     React.useEffect(() => {
-        if (selectedWidget && enableJsonEditor) {
-            setEditableProps(selectedWidget.props);
+        if (activeWidgetConfig && enableJsonEditor) {
+            // Create fresh props using the factory function to ensure isolation
+            setEditableProps(activeWidgetConfig.createProps());
         }
-    }, [selectedWidget, enableJsonEditor]);
+    }, [activeWidgetConfig, enableJsonEditor]);
 
     // Set up force re-render callback on mock objects
     React.useEffect(() => {
-        if (selectedWidget) {
-            const currentProps = enableJsonEditor && editableProps ? editableProps : selectedWidget.props;
+        if (activeWidgetConfig) {
+            const currentProps = enableJsonEditor && editableProps ? editableProps : activeWidgetConfig.props;
 
             // Recursively set the re-render callback on all mock objects
             const setRerenderCallback = (obj: any) => {
@@ -54,19 +58,19 @@ export const EditableWidgetDisplay: React.FC<EditableWidgetDisplayProps> = ({
 
             setRerenderCallback(currentProps);
         }
-    }, [selectedWidget, editableProps, enableJsonEditor, triggerRerender]);
+    }, [activeWidgetConfig, editableProps, enableJsonEditor, triggerRerender]);
 
     const handlePropsChange = useCallback((newProps: any) => {
         setEditableProps(newProps);
     }, []);
 
-    if (!selectedWidget) {
+    if (!selectedWidget || !activeWidgetConfig) {
         return (
             <div className="widget-display">
                 <div className="welcome-screen">
                     <div className="welcome-content">
                         <h2>Welcome to Widget Test Environment</h2>
-                        <p>Select a widget from the menu on the left to begin testing.</p>
+                        <p>Select a widget or variant from the menu on the left to begin testing.</p>
                     </div>
                 </div>
             </div>
@@ -74,13 +78,18 @@ export const EditableWidgetDisplay: React.FC<EditableWidgetDisplayProps> = ({
     }
 
     // Use editable props if JSON editor is enabled, otherwise use default props
-    const currentProps = enableJsonEditor && editableProps ? editableProps : selectedWidget.props;
+    const currentProps = enableJsonEditor && editableProps ? editableProps : activeWidgetConfig.props;
 
     return (
         <div className="widget-display">
             <div className="widget-header">
-                <h1>{selectedWidget.name}</h1>
-                <p>{selectedWidget.description}</p>
+                <h1>{widgetName}</h1>
+                <p>{widgetDescription}</p>
+                {selectedVariant && (
+                    <div className="variant-badge">
+                        <span className="badge-text">📋 Variant: {selectedVariant.name}</span>
+                    </div>
+                )}
                 {enableJsonEditor && (
                     <div className="editor-badge">
                         <span className="badge-text">✏️ Interactive Props Editor</span>
@@ -90,14 +99,15 @@ export const EditableWidgetDisplay: React.FC<EditableWidgetDisplayProps> = ({
 
             {enableJsonEditor && (
                 <JsonPropsEditor
-                    initialProps={selectedWidget.props}
+                    initialProps={activeWidgetConfig.props}
                     onPropsChange={handlePropsChange}
-                    widgetName={selectedWidget.name}
+                    widgetName={widgetName}
+                    createFreshProps={activeWidgetConfig.createProps}
                 />
             )}
 
             <div className="widget-wrapper">
-                <Suspense fallback={<WidgetLoader widgetName={selectedWidget.name} />}>
+                <Suspense fallback={<WidgetLoader widgetName={widgetName} />}>
                     <selectedWidget.component {...currentProps} />
                 </Suspense>
             </div>
