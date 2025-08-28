@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.3.0] - 2025-08-28
+
 ### Added
 
 - We implemented a new property to show a refresh indicator. With the refresh indicator, any datasource change shows a progress bar on top of Datagrid 2.
+
 - We added a selection count display that shows the number of selected rows in the grid footer. The count appears automatically when items are selected and supports customizable text formats for singular and plural forms via the new "Row count singular" and "Row count plural" properties.
 
 ## [3.2.0] - 2025-08-18
