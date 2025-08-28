@@ -190,11 +190,11 @@
                     <caption>Item description</caption>
                     <description>Assistive technology will read this upon reaching each gallery item.</description>
                 </property>
-                <property key="sCountFmtSingular" type="textTemplate" required="false">
+                <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
                     <caption>Item count singular</caption>
                     <description>Must include '%d' to denote number position ('%d item selected')</description>
                 </property>
-                <property key="sCountFmtPlural" type="textTemplate" required="false">
+                <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
                     <caption>Item count plural</caption>
                     <description>Must include '%d' to denote number position ('%d items selected')</description>
                 </property>

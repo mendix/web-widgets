@@ -4,8 +4,8 @@ import { computed, makeObservable } from "mobx";
 
 type Gate = DerivedPropsGate<{
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
-    sCountFmtSingular?: DynamicValue<string>;
-    sCountFmtPlural?: DynamicValue<string>;
+    selectedCountTemplateSingular?: DynamicValue<string>;
+    selectedCountTemplatePlural?: DynamicValue<string>;
 }>;
 
 export class SelectionCountStore {
@@ -27,11 +27,11 @@ export class SelectionCountStore {
     }
 
     get fmtSingular(): string {
-        return this.gate.props.sCountFmtSingular?.value || this.singular;
+        return this.gate.props.selectedCountTemplateSingular?.value || this.singular;
     }
 
     get fmtPlural(): string {
-        return this.gate.props.sCountFmtPlural?.value || this.plural;
+        return this.gate.props.selectedCountTemplatePlural?.value || this.plural;
     }
 
     get selectedCount(): number {
