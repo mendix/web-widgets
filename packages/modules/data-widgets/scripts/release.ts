@@ -1,6 +1,7 @@
 #!/usr/bin/env ts-node-script
 
 import {
+    addREADMEOSSToMpk,
     addWidgetsToMpk,
     cloneTestProject,
     copyModuleLicense,
@@ -11,8 +12,7 @@ import {
     removeDist,
     runModuleSteps,
     writeModuleVersion,
-    copyActionsFiles,
-    addREADMEOSSToMpk
+    copyActionsFiles
 } from "@mendix/automation-utils/steps";
 
 import { bundleXLSX } from "./steps/bundle-xlsx";

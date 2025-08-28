@@ -1,4 +1,5 @@
 import {
+    addREADMEOSSToMpk,
     cloneTestProject,
     copyActionsFiles,
     createModuleMpk,
@@ -29,6 +30,7 @@ async function main(): Promise<void> {
             copyThemesourceToProject,
             writeVersionAndLicenseToJSActions,
             createModuleMpk,
+            addREADMEOSSToMpk,
             moveModuleToDist
         ]
     });
