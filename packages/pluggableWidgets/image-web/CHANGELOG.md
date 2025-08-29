@@ -8,11 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- We added support for configuring minimum and maximum height when height unit is set to auto.
-
-- We added viewport unit (vh) support for height, min-height, and max-height values.
-
-- We added percentage support for height values.
+- We added enhanced dimension properties: configurable minimum and maximum height when height unit is set to auto, viewport unit (vh) support for height/min-height/max-height values, and percentage support for height values.
 
 ## [1.4.3] - 2023-10-05
 
