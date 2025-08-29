@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarcodeDetector API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #cce8ff; color: #004085; border: 1px solid #b3d4fc; }
+        #video { width: 100%; max-width: 400px; height: 300px; border: 2px solid #ccc; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>BarcodeDetector API Integration Test</h1>
+    
+    <div id="support-status" class="status"></div>
+    <div id="formats-status" class="status info" style="display: none;"></div>
+    
+    <h2>Camera Test</h2>
+    <video id="video" autoplay playsinline></video>
+    <div>
+        <button id="start-camera">Start Camera</button>
+        <button id="test-detection" disabled>Test Detection</button>
+        <button id="stop-camera" disabled>Stop Camera</button>
+    </div>
+    
+    <div id="detection-log" style="margin-top: 20px;">
+        <h3>Detection Log</h3>
+        <div id="log-content"></div>
+    </div>
+
+    <script>
+        // Check BarcodeDetector support
+        function checkBarcodeDetectorSupport() {
+            const supported = 'BarcodeDetector' in window;
+            const statusDiv = document.getElementById('support-status');
+            
+            if (supported) {
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = '✅ BarcodeDetector API is supported in this browser!';
+                testSupportedFormats();
+            } else {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '❌ BarcodeDetector API is not supported in this browser. Would fallback to @zxing/library.';
+            }
+            
+            return supported;
+        }
+
+        // Get supported formats
+        async function testSupportedFormats() {
+            try {
+                if ('BarcodeDetector' in window) {
+                    const detector = new BarcodeDetector();
+                    const formats = await detector.getSupportedFormats();
+                    
+                    const formatsDiv = document.getElementById('formats-status');
+                    formatsDiv.style.display = 'block';
+                    formatsDiv.innerHTML = `
+                        <strong>Supported Formats:</strong><br>
+                        ${formats.join(', ')}
+                    `;
+                }
+            } catch (error) {
+                console.error('Error getting supported formats:', error);
+            }
+        }
+
+        // Camera controls
+        let stream = null;
+        let video = document.getElementById('video');
+        let detectionTimer = null;
+
+        document.getElementById('start-camera').addEventListener('click', async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment' }
+                });
+                video.srcObject = stream;
+                
+                document.getElementById('start-camera').disabled = true;
+                document.getElementById('test-detection').disabled = false;
+                document.getElementById('stop-camera').disabled = false;
+                
+                log('📹 Camera started');
+            } catch (error) {
+                log(`❌ Camera error: ${error.message}`, 'error');
+            }
+        });
+
+        document.getElementById('test-detection').addEventListener('click', () => {
+            if ('BarcodeDetector' in window) {
+                startBarcodeDetection();
+            } else {
+                log('❌ Cannot test: BarcodeDetector not supported', 'error');
+            }
+        });
+
+        document.getElementById('stop-camera').addEventListener('click', () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+                video.srcObject = null;
+            }
+            
+            if (detectionTimer) {
+                clearInterval(detectionTimer);
+                detectionTimer = null;
+            }
+            
+            document.getElementById('start-camera').disabled = false;
+            document.getElementById('test-detection').disabled = true;
+            document.getElementById('stop-camera').disabled = true;
+            
+            log('🛑 Camera stopped');
+        });
+
+        // Barcode detection
+        async function startBarcodeDetection() {
+            if (!('BarcodeDetector' in window)) {
+                log('❌ BarcodeDetector not supported', 'error');
+                return;
+            }
+
+            try {
+                const detector = new BarcodeDetector({
+                    formats: ['qr_code', 'code_128', 'ean_13', 'ean_8']
+                });
+
+                log('🔍 Starting barcode detection...');
+                
+                // Clear any existing timer
+                if (detectionTimer) {
+                    clearInterval(detectionTimer);
+                }
+
+                detectionTimer = setInterval(async () => {
+                    try {
+                        const barcodes = await detector.detect(video);
+                        
+                        if (barcodes.length > 0) {
+                            barcodes.forEach(barcode => {
+                                log(`✅ Detected ${barcode.format}: ${barcode.rawValue}`, 'success');
+                            });
+                            
+                            // Stop detection after first successful detection
+                            clearInterval(detectionTimer);
+                            detectionTimer = null;
+                        }
+                    } catch (error) {
+                        log(`⚠️ Detection error: ${error.message}`, 'error');
+                    }
+                }, 100);
+
+            } catch (error) {
+                log(`❌ Detection setup error: ${error.message}`, 'error');
+            }
+        }
+
+        // Logging
+        function log(message, type = 'info') {
+            const logContent = document.getElementById('log-content');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';
+            
+            logContent.innerHTML += `
+                <div class="status ${className}" style="margin: 2px 0; padding: 5px;">
+                    <small>${timestamp}</small> ${message}
+                </div>
+            `;
+            
+            logContent.scrollTop = logContent.scrollHeight;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkBarcodeDetectorSupport();
+            log('🚀 BarcodeDetector test page loaded');
+        });
+    </script>
+</body>
+</html>
