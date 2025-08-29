@@ -12,6 +12,8 @@ export type ToolbarLocationEnum = "auto" | "top" | "bottom" | "hide";
 
 export type ReadOnlyStyleEnum = "text" | "bordered" | "readPanel";
 
+export type StatusBarContentEnum = "wordCount" | "characterCount" | "characterCountHtml" | "both";
+
 export type WidthUnitEnum = "pixels" | "percentage";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
@@ -52,6 +54,7 @@ export interface RichTextContainerProps {
     id: string;
     stringAttribute: EditableValue<string>;
     enableStatusBar: boolean;
+    statusBarContent: StatusBarContentEnum;
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
@@ -97,6 +100,7 @@ export interface RichTextPreviewProps {
     translate: (text: string) => string;
     stringAttribute: string;
     enableStatusBar: boolean;
+    statusBarContent: StatusBarContentEnum;
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
