@@ -150,7 +150,9 @@ $cb-skeleton-dark: #d2d2d2;
                 background-color: transparent;
             }
         }
+    }
 
+    .widget-combobox-multiselect {
         &:not(.widget-combobox-input-container-active) {
             .widget-combobox-input {
                 width: 1px;
