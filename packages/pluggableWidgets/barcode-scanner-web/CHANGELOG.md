@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added support for the native BarcodeDetector API with automatic fallback to @zxing/library for improved performance and browser compatibility
+
+### Changed
+
+- We enhanced barcode detection logic to use modern browser APIs when available
+
 ## [2.4.2] - 2024-08-30
 
 ### Fixed
