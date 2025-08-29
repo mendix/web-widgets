@@ -1,7 +1,7 @@
 {
     "name": "@mendix/image-web",
     "widgetName": "Image",
-    "version": "1.4.3",
+    "version": "1.5.0",
     "description": "Display an image and enlarge it on click",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
