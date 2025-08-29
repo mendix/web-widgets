@@ -12,7 +12,7 @@ import { Big } from "big.js";
 // END EXTRA CODE
 
 /**
- * @param {string} targetName - Name of the widget for which selection should be cleared.
+ * @param {string} targetName - The name of the widget for which selection should be cleared.
  * @returns {Promise.<void>}
  */
 export async function Clear_Selection(targetName) {
