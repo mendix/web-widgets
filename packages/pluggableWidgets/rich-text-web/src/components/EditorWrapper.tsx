@@ -147,8 +147,9 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         if (stringAttribute.value !== quillRef?.current?.getSemanticHTML()) {
             setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
         }
+        calculateCounts(quillRef.current);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [quillRef.current, stringAttribute]);
+    }, [quillRef.current, stringAttribute, calculateCounts]);
 
     const onSelectionChange = useCallback(
         (range: Range) => {
