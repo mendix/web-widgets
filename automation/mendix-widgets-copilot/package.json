@@ -1,0 +1,37 @@
+{
+    "name": "@mendix/mendix-widgets-copilot",
+    "version": "0.1.0",
+    "description": "Mendix Widgets Copilot MCP server for the web-widgets monorepo",
+    "license": "Apache-2.0",
+    "private": true,
+    "type": "module",
+    "main": "build/index.js",
+    "files": [
+        "build"
+    ],
+    "scripts": {
+        "build": "rollup -c && npm run clean",
+        "build:tsc": "tsc",
+        "clean": "rm -f build/*.d.ts build/*.d.ts.map build/diff-engine.js* build/guardrails.js* build/helpers.js* build/property-engine.js* build/types.js*",
+        "dev": "tsx watch src/index.ts",
+        "start": "node build/index.js"
+    },
+    "dependencies": {
+        "@mendix/automation-utils": "workspace:^",
+        "@modelcontextprotocol/sdk": "^1.17.4",
+        "fast-xml-parser": "^4.5.3",
+        "zod": "^3.25.67"
+    },
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^28.0.1",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-node-resolve": "^15.3.0",
+        "@rollup/plugin-typescript": "^12.1.1",
+        "rollup": "^4.26.0",
+        "tsx": "^4.19.2",
+        "typescript": "^5.6.3"
+    },
+    "engines": {
+        "node": ">=22"
+    }
+}
