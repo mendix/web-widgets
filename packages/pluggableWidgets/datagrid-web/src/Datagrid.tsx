@@ -1,4 +1,3 @@
-import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
@@ -19,6 +18,7 @@ import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { IColumnGroupStore } from "./helpers/state/ColumnGroupStore";
 import { RootGridStore } from "./helpers/state/RootGridStore";
 import { useRootStore } from "./helpers/state/useRootStore";
+import { useDataGridJSActions } from "./helpers/useDataGridJSActions";
 
 interface Props extends DatagridContainerProps {
     columnsStore: IColumnGroupStore;
@@ -48,7 +48,7 @@ const Container = observer((props: Props): ReactElement => {
         onClick: props.onClick
     });
 
-    useOnResetFiltersEvent(rootStore.staticInfo.name, rootStore.staticInfo.filtersChannelName);
+    useDataGridJSActions(rootStore, selectActionHelper);
 
     const visibleColumnsCount = selectActionHelper.showCheckboxColumn
         ? columnsStore.visibleColumns.length + 1
