@@ -1,3 +1,4 @@
 packages:
   - "packages/*/*"
   - "automation/*"
+  - "automation/mendix-widgets-copilot"
