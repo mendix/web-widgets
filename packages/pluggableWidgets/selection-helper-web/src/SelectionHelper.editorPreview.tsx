@@ -1,4 +1,4 @@
-import { ReactElement, createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { SelectionHelperPreviewProps } from "../typings/SelectionHelperProps";
 import { SelectionHelperComponent } from "./components/SelectionHelperComponent";
 

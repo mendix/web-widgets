@@ -1,7 +1,7 @@
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import Big from "big.js";
 import { ListValue, ObjectItem, ValueStatus } from "mendix";
-import { Emitter, Unsubscribe, createNanoEvents } from "nanoevents";
+import { createNanoEvents, Emitter, Unsubscribe } from "nanoevents";
 import { ColumnsType, ShowContentAsEnum } from "../../../typings/DatagridProps";
 
 type RowData = Array<string | number | boolean>;

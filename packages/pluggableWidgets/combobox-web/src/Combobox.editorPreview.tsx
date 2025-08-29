@@ -1,9 +1,9 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { ReactElement, createElement, useMemo } from "react";
+import { createElement, ReactElement, useMemo } from "react";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
-import { SingleSelector, SelectionBaseProps } from "./helpers/types";
+import { SelectionBaseProps, SingleSelector } from "./helpers/types";
 import "./ui/Combobox.scss";
 import { AssociationPreviewSelector } from "./helpers/Association/Preview/AssociationPreviewSelector";
 import { StaticPreviewSelector } from "./helpers/Static/Preview/StaticPreviewSelector";

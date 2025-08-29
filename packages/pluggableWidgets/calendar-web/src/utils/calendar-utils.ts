@@ -4,16 +4,16 @@ import { CalendarEvent } from "./typings";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import {
-    format,
-    parse,
-    startOfWeek,
-    getDay,
     addDays,
-    startOfMonth,
+    addWeeks,
+    differenceInCalendarDays,
     endOfMonth,
     endOfWeek,
-    addWeeks,
-    differenceInCalendarDays
+    format,
+    getDay,
+    parse,
+    startOfMonth,
+    startOfWeek
 } from "date-fns";
 
 // Utility to lighten hex colors. Accepts #RGB or #RRGGBB.

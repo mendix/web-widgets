@@ -1,6 +1,6 @@
 import {
-    StructurePreviewProps,
-    structurePreviewPalette
+    structurePreviewPalette,
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { Properties } from "@mendix/pluggable-widgets-tools";
 import { LanguageSelectorPreviewProps } from "typings/LanguageSelectorProps";

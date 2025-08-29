@@ -1,7 +1,7 @@
 import { PositionController } from "./PositionController";
 import { VirtualGridLayout } from "./VirtualGridLayout";
 import { TargetEvent } from "./base";
-import { PositionString, posString, posFromString } from "./position";
+import { posFromString, PositionString, posString } from "./position";
 
 export type FocusTargetUpdateEvent = { lastPos: PositionString; targetPos: PositionString; shouldFocus: boolean };
 

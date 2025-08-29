@@ -1,10 +1,10 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import {
+    onSelectAdjacentHotKey,
+    onSelectAllHotKey,
     SelectAdjacentFx,
     SelectAllFx,
-    SelectFx,
-    onSelectAdjacentHotKey,
-    onSelectAllHotKey
+    SelectFx
 } from "@mendix/widget-plugin-grid/selection";
 import { CheckboxContext } from "./base";
 import { blockUserSelect, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";

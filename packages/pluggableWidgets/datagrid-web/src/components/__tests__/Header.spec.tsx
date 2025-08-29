@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createElement } from "react";
-import { GridColumn, ColumnId } from "../../typings/GridColumn";
+import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnResizer } from "../ColumnResizer";
 import { Header, HeaderProps } from "../Header";
 

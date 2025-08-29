@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ReactElement, ReactNode, createElement } from "react";
+import { createElement, ReactElement, ReactNode } from "react";
 
 export type WidgetContentProps = {
     className?: string;

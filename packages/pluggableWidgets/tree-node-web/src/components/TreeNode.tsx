@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { WebIcon, ObjectItem } from "mendix";
+import { ObjectItem, WebIcon } from "mendix";
 import { createElement, CSSProperties, ReactElement, ReactNode, useCallback, useContext } from "react";
 
 import { OpenNodeOnEnum, TreeNodeContainerProps } from "../../typings/TreeNodeProps";

@@ -1,4 +1,4 @@
-import { SyntheticEvent, KeyboardEventHandler, useCallback } from "react";
+import { KeyboardEventHandler, SyntheticEvent, useCallback } from "react";
 
 // https://www.w3.org/TR/uievents-key/#key-attr-values
 type KeyAttributeValue = "Enter" | " " | "Home" | "End" | "ArrowUp" | "ArrowDown" | "ArrowRight" | "ArrowLeft";

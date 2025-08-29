@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { render, cleanup, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 
 import { RangeSlider, RangeSliderProps } from "../RangeSlider";
 

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 /**
  * Utility hook for wrapping arbitrary function to produce stable version of it.

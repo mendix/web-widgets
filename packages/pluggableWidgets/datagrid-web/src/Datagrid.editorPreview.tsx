@@ -10,7 +10,7 @@ import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
-import { ReactElement, ReactNode, createElement, useCallback, useMemo } from "react";
+import { createElement, ReactElement, ReactNode, useCallback, useMemo } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";

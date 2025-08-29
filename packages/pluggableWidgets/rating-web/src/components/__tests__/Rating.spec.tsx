@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { Rating, RatingProps } from "../Rating";
 import "@testing-library/jest-dom";
 

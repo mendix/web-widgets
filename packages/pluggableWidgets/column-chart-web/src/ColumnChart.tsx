@@ -1,7 +1,7 @@
 import { ChartWidget, ChartWidgetProps, containerPropsEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
-import { ReactElement, createElement, memo, useCallback, useMemo } from "react";
+import { createElement, memo, ReactElement, useCallback, useMemo } from "react";
 import { ColumnChartContainerProps } from "../typings/ColumnChartProps";
 
 const columnChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {

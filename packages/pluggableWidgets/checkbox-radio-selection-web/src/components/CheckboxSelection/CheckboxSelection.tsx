@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { ReactElement, createElement, MouseEvent } from "react";
-import { SelectionBaseProps, MultiSelector } from "../../helpers/types";
+import { createElement, MouseEvent, ReactElement } from "react";
+import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { CaptionContent } from "../CaptionContent";
 import { Placeholder } from "../Placeholder";
 

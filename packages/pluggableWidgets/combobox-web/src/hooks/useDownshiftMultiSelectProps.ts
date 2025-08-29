@@ -1,12 +1,12 @@
 import {
+    useCombobox,
     UseComboboxProps,
     UseComboboxReturnValue,
     UseComboboxState,
     UseComboboxStateChange,
     UseComboboxStateChangeOptions,
-    UseMultipleSelectionReturnValue,
-    useCombobox,
-    useMultipleSelection
+    useMultipleSelection,
+    UseMultipleSelectionReturnValue
 } from "downshift";
 import { useCallback, useMemo } from "react";
 import { A11yStatusMessage, MultiSelector } from "../helpers/types";

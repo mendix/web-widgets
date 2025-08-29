@@ -1,12 +1,12 @@
 import {
-    StructurePreviewProps,
-    TextProps,
-    DropZoneProps,
     ContainerProps,
+    DropZoneProps,
+    ImageProps,
     RowLayoutProps,
-    ImageProps
+    StructurePreviewProps,
+    TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { Properties, transformGroupsIntoTabs, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import { CarouselPreviewProps } from "../typings/CarouselProps";
 import DotBlue from "./ui/dot_blue.svg";

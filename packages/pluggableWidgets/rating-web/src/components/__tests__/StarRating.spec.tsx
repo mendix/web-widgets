@@ -2,7 +2,7 @@ import { createElement } from "react";
 import { actionValue, EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { StarRatingContainerProps } from "../../../typings/StarRatingProps";
 import { Big } from "big.js";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { StarRating } from "../../StarRating";
 import "@testing-library/jest-dom";
 

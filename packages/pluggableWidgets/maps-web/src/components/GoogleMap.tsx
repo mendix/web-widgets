@@ -3,8 +3,8 @@ import classNames from "classnames";
 import {
     AdvancedMarker,
     APIProvider,
-    InfoWindow,
     Map as GoogleMapComponent,
+    InfoWindow,
     MapProps,
     Pin,
     useAdvancedMarkerRef,

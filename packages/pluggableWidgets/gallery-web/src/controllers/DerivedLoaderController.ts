@@ -1,5 +1,5 @@
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
-import { makeObservable, computed } from "mobx";
+import { computed, makeObservable } from "mobx";
 
 export class DerivedLoaderController {
     constructor(

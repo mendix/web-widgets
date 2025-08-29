@@ -22,7 +22,7 @@ import { TreeNodeFocusChangeHandler, useTreeNodeBranchKeyboardHandler } from "./
 
 import { TreeNodeHeaderIcon } from "./HeaderIcon";
 import { TreeNodeItem, TreeNodeState } from "./TreeNode";
-import { TreeNodeBranchContextProps, TreeNodeBranchContext } from "./TreeNodeBranchContext";
+import { TreeNodeBranchContext, TreeNodeBranchContextProps } from "./TreeNodeBranchContext";
 
 export interface TreeNodeBranchProps {
     animateTreeNodeContent: boolean;

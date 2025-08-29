@@ -1,18 +1,18 @@
 import {
-    Problem,
-    Properties,
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
+    Problem,
+    Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
 import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 import {
     ContainerProps,
+    datasource,
     ImageProps,
-    StructurePreviewProps,
     rowLayout,
-    datasource
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { AreaChartPreviewProps } from "../typings/AreaChartProps";

@@ -1,4 +1,4 @@
-import { createElement, PropsWithChildren, ReactElement, MouseEvent } from "react";
+import { createElement, MouseEvent, PropsWithChildren, ReactElement } from "react";
 
 export interface CaptionContentProps extends PropsWithChildren {
     htmlFor?: string;

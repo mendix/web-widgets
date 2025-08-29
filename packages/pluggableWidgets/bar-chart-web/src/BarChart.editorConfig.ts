@@ -1,10 +1,10 @@
 import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 import { BarChartPreviewProps, BarmodeEnum } from "../typings/BarChartProps";
 import {
-    StructurePreviewProps,
     ContainerProps,
+    datasource,
     ImageProps,
-    datasource
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     hideNestedPropertiesIn,

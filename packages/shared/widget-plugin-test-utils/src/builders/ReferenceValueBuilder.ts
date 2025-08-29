@@ -1,4 +1,4 @@
-import type { ObjectItem, ReferenceValue, Option } from "mendix";
+import type { ObjectItem, Option, ReferenceValue } from "mendix";
 import { Status } from "../constants.js";
 import { Writable } from "./type-utils.js";
 

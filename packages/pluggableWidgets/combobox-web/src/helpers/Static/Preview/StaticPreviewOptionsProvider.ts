@@ -1,5 +1,5 @@
 import { OptionsProvider, Status } from "../../types";
-import { OptionsSourceStaticDataSourcePreviewType, FilterTypeEnum } from "../../../../typings/ComboboxProps";
+import { FilterTypeEnum, OptionsSourceStaticDataSourcePreviewType } from "../../../../typings/ComboboxProps";
 
 export class StaticPreviewOptionsProvider implements OptionsProvider<string, OptionsSourceStaticDataSourcePreviewType> {
     status: Status = "available";

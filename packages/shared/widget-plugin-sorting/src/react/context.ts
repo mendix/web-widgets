@@ -2,7 +2,7 @@ import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Context, createContext, useContext, useEffect } from "react";
 import { SortStoreHost } from "../stores/SortStoreHost";
-import { Result, error, value } from "./result-meta";
+import { error, Result, value } from "./result-meta";
 
 export interface SortAPI {
     version: 1;
