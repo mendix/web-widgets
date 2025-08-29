@@ -49,6 +49,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         readOnlyStyle,
         toolbarOptions,
         enableStatusBar,
+        statusBarContent,
         tabIndex,
         imageSource,
         imageSourceContent,
@@ -64,6 +65,8 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     const editorValueRef = useRef<string>("");
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
+    const [characterCount, setCharacterCount] = useState(0);
+    const [characterCountHtml, setCharacterCountHtml] = useState(0);
 
     const { isFullscreen } = globalState;
 
@@ -90,12 +93,41 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         [enableStatusBar]
     );
 
+    const calculateCharacterCount = useCallback(
+        (quill: Quill | null): void => {
+            if (enableStatusBar && (statusBarContent === "characterCount" || statusBarContent === "both")) {
+                const text = quill?.getText() || "";
+                setCharacterCount(text.length);
+            }
+        },
+        [enableStatusBar, statusBarContent]
+    );
+
+    const calculateCharacterCountHtml = useCallback(
+        (quill: Quill | null): void => {
+            if (enableStatusBar && (statusBarContent === "characterCountHtml" || statusBarContent === "both")) {
+                const html = quill?.getSemanticHTML() || "";
+                setCharacterCountHtml(html.length);
+            }
+        },
+        [enableStatusBar, statusBarContent]
+    );
+
+    const calculateCounts = useCallback(
+        (quill: Quill | null): void => {
+            calculateWordCount(quill);
+            calculateCharacterCount(quill);
+            calculateCharacterCountHtml(quill);
+        },
+        [calculateWordCount, calculateCharacterCount, calculateCharacterCountHtml]
+    );
+
     useEffect(() => {
         if (quillRef.current) {
-            calculateWordCount(quillRef.current);
+            calculateCounts(quillRef.current);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [stringAttribute.value, calculateWordCount, quillRef.current]);
+    }, [stringAttribute.value, calculateCounts, quillRef.current]);
 
     useEffect(() => {
         if (quillRef.current) {
@@ -221,7 +253,20 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
             </div>
             {enableStatusBar && (
                 <div className="widget-rich-text-footer" tabIndex={-1}>
-                    {wordCount} word{wordCount === 1 ? "" : "s"}
+                    {statusBarContent === "wordCount" && (
+                        <span>{wordCount} word{wordCount === 1 ? "" : "s"}</span>
+                    )}
+                    {statusBarContent === "characterCount" && (
+                        <span>{characterCount} character{characterCount === 1 ? "" : "s"}</span>
+                    )}
+                    {statusBarContent === "characterCountHtml" && (
+                        <span>{characterCountHtml} character{characterCountHtml === 1 ? "" : "s"} (with HTML)</span>
+                    )}
+                    {statusBarContent === "both" && (
+                        <span>
+                            {wordCount} word{wordCount === 1 ? "" : "s"} • {characterCount} character{characterCount === 1 ? "" : "s"}
+                        </span>
+                    )}
                 </div>
             )}
         </div>
