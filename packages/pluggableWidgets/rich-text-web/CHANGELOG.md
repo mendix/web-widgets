@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added character count options to the status bar to help users understand content length requirements and avoid validation failures when rich text HTML markup exceeds database attribute limits.
+
 ## [4.9.0] - 2025-09-03
 
 ### Added
