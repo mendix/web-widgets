@@ -5,12 +5,18 @@ exports[`Switch with editable value renders the structure correctly 1`] = `
   <div
     class="widget-switch"
   >
+    <input
+      aria-hidden="true"
+      id="com.mendix.widgets.custom.switch1"
+      style="opacity: 0; position: absolute; width: 1px; height: 1px;"
+      tabindex="-1"
+      type="checkbox"
+    />
     <div
       aria-checked="false"
       aria-labelledby="com.mendix.widgets.custom.switch1-label"
       aria-readonly="false"
       class="widget-switch-btn-wrapper widget-switch-btn-wrapper-default un-checked"
-      id="com.mendix.widgets.custom.switch1"
       role="switch"
       tabindex="0"
     >
@@ -27,12 +33,19 @@ exports[`Switch with readonly value renders the structure correctly 1`] = `
   <div
     class="widget-switch"
   >
+    <input
+      aria-hidden="true"
+      disabled=""
+      id="com.mendix.widgets.custom.switch1"
+      style="opacity: 0; position: absolute; width: 1px; height: 1px;"
+      tabindex="-1"
+      type="checkbox"
+    />
     <div
       aria-checked="false"
       aria-labelledby="com.mendix.widgets.custom.switch1-label"
       aria-readonly="true"
       class="widget-switch-btn-wrapper widget-switch-btn-wrapper-default disabled un-checked"
-      id="com.mendix.widgets.custom.switch1"
       role="switch"
       tabindex="0"
     >
