@@ -1,7 +1,7 @@
 import { withAttributeGuard } from "@mendix/widget-plugin-filtering/helpers/withAttributeGuard";
 import { withFilterAPI } from "@mendix/widget-plugin-filtering/helpers/withFilterAPI";
 import { withPreloader } from "@mendix/widget-plugin-platform/hoc/withPreloader";
-import { ReactElement, createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { DatagridNumberFilterContainerProps } from "../typings/DatagridNumberFilterProps";
 import { NumberFilterContainer } from "./components/NumberFilterContainer";
 import { withLinkedNumberStore } from "./hocs/withLinkedNumberStore";

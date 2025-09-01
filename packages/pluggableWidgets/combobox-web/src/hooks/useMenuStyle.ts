@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 

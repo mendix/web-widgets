@@ -8,6 +8,7 @@ type ClassKeys =
     | "menu"
     | "menuSlot"
     | "menuItem"
+    | "menuItemText"
     | "menuCheckbox"
     | "checkboxSlot"
     | "popover"
@@ -19,7 +20,9 @@ type ClassKeys =
     | "separator"
     | "checkbox";
 
-export function classes(rootName = "widget-dropdown-filter"): Record<ClassKeys, string> {
+export type PickerCssClasses = Record<ClassKeys, string>;
+
+export function classes(rootName = "widget-dropdown-filter"): PickerCssClasses {
     return {
         root: rootName,
         input: `${rootName}-input`,
@@ -28,6 +31,7 @@ export function classes(rootName = "widget-dropdown-filter"): Record<ClassKeys, 
         menu: `${rootName}-menu`,
         menuSlot: `${rootName}-menu-slot`,
         menuItem: `${rootName}-menu-item`,
+        menuItemText: `${rootName}-menu-item-text`,
         menuCheckbox: `${rootName}-menu-checkbox`,
         checkboxSlot: `${rootName}-checkbox-slot`,
         popover: `${rootName}-popover`,

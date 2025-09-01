@@ -2,9 +2,9 @@ import {
     ContainerProps,
     DropZoneProps,
     RowLayoutProps,
+    structurePreviewPalette,
     StructurePreviewProps,
-    TextProps,
-    structurePreviewPalette
+    TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     hidePropertiesIn,

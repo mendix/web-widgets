@@ -67,11 +67,60 @@ exports[`Carousel renders correctly 1`] = `
         <span
           aria-controls="carousel-slide-Carousel-2"
           aria-label="Go to slide 1"
-          class="swiper-pagination-bullet"
+          class="swiper-pagination-bullet "
           role="button"
           tabindex="0"
         />
       </div>
+      <span
+        aria-atomic="true"
+        aria-live="assertive"
+        class="swiper-notification"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Carousel renders correctly with minimal setup 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-carousel"
+  >
+    <div
+      class="swiper swiper-fade swiper-initialized swiper-horizontal swiper-watch-progress"
+    >
+      <ul
+        aria-live="off"
+        class="swiper-wrapper"
+        id="swiper-wrapper-2222222222222222"
+        style="transition-duration: 0ms;"
+      >
+        <li
+          aria-hidden="false"
+          aria-label="1 / 2"
+          class="swiper-slide"
+          data-swiper-slide-index="0"
+          id="carousel-slide-Carousel-1"
+          role="listitem"
+        >
+          <div>
+            test1
+          </div>
+        </li>
+        <li
+          aria-hidden="true"
+          aria-label="2 / 2"
+          class="swiper-slide"
+          data-swiper-slide-index="1"
+          id="carousel-slide-Carousel-2"
+          role="listitem"
+        >
+          <div>
+            test2
+          </div>
+        </li>
+      </ul>
       <span
         aria-atomic="true"
         aria-live="assertive"
@@ -135,7 +184,7 @@ exports[`Carousel renders correctly without navigation 1`] = `
         <span
           aria-controls="carousel-slide-Carousel-2"
           aria-label="Go to slide 1"
-          class="swiper-pagination-bullet"
+          class="swiper-pagination-bullet "
           role="button"
           tabindex="0"
         />

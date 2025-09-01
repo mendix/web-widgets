@@ -30,9 +30,33 @@ export class GitHub {
     authSet = false;
     tmpPrefix = "gh-";
 
-    private async ensureAuth(): Promise<void> {
+    async ensureAuth(): Promise<void> {
         if (!this.authSet) {
-            await exec(`echo "${process.env.GH_PAT}" | gh auth login --with-token`);
+            if (process.env.GITHUB_TOKEN) {
+                // when using GITHUB_TOKEN, gh will automatically use it
+            } else if (process.env.GH_PAT) {
+                await exec(`echo "${process.env.GH_PAT}" | gh auth login --with-token`);
+            } else {
+                // No environment variables set, check if already authenticated
+                if (!(await this.isAuthenticated())) {
+                    throw new Error(
+                        "GitHub CLI is not authenticated. Please set GITHUB_TOKEN or GH_PAT environment variable, or run 'gh auth login'."
+                    );
+                }
+            }
+
+            this.authSet = true;
+        }
+    }
+
+    private async isAuthenticated(): Promise<boolean> {
+        try {
+            // Try to run 'gh auth status' to check if authenticated
+            await exec("gh auth status", { stdio: "pipe" });
+            return true;
+        } catch (error) {
+            // If the command fails, the user is not authenticated
+            return false;
         }
     }
 

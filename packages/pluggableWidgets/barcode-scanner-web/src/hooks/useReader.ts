@@ -1,4 +1,4 @@
-import { useEffect, useRef, RefObject } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import { BrowserMultiFormatReader, NotFoundException, Result } from "@zxing/library";
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { BarcodeFormatsType } from "../../typings/BarcodeScannerProps";

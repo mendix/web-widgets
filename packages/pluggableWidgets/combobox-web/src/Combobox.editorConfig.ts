@@ -1,10 +1,10 @@
-import { Properties, hidePropertiesIn, hideNestedPropertiesIn } from "@mendix/pluggable-widgets-tools";
+import { hideNestedPropertiesIn, hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
+    container,
     ContainerProps,
-    StructurePreviewProps,
-    structurePreviewPalette,
     dropzone,
-    container
+    structurePreviewPalette,
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { getDatasourcePlaceholderText } from "./helpers/utils";

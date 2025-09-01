@@ -1,8 +1,8 @@
-import { ReactElement, createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { EventsIcon } from "./assets/icons";
 import "./ui/EventsPreview.css";
 import { EventsPreviewProps } from "typings/EventsProps";
-import { getEventsCount, getCaption } from "./Events.editorConfig";
+import { getCaption, getEventsCount } from "./Events.editorConfig";
 import classNames from "classnames";
 
 export function preview(props: EventsPreviewProps): ReactElement {

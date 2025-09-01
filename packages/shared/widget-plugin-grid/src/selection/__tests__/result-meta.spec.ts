@@ -1,4 +1,4 @@
-import { value, error } from "../result-meta.js";
+import { error, value } from "../result-meta.js";
 
 describe("result-meta", () => {
     describe("value", () => {

@@ -1,4 +1,4 @@
-import { ComponentType, ReactNode, createElement } from "react";
+import { ComponentType, createElement, ReactNode } from "react";
 
 export interface ChartPreviewProps {
     class: string;

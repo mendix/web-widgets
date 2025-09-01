@@ -4,7 +4,7 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import { makeAutoObservable } from "mobx";
 import { Config, Data, Layout } from "plotly.js-dist-min";
 import { ChartProps } from "../components/PlotlyChart";
-import { parseConfig, parseData, parseLayout, mergeChartProps } from "../utils/utils";
+import { mergeChartProps, parseConfig, parseData, parseLayout } from "../utils/utils";
 import { ControllerProps } from "./typings";
 
 interface SizeProvider {

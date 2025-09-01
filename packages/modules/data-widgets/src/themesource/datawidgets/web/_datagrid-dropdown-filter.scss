@@ -106,6 +106,12 @@ $root: ".widget-dropdown-filter";
         }
     }
 
+    &-menu-item-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     &-checkbox-slot {
         display: flex;
         margin-inline-end: var(--wdf-outer-spacing);

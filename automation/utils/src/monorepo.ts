@@ -1,6 +1,6 @@
 import { prompt } from "enquirer";
 import { oraPromise } from "./cli-utils";
-import { exec, find, mkdir, cp } from "./shell";
+import { cp, exec, find, mkdir } from "./shell";
 
 type DependencyName = string;
 

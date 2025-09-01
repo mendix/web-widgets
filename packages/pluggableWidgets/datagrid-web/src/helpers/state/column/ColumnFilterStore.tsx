@@ -3,13 +3,13 @@ import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/En
 import { FilterAPI, getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import { APIError } from "@mendix/widget-plugin-filtering/errors";
 import { error, value } from "@mendix/widget-plugin-filtering/result-meta";
-import { InputFilterStore, attrgroupFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
+import { attrgroupFilterStore, InputFilterStore } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ListAttributeListValue, ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { computed, makeObservable } from "mobx";
-import { ReactNode, createElement } from "react";
+import { createElement, ReactNode } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
 
@@ -26,12 +26,12 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _error: APIError | null;
     private _filterStore: FilterStore | null = null;
     private _context: FilterAPI;
-    private _observerBag: ObserverBag;
+    private _filterHost: ObservableFilterHost;
 
-    constructor(props: ColumnsType, info: StaticInfo, dsViewState: FilterCondition | null, observerBag: ObserverBag) {
-        this._observerBag = observerBag;
+    constructor(props: ColumnsType, info: StaticInfo, filterHost: ObservableFilterHost) {
+        this._filterHost = filterHost;
         this._widget = props.filter;
-        const storeResult = this.createFilterStore(props, dsViewState);
+        const storeResult = this.createFilterStore(props, null);
         if (storeResult === null) {
             this._error = this._filterStore = null;
         } else if (storeResult.hasError) {
@@ -77,13 +77,16 @@ export class ColumnFilterStore implements IColumnFilterStore {
                       type: "direct",
                       store
                   }),
-            filterObserver: this._observerBag.customFilterHost,
-            sharedInitFilter: this._observerBag.sharedInitFilter
+            filterObserver: this._filterHost
         };
     }
 
     renderFilterWidgets(): ReactNode {
         return <Provider value={this._context}>{this._widget}</Provider>;
+    }
+
+    fromViewState(cond: FilterCondition): void {
+        this._filterStore?.fromViewState(cond);
     }
 
     get condition(): FilterCondition | undefined {
@@ -108,8 +111,3 @@ const isListAttributeValue = (
 ): attribute is ListAttributeValue => {
     return !!(attribute && attribute.isList === false);
 };
-
-export interface ObserverBag {
-    customFilterHost: ObservableFilterHost;
-    sharedInitFilter: Array<FilterCondition | undefined>;
-}

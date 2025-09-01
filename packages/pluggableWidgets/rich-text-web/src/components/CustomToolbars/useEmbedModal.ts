@@ -2,10 +2,10 @@ import Quill, { Range } from "quill";
 import { Dispatch, MutableRefObject, SetStateAction, useState } from "react";
 import {
     imageConfigType,
-    viewCodeConfigType,
     type linkConfigType,
     type videoConfigType,
-    type videoEmbedConfigType
+    type videoEmbedConfigType,
+    viewCodeConfigType
 } from "../../utils/formats";
 import { type ChildDialogProps } from "../ModalDialog/Dialog";
 import { type VideoFormType } from "../ModalDialog/VideoDialog";

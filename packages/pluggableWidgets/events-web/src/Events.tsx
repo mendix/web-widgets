@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import { EditableValue } from "mendix";
-import { ReactElement, createElement, useRef } from "react";
+import { createElement, ReactElement, useRef } from "react";
 import { EventsContainerProps } from "../typings/EventsProps";
 import { useActionTimer } from "./hooks/timer";
 import { useParameterValue } from "./hooks/parameterValue";

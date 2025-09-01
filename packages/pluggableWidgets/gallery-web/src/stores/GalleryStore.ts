@@ -1,15 +1,18 @@
 import { createContextWithStub, FilterAPI } from "@mendix/widget-plugin-filtering/context";
+import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
 import { PaginationController } from "@mendix/widget-plugin-grid/query/PaginationController";
 import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
-import { EditableValue, ListValue } from "mendix";
+import { DynamicValue, EditableValue, ListValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { PaginationEnum, StateStorageTypeEnum } from "../../typings/GalleryProps";
+import { DerivedLoaderController } from "../controllers/DerivedLoaderController";
 import { QueryParamsController } from "../controllers/QueryParamsController";
 import { ObservableStorage } from "../typings/storage";
 import { AttributeStorage } from "./AttributeStorage";
@@ -19,6 +22,9 @@ import { GalleryPersistentStateController } from "./GalleryPersistentStateContro
 interface DynamicProps {
     datasource: ListValue;
     stateStorageAttr?: EditableValue<string>;
+    itemSelection?: SelectionSingleValue | SelectionMultiValue;
+    sCountFmtSingular?: DynamicValue<string>;
+    sCountFmtPlural?: DynamicValue<string>;
 }
 
 interface StaticProps {
@@ -30,6 +36,7 @@ interface StaticProps {
     stateStorageType: StateStorageTypeEnum;
     storeFilters: boolean;
     storeSort: boolean;
+    refreshIndicator: boolean;
 }
 
 export type GalleryPropsGate = DerivedPropsGate<DynamicProps>;
@@ -49,6 +56,8 @@ export class GalleryStore extends BaseControllerHost {
     readonly paging: PaginationController;
     readonly filterAPI: FilterAPI;
     readonly sortAPI: SortAPI;
+    loaderCtrl: DerivedLoaderController;
+    selectionCountStore: SelectionCountStore;
 
     constructor(spec: GalleryStoreSpec) {
         super();
@@ -65,24 +74,32 @@ export class GalleryStore extends BaseControllerHost {
             showTotalCount: spec.showTotalCount
         });
 
+        this.selectionCountStore = new SelectionCountStore(spec.gate, {
+            singular: "%d item selected",
+            plural: "%d items selected"
+        });
+
         this._filtersHost = new CustomFilterHost();
+
+        const combinedFilter = new CombinedFilter(this, { stableKey: spec.name, inputs: [this._filtersHost] });
 
         this._sortHost = new SortStoreHost({
             initSort: spec.gate.props.datasource.sortOrder
         });
 
-        const paramCtrl = new QueryParamsController(this, this._query, this._filtersHost, this._sortHost);
+        new QueryParamsController(this, this._query, combinedFilter, this._sortHost);
 
         this.filterAPI = createContextWithStub({
             filterObserver: this._filtersHost,
-            parentChannelName: this.id,
-            sharedInitFilter: paramCtrl.unzipFilter(spec.gate.props.datasource.filter)
+            parentChannelName: this.id
         });
 
         this.sortAPI = {
             version: 1,
             host: this._sortHost
         };
+
+        this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator);
 
         new RefreshController(this, {
             delay: 0,
@@ -93,6 +110,8 @@ export class GalleryStore extends BaseControllerHost {
         if (useStorage) {
             this.initPersistentStorage(spec, spec.gate);
         }
+
+        combinedFilter.hydrate(spec.gate.props.datasource.filter);
     }
 
     initPersistentStorage(props: StaticProps, gate: GalleryPropsGate): void {

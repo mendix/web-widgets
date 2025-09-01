@@ -1,9 +1,9 @@
 import {
     ContainerProps,
     ImageProps,
+    structurePreviewPalette,
     StructurePreviewProps,
-    text,
-    structurePreviewPalette
+    text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { DropdownSortPreviewProps } from "../typings/DropdownSortProps";
 

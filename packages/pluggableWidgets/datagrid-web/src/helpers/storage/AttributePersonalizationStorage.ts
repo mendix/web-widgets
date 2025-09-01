@@ -1,12 +1,18 @@
 import { EditableValue, ValueStatus } from "mendix";
-import { PersonalizationStorage } from "./PersonalizationStorage";
 import { action, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { PersonalizationStorage } from "./PersonalizationStorage";
 
+type RequiredProps = Pick<DatagridContainerProps, "configurationAttribute">;
+
+/**
+ * AttributePersonalizationStorage is a class that implements PersonalizationStorage
+ * and uses an editable value to store the personalization settings in a Mendix attribute.
+ */
 export class AttributePersonalizationStorage implements PersonalizationStorage {
     private _storageAttr: EditableValue<string> | undefined;
 
-    constructor(props: Pick<DatagridContainerProps, "configurationAttribute">) {
+    constructor(props: RequiredProps) {
         this._storageAttr = props.configurationAttribute;
 
         makeObservable<this, "_storageAttr" | "_value">(this, {
@@ -17,7 +23,7 @@ export class AttributePersonalizationStorage implements PersonalizationStorage {
         });
     }
 
-    updateProps(props: Pick<DatagridContainerProps, "configurationAttribute">): void {
+    updateProps(props: RequiredProps): void {
         this._storageAttr = props.configurationAttribute;
     }
 

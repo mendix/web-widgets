@@ -1,14 +1,14 @@
 import { ObjectItem } from "mendix";
 import { useMemo } from "react";
-import { ElementProps, ElementEntry } from "@mendix/widget-plugin-grid/event-switch/base";
+import { ElementEntry, ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
-import { ClickEventSwitch, ClickEntry } from "@mendix/widget-plugin-grid/event-switch/ClickEventSwitch";
+import { ClickEntry, ClickEventSwitch } from "@mendix/widget-plugin-grid/event-switch/ClickEventSwitch";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
 import {
+    SelectActionHandler,
     SelectAdjacentFx,
     SelectAllFx,
     SelectFx,
-    SelectActionHandler,
     SelectionMode
 } from "@mendix/widget-plugin-grid/selection";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";

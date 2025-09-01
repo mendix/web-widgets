@@ -1,11 +1,11 @@
 import { TooltipPreviewProps } from "../typings/TooltipProps";
 import {
-    StructurePreviewProps,
+    ContainerProps,
     DropZoneProps,
     RowLayoutProps,
-    ContainerProps,
-    TextProps,
-    structurePreviewPalette
+    structurePreviewPalette,
+    StructurePreviewProps,
+    TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 

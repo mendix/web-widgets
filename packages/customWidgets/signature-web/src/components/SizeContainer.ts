@@ -1,4 +1,4 @@
-import { CSSProperties, FC, createElement, PropsWithChildren } from "react";
+import { createElement, CSSProperties, FC, PropsWithChildren } from "react";
 import classNames from "classnames";
 
 export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels";

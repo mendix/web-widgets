@@ -1,16 +1,16 @@
-import { createElement } from "react";
-import { GUID, ObjectItem } from "mendix";
-import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
-import { WidgetProps } from "../components/Widget";
-import { ColumnsType } from "../../typings/DatagridProps";
-import { Cell } from "../components/Cell";
-import { ColumnId, GridColumn } from "../typings/GridColumn";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
+import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
+import { GUID, ObjectItem } from "mendix";
+import { createElement } from "react";
+import { ColumnsType } from "../../typings/DatagridProps";
+import { Cell } from "../components/Cell";
+import { WidgetProps } from "../components/Widget";
+import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
 import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
+import { ColumnId, GridColumn } from "../typings/GridColumn";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
@@ -98,17 +98,16 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
         availableColumns: columns,
         columnsSwap: jest.fn(),
         setIsResizing: jest.fn(),
-        selectionStatus: "unknown",
         setPage: jest.fn(),
         processedRows: 0,
-        gridInteractive: false,
         selectActionHelper: mockSelectionProps(),
         cellEventsController: { getProps: () => Object.create({}) },
         checkboxEventsController: { getProps: () => Object.create({}) },
-        isLoading: false,
+        isFirstLoad: false,
         isFetchingNextBatch: false,
         loadingType: "spinner",
         columnsLoading: false,
+        showRefreshIndicator: false,
         focusController: new FocusTargetController(
             new PositionController(),
             new VirtualGridLayout(1, columns.length, 10)

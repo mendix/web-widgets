@@ -2,85 +2,75 @@ import { createElement } from "react";
 import { actionValue, EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { StarRatingContainerProps } from "../../../typings/StarRatingProps";
 import { Big } from "big.js";
-import { mount, shallow } from "enzyme";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { StarRating } from "../../StarRating";
-import { Rating } from "../Rating";
+import "@testing-library/jest-dom";
 
-describe("Rating Container", () => {
-    const defaultProps: StarRatingContainerProps = {
-        class: "",
-        name: "rating",
-        tabIndex: 0,
-        rateAttribute: new EditableValueBuilder<Big>().withValue(new Big(5)).build(),
-        animation: true,
-        maximumStars: 5
-    };
+const defaultProps: StarRatingContainerProps = {
+    class: "",
+    name: "rating",
+    tabIndex: 0,
+    rateAttribute: new EditableValueBuilder<Big>().withValue(new Big(5)).build(),
+    animation: true,
+    maximumStars: 5
+};
 
+function renderStarRating(props?: Partial<StarRatingContainerProps>): ReturnType<typeof render> {
+    return render(<StarRating {...defaultProps} {...props} />);
+}
+
+describe("StarRating rendering", () => {
     it("renders correctly the structure", () => {
-        const rating = shallow(<StarRating {...defaultProps} />);
-        expect(rating).toMatchSnapshot();
+        const { asFragment } = renderStarRating();
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly the structure without animation", () => {
-        const rating = shallow(<StarRating {...defaultProps} animation={false} />);
-        expect(rating).toMatchSnapshot();
+        const { asFragment } = renderStarRating({ animation: false });
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders correctly the structure when disabled", () => {
-        const rating = shallow(
-            <StarRating
-                {...defaultProps}
-                rateAttribute={new EditableValueBuilder<Big>().withValue(new Big(1)).isReadOnly().build()}
-            />
-        );
-        expect(rating).toMatchSnapshot();
+        const { asFragment } = renderStarRating({
+            rateAttribute: new EditableValueBuilder<Big>().withValue(new Big(1)).isReadOnly().build()
+        });
+        expect(asFragment()).toMatchSnapshot();
+    });
+});
+
+describe("StarRating events", () => {
+    it("triggers correctly on change action", () => {
+        const onChange = actionValue();
+        renderStarRating({ onChange });
+        const radios = screen.getAllByRole("radio");
+        fireEvent.click(radios[0]);
+        expect(onChange.execute).toHaveBeenCalled();
     });
 
-    describe("with events", () => {
-        it("triggers correctly on change action", () => {
-            const onChange = actionValue();
-            const ratingWrapper = mount(<StarRating {...defaultProps} onChange={onChange} />);
-            const rating = ratingWrapper.find(Rating);
-            const options = rating.find("div.rating-item");
-            options.at(0).simulate("click");
+    it("defines correct values to attribute on change action", () => {
+        const ratingAttribute = new EditableValueBuilder<Big>().withValue(new Big(0)).build();
+        renderStarRating({ rateAttribute: ratingAttribute });
+        const radios = screen.getAllByRole("radio");
+        fireEvent.click(radios[0]);
+        expect(ratingAttribute.setValue).toHaveBeenCalledWith(new Big(1));
+    });
 
-            expect(onChange.execute).toHaveBeenCalled();
+    it("doesnt call setValue when value is read only", () => {
+        const ratingAttribute = new EditableValueBuilder<Big>().withValue(new Big(1)).isReadOnly().build();
+        renderStarRating({ rateAttribute: ratingAttribute });
+        const radios = screen.getAllByRole("radio");
+        fireEvent.click(radios[0]);
+        expect(ratingAttribute.setValue).not.toHaveBeenCalled();
+    });
+
+    it("doesnt trigger on change action when attribute is read only", () => {
+        const onChange = actionValue();
+        renderStarRating({
+            rateAttribute: new EditableValueBuilder<Big>().withValue(new Big(1)).isReadOnly().build(),
+            onChange
         });
-
-        it("defines correct values to attribute on change action", () => {
-            const ratingAttribute = new EditableValueBuilder<Big>().withValue(new Big(0)).build();
-            const ratingWrapper = mount(<StarRating {...defaultProps} rateAttribute={ratingAttribute} />);
-            const rating = ratingWrapper.find(Rating);
-            const options = rating.find("div.rating-item");
-            options.at(0).simulate("click");
-
-            expect(ratingAttribute.setValue).toHaveBeenCalled();
-            expect(ratingAttribute.setValue).toHaveBeenCalledWith(new Big(1));
-        });
-
-        it("doesnt call setValue when value is read only", () => {
-            const ratingAttribute = new EditableValueBuilder<Big>().withValue(new Big(1)).isReadOnly().build();
-            const ratingWrapper = mount(<StarRating {...defaultProps} rateAttribute={ratingAttribute} />);
-            const rating = ratingWrapper.find(Rating);
-            const options = rating.find("div.rating-item");
-            options.at(0).simulate("click");
-
-            expect(ratingAttribute.setValue).toHaveBeenCalledTimes(0);
-        });
-
-        it("doesnt trigger on change action when attribute is read only", () => {
-            const onChange = actionValue();
-            const ratingWrapper = mount(
-                <StarRating
-                    {...defaultProps}
-                    rateAttribute={new EditableValueBuilder<Big>().withValue(new Big(1)).isReadOnly().build()}
-                />
-            );
-            const rating = ratingWrapper.find(Rating);
-            const options = rating.find("div.rating-item");
-            options.at(0).simulate("click");
-
-            expect(onChange.execute).toHaveBeenCalledTimes(0);
-        });
+        const radios = screen.getAllByRole("radio");
+        fireEvent.click(radios[0]);
+        expect(onChange.execute).not.toHaveBeenCalled();
     });
 });

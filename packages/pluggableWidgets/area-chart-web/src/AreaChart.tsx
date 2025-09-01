@@ -1,8 +1,8 @@
 import {
     ChartWidget,
     ChartWidgetProps,
-    SeriesMapper,
     containerPropsEqual,
+    SeriesMapper,
     usePlotChartDataSeries
 } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";

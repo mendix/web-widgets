@@ -1,4 +1,4 @@
-import { createElement, ReactElement, ReactNode, useCallback, SyntheticEvent, useRef, RefObject } from "react";
+import { createElement, ReactElement, ReactNode, RefObject, SyntheticEvent, useCallback, useRef } from "react";
 import classNames from "classnames";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";

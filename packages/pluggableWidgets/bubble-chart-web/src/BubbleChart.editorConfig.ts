@@ -1,8 +1,8 @@
 import {
     ContainerProps,
+    datasource,
     ImageProps,
-    StructurePreviewProps,
-    datasource
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 import {

@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ListActionValue, ObjectItem } from "mendix";
 

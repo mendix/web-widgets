@@ -1,4 +1,4 @@
-import { ValueStatus, ObjectItem } from "mendix";
+import { ObjectItem, ValueStatus } from "mendix";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ensure } from "@mendix/pluggable-widgets-tools";
 import { HeatMapContainerProps } from "../../typings/HeatMapProps";

@@ -1,4 +1,4 @@
-import React, { createElement, ReactElement, KeyboardEvent } from "react";
+import React, { createElement, KeyboardEvent, ReactElement } from "react";
 
 export interface InputProps {
     color: string | undefined;

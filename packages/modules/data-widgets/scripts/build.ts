@@ -1,12 +1,12 @@
 #!/usr/bin/env ts-node-script
 
 import {
+    copyActionsFiles,
     copyModuleLicense,
     copyThemesourceToProject,
     copyWidgetsToProject,
     runModuleSteps,
-    writeModuleVersion,
-    copyActionsFiles
+    writeModuleVersion
 } from "@mendix/automation-utils/steps";
 
 import { bundleXLSX } from "./steps/bundle-xlsx";

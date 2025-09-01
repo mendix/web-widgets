@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment, ReactElement, createElement, useMemo, useRef } from "react";
+import { createElement, Fragment, ReactElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { getInputLabel } from "../../helpers/utils";

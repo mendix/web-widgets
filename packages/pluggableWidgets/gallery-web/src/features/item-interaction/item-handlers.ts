@@ -1,12 +1,12 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { EventEntryContext } from "./base";
 import {
+    isSelectOneTrigger,
+    onSelectAllHotKey,
+    onSelectGridAdjacentHotKey,
     SelectAdjacentFx,
     SelectAllFx,
-    SelectFx,
-    onSelectGridAdjacentHotKey,
-    onSelectAllHotKey,
-    isSelectOneTrigger
+    SelectFx
 } from "@mendix/widget-plugin-grid/selection";
 import { blockUserSelect, removeAllRanges, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
 import { withInputEventsFilter } from "./keyboard-utils";

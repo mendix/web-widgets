@@ -1,10 +1,10 @@
-import { SingleSelector, Status, CaptionsProvider } from "src/helpers/types";
+import { CaptionsProvider, SingleSelector, Status } from "src/helpers/types";
 import { getDatasourcePlaceholderText } from "src/helpers/utils";
 import {
-    StaticDataSourceCustomContentTypeEnum,
+    ComboboxContainerProps,
     ComboboxPreviewProps,
     OptionsSourceStaticDataSourcePreviewType,
-    ComboboxContainerProps
+    StaticDataSourceCustomContentTypeEnum
 } from "typings/ComboboxProps";
 import { StaticPreviewCaptionsProvider } from "./StaticPreviewCaptionsProvider";
 import { StaticPreviewOptionsProvider } from "./StaticPreviewOptionsProvider";

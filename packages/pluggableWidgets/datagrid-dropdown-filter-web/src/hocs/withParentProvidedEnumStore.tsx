@@ -1,8 +1,8 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useRef, createElement } from "react";
+import { createElement, useRef } from "react";
 import { useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "@mendix/widget-plugin-filtering/errors";
-import { Result, error, value } from "@mendix/widget-plugin-filtering/result-meta";
+import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { EnumFilterProps } from "../components/typings";
 
 export function withParentProvidedEnumStore<P extends { filterable: boolean }>(

@@ -19,15 +19,19 @@ export function getProperties(values: DatagridDropdownFilterPreviewProps, defaul
         hidePropertiesIn(defaultProperties, values, ["attr", "attrChoice", "filterOptions", "auto"]);
     }
 
-    if (values.filterable) {
-        hidePropertyIn(defaultProperties, values, "clearable");
+    if (values.filterable || values.multiSelect) {
+        // empty option is not shown when any of those are enabled
         hidePropertyIn(defaultProperties, values, "emptyOptionCaption");
-    } else {
-        hidePropertyIn(defaultProperties, values, "filterInputPlaceholderCaption");
     }
 
-    if (!values.filterable) {
+    if (values.filterable) {
+        // when it is filterable, we always imply clearable as true, so we hide the property
+        hidePropertyIn(defaultProperties, values, "clearable");
+    } else {
+        // when it is not filterable, we don't need the attribute to search on
         hidePropertyIn(defaultProperties, values, "refSearchAttr");
+        // when it is not filterable, we hide the caption for input as input is never shown
+        hidePropertyIn(defaultProperties, values, "filterInputPlaceholderCaption");
     }
 
     if (values.refCaptionSource === "attr") {

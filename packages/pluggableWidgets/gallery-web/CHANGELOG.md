@@ -10,6 +10,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the column count was not reflected properly in the preview mode
 
+## [3.3.0] - 2025-08-28
+
+### Added
+
+- We implemented a new property to show a refresh indicator. With the refresh indicator, any datasource change shows a progress bar on top of Gallery.
+
+## [3.2.0] - 2025-08-18
+
+### Changed
+
+- We removed all metadata stored in xpath to improve integration with other services.
+
 ## [3.1.0] - 2025-07-24
 
 ### Added

@@ -1,6 +1,7 @@
 #!/usr/bin/env ts-node-script
 
 import {
+    addREADMEOSSToMpk,
     addWidgetsToMpk,
     cloneTestProject,
     copyActionsFiles,
@@ -23,6 +24,7 @@ async function main(): Promise<void> {
             writeVersionAndLicenseToJSActions,
             createModuleMpk,
             addWidgetsToMpk,
+            addREADMEOSSToMpk,
             moveModuleToDist
         ]
     });

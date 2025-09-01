@@ -106,7 +106,7 @@ class RefStoreProvider extends BaseStoreProvider<RefFilterStore> {
         this.dataKey = gate.props.name;
         this._store = new RefFilterStore({
             gate,
-            initCond: this.findInitFilter(filterAPI.sharedInitFilter, this.dataKey)
+            initCond: null
         });
     }
 

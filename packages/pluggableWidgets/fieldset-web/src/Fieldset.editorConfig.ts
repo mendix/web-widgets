@@ -1,9 +1,9 @@
 import {
     DropZoneProps,
     RowLayoutProps,
+    structurePreviewPalette,
     StructurePreviewProps,
-    TextProps,
-    structurePreviewPalette
+    TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { FieldsetPreviewProps } from "../typings/FieldsetProps";
 

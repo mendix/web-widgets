@@ -1,4 +1,4 @@
-import { SelectionMultiValue, SelectionSingleValue, ObjectItem } from "mendix";
+import { ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
 
 export type SelectionType = "None" | "Single" | "Multi";
 

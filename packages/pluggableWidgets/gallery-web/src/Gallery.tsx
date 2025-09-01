@@ -4,7 +4,7 @@ import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-na
 import { getColumnAndRowBasedOnIndex, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { observer } from "mobx-react-lite";
-import { ReactElement, ReactNode, createElement, useCallback } from "react";
+import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { HeaderWidgetsHost } from "./components/HeaderWidgetsHost";
@@ -91,19 +91,26 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
             focusController={focusController}
             getPosition={getPositionCallback}
             loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
+            showRefreshIndicator={rootStore.loaderCtrl.showRefreshIndicator}
         />
     );
 });
 
 function useCreateGalleryScope(props: GalleryContainerProps): GalleryRootScope {
     const rootStore = useGalleryStore(props);
-    const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const selectionHelper = useSelectionHelper(
+        props.itemSelection,
+        props.datasource,
+        props.onSelectionChange,
+        props.keepSelection ? "always keep" : "always clear"
+    );
     const itemSelectHelper = useItemSelectHelper(props.itemSelection, selectionHelper);
 
     return useConst<GalleryRootScope>({
         rootStore,
         selectionHelper,
-        itemSelectHelper
+        itemSelectHelper,
+        selectionCountStore: rootStore.selectionCountStore
     });
 }
 

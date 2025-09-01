@@ -1,4 +1,4 @@
-import { ListExpressionValue, ListWidgetValue, ListActionValue } from "mendix";
+import { ListActionValue, ListExpressionValue, ListWidgetValue } from "mendix";
 import { listExp, listWidget } from "@mendix/widget-plugin-test-utils";
 import { ItemHelper } from "../../helpers/ItemHelper";
 

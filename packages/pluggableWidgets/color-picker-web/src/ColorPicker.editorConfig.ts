@@ -5,7 +5,7 @@ import {
     StructurePreviewProps,
     TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { Properties, transformGroupsIntoTabs, hidePropertiesIn, hidePropertyIn } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import { ColorPickerPreviewProps } from "../typings/ColorPickerProps";
 import StructurePreviewSvg from "./assets/structure-preview.svg";

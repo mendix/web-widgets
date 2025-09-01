@@ -1,9 +1,9 @@
 import { ComponentType, ReactNode } from "react";
 import {
-    StructurePreviewProps,
     container,
+    dropzone,
     rowLayout,
-    dropzone
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { Problem } from "@mendix/pluggable-widgets-tools";
 

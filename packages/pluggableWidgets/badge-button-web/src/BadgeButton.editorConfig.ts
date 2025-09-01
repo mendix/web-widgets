@@ -1,7 +1,7 @@
 import { BadgeButtonPreviewProps } from "../typings/BadgeButtonProps";
 import {
-    StructurePreviewProps,
-    structurePreviewPalette
+    structurePreviewPalette,
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 export function getPreview(values: BadgeButtonPreviewProps, isDarkMode: boolean): StructurePreviewProps {

@@ -1,11 +1,11 @@
 import {
     dynamic,
     EditableValueBuilder,
+    list,
     ListAttributeValueBuilder,
-    ReferenceSetValueBuilder,
     listExp,
     obj,
-    list,
+    ReferenceSetValueBuilder,
     setupIntersectionObserverStub
 } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";

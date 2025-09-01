@@ -1,4 +1,4 @@
-import { ReactElement, createElement, Fragment } from "react";
+import { createElement, Fragment, ReactElement } from "react";
 import { HTMLElementPreviewProps } from "../typings/HTMLElementProps";
 import { HTMLTag } from "./components/HTMLTag";
 import { isVoidElement, prepareTag } from "./utils/props-utils";

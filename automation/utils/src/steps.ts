@@ -12,7 +12,7 @@ import { copyMpkFiles, getMpkPaths } from "./monorepo";
 import { createModuleMpkInDocker } from "./mpk";
 import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
 import { addFilesToPackageXml, PackageType } from "./package-xml";
-import { chmod, cp, ensureFileExists, exec, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
+import { chmod, cp, ensureFileExists, exec, find, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
 import chalk from "chalk";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
@@ -190,6 +190,57 @@ export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<voi
     console.log(`Copying License.txt...`);
     cp(join(config.output.dirs.themesource, "LICENSE"), join(target, "License.txt"));
     rm(mpk);
+
+    console.info("Create module zip archive");
+    await zip(target, mpk);
+    rm("-rf", target);
+}
+
+export async function addREADMEOSSToMpk({ config, info }: ModuleStepParams): Promise<void> {
+    logStep("Add READMEOSS to mpk");
+
+    // Check that READMEOSS file exists in package root and find it by name pattern
+    const packageRoot = config.paths.package;
+    const widgetName = info.mxpackage.name;
+    const version = info.version.format();
+
+    // We'll search for files matching the name and version, ignoring timestamp
+    const readmeossPattern = `*${widgetName}__${version}__READMEOSS_*.html`;
+
+    console.info(`Looking for READMEOSS file matching pattern: ${readmeossPattern}`);
+
+    // Find files matching the pattern in package root
+    const matchingFiles = find(packageRoot).filter(file => {
+        const fileName = parse(file).base;
+        // Check if filename contains the widget name, version, and READMEOSS
+        return fileName.includes(`${widgetName}__${version}__READMEOSS_`) && fileName.endsWith(".html");
+    });
+
+    if (matchingFiles.length === 0) {
+        console.warn(
+            `⚠️  READMEOSS file not found for ${widgetName} version ${version}. Expected pattern: ${readmeossPattern}`
+        );
+        console.warn(`   Skipping READMEOSS addition to mpk.`);
+        return;
+    }
+
+    const readmeossFile = matchingFiles[0];
+    console.info(`Found READMEOSS file: ${parse(readmeossFile).base}`);
+
+    const mpk = config.output.files.modulePackage;
+    const widgets = await getMpkPaths(config.dependencies);
+    const mpkEntry = parse(mpk);
+    const target = join(mpkEntry.dir, "tmp");
+
+    rm("-rf", target);
+
+    console.info("Unzip module mpk");
+    await unzip(mpk, target);
+    chmod("-R", "a+rw", target);
+
+    console.info(`Add READMEOSS file to ${mpkEntry.base}`);
+    // Copy the READMEOSS file to the target directory
+    cp(readmeossFile, target);
 
     console.info("Create module zip archive");
     await zip(target, mpk);

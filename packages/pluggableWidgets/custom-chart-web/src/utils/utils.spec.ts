@@ -1,4 +1,4 @@
-import { parseData, parseLayout, parseConfig } from "../utils/utils";
+import { parseConfig, parseData, parseLayout } from "../utils/utils";
 
 describe("parseData", () => {
     it("returns empty array when all inputs are empty", () => {

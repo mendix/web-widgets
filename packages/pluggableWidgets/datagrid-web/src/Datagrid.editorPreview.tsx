@@ -4,16 +4,22 @@
 import { enableStaticRendering } from "mobx-react-lite";
 enableStaticRendering(true);
 
+import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
-import { ReactElement, ReactNode, createElement, useCallback, useMemo } from "react";
+import { createElement, ReactElement, ReactNode, useCallback, useMemo } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
+import { DatagridContext } from "./helpers/root-context";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
-import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
+import { GridBasicData } from "./helpers/state/GridBasicData";
+
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import "./ui/DatagridPreview.scss";
 
 // Fix type definition for Selectable
@@ -80,72 +86,88 @@ export function preview(props: DatagridPreviewProps): ReactElement {
 
     const eventsController = { getProps: () => Object.create({}) };
 
+    const ctx = useConst(() => {
+        const gateProvider = new GateProvider({});
+        const basicData = new GridBasicData(gateProvider.gate);
+        const selectionCountStore = new SelectionCountStore(gateProvider.gate);
+        return {
+            basicData,
+            selectionHelper: undefined,
+            selectActionHelper,
+            cellEventsController: eventsController,
+            checkboxEventsController: eventsController,
+            focusController,
+            selectionCountStore
+        };
+    });
+
     return (
-        <Widget
-            CellComponent={Cell}
-            className={props.class}
-            columnsDraggable={props.columnsDraggable}
-            columnsFilterable={props.columnsFilterable}
-            columnsHidable={props.columnsHidable}
-            columnsResizable={props.columnsResizable}
-            columnsSortable={props.columnsSortable}
-            visibleColumns={columns}
-            availableColumns={[]}
-            columnsSwap={noop}
-            setIsResizing={noop}
-            data={data}
-            emptyPlaceholderRenderer={useCallback(
-                (renderWrapper: (children: ReactNode) => ReactElement) => (
-                    <EmptyPlaceholder caption="Empty list message: Place widgets here">
-                        {renderWrapper(null)}
-                    </EmptyPlaceholder>
-                ),
-                [EmptyPlaceholder]
-            )}
-            exporting={false}
-            filterRenderer={useCallback(
-                (renderWrapper, columnIndex) => {
-                    const column = props.columns.at(columnIndex);
-                    return column?.filter ? (
-                        <column.filter.renderer caption="Place filter widget here">
+        <DatagridContext.Provider value={ctx}>
+            <Widget
+                CellComponent={Cell}
+                className={props.class}
+                columnsDraggable={props.columnsDraggable}
+                columnsFilterable={props.columnsFilterable}
+                columnsHidable={props.columnsHidable}
+                columnsResizable={props.columnsResizable}
+                columnsSortable={props.columnsSortable}
+                visibleColumns={columns}
+                availableColumns={[]}
+                columnsSwap={noop}
+                setIsResizing={noop}
+                data={data}
+                emptyPlaceholderRenderer={useCallback(
+                    (renderWrapper: (children: ReactNode) => ReactElement) => (
+                        <EmptyPlaceholder caption="Empty list message: Place widgets here">
                             {renderWrapper(null)}
-                        </column.filter.renderer>
-                    ) : (
-                        renderWrapper(null)
-                    );
-                },
-                [props.columns]
-            )}
-            headerContent={
-                <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
-                    <div />
-                </props.filtersPlaceholder.renderer>
-            }
-            hasMoreItems={false}
-            headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
-            numberOfItems={props.pageSize ?? numberOfItems}
-            page={0}
-            paginationType={props.pagination}
-            pageSize={props.pageSize ?? numberOfItems}
-            showPagingButtons={props.showPagingButtons}
-            loadMoreButtonCaption={props.loadMoreButtonCaption}
-            paging={props.pagination === "buttons" || props.showNumberOfRows}
-            pagingPosition={props.pagingPosition}
-            preview
-            processedRows={0}
-            styles={parseStyle(props.style)}
-            selectionStatus={"none"}
-            id={gridId}
-            gridInteractive={!!(props.itemSelection !== "None" || props.onClick)}
-            selectActionHelper={selectActionHelper}
-            cellEventsController={eventsController}
-            checkboxEventsController={eventsController}
-            focusController={focusController}
-            isLoading={false}
-            isFetchingNextBatch={false}
-            loadingType="spinner"
-            columnsLoading={false}
-        />
+                        </EmptyPlaceholder>
+                    ),
+                    [EmptyPlaceholder]
+                )}
+                exporting={false}
+                filterRenderer={useCallback(
+                    (renderWrapper, columnIndex) => {
+                        const column = props.columns.at(columnIndex);
+                        return column?.filter ? (
+                            <column.filter.renderer caption="Place filter widget here">
+                                {renderWrapper(null)}
+                            </column.filter.renderer>
+                        ) : (
+                            renderWrapper(null)
+                        );
+                    },
+                    [props.columns]
+                )}
+                headerContent={
+                    <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
+                        <div />
+                    </props.filtersPlaceholder.renderer>
+                }
+                hasMoreItems={false}
+                headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
+                numberOfItems={props.pageSize ?? numberOfItems}
+                page={0}
+                paginationType={props.pagination}
+                pageSize={props.pageSize ?? numberOfItems}
+                showPagingButtons={props.showPagingButtons}
+                loadMoreButtonCaption={props.loadMoreButtonCaption}
+                paging={props.pagination === "buttons" || props.showNumberOfRows}
+                pagingPosition={props.pagingPosition}
+                preview
+                processedRows={0}
+                styles={parseStyle(props.style)}
+                id={gridId}
+                selectActionHelper={selectActionHelper}
+                cellEventsController={eventsController}
+                checkboxEventsController={eventsController}
+                focusController={focusController}
+                isFetchingNextBatch={false}
+                loadingType="spinner"
+                columnsLoading={false}
+                isFirstLoad={false}
+                showRefreshIndicator={false}
+            />
+        </DatagridContext.Provider>
     );
 }
 

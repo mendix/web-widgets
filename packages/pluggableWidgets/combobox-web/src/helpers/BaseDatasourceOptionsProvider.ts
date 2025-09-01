@@ -2,7 +2,7 @@ import { ListAttributeValue, ListValue, ObjectItem } from "mendix";
 import { FilterTypeEnum } from "../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "./BaseOptionsProvider";
 import { datasourceFilter } from "./datasourceFilter";
-import { CaptionsProvider, Status, SortOrder } from "./types";
+import { CaptionsProvider, SortOrder, Status } from "./types";
 import { DEFAULT_LIMIT_SIZE } from "./utils";
 
 export interface BaseProps {

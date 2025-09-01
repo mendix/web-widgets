@@ -1,4 +1,4 @@
-import { ReactElement, createElement } from "react";
+import { createElement, ReactElement } from "react";
 export function EventsIcon({ isActive }: { isActive?: boolean }): ReactElement {
     return (
         <span className="widget-events-icon-container">

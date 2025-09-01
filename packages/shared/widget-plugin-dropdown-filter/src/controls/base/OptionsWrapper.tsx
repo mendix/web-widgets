@@ -1,18 +1,10 @@
 import { UseComboboxPropGetters, UseSelectPropGetters } from "downshift";
 import { createElement, CSSProperties, forwardRef, ReactElement, RefObject } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
-
-type OptionsWrapperClassNamesProps = {
-    popover?: string;
-    menuSlot?: string;
-    menu?: string;
-    menuItem?: string;
-    checkboxSlot?: string;
-    checkbox?: string;
-};
+import { PickerCssClasses } from "../picker-primitives";
 
 type OptionsWrapperProps = {
-    cls: OptionsWrapperClassNamesProps;
+    cls: PickerCssClasses;
     style: CSSProperties;
     onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
     isOpen: boolean;
@@ -51,6 +43,7 @@ export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefOb
                                 data-highlighted={highlightedIndex === index || undefined}
                                 key={item.value || index}
                                 className={cls.menuItem}
+                                title={item.caption}
                                 {...getItemProps({
                                     item,
                                     index,
@@ -73,7 +66,7 @@ export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefOb
                                         />
                                     </span>
                                 )}
-                                {item.caption || "\u00A0"}
+                                <span className={cls.menuItemText}>{item.caption || "\u00A0"}</span>
                             </li>
                         ))}
                 </ul>

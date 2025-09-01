@@ -9,11 +9,7 @@ async function ensureMxBuildDockerImageExists(mendixVersion: Version): Promise<v
     const existingImages = (await exec(`docker image ls -q mxbuild:${version}`, { stdio: "pipe" })).stdout.trim();
     if (!existingImages) {
         console.log(`Creating new mxbuild:${version} docker image...`);
-        const versionMajor = mendixVersion.major;
-        const dockerfilePath =
-            versionMajor < 10
-                ? join(__dirname, "../docker/mxbuild.Dockerfile")
-                : join(__dirname, "../docker/mxbuildMx10.Dockerfile");
+        const dockerfilePath = join(__dirname, "../docker/mxbuild.Dockerfile");
         await exec(
             `docker build -f ${dockerfilePath} ` +
                 `--build-arg MENDIX_VERSION=${version} ` +
@@ -45,10 +41,8 @@ export async function createModuleMpkInDocker(
         "&&",
 
         // and create module
-        versionMajor < 10 ? "mono" : "",
-        versionMajor >= 10
-            ? "/tmp/mxbuild/modeler/mx create-module-package"
-            : "/tmp/mxbuild/modeler/mxutil.exe create-module-package",
+        versionMajor < 10 ? "/tmp/mxbuild/modeler/mxutil" : "/tmp/mxbuild/modeler/mx",
+        "create-module-package",
         excludeFilesRegExp ? `--exclude-files='${excludeFilesRegExp}'` : "",
         `/source/${projectFile}`,
         moduleName

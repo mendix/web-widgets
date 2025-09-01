@@ -13,10 +13,7 @@ export class StringStoreProvider extends BaseStoreProvider<StringInputFilterStor
         super();
         this.filterAPI = filterAPI;
         this.dataKey = spec.dataKey;
-        this._store = new StringInputFilterStore(
-            spec.attributes,
-            this.findInitFilter(filterAPI.sharedInitFilter, this.dataKey)
-        );
+        this._store = new StringInputFilterStore(spec.attributes, null);
     }
 
     get store(): String_InputFilterInterface {

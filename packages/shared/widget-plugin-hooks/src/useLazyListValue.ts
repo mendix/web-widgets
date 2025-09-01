@@ -1,5 +1,5 @@
 import type { ListValue, ObjectItem } from "mendix";
-import { useRef, useMemo, useEffect } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { tuple } from "@mendix/widget-plugin-platform/utils/tuple";
 import { throttle } from "@mendix/widget-plugin-platform/utils/throttle";
 

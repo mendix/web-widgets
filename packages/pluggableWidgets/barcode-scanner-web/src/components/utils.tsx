@@ -1,10 +1,10 @@
 import {
+    BarcodeFormat,
     BinaryBitmap,
     BrowserMultiFormatReader,
+    DecodeHintType,
     HTMLCanvasElementLuminanceSource,
     HybridBinarizer,
-    BarcodeFormat,
-    DecodeHintType,
     Result
 } from "@zxing/library";
 import { BarcodeFormatsType } from "typings/BarcodeScannerProps";

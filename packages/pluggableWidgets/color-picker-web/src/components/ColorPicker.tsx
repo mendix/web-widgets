@@ -1,19 +1,19 @@
-import { createElement, ReactElement, useEffect, useState, useCallback } from "react";
+import { createElement, ReactElement, useCallback, useEffect, useState } from "react";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { ModeEnum, TypeEnum, DefaultColorsType, FormatEnum } from "../../typings/ColorPickerProps";
+import { DefaultColorsType, FormatEnum, ModeEnum, TypeEnum } from "../../typings/ColorPickerProps";
 import {
-    ColorState,
-    SketchPickerProps,
-    ChromePickerProps,
-    TwitterPickerProps,
-    HuePickerProps,
     BlockPickerProps,
-    GithubPickerProps,
+    ChromePickerProps,
     CirclePickerProps,
-    SwatchesPickerProps,
-    SliderPickerProps,
+    ColorState,
+    CompactPickerProps,
+    GithubPickerProps,
+    HuePickerProps,
     MaterialPickerProps,
-    CompactPickerProps
+    SketchPickerProps,
+    SliderPickerProps,
+    SwatchesPickerProps,
+    TwitterPickerProps
 } from "react-color";
 import classNames from "classnames";
 import { getColorPicker, parseColor, validateColorFormat, validateProps } from "../utils";

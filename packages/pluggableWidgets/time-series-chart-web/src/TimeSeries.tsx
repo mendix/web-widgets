@@ -1,8 +1,8 @@
-import { ChartWidget, ChartWidgetProps, usePlotChartDataSeries, traceEqual } from "@mendix/shared-charts/main";
+import { ChartWidget, ChartWidgetProps, traceEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import classNames from "classnames";
-import { ReactElement, createElement, memo, useCallback, useMemo } from "react";
+import { createElement, memo, ReactElement, useCallback, useMemo } from "react";
 import { TimeSeriesContainerProps } from "../typings/TimeSeriesProps";
 
 const createTimeSeriesChartLayoutOptions = (

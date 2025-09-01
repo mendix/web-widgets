@@ -1,12 +1,12 @@
 import Big from "big.js";
 import {
-    ObjectItem,
     DynamicValue,
-    ListValue,
-    ListExpressionValue,
-    ListAttributeValue,
+    EditableValue,
     ListActionValue,
-    EditableValue
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue,
+    ObjectItem
 } from "mendix";
 import { useEffect, useState } from "react";
 import { ensure } from "@mendix/widget-plugin-platform/utils/ensure";

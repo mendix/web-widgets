@@ -1,5 +1,5 @@
 import { ObjectItem } from "mendix";
-import { ReactNode, createElement, useMemo } from "react";
+import { createElement, ReactNode, useMemo } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { GalleryPreviewProps } from "../../typings/GalleryProps";
 import { ListItemButton } from "../components/ListItemButton";

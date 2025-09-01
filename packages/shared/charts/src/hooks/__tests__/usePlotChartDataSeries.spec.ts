@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
-import { usePlotChartDataSeries, PlotDataSeries, SeriesMapper } from "../usePlotChartDataSeries";
-import { ListAttributeValueBuilder, EditableValueBuilder, list, dynamicValue } from "@mendix/widget-plugin-test-utils";
-import { ListAttributeValue, ListExpressionValue, ListActionValue, ListValue } from "mendix";
+import { PlotDataSeries, SeriesMapper, usePlotChartDataSeries } from "../usePlotChartDataSeries";
+import { dynamicValue, EditableValueBuilder, list, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { ListActionValue, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
 
 function axisAttr(): ListAttributeValue<string> {
     const attr = new ListAttributeValueBuilder<string>().withType("String").build();

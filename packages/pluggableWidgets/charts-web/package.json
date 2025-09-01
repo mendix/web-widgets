@@ -42,7 +42,7 @@
         "build": "ts-node --project scripts/tsconfig.json scripts/build.ts development",
         "create-gh-release": "rui-create-gh-release",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
-        "lint": "tsc --project scripts/tsconfig.json",
+        "lint": "tsc --project scripts/tsconfig.json && eslint . package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
         "update-changelog": "rui-update-changelog-module",

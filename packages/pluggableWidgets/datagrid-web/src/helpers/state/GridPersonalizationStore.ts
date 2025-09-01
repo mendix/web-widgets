@@ -14,6 +14,12 @@ import { AttributePersonalizationStorage } from "../storage/AttributePersonaliza
 import { LocalStoragePersonalizationStorage } from "../storage/LocalStoragePersonalizationStorage";
 import { PersonalizationStorage } from "../storage/PersonalizationStorage";
 import { ColumnGroupStore } from "./ColumnGroupStore";
+
+type RequiredProps = Pick<
+    DatagridContainerProps,
+    "name" | "configurationStorageType" | "storeFiltersInPersonalization" | "configurationAttribute"
+>;
+
 export class GridPersonalizationStore {
     private readonly gridName: string;
     private readonly gridColumnsHash: string;
@@ -25,7 +31,7 @@ export class GridPersonalizationStore {
     private disposers: IReactionDisposer[] = [];
 
     constructor(
-        props: DatagridContainerProps,
+        props: RequiredProps,
         private columnsStore: ColumnGroupStore,
         private customFilters: ObservableFilterHost
     ) {
@@ -52,7 +58,7 @@ export class GridPersonalizationStore {
         this.disposers.forEach(d => d());
     }
 
-    updateProps(props: DatagridContainerProps): void {
+    updateProps(props: RequiredProps): void {
         this.storage.updateProps?.(props);
     }
 

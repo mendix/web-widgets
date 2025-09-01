@@ -49,6 +49,10 @@
                     <caption>Show (un)check all toggle</caption>
                     <description>Show a checkbox in the grid header to check or uncheck multiple items.</description>
                 </property>
+                <property key="keepSelection" type="boolean" defaultValue="false">
+                    <caption>Keep selection</caption>
+                    <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
+                </property>
                 <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
                     <caption>Loading type</caption>
                     <description />
@@ -56,6 +60,10 @@
                         <enumerationValue key="spinner">Spinner</enumerationValue>
                         <enumerationValue key="skeleton">Skeleton</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="refreshIndicator" type="boolean" defaultValue="false">
+                    <caption>Show refresh indicator</caption>
+                    <description>Show a refresh indicator when the data is being loaded.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Columns">
@@ -362,6 +370,14 @@
                     <translations>
                         <translation lang="en_US">Select all rows</translation>
                     </translations>
+                </property>
+                <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
+                    <caption>Row count singular</caption>
+                    <description>Must include '%d' to denote number position ('%d row selected')</description>
+                </property>
+                <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
+                    <caption>Row count plural</caption>
+                    <description>Must include '%d' to denote number position ('%d rows selected')</description>
                 </property>
             </propertyGroup>
         </propertyGroup>

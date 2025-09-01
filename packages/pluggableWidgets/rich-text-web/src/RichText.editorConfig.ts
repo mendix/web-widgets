@@ -1,9 +1,9 @@
-import { Properties, hidePropertyIn, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
-    StructurePreviewProps,
-    dropzone,
     container,
-    rowLayout
+    dropzone,
+    rowLayout,
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { RichTextPreviewProps } from "typings/RichTextProps";
 import RichTextPreviewSVGDark from "./assets/rich-text-preview-dark.svg";

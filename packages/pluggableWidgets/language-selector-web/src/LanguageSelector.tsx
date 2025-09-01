@@ -1,4 +1,4 @@
-import { ReactNode, createElement, useEffect, useState, useCallback } from "react";
+import { createElement, ReactNode, useCallback, useEffect, useState } from "react";
 import { LanguageSelectorContainerProps } from "typings/LanguageSelectorProps";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
 import "./ui/LanguageSelector.scss";

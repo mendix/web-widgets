@@ -1,7 +1,7 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import classNames from "classnames";
-import { Fragment, ReactElement, ReactNode, createElement, useCallback, useRef, useState } from "react";
+import { createElement, Fragment, ReactElement, ReactNode, useCallback, useRef, useState } from "react";
 import "../ui/Playground.scss";
 import { Select, SelectOption, Sidebar, SidebarHeader, SidebarHeaderTools, SidebarPanel } from "./Sidebar";
 import { CodeEditor, EditorChangeHandler } from "./CodeEditor";

@@ -53,8 +53,7 @@ const setContext = (store: NumberInputFilterStore) => {
             hasError: false,
             value: { type: "direct", store }
         },
-        filterObserver: {} as ObservableFilterHost,
-        sharedInitFilter: []
+        filterObserver: {} as ObservableFilterHost
     };
     (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI>(filterAPI);
 };

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { SelectionHelper, WidgetSelectionProperty, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
+import { SelectActionHandler, SelectionHelper, WidgetSelectionProperty } from "@mendix/widget-plugin-grid/selection";
 
 export function useItemSelectHelper(
     selection: WidgetSelectionProperty,

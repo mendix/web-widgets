@@ -1,4 +1,4 @@
-import { ReactNode, createElement } from "react";
+import { createElement, ReactNode } from "react";
 import classNames from "classnames";
 import Toolbar from "react-big-calendar/lib/Toolbar";
 import { Container, Style } from "../utils/namespaces";

@@ -1,9 +1,9 @@
 import { DynamicValue, ListAttributeValue } from "mendix";
-import { ReactNode, createElement } from "react";
+import { createElement, ReactNode } from "react";
 import {
     OptionsSourceAssociationCustomContentTypeEnum,
-    StaticDataSourceCustomContentTypeEnum,
-    OptionsSourceStaticDataSourceType
+    OptionsSourceStaticDataSourceType,
+    StaticDataSourceCustomContentTypeEnum
 } from "../../../typings/ComboboxProps";
 import { CaptionPlacement, CaptionsProvider } from "../types";
 import { CaptionContent } from "../utils";

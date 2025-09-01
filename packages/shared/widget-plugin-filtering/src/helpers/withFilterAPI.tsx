@@ -1,4 +1,4 @@
-import { FC, createElement } from "react";
+import { createElement, FC } from "react";
 import { FilterAPI, useFilterAPI } from "../context";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 

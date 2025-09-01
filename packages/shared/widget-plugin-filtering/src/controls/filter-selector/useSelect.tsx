@@ -1,6 +1,6 @@
 import { autoUpdate, useFloating } from "@floating-ui/react-dom";
-import { UseSelectPropGetters, useSelect as useDownshiftSelect } from "downshift";
-import { useCallback, useMemo, useEffect } from "react";
+import { useSelect as useDownshiftSelect, UseSelectPropGetters } from "downshift";
+import { useCallback, useEffect, useMemo } from "react";
 
 interface Option {
     value: string;

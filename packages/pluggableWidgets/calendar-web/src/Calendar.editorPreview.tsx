@@ -1,10 +1,10 @@
 import classnames from "classnames";
-import { ReactElement, createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { Calendar, dateFnsLocalizer, EventPropGetter } from "react-big-calendar";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
 import { CustomToolbar } from "./components/Toolbar";
 import { constructWrapperStyle, WrapperStyleProps } from "./utils/style-utils";
-import { format, parse, startOfWeek, getDay, eventPropGetter } from "./utils/calendar-utils";
+import { eventPropGetter, format, getDay, parse, startOfWeek } from "./utils/calendar-utils";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./ui/Calendar.scss";

@@ -5,7 +5,7 @@ import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensio
 import { SharedProps } from "../../typings/shared";
 import { MapProviderEnum } from "../../typings/MapsProps";
 import { translateZoom } from "../utils/zoom";
-import { latLngBounds, Icon as LeafletIcon, DivIcon } from "leaflet";
+import { DivIcon, latLngBounds, Icon as LeafletIcon } from "leaflet";
 import { baseMapLayer } from "../utils/leaflet";
 
 export interface LeafletProps extends SharedProps {

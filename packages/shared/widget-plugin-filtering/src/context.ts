@@ -1,8 +1,7 @@
 import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
-import { FilterCondition } from "mendix/filters";
 import { Context, createContext, useContext } from "react";
 import { APIError, ENOCONTEXT } from "./errors";
-import { Result, error, value } from "./result-meta";
+import { error, Result, value } from "./result-meta";
 import { InputFilterInterface } from "./typings/InputFilterInterface";
 import { ObservableFilterHost } from "./typings/ObservableFilterHost";
 
@@ -11,7 +10,6 @@ export interface FilterAPI {
     parentChannelName: string;
     provider: Result<DirectProvider | ProviderStub, APIError>;
     filterObserver: ObservableFilterHost;
-    sharedInitFilter: Array<FilterCondition | undefined>;
 }
 
 export type FilterStore = InputFilterInterface | EnumFilterStore;
@@ -59,13 +57,11 @@ export const useFilterContextValue = useFilterAPI;
 export function createContextWithStub(options: {
     filterObserver: ObservableFilterHost;
     parentChannelName: string;
-    sharedInitFilter: Array<FilterCondition | undefined>;
 }): FilterAPI {
     return {
         version: 3,
         parentChannelName: options.parentChannelName,
         provider: value(PROVIDER_STUB),
-        filterObserver: options.filterObserver,
-        sharedInitFilter: options.sharedInitFilter
+        filterObserver: options.filterObserver
     };
 }

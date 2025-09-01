@@ -6,6 +6,68 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.3.0] DataWidgets - 2025-08-28
+
+### [3.3.0] DatagridDropdownFilter
+
+#### Fixed
+
+- We implemented ellipsis truncation to resolve option caption overflow issues.
+
+- We fixed an issue where tooltips were not displayed correctly when hovering over options.
+
+### [3.3.0] Datagrid
+
+#### Added
+
+- We implemented a new property to show a refresh indicator. With the refresh indicator, any datasource change shows a progress bar on top of Datagrid 2.
+
+- We added a selection count display that shows the number of selected rows in the grid footer. The count appears automatically when items are selected and supports customizable text formats for singular and plural forms via the new "Row count singular" and "Row count plural" properties.
+
+### [3.3.0] Gallery
+
+#### Added
+
+- We implemented a new property to show a refresh indicator. With the refresh indicator, any datasource change shows a progress bar on top of Gallery.
+
+## [3.2.0] DataWidgets - 2025-08-18
+
+### [3.2.0] DatagridDateFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.2.0] DatagridDropdownFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.2.0] DatagridNumberFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.2.0] DatagridTextFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.2.0] Datagrid
+
+#### Changed
+
+- We removed all metadata stored in xpath to improve integration with other services.
+
+### [3.2.0] Gallery
+
+#### Changed
+
+- We removed all metadata stored in xpath to improve integration with other services.
+
 ## [3.1.1] DataWidgets - 2025-08-05
 
 ### [3.0.4] DatagridDropdownFilter

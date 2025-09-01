@@ -222,7 +222,7 @@ export async function TakePicture(picture, showConfirmationScreen, pictureQualit
                             cleanupConfirmationElements();
                             onResumeFirstScreen();
                         });
-                        // eslint-disable-next-line no-inner-declarations
+                         
                         function cleanupConfirmationElements() {
                             document.body.removeChild(confirmationWrapper);
                             videoCanvas.remove();

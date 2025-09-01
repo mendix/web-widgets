@@ -1,9 +1,9 @@
-import { Properties, hidePropertiesIn } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
-    StructurePreviewProps,
-    structurePreviewPalette,
-    rowLayout,
     container,
+    rowLayout,
+    structurePreviewPalette,
+    StructurePreviewProps,
     svgImage,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";

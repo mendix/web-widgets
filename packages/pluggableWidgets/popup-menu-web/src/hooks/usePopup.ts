@@ -14,7 +14,7 @@ import {
     UseInteractionsReturn,
     useRole
 } from "@floating-ui/react";
-import { TriggerEnum, ClippingStrategyEnum } from "../../typings/PopupMenuProps";
+import { ClippingStrategyEnum, TriggerEnum } from "../../typings/PopupMenuProps";
 
 interface PopupOptions {
     placement?: Placement;

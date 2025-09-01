@@ -2,7 +2,7 @@ import { createElement, ReactElement } from "react";
 import { CalendarProps, NavigateAction } from "react-big-calendar";
 // @ts-expect-error - TimeGrid is not part of public typings
 import TimeGrid from "react-big-calendar/lib/TimeGrid";
-import { getRange, addWeeks, differenceInCalendarDays } from "../utils/calendar-utils";
+import { addWeeks, differenceInCalendarDays, getRange } from "../utils/calendar-utils";
 
 type CustomWeekComponent = ((viewProps: CalendarProps) => ReactElement) & {
     navigate: (date: Date, action: NavigateAction) => Date;

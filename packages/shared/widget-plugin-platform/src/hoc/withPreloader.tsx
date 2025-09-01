@@ -1,4 +1,4 @@
-import { createElement, useRef, Fragment } from "react";
+import { createElement, Fragment, useRef } from "react";
 
 export function withPreloader<P extends object>(
     Component: (props: P) => React.ReactElement,

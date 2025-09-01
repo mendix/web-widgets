@@ -1,19 +1,19 @@
 import {
     ActionValue,
-    ReferenceValue,
-    ReferenceSetValue,
-    ListValue,
-    ListWidgetValue,
+    DynamicValue,
     ListAttributeValue,
     ListExpressionValue,
-    DynamicValue
+    ListValue,
+    ListWidgetValue,
+    ReferenceSetValue,
+    ReferenceValue
 } from "mendix";
 import {
     ComboboxContainerProps,
     FilterTypeEnum,
     LoadingTypeEnum,
-    OptionsSourceAssociationCustomContentTypeEnum,
-    OptionsSourceAssociationCaptionTypeEnum
+    OptionsSourceAssociationCaptionTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum
 } from "../../../typings/ComboboxProps";
 
 type ExtractionReturnValue = [

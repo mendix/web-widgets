@@ -29,7 +29,7 @@
         "predev": "pnpm clear && pnpm copy",
         "dev": "tsc --build --verbose --watch tsconfig.json",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
-        "lint": "eslint . package.json && tsc --noEmit",
+        "lint": "tsc --noEmit && eslint . package.json",
         "release": "pnpm build",
         "test": "jest"
     },
