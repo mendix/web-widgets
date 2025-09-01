@@ -5,7 +5,7 @@
             <widgetFile path="SelectionHelper.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/selectionhelper" />
+            <file path="com/mendix/widget/web/selectionhelper/" />
         </files>
     </clientModule>
 </package>

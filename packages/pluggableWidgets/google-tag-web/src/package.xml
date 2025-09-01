@@ -5,7 +5,7 @@
             <widgetFile path="GoogleTag.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/googletag" />
+            <file path="com/mendix/widget/web/googletag/" />
         </files>
     </clientModule>
 </package>

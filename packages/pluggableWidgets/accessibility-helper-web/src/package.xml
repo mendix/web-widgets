@@ -5,7 +5,7 @@
             <widgetFile path="AccessibilityHelper.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/accessibilityhelper" />
+            <file path="com/mendix/widget/web/accessibilityhelper/" />
         </files>
     </clientModule>
 </package>

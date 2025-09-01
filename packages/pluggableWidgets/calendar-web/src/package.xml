@@ -5,7 +5,7 @@
             <widgetFile path="Calendar.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/calendar" />
+            <file path="com/mendix/widget/web/calendar/" />
         </files>
     </clientModule>
 </package>
