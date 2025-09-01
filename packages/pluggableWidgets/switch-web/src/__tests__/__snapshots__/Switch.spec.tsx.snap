@@ -6,9 +6,11 @@ exports[`Switch with editable value renders the structure correctly 1`] = `
     class="widget-switch"
   >
     <input
+      aria-checked="false"
       aria-hidden="true"
       class="sr-only"
       id="com.mendix.widgets.custom.switch1"
+      readonly=""
       tabindex="-1"
       type="checkbox"
     />
@@ -34,10 +36,12 @@ exports[`Switch with readonly value renders the structure correctly 1`] = `
     class="widget-switch"
   >
     <input
+      aria-checked="false"
       aria-hidden="true"
       class="sr-only"
       disabled=""
       id="com.mendix.widgets.custom.switch1"
+      readonly=""
       tabindex="-1"
       type="checkbox"
     />

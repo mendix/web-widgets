@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Improved accessibility and input handling. Clicking the label now toggles the switch.
+
 ## [4.2.2] - 2024-08-28
 
 ### Changed

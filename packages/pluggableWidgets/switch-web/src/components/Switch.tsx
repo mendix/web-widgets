@@ -18,6 +18,9 @@ export default function Switch(props: SwitchProps): ReactElement {
                 type="checkbox"
                 id={props.id}
                 onClick={props.onClick}
+                checked={props.isChecked}
+                aria-checked={props.isChecked}
+                readOnly
                 className="sr-only"
                 disabled={!props.editable}
                 tabIndex={-1}
