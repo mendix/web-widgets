@@ -18,7 +18,7 @@ export default function Switch(props: SwitchProps): ReactElement {
                 type="checkbox"
                 id={props.id}
                 onClick={props.onClick}
-                style={{ opacity: "0", position: "absolute", width: "1px", height: "1px" }}
+                className="sr-only"
                 disabled={!props.editable}
                 tabIndex={-1}
                 aria-hidden="true"
