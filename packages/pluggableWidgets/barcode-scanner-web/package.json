@@ -1,7 +1,7 @@
 {
     "name": "@mendix/barcode-scanner-web",
     "widgetName": "BarcodeScanner",
-    "version": "2.4.2",
+    "version": "2.5.0",
     "description": "Displays a barcode scanner",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
