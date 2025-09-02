@@ -21,6 +21,16 @@
                     <caption>Enable status bar</caption>
                     <description />
                 </property>
+                <property key="statusBarContent" type="enumeration" defaultValue="wordCount">
+                    <caption>Status bar content</caption>
+                    <description>Choose what to display in the status bar</description>
+                    <enumerationValues>
+                        <enumerationValue key="wordCount">Word count</enumerationValue>
+                        <enumerationValue key="characterCount">Character count (text only)</enumerationValue>
+                        <enumerationValue key="characterCountHtml">Character count (including HTML)</enumerationValue>
+                        <enumerationValue key="both">Both word and character count</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Toolbar">
                 <property key="preset" type="enumeration" defaultValue="basic">
