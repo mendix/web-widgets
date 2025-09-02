@@ -21,6 +21,8 @@
         "test": "turbo run test --continue --concurrency 1",
         "verify": "turbo run verify --continue --concurrency 1",
         "version": "pnpm --filter @mendix/automation-utils run version"
+        "update-screenshots": "pnpm --filter @mendix/automation-utils run update-screenshots",
+        "postinstall": "turbo run agent-rules"
     },
     "devDependencies": {
         "husky": "^8.0.3",
