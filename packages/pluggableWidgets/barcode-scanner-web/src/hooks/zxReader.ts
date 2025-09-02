@@ -62,7 +62,7 @@ export class Reader implements MxBarcodeReader {
                 }
             }
         } finally {
-            stop();
+            this.stop();
             stream?.getVideoTracks().forEach(track => track.stop());
         }
     };
