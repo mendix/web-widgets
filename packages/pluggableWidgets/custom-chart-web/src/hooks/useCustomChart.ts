@@ -2,7 +2,6 @@ import { EditorStoreState, initStateFromProps, PlaygroundData, useEditorStore } 
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { CSSProperties, Ref, RefCallback, useEffect } from "react";
 import { CustomChartControllerHost } from "src/controllers/CustomChartControllerHost";
 import { mergeRefs } from "src/utils/mergeRefs";
@@ -44,13 +43,6 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
     useEffect(() => {
         editorStateGateProvider.setProps(editorStore.state);
     });
-
-    useEffect(() => {
-        if (props.eventDataAttribute?.value && props.onClick) {
-            executeAction(props.onClick);
-            props.eventDataAttribute.setValue("");
-        }
-    }, [props.eventDataAttribute?.value]);
 
     const containerStyle: CSSProperties = {
         width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`
