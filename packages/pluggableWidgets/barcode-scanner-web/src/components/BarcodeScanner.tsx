@@ -69,7 +69,7 @@ export function BarcodeScanner({
 }: BarcodeScannerProps): ReactElement | null {
     const [errorMessage, setError] = useCustomErrorMessage();
     const canvasMiddleRef = useRef<HTMLDivElement>(null);
-    const videoRef = useReader({
+    const { ref: videoRef, useBrowserAPI } = useReader({
         onSuccess: onDetect,
         onError: setError,
         useCrop: showMask,
@@ -104,7 +104,7 @@ export function BarcodeScanner({
 
     return (
         <BarcodeScannerOverlay
-            class={className}
+            class={classNames(className, `mx-${useBrowserAPI ? "barcode" : "zxing"}-detector`)}
             showMask={showMask}
             canvasMiddleMiddleRef={canvasMiddleRef}
             {...dimensions}
