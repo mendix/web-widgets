@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added the logic to switch to use native browser BarcodeDetector API if it is available instead of using zxing library.
+- We increase ideal image resolution to improve performance on higher end devices.
+
 ## [2.4.2] - 2024-08-30
 
 ### Fixed
