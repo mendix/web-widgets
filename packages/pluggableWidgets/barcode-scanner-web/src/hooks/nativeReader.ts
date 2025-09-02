@@ -33,13 +33,13 @@ export class Reader implements MxBarcodeReader {
             return;
         }
 
-        const stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
+        this.stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
 
         this.videoRef.current.autofocus = true;
         this.videoRef.current.playsInline = true; // Fix error in Safari
         this.videoRef.current.muted = true;
         this.videoRef.current.autoplay = true;
-        this.videoRef.current.srcObject = stream;
+        this.videoRef.current.srcObject = this.stream;
         this.decodeInterval = setTimeout(this.decodeStream, 50, onSuccess, onError);
     };
 

@@ -28,7 +28,7 @@ export type ReaderProps = {
     canvasMiddleRef: RefObject<HTMLDivElement>;
 };
 
-export type UseReaderHook = (args: ReaderProps) => RefObject<HTMLVideoElement>;
+export type UseReaderHook = (args: ReaderProps) => { ref: RefObject<HTMLVideoElement>; useBrowserAPI: boolean };
 
 export const returnVideoWidthHeight = (
     curVideoRef: HTMLVideoElement,
