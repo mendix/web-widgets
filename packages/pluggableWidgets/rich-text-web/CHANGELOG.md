@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.9.0] - 2025-09-03
+
 ### Added
 
 - We added support to change the form orientation of the link, image and video modals
