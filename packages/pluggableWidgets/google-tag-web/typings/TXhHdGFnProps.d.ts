@@ -1,5 +1,5 @@
 /**
- * This file was generated from GoogleTag.xml
+ * This file was generated from TXhHdGFn.xml
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
@@ -28,7 +28,7 @@ export interface ParametersPreviewType {
     customValue: string;
 }
 
-export interface GoogleTagContainerProps {
+export interface TXhHdGFnContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
@@ -42,7 +42,7 @@ export interface GoogleTagContainerProps {
     trackPageChanges: boolean;
 }
 
-export interface GoogleTagPreviewProps {
+export interface TXhHdGFnPreviewProps {
     /**
      * @deprecated Deprecated since version 9.18.0. Please use class property instead.
      */
