@@ -69,7 +69,7 @@ export function BarcodeScanner({
 }: BarcodeScannerProps): ReactElement | null {
     const [errorMessage, setError] = useCustomErrorMessage();
     const canvasMiddleRef = useRef<HTMLDivElement>(null);
-    const { ref: videoRef, useBrowserAPI } = useReader({
+    const reader = useReader({
         onSuccess: onDetect,
         onError: setError,
         useCrop: showMask,
@@ -77,6 +77,9 @@ export function BarcodeScanner({
         useAllFormats,
         canvasMiddleRef
     });
+
+    const { ref: videoRef, useBrowserAPI } = reader ?? {};
+
     const supportsCameraAccess = typeof navigator?.mediaDevices?.getUserMedia === "function";
     const onCanPlay = useCallback((event: SyntheticEvent<HTMLVideoElement>) => {
         if (event.currentTarget.paused) {
