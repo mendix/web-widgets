@@ -1,4 +1,4 @@
-import { GoogleTagContainerProps, ParametersType } from "../typings/GoogleTagProps";
+import { TXhHdGFnContainerProps as GoogleTagContainerProps, ParametersType } from "../typings/TXhHdGFnProps";
 import commonGtag from "./commonGtag";
 import { useEffect } from "react";
 
