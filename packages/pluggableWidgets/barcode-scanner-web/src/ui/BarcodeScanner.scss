@@ -97,6 +97,15 @@
             }
         }
     }
+
+    &.debug {
+        // for debug purposes, we need to determine if barcode scanner is using native or zxing
+        &.mx-barcode-detector {
+            .mx-barcode-scanner-content {
+                border: 4px solid var(--brand-success, #16aa16);
+            }
+        }
+    }
 }
 
 // Overwrite `atlas_core/web/core/_legacy/_mxui.scss` for this particular widget because otherwise

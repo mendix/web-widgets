@@ -69,7 +69,7 @@ export function BarcodeScanner({
 }: BarcodeScannerProps): ReactElement | null {
     const [errorMessage, setError] = useCustomErrorMessage();
     const canvasMiddleRef = useRef<HTMLDivElement>(null);
-    const videoRef = useReader({
+    const reader = useReader({
         onSuccess: onDetect,
         onError: setError,
         useCrop: showMask,
@@ -77,6 +77,9 @@ export function BarcodeScanner({
         useAllFormats,
         canvasMiddleRef
     });
+
+    const { ref: videoRef, useBrowserAPI } = reader ?? {};
+
     const supportsCameraAccess = typeof navigator?.mediaDevices?.getUserMedia === "function";
     const onCanPlay = useCallback((event: SyntheticEvent<HTMLVideoElement>) => {
         if (event.currentTarget.paused) {
@@ -104,7 +107,7 @@ export function BarcodeScanner({
 
     return (
         <BarcodeScannerOverlay
-            class={className}
+            class={classNames(className, `mx-${useBrowserAPI ? "barcode" : "zxing"}-detector`)}
             showMask={showMask}
             canvasMiddleMiddleRef={canvasMiddleRef}
             {...dimensions}
