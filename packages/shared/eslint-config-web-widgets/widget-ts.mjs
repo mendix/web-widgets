@@ -211,6 +211,8 @@ export default tseslint.config(
         files: ["package.json"],
         rules: {
             "package-json/no-empty-fields": "off",
+            "package-json/require-type": "off",
+            "package-json/valid-exports": "off",
             "package-json/order-properties": [
                 "error",
                 {

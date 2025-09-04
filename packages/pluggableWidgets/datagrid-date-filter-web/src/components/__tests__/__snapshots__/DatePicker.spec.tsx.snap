@@ -9,7 +9,9 @@ exports[`Date picker component renders correctly 1`] = `
   <span
     class="sr-only"
     id="undefined-label"
-  />
+  >
+    date filter
+  </span>
   <div
     class="react-datepicker-wrapper"
   >
@@ -54,7 +56,9 @@ exports[`Date picker component renders correctly when is not adjustable 1`] = `
   <span
     class="sr-only"
     id="undefined-label"
-  />
+  >
+    date filter
+  </span>
   <div
     class="react-datepicker-wrapper"
   >
@@ -146,7 +150,9 @@ exports[`Date picker component renders correctly with different locale and date 
   <span
     class="sr-only"
     id="undefined-label"
-  />
+  >
+    date filter
+  </span>
   <div
     class="react-datepicker-wrapper"
   >

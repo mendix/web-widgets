@@ -41,7 +41,7 @@ export const Select = observer(function Select(props: SelectProps): React.ReactE
             data-empty={isEmpty ? true : undefined}
             style={props.style}
             {...getToggleButtonProps({
-                "aria-label": props.ariaLabel,
+                "aria-label": props.ariaLabel || "filter",
                 ref: refs.setReference,
                 onFocus: props.onFocus
             })}

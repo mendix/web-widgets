@@ -12,6 +12,7 @@ import { type VideoFormType } from "../ModalDialog/VideoDialog";
 import { Delta } from "quill/core";
 import { IMG_MIME_TYPES } from "./constants";
 import Emitter from "quill/core/emitter";
+import { RichTextContainerProps } from "typings/RichTextProps";
 
 type ModalReturnType = {
     showDialog: boolean;
@@ -23,7 +24,13 @@ type ModalReturnType = {
     customImageUploadHandler(value: any): void;
 };
 
-export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnType {
+export function useEmbedModal(
+    ref: MutableRefObject<Quill | null>,
+    props: Pick<
+        RichTextContainerProps,
+        "imageSource" | "imageSourceContent" | "enableDefaultUpload" | "formOrientation"
+    >
+): ModalReturnType {
     const [showDialog, setShowDialog] = useState<boolean>(false);
     const [dialogConfig, setDialogConfig] = useState<ChildDialogProps>({});
     const openDialog = (): void => {
@@ -51,7 +58,8 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                         closeDialog();
                     },
                     onClose: closeDialog,
-                    defaultValue: { ...value, text }
+                    defaultValue: { ...value, text },
+                    formOrientation: props.formOrientation
                 }
             });
             openDialog();
@@ -113,7 +121,8 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                     },
                     onClose: closeDialog,
                     selection: ref.current?.getSelection(),
-                    defaultValue: { ...value }
+                    defaultValue: { ...value },
+                    formOrientation: props.formOrientation
                 }
             });
             openDialog();
@@ -136,7 +145,8 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                         }
                         closeDialog();
                     },
-                    onClose: closeDialog
+                    onClose: closeDialog,
+                    formOrientation: props.formOrientation
                 }
             });
             openDialog();
@@ -186,7 +196,11 @@ export function useEmbedModal(ref: MutableRefObject<Quill | null>): ModalReturnT
                     closeDialog();
                 },
                 onClose: closeDialog,
-                defaultValue: { ...value }
+                defaultValue: { ...value },
+                formOrientation: props.formOrientation,
+                imageSource: props.imageSource,
+                imageSourceContent: props.imageSourceContent,
+                enableDefaultUpload: props.enableDefaultUpload
             }
         });
         openDialog();

@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the column count was not reflected properly in the preview mode
 
+### Added
+
+- Added a 'horizontal divider' option to Borders design property for Gallery list items, allowing improved visual separation and customization.
+
 ## [3.3.0] - 2025-08-28
 
 ### Added

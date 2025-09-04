@@ -6,11 +6,21 @@ interface PropsWithChildrenWithClass extends PropsWithChildren {
     className?: string;
 }
 
-export function DialogContent(props: PropsWithChildrenWithClass): ReactElement {
-    const { children, className } = props;
+export interface DialogContentProps extends PropsWithChildrenWithClass {
+    formOrientation: "horizontal" | "vertical";
+}
+
+export function DialogContent(props: DialogContentProps): ReactElement {
+    const { children, className, formOrientation } = props;
 
     return (
-        <div className={classNames("widget-rich-text-modal-body modal-dialog mx-window mx-window-active", className)}>
+        <div
+            className={classNames(
+                "widget-rich-text-modal-body modal-dialog mx-window mx-window-active",
+                { "form-vertical": formOrientation === "vertical" },
+                className
+            )}
+        >
             <div className="modal-content mx-window-content">{children}</div>
         </div>
     );
@@ -36,24 +46,55 @@ export function DialogHeader(props: DialogHeaderProps): ReactElement {
     );
 }
 
-export function DialogBody(props: PropsWithChildrenWithClass): ReactElement {
-    const { children, className } = props;
+export interface DialogBodyProps extends PropsWithChildrenWithClass {
+    formOrientation: "horizontal" | "vertical";
+}
 
-    return <div className={classNames("widget-rich-text-modal-content form-horizontal", className)}>{children}</div>;
+export function DialogBody(props: DialogBodyProps): ReactElement {
+    const { children, className, formOrientation } = props;
+
+    return (
+        <div
+            className={classNames(
+                "widget-rich-text-modal-content",
+                {
+                    "form-vertical": formOrientation === "vertical",
+                    "form-horizontal": formOrientation !== "vertical"
+                },
+                className
+            )}
+        >
+            {children}
+        </div>
+    );
 }
 
 export interface FormControlProps extends PropsWithChildrenWithClass {
     label?: string;
+    formOrientation: "horizontal" | "vertical";
+    inputId?: string;
 }
 
 export function FormControl(props: FormControlProps): ReactElement {
-    const { children, className, label } = props;
+    const { children, className, label, formOrientation, inputId } = props;
 
     return (
         <If condition={children !== undefined && children !== null}>
-            <div className={classNames("form-group", className)}>
-                {label && <label className="control-label col-sm-3">{label}</label>}
-                <div className={`col-sm-${label ? "9" : "12"}`}> {children}</div>
+            <div className={classNames("form-group", { "no-columns": formOrientation === "vertical" }, className)}>
+                {label && (
+                    <label
+                        htmlFor={inputId}
+                        id={`${inputId}-label`}
+                        className={classNames("control-label", { "col-sm-3": formOrientation !== "vertical" })}
+                    >
+                        {label}
+                    </label>
+                )}
+                {formOrientation === "vertical" ? (
+                    children
+                ) : (
+                    <div className={`col-sm-${label ? "9" : "12"}`}>{children}</div>
+                )}
             </div>
         </If>
     );

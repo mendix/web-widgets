@@ -1,9 +1,9 @@
-import { createElement } from "react";
-import { observer } from "mobx-react-lite";
+import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
 import classNames from "classnames";
+import { observer } from "mobx-react-lite";
+import { createElement } from "react";
 import { FilterSelector } from "../filter-selector/FilterSelector";
 import { InputComponentProps } from "./typings";
-import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
 
 export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputComponentProps<Fn>): React.ReactElement {
     const {
@@ -25,7 +25,7 @@ export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputC
             )}
             <input
                 aria-invalid={input1.isValid ? undefined : true}
-                aria-label={props.screenReaderInputCaption}
+                aria-label={props.screenReaderInputCaption || "filter"}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
                 disabled={props.disableInputs}
                 onChange={input1.onChange}
