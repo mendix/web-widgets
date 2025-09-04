@@ -17,6 +17,7 @@ import QuillTableBetter from "./formats/quill-table-better/quill-table-better";
 import MxUploader from "./modules/uploader";
 import MxBlock from "./formats/block";
 import CustomClipboard from "./modules/clipboard";
+import { WhiteSpaceStyle } from "./formats/whiteSpace";
 class Empty {
     doSomething(): string {
         return "";
@@ -28,6 +29,7 @@ class Empty {
 Quill.debug("error");
 Quill.register({ "themes/snow": MendixTheme }, true);
 Quill.register(CustomListItem, true);
+Quill.register(WhiteSpaceStyle, true);
 Quill.register(CustomLink, true);
 Quill.register(CustomVideo, true);
 Quill.register(CustomImage, true);
