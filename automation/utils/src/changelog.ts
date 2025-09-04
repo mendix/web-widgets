@@ -1,6 +1,8 @@
 import { gh } from "./github";
 import { PublishedInfo } from "./package-info";
 import { exec, popd, pushd } from "./shell";
+import { findOssReadme } from "./oss-readme";
+import { join } from "path";
 
 export async function updateChangelogsAndCreatePR(
     info: PublishedInfo,
@@ -50,6 +52,14 @@ export async function updateChangelogsAndCreatePR(
     const { stdout: root } = await exec(`git rev-parse --show-toplevel`, { stdio: "pipe" });
     pushd(root.trim());
     await exec(`git add '*/CHANGELOG.md'`);
+
+    const path = process.cwd();
+    const readmeossFile = findOssReadme(path, info.mxpackage.name, info.version.format());
+    if (readmeossFile) {
+        console.log(`Removing OSS clearance readme file '${readmeossFile}'...`);
+        await exec(`git rm '${join(path, readmeossFile)}'`);
+    }
+
     await exec(`git commit -m "chore(${info.name}): update changelog"`);
     await exec(`git push ${remoteName} ${releaseBranchName}`);
     popd();
@@ -57,7 +67,7 @@ export async function updateChangelogsAndCreatePR(
     console.log(`Creating pull request for '${releaseBranchName}'`);
     await gh.createGithubPRFrom({
         title: `${appName} v${info.version.format()}: Update changelog`,
-        body: "This is an automated PR that merges changelog update to master.",
+        body: "This is an automated PR that merges changelog update to main branch.",
         base: "main",
         head: releaseBranchName,
         repo: info.repository.url
