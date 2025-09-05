@@ -5,7 +5,7 @@
             <widgetFile path="Switch.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/custom/switch" />
+            <file path="com/mendix/widget/custom/switch/" />
         </files>
     </clientModule>
 </package>

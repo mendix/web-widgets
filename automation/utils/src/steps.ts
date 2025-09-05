@@ -49,8 +49,8 @@ export async function cloneTestProject({ info, config }: CommonStepParams): Prom
     const clone = process.env.CI ? cloneRepoShallow : cloneRepo;
     rm("-rf", config.paths.targetProject);
     await clone({
-        remoteUrl: testProject.githubUrl,
-        branch: testProject.branchName,
+        remoteUrl: testProject!.githubUrl,
+        branch: testProject!.branchName,
         localFolder: config.paths.targetProject
     });
 }

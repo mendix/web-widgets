@@ -86,7 +86,7 @@ export const PackageSchema = z.object({
         appNumber: true
     }),
     repository: RepositorySchema,
-    testProject: TestProjectSchema
+    testProject: TestProjectSchema.optional()
 });
 
 export const PublishedPackageSchema = PackageSchema.extend({

@@ -5,7 +5,7 @@
             <widgetFile path="ColumnChart.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/columnchart" />
+            <file path="com/mendix/widget/web/columnchart/" />
         </files>
     </clientModule>
 </package>

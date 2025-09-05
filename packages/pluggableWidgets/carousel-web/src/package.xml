@@ -5,7 +5,7 @@
             <widgetFile path="Carousel.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/custom/carousel" />
+            <file path="com/mendix/widget/custom/carousel/" />
         </files>
     </clientModule>
 </package>

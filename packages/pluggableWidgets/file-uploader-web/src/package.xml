@@ -5,7 +5,7 @@
             <widgetFile path="FileUploader.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/fileuploader" />
+            <file path="com/mendix/widget/web/fileuploader/" />
         </files>
     </clientModule>
 </package>

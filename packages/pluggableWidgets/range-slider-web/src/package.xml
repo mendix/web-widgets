@@ -5,7 +5,7 @@
             <widgetFile path="RangeSlider.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/custom/RangeSlider" />
+            <file path="com/mendix/widget/custom/RangeSlider/" />
         </files>
     </clientModule>
 </package>

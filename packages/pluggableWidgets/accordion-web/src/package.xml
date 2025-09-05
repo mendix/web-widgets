@@ -5,7 +5,7 @@
             <widgetFile path="Accordion.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/accordion" />
+            <file path="com/mendix/widget/web/accordion/" />
         </files>
     </clientModule>
 </package>

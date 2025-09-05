@@ -8,6 +8,7 @@
         "rui-agent-rules": "bin/rui-agent-rules.ts",
         "rui-create-gh-release": "bin/rui-create-gh-release.ts",
         "rui-create-translation": "bin/rui-create-translation.ts",
+        "rui-generate-package-xml": "bin/rui-generate-package-xml.ts",
         "rui-prepare-release": "bin/rui-prepare-release.ts",
         "rui-publish-marketplace": "bin/rui-publish-marketplace.ts",
         "rui-update-changelog-module": "bin/rui-update-changelog-module.ts",

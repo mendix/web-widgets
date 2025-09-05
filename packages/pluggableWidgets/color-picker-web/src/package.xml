@@ -5,7 +5,7 @@
             <widgetFile path="ColorPicker.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/custom/colorpicker" />
+            <file path="com/mendix/widget/custom/colorpicker/" />
         </files>
     </clientModule>
 </package>

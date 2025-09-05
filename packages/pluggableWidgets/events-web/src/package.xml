@@ -5,7 +5,7 @@
             <widgetFile path="Events.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/events" />
+            <file path="com/mendix/widget/web/events/" />
         </files>
     </clientModule>
 </package>

@@ -5,7 +5,7 @@
             <widgetFile path="Combobox.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/combobox" />
+            <file path="com/mendix/widget/web/combobox/" />
         </files>
     </clientModule>
 </package>

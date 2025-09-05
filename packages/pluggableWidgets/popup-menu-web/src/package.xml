@@ -5,7 +5,7 @@
             <widgetFile path="PopupMenu.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/popupmenu" />
+            <file path="com/mendix/widget/web/popupmenu/" />
         </files>
     </clientModule>
 </package>
