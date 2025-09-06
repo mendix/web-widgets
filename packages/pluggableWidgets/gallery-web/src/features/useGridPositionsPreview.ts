@@ -1,5 +1,5 @@
 import { ObjectItem } from "mendix";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GalleryProps } from "../components/Gallery";
 
 export type GridPositionsProps = Pick<GalleryProps<ObjectItem>, "desktopItems" | "phoneItems" | "tabletItems"> & {
