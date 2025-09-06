@@ -1,6 +1,6 @@
 import {
-    FloatingFocusManager,
     autoUpdate,
+    FloatingFocusManager,
     size,
     useClick,
     useDismiss,
