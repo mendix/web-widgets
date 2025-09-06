@@ -33,13 +33,6 @@ function Preview(props: GalleryPreviewProps): ReactElement {
 
     const selectHelper = useItemSelectHelper(props.itemSelection, undefined);
 
-    const { numberOfColumns, numberOfRows } = useGridPositions({
-        phoneItems: props.phoneItems ?? 1,
-        tabletItems: props.tabletItems ?? 1,
-        desktopItems: props.desktopItems ?? 1,
-        totalItems: items.length
-    });
-
     const getPositionCallback = useCallback(
         (index: number) => getColumnAndRowBasedOnIndex(numberOfColumns, items.length, index),
         [numberOfColumns, items.length]
@@ -111,6 +104,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
                 itemEventsController={itemEventsController}
                 focusController={focusController}
                 getPosition={getPositionCallback}
+                showRefreshIndicator={false}
                 preview
             />
         </div>
