@@ -152,6 +152,7 @@ export function getProperties(
             "selectionMethod",
             "selectAllButton",
             "selectAllButtonCaption",
+            "datasourceFilterDebounceInterval",
             ...ASSOCIATION_SOURCE_CONFIG,
             ...DATABASE_SOURCE_CONFIG,
             ...LAZY_LOADING_CONFIG
