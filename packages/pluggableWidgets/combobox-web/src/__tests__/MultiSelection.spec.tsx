@@ -77,7 +77,8 @@ describe("Combo box (Association)", () => {
             selectedItemsSorting: "none",
             customEditability: "default",
             customEditabilityExpression: dynamic(false),
-            filterInputDebounceInterval: 200
+            filterInputDebounceInterval: 200,
+            datasourceFilterDebounceInterval: 200
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => dynamic(`${i.id}`);

@@ -417,6 +417,10 @@
                         <enumerationValue key="skeleton">Skeleton</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="datasourceFilterDebounceInterval" type="integer" required="true" defaultValue="200">
+                    <caption>Filter debounce</caption>
+                    <description>Debounce interval in milliseconds.</description>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Multiple-selection">
                 <property key="selectedItemsSorting" type="enumeration" defaultValue="none" required="true">
