@@ -5,7 +5,7 @@
             <widgetFile path="CheckboxRadioSelection.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/checkboxradioselection" />
+            <file path="com/mendix/widget/web/checkboxradioselection/" />
         </files>
     </clientModule>
 </package>

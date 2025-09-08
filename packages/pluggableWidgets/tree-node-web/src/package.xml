@@ -5,7 +5,7 @@
             <widgetFile path="TreeNode.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/treenode" />
+            <file path="com/mendix/widget/web/treenode/" />
         </files>
     </clientModule>
 </package>

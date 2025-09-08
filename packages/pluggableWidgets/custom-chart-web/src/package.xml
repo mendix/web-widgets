@@ -5,7 +5,7 @@
             <widgetFile path="CustomChart.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/customchart" />
+            <file path="com/mendix/widget/web/customchart/" />
         </files>
     </clientModule>
 </package>

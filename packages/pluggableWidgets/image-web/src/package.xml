@@ -5,7 +5,7 @@
             <widgetFile path="Image.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/image" />
+            <file path="com/mendix/widget/web/image/" />
         </files>
     </clientModule>
 </package>

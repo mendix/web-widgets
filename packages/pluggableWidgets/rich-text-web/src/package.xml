@@ -5,7 +5,7 @@
             <widgetFile path="RichText.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/custom/richtext" />
+            <file path="com/mendix/widget/custom/richtext/" />
         </files>
     </clientModule>
 </package>
