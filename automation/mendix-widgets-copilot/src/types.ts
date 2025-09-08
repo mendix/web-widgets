@@ -11,8 +11,10 @@ export interface PackageInfo {
 export interface WidgetInspection {
     packageInfo: PackageInfo;
     widgetXml?: any;
+    widgetXmlPath?: string;
     packageXml?: any;
     editorConfig?: string;
+    editorPreview?: string;
     runtimeFiles: string[];
     testFiles: string[];
     errors: string[];
@@ -89,4 +91,49 @@ export interface ApplyChangesResult {
     dryRun?: boolean;
     error?: string;
     code?: string;
+}
+
+export interface SampleMetadata {
+    uri: string;
+    name: string;
+    description: string;
+    mimeType: string;
+}
+
+export interface WidgetSampleContent {
+    widget: string;
+    type: "overview" | "properties" | "runtime" | "recent-changes";
+    timestamp: string;
+    content: {
+        metadata?: {
+            name: string;
+            version: string;
+            path: string;
+            description?: string;
+        };
+        manifest?: string;
+        typescript?: {
+            props?: string;
+            component?: string;
+            types?: string;
+        };
+        properties?: Array<{
+            key: string;
+            type: string;
+            caption: string;
+            description?: string;
+            required?: boolean;
+            defaultValue?: any;
+        }>;
+        runtime?: {
+            mainComponent?: string;
+            hooks?: string[];
+            dependencies?: string[];
+        };
+        configuration?: {
+            editorConfig?: string;
+            editorPreview?: string;
+            packageJson?: any;
+        };
+    };
 }
