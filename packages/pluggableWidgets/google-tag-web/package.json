@@ -17,7 +17,7 @@
     "mxpackage": {
         "name": "GoogleTag",
         "type": "widget",
-        "mpkName": "com.mendix.widget.web.GoogleTagV2.mpk"
+        "mpkName": "com.mendix.widget.web.GoogleTagV3.mpk"
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
@@ -30,15 +30,15 @@
         "branchName": "google-tag-web"
     },
     "scripts": {
-        "build": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV2.mpk pluggable-widgets-tools build:web",
+        "build": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV3.mpk pluggable-widgets-tools build:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
-        "dev": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV2.mpk pluggable-widgets-tools start:web",
+        "dev": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV3.mpk pluggable-widgets-tools start:web",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "prerelease": "npm run lint",
-        "release": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV2.mpk pluggable-widgets-tools release:web",
-        "start": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV2.mpk pluggable-widgets-tools start:server",
+        "release": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV3.mpk pluggable-widgets-tools release:web",
+        "start": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV3.mpk pluggable-widgets-tools start:server",
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
     },
