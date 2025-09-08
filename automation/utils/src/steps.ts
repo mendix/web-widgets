@@ -14,6 +14,7 @@ import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
 import { addFilesToPackageXml, PackageType } from "./package-xml";
 import { chmod, cp, ensureFileExists, exec, find, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
 import chalk from "chalk";
+import { findOssReadme } from "./oss-readme";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
@@ -205,30 +206,17 @@ export async function addREADMEOSSToMpk({ config, info }: ModuleStepParams): Pro
     const version = info.version.format();
 
     // We'll search for files matching the name and version, ignoring timestamp
-    const readmeossPattern = `*${widgetName}__${version}__READMEOSS_*.html`;
+    const readmeossFile = findOssReadme(packageRoot, widgetName, version);
 
-    console.info(`Looking for READMEOSS file matching pattern: ${readmeossPattern}`);
-
-    // Find files matching the pattern in package root
-    const matchingFiles = find(packageRoot).filter(file => {
-        const fileName = parse(file).base;
-        // Check if filename contains the widget name, version, and READMEOSS
-        return fileName.includes(`${widgetName}__${version}__READMEOSS_`) && fileName.endsWith(".html");
-    });
-
-    if (matchingFiles.length === 0) {
-        console.warn(
-            `⚠️  READMEOSS file not found for ${widgetName} version ${version}. Expected pattern: ${readmeossPattern}`
-        );
+    if (!readmeossFile) {
+        console.warn(`⚠️  READMEOSS file not found for ${widgetName} version ${version}.`);
         console.warn(`   Skipping READMEOSS addition to mpk.`);
         return;
     }
 
-    const readmeossFile = matchingFiles[0];
     console.info(`Found READMEOSS file: ${parse(readmeossFile).base}`);
 
     const mpk = config.output.files.modulePackage;
-    const widgets = await getMpkPaths(config.dependencies);
     const mpkEntry = parse(mpk);
     const target = join(mpkEntry.dir, "tmp");
 
