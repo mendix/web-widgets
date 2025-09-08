@@ -4,23 +4,34 @@ An MCP (Model Context Protocol) server that provides AI-powered tooling for the 
 
 ## Complete Feature Matrix
 
-| **Category**       | **Tool**                   | **Capability**                                   | **Status** |
-| ------------------ | -------------------------- | ------------------------------------------------ | ---------- |
-| **Discovery**      | `list_packages`            | Scan all widgets with metadata                   | ✅         |
-|                    | `inspect_widget`           | Deep widget analysis with XML/TS parsing         | ✅         |
-| **Build/QA**       | `verify_manifest_versions` | Sync validation using automation utils           | ✅         |
-|                    | `build_widget`             | Interactive destination + smart script selection | ✅         |
-|                    | `run_tests`                | Unit/e2e test execution                          | ✅         |
-|                    | `create_translation`       | Turbo-powered i18n generation                    | ✅         |
-| **Safety**         | Guardrails                 | Path/command/file validation                     | ✅         |
-|                    | Error handling             | Structured responses with codes                  | ✅         |
-| **Diff Engine**    | `preview_changes`          | Multi-file unified diff preview                  | ✅         |
-|                    | `apply_changes`            | Atomic apply with backup/rollback                | ✅         |
-|                    | `rollback_changes`         | Undo with rollback tokens                        | ✅         |
-| **Property Magic** | `add_property`             | **FULL** XML→TS→Runtime integration              | ✅         |
-|                    | `rename_property`          | Cross-file property renaming                     | ✅         |
-| **Health**         | `health`                   | Server health check                              | ✅         |
-|                    | `version`                  | Version info with optional repo path             | ✅         |
+| **Category**       | **Tool**                      | **Capability**                                   | **Status** |
+| ------------------ | ----------------------------- | ------------------------------------------------ | ---------- |
+| **Discovery**      | `list_packages`               | Scan all widgets with metadata                   | ✅         |
+|                    | `inspect_widget`              | Deep widget analysis with XML/TS parsing         | ✅         |
+| **Build/QA**       | `verify_manifest_versions`    | Sync validation using automation utils           | ✅         |
+|                    | `build_widget`                | Interactive destination + smart script selection | ✅         |
+|                    | `run_tests`                   | Unit/e2e test execution                          | ✅         |
+|                    | `create_translation`          | Turbo-powered i18n generation                    | ✅         |
+| **Safety**         | Guardrails                    | Path/command/file validation                     | ✅         |
+|                    | Error handling                | Structured responses with codes                  | ✅         |
+| **Diff Engine**    | `preview_changes`             | Multi-file unified diff preview                  | ✅         |
+|                    | `apply_changes`               | Atomic apply with backup/rollback                | ✅         |
+|                    | `rollback_changes`            | Undo with rollback tokens                        | ✅         |
+| **Property Magic** | `add_property`                | **FULL** XML→TS→Runtime integration              | ✅         |
+|                    | `rename_property`             | Cross-file property renaming                     | ✅         |
+| **Sampling API**   | Widget Resources              | Context-aware widget code access                 | ✅         |
+|                    | Overview Samples              | Complete widget structure and config             | ✅         |
+|                    | Properties Samples            | Focused property definitions                     | ✅         |
+|                    | Runtime Samples               | Component implementation details                 | ✅         |
+| **Prompts API**    | `add-widget-property`         | Guided workflow for adding properties            | ✅         |
+|                    | `build-deploy-widget`         | Step-by-step build and deployment                | ✅         |
+|                    | `debug-widget-issue`          | Systematic debugging assistance                  | ✅         |
+|                    | `rename-widget-property`      | Safe property renaming workflow                  | ✅         |
+|                    | `create-widget-from-template` | Scaffold new widgets from existing ones          | ✅         |
+|                    | `analyze-widget-performance`  | Performance optimization guidance                | ✅         |
+|                    | `migrate-widget-version`      | Version migration assistance                     | ✅         |
+| **Health**         | `health`                      | Server health check                              | ✅         |
+|                    | `version`                     | Version info with optional repo path             | ✅         |
 
 ## Key Features
 
@@ -29,6 +40,21 @@ An MCP (Model Context Protocol) server that provides AI-powered tooling for the 
 - **Package scanning** with metadata extraction (name, version, kind, scripts)
 - **Deep widget inspection** including XML manifests, TypeScript interfaces, runtime files
 - **Dependency analysis** and build script detection
+
+### MCP Sampling API (Context Awareness)
+
+- **Widget Resources** - AI can "preview" widget code before making changes
+- **Overview Samples** - Complete widget context including XML, TypeScript, and config
+- **Properties Samples** - Focused view of widget property definitions
+- **Runtime Samples** - Component implementation with hooks and dependencies
+- **Think of it as**: "Let the AI look under the hood before fixing things"
+
+### MCP Prompts API (Guided Workflows)
+
+- **7 Pre-built Workflows** - Step-by-step recipes for common tasks
+- **Smart Guidance** - AI follows structured checklists instead of guessing
+- **Error Prevention** - Reduces mistakes by following proven patterns
+- **Think of it as**: "IKEA instructions for widget development"
 
 ### Property Manipulation Revolution
 
@@ -139,6 +165,13 @@ pnpm dev
 
 With this MCP server, you can ask in natural language and it will intelligently use the right tools:
 
+#### Using Prompts (Guided Workflows)
+
+- _"Help me add a new property to the switch widget"_ → Uses `add-widget-property` prompt
+- _"I need to debug a build issue with gallery-web"_ → Uses `debug-widget-issue` prompt
+- _"Walk me through building and deploying the datagrid widget"_ → Uses `build-deploy-widget` prompt
+- _"Guide me through migrating badge-web to Mendix 10"_ → Uses `migrate-widget-version` prompt
+
 #### Property Manipulation
 
 - _"Add a 'placeholder' text property to the text input widget"_
@@ -169,6 +202,38 @@ With this MCP server, you can ask in natural language and it will intelligently 
 - _"Show me a diff preview of renaming 'booleanAttribute' to 'checked' across all files"_
 
 ### Direct Tool Usage
+
+#### Prompts (Guided Workflows)
+
+```javascript
+// Use a guided workflow for adding a property
+prompt: "add-widget-property"
+arguments: {
+    widgetName: "switch-web",
+    propertyType: "boolean",
+    propertyKey: "disabled"
+}
+// Returns step-by-step instructions for the AI to follow
+
+// Debug a widget issue systematically
+prompt: "debug-widget-issue"
+arguments: {
+    widgetName: "gallery-web",
+    issueType: "build",
+    errorMessage: "Module not found: '@mendix/widget-plugin-platform'"
+}
+```
+
+#### Sampling (Context Access)
+
+```javascript
+// Access widget context via resources
+// The AI can now request these resources to understand widget structure:
+-"mendix-widget://switch-web/overview" - // Full widget context
+    "mendix-widget://switch-web/properties" - // Property definitions
+    "mendix-widget://switch-web/runtime" - // Component implementation
+    "mendix-widget://repository/list"; // All widgets overview
+```
 
 #### Discovery
 
@@ -280,6 +345,8 @@ create_translation({
 - **Diff Engine**: Unified diff generation with atomic apply/rollback
 - **Property Engine**: Full-stack XML→TypeScript→Runtime integration
 - **Discovery System**: Intelligent package scanning with metadata extraction
+- **Sampling Module**: Context-aware widget code access via MCP Resources API
+- **Prompts Module**: Guided workflow templates for complex operations
 
 ### Integration Points
 
@@ -332,6 +399,20 @@ create_translation({
 - **Cross-widget migration** recipes for version upgrades
 - **Performance analysis** tools for widget optimization
 - **Dependency management** with automated updates
+
+## Project Structure
+
+```
+src/
+├── index.ts           # Main MCP server entry point
+├── sampling.ts        # Widget context sampling functionality
+├── prompts.ts         # Guided workflow templates
+├── diff-engine.ts     # Change management and preview
+├── property-engine.ts # Property manipulation logic
+├── guardrails.ts      # Security and validation
+├── helpers.ts         # Generic utilities
+└── types.ts          # TypeScript definitions
+```
 
 ## Development
 
