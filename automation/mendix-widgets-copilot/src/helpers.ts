@@ -12,6 +12,67 @@ export function extractMpkName(scripts: Record<string, string> = {}): string | u
     return undefined;
 }
 
+export async function getWidgetName(packagePath: string): Promise<string | null> {
+    try {
+        const pkgRaw = await readFile(join(packagePath, "package.json"), "utf-8");
+        const pkg = JSON.parse(pkgRaw);
+        if (typeof pkg.widgetName === "string" && pkg.widgetName.trim()) {
+            return pkg.widgetName.trim();
+        }
+    } catch {
+        // ignore
+    }
+    const parts = packagePath.split("/");
+    return parts[parts.length - 1].split("-")[0] || null;
+}
+
+export async function resolveWidgetFiles(packagePath: string): Promise<{
+    widgetName: string | null;
+    srcPath: string;
+    widgetXmlPath?: string;
+    editorConfigPath?: string;
+    editorPreviewPath?: string;
+}> {
+    const srcPath = join(packagePath, "src");
+    const widgetName = await getWidgetName(packagePath);
+    let widgetXmlPath: string | undefined;
+    let editorConfigPath: string | undefined;
+    let editorPreviewPath: string | undefined;
+
+    try {
+        const files = await readdir(srcPath);
+
+        if (widgetName) {
+            const xmlCandidate = `${widgetName}.xml`;
+            if (files.includes(xmlCandidate)) widgetXmlPath = join(srcPath, xmlCandidate);
+
+            const cfgCandidate = `${widgetName}.editorConfig.ts`;
+            if (files.includes(cfgCandidate)) editorConfigPath = join(srcPath, cfgCandidate);
+
+            const prevCandidate = `${widgetName}.editorPreview.tsx`;
+            if (files.includes(prevCandidate)) editorPreviewPath = join(srcPath, prevCandidate);
+        }
+
+        // Fallbacks
+        if (!widgetXmlPath) {
+            const anyXml = files.find(f => f.endsWith(".xml") && !f.includes("package"));
+            if (anyXml) widgetXmlPath = join(srcPath, anyXml);
+        }
+        if (!editorConfigPath) {
+            const anyCfg = files.find(f => f.includes("editorConfig"));
+            if (anyCfg) editorConfigPath = join(srcPath, anyCfg);
+        }
+        if (!editorPreviewPath) {
+            const anyPrev = files.find(f => f.includes("editorPreview"));
+            if (anyPrev) editorPreviewPath = join(srcPath, anyPrev);
+        }
+    } catch {
+        // ignore; caller will handle errors
+    }
+
+    return { widgetName, srcPath, widgetXmlPath, editorConfigPath, editorPreviewPath };
+}
+
 export async function scanPackages(packagesDir: string): Promise<PackageInfo[]> {
     const packages: PackageInfo[] = [];
 
@@ -102,16 +163,14 @@ export async function inspectWidget(packagePath: string): Promise<WidgetInspecti
         // Parse XML files
         const parser = new XMLParser({ ignoreAttributes: false });
 
-        // Look for widget XML in src/
+        // Look for widget XML in src/ using central resolution
         const srcPath = join(packagePath, "src");
         try {
-            const srcFiles = await readdir(srcPath);
-            for (const file of srcFiles) {
-                if (file.endsWith(".xml") && !file.includes("package")) {
-                    const xmlContent = await readFile(join(srcPath, file), "utf-8");
-                    inspection.widgetXml = parser.parse(xmlContent);
-                    break;
-                }
+            const resolved = await resolveWidgetFiles(packagePath);
+            if (resolved.widgetXmlPath) {
+                const xmlContent = await readFile(resolved.widgetXmlPath, "utf-8");
+                inspection.widgetXml = parser.parse(xmlContent);
+                inspection.widgetXmlPath = resolved.widgetXmlPath;
             }
         } catch (err) {
             inspection.errors.push(`Could not read src directory: ${err}`);
@@ -126,15 +185,11 @@ export async function inspectWidget(packagePath: string): Promise<WidgetInspecti
             inspection.errors.push(`Could not read package.xml: ${err}`);
         }
 
-        // Find editor config
+        // Find editor config and preview based on central resolution
         try {
-            const srcFiles = await readdir(srcPath);
-            for (const file of srcFiles) {
-                if (file.includes("editorConfig")) {
-                    inspection.editorConfig = join(srcPath, file);
-                    break;
-                }
-            }
+            const resolved = await resolveWidgetFiles(packagePath);
+            if (resolved.editorConfigPath) inspection.editorConfig = resolved.editorConfigPath;
+            if (resolved.editorPreviewPath) inspection.editorPreview = resolved.editorPreviewPath;
         } catch (err) {
             inspection.errors.push(`Could not find editor config: ${err}`);
         }

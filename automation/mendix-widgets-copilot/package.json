@@ -12,7 +12,7 @@
     "scripts": {
         "build": "rollup -c && npm run clean",
         "build:tsc": "tsc",
-        "clean": "rm -f build/*.d.ts build/*.d.ts.map build/diff-engine.js* build/guardrails.js* build/helpers.js* build/property-engine.js* build/types.js*",
+        "clean": "rm -f build/*.d.ts build/*.d.ts.map build/diff-engine.js* build/guardrails.js* build/helpers.js* build/prompts.js* build/property-engine.js* build/sampling.js* build/types.js*",
         "dev": "tsx watch src/index.ts",
         "start": "node build/index.js"
     },
