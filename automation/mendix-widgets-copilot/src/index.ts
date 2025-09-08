@@ -22,6 +22,8 @@ import {
     determineTestCommand,
     formatCommandResult
 } from "./helpers.js";
+import { getSampleForUri } from "./sampling.js";
+import { prompts } from "./prompts.js";
 import { Guardrails, withGuardrails } from "./guardrails.js";
 import { DiffEngine } from "./diff-engine.js";
 import { PropertyEngine } from "./property-engine.js";
@@ -66,14 +68,8 @@ async function main(): Promise<void> {
         version: "0.1.0",
         title: "Mendix Widgets Copilot",
         capabilities: {
-            resources: {
-                "mendix:repo": {
-                    description: "The Mendix Pluggable Widgets repository",
-                    icon: "https://www.mendix.com/favicon.ico",
-                    url: REPO_ROOT
-                }
-            },
-            tools: {}
+            resources: {}, // Resources will be registered dynamically
+            tools: {} // Tools are registered below
         }
     });
 
@@ -534,6 +530,9 @@ async function main(): Promise<void> {
                 const diffResult = await diffEngine.createDiff(result.changes);
                 const applyResult = await diffEngine.applyChanges(diffResult, { dryRun: false, createBackup: true });
 
+                // After applying, regenerate typings via pluggable-widgets-tools
+                const regen = await propertyEngine.regenerateTypings(validatedPath);
+
                 return {
                     content: [
                         {
@@ -546,7 +545,8 @@ async function main(): Promise<void> {
                                     errors: applyResult.errors,
                                     rollbackToken: applyResult.rollbackInfo
                                         ? JSON.stringify(applyResult.rollbackInfo)
-                                        : undefined
+                                        : undefined,
+                                    typingsRegeneration: regen
                                 },
                                 null,
                                 2
@@ -617,6 +617,9 @@ async function main(): Promise<void> {
                 const diffResult = await diffEngine.createDiff(result.changes);
                 const applyResult = await diffEngine.applyChanges(diffResult, { dryRun: false, createBackup: true });
 
+                // After applying, regenerate typings via pluggable-widgets-tools
+                const regen = await propertyEngine.regenerateTypings(validatedPath);
+
                 return {
                     content: [
                         {
@@ -629,7 +632,8 @@ async function main(): Promise<void> {
                                     errors: applyResult.errors,
                                     rollbackToken: applyResult.rollbackInfo
                                         ? JSON.stringify(applyResult.rollbackInfo)
-                                        : undefined
+                                        : undefined,
+                                    typingsRegeneration: regen
                                 },
                                 null,
                                 2
@@ -640,6 +644,142 @@ async function main(): Promise<void> {
             }
         })
     );
+
+    // Register widget samples as resources for context
+    // This provides a standard way for AI assistants to access widget context
+    const packagesDir = join(REPO_ROOT, "packages");
+
+    // Register a resource for the repository overview
+    server.registerResource(
+        "repository-list",
+        "mendix-widget://repository/list",
+        {
+            title: "Widget Repository Overview",
+            description: "Complete list of widgets in the repository with metadata",
+            mimeType: "application/json"
+        },
+        async uri => {
+            const packages = await scanPackages(packagesDir);
+            return {
+                contents: [
+                    {
+                        uri: uri.href,
+                        text: JSON.stringify(
+                            {
+                                widget: "repository",
+                                type: "overview",
+                                timestamp: new Date().toISOString(),
+                                content: {
+                                    metadata: {
+                                        name: "Mendix Web Widgets Repository",
+                                        version: "latest",
+                                        path: REPO_ROOT,
+                                        description: "Complete list of widgets in the repository"
+                                    },
+                                    widgets: packages
+                                }
+                            },
+                            null,
+                            2
+                        ),
+                        mimeType: "application/json"
+                    }
+                ]
+            };
+        }
+    );
+
+    // Register dynamic resources for widget contexts
+    // We'll register a few key widgets as examples - in production, you might want to register all
+    const registerWidgetResources = async () => {
+        const packages = await scanPackages(packagesDir);
+
+        // Register resources for the first 10 widgets as examples
+        const widgetsToRegister = packages.filter(pkg => pkg.kind === "pluggableWidget").slice(0, 10);
+
+        for (const widget of widgetsToRegister) {
+            const widgetName = widget.name.replace("@mendix/", "");
+
+            // Register overview resource
+            server.registerResource(
+                `${widgetName}-overview`,
+                `mendix-widget://${widgetName}/overview`,
+                {
+                    title: `${widgetName} - Complete Overview`,
+                    description: `Full context for ${widgetName} widget including manifest, types, and configuration`,
+                    mimeType: "application/json"
+                },
+                async uri => {
+                    const sampleContent = await getSampleForUri(uri.href, REPO_ROOT);
+                    if ("error" in sampleContent) {
+                        throw new Error(sampleContent.error);
+                    }
+                    return {
+                        contents: [
+                            {
+                                uri: uri.href,
+                                text: JSON.stringify(sampleContent, null, 2),
+                                mimeType: "application/json"
+                            }
+                        ]
+                    };
+                }
+            );
+
+            // Register properties resource
+            server.registerResource(
+                `${widgetName}-properties`,
+                `mendix-widget://${widgetName}/properties`,
+                {
+                    title: `${widgetName} - Properties`,
+                    description: `Property definitions and structure for ${widgetName} widget`,
+                    mimeType: "application/json"
+                },
+                async uri => {
+                    const sampleContent = await getSampleForUri(uri.href, REPO_ROOT);
+                    if ("error" in sampleContent) {
+                        throw new Error(sampleContent.error);
+                    }
+                    return {
+                        contents: [
+                            {
+                                uri: uri.href,
+                                text: JSON.stringify(sampleContent, null, 2),
+                                mimeType: "application/json"
+                            }
+                        ]
+                    };
+                }
+            );
+        }
+    };
+
+    // Register widget resources on startup
+    await registerWidgetResources();
+
+    // Register MCP Prompts for guided workflows
+    for (const prompt of prompts) {
+        // Build the argsSchema object from prompt arguments
+        const argsSchema: Record<string, any> = {};
+        for (const arg of prompt.arguments) {
+            argsSchema[arg.name] = arg.schema || z.string();
+            if (!arg.required) {
+                argsSchema[arg.name] = argsSchema[arg.name].optional();
+            }
+        }
+
+        server.registerPrompt(
+            prompt.name,
+            {
+                title: prompt.title,
+                description: prompt.description,
+                argsSchema: argsSchema
+            },
+            prompt.handler
+        );
+    }
+
+    console.error(`Registered ${prompts.length} prompt templates for guided workflows`);
 
     await server.connect(new StdioServerTransport());
 }
