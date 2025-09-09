@@ -1,8 +1,7 @@
 #!/usr/bin/env ts-node
 
-import { writeClientPackageXml, ClientPackageXML } from "../src/package-xml-v2";
+import { readPropertiesXml, writeClientPackage } from "../src/xml-reader";
 import { getWidgetInfo } from "../src/package-info";
-import { readPropertiesFile } from "../src/package-xml-v2/properties-xml";
 import path from "node:path";
 import { existsSync } from "node:fs";
 
@@ -29,11 +28,11 @@ async function generatePackageXml(): Promise<void> {
     }
 
     // Read properties file and extract widget ID
-    const propertiesXml = await readPropertiesFile(propertiesFilePath);
+    const propertiesXml = await readPropertiesXml(propertiesFilePath);
     const widgetId = propertiesXml.widget["@_id"];
 
     // Generate ClientPackageXML structure
-    const clientPackageXml: ClientPackageXML = {
+    const clientPackageXml = {
         name: packageInfo.mxpackage.name,
         version: packageInfo.version,
         widgetFiles: [packageInfo.mxpackage.name + ".xml"],
@@ -42,10 +41,10 @@ async function generatePackageXml(): Promise<void> {
 
     // Write the generated package.xml
     const packageXmlPath = path.join(srcDir, "package.xml");
-    await writeClientPackageXml(packageXmlPath, clientPackageXml);
+    await writeClientPackage(packageXmlPath, clientPackageXml);
 }
 
-async function main() {
+async function main(): Promise<void> {
     try {
         await generatePackageXml();
     } catch (error) {
