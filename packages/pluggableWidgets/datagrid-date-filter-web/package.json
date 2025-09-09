@@ -45,7 +45,7 @@
         "@mendix/widget-plugin-filtering": "workspace:*",
         "classnames": "^2.5.1",
         "date-fns": "^3.6.0",
-        "react-datepicker": "^6.6.0"
+        "react-datepicker": "^6.9.0"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
