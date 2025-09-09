@@ -21,5 +21,6 @@ module.exports = {
     },
     extensionsToTreatAsEsm: [".ts"],
     collectCoverage: !process.env.CI,
-    coverageProvider: "v8"
+    coverageProvider: "v8",
+    testEnvironment: "jsdom"
 };
