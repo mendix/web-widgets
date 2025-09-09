@@ -1,35 +1,36 @@
 {
     "name": "web-widgets",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
-    "license": "Apache-2.0",
     "scripts": {
-        "prepare": "husky install",
-        "lint": "turbo run lint --continue --concurrency 1",
-        "test": "turbo run test --continue --concurrency 1",
-        "verify": "turbo run verify --continue --concurrency 1",
         "build": "turbo run build",
-        "release": "turbo run release",
+        "changelog": "pnpm --filter @mendix/automation-utils run changelog",
         "create-gh-release": "turbo run create-gh-release --concurrency 1",
         "create-translation": "turbo run create-translation",
-        "publish-marketplace": "turbo run publish-marketplace",
-        "version": "pnpm --filter @mendix/automation-utils run version",
-        "changelog": "pnpm --filter @mendix/automation-utils run changelog",
+        "postinstall": "turbo run agent-rules",
+        "lint": "turbo run lint --continue --concurrency 1",
+        "prepare": "husky install",
         "prepare-release": "pnpm --filter @mendix/automation-utils run prepare-release",
-        "postinstall": "turbo run agent-rules"
+        "publish-marketplace": "turbo run publish-marketplace",
+        "release": "turbo run release",
+        "test": "turbo run test --continue --concurrency 1",
+        "verify": "turbo run verify --continue --concurrency 1",
+        "version": "pnpm --filter @mendix/automation-utils run version"
     },
     "devDependencies": {
         "husky": "^8.0.3",
         "turbo": "^2.5.4"
     },
+    "prettier": "@mendix/prettier-config-web-widgets",
+    "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184",
     "engines": {
         "node": ">=22",
         "pnpm": "10.12.4"
     },
-    "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184",
     "pnpm": {
         "peerDependencyRules": {
             "allowedVersions": {
@@ -40,45 +41,44 @@
                 "react-native"
             ]
         },
-        "overrides": {
-            "@mendix/pluggable-widgets-tools": "10.21.2",
-            "react": "^18.0.0",
-            "react-dom": "^18.0.0",
-            "prettier": "3.5.3",
-            "@types/node": "~22.14.0",
-            "@types/react": ">=18.2.36",
-            "@types/big.js": "^6.2.2",
-            "d3-color@<3.1.0": ">=3.1.0",
-            "loader-utils@1": "^1.4.2",
-            "loader-utils@3": "^3.2.1",
-            "decode-uri-component@<0.2.1": ">=0.2.1",
-            "jest": "^29.7.0",
-            "jest-environment-jsdom": "^29.7.0",
-            "json5@1.x": ">=1.0.2",
-            "json5@0.x": ">=1.0.2",
-            "@codemirror/view": "^6.38.1",
-            "enzyme>cheerio": "1.0.0-rc.10",
-            "ts-node": "10.9.2",
-            "react-big-calendar@1>clsx": "2.1.1",
-            "typescript": ">5.8.0"
-        },
-        "patchedDependencies": {
-            "react-big-calendar@0.19.2": "patches/react-big-calendar@0.19.2.patch",
-            "mobx@6.12.3": "patches/mobx@6.12.3.patch",
-            "mobx-react-lite@4.0.7": "patches/mobx-react-lite@4.0.7.patch",
-            "mime-types": "patches/mime-types.patch",
-            "rc-trigger": "patches/rc-trigger.patch",
-            "react-dropzone": "patches/react-dropzone.patch"
-        },
         "onlyBuiltDependencies": [
             "@swc/core",
             "canvas"
         ],
+        "overrides": {
+            "@codemirror/view": "^6.38.1",
+            "@mendix/pluggable-widgets-tools": "10.21.2",
+            "@types/big.js": "^6.2.2",
+            "@types/node": "~22.14.0",
+            "@types/react": ">=18.2.36",
+            "d3-color@<3.1.0": ">=3.1.0",
+            "decode-uri-component@<0.2.1": ">=0.2.1",
+            "enzyme>cheerio": "1.0.0-rc.10",
+            "jest": "^29.7.0",
+            "jest-environment-jsdom": "^29.7.0",
+            "json5@0.x": ">=1.0.2",
+            "json5@1.x": ">=1.0.2",
+            "loader-utils@1": "^1.4.2",
+            "loader-utils@3": "^3.2.1",
+            "prettier": "3.5.3",
+            "react": "^18.0.0",
+            "react-big-calendar@1>clsx": "2.1.1",
+            "react-dom": "^18.0.0",
+            "ts-node": "10.9.2",
+            "typescript": ">5.8.0"
+        },
+        "patchedDependencies": {
+            "mime-types": "patches/mime-types.patch",
+            "mobx-react-lite@4.0.7": "patches/mobx-react-lite@4.0.7.patch",
+            "mobx@6.12.3": "patches/mobx@6.12.3.patch",
+            "rc-trigger": "patches/rc-trigger.patch",
+            "react-big-calendar@0.19.2": "patches/react-big-calendar@0.19.2.patch",
+            "react-dropzone": "patches/react-dropzone.patch"
+        },
         "ignoredBuiltDependencies": [
             "@parcel/watcher",
             "core-js",
             "es5-ext"
         ]
-    },
-    "prettier": "@mendix/prettier-config-web-widgets"
+    }
 }
