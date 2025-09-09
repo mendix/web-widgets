@@ -42,8 +42,8 @@
             position: absolute;
             left: 0;
             right: 0;
-            border-bottom: 1px solid var(--grid-border-color, $dg-grid-border-color);
-            margin-top: calc(var(--spacing-small, $dg-spacing-small) / 2);
+            border-bottom: 1px solid var(--grid-border-color, $grid-border-color);
+            margin-top: calc(var(--spacing-small, $spacing-small) / 2);
         }
     }
 }

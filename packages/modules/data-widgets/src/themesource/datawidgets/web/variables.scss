@@ -34,28 +34,3 @@ $skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d
 
 // Assets
 $arrow: "resources/dropdown-arrow.svg" !default;
-
-:root {
-    --bg-color: #{$bg-color};
-    --icon-color: #{$icon-color};
-    --icon-size: #{$icon-size};
-    --pagination-button-color: #{$pagination-button-color};
-    --pagination-caption-color: #{$pagination-caption-color};
-    --dragging-color-effect: #{$dragging-color-effect};
-    --dragging-effect-size: #{$dragging-effect-size};
-    --bg-color-secondary: #{$bg-color-secondary};
-    --bg-color-hover: #{$bg-color-hover};
-    --spacing-small: #{$spacing-small};
-    --spacing-medium: #{$spacing-medium};
-    --spacing-large: #{$spacing-large};
-    --grid-border-color: #{$grid-border-color};
-    --brand-primary: #{$brand-primary};
-    --brand-light: #{$brand-light};
-    --grid-selected-row-background: #{$grid-selected-row-background};
-    --skeleton-background: #{$skeleton-background};
-    --hover-color: #{$hover-color};
-    --selected-color: #{$selected-color};
-    --border-color-default: #{$border-color-default};
-    --item-min-height: #{$item-min-height};
-    --arrow: #{$arrow};
-}
