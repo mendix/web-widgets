@@ -62,12 +62,16 @@ describe("Rich Text", () => {
     });
 
     it("renders with character count status bar", () => {
-        const component = render(<RichText {...defaultProps} statusBarContent={"characterCount" as StatusBarContentEnum} />);
+        const component = render(
+            <RichText {...defaultProps} statusBarContent={"characterCount" as StatusBarContentEnum} />
+        );
         expect(component.container).toMatchSnapshot();
     });
 
     it("renders with HTML character count status bar", () => {
-        const component = render(<RichText {...defaultProps} statusBarContent={"characterCountHtml" as StatusBarContentEnum} />);
+        const component = render(
+            <RichText {...defaultProps} statusBarContent={"characterCountHtml" as StatusBarContentEnum} />
+        );
         expect(component.container).toMatchSnapshot();
     });
 
