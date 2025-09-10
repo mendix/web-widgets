@@ -214,6 +214,9 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 isOpen={showDialog}
                 onOpenChange={open => setShowDialog(open)}
                 parentNode={modalRef.current?.ownerDocument.body}
+                imageSource={props.imageSource}
+                imageSourceContent={props.imageSourceContent}
+                enableDefaultUpload={props.enableDefaultUpload}
                 {...dialogConfig}
             ></Dialog>
         </Fragment>
