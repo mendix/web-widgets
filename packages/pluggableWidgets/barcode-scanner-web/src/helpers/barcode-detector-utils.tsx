@@ -21,7 +21,12 @@ const mapToNativeFormat = (format: string): string => {
 
 // Check if BarcodeDetector API is available
 export const isBarcodeDetectorSupported = (): boolean => {
-    return typeof globalThis !== "undefined" && "BarcodeDetector" in globalThis;
+    return (
+        typeof globalThis !== "undefined" &&
+        "BarcodeDetector" in globalThis &&
+        "detect" in (globalThis as any).BarcodeDetector &&
+        typeof (globalThis as any).BarcodeDetector.detect === "function"
+    );
 };
 
 // Get supported formats for BarcodeDetector
