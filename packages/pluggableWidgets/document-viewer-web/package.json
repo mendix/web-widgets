@@ -25,14 +25,23 @@
         "appName": "Document Viewer",
         "reactReady": true
     },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "document-viewer-web"
+    },
     "scripts": {
         "build": "pluggable-widgets-tools build:web",
+        "create-gh-release": "rui-create-gh-release",
+        "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
+        "publish-marketplace": "rui-publish-marketplace",
         "release": "pluggable-widgets-tools release:web",
         "start": "pluggable-widgets-tools start:server",
-        "test": "echo 'FIXME: Add unit tests'"
+        "test": "echo 'FIXME: Add unit tests'",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
     },
     "dependencies": {
         "@mendix/widget-plugin-component-kit": "workspace:*",
