@@ -21,13 +21,11 @@ interface CustomEvent<T = any> extends Event {
 }
 
 export interface ImageDialogProps
-    extends Pick<
-        RichTextContainerProps,
-        "imageSource" | "imageSourceContent" | "enableDefaultUpload" | "formOrientation"
-    > {
+    extends Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "formOrientation"> {
     onSubmit(value: imageConfigType): void;
     onClose(): void;
     defaultValue?: imageConfigType;
+    enableDefaultUpload?: boolean;
 }
 
 export default function ImageDialog(props: ImageDialogProps): ReactElement {
