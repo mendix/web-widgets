@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, createElement, KeyboardEvent } from "react";
+import { ReactNode, useCallback, KeyboardEvent } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 import { BadgeContainerProps } from "../typings/BadgeProps";
