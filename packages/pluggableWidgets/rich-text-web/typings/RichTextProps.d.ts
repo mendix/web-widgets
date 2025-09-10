@@ -12,7 +12,7 @@ export type ToolbarLocationEnum = "auto" | "top" | "bottom" | "hide";
 
 export type ReadOnlyStyleEnum = "text" | "bordered" | "readPanel";
 
-export type StatusBarContentEnum = "wordCount" | "characterCount" | "characterCountHtml" | "both";
+export type FormOrientationEnum = "horizontal" | "vertical";
 
 export type WidthUnitEnum = "pixels" | "percentage";
 
@@ -30,6 +30,8 @@ export interface CustomFontsType {
     fontName: string;
     fontStyle: string;
 }
+
+export type StatusBarContentEnum = "wordCount" | "characterCount" | "characterCountHtml";
 
 export type ToolbarConfigEnum = "basic" | "advanced";
 
@@ -54,7 +56,6 @@ export interface RichTextContainerProps {
     id: string;
     stringAttribute: EditableValue<string>;
     enableStatusBar: boolean;
-    statusBarContent: StatusBarContentEnum;
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
@@ -78,6 +79,7 @@ export interface RichTextContainerProps {
     imageSource?: ListValue;
     imageSourceContent?: ReactNode;
     enableDefaultUpload: boolean;
+    statusBarContent: StatusBarContentEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
@@ -101,7 +103,6 @@ export interface RichTextPreviewProps {
     translate: (text: string) => string;
     stringAttribute: string;
     enableStatusBar: boolean;
-    statusBarContent: StatusBarContentEnum;
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
     readOnlyStyle: ReadOnlyStyleEnum;
@@ -125,6 +126,7 @@ export interface RichTextPreviewProps {
     imageSource: {} | { caption: string } | { type: string } | null;
     imageSourceContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     enableDefaultUpload: boolean;
+    statusBarContent: StatusBarContentEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
