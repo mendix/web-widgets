@@ -65,8 +65,6 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     const editorValueRef = useRef<string>("");
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
-    const [characterCount, setCharacterCount] = useState(0);
-    const [characterCountHtml, setCharacterCountHtml] = useState(0);
 
     const { isFullscreen } = globalState;
 
@@ -83,43 +81,22 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         [stringAttribute, onChange, onChangeType]
     );
 
-    const calculateWordCount = useCallback(
-        (quill: Quill | null): void => {
-            if (enableStatusBar) {
-                const text = quill?.getText().trim();
-                setWordCount(text && text.length > 0 ? text.split(/\s+/).length : 0);
-            }
-        },
-        [enableStatusBar]
-    );
-
-    const calculateCharacterCount = useCallback(
-        (quill: Quill | null): void => {
-            if (enableStatusBar && (statusBarContent === "characterCount" || statusBarContent === "both")) {
-                const text = quill?.getText() || "";
-                setCharacterCount(text.length);
-            }
-        },
-        [enableStatusBar, statusBarContent]
-    );
-
-    const calculateCharacterCountHtml = useCallback(
-        (quill: Quill | null): void => {
-            if (enableStatusBar && (statusBarContent === "characterCountHtml" || statusBarContent === "both")) {
-                const html = quill?.getSemanticHTML() || "";
-                setCharacterCountHtml(html.length);
-            }
-        },
-        [enableStatusBar, statusBarContent]
-    );
-
     const calculateCounts = useCallback(
         (quill: Quill | null): void => {
-            calculateWordCount(quill);
-            calculateCharacterCount(quill);
-            calculateCharacterCountHtml(quill);
+            if (enableStatusBar) {
+                if (statusBarContent === "wordCount") {
+                    const text = quill?.getText().trim();
+                    setWordCount(text && text.length > 0 ? text.split(/\s+/).length : 0);
+                } else if (statusBarContent === "characterCount") {
+                    const text = quill?.getText() || "";
+                    setWordCount(text.length);
+                } else if (statusBarContent === "characterCountHtml") {
+                    const html = quill?.getSemanticHTML() || "";
+                    setWordCount(html.length);
+                }
+            }
         },
-        [calculateWordCount, calculateCharacterCount, calculateCharacterCountHtml]
+        [enableStatusBar, statusBarContent]
     );
 
     useEffect(() => {
@@ -207,7 +184,9 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
             spellCheck={props.spellCheck}
             tabIndex={tabIndex}
         >
-            {toolbarLocation === "auto" && <StickySentinel />}
+            <If condition={toolbarLocation === "auto"}>
+                <StickySentinel />
+            </If>
             <div
                 className={classNames(
                     "flexcontainer",
@@ -252,24 +231,15 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     formOrientation={formOrientation}
                 />
             </div>
-            {enableStatusBar && (
+            <If condition={enableStatusBar}>
                 <div className="widget-rich-text-footer" tabIndex={-1}>
-                    {statusBarContent === "wordCount" && (
-                        <span>{wordCount} word{wordCount === 1 ? "" : "s"}</span>
-                    )}
-                    {statusBarContent === "characterCount" && (
-                        <span>{characterCount} character{characterCount === 1 ? "" : "s"}</span>
-                    )}
-                    {statusBarContent === "characterCountHtml" && (
-                        <span>{characterCountHtml} character{characterCountHtml === 1 ? "" : "s"} (with HTML)</span>
-                    )}
-                    {statusBarContent === "both" && (
-                        <span>
-                            {wordCount} word{wordCount === 1 ? "" : "s"} • {characterCount} character{characterCount === 1 ? "" : "s"}
-                        </span>
-                    )}
+                    <span>
+                        <span>{wordCount}</span>
+                        <span>{` ${statusBarContent === "wordCount" ? "word" : "character"}`}</span>
+                        <span>{wordCount === 1 ? "" : "s"}</span>
+                    </span>
                 </div>
-            )}
+            </If>
         </div>
     );
 }
