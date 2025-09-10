@@ -103,9 +103,17 @@ exports[`Rich Text renders richtext widget 1`] = `
       class="widget-rich-text-footer"
       tabindex="-1"
     >
-      0
-       word
-      s
+      <span>
+        <span>
+          0
+        </span>
+        <span>
+           word
+        </span>
+        <span>
+          s
+        </span>
+      </span>
     </div>
   </div>
 </div>
@@ -683,9 +691,374 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
       class="widget-rich-text-footer"
       tabindex="-1"
     >
-      0
-       word
-      s
+      <span>
+        <span>
+          0
+        </span>
+        <span>
+           word
+        </span>
+        <span>
+          s
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Rich Text renders with HTML character count status bar 1`] = `
+<div>
+  <div
+    class="widget-rich-text form-control flex-column"
+    spellcheck="true"
+    style="width: 100%;"
+    tabindex="0"
+  >
+    <div
+      class="flexcontainer flex-column-reverse"
+    >
+      <div
+        class="widget-rich-text-toolbar"
+        id="widget_RichText1_toolbar"
+      >
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Bold"
+            class="ql-bold icons icon-Text-bold"
+            tabindex="-1"
+            title="Bold"
+          />
+          <button
+            aria-label="Italic"
+            class="ql-italic icons icon-Text-italic"
+            tabindex="-1"
+            title="Italic"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Default list"
+            class="ql-list icons icon-List-numbers"
+            tabindex="-1"
+            title="Default list"
+            value="ordered"
+          />
+          <button
+            aria-label="Bullet list"
+            class="ql-list icons icon-List-bullets"
+            tabindex="-1"
+            title="Bullet list"
+            value="bullet"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Decrease indent"
+            class="ql-indent icons icon-Text-indent-right"
+            tabindex="-1"
+            title="Decrease indent"
+            value="-1"
+          />
+          <button
+            aria-label="Increase indent"
+            class="ql-indent icons icon-Text-indent-left"
+            tabindex="-1"
+            title="Increase indent"
+            value="+1"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Insert/edit link"
+            class="ql-link icons icon-Hyperlink"
+            tabindex="-1"
+            title="Insert/edit link"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Clear formatting"
+            class="ql-clean icons icon-Clear-formating"
+            tabindex="-1"
+            title="Clear formatting"
+          />
+        </span>
+      </div>
+      <div
+        class="widget-rich-text-container"
+        style="height: auto;"
+      />
+      <div />
+    </div>
+    <div
+      class="widget-rich-text-footer"
+      tabindex="-1"
+    >
+      <span>
+        <span>
+          0
+        </span>
+        <span>
+           character
+        </span>
+        <span>
+          s
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Rich Text renders with both word and character count 1`] = `
+<div>
+  <div
+    class="widget-rich-text form-control flex-column"
+    spellcheck="true"
+    style="width: 100%;"
+    tabindex="0"
+  >
+    <div
+      class="flexcontainer flex-column-reverse"
+    >
+      <div
+        class="widget-rich-text-toolbar"
+        id="widget_RichText1_toolbar"
+      >
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Bold"
+            class="ql-bold icons icon-Text-bold"
+            tabindex="-1"
+            title="Bold"
+          />
+          <button
+            aria-label="Italic"
+            class="ql-italic icons icon-Text-italic"
+            tabindex="-1"
+            title="Italic"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Default list"
+            class="ql-list icons icon-List-numbers"
+            tabindex="-1"
+            title="Default list"
+            value="ordered"
+          />
+          <button
+            aria-label="Bullet list"
+            class="ql-list icons icon-List-bullets"
+            tabindex="-1"
+            title="Bullet list"
+            value="bullet"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Decrease indent"
+            class="ql-indent icons icon-Text-indent-right"
+            tabindex="-1"
+            title="Decrease indent"
+            value="-1"
+          />
+          <button
+            aria-label="Increase indent"
+            class="ql-indent icons icon-Text-indent-left"
+            tabindex="-1"
+            title="Increase indent"
+            value="+1"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Insert/edit link"
+            class="ql-link icons icon-Hyperlink"
+            tabindex="-1"
+            title="Insert/edit link"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Clear formatting"
+            class="ql-clean icons icon-Clear-formating"
+            tabindex="-1"
+            title="Clear formatting"
+          />
+        </span>
+      </div>
+      <div
+        class="widget-rich-text-container"
+        style="height: auto;"
+      />
+      <div />
+    </div>
+    <div
+      class="widget-rich-text-footer"
+      tabindex="-1"
+    >
+      <span>
+        <span>
+          0
+        </span>
+        <span>
+           character
+        </span>
+        <span>
+          s
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Rich Text renders with character count status bar 1`] = `
+<div>
+  <div
+    class="widget-rich-text form-control flex-column"
+    spellcheck="true"
+    style="width: 100%;"
+    tabindex="0"
+  >
+    <div
+      class="flexcontainer flex-column-reverse"
+    >
+      <div
+        class="widget-rich-text-toolbar"
+        id="widget_RichText1_toolbar"
+      >
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Bold"
+            class="ql-bold icons icon-Text-bold"
+            tabindex="-1"
+            title="Bold"
+          />
+          <button
+            aria-label="Italic"
+            class="ql-italic icons icon-Text-italic"
+            tabindex="-1"
+            title="Italic"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Default list"
+            class="ql-list icons icon-List-numbers"
+            tabindex="-1"
+            title="Default list"
+            value="ordered"
+          />
+          <button
+            aria-label="Bullet list"
+            class="ql-list icons icon-List-bullets"
+            tabindex="-1"
+            title="Bullet list"
+            value="bullet"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Decrease indent"
+            class="ql-indent icons icon-Text-indent-right"
+            tabindex="-1"
+            title="Decrease indent"
+            value="-1"
+          />
+          <button
+            aria-label="Increase indent"
+            class="ql-indent icons icon-Text-indent-left"
+            tabindex="-1"
+            title="Increase indent"
+            value="+1"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Insert/edit link"
+            class="ql-link icons icon-Hyperlink"
+            tabindex="-1"
+            title="Insert/edit link"
+          />
+        </span>
+        <span
+          class="ql-formats"
+          tabindex="-1"
+        >
+          <button
+            aria-label="Clear formatting"
+            class="ql-clean icons icon-Clear-formating"
+            tabindex="-1"
+            title="Clear formatting"
+          />
+        </span>
+      </div>
+      <div
+        class="widget-rich-text-container"
+        style="height: auto;"
+      />
+      <div />
+    </div>
+    <div
+      class="widget-rich-text-footer"
+      tabindex="-1"
+    >
+      <span>
+        <span>
+          0
+        </span>
+        <span>
+           character
+        </span>
+        <span>
+          s
+        </span>
+      </span>
     </div>
   </div>
 </div>
