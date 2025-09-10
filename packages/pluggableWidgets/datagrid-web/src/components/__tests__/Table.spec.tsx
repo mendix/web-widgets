@@ -5,7 +5,7 @@ import { SelectionMultiValueBuilder, list, listWidget, objectItems } from "@mend
 import { cleanup, getAllByRole, getByRole, queryByRole, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
-import { ReactElement, createElement } from "react";
+import { ReactElement } from "react";
 import { CellEventsController, useCellEventsController } from "../../features/row-interaction/CellEventsController";
 import {
     CheckboxEventsController,

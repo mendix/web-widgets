@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { render, RenderResult, fireEvent } from "@testing-library/react";
 import { objectItems } from "@mendix/widget-plugin-test-utils";

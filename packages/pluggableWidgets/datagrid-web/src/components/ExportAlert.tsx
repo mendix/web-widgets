@@ -1,7 +1,7 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import * as Progress from "@radix-ui/react-progress";
 import classNames from "classnames";
-import { createElement, ReactElement, useState } from "react";
+import { ReactElement, useState } from "react";
 import { CloseIcon } from "./icons/CloseIcon";
 import { WarningIcon } from "./icons/WarningIcon";
 

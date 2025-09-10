@@ -7,7 +7,7 @@ enableStaticRendering(true);
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
-import { ReactElement, ReactNode, createElement, useCallback, useMemo } from "react";
+import { ReactElement, ReactNode, useCallback, useMemo } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";

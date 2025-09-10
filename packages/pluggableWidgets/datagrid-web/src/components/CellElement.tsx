@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactNode, ReactElement, memo, DOMAttributes, forwardRef } from "react";
+import { ReactNode, ReactElement, memo, DOMAttributes, forwardRef, JSX } from "react";
 import { AlignmentEnum } from "typings/DatagridProps";
 
 export type CellElementProps = {

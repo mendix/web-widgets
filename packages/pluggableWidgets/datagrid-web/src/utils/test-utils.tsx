@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { GUID, ObjectItem } from "mendix";
 import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
 import { WidgetProps } from "../components/Widget";

@@ -1,5 +1,5 @@
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import { Fragment, ReactElement, createElement, useCallback } from "react";
+import { Fragment, ReactElement, useCallback } from "react";
 import { useWidgetProps } from "../helpers/useWidgetProps";
 
 export function CheckboxColumnHeader(): ReactElement {

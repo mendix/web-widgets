@@ -1,4 +1,4 @@
-import { createElement, Fragment, ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import { CellElement } from "../CellElement";
 import { SkeletonLoader } from "./SkeletonLoader";
 import { useWidgetProps } from "../../helpers/useWidgetProps";

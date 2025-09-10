@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
-import { ReactElement, createElement } from "react";
+import { ReactElement } from "react";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { SelectorCell } from "./SelectorCell";

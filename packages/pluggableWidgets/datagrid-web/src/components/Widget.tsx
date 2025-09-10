@@ -3,7 +3,7 @@ import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
-import { CSSProperties, ReactElement, ReactNode, createElement, Fragment } from "react";
+import { CSSProperties, ReactElement, ReactNode, Fragment } from "react";
 import {
     PagingPositionEnum,
     PaginationEnum,

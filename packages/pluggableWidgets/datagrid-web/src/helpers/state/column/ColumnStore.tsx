@@ -7,7 +7,7 @@ import {
     ObjectItem,
     ValueStatus
 } from "mendix";
-import { createElement, ReactElement, ReactNode } from "react";
+import { JSX, ReactElement, ReactNode } from "react";
 import { AlignmentEnum, ColumnsType } from "../../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../../typings/GridColumn";
 import { Big } from "big.js";

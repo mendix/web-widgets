@@ -1,5 +1,5 @@
 import { autoUpdate, size, useClick, useDismiss, useFloating, useInteractions } from "@floating-ui/react";
-import { createElement, ReactElement, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { ReactElement, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { GridColumn } from "../typings/GridColumn";
 import { FaEye } from "./icons/FaEye";

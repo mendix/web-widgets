@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, Fragment, ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import { LoadingTypeEnum } from "../../typings/DatagridProps";
 import { SpinnerLoader } from "./loader/SpinnerLoader";
 import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";

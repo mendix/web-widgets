@@ -1,4 +1,4 @@
-import { createElement, ReactNode, ReactElement } from "react";
+import { ReactNode, ReactElement, JSX } from "react";
 import { PagingPositionEnum, PaginationEnum } from "../../typings/DatagridProps";
 
 type WidgetFooterProps = {
