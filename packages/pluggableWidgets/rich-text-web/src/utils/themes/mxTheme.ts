@@ -6,9 +6,6 @@ import { Context } from "quill/modules/keyboard";
 import Picker from "quill/ui/picker";
 import { Range } from "quill";
 
-const DEFAULT_FONT_SIZE = "14px";
-const DEFAULT_FONT_FAMILY = "helvetica";
-
 /**
  * Override quill's current theme.
  */
@@ -16,6 +13,8 @@ export default class MendixTheme extends SnowTheme {
     fontPicker?: Picker = undefined;
     fontSizePicker?: Picker = undefined;
     headerPicker?: Picker = undefined;
+    defaultFontFamily = "helvetica";
+    defaultFontSize = "14px";
     buildPickers(selects: NodeListOf<HTMLSelectElement>, icons: Record<string, string | Record<string, string>>): void {
         super.buildPickers(selects, icons);
 
@@ -23,14 +22,14 @@ export default class MendixTheme extends SnowTheme {
             const pickerLabel = picker.container.querySelector(".ql-picker-label");
             if (picker.container.classList.contains("ql-size")) {
                 picker.selectItem(
-                    picker.container.querySelector(`[data-value="${DEFAULT_FONT_SIZE}"]`) as HTMLElement,
+                    picker.container.querySelector(`[data-value="${this.defaultFontFamily}"]`) as HTMLElement,
                     false
                 );
                 this.fontSizePicker = picker;
             }
             if (picker.container.classList.contains("ql-font")) {
                 picker.selectItem(
-                    picker.container.querySelector(`[data-value=${DEFAULT_FONT_FAMILY}]`) as HTMLElement,
+                    picker.container.querySelector(`[data-value=${this.defaultFontFamily}]`) as HTMLElement,
                     false
                 );
                 this.fontPicker = picker;
@@ -76,9 +75,9 @@ export default class MendixTheme extends SnowTheme {
 
             const format = this.quill.getFormat(currentRange.index, currentRange.length);
             const font = format ? (format.font as string) : undefined;
-            this.updateFontPicker(font || DEFAULT_FONT_FAMILY);
+            this.updateFontPicker(font || this.defaultFontFamily);
             const fontSize = format ? (format.size as string) : undefined;
-            this.updateFontSizePicker(fontSize || DEFAULT_FONT_SIZE);
+            this.updateFontSizePicker(fontSize || this.defaultFontSize);
             const header = format ? (format.header as string) : undefined;
             this.updateHeaderPicker(header);
         }
@@ -120,5 +119,25 @@ export default class MendixTheme extends SnowTheme {
                 this.headerPicker?.selectItem(currentOption as HTMLElement, false);
             }
         }
+    }
+
+    updateDefaultFontFamily(fontFamily?: string): void {
+        if (fontFamily && fontFamily.trim().length > 0) {
+            this.defaultFontFamily = fontFamily;
+        } else {
+            this.defaultFontFamily = "helvetica";
+        }
+
+        this.updateFontPicker(this.defaultFontFamily);
+    }
+
+    updateDefaultFontSize(fontSize?: string): void {
+        if (fontSize) {
+            this.defaultFontSize = fontSize;
+        } else {
+            this.defaultFontSize = "14px";
+        }
+
+        this.updateFontSizePicker(this.defaultFontSize);
     }
 }

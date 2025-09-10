@@ -54,7 +54,9 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         imageSource,
         imageSourceContent,
         enableDefaultUpload,
-        formOrientation
+        formOrientation,
+        defaultFontFamily,
+        defaultFontSize
     } = props;
 
     const globalState = useContext(EditorContext);
@@ -105,6 +107,14 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stringAttribute.value, calculateCounts, quillRef.current]);
+
+    useEffect(() => {
+        if (quillRef.current) {
+            (quillRef.current?.theme as MendixTheme).updateDefaultFontFamily(defaultFontFamily?.value);
+            (quillRef.current?.theme as MendixTheme).updateDefaultFontSize(defaultFontSize?.value);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [defaultFontFamily?.value, quillRef.current, defaultFontSize?.value]);
 
     useEffect(() => {
         if (quillRef.current) {
