@@ -14,8 +14,19 @@ export interface SwitchProps extends Pick<SwitchContainerProps, "id" | "tabIndex
 export default function Switch(props: SwitchProps): ReactElement {
     return (
         <div className="widget-switch">
-            <div
+            <input
+                type="checkbox"
                 id={props.id}
+                onClick={props.onClick}
+                checked={props.isChecked}
+                aria-checked={props.isChecked}
+                readOnly
+                className="sr-only"
+                disabled={!props.editable}
+                tabIndex={-1}
+                aria-hidden="true"
+            />
+            <div
                 className={classNames("widget-switch-btn-wrapper", "widget-switch-btn-wrapper-default", {
                     checked: props.isChecked,
                     disabled: !props.editable,
