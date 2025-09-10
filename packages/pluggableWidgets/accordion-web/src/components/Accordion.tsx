@@ -1,13 +1,4 @@
-import {
-    createElement,
-    Dispatch,
-    MutableRefObject,
-    ReactElement,
-    useCallback,
-    useMemo,
-    useReducer,
-    useRef
-} from "react";
+import { Dispatch, RefObject, ReactElement, useCallback, useMemo, useReducer, useRef } from "react";
 
 import { AccordionGroup, AccordionGroupProps, Target } from "./AccordionGroup";
 import { CollapsedAccordionGroupsReducerAction, getCollapsedAccordionGroupsReducer } from "../utils/reducers";
@@ -124,7 +115,7 @@ export function Accordion(props: AccordionProps): ReactElement | null {
 
 interface AccordionGroupWrapperProps extends Omit<AccordionGroupProps, "toggleCollapsed" | "changeFocus"> {
     index: number;
-    parent: MutableRefObject<HTMLDivElement | null>;
+    parent: RefObject<HTMLDivElement | null>;
     accordionGroupCollapsedStateDispatch: Dispatch<CollapsedAccordionGroupsReducerAction>;
 }
 
