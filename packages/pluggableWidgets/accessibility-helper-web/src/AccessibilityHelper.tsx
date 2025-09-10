@@ -1,11 +1,11 @@
-import { createElement, MutableRefObject, ReactElement, useCallback, useEffect, useRef, useMemo } from "react";
+import { RefObject, ReactElement, useCallback, useEffect, useRef, useMemo } from "react";
 
 import { ValueStatus, DynamicValue } from "mendix";
 
 import { AccessibilityHelperContainerProps } from "../typings/AccessibilityHelperProps";
 
 const AccessibilityHelper = (props: AccessibilityHelperContainerProps): ReactElement => {
-    const contentRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
+    const contentRef: RefObject<HTMLDivElement | null> = useRef(null);
     const conditions = useMemo(
         () => props.attributesList.map(attr => ({ attribute: attr.attribute, condition: attr.attributeCondition })),
         [props.attributesList]
