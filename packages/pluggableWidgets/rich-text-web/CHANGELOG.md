@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added character count options to the status bar to help users understand content length requirements and avoid validation failures when rich text HTML markup exceeds database attribute limits.
 
+- We added a configuration to set default font-family and font-size when there are no other value currently selected in the toolbar.
+
+### Fixed
+
+- We fixed the issue that image uploader not able to show.
+
 ## [4.9.0] - 2025-09-03
 
 ### Added
