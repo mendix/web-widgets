@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, ReactNode } from "react";
-import { ActionValue, EditableValue, ListValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue } from "mendix";
 
 export type PresetEnum = "basic" | "standard" | "full" | "custom";
 
@@ -75,6 +75,8 @@ export interface RichTextContainerProps {
     onLoad?: ActionValue;
     onChangeType: OnChangeTypeEnum;
     spellCheck: boolean;
+    defaultFontFamily?: DynamicValue<string>;
+    defaultFontSize?: DynamicValue<string>;
     customFonts: CustomFontsType[];
     imageSource?: ListValue;
     imageSourceContent?: ReactNode;
@@ -122,6 +124,8 @@ export interface RichTextPreviewProps {
     onLoad: {} | null;
     onChangeType: OnChangeTypeEnum;
     spellCheck: boolean;
+    defaultFontFamily: string;
+    defaultFontSize: string;
     customFonts: CustomFontsPreviewType[];
     imageSource: {} | { caption: string } | { type: string } | null;
     imageSourceContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
