@@ -22,7 +22,7 @@ export default class MendixTheme extends SnowTheme {
             const pickerLabel = picker.container.querySelector(".ql-picker-label");
             if (picker.container.classList.contains("ql-size")) {
                 picker.selectItem(
-                    picker.container.querySelector(`[data-value="${this.defaultFontFamily}"]`) as HTMLElement,
+                    picker.container.querySelector(`[data-value="${this.defaultFontSize}"]`) as HTMLElement,
                     false
                 );
                 this.fontSizePicker = picker;
