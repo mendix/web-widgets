@@ -26,10 +26,7 @@ type ModalReturnType = {
 
 export function useEmbedModal(
     ref: MutableRefObject<Quill | null>,
-    props: Pick<
-        RichTextContainerProps,
-        "imageSource" | "imageSourceContent" | "enableDefaultUpload" | "formOrientation"
-    >
+    props: Pick<RichTextContainerProps, "formOrientation">
 ): ModalReturnType {
     const [showDialog, setShowDialog] = useState<boolean>(false);
     const [dialogConfig, setDialogConfig] = useState<ChildDialogProps>({});
@@ -197,10 +194,7 @@ export function useEmbedModal(
                 },
                 onClose: closeDialog,
                 defaultValue: { ...value },
-                formOrientation: props.formOrientation,
-                imageSource: props.imageSource,
-                imageSourceContent: props.imageSourceContent,
-                enableDefaultUpload: props.enableDefaultUpload
+                formOrientation: props.formOrientation
             }
         });
         openDialog();
