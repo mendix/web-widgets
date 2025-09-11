@@ -11,7 +11,7 @@ export interface BaseProps {
     ds: ListValue;
     filterType: FilterTypeEnum;
     lazyLoading: boolean;
-    datasourceFilterDebounceInterval?: number;
+    filterInputDebounceInterval?: number;
 }
 
 export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectItem, BaseProps> {
@@ -20,7 +20,7 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     protected loading: boolean = false;
     private debouncedSetFilter?: (filterCondition: any) => void;
     private abortDebouncedFilter?: () => void;
-    private datasourceFilterDebounceInterval: number = 200;
+    private filterInputDebounceInterval: number = 200;
 
     constructor(
         caption: CaptionsProvider,
@@ -30,13 +30,11 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     }
 
     private createDebouncedSetFilter(): void {
-        if (this.abortDebouncedFilter) {
-            this.abortDebouncedFilter();
-        }
+        this.cleanup();
 
         const [debouncedFn, abort] = debounce((filterCondition: any) => {
             this.ds?.setFilter(filterCondition);
-        }, this.datasourceFilterDebounceInterval);
+        }, this.filterInputDebounceInterval);
 
         this.debouncedSetFilter = debouncedFn;
         this.abortDebouncedFilter = abort;
@@ -125,9 +123,9 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         this.filterType = props.filterType;
         this.lazyLoading = props.lazyLoading;
 
-        const newInterval = props.datasourceFilterDebounceInterval ?? 200;
-        if (newInterval !== this.datasourceFilterDebounceInterval) {
-            this.datasourceFilterDebounceInterval = newInterval;
+        const newInterval = props.filterInputDebounceInterval ?? 200;
+        if (newInterval !== this.filterInputDebounceInterval) {
+            this.filterInputDebounceInterval = newInterval;
             this.createDebouncedSetFilter();
         }
 

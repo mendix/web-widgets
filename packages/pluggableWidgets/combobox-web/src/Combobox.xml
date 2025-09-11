@@ -329,7 +329,6 @@
                 <caption>On leave</caption>
                 <description />
             </property>
-
             <property key="onChangeFilterInputEvent" type="action" required="false">
                 <caption>On filter input change</caption>
                 <description />
@@ -416,10 +415,6 @@
                         <enumerationValue key="spinner">Spinner</enumerationValue>
                         <enumerationValue key="skeleton">Skeleton</enumerationValue>
                     </enumerationValues>
-                </property>
-                <property key="datasourceFilterDebounceInterval" type="integer" required="true" defaultValue="200">
-                    <caption>Filter debounce</caption>
-                    <description>Debounce interval in milliseconds.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Multiple-selection">
