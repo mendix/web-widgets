@@ -76,7 +76,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
             lazyLoading,
             loadingType,
             valueSourceAttribute,
-            datasourceFilterDebounceInterval
+            filterInputDebounceInterval
         } = extractDatabaseProps(props);
 
         if (
@@ -109,7 +109,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
             filterType,
             lazyLoading,
             attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined,
-            datasourceFilterDebounceInterval
+            filterInputDebounceInterval
         });
 
         if (this.selectionMethod === "rowclick" || this.customContentType === "yes") {

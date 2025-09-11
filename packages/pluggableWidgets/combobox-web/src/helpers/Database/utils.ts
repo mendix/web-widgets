@@ -28,13 +28,13 @@ type ExtractionReturnValue = {
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
     valueSourceAttribute: ListAttributeValue<string | Big> | undefined;
-    datasourceFilterDebounceInterval: number;
+    filterInputDebounceInterval: number;
 };
 
 export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionReturnValue {
     const targetAttribute = props.databaseAttributeString;
     const filterType = props.filterType;
-    const datasourceFilterDebounceInterval = props.datasourceFilterDebounceInterval;
+    const filterInputDebounceInterval = props.filterInputDebounceInterval;
     const ds = props.optionsSourceDatabaseDataSource;
     if (!ds) {
         throw new Error("'optionsSourceType' type is 'database' but 'optionsSourceDatabaseDataSource' is not defined.");
@@ -85,7 +85,7 @@ export function extractDatabaseProps(props: ComboboxContainerProps): ExtractionR
         lazyLoading,
         loadingType,
         valueSourceAttribute,
-        datasourceFilterDebounceInterval
+        filterInputDebounceInterval
     };
 }
 

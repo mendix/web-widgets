@@ -46,7 +46,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             customContentType,
             lazyLoading,
             loadingType,
-            datasourceFilterDebounceInterval
+            filterInputDebounceInterval
         ] = extractAssociationProps(props);
 
         this.lazyLoader.updateProps(ds);
@@ -66,7 +66,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             filterType,
             lazyLoading,
             attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined,
-            datasourceFilterDebounceInterval
+            filterInputDebounceInterval
         });
 
         if (
