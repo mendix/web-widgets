@@ -1,4 +1,4 @@
-import { createElement, ReactElement, ReactNode, useCallback, SyntheticEvent, useRef, RefObject } from "react";
+import { ReactElement, ReactNode, useCallback, SyntheticEvent, useRef, RefObject } from "react";
 import classNames from "classnames";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
@@ -12,7 +12,7 @@ interface BarcodeScannerOverlayProps extends Dimensions {
     showMask: boolean;
     class: string;
     children?: ReactNode;
-    canvasMiddleMiddleRef?: RefObject<HTMLDivElement>;
+    canvasMiddleMiddleRef?: RefObject<HTMLDivElement | null>;
 }
 
 export function BarcodeScannerOverlay({

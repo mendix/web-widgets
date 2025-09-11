@@ -19,15 +19,15 @@ type UseReaderHook = (args: {
     useCrop: boolean;
     barcodeFormats?: BarcodeFormatsType[];
     useAllFormats: boolean;
-    canvasMiddleRef: RefObject<HTMLDivElement>;
-}) => RefObject<HTMLVideoElement>;
+    canvasMiddleRef: RefObject<HTMLDivElement | null>;
+}) => RefObject<HTMLVideoElement | null>;
 
 export const useReader: UseReaderHook = args => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
     const stopped = useRef<boolean>(false);
-    const reader = useRef<BrowserMultiFormatReader>();
+    const reader = useRef<BrowserMultiFormatReader>(undefined);
     const checkNotFound = (error: any): boolean => {
         const ifNotFound = error instanceof NotFoundException;
         return ifNotFound && !stopped.current;
