@@ -1,7 +1,7 @@
 import { OptionsSourceStaticDataSourcePreviewType, StaticDataSourceCustomContentTypeEnum } from "typings/ComboboxProps";
 import { CaptionPlacement, CaptionsProvider } from "../../types";
 import { CaptionContent } from "../../utils";
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 
 export class StaticPreviewCaptionsProvider implements CaptionsProvider {
     emptyCaption = "Combo box";

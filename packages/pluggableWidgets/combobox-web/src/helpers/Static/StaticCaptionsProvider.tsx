@@ -1,5 +1,5 @@
 import { DynamicValue, ListAttributeValue } from "mendix";
-import { ReactNode, createElement } from "react";
+import { ReactNode } from "react";
 import {
     OptionsSourceAssociationCustomContentTypeEnum,
     StaticDataSourceCustomContentTypeEnum,

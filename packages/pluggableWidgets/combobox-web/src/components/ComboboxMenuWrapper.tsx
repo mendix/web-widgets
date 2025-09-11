@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
-import { createElement, MouseEvent, PropsWithChildren, ReactElement, ReactNode } from "react";
+import { MouseEvent, PropsWithChildren, ReactElement, ReactNode } from "react";
 import { useMenuStyle } from "../hooks/useMenuStyle";
 import { NoOptionsPlaceholder } from "./Placeholder";
 

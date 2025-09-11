@@ -11,7 +11,6 @@ import {
 import "@testing-library/jest-dom";
 import { fireEvent, render, RenderResult, act, waitFor } from "@testing-library/react";
 import { ListValue } from "mendix";
-import { createElement } from "react";
 import { ComboboxContainerProps, OptionsSourceAssociationCaptionTypeEnum } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
 

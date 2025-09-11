@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { MouseEvent, ReactElement, createElement, Fragment } from "react";
+import { MouseEvent, ReactElement, Fragment } from "react";
 import { CaptionContent } from "../helpers/utils";
 export function ClearButton({ size = 14 }): ReactElement {
     return (

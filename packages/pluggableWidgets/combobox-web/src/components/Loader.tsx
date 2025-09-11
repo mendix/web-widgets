@@ -1,4 +1,4 @@
-import { createElement, Fragment, ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import { LoadingTypeEnum } from "typings/ComboboxProps";
 import { DEFAULT_LIMIT_SIZE } from "../helpers/utils";
 import { SkeletonLoader } from "./SkeletonLoader";
