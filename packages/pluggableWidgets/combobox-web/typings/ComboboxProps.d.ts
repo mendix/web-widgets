@@ -100,7 +100,6 @@ export interface ComboboxContainerProps {
     a11yInstructions?: DynamicValue<string>;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
-    datasourceFilterDebounceInterval: number;
     selectedItemsSorting: SelectedItemsSortingEnum;
     filterType: FilterTypeEnum;
 }
@@ -159,7 +158,6 @@ export interface ComboboxPreviewProps {
     a11yInstructions: string;
     lazyLoading: boolean;
     loadingType: LoadingTypeEnum;
-    datasourceFilterDebounceInterval: number | null;
     selectedItemsSorting: SelectedItemsSortingEnum;
     filterType: FilterTypeEnum;
 }

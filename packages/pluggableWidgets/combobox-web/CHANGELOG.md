@@ -17,7 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- We added a configurable debounce interval for datasource filter operations via a new property in the Advanced tab.
+- We enabled a configurable debounce interval for datasource filter operations as well, via a existing property filterInputDebounceInterval.
 
 ## [2.5.0] - 2025-08-12
 
