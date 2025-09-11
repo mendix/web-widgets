@@ -52,7 +52,7 @@
 .widget-gallery-hover {
     .widget-gallery-items {
         .widget-gallery-item:hover {
-            background-color: var(--grid-bg-hover, $bg-color-hover);
+            background-color: var(--grid-bg-hover, $grid-bg-hover);
         }
     }
 }
@@ -60,7 +60,7 @@
 // Striped styles
 .widget-gallery-striped {
     .widget-gallery-item:nth-child(odd) {
-        background-color: var(--grid-bg-striped, $bg-color-secondary);
+        background-color: var(--grid-bg-striped, $grid-bg-striped);
     }
     .widget-gallery-item:nth-child(even) {
         background-color: #fff;

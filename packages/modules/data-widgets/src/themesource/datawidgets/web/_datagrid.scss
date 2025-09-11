@@ -7,7 +7,7 @@ $root: ".widget-datagrid";
 .table {
     position: relative;
     border-width: 0;
-    background-color: var(--bg-color-secondary, $bg-color);
+    background-color: var(--bg-color-secondary, $bg-color-secondary);
 
     /* Pseudo Row, to target this object please use .tr > .td or .tr > div */
     .tr {
@@ -19,7 +19,7 @@ $root: ".widget-datagrid";
         :where(.widget-datagrid-grid .th) {
             display: flex;
             align-items: flex-start;
-            background-color: var(--bg-color-secondary, $bg-color);
+            background-color: var(--bg-color-secondary, $bg-color-secondary);
             border-width: 0;
             border-color: var(--grid-border-color, $grid-border-color);
             padding: var(--spacing-medium, $spacing-medium);
@@ -43,7 +43,7 @@ $root: ".widget-datagrid";
             position: absolute;
             top: 0;
             height: 100%;
-            width: var(--spacing-smaller, $dragging-effect-size);
+            width: var(--spacing-smaller, $spacing-smaller);
             background-color: $dragging-color-effect;
 
             z-index: 1;
@@ -109,7 +109,7 @@ $root: ".widget-datagrid";
 
         /* Header text */
         .column-header {
-            margin: 1px 1px calc((-1 * var(--spacing-smaller, $dragging-effect-size)) + 2px);
+            margin: 1px 1px calc((-1 * var(--spacing-smaller, $spacing-smaller)) + 2px);
             display: flex;
             align-items: baseline;
             font-weight: 600;
@@ -125,9 +125,9 @@ $root: ".widget-datagrid";
 
             svg {
                 margin-left: 8px;
-                flex: 0 0 var(--btn-font-size, $icon-size);
-                color: var(--gray-dark, $icon-color);
-                height: var(--btn-font-size, $icon-size);
+                flex: 0 0 var(--btn-font-size, $btn-font-size);
+                color: var(--gray-dark, $gray-dark);
+                height: var(--btn-font-size, $btn-font-size);
                 align-self: center;
             }
 
@@ -187,8 +187,8 @@ $root: ".widget-datagrid";
                 padding: 0;
                 margin: 0;
 
-                height: calc(var(--btn-font-size, $icon-size) + $icon-margin * 2 + $icon-slack-size);
-                width: calc(var(--btn-font-size, $icon-size) + $icon-margin * 2 + $icon-slack-size);
+                height: calc(var(--btn-font-size, $btn-font-size) + $icon-margin * 2 + $icon-slack-size);
+                width: calc(var(--btn-font-size, $btn-font-size) + $icon-margin * 2 + $icon-slack-size);
 
                 svg {
                     margin: $icon-margin;
@@ -201,7 +201,7 @@ $root: ".widget-datagrid";
                 right: 0;
                 margin: 8px;
                 padding: 0 16px;
-                background: var(--bg-color-secondary, $bg-color);
+                background: var(--bg-color-secondary, $bg-color-secondary);
                 z-index: 102;
                 overflow-y: auto;
                 width: fit-content;
@@ -320,7 +320,7 @@ $root: ".widget-datagrid";
 
     .pagination-button {
         padding: 6px;
-        color: var(--gray-darker, $pagination-button-color);
+        color: var(--gray-darker, $gray-darker);
         border-color: transparent;
         background-color: transparent;
 
@@ -359,7 +359,7 @@ $root: ".widget-datagrid";
     right: 0;
     margin: 8px 0;
     padding: 0 16px;
-    background: var(--bg-color-secondary, $bg-color);
+    background: var(--bg-color-secondary, $bg-color-secondary);
     z-index: 102;
     overflow-y: auto;
     width: fit-content;
