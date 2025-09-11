@@ -1,7 +1,7 @@
 {
     "name": "@mendix/datagrid-web",
     "widgetName": "Datagrid",
-    "version": "3.3.0",
+    "version": "3.4.0",
     "description": "A powerful, flexible grid for displaying, sorting, and editing data collections in Mendix web apps.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
