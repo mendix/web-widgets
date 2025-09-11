@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- You can now customize which controls appear in the calendar’s top bar and how they are arranged, with optional captions, tooltips, and a link-style appearance.
+
+- The calendar title can be formatted consistently across views, including custom work week.
+
+- Time formatting is applied consistently to the time gutter and to event/agenda time ranges, with robust fallbacks for invalid patterns.
+
+### Changed
+
+- When the event time range is disabled, events no longer display start/end time text.
+
+### Breaking changes
+
+- Custom view buttons and their captions are now set inside the Custom top bar views configuration.
+
 ## [2.0.0] - 2025-08-12
 
 ### Breaking changes

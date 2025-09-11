@@ -8,12 +8,7 @@ import "./ui/Calendar.scss";
 import { useCalendarEvents } from "./helpers/useCalendarEvents";
 
 export default function MxCalendar(props: CalendarContainerProps): ReactElement {
-    // useMemo with empty dependency array is used
-    // because style and calendar controller needs to be created only once
-    // and not on every re-render
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const wrapperStyle = useMemo(() => constructWrapperStyle(props), []);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const calendarController = useMemo(() => new CalendarPropsBuilder(props), []);
     const calendarProps = useMemo(() => {
         calendarController.updateProps(props);
