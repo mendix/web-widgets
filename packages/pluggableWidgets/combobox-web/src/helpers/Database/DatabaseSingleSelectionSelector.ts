@@ -55,15 +55,16 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
             valueSourceAttribute
         } = extractDatabaseProps(props);
 
-        if (ds.status === "loading") {
-            return;
-        }
         this._attr = targetAttribute as R;
         this.readOnly = getReadonly(targetAttribute, props.customEditability, props.customEditabilityExpression);
         this.lazyLoader.updateProps(ds);
         this.lazyLoader.setLimit(
             this.lazyLoader.getLimit(ds.limit, this.readOnly, targetAttribute?.status ?? ds.status, lazyLoading)
         );
+
+        if (ds.status === "loading") {
+            return;
+        }
 
         this.caption.updateProps({
             emptyOptionText: emptyOption,
