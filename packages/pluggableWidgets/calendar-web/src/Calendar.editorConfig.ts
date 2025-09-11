@@ -31,7 +31,6 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
         hidePropertiesIn(defaultProperties, values, ["maxHeight", "overflowY"]);
     }
 
-    // In custom view, legacy visible-day toggles are removed; only keep default view selection.
     if (values.view === "standard") {
         hidePropertiesIn(defaultProperties, values, ["defaultViewCustom"]);
     } else {
