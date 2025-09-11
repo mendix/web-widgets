@@ -1,17 +1,12 @@
-import { parse } from "path";
-import { find } from "./shell";
+import { globSync } from "glob";
 
 export function findOssReadme(packageRoot: string, widgetName: string, version: string): string | undefined {
-    const readmeossPattern = `*${widgetName}__${version}__READMEOSS_*.html`;
+    const readmeossPattern = `**/*${widgetName}__${version}__READMEOSS_*.html`;
 
     console.info(`Looking for READMEOSS file matching pattern: ${readmeossPattern}`);
 
-    // Find files matching the pattern in package root
-    const matchingFiles = find(packageRoot).filter(file => {
-        const fileName = parse(file).base;
-        // Check if filename contains the widget name, version, and READMEOSS
-        return fileName.includes(`${widgetName}__${version}__READMEOSS_`) && fileName.endsWith(".html");
-    });
+    // Use glob to find files matching the pattern in package root
+    const matchingFiles = globSync(readmeossPattern, { cwd: packageRoot, absolute: true, ignore: "**/dist/**" });
 
     return matchingFiles[0];
 }
