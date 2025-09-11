@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where combobox failed to render a proper width on auto-fit container.
 
+- We fixed an issue where combobox lazy load is not working on initial load.
+
 ## [2.5.0] - 2025-08-12
 
 ### Added
