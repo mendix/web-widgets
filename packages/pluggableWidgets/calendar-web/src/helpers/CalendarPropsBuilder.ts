@@ -1,7 +1,7 @@
 import { ObjectItem } from "mendix";
 import { DateLocalizer, Formats, ViewsProps } from "react-big-calendar";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
-import { CustomToolbar, ResolvedToolbarItem, createConfigurableToolbar } from "../components/Toolbar";
+import { createConfigurableToolbar, CustomToolbar, ResolvedToolbarItem } from "../components/Toolbar";
 import { eventPropGetter, localizer } from "../utils/calendar-utils";
 import { CalendarEvent, DragAndDropCalendarProps } from "../utils/typings";
 import { CustomWeekController } from "./CustomWeekController";
