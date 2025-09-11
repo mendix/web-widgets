@@ -64,7 +64,7 @@
     left: 0;
     padding: 0;
     margin: 0;
-    background: var(--bg-color-secondary, $bg-color);
+    background: var(--bg-color-secondary, $bg-color-secondary);
     z-index: 51;
     border-radius: 8px;
     list-style-type: none;
@@ -86,13 +86,13 @@
         }
 
         &.filter-selected {
-            background-color: var(--gray-lighter, $hover-color);
+            background-color: var(--gray-lighter, $gray-lighter);
             color: var(--brand-primary, $brand-primary);
         }
 
         &:hover,
         &.filter-highlighted {
-            background-color: var(--gray-lighter, $hover-color);
+            background-color: var(--gray-lighter, $gray-lighter);
         }
     }
 }
@@ -106,7 +106,7 @@
         display: flex;
         align-items: center;
         font-weight: normal;
-        min-height: var(--spacing-larger, $item-min-height);
+        min-height: var(--spacing-larger, $spacing-larger);
         cursor: pointer;
         padding: 0 var(--spacing-small, $spacing-small);
 
@@ -117,13 +117,13 @@
         }
 
         &.filter-selected {
-            background-color: var(--gray-lighter, $hover-color);
+            background-color: var(--gray-lighter, $gray-lighter);
             color: var(--brand-primary, $brand-primary);
         }
 
         &:hover,
         &:focus {
-            background-color: var(--gray-lighter, $hover-color);
+            background-color: var(--gray-lighter, $gray-lighter);
         }
 
         label {
@@ -138,7 +138,7 @@
 }
 
 :not(.dropdown-content) > .dropdown-list {
-    background: var(--bg-color-secondary, $bg-color);
+    background: var(--bg-color-secondary, $bg-color-secondary);
     border-radius: 8px;
     box-shadow:
         0 2px 20px 1px rgba(5, 15, 129, 0.05),
@@ -148,7 +148,7 @@
 }
 
 .dropdown-content {
-    background: var(--bg-color-secondary, $bg-color);
+    background: var(--bg-color-secondary, $bg-color-secondary);
     border-radius: 8px;
     box-shadow:
         0 2px 20px 1px rgba(5, 15, 129, 0.05),
@@ -199,7 +199,7 @@
         left: 0;
         margin: 0 var(--spacing-small, $spacing-small);
         padding: 0;
-        background: var(--bg-color-secondary, $bg-color);
+        background: var(--bg-color-secondary, $bg-color-secondary);
         z-index: 102;
         border-radius: 8px;
         list-style-type: none;
@@ -213,7 +213,7 @@
             display: flex;
             align-items: center;
             font-weight: normal;
-            min-height: var(--spacing-larger, $item-min-height);
+            min-height: var(--spacing-larger, $spacing-larger);
             cursor: pointer;
             padding: 0 var(--spacing-small, $spacing-small);
 
@@ -224,13 +224,13 @@
             }
 
             &.filter-selected {
-                background-color: var(--gray-lighter, $hover-color);
+                background-color: var(--gray-lighter, $gray-lighter);
                 color: var(--brand-primary, $brand-primary);
             }
 
             &:hover,
             &:focus {
-                background-color: var(--gray-lighter, $hover-color);
+                background-color: var(--gray-lighter, $gray-lighter);
             }
 
             label {

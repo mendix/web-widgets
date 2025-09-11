@@ -4,12 +4,9 @@
 //== Design Properties
 //## Helper classes to change the look and feel of the component
 ========================================================================== */
-$grid-border-color: #ced0d3;
-$bg-color-hover: #f5f6f6;
-
 .widget-tree-node-hover {
     .widget-tree-node-branch:hover > .widget-tree-node-branch-header {
-        background-color: var(--grid-bg-hover, $bg-color-hover);
+        background-color: var(--grid-bg-hover, $grid-bg-hover);
     }
 }
 

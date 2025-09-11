@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We consolidated all SCSS variables from individual files into variables.scss to have a better alignment with atlas variables.
+
 ### Added
 
 - We added a new JavaScript action to clear the selection in the Data grid 2 and Gallery widgets.
