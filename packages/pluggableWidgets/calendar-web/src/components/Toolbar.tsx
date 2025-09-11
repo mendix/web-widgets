@@ -46,3 +46,113 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
         </div>
     );
 }
+
+export type ResolvedToolbarItem = {
+    itemType: "previous" | "today" | "next" | "title" | "month" | "week" | "work_week" | "day" | "agenda";
+    position: "left" | "center" | "right";
+    caption?: string;
+    tooltip?: string;
+    renderMode: "button" | "link";
+};
+
+export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props: ToolbarProps) => ReactElement {
+    return function ConfigurableToolbar({ label, localizer, onNavigate, onView, view, views }: ToolbarProps) {
+        const renderButton = (
+            key: string,
+            content: ReactElement | string,
+            onClick: () => void,
+            active = false,
+            renderMode: "button" | "link" = "button",
+            tooltip?: string
+        ): ReactElement => (
+            <Button
+                key={key}
+                className={classNames("btn", renderMode === "link" ? "btn-link" : "btn-default", { active })}
+                onClick={onClick}
+                title={tooltip}
+            >
+                {content}
+            </Button>
+        );
+
+        const isViewEnabled = (name: View): boolean => {
+            return Array.isArray(views) ? (views as View[]).includes(name) : true;
+        };
+
+        const groups: Record<"left" | "center" | "right", ResolvedToolbarItem[]> = {
+            left: [],
+            center: [],
+            right: []
+        };
+        items.forEach(item => {
+            groups[item.position].push(item);
+        });
+
+        const renderItem = (item: ResolvedToolbarItem): ReactElement | null => {
+            switch (item.itemType) {
+                case "previous":
+                    return renderButton(
+                        "prev",
+                        <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-backward" }} />,
+                        () => onNavigate(Navigate.PREVIOUS),
+                        false,
+                        item.renderMode,
+                        item.tooltip
+                    );
+                case "today":
+                    return renderButton(
+                        "today",
+                        (item.caption ?? localizer.messages.today) as unknown as ReactElement,
+                        () => onNavigate(Navigate.TODAY),
+                        false,
+                        item.renderMode,
+                        item.tooltip
+                    );
+                case "next":
+                    return renderButton(
+                        "next",
+                        <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-forward" }} />,
+                        () => onNavigate(Navigate.NEXT),
+                        false,
+                        item.renderMode,
+                        item.tooltip
+                    );
+                case "title":
+                    return (
+                        <span key="title" className="calendar-label" title={item.tooltip}>
+                            {label}
+                        </span>
+                    );
+                case "month":
+                case "week":
+                case "work_week":
+                case "day":
+                case "agenda": {
+                    const name = item.itemType as View;
+                    if (!isViewEnabled(name)) {
+                        return null;
+                    }
+                    const caption = item.caption ?? localizer.messages[name];
+                    return renderButton(
+                        name,
+                        caption as unknown as ReactElement,
+                        () => onView(name),
+                        view === name,
+                        item.renderMode,
+                        item.tooltip
+                    );
+                }
+                default:
+                    return null;
+            }
+        };
+
+        return (
+            <div className="calendar-toolbar">
+                <div className="btn-group">{groups.left.map(renderItem)}</div>
+                <div className="btn-group">{groups.center.map(renderItem)}</div>
+                <div className="btn-group">{groups.right.map(renderItem)}</div>
+            </div>
+        );
+    };
+}
