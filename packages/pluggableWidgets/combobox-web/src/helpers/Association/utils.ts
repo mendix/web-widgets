@@ -36,7 +36,7 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
     const attr = props.attributeAssociation;
     const filterType = props.filterType;
     const onChangeEvent = props.onChangeEvent;
-    const datasourceFilterDebounceInterval = props.datasourceFilterDebounceInterval;
+    const filterInputDebounceInterval = props.filterInputDebounceInterval;
 
     if (!attr) {
         throw new Error("'optionsSourceType' type is 'association' but 'attributeAssociation' is not defined.");
@@ -82,6 +82,6 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
         customContentType,
         lazyLoading,
         loadingType,
-        datasourceFilterDebounceInterval
+        filterInputDebounceInterval
     ];
 }

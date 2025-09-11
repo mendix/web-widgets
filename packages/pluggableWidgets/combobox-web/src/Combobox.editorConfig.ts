@@ -152,7 +152,6 @@ export function getProperties(
             "selectionMethod",
             "selectAllButton",
             "selectAllButtonCaption",
-            "datasourceFilterDebounceInterval",
             ...ASSOCIATION_SOURCE_CONFIG,
             ...DATABASE_SOURCE_CONFIG,
             ...LAZY_LOADING_CONFIG
@@ -177,10 +176,6 @@ export function getProperties(
 
     if (values.lazyLoading === false) {
         hidePropertiesIn(defaultProperties, values, ["loadingType"]);
-    }
-
-    if (values.onChangeFilterInputEvent === null) {
-        hidePropertiesIn(defaultProperties, values, ["filterInputDebounceInterval"]);
     }
 
     return defaultProperties;
