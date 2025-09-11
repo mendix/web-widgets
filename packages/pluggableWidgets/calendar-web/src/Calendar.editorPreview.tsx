@@ -2,9 +2,9 @@ import classnames from "classnames";
 import { ReactElement } from "react";
 import { Calendar, dateFnsLocalizer, EventPropGetter } from "react-big-calendar";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
-import { CustomToolbar, createConfigurableToolbar } from "./components/Toolbar";
-import { constructWrapperStyle, WrapperStyleProps } from "./utils/style-utils";
+import { createConfigurableToolbar, CustomToolbar } from "./components/Toolbar";
 import { eventPropGetter, format, getDay, parse, startOfWeek } from "./utils/calendar-utils";
+import { constructWrapperStyle, WrapperStyleProps } from "./utils/style-utils";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./ui/Calendar.scss";
