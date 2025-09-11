@@ -2,7 +2,7 @@ import classnames from "classnames";
 import { ReactElement } from "react";
 import { Calendar, dateFnsLocalizer, EventPropGetter } from "react-big-calendar";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
-import { CustomToolbar } from "./components/Toolbar";
+import { CustomToolbar, createConfigurableToolbar } from "./components/Toolbar";
 import { constructWrapperStyle, WrapperStyleProps } from "./utils/style-utils";
 import { eventPropGetter, format, getDay, parse, startOfWeek } from "./utils/calendar-utils";
 
@@ -75,10 +75,23 @@ export function preview(props: CalendarPreviewProps): ReactElement {
     // Cast eventPropGetter to satisfy preview Calendar generic
     const previewEventPropGetter = eventPropGetter as unknown as EventPropGetter<(typeof events)[0]>;
 
+    const toolbar =
+        props.view === "custom" && props.toolbarItems?.length
+            ? createConfigurableToolbar(
+                  props.toolbarItems.map(i => ({
+                      itemType: i.itemType,
+                      position: i.position,
+                      caption: i.caption,
+                      tooltip: i.tooltip,
+                      renderMode: i.renderMode
+                  })) as any
+              )
+            : CustomToolbar;
+
     return (
         <div className={classnames("widget-events-preview", "widget-calendar", className)} style={wrapperStyle}>
             <Calendar
-                components={{ toolbar: CustomToolbar }}
+                components={{ toolbar }}
                 defaultView={props.defaultViewStandard}
                 events={events}
                 localizer={localizer}

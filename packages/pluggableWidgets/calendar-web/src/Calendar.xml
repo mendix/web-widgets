@@ -115,6 +115,10 @@
                     <caption>Time format</caption>
                     <description>Default time format is "hh:mm a"</description>
                 </property>
+                <property key="topBarDateFormat" type="textTemplate" required="false">
+                    <caption>Top bar date format</caption>
+                    <description>Format used for the title in the toolbar across views. Defaults to a locale-aware format.</description>
+                </property>
                 <property key="minHour" type="integer" defaultValue="0">
                     <caption>Day start hour</caption>
                     <description>The hour at which the day view starts (0–23)</description>
@@ -130,34 +134,57 @@
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Custom view">
-            <propertyGroup caption="Visible views">
-                <property key="customViewShowDay" type="boolean" defaultValue="true">
-                    <caption>Day</caption>
-                    <description>Show day view in the toolbar</description>
-                </property>
-                <property key="customViewShowWeek" type="boolean" defaultValue="true">
-                    <caption>Week</caption>
-                    <description>Show week view in the toolbar</description>
-                </property>
-                <property key="customViewShowCustomWeek" type="boolean" defaultValue="false">
-                    <caption>Custom Work Week</caption>
-                    <description>Show custom week view in the toolbar</description>
-                </property>
-                <!-- Custom week caption -->
-                <property key="customViewCaption" type="textTemplate" required="false">
-                    <caption>Custom view caption</caption>
-                    <description>Label used for the custom work-week button and title. Defaults to "Custom".</description>
-                    <translations>
-                        <translation lang="en_US">Custom</translation>
-                    </translations>
-                </property>
-                <property key="customViewShowMonth" type="boolean" defaultValue="true">
-                    <caption>Month</caption>
-                    <description>Show month view in the toolbar</description>
-                </property>
-                <property key="customViewShowAgenda" type="boolean" defaultValue="false">
-                    <caption>Agenda</caption>
-                    <description>Show agenda view in the toolbar</description>
+            <propertyGroup caption="Toolbar">
+                <property key="toolbarItems" type="object" isList="true" required="false">
+                    <caption>Custom top bar views</caption>
+                    <description>Configure items displayed in the calendar toolbar.</description>
+                    <properties>
+                        <property key="itemType" type="enumeration" defaultValue="month">
+                            <caption>Item</caption>
+                            <category>Toolbar</category>
+                            <description>Select which item to render on the toolbar.</description>
+                            <enumerationValues>
+                                <enumerationValue key="previous">Previous button</enumerationValue>
+                                <enumerationValue key="today">Today button</enumerationValue>
+                                <enumerationValue key="next">Next button</enumerationValue>
+                                <enumerationValue key="title">Title date text</enumerationValue>
+                                <enumerationValue key="month">Month button</enumerationValue>
+                                <enumerationValue key="week">Week button</enumerationValue>
+                                <enumerationValue key="work_week">Work week button</enumerationValue>
+                                <enumerationValue key="day">Day button</enumerationValue>
+                                <enumerationValue key="agenda">Agenda button</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="position" type="enumeration" defaultValue="left">
+                            <caption>Position</caption>
+                            <category>Toolbar</category>
+                            <description>Align the item within the toolbar.</description>
+                            <enumerationValues>
+                                <enumerationValue key="left">Left</enumerationValue>
+                                <enumerationValue key="center">Center</enumerationValue>
+                                <enumerationValue key="right">Right</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="caption" type="textTemplate" required="false">
+                            <caption>Caption</caption>
+                            <category>Toolbar</category>
+                            <description>Optional text for the button or title. If empty, a default localized label is used.</description>
+                        </property>
+                        <property key="tooltip" type="textTemplate" required="false">
+                            <caption>Tooltip</caption>
+                            <category>Toolbar</category>
+                            <description>Optional hover text for the button.</description>
+                        </property>
+                        <property key="renderMode" type="enumeration" defaultValue="button">
+                            <caption>Render mode</caption>
+                            <category>Toolbar</category>
+                            <description>Choose how the item is rendered.</description>
+                            <enumerationValues>
+                                <enumerationValue key="button">Button</enumerationValue>
+                                <enumerationValue key="link">Link</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                    </properties>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Custom view visible days">
