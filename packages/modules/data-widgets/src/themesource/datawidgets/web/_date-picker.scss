@@ -10,7 +10,7 @@ $dg-border-color: #d7d7d7;
 
 .react-datepicker {
     font-size: 1em;
-    border: 1px solid $dg-border-color;
+    border: 1px solid $border-color-default;
 }
 
 .react-datepicker-wrapper {
@@ -25,7 +25,7 @@ $dg-border-color: #d7d7d7;
 
 .react-datepicker__header {
     padding-top: 0.8em;
-    background-color: var(--bg-color, $dg-background-color);
+    background-color: var(--bg-color, $bg-color);
     border-color: transparent;
 }
 
@@ -59,13 +59,13 @@ $dg-border-color: #d7d7d7;
 
     &:hover {
         border-radius: 50%;
-        color: var(--brand-primary, $dg-brand-primary);
-        background-color: var(--gray-ligter, $dg-hover-color);
+        color: var(--brand-primary, $brand-primary);
+        background-color: var(--gray-ligter, $gray-lighter);
     }
 }
 
 .react-datepicker__day-name {
-    color: var(--brand-primary, $dg-brand-primary);
+    color: var(--brand-primary, $brand-primary);
     font-weight: bold;
 }
 
@@ -75,8 +75,8 @@ $dg-border-color: #d7d7d7;
 
 .react-datepicker__day--today:not(.react-datepicker__day--in-range),
 .react-datepicker__day--keyboard-selected {
-    color: var(--brand-primary, $dg-brand-primary);
-    background-color: var(--gray-ligter, $dg-hover-color);
+    color: var(--brand-primary, $brand-primary);
+    background-color: var(--gray-ligter, $gray-lighter);
 }
 
 .react-datepicker__month-select:focus-visible,
@@ -90,12 +90,12 @@ $dg-border-color: #d7d7d7;
 .react-datepicker__day--range-start,
 .react-datepicker__day--range-end,
 .react-datepicker__day--in-selecting-range.react-datepicker__day--selecting-range-start {
-    background-color: var(--brand-primary, $dg-brand-primary);
+    background-color: var(--brand-primary, $brand-primary);
     color: var(--header-text-color, $dg-text-color);
 
     &:hover {
         border-radius: 50%;
-        background-color: var(--brand-primary, $dg-brand-primary);
+        background-color: var(--brand-primary, $brand-primary);
         color: var(--header-text-color, $dg-text-color);
     }
 }
@@ -112,13 +112,13 @@ $dg-border-color: #d7d7d7;
     color: $dg-day-range-color;
 
     &:hover {
-        background-color: var(--brand-primary, $dg-brand-primary);
+        background-color: var(--brand-primary, $brand-primary);
         color: var(--header-text-color, $dg-text-color);
     }
 }
 
 button.react-datepicker__close-icon::after {
-    background-color: var(--brand-primary, $dg-brand-primary);
+    background-color: var(--brand-primary, $brand-primary);
 }
 
 .react-datepicker__current-month {
