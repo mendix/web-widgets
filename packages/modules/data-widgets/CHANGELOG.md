@@ -6,9 +6,57 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.4.0] DataWidgets - 2025-09-12
+
 ### Added
 
 - We added a new JavaScript action to clear the selection in the Data grid 2 and Gallery widgets.
+
+### [3.4.0] DatagridDateFilter
+
+#### Fixed
+
+- We fixed label issues reported by Axe a11y tools
+
+### [3.4.0] DatagridDropdownFilter
+
+#### Fixed
+
+- We fixed label issues reported by Axe a11y tool
+
+### [3.4.0] DatagridNumberFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.4.0] DatagridTextFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.4.0] Datagrid
+
+#### Fixed
+
+- We fixed an issue where the datagrid's horizontal scrollbar would unexpectedly jump to the right when the column selector was enabled.
+
+### [3.4.0] Gallery
+
+#### Fixed
+
+- We fixed an issue where the column count was not reflected properly in the preview mode.
+
+#### Added
+
+- Added a 'horizontal divider' option to Borders design property for Gallery list items, allowing improved visual separation and customization.
+
+### [3.4.0] TreeNode
+
+#### Changed
+
+- Internal improvements.
 
 ## [3.3.0] DataWidgets - 2025-08-28
 
