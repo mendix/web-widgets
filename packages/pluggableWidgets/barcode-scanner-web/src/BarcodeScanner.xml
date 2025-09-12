@@ -62,7 +62,6 @@
                 <systemProperty key="Visibility" />
             </propertyGroup>
         </propertyGroup>
-
         <propertyGroup caption="Dimensions">
             <propertyGroup caption="Dimensions">
                 <property key="widthUnit" type="enumeration" defaultValue="percentage">
@@ -91,6 +90,16 @@
                     <description />
                 </property>
             </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Advanced">
+            <property key="detectionLogic" type="enumeration" defaultValue="native">
+                <caption>Detection logic</caption>
+                <description>Choose the detection logic to use for barcode scanning.</description>
+                <enumerationValues>
+                    <enumerationValue key="zxing">ZXing</enumerationValue>
+                    <enumerationValue key="native">BarcodeDetector API (experimental fast scan, fallback to ZXing)</enumerationValue>
+                </enumerationValues>
+            </property>
         </propertyGroup>
     </properties>
 </widget>
