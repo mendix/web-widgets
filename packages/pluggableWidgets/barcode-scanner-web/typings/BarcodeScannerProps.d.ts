@@ -16,6 +16,8 @@ export type WidthUnitEnum = "percentage" | "pixels";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent";
 
+export type DetectionLogicEnum = "zxing" | "native";
+
 export interface BarcodeFormatsPreviewType {
     barcodeFormat: BarcodeFormatEnum;
 }
@@ -34,6 +36,7 @@ export interface BarcodeScannerContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
+    detectionLogic: DetectionLogicEnum;
 }
 
 export interface BarcodeScannerPreviewProps {
@@ -56,4 +59,5 @@ export interface BarcodeScannerPreviewProps {
     width: number | null;
     heightUnit: HeightUnitEnum;
     height: number | null;
+    detectionLogic: DetectionLogicEnum;
 }

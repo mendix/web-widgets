@@ -1,6 +1,10 @@
 import { RefObject } from "react";
 import { BarcodeDetector, MxBarcodeReader } from "../helpers/barcode-detector";
-import { createBarcodeDetector, createBarcodeDetectorOptions } from "../helpers/barcode-detector-utils";
+import {
+    createBarcodeDetector,
+    createBarcodeDetectorOptions,
+    detectBarcodesFromElement
+} from "../helpers/barcode-detector-utils";
 import { mediaStreamConstraints, ReaderProps } from "../helpers/utils";
 
 export class Reader implements MxBarcodeReader {
@@ -57,13 +61,10 @@ export class Reader implements MxBarcodeReader {
         reject: (reason?: Error) => void
     ): Promise<void> => {
         try {
-            if (this.videoRef.current === null) {
-                return;
-            }
             if (this.decodeInterval) {
                 clearTimeout(this.decodeInterval);
             }
-            const detectionCode = await this.barcodeDetector?.detect(this.videoRef.current);
+            const detectionCode = await detectBarcodesFromElement(this.barcodeDetector, this.videoRef.current);
 
             if (detectionCode && detectionCode.length > 0) {
                 if (resolve) resolve(detectionCode[0].rawValue);
@@ -71,6 +72,7 @@ export class Reader implements MxBarcodeReader {
                 this.decodeInterval = setTimeout(this.decodeStream, 50, resolve, reject);
             }
         } catch (error) {
+            console.log("decodeStream error", error);
             reject(error);
         }
     };

@@ -26,6 +26,7 @@ export type ReaderProps = {
     barcodeFormats?: BarcodeFormatsType[];
     useAllFormats: boolean;
     canvasMiddleRef: RefObject<HTMLDivElement>;
+    detectionLogic?: "zxing" | "native";
 };
 
 export type UseReaderHook = (args: ReaderProps) => { ref: RefObject<HTMLVideoElement>; useBrowserAPI: boolean };

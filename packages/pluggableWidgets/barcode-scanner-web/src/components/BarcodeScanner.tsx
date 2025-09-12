@@ -4,7 +4,7 @@ import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { useCustomErrorMessage } from "../hooks/useCustomErrorMessage";
 import { useReader } from "../hooks/useReader";
-import { BarcodeFormatsType } from "../../typings/BarcodeScannerProps";
+import { BarcodeFormatsType, BarcodeScannerContainerProps } from "../../typings/BarcodeScannerProps";
 
 import "../ui/BarcodeScanner.scss";
 
@@ -57,6 +57,7 @@ export interface BarcodeScannerProps extends Dimensions {
     class: string;
     useAllFormats: boolean;
     barcodeFormats?: BarcodeFormatsType[];
+    detectionLogic?: BarcodeScannerContainerProps["detectionLogic"];
 }
 
 export function BarcodeScanner({
@@ -65,6 +66,7 @@ export function BarcodeScanner({
     class: className,
     barcodeFormats,
     useAllFormats,
+    detectionLogic,
     ...dimensions
 }: BarcodeScannerProps): ReactElement | null {
     const [errorMessage, setError] = useCustomErrorMessage();
@@ -75,7 +77,8 @@ export function BarcodeScanner({
         useCrop: showMask,
         barcodeFormats,
         useAllFormats,
-        canvasMiddleRef
+        canvasMiddleRef,
+        detectionLogic
     });
 
     const { ref: videoRef, useBrowserAPI } = reader ?? {};

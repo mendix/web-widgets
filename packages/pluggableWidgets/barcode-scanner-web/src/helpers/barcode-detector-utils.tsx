@@ -21,12 +21,7 @@ const mapToNativeFormat = (format: string): string => {
 
 // Check if BarcodeDetector API is available
 export const isBarcodeDetectorSupported = (): boolean => {
-    return (
-        typeof globalThis !== "undefined" &&
-        "BarcodeDetector" in globalThis &&
-        "detect" in (globalThis as any).BarcodeDetector &&
-        typeof (globalThis as any).BarcodeDetector.detect === "function"
-    );
+    return typeof globalThis !== "undefined" && "BarcodeDetector" in globalThis;
 };
 
 // Get supported formats for BarcodeDetector
@@ -76,13 +71,16 @@ export const createBarcodeDetector = (options?: BarcodeDetectorOptions): Barcode
 
 // Detect barcodes from video or canvas element using BarcodeDetector API
 export const detectBarcodesFromElement = async (
-    detector: BarcodeDetector,
-    element: HTMLVideoElement | HTMLCanvasElement
+    detector: BarcodeDetector | null,
+    element: HTMLVideoElement | HTMLCanvasElement | null
 ): Promise<DetectedBarcode[]> => {
     try {
+        if (!detector || !element || (element as HTMLVideoElement).readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+            return [];
+        }
         return await detector.detect(element);
     } catch (error) {
-        console.warn("BarcodeDetector failed to detect:", error);
+        console.warn("BarcodeDetector failed to detect:", (element as HTMLVideoElement).readyState, error);
         return [];
     }
 };

@@ -10,7 +10,10 @@ export const useReader: UseReaderHook = args => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
-    const enableBrowserAPI = useMemo(() => isBarcodeDetectorSupported(), []);
+    const enableBrowserAPI = useMemo(
+        () => isBarcodeDetectorSupported() && args.detectionLogic === "native",
+        [args.detectionLogic]
+    );
 
     const reader: MxBarcodeReader = useMemo(() => {
         return enableBrowserAPI ? new NativeReader(args, videoRef) : new ZxReader(args, videoRef);
