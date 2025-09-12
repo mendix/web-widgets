@@ -36,7 +36,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
-        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap);
+        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap, 200);
     }
 
     getOptions(): string[] {

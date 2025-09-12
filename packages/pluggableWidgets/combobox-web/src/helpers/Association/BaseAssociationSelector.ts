@@ -29,7 +29,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
 
     constructor() {
         this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);
-        this.options = new AssociationOptionsProvider(this.caption, this._valuesMap);
+        this.options = new AssociationOptionsProvider(this.caption, this._valuesMap, 200);
     }
 
     updateProps(props: ComboboxContainerProps): void {
