@@ -7,7 +7,29 @@ import {
     HybridBinarizer,
     Result
 } from "@zxing/library";
+import { RefObject } from "react";
 import { BarcodeFormatsType } from "typings/BarcodeScannerProps";
+
+export const mediaStreamConstraints: MediaStreamConstraints = {
+    audio: false,
+    video: {
+        facingMode: "environment",
+        width: { min: 1280, ideal: 4096, max: 4096 },
+        height: { min: 720, ideal: 2160, max: 2160 }
+    }
+};
+
+export type ReaderProps = {
+    onSuccess?: (data: string) => void;
+    onError?: (e: Error) => void;
+    useCrop: boolean;
+    barcodeFormats?: BarcodeFormatsType[];
+    useAllFormats: boolean;
+    canvasMiddleRef: RefObject<HTMLDivElement>;
+    detectionLogic?: "zxing" | "native";
+};
+
+export type UseReaderHook = (args: ReaderProps) => { ref: RefObject<HTMLVideoElement>; useBrowserAPI: boolean };
 
 export const returnVideoWidthHeight = (
     curVideoRef: HTMLVideoElement,

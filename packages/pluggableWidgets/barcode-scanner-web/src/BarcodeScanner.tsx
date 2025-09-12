@@ -28,6 +28,7 @@ export const BarcodeScanner: FunctionComponent<BarcodeScannerContainerProps> = p
             height={props.height}
             widthUnit={props.widthUnit}
             width={props.width}
+            detectionLogic={props.detectionLogic}
         />
     );
 };
