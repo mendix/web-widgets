@@ -49,11 +49,14 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         readOnlyStyle,
         toolbarOptions,
         enableStatusBar,
+        statusBarContent,
         tabIndex,
         imageSource,
         imageSourceContent,
         enableDefaultUpload,
-        formOrientation
+        formOrientation,
+        defaultFontFamily,
+        defaultFontSize
     } = props;
 
     const globalState = useContext(EditorContext);
@@ -80,22 +83,38 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         [stringAttribute, onChange, onChangeType]
     );
 
-    const calculateWordCount = useCallback(
+    const calculateCounts = useCallback(
         (quill: Quill | null): void => {
             if (enableStatusBar) {
-                const text = quill?.getText().trim();
-                setWordCount(text && text.length > 0 ? text.split(/\s+/).length : 0);
+                if (statusBarContent === "wordCount") {
+                    const text = quill?.getText().trim();
+                    setWordCount(text && text.length > 0 ? text.split(/\s+/).length : 0);
+                } else if (statusBarContent === "characterCount") {
+                    const text = quill?.getText() || "";
+                    setWordCount(text.length);
+                } else if (statusBarContent === "characterCountHtml") {
+                    const html = quill?.getSemanticHTML() || "";
+                    setWordCount(html.length);
+                }
             }
         },
-        [enableStatusBar]
+        [enableStatusBar, statusBarContent]
     );
 
     useEffect(() => {
         if (quillRef.current) {
-            calculateWordCount(quillRef.current);
+            calculateCounts(quillRef.current);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [stringAttribute.value, calculateWordCount, quillRef.current]);
+    }, [stringAttribute.value, calculateCounts, quillRef.current]);
+
+    useEffect(() => {
+        if (quillRef.current) {
+            (quillRef.current?.theme as MendixTheme).updateDefaultFontFamily(defaultFontFamily?.value);
+            (quillRef.current?.theme as MendixTheme).updateDefaultFontSize(defaultFontSize?.value);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [defaultFontFamily?.value, quillRef.current, defaultFontSize?.value]);
 
     useEffect(() => {
         if (quillRef.current) {
@@ -115,8 +134,9 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         if (stringAttribute.value !== quillRef?.current?.getSemanticHTML()) {
             setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
         }
+        calculateCounts(quillRef.current);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [quillRef.current, stringAttribute]);
+    }, [quillRef.current, stringAttribute, calculateCounts]);
 
     const onSelectionChange = useCallback(
         (range: Range) => {
@@ -174,7 +194,9 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
             spellCheck={props.spellCheck}
             tabIndex={tabIndex}
         >
-            {toolbarLocation === "auto" && <StickySentinel />}
+            <If condition={toolbarLocation === "auto"}>
+                <StickySentinel />
+            </If>
             <div
                 className={classNames(
                     "flexcontainer",
@@ -219,11 +241,15 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     formOrientation={formOrientation}
                 />
             </div>
-            {enableStatusBar && (
+            <If condition={enableStatusBar}>
                 <div className="widget-rich-text-footer" tabIndex={-1}>
-                    {wordCount} word{wordCount === 1 ? "" : "s"}
+                    <span>
+                        <span>{wordCount}</span>
+                        <span>{` ${statusBarContent === "wordCount" ? "word" : "character"}`}</span>
+                        <span>{wordCount === 1 ? "" : "s"}</span>
+                    </span>
                 </div>
-            )}
+            </If>
         </div>
     );
 }

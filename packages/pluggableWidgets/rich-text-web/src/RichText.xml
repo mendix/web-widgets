@@ -171,6 +171,14 @@
                     <caption>Enable spell checking</caption>
                     <description />
                 </property>
+                <property key="defaultFontFamily" type="textTemplate" required="false">
+                    <caption>Default font family</caption>
+                    <description />
+                </property>
+                <property key="defaultFontSize" type="textTemplate" required="false">
+                    <caption>Default font size</caption>
+                    <description />
+                </property>
                 <property key="customFonts" type="object" isList="true" required="false">
                     <caption>Custom fonts</caption>
                     <description />
@@ -198,6 +206,15 @@
                 <property key="enableDefaultUpload" type="boolean" defaultValue="true">
                     <caption>Enable default upload</caption>
                     <description />
+                </property>
+                <property key="statusBarContent" type="enumeration" defaultValue="wordCount">
+                    <caption>Status bar content</caption>
+                    <description>Choose what to display in the status bar</description>
+                    <enumerationValues>
+                        <enumerationValue key="wordCount">Word count</enumerationValue>
+                        <enumerationValue key="characterCount">Character count (text only)</enumerationValue>
+                        <enumerationValue key="characterCountHtml">Character count (including HTML)</enumerationValue>
+                    </enumerationValues>
                 </property>
             </propertyGroup>
         </propertyGroup>
