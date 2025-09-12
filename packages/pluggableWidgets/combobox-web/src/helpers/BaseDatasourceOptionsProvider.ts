@@ -19,27 +19,22 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     private ds?: ListValue;
     private attributeId?: ListAttributeValue["id"];
     protected loading: boolean = false;
-    private debouncedSetFilter!: (filterCondition: FilterCondition | undefined) => void;
-    private abortDebouncedFilter!: () => void;
-    private filterInputDebounceInterval: number = 200;
+    private debouncedSetFilter: (filterCondition: FilterCondition | undefined) => void;
+    private filterInputDebounceInterval: number;
 
     constructor(
         caption: CaptionsProvider,
-        protected valuesMap: Map<string, ObjectItem>
+        protected valuesMap: Map<string, ObjectItem>,
+        filterInputDebounceInterval: number = 200
     ) {
         super(caption);
-        this.createDebouncedSetFilter();
-    }
+        this.filterInputDebounceInterval = filterInputDebounceInterval;
 
-    private createDebouncedSetFilter(): void {
-        this.cleanup();
-
-        const [debouncedFn, abort] = debounce((filterCondition: FilterCondition | undefined) => {
+        const [debouncedFn] = debounce((filterCondition: FilterCondition | undefined) => {
             this.ds?.setFilter(filterCondition);
         }, this.filterInputDebounceInterval);
 
         this.debouncedSetFilter = debouncedFn;
-        this.abortDebouncedFilter = abort;
     }
 
     get sortOrder(): SortOrder {
@@ -69,10 +64,10 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     getAll(): string[] {
         if (this.lazyLoading && this.attributeId) {
             if (this.searchTerm === "") {
-                this.debouncedSetFilter!(undefined);
+                this.debouncedSetFilter(undefined);
             } else {
                 const filterCondition = datasourceFilter(this.filterType, this.searchTerm, this.attributeId);
-                this.debouncedSetFilter!(filterCondition);
+                this.debouncedSetFilter(filterCondition);
             }
 
             return this.options;
@@ -122,12 +117,6 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         this.filterType = props.filterType;
         this.lazyLoading = props.lazyLoading;
 
-        const newInterval = props.filterInputDebounceInterval ?? 200;
-        if (newInterval !== this.filterInputDebounceInterval) {
-            this.filterInputDebounceInterval = newInterval;
-            this.createDebouncedSetFilter();
-        }
-
         if (this.lazyLoading) {
             if (props.ds.status === "loading") {
                 this.loading = true;
@@ -140,11 +129,5 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         this.valuesMap.clear();
         items.forEach(i => this.valuesMap.set(i.id, i));
         this.options = Array.from(this.valuesMap.keys());
-    }
-
-    cleanup(): void {
-        if (this.abortDebouncedFilter) {
-            this.abortDebouncedFilter();
-        }
     }
 }

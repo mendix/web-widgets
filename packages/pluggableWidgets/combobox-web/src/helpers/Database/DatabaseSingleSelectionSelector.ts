@@ -35,7 +35,7 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
 
     constructor() {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
-        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap);
+        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap, 200);
         this.values = new DatabaseValuesProvider(this._objectsMap);
     }
 
