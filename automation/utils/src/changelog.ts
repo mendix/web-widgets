@@ -57,7 +57,7 @@ export async function updateChangelogsAndCreatePR(
     const readmeossFile = findOssReadme(path, info.mxpackage.name, info.version.format());
     if (readmeossFile) {
         console.log(`Removing OSS clearance readme file '${readmeossFile}'...`);
-        await exec(`git rm '${join(path, readmeossFile)}'`);
+        await exec(`git rm '${readmeossFile}'`);
     }
 
     await exec(`git commit -m "chore(${info.name}): update changelog"`);

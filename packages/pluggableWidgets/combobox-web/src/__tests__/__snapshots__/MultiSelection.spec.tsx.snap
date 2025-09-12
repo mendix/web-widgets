@@ -6,7 +6,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
     class="widget-combobox"
   >
     <div
-      class="widget-combobox-input-container form-control"
+      class="widget-combobox-input-container form-control widget-combobox-multiselect"
       id="downshift-0-toggle-button"
       tabindex="-1"
     >
@@ -116,7 +116,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
     class="widget-combobox"
   >
     <div
-      class="widget-combobox-input-container form-control"
+      class="widget-combobox-input-container form-control widget-combobox-multiselect"
       id="downshift-2-toggle-button"
       tabindex="-1"
     >
@@ -226,7 +226,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
     class="widget-combobox"
   >
     <div
-      class="widget-combobox-input-container form-control"
+      class="widget-combobox-input-container form-control widget-combobox-multiselect"
       id="downshift-6-toggle-button"
       tabindex="-1"
     >
