@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We enabled a configurable debounce interval for datasource filter operations as well, via a existing property filterInputDebounceInterval.
+
 ### Fixed
 
 - We fixed an issue where combobox failed to render a proper width on auto-fit container.

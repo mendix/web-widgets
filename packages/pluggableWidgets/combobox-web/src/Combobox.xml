@@ -329,7 +329,6 @@
                 <caption>On leave</caption>
                 <description />
             </property>
-
             <property key="onChangeFilterInputEvent" type="action" required="false">
                 <caption>On filter input change</caption>
                 <description />

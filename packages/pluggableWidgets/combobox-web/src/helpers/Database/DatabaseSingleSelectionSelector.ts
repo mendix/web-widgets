@@ -52,7 +52,8 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
             filterType,
             lazyLoading,
             loadingType,
-            valueSourceAttribute
+            valueSourceAttribute,
+            filterInputDebounceInterval
         } = extractDatabaseProps(props);
 
         if (ds.status === "loading") {
@@ -78,7 +79,8 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
             ds,
             filterType,
             lazyLoading,
-            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
+            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined,
+            filterInputDebounceInterval
         });
 
         this.values.updateProps({

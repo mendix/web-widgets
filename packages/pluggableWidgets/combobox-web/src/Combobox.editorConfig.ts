@@ -178,10 +178,6 @@ export function getProperties(
         hidePropertiesIn(defaultProperties, values, ["loadingType"]);
     }
 
-    if (values.onChangeFilterInputEvent === null) {
-        hidePropertiesIn(defaultProperties, values, ["filterInputDebounceInterval"]);
-    }
-
     return defaultProperties;
 }
 
