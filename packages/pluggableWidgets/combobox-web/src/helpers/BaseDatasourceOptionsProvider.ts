@@ -5,6 +5,7 @@ import { BaseOptionsProvider } from "./BaseOptionsProvider";
 import { datasourceFilter } from "./datasourceFilter";
 import { CaptionsProvider, SortOrder, Status } from "./types";
 import { DEFAULT_LIMIT_SIZE } from "./utils";
+import { FilterCondition } from "mendix/filters";
 
 export interface BaseProps {
     attributeId?: ListAttributeValue["id"];
@@ -18,8 +19,8 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     private ds?: ListValue;
     private attributeId?: ListAttributeValue["id"];
     protected loading: boolean = false;
-    private debouncedSetFilter?: (filterCondition: any) => void;
-    private abortDebouncedFilter?: () => void;
+    private debouncedSetFilter!: (filterCondition: FilterCondition | undefined) => void;
+    private abortDebouncedFilter!: () => void;
     private filterInputDebounceInterval: number = 200;
 
     constructor(
@@ -27,12 +28,13 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         protected valuesMap: Map<string, ObjectItem>
     ) {
         super(caption);
+        this.createDebouncedSetFilter();
     }
 
     private createDebouncedSetFilter(): void {
         this.cleanup();
 
-        const [debouncedFn, abort] = debounce((filterCondition: any) => {
+        const [debouncedFn, abort] = debounce((filterCondition: FilterCondition | undefined) => {
             this.ds?.setFilter(filterCondition);
         }, this.filterInputDebounceInterval);
 
@@ -66,9 +68,6 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
 
     getAll(): string[] {
         if (this.lazyLoading && this.attributeId) {
-            if (!this.debouncedSetFilter) {
-                this.createDebouncedSetFilter();
-            }
             if (this.searchTerm === "") {
                 this.debouncedSetFilter!(undefined);
             } else {
