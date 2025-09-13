@@ -25,7 +25,8 @@ describe("Google maps", () => {
         style: {},
         width: 50,
         widthUnit: "percentage",
-        zoomLevel: 10
+        zoomLevel: 10,
+        features: []
     };
 
     beforeEach(() => {

@@ -1,6 +1,7 @@
 import { Dimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { CSSProperties } from "react";
-import { GeoJSONFeaturesType } from "./MapsProps";
+import { GeoJSONFeaturesType, DrawingToolsEnum } from "./MapsProps";
+import { ActionValue, EditableValue } from "mendix";
 export interface ModeledMarker {
     address?: string;
     latitude?: number;
@@ -45,6 +46,15 @@ export interface GeoJSONFeature {
 }
 
 
+export interface DrawingProps {
+    enableDrawing: boolean;
+    drawingTools: DrawingToolsEnum;
+    drawnGeoJSONAttribute?: EditableValue<string>;
+    onDrawComplete?: ActionValue;
+    allowEdit: boolean;
+    allowDelete: boolean;
+}
+
 export interface SharedProps extends Dimensions {
     autoZoom: boolean;
     optionZoomControl: boolean;
@@ -59,3 +69,5 @@ export interface SharedProps extends Dimensions {
     style?: CSSProperties;
     features: GeoJSONFeature[];
 }
+
+export interface SharedPropsWithDrawing extends SharedProps, DrawingProps {}

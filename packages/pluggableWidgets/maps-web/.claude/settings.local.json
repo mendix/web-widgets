@@ -1,0 +1,28 @@
+{
+    "permissions": {
+        "allow": [
+            "Read(//c/Mendix/dev/web-widgets/.github/**)",
+            "Bash(git add:*)",
+            "Bash(git rebase:*)",
+            "WebSearch",
+            "Read(//c/Mendix/dev/web-widgets/**)",
+            "Bash(npm run lint)",
+            "Bash(npm run lint:*)",
+            "Bash(npm test)",
+            "Bash(npx pluggable-widgets-tools build:ts --help)",
+            "Bash(find:*)",
+            "Bash(npm install)",
+            "Bash(pnpm install:*)",
+            "Bash(pnpm run:*)",
+            "Bash(pnpm start:*)",
+            "WebFetch(domain:leaflet.github.io)",
+            "Bash(pnpm build:*)",
+            "Bash(pnpm lint:*)",
+            "Bash(pnpm test:*)",
+            "Bash(pnpm jest:*)",
+            "Bash(git commit:*)"
+        ],
+        "deny": [],
+        "ask": []
+    }
+}

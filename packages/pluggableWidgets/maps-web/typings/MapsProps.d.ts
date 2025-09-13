@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, WebImage } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, WebImage } from "mendix";
 import { Big } from "big.js";
 
 export type LocationTypeEnum = "address" | "latlng";
@@ -58,6 +58,8 @@ export interface FeaturesType {
     fillColor?: ListExpressionValue<string>;
     fillOpacity?: ListExpressionValue<Big>;
 }
+
+export type DrawingToolsEnum = "polygon" | "all";
 
 export interface MarkersPreviewType {
     locationType: LocationTypeEnum;
@@ -124,6 +126,12 @@ export interface MapsContainerProps {
     mapProvider: MapProviderEnum;
     googleMapId: string;
     features: FeaturesType[];
+    enableDrawing: boolean;
+    drawingTools: DrawingToolsEnum;
+    drawnGeoJSONAttribute?: EditableValue<string>;
+    onDrawComplete?: ActionValue;
+    allowEdit: boolean;
+    allowDelete: boolean;
 }
 
 export interface MapsPreviewProps {
@@ -161,4 +169,10 @@ export interface MapsPreviewProps {
     mapProvider: MapProviderEnum;
     googleMapId: string;
     features: FeaturesPreviewType[];
+    enableDrawing: boolean;
+    drawingTools: DrawingToolsEnum;
+    drawnGeoJSONAttribute: string;
+    onDrawComplete: {} | null;
+    allowEdit: boolean;
+    allowDelete: boolean;
 }

@@ -55,6 +55,12 @@ export default function Maps(props: MapsContainerProps): ReactNode {
             widthUnit={props.widthUnit}
             zoomLevel={translateZoom(props.zoom)}
             features={features}
+            enableDrawing={props.enableDrawing}
+            drawingTools={props.drawingTools}
+            drawnGeoJSONAttribute={props.drawnGeoJSONAttribute}
+            onDrawComplete={props.onDrawComplete}
+            allowEdit={props.allowEdit}
+            allowDelete={props.allowDelete}
         />
     );
 }

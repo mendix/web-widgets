@@ -326,5 +326,38 @@
                 </properties>
             </property>
         </propertyGroup>
+        <propertyGroup caption="Drawing">
+            <property key="enableDrawing" type="boolean" defaultValue="false">
+                <caption>Enable drawing</caption>
+                <description>Allow users to draw polygons on the map</description>
+            </property>
+            <property key="drawingTools" type="enumeration" defaultValue="polygon">
+                <caption>Drawing tools</caption>
+                <description>Select which drawing tools to enable</description>
+                <enumerationValues>
+                    <enumerationValue key="polygon">Polygon only</enumerationValue>
+                    <enumerationValue key="all">All shapes</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="drawnGeoJSONAttribute" type="attribute" required="false">
+                <caption>GeoJSON output</caption>
+                <description>String attribute to store the drawn GeoJSON</description>
+                <attributeTypes>
+                    <attributeType name="String" />
+                </attributeTypes>
+            </property>
+            <property key="onDrawComplete" type="action" required="false">
+                <caption>On draw complete</caption>
+                <description>Action to execute when drawing is finished</description>
+            </property>
+            <property key="allowEdit" type="boolean" defaultValue="true">
+                <caption>Allow editing</caption>
+                <description>Allow editing of drawn shapes</description>
+            </property>
+            <property key="allowDelete" type="boolean" defaultValue="true">
+                <caption>Allow deletion</caption>
+                <description>Allow deletion of drawn shapes</description>
+            </property>
+        </propertyGroup>
     </properties>
 </widget>

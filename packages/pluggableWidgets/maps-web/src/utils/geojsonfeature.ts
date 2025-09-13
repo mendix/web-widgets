@@ -24,7 +24,7 @@ function convertModeledGeoJSONFeature(feature: FeaturesType): ModeledGeoJSONFeat
 function fromDatasource(feature: FeaturesType, item: ObjectItem): ModeledGeoJSONFeature {
     const { geoJSON, color, stroke, weight, opacity, fill, fillColor, fillOpacity, onClickAttribute } = feature;
     return {
-        geoJSON: geoJSON ? geoJSON.get(item)?.value ?? "" : "",
+        geoJSON: geoJSON ? (geoJSON.get(item)?.value ?? "") : "",
         color: color?.get(item)?.value ?? "#3388ff",
         stroke: stroke?.get(item)?.value ?? true,
         weight: weight ? Number(weight.get(item).value) : 3,

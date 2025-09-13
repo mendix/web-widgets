@@ -21,7 +21,12 @@ describe("Leaflet maps", () => {
         style: {},
         width: 50,
         widthUnit: "percentage",
-        zoomLevel: 10
+        zoomLevel: 10,
+        features: [],
+        enableDrawing: false,
+        drawingTools: "polygon",
+        allowEdit: true,
+        allowDelete: true
     };
 
     function renderLeafletMap(props: Partial<LeafletProps> = {}): RenderResult {
