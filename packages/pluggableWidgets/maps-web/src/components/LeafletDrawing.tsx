@@ -89,6 +89,8 @@ export function LeafletDrawing(props: DrawingProps): null {
         drawnItemsRef.current = drawnItems;
 
         // Configure drawing options based on drawingTools setting
+        console.log("Drawing tools configuration:", drawingTools);
+
         const drawOptions =
             drawingTools === "all"
                 ? {
@@ -124,6 +126,7 @@ export function LeafletDrawing(props: DrawingProps): null {
                               weight: 3
                           }
                       },
+                      circlemarker: false, // Explicitly disable circlemarker
                       marker: true
                   }
                 : {
@@ -140,8 +143,11 @@ export function LeafletDrawing(props: DrawingProps): null {
                       rectangle: false,
                       polyline: false,
                       circle: false,
+                      circlemarker: false, // Explicitly disable circlemarker
                       marker: false
                   };
+
+        console.log("Draw options configured:", drawOptions);
 
         // Initialize draw control with proper typing
         const DrawControl = (L.Control as any).Draw;
