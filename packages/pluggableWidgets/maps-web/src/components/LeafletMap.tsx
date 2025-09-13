@@ -1,16 +1,18 @@
 import { createElement, ReactElement, useEffect, useState } from "react";
 import { FeatureCollection } from "geojson";
-import { MapContainer, Marker as MarkerComponent, Popup, TileLayer, useMap, GeoJSON } from "react-leaflet";
+import { GeoJSON, MapContainer, Marker as MarkerComponent, Popup, TileLayer, useMap } from "react-leaflet";
 import classNames from "classnames";
 import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
-import { SharedProps } from "../../typings/shared";
+import { GeoJSONFeature, SharedPropsWithDrawing } from "../../typings/shared";
 import { MapProviderEnum } from "../../typings/MapsProps";
 import { translateZoom } from "../utils/zoom";
-import { latLngBounds, Icon as LeafletIcon, DivIcon, geoJSON } from "leaflet";
+import { DivIcon, geoJSON, latLngBounds, Icon as LeafletIcon } from "leaflet";
 import { baseMapLayer } from "../utils/leaflet";
-import { GeoJSONFeature } from "../../typings/shared";
+import { LeafletDrawing } from "./LeafletDrawing";
+import "leaflet/dist/leaflet.css";
+import "leaflet-draw/dist/leaflet.draw.css";
 
-export interface LeafletProps extends SharedProps {
+export interface LeafletProps extends SharedPropsWithDrawing {
     mapProvider: MapProviderEnum;
     attributionControl: boolean;
 }
@@ -80,7 +82,7 @@ function SetBoundsComponent(
     return null;
 }
 
-function ExposeMapInstance() {
+function ExposeMapInstance(): null {
     const map = useMap();
 
     useEffect(() => {
@@ -174,7 +176,13 @@ export function LeafletMap(props: LeafletProps): ReactElement {
         style,
         zoomLevel: zoom,
         optionDrag: dragging,
-        features
+        features,
+        enableDrawing,
+        drawingTools,
+        drawnGeoJSONAttribute,
+        onDrawComplete,
+        allowEdit,
+        allowDelete
     } = props;
 
     console.log("[LeafletMap] Features: ", features);
@@ -234,6 +242,16 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                     />
                     <ExposeMapInstance />
                     {features && <GeoJSONLayer features={features} />}
+                    {enableDrawing && (
+                        <LeafletDrawing
+                            enableDrawing={enableDrawing}
+                            drawingTools={drawingTools}
+                            drawnGeoJSONAttribute={drawnGeoJSONAttribute}
+                            onDrawComplete={onDrawComplete}
+                            allowEdit={allowEdit}
+                            allowDelete={allowDelete}
+                        />
+                    )}
                 </MapContainer>
             </div>
         </div>

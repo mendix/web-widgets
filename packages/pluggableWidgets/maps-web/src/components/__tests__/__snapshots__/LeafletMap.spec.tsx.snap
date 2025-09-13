@@ -141,7 +141,7 @@ exports[`Leaflet maps renders a map with MapBox maps as provider 1`] = `
                 <img
                   alt=""
                   class="leaflet-tile"
-                  src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/9/262/169"
+                  src="https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/9/262/169"
                   style="width: 512px; height: 512px; left: -196px; top: -172px;"
                 />
               </div>
@@ -401,7 +401,7 @@ exports[`Leaflet maps renders a map with current location 1`] = `
             <div
               class="leaflet-marker-icon custom-leaflet-map-icon-marker leaflet-zoom-hide"
               role="button"
-              style="margin-left: -6px; margin-top: -6px; width: 12px; height: 12px; left: 0px; top: 0px; z-index: 0;"
+              style="margin-left: -6px; margin-top: -6px; width: 12px; height: 12px; left: 0px; top: 0px; z-index: 0; z-index: 0; z-index: 0;"
               tabindex="0"
             >
               <img
@@ -523,7 +523,7 @@ exports[`Leaflet maps renders a map with markers 1`] = `
             <div
               class="leaflet-marker-icon custom-leaflet-map-icon-marker leaflet-zoom-hide leaflet-interactive"
               role="button"
-              style="margin-left: -6px; margin-top: -6px; width: 12px; height: 12px; left: 815px; top: 2438px; z-index: 2438;"
+              style="margin-left: -6px; margin-top: -6px; width: 12px; height: 12px; left: 815px; top: 2438px; z-index: 2438; z-index: 2438;"
               tabindex="0"
               title="Mendix HQ"
             >

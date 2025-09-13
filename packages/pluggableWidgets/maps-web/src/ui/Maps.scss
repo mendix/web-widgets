@@ -1,3 +1,5 @@
+// Leaflet-draw CSS is imported in LeafletMap.tsx
+
 .widget-google-maps-wrapper {
     width: 100%;
     height: 100%;
@@ -62,4 +64,134 @@ Leaflet maps
 
 .custom-leaflet-map-icon-marker-icon {
     transform: translate(-50%, -50%);
+}
+
+/**
+Drawing Controls
+ */
+.leaflet-draw-toolbar {
+    /* Position the drawing toolbar appropriately */
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-draw-toolbar a {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid #ccc;
+}
+
+.leaflet-draw-toolbar a:hover {
+    background-color: #f4f4f4;
+}
+
+// Ensure drawing control visibility
+.leaflet-draw-toolbar a {
+    display: block !important;
+    text-decoration: none !important;
+    text-align: center !important;
+}
+
+.leaflet-draw-toolbar a:hover {
+    background-color: #f4f4f4 !important;
+}
+
+// Style the edit toolbar buttons
+.leaflet-draw-toolbar .leaflet-draw-edit-edit.leaflet-disabled a {
+    cursor: default !important;
+    opacity: 0.5 !important;
+}
+
+.leaflet-draw-toolbar .leaflet-draw-edit-remove.leaflet-disabled a {
+    cursor: default !important;
+    opacity: 0.5 !important;
+}
+
+// Let the default leaflet-draw styles handle the appearance
+
+/* Drawing guides and tooltips */
+.leaflet-draw-tooltip {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 3px;
+    color: white;
+    font-size: 12px;
+    line-height: 1.2;
+    padding: 6px 10px;
+    white-space: nowrap;
+    z-index: 1000;
+}
+
+.leaflet-draw-tooltip:before {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid rgba(0, 0, 0, 0.8);
+    bottom: -6px;
+    content: "";
+    left: 50%;
+    margin-left: -6px;
+    position: absolute;
+}
+
+/* Drawing shapes while active */
+.leaflet-draw-draw-polygon .leaflet-draw-toolbar-button-enabled {
+    background-color: #78c679 !important;
+}
+
+.leaflet-draw-edit-edit .leaflet-draw-toolbar-button-enabled {
+    background-color: #ffc107 !important;
+}
+
+.leaflet-draw-edit-remove .leaflet-draw-toolbar-button-enabled {
+    background-color: #dc3545 !important;
+}
+
+/* Override default leaflet-draw styles for better integration */
+.leaflet-draw-actions {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-draw-actions li {
+    float: left;
+    margin-right: 5px;
+}
+
+.leaflet-draw-actions a {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    color: #495057;
+    display: block;
+    font-size: 12px;
+    padding: 4px 8px;
+    text-decoration: none;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.leaflet-draw-actions a:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* Ensure drawing controls don't interfere with other map controls */
+.leaflet-top.leaflet-right {
+    right: 10px;
+    top: 10px;
+}
+
+.leaflet-control-draw {
+    margin-bottom: 10px;
+}
+
+/* Drawing error styles */
+.leaflet-draw-draw-polygon .leaflet-draw-tooltip-error {
+    background: rgba(220, 53, 69, 0.8);
+}
+
+/* Make sure drawing controls are accessible */
+.leaflet-draw-toolbar a:focus,
+.leaflet-draw-actions a:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
 }
