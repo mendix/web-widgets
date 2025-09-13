@@ -89,14 +89,12 @@ export function LeafletDrawing(props: DrawingProps): null {
         drawnItemsRef.current = drawnItems;
 
         // Configure drawing options based on drawingTools setting
-        console.log("Drawing tools configuration:", drawingTools);
-
         const drawOptions =
             drawingTools === "all"
                 ? {
                       polygon: {
                           allowIntersection: false,
-                          showArea: true,
+                          showArea: false, // Disable area calculation to avoid measurement errors
                           shapeOptions: {
                               color: "#2E7D32",
                               fillColor: "#81C784",
@@ -132,7 +130,7 @@ export function LeafletDrawing(props: DrawingProps): null {
                 : {
                       polygon: {
                           allowIntersection: false,
-                          showArea: true,
+                          showArea: false, // Disable area calculation to avoid measurement errors
                           shapeOptions: {
                               color: "#2E7D32",
                               fillColor: "#81C784",
@@ -146,8 +144,6 @@ export function LeafletDrawing(props: DrawingProps): null {
                       circlemarker: false, // Explicitly disable circlemarker
                       marker: false
                   };
-
-        console.log("Draw options configured:", drawOptions);
 
         // Initialize draw control with proper typing
         const DrawControl = (L.Control as any).Draw;
