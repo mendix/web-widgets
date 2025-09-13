@@ -248,10 +248,8 @@ export function LeafletDrawing(props: DrawingProps): null {
         map,
         drawingTools,
         allowEdit,
-        allowDelete,
-        saveDrawnItems,
-        loadExistingDrawings,
-        onDrawComplete
+        allowDelete
+        // Removed saveDrawnItems, loadExistingDrawings, onDrawComplete to prevent unnecessary re-renders
     ]);
 
     // Update existing drawings when attribute value changes externally

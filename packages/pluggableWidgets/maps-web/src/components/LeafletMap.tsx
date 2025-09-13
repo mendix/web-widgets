@@ -44,40 +44,52 @@ function SetBoundsComponent(
     const [initialBoundsSet, setInitialBoundsSet] = useState(false);
 
     useEffect(() => {
-        // Only update bounds if they haven't been set already
+        // Only set bounds on initial mount, not on every feature change
         if (initialBoundsSet) {
             return;
         }
-        const bounds = latLngBounds(
-            locations
-                .concat(currentLocation ? [currentLocation] : [])
-                .filter(m => !!m)
-                .map(m => [m.latitude, m.longitude])
-        );
+
+        // Create bounds from available locations and current location
+        const allLocations = locations.concat(currentLocation ? [currentLocation] : []).filter(m => !!m);
+
+        let bounds;
+        if (allLocations.length > 0) {
+            bounds = latLngBounds(allLocations.map(m => [m.latitude, m.longitude]));
+        }
 
         // If there are GeoJSON features, compute their bounds
         if (features && features.length > 0) {
-            const featureCollection: FeatureCollection = {
-                type: "FeatureCollection",
-                features: features.map(feature => JSON.parse(feature.geoJSON))
-            };
+            try {
+                const featureCollection: FeatureCollection = {
+                    type: "FeatureCollection",
+                    features: features.map(feature => JSON.parse(feature.geoJSON))
+                };
 
-            const tempLayer = geoJSON(featureCollection);
-            const geoJsonBounds = tempLayer.getBounds();
-            if (geoJsonBounds.isValid()) {
-                bounds.extend(geoJsonBounds);
+                const tempLayer = geoJSON(featureCollection);
+                const geoJsonBounds = tempLayer.getBounds();
+                if (geoJsonBounds.isValid()) {
+                    if (bounds) {
+                        bounds.extend(geoJsonBounds);
+                    } else {
+                        bounds = geoJsonBounds;
+                    }
+                }
+            } catch (error) {
+                console.warn("Failed to parse GeoJSON features for bounds calculation:", error);
             }
         }
 
-        if (bounds.isValid()) {
+        if (bounds && bounds.isValid()) {
             if (autoZoom) {
-                map.flyToBounds(bounds, { padding: [0.5, 0.5], animate: false }).invalidateSize();
+                map.flyToBounds(bounds, { padding: [0.5, 0.5], animate: false });
+                // Need invalidateSize for proper bounds calculation, but only once during initial setup
+                map.invalidateSize();
             } else {
                 map.panTo(bounds.getCenter(), { animate: false });
             }
             setInitialBoundsSet(true);
         }
-    }, [autoZoom, currentLocation, locations, features, map, initialBoundsSet]);
+    }, [autoZoom, currentLocation, locations, map]); // Removed features and initialBoundsSet from deps
 
     return null;
 }
@@ -88,6 +100,8 @@ function ExposeMapInstance(): null {
     useEffect(() => {
         console.log("Exposing Leaflet map instance globally");
         window.leafletMapInstance = map; // Attach the map instance to the global window object
+
+        // Removed problematic event handlers that were making coordinate offset worse
     }, [map]);
 
     return null;
@@ -212,7 +226,9 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                                     marker.url
                                         ? new DivIcon({
                                               html: `<img src="${marker.url}" class="custom-leaflet-map-icon-marker-icon" alt="map marker" />`,
-                                              className: "custom-leaflet-map-icon-marker"
+                                              className: "custom-leaflet-map-icon-marker",
+                                              iconSize: [32, 32], // Set proper icon size
+                                              iconAnchor: [16, 32] // Anchor at bottom center of icon
                                           })
                                         : defaultMarkerIcon
                                 }
