@@ -5,7 +5,6 @@ import classNames from "classnames";
 import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { GeoJSONFeature, SharedPropsWithDrawing } from "../../typings/shared";
 import { MapProviderEnum } from "../../typings/MapsProps";
-import { translateZoom } from "../utils/zoom";
 import { DivIcon, geoJSON, latLngBounds, Icon as LeafletIcon } from "leaflet";
 import { baseMapLayer } from "../utils/leaflet";
 import { LeafletDrawing } from "./LeafletDrawing";
@@ -37,59 +36,77 @@ const defaultMarkerIcon = new LeafletIcon({
 });
 
 function SetBoundsComponent(
-    props: Pick<LeafletProps, "autoZoom" | "currentLocation" | "locations" | "features">
+    props: Pick<LeafletProps, "autoZoom" | "currentLocation" | "locations" | "features" | "enableDrawing">
 ): null {
     const map = useMap();
-    const { autoZoom, currentLocation, locations, features } = props;
+    const { autoZoom, currentLocation, locations, features, enableDrawing } = props;
     const [initialBoundsSet, setInitialBoundsSet] = useState(false);
 
     useEffect(() => {
-        // Only set bounds on initial mount, not on every feature change
+        // Disable bounds setting when drawing is enabled to prevent coordinate interference
+        if (enableDrawing) {
+            console.log("SetBoundsComponent: Skipping bounds operations - drawing is enabled");
+            return;
+        }
+
+        // Only set bounds once when the component mounts
         if (initialBoundsSet) {
             return;
         }
 
-        // Create bounds from available locations and current location
-        const allLocations = locations.concat(currentLocation ? [currentLocation] : []).filter(m => !!m);
+        // Check if drawing is active before proceeding
+        const isDrawingActive =
+            typeof window !== "undefined" &&
+            (window as any).isLeafletDrawingActive &&
+            (window as any).isLeafletDrawingActive();
 
-        let bounds;
-        if (allLocations.length > 0) {
-            bounds = latLngBounds(allLocations.map(m => [m.latitude, m.longitude]));
+        if (isDrawingActive) {
+            console.log("SetBoundsComponent: Skipping bounds operations - drawing is active");
+            return;
         }
 
-        // If there are GeoJSON features, compute their bounds
-        if (features && features.length > 0) {
-            try {
-                const featureCollection: FeatureCollection = {
-                    type: "FeatureCollection",
-                    features: features.map(feature => JSON.parse(feature.geoJSON))
-                };
+        // Wait a bit for the map to be fully ready
+        const timer = setTimeout(() => {
+            const allLocations = locations.concat(currentLocation ? [currentLocation] : []).filter(m => !!m);
 
-                const tempLayer = geoJSON(featureCollection);
-                const geoJsonBounds = tempLayer.getBounds();
-                if (geoJsonBounds.isValid()) {
-                    if (bounds) {
+            if (allLocations.length === 0 && (!features || features.length === 0)) {
+                setInitialBoundsSet(true);
+                return;
+            }
+
+            const bounds = latLngBounds(allLocations.map(m => [m.latitude, m.longitude]));
+
+            if (features && features.length > 0) {
+                try {
+                    const featureCollection: FeatureCollection = {
+                        type: "FeatureCollection",
+                        features: features.map(feature => JSON.parse(feature.geoJSON))
+                    };
+
+                    const tempLayer = geoJSON(featureCollection);
+                    const geoJsonBounds = tempLayer.getBounds();
+                    if (geoJsonBounds.isValid()) {
                         bounds.extend(geoJsonBounds);
-                    } else {
-                        bounds = geoJsonBounds;
                     }
+                } catch (error) {
+                    console.warn("Error processing features for bounds:", error);
                 }
-            } catch (error) {
-                console.warn("Failed to parse GeoJSON features for bounds calculation:", error);
             }
-        }
 
-        if (bounds && bounds.isValid()) {
-            if (autoZoom) {
-                map.flyToBounds(bounds, { padding: [0.5, 0.5], animate: false });
-                // Need invalidateSize for proper bounds calculation, but only once during initial setup
-                map.invalidateSize();
-            } else {
-                map.panTo(bounds.getCenter(), { animate: false });
+            if (bounds.isValid()) {
+                if (autoZoom) {
+                    map.fitBounds(bounds, { padding: [20, 20] });
+                } else {
+                    map.setView(bounds.getCenter(), 13);
+                }
             }
+
             setInitialBoundsSet(true);
-        }
-    }, [autoZoom, currentLocation, locations, map]); // Removed features and initialBoundsSet from deps
+        }, 100);
+
+        return () => clearTimeout(timer);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [map, enableDrawing]); // Intentionally limited dependencies to prevent re-runs during drawing
 
     return null;
 }
@@ -102,6 +119,67 @@ function ExposeMapInstance(): null {
         window.leafletMapInstance = map; // Attach the map instance to the global window object
 
         // Removed problematic event handlers that were making coordinate offset worse
+    }, [map]);
+
+    return null;
+}
+
+function MapStabilizer(): null {
+    const map = useMap();
+
+    useEffect(() => {
+        // Initial map stabilization after mount
+        const initialTimer = setTimeout(() => {
+            console.log("MapStabilizer: Initial map invalidateSize");
+            map.invalidateSize(true);
+        }, 100);
+
+        // Set up ResizeObserver to handle container changes
+        let resizeObserver: ResizeObserver | null = null;
+
+        if (typeof window !== "undefined" && window.ResizeObserver) {
+            const container = map.getContainer();
+            if (container) {
+                resizeObserver = new ResizeObserver(entries => {
+                    // Check if drawing is active before invalidating size
+                    const isDrawingActive =
+                        typeof window !== "undefined" &&
+                        (window as any).isLeafletDrawingActive &&
+                        (window as any).isLeafletDrawingActive();
+
+                    if (isDrawingActive) {
+                        console.log("MapStabilizer: Skipping invalidateSize - drawing is active");
+                        return;
+                    }
+
+                    for (const entry of entries) {
+                        if (entry.target === container) {
+                            console.log("MapStabilizer: Container resized, calling invalidateSize");
+                            // Debounce resize calls
+                            setTimeout(() => {
+                                if (
+                                    !(
+                                        (window as any).isLeafletDrawingActive &&
+                                        (window as any).isLeafletDrawingActive()
+                                    )
+                                ) {
+                                    map.invalidateSize(true);
+                                }
+                            }, 50);
+                        }
+                    }
+                });
+
+                resizeObserver.observe(container);
+            }
+        }
+
+        return () => {
+            clearTimeout(initialTimer);
+            if (resizeObserver) {
+                resizeObserver.disconnect();
+            }
+        };
     }, [map]);
 
     return null;
@@ -212,7 +290,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                     maxZoom={18}
                     minZoom={1}
                     scrollWheelZoom={scrollWheelZoom}
-                    zoom={autoZoom ? translateZoom("city") : zoom}
+                    zoom={zoom}
                     zoomControl={zoomControl}
                     whenReady={() => {}}
                 >
@@ -255,8 +333,10 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                         currentLocation={currentLocation}
                         locations={locations}
                         features={features}
+                        enableDrawing={enableDrawing}
                     />
                     <ExposeMapInstance />
+                    <MapStabilizer />
                     {features && <GeoJSONLayer features={features} />}
                     {enableDrawing && (
                         <LeafletDrawing
