@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { GeoJSONFeature, SharedPropsWithDrawing } from "../../typings/shared";
 import { MapProviderEnum } from "../../typings/MapsProps";
-import { DivIcon, geoJSON, latLngBounds, Icon as LeafletIcon } from "leaflet";
+import { DivIcon, geoJSON, latLngBounds, Icon as LeafletIcon, LatLngBounds } from "leaflet";
 import { baseMapLayer } from "../utils/leaflet";
 import { LeafletDrawing } from "./LeafletDrawing";
 import "leaflet/dist/leaflet.css";
@@ -40,17 +40,12 @@ function SetBoundsComponent(
 ): null {
     const map = useMap();
     const { autoZoom, currentLocation, locations, features, enableDrawing } = props;
-    const [initialBoundsSet, setInitialBoundsSet] = useState(false);
+    const [boundsSetForDataHash, setBoundsSetForDataHash] = useState<string>("");
 
     useEffect(() => {
         // Disable bounds setting when drawing is enabled to prevent coordinate interference
         if (enableDrawing) {
             console.log("SetBoundsComponent: Skipping bounds operations - drawing is enabled");
-            return;
-        }
-
-        // Only set bounds once when the component mounts
-        if (initialBoundsSet) {
             return;
         }
 
@@ -65,17 +60,42 @@ function SetBoundsComponent(
             return;
         }
 
-        // Wait a bit for the map to be fully ready
-        const timer = setTimeout(() => {
-            const allLocations = locations.concat(currentLocation ? [currentLocation] : []).filter(m => !!m);
+        const allLocations = locations.concat(currentLocation ? [currentLocation] : []).filter(m => !!m);
 
-            if (allLocations.length === 0 && (!features || features.length === 0)) {
-                setInitialBoundsSet(true);
-                return;
+        // Create a hash of current data to avoid setting bounds for the same data multiple times
+        const dataHash = JSON.stringify({
+            locationCount: allLocations.length,
+            locations: allLocations.map(l => `${l.latitude},${l.longitude}`),
+            featureCount: features?.length || 0,
+            autoZoom
+        });
+
+        // If we've already set bounds for this exact data, skip
+        if (dataHash === boundsSetForDataHash) {
+            return;
+        }
+
+        console.log(
+            `SetBoundsComponent: Data changed - Found ${allLocations.length} locations, ${features?.length || 0} features`
+        );
+
+        // If no locations AND no features, wait for data to load
+        if (allLocations.length === 0 && (!features || features.length === 0)) {
+            console.log("SetBoundsComponent: No data yet - waiting for locations or features to load");
+            return; // Don't set the hash, keep waiting for data
+        }
+
+        // Wait a bit for the map to be fully ready, then set bounds
+        const timer = setTimeout(() => {
+            let bounds: LatLngBounds | null = null;
+
+            // Create bounds from locations if available
+            if (allLocations.length > 0) {
+                bounds = latLngBounds(allLocations.map(m => [m.latitude, m.longitude]));
+                console.log("SetBoundsComponent: Created bounds from locations");
             }
 
-            const bounds = latLngBounds(allLocations.map(m => [m.latitude, m.longitude]));
-
+            // Add features to bounds if available
             if (features && features.length > 0) {
                 try {
                     const featureCollection: FeatureCollection = {
@@ -86,27 +106,37 @@ function SetBoundsComponent(
                     const tempLayer = geoJSON(featureCollection);
                     const geoJsonBounds = tempLayer.getBounds();
                     if (geoJsonBounds.isValid()) {
-                        bounds.extend(geoJsonBounds);
+                        if (bounds) {
+                            bounds.extend(geoJsonBounds);
+                            console.log("SetBoundsComponent: Extended bounds with features");
+                        } else {
+                            bounds = geoJsonBounds;
+                            console.log("SetBoundsComponent: Created bounds from features only");
+                        }
                     }
                 } catch (error) {
-                    console.warn("Error processing features for bounds:", error);
+                    console.warn("SetBoundsComponent: Error processing features for bounds:", error);
                 }
             }
 
-            if (bounds.isValid()) {
+            // Apply bounds if valid
+            if (bounds && bounds.isValid()) {
                 if (autoZoom) {
+                    console.log("SetBoundsComponent: Applying autoZoom with fitBounds");
                     map.fitBounds(bounds, { padding: [20, 20] });
                 } else {
+                    console.log("SetBoundsComponent: Setting view to bounds center");
                     map.setView(bounds.getCenter(), 13);
                 }
+                // Mark that we've set bounds for this data
+                setBoundsSetForDataHash(dataHash);
+            } else {
+                console.warn("SetBoundsComponent: No valid bounds found - skipping zoom");
             }
-
-            setInitialBoundsSet(true);
-        }, 100);
+        }, 200); // Slightly longer delay to allow for async data loading
 
         return () => clearTimeout(timer);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [map, enableDrawing]); // Intentionally limited dependencies to prevent re-runs during drawing
+    }, [map, enableDrawing, autoZoom, locations, currentLocation, features, boundsSetForDataHash]);
 
     return null;
 }
