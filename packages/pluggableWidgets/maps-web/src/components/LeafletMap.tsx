@@ -6,7 +6,7 @@ import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensio
 import { GeoJSONFeature, SharedPropsWithDrawing } from "../../typings/shared";
 import { MapProviderEnum } from "../../typings/MapsProps";
 import { DivIcon, geoJSON, latLngBounds, Icon as LeafletIcon, LatLngBounds } from "leaflet";
-import { baseMapLayer } from "../utils/leaflet";
+import { baseMapLayer, getMaxZoomForProvider } from "../utils/leaflet";
 import { LeafletDrawing } from "./LeafletDrawing";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
@@ -43,9 +43,50 @@ function SetBoundsComponent(
     const [boundsSetForDataHash, setBoundsSetForDataHash] = useState<string>("");
 
     useEffect(() => {
-        // Disable bounds setting when drawing is enabled to prevent coordinate interference
+        // Special handling for drawing mode - zoom to user location at street level
         if (enableDrawing) {
-            console.log("SetBoundsComponent: Skipping bounds operations - drawing is enabled");
+            // Create a hash to prevent multiple geolocation requests
+            const drawingDataHash = JSON.stringify({
+                enableDrawing: true,
+                autoZoom
+            });
+
+            if (drawingDataHash === boundsSetForDataHash) {
+                return; // Already handled this drawing mode setup
+            }
+
+            console.log("SetBoundsComponent: Drawing mode enabled - attempting to get user location");
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const userLat = position.coords.latitude;
+                        const userLng = position.coords.longitude;
+                        console.log(
+                            `SetBoundsComponent: Got user location: ${userLat}, ${userLng} - zooming to street level`
+                        );
+
+                        // Zoom to user location at street level (zoom 16-17 is good for drawing)
+                        map.setView([userLat, userLng], 16);
+                        setBoundsSetForDataHash(drawingDataHash);
+                    },
+                    error => {
+                        console.warn("SetBoundsComponent: Failed to get user location:", error.message);
+                        // Fallback: set a reasonable zoom level at current map center
+                        map.setZoom(16);
+                        setBoundsSetForDataHash(drawingDataHash);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 60000 // Cache location for 1 minute
+                    }
+                );
+            } else {
+                console.warn("SetBoundsComponent: Geolocation not supported - using default zoom");
+                map.setZoom(16);
+                setBoundsSetForDataHash(drawingDataHash);
+            }
             return;
         }
 
@@ -307,6 +348,10 @@ export function LeafletMap(props: LeafletProps): ReactElement {
         allowDelete
     } = props;
 
+    // Get provider-specific maximum zoom level
+    const maxZoom = getMaxZoomForProvider(mapProvider);
+    console.log(`LeafletMap: Using maxZoom ${maxZoom} for provider ${mapProvider}`);
+
     console.log("[LeafletMap] Features: ", features);
 
     return (
@@ -317,7 +362,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                     center={center}
                     className="widget-leaflet-maps"
                     dragging={dragging}
-                    maxZoom={18}
+                    maxZoom={maxZoom}
                     minZoom={1}
                     scrollWheelZoom={scrollWheelZoom}
                     zoom={zoom}

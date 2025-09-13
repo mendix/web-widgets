@@ -18,6 +18,7 @@ export function baseMapLayer(mapProvider: MapProviderEnum, mapsToken?: string): 
     let url;
     let attribution;
     let apiKey = "";
+
     if (mapProvider === "mapBox") {
         if (mapsToken) {
             apiKey = `?access_token=${mapsToken}`;
@@ -29,7 +30,8 @@ export function baseMapLayer(mapProvider: MapProviderEnum, mapsToken?: string): 
             attribution,
             id: "mapbox/satellite-streets-v12",
             tileSize: 512,
-            zoomOffset: -1
+            zoomOffset: -1,
+            maxNativeZoom: 20 // Mapbox supports higher native zoom
         };
     } else if (mapProvider === "hereMaps") {
         if (mapsToken && mapsToken.indexOf(",") > 0) {
@@ -40,13 +42,37 @@ export function baseMapLayer(mapProvider: MapProviderEnum, mapsToken?: string): 
         }
         url = customUrls.hereMaps + apiKey;
         attribution = mapAttr.hereMapsAttr;
+        return {
+            attribution,
+            url,
+            maxNativeZoom: 18 // HERE Maps conservative approach
+        };
     } else {
+        // OpenStreetMap (default)
         url = customUrls.openStreetMap;
         attribution = mapAttr.openStreetMapAttr;
+        return {
+            attribution,
+            url,
+            maxNativeZoom: 19 // OSM tiles available up to 19
+        };
     }
+}
 
-    return {
-        attribution,
-        url
-    };
+/**
+ * Get the maximum zoom level for a specific map provider
+ */
+export function getMaxZoomForProvider(mapProvider: MapProviderEnum): number {
+    switch (mapProvider) {
+        case "openStreet":
+            return 22; // OSM with tile scaling beyond zoom 19
+        case "mapBox":
+            return 22; // Mapbox with good native support
+        case "hereMaps":
+            return 20; // HERE Maps conservative limit
+        case "googleMaps":
+            return 22; // Google Maps for consistency (handled elsewhere)
+        default:
+            return 18; // Safe fallback
+    }
 }
