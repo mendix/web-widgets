@@ -1,9 +1,19 @@
-import { JSX, ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
 
-export function WidgetTopBar(props: JSX.IntrinsicElements["div"]): ReactElement {
+type WidgetTopBarProps = {
+    pagination: ReactNode;
+    selectionCount: ReactNode;
+} & JSX.IntrinsicElements["div"];
+
+export function WidgetTopBar(props: WidgetTopBarProps): ReactElement {
+    const { pagination, selectionCount, ...rest } = props;
+
     return (
-        <div {...props} className="widget-datagrid-top-bar table-header">
-            {props.children}
+        <div {...rest} className="widget-datagrid-top-bar table-header">
+            <div className="widget-datagrid-padding-top">
+                {selectionCount}
+                {pagination && <div className="widget-datagrid-tb-end">{pagination}</div>}
+            </div>
         </div>
     );
 }
