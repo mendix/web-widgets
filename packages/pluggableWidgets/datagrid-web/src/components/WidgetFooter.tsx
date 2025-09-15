@@ -9,17 +9,28 @@ type WidgetFooterProps = {
     pagination: ReactNode;
     paginationType: PaginationEnum;
     loadMoreButtonCaption?: string;
+    clearSelectionButtonLabel?: string;
     hasMoreItems: boolean;
     setPage?: (computePage: (prevPage: number) => number) => void;
 } & JSX.IntrinsicElements["div"];
 
 export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
-    const { pagingPosition, pagination, paginationType, loadMoreButtonCaption, hasMoreItems, setPage, ...rest } = props;
+    const {
+        pagingPosition,
+        pagination,
+        paginationType,
+        loadMoreButtonCaption,
+        clearSelectionButtonLabel,
+        hasMoreItems,
+        setPage,
+        ...rest
+    } = props;
+
     return (
         <div {...rest} className="widget-datagrid-footer table-footer">
             <div className="widget-datagrid-paging-bottom">
                 <div className="widget-datagrid-pb-start">
-                    <SelectionCounter />
+                    <SelectionCounter clearSelectionButtonLabel={clearSelectionButtonLabel} />
                 </div>
                 {hasMoreItems && paginationType === "loadMore" && (
                     <div className="widget-datagrid-pb-middle">
@@ -40,14 +51,18 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
     );
 }
 
-const SelectionCounter = observer(function SelectionCounter() {
+const SelectionCounter = observer(function SelectionCounter({
+    clearSelectionButtonLabel
+}: {
+    clearSelectionButtonLabel?: string;
+}) {
     const { selectionCountStore, selectActionHelper } = useDatagridRootScope();
 
     return (
         <If condition={selectionCountStore.displayCount !== ""}>
             <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>&nbsp;|&nbsp;
             <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
-                Clear selection
+                {clearSelectionButtonLabel || "Clear selection"}
             </button>
         </If>
     );
