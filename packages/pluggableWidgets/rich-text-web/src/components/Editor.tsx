@@ -44,6 +44,7 @@ export interface EditorProps
     className?: string;
     toolbarId?: string | Array<string | string[] | { [k: string]: any }>;
     readOnly?: boolean;
+    usePageTextDirection?: boolean;
 }
 
 // Editor is an uncontrolled React component
@@ -154,7 +155,20 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
 
-                const delta = quill.clipboard.convert({ html: defaultValue ?? "" });
+                let delta = quill.clipboard.convert({ html: defaultValue ?? "" });
+                if (props.usePageTextDirection === true) {
+                    const body = container.ownerDocument.body;
+                    if (body) {
+                        const textDirection = body.getAttribute("dir");
+                        if (textDirection === "rtl") {
+                            delta = delta.compose(
+                                new Delta().retain(delta.length(), { direction: "rtl", align: "right" })
+                            );
+                        } else {
+                            delta = delta.compose(new Delta().retain(delta.length(), { direction: null, align: null }));
+                        }
+                    }
+                }
                 quill.updateContents(delta, Quill.sources.SILENT);
 
                 quill.on(Quill.events.TEXT_CHANGE, (...arg) => {

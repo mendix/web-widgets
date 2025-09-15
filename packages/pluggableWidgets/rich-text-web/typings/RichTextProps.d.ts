@@ -81,6 +81,7 @@ export interface RichTextContainerProps {
     imageSource?: ListValue;
     imageSourceContent?: ReactNode;
     enableDefaultUpload: boolean;
+    usePageTextDirection: boolean;
     statusBarContent: StatusBarContentEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
@@ -130,6 +131,7 @@ export interface RichTextPreviewProps {
     imageSource: {} | { caption: string } | { type: string } | null;
     imageSourceContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     enableDefaultUpload: boolean;
+    usePageTextDirection: boolean;
     statusBarContent: StatusBarContentEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;

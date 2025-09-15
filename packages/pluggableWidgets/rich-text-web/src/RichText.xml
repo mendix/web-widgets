@@ -207,6 +207,10 @@
                     <caption>Enable default upload</caption>
                     <description />
                 </property>
+                <property key="usePageTextDirection" type="boolean" defaultValue="true">
+                    <caption>Use page text direction</caption>
+                    <description>When enabled, the editor will follow the text direction of the page (LTR or RTL).</description>
+                </property>
                 <property key="statusBarContent" type="enumeration" defaultValue="wordCount">
                     <caption>Status bar content</caption>
                     <description>Choose what to display in the status bar</description>

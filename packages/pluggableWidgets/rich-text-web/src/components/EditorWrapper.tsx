@@ -56,7 +56,8 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         enableDefaultUpload,
         formOrientation,
         defaultFontFamily,
-        defaultFontSize
+        defaultFontSize,
+        usePageTextDirection
     } = props;
 
     const globalState = useContext(EditorContext);
@@ -239,6 +240,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     imageSourceContent={imageSourceContent}
                     enableDefaultUpload={enableDefaultUpload}
                     formOrientation={formOrientation}
+                    usePageTextDirection={usePageTextDirection}
                 />
             </div>
             <If condition={enableStatusBar}>
