@@ -166,9 +166,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 <Grid
                     aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
                     style={cssGridStyles}
-                    setPage={setPage}
-                    paginationType={paginationType}
-                    hasMoreItems={hasMoreItems}
                 >
                     <GridHeader
                         availableColumns={props.availableColumns}
@@ -195,6 +192,9 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         columnsSize={visibleColumns.length}
                         rowsSize={rows.length}
                         pageSize={pageSize}
+                        pagination={props.paginationType}
+                        hasMoreItems={hasMoreItems}
+                        setPage={setPage}
                     >
                         <RowsRenderer
                             preview={props.preview ?? false}
