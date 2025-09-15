@@ -1,8 +1,6 @@
-import { If } from "@mendix/widget-plugin-component-kit/If";
-import { observer } from "mobx-react-lite";
 import { createElement, ReactElement, ReactNode } from "react";
-import { PaginationEnum, PagingPositionEnum } from "../../typings/DatagridProps";
-import { useDatagridRootScope } from "../helpers/root-context";
+import { PaginationEnum, PagingPositionEnum, SelectionCountVisibilityEnum } from "../../typings/DatagridProps";
+import { SelectionCounter } from "./SelectionCounter";
 
 type WidgetFooterProps = {
     pagingPosition: PagingPositionEnum;
@@ -10,6 +8,7 @@ type WidgetFooterProps = {
     paginationType: PaginationEnum;
     loadMoreButtonCaption?: string;
     clearSelectionButtonLabel?: string;
+    selectionCountVisibility?: SelectionCountVisibilityEnum;
     hasMoreItems: boolean;
     setPage?: (computePage: (prevPage: number) => number) => void;
 } & JSX.IntrinsicElements["div"];
@@ -21,6 +20,7 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
         paginationType,
         loadMoreButtonCaption,
         clearSelectionButtonLabel,
+        selectionCountVisibility,
         hasMoreItems,
         setPage,
         ...rest
@@ -30,7 +30,9 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
         <div {...rest} className="widget-datagrid-footer table-footer">
             <div className="widget-datagrid-paging-bottom">
                 <div className="widget-datagrid-pb-start">
-                    <SelectionCounter clearSelectionButtonLabel={clearSelectionButtonLabel} />
+                    {selectionCountVisibility === "bottom" && (
+                        <SelectionCounter clearSelectionButtonLabel={clearSelectionButtonLabel} />
+                    )}
                 </div>
                 {hasMoreItems && paginationType === "loadMore" && (
                     <div className="widget-datagrid-pb-middle">
@@ -50,20 +52,3 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
         </div>
     );
 }
-
-const SelectionCounter = observer(function SelectionCounter({
-    clearSelectionButtonLabel
-}: {
-    clearSelectionButtonLabel?: string;
-}) {
-    const { selectionCountStore, selectActionHelper } = useDatagridRootScope();
-
-    return (
-        <If condition={selectionCountStore.displayCount !== ""}>
-            <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>&nbsp;|&nbsp;
-            <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
-                {clearSelectionButtonLabel || "Clear selection"}
-            </button>
-        </If>
-    );
-});
