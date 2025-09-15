@@ -48,6 +48,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     page: number;
     paginationType: PaginationEnum;
     loadMoreButtonCaption?: string;
+    clearSelectionButtonLabel?: string;
     pageSize: number;
     paging: boolean;
     pagingPosition: PagingPositionEnum;
@@ -118,6 +119,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         headerContent,
         headerTitle,
         loadMoreButtonCaption,
+        clearSelectionButtonLabel,
         numberOfItems,
         page,
         pageSize,
@@ -235,6 +237,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 pagingPosition={pagingPosition}
                 paginationType={paginationType}
                 loadMoreButtonCaption={loadMoreButtonCaption}
+                clearSelectionButtonLabel={clearSelectionButtonLabel}
                 hasMoreItems={hasMoreItems}
                 setPage={setPage}
             />

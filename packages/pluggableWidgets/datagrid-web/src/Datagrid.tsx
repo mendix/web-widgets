@@ -117,6 +117,7 @@ const Container = observer((props: Props): ReactElement => {
                 pageSize={props.pageSize}
                 paginationType={props.pagination}
                 loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
+                clearSelectionButtonLabel={props.clearSelectionButtonLabel?.value}
                 paging={paginationCtrl.showPagination}
                 pagingPosition={props.pagingPosition}
                 showPagingButtons={props.showPagingButtons}

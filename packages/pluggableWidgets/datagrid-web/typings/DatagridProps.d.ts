@@ -98,6 +98,7 @@ export interface DatagridContainerProps {
     keepSelection: boolean;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
+    clearSelectionButtonLabel?: DynamicValue<string>;
     columns: ColumnsType[];
     columnsFilterable: boolean;
     pageSize: number;
@@ -150,6 +151,7 @@ export interface DatagridPreviewProps {
     keepSelection: boolean;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
+    clearSelectionButtonLabel: string;
     columns: ColumnsPreviewType[];
     columnsFilterable: boolean;
     pageSize: number | null;
