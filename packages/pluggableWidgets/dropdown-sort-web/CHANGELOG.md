@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue with Gallery widget causing errors when Mendix app is being used in an iframe.
+
 ## [1.2.2] - 2025-03-31
 
 ### Fixed
