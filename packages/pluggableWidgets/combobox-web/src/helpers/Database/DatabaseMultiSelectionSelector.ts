@@ -34,9 +34,9 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
     private _objectsMap: Map<string, ObjectItem> = new Map();
     selectedItemsSorting: SelectedItemsSortingEnum = "none";
 
-    constructor() {
+    constructor(props: { filterInputDebounceInterval: number }) {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
-        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap, 200);
+        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap, props.filterInputDebounceInterval);
     }
 
     getOptions(): string[] {
@@ -75,8 +75,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
             filterType,
             lazyLoading,
             loadingType,
-            valueSourceAttribute,
-            filterInputDebounceInterval
+            valueSourceAttribute
         } = extractDatabaseProps(props);
 
         if (
@@ -108,8 +107,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
             ds,
             filterType,
             lazyLoading,
-            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined,
-            filterInputDebounceInterval
+            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
         });
 
         if (this.selectionMethod === "rowclick" || this.customContentType === "yes") {

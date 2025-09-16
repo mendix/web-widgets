@@ -20,7 +20,6 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     private attributeId?: ListAttributeValue["id"];
     protected loading: boolean = false;
     private debouncedSetFilter: (filterCondition: FilterCondition | undefined) => void;
-    private filterInputDebounceInterval: number;
 
     constructor(
         caption: CaptionsProvider,
@@ -28,11 +27,10 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         filterInputDebounceInterval: number = 200
     ) {
         super(caption);
-        this.filterInputDebounceInterval = filterInputDebounceInterval;
 
         const [debouncedFn] = debounce((filterCondition: FilterCondition | undefined) => {
             this.ds?.setFilter(filterCondition);
-        }, this.filterInputDebounceInterval);
+        }, filterInputDebounceInterval);
 
         this.debouncedSetFilter = debouncedFn;
     }
