@@ -55,16 +55,16 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
             valueSourceAttribute
         } = extractDatabaseProps(props);
 
+        if (ds.status === "loading" && (!lazyLoading || ds.limit !== Infinity)) {
+            return;
+        }
+
         this._attr = targetAttribute as R;
         this.readOnly = getReadonly(targetAttribute, props.customEditability, props.customEditabilityExpression);
         this.lazyLoader.updateProps(ds);
         this.lazyLoader.setLimit(
             this.lazyLoader.getLimit(ds.limit, this.readOnly, targetAttribute?.status ?? ds.status, lazyLoading)
         );
-
-        if (ds.status === "loading") {
-            return;
-        }
 
         this.caption.updateProps({
             emptyOptionText: emptyOption,
@@ -101,9 +101,18 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
                     });
                     if (obj) {
                         this.currentId = obj;
+                    } else {
+                        // NOTE: should not hit this scope normally
+                        // if the value is not in the options list, but there is a value from attribute
+                        // there is probably a mismatch between the value and the datasource
+                        // logical next step is to try to reload the attribute value
+                        // this.options.loadSelectedValue(targetAttribute.value?.toString(), valueSourceAttribute?.id);
                     }
                 } else {
-                    this.options.loadSelectedValue(targetAttribute.value?.toString());
+                    // should hit on initial condition whereas:
+                    // no options are loaded yet : (allOptions.length > 0)
+                    // but there is a value from target attribute : (!this.currentId)
+                    this.options.loadSelectedValue(targetAttribute.value?.toString(), valueSourceAttribute?.id);
                 }
             } else if (!targetAttribute.value && this.currentId) {
                 this.currentId = null;
