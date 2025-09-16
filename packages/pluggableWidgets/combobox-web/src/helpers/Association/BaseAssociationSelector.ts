@@ -27,9 +27,9 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
     private _valuesMap: Map<string, ObjectItem> = new Map();
     private lazyLoader: LazyLoadProvider = new LazyLoadProvider();
 
-    constructor() {
+    constructor(props: { filterInputDebounceInterval: number }) {
         this.caption = new AssociationSimpleCaptionsProvider(this._valuesMap);
-        this.options = new AssociationOptionsProvider(this.caption, this._valuesMap, 200);
+        this.options = new AssociationOptionsProvider(this.caption, this._valuesMap, props.filterInputDebounceInterval);
     }
 
     updateProps(props: ComboboxContainerProps): void {
@@ -45,8 +45,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             customContent,
             customContentType,
             lazyLoading,
-            loadingType,
-            filterInputDebounceInterval
+            loadingType
         ] = extractAssociationProps(props);
 
         this.lazyLoader.updateProps(ds);
@@ -65,8 +64,7 @@ export class BaseAssociationSelector<T extends string | string[], R extends Refe
             ds,
             filterType,
             lazyLoading,
-            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined,
-            filterInputDebounceInterval
+            attributeId: captionType === "attribute" ? (captionProvider as ListAttributeValue<string>).id : undefined
         });
 
         if (

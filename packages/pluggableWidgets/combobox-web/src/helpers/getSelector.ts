@@ -13,16 +13,20 @@ export function getSelector(props: ComboboxContainerProps): Selector {
             return new EnumBooleanSingleSelector();
         } else if (props.optionsSourceType === "association") {
             return props.attributeAssociation.type === "Reference"
-                ? new AssociationSingleSelector()
-                : new AssociationMultiSelector();
+                ? new AssociationSingleSelector({ filterInputDebounceInterval: props.filterInputDebounceInterval })
+                : new AssociationMultiSelector({ filterInputDebounceInterval: props.filterInputDebounceInterval });
         } else {
             throw new Error(`'optionsSourceType' of type '${props.optionsSourceType}' is not supported`);
         }
     } else if (props.source === "database") {
         if (props.optionsSourceDatabaseItemSelection?.type === "Multi") {
-            return new DatabaseMultiSelectionSelector();
+            return new DatabaseMultiSelectionSelector({
+                filterInputDebounceInterval: props.filterInputDebounceInterval
+            });
         } else {
-            return new DatabaseSingleSelectionSelector();
+            return new DatabaseSingleSelectionSelector({
+                filterInputDebounceInterval: props.filterInputDebounceInterval
+            });
         }
     } else if (props.source === "static") {
         return new StaticSingleSelector();
