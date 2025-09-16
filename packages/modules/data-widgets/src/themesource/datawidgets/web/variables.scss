@@ -1,0 +1,37 @@
+// Atlas UI compatible variable naming for data widgets
+// Background colors
+$bg-color: #fff !default;
+$bg-color-secondary: #f5f8fd !default;
+$grid-bg-striped: #fafafb !default;
+$grid-bg-hover: #f5f6f6 !default;
+$hover-color: #f8f8f8 !default;
+$selected-color: #dadcde !default;
+
+// Brand colors
+$brand-primary: #264ae5 !default;
+$brand-light: #e6eaff !default;
+$grid-selected-row-background: $brand-light !default;
+
+// Text and icon colors
+$gray-dark: #606671 !default;
+$gray-darker: #3b4251 !default;
+$pagination-caption-color: #0a1325 !default;
+
+// Border colors
+$border-color-default: #ced0d3 !default;
+$grid-border-color: #ced0d3 !default;
+
+// Sizing and spacing
+$btn-font-size: 14px !default;
+$spacing-smaller: 4px !default;
+$spacing-small: 8px !default;
+$spacing-medium: 16px !default;
+$spacing-large: 24px !default;
+$spacing-larger: 32px !default;
+
+// Effects and animations
+$dragging-color-effect: rgba(10, 19, 37, 0.8) !default;
+$skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d2 100%) !default;
+
+// Assets
+$arrow: "resources/dropdown-arrow.svg" !default;
