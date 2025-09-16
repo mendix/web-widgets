@@ -20,7 +20,6 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     private attributeId?: ListAttributeValue["id"];
     protected loading: boolean = false;
     private debouncedSetFilter: (filterCondition: FilterCondition | undefined) => void;
-    private filterInputDebounceInterval: number;
 
     constructor(
         caption: CaptionsProvider,
@@ -28,11 +27,10 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
         filterInputDebounceInterval: number = 200
     ) {
         super(caption);
-        this.filterInputDebounceInterval = filterInputDebounceInterval;
 
         const [debouncedFn] = debounce((filterCondition: FilterCondition | undefined) => {
             this.ds?.setFilter(filterCondition);
-        }, this.filterInputDebounceInterval);
+        }, filterInputDebounceInterval);
 
         this.debouncedSetFilter = debouncedFn;
     }
@@ -101,12 +99,8 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     // used for initial load of selected value in case options are lazy loaded
     loadSelectedValue(attributeValue: string, attrId?: ListAttributeValue["id"]): void {
         if (this.lazyLoading && this.ds && this.attributeId) {
-            if (!this.debouncedSetFilter) {
-                this.createDebouncedSetFilter();
-            }
-
             const filterCondition = datasourceFilter("containsExact", attributeValue, attrId ?? this.attributeId);
-            this.debouncedSetFilter!(filterCondition);
+            this.debouncedSetFilter(filterCondition);
             this.ds.setLimit(1);
         }
     }
