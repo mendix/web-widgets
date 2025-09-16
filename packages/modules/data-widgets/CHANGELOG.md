@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.5.0] DataWidgets - 2025-09-16
+
 ### Changed
 
 - We consolidated all SCSS variables from individual files into variables.scss to have a better alignment with atlas variables.
