@@ -1,4 +1,4 @@
-import { createElement, Fragment, useCallback, useEffect, useState } from "react";
+import { createElement, Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -7,18 +7,20 @@ import { useZoomScale } from "../utils/useZoomScale";
 import BaseViewer from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    "/widgets/com/mendix/shared/pdfjs/pdf.worker.mjs",
-    import.meta.url
-).toString();
-
 const options = {
     cMapUrl: "/widgets/com/mendix/shared/pdfjs/cmaps/",
     standardFontDataUrl: "/widgets/com/mendix/shared/pdfjs/standard_fonts"
 };
 
 const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
-    const { file, setDocumentStatus } = props;
+    const { file, setDocumentStatus, pdfjsWorkerUrl } = props;
+    pdfjs.GlobalWorkerOptions.workerSrc = useMemo(() => {
+        if (pdfjsWorkerUrl?.status === "available" && pdfjsWorkerUrl?.value) {
+            return pdfjsWorkerUrl.value;
+        }
+        return `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+    }, [pdfjsWorkerUrl]);
+
     const [numberOfPages, setNumberOfPages] = useState<number>(1);
     const { zoomLevel, zoomIn, zoomOut, reset } = useZoomScale();
     const [currentPage, setCurrentPage] = useState<number>(1);
