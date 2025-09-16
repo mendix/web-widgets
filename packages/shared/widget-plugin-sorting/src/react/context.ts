@@ -11,8 +11,11 @@ export interface SortAPI {
 
 const SORT_PATH = "com.mendix.widgets.web.sortable.sortContext";
 
+// this is a magical way to check if we are running in design preview
+const isDesignPreview = window.navigator.appVersion?.startsWith("Mendix Modeler");
+
 export function getGlobalSortContext(): Context<SortAPI | null> {
-    const scope = window.top === window ? window : window.top;
+    const scope = isDesignPreview ? window.top : window;
     return ((scope as any)[SORT_PATH] ??= createContext<SortAPI | null>(null));
 }
 
