@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We added advance config for user to allow self-hosted pdfjs worker file.
+
 ## [1.1.0] - 2025-09-11
 
 ### Changed
