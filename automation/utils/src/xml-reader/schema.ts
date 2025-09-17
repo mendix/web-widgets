@@ -4,8 +4,6 @@ const FileTag = z.object({
     "@_path": z.string()
 });
 
-const FileNode = z.union([FileTag, FileTag.array()]);
-
 export const ModelerProjectPackageFile = z.object({
     "?xml": z.object({
         "@_version": z.literal("1.0"),
@@ -24,7 +22,7 @@ export const ModelerProjectPackageFile = z.object({
             files: z.union([
                 z.literal(""),
                 z.object({
-                    file: FileNode
+                    file: FileTag.array()
                 })
             ])
         })
@@ -52,14 +50,14 @@ export const ClientModulePackageFile = z.object({
             files: z.union([
                 z.literal(""),
                 z.object({
-                    file: FileNode
+                    file: FileTag.array()
                 })
             ]),
 
             widgetFiles: z.union([
                 z.literal(""),
                 z.object({
-                    widgetFile: FileNode
+                    widgetFile: FileTag.array()
                 })
             ])
         })
