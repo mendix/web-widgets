@@ -38,7 +38,7 @@ export default function Switch(props: SwitchProps): ReactElement {
                 role="switch"
                 aria-checked={props.isChecked}
                 aria-labelledby={`${props.id}-label`}
-                aria-readonly={!props.editable}
+                aria-disabled={!props.editable}
             >
                 <div
                     className={classNames("widget-switch-btn", {
