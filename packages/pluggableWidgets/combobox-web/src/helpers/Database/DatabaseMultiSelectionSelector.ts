@@ -34,9 +34,9 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
     private _objectsMap: Map<string, ObjectItem> = new Map();
     selectedItemsSorting: SelectedItemsSortingEnum = "none";
 
-    constructor() {
+    constructor(props: { filterInputDebounceInterval: number }) {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
-        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap);
+        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap, props.filterInputDebounceInterval);
     }
 
     getOptions(): string[] {

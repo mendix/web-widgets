@@ -33,9 +33,9 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
     protected _attr: R | undefined;
     private selection?: SelectionSingleValue;
 
-    constructor() {
+    constructor(props: { filterInputDebounceInterval: number }) {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
-        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap);
+        this.options = new DatabaseOptionsProvider(this.caption, this._objectsMap, props.filterInputDebounceInterval);
         this.values = new DatabaseValuesProvider(this._objectsMap);
     }
 

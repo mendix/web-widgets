@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where combobox failed to render a proper width on auto-fit container.
 
+### Added
+
+- We added the option to configure a debounce interval for datasource filter operations as well.
+
 ## [2.5.0] - 2025-08-12
 
 ### Added
