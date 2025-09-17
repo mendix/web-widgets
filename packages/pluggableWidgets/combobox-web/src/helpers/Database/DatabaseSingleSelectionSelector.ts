@@ -106,7 +106,9 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
                         // if the value is not in the options list, but there is a value from attribute
                         // there is probably a mismatch between the value and the datasource
                         // logical next step is to try to reload the attribute value
-                        // this.options.loadSelectedValue(targetAttribute.value?.toString(), valueSourceAttribute?.id);
+                        if (allOptions.length <= 1) {
+                            this.options.loadSelectedValue(targetAttribute.value?.toString(), valueSourceAttribute?.id);
+                        }
                     }
                 } else {
                     // should hit on initial condition whereas:
