@@ -99,7 +99,7 @@ describe("Switch", () => {
             const { container } = renderSwitch(props);
             const wrapper = container.querySelector(".widget-switch-btn-wrapper");
             expect(wrapper?.classList.contains("disabled")).toBe(false);
-            expect(wrapper?.getAttribute("aria-readonly")).toBe("false");
+            expect(wrapper?.getAttribute("aria-disabled")).toBe("false");
         });
 
         it("invokes action on click", () => {
@@ -173,7 +173,7 @@ describe("Switch", () => {
             const { container } = renderSwitch(props);
             const wrapper = container.querySelector(".widget-switch-btn-wrapper");
             expect(wrapper?.classList.contains("disabled")).toBe(true);
-            expect(wrapper?.getAttribute("aria-readonly")).toBe("true");
+            expect(wrapper?.getAttribute("aria-disabled")).toBe("true");
         });
 
         it("shouldn't invoke action", () => {

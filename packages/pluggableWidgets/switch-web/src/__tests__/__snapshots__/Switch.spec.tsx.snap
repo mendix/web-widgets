@@ -16,8 +16,8 @@ exports[`Switch with editable value renders the structure correctly 1`] = `
     />
     <div
       aria-checked="false"
+      aria-disabled="false"
       aria-labelledby="com.mendix.widgets.custom.switch1-label"
-      aria-readonly="false"
       class="widget-switch-btn-wrapper widget-switch-btn-wrapper-default un-checked"
       role="switch"
       tabindex="0"
@@ -47,8 +47,8 @@ exports[`Switch with readonly value renders the structure correctly 1`] = `
     />
     <div
       aria-checked="false"
+      aria-disabled="true"
       aria-labelledby="com.mendix.widgets.custom.switch1-label"
-      aria-readonly="true"
       class="widget-switch-btn-wrapper widget-switch-btn-wrapper-default disabled un-checked"
       role="switch"
       tabindex="0"

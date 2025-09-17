@@ -21,7 +21,7 @@ describe("Switch", () => {
         renderSwitch();
         expect(screen.getByRole("switch")).toBeInTheDocument();
         expect(screen.getByRole("switch")).toHaveAttribute("aria-checked", "false");
-        expect(screen.getByRole("switch")).toHaveAttribute("aria-readonly", "false");
+        expect(screen.getByRole("switch")).toHaveAttribute("aria-disabled", "false");
     });
 
     it("shows checked state", () => {
@@ -32,7 +32,7 @@ describe("Switch", () => {
     it("shows disabled state", () => {
         renderSwitch({ editable: false });
         expect(screen.getByRole("switch")).toHaveClass("disabled");
-        expect(screen.getByRole("switch")).toHaveAttribute("aria-readonly", "true");
+        expect(screen.getByRole("switch")).toHaveAttribute("aria-disabled", "true");
     });
 
     it("calls onClick when clicked", async () => {
