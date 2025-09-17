@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - We fixed an issue where combobox failed to render a proper width on auto-fit container.
+- We fixed an issue with combobox unnecessary applying filtering.
 
 - We fixed an issue where combobox lazy load is not working on initial load.
 
