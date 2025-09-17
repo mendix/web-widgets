@@ -30,9 +30,11 @@ export function useDownshiftSingleSelectProps(
                 selector.setValue(selectedItem ?? null);
             },
             onInputValueChange({ inputValue, type }: UseComboboxStateChange<string>) {
-                selector.options.setSearchTerm(inputValue!);
                 if (selector.onFilterInputChange && type === useCombobox.stateChangeTypes.InputChange) {
+                    selector.options.setSearchTerm(inputValue!);
                     selector.onFilterInputChange(inputValue!);
+                } else {
+                    selector.options.setSearchTerm("");
                 }
             },
             getA11yStatusMessage(options) {
