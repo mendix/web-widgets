@@ -31,6 +31,7 @@ export interface DocumentViewerContainerProps {
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number;
     overflowY: OverflowYEnum;
+    pdfjsWorkerUrl?: DynamicValue<string>;
 }
 
 export interface DocumentViewerPreviewProps {
@@ -54,4 +55,5 @@ export interface DocumentViewerPreviewProps {
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number | null;
     overflowY: OverflowYEnum;
+    pdfjsWorkerUrl: string;
 }
