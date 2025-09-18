@@ -5,25 +5,25 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@codemirror/view': ^6.38.1
   '@mendix/pluggable-widgets-tools': 10.21.2
-  '@types/big.js': ^6.2.2
+  react: ^18.0.0
+  react-dom: ^18.0.0
+  prettier: 3.5.3
   '@types/node': ~22.14.0
   '@types/react': '>=18.2.36'
+  '@types/big.js': ^6.2.2
   d3-color@<3.1.0: '>=3.1.0'
-  decode-uri-component@<0.2.1: '>=0.2.1'
-  enzyme>cheerio: 1.0.0-rc.10
-  jest: ^29.7.0
-  jest-environment-jsdom: ^29.7.0
-  json5@0.x: '>=1.0.2'
-  json5@1.x: '>=1.0.2'
   loader-utils@1: ^1.4.2
   loader-utils@3: ^3.2.1
-  prettier: 3.5.3
-  react: ^18.0.0
-  react-big-calendar@1>clsx: 2.1.1
-  react-dom: ^18.0.0
+  decode-uri-component@<0.2.1: '>=0.2.1'
+  jest: ^29.7.0
+  jest-environment-jsdom: ^29.7.0
+  json5@1.x: '>=1.0.2'
+  json5@0.x: '>=1.0.2'
+  '@codemirror/view': ^6.38.1
+  enzyme>cheerio: 1.0.0-rc.10
   ts-node: 10.9.2
+  react-big-calendar@1>clsx: 2.1.1
   typescript: '>5.8.0'
 
 pnpmfileChecksum: sha256-s93SB6R9/asG3ZoJ8Hr+99P758r3p0dOebXMUkycQnk=
@@ -3846,6 +3846,9 @@ packages:
 
   '@codemirror/search@6.5.6':
     resolution: {integrity: sha512-rpMgcsh7o0GuCDUXKPvww+muLA1pDJaFrpq/CCHtpQJYz8xopu4D1hPcKRoDD0YlF8gZaqTNIRa4VRBWyhyy7Q==}
+
+  '@codemirror/state@6.4.1':
+    resolution: {integrity: sha512-QkEyUiLhsJoZkbumGZlswmAhA7CBU02Wrz7zvH4SrcifbsqwlXShVXg65f3v/ts57W3dqyamEriMhij1Z3Zz4A==}
 
   '@codemirror/state@6.5.2':
     resolution: {integrity: sha512-FVqsPqtPWKVVL3dPSxy8wEF/ymIEuVzF1PK3VbUgrxXpJUSHQWWZz4JMToquRxnkw+36LTamCZG2iua2Ptq0fA==}
@@ -13498,6 +13501,20 @@ snapshots:
     dependencies:
       commander: 2.20.3
 
+  '@codemirror/autocomplete@6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.38.1)(@lezer/common@1.2.2)':
+    dependencies:
+      '@codemirror/language': 6.10.2
+      '@codemirror/state': 6.4.1
+      '@codemirror/view': 6.38.1
+      '@lezer/common': 1.2.2
+
+  '@codemirror/autocomplete@6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.38.1)(@lezer/common@1.2.3)':
+    dependencies:
+      '@codemirror/language': 6.10.2
+      '@codemirror/state': 6.4.1
+      '@codemirror/view': 6.38.1
+      '@lezer/common': 1.2.3
+
   '@codemirror/autocomplete@6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)(@lezer/common@1.2.2)':
     dependencies:
       '@codemirror/language': 6.10.2
@@ -13515,15 +13532,15 @@ snapshots:
   '@codemirror/commands@6.8.1':
     dependencies:
       '@codemirror/language': 6.10.2
-      '@codemirror/state': 6.5.2
+      '@codemirror/state': 6.4.1
       '@codemirror/view': 6.38.1
       '@lezer/common': 1.2.3
 
   '@codemirror/lang-css@6.3.1(@codemirror/view@6.38.1)':
     dependencies:
-      '@codemirror/autocomplete': 6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)(@lezer/common@1.2.3)
+      '@codemirror/autocomplete': 6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.38.1)(@lezer/common@1.2.3)
       '@codemirror/language': 6.10.2
-      '@codemirror/state': 6.5.2
+      '@codemirror/state': 6.4.1
       '@lezer/common': 1.2.3
       '@lezer/css': 1.1.11
     transitivePeerDependencies:
@@ -13531,11 +13548,11 @@ snapshots:
 
   '@codemirror/lang-html@6.4.9':
     dependencies:
-      '@codemirror/autocomplete': 6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)(@lezer/common@1.2.2)
+      '@codemirror/autocomplete': 6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.38.1)(@lezer/common@1.2.2)
       '@codemirror/lang-css': 6.3.1(@codemirror/view@6.38.1)
       '@codemirror/lang-javascript': 6.2.3
       '@codemirror/language': 6.10.2
-      '@codemirror/state': 6.5.2
+      '@codemirror/state': 6.4.1
       '@codemirror/view': 6.38.1
       '@lezer/common': 1.2.2
       '@lezer/css': 1.1.11
@@ -13543,10 +13560,10 @@ snapshots:
 
   '@codemirror/lang-javascript@6.2.3':
     dependencies:
-      '@codemirror/autocomplete': 6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)(@lezer/common@1.2.3)
+      '@codemirror/autocomplete': 6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.38.1)(@lezer/common@1.2.3)
       '@codemirror/language': 6.10.2
       '@codemirror/lint': 6.8.5
-      '@codemirror/state': 6.5.2
+      '@codemirror/state': 6.4.1
       '@codemirror/view': 6.38.1
       '@lezer/common': 1.2.3
       '@lezer/javascript': 1.5.1
@@ -13558,7 +13575,7 @@ snapshots:
 
   '@codemirror/language@6.10.2':
     dependencies:
-      '@codemirror/state': 6.5.2
+      '@codemirror/state': 6.4.1
       '@codemirror/view': 6.38.1
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
@@ -13567,7 +13584,7 @@ snapshots:
 
   '@codemirror/lint@6.8.5':
     dependencies:
-      '@codemirror/state': 6.5.2
+      '@codemirror/state': 6.4.1
       '@codemirror/view': 6.38.1
       crelt: 1.0.6
 
@@ -13576,6 +13593,8 @@ snapshots:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.38.1
       crelt: 1.0.6
+
+  '@codemirror/state@6.4.1': {}
 
   '@codemirror/state@6.5.2':
     dependencies:
