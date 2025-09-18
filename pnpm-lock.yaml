@@ -5,26 +5,25 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  '@codemirror/view': ^6.38.1
   '@mendix/pluggable-widgets-tools': 10.21.2
-  react: ^18.0.0
-  react-dom: ^18.0.0
-  prettier: 3.5.3
+  '@types/big.js': ^6.2.2
   '@types/node': ~22.14.0
   '@types/react': '>=18.2.36'
-  '@types/big.js': ^6.2.2
   d3-color@<3.1.0: '>=3.1.0'
-  loader-utils@1: ^1.4.2
-  loader-utils@3: ^3.2.1
   decode-uri-component@<0.2.1: '>=0.2.1'
+  enzyme>cheerio: 1.0.0-rc.10
   jest: ^29.7.0
   jest-environment-jsdom: ^29.7.0
-  json5@1.x: '>=1.0.2'
   json5@0.x: '>=1.0.2'
-  '@codemirror/view': ^6.38.1
-  '@codemirror/state': ^6.5.2
-  enzyme>cheerio: 1.0.0-rc.10
-  ts-node: 10.9.2
+  json5@1.x: '>=1.0.2'
+  loader-utils@1: ^1.4.2
+  loader-utils@3: ^3.2.1
+  prettier: 3.5.3
+  react: ^18.0.0
   react-big-calendar@1>clsx: 2.1.1
+  react-dom: ^18.0.0
+  ts-node: 10.9.2
   typescript: '>5.8.0'
 
 pnpmfileChecksum: sha256-s93SB6R9/asG3ZoJ8Hr+99P758r3p0dOebXMUkycQnk=
@@ -3820,7 +3819,7 @@ packages:
     resolution: {integrity: sha512-MjfDrHy0gHKlPWsvSsikhO1+BOh+eBHNgfH1OXs1+DAf30IonQldgMM3kxLDTG9ktE7kDLaA1j/l7KMPA4KNfw==}
     peerDependencies:
       '@codemirror/language': ^6.0.0
-      '@codemirror/state': ^6.5.2
+      '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.38.1
       '@lezer/common': ^1.0.0
 
@@ -5290,7 +5289,7 @@ packages:
       '@codemirror/language': '>=6.0.0'
       '@codemirror/lint': '>=6.0.0'
       '@codemirror/search': '>=6.0.0'
-      '@codemirror/state': ^6.5.2
+      '@codemirror/state': '>=6.0.0'
       '@codemirror/view': ^6.38.1
 
   '@uiw/codemirror-theme-github@4.23.13':
@@ -5300,14 +5299,14 @@ packages:
     resolution: {integrity: sha512-thk4X8VNl15XPoDiOXdkeMAIIHQOoc5lPfmgOvrhPXHzt4zvH5efLWBw3zgpwuOWF+Uk6sYrS0eumtsSO/kgcA==}
     peerDependencies:
       '@codemirror/language': '>=6.0.0'
-      '@codemirror/state': ^6.5.2
+      '@codemirror/state': '>=6.0.0'
       '@codemirror/view': ^6.38.1
 
   '@uiw/react-codemirror@4.23.13':
     resolution: {integrity: sha512-y65ULzxOAfpxrA/8epoAOeCfmJXu9z0P62BbGOkITJTtU7WI59KfPbbwj35npSsMAkAmDE841qZo2I8jst/THg==}
     peerDependencies:
       '@babel/runtime': '>=7.11.0'
-      '@codemirror/state': ^6.5.2
+      '@codemirror/state': '>=6.0.0'
       '@codemirror/theme-one-dark': '>=6.0.0'
       '@codemirror/view': ^6.38.1
       codemirror: '>=6.0.0'
