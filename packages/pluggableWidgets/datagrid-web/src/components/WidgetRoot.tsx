@@ -9,18 +9,19 @@ export interface WidgetRootProps extends P {
     selection?: boolean;
     selectionMethod: SelectionMethod;
     exporting?: boolean;
+    selectingAllPages?: boolean;
 }
 
 export function WidgetRoot(props: WidgetRootProps): ReactElement {
     const ref = useRef<HTMLDivElement>(null);
-    const { className, selectionMethod, selection, exporting, children, ...rest } = props;
+    const { className, selectionMethod, selection, exporting, selectingAllPages, children, ...rest } = props;
     const style = useMemo(() => {
         const s = { ...props.style };
-        if (exporting && ref.current) {
+        if ((exporting || selectingAllPages) && ref.current) {
             s.height = ref.current.offsetHeight;
         }
         return s;
-    }, [props.style, exporting]);
+    }, [props.style, exporting, selectingAllPages]);
 
     return (
         <div
@@ -29,6 +30,7 @@ export function WidgetRoot(props: WidgetRootProps): ReactElement {
             style={style}
             className={classNames(className, "widget-datagrid", {
                 "widget-datagrid-exporting": exporting,
+                "widget-datagrid-selecting-all-pages": selectingAllPages,
                 "widget-datagrid-selectable-rows": selection,
                 "widget-datagrid-selection-method-checkbox": selection && selectionMethod === "checkbox",
                 "widget-datagrid-selection-method-click": selection && selectionMethod === "rowClick"

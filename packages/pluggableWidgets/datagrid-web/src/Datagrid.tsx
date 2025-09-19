@@ -73,7 +73,9 @@ const Container = observer((props: Props): ReactElement => {
             cellEventsController,
             checkboxEventsController,
             focusController,
-            selectionCountStore: rootStore.selectionCountStore
+            selectionCountStore: rootStore.selectionCountStore,
+            selectAllProgressStore: rootStore.selectAllProgressStore,
+            rootStore
         };
     });
 
