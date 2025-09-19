@@ -311,7 +311,7 @@ $root: ".widget-datagrid";
     justify-content: flex-end;
     white-space: nowrap;
     align-items: baseline;
-    margin: 16px;
+    margin: 0 16px;
     color: $pagination-caption-color;
 
     .paging-status {
@@ -397,6 +397,10 @@ $root: ".widget-datagrid";
         }
     }
 
+    &-top-bar {
+        container: widget-datagrid-header / inline-size;
+    }
+
     &-content {
         overflow-x: auto;
     }
@@ -407,6 +411,10 @@ $root: ".widget-datagrid";
 
     &-grid-body {
         display: contents;
+    }
+
+    &-footer {
+        container: widget-datagrid-footer / inline-size;
     }
 
     &.widget-datagrid-selection-method-click {
@@ -517,7 +525,7 @@ $root: ".widget-datagrid";
 
 .widget-datagrid .widget-datagrid-load-more {
     display: block !important;
-    margin: 0 auto;
+    margin: 0;
 }
 
 .infinite-loading.widget-datagrid-grid-body {
@@ -540,21 +548,30 @@ $root: ".widget-datagrid";
     grid-column: 1 / -1;
 }
 
-:where(#{$root}-paging-bottom) {
+:where(#{$root}-paging-bottom, #{$root}-padding-top) {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
 }
 
-:where(#{$root}-pb-start, #{$root}-pb-end, #{$root}-pb-middle) {
+:where(#{$root}-pb-end, #{$root}-tb-end) {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+:where(#{$root}-pb-start, #{$root}-tb-start, #{$root}-pb-end, #{$root}-tb-end, #{$root}-pb-middle) {
     flex-grow: 1;
     flex-basis: 33.33%;
     min-height: 20px;
+    height: 54px;
+    padding: var(--spacing-small) 0;
 }
 
-:where(#{$root}-pb-start) {
-    margin-block: var(--spacing-medium);
+:where(#{$root}-pb-start, #{$root}-tb-start) {
     padding-inline: var(--spacing-medium);
+    display: flex;
+    align-items: center;
 }
 
 #{$root}-clear-selection {
@@ -576,5 +593,25 @@ $root: ".widget-datagrid";
 @keyframes rotate {
     to {
         transform: rotate(1turn);
+    }
+}
+
+@container widget-datagrid-footer (width < 500px) {
+    #{$root}-paging-bottom {
+        flex-direction: column;
+        :where(#{$root}-pb-start, #{$root}-pb-end, #{$root}-pb-middle) {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+}
+
+@container widget-datagrid-header (width < 500px) {
+    #{$root}-padding-top {
+        flex-direction: column-reverse;
+        :where(#{$root}-tb-start, #{$root}-tb-end) {
+            width: 100%;
+            justify-content: center;
+        }
     }
 }
