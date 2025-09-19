@@ -32,7 +32,7 @@ export const Alert = ({ className, bootstrapStyle, children, role, inputElementI
         <div
             className={classNames(`alert alert-${bootstrapStyle}`, className)}
             role={role}
-            id={inputElementId + "-error"}
+            {...(inputElementId ? { id: inputElementId + "-error" } : undefined)}
         >
             {children}
         </div>
