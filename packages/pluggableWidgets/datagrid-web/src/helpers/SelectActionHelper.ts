@@ -5,6 +5,7 @@ import {
     SelectionMode,
     WidgetSelectionProperty
 } from "@mendix/widget-plugin-grid/selection";
+import { ListValue } from "mendix";
 import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum } from "../../typings/DatagridProps";
 export type SelectionMethod = "rowClick" | "checkbox" | "none";
 
@@ -12,6 +13,9 @@ export class SelectActionHelper extends SelectActionHandler {
     pageSize: number;
     private _selectionMethod: ItemSelectionMethodEnum;
     private _showSelectAllToggle: boolean;
+    private _datasource: ListValue;
+    private _selectAllPagesEnabled: boolean;
+    private _selectAllPagesBufferSize: number;
 
     constructor(
         selection: WidgetSelectionProperty,
@@ -19,12 +23,18 @@ export class SelectActionHelper extends SelectActionHandler {
         _selectionMethod: ItemSelectionMethodEnum,
         _showSelectAllToggle: boolean,
         pageSize: number,
-        private _selectionMode: SelectionMode
+        private _selectionMode: SelectionMode,
+        datasource: ListValue,
+        selectAllPagesEnabled?: boolean,
+        selectAllPagesBufferSize?: number
     ) {
         super(selection, selectionHelper);
         this._selectionMethod = _selectionMethod;
         this._showSelectAllToggle = _showSelectAllToggle;
         this.pageSize = pageSize;
+        this._datasource = datasource;
+        this._selectAllPagesEnabled = selectAllPagesEnabled ?? false;
+        this._selectAllPagesBufferSize = selectAllPagesBufferSize ?? 500;
     }
 
     get selectionMethod(): SelectionMethod {
@@ -42,26 +52,55 @@ export class SelectActionHelper extends SelectActionHandler {
     get selectionMode(): SelectionMode {
         return this.selectionMethod === "checkbox" ? "toggle" : this._selectionMode;
     }
+
+    get canSelectAllPages(): boolean {
+        return this._selectAllPagesEnabled && this.selectionType === "Multi";
+    }
+
+    get totalCount(): number | undefined {
+        return this._datasource?.totalCount;
+    }
+
+    get selectAllPagesBufferSize(): number {
+        return this._selectAllPagesBufferSize;
+    }
 }
 
 export function useSelectActionHelper(
     props: Pick<
         DatagridContainerProps | DatagridPreviewProps,
-        "itemSelection" | "itemSelectionMethod" | "showSelectAllToggle" | "pageSize" | "itemSelectionMode"
+        | "itemSelection"
+        | "itemSelectionMethod"
+        | "showSelectAllToggle"
+        | "pageSize"
+        | "itemSelectionMode"
+        | "datasource"
+        | "selectAllPagesEnabled"
+        | "selectAllPagesBufferSize"
     >,
     selectionHelper?: SelectionHelper
 ): SelectActionHelper {
-    return useMemo(
-        () =>
-            new SelectActionHelper(
-                props.itemSelection,
-                selectionHelper,
-                props.itemSelectionMethod,
-                props.showSelectAllToggle,
-                props.pageSize ?? 5,
-                props.itemSelectionMode
-            ),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [selectionHelper]
-    );
+    return useMemo(() => {
+        return new SelectActionHelper(
+            props.itemSelection,
+            selectionHelper,
+            props.itemSelectionMethod,
+            props.showSelectAllToggle,
+            props.pageSize ?? 5,
+            props.itemSelectionMode,
+            props.datasource as ListValue,
+            props.selectAllPagesEnabled,
+            props.selectAllPagesBufferSize ?? 500
+        );
+    }, [
+        props.itemSelection,
+        selectionHelper,
+        props.itemSelectionMethod,
+        props.showSelectAllToggle,
+        props.pageSize,
+        props.itemSelectionMode,
+        props.datasource,
+        props.selectAllPagesEnabled,
+        props.selectAllPagesBufferSize
+    ]);
 }

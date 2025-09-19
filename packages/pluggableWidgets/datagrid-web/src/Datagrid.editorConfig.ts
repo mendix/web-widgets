@@ -154,7 +154,7 @@ export function getProperties(
 }
 
 function hideSelectionProperties(defaultProperties: Properties, values: DatagridPreviewProps): void {
-    const { itemSelection, itemSelectionMethod } = values;
+    const { itemSelection, itemSelectionMethod, selectAllPagesEnabled } = values;
 
     if (itemSelection === "None") {
         hidePropertiesIn(defaultProperties, values, ["itemSelectionMethod", "itemSelectionMode", "onSelectionChange"]);
@@ -170,6 +170,14 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
 
     if (itemSelection !== "Multi") {
         hidePropertyIn(defaultProperties, values, "keepSelection");
+        hidePropertyIn(defaultProperties, values, "selectAllPagesEnabled");
+    }
+
+    if (!selectAllPagesEnabled) {
+        hidePropertyIn(defaultProperties, values, "selectAllPagesBufferSize");
+        hidePropertyIn(defaultProperties, values, "selectAllPagesLabel");
+        hidePropertyIn(defaultProperties, values, "selectingAllLabel");
+        hidePropertyIn(defaultProperties, values, "cancelSelectionLabel");
     }
 }
 

@@ -53,6 +53,35 @@
                     <caption>Keep selection</caption>
                     <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
                 </property>
+                <property key="selectAllPagesEnabled" type="boolean" defaultValue="false">
+                    <caption>Enable select all pages</caption>
+                    <description>Allow select all through multiple pages (based on current filter). Only works if total count is known.</description>
+                </property>
+                <property key="selectAllPagesBufferSize" type="integer" defaultValue="500">
+                    <caption>Select all buffer size</caption>
+                    <description>Batch size for processing select all operations. If total count is less than buffer size, selection is immediate.</description>
+                </property>
+                <property key="selectAllPagesLabel" type="textTemplate" required="false">
+                    <caption>Select all pages label</caption>
+                    <description>Text shown when selecting all items across pages. Use %d for total count placeholder.</description>
+                    <translations>
+                        <translation lang="en_US">Select all %d items</translation>
+                    </translations>
+                </property>
+                <property key="selectingAllLabel" type="textTemplate" required="false">
+                    <caption>Selecting all label</caption>
+                    <description>Label shown in the progress dialog when selecting all items</description>
+                    <translations>
+                        <translation lang="en_US">Selecting all items...</translation>
+                    </translations>
+                </property>
+                <property key="cancelSelectionLabel" type="textTemplate" required="false">
+                    <caption>Cancel selection label</caption>
+                    <description>Label for the cancel button in the selection progress dialog</description>
+                    <translations>
+                        <translation lang="en_US">Cancel selection</translation>
+                    </translations>
+                </property>
                 <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
                     <caption>Loading type</caption>
                     <description />
