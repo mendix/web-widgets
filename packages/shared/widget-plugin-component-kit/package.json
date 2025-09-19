@@ -34,8 +34,8 @@
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/tsconfig-web-widgets": "workspace:*",
-        "@swc/core": "^1.7.26",
-        "@swc/jest": "^0.2.36",
+        "@swc/core": "^1.13.5",
+        "@swc/jest": "^0.2.39",
         "classnames": "^2.5.1",
         "jest-environment-jsdom": "^29.7.0"
     }
