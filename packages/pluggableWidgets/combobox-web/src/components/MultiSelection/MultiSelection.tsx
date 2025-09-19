@@ -141,7 +141,7 @@ export function MultiSelection({
                         {...inputProps}
                         aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
                         aria-describedby={selector.validation ? options.inputId + "-error" : undefined}
-                        aria-invalid={!!selector.validation}
+                        aria-invalid={selector.validation ? true : undefined}
                     />
                     <InputPlaceholder isEmpty={selectedItems.length <= 0}>{memoizedselectedCaptions}</InputPlaceholder>
                 </div>
