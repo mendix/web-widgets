@@ -5,19 +5,22 @@ import { SelectionCounter } from "./SelectionCounter";
 type WidgetTopBarProps = {
     selectionCountVisibility?: SelectionCountVisibilityEnum;
     clearSelectionButtonLabel?: string;
+    showTopBar: boolean;
+    selectedCount: number;
 } & JSX.IntrinsicElements["div"];
 
 export function WidgetTopBar(props: WidgetTopBarProps): ReactElement {
-    const { selectionCountVisibility, clearSelectionButtonLabel } = props;
-
-    console.warn(selectionCountVisibility);
-
+    const { selectionCountVisibility, clearSelectionButtonLabel, showTopBar, selectedCount, ...restProps } = props;
     return (
-        <div {...props} className="widget-datagrid-top-bar table-header">
-            {selectionCountVisibility === "top" && (
-                <SelectionCounter clearSelectionButtonLabel={clearSelectionButtonLabel} />
-            )}
-            {props.children}
+        <div {...restProps} className="widget-datagrid-top-bar table-header">
+            <div className="widget-datagrid-padding-top">
+                {selectionCountVisibility === "top" && selectedCount > 0 && (
+                    <div className="widget-datagrid-tb-start">
+                        <SelectionCounter clearSelectionButtonLabel={clearSelectionButtonLabel} />
+                    </div>
+                )}
+                {showTopBar && <div className="widget-datagrid-tb-end">{props.children}</div>}
+            </div>
         </div>
     );
 }
