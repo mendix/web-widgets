@@ -3,6 +3,7 @@ import type { ActionValue, ListValue, ObjectItem, SelectionMultiValue, Selection
 import { action, computed, makeObservable, observable } from "mobx";
 import { useEffect, useRef, useState } from "react";
 import { Direction, MoveEvent1D, MoveEvent2D, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size } from "./types";
+import { traverseAllItems } from "../query/datasource-traversal";
 
 class SingleSelectionHelper {
     type = "Single" as const;
@@ -40,6 +41,10 @@ export class MultiSelectionHelper {
             selectableItems: observable.ref,
             updateProps: action
         });
+    }
+
+    get pageItemsCount(): number {
+        return this.selectableItems.length;
     }
 
     isSelected(value: ObjectItem): boolean {
@@ -229,6 +234,93 @@ export class MultiSelectionHelper {
         const newSelection = this._union(this.selectableItems, this.selectionValue.selection);
         this.selectionValue.setSelection(newSelection);
         this._resetRange();
+    }
+
+    /**
+     * Gets the currently selected item IDs
+     */
+    getSelectedIds(): Set<string> {
+        return new Set(this.selectionValue.selection.map(item => item.id));
+    }
+
+    /**
+     * Selects items by their IDs, preserving object references where possible
+     */
+    selectByIds(ids: string[]): void {
+        const currentSelection = new Map(this.selectionValue.selection.map(item => [item.id as string, item]));
+        const pageItems = new Map(this.selectableItems.map(item => [item.id as string, item]));
+
+        // Build new selection preserving object references
+        const newSelection: ObjectItem[] = [];
+
+        for (const id of ids) {
+            // Prefer existing selection object, then current page object
+            const item = currentSelection.get(id) || pageItems.get(id);
+            if (item) {
+                newSelection.push(item);
+            }
+        }
+
+        this.selectionValue.setSelection(newSelection);
+        this._resetRange();
+    }
+
+    /**
+     * Selects all items across multiple pages by loading them in batches.
+     * This method preserves existing selections and adds new items as pages are loaded.
+     *
+     * @param datasource - The data source to load items from
+     * @param bufferSize - The batch size for loading items
+     * @param onProgress - Optional callback to report progress (loaded, total)
+     * @param abortSignal - Optional AbortSignal for cancellation
+     * @returns Promise that resolves when selection is complete
+     */
+    async selectAllPages(
+        datasource: ListValue,
+        bufferSize: number,
+        onProgress?: (loaded: number, total: number) => void,
+        abortSignal?: AbortSignal
+    ): Promise<void> {
+        // If everything fits in current page, use regular selectAll
+        if (
+            this.selectableItems.length > 0 &&
+            datasource.items?.length === this.selectableItems.length &&
+            (!datasource.totalCount || datasource.totalCount <= this.selectableItems.length)
+        ) {
+            this.selectAll();
+            return;
+        }
+
+        // Use the new traversal utility for better robustness
+        // Accumulate all items across pages, avoiding duplicates
+        const allItems: ObjectItem[] = [];
+        const processedIds = new Set<string>();
+        const existingSelection = new Map(this.selectionValue.selection.map(item => [item.id as string, item]));
+
+        await traverseAllItems(datasource, {
+            chunkSize: bufferSize,
+            signal: abortSignal,
+            onProgress: processed => {
+                const total = datasource.totalCount || processed;
+                onProgress?.(processed, total);
+            },
+            onChunk: async items => {
+                // Add new items, preserving existing selection objects and avoiding duplicates
+                for (const item of items) {
+                    const itemId = item.id as string;
+                    if (!processedIds.has(itemId)) {
+                        processedIds.add(itemId);
+                        allItems.push(existingSelection.get(itemId) || item);
+                    }
+                }
+            }
+        });
+
+        // Set the final selection if not aborted
+        if (!abortSignal?.aborted) {
+            this.selectionValue.setSelection(allItems);
+            this._resetRange();
+        }
     }
 
     /**

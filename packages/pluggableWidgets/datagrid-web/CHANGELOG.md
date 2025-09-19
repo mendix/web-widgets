@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where missing consistency checks for the captions were causing runtime errors instead of in Studio Pro
 
+- We added multi-page select all functionality for Datagrid widget with configurable batch processing, progress tracking, and page restoration to allow users to select all items across multiple pages with a single click.
+
 ## [3.6.1] - 2025-10-14
 
 ### Fixed
