@@ -94,7 +94,7 @@ export function SingleSelection({
                         placeholder=" "
                         aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
                         aria-describedby={selector.validation ? options.inputId + "-error" : undefined}
-                        aria-invalid={!!selector.validation}
+                        aria-invalid={selector.validation ? true : undefined}
                     />
                     <InputPlaceholder
                         isEmpty={!selector.currentId || !selector.caption.render(selectedItem, "label")}
