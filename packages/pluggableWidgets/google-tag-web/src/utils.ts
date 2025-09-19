@@ -1,6 +1,6 @@
-import { GoogleTagContainerProps, ParametersType } from "../typings/GoogleTagProps";
+import { TXhHdGFnContainerProps as GoogleTagContainerProps, ParametersType } from "../typings/TXhHdGFnProps";
 import commonGtag from "./commonGtag";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 export function areParametersReady(parameters: GoogleTagContainerProps["parameters"]): boolean {
     return parameters.every(p => p.valueType === "predefined" || p.customValue?.status === "available");
@@ -74,23 +74,15 @@ export function executeCommand(
     }
 }
 
-let checkedDojo = false;
-export function useDojoOnNavigation(cb: () => void): void {
-    if (!checkedDojo) {
-        if (!window.dojo) {
-            console.error("GoogleTagWidget: `window.dojo` is not found. Tracking page changes is disabled.");
-        }
-        checkedDojo = true;
-    }
+export function useOnPopState(cb: () => void): void {
+    const callback = useCallback(() => {
+        cb();
+    }, [cb]);
 
-    if (window.dojo) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useEffect(() => {
-            const handle = window.dojo.connect(window.mx.ui.getContentForm(), "onNavigation", cb);
-
-            return () => {
-                window.dojo.disconnect(handle);
-            };
-        }, [cb]);
-    }
+    useEffect(() => {
+        window.addEventListener("popstate", callback);
+        return () => {
+            window.removeEventListener("popstate", callback);
+        };
+    }, [callback]);
 }

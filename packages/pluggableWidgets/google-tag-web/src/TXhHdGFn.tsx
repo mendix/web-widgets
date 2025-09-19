@@ -1,12 +1,6 @@
 import { createElement, ReactElement, useRef } from "react";
-import { GoogleTagContainerProps } from "../typings/GoogleTagProps";
-import {
-    areParametersReady,
-    executeCommand,
-    getPredefinedValue,
-    prepareParameters,
-    useDojoOnNavigation
-} from "./utils";
+import { TXhHdGFnContainerProps as GoogleTagContainerProps } from "../typings/TXhHdGFnProps";
+import { areParametersReady, executeCommand, getPredefinedValue, prepareParameters, useOnPopState } from "./utils";
 
 export default function GoogleTag(props: GoogleTagContainerProps): ReactElement | null {
     if (props.widgetMode === "basic") {
@@ -58,7 +52,7 @@ function GoogleTagBasicPageView(props: GoogleTagContainerProps): ReactElement | 
         needsExecution.current = false;
     };
 
-    useDojoOnNavigation(() => {
+    useOnPopState(() => {
         needsExecution.current = true;
         runCommands();
     });
@@ -93,7 +87,7 @@ function GoogleTagAdvancedMode(props: GoogleTagContainerProps): ReactElement | n
 
     if (props.trackPageChanges) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        useDojoOnNavigation(() => {
+        useOnPopState(() => {
             needsExecution.current = true;
             runCommand();
         });
