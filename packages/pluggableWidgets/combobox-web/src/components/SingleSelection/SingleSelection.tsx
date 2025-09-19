@@ -69,8 +69,6 @@ export function SingleSelection({
         },
         { suppressRefError: true }
     );
-    console.log(inputProps);
-    console.log(options);
     return (
         <Fragment>
             <ComboboxWrapper
