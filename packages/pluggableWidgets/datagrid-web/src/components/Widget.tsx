@@ -24,6 +24,7 @@ import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
+import { SelectionProgressDialog } from "./SelectionProgressDialog";
 import { WidgetTopBar } from "./WidgetTopBar";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
@@ -80,7 +81,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
 
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
     const { className, exporting, numberOfItems, onExportCancel, selectActionHelper } = props;
-    const { basicData } = useDatagridRootScope();
+    const { basicData, selectAllProgressStore, rootStore } = useDatagridRootScope();
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
 
@@ -91,8 +92,17 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
             selection={selectionEnabled}
             style={props.styles}
             exporting={exporting}
+            selectingAllPages={selectAllProgressStore.selecting}
         >
             <Main {...props} data={exporting ? [] : props.data} />
+            <SelectionProgressDialog
+                open={selectAllProgressStore.selecting}
+                selectingLabel={basicData.selectingAllLabel ?? "Selecting all items..."}
+                cancelLabel={basicData.cancelSelectionLabel ?? "Cancel selection"}
+                onCancel={() => rootStore.abortMultiPageSelect()}
+                progress={selectAllProgressStore.loaded}
+                total={selectAllProgressStore.total}
+            />
             {exporting && (
                 <ExportWidget
                     alertLabel={basicData.exportDialogLabel ?? "Export progress"}

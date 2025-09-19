@@ -1,7 +1,7 @@
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
-import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
+import { dynamicValue, listAttr, listExp, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { GUID, ObjectItem } from "mendix";
 import { ColumnsType } from "../../typings/DatagridProps";
 import { Cell } from "../components/Cell";
@@ -39,7 +39,17 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
 };
 
 export function mockSelectionProps(patch?: (props: SelectActionHelper) => SelectActionHelper): SelectActionHelper {
-    const props = new SelectActionHelper("None", undefined, "checkbox", false, 5, "clear");
+    const props = new SelectActionHelper(
+        "None",
+        undefined,
+        "checkbox",
+        false,
+        5,
+        "clear",
+        new ListValueBuilder().build(),
+        false,
+        500
+    );
 
     if (patch) {
         patch(props);
