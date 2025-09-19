@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.5.1] - 2025-09-19
+
 ### Fixed
 
 - We fixed an issue where combobox failed to render a proper width on auto-fit container.
