@@ -96,6 +96,7 @@ export function MultiSelection({
                 validation={selector.validation}
                 isLoading={lazyLoading && selector.options.isLoading}
                 isMultiselectActive={selectedItems?.length > 0}
+                inputId={options.inputId}
             >
                 <div
                     className={classNames(
@@ -139,6 +140,8 @@ export function MultiSelection({
                         placeholder=" "
                         {...inputProps}
                         aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
+                        aria-describedby={selector.validation ? options.inputId + "-error" : undefined}
+                        aria-invalid={!!selector.validation}
                     />
                     <InputPlaceholder isEmpty={selectedItems.length <= 0}>{memoizedselectedCaptions}</InputPlaceholder>
                 </div>
