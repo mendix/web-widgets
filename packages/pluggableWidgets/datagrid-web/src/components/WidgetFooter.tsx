@@ -1,28 +1,44 @@
-import { If } from "@mendix/widget-plugin-component-kit/If";
-import { observer } from "mobx-react-lite";
 import { createElement, ReactElement, ReactNode } from "react";
-import { PaginationEnum, PagingPositionEnum } from "../../typings/DatagridProps";
-import { useDatagridRootScope } from "../helpers/root-context";
+import { PaginationEnum, SelectionCountVisibilityEnum } from "../../typings/DatagridProps";
+import { SelectionCounter } from "./SelectionCounter";
 
 type WidgetFooterProps = {
-    pagingPosition: PagingPositionEnum;
     pagination: ReactNode;
     paginationType: PaginationEnum;
     loadMoreButtonCaption?: string;
+    clearSelectionButtonLabel?: string;
+    selectionCountVisibility?: SelectionCountVisibilityEnum;
     hasMoreItems: boolean;
+    showFooter: boolean;
+    selectedCount: number;
     setPage?: (computePage: (prevPage: number) => number) => void;
 } & JSX.IntrinsicElements["div"];
 
 export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
-    const { pagingPosition, pagination, paginationType, loadMoreButtonCaption, hasMoreItems, setPage, ...rest } = props;
+    const {
+        pagination,
+        paginationType,
+        loadMoreButtonCaption,
+        clearSelectionButtonLabel,
+        selectionCountVisibility,
+        hasMoreItems,
+        setPage,
+        showFooter,
+        selectedCount,
+        ...rest
+    } = props;
+
     return (
         <div {...rest} className="widget-datagrid-footer table-footer">
             <div className="widget-datagrid-paging-bottom">
-                <div className="widget-datagrid-pb-start">
-                    <SelectionCounter />
-                </div>
-                {hasMoreItems && paginationType === "loadMore" && (
-                    <div className="widget-datagrid-pb-middle">
+                {selectionCountVisibility === "bottom" && selectedCount > 0 && (
+                    <div className="widget-datagrid-pb-start">
+                        <SelectionCounter clearSelectionButtonLabel={clearSelectionButtonLabel} />
+                    </div>
+                )}
+                <div className="widget-datagrid-pb-end">
+                    {showFooter && pagination}
+                    {hasMoreItems && paginationType === "loadMore" && (
                         <button
                             className="btn btn-primary widget-datagrid-load-more"
                             onClick={() => setPage && setPage(prev => prev + 1)}
@@ -30,25 +46,9 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
                         >
                             {loadMoreButtonCaption}
                         </button>
-                    </div>
-                )}
-                <div className="widget-datagrid-pb-end">
-                    {(pagingPosition === "bottom" || pagingPosition === "both") && pagination}
+                    )}
                 </div>
             </div>
         </div>
     );
 }
-
-const SelectionCounter = observer(function SelectionCounter() {
-    const { selectionCountStore, selectActionHelper } = useDatagridRootScope();
-
-    return (
-        <If condition={selectionCountStore.displayCount !== ""}>
-            <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>&nbsp;|&nbsp;
-            <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
-                Clear selection
-            </button>
-        </If>
-    );
-});

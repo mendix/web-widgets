@@ -9,6 +9,7 @@ import {
     LoadingTypeEnum,
     PaginationEnum,
     PagingPositionEnum,
+    SelectionCountVisibilityEnum,
     ShowPagingButtonsEnum
 } from "../../typings/DatagridProps";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
@@ -48,6 +49,8 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     page: number;
     paginationType: PaginationEnum;
     loadMoreButtonCaption?: string;
+    clearSelectionButtonLabel?: string;
+    selectionCountVisibility?: SelectionCountVisibilityEnum;
     pageSize: number;
     paging: boolean;
     pagingPosition: PagingPositionEnum;
@@ -118,6 +121,8 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         headerContent,
         headerTitle,
         loadMoreButtonCaption,
+        clearSelectionButtonLabel,
+        selectionCountVisibility,
         numberOfItems,
         page,
         pageSize,
@@ -131,10 +136,11 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         visibleColumns
     } = props;
 
-    const { basicData } = useDatagridRootScope();
+    const { basicData, selectionCountStore } = useDatagridRootScope();
 
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
+    const showFooter = paging && (pagingPosition === "bottom" || pagingPosition === "both");
 
     const pagination = paging ? (
         <Pagination
@@ -160,7 +166,14 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 
     return (
         <Fragment>
-            {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
+            <WidgetTopBar
+                selectedCount={selectionCountStore.selectedCount}
+                showTopBar={showTopBar}
+                selectionCountVisibility={selectionCountVisibility}
+                clearSelectionButtonLabel={clearSelectionButtonLabel}
+            >
+                {pagination}
+            </WidgetTopBar>
             {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
             <WidgetContent>
                 <Grid
@@ -231,10 +244,13 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 </Grid>
             </WidgetContent>
             <WidgetFooter
+                selectedCount={selectionCountStore.selectedCount}
+                showFooter={showFooter}
                 pagination={pagination}
-                pagingPosition={pagingPosition}
                 paginationType={paginationType}
                 loadMoreButtonCaption={loadMoreButtonCaption}
+                clearSelectionButtonLabel={clearSelectionButtonLabel}
+                selectionCountVisibility={selectionCountVisibility}
                 hasMoreItems={hasMoreItems}
                 setPage={setPage}
             />
