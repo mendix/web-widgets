@@ -49,7 +49,7 @@
     "dependencies": {
         "classnames": "^2.5.1",
         "downshift": "^7.6.2",
-        "match-sorter": "^6.3.4"
+        "match-sorter": "^8.1.0"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
