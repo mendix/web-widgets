@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where validation was not connected to combobox, causing issues for screenreaders.
+
 ## [2.5.1] - 2025-09-19
 
 ### Fixed

@@ -69,7 +69,6 @@ export function SingleSelection({
         },
         { suppressRefError: true }
     );
-
     return (
         <Fragment>
             <ComboboxWrapper
@@ -79,6 +78,7 @@ export function SingleSelection({
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
                 isLoading={lazyLoading && selector.options.isLoading}
+                inputId={options.inputId}
             >
                 <div
                     className={classNames("widget-combobox-selected-items", {
@@ -93,6 +93,8 @@ export function SingleSelection({
                         {...inputProps}
                         placeholder=" "
                         aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
+                        aria-describedby={selector.validation ? options.inputId + "-error" : undefined}
+                        aria-invalid={selector.validation ? true : undefined}
                     />
                     <InputPlaceholder
                         isEmpty={!selector.currentId || !selector.caption.render(selectedItem, "label")}
