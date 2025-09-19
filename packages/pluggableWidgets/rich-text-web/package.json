@@ -52,7 +52,7 @@
         "dompurify": "^3.2.6",
         "js-beautify": "^1.15.4",
         "katex": "^0.16.22",
-        "linkifyjs": "^4.3.1",
+        "linkifyjs": "^4.3.2",
         "lodash.merge": "^4.6.2",
         "parchment": "^3.0.0",
         "quill": "^2.0.3",
