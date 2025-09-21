@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [6.2.2] Charts - 2025-09-21
+
+### [1.2.2] CustomChart
+
+#### Fixed
+
+- We fixed an issue where event data attribute wouldn't successfully get its value set.
+
 ## [6.2.1] Charts - 2025-07-15
 
 ### [6.2.1] AreaChart
