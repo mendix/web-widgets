@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback } from "react";
+import { ReactElement, useCallback } from "react";
 
 import { Icon, IconProps } from "../components/Icon";
 
