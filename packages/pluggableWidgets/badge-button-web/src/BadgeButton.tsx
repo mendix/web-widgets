@@ -1,4 +1,4 @@
-import { createElement, ReactNode, useCallback } from "react";
+import { ReactNode, useCallback } from "react";
 
 import { BadgeButton as BadgeButtonComponent } from "./components/BadgeButton";
 import { BadgeButtonContainerProps } from "../typings/BadgeButtonProps";
