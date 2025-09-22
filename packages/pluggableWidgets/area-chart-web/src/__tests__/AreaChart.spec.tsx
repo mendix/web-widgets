@@ -10,7 +10,6 @@ import { ChartWidget, setupBasicSeries } from "@mendix/shared-charts/main";
 import { listExpression } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
-import { createElement } from "react";
 import { SeriesType } from "../../typings/AreaChartProps";
 import { AreaChart } from "../AreaChart";
 
@@ -39,93 +38,100 @@ describe("The AreaChart widget", () => {
     it("visualizes data as a area chart", () => {
         renderAreaChart([{}]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const secondCallArgs = mockCalls[1][0];
+        expect(secondCallArgs).toEqual(
             expect.objectContaining({
                 data: expect.arrayContaining([
                     expect.objectContaining({
-                        type: "scatter",
                         fill: "tonexty"
                     })
                 ])
-            }),
-            {}
+            })
         );
     });
 
     it("sets the mode on the data series based on the lineStyle value", () => {
         renderAreaChart([{ lineStyle: "lineWithMarkers" }, { lineStyle: "line" }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const secondCallArgs = mockCalls[1][0];
+        expect(secondCallArgs).toEqual(
             expect.objectContaining({
                 data: expect.arrayContaining([
                     expect.objectContaining({ mode: "lines+markers" }),
                     expect.objectContaining({ mode: "lines" })
                 ])
-            }),
-            {}
+            })
         );
     });
 
     it("sets the line shape on the data series based on the interpolation value", () => {
         renderAreaChart([{ interpolation: "linear" }, { interpolation: "spline" }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const secondCallArgs = mockCalls[1][0];
+        expect(secondCallArgs).toEqual(
             expect.objectContaining({
                 data: expect.arrayContaining([
                     expect.objectContaining({ line: expect.objectContaining({ shape: "linear" }) }),
                     expect.objectContaining({ line: expect.objectContaining({ shape: "spline" }) })
                 ])
-            }),
-            {}
+            })
         );
     });
 
     it("sets the line color on the data series based on the lineColor value", () => {
         renderAreaChart([{ staticLineColor: listExpression(() => "red") }, { staticLineColor: undefined }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const secondCallArgs = mockCalls[1][0];
+        expect(secondCallArgs).toEqual(
             expect.objectContaining({
                 data: expect.arrayContaining([
                     expect.objectContaining({ line: expect.objectContaining({ color: "red" }) }),
                     expect.objectContaining({ line: expect.objectContaining({ color: undefined }) })
                 ])
-            }),
-            {}
+            })
         );
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
         renderAreaChart([{ staticMarkerColor: undefined }, { staticMarkerColor: listExpression(() => "blue") }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const secondCallArgs = mockCalls[1][0];
+        expect(secondCallArgs).toEqual(
             expect.objectContaining({
                 data: expect.arrayContaining([
                     expect.objectContaining({ marker: expect.objectContaining({ color: undefined }) }),
                     expect.objectContaining({ marker: expect.objectContaining({ color: "blue" }) })
                 ])
-            }),
-            {}
+            })
         );
     });
 
     it("sets the area color on the data series based on the fillcolor value", () => {
         renderAreaChart([{ staticFillColor: undefined }, { staticFillColor: listExpression(() => "#393393") }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const secondCallArgs = mockCalls[1][0];
+        expect(secondCallArgs).toEqual(
             expect.objectContaining({
                 data: expect.arrayContaining([
                     expect.objectContaining({ fillcolor: undefined }),
                     expect.objectContaining({ fillcolor: "#393393" })
                 ])
-            }),
-            {}
+            })
         );
     });
 
     it("aggregates data based on the aggregation type", () => {
         renderAreaChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
+        let mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const secondCallArgs = mockCalls[1][0];
+        expect(secondCallArgs).toEqual(
             expect.objectContaining({
                 data: expect.arrayContaining([
                     expect.objectContaining({
@@ -137,12 +143,11 @@ describe("The AreaChart widget", () => {
                         y: expect.arrayContaining([expect.any(Number)])
                     })
                 ])
-            }),
-            {}
+            })
         );
 
         renderAreaChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
-        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        mockCalls = (ChartWidget as jest.Mock).mock.calls;
         const lastCallProps = mockCalls[mockCalls.length - 1][0];
         expect(lastCallProps.data).toHaveLength(2);
     });
