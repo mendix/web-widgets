@@ -1,6 +1,5 @@
 import { PlaygroundData, usePlaygroundContext } from "@mendix/shared-charts/main";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { createElement } from "react";
 import { useComposedEditorController } from "../helpers/useComposedEditorController";
 import { ComposedEditor } from "./ComposedEditor";
 import "../ui/Playground.scss";
