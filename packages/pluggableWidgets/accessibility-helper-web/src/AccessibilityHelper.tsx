@@ -1,4 +1,4 @@
-import { createElement, MutableRefObject, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
+import { MutableRefObject, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
 
 import { DynamicValue, ValueStatus } from "mendix";
 
@@ -43,6 +43,7 @@ const AccessibilityHelper = (props: AccessibilityHelperContainerProps): ReactEle
         } catch (error) {
             console.error(`Accessibility Helper selector ${props.targetSelector} is not valid`, error);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.targetSelector, conditions, contentRef.current]);
 
     useEffect(() => {
@@ -89,6 +90,7 @@ const AccessibilityHelper = (props: AccessibilityHelperContainerProps): ReactEle
                 };
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [contentRef.current, props.targetSelector, conditions]);
 
     return <div ref={contentRef}>{props.content}</div>;
