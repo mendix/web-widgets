@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { CarouselPreviewProps } from "../typings/CarouselProps";
 import { Carousel } from "./components/Carousel";
 import { GUID } from "mendix";
