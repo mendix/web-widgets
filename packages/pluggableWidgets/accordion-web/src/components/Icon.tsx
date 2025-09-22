@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import classNames from "classnames";
 import { WebIcon } from "mendix";
 import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";

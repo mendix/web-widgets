@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useMemo, useRef } from "react";
+import { ReactElement, useMemo, useRef } from "react";
 import { ValueStatus } from "mendix";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 
