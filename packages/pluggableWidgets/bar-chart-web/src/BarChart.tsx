@@ -1,7 +1,7 @@
 import { ChartWidget, ChartWidgetProps, containerPropsEqual, usePlotChartDataSeries } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
-import { createElement, memo, ReactElement, useCallback, useMemo } from "react";
+import { memo, ReactElement, useCallback, useMemo } from "react";
 
 import { BarChartContainerProps } from "../typings/BarChartProps";
 
@@ -68,8 +68,8 @@ export const BarChart = memo(function BarChart(props: BarChartContainerProps): R
             height={props.height}
             heightUnit={props.heightUnit}
             showLegend={props.showLegend}
-            xAxisLabel={props.xAxisLabel?.value}
-            yAxisLabel={props.yAxisLabel?.value}
+            xAxisLabel={props.xAxisLabel?.value ? { text: props.xAxisLabel.value } : undefined}
+            yAxisLabel={props.yAxisLabel?.value ? { text: props.yAxisLabel.value } : undefined}
             gridLinesMode={props.gridLines}
             customLayout={props.customLayout}
             customConfig={props.customConfigurations}
