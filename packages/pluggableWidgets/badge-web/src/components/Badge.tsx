@@ -1,4 +1,4 @@
-import { createElement, CSSProperties, KeyboardEvent, ReactElement } from "react";
+import { CSSProperties, KeyboardEvent, ReactElement } from "react";
 import classNames from "classnames";
 
 export interface BadgeProps {
