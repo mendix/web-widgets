@@ -1,7 +1,7 @@
 import { Button } from "@mendix/widget-plugin-component-kit/Button";
 import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
 import classNames from "classnames";
-import { createElement, ReactElement, useCallback } from "react";
+import { ReactElement, useCallback } from "react";
 import { Navigate, ToolbarProps, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
