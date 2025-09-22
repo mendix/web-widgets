@@ -85,7 +85,8 @@ export default tseslint.config(
             "react/jsx-boolean-value": ["error", "never"],
             "react/no-deprecated": "warn",
             "react/jsx-uses-vars": "error",
-            "react/jsx-uses-react": "off"
+            "react/jsx-uses-react": "off",
+            "react/react-in-jsx-scope": "off"
         }
     },
     {
