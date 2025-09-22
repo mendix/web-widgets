@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { Calendar, dateFnsLocalizer, EventPropGetter } from "react-big-calendar";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
 import { CustomToolbar } from "./components/Toolbar";
