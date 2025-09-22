@@ -20,10 +20,11 @@ export function withLinkedSortStore<P extends RequiredProps>(
             () =>
                 new SortStoreProvider({
                     host: props.sortAPI.host,
-                    initSortOrder: props.sortAPI.host.sortOrder,
-                    attributes: props.attributes
+                    initSortOrder: props.sortAPI.host.sortOrder
                 })
         );
+
+        store.setProps(props);
 
         return <Component {...props} sortStore={store} />;
     };
