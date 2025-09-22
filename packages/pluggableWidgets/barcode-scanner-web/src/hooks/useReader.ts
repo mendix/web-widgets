@@ -7,7 +7,7 @@ import { Reader as NativeReader } from "./nativeReader";
 import { Reader as ZxReader } from "./zxReader";
 
 export const useReader: UseReaderHook = args => {
-    const videoRef = useRef<HTMLVideoElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null!);
     const onSuccess = useEventCallback(args.onSuccess);
     const onError = useEventCallback(args.onError);
     const enableBrowserAPI = useMemo(
