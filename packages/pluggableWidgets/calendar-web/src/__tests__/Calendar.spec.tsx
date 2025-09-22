@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { render } from "@testing-library/react";
 import { dynamic, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 

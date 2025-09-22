@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useMemo } from "react";
+import { ReactElement, useMemo } from "react";
 import classNames from "classnames";
 import { CalendarContainerProps } from "../typings/CalendarProps";
 import { CalendarPropsBuilder } from "./helpers/CalendarPropsBuilder";
