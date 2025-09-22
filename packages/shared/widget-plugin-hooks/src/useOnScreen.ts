@@ -2,7 +2,7 @@ import { RefObject, useEffect, useRef, useState } from "react";
 
 export function useOnScreen(ref: RefObject<HTMLElement>): boolean {
     const [isIntersecting, setIsIntersecting] = useState(false);
-    const observer = (useRef<IntersectionObserver>().current ??= createObserver({ setIsIntersecting }));
+    const observer = (useRef<IntersectionObserver | null>(null).current ??= createObserver({ setIsIntersecting }));
 
     useEffect(() => {
         if (ref.current) {
