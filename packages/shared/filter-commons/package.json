@@ -42,6 +42,6 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/tsconfig-web-widgets": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@swc/core": "^1.7.26"
+        "@swc/core": "^1.13.5"
     }
 }
