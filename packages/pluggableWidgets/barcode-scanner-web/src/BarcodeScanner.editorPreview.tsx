@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { BarcodeScannerPreviewProps } from "../typings/BarcodeScannerProps";
 import { BarcodeScannerOverlay } from "./components/BarcodeScanner";
 
