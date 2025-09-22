@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
-import { createElement, PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import { Header, HeaderProps } from "../Header";
 
 describe("Header", () => {

@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom";
-import { createElement } from "react";
 import { act, render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { Accordion, AccordionProps } from "../Accordion";

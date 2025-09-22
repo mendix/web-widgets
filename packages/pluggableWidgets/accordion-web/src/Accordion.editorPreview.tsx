@@ -1,6 +1,6 @@
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 import { Accordion } from "./components/Accordion";
 import { useIconGenerator } from "./utils/iconGenerator";
@@ -42,14 +42,13 @@ export function PreviewComponent(props: AccordionPreviewProps): ReactElement {
             group.headerRenderMode === "text" ? (
                 <h3>{group.headerText}</h3>
             ) : (
-                <group.headerContent.renderer caption={`Place header contents for group ${index + 1} here.`}>
-                    <div />
-                </group.headerContent.renderer>
+                <group.headerContent.renderer
+                    caption={`Place header contents for group ${index + 1} here.`}
+                    children={<div />}
+                />
             ),
         content: (
-            <group.content.renderer caption={`Place body contents for group ${index + 1} here.`}>
-                <div />
-            </group.content.renderer>
+            <group.content.renderer caption={`Place body contents for group ${index + 1} here.`} children={<div />} />
         ),
         loadContent: group.loadContent,
         visible: group.visible as unknown as boolean,

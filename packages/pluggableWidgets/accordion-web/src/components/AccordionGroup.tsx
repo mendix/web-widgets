@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { Key, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { LoadContentEnum } from "typings/AccordionProps";
 import { CallResizeObserver, useDebouncedResizeObserver } from "../utils/resizeObserver";
 import "../ui/accordion-main.scss";
@@ -28,6 +28,7 @@ export interface AccordionGroupProps {
     generateHeaderIcon?: (collapsed: boolean) => ReactElement;
     showHeaderIcon?: "right" | "left" | "no";
     loadContent: LoadContentEnum;
+    key?: Key;
 }
 
 export function AccordionGroup(props: AccordionGroupProps): ReactElement | null {
