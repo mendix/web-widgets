@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { DefaultColorsType, FormatEnum, ModeEnum, TypeEnum } from "../../typings/ColorPickerProps";
 import {

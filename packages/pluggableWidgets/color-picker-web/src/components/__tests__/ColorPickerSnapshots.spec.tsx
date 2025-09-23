@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import { act, render, RenderResult } from "@testing-library/react";
-import { createElement } from "react";
 import { ColorPicker, ColorPickerProps } from "../ColorPicker";
 
 jest.mock("react-color/lib", () => ({

@@ -1,11 +1,11 @@
-import React, { createElement, KeyboardEvent, ReactElement } from "react";
+import { ChangeEvent, KeyboardEvent, ReactElement } from "react";
 
 export interface InputProps {
     color: string | undefined;
     disabled: boolean;
     children: ReactElement | null;
     onKeyUp?: (hide?: boolean) => void;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Input = (props: InputProps): ReactElement => {

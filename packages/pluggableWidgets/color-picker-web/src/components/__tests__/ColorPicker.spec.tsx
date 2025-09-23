@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
-import { createElement } from "react";
 import { ColorPicker, ColorPickerProps } from "../ColorPicker";
 
 describe("ColorPicker", () => {
