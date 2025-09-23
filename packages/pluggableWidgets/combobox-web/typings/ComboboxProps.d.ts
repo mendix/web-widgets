@@ -90,7 +90,6 @@ export interface ComboboxContainerProps {
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
     onChangeFilterInputEvent?: ActionValue<{ filterInput: Option<string> }>;
-    filterInputDebounceInterval: number;
     ariaRequired: DynamicValue<boolean>;
     ariaLabel?: DynamicValue<string>;
     clearButtonAriaLabel?: DynamicValue<string>;
@@ -102,6 +101,7 @@ export interface ComboboxContainerProps {
     loadingType: LoadingTypeEnum;
     selectedItemsSorting: SelectedItemsSortingEnum;
     filterType: FilterTypeEnum;
+    filterInputDebounceInterval: number;
 }
 
 export interface ComboboxPreviewProps {
@@ -148,7 +148,6 @@ export interface ComboboxPreviewProps {
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;
     onChangeFilterInputEvent: {} | null;
-    filterInputDebounceInterval: number | null;
     ariaRequired: string;
     ariaLabel: string;
     clearButtonAriaLabel: string;
@@ -160,4 +159,5 @@ export interface ComboboxPreviewProps {
     loadingType: LoadingTypeEnum;
     selectedItemsSorting: SelectedItemsSortingEnum;
     filterType: FilterTypeEnum;
+    filterInputDebounceInterval: number | null;
 }
