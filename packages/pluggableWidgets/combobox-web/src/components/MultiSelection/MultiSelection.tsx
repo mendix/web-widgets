@@ -86,6 +86,7 @@ export function MultiSelection({
         readOnly: selector.readOnly
     });
 
+    const errorId = options.inputId ? options.inputId + "-validation-message" : undefined;
     return (
         <Fragment>
             <ComboboxWrapper
@@ -96,7 +97,7 @@ export function MultiSelection({
                 validation={selector.validation}
                 isLoading={lazyLoading && selector.options.isLoading}
                 isMultiselectActive={selectedItems?.length > 0}
-                inputId={options.inputId}
+                errorId={errorId}
             >
                 <div
                     className={classNames(
@@ -140,7 +141,7 @@ export function MultiSelection({
                         placeholder=" "
                         {...inputProps}
                         aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
-                        aria-describedby={selector.validation ? options.inputId + "-error" : undefined}
+                        aria-describedby={selector.validation ? errorId : undefined}
                         aria-invalid={selector.validation ? true : undefined}
                     />
                     <InputPlaceholder isEmpty={selectedItems.length <= 0}>{memoizedselectedCaptions}</InputPlaceholder>
