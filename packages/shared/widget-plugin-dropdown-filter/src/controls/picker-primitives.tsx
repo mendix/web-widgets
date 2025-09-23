@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { JSX, ReactElement } from "react";
 
 type ClassKeys =
     | "root"
@@ -45,7 +45,7 @@ export function classes(rootName = "widget-dropdown-filter"): PickerCssClasses {
     };
 }
 
-export function Arrow(props: JSX.IntrinsicElements["svg"]): React.ReactElement {
+export function Arrow(props: JSX.IntrinsicElements["svg"]): ReactElement {
     return (
         <svg width="16" height="16" viewBox="0 0 32 32" {...props}>
             <path d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z" />
@@ -53,7 +53,7 @@ export function Arrow(props: JSX.IntrinsicElements["svg"]): React.ReactElement {
     );
 }
 
-export function Cross(props: JSX.IntrinsicElements["svg"]): React.ReactElement {
+export function Cross(props: JSX.IntrinsicElements["svg"]): ReactElement {
     return (
         <svg width="14" height="14" viewBox="0 0 32 32" {...props}>
             <path
