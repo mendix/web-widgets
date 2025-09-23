@@ -1,6 +1,6 @@
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import classNames from "classnames";
-import { createElement, Fragment, ReactElement, useMemo } from "react";
+import { Fragment, ReactElement, useMemo } from "react";
 import { useDispatchResizeObserver } from "../hooks/useResizeObserver";
 import {
     ChartTypeEnum,
