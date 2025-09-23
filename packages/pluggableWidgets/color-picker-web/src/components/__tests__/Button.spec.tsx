@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import { act, render, RenderResult } from "@testing-library/react";
-import { createElement } from "react";
 import { Button, ButtonProps } from "../Button";
 
 describe("Button", () => {

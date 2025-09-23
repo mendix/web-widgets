@@ -1,10 +1,10 @@
-import { createElement, ReactNode, useCallback } from "react";
+import { ReactElement, useCallback } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ColorPicker as ColorPickerComponent } from "./components/ColorPicker";
 import { ColorPickerContainerProps } from "../typings/ColorPickerProps";
 import "./ui/ColorPicker.scss";
 
-export function ColorPicker(props: ColorPickerContainerProps): ReactNode {
+export function ColorPicker(props: ColorPickerContainerProps): ReactElement {
     const { name, mode, tabIndex, type, onChange, colorAttribute, defaultColors, format, id, invalidFormatMessage } =
         props;
     const onChangeFn = useCallback(() => executeAction(onChange), [onChange]);
