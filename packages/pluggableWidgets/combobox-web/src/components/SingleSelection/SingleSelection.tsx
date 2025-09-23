@@ -29,6 +29,7 @@ export function SingleSelection({
         highlightedIndex
     } = useDownshiftSingleSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
+    const errorId = options.inputId ? options.inputId + "-validation-message" : undefined;
     const lazyLoading = selector.lazyLoading ?? false;
     const { onScroll } = useLazyLoading({
         hasMoreItems: selector.options.hasMore ?? false,
@@ -78,7 +79,7 @@ export function SingleSelection({
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
                 isLoading={lazyLoading && selector.options.isLoading}
-                inputId={options.inputId}
+                errorId={errorId}
             >
                 <div
                     className={classNames("widget-combobox-selected-items", {
@@ -93,7 +94,7 @@ export function SingleSelection({
                         {...inputProps}
                         placeholder=" "
                         aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
-                        aria-describedby={selector.validation ? options.inputId + "-error" : undefined}
+                        aria-describedby={selector.validation ? errorId : undefined}
                         aria-invalid={selector.validation ? true : undefined}
                     />
                     <InputPlaceholder
