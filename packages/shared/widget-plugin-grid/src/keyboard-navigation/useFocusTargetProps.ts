@@ -18,7 +18,7 @@ type ElementState = {
 };
 
 type ElementProps<T extends Focusable> = {
-    ref: React.RefObject<T>;
+    ref: React.RefObject<T | null>;
     tabIndex: 0 | -1;
     "data-position": string;
 };
