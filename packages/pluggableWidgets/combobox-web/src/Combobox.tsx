@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 import { ComboboxContainerProps } from "../typings/ComboboxProps";
 
