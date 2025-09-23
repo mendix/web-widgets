@@ -1,4 +1,4 @@
-import { createElement, Dispatch, Fragment, HTMLAttributes, ReactElement, SetStateAction } from "react";
+import { Dispatch, Fragment, HTMLAttributes, ReactElement, SetStateAction } from "react";
 import ControlIcon from "../internal/ControlIcon.js";
 
 // copied from DatagridProps.d.ts
