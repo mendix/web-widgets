@@ -1,7 +1,6 @@
 import { ChartWidget, setupBasicSeries } from "@mendix/shared-charts/main";
 import { listExpression } from "@mendix/widget-plugin-test-utils";
 import { render, RenderResult } from "@testing-library/react";
-import { createElement } from "react";
 import { ColumnChartContainerProps, SeriesType } from "../../typings/ColumnChartProps";
 import { ColumnChart } from "../ColumnChart";
 
@@ -16,6 +15,10 @@ jest.mock("@mendix/shared-charts/main", () => {
 jest.mock("react-plotly.js", () => jest.fn(() => null));
 
 describe("The ColumnChart widget", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     function renderColumnChart(
         configs: Array<Partial<SeriesType>>,
         chartProps?: Partial<ColumnChartContainerProps>
@@ -45,15 +48,15 @@ describe("The ColumnChart widget", () => {
     it("visualizes data as a bar chart", () => {
         renderColumnChart([{}]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                seriesOptions: expect.objectContaining({
-                    type: "bar",
-                    orientation: "v"
-                })
-            }),
-            expect.anything()
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+
+        expect(lastCallProps).toMatchObject({
+            seriesOptions: {
+                type: "bar",
+                orientation: "v"
+            }
+        });
     });
 
     it("sets the bar color on the data series based on the barColor value", () => {
@@ -93,14 +96,14 @@ describe("The ColumnChart widget", () => {
     it("sets the appropriate barmode on the layout based on the barmode type", () => {
         renderColumnChart([], { barmode: "stack" });
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                layoutOptions: expect.objectContaining({
-                    barmode: "stack"
-                })
-            }),
-            expect.anything()
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+
+        expect(lastCallProps).toMatchObject({
+            layoutOptions: {
+                barmode: "stack"
+            }
+        });
     });
 });
 
