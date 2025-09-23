@@ -42,13 +42,14 @@ export function PreviewComponent(props: AccordionPreviewProps): ReactElement {
             group.headerRenderMode === "text" ? (
                 <h3>{group.headerText}</h3>
             ) : (
-                <group.headerContent.renderer
-                    caption={`Place header contents for group ${index + 1} here.`}
-                    children={<div />}
-                />
+                <group.headerContent.renderer caption={`Place header contents for group ${index + 1} here.`}>
+                    <div />
+                </group.headerContent.renderer>
             ),
         content: (
-            <group.content.renderer caption={`Place body contents for group ${index + 1} here.`} children={<div />} />
+            <group.content.renderer caption={`Place body contents for group ${index + 1} here.`}>
+                <div />
+            </group.content.renderer>
         ),
         loadContent: group.loadContent,
         visible: group.visible as unknown as boolean,
