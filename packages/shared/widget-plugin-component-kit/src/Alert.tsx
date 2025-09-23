@@ -5,7 +5,7 @@ export interface AlertProps {
     children?: ReactNode;
     className?: string;
     bootstrapStyle: "default" | "primary" | "success" | "info" | "warning" | "danger";
-    inputElementId?: string;
+    id?: string;
     role?: string;
 }
 
@@ -21,19 +21,15 @@ export const ValidationAlert = ({ className, children, referenceId }: Validation
         className={classNames("mx-validation-message", className)}
         bootstrapStyle="danger"
         role="alert"
-        inputElementId={referenceId}
+        id={referenceId}
     >
         {children}
     </Alert>
 );
 
-export const Alert = ({ className, bootstrapStyle, children, role, inputElementId }: AlertProps): ReactNode =>
+export const Alert = ({ className, bootstrapStyle, children, role, id }: AlertProps): ReactNode =>
     Children.count(children) > 0 ? (
-        <div
-            className={classNames(`alert alert-${bootstrapStyle}`, className)}
-            role={role}
-            {...(inputElementId ? { id: inputElementId + "-error" } : undefined)}
-        >
+        <div className={classNames(`alert alert-${bootstrapStyle}`, className)} role={role} id={id}>
             {children}
         </div>
     ) : null;
