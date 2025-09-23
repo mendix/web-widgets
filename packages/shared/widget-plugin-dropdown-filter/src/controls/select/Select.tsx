@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useSelect, UseSelectProps } from "downshift";
 import { observer } from "mobx-react-lite";
-import React, { createElement } from "react";
+import { CSSProperties, FocusEventHandler, ReactElement, UIEventHandler } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
@@ -15,17 +15,17 @@ interface SelectProps {
     empty: boolean;
     className?: string;
     showCheckboxes: boolean;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     useSelectProps: () => UseSelectProps<OptionWithState>;
     onClear: () => void;
-    onFocus?: React.FocusEventHandler<HTMLDivElement>;
-    onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
+    onFocus?: FocusEventHandler<HTMLDivElement>;
+    onMenuScroll?: UIEventHandler<HTMLUListElement>;
     ariaLabel: string;
 }
 
 const cls = classes();
 
-export const Select = observer(function Select(props: SelectProps): React.ReactElement {
+export const Select = observer(function Select(props: SelectProps): ReactElement {
     const { empty: isEmpty, showCheckboxes, clearable } = props;
     const { getToggleButtonProps, getMenuProps, getItemProps, isOpen, highlightedIndex } = useSelect(
         props.useSelectProps()

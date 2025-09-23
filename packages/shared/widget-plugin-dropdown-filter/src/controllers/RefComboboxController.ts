@@ -1,4 +1,5 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { FocusEvent } from "react";
 import { ComboboxControllerMixin } from "./mixins/ComboboxControllerMixin";
 import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 
@@ -10,7 +11,7 @@ export class RefComboboxController extends ComboboxControllerMixin(RefBaseContro
         this.ariaLabel = gate.props.ariaLabel;
     }
 
-    handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
+    handleFocus = (event: FocusEvent<HTMLInputElement>): void => {
         super.handleFocus(event);
         this.filterStore.setFetchReady(true);
     };
