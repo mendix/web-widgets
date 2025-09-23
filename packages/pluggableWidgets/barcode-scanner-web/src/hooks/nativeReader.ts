@@ -8,7 +8,7 @@ import {
 import { mediaStreamConstraints, ReaderProps } from "../helpers/utils";
 
 export class Reader implements MxBarcodeReader {
-    private videoRef: RefObject<HTMLVideoElement>;
+    private videoRef: RefObject<HTMLVideoElement | null>;
     barcodeDetector: BarcodeDetector | null;
     useCrop: boolean;
     stopped: boolean = false;
@@ -16,7 +16,7 @@ export class Reader implements MxBarcodeReader {
     stream: MediaStream | null = null;
     decodeInterval: NodeJS.Timeout | number | null = null;
 
-    constructor(args: ReaderProps, videoRef: RefObject<HTMLVideoElement>) {
+    constructor(args: ReaderProps, videoRef: RefObject<HTMLVideoElement | null>) {
         this.videoRef = videoRef;
         this.useCrop = args.useCrop;
         this.canvasMiddleRef = args.canvasMiddleRef;

@@ -4,13 +4,13 @@ import { MxBarcodeReader } from "../helpers/barcode-detector";
 import { createHints, decodeCanvas, drawCropOnCanvas, mediaStreamConstraints, ReaderProps } from "../helpers/utils";
 
 export class Reader implements MxBarcodeReader {
-    private videoRef: RefObject<HTMLVideoElement>;
+    private videoRef: RefObject<HTMLVideoElement | null>;
     barcodeDetector: BrowserMultiFormatReader | null;
     useCrop: boolean;
     stopped: boolean = false;
     canvasMiddleRef: RefObject<HTMLDivElement>;
 
-    constructor(args: ReaderProps, videoRef: RefObject<HTMLVideoElement>) {
+    constructor(args: ReaderProps, videoRef: RefObject<HTMLVideoElement | null>) {
         this.videoRef = videoRef;
         this.useCrop = args.useCrop;
         this.canvasMiddleRef = args.canvasMiddleRef;
