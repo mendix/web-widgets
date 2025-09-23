@@ -1,6 +1,6 @@
 import deepmerge from "deepmerge";
 import Plotly, { Config, Data, Layout } from "plotly.js-dist-min";
-import { createElement, ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
+import { ReactElement, useCallback, useEffect, useMemo, useRef } from "react";
 import { type PlotParams } from "react-plotly.js";
 import createPlotComponent from "react-plotly.js/factory";
 import { ChartViewProps, PlotTrace } from "./types";
