@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 export function Placeholder({ noOptionsText }: { noOptionsText: string }): ReactElement {
     return (
