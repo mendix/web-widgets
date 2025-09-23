@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 export default function ControlIcon({ direction }: { direction: string }): ReactElement {
     const classNames = `pagination-icon ${direction}`;
