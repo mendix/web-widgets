@@ -1,4 +1,4 @@
-import { createElement, Fragment } from "react";
+import { Fragment } from "react";
 import { getPlaygroundContext, PlaygroundData } from "../helpers/playground-context";
 import { useChartController } from "../helpers/useChartController";
 import { ChartView } from "./ChartView";
