@@ -5,6 +5,8 @@
         "outDir": "./dist",
         "rootDir": "./src",
         "types": ["jest", "node"],
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "jsx": "react-jsx",
+        "jsxFactory": ""
     }
 }

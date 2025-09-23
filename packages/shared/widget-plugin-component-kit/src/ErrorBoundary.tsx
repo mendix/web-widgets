@@ -1,4 +1,4 @@
-import { Component, createElement, PropsWithChildren } from "react";
+import { Component, PropsWithChildren } from "react";
 import { Alert } from "./Alert";
 
 type State = { error: Error | null };
