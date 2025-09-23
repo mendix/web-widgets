@@ -9,7 +9,6 @@ import {
 } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { act, fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
-import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
 
