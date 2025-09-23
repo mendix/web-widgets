@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { Input, InputProps } from "../Input";
 
 describe("Input", () => {
