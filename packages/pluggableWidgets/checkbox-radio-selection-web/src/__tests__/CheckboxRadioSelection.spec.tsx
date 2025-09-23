@@ -1,5 +1,4 @@
 import { render } from "@testing-library/react";
-import { createElement } from "react";
 import { CheckboxRadioSelectionContainerProps } from "../../typings/CheckboxRadioSelectionProps";
 import CheckboxRadioSelection from "../CheckboxRadioSelection";
 
