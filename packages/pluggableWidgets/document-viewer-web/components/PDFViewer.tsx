@@ -15,10 +15,15 @@ const options = {
 const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
     const { file, setDocumentStatus, pdfjsWorkerUrl } = props;
     pdfjs.GlobalWorkerOptions.workerSrc = useMemo(() => {
-        if (pdfjsWorkerUrl?.status === "available" && pdfjsWorkerUrl?.value) {
-            return pdfjsWorkerUrl.value;
+        if (pdfjsWorkerUrl?.status === "available") {
+            if (pdfjsWorkerUrl?.value) {
+                return pdfjsWorkerUrl.value;
+            } else {
+                return `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+            }
+        } else {
+            return ""; // no worker;
         }
-        return `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
     }, [pdfjsWorkerUrl]);
 
     const [numberOfPages, setNumberOfPages] = useState<number>(1);
@@ -100,14 +105,20 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                 </Fragment>
             }
         >
-            <Document
-                file={pdfUrl}
-                options={options}
-                onLoadSuccess={onDocumentLoadSuccess}
-                onLoadError={() => setDocumentStatus(DocumentStatus.error)}
-            >
-                <Page pageNumber={currentPage} scale={zoomLevel} />
-            </Document>
+            {!!pdfUrl && pdfjsWorkerUrl?.status === "available" ? (
+                <Document
+                    file={pdfUrl}
+                    options={options}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                    onLoadError={() => setDocumentStatus(DocumentStatus.error)}
+                >
+                    <Page pageNumber={currentPage} scale={zoomLevel} />
+                </Document>
+            ) : pdfjsWorkerUrl?.status === "unavailable" ? (
+                <div>{"PDF worker unavailable"}</div>
+            ) : (
+                <div className="widget-document-viewer-loading"></div>
+            )}
         </BaseViewer>
     );
 };
