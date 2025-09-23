@@ -336,10 +336,6 @@
                     <actionVariable key="filterInput" caption="Filter Input" type="String" />
                 </actionVariables>
             </property>
-            <property key="filterInputDebounceInterval" type="integer" required="true" defaultValue="200">
-                <caption>Debounce interval</caption>
-                <description>The debounce interval for each filter input change event triggered in milliseconds.</description>
-            </property>
         </propertyGroup>
         <propertyGroup caption="Accessibility">
             <propertyGroup caption="Accessibility">
@@ -437,6 +433,10 @@
                         <enumerationValue key="startsWith">Starts-with</enumerationValue>
                         <enumerationValue key="none">None</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="filterInputDebounceInterval" type="integer" required="true" defaultValue="200">
+                    <caption>Debounce interval</caption>
+                    <description>The debounce interval for each filter input change event triggered in milliseconds.</description>
                 </property>
             </propertyGroup>
         </propertyGroup>

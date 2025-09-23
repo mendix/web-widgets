@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Moved the debounce interval for filtering operations from the Events tab to Advanced tab.
+
 ## [2.5.1] - 2025-09-19
 
 ### Fixed
