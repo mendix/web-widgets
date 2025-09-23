@@ -1,12 +1,12 @@
 import { UseComboboxPropGetters, UseSelectPropGetters } from "downshift";
-import { createElement, CSSProperties, forwardRef, ReactElement, RefObject } from "react";
+import { CSSProperties, forwardRef, ReactElement, RefObject, UIEventHandler } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { PickerCssClasses } from "../picker-primitives";
 
 type OptionsWrapperProps = {
     cls: PickerCssClasses;
     style: CSSProperties;
-    onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
+    onMenuScroll?: UIEventHandler<HTMLUListElement>;
     isOpen: boolean;
     options: OptionWithState[];
     highlightedIndex: number;
