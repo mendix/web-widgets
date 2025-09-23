@@ -1,5 +1,6 @@
 module.exports = {
     verbose: true,
+    testEnvironment: "jsdom",
     modulePathIgnorePatterns: ["<rootDir>/dist/", "<rootDir>/mocks/"],
     transform: {
         "^.+\\.(t|j)sx?$": [
