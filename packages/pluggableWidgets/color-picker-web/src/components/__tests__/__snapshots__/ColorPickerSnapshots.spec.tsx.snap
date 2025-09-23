@@ -52,9 +52,7 @@ exports[`ColorPicker with a mode as inline renders with the structure 1`] = `
     >
       <sketch-picker
         color="#000000"
-        disablealpha="true"
-        disabled="false"
-        displaycolorpicker="false"
+        disablealpha=""
       />
     </div>
   </div>
