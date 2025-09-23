@@ -129,6 +129,7 @@ export const Image: FunctionComponent<ImageProps> = ({
         <ImageUi.Wrapper
             className={className}
             responsive={responsive}
+            type={type}
             hasImage={image !== undefined && image.length > 0}
         >
             {content}
