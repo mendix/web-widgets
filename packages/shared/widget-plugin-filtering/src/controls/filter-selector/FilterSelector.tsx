@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, useMemo } from "react";
+import { ReactElement, useMemo } from "react";
 import { useSelect } from "./useSelect";
 
 interface Option {
@@ -14,7 +14,7 @@ interface FilterSelectorProps {
     options: Option[];
 }
 
-export function FilterSelector(props: FilterSelectorProps): React.ReactElement {
+export function FilterSelector(props: FilterSelectorProps): ReactElement {
     const options = useMemo(
         () => props.options.map(option => ({ value: option.value, caption: option.label })),
         [props.options]

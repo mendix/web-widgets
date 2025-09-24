@@ -1,5 +1,5 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { createElement, FC, useMemo } from "react";
+import { FC, useMemo } from "react";
 
 interface RequiredProps {
     attributes: Array<{

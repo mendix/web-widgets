@@ -1,6 +1,6 @@
 import { autoUpdate, useFloating } from "@floating-ui/react-dom";
 import { useSelect as useDownshiftSelect, UseSelectPropGetters } from "downshift";
-import { useCallback, useEffect, useMemo } from "react";
+import { CSSProperties, JSX, useCallback, useEffect, useMemo } from "react";
 
 interface Option {
     value: string;
@@ -22,7 +22,7 @@ interface ViewProps {
     getItemProps: UseSelectPropGetters<Option>["getItemProps"];
     selectedItem: Option | null;
     highlightedIndex: number;
-    floatingStyles: React.CSSProperties;
+    floatingStyles: CSSProperties;
 }
 
 export function useSelect(props: useSelectProps): ViewProps {

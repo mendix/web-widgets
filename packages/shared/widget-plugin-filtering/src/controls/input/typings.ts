@@ -1,4 +1,5 @@
 import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
+import { CSSProperties, RefAttributes } from "react";
 import { InputStore } from "../../stores/input/InputStore";
 import { InputFilterInterface } from "../../typings/InputFilterInterface";
 
@@ -10,7 +11,7 @@ export interface BaseProps {
     placeholder?: string;
     screenReaderButtonCaption?: string;
     screenReaderInputCaption?: string;
-    styles?: React.CSSProperties;
+    styles?: CSSProperties;
     tabIndex?: number;
     badge?: string;
 }
@@ -23,7 +24,7 @@ export interface InputProps<Fn extends AllFunctions> {
     filterFnList: FilterFnList<Fn>;
     inputStores: [InputStore, InputStore];
     disableInputs?: boolean;
-    inputRef: React.RefAttributes<HTMLInputElement>["ref"];
+    inputRef: RefAttributes<HTMLInputElement>["ref"];
     defaultValue?: string;
 }
 
