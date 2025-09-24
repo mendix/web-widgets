@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, JSX, ReactElement } from "react";
+import { JSX, ReactElement } from "react";
 import { PaginationEnum } from "../../typings/DatagridProps";
 import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 

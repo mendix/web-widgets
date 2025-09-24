@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 /**
  * Component created by FontAwesome (Fonticons, Inc.) under the Creative Commons Attribution 4.0 International license.

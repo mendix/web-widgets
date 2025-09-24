@@ -1,5 +1,5 @@
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import { createElement, Fragment, ReactElement, useCallback } from "react";
+import { Fragment, ReactElement, useCallback } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
 export function CheckboxColumnHeader(): ReactElement {
