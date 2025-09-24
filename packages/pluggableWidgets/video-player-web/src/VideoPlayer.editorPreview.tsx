@@ -1,5 +1,5 @@
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
-import { Component, createElement, ReactNode } from "react";
+import { Component, ReactNode } from "react";
 import classNames from "classnames";
 
 import { SizeContainer } from "./components/SizeContainer";
