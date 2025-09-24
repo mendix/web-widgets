@@ -1,6 +1,5 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
-import { createElement } from "react";
 import { useGalleryRootScope } from "../helpers/root-context";
 
 export const SelectionCounter = observer(function SelectionCounter() {

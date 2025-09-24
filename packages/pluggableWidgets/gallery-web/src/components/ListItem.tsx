@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
-import { createElement, ReactElement, RefObject, useMemo } from "react";
+import { JSX, ReactElement, RefObject, useMemo } from "react";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import { PositionInGrid, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
