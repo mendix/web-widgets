@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createElement } from "react";
 import { SortComponent } from "../SortComponent";
 
 const defaultOptions: Array<{ caption: string; value: string }> = [
