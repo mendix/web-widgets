@@ -3,7 +3,6 @@ import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigati
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
 import { GUID, ObjectItem } from "mendix";
-import { createElement } from "react";
 import { ColumnsType } from "../../typings/DatagridProps";
 import { Cell } from "../components/Cell";
 import { WidgetProps } from "../components/Widget";

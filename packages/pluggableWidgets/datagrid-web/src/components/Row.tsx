@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { SelectorCell } from "./SelectorCell";
@@ -14,7 +14,7 @@ export interface RowProps<C extends GridColumn> {
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
-    selectableWrapper?: (column: number, children: React.ReactElement) => React.ReactElement;
+    selectableWrapper?: (column: number, children: ReactElement) => ReactElement;
     selectActionHelper: SelectActionHelper;
     preview: boolean;
     totalRows: number;

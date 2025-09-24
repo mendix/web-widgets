@@ -1,4 +1,4 @@
-import { createElement, Fragment, ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import { useDatagridRootScope } from "../../helpers/root-context";
 import { CellElement } from "../CellElement";
 import { SelectorCell } from "../SelectorCell";
