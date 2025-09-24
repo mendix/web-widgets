@@ -1,7 +1,7 @@
 import { withAttributeGuard } from "@mendix/widget-plugin-filtering/helpers/withAttributeGuard";
 import { withFilterAPI } from "@mendix/widget-plugin-filtering/helpers/withFilterAPI";
 import { withPreloader } from "@mendix/widget-plugin-platform/hoc/withPreloader";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { DatagridDateFilterContainerProps } from "../typings/DatagridDateFilterProps";
 import { DateFilterContainer } from "./components/DateFilterContainer";
 import { withLinkedDateStore } from "./hocs/withLinkedDateStore";
