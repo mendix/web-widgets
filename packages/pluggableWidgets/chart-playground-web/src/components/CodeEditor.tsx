@@ -2,7 +2,7 @@ import { json, jsonParseLinter } from "@codemirror/lang-json";
 import { linter, lintGutter } from "@codemirror/lint";
 import { githubLight } from "@uiw/codemirror-theme-github";
 import CodeMirror, { type Extension } from "@uiw/react-codemirror";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { ReactElement, useEffect, useMemo, useRef, useState } from "react";
 
 export type EditorChangeHandler = (value: string) => void;
 
@@ -13,7 +13,7 @@ export interface CodeEditorProps {
     height?: string;
 }
 
-export function CodeEditor(props: CodeEditorProps): React.ReactElement {
+export function CodeEditor(props: CodeEditorProps): ReactElement {
     const [value, onChange] = useEditorState({ initState: props.defaultValue, onChange: props.onChange });
     const extensions = useMemo<Extension[]>(
         () => [

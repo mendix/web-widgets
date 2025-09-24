@@ -1,7 +1,7 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import classNames from "classnames";
-import { Fragment, ReactElement, ReactNode, useCallback, useRef, useState } from "react";
+import { Fragment, ReactElement, ReactNode, RefObject, useCallback, useRef, useState } from "react";
 import "../ui/Playground.scss";
 import { Select, SelectOption, Sidebar, SidebarHeader, SidebarHeaderTools, SidebarPanel } from "./Sidebar";
 import { CodeEditor, EditorChangeHandler } from "./CodeEditor";
@@ -42,7 +42,7 @@ const SidebarContentTooltip = (): ReactElement => {
     const tooltipTriggerRef = useRef<HTMLButtonElement | null>(null);
     const tooltipRef = useRef<HTMLDivElement | null>(null);
 
-    useOnClickOutside(tooltipRef as React.RefObject<HTMLElement>, () => setTooltipIsOpen(false));
+    useOnClickOutside(tooltipRef as RefObject<HTMLElement>, () => setTooltipIsOpen(false));
 
     return (
         <button className="info-tooltip" ref={tooltipTriggerRef} onClick={() => setTooltipIsOpen(true)}>
@@ -79,7 +79,7 @@ export interface ComposedEditorProps {
     viewSelectOptions: SelectOption[];
 }
 
-function DocsLink(props: { currentView: string }): React.ReactElement {
+function DocsLink(props: { currentView: string }): ReactElement {
     const href =
         props.currentView === "layout"
             ? "https://plotly.com/javascript/reference/layout/"
@@ -96,7 +96,7 @@ function DocsLink(props: { currentView: string }): React.ReactElement {
     );
 }
 
-function TabGuard(props: { children: React.ReactNode }): React.ReactElement {
+function TabGuard(props: { children: ReactNode }): ReactElement {
     return (
         <div
             onKeyDown={event => {
@@ -110,7 +110,7 @@ function TabGuard(props: { children: React.ReactNode }): React.ReactElement {
     );
 }
 
-export function ComposedEditor(props: ComposedEditorProps): React.ReactElement {
+export function ComposedEditor(props: ComposedEditorProps): ReactElement {
     const topPanelHeader = (
         <Fragment>
             <div className="widget-info-bar">
