@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { createElement, ReactElement, useCallback } from "react";
+import React, { ReactElement, useCallback } from "react";
 import Modal, { ModalProps, RenderModalBackdropProps } from "react-overlays/Modal";
 
 import closeIconSvg from "../assets/ic24-close.svg";

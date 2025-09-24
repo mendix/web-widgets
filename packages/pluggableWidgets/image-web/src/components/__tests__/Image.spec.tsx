@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
-import { createElement, forwardRef } from "react";
+import { forwardRef } from "react";
 import { ModalProps } from "react-overlays/esm/Modal";
 import { Image, ImageProps } from "../Image/Image";
 
