@@ -4,7 +4,7 @@ import {
     SelectionHelper,
     useCreateSelectionContextValue
 } from "@mendix/widget-plugin-grid/selection";
-import { createElement, memo, ReactElement, ReactNode } from "react";
+import { memo, ReactElement, ReactNode } from "react";
 import { RootGridStore } from "../helpers/state/RootGridStore";
 
 interface WidgetHeaderContextProps {

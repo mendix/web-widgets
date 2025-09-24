@@ -4,7 +4,7 @@ import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navig
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, CSSProperties, Fragment, ReactElement, ReactNode } from "react";
+import { CSSProperties, Fragment, ReactElement, ReactNode } from "react";
 import {
     LoadingTypeEnum,
     PaginationEnum,

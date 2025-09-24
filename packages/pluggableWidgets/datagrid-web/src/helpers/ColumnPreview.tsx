@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { ColumnsPreviewType } from "../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { BaseColumn } from "./ColumnBase";
