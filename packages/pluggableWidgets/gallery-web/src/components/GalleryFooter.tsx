@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, JSX, ReactElement } from "react";
+import { JSX, ReactElement } from "react";
 
 type GalleryFooterProps = Omit<JSX.IntrinsicElements["div"], "ref">;
 

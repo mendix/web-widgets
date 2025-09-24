@@ -4,7 +4,7 @@ import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/c
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { PositionInGrid, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
 import { ObjectItem } from "mendix";
-import { createElement, ReactElement, ReactNode } from "react";
+import { CSSProperties, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { GalleryContent } from "./GalleryContent";
 import { GalleryFooter } from "./GalleryFooter";
@@ -39,7 +39,7 @@ export interface GalleryProps<T extends ObjectItem> {
     showEmptyStatePreview?: boolean;
     phoneItems: number;
     setPage?: (computePage: (prevPage: number) => number) => void;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     tabletItems: number;
     tabIndex?: number;
     ariaLabelListBox?: string;

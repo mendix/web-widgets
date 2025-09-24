@@ -1,9 +1,9 @@
 import cn from "classnames";
 import { observer } from "mobx-react-lite";
-import { createElement } from "react";
+import { JSX, ReactNode } from "react";
 import { useGalleryRootScope } from "../helpers/root-context";
 
-export function LoadMoreButton(props: JSX.IntrinsicElements["button"]): React.ReactNode {
+export function LoadMoreButton(props: JSX.IntrinsicElements["button"]): ReactNode {
     return (
         <button {...props} className={cn("btn btn-primary widget-gallery-load-more-btn", props.className)}>
             {props.children}
@@ -11,7 +11,7 @@ export function LoadMoreButton(props: JSX.IntrinsicElements["button"]): React.Re
     );
 }
 
-export const LoadMore = observer(function LoadMore(props: { children: React.ReactNode }): React.ReactNode {
+export const LoadMore = observer(function LoadMore(props: { children: ReactNode }): ReactNode {
     const {
         rootStore: { paging }
     } = useGalleryRootScope();

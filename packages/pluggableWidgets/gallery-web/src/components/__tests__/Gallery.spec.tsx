@@ -2,7 +2,6 @@ import { listAction, listExp, setupIntersectionObserverStub } from "@mendix/widg
 import "@testing-library/jest-dom";
 import { render, waitFor } from "@testing-library/react";
 import { ObjectItem } from "mendix";
-import { createElement } from "react";
 import { ItemHelperBuilder } from "../../utils/builders/ItemHelperBuilder";
 import { mockItemHelperWithAction, mockProps, setup, withGalleryContext } from "../../utils/test-utils";
 import { Gallery } from "../Gallery";

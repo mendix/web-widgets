@@ -1,5 +1,4 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
-import { EventEntryContext } from "./base";
 import {
     isSelectOneTrigger,
     onSelectAllHotKey,
@@ -9,10 +8,12 @@ import {
     SelectFx
 } from "@mendix/widget-plugin-grid/selection";
 import { blockUserSelect, removeAllRanges, unblockUserSelect } from "@mendix/widget-plugin-grid/selection/utils";
+import { MouseEvent } from "react";
+import { EventEntryContext } from "./base";
 import { withInputEventsFilter } from "./keyboard-utils";
 
 const onMouseDown = (
-    handler: (ctx: EventEntryContext, event: React.MouseEvent<Element>) => void
+    handler: (ctx: EventEntryContext, event: MouseEvent<Element>) => void
 ): EventCaseEntry<EventEntryContext, Element, "onMouseDown"> => ({
     eventName: "onMouseDown",
     filter: ctx => ctx.selectionType !== "None",
