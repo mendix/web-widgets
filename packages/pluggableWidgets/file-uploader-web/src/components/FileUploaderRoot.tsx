@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { observer } from "mobx-react-lite";
-import { createElement, ReactElement, useCallback } from "react";
+import { ReactElement, useCallback } from "react";
 import { FileRejection } from "react-dropzone";
 
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";

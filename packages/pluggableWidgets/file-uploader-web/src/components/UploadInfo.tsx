@@ -1,5 +1,5 @@
 import { FileStatus } from "../stores/FileStore";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { useTranslationsStore } from "../utils/useTranslationsStore";
 
 type UploadInfoProps = {
