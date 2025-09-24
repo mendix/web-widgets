@@ -5,7 +5,7 @@ import { dynamicValue, listAttribute } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render, waitFor } from "@testing-library/react";
 import { AssociationMetaData, AttributeMetaData } from "mendix";
-import { createContext, createElement } from "react";
+import { createContext } from "react";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 import DatagridDropdownFilter from "../DatagridDropdownFilter";
 
@@ -27,7 +27,8 @@ const commonProps: DatagridDropdownFilterContainerProps = {
     emptyOptionCaption: dynamicValue("None"),
     ariaLabel: dynamicValue("AriaLabel"),
     selectedItemsStyle: "text",
-    selectionMethod: "checkbox"
+    selectionMethod: "checkbox",
+    refCaptionSource: "attr"
 };
 
 describe("Dropdown Filter", () => {
@@ -45,8 +46,7 @@ describe("Dropdown Filter", () => {
                         hasError: false,
                         value: { type: "direct", store: new EnumFilterStore([attribute], null) }
                     },
-                    filterObserver: {} as ObservableFilterHost,
-                    sharedInitFilter: []
+                    filterObserver: {} as ObservableFilterHost
                 };
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = createContext<FilterAPI | null>(
                     filterAPI

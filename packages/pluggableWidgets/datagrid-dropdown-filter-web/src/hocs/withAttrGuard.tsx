@@ -1,5 +1,5 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { createElement, FC } from "react";
+import { FC } from "react";
 
 /**
  * @remark Any changes made in this hoc should be reflected in

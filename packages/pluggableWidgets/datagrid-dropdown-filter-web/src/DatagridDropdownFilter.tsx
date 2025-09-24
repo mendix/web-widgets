@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { withPreloader } from "@mendix/widget-plugin-platform/hoc/withPreloader";
 import { DatagridDropdownFilterContainerProps } from "../typings/DatagridDropdownFilterProps";
 import { AttrFilter } from "./components/AttrFilter";
