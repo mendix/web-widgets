@@ -1,4 +1,4 @@
-import { parseAsync, renderDocument, WordDocument, Options } from "docx-preview";
+import { Options, parseAsync, renderDocument, WordDocument } from "docx-preview";
 import { createElement, useCallback, useEffect, useRef } from "react";
 import { BaseControlViewer } from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
@@ -24,16 +24,25 @@ const DocxViewer: DocRendererElement = (props: DocumentRendererProps) => {
                             const styleContainer = document.createElement("div");
                             renderDocument(wordDocument, localRef.current, styleContainer, DOC_CONFIG).catch(
                                 (_error: any) => {
-                                    setDocumentStatus(DocumentStatus.error);
+                                    setDocumentStatus({
+                                        status: DocumentStatus.error,
+                                        message: "Failed to load DOCX document"
+                                    });
                                 }
                             );
                         }
                     })
                     .catch((_error: any) => {
-                        setDocumentStatus(DocumentStatus.error);
+                        setDocumentStatus({
+                            status: DocumentStatus.error,
+                            message: "Failed to load DOCX document"
+                        });
                     });
             } catch (_error: any) {
-                setDocumentStatus(DocumentStatus.error);
+                setDocumentStatus({
+                    status: DocumentStatus.error,
+                    message: "Failed to load DOCX document"
+                });
             }
         },
         [setDocumentStatus]
