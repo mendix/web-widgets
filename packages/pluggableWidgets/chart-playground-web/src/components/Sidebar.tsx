@@ -50,7 +50,7 @@ export const SidebarHeader = ({ className, onClose, children }: SidebarHeaderPro
 
 export interface SidebarPanelProps {
     className?: string;
-    heading?: React.ReactNode;
+    heading?: ReactNode;
     headingClassName?: string;
     children: ReactNode;
 }
