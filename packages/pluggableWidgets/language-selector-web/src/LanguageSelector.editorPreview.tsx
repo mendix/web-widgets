@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { LanguageSelectorPreviewProps } from "typings/LanguageSelectorProps";
 import { LanguageSwitcherPreview } from "./components/LanguageSwitcherPreview";
 
