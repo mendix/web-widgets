@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, CSSProperties, ReactElement } from "react";
+import { CSSProperties, ReactElement } from "react";
 
 import { PositionEnum, TriggerEnum } from "../../typings/LanguageSelectorProps";
 import { LanguageItem } from "../LanguageSelector";
