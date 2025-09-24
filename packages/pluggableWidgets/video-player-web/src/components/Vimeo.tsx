@@ -1,4 +1,4 @@
-import { Component, createElement, ReactElement } from "react";
+import { Component, ReactElement } from "react";
 import { validateUrl } from "../utils/Utils";
 
 export interface VimeoProps {

@@ -1,4 +1,4 @@
-import { Component, createElement, ReactNode } from "react";
+import { Component, ReactNode } from "react";
 import { validateUrl } from "../utils/Utils";
 
 export interface YoutubeProps {
