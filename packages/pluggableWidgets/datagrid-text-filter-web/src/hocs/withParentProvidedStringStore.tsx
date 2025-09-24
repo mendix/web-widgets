@@ -3,13 +3,13 @@ import { useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "@mendix/widget-plugin-filtering/errors";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { isStringFilter } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
-import { createElement, useRef } from "react";
+import { ReactElement, useRef } from "react";
 import { StringFilterProps } from "../components/typings";
 
 export function withParentProvidedStringStore<P>(
-    Component: (props: P & StringFilterProps) => React.ReactElement
-): (props: P) => React.ReactElement {
-    return function FilterAPIProvider(props: P): React.ReactElement {
+    Component: (props: P & StringFilterProps) => ReactElement
+): (props: P) => ReactElement {
+    return function FilterAPIProvider(props: P): ReactElement {
         const api = useStringFilterAPI();
         if (api.hasError) {
             return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
@@ -23,7 +23,7 @@ export function withParentProvidedStringStore<P>(
 
 export function useStringFilterAPI(): Result<StringFilterProps, APIError> {
     const ctx = useFilterAPI();
-    const textAPI = useRef<StringFilterProps>();
+    const textAPI = useRef<StringFilterProps>(undefined);
 
     if (ctx.hasError) {
         return error(ctx.error);
