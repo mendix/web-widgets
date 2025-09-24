@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ProgressBar } from "./ProgressBar";
 import { UploadInfo } from "./UploadInfo";
-import { createElement, KeyboardEvent, MouseEvent, ReactElement, ReactNode, useCallback } from "react";
+import { KeyboardEvent, MouseEvent, ReactElement, ReactNode, useCallback } from "react";
 import { FileStatus, FileStore } from "../stores/FileStore";
 import { observer } from "mobx-react-lite";
 import { FileIcon } from "./FileIcon";

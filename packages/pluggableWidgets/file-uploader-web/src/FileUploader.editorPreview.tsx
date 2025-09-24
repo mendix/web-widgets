@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { FileUploaderPreviewProps } from "../typings/FileUploaderProps";
 import classNames from "classnames";
 
