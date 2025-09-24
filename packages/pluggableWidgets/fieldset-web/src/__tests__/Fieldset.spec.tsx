@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
-import { createElement, Fragment, ReactNode } from "react";
+import { Fragment, ReactNode } from "react";
 
 import { Fieldset, FieldsetProps } from "../components/Fieldset";
 

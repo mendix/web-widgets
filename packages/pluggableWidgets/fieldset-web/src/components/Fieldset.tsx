@@ -1,4 +1,4 @@
-import { createElement, CSSProperties, PropsWithChildren, ReactElement } from "react";
+import { CSSProperties, PropsWithChildren, ReactElement } from "react";
 
 export interface FieldsetProps {
     name?: string;
