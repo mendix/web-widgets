@@ -1,4 +1,4 @@
-import { createElement, Fragment, ReactElement } from "react";
+import { Fragment, JSX, ReactElement } from "react";
 import { HTMLElementPreviewProps } from "../typings/HTMLElementProps";
 import { HTMLTag } from "./components/HTMLTag";
 import { isVoidElement, prepareTag } from "./utils/props-utils";
@@ -17,7 +17,7 @@ export function preview(props: HTMLElementPreviewProps): ReactElement {
                 ) : (
                     <HTMLTag
                         key={i}
-                        tagName={tag}
+                        tagName={tag as keyof JSX.IntrinsicElements}
                         unsafeHTML={canUseUnsafeHTML ? props.tagContentHTML : undefined}
                         attributes={{
                             className: props.className,

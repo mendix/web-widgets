@@ -1,4 +1,4 @@
-import { CSSProperties, DOMAttributes, HTMLAttributes, ReactNode, SyntheticEvent, useState } from "react";
+import { CSSProperties, DOMAttributes, HTMLAttributes, JSX, ReactNode, SyntheticEvent, useState } from "react";
 import { ObjectItem } from "mendix";
 import DOMPurify, { Config } from "dompurify";
 

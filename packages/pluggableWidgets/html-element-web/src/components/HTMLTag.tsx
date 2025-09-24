@@ -1,4 +1,4 @@
-import { createElement, HTMLAttributes, ReactElement, ReactNode } from "react";
+import { HTMLAttributes, JSX, ReactElement, ReactNode } from "react";
 import { useSanitize } from "../utils/props-utils";
 
 interface HTMLTagProps {
