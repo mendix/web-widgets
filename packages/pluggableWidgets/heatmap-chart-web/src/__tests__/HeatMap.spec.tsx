@@ -11,7 +11,6 @@ import { EditableValueBuilder, list, ListAttributeValueBuilder } from "@mendix/w
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
 import Big from "big.js";
-import { createElement } from "react";
 import { HeatMapContainerProps } from "../../typings/HeatMapProps";
 import { HeatMap } from "../HeatMap";
 
@@ -50,14 +49,11 @@ describe("The HeatMap widget", () => {
     it("visualizes data as a heatmap chart", () => {
         renderHeatMap({});
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                seriesOptions: expect.objectContaining({
-                    type: "heatmap"
-                })
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps).toHaveProperty("data");
+        expect(lastCallProps.data).toHaveLength(1);
+        expect(lastCallProps.seriesOptions).toHaveProperty("type", "heatmap");
     });
 
     it("visualizes a heatmap chart properly even if there is no data", () => {
@@ -72,20 +68,16 @@ describe("The HeatMap widget", () => {
     it("has a default colorscale", () => {
         renderHeatMap({});
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        colorscale: [
-                            [0, "#17347B"],
-                            [0.5, "#0595DB"],
-                            [1, "#76CA02"]
-                        ]
-                    })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        expect(lastCallProps.data[0]).toHaveProperty("colorscale");
+        expect(lastCallProps.data[0].colorscale).toHaveLength(3);
+        expect(lastCallProps.data[0].colorscale).toEqual([
+            [0, "#17347B"],
+            [0.5, "#0595DB"],
+            [1, "#76CA02"]
+        ]);
     });
 
     it("creates a color scale based on scaleColors property", () => {
@@ -96,49 +88,35 @@ describe("The HeatMap widget", () => {
             ]
         });
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        colorscale: [
-                            [0, "red"],
-                            [1, "blue"]
-                        ]
-                    })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        expect(lastCallProps.data[0]).toHaveProperty("colorscale");
+        expect(lastCallProps.data[0].colorscale).toHaveLength(2);
+        expect(lastCallProps.data[0].colorscale).toEqual([
+            [0, "red"],
+            [1, "blue"]
+        ]);
     });
 
     it("sets unique x values on the data series based on the horizontalValueAttribute", () => {
         renderHeatMap({});
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        x: ["x0", "x1", "x2"]
-                    })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        expect(lastCallProps.data[0]).toHaveProperty("x");
+        expect(lastCallProps.data[0].x).toEqual(["x0", "x1", "x2"]);
     });
 
     it("sets unique y values on the data series based on the verticalValueAttribute", () => {
         renderHeatMap({});
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        y: ["y0", "y1", "y2", "y3"]
-                    })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        expect(lastCallProps.data[0]).toHaveProperty("y");
+        expect(lastCallProps.data[0].y).toEqual(["y0", "y1", "y2", "y3"]);
     });
 
     it("sets a proper z values matrix on the data series based on seriesValueAttribute", () => {
