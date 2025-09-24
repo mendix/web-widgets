@@ -31,7 +31,7 @@ export class DatePickerController {
     private _timer = -1;
     private _defaultState: Date_InputFilterInterface["defaultState"];
     expanded = false;
-    pickerRef = createRef<ReactDatePicker>();
+    pickerRef = createRef<ReactDatePicker<undefined, undefined>>();
     adjustableFilterFunction: boolean;
 
     constructor(params: Params) {

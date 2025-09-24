@@ -3,7 +3,7 @@ import { useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "@mendix/widget-plugin-filtering/errors";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { isDateFilter } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
-import { createElement, useRef } from "react";
+import { useRef } from "react";
 import { DateFilterProps } from "../components/typings";
 
 export function withParentProvidedDateStore<P>(
@@ -23,7 +23,7 @@ export function withParentProvidedDateStore<P>(
 
 export function useDateFilterAPI(): Result<DateFilterProps, APIError> {
     const ctx = useFilterAPI();
-    const dateAPI = useRef<DateFilterProps>();
+    const dateAPI = useRef<DateFilterProps | null>(null);
 
     if (ctx.hasError) {
         return error(ctx.error);
