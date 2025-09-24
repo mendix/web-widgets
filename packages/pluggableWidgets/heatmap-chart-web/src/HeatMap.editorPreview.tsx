@@ -1,5 +1,5 @@
 import { ChartPreview } from "@mendix/shared-charts/preview";
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import HeatMapChartImage from "./assets/HeatMap.light.svg";
 import HeatMapChartLegend from "./assets/HeatMap-legend.light.svg";
 import { HeatMapPreviewProps } from "../typings/HeatMapProps";
