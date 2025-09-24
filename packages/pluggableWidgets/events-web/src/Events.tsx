@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import { EditableValue } from "mendix";
-import { createElement, ReactElement, useRef } from "react";
+import { ReactElement, useRef } from "react";
 import { EventsContainerProps } from "../typings/EventsProps";
 import { useActionTimer } from "./hooks/timer";
 import { useParameterValue } from "./hooks/parameterValue";
@@ -23,7 +23,7 @@ export default function Events(props: EventsContainerProps): ReactElement {
         onEventChangeDelayParameterType,
         onEventChangeDelayExpression
     } = props;
-    const prevOnChangeAttributeValue = useRef<EditableValue<any> | undefined>();
+    const prevOnChangeAttributeValue = useRef<EditableValue<any> | undefined>(undefined);
 
     const delayValue = useParameterValue({
         parameterType: componentLoadDelayParameterType,
