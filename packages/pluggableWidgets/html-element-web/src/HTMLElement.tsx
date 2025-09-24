@@ -1,4 +1,4 @@
-import { createElement, Fragment, ReactElement } from "react";
+import { Fragment, JSX, ReactElement } from "react";
 
 import { HTMLElementContainerProps } from "../typings/HTMLElementProps";
 import {
@@ -25,7 +25,7 @@ export function HTMLElement(props: HTMLElementContainerProps): ReactElement | nu
             {items.map(item => (
                 <HTMLTag
                     key={item?.id}
-                    tagName={tag}
+                    tagName={tag as keyof JSX.IntrinsicElements}
                     attributes={{
                         ...prepareAttributes(createAttributeResolver(item), props.attributes, props.class, props.style),
                         ...prepareEvents(createEventResolver(item), props.events)
