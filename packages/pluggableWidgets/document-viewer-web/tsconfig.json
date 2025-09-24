@@ -6,6 +6,8 @@
         "types": ["jest", "node"],
         "useUnknownInCatchVariables": false,
         "exactOptionalPropertyTypes": false,
+        "jsx": "react-jsx",
+        "jsxFactory": "",
         "paths": {
             "react-hot-loader/root": ["./hot-typescript.ts"]
         }
