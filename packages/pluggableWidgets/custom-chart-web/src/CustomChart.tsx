@@ -1,5 +1,5 @@
 import { constructWrapperStyle, getPlaygroundContext } from "@mendix/shared-charts/main";
-import { createElement, Fragment, ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import { CustomChartContainerProps } from "../typings/CustomChartProps";
 import { useCustomChart } from "./hooks/useCustomChart";
 import "./ui/CustomChart.scss";

@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
 import { CustomChartPreviewProps } from "../typings/CustomChartProps";
 import CustomChart from "./CustomChart";
 
@@ -82,6 +82,6 @@ export function preview(props: CustomChartPreviewProps): ReactElement {
 }
 
 // Preview don't support React component as children. So we forced to use plain function.
-const dropzone = (): React.ReactNode => (
+const dropzone = (): ReactNode => (
     <div style={{ padding: "10px 10px 10px 0", display: "flex", justifyContent: "end", flexGrow: 1, height: 58 }} />
 );
