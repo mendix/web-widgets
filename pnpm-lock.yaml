@@ -2632,12 +2632,27 @@ importers:
       '@swc/jest':
         specifier: ^0.2.36
         version: 0.2.39(@swc/core@1.13.5)
+      '@types/jest':
+        specifier: ^29.5.0
+        version: 29.5.14
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.1.13
+      '@types/react-dom':
+        specifier: ^19.1.0
+        version: 19.1.9(@types/react@19.1.13)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
       jest-environment-jsdom:
         specifier: ^29.7.0
         version: 29.7.0
+      react:
+        specifier: 19.1.1
+        version: 19.1.1
+      react-dom:
+        specifier: 19.1.1
+        version: 19.1.1(react@19.1.1)
 
   packages/shared/widget-plugin-dropdown-filter:
     dependencies:
@@ -2899,12 +2914,27 @@ importers:
       '@swc/jest':
         specifier: ^0.2.36
         version: 0.2.39(@swc/core@1.13.5)
+      '@types/jest':
+        specifier: ^29.5.0
+        version: 29.5.14
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.1.13
+      '@types/react-dom':
+        specifier: ^19.1.0
+        version: 19.1.9(@types/react@19.1.13)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
       jest-environment-jsdom:
         specifier: ^29.7.0
         version: 29.7.0
+      react:
+        specifier: 19.1.1
+        version: 19.1.1
+      react-dom:
+        specifier: 19.1.1
+        version: 19.1.1(react@19.1.1)
 
   packages/shared/widget-plugin-sorting:
     dependencies:
