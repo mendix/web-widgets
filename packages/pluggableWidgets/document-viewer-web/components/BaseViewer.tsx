@@ -1,4 +1,4 @@
-import React, { createElement, Fragment, PropsWithChildren, ReactElement, useCallback } from "react";
+import { CSSProperties, Fragment, PropsWithChildren, ReactElement, ReactNode, useCallback } from "react";
 import { useZoomScale } from "../utils/useZoomScale";
 import { DocumentViewerContainerProps } from "typings/DocumentViewerProps";
 import { downloadFile } from "../utils/helpers";
@@ -13,12 +13,12 @@ type FileFormat = {
 
 interface BaseControlViewerProps extends PropsWithChildren {
     file: DocumentViewerContainerProps["file"] | FileFormat;
-    CustomControl?: React.ReactNode;
+    CustomControl?: ReactNode;
 }
 
 interface BaseViewerProps extends PropsWithChildren {
     fileName: string;
-    CustomControl?: React.ReactNode;
+    CustomControl?: ReactNode;
 }
 
 const BaseViewer = (props: BaseViewerProps): ReactElement => {
@@ -83,7 +83,7 @@ const BaseControlViewer = (props: BaseControlViewerProps): ReactElement => {
         >
             <div
                 className="widget-document-viewer-zoom-container"
-                style={{ "--current-zoom-scale": zoomLevel } as React.CSSProperties}
+                style={{ "--current-zoom-scale": zoomLevel } as CSSProperties}
             >
                 {children}
             </div>
