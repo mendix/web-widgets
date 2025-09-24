@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { DocumentRenderers } from "../components";
-import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "../components/documentRenderer";
+import {
+    DocRendererElement,
+    DocumentRendererProps,
+    DocumentStatus,
+    DocumentStatusEvent
+} from "../components/documentRenderer";
 import ErrorViewer from "../components/ErrorViewer";
 import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 interface DocumentRenderer {
@@ -11,7 +16,9 @@ interface DocumentRenderer {
 
 export function useRendererSelector(props: DocumentViewerContainerProps): DocumentRenderer {
     const { file } = props;
-    const [documentStatus, setDocumentStatus] = useState<DocumentStatus>(DocumentStatus.loading);
+    const [documentStatus, setDocumentStatus] = useState<DocumentStatusEvent>({
+        status: DocumentStatus.loading
+    });
     const [component, setComponent] = useState<DocRendererElement>(() => ErrorViewer);
     useEffect(() => {
         const controller = new AbortController();
@@ -44,7 +51,10 @@ export function useRendererSelector(props: DocumentViewerContainerProps): Docume
                     if (selectedRenderer.length > 0) {
                         setComponent(() => selectedRenderer[0]);
                     } else {
-                        setDocumentStatus(DocumentStatus.error);
+                        setDocumentStatus({
+                            status: DocumentStatus.error,
+                            message: "Unsupported document type"
+                        });
                     }
                 }
             });
@@ -56,10 +66,10 @@ export function useRendererSelector(props: DocumentViewerContainerProps): Docume
     }, [file, file?.status, file?.value?.uri]);
 
     useEffect(() => {
-        if (documentStatus === DocumentStatus.error) {
+        if (documentStatus.status === DocumentStatus.error) {
             setComponent(() => ErrorViewer);
         }
     }, [documentStatus]);
 
-    return { CurrentRenderer: component, props: { ...props, setDocumentStatus } };
+    return { CurrentRenderer: component, props: { ...props, setDocumentStatus, documentStatus } };
 }

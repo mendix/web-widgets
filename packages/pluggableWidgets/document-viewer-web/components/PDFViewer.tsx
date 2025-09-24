@@ -6,7 +6,7 @@ import { downloadFile } from "../utils/helpers";
 import { useZoomScale } from "../utils/useZoomScale";
 import BaseViewer from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
-
+import { If } from "@mendix/widget-plugin-component-kit/If";
 const options = {
     cMapUrl: "/widgets/com/mendix/shared/pdfjs/cmaps/",
     standardFontDataUrl: "/widgets/com/mendix/shared/pdfjs/standard_fonts"
@@ -21,10 +21,16 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
             } else {
                 return `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
             }
+        } else if (pdfjsWorkerUrl?.status === "unavailable") {
+            setDocumentStatus({
+                status: DocumentStatus.error,
+                message: "Failed to load PDF document : pdfjsWorker unavailable"
+            });
+            return ""; // no worker;
         } else {
             return ""; // no worker;
         }
-    }, [pdfjsWorkerUrl]);
+    }, [pdfjsWorkerUrl, setDocumentStatus]);
 
     const [numberOfPages, setNumberOfPages] = useState<number>(1);
     const { zoomLevel, zoomIn, zoomOut, reset } = useZoomScale();
@@ -105,20 +111,21 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                 </Fragment>
             }
         >
-            {!!pdfUrl && pdfjsWorkerUrl?.status === "available" ? (
+            <If condition={!!pdfUrl && pdfjsWorkerUrl?.status === "available"}>
                 <Document
                     file={pdfUrl}
                     options={options}
                     onLoadSuccess={onDocumentLoadSuccess}
-                    onLoadError={() => setDocumentStatus(DocumentStatus.error)}
+                    onLoadError={() =>
+                        setDocumentStatus({
+                            status: DocumentStatus.error,
+                            message: "Failed to load PDF document"
+                        })
+                    }
                 >
                     <Page pageNumber={currentPage} scale={zoomLevel} />
                 </Document>
-            ) : pdfjsWorkerUrl?.status === "unavailable" ? (
-                <div>{"PDF worker unavailable"}</div>
-            ) : (
-                <div className="widget-document-viewer-loading"></div>
-            )}
+            </If>
         </BaseViewer>
     );
 };

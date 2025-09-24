@@ -7,8 +7,14 @@ export declare const enum DocumentStatus {
     loading = "loading"
 }
 
+export interface DocumentStatusEvent {
+    status: DocumentStatus;
+    message?: string;
+}
+
 export interface DocumentRendererProps extends DocumentViewerContainerProps {
-    setDocumentStatus: (status: DocumentStatus) => void;
+    setDocumentStatus: (status: DocumentStatusEvent) => void;
+    documentStatus: DocumentStatusEvent;
 }
 
 export interface DocRendererElement extends FC<DocumentRendererProps> {

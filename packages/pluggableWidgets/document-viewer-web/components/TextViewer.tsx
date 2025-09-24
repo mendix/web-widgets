@@ -16,7 +16,7 @@ const TextViewer: DocRendererElement = (props: DocumentRendererProps) => {
                     setText(response);
                 })
                 .catch(() => {
-                    setDocumentStatus(DocumentStatus.error);
+                    setDocumentStatus({ status: DocumentStatus.error, message: "Failed to load text document" });
                 });
         }
 

@@ -15,7 +15,7 @@ const ExcelViewer: DocRendererElement = (props: DocumentRendererProps) => {
                 const html = utils.sheet_to_html(sheet);
                 setXlsxHtml(html);
             } catch (_error) {
-                setDocumentStatus(DocumentStatus.error);
+                setDocumentStatus({ status: DocumentStatus.error, message: "Failed to load XLSX document" });
             }
         },
         [setDocumentStatus]
