@@ -3,7 +3,7 @@ import { NumberStoreProvider } from "@mendix/widget-plugin-filtering/custom-filt
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { Big } from "big.js";
 import { AttributeMetaData } from "mendix";
-import { createElement, FC } from "react";
+import { FC } from "react";
 import { NumberFilterProps } from "../components/typings";
 
 interface RequiredProps {

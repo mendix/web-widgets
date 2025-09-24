@@ -1,7 +1,7 @@
 import { enableStaticRendering } from "mobx-react-lite";
 enableStaticRendering(true);
 
-import { createElement, ReactElement, useMemo, useRef } from "react";
+import { ReactElement, useMemo, useRef } from "react";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { InputWithFiltersComponent } from "@mendix/widget-plugin-filtering/controls";
 import { DatagridNumberFilterPreviewProps } from "../typings/DatagridNumberFilterProps";
