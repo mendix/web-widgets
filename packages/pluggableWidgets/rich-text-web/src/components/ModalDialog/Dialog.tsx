@@ -70,7 +70,7 @@ export default function Dialog(props: DialogProps): ReactElement {
     const { getFloatingProps } = useInteractions([click, dismiss, role]);
 
     return (
-        <FloatingPortal id="root">
+        <FloatingPortal>
             {isOpen && (
                 <Fragment>
                     <FloatingOverlay
