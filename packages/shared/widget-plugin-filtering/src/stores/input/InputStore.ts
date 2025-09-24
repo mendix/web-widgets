@@ -1,4 +1,5 @@
 import { action, makeObservable, observable } from "mobx";
+import { ChangeEvent } from "react";
 
 export class InputStore {
     value: string;
@@ -24,7 +25,7 @@ export class InputStore {
         this.isValid = value;
     }
 
-    onChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    onChange = (event: ChangeEvent<HTMLInputElement>): void => {
         this.setValue(event.target.value);
     };
 }
