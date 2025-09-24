@@ -1,4 +1,4 @@
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import { render } from "@testing-library/react";
 
 import { SizeContainer, SizeProps } from "../SizeContainer";
