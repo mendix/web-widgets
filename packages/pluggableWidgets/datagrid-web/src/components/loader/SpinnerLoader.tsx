@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 type SpinnerLoaderProps = {
     size?: "small" | "medium" | "large";

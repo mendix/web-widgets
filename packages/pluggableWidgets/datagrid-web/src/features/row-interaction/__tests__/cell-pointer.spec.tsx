@@ -1,15 +1,15 @@
-import { createElement } from "react";
-import userEvent, { UserEvent } from "@testing-library/user-event";
-import { render, RenderResult } from "@testing-library/react";
-import { createActionHandlers } from "../action-handlers";
-import { createSelectHandlers } from "../select-handlers";
-import { CellContext } from "../base";
-import { objectItems } from "@mendix/widget-plugin-test-utils";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
-import { SelectionMethod } from "../../../helpers/SelectActionHelper";
 import { ClickTrigger } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
+import { objectItems } from "@mendix/widget-plugin-test-utils";
+import { render, RenderResult } from "@testing-library/react";
+import userEvent, { UserEvent } from "@testing-library/user-event";
+import { ReactElement } from "react";
+import { SelectionMethod } from "../../../helpers/SelectActionHelper";
+import { createActionHandlers } from "../action-handlers";
+import { CellContext } from "../base";
+import { createSelectHandlers } from "../select-handlers";
 
-function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
+function setup(jsx: ReactElement): { user: UserEvent } & RenderResult {
     return {
         user: userEvent.setup(),
         ...render(jsx)

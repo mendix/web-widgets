@@ -1,7 +1,7 @@
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { ObjectItem } from "mendix";
-import { createElement } from "react";
+import { ReactElement } from "react";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
@@ -18,11 +18,11 @@ interface RowsRendererProps {
     preview: boolean;
     rowClass?: (item: ObjectItem) => string;
     rows: ObjectItem[];
-    selectableWrapper?: (column: number, children: React.ReactElement) => React.ReactElement;
+    selectableWrapper?: (column: number, children: ReactElement) => ReactElement;
     selectActionHelper: SelectActionHelper;
 }
 
-export function RowsRenderer(props: RowsRendererProps): React.ReactElement {
+export function RowsRenderer(props: RowsRendererProps): ReactElement {
     return (
         <KeyNavProvider focusController={props.focusController}>
             {props.rows.map((item, rowIndex) => {

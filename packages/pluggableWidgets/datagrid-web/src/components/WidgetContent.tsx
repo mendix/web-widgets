@@ -1,10 +1,10 @@
 import classNames from "classnames";
-import { createElement, ReactElement, ReactNode } from "react";
+import { CSSProperties, ReactElement, ReactNode } from "react";
 
 export type WidgetContentProps = {
     className?: string;
     children?: ReactNode;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
 };
 
 export function WidgetContent({ children, className }: WidgetContentProps): ReactElement {
