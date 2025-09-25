@@ -1,4 +1,4 @@
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import { Tooltip as DisplayTooltip } from "./components/Tooltip";
 import { TooltipContainerProps } from "../typings/TooltipProps";
 import { translatePosition } from "./utils";

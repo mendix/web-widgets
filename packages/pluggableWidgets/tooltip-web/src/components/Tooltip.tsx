@@ -1,6 +1,6 @@
 import { Placement } from "@floating-ui/react";
 import classNames from "classnames";
-import { createElement, CSSProperties, ReactElement, ReactNode, useState } from "react";
+import { CSSProperties, ReactElement, ReactNode, useState } from "react";
 import { OpenOnEnum, RenderMethodEnum } from "../../typings/TooltipProps";
 import { useFloatingUI } from "../utils/useFloatingUI";
 
