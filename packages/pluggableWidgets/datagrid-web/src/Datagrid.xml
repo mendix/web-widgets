@@ -244,7 +244,7 @@
                         <enumerationValue key="both">Both</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="selectionCountVisibility" type="enumeration" defaultValue="bottom" required="true">
+                <property key="selectionCountPosition" type="enumeration" defaultValue="bottom" required="true">
                     <caption>Show selection count</caption>
                     <description />
                     <enumerationValues>

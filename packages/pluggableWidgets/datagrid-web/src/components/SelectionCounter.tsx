@@ -3,19 +3,25 @@ import { observer } from "mobx-react-lite";
 import { createElement } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
+type SelectionCounterLocation = "top" | "bottom" | undefined;
+
 export const SelectionCounter = observer(function SelectionCounter({
-    clearSelectionButtonLabel
+    location
 }: {
-    clearSelectionButtonLabel?: string;
+    location?: SelectionCounterLocation;
 }) {
     const { selectionCountStore, selectActionHelper } = useDatagridRootScope();
 
+    const containerClass = location === "top" ? "widget-datagrid-tb-start" : "widget-datagrid-pb-start";
+
     return (
         <If condition={selectionCountStore.displayCount !== ""}>
-            <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>&nbsp;|&nbsp;
-            <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
-                {clearSelectionButtonLabel || "Clear selection"}
-            </button>
+            <div className={containerClass}>
+                <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>&nbsp;|&nbsp;
+                <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
+                    {selectionCountStore.clearButtonLabel}
+                </button>
+            </div>
         </If>
     );
 });
