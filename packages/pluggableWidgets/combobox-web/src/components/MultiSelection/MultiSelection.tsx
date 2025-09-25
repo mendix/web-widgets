@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { createElement, Fragment, KeyboardEvent, ReactElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
-import { getInputLabel, getSelectedCaptionsPlaceholder } from "../../helpers/utils";
+import { getInputLabel, getSelectedCaptionsPlaceholder, getValidationErrorId } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
@@ -38,6 +38,7 @@ export function MultiSelection({
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
     const inputLabel = getInputLabel(options.inputId);
+    const errorId = getValidationErrorId(options.inputId);
     const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
     const inputProps = getInputProps({
         ...getDropdownProps(
@@ -86,7 +87,6 @@ export function MultiSelection({
         readOnly: selector.readOnly
     });
 
-    const errorId = options.inputId ? options.inputId + "-validation-message" : undefined;
     return (
         <Fragment>
             <ComboboxWrapper

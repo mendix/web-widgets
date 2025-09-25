@@ -153,3 +153,7 @@ function sortSelections(
 export function getInputLabel(inputId: string): Element | null {
     return document.querySelector(`label[for="${inputId}"]`);
 }
+
+export function getValidationErrorId(inputId?: string): string | undefined {
+    return inputId ? inputId + "-validation-message" : undefined;
+}

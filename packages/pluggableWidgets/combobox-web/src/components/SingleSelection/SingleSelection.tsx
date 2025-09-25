@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { createElement, Fragment, ReactElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
-import { getInputLabel } from "../../helpers/utils";
+import { getInputLabel, getValidationErrorId } from "../../helpers/utils";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
@@ -29,7 +29,6 @@ export function SingleSelection({
         highlightedIndex
     } = useDownshiftSingleSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
-    const errorId = options.inputId ? options.inputId + "-validation-message" : undefined;
     const lazyLoading = selector.lazyLoading ?? false;
     const { onScroll } = useLazyLoading({
         hasMoreItems: selector.options.hasMore ?? false,
@@ -58,6 +57,7 @@ export function SingleSelection({
     );
 
     const inputLabel = getInputLabel(options.inputId);
+    const errorId = getValidationErrorId(options.inputId);
     const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
 
     const inputProps = getInputProps(
