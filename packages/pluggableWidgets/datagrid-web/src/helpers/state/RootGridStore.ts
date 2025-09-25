@@ -34,6 +34,7 @@ type RequiredProps = Pick<
     | "pagination"
     | "showPagingButtons"
     | "showNumberOfRows"
+    | "clearSelectionButtonLabel"
 >;
 
 type Gate = DerivedPropsGate<RequiredProps>;
