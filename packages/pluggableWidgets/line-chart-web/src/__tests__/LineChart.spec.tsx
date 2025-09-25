@@ -11,7 +11,6 @@ import { EditableValueBuilder, list, ListAttributeValueBuilder, listExp } from "
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
 import Big from "big.js";
-import { createElement } from "react";
 import { LinesType } from "../../typings/LineChartProps";
 import { LineChart } from "../LineChart";
 
@@ -36,100 +35,66 @@ describe("The LineChart widget", () => {
             />
         );
     }
+
     it("visualizes data as a line chart", () => {
         renderLineChart([{}]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        type: "scatter"
-                    })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const firstCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(firstCallProps.data).toHaveLength(1);
+        expect(firstCallProps.data[0].type).toEqual("scatter");
     });
 
     it("sets the mode on the data series based on the lineStyle value", () => {
         renderLineChart([{ lineStyle: "lineWithMarkers" }, { lineStyle: "line" }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({ mode: "lines+markers" }),
-                    expect.objectContaining({ mode: "lines" })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const firstCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(firstCallProps.data).toHaveLength(2);
+        expect(firstCallProps.data[0].mode).toEqual("lines+markers");
+        expect(firstCallProps.data[1].mode).toEqual("lines");
     });
 
     it("sets the line shape on the data series based on the interpolation value", () => {
         renderLineChart([{ interpolation: "linear" }, { interpolation: "spline" }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({ line: expect.objectContaining({ shape: "linear" }) }),
-                    expect.objectContaining({ line: expect.objectContaining({ shape: "spline" }) })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const firstCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(firstCallProps.data).toHaveLength(2);
+        expect(firstCallProps.data[0].line.shape).toEqual("linear");
+        expect(firstCallProps.data[1].line.shape).toEqual("spline");
     });
 
     it("sets the line color on the data series based on the lineColor value", () => {
         renderLineChart([{ staticLineColor: listExp(() => "red") }, { staticLineColor: undefined }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({ line: expect.objectContaining({ color: "red" }) }),
-                    expect.objectContaining({ line: expect.objectContaining({ color: undefined }) })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const firstCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(firstCallProps.data).toHaveLength(2);
+        expect(firstCallProps.data[0].line.color).toEqual("red");
+        expect(firstCallProps.data[1].line.color).toBeUndefined();
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
         renderLineChart([{ staticMarkerColor: undefined }, { staticMarkerColor: listExp(() => "blue") }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({ marker: expect.objectContaining({ color: undefined }) }),
-                    expect.objectContaining({ marker: expect.objectContaining({ color: "blue" }) })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const firstCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(firstCallProps.data).toHaveLength(2);
+        expect(firstCallProps.data[0].marker.color).toBeUndefined();
+        expect(firstCallProps.data[1].marker.color).toEqual("blue");
     });
 
     it("aggregates data based on the aggregation type", () => {
         renderLineChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        x: expect.arrayContaining([expect.any(Number)]),
-                        y: expect.arrayContaining([expect.any(Number)])
-                    }),
-                    expect.objectContaining({
-                        x: expect.arrayContaining([expect.any(Number)]),
-                        y: expect.arrayContaining([expect.any(Number)])
-                    })
-                ])
-            }),
-            {}
-        );
-
-        renderLineChart([{ aggregationType: "none" }, { aggregationType: "avg" }]);
         const mockCalls = (ChartWidget as jest.Mock).mock.calls;
-        const lastCallProps = mockCalls[mockCalls.length - 1][0];
-        expect(lastCallProps.data).toHaveLength(2);
+        const firstCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(firstCallProps.data).toHaveLength(2);
+        expect(firstCallProps.data[0].x).toHaveLength(2);
+        expect(firstCallProps.data[0].y).toHaveLength(2);
+        expect(firstCallProps.data[0].x).toEqual([1, 2]);
+        expect(firstCallProps.data[0].y).toEqual([3, 6]);
     });
 });
 
