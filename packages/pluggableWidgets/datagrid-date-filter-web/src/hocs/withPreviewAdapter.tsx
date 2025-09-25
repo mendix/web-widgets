@@ -1,8 +1,8 @@
-import { useMemo } from "react";
+import { ReactElement, useMemo } from "react";
 import { FilterComponent } from "../components/FilterComponent";
 import { DatagridDateFilterPreviewProps } from "../../typings/DatagridDateFilterProps";
 
-type PreviewAdapter = (props: DatagridDateFilterPreviewProps) => React.ReactElement;
+type PreviewAdapter = (props: DatagridDateFilterPreviewProps) => ReactElement;
 
 export function withPreviewAdapter(Component: FilterComponent): PreviewAdapter {
     return function PreviewAdapter(props) {
