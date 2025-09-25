@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
-import { createElement } from "react";
 import { GoogleMapContainer, GoogleMapsProps } from "../GoogleMap";
 import { initialize } from "@googlemaps/jest-mocks";
 

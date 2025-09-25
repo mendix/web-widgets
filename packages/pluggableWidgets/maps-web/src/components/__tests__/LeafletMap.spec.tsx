@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
-import { createElement } from "react";
 import { LeafletMap, LeafletProps } from "../LeafletMap";
 
 describe("Leaflet maps", () => {

@@ -1,4 +1,4 @@
-import { createElement, ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { MapSwitcher } from "./components/MapSwitcher";
 
 import { MapsContainerProps } from "../typings/MapsProps";
