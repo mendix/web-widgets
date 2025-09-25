@@ -1,4 +1,4 @@
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import { RangeSliderContainerProps } from "../typings/RangeSliderProps";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
