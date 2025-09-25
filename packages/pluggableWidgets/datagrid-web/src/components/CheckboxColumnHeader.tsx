@@ -23,18 +23,19 @@ export function CheckboxColumnHeader(): ReactElement {
                 return;
             }
 
-            if (selectActionHelper.canSelectAllPages && selectionStatus !== "none") {
-                // Toggle off still uses normal flow
-                onSelectAll();
+            // When multi-page selection is enabled, handle both select and unselect across all pages
+            if (selectActionHelper.canSelectAllPages) {
+                if (selectionStatus === "none") {
+                    // Select all pages
+                    await rootStore?.startMultiPageSelectAll(selectActionHelper);
+                } else {
+                    // Unselect all pages (both "all" and "some" states)
+                    await rootStore?.clearAllPages();
+                }
                 return;
             }
 
-            if (selectActionHelper.canSelectAllPages && selectionStatus === "none") {
-                // Delegate to root store orchestration
-                await rootStore?.startMultiPageSelectAll(selectActionHelper);
-                return;
-            }
-
+            // Fallback to normal single-page toggle
             onSelectAll();
         };
 

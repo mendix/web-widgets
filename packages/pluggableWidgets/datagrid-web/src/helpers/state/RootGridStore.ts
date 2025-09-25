@@ -4,6 +4,7 @@ import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
 import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
 import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
+import { clearAllPages, selectAllPages } from "@mendix/widget-plugin-grid/selection/select-all-pages";
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
@@ -17,11 +18,10 @@ import { DerivedLoaderController } from "../../controllers/DerivedLoaderControll
 import { PaginationController } from "../../controllers/PaginationController";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { SelectAllProgressStore } from "../../features/multi-page-selection/SelectAllProgressStore";
-import { MultiPageSelectionController } from "../../features/multi-page-selection/MultiPageSelectionController";
 import { StaticInfo } from "../../typings/static-info";
+import { SelectActionHelper } from "../SelectActionHelper";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
-import { SelectActionHelper } from "../SelectActionHelper";
 
 type RequiredProps = Pick<
     DatagridContainerProps,
@@ -56,7 +56,8 @@ export class RootGridStore extends BaseControllerHost {
     staticInfo: StaticInfo;
     exportProgressCtrl: ProgressStore;
     selectAllProgressStore: SelectAllProgressStore;
-    multiPageSelectionCtrl: MultiPageSelectionController;
+    private selectAllAbortController?: AbortController;
+    private selectAllLocked = false;
     loaderCtrl: DerivedLoaderController;
     paginationCtrl: PaginationController;
     readonly filterAPI: FilterAPI;
@@ -104,11 +105,6 @@ export class RootGridStore extends BaseControllerHost {
 
         this.selectAllProgressStore = new SelectAllProgressStore();
 
-        this.multiPageSelectionCtrl = new MultiPageSelectionController(this, {
-            query,
-            progressStore: this.selectAllProgressStore
-        });
-
         new DatasourceParamsController(this, {
             query,
             filterHost: combinedFilter,
@@ -147,33 +143,45 @@ export class RootGridStore extends BaseControllerHost {
     }
 
     async startMultiPageSelectAll(selectActionHelper: SelectActionHelper): Promise<void> {
-        const ds = this.gate.props.datasource;
-        const selectionHelper = this.basicData.currentSelectionHelper;
-
-        if (!selectionHelper) {
+        if (this.selectAllLocked) {
             return;
         }
 
         // Check if multi-page selection is possible
-        const canSelect = this.multiPageSelectionCtrl.canSelectAllPages(
-            selectActionHelper.canSelectAllPages,
-            selectActionHelper.selectionType
-        );
+        const canSelect = selectActionHelper.canSelectAllPages;
 
         if (!canSelect) {
             selectActionHelper.onSelectAll("selectAll");
             return;
         }
 
-        // Delegate to the controller
-        const success = await this.multiPageSelectionCtrl.selectAllPages(ds, selectionHelper);
+        this.selectAllLocked = true;
+        this.selectAllAbortController = new AbortController();
+        const success = await selectAllPages({
+            query: this.query as QueryController,
+            gate: this.gate as any,
+            progress: this.selectAllProgressStore,
+            bufferSize: selectActionHelper.selectAllPagesBufferSize,
+            signal: this.selectAllAbortController.signal
+        });
 
         if (!success) {
             selectActionHelper.onSelectAll("selectAll");
         }
+        this.selectAllLocked = false;
+        this.selectAllAbortController = undefined;
+    }
+
+    async clearAllPages(): Promise<void> {
+        clearAllPages(this.gate);
     }
 
     abortMultiPageSelect(): void {
-        this.multiPageSelectionCtrl.abort();
+        if (this.selectAllAbortController) {
+            this.selectAllAbortController.abort();
+            this.selectAllProgressStore.oncancel();
+            this.selectAllLocked = false;
+            this.selectAllAbortController = undefined;
+        }
     }
 }
