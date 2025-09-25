@@ -1,11 +1,11 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
-import { createRef } from "react";
+import { BaseSyntheticEvent, ClassAttributes, createRef, KeyboardEventHandler, MouseEventHandler } from "react";
 import { isDate } from "date-fns/isDate";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
 import { Date_InputFilterInterface, FilterFn } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
 
-interface DatePickerBackendProps extends ReactDatePickerProps, React.ClassAttributes<ReactDatePicker> {}
+interface DatePickerBackendProps extends ReactDatePickerProps, ClassAttributes<ReactDatePicker> {}
 
 interface PickerState {
     startDate: Date | undefined;
@@ -92,13 +92,13 @@ export class DatePickerController {
     };
 
     /** We use mouse down to avoid race condition with calendar "outside click" event. */
-    handleButtonMouseDown: React.MouseEventHandler = () => {
+    handleButtonMouseDown: MouseEventHandler = () => {
         if (this.expanded === false) {
             this._setActive();
         }
     };
 
-    handleButtonKeyDown: React.KeyboardEventHandler = e => {
+    handleButtonKeyDown: KeyboardEventHandler = e => {
         if (e.code === "Enter" || e.code === "Space") {
             e.preventDefault();
             e.stopPropagation();
@@ -106,7 +106,7 @@ export class DatePickerController {
         }
     };
 
-    handleKeyDown: React.KeyboardEventHandler = event => {
+    handleKeyDown: KeyboardEventHandler = event => {
         // Clear value on "Backspace" in range mode. Works only when focused on input.
         if (
             this._selectsRange &&
@@ -149,7 +149,7 @@ export class DatePickerController {
      * This method is just UX tweak that should prevent user confusion and have very low
      * value in widget behavior. Feel free to remove this method if you refactoring code.
      */
-    UNSAFE_handleChangeRaw = (event: React.BaseSyntheticEvent): void => {
+    UNSAFE_handleChangeRaw = (event: BaseSyntheticEvent): void => {
         if (event.type === "change" && this._selectsRange) {
             event.preventDefault();
         }

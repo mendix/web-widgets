@@ -1,6 +1,7 @@
 import { useDateSync } from "@mendix/widget-plugin-filtering/helpers/useDateSync";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { observer } from "mobx-react-lite";
+import { ReactElement } from "react";
 import { DatagridDateFilterContainerProps } from "../../typings/DatagridDateFilterProps";
 import { useActionEvents } from "../helpers/useActionEvents";
 import { useSetup } from "../helpers/useSetup";
@@ -11,7 +12,7 @@ interface ContainerProps extends DatagridDateFilterContainerProps {
     parentChannelName?: string;
 }
 
-export const DateFilterContainer: (props: ContainerProps) => React.ReactElement = observer(function Container(props) {
+export const DateFilterContainer: (props: ContainerProps) => ReactElement = observer(function Container(props) {
     const staticProps = useSetup({
         defaultEndValue: props.defaultEndDate?.value,
         defaultFilter: props.defaultFilter,

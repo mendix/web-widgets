@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment, ReactElement, useState } from "react";
+import { Fragment, KeyboardEventHandler, MouseEventHandler, ReactElement, RefObject, useState } from "react";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarIcon from "./CalendarIcon";
@@ -26,10 +26,10 @@ export interface DatePickerProps extends InheritedProps {
     placeholder?: string;
     screenReaderCalendarCaption?: string;
     screenReaderInputCaption?: string;
-    pickerRef?: React.RefObject<ReactDatePicker<undefined, undefined> | null>;
+    pickerRef?: RefObject<ReactDatePicker<undefined, undefined> | null>;
     expanded: boolean;
-    onButtonMouseDown?: React.MouseEventHandler<HTMLButtonElement>;
-    onButtonKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
+    onButtonMouseDown?: MouseEventHandler<HTMLButtonElement>;
+    onButtonKeyDown?: KeyboardEventHandler<HTMLButtonElement>;
 }
 
 export function DatePicker(props: DatePickerProps): ReactElement {
