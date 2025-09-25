@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { ReactElement, useCallback } from "react";
+import { MouseEvent, ReactElement, useCallback } from "react";
 import Modal, { ModalProps, RenderModalBackdropProps } from "react-overlays/Modal";
 
 import closeIconSvg from "../assets/ic24-close.svg";
@@ -13,7 +13,7 @@ export interface LightboxProps {
 export interface RenderBackdropWithCloseProps extends RenderModalBackdropProps {
     // `event` is optional here because `ModalProps['onHide'] does not require it, but is
     // preceeded by `ModalProps['onBackdropClick']` that will prevent the event propagation.
-    onClose: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onClose: (event?: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void;
 }
 
 /**
