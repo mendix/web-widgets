@@ -13,7 +13,11 @@ exports[`Markdown widget renders markdown widget 1`] = `
   <div
     class="widget-markdown"
   >
-    Markdown viewer default value
+    <p>
+      Markdown viewer default value
+    </p>
+    
+
   </div>
 </div>
 `;
