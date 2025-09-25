@@ -11,7 +11,6 @@ import { dynamic, EditableValueBuilder, list, ListAttributeValueBuilder } from "
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
 import Big from "big.js";
-import { createElement } from "react";
 import { LinesType, TimeSeriesContainerProps } from "../../typings/TimeSeriesProps";
 import { TimeSeries } from "../TimeSeries";
 
@@ -45,134 +44,83 @@ describe("The TimeSeries widget", () => {
     it("visualizes data as a line chart", () => {
         renderTimeSeries([{}]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                seriesOptions: expect.objectContaining({
-                    type: "scatter"
-                })
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.seriesOptions.type).toEqual("scatter");
     });
 
     it("sets the mode on the data series based on the lineStyle value", () => {
         renderTimeSeries([{ lineStyle: "lineWithMarkers" }, { lineStyle: "line" }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({ mode: "lines+markers" }),
-                    expect.objectContaining({ mode: "lines" })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data[0].mode).toEqual("lines+markers");
+        expect(lastCallProps.data[1].mode).toEqual("lines");
     });
 
     it("sets the line shape on the data series based on the interpolation value", () => {
         renderTimeSeries([{ interpolation: "linear" }, { interpolation: "spline" }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({ line: expect.objectContaining({ shape: "linear" }) }),
-                    expect.objectContaining({ line: expect.objectContaining({ shape: "spline" }) })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data[0].line.shape).toEqual("linear");
+        expect(lastCallProps.data[1].line.shape).toEqual("spline");
     });
 
     it("sets the line color on the data series based on the lineColor value", () => {
         renderTimeSeries([{ lineColor: dynamic("red") }, { lineColor: undefined }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({ line: expect.objectContaining({ color: "red" }) }),
-                    expect.objectContaining({ line: expect.objectContaining({ color: undefined }) })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data[0].line.color).toEqual("red");
+        expect(lastCallProps.data[1].line.color).toBeUndefined();
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
         renderTimeSeries([{ markerColor: undefined }, { markerColor: dynamic("blue") }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({ marker: expect.objectContaining({ color: undefined }) }),
-                    expect.objectContaining({ marker: expect.objectContaining({ color: "blue" }) })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data[0].marker.color).toBeUndefined();
+        expect(lastCallProps.data[1].marker.color).toEqual("blue");
     });
 
     it("aggregates data based on the aggregation type", () => {
         renderTimeSeries([{ aggregationType: "none" }, { aggregationType: "avg" }]);
 
-        expect(ChartWidget).toHaveBeenCalledTimes(2);
-        expect(ChartWidget).toHaveBeenLastCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        x: expect.arrayContaining([expect.any(Date)]),
-                        y: expect.arrayContaining([expect.any(Number)])
-                    }),
-                    expect.objectContaining({
-                        x: expect.arrayContaining([expect.any(String)]),
-                        y: expect.arrayContaining([expect.any(Number)])
-                    })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data[0].x).toEqual([new Date("2022-01-01"), new Date("2022-01-02")]);
+        expect(lastCallProps.data[0].y).toEqual([3, 6]);
+        expect(lastCallProps.data[1].x).toEqual([
+            new Date("2022-01-01").toISOString(),
+            new Date("2022-01-02").toISOString()
+        ]);
+        expect(lastCallProps.data[1].y).toEqual([3, 6]);
     });
 
     it("sets the area fill color on the data series based on fillColor", () => {
         renderTimeSeries([{ fillColor: dynamic("red") }]);
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([expect.objectContaining({ fillcolor: "red" })])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data[0].fillcolor).toEqual("red");
     });
 
     it("sets rangeslider visibility on the layout configuration based on showRangeSlider", () => {
         renderTimeSeries([], { showRangeSlider: true });
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                layoutOptions: expect.objectContaining({
-                    xaxis: expect.objectContaining({
-                        rangeslider: expect.objectContaining({
-                            visible: true
-                        })
-                    })
-                })
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.layoutOptions.xaxis.rangeslider.visible).toBe(true);
     });
 
     it("sets yaxis rangemode on the layout configuration based on yAxisRangeMode", () => {
         renderTimeSeries([], { yAxisRangeMode: "nonnegative" });
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                layoutOptions: expect.objectContaining({
-                    yaxis: expect.objectContaining({
-                        rangemode: "nonnegative"
-                    })
-                })
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.layoutOptions.yaxis.rangemode).toBe("nonnegative");
     });
 });
 
