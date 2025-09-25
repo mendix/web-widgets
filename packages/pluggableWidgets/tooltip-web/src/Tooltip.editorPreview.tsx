@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 import { Tooltip } from "./components/Tooltip";
 import { TooltipPreviewProps } from "../typings/TooltipProps";
