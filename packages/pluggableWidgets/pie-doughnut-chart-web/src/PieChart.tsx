@@ -1,7 +1,7 @@
 import { ChartWidget, ChartWidgetProps } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { PieChartContainerProps } from "../typings/PieChartProps";
 import { usePieChartDataSeries } from "./hooks/data";
 import "./ui/PieChart.scss";
