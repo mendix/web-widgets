@@ -53,7 +53,7 @@ export type ShowPagingButtonsEnum = "always" | "auto";
 
 export type PagingPositionEnum = "bottom" | "top" | "both";
 
-export type SelectionCountVisibilityEnum = "top" | "bottom" | "off";
+export type SelectionCountPositionEnum = "top" | "bottom" | "off";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
@@ -107,7 +107,7 @@ export interface DatagridContainerProps {
     showPagingButtons: ShowPagingButtonsEnum;
     showNumberOfRows: boolean;
     pagingPosition: PagingPositionEnum;
-    selectionCountVisibility: SelectionCountVisibilityEnum;
+    selectionCountPosition: SelectionCountPositionEnum;
     clearSelectionButtonLabel?: DynamicValue<string>;
     loadMoreButtonCaption?: DynamicValue<string>;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
@@ -161,7 +161,7 @@ export interface DatagridPreviewProps {
     showPagingButtons: ShowPagingButtonsEnum;
     showNumberOfRows: boolean;
     pagingPosition: PagingPositionEnum;
-    selectionCountVisibility: SelectionCountVisibilityEnum;
+    selectionCountPosition: SelectionCountPositionEnum;
     clearSelectionButtonLabel: string;
     loadMoreButtonCaption: string;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;

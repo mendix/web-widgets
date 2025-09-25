@@ -1,43 +1,24 @@
 import { createElement, ReactElement, ReactNode } from "react";
-import { PaginationEnum, SelectionCountVisibilityEnum } from "../../typings/DatagridProps";
-import { SelectionCounter } from "./SelectionCounter";
+import { PaginationEnum } from "../../typings/DatagridProps";
 
 type WidgetFooterProps = {
     pagination: ReactNode;
+    selectionCount: ReactNode;
     paginationType: PaginationEnum;
     loadMoreButtonCaption?: string;
-    clearSelectionButtonLabel?: string;
-    selectionCountVisibility?: SelectionCountVisibilityEnum;
     hasMoreItems: boolean;
-    showFooter: boolean;
-    selectedCount: number;
     setPage?: (computePage: (prevPage: number) => number) => void;
 } & JSX.IntrinsicElements["div"];
 
 export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
-    const {
-        pagination,
-        paginationType,
-        loadMoreButtonCaption,
-        clearSelectionButtonLabel,
-        selectionCountVisibility,
-        hasMoreItems,
-        setPage,
-        showFooter,
-        selectedCount,
-        ...rest
-    } = props;
+    const { pagination, selectionCount, paginationType, loadMoreButtonCaption, hasMoreItems, setPage, ...rest } = props;
 
     return (
         <div {...rest} className="widget-datagrid-footer table-footer">
             <div className="widget-datagrid-paging-bottom">
-                {selectionCountVisibility === "bottom" && selectedCount > 0 && (
-                    <div className="widget-datagrid-pb-start">
-                        <SelectionCounter clearSelectionButtonLabel={clearSelectionButtonLabel} />
-                    </div>
-                )}
+                {selectionCount}
                 <div className="widget-datagrid-pb-end">
-                    {showFooter && pagination}
+                    {pagination}
                     {hasMoreItems && paginationType === "loadMore" && (
                         <button
                             className="btn btn-primary widget-datagrid-load-more"
