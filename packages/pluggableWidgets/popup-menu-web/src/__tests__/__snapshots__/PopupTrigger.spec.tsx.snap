@@ -3,7 +3,7 @@
 exports[`Popup Trigger renders popup trigger 1`] = `
 <DocumentFragment>
   <div
-    aria-controls=":r0:"
+    aria-controls="«r0»"
     aria-expanded="true"
     aria-haspopup="dialog"
     class="popupmenu-trigger"

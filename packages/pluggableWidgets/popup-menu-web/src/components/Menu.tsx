@@ -1,7 +1,7 @@
 import { FloatingFocusManager, useMergeRefs } from "@floating-ui/react";
 import classNames from "classnames";
 import { ActionValue } from "mendix";
-import { createElement, forwardRef, ReactElement, RefObject } from "react";
+import { forwardRef, ReactElement, RefObject } from "react";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps } from "../../typings/PopupMenuProps";
 import { usePopupContext } from "../hooks/usePopupContext";
 
