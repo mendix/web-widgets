@@ -5,7 +5,7 @@ export function elementHasNestedTreeNode(element: HTMLDivElement | null): boolea
 }
 
 export const useTreeNodeLazyLoading = (
-    treeNodeBranchBody: RefObject<HTMLDivElement>
+    treeNodeBranchBody: RefObject<HTMLDivElement | null>
 ): {
     hasNestedTreeNode: () => boolean;
 } => {

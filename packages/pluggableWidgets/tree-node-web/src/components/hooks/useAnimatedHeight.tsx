@@ -1,14 +1,14 @@
 import { RefObject, useCallback, useRef, useState } from "react";
 
 export const useAnimatedTreeNodeContentHeight = (
-    treeNodeBranchBody: RefObject<HTMLDivElement>
+    treeNodeBranchBody: RefObject<HTMLDivElement | null>
 ): {
     isAnimating: boolean;
     captureElementHeight: () => void;
     animateTreeNodeContent: () => (() => void) | undefined;
     cleanupAnimation: () => void;
 } => {
-    const currentElementHeight = useRef<number>();
+    const currentElementHeight = useRef<number>(undefined);
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
     const captureElementHeight = useCallback(() => {

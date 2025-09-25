@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import {
-    createElement,
     HTMLAttributes,
     ReactElement,
     ReactEventHandler,
