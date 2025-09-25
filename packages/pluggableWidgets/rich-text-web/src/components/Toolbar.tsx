@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import Quill from "quill";
-import { createElement, CSSProperties, forwardRef, ReactElement, RefObject } from "react";
+import { createElement, CSSProperties, forwardRef, KeyboardEvent, ReactElement, RefObject } from "react";
 import { CustomFontsType, PresetEnum } from "../../typings/RichTextProps";
 import { formatCustomFonts } from "../utils/formats/fonts";
 import { FormatsContainer, presetToNumberConverter, ToolbarContext } from "./CustomToolbars/ToolbarWrapper";
@@ -15,7 +15,7 @@ export interface ToolbarProps {
     toolbarContent: toolbarContentType[];
 }
 
-const ToolbarKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
+const ToolbarKeyDownHandler = (e: KeyboardEvent<HTMLDivElement>): void => {
     const activeElement = document.activeElement as HTMLElement;
     const parentElement = activeElement?.parentElement;
     if (!parentElement?.classList.contains("ql-formats")) {

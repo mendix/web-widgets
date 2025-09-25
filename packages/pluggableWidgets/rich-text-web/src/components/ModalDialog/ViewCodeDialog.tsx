@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback, useState } from "react";
+import { ReactElement, useCallback, useState } from "react";
 import { type viewCodeConfigType } from "../../utils/formats";
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 import CodeMirror, { ViewUpdate } from "@uiw/react-codemirror";

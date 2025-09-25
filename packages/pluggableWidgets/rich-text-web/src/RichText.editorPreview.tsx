@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import RichTextPreviewSVG from "./assets/rich-text-preview-light.svg";
 import { RichTextPreviewProps } from "../typings/RichTextProps";
 

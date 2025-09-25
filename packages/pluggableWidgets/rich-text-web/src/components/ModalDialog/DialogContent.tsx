@@ -1,6 +1,6 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import classNames from "classnames";
-import { createElement, Fragment, PropsWithChildren, ReactElement } from "react";
+import { Fragment, PropsWithChildren, ReactElement } from "react";
 
 interface PropsWithChildrenWithClass extends PropsWithChildren {
     className?: string;
