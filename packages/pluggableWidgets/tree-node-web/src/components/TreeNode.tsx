@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ObjectItem, WebIcon } from "mendix";
-import { createElement, CSSProperties, ReactElement, ReactNode, useCallback, useContext } from "react";
+import { CSSProperties, ReactElement, ReactNode, useCallback, useContext } from "react";
 
 import { OpenNodeOnEnum, TreeNodeContainerProps } from "../../typings/TreeNodeProps";
 
