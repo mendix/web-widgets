@@ -1,12 +1,11 @@
 import "@testing-library/jest-dom";
 import { actionValue, EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
-import { fireEvent, render } from "@testing-library/react";
-import { createElement } from "react";
+import { fireEvent, render, RenderResult } from "@testing-library/react";
 import { SwitchContainerProps } from "../../typings/SwitchProps";
 import { Switch } from "../Switch";
 
 describe("Switch", () => {
-    const renderSwitch = (props: SwitchContainerProps) => {
+    const renderSwitch = (props: SwitchContainerProps): RenderResult => {
         return render(<Switch {...props} />);
     };
     const createProps = (props?: Partial<SwitchContainerProps>): SwitchContainerProps => {
