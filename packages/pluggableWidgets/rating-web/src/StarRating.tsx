@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback } from "react";
+import { ReactElement, useCallback } from "react";
 import { Rating as RatingComponent } from "./components/Rating";
 import { ValueStatus } from "mendix";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
