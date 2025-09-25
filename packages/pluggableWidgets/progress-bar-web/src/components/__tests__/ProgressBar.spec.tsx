@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { ProgressBar, ProgressBarProps } from "../ProgressBar";
 
 describe("Progress bar", () => {
