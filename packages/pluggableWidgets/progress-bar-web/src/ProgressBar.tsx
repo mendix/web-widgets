@@ -1,4 +1,4 @@
-import { createElement, FunctionComponent, useCallback } from "react";
+import { FunctionComponent, useCallback } from "react";
 import { ProgressBarContainerProps } from "../typings/ProgressBarProps";
 import { ProgressBar as ProgressBarComponent } from "./components/ProgressBar";
 import { defaultValues, ProgressBarValues } from "./progressBarValues";
