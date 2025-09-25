@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback, useContext } from "react";
+import { ReactElement, useCallback, useContext } from "react";
 import { ToolbarButton } from "./ToolbarWrapper";
 import { CustomToolbarProps } from "./customToolbars";
 import { ACTION_DISPATCHER } from "../../utils/helpers";

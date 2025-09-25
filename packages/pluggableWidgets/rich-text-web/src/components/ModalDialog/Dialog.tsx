@@ -10,7 +10,7 @@ import {
 } from "@floating-ui/react";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import classNames from "classnames";
-import { createElement, Fragment, ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import LinkDialog, { LinkDialogProps } from "./LinkDialog";
 import VideoDialog, { VideoDialogProps } from "./VideoDialog";
 import ViewCodeDialog, { ViewCodeDialogProps } from "./ViewCodeDialog";
