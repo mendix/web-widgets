@@ -1,5 +1,5 @@
-import { ListValue, ObjectItem } from "mendix";
-import { MultiSelectionHelper, SelectionHelper } from "./helpers";
+import { ObjectItem } from "mendix";
+import { SelectionHelper } from "./helpers";
 import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType, WidgetSelectionProperty } from "./types";
 
 export class SelectActionHandler {
@@ -74,28 +74,6 @@ export class SelectActionHandler {
             this.selectionHelper.selectAll();
         }
     };
-
-    /**
-     * Selects all items across multiple pages
-     * @param datasource The data source to load items from
-     * @param bufferSize The batch size for loading items
-     * @param onProgress Progress callback
-     * @param abortSignal Cancellation signal
-     */
-    async onSelectAllPages(
-        datasource: ListValue,
-        bufferSize: number,
-        onProgress?: (loaded: number, total: number) => void,
-        abortSignal?: AbortSignal
-    ): Promise<void> {
-        if (!this.selectionHelper || this.selectionHelper.type !== "Multi") {
-            console.warn("Datagrid: selectAllPages requires Multi selection mode");
-            return;
-        }
-
-        const multiHelper = this.selectionHelper as MultiSelectionHelper;
-        await multiHelper.selectAllPages(datasource, bufferSize, onProgress, abortSignal);
-    }
 
     onSelectAdjacent: SelectAdjacentFx = (...params) => {
         if (this.selectionHelper?.type === "Multi") {
