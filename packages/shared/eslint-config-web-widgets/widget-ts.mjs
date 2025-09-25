@@ -31,6 +31,13 @@ export default tseslint.config(
             "no-loop-func": "error",
             "no-new-func": "error",
             "no-new-wrappers": "error",
+            "no-restricted-syntax": [
+                "error",
+                {
+                    selector: "TSTypeReference[typeName.left.name='React']",
+                    message: "Do not use implicit React namespace."
+                }
+            ],
             "no-return-await": "error",
             "no-sequences": "error",
             "no-template-curly-in-string": "error",
