@@ -12,7 +12,7 @@ jest.mock("../../assets/loading-circle.svg", () => "loading-logo.svg");
 interface TreeNodeItem {
     id: GUID;
     headerContent: string;
-    bodyContent: React.ReactElement;
+    bodyContent: ReactElement;
 }
 
 const items: TreeNodeItem[] = [
@@ -686,7 +686,7 @@ describe("TreeNode", () => {
 function getTextFromElement(element: unknown): string[] {
     if (!isValidElement(element)) throw new Error("Not a React element");
 
-    const typedElement = element as ReactElement<{ children?: React.ReactNode }>;
+    const typedElement = element as ReactElement<{ children?: ReactNode }>;
     const children = typedElement.props.children;
 
     if (typeof children === "string") return [children];
