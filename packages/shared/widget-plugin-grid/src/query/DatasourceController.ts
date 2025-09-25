@@ -165,7 +165,15 @@ export class DatasourceController implements ReactiveController, QueryController
         this.pageSize = size;
     }
 
-    fetchPage(limit: number, offset: number, signal: AbortSignal): Promise<ObjectItem[]> {
+    fetchPage({
+        limit,
+        offset,
+        signal
+    }: {
+        limit: number;
+        offset: number;
+        signal: AbortSignal;
+    }): Promise<ObjectItem[]> {
         return new Promise((resolve, reject) => {
             if (signal.aborted) {
                 return reject(signal.reason);

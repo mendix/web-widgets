@@ -6,4 +6,5 @@ export {
     useCreateSelectionContextValue,
     useSelectionContextValue
 } from "./selection/context.js";
+export { selectAllPages } from "./selection/select-all-pages.js";
 export { SelectActionHandler } from "./selection/select-action-handler.js";
