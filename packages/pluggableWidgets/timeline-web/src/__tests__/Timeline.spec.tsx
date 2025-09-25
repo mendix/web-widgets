@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { render } from "@testing-library/react";
 import { TimelineContainerProps } from "../../typings/TimelineProps";
 import { list, listExp, listWidget } from "@mendix/widget-plugin-test-utils";
