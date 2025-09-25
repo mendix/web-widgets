@@ -1,5 +1,5 @@
 import { UngroupedEventsPositionEnum } from "../../typings/TimelineProps";
-import { Children, createElement, ReactElement, ReactNode } from "react";
+import { Children, ReactElement, ReactNode } from "react";
 import classNames from "classnames";
 import { BasicItemType, ComponentProps, CustomItemType, ItemType } from "../helpers/types";
 import { Icon } from "mendix/components/web/Icon";
@@ -109,6 +109,9 @@ function getCustomEventsFromDay(eventsOfDay: CustomItemType[]): ReactNode[] {
     ));
 }
 
-function hasChildren(element: any): boolean {
-    return Children.count((element as ReactElement)?.props.children) > 0;
+function hasChildren(element: ReactNode): boolean {
+    const typedElement = element as ReactElement<{ children?: ReactNode }>;
+    const children = typedElement?.props?.children;
+
+    return Children.count(children) > 0; // here
 }

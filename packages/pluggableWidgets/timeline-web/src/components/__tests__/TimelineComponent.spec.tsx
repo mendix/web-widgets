@@ -1,6 +1,5 @@
 import { fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { createElement } from "react";
 import { actionValue } from "@mendix/widget-plugin-test-utils";
 import TimelineComponent from "../TimelineComponent";
 import { BasicItemType, ComponentProps, CustomItemType } from "../../helpers/types";
