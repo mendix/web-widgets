@@ -1,10 +1,10 @@
-import React from "react";
+import { CSSProperties } from "react";
 import Shape from "./Shape";
 import { TweenState } from "shifty";
 
 export type ShapeRenderFunction = (state: TweenState, data: object | null) => void;
 export interface TextOptions {
-    style: React.CSSProperties;
+    style: CSSProperties;
     autoStyleContainer: boolean;
     alignToBottom: boolean;
     value: null | string | HTMLElement;
@@ -22,7 +22,7 @@ export interface ShapeOptions {
     trailWidth?: number;
     fill?: string;
     text?: TextOptions;
-    svgStyle?: React.CSSProperties;
+    svgStyle?: CSSProperties;
     warnings?: boolean;
     attachment?: object;
     shape?: Shape;
