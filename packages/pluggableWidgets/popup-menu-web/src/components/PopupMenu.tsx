@@ -1,7 +1,7 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import classNames from "classnames";
 import { ActionValue } from "mendix";
-import { createElement, ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import { PopupMenuContainerProps } from "../../typings/PopupMenuProps";
 import { usePopup } from "../hooks/usePopup";
 import { Menu } from "./Menu";
