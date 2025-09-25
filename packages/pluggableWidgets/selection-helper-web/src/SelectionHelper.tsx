@@ -1,7 +1,7 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { useSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
 import { observer } from "mobx-react-lite";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { SelectionHelperContainerProps } from "../typings/SelectionHelperProps";
 import { SelectionHelperComponent } from "./components/SelectionHelperComponent";
 
