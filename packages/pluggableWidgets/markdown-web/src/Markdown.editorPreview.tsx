@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { MarkdownPreviewProps } from "../typings/MarkdownProps";
 import "./ui/Markdown.scss";
 
