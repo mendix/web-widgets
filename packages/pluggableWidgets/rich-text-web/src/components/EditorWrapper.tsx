@@ -5,16 +5,7 @@ import classNames from "classnames";
 import Quill, { Range } from "quill";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
-import {
-    createElement,
-    CSSProperties,
-    ReactElement,
-    useCallback,
-    useContext,
-    useEffect,
-    useRef,
-    useState
-} from "react";
+import { CSSProperties, ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { EditorContext, EditorProvider } from "../store/EditorProvider";
 import { updateLegacyQuillFormats } from "../utils/helpers";

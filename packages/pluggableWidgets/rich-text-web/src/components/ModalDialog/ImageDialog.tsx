@@ -1,6 +1,6 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import classNames from "classnames";
-import { ChangeEvent, createElement, ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, MouseEvent, ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
 import { RichTextContainerProps } from "../../../typings/RichTextProps";
 import { type imageConfigType } from "../../utils/formats";
 import { IMG_MIME_TYPES } from "../CustomToolbars/constants";
@@ -150,7 +150,7 @@ export default function ImageDialog(props: ImageDialogProps): ReactElement {
                                     className={classNames({
                                         active: activeTab === "embed"
                                     })}
-                                    onClick={(e: React.MouseEvent) => {
+                                    onClick={(e: MouseEvent) => {
                                         setActiveTab("embed");
                                         e.stopPropagation();
                                         e.preventDefault();

@@ -1,5 +1,5 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
-import { createContext, createElement, PropsWithChildren, ReactElement, useContext } from "react";
+import { createContext, PropsWithChildren, ReactElement, useContext } from "react";
 import { PresetEnum } from "typings/RichTextProps";
 import type { ToolbarButtonProps, ToolbarConsumerContext, ToolbarContextType } from "./customToolbars";
 
