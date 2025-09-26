@@ -2,7 +2,9 @@ import { createContextWithStub, FilterAPI } from "@mendix/widget-plugin-filterin
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
+import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
 import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
+import { MultiPageSelectionController } from "@mendix/widget-plugin-grid/selection";
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
@@ -15,7 +17,9 @@ import { DatasourceParamsController } from "../../controllers/DatasourceParamsCo
 import { DerivedLoaderController } from "../../controllers/DerivedLoaderController";
 import { PaginationController } from "../../controllers/PaginationController";
 import { ProgressStore } from "../../features/data-export/ProgressStore";
+import { SelectAllProgressStore } from "../../features/multi-page-selection/SelectAllProgressStore";
 import { StaticInfo } from "../../typings/static-info";
+import { SelectActionHelper } from "../SelectActionHelper";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
 
@@ -34,6 +38,8 @@ type RequiredProps = Pick<
     | "pagination"
     | "showPagingButtons"
     | "showNumberOfRows"
+    | "selectAllPagesEnabled"
+    | "selectAllPagesBufferSize"
 >;
 
 type Gate = DerivedPropsGate<RequiredProps>;
@@ -50,9 +56,12 @@ export class RootGridStore extends BaseControllerHost {
     basicData: GridBasicData;
     staticInfo: StaticInfo;
     exportProgressCtrl: ProgressStore;
+    selectAllProgressStore: SelectAllProgressStore;
+    multiPageSelectionController: MultiPageSelectionController;
     loaderCtrl: DerivedLoaderController;
     paginationCtrl: PaginationController;
     readonly filterAPI: FilterAPI;
+    query!: QueryController;
 
     private gate: Gate;
 
@@ -70,6 +79,7 @@ export class RootGridStore extends BaseControllerHost {
         const filterHost = new CustomFilterHost();
 
         const query = new DatasourceController(this, { gate });
+        this.query = query;
 
         this.filterAPI = createContextWithStub({
             filterObserver: filterHost,
@@ -92,6 +102,15 @@ export class RootGridStore extends BaseControllerHost {
         this.paginationCtrl = new PaginationController(this, { gate, query });
 
         this.exportProgressCtrl = exportCtrl;
+
+        this.selectAllProgressStore = new SelectAllProgressStore();
+
+        this.multiPageSelectionController = new MultiPageSelectionController(this, {
+            gate,
+            query,
+            progressStore: this.selectAllProgressStore,
+            bufferSize: props.selectAllPagesBufferSize ?? 500
+        });
 
         new DatasourceParamsController(this, {
             query,

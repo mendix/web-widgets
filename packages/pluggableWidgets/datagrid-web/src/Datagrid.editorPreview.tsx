@@ -18,6 +18,7 @@ import { ColumnPreview } from "./helpers/ColumnPreview";
 import { DatagridContext } from "./helpers/root-context";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { GridBasicData } from "./helpers/state/GridBasicData";
+import { SelectAllProgressStore } from "./features/multi-page-selection/SelectAllProgressStore";
 
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import "./ui/DatagridPreview.scss";
@@ -96,8 +97,11 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             selectActionHelper,
             cellEventsController: eventsController,
             checkboxEventsController: eventsController,
+            multiPageSelectionController: {} as any, // Mock for preview
             focusController,
-            selectionCountStore
+            selectionCountStore,
+            selectAllProgressStore: new SelectAllProgressStore(),
+            rootStore: {} as any // Mock for preview
         };
     });
 

@@ -6,4 +6,5 @@ export {
     useCreateSelectionContextValue,
     useSelectionContextValue
 } from "./selection/context.js";
+export { MultiPageSelectionController } from "./selection/MultiPageSelectionController.js";
 export { SelectActionHandler } from "./selection/select-action-handler.js";
