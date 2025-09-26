@@ -61,13 +61,6 @@
                     <caption>Select all buffer size</caption>
                     <description>Batch size for processing select all operations. If total count is less than buffer size, selection is immediate.</description>
                 </property>
-                <property key="selectAllPagesLabel" type="textTemplate" required="false">
-                    <caption>Select all pages label</caption>
-                    <description>Text shown when selecting all items across pages. Use %d for total count placeholder.</description>
-                    <translations>
-                        <translation lang="en_US">Select all %d items</translation>
-                    </translations>
-                </property>
                 <property key="selectingAllLabel" type="textTemplate" required="false">
                     <caption>Selecting all label</caption>
                     <description>Label shown in the progress dialog when selecting all items</description>
