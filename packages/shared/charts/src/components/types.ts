@@ -1,5 +1,6 @@
 import { ObjectItem } from "mendix";
 import { Config, Data, Layout, PlotDatum } from "plotly.js-dist-min";
+import { ReactNode } from "react";
 
 declare module "plotly.js-dist-min" {
     interface PlotDatum {
@@ -31,5 +32,5 @@ export interface ChartViewProps {
 }
 
 export interface ChartProps extends ChartViewProps {
-    playground: React.ReactNode | null;
+    playground: ReactNode | null;
 }
