@@ -690,3 +690,24 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
   </div>
 </div>
 `;
+
+exports[`Rich Text renders richtext widget with readonly config 1`] = `
+<div>
+  <div
+    class="widget-rich-text form-control widget-rich-text-readonly-bordered flex-column editor-bordered"
+    spellcheck="true"
+    style="width: 100%;"
+    tabindex="0"
+  >
+    <div
+      class="flexcontainer flex-column-reverse hide-toolbar"
+    >
+      <div
+        class="widget-rich-text-container"
+        style="height: auto;"
+      />
+      <div />
+    </div>
+  </div>
+</div>
+`;
