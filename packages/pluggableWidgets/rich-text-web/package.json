@@ -24,7 +24,7 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "rich-text-v4-web"
+        "branchName": "rich-text-v4-2"
     },
     "scripts": {
         "build": "cross-env MPKOUTPUT=RichText.mpk pluggable-widgets-tools build:web",
