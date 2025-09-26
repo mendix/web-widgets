@@ -2073,6 +2073,9 @@ importers:
       '@codemirror/lang-html':
         specifier: ^6.4.9
         version: 6.4.9
+      '@codemirror/state':
+        specifier: ^6.5.2
+        version: 6.5.2
       '@floating-ui/react':
         specifier: ^0.26.27
         version: 0.26.27(react-dom@18.2.0(react@18.2.0))(react@18.2.0)

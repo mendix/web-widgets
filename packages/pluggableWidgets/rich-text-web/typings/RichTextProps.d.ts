@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, ReactNode } from "react";
-import { ActionValue, EditableValue, ListValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue } from "mendix";
 
 export type PresetEnum = "basic" | "standard" | "full" | "custom";
 
@@ -30,6 +30,8 @@ export interface CustomFontsType {
     fontName: string;
     fontStyle: string;
 }
+
+export type StatusBarContentEnum = "wordCount" | "characterCount" | "characterCountHtml";
 
 export type ToolbarConfigEnum = "basic" | "advanced";
 
@@ -73,10 +75,13 @@ export interface RichTextContainerProps {
     onLoad?: ActionValue;
     onChangeType: OnChangeTypeEnum;
     spellCheck: boolean;
+    defaultFontFamily?: DynamicValue<string>;
+    defaultFontSize?: DynamicValue<string>;
     customFonts: CustomFontsType[];
     imageSource?: ListValue;
     imageSourceContent?: ReactNode;
     enableDefaultUpload: boolean;
+    statusBarContent: StatusBarContentEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
@@ -119,10 +124,13 @@ export interface RichTextPreviewProps {
     onLoad: {} | null;
     onChangeType: OnChangeTypeEnum;
     spellCheck: boolean;
+    defaultFontFamily: string;
+    defaultFontSize: string;
     customFonts: CustomFontsPreviewType[];
     imageSource: {} | { caption: string } | { type: string } | null;
     imageSourceContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     enableDefaultUpload: boolean;
+    statusBarContent: StatusBarContentEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
