@@ -1,5 +1,9 @@
 import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
-import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import {
+    MultiSelectionStatus,
+    useSelectionHelper,
+    MultiPageSelectionController
+} from "@mendix/widget-plugin-grid/selection";
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import {
     list,
@@ -66,6 +70,7 @@ function withCtx(
         selectActionHelper: widgetProps.selectActionHelper,
         cellEventsController: widgetProps.cellEventsController,
         checkboxEventsController: widgetProps.checkboxEventsController,
+        multiPageSelectionController: {} as unknown as MultiPageSelectionController,
         focusController: widgetProps.focusController,
         selectionCountStore: defaultSelectionCountStore as unknown as SelectionCountStore,
         selectAllProgressStore: {} as unknown as SelectAllProgressStore,

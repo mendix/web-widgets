@@ -74,8 +74,8 @@ const Container = observer((props: Props): ReactElement => {
             checkboxEventsController,
             focusController,
             selectionCountStore: rootStore.selectionCountStore,
-            selectAllProgressStore: rootStore.selectAllProgressStore,
-            rootStore
+            multiPageSelectionController: rootStore.multiPageSelectionController,
+            selectAllProgressStore: rootStore.selectAllProgressStore
         };
     });
 

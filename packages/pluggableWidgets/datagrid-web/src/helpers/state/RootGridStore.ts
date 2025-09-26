@@ -4,7 +4,7 @@ import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
 import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
 import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
-import { clearAllPages, selectAllPages } from "@mendix/widget-plugin-grid/selection/select-all-pages";
+import { MultiPageSelectionController } from "@mendix/widget-plugin-grid/selection";
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
@@ -38,6 +38,8 @@ type RequiredProps = Pick<
     | "pagination"
     | "showPagingButtons"
     | "showNumberOfRows"
+    | "selectAllPagesEnabled"
+    | "selectAllPagesBufferSize"
 >;
 
 type Gate = DerivedPropsGate<RequiredProps>;
@@ -55,8 +57,7 @@ export class RootGridStore extends BaseControllerHost {
     staticInfo: StaticInfo;
     exportProgressCtrl: ProgressStore;
     selectAllProgressStore: SelectAllProgressStore;
-    private selectAllAbortController?: AbortController;
-    private selectAllLocked = false;
+    multiPageSelectionController: MultiPageSelectionController;
     loaderCtrl: DerivedLoaderController;
     paginationCtrl: PaginationController;
     readonly filterAPI: FilterAPI;
@@ -104,6 +105,13 @@ export class RootGridStore extends BaseControllerHost {
 
         this.selectAllProgressStore = new SelectAllProgressStore();
 
+        this.multiPageSelectionController = new MultiPageSelectionController(this, {
+            gate,
+            query,
+            progressStore: this.selectAllProgressStore,
+            bufferSize: props.selectAllPagesBufferSize ?? 500
+        });
+
         new DatasourceParamsController(this, {
             query,
             filterHost: combinedFilter,
@@ -139,48 +147,5 @@ export class RootGridStore extends BaseControllerHost {
     private updateProps(props: RequiredProps): void {
         this.columnsStore.updateProps(props);
         this.settingsStore.updateProps(props);
-    }
-
-    async startMultiPageSelectAll(selectActionHelper: SelectActionHelper): Promise<void> {
-        if (this.selectAllLocked) {
-            return;
-        }
-
-        // Check if multi-page selection is possible
-        const canSelect = selectActionHelper.canSelectAllPages;
-
-        if (!canSelect) {
-            selectActionHelper.onSelectAll("selectAll");
-            return;
-        }
-
-        this.selectAllLocked = true;
-        this.selectAllAbortController = new AbortController();
-        const success = await selectAllPages({
-            query: this.query as QueryController,
-            gate: this.gate as any,
-            progress: this.selectAllProgressStore,
-            bufferSize: selectActionHelper.selectAllPagesBufferSize,
-            signal: this.selectAllAbortController.signal
-        });
-
-        if (!success) {
-            selectActionHelper.onSelectAll("selectAll");
-        }
-        this.selectAllLocked = false;
-        this.selectAllAbortController = undefined;
-    }
-
-    async clearAllPages(): Promise<void> {
-        clearAllPages(this.gate);
-    }
-
-    abortMultiPageSelect(): void {
-        if (this.selectAllAbortController) {
-            this.selectAllAbortController.abort();
-            this.selectAllProgressStore.oncancel();
-            this.selectAllLocked = false;
-            this.selectAllAbortController = undefined;
-        }
     }
 }
