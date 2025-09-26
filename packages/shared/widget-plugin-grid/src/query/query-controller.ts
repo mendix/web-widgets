@@ -9,6 +9,7 @@ type Members =
     | "totalCount"
     | "limit"
     | "offset"
+    | "items"
     | "hasMoreItems";
 
 export interface QueryController extends Pick<ListValue, Members> {

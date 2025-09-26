@@ -103,6 +103,10 @@ export class DatasourceController implements ReactiveController, QueryController
         return this.datasource.hasMoreItems ?? false;
     }
 
+    get items(): ObjectItem[] | undefined {
+        return this.datasource.items;
+    }
+
     /**
      * Returns computed value that holds controller copy.
      * Recomputes the copy every time the datasource changes.
