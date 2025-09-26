@@ -1,5 +1,5 @@
 import { createElement, ReactElement, useRef } from "react";
-import { GoogleTagContainerProps } from "../typings/GoogleTagProps";
+import { TXhHdGFnContainerProps as GoogleTagContainerProps } from "../typings/TXhHdGFnProps";
 import {
     areParametersReady,
     executeCommand,

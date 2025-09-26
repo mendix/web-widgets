@@ -189,7 +189,7 @@ export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<voi
     console.info(`Add file entries to package.xml`);
     await addFilesToPackageXml(packageXml, packageFilePaths, "modelerProject");
     console.log(`Copying License.txt...`);
-    cp(join(config.output.dirs.themesource, "LICENSE"), join(target, "License.txt"));
+    cp(join(config.paths.package, "LICENSE"), join(target, "License.txt"));
     rm(mpk);
 
     console.info("Create module zip archive");
@@ -244,6 +244,15 @@ export async function moveModuleToDist({ info, config }: ModuleStepParams): Prom
     mkdir("-p", join(paths.dist, info.version.format()));
     // Can't use mv because of https://github.com/shelljs/shelljs/issues/878
     cp(output.files.modulePackage, output.files.mpk);
+
+    // Prepare OSS clearance folder structure
+    const ossClearanceFolder = join(paths.dist, "SBOM_GENERATOR", `${info.mxpackage.name} ${info.version.format()}`);
+    mkdir("-p", ossClearanceFolder);
+
+    // Copy module package to OSS clearance folder
+    console.info(`Copying module package to OSS clearance folder: ${ossClearanceFolder}`);
+    cp(output.files.modulePackage, join(ossClearanceFolder, `${info.mxpackage.name} ${info.version.format()}.mpk`));
+
     rm(output.files.modulePackage);
 }
 
