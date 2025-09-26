@@ -69,7 +69,7 @@ function ContentIcon(props: ImageContentIcon): ReactElement {
     return (
         <span
             className={classNames(props.icon, { glyphicon: props.isGlyph })}
-            style={{ fontSize: `${props.size}px` }}
+            style={{ ...props.style, fontSize: `${props.size}px` }}
             {...accessibilityProps}
             {...onClickProps}
         />

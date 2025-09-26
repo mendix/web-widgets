@@ -61,7 +61,7 @@ export const Image: FunctionComponent<ImageContainerProps> = props => {
     const { type, image } = getImageProps(props);
 
     const altText = props.alternativeText?.status === ValueStatus.Available ? props.alternativeText.value : undefined;
-    const styleObject = constructStyleObject(props);
+    const styleObject = type === "image" && constructStyleObject(props);
 
     const imageStyle = { ...props.style, ...styleObject };
 
