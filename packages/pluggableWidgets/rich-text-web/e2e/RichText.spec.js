@@ -141,7 +141,9 @@ test.describe("RichText", () => {
         );
 
         await page.click(".widget-rich-text .widget-rich-text-modal-body #rich-text-video-src-input");
-        await page.locator(".mx-name-comboBox2 .widget-combobox-input").fill("https://www.mendix.com");
+        await page
+            .locator(".widget-rich-text .widget-rich-text-modal-body #rich-text-video-src-input")
+            .fill("https://www.mendix.com");
         await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
             `richTextDialogInsidePopupEdit.png`
         );
