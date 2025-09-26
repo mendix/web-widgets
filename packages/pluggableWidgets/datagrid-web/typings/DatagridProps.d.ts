@@ -104,7 +104,6 @@ export interface DatagridContainerProps {
 =======
     selectAllPagesEnabled: boolean;
     selectAllPagesBufferSize: number;
-    selectAllPagesLabel?: DynamicValue<string>;
     selectingAllLabel?: DynamicValue<string>;
     cancelSelectionLabel?: DynamicValue<string>;
 >>>>>>> 2e4671e66 (feat(datagrid-web): add multipage selection to dg2)
@@ -166,7 +165,6 @@ export interface DatagridPreviewProps {
 =======
     selectAllPagesEnabled: boolean;
     selectAllPagesBufferSize: number | null;
-    selectAllPagesLabel: string;
     selectingAllLabel: string;
     cancelSelectionLabel: string;
 >>>>>>> 2e4671e66 (feat(datagrid-web): add multipage selection to dg2)

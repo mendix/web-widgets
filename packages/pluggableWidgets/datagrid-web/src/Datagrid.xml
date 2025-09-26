@@ -62,11 +62,22 @@
                         <enumerationValue key="off">Off</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
-                    <caption>Clear selection label</caption>
-                    <description>Customize the label of the 'Clear section' button</description>
+                <property key="selectAllPagesBufferSize" type="integer" defaultValue="500">
+                    <caption>Select all buffer size</caption>
+                    <description>Batch size for processing select all operations. If total count is less than buffer size, selection is immediate.</description>
+                </property>
+                <property key="selectingAllLabel" type="textTemplate" required="false">
+                    <caption>Selecting all label</caption>
+                    <description>Label shown in the progress dialog when selecting all items</description>
                     <translations>
-                        <translation lang="en_US">Clear selection</translation>
+                        <translation lang="en_US">Selecting all items...</translation>
+                    </translations>
+                </property>
+                <property key="cancelSelectionLabel" type="textTemplate" required="false">
+                    <caption>Cancel selection label</caption>
+                    <description>Label for the cancel button in the selection progress dialog</description>
+                    <translations>
+                        <translation lang="en_US">Cancel selection</translation>
                     </translations>
                 </property>
                 <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
