@@ -29,6 +29,9 @@ $spacing-medium: 16px !default;
 $spacing-large: 24px !default;
 $spacing-larger: 32px !default;
 
+// Gallery specific spacing
+$gallery-gap: $spacing-small !default;
+
 // Effects and animations
 $dragging-color-effect: rgba(10, 19, 37, 0.8) !default;
 $skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d2 100%) !default;

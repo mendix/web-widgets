@@ -23,9 +23,11 @@ $gallery-screen-md: $screen-md;
 }
 
 .widget-gallery {
+    --gallery-gap: var(--spacing-small, $gallery-gap);
+
     .widget-gallery-items {
         display: grid;
-        grid-gap: var(--spacing-small, $spacing-small);
+        grid-gap: var(--gallery-gap);
 
         /*
          Desktop widths
