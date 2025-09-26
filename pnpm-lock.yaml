@@ -2226,15 +2226,15 @@ importers:
       '@mendix/widget-plugin-component-kit':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
+      '@rc-component/slider':
+        specifier: ^1.0.0
+        version: 1.0.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@rc-component/tooltip':
+        specifier: ^1.3.3
+        version: 1.3.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
-      rc-slider:
-        specifier: ^8.7.1
-        version: 8.7.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      rc-tooltip:
-        specifier: ^3.7.3
-        version: 3.7.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -2257,12 +2257,6 @@ importers:
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
-      '@types/rc-slider':
-        specifier: ^8.6.6
-        version: 8.6.6
-      '@types/rc-tooltip':
-        specifier: ^3.7.7
-        version: 3.7.14
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -4409,6 +4403,51 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  '@rc-component/motion@1.1.4':
+    resolution: {integrity: sha512-rz3+kqQ05xEgIAB9/UKQZKCg5CO/ivGNU78QWYKVfptmbjJKynZO4KXJ7pJD3oMxE9aW94LD/N3eppXWeysTjw==}
+    peerDependencies:
+      react: 19.1.1
+      react-dom: 19.1.1
+
+  '@rc-component/portal@2.0.0':
+    resolution: {integrity: sha512-337ADhBfgH02S8OujUl33OT+8zVJ67eyuUq11j/dE71rXKYNihMsggW8R2VfI2aL3SciDp8gAFsmPVoPkxLUGw==}
+    engines: {node: '>=12.x'}
+    peerDependencies:
+      react: 19.1.1
+      react-dom: 19.1.1
+
+  '@rc-component/resize-observer@1.0.0':
+    resolution: {integrity: sha512-inR8Ka87OOwtrDJzdVp2VuEVlc5nK20lHolvkwFUnXwV50p+nLhKny1NvNTCKvBmS/pi/rTn/1Hvsw10sRRnXA==}
+    peerDependencies:
+      react: 19.1.1
+      react-dom: 19.1.1
+
+  '@rc-component/slider@1.0.0':
+    resolution: {integrity: sha512-ZC/ARv2o+VzyLMgEUWyOLV0JTRlJqbFSNegtERoAfPVxCPNt92s5baIp22OW487Wgtk1xCK9GZex8sD/zo91ig==}
+    engines: {node: '>=8.x'}
+    peerDependencies:
+      react: 19.1.1
+      react-dom: 19.1.1
+
+  '@rc-component/tooltip@1.3.3':
+    resolution: {integrity: sha512-6wNDh60lh+RZFGJYm5vwNqB/S7YxkioZYF4Vj57tWIlKScxJWW5I2qXOc7gv99CXTDGclutVwcefZFbq9JANFQ==}
+    peerDependencies:
+      react: 19.1.1
+      react-dom: 19.1.1
+
+  '@rc-component/trigger@3.6.15':
+    resolution: {integrity: sha512-agmLUpfYbgWhVBrXyQGiupc+YoQ9NaUyt1cf+LcyRi3waq1PDj6Q+D/bA3UlvcTr53Xg9592u3zmZ3yodRvBbA==}
+    engines: {node: '>=8.x'}
+    peerDependencies:
+      react: 19.1.1
+      react-dom: 19.1.1
+
+  '@rc-component/util@1.3.0':
+    resolution: {integrity: sha512-hfXE04CVsxI/slmWKeSh6du7sSKpbvVdVEZCa8A+2QWDlL97EsCYme2c3ZWLn1uC9FR21JoewlrhUPWO4QgO8w==}
+    peerDependencies:
+      react: 19.1.1
+      react-dom: 19.1.1
 
   '@react-leaflet/core@2.1.0':
     resolution: {integrity: sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==}
@@ -7591,6 +7630,9 @@ packages:
 
   is-mobile@4.0.0:
     resolution: {integrity: sha512-mlcHZA84t1qLSuWkt2v0I2l61PYdyQDt4aG1mLIXF5FDMm4+haBCxCPYSr/uwqQNRk1MiTizn0ypEuRAOLRAew==}
+
+  is-mobile@5.0.0:
+    resolution: {integrity: sha512-Tz/yndySvLAEXh+Uk8liFCxOwVH6YutuR74utvOcu7I9Di+DwM0mtdPVZNaVvvBUM2OXxne/NhOs1zAO7riusQ==}
 
   is-module@1.0.0:
     resolution: {integrity: sha512-51ypPSPCoTEIN9dy5Oy+h4pShgJmPCygKfyRCISBI+JoWT/2oJvK8QPxmwv7b/p239jXrm9M1mlQbyKJ5A152g==}
@@ -12823,6 +12865,59 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.2
 
+  '@rc-component/motion@1.1.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@rc-component/util': 1.3.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      classnames: 2.5.1
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
+
+  '@rc-component/portal@2.0.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@rc-component/util': 1.3.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      classnames: 2.5.1
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
+
+  '@rc-component/resize-observer@1.0.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@rc-component/util': 1.3.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      classnames: 2.5.1
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
+
+  '@rc-component/slider@1.0.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@rc-component/util': 1.3.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      classnames: 2.5.1
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
+
+  '@rc-component/tooltip@1.3.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@rc-component/trigger': 3.6.15(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@rc-component/util': 1.3.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      classnames: 2.5.1
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
+
+  '@rc-component/trigger@3.6.15(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@rc-component/motion': 1.1.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@rc-component/portal': 2.0.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@rc-component/resize-observer': 1.0.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@rc-component/util': 1.3.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      classnames: 2.5.1
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
+
+  '@rc-component/util@1.3.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      is-mobile: 5.0.0
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
+      react-is: 18.3.1
+
   '@react-leaflet/core@2.1.0(leaflet@1.9.4)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
     dependencies:
       leaflet: 1.9.4
@@ -16523,6 +16618,8 @@ snapshots:
   is-map@2.0.3: {}
 
   is-mobile@4.0.0: {}
+
+  is-mobile@5.0.0: {}
 
   is-module@1.0.0: {}
 

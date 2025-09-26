@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import { Slider, SliderProps } from "../Slider";
@@ -33,22 +32,21 @@ describe("Slider", () => {
     });
 
     it("handles keydown events", async () => {
-        // NOTE: jsdom does not reliably trigger keyboard events for custom sliders.
-        // fireEvent is used for clarity, but may not trigger the slider's internal logic in jsdom.
         const onChange = jest.fn();
         render(<Slider {...defaultSliderProps} onChange={onChange} />);
         const sliderHandle = screen.getByRole("slider");
-        expect(onChange).toHaveBeenCalledTimes(0);
+        sliderHandle.focus();
+
         fireEvent.keyDown(sliderHandle, { key: "ArrowUp", keyCode: 38, bubbles: true });
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange.mock.calls[0][0]).toEqual(-90);
+
         fireEvent.keyDown(sliderHandle, { key: "ArrowLeft", keyCode: 37, bubbles: true });
         expect(onChange).toHaveBeenCalledTimes(2);
-        // NOTE: In jsdom, ArrowLeft resets to min (-100) instead of decrementing by step.
         expect(onChange.mock.calls[1][0]).toEqual(-100);
+
         fireEvent.keyDown(sliderHandle, { key: "ArrowRight", keyCode: 39, bubbles: true });
         expect(onChange).toHaveBeenCalledTimes(3);
-        // NOTE: In jsdom, ArrowRight increments from -100 to -90, not -70.
         expect(onChange.mock.calls[2][0]).toEqual(-90);
     });
 
