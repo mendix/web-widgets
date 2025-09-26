@@ -175,7 +175,6 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
 
     if (!selectAllPagesEnabled) {
         hidePropertyIn(defaultProperties, values, "selectAllPagesBufferSize");
-        hidePropertyIn(defaultProperties, values, "selectAllPagesLabel");
         hidePropertyIn(defaultProperties, values, "selectingAllLabel");
         hidePropertyIn(defaultProperties, values, "cancelSelectionLabel");
     }
