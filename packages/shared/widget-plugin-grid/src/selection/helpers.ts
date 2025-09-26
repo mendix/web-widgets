@@ -42,10 +42,6 @@ export class MultiSelectionHelper {
         });
     }
 
-    get pageItemsCount(): number {
-        return this.selectableItems.length;
-    }
-
     isSelected(value: ObjectItem): boolean {
         return this.selectionValue.selection.some(obj => obj.id === value.id);
     }
@@ -231,35 +227,6 @@ export class MultiSelectionHelper {
 
     selectAll(): void {
         const newSelection = this._union(this.selectableItems, this.selectionValue.selection);
-        this.selectionValue.setSelection(newSelection);
-        this._resetRange();
-    }
-
-    /**
-     * Gets the currently selected item IDs
-     */
-    getSelectedIds(): Set<string> {
-        return new Set(this.selectionValue.selection.map(item => item.id));
-    }
-
-    /**
-     * Selects items by their IDs, preserving object references where possible
-     */
-    selectByIds(ids: string[]): void {
-        const currentSelection = new Map(this.selectionValue.selection.map(item => [item.id as string, item]));
-        const pageItems = new Map(this.selectableItems.map(item => [item.id as string, item]));
-
-        // Build new selection preserving object references
-        const newSelection: ObjectItem[] = [];
-
-        for (const id of ids) {
-            // Prefer existing selection object, then current page object
-            const item = currentSelection.get(id) || pageItems.get(id);
-            if (item) {
-                newSelection.push(item);
-            }
-        }
-
         this.selectionValue.setSelection(newSelection);
         this._resetRange();
     }
