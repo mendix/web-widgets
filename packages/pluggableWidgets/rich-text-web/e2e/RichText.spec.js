@@ -127,4 +127,23 @@ test.describe("RichText", () => {
             threshold: 0.4
         });
     });
+
+    test("compares with a screenshot for rich text inside modal popup layout", async ({ page }) => {
+        await page.goto("/");
+        await page.waitForLoadState("networkidle");
+
+        await page.click(".mx-navbar-item [title='Demo']");
+        await expect(page.locator(".mx-name-customWidget1").first()).toHaveScreenshot(`richTextModal.png`);
+
+        await page.click(".mx-name-customWidget1 .ql-toolbar button.ql-video");
+        await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
+            `richTextDialogInsidePopup.png`
+        );
+
+        await page.click(".widget-rich-text .widget-rich-text-modal-body #rich-text-video-src-input");
+        await page.locator(".mx-name-comboBox2 .widget-combobox-input").fill("https://www.mendix.com");
+        await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
+            `richTextDialogInsidePopupEdit.png`
+        );
+    });
 });
