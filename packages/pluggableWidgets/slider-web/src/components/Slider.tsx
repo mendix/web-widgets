@@ -1,5 +1,6 @@
-import { createElement, CSSProperties, forwardRef, ReactElement, RefObject } from "react";
-import RcSlider, { SliderProps as RcSliderProps } from "rc-slider";
+import { CSSProperties, forwardRef, ReactElement, RefObject } from "react";
+import RcSlider, { SliderProps as RcSliderProps } from "@rc-component/slider";
+import "@rc-component/slider/assets/index.css";
 import classNames from "classnames";
 
 export interface SliderProps extends RcSliderProps {
