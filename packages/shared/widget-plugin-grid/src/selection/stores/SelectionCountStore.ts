@@ -6,24 +6,32 @@ type Gate = DerivedPropsGate<{
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
+    clearSelectionButtonLabel?: DynamicValue<string>;
 }>;
 
 export class SelectionCountStore {
     private gate: Gate;
     private singular: string = "%d row selected";
     private plural: string = "%d rows selected";
+    private defaultClearLabel: string = "Clear selection";
 
-    constructor(gate: Gate, spec: { singular?: string; plural?: string } = {}) {
+    constructor(gate: Gate, spec: { singular?: string; plural?: string; clearLabel?: string } = {}) {
         this.singular = spec.singular ?? this.singular;
         this.plural = spec.plural ?? this.plural;
+        this.defaultClearLabel = spec.clearLabel ?? this.defaultClearLabel;
         this.gate = gate;
 
         makeObservable(this, {
             displayCount: computed,
             selectedCount: computed,
             fmtSingular: computed,
-            fmtPlural: computed
+            fmtPlural: computed,
+            clearButtonLabel: computed
         });
+    }
+
+    get clearButtonLabel(): string {
+        return this.gate.props.clearSelectionButtonLabel?.value || this.defaultClearLabel;
     }
 
     get fmtSingular(): string {
