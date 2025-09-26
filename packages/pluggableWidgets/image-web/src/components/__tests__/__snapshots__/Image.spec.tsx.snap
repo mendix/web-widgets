@@ -16,7 +16,7 @@ exports[`Image renders the structure as a background image 1`] = `
 exports[`Image renders the structure with a glyph icon 1`] = `
 <DocumentFragment>
   <div
-    class="mx-image-viewer mx-image-viewer-responsive"
+    class="mx-image-viewer mx-image-viewer-responsive mx-image-viewer-icon"
   >
     <span
       class="glyphicon-asterisk glyphicon"
@@ -30,7 +30,7 @@ exports[`Image renders the structure with a glyph icon 1`] = `
 exports[`Image renders the structure with an icon 1`] = `
 <DocumentFragment>
   <div
-    class="mx-image-viewer mx-image-viewer-responsive"
+    class="mx-image-viewer mx-image-viewer-responsive mx-image-viewer-icon"
   >
     <span
       class="mx-icon mx-icon-asterisk"
