@@ -1,24 +1,25 @@
-import { ObjectItem } from "mendix";
 import { throttle } from "@mendix/widget-plugin-platform/utils/throttle";
+import { ObjectItem } from "mendix";
+import { KeyboardEvent } from "react";
 import { EventCaseEntry } from "../event-switch/base";
 import { ScrollKeyCode, SelectAdjacentFx, SelectionMode, SelectionType } from "./types";
 
-export function isSelectAllTrigger<T>(event: React.KeyboardEvent<T>): boolean {
+export function isSelectAllTrigger<T>(event: KeyboardEvent<T>): boolean {
     // As there might be custom content. We should react only on item/cell events.
     const isOwn = event.currentTarget === event.target;
     return event.code === "KeyA" && (event.metaKey || event.ctrlKey) && isOwn;
 }
 
-export function isSelectOneTrigger<T>(event: React.KeyboardEvent<T>): boolean {
+export function isSelectOneTrigger<T>(event: KeyboardEvent<T>): boolean {
     return event.code === "Space" && event.shiftKey;
 }
 
-export function isOwnSpaceKey<T>(event: React.KeyboardEvent<T>): boolean {
+export function isOwnSpaceKey<T>(event: KeyboardEvent<T>): boolean {
     return event.code === "Space" && event.target === event.currentTarget;
 }
 
 export const onOwnSpaceKeyDown = (
-    handler: (event: React.KeyboardEvent<Element>) => void
+    handler: (event: KeyboardEvent<Element>) => void
 ): EventCaseEntry<unknown, Element, "onKeyDown"> => ({
     eventName: "onKeyDown",
     filter: (_, event) => isOwnSpaceKey(event),
@@ -78,7 +79,7 @@ interface DGSelectContext<T> extends SelectAdjacentContext<T> {
 type NavKeyEntry = EventCaseEntry<SelectAdjacentContext<ObjectItem>, Element, "onKeyDown">;
 type DatagridNavKeyEntry = EventCaseEntry<DGSelectContext<ObjectItem>, Element, "onKeyDown">;
 
-function getAdjacentFxMode(context: SelectAdjacentContext<any>, event: React.KeyboardEvent): SelectionMode {
+function getAdjacentFxMode(context: SelectAdjacentContext<any>, event: KeyboardEvent): SelectionMode {
     if (event.metaKey || event.ctrlKey) {
         return "toggle";
     }

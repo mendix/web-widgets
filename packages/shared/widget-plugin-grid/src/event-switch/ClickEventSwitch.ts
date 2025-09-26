@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { EventCaseEntry } from "./base";
 import { groupEntries } from "./utils";
 
@@ -26,7 +27,7 @@ export class ClickEventSwitch<Context, Element> {
         };
     }
 
-    private runEntry(entry: ClickEntry<Context, Element>, ctx: Context, event: React.MouseEvent<Element>): void {
+    private runEntry(entry: ClickEntry<Context, Element>, ctx: Context, event: MouseEvent<Element>): void {
         const canRun = entry.filter?.(ctx, event) ?? true;
         if (canRun) {
             entry.handler(ctx, event);

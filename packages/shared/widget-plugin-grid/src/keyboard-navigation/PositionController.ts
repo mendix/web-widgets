@@ -1,3 +1,5 @@
+import { FocusEvent, KeyboardEvent, MouseEvent } from "react";
+
 import * as P from "./position";
 import { TargetEvent } from "./base";
 import { VirtualGridLayout } from "./VirtualGridLayout";
@@ -19,7 +21,7 @@ function isNavKey(code: string): code is KeyCode {
     return keyCodeSet.has(code as KeyCode);
 }
 
-type FindPositionFn = (targePos: P.Position, layout: VirtualGridLayout, event: React.KeyboardEvent) => P.Position;
+type FindPositionFn = (targePos: P.Position, layout: VirtualGridLayout, event: KeyboardEvent) => P.Position;
 
 export const keyHandlers: Record<KeyCode, FindPositionFn> = {
     ArrowUp: P.relativeTop,
@@ -45,7 +47,7 @@ export class PositionController {
         return this._handleKeyboardEvent(event.reactEvent, layout);
     }
 
-    private _handleKeyboardEvent(event: React.KeyboardEvent, layout: VirtualGridLayout): P.PositionString | undefined {
+    private _handleKeyboardEvent(event: KeyboardEvent, layout: VirtualGridLayout): P.PositionString | undefined {
         if (!isNavKey(event.code)) {
             return;
         }
@@ -60,11 +62,11 @@ export class PositionController {
         return layout.get(keyHandlers[event.code](targetPos, layout, event));
     }
 
-    private _handleMouseEvent(event: React.MouseEvent): P.PositionString | undefined {
+    private _handleMouseEvent(event: MouseEvent): P.PositionString | undefined {
         return this._getTargetPosition(event);
     }
 
-    private _handleFocusEvent(event: React.FocusEvent): P.PositionString | undefined {
+    private _handleFocusEvent(event: FocusEvent): P.PositionString | undefined {
         return this._getTargetPosition(event);
     }
 
