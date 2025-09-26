@@ -3,7 +3,8 @@ import { Fragment, ReactElement } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
 export function CheckboxColumnHeader(): ReactElement {
-    const { selectActionHelper, basicData, selectAllProgressStore, rootStore } = useDatagridRootScope();
+    const { selectActionHelper, basicData, selectAllProgressStore, multiPageSelectionController } =
+        useDatagridRootScope();
     const { showCheckboxColumn, showSelectAllToggle, onSelectAll } = selectActionHelper;
     const { selectionStatus, selectAllRowsLabel } = basicData;
 
@@ -27,10 +28,14 @@ export function CheckboxColumnHeader(): ReactElement {
             if (selectActionHelper.canSelectAllPages) {
                 if (selectionStatus === "none") {
                     // Select all pages
-                    await rootStore?.startMultiPageSelectAll(selectActionHelper);
+                    const success = await multiPageSelectionController.selectAllPages();
+                    if (!success) {
+                        // Fallback to single page selection if multi-page fails
+                        onSelectAll();
+                    }
                 } else {
                     // Unselect all pages (both "all" and "some" states)
-                    await rootStore?.clearAllPages();
+                    multiPageSelectionController.clearAllPages();
                 }
                 return;
             }

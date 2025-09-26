@@ -4,9 +4,9 @@ import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores
 import { createContext, useContext } from "react";
 import { SelectAllProgressStore } from "../features/multi-page-selection/SelectAllProgressStore";
 import { GridBasicData } from "../helpers/state/GridBasicData";
-import { RootGridStore } from "../helpers/state/RootGridStore";
 import { EventsController } from "../typings/CellComponent";
 import { SelectActionHelper } from "./SelectActionHelper";
+import { MultiPageSelectionController } from "@mendix/widget-plugin-grid/selection/MultiPageSelectionController";
 
 export interface DatagridRootScope {
     basicData: GridBasicData;
@@ -15,10 +15,10 @@ export interface DatagridRootScope {
     selectActionHelper: SelectActionHelper;
     cellEventsController: EventsController;
     checkboxEventsController: EventsController;
+    multiPageSelectionController: MultiPageSelectionController;
     focusController: FocusTargetController;
     selectionCountStore: SelectionCountStore;
     selectAllProgressStore: SelectAllProgressStore;
-    rootStore: RootGridStore;
 }
 
 export const DatagridContext = createContext<DatagridRootScope | null>(null);

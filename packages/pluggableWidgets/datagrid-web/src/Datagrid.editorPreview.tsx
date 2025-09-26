@@ -97,6 +97,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             selectActionHelper,
             cellEventsController: eventsController,
             checkboxEventsController: eventsController,
+            multiPageSelectionController: {} as any, // Mock for preview
             focusController,
             selectionCountStore,
             selectAllProgressStore: new SelectAllProgressStore(),
