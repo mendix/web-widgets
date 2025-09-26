@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 import { FileUploaderContainerProps } from "../typings/FileUploaderProps";
 import { FileUploaderRoot } from "./components/FileUploaderRoot";

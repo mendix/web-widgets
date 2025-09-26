@@ -16,12 +16,12 @@ import {
     useInteractions,
     useRole
 } from "@floating-ui/react";
-import { useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { OpenOnEnum } from "../../typings/TooltipProps";
 interface FloatingProps {
     position: Placement;
     showTooltip: boolean;
-    setShowTooltip: React.Dispatch<React.SetStateAction<boolean>>;
+    setShowTooltip: Dispatch<SetStateAction<boolean>>;
     arrowElement: HTMLDivElement | null;
     openOn: OpenOnEnum;
 }

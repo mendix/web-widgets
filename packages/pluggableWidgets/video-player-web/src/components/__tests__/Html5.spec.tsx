@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { render } from "@testing-library/react";
 
 import { Html5, Html5PlayerProps } from "../Html5";

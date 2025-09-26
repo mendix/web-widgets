@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useCombobox, UseComboboxProps } from "downshift";
 import { observer } from "mobx-react-lite";
-import { createElement, useRef } from "react";
+import { CSSProperties, FocusEventHandler, UIEventHandler, useRef } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
@@ -15,12 +15,12 @@ interface ComboboxProps {
     ariaLabel: string;
     empty: boolean;
     className?: string;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     useComboboxProps: () => UseComboboxProps<OptionWithState>;
     onClear: () => void;
-    onBlur: React.FocusEventHandler<HTMLInputElement>;
-    onFocus: React.FocusEventHandler<HTMLInputElement>;
-    onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
+    onBlur: FocusEventHandler<HTMLInputElement>;
+    onFocus: FocusEventHandler<HTMLInputElement>;
+    onMenuScroll?: UIEventHandler<HTMLUListElement>;
 }
 
 const cls = classes();

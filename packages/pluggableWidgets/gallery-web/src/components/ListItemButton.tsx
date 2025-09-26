@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactElement } from "react";
+import { JSX, KeyboardEvent, KeyboardEventHandler, ReactElement } from "react";
 
 export function ListItemButton(props: Omit<JSX.IntrinsicElements["div"], "ref">): ReactElement {
     return (
@@ -13,8 +13,8 @@ export function ListItemButton(props: Omit<JSX.IntrinsicElements["div"], "ref">)
 }
 
 type KeyboardHandlers = {
-    onKeyDown: React.KeyboardEventHandler;
-    onKeyUp: React.KeyboardEventHandler;
+    onKeyDown: KeyboardEventHandler;
+    onKeyUp: KeyboardEventHandler;
 };
 
 function keyboardHandlers(): KeyboardHandlers {
@@ -40,11 +40,11 @@ function keyboardHandlers(): KeyboardHandlers {
 
 const kbdHandlers = keyboardHandlers();
 
-function isTriggerKey(event: React.KeyboardEvent): boolean {
+function isTriggerKey(event: KeyboardEvent): boolean {
     return event.code === "Enter" || event.code === "Space";
 }
 
-function isOwn(event: React.KeyboardEvent): boolean {
+function isOwn(event: KeyboardEvent): boolean {
     return event.currentTarget === event.target;
 }
 

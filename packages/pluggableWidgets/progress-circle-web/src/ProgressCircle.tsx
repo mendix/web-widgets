@@ -1,4 +1,4 @@
-import { createElement, FunctionComponent, useCallback } from "react";
+import { FunctionComponent, useCallback } from "react";
 import { ProgressCircle as ProgressCircleComponent } from "./components/ProgressCircle";
 import { ProgressCircleContainerProps } from "../typings/ProgressCircleProps";
 import { defaultValues, ProgressCircleValues } from "./progressCircleValues";

@@ -13,7 +13,7 @@ import {
 } from "@mendix/widget-plugin-test-utils";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createContext, createElement } from "react";
+import { createContext } from "react";
 
 import { NumberInputFilterStore } from "@mendix/widget-plugin-filtering/stores/input/NumberInputFilterStore";
 import { Big } from "big.js";
@@ -45,7 +45,7 @@ afterEach(() => (console.warn as jest.Mock).mockRestore());
 
 const CHANNEL_NAME = "datagrid/1";
 
-const setContext = (store: NumberInputFilterStore) => {
+const setContext = (store: NumberInputFilterStore): void => {
     const filterAPI: FilterAPI = {
         version: 3,
         parentChannelName: CHANNEL_NAME,

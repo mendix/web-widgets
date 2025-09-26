@@ -14,7 +14,7 @@ import {
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { resetIdCounter } from "downshift";
-import { createContext, createElement } from "react";
+import { createContext } from "react";
 import { DatagridTextFilterContainerProps } from "../../../typings/DatagridTextFilterProps";
 import DatagridTextFilter from "../../DatagridTextFilter";
 
@@ -42,7 +42,7 @@ afterEach(() => (console.warn as jest.Mock).mockRestore());
 
 const CHANNEL_NAME = "datagrid/1";
 
-const setContext = (store: StringInputFilterStore) => {
+const setContext = (store: StringInputFilterStore): void => {
     const filterAPI: FilterAPI = {
         version: 3,
         parentChannelName: CHANNEL_NAME,

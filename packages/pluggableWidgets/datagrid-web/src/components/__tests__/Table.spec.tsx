@@ -6,7 +6,7 @@ import "@testing-library/jest-dom";
 import { cleanup, getAllByRole, getByRole, queryByRole, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { ItemSelectionMethodEnum } from "typings/DatagridProps";
 import { CellEventsController, useCellEventsController } from "../../features/row-interaction/CellEventsController";
 import {
@@ -35,7 +35,7 @@ window.IntersectionObserver = jest.fn(() => ({
 function withCtx(
     widgetProps: WidgetProps<GridColumn, ObjectItem>,
     contextOverrides: Partial<DatagridRootScope> = {}
-): React.ReactElement {
+): ReactElement {
     const defaultBasicData = {
         gridInteractive: false,
         selectionStatus: "none" as const,

@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { render, RenderResult } from "@testing-library/react";
 import { ThreeStateCheckBox, ThreeStateCheckBoxEnum } from "../ThreeStateCheckBox";
 

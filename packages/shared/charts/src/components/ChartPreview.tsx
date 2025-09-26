@@ -1,15 +1,15 @@
-import { ComponentType, createElement, ReactNode } from "react";
+import { ComponentType, ReactElement, ReactNode } from "react";
 
 export interface ChartPreviewProps {
     class: string;
     showLegend: boolean;
     playground: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     showPlaygroundSlot?: boolean;
-    image: React.ReactNode;
-    legend: React.ReactNode;
+    image: ReactNode;
+    legend: ReactNode;
 }
 
-export function ChartPreview(props: ChartPreviewProps): React.ReactElement {
+export function ChartPreview(props: ChartPreviewProps): ReactElement {
     const { renderer: PlaygroundSlot } = props.playground ?? { renderer: () => null };
     return (
         <div style={{ display: "inline-flex", flexFlow: "column nowrap" }}>
@@ -37,7 +37,7 @@ ChartPreview.PlotLegend = (props: { src: string; alt: string }) => {
     return <img src={props.src} alt={props.alt} style={{ width: "85px" }} />;
 };
 
-function Chart(props: ChartPreviewProps): React.ReactElement {
+function Chart(props: ChartPreviewProps): ReactElement {
     return (
         <div
             className={props.class}
@@ -54,6 +54,6 @@ function Chart(props: ChartPreviewProps): React.ReactElement {
 }
 
 // Preview don't support React component as children. So we forced to use plain function.
-const dropzone = (): React.ReactNode => (
+const dropzone = (): ReactNode => (
     <div style={{ padding: "10px 10px 10px 0", display: "flex", justifyContent: "end", flexGrow: 1, height: 58 }} />
 );

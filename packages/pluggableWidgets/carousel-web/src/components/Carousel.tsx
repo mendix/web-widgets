@@ -1,4 +1,4 @@
-import { createElement, ReactElement, ReactNode, useCallback, useState } from "react";
+import { ReactElement, ReactNode, useCallback, useState } from "react";
 import { GUID } from "mendix";
 import classNames from "classnames";
 import { A11y, Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";

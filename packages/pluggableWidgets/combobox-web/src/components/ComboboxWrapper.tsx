@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { UseComboboxGetToggleButtonPropsOptions } from "downshift/typings";
-import { createElement, forwardRef, Fragment, PropsWithChildren, ReactElement, RefObject } from "react";
+import { forwardRef, Fragment, PropsWithChildren, ReactElement, RefObject } from "react";
 import { DownArrow } from "../assets/icons";
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { ReadOnlyStyleEnum } from "typings/ComboboxProps";

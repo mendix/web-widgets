@@ -7,7 +7,7 @@ import {
     ObjectItem,
     ValueStatus
 } from "mendix";
-import { createElement, ReactElement, ReactNode } from "react";
+import { JSX, KeyboardEvent, ReactElement, ReactNode } from "react";
 import { AlignmentEnum, ColumnsType } from "../../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../../typings/GridColumn";
 import { Big } from "big.js";
@@ -254,7 +254,7 @@ const stopPropagation = (event: { stopPropagation(): void }): void => {
     event.stopPropagation();
 };
 
-const onKeyDown = (event: React.KeyboardEvent): void => {
+const onKeyDown = (event: KeyboardEvent): void => {
     if (event.code === "Tab") {
         return;
     }

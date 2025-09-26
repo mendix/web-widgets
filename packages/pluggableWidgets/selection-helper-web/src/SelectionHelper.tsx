@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { SelectionHelperContainerProps } from "../typings/SelectionHelperProps";
 import { useSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
 import { SelectionHelperComponent } from "./components/SelectionHelperComponent";

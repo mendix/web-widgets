@@ -5,7 +5,7 @@ import { withSortAPI } from "@mendix/widget-plugin-sorting/react/hocs/withSortAP
 import { useSortSelect } from "@mendix/widget-plugin-sorting/react/useSortSelect";
 import { BasicSortStore } from "@mendix/widget-plugin-sorting/types/store";
 import { observer } from "mobx-react-lite";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { DropdownSortContainerProps } from "../typings/DropdownSortProps";
 import { SortComponent } from "./components/SortComponent";
 

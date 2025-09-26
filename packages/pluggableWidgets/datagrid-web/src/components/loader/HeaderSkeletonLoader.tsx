@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { SkeletonLoader } from "./SkeletonLoader";
 
 type HeaderSkeletonLoaderProps = {

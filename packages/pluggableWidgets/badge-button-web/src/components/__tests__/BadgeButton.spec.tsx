@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createElement } from "react";
 
 import { BadgeButton, BadgeButtonProps } from "../BadgeButton";
 

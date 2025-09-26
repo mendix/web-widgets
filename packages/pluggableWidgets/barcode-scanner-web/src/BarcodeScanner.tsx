@@ -1,6 +1,6 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ValueStatus } from "mendix";
-import { createElement, FunctionComponent, useCallback } from "react";
+import { FunctionComponent, useCallback } from "react";
 import { BarcodeScannerContainerProps } from "../typings/BarcodeScannerProps";
 import { BarcodeScanner as BarcodeScannerComponent } from "./components/BarcodeScanner";
 

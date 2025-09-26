@@ -1,10 +1,10 @@
-import { Component, createElement, PropsWithChildren } from "react";
+import { Component, PropsWithChildren, ReactNode } from "react";
 import { Alert } from "./Alert";
 
 type State = { error: Error | null };
 
 type Props = PropsWithChildren<{
-    fallback?: (error: Error) => React.ReactNode;
+    fallback?: (error: Error) => ReactNode;
 }>;
 
 export class ErrorBoundary extends Component<Props, State> {
@@ -13,7 +13,7 @@ export class ErrorBoundary extends Component<Props, State> {
         this.state = { error: null };
     }
 
-    render(): React.ReactNode {
+    render(): ReactNode {
         if (this.state.error === null) {
             return this.props.children;
         }

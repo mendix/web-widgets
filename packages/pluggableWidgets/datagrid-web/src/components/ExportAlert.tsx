@@ -1,7 +1,7 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import * as Progress from "@radix-ui/react-progress";
 import classNames from "classnames";
-import { createElement, ReactElement, useState } from "react";
+import { CSSProperties, ReactElement, useState } from "react";
 import { CloseIcon } from "./icons/CloseIcon";
 import { WarningIcon } from "./icons/WarningIcon";
 
@@ -74,7 +74,7 @@ function formatStats(progress: number, total: number): string {
     return `${progress} / ${total}`;
 }
 
-function getIndicatorStyle(progress: number, total: number): React.CSSProperties {
+function getIndicatorStyle(progress: number, total: number): CSSProperties {
     return { transform: `translateX(-${100 - calculatePercentage(progress, 0, total)}%)` };
 }
 
