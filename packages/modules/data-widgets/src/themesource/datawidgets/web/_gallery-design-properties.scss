@@ -43,7 +43,7 @@
             left: 0;
             right: 0;
             border-bottom: 1px solid var(--grid-border-color, $grid-border-color);
-            margin-top: calc(var(--spacing-small, $spacing-small) / 2);
+            margin-top: calc(var(--gallery-gap, var(--spacing-small, $spacing-small)) / 2 - 1px);
         }
     }
 }
@@ -69,30 +69,22 @@
 
 // Grid spacing none
 .widget-gallery.widget-gallery-gridgap-none {
-    .widget-gallery-items {
-        gap: 0;
-    }
+    --gallery-gap: 0px;
 }
 
 // Grid spacing small
 .widget-gallery.widget-gallery-gridgap-small {
-    .widget-gallery-items {
-        gap: var(--spacing-small, $spacing-small);
-    }
+    --gallery-gap: var(--spacing-small, $spacing-small);
 }
 
 // Grid spacing medium
 .widget-gallery.widget-gallery-gridgap-medium {
-    .widget-gallery-items {
-        gap: var(--spacing-medium, $spacing-medium);
-    }
+    --gallery-gap: var(--spacing-medium, $spacing-medium);
 }
 
 // Grid spacing large
 .widget-gallery.widget-gallery-gridgap-large {
-    .widget-gallery-items {
-        gap: var(--spacing-large, $spacing-large);
-    }
+    --gallery-gap: var(--spacing-large, $spacing-large);
 }
 
 // Pagination left
@@ -114,6 +106,7 @@
 }
 
 .widget-gallery-disable-selected-items-highlight {
-    // placeholder
-    // this class in needed to disable standard styles of highlighted items
+    // This class is needed to disable standard styles of highlighted items
+    // Currently no specific styles need to be overridden
+    /* stylelint-disable-line no-empty-rules */
 }
