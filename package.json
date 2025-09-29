@@ -34,8 +34,8 @@
     "pnpm": {
         "peerDependencyRules": {
             "allowedVersions": {
-                "react": "^19.0.0",
-                "react-dom": "^19.0.0"
+                "react": "^18.0.0",
+                "react-dom": "^18.0.0"
             },
             "ignoreMissing": [
                 "react-native"
@@ -49,12 +49,9 @@
             "@codemirror/state": "^6.5.2",
             "@codemirror/view": "^6.38.1",
             "@mendix/pluggable-widgets-tools": "10.21.2",
-            "@testing-library/dom": "^10.4.0",
-            "@testing-library/react": "^16.3.0",
             "@types/big.js": "^6.2.2",
             "@types/node": "~22.14.0",
-            "@types/react": "^19.1.0",
-            "@types/react-dom": "^19.1.0",
+            "@types/react": ">=18.2.36",
             "d3-color@<3.1.0": ">=3.1.0",
             "decode-uri-component@<0.2.1": ">=0.2.1",
             "enzyme>cheerio": "1.0.0-rc.10",
@@ -65,10 +62,9 @@
             "loader-utils@1": "^1.4.2",
             "loader-utils@3": "^3.2.1",
             "prettier": "3.5.3",
-            "react": "19.1.1",
+            "react": "^18.0.0",
             "react-big-calendar@1>clsx": "2.1.1",
-            "react-dom": "19.1.1",
-            "rollup": "^3.29.5",
+            "react-dom": "^18.0.0",
             "ts-node": "10.9.2",
             "typescript": ">5.8.0"
         },
