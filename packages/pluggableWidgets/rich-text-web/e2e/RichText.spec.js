@@ -54,6 +54,11 @@ test.describe("RichText", () => {
         await expect(page.locator(".mx-name-richText4")).toHaveScreenshot(`toolbarAdvancedMode.png`, {
             threshold: 0.4
         });
+
+        await page.click(".mx-name-richText1 .ql-toolbar button.ql-view-code");
+        await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
+            `viewCodeDialog.png`
+        );
     });
 
     test("compares with a screenshot baseline and checks if inline custom mode are rendered as expected", async ({
