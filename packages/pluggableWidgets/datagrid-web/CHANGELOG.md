@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the calendar popup overlap with column header on virtual scrolling.
+
+### Breaking changes
+
+- We changed datagrid styling display for `widget-datagrid-head` and `widget-datagrid-body` to use display grid instead of contents and adding `grid-template-column: subgrid` to make sure the columns aligned with the template defined in the global grid. This will also ensure that the scrollbar positioned on the grid body instead of the whole grid.
+
 ## [3.4.0] - 2025-09-12
 
 ### Fixed
