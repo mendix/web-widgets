@@ -1,5 +1,5 @@
-import { createElement, CSSProperties, ReactElement, ReactNode, useMemo } from "react";
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
+import { createElement, CSSProperties, ReactElement, ReactNode, useMemo } from "react";
 
 interface Props {
     type: "checkbox" | "custom";
@@ -11,6 +11,7 @@ interface Props {
 }
 
 export function SelectionHelperComponent(props: Props): ReactElement {
+    // TODO: replace with useId
     const id = useMemo(() => {
         return Date.now().toString();
     }, []);

@@ -1,5 +1,6 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import type { ActionValue, ListValue, ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
+import { action, computed, makeObservable, observable } from "mobx";
 import { useEffect, useRef, useState } from "react";
 import { Direction, MoveEvent1D, MoveEvent2D, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size } from "./types";
 
@@ -32,6 +33,13 @@ export class MultiSelectionHelper {
         private selectableItems: ObjectItem[]
     ) {
         this.rangeStart = undefined;
+        type PrivateMembers = "selectionValue" | "selectableItems";
+        makeObservable<this, PrivateMembers>(this, {
+            selectionStatus: computed,
+            selectionValue: observable.ref,
+            selectableItems: observable.ref,
+            updateProps: action
+        });
     }
 
     isSelected(value: ObjectItem): boolean {
@@ -252,7 +260,7 @@ export class MultiSelectionHelper {
         }
     }
 
-    _findIndexInList(index: number, direction: Direction, size: Size): number {
+    private _findIndexInList(index: number, direction: Direction, size: Size): number {
         const first = 0;
         const last = this.selectableItems.length - 1;
         const isForward = direction === "forward";
@@ -266,7 +274,7 @@ export class MultiSelectionHelper {
         return clamp(result, first, last);
     }
 
-    _findIndexInGrid(index: number, keycode: ScrollKeyCode, numberOfColumns: number): number {
+    private _findIndexInGrid(index: number, keycode: ScrollKeyCode, numberOfColumns: number): number {
         const { columnIndex } = getColumnAndRowBasedOnIndex(numberOfColumns, this.selectableItems.length, index);
 
         if (keycode === "PageDown") {
@@ -318,6 +326,14 @@ export class MultiSelectionHelper {
         }
 
         this._setRangeEnd(endItem, mode);
+    }
+
+    togglePageSelection(): void {
+        if (this.selectionStatus === "all") {
+            this.selectNone();
+        } else {
+            this.selectAll();
+        }
     }
 }
 

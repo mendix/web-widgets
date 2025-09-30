@@ -1,10 +1,11 @@
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { useSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
+import { observer } from "mobx-react-lite";
 import { createElement, ReactElement } from "react";
 import { SelectionHelperContainerProps } from "../typings/SelectionHelperProps";
-import { useSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
 import { SelectionHelperComponent } from "./components/SelectionHelperComponent";
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 
-export function SelectionHelper(props: SelectionHelperContainerProps): ReactElement {
+const SelectionHelper = observer(function SelectionHelper(props: SelectionHelperContainerProps): ReactElement {
     const contextValue = useSelectionContextValue();
 
     if (contextValue.hasError) {
@@ -21,15 +22,17 @@ export function SelectionHelper(props: SelectionHelperContainerProps): ReactElem
     return (
         <SelectionHelperComponent
             type={props.renderStyle}
-            status={selection.status}
-            onClick={selection.toggle}
+            status={selection.selectionStatus}
+            onClick={() => selection.togglePageSelection()}
             className={props.class}
             cssStyles={props.style}
         >
-            {selection.status === "all" && props.customAllSelected}
-            {selection.status === "some" && props.customSomeSelected}
-            {selection.status === "none" && props.customNoneSelected}
+            {selection.selectionStatus === "all" && props.customAllSelected}
+            {selection.selectionStatus === "some" && props.customSomeSelected}
+            {selection.selectionStatus === "none" && props.customNoneSelected}
             {props.checkboxCaption?.value ?? ""}
         </SelectionHelperComponent>
     );
-}
+});
+
+export { SelectionHelper };
