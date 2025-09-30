@@ -1,7 +1,7 @@
 {
     "name": "@mendix/datagrid-dropdown-filter-web",
     "widgetName": "DatagridDropdownFilter",
-    "version": "3.4.0",
+    "version": "3.6.0",
     "description": "Filter Data Grid 2 rows by selecting values from a drop-down list.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",

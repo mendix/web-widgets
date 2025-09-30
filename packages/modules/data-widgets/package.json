@@ -1,7 +1,7 @@
 {
     "name": "@mendix/data-widgets",
     "moduleName": "Data Widgets",
-    "version": "3.5.0",
+    "version": "3.6.0",
     "description": "Data Widgets module containing a set of widgets to display data in various ways.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
