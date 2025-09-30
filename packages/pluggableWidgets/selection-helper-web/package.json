@@ -36,6 +36,9 @@
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
     },
+    "dependencies": {
+        "mobx-react-lite": "4.0.7"
+    },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
