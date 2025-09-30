@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.6.0] - 2025-09-30
+
 ### Fixed
 
 - We fixed an issue where the calendar popup overlap with column header on virtual scrolling.

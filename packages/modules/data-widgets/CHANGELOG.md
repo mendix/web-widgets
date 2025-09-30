@@ -6,6 +6,62 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.6.0] DataWidgets - 2025-09-30
+
+### [3.6.0] DatagridDateFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.6.0] DatagridDropdownFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.6.0] DatagridNumberFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.6.0] DatagridTextFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.6.0] Datagrid
+
+#### Fixed
+
+- We fixed an issue where the calendar popup overlap with column header on virtual scrolling.
+
+#### Breaking changes
+
+- We changed datagrid styling display for `widget-datagrid-head` and `widget-datagrid-body` to use display grid instead of contents and adding `grid-template-column: subgrid` to make sure the columns aligned with the template defined in the global grid. This will also ensure that the scrollbar positioned on the grid body instead of the whole grid.
+
+### [3.4.0] DropdownSort
+
+#### Fixed
+
+- We fixed an issue with Gallery widget causing errors when Mendix app is being used in an iframe.
+
+- We fixed an issue with Dropdown sort widget not showing attribute captions correctly.
+
+### [3.6.0] Gallery
+
+#### Fixed
+
+- We fixed an issue with Gallery widget causing errors when Mendix app is being used in an iframe.
+
+### [3.6.0] TreeNode
+
+#### Changed
+
+- Internal improvements.
+
 ## [3.5.0] DataWidgets - 2025-09-16
 
 ### Changed
