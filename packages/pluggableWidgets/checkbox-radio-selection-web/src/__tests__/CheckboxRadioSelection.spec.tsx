@@ -68,6 +68,7 @@ describe("CheckboxRadioSelection", () => {
         customEditabilityExpression: { status: "available", value: false } as any,
         readOnlyStyle: "bordered" as const,
         ariaRequired: { status: "available", value: false } as any,
+        ariaLabel: "",
         controlType: "checkbox" as const
     };
 
