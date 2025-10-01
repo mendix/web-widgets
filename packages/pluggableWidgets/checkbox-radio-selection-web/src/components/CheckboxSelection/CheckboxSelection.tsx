@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { createElement, MouseEvent, ReactElement } from "react";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { CaptionContent } from "../CaptionContent";
+import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Placeholder } from "../Placeholder";
 
 export function CheckboxSelection({
@@ -17,6 +18,8 @@ export function CheckboxSelection({
     const currentIds = selector.currentId || [];
     const isReadOnly = selector.readOnly;
     const name = groupName?.value ?? inputId;
+
+    const validation = selector.validation;
 
     const handleChange = (optionId: string, checked: boolean): void => {
         if (!isReadOnly) {
@@ -71,6 +74,7 @@ export function CheckboxSelection({
                 );
             })}
             {options.length === 0 && <Placeholder noOptionsText={noOptionsText} />}
+            {validation && <ValidationAlert>{validation}</ValidationAlert>}
         </div>
     );
 }
