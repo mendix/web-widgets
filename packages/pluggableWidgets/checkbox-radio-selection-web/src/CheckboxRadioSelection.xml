@@ -59,6 +59,44 @@
                     </selectionTypes>
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Store value">
+                <property key="optionsSourceDatabaseValueAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource">
+                    <caption>Value</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Long" />
+                        <attributeType name="Enum" />
+                    </attributeTypes>
+                </property>
+                <property key="databaseAttributeString" type="attribute" setLabel="true" required="false">
+                    <caption>Target attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="String" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Long" />
+                        <attributeType name="Enum" />
+                    </attributeTypes>
+                </property>
+            </propertyGroup>
+            <!-- END DATABASE / STRING -->
+            <propertyGroup caption="Attribute">
+                <!-- ASSOCIATION -->
+                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true" setLabel="true">
+                    <caption>Entity</caption>
+                    <description />
+                    <associationTypes>
+                        <associationType name="Reference" />
+                        <associationType name="ReferenceSet" />
+                    </associationTypes>
+                </property>
+                <property key="optionsSourceAssociationDataSource" type="datasource" isList="true" required="false">
+                    <caption>Selectable objects</caption>
+                    <description />
+                </property>
+            </propertyGroup>
             <propertyGroup caption="Caption">
                 <!-- CAPTIONS -->
                 <property key="optionsSourceAssociationCaptionType" type="enumeration" defaultValue="attribute">
@@ -102,44 +140,6 @@
                     <returnType type="String" />
                 </property>
                 <!-- END CAPTIONS -->
-            </propertyGroup>
-            <propertyGroup caption="Store value">
-                <property key="optionsSourceDatabaseValueAttribute" type="attribute" dataSource="optionsSourceDatabaseDataSource">
-                    <caption>Value</caption>
-                    <description />
-                    <attributeTypes>
-                        <attributeType name="String" />
-                        <attributeType name="Integer" />
-                        <attributeType name="Long" />
-                        <attributeType name="Enum" />
-                    </attributeTypes>
-                </property>
-                <property key="databaseAttributeString" type="attribute" setLabel="true" required="false">
-                    <caption>Target attribute</caption>
-                    <description />
-                    <attributeTypes>
-                        <attributeType name="String" />
-                        <attributeType name="Integer" />
-                        <attributeType name="Long" />
-                        <attributeType name="Enum" />
-                    </attributeTypes>
-                </property>
-            </propertyGroup>
-            <!-- END DATABASE / STRING -->
-            <propertyGroup caption="Attribute">
-                <!-- ASSOCIATION -->
-                <property key="attributeAssociation" type="association" selectableObjects="optionsSourceAssociationDataSource" required="true" setLabel="true">
-                    <caption>Entity</caption>
-                    <description />
-                    <associationTypes>
-                        <associationType name="Reference" />
-                        <associationType name="ReferenceSet" />
-                    </associationTypes>
-                </property>
-                <property key="optionsSourceAssociationDataSource" type="datasource" isList="true" required="false">
-                    <caption>Selectable objects</caption>
-                    <description />
-                </property>
             </propertyGroup>
             <!-- END OPTIONS SOURCE -->
             <!-- STATIC-->
@@ -214,6 +214,11 @@
                         <enumerationValue key="radio">Radio button</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="groupName" type="expression" required="false">
+                    <caption>Group name</caption>
+                    <description>Name for the group of associated inputs</description>
+                    <returnType type="String" />
+                </property>
                 <!-- END MISC PROPS -->
             </propertyGroup>
             <!-- END GENERAL -->
@@ -271,10 +276,9 @@
                     <description />
                     <returnType type="Boolean" />
                 </property>
-                <property key="groupName" type="expression" required="false">
-                    <caption>Group name</caption>
+                <property key="ariaLabel" type="string" defaultValue="" required="false">
+                    <caption>Aria label</caption>
                     <description />
-                    <returnType type="String" />
                 </property>
             </propertyGroup>
         </propertyGroup>
