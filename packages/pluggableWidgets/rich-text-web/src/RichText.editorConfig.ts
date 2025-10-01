@@ -67,6 +67,10 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
     if (values.imageSource === "none" || values.imageSource === null) {
         hidePropertiesIn(defaultProperties, values, ["imageSourceContent", "enableDefaultUpload"]);
     }
+
+    if (values.enableStatusBar === false) {
+        hidePropertyIn(defaultProperties, values, "statusBarContent");
+    }
     return defaultProperties;
 }
 
