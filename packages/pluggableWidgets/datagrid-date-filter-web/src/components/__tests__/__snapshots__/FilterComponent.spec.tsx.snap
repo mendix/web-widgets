@@ -14,12 +14,12 @@ exports[`Filter component renders correctly 1`] = `
       >
         <button
           aria-activedescendant=""
-          aria-controls="downshift-«r0»-menu"
+          aria-controls="downshift-:r0:-menu"
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-label="Equal"
           class="btn btn-default filter-selector-button button-icon equal"
-          id="downshift-«r0»-toggle-button"
+          id="downshift-:r0:-toggle-button"
           role="combobox"
           tabindex="0"
         >
@@ -28,7 +28,7 @@ exports[`Filter component renders correctly 1`] = `
         <ul
           aria-label="Select filter type"
           class="filter-selectors hidden"
-          id="downshift-«r0»-menu"
+          id="downshift-:r0:-menu"
           role="listbox"
           style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
         />
@@ -146,12 +146,12 @@ exports[`Filter component renders correctly with aria labels 1`] = `
       >
         <button
           aria-activedescendant=""
-          aria-controls="downshift-«r3»-menu"
+          aria-controls="downshift-:r3:-menu"
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-label="Equal"
           class="btn btn-default filter-selector-button button-icon equal"
-          id="downshift-«r3»-toggle-button"
+          id="downshift-:r3:-toggle-button"
           role="combobox"
           tabindex="0"
         >
@@ -160,7 +160,7 @@ exports[`Filter component renders correctly with aria labels 1`] = `
         <ul
           aria-label="my label"
           class="filter-selectors hidden"
-          id="downshift-«r3»-menu"
+          id="downshift-:r3:-menu"
           role="listbox"
           style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
         />

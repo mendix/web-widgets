@@ -374,8 +374,13 @@ exports[`Rich Text renders richtext widget 1`] = `
             class="ql-editor"
             contenteditable="true"
           >
+            <h2>
+              <strong>
+                Rich text default value
+              </strong>
+            </h2>
             <p>
-              Rich text default value
+              <br />
             </p>
           </div>
           <div
@@ -3761,8 +3766,13 @@ exports[`Rich Text renders richtext widget with different config 1`] = `
             class="ql-editor"
             contenteditable="true"
           >
+            <h2>
+              <strong>
+                Rich text default value
+              </strong>
+            </h2>
             <p>
-              Rich text default value
+              <br />
             </p>
           </div>
           <div
@@ -4353,7 +4363,226 @@ exports[`Rich Text renders richtext widget with readonly config 1`] = `
       <div
         class="widget-rich-text-container"
         style="height: auto;"
-      />
+      >
+        <div
+          class="ql-toolbar ql-snow"
+          role="toolbar"
+        >
+          <span
+            class="ql-formats"
+          />
+        </div>
+        <div
+          class="ql-container ql-snow ql-disabled"
+        >
+          <div
+            class="ql-editor"
+            contenteditable="false"
+          >
+            <h2>
+              <strong>
+                Rich text default value
+              </strong>
+            </h2>
+            <p>
+              <br />
+            </p>
+          </div>
+          <div
+            class="ql-tooltip ql-hidden"
+          >
+            <a
+              aria-label="preview"
+              class="ql-preview"
+              href="about:blank"
+              rel="noopener noreferrer"
+              target="_blank"
+            />
+            <input
+              data-formula="e=mc^2"
+              data-link="https://quilljs.com"
+              data-video="Embed URL"
+              type="text"
+            />
+            <a
+              aria-label="edit"
+              class="ql-action"
+            />
+            <a
+              aria-label="remove"
+              class="ql-remove"
+            />
+          </div>
+          <div
+            class="ql-table-menus-container ql-hidden"
+          >
+            <div
+              class="ql-table-dropdown"
+            >
+              <span
+                class="ql-table-tooltip-hover"
+              >
+                <span
+                  class="icons icon-Column"
+                />
+                <span
+                  class="icons icon-Arrow-down"
+                />
+              </span>
+              <div
+                class="ql-table-tooltip ql-hidden"
+              />
+              <ul
+                class="ql-table-dropdown-list ql-hidden"
+              >
+                <li />
+                <li />
+                <li />
+              </ul>
+            </div>
+            <div
+              class="ql-table-dropdown"
+            >
+              <span
+                class="ql-table-tooltip-hover"
+              >
+                <span
+                  class="icons icon-Row"
+                />
+                <span
+                  class="icons icon-Arrow-down"
+                />
+              </span>
+              <div
+                class="ql-table-tooltip ql-hidden"
+              />
+              <ul
+                class="ql-table-dropdown-list ql-hidden"
+              >
+                <li />
+                <li />
+                <li />
+              </ul>
+            </div>
+            <div
+              class="ql-table-dropdown"
+            >
+              <span
+                class="ql-table-tooltip-hover"
+              >
+                <span
+                  class="icons icon-Merge"
+                />
+                <span
+                  class="icons icon-Arrow-down"
+                />
+              </span>
+              <div
+                class="ql-table-tooltip ql-hidden"
+              />
+              <ul
+                class="ql-table-dropdown-list ql-hidden"
+              >
+                <li />
+                <li />
+              </ul>
+            </div>
+            <div
+              class="ql-table-dropdown"
+            >
+              <span
+                class="ql-table-tooltip-hover"
+              >
+                <span
+                  class="icons icon-Table"
+                />
+              </span>
+              <div
+                class="ql-table-tooltip ql-hidden"
+              />
+            </div>
+            <div
+              class="ql-table-dropdown"
+            >
+              <span
+                class="ql-table-tooltip-hover"
+              >
+                <span
+                  class="icons icon-Cell"
+                />
+              </span>
+              <div
+                class="ql-table-tooltip ql-hidden"
+              />
+            </div>
+            <div
+              class="ql-table-dropdown"
+            >
+              <span
+                class="ql-table-tooltip-hover"
+              >
+                <span
+                  class="icons icon-Wrap"
+                />
+                <span
+                  class="icons icon-Arrow-down"
+                />
+              </span>
+              <div
+                class="ql-table-tooltip ql-hidden"
+              />
+              <ul
+                class="ql-table-dropdown-list ql-hidden"
+              >
+                <li />
+                <li />
+              </ul>
+            </div>
+            <div
+              class="ql-table-dropdown"
+            >
+              <span
+                class="ql-table-tooltip-hover"
+              >
+                <span
+                  class="icons icon-Copy"
+                />
+              </span>
+              <div
+                class="ql-table-tooltip ql-hidden"
+              />
+            </div>
+            <div
+              class="ql-table-dropdown"
+            >
+              <span
+                class="ql-table-tooltip-hover"
+              >
+                <span
+                  class="icons icon-Delete"
+                />
+              </span>
+              <div
+                class="ql-table-tooltip ql-hidden"
+              />
+            </div>
+            <div
+              class="ql-table-dropdown"
+            >
+              <span
+                class="ql-table-tooltip-hover"
+              >
+                <span
+                  class="icons icon-Table grid-toggle"
+                />
+              </span>
+              <div
+                class="ql-table-tooltip ql-hidden"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
       <div />
     </div>
   </div>

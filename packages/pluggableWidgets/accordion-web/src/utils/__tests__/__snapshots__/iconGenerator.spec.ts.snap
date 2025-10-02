@@ -1,55 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`useIconGenerator returned function returns the icon when icon is animated 1`] = `
-{
-  "$$typeof": Symbol(react.transitional.element),
-  "_owner": null,
-  "_store": {},
-  "key": null,
-  "props": {
-    "animate": true,
-    "data": {
+<Icon
+  animate={true}
+  data={
+    {
       "iconClass": "icon-class",
       "type": "glyph",
-    },
-    "loading": false,
-  },
-  "type": [Function],
-}
+    }
+  }
+  loading={false}
+/>
 `;
 
 exports[`useIconGenerator returned function without icon animated returns the collapse icon when expanded 1`] = `
-{
-  "$$typeof": Symbol(react.transitional.element),
-  "_owner": null,
-  "_store": {},
-  "key": null,
-  "props": {
-    "animate": false,
-    "data": {
+<Icon
+  animate={false}
+  data={
+    {
       "iconClass": "collapse-icon-class",
       "type": "glyph",
-    },
-    "loading": false,
-  },
-  "type": [Function],
-}
+    }
+  }
+  loading={false}
+/>
 `;
 
 exports[`useIconGenerator returned function without icon animated returns the expand icon when collapsed 1`] = `
-{
-  "$$typeof": Symbol(react.transitional.element),
-  "_owner": null,
-  "_store": {},
-  "key": null,
-  "props": {
-    "animate": false,
-    "data": {
+<Icon
+  animate={false}
+  data={
+    {
       "iconClass": "expand-icon-class",
       "type": "glyph",
-    },
-    "loading": false,
-  },
-  "type": [Function],
-}
+    }
+  }
+  loading={false}
+/>
 `;
