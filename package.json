@@ -19,7 +19,8 @@
         "version": "pnpm --filter @mendix/automation-utils run version",
         "changelog": "pnpm --filter @mendix/automation-utils run changelog",
         "prepare-release": "pnpm --filter @mendix/automation-utils run prepare-release",
-        "postinstall": "turbo run agent-rules"
+        "postinstall": "turbo run agent-rules",
+        "build:mcp": "cd automation/mendix-widgets-copilot && pnpm build"
     },
     "devDependencies": {
         "husky": "^8.0.3",
@@ -41,6 +42,7 @@
             ]
         },
         "overrides": {
+            "@modelcontextprotocol/sdk": "^1.17.4",
             "@mendix/pluggable-widgets-tools": "10.21.2",
             "react": "^18.0.0",
             "react-dom": "^18.0.0",
