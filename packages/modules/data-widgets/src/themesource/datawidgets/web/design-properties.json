@@ -59,6 +59,10 @@
                 {
                     "name": "Horizontal",
                     "class": "widget-gallery-bordered-horizontal"
+                },
+                {
+                    "name": "Horizontal divider",
+                    "class": "widget-gallery-divided-horizontal"
                 }
             ]
         },

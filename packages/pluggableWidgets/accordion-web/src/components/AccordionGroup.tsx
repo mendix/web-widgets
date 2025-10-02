@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { createElement, KeyboardEvent, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { LoadContentEnum } from "typings/AccordionProps";
-import { useDebouncedResizeObserver, CallResizeObserver } from "../utils/resizeObserver";
+import { CallResizeObserver, useDebouncedResizeObserver } from "../utils/resizeObserver";
 import "../ui/accordion-main.scss";
 
 export const enum Target {

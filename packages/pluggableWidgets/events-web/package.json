@@ -1,7 +1,7 @@
 {
     "name": "@mendix/app-events-web",
     "widgetName": "Events",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Events",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",

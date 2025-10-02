@@ -1,10 +1,9 @@
-import { useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { getColumnAndRowBasedOnIndex, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { observer } from "mobx-react-lite";
-import { ReactElement, ReactNode, createElement, useCallback } from "react";
+import { createElement, ReactElement, ReactNode, useCallback } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { HeaderWidgetsHost } from "./components/HeaderWidgetsHost";
@@ -12,6 +11,7 @@ import { useItemEventsController } from "./features/item-interaction/ItemEventsC
 import { GridPositionsProps, useGridPositions } from "./features/useGridPositions";
 import { useItemHelper } from "./helpers/ItemHelper";
 import { GalleryContext, GalleryRootScope, useGalleryRootScope } from "./helpers/root-context";
+import { useGalleryJSActions } from "./helpers/useGalleryJSActions";
 import { useGalleryStore } from "./helpers/useGalleryStore";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 
@@ -53,7 +53,7 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
         clickValue: props.onClick
     });
 
-    useOnResetFiltersEvent(rootStore.name, rootStore.id);
+    useGalleryJSActions(rootStore, itemSelectHelper);
 
     const header = <HeaderWidgetsHost>{props.filtersPlaceholder}</HeaderWidgetsHost>;
 
@@ -91,19 +91,26 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
             focusController={focusController}
             getPosition={getPositionCallback}
             loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
+            showRefreshIndicator={rootStore.loaderCtrl.showRefreshIndicator}
         />
     );
 });
 
 function useCreateGalleryScope(props: GalleryContainerProps): GalleryRootScope {
     const rootStore = useGalleryStore(props);
-    const selectionHelper = useSelectionHelper(props.itemSelection, props.datasource, props.onSelectionChange);
+    const selectionHelper = useSelectionHelper(
+        props.itemSelection,
+        props.datasource,
+        props.onSelectionChange,
+        props.keepSelection ? "always keep" : "always clear"
+    );
     const itemSelectHelper = useItemSelectHelper(props.itemSelection, selectionHelper);
 
     return useConst<GalleryRootScope>({
         rootStore,
         selectionHelper,
-        itemSelectHelper
+        itemSelectHelper,
+        selectionCountStore: rootStore.selectionCountStore
     });
 }
 

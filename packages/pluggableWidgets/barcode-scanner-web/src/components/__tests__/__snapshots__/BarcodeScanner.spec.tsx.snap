@@ -3,7 +3,7 @@
 exports[`Barcode scanner does not show the overlay when the user opts out of it 1`] = `
 <DocumentFragment>
   <div
-    class="mx-barcode-scanner"
+    class="mx-barcode-scanner mx-zxing-detector"
     style="width: 100%; height: 100%;"
   >
     <div
@@ -20,7 +20,7 @@ exports[`Barcode scanner does not show the overlay when the user opts out of it 
 exports[`Barcode scanner renders video and overlay correctly 1`] = `
 <DocumentFragment>
   <div
-    class="mx-barcode-scanner"
+    class="mx-barcode-scanner mx-zxing-detector"
     style="width: 100%; height: 100%;"
   >
     <div

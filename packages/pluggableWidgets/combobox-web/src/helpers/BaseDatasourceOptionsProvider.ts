@@ -1,27 +1,38 @@
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { ListAttributeValue, ListValue, ObjectItem } from "mendix";
 import { FilterTypeEnum } from "../../typings/ComboboxProps";
 import { BaseOptionsProvider } from "./BaseOptionsProvider";
 import { datasourceFilter } from "./datasourceFilter";
-import { CaptionsProvider, Status, SortOrder } from "./types";
+import { CaptionsProvider, SortOrder, Status } from "./types";
 import { DEFAULT_LIMIT_SIZE } from "./utils";
+import { FilterCondition } from "mendix/filters";
 
 export interface BaseProps {
     attributeId?: ListAttributeValue["id"];
     ds: ListValue;
     filterType: FilterTypeEnum;
     lazyLoading: boolean;
+    filterInputDebounceInterval?: number;
 }
 
 export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectItem, BaseProps> {
     private ds?: ListValue;
     private attributeId?: ListAttributeValue["id"];
     protected loading: boolean = false;
+    private debouncedSetFilter: (filterCondition: FilterCondition | undefined) => void;
 
     constructor(
         caption: CaptionsProvider,
-        protected valuesMap: Map<string, ObjectItem>
+        protected valuesMap: Map<string, ObjectItem>,
+        filterInputDebounceInterval: number = 200
     ) {
         super(caption);
+
+        const [debouncedFn] = debounce((filterCondition: FilterCondition | undefined) => {
+            this.ds?.setFilter(filterCondition);
+        }, filterInputDebounceInterval);
+
+        this.debouncedSetFilter = debouncedFn;
     }
 
     get sortOrder(): SortOrder {
@@ -51,10 +62,10 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     getAll(): string[] {
         if (this.lazyLoading && this.attributeId) {
             if (this.searchTerm === "") {
-                this.ds?.setFilter(undefined);
+                this.debouncedSetFilter(undefined);
             } else {
                 const filterCondition = datasourceFilter(this.filterType, this.searchTerm, this.attributeId);
-                this.ds?.setFilter(filterCondition);
+                this.debouncedSetFilter(filterCondition);
             }
 
             return this.options;
@@ -86,10 +97,10 @@ export class BaseDatasourceOptionsProvider extends BaseOptionsProvider<ObjectIte
     }
 
     // used for initial load of selected value in case options are lazy loaded
-    loadSelectedValue(attributeValue: string): void {
+    loadSelectedValue(attributeValue: string, attrId?: ListAttributeValue["id"]): void {
         if (this.lazyLoading && this.ds && this.attributeId) {
-            const filterCondition = datasourceFilter("containsExact", attributeValue, this.attributeId);
-            this.ds?.setFilter(filterCondition);
+            const filterCondition = datasourceFilter("containsExact", attributeValue, attrId ?? this.attributeId);
+            this.debouncedSetFilter(filterCondition);
             this.ds.setLimit(1);
         }
     }

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, RefObject, useMemo, useEffect } from "react";
+import { RefObject, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 
 type callbackFn<T> = (target: T, entry: ResizeObserverEntry) => void;

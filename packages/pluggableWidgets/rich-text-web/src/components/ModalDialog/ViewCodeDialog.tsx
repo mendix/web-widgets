@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useState, useCallback } from "react";
+import { createElement, ReactElement, useCallback, useState } from "react";
 import { type viewCodeConfigType } from "../../utils/formats";
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
 import CodeMirror, { ViewUpdate } from "@uiw/react-codemirror";
@@ -11,6 +11,7 @@ export interface ViewCodeDialogProps {
     currentCode?: string;
     onSubmit(value: viewCodeConfigType): void;
     onClose(): void;
+    formOrientation: "horizontal" | "vertical";
 }
 
 const BEAUTIFY_OPTIONS: beautify.HTMLBeautifyOptions = {
@@ -26,7 +27,7 @@ const BEAUTIFY_OPTIONS: beautify.HTMLBeautifyOptions = {
 };
 
 export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement {
-    const { onSubmit, onClose, currentCode } = props;
+    const { onSubmit, onClose, currentCode, formOrientation } = props;
     const [formState, setFormState] = useState({
         src: beautify.html(currentCode ?? "", BEAUTIFY_OPTIONS) || ""
     });
@@ -35,13 +36,13 @@ export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement
     }, []);
 
     return (
-        <DialogContent className="view-code-dialog">
+        <DialogContent className={"view-code-dialog"} formOrientation={formOrientation}>
             <DialogHeader onClose={onClose}>View/Edit Code</DialogHeader>
-            <DialogBody>
+            <DialogBody formOrientation={props.formOrientation}>
                 <div>
                     <label>Source Code</label>
                 </div>
-                <FormControl>
+                <FormControl label="Code input" formOrientation={props.formOrientation} inputId="rich-text-code-input">
                     <CodeMirror
                         className="form-control mx-textarea-input mx-textarea-noresize code-input"
                         value={formState.src}

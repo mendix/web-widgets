@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.txhhdgfn.TXhHdGFn" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Google Tag Command</name>
+    <description>Google tag integration widget</description>
+    <icon />
+    <properties>
+        <propertyGroup caption="General">
+            <property key="widgetMode" type="enumeration" defaultValue="basic">
+                <caption>Widget mode</caption>
+                <description>The basic option automatically sends page view events. Place this widget in the layouts to automatically send events when pages are changed. The advanced option can be used for more control.</description>
+                <enumerationValues>
+                    <enumerationValue key="basic">Basic</enumerationValue>
+                    <enumerationValue key="advanced">Advanced</enumerationValue>
+                </enumerationValues>
+            </property>
+
+            <!-- Common config options -->
+            <property key="targetId" required="false" type="expression">
+                <caption>Tag ID</caption>
+                <description>Examples of tag IDs include GT-XXXXXXXXX, G-XXXXXXXXX, and AW-XXXXXXXXX</description>
+                <returnType type="String" />
+            </property>
+
+            <property key="parameters" type="object" isList="true" required="false">
+                <caption>Parameters</caption>
+                <description />
+                <properties>
+                    <propertyGroup caption="General">
+                        <property key="name" type="string" required="true">
+                            <caption>Name</caption>
+                            <description />
+                        </property>
+                        <property key="valueType" type="enumeration" defaultValue="predefined">
+                            <caption>Value</caption>
+                            <description />
+                            <enumerationValues>
+                                <enumerationValue key="predefined">Predefined</enumerationValue>
+                                <enumerationValue key="custom">Custom</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="predefinedValue" type="enumeration" defaultValue="pageName">
+                            <caption>Standard value</caption>
+                            <description />
+                            <enumerationValues>
+                                <enumerationValue key="pageTitle">Page Title</enumerationValue>
+                                <enumerationValue key="pageUrl">Page URL</enumerationValue>
+                                <enumerationValue key="pageName">Page Name</enumerationValue>
+                                <enumerationValue key="moduleName">Module Name</enumerationValue>
+                                <enumerationValue key="pageAndModuleName">Page and Module Name</enumerationValue>
+                                <enumerationValue key="sessionId">Session ID</enumerationValue>
+                                <enumerationValue key="userLocale">User Locale</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="customValue" type="expression" required="false">
+                            <caption>Custom value</caption>
+                            <description />
+                            <returnType type="String" />
+                        </property>
+                    </propertyGroup>
+                </properties>
+            </property>
+            <property key="sendUserID" type="boolean" required="true" defaultValue="false">
+                <caption>Share user ID</caption>
+                <description>Expose the authenticated User ID to uniquely identify individual users in Google Analytics.</description>
+            </property>
+            <!-- / Common config options -->
+
+            <!-- Advanced config options -->
+            <property key="command" type="enumeration" required="true" defaultValue="event">
+                <caption>Command</caption>
+                <description>Event can be used to send an event. Config can be used to configure advanced configuration parameters.</description>
+                <enumerationValues>
+                    <enumerationValue key="event">Event</enumerationValue>
+                    <enumerationValue key="config">Config</enumerationValue>
+                </enumerationValues>
+            </property>
+
+            <property key="eventName" required="false" type="string">
+                <caption>Event name</caption>
+                <description />
+            </property>
+
+            <property key="trackPageChanges" type="boolean" required="true" defaultValue="false">
+                <caption>Track page changes</caption>
+                <description>Send the event when the page is changed.</description>
+            </property>
+            <!-- / Advanced config options -->
+        </propertyGroup>
+    </properties>
+</widget>

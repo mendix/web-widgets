@@ -1,16 +1,21 @@
-import { tag } from "@mendix/filter-commons/condition-utils";
+import { reduceMap, restoreMap } from "@mendix/filter-commons/condition-utils";
 import { FilterData, FiltersSettingsMap, PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
 import { FilterCondition } from "mendix/filters";
-import { and } from "mendix/filters/builders";
-import { autorun, makeAutoObservable } from "mobx";
+import { action, autorun, makeAutoObservable } from "mobx";
+import { ConditionWithMeta } from "../../typings/ConditionWithMeta";
 import { Filter, ObservableFilterHost } from "../../typings/ObservableFilterHost";
 
 export class CustomFilterHost implements ObservableFilterHost, Serializable {
     private filters: Map<string, [store: Filter, dispose: () => void]> = new Map();
     private settingsBuffer: FiltersSettingsMap<string> = new Map();
+    private _state: Map<string, FilterCondition | undefined> = new Map();
+
+    readonly metaKey = "CustomFilterHost";
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {
+            hydrate: action
+        });
     }
 
     get settings(): FiltersSettingsMap<string> {
@@ -21,22 +26,27 @@ export class CustomFilterHost implements ObservableFilterHost, Serializable {
         this.settingsBuffer = data;
     }
 
-    get conditions(): Array<FilterCondition | undefined> {
-        return [...this.filters].map(([key, [{ condition }]]) => {
-            return condition ? and(tag(key), condition) : undefined;
-        });
-    }
-
     observe(key: string, filter: Filter): void {
         this.unobserve(key);
-        const clear = autorun(() => {
+        const clearSettingsSync = autorun(() => {
             if (this.settingsBuffer.has(key)) {
                 filter.fromJSON(this.settingsBuffer.get(key));
             }
         });
+        const clearStateSync = autorun(() => {
+            this._state.set(key, filter.condition);
+        });
+        const skipInit = this.settingsBuffer.has(key);
+        const initCond = this._state.get(key);
+        if (!skipInit && initCond) {
+            filter.fromViewState(initCond);
+        }
+
         const dispose = (): void => {
-            clear();
+            clearSettingsSync();
+            clearStateSync();
             this.filters.delete(key);
+            this._state.delete(key);
         };
         this.filters.set(key, [filter, dispose]);
     }
@@ -57,5 +67,25 @@ export class CustomFilterHost implements ObservableFilterHost, Serializable {
         }
 
         this.settings = new Map(data as Array<[string, FilterData]>);
+    }
+
+    get condWithMeta(): ConditionWithMeta {
+        const conditions: Record<string, FilterCondition | undefined> = {};
+
+        for (const [key, [filter]] of this.filters) {
+            conditions[key] = filter.condition;
+        }
+
+        const [cond, meta] = reduceMap(conditions);
+
+        return {
+            cond,
+            meta
+        };
+    }
+
+    hydrate({ cond, meta }: ConditionWithMeta): void {
+        const map = restoreMap(cond, meta);
+        this._state = new Map(Object.entries(map));
     }
 }

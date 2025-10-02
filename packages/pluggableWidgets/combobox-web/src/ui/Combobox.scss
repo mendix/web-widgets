@@ -150,7 +150,9 @@ $cb-skeleton-dark: #d2d2d2;
                 background-color: transparent;
             }
         }
+    }
 
+    .widget-combobox-multiselect {
         &:not(.widget-combobox-input-container-active) {
             .widget-combobox-input {
                 width: 1px;
@@ -159,7 +161,7 @@ $cb-skeleton-dark: #d2d2d2;
     }
 
     &-input {
-        color: var(--gray-dark, $cb-gray-dark);
+        color: var(--cb-text-color, var(--gray-dark, $cb-gray-dark));
         flex-grow: 1;
         border: none;
         padding: 0;
@@ -219,6 +221,7 @@ $cb-skeleton-dark: #d2d2d2;
                 transform: rotate(180deg);
                 transition: transform 0.2s;
             }
+            stroke: var(--cb-text-color);
         }
     }
 
@@ -229,7 +232,7 @@ $cb-skeleton-dark: #d2d2d2;
         cursor: not-allowed;
 
         &-text {
-            color: var(--gray-darker, $cb-typography-color);
+            color: var(--cb-text-color, var(--gray-darker, $cb-typography-color));
             position: absolute;
             left: 0;
             right: 0;
@@ -243,7 +246,7 @@ $cb-skeleton-dark: #d2d2d2;
         }
 
         &-empty {
-            color: var(--gray-dark, $cb-gray-dark);
+            color: var(--cb-text-color, var(--gray-dark, $cb-gray-dark));
         }
     }
 

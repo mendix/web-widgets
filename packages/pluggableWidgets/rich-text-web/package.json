@@ -1,7 +1,7 @@
 {
     "name": "@mendix/rich-text-web",
     "widgetName": "RichText",
-    "version": "4.8.1",
+    "version": "4.9.0",
     "description": "Rich inline or toolbar text editing",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -24,7 +24,7 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "rich-text-v4-web"
+        "branchName": "rich-text-v4-2"
     },
     "scripts": {
         "build": "cross-env MPKOUTPUT=RichText.mpk pluggable-widgets-tools build:web",
@@ -52,7 +52,7 @@
         "dompurify": "^3.2.6",
         "js-beautify": "^1.15.4",
         "katex": "^0.16.22",
-        "linkifyjs": "^4.3.1",
+        "linkifyjs": "^4.3.2",
         "lodash.merge": "^4.6.2",
         "parchment": "^3.0.0",
         "quill": "^2.0.3",

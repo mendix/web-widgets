@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.6.0] - 2025-10-01
+
+### Changed
+
+- Internal improvements.
+
+## [3.4.0] - 2025-09-12
+
+### Fixed
+
+- We fixed label issues reported by Axe a11y tool
+
+## [3.3.0] - 2025-08-28
+
+### Fixed
+
+- We implemented ellipsis truncation to resolve option caption overflow issues.
+
+- We fixed an issue where tooltips were not displayed correctly when hovering over options.
+
+## [3.2.0] - 2025-08-18
+
+### Changed
+
+- Internal improvements.
+
 ## [3.0.4] - 2025-08-05
 
 ### Fixed

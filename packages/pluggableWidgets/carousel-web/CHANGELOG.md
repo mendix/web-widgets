@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.3.0] - 2025-08-19
+
+### Changed
+
+- We update swiper library dependency from v9 to v11.
+
 ## [2.2.1] - 2023-09-27
 
 ### Fixed

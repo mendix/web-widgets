@@ -1,28 +1,51 @@
 import classnames from "classnames";
 import { EditableValue } from "mendix";
-import { ReactElement, createElement, useRef } from "react";
+import { createElement, ReactElement, useRef } from "react";
 import { EventsContainerProps } from "../typings/EventsProps";
 import { useActionTimer } from "./hooks/timer";
+import { useParameterValue } from "./hooks/parameterValue";
 import "./ui/Events.scss";
 
 export default function Events(props: EventsContainerProps): ReactElement {
     const {
         class: className,
         onComponentLoad,
+        componentLoadDelayExpression,
         componentLoadDelay,
         componentLoadRepeat,
-        componentLoadRepeatInterval,
         onEventChangeAttribute,
         onEventChange,
-        onEventChangeDelay
-        // optionsSourceType
+        componentLoadRepeatInterval,
+        componentLoadRepeatIntervalParameterType,
+        componentLoadRepeatIntervalExpression,
+        componentLoadDelayParameterType,
+        onEventChangeDelay,
+        onEventChangeDelayParameterType,
+        onEventChangeDelayExpression
     } = props;
     const prevOnChangeAttributeValue = useRef<EditableValue<any> | undefined>();
+
+    const delayValue = useParameterValue({
+        parameterType: componentLoadDelayParameterType,
+        parameterValue: componentLoadDelay,
+        parameterExpression: componentLoadDelayExpression
+    });
+    const intervalValue = useParameterValue({
+        parameterType: componentLoadRepeatIntervalParameterType,
+        parameterValue: componentLoadRepeatInterval,
+        parameterExpression: componentLoadRepeatIntervalExpression
+    });
+    const onEventChangeDelayValue = useParameterValue({
+        parameterType: onEventChangeDelayParameterType,
+        parameterValue: onEventChangeDelay,
+        parameterExpression: onEventChangeDelayExpression
+    });
+
     useActionTimer({
         canExecute: onComponentLoad?.canExecute,
         execute: onComponentLoad?.execute,
-        delay: componentLoadDelay,
-        interval: componentLoadRepeatInterval,
+        delay: delayValue,
+        interval: intervalValue,
         repeat: componentLoadRepeat,
         attribute: undefined
     });
@@ -33,7 +56,6 @@ export default function Events(props: EventsContainerProps): ReactElement {
                 return;
             }
             if (prevOnChangeAttributeValue?.current?.value === undefined) {
-                // ignore initial load
                 prevOnChangeAttributeValue.current = onEventChangeAttribute;
             } else {
                 if (onEventChangeAttribute?.value !== prevOnChangeAttributeValue.current?.value) {
@@ -42,7 +64,7 @@ export default function Events(props: EventsContainerProps): ReactElement {
                 }
             }
         },
-        delay: onEventChangeDelay,
+        delay: onEventChangeDelayValue,
         interval: 0,
         repeat: false,
         attribute: onEventChangeAttribute

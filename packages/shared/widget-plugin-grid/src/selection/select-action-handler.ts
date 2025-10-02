@@ -85,6 +85,12 @@ export class SelectActionHandler {
         return this.selectionHelper ? this.selectionHelper.isSelected(item) : false;
     };
 
+    onClearSelection = (): void => {
+        if (this.selectionHelper?.type === "Multi") {
+            this.selectionHelper.clearSelection();
+        }
+    };
+
     private selectItem = (item: ObjectItem, toggleMode: boolean): void => {
         if (this.selectionHelper === undefined) {
             return;

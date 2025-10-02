@@ -1,4 +1,4 @@
-import { ReactElement, createElement, FunctionComponent } from "react";
+import { createElement, FunctionComponent, ReactElement } from "react";
 import "../ui/CalendarLoader.scss";
 
 export const CalendarLoader: FunctionComponent = () =>

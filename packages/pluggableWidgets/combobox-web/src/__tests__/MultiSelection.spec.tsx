@@ -1,11 +1,11 @@
 import {
     dynamic,
     EditableValueBuilder,
+    list,
     ListAttributeValueBuilder,
-    ReferenceSetValueBuilder,
     listExp,
     obj,
-    list,
+    ReferenceSetValueBuilder,
     setupIntersectionObserverStub
 } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
@@ -76,7 +76,8 @@ describe("Combo box (Association)", () => {
             ],
             selectedItemsSorting: "none",
             customEditability: "default",
-            customEditabilityExpression: dynamic(false)
+            customEditabilityExpression: dynamic(false),
+            filterInputDebounceInterval: 200
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => dynamic(`${i.id}`);

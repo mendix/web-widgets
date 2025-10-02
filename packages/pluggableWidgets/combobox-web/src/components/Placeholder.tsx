@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { PropsWithChildren, ReactElement, createElement } from "react";
+import { createElement, PropsWithChildren, ReactElement } from "react";
 import { DownArrow } from "../assets/icons";
 
 export function Placeholder(): ReactElement {

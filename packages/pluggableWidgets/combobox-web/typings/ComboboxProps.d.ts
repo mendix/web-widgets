@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, ReactNode } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, Option, ListAttributeValue, ListExpressionValue, ListWidgetValue, ReferenceValue, ReferenceSetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
 export type SourceEnum = "context" | "database" | "static";
@@ -89,6 +89,7 @@ export interface ComboboxContainerProps {
     onChangeEvent?: ActionValue;
     onEnterEvent?: ActionValue;
     onLeaveEvent?: ActionValue;
+    onChangeFilterInputEvent?: ActionValue<{ filterInput: Option<string> }>;
     ariaRequired: DynamicValue<boolean>;
     ariaLabel?: DynamicValue<string>;
     clearButtonAriaLabel?: DynamicValue<string>;
@@ -100,6 +101,7 @@ export interface ComboboxContainerProps {
     loadingType: LoadingTypeEnum;
     selectedItemsSorting: SelectedItemsSortingEnum;
     filterType: FilterTypeEnum;
+    filterInputDebounceInterval: number;
 }
 
 export interface ComboboxPreviewProps {
@@ -145,6 +147,7 @@ export interface ComboboxPreviewProps {
     onChangeDatabaseEvent: {} | null;
     onEnterEvent: {} | null;
     onLeaveEvent: {} | null;
+    onChangeFilterInputEvent: {} | null;
     ariaRequired: string;
     ariaLabel: string;
     clearButtonAriaLabel: string;
@@ -156,4 +159,5 @@ export interface ComboboxPreviewProps {
     loadingType: LoadingTypeEnum;
     selectedItemsSorting: SelectedItemsSortingEnum;
     filterType: FilterTypeEnum;
+    filterInputDebounceInterval: number | null;
 }

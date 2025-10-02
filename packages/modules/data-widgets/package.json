@@ -1,7 +1,8 @@
 {
     "name": "@mendix/data-widgets",
     "moduleName": "Data Widgets",
-    "version": "3.1.1",
+    "version": "3.6.0",
+    "description": "Data Widgets module containing a set of widgets to display data in various ways.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
     "private": true,
@@ -42,7 +43,7 @@
         "create-gh-release": "rui-create-gh-release",
         "create-module-mpk": "turbo release:module --filter @mendix/data-widgets",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
-        "lint": "tsc --project scripts/tsconfig.json",
+        "lint": "tsc --project scripts/tsconfig.json && eslint . package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
         "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
@@ -63,6 +64,7 @@
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@rollup/plugin-node-resolve": "^16.0.0",
         "@rollup/plugin-terser": "^0.4.4",

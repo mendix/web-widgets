@@ -5,7 +5,7 @@ import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensio
 import { SharedProps } from "../../typings/shared";
 import { MapProviderEnum } from "../../typings/MapsProps";
 import { translateZoom } from "../utils/zoom";
-import { Icon as LeafletIcon, DivIcon } from "leaflet";
+import { Icon as LeafletIcon, DivIcon, latLngBounds } from "leaflet";
 import { baseMapLayer } from "../utils/leaflet";
 
 // Global variable for marker render delay

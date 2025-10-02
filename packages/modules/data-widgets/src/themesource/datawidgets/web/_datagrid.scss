@@ -2,32 +2,12 @@
 @import "export-progress";
 @import "pseudo-modal";
 
-$dg-background-color: #fff;
-$dg-icon-color: #606671;
-$dg-icon-size: 14px;
-$dg-pagination-button-color: #3b4251;
-$dg-pagination-caption-color: #0a1325;
-$dragging-color-effect: rgba(10, 19, 37, 0.8);
-$dg-dragging-effect-size: 4px;
-
-$dg-grid-bg-striped: #fafafb;
-$dg-grid-bg-hover: #f5f6f6;
-$dg-spacing-small: 8px;
-$dg-spacing-medium: 16px;
-$dg-spacing-large: 24px;
-$dg-grid-border-color: #ced0d3;
-
-$dg-brand-primary: #264ae5;
-$dg-brand-light: #e6eaff;
-$dg-grid-selected-row-background: $dg-brand-light;
-$dg-skeleton-background: linear-gradient(90deg, rgba(194, 194, 194, 0.2) 0%, #d2d2d2 100%);
-
 $root: ".widget-datagrid";
 
 .table {
     position: relative;
     border-width: 0;
-    background-color: var(--bg-color-secondary, $dg-background-color);
+    background-color: var(--bg-color-secondary, $bg-color-secondary);
 
     /* Pseudo Row, to target this object please use .tr > .td or .tr > div */
     .tr {
@@ -39,10 +19,10 @@ $root: ".widget-datagrid";
         :where(.widget-datagrid-grid .th) {
             display: flex;
             align-items: flex-start;
-            background-color: var(--bg-color-secondary, $dg-background-color);
+            background-color: var(--bg-color-secondary, $bg-color-secondary);
             border-width: 0;
-            border-color: var(--grid-border-color, $dg-grid-border-color);
-            padding: var(--spacing-medium, $dg-spacing-medium);
+            border-color: var(--grid-border-color, $grid-border-color);
+            padding: var(--spacing-medium, $spacing-medium);
             top: 0;
             min-width: 0;
             position: relative;
@@ -63,7 +43,7 @@ $root: ".widget-datagrid";
             position: absolute;
             top: 0;
             height: 100%;
-            width: var(--spacing-smaller, $dg-dragging-effect-size);
+            width: var(--spacing-smaller, $spacing-smaller);
             background-color: $dragging-color-effect;
 
             z-index: 1;
@@ -100,10 +80,10 @@ $root: ".widget-datagrid";
             margin-right: -12px;
 
             &:hover .column-resizer-bar {
-                background-color: var(--brand-primary, $dg-brand-primary);
+                background-color: var(--brand-primary, $brand-primary);
             }
             &:active .column-resizer-bar {
-                background-color: var(--brand-primary, $dg-brand-primary);
+                background-color: var(--brand-primary, $brand-primary);
             }
 
             .column-resizer-bar {
@@ -129,7 +109,7 @@ $root: ".widget-datagrid";
 
         /* Header text */
         .column-header {
-            margin: 1px 1px calc((-1 * var(--spacing-smaller, $dg-dragging-effect-size)) + 2px);
+            margin: 1px 1px calc((-1 * var(--spacing-smaller, $spacing-smaller)) + 2px);
             display: flex;
             align-items: baseline;
             font-weight: 600;
@@ -145,9 +125,9 @@ $root: ".widget-datagrid";
 
             svg {
                 margin-left: 8px;
-                flex: 0 0 var(--btn-font-size, $dg-icon-size);
-                color: var(--gray-dark, $dg-icon-color);
-                height: var(--btn-font-size, $dg-icon-size);
+                flex: 0 0 var(--btn-font-size, $btn-font-size);
+                color: var(--gray-dark, $gray-dark);
+                height: var(--btn-font-size, $btn-font-size);
                 align-self: center;
             }
 
@@ -156,7 +136,7 @@ $root: ".widget-datagrid";
             }
 
             &:focus-visible {
-                outline: 1px solid var(--brand-primary, $dg-brand-primary);
+                outline: 1px solid var(--brand-primary, $brand-primary);
             }
         }
 
@@ -174,7 +154,7 @@ $root: ".widget-datagrid";
     &:has(.th .column-container .filter:not(:empty)) {
         .th {
             &.column-selector {
-                padding: var(--spacing-medium, $dg-spacing-medium) 0;
+                padding: var(--spacing-medium, $spacing-medium) 0;
             }
             /*adjust filter-selector icon to be mid-bottom aligned */
             .column-selector-content {
@@ -185,7 +165,7 @@ $root: ".widget-datagrid";
             /*adjust checkbox toggle to be mid-bottom aligned */
             &.widget-datagrid-col-select {
                 align-items: flex-end;
-                padding-bottom: calc(var(--spacing-medium, $dg-spacing-medium) + 11px);
+                padding-bottom: calc(var(--spacing-medium, $spacing-medium) + 11px);
             }
         }
     }
@@ -197,7 +177,7 @@ $root: ".widget-datagrid";
         /* Column content */
         .column-selector-content {
             align-self: center;
-            padding-right: var(--spacing-medium, $dg-spacing-medium);
+            padding-right: var(--spacing-medium, $spacing-medium);
             /* Button containing the eye icon */
             .column-selector-button {
                 $icon-margin: 7px;
@@ -207,8 +187,8 @@ $root: ".widget-datagrid";
                 padding: 0;
                 margin: 0;
 
-                height: calc(var(--btn-font-size, $dg-icon-size) + $icon-margin * 2 + $icon-slack-size);
-                width: calc(var(--btn-font-size, $dg-icon-size) + $icon-margin * 2 + $icon-slack-size);
+                height: calc(var(--btn-font-size, $btn-font-size) + $icon-margin * 2 + $icon-slack-size);
+                width: calc(var(--btn-font-size, $btn-font-size) + $icon-margin * 2 + $icon-slack-size);
 
                 svg {
                     margin: $icon-margin;
@@ -221,7 +201,7 @@ $root: ".widget-datagrid";
                 right: 0;
                 margin: 8px;
                 padding: 0 16px;
-                background: var(--bg-color-secondary, $dg-background-color);
+                background: var(--bg-color-secondary, $bg-color-secondary);
                 z-index: 102;
                 overflow-y: auto;
                 width: fit-content;
@@ -254,10 +234,10 @@ $root: ".widget-datagrid";
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: var(--spacing-medium, $dg-spacing-medium);
+        padding: var(--spacing-medium, $spacing-medium);
         border-style: solid;
         border-width: 0;
-        border-color: var(--grid-border-color, $dg-grid-border-color);
+        border-color: var(--grid-border-color, $grid-border-color);
         border-bottom-width: 1px;
         min-width: 0;
 
@@ -270,7 +250,7 @@ $root: ".widget-datagrid";
             outline-width: 1px;
             outline-style: solid;
             outline-offset: -1px;
-            outline-color: var(--brand-primary, $dg-brand-primary);
+            outline-color: var(--brand-primary, $brand-primary);
         }
 
         &.clickable {
@@ -332,20 +312,20 @@ $root: ".widget-datagrid";
     white-space: nowrap;
     align-items: baseline;
     margin: 16px;
-    color: $dg-pagination-caption-color;
+    color: $pagination-caption-color;
 
     .paging-status {
-        padding: 0 8px 8px;
+        padding: 0 8px 0;
     }
 
     .pagination-button {
         padding: 6px;
-        color: var(--gray-darker, $dg-pagination-button-color);
+        color: var(--gray-darker, $gray-darker);
         border-color: transparent;
         background-color: transparent;
 
         &:hover {
-            color: var(--brand-primary, $dg-brand-primary);
+            color: var(--brand-primary, $brand-primary);
             border-color: transparent;
             background-color: transparent;
         }
@@ -360,7 +340,7 @@ $root: ".widget-datagrid";
         }
 
         &:focus-visible {
-            outline: 1px solid var(--brand-primary, $dg-brand-primary);
+            outline: 1px solid var(--brand-primary, $brand-primary);
         }
     }
     .pagination-icon {
@@ -379,7 +359,7 @@ $root: ".widget-datagrid";
     right: 0;
     margin: 8px 0;
     padding: 0 16px;
-    background: var(--bg-color-secondary, $dg-background-color);
+    background: var(--bg-color-secondary, $bg-color-secondary);
     z-index: 102;
     overflow-y: auto;
     width: fit-content;
@@ -431,7 +411,7 @@ $root: ".widget-datagrid";
 
     &.widget-datagrid-selection-method-click {
         .tr.tr-selected .td {
-            background-color: $dg-grid-selected-row-background;
+            background-color: $grid-selected-row-background;
         }
     }
 
@@ -483,7 +463,7 @@ $root: ".widget-datagrid";
 
         &-loader {
             animation: skeleton-loading 1s linear infinite alternate;
-            background: var(--dg-skeleton-background, $dg-skeleton-background);
+            background: var(--skeleton-background, $skeleton-background);
             background-size: 300% 100%;
             border-radius: 4px;
             height: 16px;
@@ -510,7 +490,7 @@ $root: ".widget-datagrid";
             --widget-combobox-spinner-loader: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
             animation: rotate 1s infinite linear;
             aspect-ratio: 1;
-            background: var(--brand-primary, $dg-brand-primary);
+            background: var(--brand-primary, $brand-primary);
             border-radius: 50%;
             mask: var(--widget-combobox-spinner-loader);
             mask-composite: subtract;
@@ -540,13 +520,51 @@ $root: ".widget-datagrid";
     margin: 0 auto;
 }
 
-:where(.widget-datagrid-grid.infinite-loading) {
+.infinite-loading.widget-datagrid-grid-body {
+    // when virtual scroll is enabled we make area that holds rows scrollable
+    // (while the area that holds column headers still stays in place)
     overflow-y: auto;
 }
 
-:where(.infinite-loading .widget-datagrid-grid-head .th) {
-    position: sticky;
-    z-index: 1;
+.widget-datagrid-grid-head,
+.widget-datagrid-grid-body {
+    // this element has to position their children (columns or headers)
+    // as grid and have those aligned with the parent grid
+    display: grid;
+    // this property makes sure we align our own grid columns
+    // to the columns defined in the global grid
+    grid-template-columns: subgrid;
+
+    // ensure that we cover all columns of original top level grid
+    // so our own columns get aligned with the parent
+    grid-column: 1 / -1;
+}
+
+:where(#{$root}-paging-bottom) {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+:where(#{$root}-pb-start, #{$root}-pb-end, #{$root}-pb-middle) {
+    flex-grow: 1;
+    flex-basis: 33.33%;
+    min-height: 20px;
+}
+
+:where(#{$root}-pb-start) {
+    margin-block: var(--spacing-medium);
+    padding-inline: var(--spacing-medium);
+}
+
+#{$root}-clear-selection {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+    color: var(--link-color);
+    padding: 0;
+    display: inline-block;
 }
 
 @keyframes skeleton-loading {

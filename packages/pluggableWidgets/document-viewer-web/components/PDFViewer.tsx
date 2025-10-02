@@ -1,4 +1,4 @@
-import { createElement, Fragment, useCallback, useEffect, useState } from "react";
+import { createElement, Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -6,14 +6,32 @@ import { downloadFile } from "../utils/helpers";
 import { useZoomScale } from "../utils/useZoomScale";
 import BaseViewer from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+import { If } from "@mendix/widget-plugin-component-kit/If";
 const options = {
-    cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
-    standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts`
+    cMapUrl: "/widgets/com/mendix/shared/pdfjs/cmaps/",
+    standardFontDataUrl: "/widgets/com/mendix/shared/pdfjs/standard_fonts"
 };
 
 const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
-    const { file, setDocumentStatus } = props;
+    const { file, setDocumentStatus, pdfjsWorkerUrl } = props;
+    pdfjs.GlobalWorkerOptions.workerSrc = useMemo(() => {
+        if (pdfjsWorkerUrl?.status === "available") {
+            if (pdfjsWorkerUrl?.value) {
+                return pdfjsWorkerUrl.value;
+            } else {
+                return `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+            }
+        } else if (pdfjsWorkerUrl?.status === "unavailable") {
+            setDocumentStatus({
+                status: DocumentStatus.error,
+                message: "Failed to load PDF document : pdfjsWorker unavailable"
+            });
+            return ""; // no worker;
+        } else {
+            return ""; // no worker;
+        }
+    }, [pdfjsWorkerUrl, setDocumentStatus]);
+
     const [numberOfPages, setNumberOfPages] = useState<number>(1);
     const { zoomLevel, zoomIn, zoomOut, reset } = useZoomScale();
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -93,14 +111,21 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                 </Fragment>
             }
         >
-            <Document
-                file={pdfUrl}
-                options={options}
-                onLoadSuccess={onDocumentLoadSuccess}
-                onLoadError={() => setDocumentStatus(DocumentStatus.error)}
-            >
-                <Page pageNumber={currentPage} scale={zoomLevel} />
-            </Document>
+            <If condition={!!pdfUrl && pdfjsWorkerUrl?.status === "available"}>
+                <Document
+                    file={pdfUrl}
+                    options={options}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                    onLoadError={() =>
+                        setDocumentStatus({
+                            status: DocumentStatus.error,
+                            message: "Failed to load PDF document"
+                        })
+                    }
+                >
+                    <Page pageNumber={currentPage} scale={zoomLevel} />
+                </Document>
+            </If>
         </BaseViewer>
     );
 };

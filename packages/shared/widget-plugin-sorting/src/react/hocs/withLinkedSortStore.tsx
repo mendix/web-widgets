@@ -1,6 +1,6 @@
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { AttributeMetaData, DynamicValue } from "mendix";
-import { createElement, FC } from "react";
+import { createElement, FC, useEffect } from "react";
 import { SortStoreProvider } from "../../helpers/SortStoreProvider";
 import { BasicSortStore } from "../../types/store";
 import { SortAPI } from "../context";
@@ -20,10 +20,13 @@ export function withLinkedSortStore<P extends RequiredProps>(
             () =>
                 new SortStoreProvider({
                     host: props.sortAPI.host,
-                    initSortOrder: props.sortAPI.host.sortOrder,
-                    attributes: props.attributes
+                    initSortOrder: props.sortAPI.host.sortOrder
                 })
         );
+
+        useEffect(() => {
+            store.setProps({ attributes: props.attributes });
+        }, [store, props.attributes]);
 
         return <Component {...props} sortStore={store} />;
     };

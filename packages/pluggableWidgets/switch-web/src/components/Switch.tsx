@@ -1,4 +1,4 @@
-import { MouseEvent, KeyboardEvent, createElement, ReactElement } from "react";
+import { createElement, KeyboardEvent, MouseEvent, ReactElement } from "react";
 import classNames from "classnames";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { SwitchContainerProps } from "../../typings/SwitchProps";
@@ -14,8 +14,19 @@ export interface SwitchProps extends Pick<SwitchContainerProps, "id" | "tabIndex
 export default function Switch(props: SwitchProps): ReactElement {
     return (
         <div className="widget-switch">
-            <div
+            <input
+                type="checkbox"
                 id={props.id}
+                onClick={props.onClick}
+                checked={props.isChecked}
+                aria-checked={props.isChecked}
+                readOnly
+                className="sr-only"
+                disabled={!props.editable}
+                tabIndex={-1}
+                aria-hidden="true"
+            />
+            <div
                 className={classNames("widget-switch-btn-wrapper", "widget-switch-btn-wrapper-default", {
                     checked: props.isChecked,
                     disabled: !props.editable,
@@ -27,7 +38,7 @@ export default function Switch(props: SwitchProps): ReactElement {
                 role="switch"
                 aria-checked={props.isChecked}
                 aria-labelledby={`${props.id}-label`}
-                aria-readonly={!props.editable}
+                aria-disabled={!props.editable}
             >
                 <div
                     className={classNames("widget-switch-btn", {

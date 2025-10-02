@@ -1,4 +1,4 @@
-import { createElement, createContext, ReactElement, ReactNode, useReducer } from "react";
+import { createContext, createElement, ReactElement, ReactNode, useReducer } from "react";
 import { EditorAction, editorReducer, EditorState, initialState } from "./store";
 
 export const EditorContext = createContext<EditorState>(initialState);

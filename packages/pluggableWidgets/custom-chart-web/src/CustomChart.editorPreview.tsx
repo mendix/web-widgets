@@ -1,4 +1,4 @@
-import { ReactElement, createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { CustomChartPreviewProps } from "../typings/CustomChartProps";
 import CustomChart from "./CustomChart";
 

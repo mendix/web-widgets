@@ -2,7 +2,7 @@ import { CaptionPlacement } from "src/helpers/types";
 import { CaptionContent } from "src/helpers/utils";
 import { OptionsSourceAssociationCustomContentTypeEnum } from "typings/ComboboxProps";
 import { AssociationSimpleCaptionsProvider } from "../AssociationSimpleCaptionsProvider";
-import { createElement, ReactNode, ComponentType } from "react";
+import { ComponentType, createElement, ReactNode } from "react";
 interface PreviewProps {
     customContentRenderer:
         | ComponentType<{ children: ReactNode; caption?: string }>

@@ -1,6 +1,8 @@
 import { gh } from "./github";
 import { PublishedInfo } from "./package-info";
-import { exec, pushd, popd } from "./shell";
+import { exec, popd, pushd } from "./shell";
+import { findOssReadme } from "./oss-readme";
+import { join } from "path";
 
 export async function updateChangelogsAndCreatePR(
     info: PublishedInfo,
@@ -9,6 +11,30 @@ export async function updateChangelogsAndCreatePR(
 ): Promise<void> {
     const releaseBranchName = `${releaseTag}-update-changelog`;
     const appName = info.marketplace.appName;
+
+    // Check if branch already exists on remote
+    try {
+        const { stdout: remoteOutput } = await exec(`git ls-remote --heads ${remoteName} ${releaseBranchName}`, {
+            stdio: "pipe"
+        });
+        if (remoteOutput.trim()) {
+            // Branch exists on remote, get its commit hash and rename it
+            const remoteCommitHash = remoteOutput.split("\t")[0].substring(0, 7); // Get short hash from remote output
+            const renamedBranchName = `${releaseBranchName}-${remoteCommitHash}`;
+
+            console.log(
+                `Branch '${releaseBranchName}' already exists on remote. Renaming it to '${renamedBranchName}'...`
+            );
+
+            // Create new branch on remote with the renamed name pointing to the same commit
+            await exec(`git push ${remoteName} ${remoteName}/${releaseBranchName}:refs/heads/${renamedBranchName}`);
+            // Delete the old branch on remote
+            await exec(`git push ${remoteName} --delete ${releaseBranchName}`);
+        }
+    } catch (error) {
+        // Branch doesn't exist on remote, continue with original name
+        console.log(`Using branch name '${releaseBranchName}'`);
+    }
 
     console.log(`Creating branch '${releaseBranchName}'...`);
     await exec(`git checkout -b ${releaseBranchName}`);
@@ -26,6 +52,14 @@ export async function updateChangelogsAndCreatePR(
     const { stdout: root } = await exec(`git rev-parse --show-toplevel`, { stdio: "pipe" });
     pushd(root.trim());
     await exec(`git add '*/CHANGELOG.md'`);
+
+    const path = process.cwd();
+    const readmeossFile = findOssReadme(path, info.mxpackage.name, info.version.format());
+    if (readmeossFile) {
+        console.log(`Removing OSS clearance readme file '${readmeossFile}'...`);
+        await exec(`git rm '${readmeossFile}'`);
+    }
+
     await exec(`git commit -m "chore(${info.name}): update changelog"`);
     await exec(`git push ${remoteName} ${releaseBranchName}`);
     popd();
@@ -33,7 +67,7 @@ export async function updateChangelogsAndCreatePR(
     console.log(`Creating pull request for '${releaseBranchName}'`);
     await gh.createGithubPRFrom({
         title: `${appName} v${info.version.format()}: Update changelog`,
-        body: "This is an automated PR that merges changelog update to master.",
+        body: "This is an automated PR that merges changelog update to main branch.",
         base: "main",
         head: releaseBranchName,
         repo: info.repository.url

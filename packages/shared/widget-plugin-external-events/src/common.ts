@@ -5,5 +5,8 @@ export const $events = Object.freeze({
     },
     set: {
         value: "set.value"
+    },
+    selection: {
+        clear: "selection.clear"
     }
 });

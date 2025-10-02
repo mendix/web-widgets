@@ -1,30 +1,30 @@
+import { RefreshIndicator } from "@mendix/widget-plugin-component-kit/RefreshIndicator";
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
-import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
-import { CSSProperties, ReactElement, ReactNode, createElement, Fragment } from "react";
+import { observer } from "mobx-react-lite";
+import { createElement, CSSProperties, Fragment, ReactElement, ReactNode } from "react";
 import {
-    PagingPositionEnum,
+    LoadingTypeEnum,
     PaginationEnum,
-    ShowPagingButtonsEnum,
-    LoadingTypeEnum
+    PagingPositionEnum,
+    ShowPagingButtonsEnum
 } from "../../typings/DatagridProps";
-import { WidgetPropsProvider } from "../helpers/useWidgetProps";
+import { SelectActionHelper } from "../helpers/SelectActionHelper";
+import { useDatagridRootScope } from "../helpers/root-context";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
+import { ExportWidget } from "./ExportWidget";
 import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
+import { GridHeader } from "./GridHeader";
+import { RowsRenderer } from "./RowsRenderer";
 import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { ExportWidget } from "./ExportWidget";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
-import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { observer } from "mobx-react-lite";
-import { RowsRenderer } from "./RowsRenderer";
-import { GridHeader } from "./GridHeader";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -55,20 +55,15 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     preview?: boolean;
     processedRows: number;
     rowClass?: (item: T) => string;
-    gridInteractive: boolean;
     setPage?: (computePage: (prevPage: number) => number) => void;
     styles?: CSSProperties;
     rowAction?: ListActionValue;
-    selectionStatus: SelectionStatus;
     showSelectAllToggle?: boolean;
-    exportDialogLabel?: string;
-    cancelExportLabel?: string;
-    selectRowLabel?: string;
-    selectAllRowsLabel?: string;
-    isLoading: boolean;
+    isFirstLoad: boolean;
     isFetchingNextBatch: boolean;
     loadingType: LoadingTypeEnum;
     columnsLoading: boolean;
+    showRefreshIndicator: boolean;
 
     // Helpers
     cellEventsController: EventsController;
@@ -85,32 +80,31 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
 
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
     const { className, exporting, numberOfItems, onExportCancel, selectActionHelper } = props;
+    const { basicData } = useDatagridRootScope();
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
 
     return (
-        <WidgetPropsProvider value={props}>
-            <WidgetRoot
-                className={className}
-                selectionMethod={selectActionHelper.selectionMethod}
-                selection={selectionEnabled}
-                style={{}}
-                exporting={exporting}
-            >
-                <Main {...props} data={exporting ? [] : props.data} />
-                {exporting && (
-                    <ExportWidget
-                        alertLabel={props.exportDialogLabel ?? "Export progress"}
-                        cancelLabel={props.cancelExportLabel ?? "Cancel data export"}
-                        failed={false}
-                        onCancel={onExportCancel}
-                        open={exporting}
-                        progress={props.processedRows}
-                        total={numberOfItems}
-                    />
-                )}
-            </WidgetRoot>
-        </WidgetPropsProvider>
+        <WidgetRoot
+            className={className}
+            selectionMethod={selectActionHelper.selectionMethod}
+            selection={selectionEnabled}
+            style={{}}
+            exporting={exporting}
+        >
+            <Main {...props} data={exporting ? [] : props.data} />
+            {exporting && (
+                <ExportWidget
+                    alertLabel={basicData.exportDialogLabel ?? "Export progress"}
+                    cancelLabel={basicData.cancelExportLabel ?? "Cancel data export"}
+                    failed={false}
+                    onCancel={onExportCancel}
+                    open={exporting}
+                    progress={props.processedRows}
+                    total={numberOfItems}
+                />
+            )}
+        </WidgetRoot>
     );
 });
 
@@ -131,10 +125,13 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         paging,
         pagingPosition,
         preview,
+        showRefreshIndicator,
         selectActionHelper,
         setPage,
         visibleColumns
     } = props;
+
+    const { basicData } = useDatagridRootScope();
 
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
@@ -169,9 +166,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 <Grid
                     aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
                     style={cssGridStyles}
-                    setPage={setPage}
-                    paginationType={paginationType}
-                    hasMoreItems={hasMoreItems}
                 >
                     <GridHeader
                         availableColumns={props.availableColumns}
@@ -189,18 +183,22 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         isLoading={props.columnsLoading}
                         preview={props.preview}
                     />
+                    {showRefreshIndicator ? <RefreshIndicator /> : null}
                     <GridBody
-                        isLoading={props.isLoading}
+                        isFirstLoad={props.isFirstLoad}
                         isFetchingNextBatch={props.isFetchingNextBatch}
                         loadingType={props.loadingType}
                         columnsHidable={columnsHidable}
                         columnsSize={visibleColumns.length}
                         rowsSize={rows.length}
                         pageSize={pageSize}
+                        pagination={props.paginationType}
+                        hasMoreItems={hasMoreItems}
+                        setPage={setPage}
                     >
                         <RowsRenderer
                             preview={props.preview ?? false}
-                            interactive={props.gridInteractive}
+                            interactive={basicData.gridInteractive}
                             Cell={CellComponent}
                             columns={visibleColumns}
                             columnsHidable={columnsHidable}

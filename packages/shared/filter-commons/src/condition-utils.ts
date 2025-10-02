@@ -55,6 +55,7 @@ interface TagCond {
     readonly arg2: TagMarker;
 }
 
+/** @deprecated use for unit tests only */
 export function tag(name: string): TagCond {
     return notEqual(literal(name), literal(MARKER)) as TagCond;
 }
@@ -72,60 +73,105 @@ export function isTag(cond: FilterCondition): cond is TagCond {
 
 type ArrayMeta = readonly [len: number, indexes: number[]];
 
-function arrayTag(meta: ArrayMeta): string {
-    return JSON.stringify(meta);
-}
-
-function fromArrayTag(tag: string): ArrayMeta | undefined {
-    let len: ArrayMeta[0];
-    let indexes: ArrayMeta[1];
-    try {
-        [len, indexes] = JSON.parse(tag);
-    } catch {
-        return undefined;
-    }
-    if (typeof len !== "number" || !Array.isArray(indexes) || !indexes.every(x => typeof x === "number")) {
-        return undefined;
-    }
-    return [len, indexes];
-}
-
 function shrink<T>(array: Array<T | undefined>): [indexes: number[], items: T[]] {
     return [array.flatMap((x, i) => (x === undefined ? [] : [i])), array.filter((x): x is T => x !== undefined)];
 }
 
-export function compactArray(input: Array<FilterCondition | undefined>): FilterCondition {
+export function reduceArray(
+    input: Array<FilterCondition | undefined>
+): [cond: FilterCondition | undefined, meta: string] {
     const [indexes, items] = shrink(input);
-    const metaTag = tag(arrayTag([input.length, indexes] as const));
+    const meta = JSON.stringify([input.length, indexes]);
 
-    if (items.length === 0) {
-        return metaTag;
+    switch (items.length) {
+        case 0:
+            return [undefined, meta];
+        case 1:
+            return [items[0], meta];
+        default:
+            return [and(...items), meta];
     }
-
-    return and(metaTag, ...items);
 }
 
-export function fromCompactArray(cond: FilterCondition): Array<FilterCondition | undefined> {
-    const tag = isAnd(cond) ? cond.args[0] : cond;
-
-    const arrayMeta = isTag(tag) ? fromArrayTag(tag.arg1.value) : undefined;
-
-    if (!arrayMeta) {
-        return [];
-    }
-
-    const [length, indexes] = arrayMeta;
+export function restoreArray(cond: FilterCondition | undefined, meta: string): Array<FilterCondition | undefined> {
+    const [length, indexes] = JSON.parse(meta) as ArrayMeta;
     const arr: Array<FilterCondition | undefined> = Array(length).fill(undefined);
 
-    if (!isAnd(cond)) {
+    if (indexes.length === 0) {
+        return arr;
+    }
+    if (indexes.length === 1) {
+        arr[indexes[0]] = cond;
+        return arr;
+    }
+    if (cond && isAnd(cond)) {
+        cond.args.forEach((c, i) => {
+            arr[indexes[i]] = c;
+        });
         return arr;
     }
 
-    cond.args.slice(1).forEach((cond, i) => {
-        arr[indexes[i]] = cond;
-    });
-
     return arr;
+}
+
+type ReduceMapMeta = {
+    [index: number]: string;
+    length: number;
+    keys: string[];
+};
+
+export function reduceMap(input: Record<string, FilterCondition | undefined>): [FilterCondition | undefined, string] {
+    const meta: ReduceMapMeta = { length: 0, keys: [] };
+    const conditions: FilterCondition[] = [];
+    for (const [key, value] of Object.entries(input)) {
+        meta.keys.push(key);
+        if (value !== undefined) {
+            meta[conditions.length] = key;
+            conditions.push(value);
+        }
+    }
+    meta.length = conditions.length;
+
+    const metaJson = JSON.stringify(meta);
+
+    switch (conditions.length) {
+        case 0:
+            return [undefined, metaJson];
+        case 1:
+            return [conditions[0], metaJson];
+        default:
+            return [and(...conditions), metaJson];
+    }
+}
+
+export function restoreMap(
+    cond: FilterCondition | undefined,
+    metaJson: string
+): Record<string, FilterCondition | undefined> {
+    const meta = JSON.parse(metaJson) as ReduceMapMeta;
+    const result: Record<string, FilterCondition | undefined> = {};
+
+    for (const key of meta.keys) {
+        result[key] = undefined;
+    }
+
+    if (meta.length === 0) {
+        return result;
+    }
+
+    if (meta.length === 1 && meta[0]) {
+        result[meta[0]] = cond;
+        return result;
+    }
+
+    if (cond && isAnd(cond)) {
+        cond.args.forEach((c, i) => {
+            result[meta[i]] = c;
+        });
+        return result;
+    }
+
+    return result;
 }
 
 export function inputStateFromCond<Fn, V>(

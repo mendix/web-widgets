@@ -2,13 +2,13 @@ import {
     dynamic,
     EditableValueBuilder,
     list,
-    listExp,
     ListAttributeValueBuilder,
+    listExp,
     ReferenceValueBuilder,
     setupIntersectionObserverStub
 } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
-import { fireEvent, render, RenderResult, act, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
@@ -77,7 +77,8 @@ describe("Combo box (Static values)", () => {
             ],
             selectedItemsSorting: "none",
             customEditability: "default",
-            customEditabilityExpression: dynamic(false)
+            customEditabilityExpression: dynamic(false),
+            filterInputDebounceInterval: 200
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => dynamic(`${i.id}`);

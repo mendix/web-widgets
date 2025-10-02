@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { UseComboboxGetToggleButtonPropsOptions } from "downshift/typings";
-import { PropsWithChildren, ReactElement, RefObject, createElement, forwardRef, Fragment } from "react";
+import { createElement, forwardRef, Fragment, PropsWithChildren, ReactElement, RefObject } from "react";
 import { DownArrow } from "../assets/icons";
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { ReadOnlyStyleEnum } from "typings/ComboboxProps";
@@ -13,11 +13,21 @@ interface ComboboxWrapperProps extends PropsWithChildren {
     getToggleButtonProps: (options?: UseComboboxGetToggleButtonPropsOptions | undefined) => any;
     validation?: string;
     isLoading: boolean;
+    isMultiselectActive?: boolean;
 }
 
 export const ComboboxWrapper = forwardRef(
     (props: ComboboxWrapperProps, ref: RefObject<HTMLDivElement>): ReactElement => {
-        const { isOpen, readOnly, readOnlyStyle, getToggleButtonProps, validation, children, isLoading } = props;
+        const {
+            isOpen,
+            readOnly,
+            readOnlyStyle,
+            getToggleButtonProps,
+            validation,
+            children,
+            isLoading,
+            isMultiselectActive
+        } = props;
         const { id, onClick } = getToggleButtonProps();
 
         return (
@@ -29,7 +39,8 @@ export const ComboboxWrapper = forwardRef(
                         "widget-combobox-input-container-active": isOpen,
                         "widget-combobox-input-container-disabled": readOnly,
                         "form-control-static": readOnly && readOnlyStyle === "text",
-                        "form-control": !readOnly || readOnlyStyle !== "text"
+                        "form-control": !readOnly || readOnlyStyle !== "text",
+                        "widget-combobox-multiselect": isMultiselectActive
                     })}
                     id={id}
                     onClick={onClick}

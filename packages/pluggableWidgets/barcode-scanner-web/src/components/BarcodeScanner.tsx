@@ -1,10 +1,10 @@
-import { createElement, ReactElement, ReactNode, useCallback, SyntheticEvent, useRef, RefObject } from "react";
+import { createElement, ReactElement, ReactNode, RefObject, SyntheticEvent, useCallback, useRef } from "react";
 import classNames from "classnames";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { useCustomErrorMessage } from "../hooks/useCustomErrorMessage";
 import { useReader } from "../hooks/useReader";
-import { BarcodeFormatsType } from "../../typings/BarcodeScannerProps";
+import { BarcodeFormatsType, BarcodeScannerContainerProps } from "../../typings/BarcodeScannerProps";
 
 import "../ui/BarcodeScanner.scss";
 
@@ -57,6 +57,7 @@ export interface BarcodeScannerProps extends Dimensions {
     class: string;
     useAllFormats: boolean;
     barcodeFormats?: BarcodeFormatsType[];
+    detectionLogic?: BarcodeScannerContainerProps["detectionLogic"];
 }
 
 export function BarcodeScanner({
@@ -65,18 +66,23 @@ export function BarcodeScanner({
     class: className,
     barcodeFormats,
     useAllFormats,
+    detectionLogic,
     ...dimensions
 }: BarcodeScannerProps): ReactElement | null {
     const [errorMessage, setError] = useCustomErrorMessage();
     const canvasMiddleRef = useRef<HTMLDivElement>(null);
-    const videoRef = useReader({
+    const reader = useReader({
         onSuccess: onDetect,
         onError: setError,
         useCrop: showMask,
         barcodeFormats,
         useAllFormats,
-        canvasMiddleRef
+        canvasMiddleRef,
+        detectionLogic
     });
+
+    const { ref: videoRef, useBrowserAPI } = reader ?? {};
+
     const supportsCameraAccess = typeof navigator?.mediaDevices?.getUserMedia === "function";
     const onCanPlay = useCallback((event: SyntheticEvent<HTMLVideoElement>) => {
         if (event.currentTarget.paused) {
@@ -104,7 +110,7 @@ export function BarcodeScanner({
 
     return (
         <BarcodeScannerOverlay
-            class={className}
+            class={classNames(className, `mx-${useBrowserAPI ? "barcode" : "zxing"}-detector`)}
             showMask={showMask}
             canvasMiddleMiddleRef={canvasMiddleRef}
             {...dimensions}

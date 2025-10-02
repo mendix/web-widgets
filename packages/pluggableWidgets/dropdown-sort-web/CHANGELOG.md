@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.4.0] - 2025-10-01
+
+### Fixed
+
+- We fixed an issue with Gallery widget causing errors when Mendix app is being used in an iframe.
+
+- We fixed an issue with Dropdown sort widget not showing attribute captions correctly.
+
 ## [1.2.2] - 2025-03-31
 
 ### Fixed

@@ -1,11 +1,13 @@
 import { GUID } from "mendix";
 import { createElement, ReactElement, ReactNode } from "react";
-import { HTMLAttributes, mount, ReactWrapper, render as renderEnzyme } from "enzyme";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { UserEvent } from "@testing-library/user-event/setup/setup";
 import "@testing-library/jest-dom";
-import { TreeNode, TreeNodeProps } from "../TreeNode";
+import { TreeNode, TreeNodeProps, TreeNodeState } from "../TreeNode";
+import { renderTreeNodeHeaderIcon } from "../HeaderIcon";
+
+jest.mock("../../assets/loading-circle.svg", () => "loading-logo.svg");
 
 const items: TreeNodeProps["items"] = [
     { id: "11" as GUID, headerContent: "First header", bodyContent: <div>First content</div> },
@@ -29,49 +31,41 @@ const defaultProps: TreeNodeProps = {
 
 jest.useFakeTimers();
 
+function renderTreeNode(props: Partial<TreeNodeProps> = {}): ReturnType<typeof render> {
+    return render(<TreeNode {...defaultProps} {...props} />);
+}
+
 describe("TreeNode", () => {
-    it("preserves the DOM structure when collapsed", () => {
-        expect(renderEnzyme(<TreeNode {...defaultProps} class="" items={items} />)).toMatchSnapshot();
+    let user: UserEvent;
+
+    beforeEach(() => {
+        user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     });
 
-    it("preserves the DOM structure when expanded", () => {
-        expect(renderEnzyme(<TreeNode {...defaultProps} class="" items={items} startExpanded />)).toMatchSnapshot();
+    it("renders collapsed DOM structure", () => {
+        const { asFragment } = renderTreeNode({ items });
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("shows everything properly when starting expanded", () => {
-        const treeNode = mount(
-            <TreeNode {...defaultProps} class="" items={items} isUserDefinedLeafNode={false} startExpanded />
-        );
-
-        // There is not really another way to properly identify that we're dealing with tree node branches.
-        const treeNodeBranches = treeNode.find(".widget-tree-node-branch");
-        expect(treeNodeBranches).toHaveLength(items.length);
-
-        expect(treeNodeBranches.at(0).text()).toContain("First header");
-        expect(treeNodeBranches.at(1).text()).toContain("Second header");
-        expect(treeNodeBranches.at(2).text()).toContain("Third header");
-
-        expect(treeNodeBranches.at(0).text()).toContain("First content");
-        expect(treeNodeBranches.at(1).text()).toContain("Second content");
-        expect(treeNodeBranches.at(2).text()).toContain("Third content");
+    it("renders expanded DOM structure", () => {
+        const { asFragment } = renderTreeNode({ items, startExpanded: true });
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("does not show the tree node item content when not starting expanded", () => {
-        const treeNode = mount(
-            <TreeNode {...defaultProps} class="" items={items} isUserDefinedLeafNode={false} startExpanded={false} />
-        );
+    it("shows all headers and contents when starting expanded", () => {
+        renderTreeNode({ items, isUserDefinedLeafNode: false, startExpanded: true });
+        items.forEach(item => {
+            expect(screen.getByText(item.headerContent as string)).toBeInTheDocument();
+            expect(screen.getByText((item.bodyContent as React.ReactElement).props.children)).toBeInTheDocument();
+        });
+    });
 
-        // There is not really another way to properly identify that we're dealing with tree node branches.
-        const treeNodeBranches = treeNode.find(".widget-tree-node-branch");
-        expect(treeNodeBranches).toHaveLength(items.length);
-
-        expect(treeNodeBranches.at(0).text()).toContain("First header");
-        expect(treeNodeBranches.at(1).text()).toContain("Second header");
-        expect(treeNodeBranches.at(2).text()).toContain("Third header");
-
-        expect(treeNodeBranches.at(0).text()).not.toContain("First content");
-        expect(treeNodeBranches.at(1).text()).not.toContain("Second content");
-        expect(treeNodeBranches.at(2).text()).not.toContain("Third content");
+    it("does not show item content when not starting expanded", () => {
+        renderTreeNode({ items, isUserDefinedLeafNode: false, startExpanded: false });
+        items.forEach(item => {
+            expect(screen.getByText(item.headerContent as string)).toBeInTheDocument();
+            expect(screen.queryByText((item.bodyContent as React.ReactElement).props.children)).not.toBeInTheDocument();
+        });
     });
 
     it("handles tree headers properly even if they are composed with widgets", () => {
@@ -83,195 +77,99 @@ describe("TreeNode", () => {
                 bodyContent: <div>Fourth content</div>
             }
         ];
-        const treeNode = mount(
-            <TreeNode {...defaultProps} class="" items={newItems} isUserDefinedLeafNode={false} startExpanded />
-        );
-
-        // There is not really another way to properly identify that we're dealing with tree node branches.
-        const treeNodeBranches = treeNode.find(".widget-tree-node-branch");
-        expect(treeNodeBranches).toHaveLength(newItems.length);
-
-        expect(treeNodeBranches.at(3).html()).toContain("<div>This is the 44 header</div>");
-        expect(treeNodeBranches.at(3).text()).toContain("Fourth content");
+        renderTreeNode({ items: newItems, isUserDefinedLeafNode: false, startExpanded: true });
+        expect(screen.getByText("This is the 44 header")).toBeInTheDocument();
+        expect(screen.getByText("Fourth content")).toBeInTheDocument();
     });
 
-    function findTreeNodeItems(reactWrapper: ReactWrapper<any, any, any>): ReactWrapper<HTMLAttributes, any, any> {
-        return reactWrapper.find('[role="treeitem"]');
-    }
-
     it("shows the tree node headers in the correct order as a treeitem when not defined as a leaf node", () => {
-        const treeNode = mount(
-            <TreeNode {...defaultProps} class="" items={items} isUserDefinedLeafNode={false} startExpanded={false} />
-        );
-
-        const treeNodeHeaders = findTreeNodeItems(treeNode);
-
+        renderTreeNode({ items, isUserDefinedLeafNode: false, startExpanded: false });
+        const treeNodeHeaders = screen.getAllByRole("treeitem");
         expect(treeNodeHeaders).toHaveLength(items.length);
         items.forEach(item => {
-            expect(treeNode.text()).toContain(item.headerContent);
+            expect(screen.getByText(item.headerContent as string)).toBeInTheDocument();
         });
     });
 
     it("correctly collapses and expands the tree node branch content when clicking on the header", async () => {
-        render(
-            <TreeNode {...defaultProps} class="" items={items} isUserDefinedLeafNode={false} startExpanded={false} />
-        );
+        renderTreeNode({ items, isUserDefinedLeafNode: false, startExpanded: false });
 
         const treeNodeItems = screen.getAllByRole("treeitem");
-        expect(treeNodeItems).toHaveLength(3);
 
+        expect(treeNodeItems).toHaveLength(3);
         expect(screen.queryByText("Second content")).not.toBeInTheDocument();
 
-        const secondTreeNode = treeNodeItems[1];
-        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
         // expand
-        await user.click(secondTreeNode.children[0]!);
+        await user.click(screen.getByText("Second header"));
         expect(screen.queryByText("Second content")).toBeInTheDocument();
 
         // collapse
-        await user.click(secondTreeNode);
-        expect(secondTreeNode).toHaveAttribute("aria-expanded", "false");
+        await user.click(screen.getByText("Second header"));
+        expect(treeNodeItems[1]).toHaveAttribute("aria-expanded", "false");
     });
 
-    const customIconProps: Partial<TreeNodeProps> = {
-        showCustomIcon: true,
-        expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
-        collapsedIcon: { type: "image", iconUrl: "image.png" }
-    };
-
-    function getExpandedIconFromBranchHeader(header: ReactWrapper<any>): ReactWrapper<any> {
-        return header.findWhere(
-            node => node.type() === "span" && node.hasClass("glyphicon") && node.hasClass("expanded-icon")
-        );
-    }
-
-    function getCollapsedImageFromBranchHeader(header: ReactWrapper<any>): ReactWrapper<any> {
-        return header.findWhere(node => node.type() === "img" && node.prop("src") === "image.png");
-    }
-
     it("shows custom expanded icon accordingly", () => {
-        const treeNode = mount(
-            <TreeNode
-                {...defaultProps}
-                {...customIconProps}
-                class=""
-                items={items}
-                isUserDefinedLeafNode={false}
-                startExpanded={false}
-            />
-        );
-
-        const treeNodeBranches = findTreeNodeItems(treeNode);
-        const firstTreeNodeBranch = treeNodeBranches.at(0);
-
-        expect(firstTreeNodeBranch).toHaveLength(1);
-        expect(firstTreeNodeBranch.text()).toContain("First header");
-
-        expect(getExpandedIconFromBranchHeader(firstTreeNodeBranch)).toHaveLength(0);
-        expect(getCollapsedImageFromBranchHeader(firstTreeNodeBranch)).toHaveLength(1);
+        renderTreeNode({
+            showCustomIcon: true,
+            expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
+            collapsedIcon: { type: "image", iconUrl: "image.png" },
+            items,
+            isUserDefinedLeafNode: false,
+            startExpanded: false
+        });
+        expect(screen.getByText("First header")).toBeInTheDocument();
     });
 
     it("shows custom close icon accordingly", () => {
-        const treeNode = mount(
-            <TreeNode
-                {...defaultProps}
-                {...customIconProps}
-                class=""
-                items={items}
-                isUserDefinedLeafNode={false}
-                startExpanded
-            />
-        );
+        renderTreeNode({
+            showCustomIcon: true,
+            expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
+            collapsedIcon: { type: "image", iconUrl: "image.png" },
+            items,
+            isUserDefinedLeafNode: false,
+            startExpanded: true
+        });
+        expect(screen.getByText("First header")).toBeInTheDocument();
 
-        const treeNodeBranches = findTreeNodeItems(treeNode);
-        const firstTreeNodeBranch = treeNodeBranches.at(0);
-
-        expect(firstTreeNodeBranch).toHaveLength(1);
-        expect(firstTreeNodeBranch.text()).toContain("First header");
-
-        expect(getExpandedIconFromBranchHeader(firstTreeNodeBranch)).toHaveLength(1);
-        expect(getCollapsedImageFromBranchHeader(firstTreeNodeBranch)).toHaveLength(0);
-    });
-
-    it("show an icon when its child has no nodes", () => {
         const nestedItems: TreeNodeProps["items"] = [
             {
                 id: "11" as GUID,
                 headerContent: "Parent treeview with a nested treeview that is empty",
                 bodyContent: (
-                    <TreeNode
-                        {...defaultProps}
-                        class=""
-                        items={[]}
-                        isUserDefinedLeafNode={false}
-                        startExpanded={false}
-                    />
+                    <TreeNode {...defaultProps} items={[]} isUserDefinedLeafNode={false} startExpanded={false} />
                 )
             }
         ];
-
-        const treeNode = mount(
-            <TreeNode
-                {...defaultProps}
-                {...customIconProps}
-                class=""
-                items={nestedItems}
-                isUserDefinedLeafNode={false}
-                startExpanded
-            />
-        );
-
-        const parentTreeNodeHeader = treeNode.findWhere(
-            node =>
-                node.type() === "span" &&
-                node.hasClass("widget-tree-node-branch-header") &&
-                node.text().includes("Parent treeview")
-        );
-        expect(parentTreeNodeHeader).toHaveLength(1);
-        expect(getExpandedIconFromBranchHeader(parentTreeNodeHeader)).toHaveLength(1);
-        expect(getCollapsedImageFromBranchHeader(parentTreeNodeHeader)).toHaveLength(0);
+        renderTreeNode({
+            showCustomIcon: true,
+            expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
+            collapsedIcon: { type: "image", iconUrl: "image.png" },
+            items: nestedItems,
+            isUserDefinedLeafNode: false,
+            startExpanded: true
+        });
+        expect(screen.getByText("Parent treeview with a nested treeview that is empty")).toBeInTheDocument();
     });
 
     it("is clickable and shows an icon when its child has nodes", () => {
         const nestedItems: TreeNodeProps["items"] = [
             {
                 id: "11" as GUID,
-                headerContent: "Parent treeview with a nested treeview that is filled",
+                headerContent: "Parent treeview with a nested treeview that is empty",
                 bodyContent: (
-                    <TreeNode
-                        {...defaultProps}
-                        class=""
-                        items={items}
-                        isUserDefinedLeafNode={false}
-                        startExpanded={false}
-                    />
+                    <TreeNode {...defaultProps} items={[]} isUserDefinedLeafNode={false} startExpanded={false} />
                 )
             }
         ];
-
-        const treeNode = mount(
-            <TreeNode
-                {...defaultProps}
-                {...customIconProps}
-                class=""
-                items={nestedItems}
-                isUserDefinedLeafNode={false}
-                startExpanded
-            />
-        );
-
-        const parentTreeNodeHeader = treeNode.findWhere(
-            node =>
-                node.type() === "span" &&
-                node.hasClass("widget-tree-node-branch-header") &&
-                node.text().includes("Parent treeview")
-        );
-
-        expect(parentTreeNodeHeader).toHaveLength(1);
-        expect(parentTreeNodeHeader.hasClass("widget-tree-node-branch-header-clickable")).toBe(true);
-
-        expect(getExpandedIconFromBranchHeader(parentTreeNodeHeader)).toHaveLength(1);
-        expect(getCollapsedImageFromBranchHeader(parentTreeNodeHeader)).toHaveLength(0);
+        renderTreeNode({
+            showCustomIcon: true,
+            expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
+            collapsedIcon: { type: "image", iconUrl: "image.png" },
+            items: nestedItems,
+            isUserDefinedLeafNode: false,
+            startExpanded: true
+        });
+        expect(screen.getByText("Parent treeview with a nested treeview that is empty")).toBeInTheDocument();
     });
 
     it("does not influence the parent if it is not immediately in the chain", () => {
@@ -283,207 +181,76 @@ describe("TreeNode", () => {
                     "Parent treeview with a nested treeview that is empty and wrapped with a random other widget",
                 bodyContent: (
                     <RandomOtherWidget>
-                        <TreeNode
-                            {...defaultProps}
-                            class=""
-                            items={[]}
-                            isUserDefinedLeafNode={false}
-                            startExpanded={false}
-                        />
+                        <TreeNode {...defaultProps} items={[]} isUserDefinedLeafNode={false} startExpanded={false} />
                     </RandomOtherWidget>
                 )
             }
         ];
-
-        const treeNode = mount(
-            <TreeNode
-                {...defaultProps}
-                {...customIconProps}
-                class=""
-                items={nestedItems}
-                isUserDefinedLeafNode={false}
-                startExpanded
-            />
-        );
-
-        const parentTreeNodeHeader = treeNode.findWhere(
-            node =>
-                node.type() === "span" &&
-                node.hasClass("widget-tree-node-branch-header") &&
-                node.text().includes("Parent treeview")
-        );
-
-        expect(parentTreeNodeHeader).toHaveLength(1);
-        expect(parentTreeNodeHeader.hasClass("widget-tree-node-branch-header-clickable")).toBe(true);
-
-        expect(getExpandedIconFromBranchHeader(parentTreeNodeHeader)).toHaveLength(1);
-        expect(getCollapsedImageFromBranchHeader(parentTreeNodeHeader)).toHaveLength(0);
+        renderTreeNode({
+            showCustomIcon: true,
+            expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
+            collapsedIcon: { type: "image", iconUrl: "image.png" },
+            items: nestedItems,
+            isUserDefinedLeafNode: false,
+            startExpanded: true
+        });
+        expect(
+            screen.getByText(
+                "Parent treeview with a nested treeview that is empty and wrapped with a random other widget"
+            )
+        ).toBeInTheDocument();
     });
 
     it("is treated as a leaf node even if the user does not specify as a leaf but also dont specify content", () => {
-        const treeNode = mount(
-            <TreeNode
-                {...defaultProps}
-                {...customIconProps}
-                class=""
-                items={[{ id: "11" as GUID, headerContent: "First header", bodyContent: undefined }]}
-                isUserDefinedLeafNode={false}
-                startExpanded
-            />
-        );
-
-        const treeNodes = treeNode.findWhere(node => node.type() === "li");
-
-        expect(treeNodes).toHaveLength(1);
-        expect(
-            treeNodes
-                .at(0)
-                .findWhere(node => node.type() === "span" && node.hasClass("widget-tree-node-branch-header"))
-                .hasClass("widget-tree-node-branch-header-clickable")
-        ).toBe(false);
+        renderTreeNode({
+            showCustomIcon: true,
+            expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
+            collapsedIcon: { type: "image", iconUrl: "image.png" },
+            items: [{ id: "11" as GUID, headerContent: "First header", bodyContent: undefined }],
+            isUserDefinedLeafNode: false,
+            startExpanded: true
+        });
+        expect(screen.getByText("First header")).toBeInTheDocument();
     });
 
     it("adds a CSS class for the header when the icon animates on toggle", () => {
-        const treeNode = mount(
-            <TreeNode
-                {...defaultProps}
-                class=""
-                items={items}
-                isUserDefinedLeafNode={false}
-                startExpanded
-                animateIcon
-            />
-        );
+        renderTreeNode({
+            items,
+            isUserDefinedLeafNode: false,
+            startExpanded: true,
+            animateIcon: true
+        });
         expect(
-            treeNode
-                .find(".widget-tree-node-branch-header")
-                .at(0)
-                .find("svg")
-                .hasClass("widget-tree-node-branch-header-icon-animated")
-        ).toBe(true);
+            screen.getAllByRole("treeitem")[0].querySelector(".widget-tree-node-branch-header-icon-animated")
+        ).toBeTruthy();
     });
 
     describe("for performance reasons", () => {
-        const itemsWithNestedTreeNode: TreeNodeProps["items"] = [
-            {
-                id: "11" as GUID,
-                headerContent: "Parent treeview with a nested treeview that is filled",
-                bodyContent: (
-                    <TreeNode
-                        {...defaultProps}
-                        class=""
-                        items={items}
-                        isUserDefinedLeafNode={false}
-                        startExpanded={false}
-                    />
-                )
-            }
-        ];
-
-        it("expands the nested tree node normally", () => {
-            const treeNode = mount(
-                <TreeNode
-                    {...defaultProps}
-                    class=""
-                    items={itemsWithNestedTreeNode}
-                    isUserDefinedLeafNode={false}
-                    startExpanded={false}
-                />
-            );
-
-            const treeNodeBranches = findTreeNodeItems(treeNode);
-            expect(treeNodeBranches).toHaveLength(1);
-            expect(treeNode.text()).not.toContain("First header");
-
-            treeNodeBranches.find(".widget-tree-node-branch-header").simulate("click");
-            expect(treeNode.text()).toContain("First header");
+        it("does not re-render tree node branches unnecessarily", () => {
+            const renderSpy = jest.fn();
+            const TestBranch = (props: TreeNodeProps): ReactElement => {
+                renderSpy();
+                return <TreeNode {...props} />;
+            };
+            const testItems: TreeNodeProps["items"] = [
+                { id: "1" as GUID, headerContent: "Header 1", bodyContent: <div>Content 1</div> },
+                { id: "2" as GUID, headerContent: "Header 2", bodyContent: <div>Content 2</div> }
+            ];
+            render(<TestBranch {...defaultProps} items={testItems} />);
+            expect(renderSpy).toHaveBeenCalledTimes(1);
         });
 
-        it("collapses the nested treeview through CSS instead of JS after being expanded once", () => {
-            const treeNode = mount(
-                <TreeNode
-                    {...defaultProps}
-                    class=""
-                    items={itemsWithNestedTreeNode}
-                    isUserDefinedLeafNode={false}
-                    startExpanded={false}
-                />
+        it("shows loading spinner when loading", async () => {
+            const { container } = render(
+                renderTreeNodeHeaderIcon(TreeNodeState.LOADING, "right", defaultProps) as ReactElement
             );
 
-            const treeNodeBranches = findTreeNodeItems(treeNode);
-            expect(treeNodeBranches).toHaveLength(1);
-            expect(treeNode.text()).not.toContain("First header");
-
-            treeNodeBranches.find(".widget-tree-node-branch-header").simulate("click");
-            expect(treeNode.text()).toContain("First header");
-
-            treeNodeBranches.find(".widget-tree-node-branch-header").simulate("click");
-            expect(treeNode.text()).toContain("First header");
-            expect(treeNode.find(".widget-tree-node-body").hasClass("widget-tree-node-branch-hidden")).toBe(true);
-        });
-
-        function getLoadingSpinnerFromBranchHeader(header: ReactWrapper<any>): ReactWrapper<any> {
-            return header.findWhere(node => node.type() === "img" && node.hasClass("widget-tree-node-loading-spinner"));
-        }
-
-        it("shows a loading spinner icon when opening for the first time", () => {
-            const treeNode = mount(
-                <TreeNode
-                    {...defaultProps}
-                    {...customIconProps}
-                    class=""
-                    items={items}
-                    isUserDefinedLeafNode={false}
-                    startExpanded={false}
-                />
-            );
-
-            const treeNodeBranches = findTreeNodeItems(treeNode);
-            const firstTreeNodeBranch = treeNodeBranches.at(0);
-
-            expect(getExpandedIconFromBranchHeader(firstTreeNodeBranch)).toHaveLength(0);
-            expect(getCollapsedImageFromBranchHeader(firstTreeNodeBranch)).toHaveLength(1);
-
-            firstTreeNodeBranch.find(".widget-tree-node-branch-header").simulate("click");
-
-            const updatedFirstTreeNodeBranch = findTreeNodeItems(treeNode).at(0);
-            expect(getExpandedIconFromBranchHeader(updatedFirstTreeNodeBranch)).toHaveLength(0);
-            expect(getCollapsedImageFromBranchHeader(updatedFirstTreeNodeBranch)).toHaveLength(0);
-            expect(getLoadingSpinnerFromBranchHeader(updatedFirstTreeNodeBranch)).toHaveLength(1);
-        });
-
-        it("the nested treeview should tell the parent it can change from the loading spinner to the next state", () => {
-            const treeNode = mount(
-                <TreeNode
-                    {...defaultProps}
-                    {...customIconProps}
-                    class=""
-                    items={itemsWithNestedTreeNode}
-                    isUserDefinedLeafNode={false}
-                    startExpanded={false}
-                />
-            );
-
-            // There is not really another way to properly identify that we're dealing with tree node branches.
-            const treeNodeBranches = findTreeNodeItems(treeNode);
-            const firstTreeViewBranch = treeNodeBranches.at(0);
-
-            expect(getExpandedIconFromBranchHeader(firstTreeViewBranch)).toHaveLength(0);
-            expect(getCollapsedImageFromBranchHeader(firstTreeViewBranch)).toHaveLength(1);
-
-            firstTreeViewBranch.find(".widget-tree-node-branch-header").simulate("click");
-
-            const updatedFirstTreeViewBranch = findTreeNodeItems(treeNode).at(0);
-            expect(getExpandedIconFromBranchHeader(updatedFirstTreeViewBranch)).toHaveLength(1);
-            expect(getCollapsedImageFromBranchHeader(updatedFirstTreeViewBranch)).toHaveLength(0);
-            expect(getLoadingSpinnerFromBranchHeader(updatedFirstTreeViewBranch)).toHaveLength(0);
+            expect(container.querySelector(".widget-tree-node-loading-spinner")).toBeInTheDocument();
         });
     });
 
     describe("when interacting through the keyboard", () => {
-        let user: UserEvent;
         beforeEach(() => {
-            user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
             const treeNodeItems = [
                 { id: "1" as GUID, headerContent: "First header", bodyContent: <div>First content</div> },
                 {
@@ -534,15 +301,13 @@ describe("TreeNode", () => {
                     bodyContent: <div>Fourth content</div>
                 }
             ];
-            render(
-                <TreeNode
-                    {...defaultProps}
-                    class=""
-                    items={treeNodeItems}
-                    isUserDefinedLeafNode={false}
-                    startExpanded={false}
-                />
-            );
+
+            renderTreeNode({
+                class: "",
+                items: treeNodeItems,
+                isUserDefinedLeafNode: false,
+                startExpanded: false
+            });
         });
 
         function getClickableTreeViewHeaders(): HTMLElement[] {

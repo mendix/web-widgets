@@ -18,7 +18,7 @@ export class LazyLoadProvider {
     getLimit(limit: number, readOnly: boolean, status: ValueStatus, lazyLoading: boolean): number | undefined {
         if (status !== "available" || readOnly === true) {
             if (status === "loading" && lazyLoading) {
-                return this.limit || 1;
+                return this.limit === Infinity || !this.limit ? 0 : this.limit;
             }
             return 0;
         }

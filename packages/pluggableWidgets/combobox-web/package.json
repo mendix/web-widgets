@@ -1,7 +1,7 @@
 {
     "name": "@mendix/combobox-web",
     "widgetName": "Combobox",
-    "version": "2.4.3",
+    "version": "2.6.0",
     "description": "Configurable Combo box widget with suggestions and autocomplete.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -20,7 +20,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "10.7.0",
+        "minimumMXVersion": "10.22.0",
         "appNumber": 219304,
         "appName": "Combo box",
         "reactReady": true
@@ -49,7 +49,7 @@
     "dependencies": {
         "classnames": "^2.5.1",
         "downshift": "^7.6.2",
-        "match-sorter": "^6.3.4"
+        "match-sorter": "^8.1.0"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",

@@ -1,8 +1,8 @@
 {
     "name": "@mendix/datagrid-number-filter-web",
     "widgetName": "DatagridNumberFilter",
-    "version": "3.0.0",
-    "description": "",
+    "version": "3.6.0",
+    "description": "Filter Data Grid 2 rows by numeric values, supporting equals, greater than, and less than operations.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
     "private": true,

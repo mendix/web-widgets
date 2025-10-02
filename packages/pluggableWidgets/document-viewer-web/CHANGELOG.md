@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.1] - 2025-09-26
+
+### Changed
+
+- We added advanced configuration to allow users to specify a self-hosted PDF.js worker file.
+
+## [1.1.0] - 2025-09-11
+
+### Changed
+
+- We moved the bundle of pdfjs worker to local build instead of using CDN for better CSP compliance.
+
 ## [1.0.0] - 2025-05-05
 
 ### Added

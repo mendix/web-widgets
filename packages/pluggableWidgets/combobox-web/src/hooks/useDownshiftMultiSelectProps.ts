@@ -1,13 +1,14 @@
 import {
+    useCombobox,
     UseComboboxProps,
     UseComboboxReturnValue,
     UseComboboxState,
+    UseComboboxStateChange,
     UseComboboxStateChangeOptions,
-    UseMultipleSelectionReturnValue,
-    useCombobox,
-    useMultipleSelection
+    useMultipleSelection,
+    UseMultipleSelectionReturnValue
 } from "downshift";
-import { useMemo, useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { A11yStatusMessage, MultiSelector } from "../helpers/types";
 
 export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturnValue<string> &
@@ -148,8 +149,11 @@ function useComboboxProps(
             selectedItem: null,
             inputId: options?.inputId,
             labelId: options?.labelId,
-            onInputValueChange({ inputValue }) {
+            onInputValueChange({ inputValue, type }: UseComboboxStateChange<string>) {
                 selector.options.setSearchTerm(inputValue!);
+                if (selector.onFilterInputChange && type === useCombobox.stateChangeTypes.InputChange) {
+                    selector.onFilterInputChange(inputValue);
+                }
             },
             getA11yStatusMessage(options) {
                 let message =

@@ -1,21 +1,24 @@
-import "@testing-library/jest-dom";
 import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
-import { SelectionMultiValueBuilder, list, listWidget, objectItems } from "@mendix/widget-plugin-test-utils";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
+import { list, listWidget, objectItems, SelectionMultiValueBuilder } from "@mendix/widget-plugin-test-utils";
+import "@testing-library/jest-dom";
 import { cleanup, getAllByRole, getByRole, queryByRole, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
-import { ReactElement, createElement } from "react";
+import { createElement, ReactElement } from "react";
+import { ItemSelectionMethodEnum } from "typings/DatagridProps";
 import { CellEventsController, useCellEventsController } from "../../features/row-interaction/CellEventsController";
 import {
     CheckboxEventsController,
     useCheckboxEventsController
 } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectActionHelper, useSelectActionHelper } from "../../helpers/SelectActionHelper";
+import { DatagridContext, DatagridRootScope } from "../../helpers/root-context";
+import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridColumn } from "../../typings/GridColumn";
 import { column, mockGridColumn, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";
-import { ItemSelectionMethodEnum } from "typings/DatagridProps";
 
 // you can also pass the mock implementation
 // to jest.fn as an argument
@@ -29,45 +32,92 @@ window.IntersectionObserver = jest.fn(() => ({
     takeRecords: jest.fn()
 }));
 
+function withCtx(
+    widgetProps: WidgetProps<GridColumn, ObjectItem>,
+    contextOverrides: Partial<DatagridRootScope> = {}
+): React.ReactElement {
+    const defaultBasicData = {
+        gridInteractive: false,
+        selectionStatus: "none" as const,
+        setSelectionHelper: jest.fn(),
+        exportDialogLabel: undefined,
+        cancelExportLabel: undefined,
+        selectRowLabel: undefined,
+        selectAllRowsLabel: undefined
+    };
+
+    const defaultSelectionCountStore = {
+        selectedCount: 0,
+        displayCount: "",
+        fmtSingular: "%d row selected",
+        fmtPlural: "%d rows selected"
+    };
+
+    const mockContext = {
+        basicData: defaultBasicData as unknown as GridBasicData,
+        selectionHelper: undefined,
+        selectActionHelper: widgetProps.selectActionHelper,
+        cellEventsController: widgetProps.cellEventsController,
+        checkboxEventsController: widgetProps.checkboxEventsController,
+        focusController: widgetProps.focusController,
+        selectionCountStore: defaultSelectionCountStore as unknown as SelectionCountStore,
+        ...contextOverrides
+    };
+
+    return (
+        <DatagridContext.Provider value={mockContext}>
+            <Widget {...widgetProps} />
+        </DatagridContext.Provider>
+    );
+}
+
+// Helper function to render Widget with root context
+function renderWithRootContext(
+    widgetProps: WidgetProps<GridColumn, ObjectItem>,
+    contextOverrides: Partial<DatagridRootScope> = {}
+): ReturnType<typeof render> {
+    return render(withCtx(widgetProps, contextOverrides));
+}
+
 describe("Table", () => {
     it("renders the structure correctly", () => {
-        const component = render(<Widget {...mockWidgetProps()} />);
+        const component = renderWithRootContext(mockWidgetProps());
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with sorting", () => {
-        const component = render(<Widget {...mockWidgetProps()} columnsSortable />);
+        const component = renderWithRootContext({ ...mockWidgetProps(), columnsSortable: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with resizing", () => {
-        const component = render(<Widget {...mockWidgetProps()} columnsResizable />);
+        const component = renderWithRootContext({ ...mockWidgetProps(), columnsResizable: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with dragging", () => {
-        const component = render(<Widget {...mockWidgetProps()} columnsDraggable />);
+        const component = renderWithRootContext({ ...mockWidgetProps(), columnsDraggable: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with filtering", () => {
-        const component = render(<Widget {...mockWidgetProps()} columnsFilterable />);
+        const component = renderWithRootContext({ ...mockWidgetProps(), columnsFilterable: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with hiding", () => {
-        const component = render(<Widget {...mockWidgetProps()} columnsHidable />);
+        const component = renderWithRootContext({ ...mockWidgetProps(), columnsHidable: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with paging", () => {
-        const component = render(<Widget {...mockWidgetProps()} paging />);
+        const component = renderWithRootContext({ ...mockWidgetProps(), paging: true });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -78,15 +128,16 @@ describe("Table", () => {
         props.columnsFilterable = true;
         props.visibleColumns = columns;
         props.availableColumns = columns;
-        const component = render(<Widget {...props} />);
+        const component = renderWithRootContext(props);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with empty placeholder", () => {
-        const component = render(
-            <Widget {...mockWidgetProps()} emptyPlaceholderRenderer={renderWrapper => renderWrapper(<div />)} />
-        );
+        const component = renderWithRootContext({
+            ...mockWidgetProps(),
+            emptyPlaceholderRenderer: renderWrapper => renderWrapper(<div />)
+        });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -103,13 +154,13 @@ describe("Table", () => {
         props.visibleColumns = columns;
         props.availableColumns = columns;
 
-        const component = render(<Widget {...props} />);
+        const component = renderWithRootContext(props);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with dynamic row class", () => {
-        const component = render(<Widget {...mockWidgetProps()} rowClass={() => "myclass"} />);
+        const component = renderWithRootContext({ ...mockWidgetProps(), rowClass: () => "myclass" });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -121,38 +172,34 @@ describe("Table", () => {
         props.visibleColumns = columns;
         props.availableColumns = columns;
 
-        const component = render(<Widget {...props} />);
+        const component = renderWithRootContext(props);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with header wrapper", () => {
-        const component = render(
-            <Widget
-                {...mockWidgetProps()}
-                headerWrapperRenderer={(index, header) => (
-                    <div key={`header_wrapper_${index}`} className="my-custom-header">
-                        {header}
-                    </div>
-                )}
-            />
-        );
+        const component = renderWithRootContext({
+            ...mockWidgetProps(),
+            headerWrapperRenderer: (index, header) => (
+                <div key={`header_wrapper_${index}`} className="my-custom-header">
+                    {header}
+                </div>
+            )
+        });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
 
     it("renders the structure correctly with header filters and a11y", () => {
-        const component = render(
-            <Widget
-                {...mockWidgetProps()}
-                headerContent={
-                    <div className="my-custom-filters">
-                        <span />
-                    </div>
-                }
-                headerTitle="filter title"
-            />
-        );
+        const component = renderWithRootContext({
+            ...mockWidgetProps(),
+            headerContent: (
+                <div className="my-custom-filters">
+                    <span />
+                </div>
+            ),
+            headerTitle: "filter title"
+        });
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -163,13 +210,14 @@ describe("Table", () => {
         beforeEach(() => {
             props = mockWidgetProps();
             props.selectActionHelper = new SelectActionHelper("Single", undefined, "checkbox", false, 5, "clear");
-            props.gridInteractive = true;
             props.paging = true;
             props.data = objectItems(3);
         });
 
         it("render method class", () => {
-            const { container } = render(<Widget {...props} />);
+            const { container } = renderWithRootContext(props, {
+                basicData: { gridInteractive: true } as unknown as GridBasicData
+            });
 
             expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-checkbox");
         });
@@ -177,7 +225,9 @@ describe("Table", () => {
         it("render an extra column and add class to each selected row", () => {
             props.selectActionHelper.isSelected = () => true;
 
-            const { asFragment } = render(<Widget {...props} />);
+            const { asFragment } = renderWithRootContext(props, {
+                basicData: { gridInteractive: true } as unknown as GridBasicData
+            });
 
             expect(asFragment()).toMatchSnapshot();
         });
@@ -190,24 +240,24 @@ describe("Table", () => {
             // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
             const getChecked = () => screen.getAllByRole<HTMLInputElement>("checkbox").filter(elt => elt.checked);
 
-            const { rerender } = render(<Widget {...props} />);
+            const { rerender } = render(withCtx(props));
 
             expect(getChecked()).toHaveLength(0);
 
             selection = [a, b, c];
-            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
+            rerender(withCtx({ ...props, data: [a, b, c, d, e, f] }));
             expect(getChecked()).toHaveLength(3);
 
             selection = [c];
-            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
+            rerender(withCtx({ ...props, data: [a, b, c, d, e, f] }));
             expect(getChecked()).toHaveLength(1);
 
             selection = [d, e];
-            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
+            rerender(withCtx({ ...props, data: [a, b, c, d, e, f] }));
             expect(getChecked()).toHaveLength(2);
 
             selection = [f, e, d, a];
-            rerender(<Widget {...props} data={[a, b, c, d, e, f]} />);
+            rerender(withCtx({ ...props, data: [a, b, c, d, e, f] }));
             expect(getChecked()).toHaveLength(4);
         });
 
@@ -229,7 +279,9 @@ describe("Table", () => {
                 jest.fn()
             );
 
-            render(<Widget {...props} />);
+            renderWithRootContext(props, {
+                basicData: { gridInteractive: true } as unknown as GridBasicData
+            });
 
             const checkbox1 = screen.getAllByRole("checkbox")[0];
             const checkbox3 = screen.getAllByRole("checkbox")[2];
@@ -257,7 +309,7 @@ describe("Table", () => {
         props.data = objectItems(5);
         props.paging = true;
         props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", false, 5, "clear");
-        render(<Widget {...props} />);
+        renderWithRootContext(props);
 
         const colheader = screen.getAllByRole("columnheader")[0];
         expect(queryByRole(colheader, "checkbox")).toBeNull();
@@ -271,7 +323,9 @@ describe("Table", () => {
             props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
 
             const renderWithStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
-                return render(<Widget {...props} selectionStatus={status} />);
+                return renderWithRootContext(props, {
+                    basicData: { selectionStatus: status } as unknown as GridBasicData
+                });
             };
 
             renderWithStatus("none");
@@ -290,7 +344,7 @@ describe("Table", () => {
             const props = mockWidgetProps();
             props.selectActionHelper = new SelectActionHelper("Multi", undefined, "rowClick", false, 5, "clear");
 
-            render(<Widget {...props} />);
+            renderWithRootContext(props);
 
             const colheader = screen.getAllByRole("columnheader")[0];
             expect(queryByRole(colheader, "checkbox")).toBeNull();
@@ -300,9 +354,10 @@ describe("Table", () => {
             const props = mockWidgetProps();
             props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
             props.selectActionHelper.onSelectAll = jest.fn();
-            props.selectionStatus = "none";
 
-            render(<Widget {...props} />);
+            renderWithRootContext(props, {
+                basicData: { selectionStatus: "none" } as unknown as GridBasicData
+            });
 
             const checkbox = screen.getAllByRole("checkbox")[0];
 
@@ -320,13 +375,14 @@ describe("Table", () => {
         beforeEach(() => {
             props = mockWidgetProps();
             props.selectActionHelper = new SelectActionHelper("Single", undefined, "rowClick", true, 5, "clear");
-            props.gridInteractive = true;
             props.paging = true;
             props.data = objectItems(3);
         });
 
         it("render method class", () => {
-            const { container } = render(<Widget {...props} />);
+            const { container } = renderWithRootContext(props, {
+                basicData: { gridInteractive: true } as unknown as GridBasicData
+            });
 
             expect(container.firstChild).toHaveClass("widget-datagrid-selection-method-click");
         });
@@ -334,7 +390,9 @@ describe("Table", () => {
         it("add class to each selected cell", () => {
             props.selectActionHelper.isSelected = () => true;
 
-            const { asFragment } = render(<Widget {...props} />);
+            const { asFragment } = renderWithRootContext(props, {
+                basicData: { gridInteractive: true } as unknown as GridBasicData
+            });
 
             expect(asFragment()).toMatchSnapshot();
         });
@@ -361,7 +419,9 @@ describe("Table", () => {
                 jest.fn()
             );
 
-            render(<Widget {...props} />);
+            renderWithRootContext(props, {
+                basicData: { gridInteractive: true } as unknown as GridBasicData
+            });
 
             const rows = screen.getAllByRole("row").slice(1);
             expect(rows).toHaveLength(3);
@@ -413,7 +473,7 @@ describe("Table", () => {
         }: WidgetProps<GridColumn, ObjectItem> & {
             selectionMethod: ItemSelectionMethodEnum;
         }): ReactElement {
-            const helper = useSelectionHelper(selection, ds, undefined);
+            const helper = useSelectionHelper(selection, ds, undefined, "always clear");
             const selectHelper = useSelectActionHelper(
                 {
                     itemSelection: selection,
@@ -432,14 +492,28 @@ describe("Table", () => {
 
             const checkboxEventsController = useCheckboxEventsController(selectHelper, props.focusController);
 
+            const contextValue = {
+                basicData: {
+                    gridInteractive: true,
+                    selectionStatus: helper?.type === "Multi" ? helper.selectionStatus : "unknown"
+                } as unknown as GridBasicData,
+                selectionHelper: helper,
+                selectActionHelper: selectHelper,
+                cellEventsController,
+                checkboxEventsController,
+                focusController: props.focusController,
+                selectionCountStore: {} as unknown as SelectionCountStore
+            };
+
             return (
-                <Widget
-                    {...props}
-                    selectActionHelper={selectHelper}
-                    cellEventsController={cellEventsController}
-                    checkboxEventsController={checkboxEventsController}
-                    selectionStatus={helper?.type === "Multi" ? helper.selectionStatus : "unknown"}
-                />
+                <DatagridContext.Provider value={contextValue}>
+                    <Widget
+                        {...props}
+                        selectActionHelper={selectHelper}
+                        cellEventsController={cellEventsController}
+                        checkboxEventsController={checkboxEventsController}
+                    />
+                </DatagridContext.Provider>
             );
         }
 
@@ -618,7 +692,7 @@ describe("Table", () => {
 
             const user = userEvent.setup();
 
-            render(<Widget {...props} data={items} />);
+            renderWithRootContext({ ...props, data: items });
 
             const [input] = screen.getAllByRole("textbox");
             await user.click(input);

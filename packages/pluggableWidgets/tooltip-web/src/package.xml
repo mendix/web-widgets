@@ -5,7 +5,7 @@
             <widgetFile path="Tooltip.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/tooltip" />
+            <file path="com/mendix/widget/web/tooltip/" />
         </files>
     </clientModule>
 </package>

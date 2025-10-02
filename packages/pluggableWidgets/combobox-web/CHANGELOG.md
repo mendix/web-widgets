@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.6.0] - 2025-09-26
+
+### Changed
+
+- Moved the debounce interval for filtering operations from the Events tab to Advanced tab.
+
+## [2.5.1] - 2025-09-19
+
+### Fixed
+
+- We fixed an issue where combobox failed to render a proper width on auto-fit container.
+
+- We fixed an issue with combobox unnecessary applying filtering.
+
+- We fixed an issue where combobox lazy load is not working on initial load.
+
+### Added
+
+- We added the option to configure a debounce interval for datasource filter operations as well.
+
+## [2.5.0] - 2025-08-12
+
+### Added
+
+- We added a new "On change filter input" event that triggers when users type in the combobox filter field, passing the current filter text as an action variable to enable custom nanoflows/microflows for dynamic filtering scenarios.
+
 ## [2.4.3] - 2025-07-22
 
 ### Fixed

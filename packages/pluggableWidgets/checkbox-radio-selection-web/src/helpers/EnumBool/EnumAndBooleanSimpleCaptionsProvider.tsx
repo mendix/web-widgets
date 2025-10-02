@@ -1,0 +1,35 @@
+import { DynamicValue, EditableValue } from "mendix";
+import { ReactNode } from "react";
+import { CaptionsProvider } from "../types";
+
+interface EnumAndBooleanSimpleCaptionsProviderProps {
+    noOptionsText?: DynamicValue<string>;
+    attribute: EditableValue<string | boolean>;
+}
+
+export class EnumAndBooleanSimpleCaptionsProvider implements CaptionsProvider {
+    private attr?: EditableValue<string | boolean>;
+    emptyCaption = "";
+    formatter?: undefined;
+
+    updateProps(props: EnumAndBooleanSimpleCaptionsProviderProps): void {
+        this.attr = props.attribute;
+        if (!props.noOptionsText || props.noOptionsText.status === "unavailable") {
+            this.emptyCaption = "";
+        } else {
+            this.emptyCaption = props.noOptionsText.value!;
+        }
+    }
+
+    get(value: string | boolean | null): string {
+        if (value === null) {
+            return this.emptyCaption;
+        }
+
+        return this.attr?.formatter.format(value) ?? "";
+    }
+
+    render(value: string | null): ReactNode {
+        return this.get(value);
+    }
+}

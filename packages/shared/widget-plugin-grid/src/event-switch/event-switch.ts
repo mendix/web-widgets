@@ -1,4 +1,4 @@
-import { ElementProps, ElementEntry, EventCaseEntry, InferEvent } from "./base";
+import { ElementEntry, ElementProps, EventCaseEntry, InferEvent } from "./base";
 import { groupEntries } from "./utils";
 
 export function eventSwitch<Context, Element>(

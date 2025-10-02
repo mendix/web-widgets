@@ -18,6 +18,7 @@
         "publish-marketplace": "turbo run publish-marketplace",
         "version": "pnpm --filter @mendix/automation-utils run version",
         "changelog": "pnpm --filter @mendix/automation-utils run changelog",
+        "prepare-release": "pnpm --filter @mendix/automation-utils run prepare-release",
         "postinstall": "turbo run agent-rules"
     },
     "devDependencies": {
@@ -26,9 +27,9 @@
     },
     "engines": {
         "node": ">=22",
-        "pnpm": "10.12.4"
+        "pnpm": "10.17.0"
     },
-    "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184",
+    "packageManager": "pnpm@10.17.0+sha512.fce8a3dd29a4ed2ec566fb53efbb04d8c44a0f05bc6f24a73046910fb9c3ce7afa35a0980500668fa3573345bd644644fa98338fa168235c80f4aa17aa17fbef",
     "pnpm": {
         "peerDependencyRules": {
             "allowedVersions": {
@@ -56,6 +57,7 @@
             "json5@1.x": ">=1.0.2",
             "json5@0.x": ">=1.0.2",
             "@codemirror/view": "^6.38.1",
+            "@codemirror/state": "^6.5.2",
             "enzyme>cheerio": "1.0.0-rc.10",
             "ts-node": "10.9.2",
             "react-big-calendar@1>clsx": "2.1.1",
@@ -66,10 +68,17 @@
             "mobx@6.12.3": "patches/mobx@6.12.3.patch",
             "mobx-react-lite@4.0.7": "patches/mobx-react-lite@4.0.7.patch",
             "mime-types": "patches/mime-types.patch",
-            "rc-trigger": "patches/rc-trigger.patch"
+            "rc-trigger": "patches/rc-trigger.patch",
+            "react-dropzone": "patches/react-dropzone.patch"
         },
         "onlyBuiltDependencies": [
+            "@swc/core",
             "canvas"
+        ],
+        "ignoredBuiltDependencies": [
+            "@parcel/watcher",
+            "core-js",
+            "es5-ext"
         ]
     },
     "prettier": "@mendix/prettier-config-web-widgets"

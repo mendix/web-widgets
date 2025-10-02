@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { act, render, waitFor, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { createElement } from "react";
 import { Dimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { NotFoundException } from "@zxing/library/cjs";

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import MarkdownIt from "markdown-it";
-import { ReactElement, createElement, useEffect, useRef } from "react";
+import { createElement, ReactElement, useEffect, useRef } from "react";
 import { MarkdownContainerProps } from "../typings/MarkdownProps";
 import "./ui/Markdown.scss";
 const mdParser = new MarkdownIt("default", {

@@ -4,7 +4,7 @@ import BaseViewer from "./BaseViewer";
 import { downloadFile } from "../utils/helpers";
 
 const ErrorViewer: DocRendererElement = (props: DocumentRendererProps) => {
-    const { file } = props;
+    const { file, documentStatus } = props;
     const onDownloadClick = useCallback(() => {
         downloadFile(file.value?.uri);
     }, [file]);
@@ -22,7 +22,7 @@ const ErrorViewer: DocRendererElement = (props: DocumentRendererProps) => {
             }
         >
             {file.status === "available" ? (
-                <div>{"Unsupported document type"}</div>
+                <div>{documentStatus.message}</div>
             ) : (
                 <div className="widget-document-viewer-loading"></div>
             )}

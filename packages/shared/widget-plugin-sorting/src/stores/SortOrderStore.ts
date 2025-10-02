@@ -2,29 +2,48 @@ import { PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { action, computed, makeObservable, observable } from "mobx";
 import { BasicSortStore, Option, SortInstruction } from "../types/store";
+import { AttributeMetaData, DynamicValue } from "mendix";
 
 type StorableState = Array<[number, "asc" | "desc"]>;
+
+type Props = {
+    attributes: Array<{
+        attribute: AttributeMetaData;
+        caption?: DynamicValue<string>;
+    }>;
+};
 
 export class SortOrderStore implements BasicSortStore, Serializable {
     private readonly _sortOrder: SortInstruction[] = [];
 
     readonly id = `SortOrderStore@${generateUUID()}`;
-    readonly options: Option[];
-    readonly idToIndex: Map<string, number>;
+    options: Option[] = [];
+    readonly idToIndex: Map<string, number> = new Map();
 
-    constructor(spec: { options?: Option[]; initSortOrder?: SortInstruction[] } = {}) {
-        const { options = [], initSortOrder = [] } = spec;
-
-        this.options = [...options];
-        this.idToIndex = new Map(options.map((option, index) => [option.value, index]));
+    constructor(spec: { initSortOrder?: SortInstruction[] }) {
+        const { initSortOrder = [] } = spec;
         this._sortOrder = [...initSortOrder];
 
         makeObservable<this, "_sortOrder">(this, {
             _sortOrder: observable,
+            options: observable.struct,
             sortOrder: computed,
             setSortOrder: action,
+            setProps: action,
             push: action,
             remove: action
+        });
+    }
+
+    setProps(props: Props): void {
+        this.options = props.attributes.map(item => ({
+            value: item.attribute.id,
+            caption: item.caption?.value ?? "<empty>"
+        }));
+
+        this.idToIndex.clear();
+        this.options.forEach((option, index) => {
+            this.idToIndex.set(option.value, index);
         });
     }
 

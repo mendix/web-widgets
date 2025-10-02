@@ -1,5 +1,5 @@
 import { shallow, ShallowWrapper } from "enzyme";
-import { ReactChild, createElement } from "react";
+import { createElement, ReactChild } from "react";
 
 import { Alert, AlertProps } from "../Alert";
 

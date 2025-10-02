@@ -54,7 +54,14 @@ export default tseslint.config(
             "prefer-rest-params": "error",
             "prefer-spread": "error",
             radix: "error",
-            "spaced-comment": "error"
+            "spaced-comment": "error",
+            "sort-imports": [
+                "error",
+                {
+                    ignoreDeclarationSort: true,
+                    ignoreCase: true
+                }
+            ]
         }
     },
     {
@@ -204,6 +211,8 @@ export default tseslint.config(
         files: ["package.json"],
         rules: {
             "package-json/no-empty-fields": "off",
+            "package-json/require-type": "off",
+            "package-json/valid-exports": "off",
             "package-json/order-properties": [
                 "error",
                 {

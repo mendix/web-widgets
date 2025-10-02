@@ -1,7 +1,7 @@
 {
     "name": "@mendix/switch-web",
     "widgetName": "Switch",
-    "version": "4.2.2",
+    "version": "4.3.0",
     "description": "Toggle a boolean attribute",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -38,7 +38,7 @@
         "publish-marketplace": "rui-publish-marketplace",
         "release": "cross-env MPKOUTPUT=Switch.mpk pluggable-widgets-tools release:web",
         "start": "cross-env MPKOUTPUT=Switch.mpk pluggable-widgets-tools start:server",
-        "test": "pluggable-widgets-tools test:unit:web",
+        "test": "pluggable-widgets-tools test:unit:web:enzyme-free",
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
     },

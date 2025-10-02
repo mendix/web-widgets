@@ -1,9 +1,9 @@
-import { ColumnChartPreviewProps, BarmodeEnum } from "../typings/ColumnChartProps";
+import { BarmodeEnum, ColumnChartPreviewProps } from "../typings/ColumnChartProps";
 import {
-    StructurePreviewProps,
-    ImageProps,
     ContainerProps,
-    datasource
+    datasource,
+    ImageProps,
+    StructurePreviewProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { checkSlot, withPlaygroundSlot } from "@mendix/shared-charts/preview";
 import {

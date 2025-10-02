@@ -1,5 +1,5 @@
-import { SelectionMultiValueBuilder, objectItems } from "@mendix/widget-plugin-test-utils";
-import { SelectionMultiValue, ObjectItem } from "mendix";
+import { objectItems, SelectionMultiValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { ObjectItem, SelectionMultiValue } from "mendix";
 import { MultiSelectionHelper } from "../helpers";
 
 describe("MultiSelectionHelper", () => {

@@ -6,6 +6,182 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.6.0] DataWidgets - 2025-10-01
+
+### [3.6.0] DatagridDateFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.6.0] DatagridDropdownFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.6.0] DatagridNumberFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.6.0] DatagridTextFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.6.0] Datagrid
+
+#### Fixed
+
+- We fixed an issue where the calendar popup overlap with column header on virtual scrolling.
+
+#### Breaking changes
+
+- We changed datagrid styling display for `widget-datagrid-head` and `widget-datagrid-body` to use display grid instead of contents and adding `grid-template-column: subgrid` to make sure the columns aligned with the template defined in the global grid. This will also ensure that the scrollbar positioned on the grid body instead of the whole grid.
+
+### [3.4.0] DropdownSort
+
+#### Fixed
+
+- We fixed an issue with Gallery widget causing errors when Mendix app is being used in an iframe.
+
+- We fixed an issue with Dropdown sort widget not showing attribute captions correctly.
+
+### [3.6.0] Gallery
+
+#### Fixed
+
+- We fixed an issue with Gallery widget causing errors when Mendix app is being used in an iframe.
+
+### [3.6.0] TreeNode
+
+#### Changed
+
+- Internal improvements.
+
+## [3.5.0] DataWidgets - 2025-09-16
+
+### Changed
+
+- We consolidated all SCSS variables from individual files into variables.scss to have a better alignment with atlas variables.
+
+## [3.4.0] DataWidgets - 2025-09-12
+
+### Added
+
+- We added a new JavaScript action to clear the selection in the Data grid 2 and Gallery widgets.
+
+### [3.4.0] DatagridDateFilter
+
+#### Fixed
+
+- We fixed label issues reported by Axe a11y tools
+
+### [3.4.0] DatagridDropdownFilter
+
+#### Fixed
+
+- We fixed label issues reported by Axe a11y tool
+
+### [3.4.0] DatagridNumberFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.4.0] DatagridTextFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.4.0] Datagrid
+
+#### Fixed
+
+- We fixed an issue where the datagrid's horizontal scrollbar would unexpectedly jump to the right when the column selector was enabled.
+
+### [3.4.0] Gallery
+
+#### Fixed
+
+- We fixed an issue where the column count was not reflected properly in the preview mode.
+
+#### Added
+
+- Added a 'horizontal divider' option to Borders design property for Gallery list items, allowing improved visual separation and customization.
+
+### [3.4.0] TreeNode
+
+#### Changed
+
+- Internal improvements.
+
+## [3.3.0] DataWidgets - 2025-08-28
+
+### [3.3.0] DatagridDropdownFilter
+
+#### Fixed
+
+- We implemented ellipsis truncation to resolve option caption overflow issues.
+
+- We fixed an issue where tooltips were not displayed correctly when hovering over options.
+
+### [3.3.0] Datagrid
+
+#### Added
+
+- We implemented a new property to show a refresh indicator. With the refresh indicator, any datasource change shows a progress bar on top of Datagrid 2.
+
+- We added a selection count display that shows the number of selected rows in the grid footer. The count appears automatically when items are selected and supports customizable text formats for singular and plural forms via the new "Row count singular" and "Row count plural" properties.
+
+### [3.3.0] Gallery
+
+#### Added
+
+- We implemented a new property to show a refresh indicator. With the refresh indicator, any datasource change shows a progress bar on top of Gallery.
+
+## [3.2.0] DataWidgets - 2025-08-18
+
+### [3.2.0] DatagridDateFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.2.0] DatagridDropdownFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.2.0] DatagridNumberFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.2.0] DatagridTextFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.2.0] Datagrid
+
+#### Changed
+
+- We removed all metadata stored in xpath to improve integration with other services.
+
+### [3.2.0] Gallery
+
+#### Changed
+
+- We removed all metadata stored in xpath to improve integration with other services.
+
 ## [3.1.1] DataWidgets - 2025-08-05
 
 ### [3.0.4] DatagridDropdownFilter

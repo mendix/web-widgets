@@ -1,12 +1,12 @@
 import {
-    StructurePreviewProps,
     DropZoneProps,
     RowLayoutProps,
-    TextProps,
-    structurePreviewPalette
+    structurePreviewPalette,
+    StructurePreviewProps,
+    TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { hidePropertyIn, Properties, Problem } from "@mendix/pluggable-widgets-tools";
-import { AttributesListPreviewType, AccessibilityHelperPreviewProps } from "../typings/AccessibilityHelperProps";
+import { hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { AccessibilityHelperPreviewProps, AttributesListPreviewType } from "../typings/AccessibilityHelperProps";
 
 const PROHIBITED_ATTRIBUTES = ["class", "style", "widgetid", "data-mendix-id"];
 

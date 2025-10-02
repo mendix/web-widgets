@@ -1,19 +1,19 @@
 import {
     ActionValue,
-    ReferenceValue,
-    ReferenceSetValue,
-    ListValue,
-    ListWidgetValue,
+    DynamicValue,
     ListAttributeValue,
     ListExpressionValue,
-    DynamicValue
+    ListValue,
+    ListWidgetValue,
+    ReferenceSetValue,
+    ReferenceValue
 } from "mendix";
 import {
     ComboboxContainerProps,
     FilterTypeEnum,
     LoadingTypeEnum,
-    OptionsSourceAssociationCustomContentTypeEnum,
-    OptionsSourceAssociationCaptionTypeEnum
+    OptionsSourceAssociationCaptionTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum
 } from "../../../typings/ComboboxProps";
 
 type ExtractionReturnValue = [
@@ -28,13 +28,15 @@ type ExtractionReturnValue = [
     ListWidgetValue | undefined,
     OptionsSourceAssociationCustomContentTypeEnum,
     boolean,
-    LoadingTypeEnum
+    LoadingTypeEnum,
+    number
 ];
 
 export function extractAssociationProps(props: ComboboxContainerProps): ExtractionReturnValue {
     const attr = props.attributeAssociation;
     const filterType = props.filterType;
     const onChangeEvent = props.onChangeEvent;
+    const filterInputDebounceInterval = props.filterInputDebounceInterval;
 
     if (!attr) {
         throw new Error("'optionsSourceType' type is 'association' but 'attributeAssociation' is not defined.");
@@ -79,6 +81,7 @@ export function extractAssociationProps(props: ComboboxContainerProps): Extracti
         customContent,
         customContentType,
         lazyLoading,
-        loadingType
+        loadingType,
+        filterInputDebounceInterval
     ];
 }

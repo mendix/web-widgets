@@ -81,6 +81,12 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
+        <propertyGroup caption="Advanced">
+            <property key="pdfjsWorkerUrl" type="textTemplate" required="false">
+                <caption>PDF.js worker URL</caption>
+                <description>URL to the PDF.js worker script. Change this if you want to host the script yourself. Leave empty to use the default URL.</description>
+            </property>
+        </propertyGroup>
         <propertyGroup caption="Common">
             <systemProperty key="Name" />
             <systemProperty key="TabIndex" />

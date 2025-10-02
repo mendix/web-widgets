@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. 
 */
 
-import { extend, isObject, isString, removeChildren, setStyles, floatEquals } from "./Utils";
+import { extend, floatEquals, isObject, isString, removeChildren, setStyles } from "./Utils";
 import Path from "./Path";
 import { ShapeOptions } from "./Types";
 

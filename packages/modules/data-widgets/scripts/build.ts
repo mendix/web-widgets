@@ -1,12 +1,12 @@
 #!/usr/bin/env ts-node-script
 
 import {
+    copyActionsFiles,
     copyModuleLicense,
     copyThemesourceToProject,
     copyWidgetsToProject,
     runModuleSteps,
-    writeModuleVersion,
-    copyActionsFiles
+    writeModuleVersion
 } from "@mendix/automation-utils/steps";
 
 import { bundleXLSX } from "./steps/bundle-xlsx";
@@ -15,7 +15,7 @@ async function main(): Promise<void> {
     await runModuleSteps({
         packagePath: process.cwd(),
         steps: [
-            copyActionsFiles(["Export_To_Excel.js", "Reset_All_Filters.js", "Reset_Filter.js"]),
+            copyActionsFiles(["Export_To_Excel.js", "Reset_All_Filters.js", "Reset_Filter.js", "Clear_Selection.js"]),
             bundleXLSX,
             copyThemesourceToProject,
             writeModuleVersion,

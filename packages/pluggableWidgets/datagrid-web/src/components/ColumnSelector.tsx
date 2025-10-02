@@ -1,5 +1,13 @@
-import { autoUpdate, size, useClick, useDismiss, useFloating, useInteractions } from "@floating-ui/react";
-import { createElement, ReactElement, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+    autoUpdate,
+    FloatingFocusManager,
+    size,
+    useClick,
+    useDismiss,
+    useFloating,
+    useInteractions
+} from "@floating-ui/react";
+import { createElement, ReactElement, useEffect, useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { GridColumn } from "../typings/GridColumn";
 import { FaEye } from "./icons/FaEye";
@@ -15,7 +23,6 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
     const { visibleLength } = props;
     const [show, setShow] = useState(false);
     const [maxHeight, setMaxHeight] = useState<number>(0);
-    const buttonRef = useRef<HTMLButtonElement>(null);
     const { refs, floatingStyles, context, update } = useFloating({
         open: show,
         placement: "bottom-end",
@@ -48,20 +55,6 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
 
     const firstHidableColumnIndex = useMemo(() => props.columns.findIndex(c => c.canHide), [props.columns]);
     const lastHidableColumnIndex = useMemo(() => props.columns.map(c => c.canHide).lastIndexOf(true), [props.columns]);
-
-    useLayoutEffect(() => {
-        if (show) {
-            // Focus the first visible column
-            setTimeout(() => {
-                (refs.floating?.current?.querySelector("li") as HTMLElement)?.focus();
-            }, 10);
-        } else {
-            // focus back to the button when closing
-            setTimeout(() => {
-                (refs.reference?.current as HTMLElement)?.focus();
-            }, 10);
-        }
-    }, [show]);
 
     const optionsComponent = (
         <ul
@@ -102,7 +95,6 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                             ) {
                                 e.preventDefault();
                                 setShow(false);
-                                buttonRef.current?.focus();
                             }
                         }}
                         role="menuitem"
@@ -147,7 +139,11 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                     <FaEye />
                 </button>
             </div>
-            {show && optionsComponent}
+            {show && (
+                <FloatingFocusManager context={context} modal={false}>
+                    {optionsComponent}
+                </FloatingFocusManager>
+            )}
         </div>
     );
 }

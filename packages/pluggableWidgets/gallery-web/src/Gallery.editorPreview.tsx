@@ -11,29 +11,28 @@ import { createElement, ReactElement, ReactNode, useCallback, useMemo } from "re
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
-import { useGridPositions } from "./features/useGridPositions";
+import { useGridPositionsPreview } from "./features/useGridPositionsPreview";
 import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
 import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
 import "./ui/GalleryPreview.scss";
-
-const numberOfItems = 3;
 
 const SortAPI = getGlobalSortContext();
 
 function Preview(props: GalleryPreviewProps): ReactElement {
     const { emptyPlaceholder } = props;
+    const { numberOfColumns, numberOfRows, containerRef, numberOfItems } = useGridPositionsPreview({
+        phoneItems: props.phoneItems ?? 1,
+        tabletItems: props.tabletItems ?? 1,
+        desktopItems: props.desktopItems ?? 1,
+        totalItems: props.pageSize ?? 3
+    });
+
     const items: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
         id: String(index) as GUID
     }));
 
     const selectHelper = useItemSelectHelper(props.itemSelection, undefined);
 
-    const { numberOfColumns, numberOfRows } = useGridPositions({
-        phoneItems: props.phoneItems ?? 1,
-        tabletItems: props.tabletItems ?? 1,
-        desktopItems: props.desktopItems ?? 1,
-        totalItems: items.length
-    });
     const getPositionCallback = useCallback(
         (index: number) => getColumnAndRowBasedOnIndex(numberOfColumns, items.length, index),
         [numberOfColumns, items.length]
@@ -65,47 +64,50 @@ function Preview(props: GalleryPreviewProps): ReactElement {
     );
 
     return (
-        <GalleryComponent
-            className={props.class}
-            desktopItems={props.content.widgetCount > 0 ? numberOfItems : props.desktopItems!}
-            emptyPlaceholderRenderer={useCallback(
-                (renderWrapper: (children: ReactNode) => ReactElement) => (
-                    <emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
-                        {renderWrapper(null)}
-                    </emptyPlaceholder.renderer>
-                ),
-                [emptyPlaceholder]
-            )}
-            header={
-                <SortAPI.Provider value={sortAPI}>
-                    <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
-                        <div />
-                    </props.filtersPlaceholder.renderer>
-                </SortAPI.Provider>
-            }
-            showHeader
-            hasMoreItems={false}
-            items={items}
-            itemHelper={useItemPreviewHelper({
-                contentValue: props.content,
-                hasOnClick: props.onClick !== null
-            })}
-            numberOfItems={props.pageSize ?? numberOfItems}
-            page={0}
-            pageSize={props.pageSize ?? numberOfItems}
-            paging={props.pagination === "buttons"}
-            paginationPosition={props.pagingPosition}
-            paginationType={props.pagination}
-            showPagingButtons={props.showPagingButtons}
-            showEmptyStatePreview={props.showEmptyPlaceholder === "custom"}
-            phoneItems={props.phoneItems!}
-            tabletItems={props.tabletItems!}
-            selectHelper={selectHelper}
-            itemEventsController={itemEventsController}
-            focusController={focusController}
-            getPosition={getPositionCallback}
-            preview
-        />
+        <div ref={containerRef}>
+            <GalleryComponent
+                className={props.class}
+                desktopItems={props.desktopItems!}
+                emptyPlaceholderRenderer={useCallback(
+                    (renderWrapper: (children: ReactNode) => ReactElement) => (
+                        <emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
+                            {renderWrapper(null)}
+                        </emptyPlaceholder.renderer>
+                    ),
+                    [emptyPlaceholder]
+                )}
+                header={
+                    <SortAPI.Provider value={sortAPI}>
+                        <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
+                            <div />
+                        </props.filtersPlaceholder.renderer>
+                    </SortAPI.Provider>
+                }
+                showHeader
+                hasMoreItems={false}
+                items={items}
+                itemHelper={useItemPreviewHelper({
+                    contentValue: props.content,
+                    hasOnClick: props.onClick !== null
+                })}
+                numberOfItems={props.pageSize!}
+                page={0}
+                pageSize={props.pageSize!}
+                paging={props.pagination === "buttons"}
+                paginationPosition={props.pagingPosition}
+                paginationType={props.pagination}
+                showPagingButtons={props.showPagingButtons}
+                showEmptyStatePreview={props.showEmptyPlaceholder === "custom"}
+                phoneItems={props.phoneItems!}
+                tabletItems={props.tabletItems!}
+                selectHelper={selectHelper}
+                itemEventsController={itemEventsController}
+                focusController={focusController}
+                getPosition={getPositionCallback}
+                showRefreshIndicator={false}
+                preview
+            />
+        </div>
     );
 }
 

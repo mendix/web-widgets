@@ -4,7 +4,7 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import { makeAutoObservable } from "mobx";
 import { Config, Data, Layout } from "plotly.js-dist-min";
 import { ChartProps } from "../components/PlotlyChart";
-import { parseConfig, parseData, parseLayout, mergeChartProps } from "../utils/utils";
+import { mergeChartProps, parseConfig, parseData, parseLayout } from "../utils/utils";
 import { ControllerProps } from "./typings";
 
 interface SizeProvider {
@@ -125,10 +125,9 @@ export class ChartPropsController implements ReactiveController {
     private get chartOnClick(): (data: any) => void {
         return (data: any): void => {
             if (this.props.eventDataAttribute) {
-                this.props.eventDataAttribute?.setValue(JSON.stringify(data.points[0].bbox));
-            } else {
-                executeAction(this.props.onClick);
+                this.props.eventDataAttribute.setValue(JSON.stringify(data.points[0].bbox));
             }
+            executeAction(this.props.onClick);
         };
     }
 

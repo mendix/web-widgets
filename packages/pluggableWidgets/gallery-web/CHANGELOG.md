@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.6.0] - 2025-10-01
+
+### Fixed
+
+- We fixed an issue with Gallery widget causing errors when Mendix app is being used in an iframe.
+
+## [3.4.0] - 2025-09-12
+
+### Fixed
+
+- We fixed an issue where the column count was not reflected properly in the preview mode.
+
+### Added
+
+- Added a 'horizontal divider' option to Borders design property for Gallery list items, allowing improved visual separation and customization.
+
+## [3.3.0] - 2025-08-28
+
+### Added
+
+- We implemented a new property to show a refresh indicator. With the refresh indicator, any datasource change shows a progress bar on top of Gallery.
+
+## [3.2.0] - 2025-08-18
+
+### Changed
+
+- We removed all metadata stored in xpath to improve integration with other services.
+
 ## [3.1.0] - 2025-07-24
 
 ### Added

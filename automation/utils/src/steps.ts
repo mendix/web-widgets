@@ -12,8 +12,9 @@ import { copyMpkFiles, getMpkPaths } from "./monorepo";
 import { createModuleMpkInDocker } from "./mpk";
 import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
 import { addFilesToPackageXml, PackageType } from "./package-xml";
-import { chmod, cp, ensureFileExists, exec, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
+import { chmod, cp, ensureFileExists, exec, find, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
 import chalk from "chalk";
+import { findOssReadme } from "./oss-readme";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
@@ -49,8 +50,8 @@ export async function cloneTestProject({ info, config }: CommonStepParams): Prom
     const clone = process.env.CI ? cloneRepoShallow : cloneRepo;
     rm("-rf", config.paths.targetProject);
     await clone({
-        remoteUrl: testProject.githubUrl,
-        branch: testProject.branchName,
+        remoteUrl: testProject!.githubUrl,
+        branch: testProject!.branchName,
         localFolder: config.paths.targetProject
     });
 }
@@ -188,8 +189,46 @@ export async function addWidgetsToMpk({ config }: ModuleStepParams): Promise<voi
     console.info(`Add file entries to package.xml`);
     await addFilesToPackageXml(packageXml, packageFilePaths, "modelerProject");
     console.log(`Copying License.txt...`);
-    cp(join(config.output.dirs.themesource, "LICENSE"), join(target, "License.txt"));
+    cp(join(config.paths.package, "LICENSE"), join(target, "License.txt"));
     rm(mpk);
+
+    console.info("Create module zip archive");
+    await zip(target, mpk);
+    rm("-rf", target);
+}
+
+export async function addREADMEOSSToMpk({ config, info }: ModuleStepParams): Promise<void> {
+    logStep("Add READMEOSS to mpk");
+
+    // Check that READMEOSS file exists in package root and find it by name pattern
+    const packageRoot = config.paths.package;
+    const widgetName = info.mxpackage.name;
+    const version = info.version.format();
+
+    // We'll search for files matching the name and version, ignoring timestamp
+    const readmeossFile = findOssReadme(packageRoot, widgetName, version);
+
+    if (!readmeossFile) {
+        console.warn(`⚠️  READMEOSS file not found for ${widgetName} version ${version}.`);
+        console.warn(`   Skipping READMEOSS addition to mpk.`);
+        return;
+    }
+
+    console.info(`Found READMEOSS file: ${parse(readmeossFile).base}`);
+
+    const mpk = config.output.files.modulePackage;
+    const mpkEntry = parse(mpk);
+    const target = join(mpkEntry.dir, "tmp");
+
+    rm("-rf", target);
+
+    console.info("Unzip module mpk");
+    await unzip(mpk, target);
+    chmod("-R", "a+rw", target);
+
+    console.info(`Add READMEOSS file to ${mpkEntry.base}`);
+    // Copy the READMEOSS file to the target directory
+    cp(readmeossFile, target);
 
     console.info("Create module zip archive");
     await zip(target, mpk);
@@ -205,6 +244,15 @@ export async function moveModuleToDist({ info, config }: ModuleStepParams): Prom
     mkdir("-p", join(paths.dist, info.version.format()));
     // Can't use mv because of https://github.com/shelljs/shelljs/issues/878
     cp(output.files.modulePackage, output.files.mpk);
+
+    // Prepare OSS clearance folder structure
+    const ossClearanceFolder = join(paths.dist, "SBOM_GENERATOR", `${info.mxpackage.name} ${info.version.format()}`);
+    mkdir("-p", ossClearanceFolder);
+
+    // Copy module package to OSS clearance folder
+    console.info(`Copying module package to OSS clearance folder: ${ossClearanceFolder}`);
+    cp(output.files.modulePackage, join(ossClearanceFolder, `${info.mxpackage.name} ${info.version.format()}.mpk`));
+
     rm(output.files.modulePackage);
 }
 

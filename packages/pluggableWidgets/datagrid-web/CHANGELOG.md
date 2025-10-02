@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.6.0] - 2025-10-01
+
+### Fixed
+
+- We fixed an issue where the calendar popup overlap with column header on virtual scrolling.
+
+### Breaking changes
+
+- We changed datagrid styling display for `widget-datagrid-head` and `widget-datagrid-body` to use display grid instead of contents and adding `grid-template-column: subgrid` to make sure the columns aligned with the template defined in the global grid. This will also ensure that the scrollbar positioned on the grid body instead of the whole grid.
+
+## [3.4.0] - 2025-09-12
+
+### Fixed
+
+- We fixed an issue where the datagrid's horizontal scrollbar would unexpectedly jump to the right when the column selector was enabled.
+
+## [3.3.0] - 2025-08-28
+
+### Added
+
+- We implemented a new property to show a refresh indicator. With the refresh indicator, any datasource change shows a progress bar on top of Datagrid 2.
+
+- We added a selection count display that shows the number of selected rows in the grid footer. The count appears automatically when items are selected and supports customizable text formats for singular and plural forms via the new "Row count singular" and "Row count plural" properties.
+
+## [3.2.0] - 2025-08-18
+
+### Changed
+
+- We removed all metadata stored in xpath to improve integration with other services.
+
 ## [3.0.1] - 2025-08-05
 
 ### Fixed

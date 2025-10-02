@@ -10,15 +10,29 @@ async function main(): Promise<void> {
     try {
         console.log(chalk.bold.cyan("\n🚀 RELEASE PREPARATION WIZARD 🚀\n"));
 
-        // Check for GitHub token
-        const githubToken = process.env.GH_PAT;
-        if (!githubToken) {
-            console.warn(chalk.yellow("⚠️  GH_PAT environment variable not set"));
-            console.warn(chalk.yellow("   GitHub workflow will need manual triggering"));
+        console.log(chalk.bold("📋 STEP 1: Initialize Jira and GitHub"));
+
+        // Check GitHub authentication
+        try {
+            await gh.ensureAuth();
+            console.log(chalk.green("✅ GitHub authentication verified"));
+        } catch (error) {
+            console.log(chalk.red(`❌ GitHub authentication failed: ${(error as Error).message}`));
+            console.log(chalk.yellow("\n💡 First, make sure GitHub CLI is installed:"));
+            console.log(chalk.cyan("   Download from: https://cli.github.com/"));
+            console.log(chalk.cyan("   Or install via brew: brew install gh"));
+            console.log(chalk.yellow("\n💡 Then authenticate with GitHub using one of these options:"));
+            console.log(chalk.yellow("   1. Set GITHUB_TOKEN environment variable:"));
+            console.log(chalk.cyan("      export GITHUB_TOKEN=your_token_here"));
+            console.log(chalk.yellow("   2. Set GH_PAT environment variable:"));
+            console.log(chalk.cyan("      export GH_PAT=your_token_here"));
+            console.log(chalk.yellow("   3. Use GitHub CLI to authenticate:"));
+            console.log(chalk.cyan("      gh auth login"));
+            console.log(chalk.yellow("\n   Get a token at: https://github.com/settings/tokens"));
+            process.exit(1);
         }
 
         // Step 1: Initialize Jira client
-        console.log(chalk.bold("📋 STEP 1: Initialize Jira"));
         let jira: Jira;
         try {
             jira = await initializeJiraClient();
@@ -87,7 +101,7 @@ async function main(): Promise<void> {
         console.log(chalk.green("✅ Branch pushed to GitHub"));
 
         console.log(chalk.bold("\n📋 STEP 5: GitHub Release Workflow"));
-        await triggerGitHubReleaseWorkflow(pkg.name, tmpBranchName, githubToken);
+        await triggerGitHubReleaseWorkflow(pkg.name, tmpBranchName);
 
         console.log(chalk.bold("\n📋 STEP 6: Jira Issue Management"));
         await manageIssuesForVersion(jira, jiraVersion.id, jiraVersionName);
@@ -229,29 +243,21 @@ async function manageIssuesForVersion(jira: Jira, versionId: string, versionName
     }
 }
 
-async function triggerGitHubReleaseWorkflow(
-    packageName: string,
-    branchName: string,
-    githubToken?: string
-): Promise<void> {
-    if (githubToken) {
-        const { triggerWorkflow } = await prompt<{ triggerWorkflow: boolean }>({
-            type: "confirm",
-            name: "triggerWorkflow",
-            message: "❓ Trigger GitHub release workflow now?",
-            initial: true
-        });
+async function triggerGitHubReleaseWorkflow(packageName: string, branchName: string): Promise<void> {
+    const { triggerWorkflow } = await prompt<{ triggerWorkflow: boolean }>({
+        type: "confirm",
+        name: "triggerWorkflow",
+        message: "❓ Trigger GitHub release workflow now?",
+        initial: true
+    });
 
-        if (triggerWorkflow) {
-            console.log(chalk.blue("🔄 Triggering GitHub release workflow..."));
-            try {
-                await gh.triggerCreateReleaseWorkflow(packageName, branchName);
-                console.log(chalk.green("✅ GitHub Release Workflow triggered"));
-            } catch (error) {
-                console.error(chalk.red(`❌ Failed to trigger workflow: ${(error as Error).message}`));
-                showManualTriggerInstructions(packageName, branchName);
-            }
-        } else {
+    if (triggerWorkflow) {
+        console.log(chalk.blue("🔄 Triggering GitHub release workflow..."));
+        try {
+            await gh.triggerCreateReleaseWorkflow(packageName, branchName);
+            console.log(chalk.green("✅ GitHub Release Workflow triggered"));
+        } catch (error) {
+            console.error(chalk.red(`❌ Failed to trigger workflow: ${(error as Error).message}`));
             showManualTriggerInstructions(packageName, branchName);
         }
     } else {
@@ -260,7 +266,7 @@ async function triggerGitHubReleaseWorkflow(
 }
 
 async function createReleaseBranch(packageName: string, version: string): Promise<string> {
-    const tmpBranchName = `tmp-release/${packageName}-v${version}`;
+    const tmpBranchName = `tmp/${packageName}-v${version}`;
 
     let branchToUse = tmpBranchName;
     let branchesAreReady = false;
@@ -347,7 +353,6 @@ async function createReleaseBranch(packageName: string, version: string): Promis
 }
 
 async function initializeJiraClient(): Promise<Jira> {
-    console.log(chalk.bold("🔍 Checking Jira environment variables"));
     const projectKey = process.env.JIRA_PROJECT_KEY;
     const baseUrl = process.env.JIRA_BASE_URL;
     const apiToken = process.env.JIRA_API_TOKEN;
@@ -358,6 +363,7 @@ async function initializeJiraClient(): Promise<Jira> {
         console.log(chalk.dim("   export JIRA_PROJECT_KEY=WEB"));
         console.log(chalk.dim("   export JIRA_BASE_URL=https://your-company.atlassian.net"));
         console.log(chalk.dim("   export JIRA_API_TOKEN=username@your-company.com:ATATT3xFfGF0..."));
+        console.log(chalk.dim("   Get your API token at: https://id.atlassian.com/manage-profile/security/api-tokens"));
         throw new Error("Missing Jira environment variables");
     }
 

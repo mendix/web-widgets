@@ -3,9 +3,9 @@ import {
     DropZoneProps,
     RowLayoutProps,
     SelectableProps,
+    structurePreviewPalette,
     StructurePreviewProps,
-    TextProps,
-    structurePreviewPalette
+    TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     changePropertyIn,
