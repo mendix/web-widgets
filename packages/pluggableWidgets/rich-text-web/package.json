@@ -67,6 +67,7 @@
         "@mendix/rollup-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
+        "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "@rollup/plugin-alias": "^5.1.1",
