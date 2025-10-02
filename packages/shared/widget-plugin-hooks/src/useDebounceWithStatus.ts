@@ -9,7 +9,7 @@ export const useDebounceWithStatus = <F extends (...args: any[]) => any>(
     isExecuting: boolean
 ): [F] => {
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const pendingActions = useRef<Parameters<F>>();
+    const pendingActions = useRef<Parameters<F>>(undefined);
     const canRun = useRef(isExecuting);
 
     useEffect(() => {
