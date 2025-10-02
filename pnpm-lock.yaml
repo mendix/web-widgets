@@ -24,6 +24,7 @@ overrides:
   react: ^18.0.0
   react-big-calendar@1>clsx: 2.1.1
   react-dom: ^18.0.0
+  rollup: 3.29.5
   ts-node: 10.9.2
   typescript: '>5.8.0'
 
@@ -342,10 +343,10 @@ importers:
         version: link:../../shared/prettier-config-web-widgets
       '@rollup/plugin-node-resolve':
         specifier: ^16.0.0
-        version: 16.0.2(rollup@4.52.4)
+        version: 16.0.2(rollup@3.29.5)
       '@rollup/plugin-terser':
         specifier: ^0.4.4
-        version: 0.4.4(rollup@4.52.4)
+        version: 0.4.4(rollup@3.29.5)
       concurrently:
         specifier: ^6.5.1
         version: 6.5.1
@@ -353,8 +354,8 @@ importers:
         specifier: ^0.1.6
         version: 0.1.8
       rollup:
-        specifier: '*'
-        version: 4.52.4
+        specifier: 3.29.5
+        version: 3.29.5
       xlsx:
         specifier: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz
         version: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz
@@ -630,7 +631,7 @@ importers:
         version: link:../../shared/widget-plugin-platform
       '@rollup/plugin-replace':
         specifier: ^6.0.2
-        version: 6.0.2(rollup@4.52.4)
+        version: 6.0.2(rollup@3.29.5)
 
   packages/pluggableWidgets/bubble-chart-web:
     dependencies:
@@ -1330,7 +1331,7 @@ importers:
         version: link:../../shared/rollup-web-widgets
       '@rollup/plugin-replace':
         specifier: ^6.0.2
-        version: 6.0.2(rollup@4.52.4)
+        version: 6.0.2(rollup@3.29.5)
 
   packages/pluggableWidgets/dropdown-sort-web:
     dependencies:
@@ -1484,7 +1485,7 @@ importers:
         version: link:../../shared/widget-plugin-test-utils
       '@rollup/plugin-json':
         specifier: ^6.1.0
-        version: 6.1.0(rollup@4.52.4)
+        version: 6.1.0(rollup@3.29.5)
       '@types/big.js':
         specifier: ^6.2.2
         version: 6.2.2
@@ -2490,16 +2491,16 @@ importers:
         version: link:../widget-plugin-test-utils
       '@rollup/plugin-commonjs':
         specifier: ^28.0.3
-        version: 28.0.6(rollup@4.52.4)
+        version: 28.0.6(rollup@3.29.5)
       '@rollup/plugin-node-resolve':
         specifier: ^16.0.0
-        version: 16.0.2(rollup@4.52.4)
+        version: 16.0.2(rollup@3.29.5)
       '@rollup/plugin-replace':
         specifier: ^6.0.2
-        version: 6.0.2(rollup@4.52.4)
+        version: 6.0.2(rollup@3.29.5)
       '@rollup/plugin-terser':
         specifier: ^0.4.4
-        version: 0.4.4(rollup@4.52.4)
+        version: 0.4.4(rollup@3.29.5)
       '@types/plotly.js-dist-min':
         specifier: ^2.3.4
         version: 2.3.4
@@ -2513,8 +2514,8 @@ importers:
         specifier: ^4.4.1
         version: 4.4.1
       rollup:
-        specifier: '*'
-        version: 4.52.4
+        specifier: 3.29.5
+        version: 3.29.5
       rollup-plugin-copy:
         specifier: ^3.5.0
         version: 3.5.0
@@ -4431,7 +4432,7 @@ packages:
     resolution: {integrity: sha512-PR9zDb+rOzkRb2VD+EuKB7UC41vU5DIwZ5qqCpk0KJudcWAyi8rvYOhS7+L5aZCspw1stTViLgN5v6FF1p5cgQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4442,7 +4443,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0
       '@types/babel__core': ^7.1.9
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       '@types/babel__core':
         optional: true
@@ -4453,7 +4454,7 @@ packages:
     resolution: {integrity: sha512-XSQB1K7FUU5QP+3lOQmVCE3I0FcbbNvmNT4VJSj93iUjayaARrTQeoRdiYQoftAJBLrR9t2agwAd3ekaTgHNlw==}
     engines: {node: '>=16.0.0 || 14 >= 14.17'}
     peerDependencies:
-      rollup: ^2.68.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4462,7 +4463,7 @@ packages:
     resolution: {integrity: sha512-qXWQwsXpvD4trSb8PeFPFajp8JLpRtqqOeNYRUKnEQNHm7e5UP7fuSRcbjQAJ7wDZBbnJvSdY5ujNBQd9B1iFg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4471,7 +4472,7 @@ packages:
     resolution: {integrity: sha512-EGI2te5ENk1coGeADSIwZ7G2Q8CJS2sF120T7jLw4xFw9n7wIOXHo+kIYRAoVpJAN+kmqZSoO3Fp4JtoNF4ReA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4480,7 +4481,7 @@ packages:
     resolution: {integrity: sha512-tgg6b91pAybXHJQMAAwW9VuWBO6Thi+q7BCNARLwSqlmsHz0XYURtGvh/AuwSADXSI4h/2uHbs7s4FzlZDGSGA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^2.78.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4489,7 +4490,7 @@ packages:
     resolution: {integrity: sha512-tCtHJ2BlhSoK4cCs25NMXfV7EALKr0jyasmqVCq3y9cBrKdmJhtsy1iTz36Xhk/O+pDJbzawxF4K6ZblqCnITQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^2.78.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4498,7 +4499,7 @@ packages:
     resolution: {integrity: sha512-7QaYCf8bqF04dOy7w/eHmJeNExxTYwvKAmlSAH/EaWWUzbT0h5sbF6bktFoX/0F/0qwng5/dWFMyf3gzaM8DsQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4507,7 +4508,7 @@ packages:
     resolution: {integrity: sha512-XHeJC5Bgvs8LfukDwWZp7yeqin6ns8RTl2B9avbejt6tZqsqvVoWI7ZTQrcNsfKEDWBTnTxM8nMDkO2IFFbd0A==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^2.0.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4516,7 +4517,7 @@ packages:
     resolution: {integrity: sha512-s5Hx+EtN60LMlDBvl5f04bEiFZmAepk27Q+mr85L/00zPDn1jtzlTV6FWn81MaIwqfWzKxmOJrBWHU6vtQyedQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^2.14.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
       tslib: '*'
       typescript: '>5.8.0'
     peerDependenciesMeta:
@@ -4529,7 +4530,7 @@ packages:
     resolution: {integrity: sha512-5yW2LP5NBEgkvIRSSEdJkmxe5cUNZKG3eenKtfJvSkxVm/xTTu7w+ayBtNwhozl1ZnTUCU0xFaRQR+cBl2H7TQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -4538,7 +4539,7 @@ packages:
     resolution: {integrity: sha512-5EdhGZtnu3V88ces7s53hhfK5KSASnJZv8Lulpc04cWO3REESroJXg73DFsOmgbU2BhwV0E20bu2IDZb3VKW4Q==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+      rollup: 3.29.5
     peerDependenciesMeta:
       rollup:
         optional: true
@@ -9684,7 +9685,7 @@ packages:
     resolution: {integrity: sha512-1ieLxTCaigI5xokIfszVDRoy6c/Wmlot1fDEnea7Q/WXSR8AqOjYljHDLObAx7nFxHC2mbxT3QnTSPhaic2IYw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
+      rollup: 3.29.5
 
   rollup-plugin-livereload@2.0.5:
     resolution: {integrity: sha512-vqQZ/UQowTW7VoiKEM5ouNW90wE5/GZLfdWuR0ELxyKOJUIaj+uismPZZaICU4DnWPVjnpCDDxEqwU7pcKY/PA==}
@@ -9705,7 +9706,7 @@ packages:
   rollup-preserve-directives@1.1.3:
     resolution: {integrity: sha512-oXqxd6ZzkoQej8Qt0k+S/yvO2+S4CEVEVv2g85oL15o0cjAKTKEuo2MzyA8FcsBBXbtytBzBMFAbhvQg4YyPUQ==}
     peerDependencies:
-      rollup: ^2.0.0 || ^3.0.0 || ^4.0.0
+      rollup: 3.29.5
 
   rollup@3.29.5:
     resolution: {integrity: sha512-GVsDdsbJzzy4S/v3dqWPJ7EfvZJfCHiDqe80IyrF59LYuP+e6U1LJoUqeuqRbwAWoMNoXivMNeNAOf5E22VA1w==}
@@ -12932,18 +12933,6 @@ snapshots:
     optionalDependencies:
       rollup: 3.29.5
 
-  '@rollup/plugin-commonjs@28.0.6(rollup@4.52.4)':
-    dependencies:
-      '@rollup/pluginutils': 5.3.0(rollup@4.52.4)
-      commondir: 1.0.1
-      estree-walker: 2.0.2
-      fdir: 6.5.0(picomatch@4.0.3)
-      is-reference: 1.2.1
-      magic-string: 0.30.19
-      picomatch: 4.0.3
-    optionalDependencies:
-      rollup: 4.52.4
-
   '@rollup/plugin-image@3.0.3(rollup@3.29.5)':
     dependencies:
       '@rollup/pluginutils': 5.3.0(rollup@3.29.5)
@@ -12980,15 +12969,22 @@ snapshots:
     optionalDependencies:
       rollup: 3.29.5
 
-  '@rollup/plugin-node-resolve@16.0.2(rollup@4.52.4)':
+  '@rollup/plugin-node-resolve@16.0.2(rollup@3.29.5)':
     dependencies:
-      '@rollup/pluginutils': 5.3.0(rollup@4.52.4)
+      '@rollup/pluginutils': 5.3.0(rollup@3.29.5)
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-module: 1.0.0
       resolve: 1.22.10
     optionalDependencies:
-      rollup: 4.52.4
+      rollup: 3.29.5
+
+  '@rollup/plugin-replace@6.0.2(rollup@3.29.5)':
+    dependencies:
+      '@rollup/pluginutils': 5.3.0(rollup@3.29.5)
+      magic-string: 0.30.19
+    optionalDependencies:
+      rollup: 3.29.5
 
   '@rollup/plugin-replace@6.0.2(rollup@4.52.4)':
     dependencies:
@@ -13004,14 +13000,6 @@ snapshots:
       terser: 5.44.0
     optionalDependencies:
       rollup: 3.29.5
-
-  '@rollup/plugin-terser@0.4.4(rollup@4.52.4)':
-    dependencies:
-      serialize-javascript: 6.0.2
-      smob: 1.5.0
-      terser: 5.44.0
-    optionalDependencies:
-      rollup: 4.52.4
 
   '@rollup/plugin-typescript@12.1.4(rollup@3.29.5)(tslib@2.8.1)(typescript@5.9.3)':
     dependencies:
