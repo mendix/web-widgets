@@ -4,14 +4,14 @@ exports[`Dropdown Filter with single instance with single attribute renders corr
 <DocumentFragment>
   <div
     aria-activedescendant=""
-    aria-controls="downshift-«r0»-menu"
+    aria-controls="downshift-:r0:-menu"
     aria-expanded="false"
     aria-haspopup="listbox"
     aria-label="AriaLabel"
     class="widget-dropdown-filter form-control variant-select filter-custom-class"
     data-empty="true"
     data-expanded="false"
-    id="downshift-«r0»-toggle-button"
+    id="downshift-:r0:-toggle-button"
     role="combobox"
     tabindex="0"
   >
@@ -41,7 +41,7 @@ exports[`Dropdown Filter with single instance with single attribute renders corr
     <div
       class="widget-dropdown-filter-popover"
       hidden=""
-      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); width: 0px;"
+      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
     >
       <div
         class="widget-dropdown-filter-menu-slot"
@@ -49,7 +49,7 @@ exports[`Dropdown Filter with single instance with single attribute renders corr
         <ul
           aria-label="AriaLabel"
           class="widget-dropdown-filter-menu"
-          id="downshift-«r0»-menu"
+          id="downshift-:r0:-menu"
           role="listbox"
         />
       </div>

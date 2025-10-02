@@ -14,12 +14,12 @@ exports[`Text Filter with single instance with multiple attributes renders corre
       >
         <button
           aria-activedescendant=""
-          aria-controls="downshift-«r8»-menu"
+          aria-controls="downshift-:r8:-menu"
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-label="Equal"
           class="btn btn-default filter-selector-button button-icon equal"
-          id="downshift-«r8»-toggle-button"
+          id="downshift-:r8:-toggle-button"
           role="combobox"
           tabindex="0"
         >
@@ -28,7 +28,7 @@ exports[`Text Filter with single instance with multiple attributes renders corre
         <ul
           aria-label="Select filter type"
           class="filter-selectors hidden"
-          id="downshift-«r8»-menu"
+          id="downshift-:r8:-menu"
           role="listbox"
           style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
         />
@@ -68,12 +68,12 @@ exports[`Text Filter with single instance with single attribute renders correctl
       >
         <button
           aria-activedescendant=""
-          aria-controls="downshift-«r5»-menu"
+          aria-controls="downshift-:r5:-menu"
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-label="Equal"
           class="btn btn-default filter-selector-button button-icon equal"
-          id="downshift-«r5»-toggle-button"
+          id="downshift-:r5:-toggle-button"
           role="combobox"
           tabindex="0"
         >
@@ -82,7 +82,7 @@ exports[`Text Filter with single instance with single attribute renders correctl
         <ul
           aria-label="Select filter type"
           class="filter-selectors hidden"
-          id="downshift-«r5»-menu"
+          id="downshift-:r5:-menu"
           role="listbox"
           style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
         />
