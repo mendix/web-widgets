@@ -28,7 +28,7 @@ export const SizeContainer: FC<SizeProps> = ({
     height,
     children,
     style,
-    readOnly
+    readOnly = false
 }) => {
     const styleWidth = widthUnit === "percentage" ? `${width}%` : `${width}px`;
     return createElement(
@@ -62,7 +62,6 @@ export const SizeContainer: FC<SizeProps> = ({
 };
 
 SizeContainer.displayName = "SizeContainer";
-SizeContainer.defaultProps = { readOnly: false };
 
 const getHeight = (
     heightUnit: HeightUnitType,
