@@ -2,11 +2,31 @@ import { makeAutoObservable } from "mobx";
 
 export class ProgressStore {
     inProgress = false;
+    /**
+     * If `false`, then `ProgressStore.total` and
+     * `ProgressStore.progress` has no meaningful value.
+     */
     lengthComputable = false;
     loaded = 0;
     total = 0;
     constructor() {
         makeAutoObservable(this);
+    }
+
+    get percentage(): number {
+        if (!this.lengthComputable || !this.inProgress || this.total <= 0) {
+            return 0;
+        }
+
+        const percentage = (this.loaded / this.total) * 100;
+        switch (true) {
+            case isNaN(percentage):
+                return 0;
+            case isFinite(percentage):
+                return percentage;
+            default:
+                return 0;
+        }
     }
 
     onloadstart = (event: ProgressEvent): void => {

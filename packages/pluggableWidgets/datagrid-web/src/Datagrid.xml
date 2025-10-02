@@ -62,9 +62,9 @@
                         <enumerationValue key="off">Off</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="selectAllPagesBufferSize" type="integer" defaultValue="500">
-                    <caption>Select all buffer size</caption>
-                    <description>Batch size for processing select all operations. If total count is less than buffer size, selection is immediate.</description>
+                <property key="selectAllPagesPageSize" type="integer" defaultValue="500">
+                    <caption>Select all page size</caption>
+                    <description>When selecting items from a large data source, items are selected in batches. This setting controls the size of the batches.</description>
                 </property>
                 <property key="selectingAllLabel" type="textTemplate" required="false">
                     <caption>Selecting all label</caption>
