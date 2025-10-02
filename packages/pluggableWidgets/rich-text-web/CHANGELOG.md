@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.10.0] - 2025-10-02
+
 ### Fixed
 
 - We fixed an issue where in dojo mode, the rich text modal was causing a double scrollbar.
