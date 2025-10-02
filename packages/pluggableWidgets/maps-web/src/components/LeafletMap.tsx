@@ -14,6 +14,7 @@ const MARKER_RENDER_DELAY = 100;
 export interface LeafletProps extends SharedProps {
     mapProvider: MapProviderEnum;
     attributionControl: boolean;
+    maxAutoZoom: number; // Maximum zoom level when autoZoom is enabled
 }
 
 /**
@@ -35,9 +36,11 @@ const defaultMarkerIcon = new LeafletIcon({
     iconAnchor: [12, 41]
 });
 
-function SetBoundsComponent(props: Pick<LeafletProps, "autoZoom" | "currentLocation" | "locations">): null {
+function SetBoundsComponent(
+    props: Pick<LeafletProps, "autoZoom" | "currentLocation" | "locations" | "maxAutoZoom">
+): null {
     const map = useMap();
-    const { autoZoom, currentLocation, locations } = props;
+    const { autoZoom, currentLocation, locations, maxAutoZoom } = props;
 
     useEffect(() => {
         if (map) {
@@ -57,7 +60,7 @@ function SetBoundsComponent(props: Pick<LeafletProps, "autoZoom" | "currentLocat
                         const flyOptions = {
                             padding: [20, 20] as [number, number], // Use pixel padding
                             animate: false,
-                            maxZoom: 15 // Limit maximum zoom to prevent over-zooming
+                            maxZoom: maxAutoZoom // Limit maximum zoom to prevent over-zooming
                         };
 
                         map.flyToBounds([southWest, northEast], flyOptions);
@@ -95,7 +98,8 @@ export function LeafletMap(props: LeafletProps): ReactElement {
         optionZoomControl: zoomControl,
         style,
         zoomLevel: zoom,
-        optionDrag: dragging
+        optionDrag: dragging,
+        maxAutoZoom: maxAutoZoom = 13
     } = props;
 
     // Use a lower initial zoom when autoZoom is enabled to prevent conflicts
@@ -147,7 +151,12 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                                 )}
                             </MarkerComponent>
                         ))}
-                    <SetBoundsComponent autoZoom={autoZoom} currentLocation={currentLocation} locations={locations} />
+                    <SetBoundsComponent
+                        autoZoom={autoZoom}
+                        currentLocation={currentLocation}
+                        locations={locations}
+                        maxAutoZoom={maxAutoZoom}
+                    />
                 </MapContainer>
             </div>
         </div>

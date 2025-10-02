@@ -90,6 +90,7 @@ export interface MapsContainerProps {
     mapTypeControl: boolean;
     fullScreenControl: boolean;
     rotateControl: boolean;
+    maxAutoZoom: number;
     widthUnit: WidthUnitEnum;
     width: number;
     heightUnit: HeightUnitEnum;
@@ -126,6 +127,7 @@ export interface MapsPreviewProps {
     mapTypeControl: boolean;
     fullScreenControl: boolean;
     rotateControl: boolean;
+    maxAutoZoom: number | null;
     widthUnit: WidthUnitEnum;
     width: number | null;
     heightUnit: HeightUnitEnum;

@@ -1713,11 +1713,11 @@ importers:
         specifier: ^2.2.3
         version: 2.2.3
       leaflet:
-        specifier: ^1.9.4
-        version: 1.9.4
+        specifier: 2.0.0-alpha
+        version: 2.0.0-alpha
       react-leaflet:
         specifier: ^4.2.1
-        version: 4.2.1(leaflet@1.9.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 4.2.1(leaflet@2.0.0-alpha)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@googlemaps/jest-mocks':
         specifier: ^2.10.0
@@ -8403,8 +8403,8 @@ packages:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}
     engines: {node: '>= 0.6.3'}
 
-  leaflet@1.9.4:
-    resolution: {integrity: sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==}
+  leaflet@2.0.0-alpha:
+    resolution: {integrity: sha512-RnEJ3UYcuHPFFsDq0e2/QovyIaR3hhwiQpq3wrKnvprA/lsiAJpcxvkRZL3UwQ2xnKm1r2pYcMa+rcSKVwEQag==}
 
   leven@3.1.0:
     resolution: {integrity: sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==}
@@ -13555,9 +13555,9 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.2.36
 
-  '@react-leaflet/core@2.1.0(leaflet@1.9.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@react-leaflet/core@2.1.0(leaflet@2.0.0-alpha)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
-      leaflet: 1.9.4
+      leaflet: 2.0.0-alpha
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
@@ -18761,7 +18761,7 @@ snapshots:
     dependencies:
       readable-stream: 2.3.8
 
-  leaflet@1.9.4: {}
+  leaflet@2.0.0-alpha: {}
 
   leven@3.1.0: {}
 
@@ -20523,10 +20523,10 @@ snapshots:
 
   react-is@18.2.0: {}
 
-  react-leaflet@4.2.1(leaflet@1.9.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  react-leaflet@4.2.1(leaflet@2.0.0-alpha)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
-      '@react-leaflet/core': 2.1.0(leaflet@1.9.4)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      leaflet: 1.9.4
+      '@react-leaflet/core': 2.1.0(leaflet@2.0.0-alpha)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      leaflet: 2.0.0-alpha
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
