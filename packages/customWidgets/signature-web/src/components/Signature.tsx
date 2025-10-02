@@ -1,6 +1,6 @@
-import { createElement, PureComponent, ReactNode } from "react";
+import { PureComponent, ReactNode } from "react";
 
-// @ts-ignore
+// @ts-expect-error signature_pad has no types
 import SignaturePad, { IOptions } from "signature_pad";
 import classNames from "classnames";
 import ReactResizeDetector from "react-resize-detector";
@@ -31,7 +31,7 @@ export type penOptions = "fountain" | "ballpoint" | "marker";
 
 export class Signature extends PureComponent<SignatureProps> {
     private canvasNode: HTMLCanvasElement | null = null;
-    // @ts-expect-error
+    // @ts-expect-error signature_pad has no types
     private signaturePad: SignaturePad;
 
     render(): ReactNode {
@@ -48,7 +48,9 @@ export class Signature extends PureComponent<SignatureProps> {
                 <Grid {...this.props} />
                 <canvas
                     className="widget-signature-canvas"
-                    ref={(node: HTMLCanvasElement) => (this.canvasNode = node)}
+                    ref={(node: HTMLCanvasElement | null): void => {
+                        this.canvasNode = node;
+                    }}
                 />
                 <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
             </SizeContainer>
