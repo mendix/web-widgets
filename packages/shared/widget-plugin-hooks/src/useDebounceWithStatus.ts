@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 // this function will directly trigger function if action is not currently executing.
 // if there are executing actions, it will delay the execution
@@ -10,6 +10,11 @@ export const useDebounceWithStatus = <F extends (...args: any[]) => any>(
 ): [F] => {
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const pendingActions = useRef<Parameters<F>>();
+    const canRun = useRef(isExecuting);
+
+    useEffect(() => {
+        canRun.current = isExecuting;
+    }, [isExecuting]);
 
     const abort = useCallback((): void => {
         if (timeoutRef.current !== null) {
@@ -21,7 +26,7 @@ export const useDebounceWithStatus = <F extends (...args: any[]) => any>(
     const runPendingActions = useCallback(() => {
         abort();
         timeoutRef.current = setTimeout(() => {
-            if (isExecuting) {
+            if (canRun.current) {
                 runPendingActions();
             } else {
                 // only run the last action
@@ -33,18 +38,18 @@ export const useDebounceWithStatus = <F extends (...args: any[]) => any>(
                 }
             }
         }, waitFor);
-    }, [abort, func, waitFor, isExecuting]);
+    }, [abort, func, waitFor]);
 
     const debounced = useCallback(
         (...args: Parameters<F>): void => {
-            if (isExecuting) {
+            if (canRun.current) {
                 pendingActions.current = args;
                 runPendingActions();
             } else {
                 func(...args);
             }
         },
-        [runPendingActions, func, isExecuting]
+        [runPendingActions, func]
     );
     return [debounced as F];
 };
