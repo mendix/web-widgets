@@ -1,6 +1,6 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
+import { useDebounceWithStatus } from "@mendix/widget-plugin-hooks/useDebounceWithStatus";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import classNames from "classnames";
 import Quill, { Range } from "quill";
 import "quill/dist/quill.core.css";
@@ -12,7 +12,6 @@ import {
     useCallback,
     useContext,
     useEffect,
-    useMemo,
     useRef,
     useState
 } from "react";
@@ -70,17 +69,17 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
 
     const { isFullscreen } = globalState;
 
-    const [setAttributeValueDebounce] = useMemo(
-        () =>
-            debounce(string => {
-                if (stringAttribute.value !== string) {
-                    stringAttribute.setValue(string);
-                    if (onChangeType === "onDataChange") {
-                        executeAction(onChange);
-                    }
+    const [setAttributeValueDebounce] = useDebounceWithStatus(
+        (string?: string) => {
+            if (stringAttribute.value !== string) {
+                stringAttribute.setValue(string);
+                if (onChangeType === "onDataChange") {
+                    executeAction(onChange);
                 }
-            }, 200),
-        [stringAttribute, onChange, onChangeType]
+            }
+        },
+        200,
+        onChange?.isExecuting ?? false
     );
 
     const calculateCounts = useCallback(
@@ -128,7 +127,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [quillRef.current]);
+    }, [quillRef.current, onChange?.isExecuting]);
 
     const onTextChange = useCallback(() => {
         if (stringAttribute.value !== quillRef?.current?.getSemanticHTML()) {
@@ -136,7 +135,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         }
         calculateCounts(quillRef.current);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [quillRef.current, stringAttribute, calculateCounts]);
+    }, [quillRef.current, stringAttribute, calculateCounts, onChange?.isExecuting]);
 
     const onSelectionChange = useCallback(
         (range: Range) => {
