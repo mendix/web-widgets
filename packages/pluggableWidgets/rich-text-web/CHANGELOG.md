@@ -16,9 +16,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added a configuration to set default font-family and font-size when there are no other value currently selected in the toolbar.
 
+- We allow white-space inline styling parsing in the widget.
+
 ### Fixed
 
 - We fixed the issue that image uploader not able to show.
+
+- We fixed the issue that code dialog not able to show.
+
+- We fixed an issue whereas last input change event action failed to trigger due to debounce logic.
 
 ## [4.9.0] - 2025-09-03
 
