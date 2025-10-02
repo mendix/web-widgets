@@ -1,7 +1,7 @@
 import { Container } from "./namespaces";
-import { createElement, ReactChild } from "react";
+import { createElement, ReactNode } from "react";
 
-export function validateProps(props: Container.CalendarContainerProps): ReactChild {
+export function validateProps(props: Container.CalendarContainerProps): ReactNode {
     const errorMessages: string[] = [];
 
     if (props.onClickEvent === "callMicroflow" && !props.onClickMicroflow) {
@@ -53,7 +53,7 @@ export function validateProps(props: Container.CalendarContainerProps): ReactChi
     return "";
 }
 
-export function validateCustomFormats(props: Container.CalendarContainerProps): ReactChild {
+export function validateCustomFormats(props: Container.CalendarContainerProps): ReactNode {
     const errorMessages: string[] = [];
 
     try {
@@ -68,7 +68,7 @@ export function validateCustomFormats(props: Container.CalendarContainerProps): 
                 window.mx.parser.formatValue(date, "datetime", { datePattern: customView.gutterTimeFormat });
             });
         }
-    } catch (error) {
+    } catch (_error) {
         errorMessages.push(`${props.friendlyId}: Invalid format value`);
     }
     if (errorMessages.length) {
