@@ -57,7 +57,7 @@ export const ComboboxWrapper = forwardRef(
                         </div>
                     )}
                 </div>
-                {validation && <ValidationAlert referenceId={errorId}>{validation}</ValidationAlert>}
+                {validation && <ValidationAlert id={errorId}>{validation}</ValidationAlert>}
             </Fragment>
         );
     }
