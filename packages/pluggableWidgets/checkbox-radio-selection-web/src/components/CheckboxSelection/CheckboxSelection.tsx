@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { createElement, MouseEvent, ReactElement } from "react";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
+import { getValidationErrorId } from "../../helpers/utils";
 import { CaptionContent } from "../CaptionContent";
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Placeholder } from "../Placeholder";
@@ -20,6 +21,7 @@ export function CheckboxSelection({
     const name = groupName?.value ?? inputId;
 
     const validation = selector.validation;
+    const errorId = getValidationErrorId(inputId);
 
     const handleChange = (optionId: string, checked: boolean): void => {
         if (!isReadOnly) {
@@ -74,7 +76,7 @@ export function CheckboxSelection({
                 );
             })}
             {options.length === 0 && <Placeholder noOptionsText={noOptionsText} />}
-            {validation && <ValidationAlert>{validation}</ValidationAlert>}
+            {validation && <ValidationAlert referenceId={errorId}>{validation}</ValidationAlert>}
         </div>
     );
 }

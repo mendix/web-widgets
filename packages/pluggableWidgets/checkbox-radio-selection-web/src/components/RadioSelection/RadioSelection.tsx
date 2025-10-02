@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { ChangeEvent, createElement, MouseEvent, ReactElement } from "react";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
+import { getValidationErrorId } from "../../helpers/utils";
 import { CaptionContent } from "../CaptionContent";
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Placeholder } from "../Placeholder";
@@ -26,6 +27,7 @@ export function RadioSelection({
     const name = groupName?.value ?? inputId;
 
     const validation = selector.validation;
+    const errorId = getValidationErrorId(inputId);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
         if (isReadOnly) {
@@ -92,7 +94,7 @@ export function RadioSelection({
                 );
             })}
             {options.length === 0 && <Placeholder noOptionsText={noOptionsText} />}
-            {validation && <ValidationAlert>{validation}</ValidationAlert>}
+            {validation && <ValidationAlert referenceId={errorId}>{validation}</ValidationAlert>}
         </div>
     );
 }
