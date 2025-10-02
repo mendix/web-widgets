@@ -14,12 +14,12 @@ exports[`Date Filter with single instance with double attributes renders correct
       >
         <button
           aria-activedescendant=""
-          aria-controls="downshift-«ra»-menu"
+          aria-controls="downshift-:ra:-menu"
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-label="Equal"
           class="btn btn-default filter-selector-button button-icon equal"
-          id="downshift-«ra»-toggle-button"
+          id="downshift-:ra:-toggle-button"
           role="combobox"
           tabindex="0"
         >
@@ -28,7 +28,7 @@ exports[`Date Filter with single instance with double attributes renders correct
         <ul
           aria-label="Select filter type"
           class="filter-selectors hidden"
-          id="downshift-«ra»-menu"
+          id="downshift-:ra:-menu"
           role="listbox"
           style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
         />
@@ -94,12 +94,12 @@ exports[`Date Filter with single instance with single attribute renders correctl
       >
         <button
           aria-activedescendant=""
-          aria-controls="downshift-«r0»-menu"
+          aria-controls="downshift-:r0:-menu"
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-label="Equal"
           class="btn btn-default filter-selector-button button-icon equal"
-          id="downshift-«r0»-toggle-button"
+          id="downshift-:r0:-toggle-button"
           role="combobox"
           tabindex="0"
         >
@@ -108,7 +108,7 @@ exports[`Date Filter with single instance with single attribute renders correctl
         <ul
           aria-label="Select filter type"
           class="filter-selectors hidden"
-          id="downshift-«r0»-menu"
+          id="downshift-:r0:-menu"
           role="listbox"
           style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
         />
