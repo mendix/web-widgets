@@ -12,17 +12,12 @@ export interface AlertProps {
 export interface ValidationAlertProps {
     children?: ReactNode;
     className?: string;
-    referenceId?: string;
+    id?: string;
 }
 
 // cloning from https://gitlab.rnd.mendix.com/appdev/appdev/-/blob/master/client/src/widgets/web/helpers/Alert.tsx
-export const ValidationAlert = ({ className, children, referenceId }: ValidationAlertProps): ReactElement => (
-    <Alert
-        className={classNames("mx-validation-message", className)}
-        bootstrapStyle="danger"
-        role="alert"
-        id={referenceId}
-    >
+export const ValidationAlert = ({ className, children, id }: ValidationAlertProps): ReactElement => (
+    <Alert className={classNames("mx-validation-message", className)} bootstrapStyle="danger" role="alert" id={id}>
         {children}
     </Alert>
 );
