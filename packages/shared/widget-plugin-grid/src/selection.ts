@@ -1,10 +1,10 @@
-export * from "./selection/types.js";
-export * from "./selection/helpers.js";
-export * from "./selection/keyboard.js";
 export {
     getGlobalSelectionContext,
     useCreateSelectionContextValue,
     useSelectionContextValue
 } from "./selection/context.js";
-export { MultiPageSelectionController } from "./selection/MultiPageSelectionController.js";
+export * from "./selection/helpers.js";
+export * from "./selection/keyboard.js";
 export { SelectActionHandler } from "./selection/select-action-handler.js";
+export { SelectAllController } from "./selection/SelectAllController.js";
+export * from "./selection/types.js";
