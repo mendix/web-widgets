@@ -82,14 +82,14 @@
                         <enumerationValue key="exp">Expression</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="refCaption" type="attribute" dataSource="refOptions" required="false">
+                <property key="refCaption" type="attribute" dataSource="refOptions" required="true">
                     <caption>Caption</caption>
                     <description />
                     <attributeTypes>
                         <attributeType name="String" />
                     </attributeTypes>
                 </property>
-                <property key="refCaptionExp" type="expression" dataSource="refOptions" required="false">
+                <property key="refCaptionExp" type="expression" dataSource="refOptions" required="true">
                     <caption>Caption</caption>
                     <description />
                     <returnType type="String" />
