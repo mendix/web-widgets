@@ -31,9 +31,9 @@ test.describe("datagrid-dropdown-filter-web", () => {
             const option1 = () => page.getByRole("option", { name: "Brown-Forman Corporation" });
             const clickOutside = async () => page.locator("body").click({ delay: 1 });
 
-            await select().click({ delay: 1 });
+            await select().click({ delay: 10 });
             await expect(menu()).toBeVisible();
-            await option1().click({ delay: 1 });
+            await option1().click({ delay: 10 });
             await expect(toggle.nth(3)).toHaveText("Brown-Forman Corporation");
             await clickOutside();
             await expect(menu()).not.toBeVisible();
@@ -92,7 +92,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
             const option1 = () => page.getByRole("option", { name: "Environmental scientist" });
 
             await select().click({ delay: 1 });
-            await option1().click({ delay: 1 });
+            await option1().click({ delay: 10 });
             const checkedOptions = await menu().locator("input:checked");
             await expect(checkedOptions).toHaveCount(1);
             await expect(checkedOptions.first()).toBeChecked();
@@ -110,8 +110,8 @@ test.describe("datagrid-dropdown-filter-web", () => {
             const option2 = () => page.getByRole("option", { name: "Trader" });
 
             await select().click({ delay: 1 });
-            await option1().click({ delay: 1 });
-            await option2().click({ delay: 1 });
+            await option1().click({ delay: 10 });
+            await option2().click({ delay: 10 });
             const checkedOptions = await menu().locator("input:checked");
             await expect(checkedOptions).toHaveCount(2);
             await expect(checkedOptions.first()).toBeChecked();
