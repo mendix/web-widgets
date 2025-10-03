@@ -20,9 +20,9 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(await column(2).first()).toHaveText("Black");
         await expect(await column(2).last()).toHaveText("Blue");
         await enumSelect().click();
-        await option("Pink").click({ delay: 1 });
+        await option("Pink").click({ delay: 10 });
         await expect(await rows()).toHaveCount(6);
-        await option("Blush").click({ delay: 1 });
+        await option("Blush").click({ delay: 10 });
         await expect(await rows()).toHaveCount(8);
         await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click();
         const columnText = await column(2).allTextContents();
@@ -53,9 +53,9 @@ test.describe("datagrid-web filtering multi select", () => {
         await page.waitForLoadState("networkidle");
         await expect(await column(3).first()).toHaveText(expectedColumnText[0]);
         await roleSelect().click();
-        await option("Economist").click({ delay: 1 });
+        await option("Economist").click({ delay: 10 });
         await expect(await rows()).toHaveCount(6);
-        await option("Public librarian").click({ delay: 1 });
+        await option("Public librarian").click({ delay: 10 });
         await expect(await rows()).toHaveCount(10);
         await roleSelect().click({ delay: 1 });
         await page.waitForTimeout(300);
@@ -80,9 +80,9 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(await column(4).first()).toHaveText("W.R. Berkley Corporation");
         await expect(await column(4).last()).toHaveText("PETsMART Inc");
         await companySelect().click({ delay: 1 });
-        await option("FMC Corp").click({ delay: 1 });
+        await option("FMC Corp").click({ delay: 10 });
         await expect(await rows()).toHaveCount(2);
-        await option("ALLETE, Inc.").click({ delay: 1 });
+        await option("ALLETE, Inc.").click({ delay: 10 });
         await expect(await rows()).toHaveCount(6);
         await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click({ delay: 1 });
         await page.waitForTimeout(300);
