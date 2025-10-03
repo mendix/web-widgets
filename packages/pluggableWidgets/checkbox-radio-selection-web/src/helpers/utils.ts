@@ -55,3 +55,7 @@ export function getCustomCaption(values: CheckboxRadioSelectionPreviewProps): st
     }
     return emptyStringFormat;
 }
+
+export function getValidationErrorId(inputId?: string): string | undefined {
+    return inputId ? inputId + "-validation-message" : undefined;
+}
