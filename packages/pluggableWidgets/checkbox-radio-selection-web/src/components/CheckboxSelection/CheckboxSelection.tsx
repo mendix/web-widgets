@@ -60,6 +60,8 @@ export function CheckboxSelection({
                             disabled={isReadOnly}
                             tabIndex={tabIndex}
                             onChange={e => handleChange(optionId, e.target.checked)}
+                            aria-describedby={selector.validation ? errorId : undefined}
+                            aria-invalid={selector.validation ? true : undefined}
                         />
                         <CaptionContent
                             onClick={(e: MouseEvent<HTMLDivElement>) => {
@@ -76,7 +78,7 @@ export function CheckboxSelection({
                 );
             })}
             {options.length === 0 && <Placeholder noOptionsText={noOptionsText} />}
-            {validation && <ValidationAlert referenceId={errorId}>{validation}</ValidationAlert>}
+            {validation && <ValidationAlert id={errorId}>{validation}</ValidationAlert>}
         </div>
     );
 }

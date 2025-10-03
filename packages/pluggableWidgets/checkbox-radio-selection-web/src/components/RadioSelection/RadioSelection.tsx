@@ -75,6 +75,8 @@ export function RadioSelection({
                                 disabled={isReadOnly}
                                 tabIndex={tabIndex}
                                 onChange={handleChange}
+                                aria-describedby={selector.validation ? errorId : undefined}
+                                aria-invalid={selector.validation ? true : undefined}
                             />
                         </If>
                         <CaptionContent
@@ -94,7 +96,7 @@ export function RadioSelection({
                 );
             })}
             {options.length === 0 && <Placeholder noOptionsText={noOptionsText} />}
-            {validation && <ValidationAlert referenceId={errorId}>{validation}</ValidationAlert>}
+            {validation && <ValidationAlert id={errorId}>{validation}</ValidationAlert>}
         </div>
     );
 }
