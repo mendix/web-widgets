@@ -31,7 +31,7 @@
         "test": "jest"
     },
     "dependencies": {
-        "mendix": "^10.24.75382"
+        "mendix": "^10.24.80126"
     },
     "peerDependencies": {
         "mobx": "6.12.3",
