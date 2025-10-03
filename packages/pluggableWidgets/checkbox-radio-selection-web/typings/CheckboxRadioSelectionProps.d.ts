@@ -45,16 +45,16 @@ export interface CheckboxRadioSelectionContainerProps {
     attributeBoolean: EditableValue<boolean>;
     optionsSourceDatabaseDataSource?: ListValue;
     optionsSourceDatabaseItemSelection?: SelectionSingleValue | SelectionMultiValue;
+    optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
+    databaseAttributeString?: EditableValue<string | Big>;
+    attributeAssociation: ReferenceValue | ReferenceSetValue;
+    optionsSourceAssociationDataSource?: ListValue;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceDatabaseCaptionAttribute?: ListAttributeValue<string>;
     optionsSourceAssociationCaptionExpression?: ListExpressionValue<string>;
     optionsSourceDatabaseCaptionExpression?: ListExpressionValue<string>;
-    optionsSourceDatabaseValueAttribute?: ListAttributeValue<string | Big>;
-    databaseAttributeString?: EditableValue<string | Big>;
-    attributeAssociation: ReferenceValue | ReferenceSetValue;
-    optionsSourceAssociationDataSource?: ListValue;
     staticAttribute: EditableValue<string | Big | boolean | Date>;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourceType[];
     noOptionsText?: DynamicValue<string>;
@@ -62,12 +62,13 @@ export interface CheckboxRadioSelectionContainerProps {
     optionsSourceAssociationCustomContent?: ListWidgetValue;
     optionsSourceDatabaseCustomContent?: ListWidgetValue;
     controlType: ControlTypeEnum;
+    groupName?: DynamicValue<string>;
     customEditability: CustomEditabilityEnum;
     customEditabilityExpression: DynamicValue<boolean>;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent?: ActionValue;
     ariaRequired: DynamicValue<boolean>;
-    groupName?: DynamicValue<string>;
+    ariaLabel: string;
 }
 
 export interface CheckboxRadioSelectionPreviewProps {
@@ -80,16 +81,16 @@ export interface CheckboxRadioSelectionPreviewProps {
     attributeBoolean: string;
     optionsSourceDatabaseDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceDatabaseItemSelection: "Single" | "Multi" | "None";
+    optionsSourceDatabaseValueAttribute: string;
+    databaseAttributeString: string;
+    attributeAssociation: string;
+    optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     optionsSourceAssociationCaptionType: OptionsSourceAssociationCaptionTypeEnum;
     optionsSourceDatabaseCaptionType: OptionsSourceDatabaseCaptionTypeEnum;
     optionsSourceAssociationCaptionAttribute: string;
     optionsSourceDatabaseCaptionAttribute: string;
     optionsSourceAssociationCaptionExpression: string;
     optionsSourceDatabaseCaptionExpression: string;
-    optionsSourceDatabaseValueAttribute: string;
-    databaseAttributeString: string;
-    attributeAssociation: string;
-    optionsSourceAssociationDataSource: {} | { caption: string } | { type: string } | null;
     staticAttribute: string;
     optionsSourceStaticDataSource: OptionsSourceStaticDataSourcePreviewType[];
     noOptionsText: string;
@@ -97,11 +98,12 @@ export interface CheckboxRadioSelectionPreviewProps {
     optionsSourceAssociationCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     optionsSourceDatabaseCustomContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     controlType: ControlTypeEnum;
+    groupName: string;
     customEditability: CustomEditabilityEnum;
     customEditabilityExpression: string;
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent: {} | null;
     onChangeDatabaseEvent: {} | null;
     ariaRequired: string;
-    groupName: string;
+    ariaLabel: string;
 }
