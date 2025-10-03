@@ -46,7 +46,7 @@
         "@vis.gl/react-google-maps": "^0.8.3",
         "classnames": "^2.5.1",
         "deep-equal": "^2.2.3",
-        "leaflet": "^1.9.4",
+        "leaflet": "2.0.0-alpha",
         "react-leaflet": "^4.2.1"
     },
     "devDependencies": {
