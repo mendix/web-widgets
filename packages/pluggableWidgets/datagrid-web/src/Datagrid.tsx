@@ -13,7 +13,7 @@ import { ProgressStore } from "./features/data-export/ProgressStore";
 import { useDataExport } from "./features/data-export/useDataExport";
 import { useCellEventsController } from "./features/row-interaction/CellEventsController";
 import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
-import { DatagridContext } from "./helpers/root-context";
+import { DatagridContext, DatagridRootScope } from "./helpers/root-context";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { IColumnGroupStore } from "./helpers/state/ColumnGroupStore";
 import { RootGridStore } from "./helpers/state/RootGridStore";
@@ -66,7 +66,7 @@ const Container = observer((props: Props): ReactElement => {
 
     const ctx = useConst(() => {
         rootStore.basicData.setSelectionHelper(selectionHelper);
-        return {
+        const scope: DatagridRootScope = {
             basicData: rootStore.basicData,
             selectionHelper,
             selectActionHelper,
@@ -74,9 +74,11 @@ const Container = observer((props: Props): ReactElement => {
             checkboxEventsController,
             focusController,
             selectionCountStore: rootStore.selectionCountStore,
-            multiPageSelectionController: rootStore.multiPageSelectionController,
+            selectAllController: rootStore.selectAllController,
             selectAllProgressStore: rootStore.selectAllProgressStore
         };
+
+        return scope;
     });
 
     return (
@@ -126,7 +128,7 @@ const Container = observer((props: Props): ReactElement => {
                 rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
                 setPage={paginationCtrl.setPage}
                 styles={props.style}
-                exporting={exportProgress.exporting}
+                exporting={exportProgress.inProgress}
                 processedRows={exportProgress.loaded}
                 visibleColumns={columnsStore.visibleColumns}
                 availableColumns={columnsStore.availableColumns}

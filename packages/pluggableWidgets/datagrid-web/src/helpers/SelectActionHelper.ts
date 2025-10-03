@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import {
     SelectActionHandler,
     SelectionHelper,
@@ -6,6 +5,7 @@ import {
     WidgetSelectionProperty
 } from "@mendix/widget-plugin-grid/selection";
 import { ListValue } from "mendix";
+import { useMemo } from "react";
 import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum } from "../../typings/DatagridProps";
 export type SelectionMethod = "rowClick" | "checkbox" | "none";
 
@@ -60,10 +60,6 @@ export class SelectActionHelper extends SelectActionHandler {
     get totalCount(): number | undefined {
         return this._datasource?.totalCount;
     }
-
-    get selectAllPagesBufferSize(): number {
-        return this._selectAllPagesBufferSize;
-    }
 }
 
 export function useSelectActionHelper(
@@ -76,7 +72,7 @@ export function useSelectActionHelper(
         | "itemSelectionMode"
         | "datasource"
         | "selectAllPagesEnabled"
-        | "selectAllPagesBufferSize"
+        | "selectAllPagesPageSize"
     >,
     selectionHelper?: SelectionHelper
 ): SelectActionHelper {
@@ -90,7 +86,7 @@ export function useSelectActionHelper(
             props.itemSelectionMode,
             props.datasource as ListValue,
             props.selectAllPagesEnabled,
-            props.selectAllPagesBufferSize ?? 500
+            props.selectAllPagesPageSize ?? 500
         );
     }, [
         props.itemSelection,
@@ -101,6 +97,6 @@ export function useSelectActionHelper(
         props.itemSelectionMode,
         props.datasource,
         props.selectAllPagesEnabled,
-        props.selectAllPagesBufferSize
+        props.selectAllPagesPageSize
     ]);
 }
