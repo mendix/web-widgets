@@ -1,7 +1,7 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { SelectionMultiValue, SelectionSingleValue } from "mendix";
-import { action, makeAutoObservable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { QueryController } from "../query/query-controller";
 
 type Gate = DerivedPropsGate<{ itemSelection?: SelectionMultiValue | SelectionSingleValue }>;
@@ -9,29 +9,14 @@ type Gate = DerivedPropsGate<{ itemSelection?: SelectionMultiValue | SelectionSi
 interface SelectAllControllerSpec {
     gate: Gate;
     query: QueryController;
-    bufferSize: number;
+    pageSize: number;
 }
-
-// interface SelectAllControllerEvents {
-//     /** Emitted once when action is started. */
-//     loadstart: (pe: ProgressEvent) => void;
-//     /** Emitted every time new page is loaded. */
-//     progress: (pe: ProgressEvent) => void;
-//     /** Emitted if abort method is called. */
-//     abort: (pe: ProgressEvent) => void;
-//     /** Emitted when no more data is available. */
-//     end: (pe: ProgressEvent) => void;
-//     /** Emitted at the end of the request. */
-//     loadend: (pe: ProgressEvent) => void;
-// }
 
 type SelectAllEventType = "loadstart" | "progress" | "abort" | "loadend";
 
 export class SelectAllController extends EventTarget implements ReactiveController {
     private readonly gate: Gate;
     private readonly query: QueryController;
-    // private readonly progressStore: ProgressStore;
-    // private readonly bufferSize: number;
     private abortController?: AbortController;
     private locked = false;
     readonly pageSize: number = 2;
@@ -41,14 +26,21 @@ export class SelectAllController extends EventTarget implements ReactiveControll
         host.addController(this);
         this.gate = spec.gate;
         this.query = spec.query;
-        // this.pageSize = Math.max(this.pageSize, spec.bufferSize);
 
-        type PrivateMembers = "setIsLocked";
-        makeAutoObservable<this, PrivateMembers>(this, { setIsLocked: action });
+        type PrivateMembers = "setIsLocked" | "locked";
+        makeObservable<this, PrivateMembers>(this, {
+            setIsLocked: action,
+            selection: computed,
+            canExecute: computed,
+            isExecuting: computed,
+            locked: observable,
+            selectAllPages: action,
+            clearSelection: action,
+            abort: action
+        });
     }
 
     setup(): () => void {
-        // this.addEventListener("loadend", (event) => {event.target.});
         return () => this.abort();
     }
 
@@ -59,26 +51,6 @@ export class SelectAllController extends EventTarget implements ReactiveControll
     ): void {
         super.addEventListener(type, callback, options);
     }
-
-    // get isMultiSelection(): boolean {
-    //     return this.gate.props.itemSelection?.type === "Multi";
-    // }
-
-    // get hasSelection(): boolean {
-    //     const selection = this.gate.props.itemSelection?.selection;
-    //     if (!selection) return false;
-    //     return Array.isArray(selection) ? selection.length > 0 : true;
-    // }
-
-    // get selectionCount(): number {
-    //     const selection = this.gate.props.itemSelection?.selection;
-    //     if (!selection) return 0;
-    //     return Array.isArray(selection) ? selection.length : 1;
-    // }
-
-    // get canSelectAllPages(): boolean {
-    //     return this.isMultiSelection && this.query.hasMoreItems;
-    // }
 
     get selection(): SelectionMultiValue | undefined {
         const selection = this.gate.props.itemSelection;
@@ -115,14 +87,6 @@ export class SelectAllController extends EventTarget implements ReactiveControll
         }
         return true;
     }
-
-    // private createProgressEvent(type: string, loaded: number): ProgressEvent {
-    //     return new ProgressEvent(type, {
-    //         lengthComputable: typeof this.query.totalCount === "number",
-    //         loaded: this.loaded,
-    //         total: this.totalCount
-    //     });
-    // }
 
     async selectAllPages(): Promise<void> {
         if (!this.beforeRunChecks()) {
@@ -161,7 +125,7 @@ export class SelectAllController extends EventTarget implements ReactiveControll
             }
         } catch (error) {
             if (error.name !== "AbortError") {
-                console.error("SelectAllController: error occurred while executing action.", error);
+                throw error;
             }
         } finally {
             this.dispatchEvent(pe("loadend"));
