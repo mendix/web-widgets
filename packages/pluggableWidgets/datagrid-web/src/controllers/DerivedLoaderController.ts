@@ -3,7 +3,7 @@ import { computed, makeObservable } from "mobx";
 type DerivedLoaderControllerSpec = {
     showSilentRefresh: boolean;
     refreshIndicator: boolean;
-    exp: { exporting: boolean };
+    exp: { inProgress: boolean };
     cols: { loaded: boolean };
     query: {
         isFetchingNextBatch: boolean;
@@ -24,14 +24,9 @@ export class DerivedLoaderController {
 
     get isFirstLoad(): boolean {
         const { cols, exp, query } = this.spec;
-        if (!cols.loaded) {
-            return true;
-        }
 
-        if (exp.exporting) {
-            return false;
-        }
-
+        if (!cols.loaded) return true;
+        if (exp.inProgress) return false;
         return query.isFirstLoad;
     }
 
