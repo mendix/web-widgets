@@ -8,7 +8,7 @@ import { usePickerJSActions } from "../helpers/usePickerJSActions";
 import { RefFilterStore } from "../stores/RefFilterStore";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, CSSProperties, useEffect } from "react";
+import { CSSProperties, ReactElement, useEffect } from "react";
 
 import { useFrontendType } from "../helpers/useFrontendType";
 import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
@@ -38,7 +38,7 @@ export interface RefFilterContainerProps {
     clearable: boolean;
 }
 
-function Container(props: RefFilterContainerProps): React.ReactElement {
+function Container(props: RefFilterContainerProps): ReactElement {
     const frontendType = useFrontendType(props);
 
     switch (frontendType) {
@@ -53,7 +53,7 @@ function Container(props: RefFilterContainerProps): React.ReactElement {
     }
 }
 
-const SelectWidget = observer(function SelectWidget(props: RefFilterContainerProps): React.ReactElement {
+const SelectWidget = observer(function SelectWidget(props: RefFilterContainerProps): ReactElement {
     const gate = useGate(props);
     const ctrl1 = useSetup(() => new RefSelectController({ gate }));
     const handleMenuScroll = useOnScrollBottom(ctrl1.handleMenuScrollEnd, { triggerZoneHeight: 100 });
@@ -78,7 +78,7 @@ const SelectWidget = observer(function SelectWidget(props: RefFilterContainerPro
     );
 });
 
-const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContainerProps): React.ReactElement {
+const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContainerProps): ReactElement {
     const gate = useGate(props);
     const ctrl2 = useSetup(() => new RefComboboxController({ gate }));
     const handleMenuScroll = useOnScrollBottom(ctrl2.handleMenuScrollEnd, { triggerZoneHeight: 100 });
@@ -103,7 +103,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: RefFilterContaine
     );
 });
 
-const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContainerProps): React.ReactElement {
+const TagPickerWidget = observer(function TagPickerWidget(props: RefFilterContainerProps): ReactElement {
     const gate = useGate(props);
     const ctrl3 = useSetup(() => new RefTagPickerController({ gate }));
     const handleMenuScroll = useOnScrollBottom(ctrl3.handleMenuScrollEnd, { triggerZoneHeight: 100 });

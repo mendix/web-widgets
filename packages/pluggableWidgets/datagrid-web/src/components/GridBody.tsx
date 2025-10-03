@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, Fragment, ReactElement } from "react";
+import { Fragment, ReactElement, ReactNode } from "react";
 import { LoadingTypeEnum, PaginationEnum } from "../../typings/DatagridProps";
 import { SpinnerLoader } from "./loader/SpinnerLoader";
 import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
@@ -7,7 +7,7 @@ import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/Infini
 
 interface Props {
     className?: string;
-    children?: React.ReactNode;
+    children?: ReactNode;
     loadingType: LoadingTypeEnum;
     isFirstLoad: boolean;
     isFetchingNextBatch?: boolean;
@@ -30,7 +30,7 @@ export function GridBody(props: Props): ReactElement {
         setPage
     });
 
-    const content = (): React.ReactElement => {
+    const content = (): ReactElement => {
         if (props.isFirstLoad) {
             return <Loader {...props} rowsSize={props.rowsSize > 0 ? props.rowsSize : props.pageSize} />;
         }

@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 import { Fieldset as FieldsetComponent } from "./components/Fieldset";
 import { FieldsetContainerProps } from "../typings/FieldsetProps";

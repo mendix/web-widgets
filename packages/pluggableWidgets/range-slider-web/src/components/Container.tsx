@@ -1,4 +1,4 @@
-import { createElement, useMemo, useRef } from "react";
+import { ReactElement, useMemo, useRef } from "react";
 import { RangeSliderContainerProps } from "../../typings/RangeSliderProps";
 import { useNumber } from "../utils/useNumber";
 import { RangeSlider as RangeComponent } from "./RangeSlider";
@@ -8,7 +8,7 @@ import { useMarks } from "../utils/useMarks";
 import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
 import { useScheduleUpdateOnce } from "@mendix/widget-plugin-hooks/useScheduleUpdateOnce";
 
-export function Container(props: RangeSliderContainerProps): React.ReactElement {
+export function Container(props: RangeSliderContainerProps): ReactElement {
     const min = useNumber(minProp(props));
     const max = useNumber(maxProp(props));
     const step = useNumber(stepProp(props));
@@ -32,7 +32,7 @@ interface InnerContainerProps extends RangeSliderContainerProps {
     step: number | undefined;
 }
 
-function InnerContainer(props: InnerContainerProps): React.ReactElement {
+function InnerContainer(props: InnerContainerProps): ReactElement {
     const sliderRef = useRef<HTMLDivElement>(null);
     const { lowerBoundAttribute, upperBoundAttribute, min = 0, max = 100 } = props;
     const lowerValue = lowerBoundAttribute?.value?.toNumber() ?? min;

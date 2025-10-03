@@ -1,4 +1,4 @@
-import { createElement, ReactElement, ReactNode, useCallback, useState } from "react";
+import { ReactElement, ReactNode, useCallback, useState } from "react";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnResizer } from "./ColumnResizer";

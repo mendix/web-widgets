@@ -38,9 +38,9 @@ test.describe("datagrid-dropdown-filter-web", () => {
         });
 
         test("shows the expected result with multiple selected items", async ({ page }) => {
-            await page.locator(".mx-name-datagrid1 .mx-name-dataGridDrop_downFilter1").click({ delay: 1 });
+            await page.locator(".mx-name-datagrid1 .mx-name-dataGridDrop_downFilter1").click({ delay: 10 });
             await page.waitForSelector(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)");
-            await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)").click({ delay: 1 });
+            await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)").click({ delay: 10 });
             await page.waitForSelector(".widget-dropdown-filter-menu-slot > ul > li:nth-child(2)");
             await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(2)").click({ delay: 1 });
             await page.waitForTimeout(300); // wait for filter to apply

@@ -6,7 +6,7 @@ import { String_InputFilterInterface } from "@mendix/widget-plugin-filtering/typ
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { observer } from "mobx-react-lite";
-import { createElement, useRef } from "react";
+import { ReactElement, useRef } from "react";
 import { DatagridTextFilterContainerProps, DefaultFilterEnum } from "../../typings/DatagridTextFilterProps";
 
 const filterDefs: Record<DefaultFilterEnum, string> = {
@@ -35,9 +35,9 @@ export interface ContainerProps extends DatagridTextFilterContainerProps {
     filterStore: String_InputFilterInterface;
 }
 
-export const TextFilterContainer: (props: ContainerProps) => React.ReactElement = observer(
+export const TextFilterContainer: (props: ContainerProps) => ReactElement = observer(
     function TextFilterContainer(props) {
-        const id = (useRef<string>().current ??= `TextFilter${generateUUID()}`);
+        const id = (useRef<string>(undefined).current ??= `TextFilter${generateUUID()}`);
 
         const controller = useSetup(
             () =>

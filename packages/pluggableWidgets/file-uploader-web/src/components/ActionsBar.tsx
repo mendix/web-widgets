@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback } from "react";
+import { ReactElement, useCallback } from "react";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { ActionButton, FileActionButton } from "./ActionButton";
 import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";

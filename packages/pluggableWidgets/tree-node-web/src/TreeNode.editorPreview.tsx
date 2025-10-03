@@ -1,7 +1,7 @@
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
 import { GUID } from "mendix";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { TreeNodePreviewProps } from "../typings/TreeNodeProps";
 import { TreeNode } from "./components/TreeNode";
 

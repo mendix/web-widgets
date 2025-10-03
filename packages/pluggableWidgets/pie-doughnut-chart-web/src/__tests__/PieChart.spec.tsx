@@ -17,7 +17,6 @@ import {
 import "@testing-library/jest-dom";
 import { render, RenderResult } from "@testing-library/react";
 import Big from "big.js";
-import { createElement } from "react";
 import { PieChartContainerProps } from "../../typings/PieChartProps";
 import { PieChart } from "../PieChart";
 
@@ -52,76 +51,45 @@ describe("The PieChart widget", () => {
     it("visualizes data as a pie chart", () => {
         renderPieChart({});
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                seriesOptions: expect.objectContaining({
-                    type: "pie"
-                })
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.seriesOptions.type).toEqual("pie");
     });
 
     it("sets the hole prop on the data series based on the chartFormat value", () => {
         renderPieChart({ holeRadius: 40 });
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        hole: 0.4
-                    })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        expect(lastCallProps.data[0].hole).toEqual(0.4);
     });
 
     it("sets proper marker color on the data series based on seriesColorAttribute", () => {
         renderPieChart({});
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        marker: expect.objectContaining({
-                            colors: ["red", "blue"]
-                        })
-                    })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        expect(lastCallProps.data[0].marker.colors).toEqual(["red", "blue"]);
     });
 
     it("sets proper label values on the data series based on seriesName", () => {
         renderPieChart({});
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        labels: ["first series", "second series"]
-                    })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        expect(lastCallProps.data[0].labels).toEqual(["first series", "second series"]);
     });
 
     it("sets proper values on the data series based on seriesValueAttribute", () => {
         renderPieChart({});
 
-        expect(ChartWidget).toHaveBeenCalledWith(
-            expect.objectContaining({
-                data: expect.arrayContaining([
-                    expect.objectContaining({
-                        values: [1, 2]
-                    })
-                ])
-            }),
-            {}
-        );
+        const mockCalls = (ChartWidget as jest.Mock).mock.calls;
+        const lastCallProps = mockCalls[mockCalls.length - 1][0];
+        expect(lastCallProps.data).toHaveLength(1);
+        expect(lastCallProps.data[0].values).toEqual([1, 2]);
     });
 
     describe("sorts the relevant properties in the data series based on seriesSortAttribute", () => {

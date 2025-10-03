@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { EventsIcon } from "./assets/icons";
 import "./ui/EventsPreview.css";
 import { EventsPreviewProps } from "typings/EventsProps";

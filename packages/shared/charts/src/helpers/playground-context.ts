@@ -1,7 +1,7 @@
-import { createContext, useContext, useMemo } from "react";
+import type { Data } from "plotly.js-dist-min";
+import { Context, createContext, useContext, useMemo } from "react";
 import { ChartProps } from "../components/types";
 import { EditorStore } from "./EditorStore";
-import type { Data } from "plotly.js-dist-min";
 /** As of charts v4, this props are not changing over the widget lifetime. */
 type StaticProps = Pick<ChartProps, "layoutOptions" | "configOptions">;
 
@@ -19,7 +19,7 @@ declare global {
     }
 }
 
-export function getPlaygroundContext(): React.Context<PlaygroundData | null> {
+export function getPlaygroundContext(): Context<PlaygroundData | null> {
     return (window[contextSymbol] ??= createContext<PlaygroundData | null>(null));
 }
 

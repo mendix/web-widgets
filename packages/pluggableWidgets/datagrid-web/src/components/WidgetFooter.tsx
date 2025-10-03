@@ -1,6 +1,6 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
-import { createElement, ReactElement, ReactNode } from "react";
+import { JSX, ReactElement, ReactNode } from "react";
 import { PaginationEnum, PagingPositionEnum } from "../../typings/DatagridProps";
 import { useDatagridRootScope } from "../helpers/root-context";
 

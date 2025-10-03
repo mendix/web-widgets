@@ -4,7 +4,7 @@ import { useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { observer } from "mobx-react-lite";
-import { createElement, ReactElement, ReactNode, useCallback, useMemo } from "react";
+import { ReactElement, ReactNode, useCallback, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";

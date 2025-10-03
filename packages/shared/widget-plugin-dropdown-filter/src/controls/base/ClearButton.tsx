@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback } from "react";
+import { KeyboardEvent, MouseEvent, ReactElement, useCallback } from "react";
 import { Cross } from "../picker-primitives";
 
 type ClearButtonClassNamesProps = {
@@ -13,7 +13,7 @@ type ClearButtonProps = {
     visible: boolean;
 };
 
-const stopKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+const stopKeyDown = (e: KeyboardEvent<HTMLButtonElement>): void => {
     if (e.key === "Enter" || e.key === " ") {
         e.stopPropagation();
     }
@@ -23,7 +23,7 @@ export function ClearButton(props: ClearButtonProps): ReactElement | null {
     const { cls, onClick, visible } = props;
 
     const onClickHandler = useCallback(
-        (e: React.MouseEvent<HTMLButtonElement>) => {
+        (e: MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation();
             e.preventDefault();
             if (onClick) {

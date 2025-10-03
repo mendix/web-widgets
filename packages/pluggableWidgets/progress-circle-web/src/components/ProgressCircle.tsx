@@ -1,4 +1,4 @@
-import { createElement, CSSProperties, FunctionComponent, ReactNode, useCallback, useEffect, useState } from "react";
+import { CSSProperties, FunctionComponent, ReactNode, useCallback, useEffect, useState } from "react";
 import classNames from "classnames";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import Circle from "./Circle/Circle";

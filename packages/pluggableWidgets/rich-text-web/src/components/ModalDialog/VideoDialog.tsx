@@ -1,6 +1,6 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import classNames from "classnames";
-import { ChangeEvent, createElement, Fragment, ReactElement, useState } from "react";
+import { ChangeEvent, Fragment, MouseEvent, ReactElement, useState } from "react";
 import { type videoConfigType, type videoEmbedConfigType } from "../../utils/formats";
 import { getPatternMatch } from "../../utils/videoUrlPattern";
 import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
@@ -141,7 +141,7 @@ export default function VideoDialog(props: VideoDialogProps): ReactElement {
                                 className={classNames({
                                     active: activeTab === "embed"
                                 })}
-                                onClick={(e: React.MouseEvent) => {
+                                onClick={(e: MouseEvent) => {
                                     setActiveTab("embed");
                                     e.stopPropagation();
                                     e.preventDefault();

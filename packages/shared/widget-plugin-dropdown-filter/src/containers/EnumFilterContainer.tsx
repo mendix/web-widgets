@@ -4,7 +4,7 @@ import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
-import { createElement, CSSProperties, useEffect } from "react";
+import { CSSProperties, ReactElement, useEffect } from "react";
 import { EnumComboboxController } from "../controllers/EnumComboboxController";
 import { EnumSelectController } from "../controllers/EnumSelectController";
 import { EnumTagPickerController } from "../controllers/EnumTagPickerController";
@@ -38,7 +38,7 @@ export interface EnumFilterContainerProps {
     clearable: boolean;
 }
 
-function Container(props: EnumFilterContainerProps): React.ReactElement {
+function Container(props: EnumFilterContainerProps): ReactElement {
     const frontendType = useFrontendType(props);
 
     switch (frontendType) {
@@ -53,7 +53,7 @@ function Container(props: EnumFilterContainerProps): React.ReactElement {
     }
 }
 
-const SelectWidget = observer(function SelectWidget(props: EnumFilterContainerProps): React.ReactElement {
+const SelectWidget = observer(function SelectWidget(props: EnumFilterContainerProps): ReactElement {
     const gate = useGate(props);
     const ctrl1 = useSetup(() => new EnumSelectController({ gate }));
 
@@ -75,7 +75,7 @@ const SelectWidget = observer(function SelectWidget(props: EnumFilterContainerPr
     );
 });
 
-const ComboboxWidget = observer(function ComboboxWidget(props: EnumFilterContainerProps): React.ReactElement {
+const ComboboxWidget = observer(function ComboboxWidget(props: EnumFilterContainerProps): ReactElement {
     const gate = useGate(props);
     const ctrl2 = useSetup(() => new EnumComboboxController({ gate }));
 
@@ -98,7 +98,7 @@ const ComboboxWidget = observer(function ComboboxWidget(props: EnumFilterContain
     );
 });
 
-const TagPickerWidget = observer(function TagPickerWidget(props: EnumFilterContainerProps): React.ReactElement {
+const TagPickerWidget = observer(function TagPickerWidget(props: EnumFilterContainerProps): ReactElement {
     const gate = useGate(props);
     const ctrl3 = useSetup(() => new EnumTagPickerController({ gate }));
 

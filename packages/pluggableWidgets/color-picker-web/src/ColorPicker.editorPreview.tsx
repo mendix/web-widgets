@@ -1,8 +1,8 @@
-import { createElement, ReactNode } from "react";
+import { ReactElement } from "react";
 import { ColorPicker } from "./components/ColorPicker";
 import { ColorPickerPreviewProps } from "../typings/ColorPickerProps";
 
-export function preview(props: ColorPickerPreviewProps): ReactNode {
+export function preview(props: ColorPickerPreviewProps): ReactElement {
     return (
         <ColorPicker
             format={"hex"}

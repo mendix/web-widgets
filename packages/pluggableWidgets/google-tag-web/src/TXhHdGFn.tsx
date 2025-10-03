@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useRef } from "react";
+import { ReactElement, useRef } from "react";
 import { TXhHdGFnContainerProps as GoogleTagContainerProps } from "../typings/TXhHdGFnProps";
 import {
     areParametersReady,

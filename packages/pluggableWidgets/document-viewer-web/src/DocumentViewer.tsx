@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
 import "../ui/documentViewer.scss";
 import "../ui/documentViewerIcons.scss";

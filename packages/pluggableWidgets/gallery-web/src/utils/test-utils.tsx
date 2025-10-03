@@ -8,7 +8,7 @@ import { list, listAction, objectItems } from "@mendix/widget-plugin-test-utils"
 import { render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ObjectItem } from "mendix";
-import { createElement } from "react";
+import { createElement, ReactElement } from "react";
 import { GalleryContainerProps } from "../../typings/GalleryProps";
 import { GalleryProps } from "../components/Gallery";
 import { ItemEventsController } from "../features/item-interaction/ItemEventsController";
@@ -17,7 +17,7 @@ import { GalleryContext, GalleryRootScope } from "../helpers/root-context";
 import { GalleryStore } from "../stores/GalleryStore";
 import { ItemHelperBuilder } from "./builders/ItemHelperBuilder";
 
-export function setup(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
+export function setup(jsx: ReactElement): { user: UserEvent } & RenderResult {
     return {
         user: userEvent.setup(),
         ...render(jsx)
@@ -88,7 +88,7 @@ export function createMockGalleryContext(): GalleryRootScope {
     };
 }
 
-export function withGalleryContext(component: React.ReactElement, context?: GalleryRootScope): React.ReactElement {
+export function withGalleryContext(component: ReactElement, context?: GalleryRootScope): ReactElement {
     const contextValue = context || createMockGalleryContext();
     return createElement(GalleryContext.Provider, { value: contextValue }, component);
 }
