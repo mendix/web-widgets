@@ -97,7 +97,7 @@ export interface DatagridContainerProps {
     showSelectAllToggle: boolean;
     keepSelection: boolean;
     selectAllPagesEnabled: boolean;
-    selectAllPagesBufferSize: number;
+    selectAllPagesPageSize: number;
     selectingAllLabel?: DynamicValue<string>;
     cancelSelectionLabel?: DynamicValue<string>;
     loadingType: LoadingTypeEnum;
@@ -153,7 +153,7 @@ export interface DatagridPreviewProps {
     showSelectAllToggle: boolean;
     keepSelection: boolean;
     selectAllPagesEnabled: boolean;
-    selectAllPagesBufferSize: number | null;
+    selectAllPagesPageSize: number | null;
     selectingAllLabel: string;
     cancelSelectionLabel: string;
     loadingType: LoadingTypeEnum;
