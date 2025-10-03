@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed issue with checkbox state. Now state is in sync with selection.
+
 ## [1.0.4] - 2025-05-26
 
 ### Changed

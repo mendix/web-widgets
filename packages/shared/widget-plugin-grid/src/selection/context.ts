@@ -1,12 +1,18 @@
-import { Context, createContext, useCallback, useContext, useMemo } from "react";
-import { error, Result, value } from "./result-meta.js";
+import { Context, createContext, useContext, useMemo } from "react";
 import { SelectionHelper } from "./helpers.js";
+import { error, Result, value } from "./result-meta.js";
 import { MultiSelectionStatus } from "./types.js";
 
 const CONTEXT_OBJECT_PATH = "com.mendix.widgets.web.selectable.selectionContext" as const;
 
-type SelectionContextValue = { status: "all" | "some" | "none"; toggle: () => void };
-type SelectionContextObject = Context<SelectionContextValue | undefined>;
+interface SelectionStore {
+    /** @observable */
+    selectionStatus: MultiSelectionStatus;
+    togglePageSelection(): void;
+}
+
+type SelectionContextObject = Context<SelectionStore | undefined>;
+
 declare global {
     interface Window {
         [CONTEXT_OBJECT_PATH]?: SelectionContextObject;
@@ -14,47 +20,24 @@ declare global {
 }
 
 export function getGlobalSelectionContext(): SelectionContextObject {
-    if (window[CONTEXT_OBJECT_PATH] === undefined) {
-        window[CONTEXT_OBJECT_PATH] = createContext<SelectionContextValue | undefined>(undefined);
-    }
-
-    return window[CONTEXT_OBJECT_PATH]!;
+    return (window[CONTEXT_OBJECT_PATH] ??= createContext<SelectionStore | undefined>(undefined));
 }
 
-type UseCreateSelectionContextValueReturn =
-    | {
-          status: MultiSelectionStatus;
-          toggle: () => void;
-      }
-    | undefined;
+type UseCreateSelectionContextValueReturn = SelectionStore | undefined;
 
 export function useCreateSelectionContextValue(
     selection: SelectionHelper | undefined
 ): UseCreateSelectionContextValueReturn {
-    const toggleSelection = useCallback(() => {
-        if (selection?.type === "Multi") {
-            if (selection.selectionStatus === "all") {
-                selection.selectNone();
-            } else {
-                selection.selectAll();
-            }
-        }
-    }, [selection]);
-    const multiSelectionStatus = selection?.type === "Multi" ? selection.selectionStatus : undefined;
-
     return useMemo(() => {
-        if (multiSelectionStatus !== undefined) {
-            return {
-                status: multiSelectionStatus,
-                toggle: toggleSelection
-            };
+        if (selection?.type === "Multi") {
+            return selection;
         }
 
         return undefined;
-    }, [multiSelectionStatus, toggleSelection]);
+    }, [selection]);
 }
 
-export function useSelectionContextValue(): Result<SelectionContextValue, OutOfContextError> {
+export function useSelectionContextValue(): Result<SelectionStore, OutOfContextError> {
     const context = getGlobalSelectionContext();
     const contextValue = useContext(context);
 
