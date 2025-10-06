@@ -53,11 +53,11 @@ test.describe("datagrid-web filtering multi select", () => {
         await page.waitForLoadState("networkidle");
         await expect(await column(3).first()).toHaveText(expectedColumnText[0]);
         await roleSelect().click();
-        await option("Economist").click({ delay: 10 });
+        await option("Economist").click({ delay: 20 });
         await expect(await rows()).toHaveCount(6);
-        await option("Public librarian").click({ delay: 50 });
+        await option("Public librarian").click({ delay: 20 });
         await expect(await rows()).toHaveCount(10);
-        await roleSelect().click({ delay: 1 });
+        await roleSelect().click({ delay: 20 });
         await page.waitForTimeout(300);
         const columnTexts = await column(3).allTextContents();
         expectedColumnText.forEach((text, index) => {
@@ -79,12 +79,12 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(rowCount).toHaveCount(11);
         await expect(await column(4).first()).toHaveText("W.R. Berkley Corporation");
         await expect(await column(4).last()).toHaveText("PETsMART Inc");
-        await companySelect().click({ delay: 1 });
-        await option("FMC Corp").click({ delay: 10 });
+        await companySelect().click({ delay: 20 });
+        await option("FMC Corp").click({ delay: 20 });
         await expect(await rows()).toHaveCount(2);
-        await option("ALLETE, Inc.").click({ delay: 50 });
+        await option("ALLETE, Inc.").click({ delay: 20 });
         await expect(await rows()).toHaveCount(6);
-        await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click({ delay: 1 });
+        await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click({ delay: 20 });
         await page.waitForTimeout(300);
         const columnText = await column(4).allTextContents();
         expect(columnText).toEqual(
