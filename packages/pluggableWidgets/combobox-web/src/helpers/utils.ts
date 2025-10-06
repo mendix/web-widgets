@@ -40,10 +40,10 @@ export function CaptionContent(props: CaptionContentProps): ReactElement {
         onClick: onClick
             ? onClick
             : htmlFor
-            ? (e: MouseEvent) => {
-                  e.preventDefault();
-              }
-            : undefined
+              ? (e: MouseEvent) => {
+                    e.preventDefault();
+                }
+              : undefined
     });
 }
 
@@ -113,4 +113,8 @@ export function _valuesIsEqual(valueA: ValueType, valueB: ValueType): boolean {
         return valueA.getTime() === valueB.getTime();
     }
     return valueA === valueB;
+}
+
+export function getValidationErrorId(inputId?: string): string | undefined {
+    return inputId ? inputId + "-validation-message" : undefined;
 }

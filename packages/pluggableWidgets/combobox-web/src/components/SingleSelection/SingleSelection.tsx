@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { Fragment, ReactElement, createElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
+import { getValidationErrorId } from "../../helpers/utils";
 import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
@@ -54,6 +55,8 @@ export function SingleSelection({
         ]
     );
 
+    const errorId = getValidationErrorId(options.inputId);
+
     return (
         <Fragment>
             <ComboboxWrapper
@@ -63,6 +66,7 @@ export function SingleSelection({
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
                 isLoading={lazyLoading && selector.options.isLoading}
+                errorId={errorId}
             >
                 <div
                     className={classNames("widget-combobox-selected-items", {
@@ -84,6 +88,8 @@ export function SingleSelection({
                             { suppressRefError: true }
                         )}
                         placeholder=" "
+                        aria-describedby={selector.validation ? errorId : undefined}
+                        aria-invalid={selector.validation ? true : undefined}
                     />
                     <InputPlaceholder
                         isEmpty={!selector.currentId || !selector.caption.render(selectedItem, "label")}

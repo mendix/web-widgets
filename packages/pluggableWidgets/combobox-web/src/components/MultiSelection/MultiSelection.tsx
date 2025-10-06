@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { Fragment, KeyboardEvent, ReactElement, createElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
-import { getSelectedCaptionsPlaceholder } from "../../helpers/utils";
+import { getSelectedCaptionsPlaceholder, getValidationErrorId } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
@@ -37,6 +37,7 @@ export function MultiSelection({
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
+    const errorId = getValidationErrorId(options.inputId);
 
     const memoizedselectedCaptions = useMemo(
         () => getSelectedCaptionsPlaceholder(selector, selectedItems),
@@ -65,6 +66,7 @@ export function MultiSelection({
                 getToggleButtonProps={getToggleButtonProps}
                 validation={selector.validation}
                 isLoading={lazyLoading && selector.options.isLoading}
+                errorId={errorId}
             >
                 <div
                     className={classNames(
@@ -135,6 +137,8 @@ export function MultiSelection({
                             readOnly: selector.options.filterType === "none",
                             "aria-required": ariaRequired
                         })}
+                        aria-describedby={selector.validation ? errorId : undefined}
+                        aria-invalid={selector.validation ? true : undefined}
                     />
                     <InputPlaceholder isEmpty={selectedItems.length <= 0}>{memoizedselectedCaptions}</InputPlaceholder>
                 </div>
