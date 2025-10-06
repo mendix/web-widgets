@@ -13,11 +13,13 @@ interface ComboboxWrapperProps extends PropsWithChildren {
     getToggleButtonProps: (options?: UseComboboxGetToggleButtonPropsOptions | undefined) => any;
     validation?: string;
     isLoading: boolean;
+    errorId?: string;
 }
 
 export const ComboboxWrapper = forwardRef(
     (props: ComboboxWrapperProps, ref: RefObject<HTMLDivElement>): ReactElement => {
-        const { isOpen, readOnly, readOnlyStyle, getToggleButtonProps, validation, children, isLoading } = props;
+        const { isOpen, readOnly, readOnlyStyle, getToggleButtonProps, validation, children, isLoading, errorId } =
+            props;
         const { id, onClick } = getToggleButtonProps();
 
         return (
@@ -45,7 +47,7 @@ export const ComboboxWrapper = forwardRef(
                         </div>
                     )}
                 </div>
-                {validation && <ValidationAlert>{validation}</ValidationAlert>}
+                {validation && <ValidationAlert id={errorId}>{validation}</ValidationAlert>}
             </Fragment>
         );
     }
