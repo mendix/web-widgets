@@ -20,11 +20,11 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(await column(2).first()).toHaveText("Black");
         await expect(await column(2).last()).toHaveText("Blue");
         await enumSelect().click();
-        await option("Pink").click({ delay: 10 });
+        await option("Pink").click({ delay: 20 });
         await expect(await rows()).toHaveCount(6);
-        await option("Blush").click({ delay: 50 });
+        await option("Blush").click({ delay: 20 });
         await expect(await rows()).toHaveCount(8);
-        await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click();
+        await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click({ delay: 20 });
         const columnText = await column(2).allTextContents();
         await expect(columnText).toEqual(
             expect.arrayContaining(["Pink", "Pink", "Pink", "Blush", "Blush", "Pink", "Pink"])

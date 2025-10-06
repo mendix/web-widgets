@@ -60,13 +60,13 @@ test.describe("datagrid-web filtering single select", () => {
         const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
 
         await booleanSelect().click();
-        await option("Yes").click({ delay: 10 });
+        await option("Yes").click({ delay: 20 });
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(11);
         await expect(await column(3).allTextContents()).toEqual(
             expect.arrayContaining(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"])
         );
-        await booleanSelect().click({ delay: 50 });
+        await booleanSelect().click({ delay: 20 });
         await page.getByRole("row", { name: "Pets (bool)" }).getByRole("option").first().click();
         const columnText = await column(3).allTextContents();
         expect(columnText).toEqual(
