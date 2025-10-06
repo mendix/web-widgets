@@ -66,7 +66,7 @@ test.describe("datagrid-web filtering single select", () => {
         await expect(await column(3).allTextContents()).toEqual(
             expect.arrayContaining(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"])
         );
-        await booleanSelect().click({ delay: 10 });
+        await booleanSelect().click({ delay: 50 });
         await page.getByRole("row", { name: "Pets (bool)" }).getByRole("option").first().click();
         const columnText = await column(3).allTextContents();
         expect(columnText).toEqual(
