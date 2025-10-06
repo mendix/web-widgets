@@ -43,7 +43,7 @@ test("datagrid-web filtering integration", async ({ page }) => {
 
     await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click();
     //await select("Company").click();
-    await page.locator(`[role="option"]:has-text("Sierra Health Services Inc")`).click({ delay: 50 });
+    await page.locator(`[role="option"]:has-text("Sierra Health Services Inc")`).click({ delay: 20 });
     //await option("Sierra Health Services Inc").click();
     await expect(await rows()).toHaveCount(2);
 
