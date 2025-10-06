@@ -22,7 +22,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await enumSelect().click();
         await option("Pink").click({ delay: 10 });
         await expect(await rows()).toHaveCount(6);
-        await option("Blush").click({ delay: 10 });
+        await option("Blush").click({ delay: 50 });
         await expect(await rows()).toHaveCount(8);
         await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click();
         const columnText = await column(2).allTextContents();
@@ -55,7 +55,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await roleSelect().click();
         await option("Economist").click({ delay: 10 });
         await expect(await rows()).toHaveCount(6);
-        await option("Public librarian").click({ delay: 10 });
+        await option("Public librarian").click({ delay: 50 });
         await expect(await rows()).toHaveCount(10);
         await roleSelect().click({ delay: 1 });
         await page.waitForTimeout(300);
@@ -82,7 +82,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await companySelect().click({ delay: 1 });
         await option("FMC Corp").click({ delay: 10 });
         await expect(await rows()).toHaveCount(2);
-        await option("ALLETE, Inc.").click({ delay: 10 });
+        await option("ALLETE, Inc.").click({ delay: 50 });
         await expect(await rows()).toHaveCount(6);
         await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click({ delay: 1 });
         await page.waitForTimeout(300);
