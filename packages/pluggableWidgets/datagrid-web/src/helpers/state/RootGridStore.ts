@@ -44,7 +44,9 @@ type Gate = DerivedPropsGate<RequiredProps>;
 
 type Spec = {
     gate: Gate;
-    exportCtrl: ProgressStore;
+    exportProgressStore: ProgressStore;
+    selectAllProgressStore: ProgressStore;
+    selectAllController: SelectAllController;
 };
 
 export class RootGridStore extends BaseControllerHost {
@@ -53,7 +55,7 @@ export class RootGridStore extends BaseControllerHost {
     selectionCountStore: SelectionCountStore;
     basicData: GridBasicData;
     staticInfo: StaticInfo;
-    exportProgressCtrl: ProgressStore;
+    exportProgressStore: ProgressStore;
     selectAllController: SelectAllController;
     selectAllProgressStore: ProgressStore;
     loaderCtrl: DerivedLoaderController;
@@ -63,7 +65,7 @@ export class RootGridStore extends BaseControllerHost {
 
     private gate: Gate;
 
-    constructor({ gate, exportCtrl }: Spec) {
+    constructor({ gate, exportProgressStore, selectAllProgressStore, selectAllController }: Spec) {
         super();
         const { props } = gate;
 
@@ -99,15 +101,11 @@ export class RootGridStore extends BaseControllerHost {
 
         this.paginationCtrl = new PaginationController(this, { gate, query });
 
-        this.exportProgressCtrl = exportCtrl;
+        this.exportProgressStore = exportProgressStore;
 
-        this.selectAllProgressStore = new ProgressStore();
+        this.selectAllProgressStore = selectAllProgressStore;
 
-        this.selectAllController = new SelectAllController(this, {
-            gate,
-            query,
-            pageSize: props.selectAllPagesPageSize
-        });
+        this.selectAllController = selectAllController;
 
         new DatasourceParamsController(this, {
             query,
@@ -121,7 +119,7 @@ export class RootGridStore extends BaseControllerHost {
         });
 
         this.loaderCtrl = new DerivedLoaderController({
-            exp: exportCtrl,
+            exp: exportProgressStore,
             cols: this.columnsStore,
             showSilentRefresh: props.refreshInterval > 1,
             refreshIndicator: props.refreshIndicator,
@@ -137,8 +135,28 @@ export class RootGridStore extends BaseControllerHost {
         add(this.columnsStore.setup());
         add(() => this.settingsStore.dispose());
         add(autorun(() => this.updateProps(this.gate.props)));
+        add(this.setupSelectAllProgressStore());
 
         return disposeAll;
+    }
+
+    private setupSelectAllProgressStore() {
+        const controller = this.selectAllController;
+        const loadstart = (e: ProgressEvent): void => this.selectAllProgressStore.onloadstart(e);
+        const loadend = (e: ProgressEvent): void => this.selectAllProgressStore.onloadstart(e);
+        const progress = (e: ProgressEvent): void => this.selectAllProgressStore.onprogress(e);
+
+        controller.addEventListener("loadstart", loadstart);
+        controller.addEventListener("loadend", loadend);
+        controller.addEventListener("abort", loadend);
+        controller.addEventListener("progress", progress);
+
+        return () => {
+            controller.removeEventListener("loadstart", loadstart);
+            controller.removeEventListener("loadend", loadend);
+            controller.removeEventListener("abort", loadend);
+            controller.removeEventListener("progress", progress);
+        };
     }
 
     private updateProps(props: RequiredProps): void {

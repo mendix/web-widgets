@@ -158,7 +158,7 @@ export default function Datagrid(props: DatagridContainerProps): ReactElement | 
             {...props}
             rootStore={rootStore}
             columnsStore={rootStore.columnsStore}
-            progressStore={rootStore.exportProgressCtrl}
+            progressStore={rootStore.exportProgressStore}
         />
     );
 }
