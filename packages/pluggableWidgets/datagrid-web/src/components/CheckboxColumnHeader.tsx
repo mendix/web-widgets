@@ -3,8 +3,7 @@ import { Fragment, ReactElement } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
 export function CheckboxColumnHeader(): ReactElement {
-    const { selectActionHelper, basicData, selectAllProgressStore, multiPageSelectionController } =
-        useDatagridRootScope();
+    const { selectActionHelper, basicData } = useDatagridRootScope();
     const { showCheckboxColumn, showSelectAllToggle, onSelectAll } = selectActionHelper;
     const { selectionStatus, selectAllRowsLabel } = basicData;
 
@@ -12,50 +11,25 @@ export function CheckboxColumnHeader(): ReactElement {
         return <Fragment />;
     }
 
-    let checkbox = null;
-
-    if (showSelectAllToggle) {
-        if (selectionStatus === "unknown") {
-            throw new Error("Don't know how to render checkbox with selectionStatus=unknown");
-        }
-
-        const handleHeaderToggle = async (): Promise<void> => {
-            if (selectAllProgressStore.selecting) {
-                return;
-            }
-
-            // When multi-page selection is enabled, handle both select and unselect across all pages
-            if (selectActionHelper.canSelectAllPages) {
-                if (selectionStatus === "none") {
-                    // Select all pages
-                    const success = await multiPageSelectionController.selectAllPages();
-                    if (!success) {
-                        // Fallback to single page selection if multi-page fails
-                        onSelectAll();
-                    }
-                } else {
-                    // Unselect all pages (both "all" and "some" states)
-                    multiPageSelectionController.clearAllPages();
-                }
-                return;
-            }
-
-            // Fallback to normal single-page toggle
-            onSelectAll();
-        };
-
-        checkbox = (
-            <ThreeStateCheckBox
-                value={selectionStatus}
-                onChange={handleHeaderToggle}
-                aria-label={selectAllRowsLabel ?? "Select all rows"}
-            />
-        );
-    }
-
     return (
         <div className="th widget-datagrid-col-select" role="columnheader">
-            {checkbox}
+            {showSelectAllToggle && (
+                <Checkbox status={selectionStatus} onChange={onSelectAll} aria-label={selectAllRowsLabel} />
+            )}
         </div>
+    );
+}
+
+function Checkbox(props: { status: SelectionStatus; onChange: () => void; "aria-label"?: string }): React.ReactNode {
+    if (props.status === "unknown") {
+        console.error("Data grid 2: don't know how to render column checkbox with selectionStatus=unknown");
+        return null;
+    }
+    return (
+        <ThreeStateCheckBox
+            value={props.status}
+            onChange={props.onChange}
+            aria-label={props["aria-label"] ?? "Select all rows"}
+        />
     );
 }

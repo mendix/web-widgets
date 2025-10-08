@@ -1,6 +1,6 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
-import { SelectionMultiValue, SelectionSingleValue } from "mendix";
+import { ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { action, computed, makeObservable, observable } from "mobx";
 import { QueryController } from "../query/query-controller";
 
@@ -19,7 +19,7 @@ export class SelectAllController extends EventTarget implements ReactiveControll
     private readonly query: QueryController;
     private abortController?: AbortController;
     private locked = false;
-    readonly pageSize: number = 2;
+    readonly pageSize: number = 100;
 
     constructor(host: ReactiveControllerHost, spec: SelectAllControllerSpec) {
         super();
@@ -71,13 +71,13 @@ export class SelectAllController extends EventTarget implements ReactiveControll
 
     private beforeRunChecks(): boolean {
         const selection = this.gate.props.itemSelection;
-        if (selection?.type !== "Single") {
-            console.debug("SelectAllController: action can't be executed when selection is 'Single'.");
+
+        if (selection === undefined) {
+            console.debug("SelectAllController: selection is undefined. Check widget selection setting.");
             return false;
         }
-
-        if (selection?.type === undefined) {
-            console.debug("SelectAllController: selection is undefined. Check widget selection setting.");
+        if (selection.type !== "Multi") {
+            console.debug("SelectAllController: action can't be executed when selection is 'Single'.");
             return false;
         }
 
@@ -102,37 +102,38 @@ export class SelectAllController extends EventTarget implements ReactiveControll
         let offset = 0;
         const pe = (type: SelectAllEventType): ProgressEvent =>
             new ProgressEvent(type, { loaded, total: totalCount, lengthComputable: hasTotal });
+        // We should avoid duplicates, so, we start with clean array.
+        const allItems: ObjectItem[] = [];
 
         try {
             this.abortController = new AbortController();
             this.dispatchEvent(pe("loadstart"));
-            this.selection?.setKeepSelection(() => true);
             let loading = true;
             while (loading) {
-                await this.query.fetchPage({
+                const loadedItems = await this.query.fetchPage({
                     limit: this.pageSize,
                     offset,
                     signal: this.abortController.signal
                 });
-                const loadedItems = this.query.items ?? [];
-                const merged = (this.selection?.selection ?? []).concat(loadedItems);
 
+                allItems.push(...loadedItems);
                 loaded += loadedItems.length;
                 offset += this.pageSize;
-                this.selection?.setSelection(merged);
                 this.dispatchEvent(pe("progress"));
                 loading = !this.abortController.signal.aborted && this.query.hasMoreItems;
             }
         } catch (error) {
-            if (error.name !== "AbortError") {
+            const aborted = this.abortController?.signal.aborted;
+            if (!aborted) {
                 throw error;
             }
         } finally {
-            this.dispatchEvent(pe("loadend"));
             this.query.setOffset(initOffset);
             this.query.setLimit(initLimit);
+            this.selection?.setSelection(allItems);
             this.locked = false;
             this.abortController = undefined;
+            this.dispatchEvent(pe("loadend"));
         }
     }
 
