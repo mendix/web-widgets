@@ -135,28 +135,7 @@ export class RootGridStore extends BaseControllerHost {
         add(this.columnsStore.setup());
         add(() => this.settingsStore.dispose());
         add(autorun(() => this.updateProps(this.gate.props)));
-        add(this.setupSelectAllProgressStore());
-
         return disposeAll;
-    }
-
-    private setupSelectAllProgressStore() {
-        const controller = this.selectAllController;
-        const loadstart = (e: ProgressEvent): void => this.selectAllProgressStore.onloadstart(e);
-        const loadend = (e: ProgressEvent): void => this.selectAllProgressStore.onloadstart(e);
-        const progress = (e: ProgressEvent): void => this.selectAllProgressStore.onprogress(e);
-
-        controller.addEventListener("loadstart", loadstart);
-        controller.addEventListener("loadend", loadend);
-        controller.addEventListener("abort", loadend);
-        controller.addEventListener("progress", progress);
-
-        return () => {
-            controller.removeEventListener("loadstart", loadstart);
-            controller.removeEventListener("loadend", loadend);
-            controller.removeEventListener("abort", loadend);
-            controller.removeEventListener("progress", progress);
-        };
     }
 
     private updateProps(props: RequiredProps): void {

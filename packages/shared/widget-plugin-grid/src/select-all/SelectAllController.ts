@@ -14,15 +14,15 @@ interface SelectAllControllerSpec {
 
 type SelectAllEventType = "loadstart" | "progress" | "abort" | "loadend";
 
-export class SelectAllController extends EventTarget implements ReactiveController {
+export class SelectAllController implements ReactiveController {
     private readonly gate: Gate;
     private readonly query: QueryController;
     private abortController?: AbortController;
     private locked = false;
     readonly pageSize: number = 100;
+    private readonly emitter = new EventTarget();
 
     constructor(host: ReactiveControllerHost, spec: SelectAllControllerSpec) {
-        super();
         host.addController(this);
         this.gate = spec.gate;
         this.query = spec.query;
@@ -44,12 +44,12 @@ export class SelectAllController extends EventTarget implements ReactiveControll
         return () => this.abort();
     }
 
-    addEventListener(
-        type: SelectAllEventType,
-        callback: (pe: ProgressEvent<SelectAllController>) => void,
-        options?: AddEventListenerOptions | boolean
-    ): void {
-        super.addEventListener(type, callback, options);
+    on(type: SelectAllEventType, listener: (pe: ProgressEvent) => void): void {
+        this.emitter.addEventListener(type, listener);
+    }
+
+    off(type: SelectAllEventType, listener: (pe: ProgressEvent) => void): void {
+        this.emitter.removeEventListener(type, listener);
     }
 
     get selection(): SelectionMultiValue | undefined {
@@ -96,6 +96,7 @@ export class SelectAllController extends EventTarget implements ReactiveControll
         this.setIsLocked(true);
 
         const { offset: initOffset, limit: initLimit } = this.query;
+        const initSelection = this.selection?.selection;
         const hasTotal = typeof this.query.totalCount === "number";
         const totalCount = this.query.totalCount ?? 0;
         let loaded = 0;
@@ -104,36 +105,39 @@ export class SelectAllController extends EventTarget implements ReactiveControll
             new ProgressEvent(type, { loaded, total: totalCount, lengthComputable: hasTotal });
         // We should avoid duplicates, so, we start with clean array.
         const allItems: ObjectItem[] = [];
+        this.abortController = new AbortController();
+        const signal = this.abortController.signal;
 
         try {
-            this.abortController = new AbortController();
-            this.dispatchEvent(pe("loadstart"));
+            this.emitter.dispatchEvent(pe("loadstart"));
             let loading = true;
             while (loading) {
                 const loadedItems = await this.query.fetchPage({
                     limit: this.pageSize,
                     offset,
-                    signal: this.abortController.signal
+                    signal
                 });
 
                 allItems.push(...loadedItems);
                 loaded += loadedItems.length;
                 offset += this.pageSize;
-                this.dispatchEvent(pe("progress"));
-                loading = !this.abortController.signal.aborted && this.query.hasMoreItems;
+                this.emitter.dispatchEvent(pe("progress"));
+                loading = !signal.aborted && this.query.hasMoreItems;
             }
+            // Set allItems on success
+            this.selection?.setSelection(allItems);
         } catch (error) {
-            const aborted = this.abortController?.signal.aborted;
-            if (!aborted) {
+            if (!signal.aborted) {
                 throw error;
             }
+            // Restore selection on abort
+            this.selection?.setSelection(initSelection ?? []);
         } finally {
             this.query.setOffset(initOffset);
             this.query.setLimit(initLimit);
-            this.selection?.setSelection(allItems);
             this.locked = false;
+            this.emitter.dispatchEvent(pe("loadend"));
             this.abortController = undefined;
-            this.dispatchEvent(pe("loadend"));
         }
     }
 
@@ -147,6 +151,6 @@ export class SelectAllController extends EventTarget implements ReactiveControll
 
     abort(): void {
         this.abortController?.abort();
-        this.dispatchEvent(new ProgressEvent("abort"));
+        this.emitter.dispatchEvent(new ProgressEvent("abort"));
     }
 }
