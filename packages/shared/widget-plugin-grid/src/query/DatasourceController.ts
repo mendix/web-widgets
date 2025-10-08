@@ -187,15 +187,14 @@ export class DatasourceController implements ReactiveController, QueryController
                 () =>
                     this.datasource.offset === offset &&
                     this.datasource.limit === limit &&
-                    this.datasource.status === "available"
+                    this.datasource.status === "available",
+                { signal }
             );
 
-            predicate.then(() => resolve(this.datasource.items ?? [])).catch(reject);
+            predicate.then(() => resolve(this.datasource.items ?? []), reject);
 
             this.datasource.setOffset(offset);
             this.datasource.setLimit(limit);
-
-            signal.addEventListener("abort", () => predicate.cancel());
         });
     }
 }
