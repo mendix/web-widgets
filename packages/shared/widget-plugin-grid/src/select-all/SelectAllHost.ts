@@ -34,19 +34,17 @@ export class SelectAllHost extends BaseControllerHost {
     private setupSelectAllProgressStore() {
         const controller = this.selectAllController;
         const loadstart = (e: ProgressEvent): void => this.selectAllProgressStore.onloadstart(e);
-        const loadend = (e: ProgressEvent): void => this.selectAllProgressStore.onloadstart(e);
+        const loadend = (): void => this.selectAllProgressStore.onloadend();
         const progress = (e: ProgressEvent): void => this.selectAllProgressStore.onprogress(e);
 
-        controller.addEventListener("loadstart", loadstart);
-        controller.addEventListener("loadend", loadend);
-        controller.addEventListener("abort", loadend);
-        controller.addEventListener("progress", progress);
+        controller.on("loadstart", loadstart);
+        controller.on("loadend", loadend);
+        controller.on("progress", progress);
 
         return () => {
-            controller.removeEventListener("loadstart", loadstart);
-            controller.removeEventListener("loadend", loadend);
-            controller.removeEventListener("abort", loadend);
-            controller.removeEventListener("progress", progress);
+            controller.off("loadstart", loadstart);
+            controller.off("loadend", loadend);
+            controller.off("progress", progress);
         };
     }
 }
