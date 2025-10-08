@@ -19,7 +19,7 @@ export class SelectAllController implements ReactiveController {
     private readonly query: QueryController;
     private abortController?: AbortController;
     private locked = false;
-    readonly pageSize: number = 100;
+    readonly pageSize: number = 500;
     private readonly emitter = new EventTarget();
 
     constructor(host: ReactiveControllerHost, spec: SelectAllControllerSpec) {
@@ -30,7 +30,6 @@ export class SelectAllController implements ReactiveController {
         type PrivateMembers = "setIsLocked" | "locked";
         makeObservable<this, PrivateMembers>(this, {
             setIsLocked: action,
-            selection: computed,
             canExecute: computed,
             isExecuting: computed,
             locked: observable,
@@ -52,13 +51,18 @@ export class SelectAllController implements ReactiveController {
         this.emitter.removeEventListener(type, listener);
     }
 
-    get selection(): SelectionMultiValue | undefined {
+    /**
+     * @throws if selection is undefined or single
+     */
+    selection(): SelectionMultiValue {
         const selection = this.gate.props.itemSelection;
-        return selection?.type === "Multi" ? selection : undefined;
+        if (selection === undefined) throw new Error("SelectAllController: selection is undefined.");
+        if (selection.type === "Single") throw new Error("SelectAllController: single selection is not supported.");
+        return selection;
     }
 
     get canExecute(): boolean {
-        return this.selection?.type === "Multi" && !this.locked;
+        return this.gate.props.itemSelection?.type === "Multi" && !this.locked;
     }
 
     get isExecuting(): boolean {
@@ -96,7 +100,7 @@ export class SelectAllController implements ReactiveController {
         this.setIsLocked(true);
 
         const { offset: initOffset, limit: initLimit } = this.query;
-        const initSelection = this.selection?.selection;
+        const initSelection = this.selection().selection;
         const hasTotal = typeof this.query.totalCount === "number";
         const totalCount = this.query.totalCount ?? 0;
         let loaded = 0;
@@ -125,13 +129,13 @@ export class SelectAllController implements ReactiveController {
                 loading = !signal.aborted && this.query.hasMoreItems;
             }
             // Set allItems on success
-            this.selection?.setSelection(allItems);
+            this.selection().setSelection(allItems);
         } catch (error) {
             if (!signal.aborted) {
                 throw error;
             }
             // Restore selection on abort
-            this.selection?.setSelection(initSelection ?? []);
+            this.selection().setSelection(initSelection);
         } finally {
             this.query.setOffset(initOffset);
             this.query.setLimit(initLimit);
@@ -146,7 +150,7 @@ export class SelectAllController implements ReactiveController {
             console.debug("SelectAllController: can't clear selection while executing.");
             return;
         }
-        this.selection?.setSelection([]);
+        this.selection().setSelection([]);
     }
 
     abort(): void {
