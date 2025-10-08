@@ -30,6 +30,8 @@ export function CheckboxSelection({
         }
     };
 
+    const isSingleCheckbox = options.length === 1;
+
     return (
         <div
             className={classNames("widget-checkbox-radio-selection-list", {
@@ -39,6 +41,8 @@ export function CheckboxSelection({
             role="group"
             aria-labelledby={`${inputId}-label`}
             aria-required={ariaRequired?.value}
+            aria-describedby={!isSingleCheckbox && selector.validation ? errorId : undefined}
+            aria-invalid={!isSingleCheckbox && selector.validation ? true : undefined}
         >
             {options.map((optionId, index) => {
                 const isSelected = currentIds.includes(optionId);
@@ -60,8 +64,8 @@ export function CheckboxSelection({
                             disabled={isReadOnly}
                             tabIndex={tabIndex}
                             onChange={e => handleChange(optionId, e.target.checked)}
-                            aria-describedby={selector.validation ? errorId : undefined}
-                            aria-invalid={selector.validation ? true : undefined}
+                            aria-describedby={isSingleCheckbox && selector.validation ? errorId : undefined}
+                            aria-invalid={isSingleCheckbox && selector.validation ? true : undefined}
                         />
                         <CaptionContent
                             onClick={(e: MouseEvent<HTMLDivElement>) => {

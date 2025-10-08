@@ -50,6 +50,8 @@ export function RadioSelection({
             role={asSingleCheckbox ? "group" : "radiogroup"}
             aria-labelledby={`${inputId}-label`}
             aria-required={ariaRequired?.value}
+            aria-describedby={!asSingleCheckbox && selector.validation ? errorId : undefined}
+            aria-invalid={!asSingleCheckbox && selector.validation ? true : undefined}
         >
             {options.map((optionId, index) => {
                 const isSelected = currentId === optionId;
@@ -75,8 +77,8 @@ export function RadioSelection({
                                 disabled={isReadOnly}
                                 tabIndex={tabIndex}
                                 onChange={handleChange}
-                                aria-describedby={selector.validation ? errorId : undefined}
-                                aria-invalid={selector.validation ? true : undefined}
+                                aria-describedby={asSingleCheckbox && selector.validation ? errorId : undefined}
+                                aria-invalid={asSingleCheckbox && selector.validation ? true : undefined}
                             />
                         </If>
                         <CaptionContent
