@@ -112,6 +112,7 @@ export class SelectAllController implements ReactiveController {
         this.abortController = new AbortController();
         const signal = this.abortController.signal;
 
+        performance.mark("SelectAll_Start");
         try {
             this.emitter.dispatchEvent(pe("loadstart"));
             let loading = true;
@@ -142,6 +143,9 @@ export class SelectAllController implements ReactiveController {
             this.locked = false;
             this.emitter.dispatchEvent(pe("loadend"));
             this.abortController = undefined;
+            performance.mark("SelectAll_End");
+            const measure1 = performance.measure("Measure1", "SelectAll_Start", "SelectAll_End");
+            console.debug(`Data grid 2: select all took ${(measure1.duration / 1000).toFixed(2)} seconds`);
         }
     }
 

@@ -114,6 +114,7 @@ export class DSExportRequest {
     }
 
     send = (): Promise<void> => {
+        performance.mark("DSExportRequest_send");
         this.emitLoadStart();
         this._status = "awaiting";
         this.offset = 0;
@@ -230,6 +231,9 @@ export class DSExportRequest {
         this.emitEnd();
         this.emitLoadEnd();
         this.dispose();
+        performance.mark("DSExportRequest_end");
+        const measure = performance.measure("DSExportRequest", "DSExportRequest_send", "DSExportRequest_end");
+        console.debug(`DSExportRequest: export took ${(measure.duration / 1000).toFixed(2)} seconds`);
     }
 
     private dispose(): void {
