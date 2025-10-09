@@ -13,7 +13,7 @@ export const SelectAllBar = observer(function SelectAllBar(): React.ReactNode {
     if (selectionStatus === "none") return null;
 
     return (
-        <div>
+        <div className="widget-datagrid-select-all-bar">
             <button onClick={() => selectAllController.selectAllPages()}>Select remaining</button>
         </div>
     );

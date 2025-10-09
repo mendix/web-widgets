@@ -30,7 +30,7 @@ const Container = observer((props: Props): ReactElement => {
     const { columnsStore, rootStore } = props;
     const { paginationCtrl } = rootStore;
 
-    const items = props.datasource.items ?? [];
+    const items = rootStore.query.items ?? [];
 
     const [exportProgress, abortExport] = useDataExport(props, props.columnsStore, props.progressStore);
 
