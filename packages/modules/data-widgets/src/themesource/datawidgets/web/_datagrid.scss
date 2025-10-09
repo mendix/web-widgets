@@ -420,8 +420,7 @@ $root: ".widget-datagrid";
         align-items: center;
     }
 
-    &-exporting,
-    &-selecting-all-pages {
+    &-exporting {
         .widget-datagrid-top-bar,
         .widget-datagrid-header,
         .widget-datagrid-content,
@@ -435,28 +434,28 @@ $root: ".widget-datagrid";
     }
 
     // Better positioning for multi-page selection modal
-    &-selecting-all-pages {
-        .widget-datagrid-modal {
-            &-overlay {
-                position: fixed;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-            }
+    // &-selecting-all-pages {
+    //     .widget-datagrid-modal {
+    //         &-overlay {
+    //             position: fixed;
+    //             top: 0;
+    //             right: 0;
+    //             bottom: 0;
+    //             left: 0;
+    //         }
 
-            &-main {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-    }
+    //         &-main {
+    //             position: fixed;
+    //             top: 0;
+    //             left: 0;
+    //             right: 0;
+    //             bottom: 0;
+    //             display: flex;
+    //             align-items: center;
+    //             justify-content: center;
+    //         }
+    //     }
+    // }
 
     &-col-select input:focus-visible {
         outline-offset: 0;
@@ -590,6 +589,9 @@ $root: ".widget-datagrid";
     color: var(--link-color);
     padding: 0;
     display: inline-block;
+}
+:where(#{$root}-select-all-bar) {
+    grid-column: 1 / -1;
 }
 
 @keyframes skeleton-loading {

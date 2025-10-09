@@ -19,5 +19,6 @@ export interface QueryController extends Pick<ListValue, Members> {
     isFirstLoad: boolean;
     isRefreshing: boolean;
     isFetchingNextBatch: boolean;
-    fetchPage(params: { limit: number; offset: number; signal: AbortSignal }): Promise<ObjectItem[]>;
+    fetchPage(params: { limit: number; offset: number; signal?: AbortSignal }): Promise<ObjectItem[]>;
+    reload(): Promise<void>;
 }
