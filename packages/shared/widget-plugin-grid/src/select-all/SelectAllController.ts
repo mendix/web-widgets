@@ -1,7 +1,7 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, when } from "mobx";
 import { QueryController } from "../query/query-controller";
 
 type Gate = DerivedPropsGate<{ itemSelection?: SelectionMultiValue | SelectionSingleValue }>;
@@ -19,7 +19,7 @@ export class SelectAllController implements ReactiveController {
     private readonly query: QueryController;
     private abortController?: AbortController;
     private locked = false;
-    readonly pageSize: number = 500;
+    readonly pageSize: number = 1024;
     private readonly emitter = new EventTarget();
 
     constructor(host: ReactiveControllerHost, spec: SelectAllControllerSpec) {
@@ -32,6 +32,7 @@ export class SelectAllController implements ReactiveController {
             setIsLocked: action,
             canExecute: computed,
             isExecuting: computed,
+            selection: computed,
             locked: observable,
             selectAllPages: action,
             clearSelection: action,
@@ -51,13 +52,10 @@ export class SelectAllController implements ReactiveController {
         this.emitter.removeEventListener(type, listener);
     }
 
-    /**
-     * @throws if selection is undefined or single
-     */
-    selection(): SelectionMultiValue {
+    get selection(): SelectionMultiValue | undefined {
         const selection = this.gate.props.itemSelection;
-        if (selection === undefined) throw new Error("SelectAllController: selection is undefined.");
-        if (selection.type === "Single") throw new Error("SelectAllController: single selection is not supported.");
+        if (selection === undefined) return;
+        if (selection.type === "Single") return;
         return selection;
     }
 
@@ -100,11 +98,11 @@ export class SelectAllController implements ReactiveController {
         this.setIsLocked(true);
 
         const { offset: initOffset, limit: initLimit } = this.query;
-        const initSelection = this.selection().selection;
         const hasTotal = typeof this.query.totalCount === "number";
         const totalCount = this.query.totalCount ?? 0;
         let loaded = 0;
         let offset = 0;
+        let success = false;
         const pe = (type: SelectAllEventType): ProgressEvent =>
             new ProgressEvent(type, { loaded, total: totalCount, lengthComputable: hasTotal });
         // We should avoid duplicates, so, we start with clean array.
@@ -129,24 +127,42 @@ export class SelectAllController implements ReactiveController {
                 this.emitter.dispatchEvent(pe("progress"));
                 loading = !signal.aborted && this.query.hasMoreItems;
             }
-            // Set allItems on success
-            this.selection().setSelection(allItems);
+            success = true;
         } catch (error) {
             if (!signal.aborted) {
-                throw error;
+                console.error("SelectAllController: an error was encountered during the 'select all' action.");
+                console.error(error);
             }
-            // Restore selection on abort
-            this.selection().setSelection(initSelection);
         } finally {
-            this.query.setOffset(initOffset);
-            this.query.setLimit(initLimit);
-            this.locked = false;
+            // Restore init view
+            // This step should be done before loadend to avoid UI flickering
+            await this.query.fetchPage({
+                limit: initLimit,
+                offset: initOffset
+            });
+
             this.emitter.dispatchEvent(pe("loadend"));
+
+            const selectionBeforeReload = this.selection?.selection ?? [];
+            // Reload selection to make sure setSelection is working as expected.
+            await this.reloadSelection();
+
+            this.selection?.setSelection(success ? allItems : selectionBeforeReload);
+
+            this.locked = false;
+            console.info(success, initLimit, initOffset);
             this.abortController = undefined;
             performance.mark("SelectAll_End");
             const measure1 = performance.measure("Measure1", "SelectAll_Start", "SelectAll_End");
-            console.debug(`Data grid 2: select all took ${(measure1.duration / 1000).toFixed(2)} seconds`);
+            console.debug(`Data grid 2: 'select all' took ${(measure1.duration / 1000).toFixed(2)} seconds.`);
         }
+    }
+
+    reloadSelection(): Promise<void> {
+        const selection = this.selection;
+        selection?.setSelection([]);
+        // Resolve when selection value is updated
+        return when(() => this.selection !== selection);
     }
 
     clearSelection(): void {
@@ -154,7 +170,7 @@ export class SelectAllController implements ReactiveController {
             console.debug("SelectAllController: can't clear selection while executing.");
             return;
         }
-        this.selection().setSelection([]);
+        this.selection?.setSelection([]);
     }
 
     abort(): void {
