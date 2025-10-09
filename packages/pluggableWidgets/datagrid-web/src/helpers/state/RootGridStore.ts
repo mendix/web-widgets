@@ -5,8 +5,8 @@ import { DatasourceController } from "@mendix/widget-plugin-grid/query/Datasourc
 import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
 import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
 import { SelectAllController } from "@mendix/widget-plugin-grid/selection";
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { ProgressStore } from "@mendix/widget-plugin-grid/stores/ProgressStore";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/stores/SelectionCountStore";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
@@ -17,7 +17,6 @@ import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { DatasourceParamsController } from "../../controllers/DatasourceParamsController";
 import { DerivedLoaderController } from "../../controllers/DerivedLoaderController";
 import { PaginationController } from "../../controllers/PaginationController";
-
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
@@ -60,10 +59,9 @@ export class RootGridStore extends BaseControllerHost {
     selectAllProgressStore: ProgressStore;
     loaderCtrl: DerivedLoaderController;
     paginationCtrl: PaginationController;
-    readonly filterAPI: FilterAPI;
-    query!: QueryController;
-
-    private gate: Gate;
+    filterAPI: FilterAPI;
+    query: QueryController;
+    gate: Gate;
 
     constructor({ gate, exportProgressStore, selectAllProgressStore, selectAllController }: Spec) {
         super();
@@ -78,8 +76,7 @@ export class RootGridStore extends BaseControllerHost {
 
         const filterHost = new CustomFilterHost();
 
-        const query = new DatasourceController(this, { gate });
-        this.query = query;
+        const query = (this.query = new DatasourceController(this, { gate }));
 
         this.filterAPI = createContextWithStub({
             filterObserver: filterHost,
@@ -134,12 +131,10 @@ export class RootGridStore extends BaseControllerHost {
         add(super.setup());
         add(this.columnsStore.setup());
         add(() => this.settingsStore.dispose());
-        add(autorun(() => this.updateProps(this.gate.props)));
+        // Column store & settings store is still using old `updateProps`
+        // approach. So, we use autorun to sync props.
+        add(autorun(() => this.columnsStore.updateProps(this.gate.props)));
+        add(autorun(() => this.settingsStore.updateProps(this.gate.props)));
         return disposeAll;
-    }
-
-    private updateProps(props: RequiredProps): void {
-        this.columnsStore.updateProps(props);
-        this.settingsStore.updateProps(props);
     }
 }
