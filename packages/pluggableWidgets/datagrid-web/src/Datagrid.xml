@@ -53,6 +53,28 @@
                     <caption>Keep selection</caption>
                     <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
                 </property>
+                <property key="selectAllPagesEnabled" type="boolean" defaultValue="false">
+                    <caption>Enable select all pages</caption>
+                    <description>Allow select all through multiple pages (based on current filter). Only works if total count is known.</description>
+                </property>
+                <property key="selectAllPagesPageSize" type="integer" defaultValue="500">
+                    <caption>Select all page size</caption>
+                    <description>When selecting items from a large data source, items are selected in batches. This setting controls the size of the batches.</description>
+                </property>
+                <property key="selectingAllLabel" type="textTemplate" required="false">
+                    <caption>Selecting all label</caption>
+                    <description>Label shown in the progress dialog when selecting all items</description>
+                    <translations>
+                        <translation lang="en_US">Selecting all items...</translation>
+                    </translations>
+                </property>
+                <property key="cancelSelectionLabel" type="textTemplate" required="false">
+                    <caption>Cancel selection label</caption>
+                    <description>Label for the cancel button in the selection progress dialog</description>
+                    <translations>
+                        <translation lang="en_US">Cancel selection</translation>
+                    </translations>
+                </property>
                 <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
                     <caption>Loading type</caption>
                     <description />

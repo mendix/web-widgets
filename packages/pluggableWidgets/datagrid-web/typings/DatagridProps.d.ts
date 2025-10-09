@@ -96,6 +96,10 @@ export interface DatagridContainerProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
+    selectAllPagesEnabled: boolean;
+    selectAllPagesPageSize: number;
+    selectingAllLabel?: DynamicValue<string>;
+    cancelSelectionLabel?: DynamicValue<string>;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     columns: ColumnsType[];
@@ -148,6 +152,10 @@ export interface DatagridPreviewProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
+    selectAllPagesEnabled: boolean;
+    selectAllPagesPageSize: number | null;
+    selectingAllLabel: string;
+    cancelSelectionLabel: string;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     columns: ColumnsPreviewType[];

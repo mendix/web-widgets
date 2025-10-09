@@ -20,6 +20,8 @@ import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
 import { GridHeader } from "./GridHeader";
 import { RowsRenderer } from "./RowsRenderer";
+import { SelectAllBar } from "./SelectAllBar";
+import { SelectionProgressDialog } from "./SelectionProgressDialog";
 import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
@@ -80,7 +82,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
 
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
     const { className, exporting, numberOfItems, onExportCancel, selectActionHelper } = props;
-    const { basicData } = useDatagridRootScope();
+    const { basicData, selectAllProgressStore, selectAllController } = useDatagridRootScope();
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
 
@@ -91,8 +93,17 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
             selection={selectionEnabled}
             style={{}}
             exporting={exporting}
+            selectingAllPages={selectAllProgressStore.inProgress}
         >
             <Main {...props} data={exporting ? [] : props.data} />
+            <SelectionProgressDialog
+                open={selectAllProgressStore.inProgress}
+                selectingLabel={basicData.selectingAllLabel ?? "Selecting all items..."}
+                cancelLabel={basicData.cancelSelectionLabel ?? "Cancel selection"}
+                onCancel={() => selectAllController.abort()}
+                progress={selectAllProgressStore.loaded}
+                total={selectAllProgressStore.total}
+            />
             {exporting && (
                 <ExportWidget
                     alertLabel={basicData.exportDialogLabel ?? "Export progress"}
@@ -135,6 +146,9 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 
     const showHeader = !!headerContent;
     const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
+    const isSelectionEnabled = selectActionHelper.selectionType !== "None";
+    const isSelectionMulti = isSelectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined;
+    const isSelectAllBarEnabled = isSelectionMulti;
 
     const pagination = paging ? (
         <Pagination
@@ -156,17 +170,12 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         visibilitySelectorColumn: columnsHidable
     });
 
-    const selectionEnabled = selectActionHelper.selectionType !== "None";
-
     return (
         <Fragment>
             {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
             {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
             <WidgetContent>
-                <Grid
-                    aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
-                    style={cssGridStyles}
-                >
+                <Grid aria-multiselectable={isSelectionMulti} style={cssGridStyles}>
                     <GridHeader
                         availableColumns={props.availableColumns}
                         columns={visibleColumns}
@@ -183,6 +192,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         isLoading={props.columnsLoading}
                         preview={props.preview}
                     />
+                    {isSelectAllBarEnabled && <SelectAllBar />}
                     {showRefreshIndicator ? <RefreshIndicator /> : null}
                     <GridBody
                         isFirstLoad={props.isFirstLoad}

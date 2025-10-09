@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
+import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { IColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { ExportController } from "./ExportController";
 import { ProgressStore } from "./ProgressStore";
 import { getExportRegistry } from "./registry";
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { IColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 
 type ResourceEntry = {
     key: string;
@@ -11,7 +11,7 @@ type ResourceEntry = {
 };
 
 export function useDataExport(
-    props: DatagridContainerProps,
+    props: Pick<DatagridContainerProps, "datasource" | "name" | "columns">,
     columnsStore: IColumnGroupStore,
     progress: ProgressStore
 ): [store: ProgressStore, abort: () => void] {

@@ -1,5 +1,6 @@
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import { createElement, Fragment, ReactElement, useCallback } from "react";
+import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
+import { createElement, Fragment, ReactElement } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
 export function CheckboxColumnHeader(): ReactElement {
@@ -7,31 +8,29 @@ export function CheckboxColumnHeader(): ReactElement {
     const { showCheckboxColumn, showSelectAllToggle, onSelectAll } = selectActionHelper;
     const { selectionStatus, selectAllRowsLabel } = basicData;
 
-    const onChange = useCallback(() => onSelectAll(), [onSelectAll]);
-
     if (showCheckboxColumn === false) {
         return <Fragment />;
     }
 
-    let checkbox = null;
-
-    if (showSelectAllToggle) {
-        if (selectionStatus === "unknown") {
-            throw new Error("Don't know how to render checkbox with selectionStatus=unknown");
-        }
-
-        checkbox = (
-            <ThreeStateCheckBox
-                value={selectionStatus}
-                onChange={onChange}
-                aria-label={selectAllRowsLabel ?? "Select all rows"}
-            />
-        );
-    }
-
     return (
         <div className="th widget-datagrid-col-select" role="columnheader">
-            {checkbox}
+            {showSelectAllToggle && (
+                <Checkbox status={selectionStatus} onChange={onSelectAll} aria-label={selectAllRowsLabel} />
+            )}
         </div>
+    );
+}
+
+function Checkbox(props: { status: SelectionStatus; onChange: () => void; "aria-label"?: string }): React.ReactNode {
+    if (props.status === "unknown") {
+        console.error("Data grid 2: don't know how to render column checkbox with selectionStatus=unknown");
+        return null;
+    }
+    return (
+        <ThreeStateCheckBox
+            value={props.status}
+            onChange={props.onChange}
+            aria-label={props["aria-label"] ?? "Select all rows"}
+        />
     );
 }
