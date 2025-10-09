@@ -9,35 +9,31 @@ import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
-import { ProgressStore } from "./features/data-export/ProgressStore";
 import { useDataExport } from "./features/data-export/useDataExport";
 import { useCellEventsController } from "./features/row-interaction/CellEventsController";
 import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
 import { DatagridContext, DatagridRootScope } from "./helpers/root-context";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
-import { IColumnGroupStore } from "./helpers/state/ColumnGroupStore";
 import { RootGridStore } from "./helpers/state/RootGridStore";
 import { useRootStore } from "./helpers/state/useRootStore";
 import { useDataGridJSActions } from "./helpers/useDataGridJSActions";
 
 interface Props extends DatagridContainerProps {
-    columnsStore: IColumnGroupStore;
     rootStore: RootGridStore;
-    progressStore: ProgressStore;
 }
 
 const Container = observer((props: Props): ReactElement => {
-    const { columnsStore, rootStore } = props;
-    const { paginationCtrl } = rootStore;
+    const { rootStore } = props;
+    const { paginationCtrl, gate, query, columnsStore, exportProgressStore } = rootStore;
 
-    const items = rootStore.query.items ?? [];
+    const items = query.items ?? [];
 
-    const [exportProgress, abortExport] = useDataExport(props, props.columnsStore, props.progressStore);
+    const [exportProgress, abortExport] = useDataExport(props, columnsStore, exportProgressStore);
 
     const selectionHelper = useSelectionHelper(
-        props.itemSelection,
-        props.datasource,
-        props.onSelectionChange,
+        gate.props.itemSelection,
+        gate.props.datasource,
+        gate.props.onSelectionChange,
         props.keepSelection ? "always keep" : "always clear"
     );
 
@@ -150,14 +146,5 @@ const Container = observer((props: Props): ReactElement => {
 Container.displayName = "DatagridComponent";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
-    const rootStore = useRootStore(props);
-
-    return (
-        <Container
-            {...props}
-            rootStore={rootStore}
-            columnsStore={rootStore.columnsStore}
-            progressStore={rootStore.exportProgressStore}
-        />
-    );
+    return <Container {...props} rootStore={useRootStore(props)} />;
 }

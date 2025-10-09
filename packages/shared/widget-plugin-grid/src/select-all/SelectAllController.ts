@@ -146,12 +146,10 @@ export class SelectAllController implements ReactiveController {
             const selectionBeforeReload = this.selection?.selection ?? [];
             // Reload selection to make sure setSelection is working as expected.
             await this.reloadSelection();
-
             this.selection?.setSelection(success ? allItems : selectionBeforeReload);
-
             this.locked = false;
-            console.info(success, initLimit, initOffset);
             this.abortController = undefined;
+
             performance.mark("SelectAll_End");
             const measure1 = performance.measure("Measure1", "SelectAll_Start", "SelectAll_End");
             console.debug(`Data grid 2: 'select all' took ${(measure1.duration / 1000).toFixed(2)} seconds.`);
@@ -161,7 +159,7 @@ export class SelectAllController implements ReactiveController {
     reloadSelection(): Promise<void> {
         const selection = this.selection;
         selection?.setSelection([]);
-        // Resolve when selection value is updated
+        // `when` resolves when selection value is updated
         return when(() => this.selection !== selection);
     }
 
