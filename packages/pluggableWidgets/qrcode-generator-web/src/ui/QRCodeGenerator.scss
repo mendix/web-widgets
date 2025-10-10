@@ -1,0 +1,29 @@
+// QR Code Generator Widget Styles
+$widget-prefix: "widget-qrcodegeneratorweb";
+
+.#{$widget-prefix} {
+    display: inline-block;
+
+    &-clickable {
+        cursor: pointer;
+    }
+
+    &.badge {
+        min-width: 18px;
+        min-height: 18px;
+
+        &:empty {
+            display: initial;
+            // Fix padding to stay round
+            padding: 3px 10px;
+        }
+    }
+
+    &.label {
+        &:empty {
+            display: initial;
+            // Fix padding to stay square
+            padding: 0.2em 0.8em 0.3em;
+        }
+    }
+}
