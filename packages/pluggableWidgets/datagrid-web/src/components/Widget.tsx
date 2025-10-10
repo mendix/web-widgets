@@ -89,7 +89,7 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
             className={className}
             selectionMethod={selectActionHelper.selectionMethod}
             selection={selectionEnabled}
-            style={{}}
+            style={props.styles}
             exporting={exporting}
         >
             <Main {...props} data={exporting ? [] : props.data} />
