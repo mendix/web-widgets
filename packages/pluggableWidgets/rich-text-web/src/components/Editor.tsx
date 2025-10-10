@@ -16,20 +16,14 @@ import { SET_FULLSCREEN_ACTION } from "../store/store";
 import "../utils/customPluginRegisters";
 import { FontStyleAttributor, formatCustomFonts } from "../utils/formats/fonts";
 import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
-import QuillTableBetter from "../utils/formats/quill-table-better/quill-table-better";
-import { RESIZE_MODULE_CONFIG } from "../utils/formats/resizeModuleConfig";
+import { getResizeModuleConfig } from "../utils/formats/resizeModuleConfig";
 import { ACTION_DISPATCHER } from "../utils/helpers";
+import { getKeyboardBindings } from "../utils/modules/keyboard";
+import { getIndentHandler } from "../utils/modules/toolbarHandlers";
+import MxUploader from "../utils/modules/uploader";
 import MxQuill from "../utils/MxQuill";
-import {
-    enterKeyKeyboardHandler,
-    exitFullscreenKeyboardHandler,
-    getIndentHandler,
-    gotoStatusBarKeyboardHandler,
-    gotoToolbarKeyboardHandler
-} from "./CustomToolbars/toolbarHandlers";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
-import MxUploader from "../utils/modules/uploader";
 
 export interface EditorProps
     extends Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "enableDefaultUpload"> {
@@ -115,26 +109,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                     theme,
                     modules: {
                         keyboard: {
-                            bindings: {
-                                enter: {
-                                    key: "Enter",
-                                    handler: enterKeyKeyboardHandler
-                                },
-                                focusTab: {
-                                    key: "F10",
-                                    altKey: true,
-                                    handler: gotoToolbarKeyboardHandler
-                                },
-                                tab: {
-                                    key: "Tab",
-                                    handler: gotoStatusBarKeyboardHandler
-                                },
-                                escape: {
-                                    key: "Escape",
-                                    handler: exitFullscreenKeyboardHandler
-                                },
-                                ...QuillTableBetter.keyboardBindings
-                            }
+                            bindings: getKeyboardBindings()
                         },
                         table: false,
                         "table-better": {
@@ -142,14 +117,12 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
                             menus: ["column", "row", "merge", "table", "cell", "wrap", "copy", "delete", "grid"],
                             toolbarTable: !readOnly
                         },
-                        toolbar
+                        toolbar,
+                        ...getResizeModuleConfig(readOnly)
                     },
                     readOnly
                 };
 
-                if (!readOnly && options.modules) {
-                    options.modules.resize = RESIZE_MODULE_CONFIG;
-                }
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
 
