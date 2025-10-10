@@ -216,6 +216,22 @@
                         <enumerationValue key="characterCountHtml">Character count (including HTML)</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="tabAction" type="enumeration" defaultValue="changeFocus">
+                    <caption>Tab key behavior</caption>
+                    <description>Press 'Tab' to indent text or to move focus to the next element.</description>
+                    <enumerationValues>
+                        <enumerationValue key="indent">Indent</enumerationValue>
+                        <enumerationValue key="changeFocus">Focus next</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="ctrlTabAction" type="enumeration" defaultValue="indent">
+                    <caption>Ctrl+Tab key behavior</caption>
+                    <description>Press 'Ctrl+Tab' to indent text or to move focus to the next element.</description>
+                    <enumerationValues>
+                        <enumerationValue key="indent">Indent</enumerationValue>
+                        <enumerationValue key="changeFocus">Focus next</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Custom toolbar">
