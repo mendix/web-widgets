@@ -40,7 +40,7 @@
         "@mendix/widget-plugin-mobx-kit": "workspace:^",
         "@mendix/widget-plugin-platform": "workspace:*",
         "downshift": "^9.0.8",
-        "mendix": "10.24.75382",
+        "mendix": "10.24.80126",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7"
     },
