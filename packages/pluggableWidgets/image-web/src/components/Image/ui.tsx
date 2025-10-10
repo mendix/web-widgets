@@ -19,6 +19,7 @@ export interface ImageWrapperProps {
     className?: string;
     responsive: boolean;
     hasImage: boolean;
+    type: string;
     children:
         | ReactElement<ImageContentIcon | ImageContentImage>
         | [ReactElement<ImageContentIcon | ImageContentImage>, ReactElement<LightboxProps> | false];
@@ -37,6 +38,7 @@ function Wrapper(props: ImageWrapperProps): ReactElement {
             className={classNames(
                 "mx-image-viewer",
                 { "mx-image-viewer-responsive": props.responsive },
+                { "mx-image-viewer-icon": props.type === "glyph" || props.type === "icon" },
                 props.className,
                 { hidden: !props.hasImage }
             )}
