@@ -2,7 +2,7 @@ import { If } from "@mendix/widget-plugin-component-kit/If";
 import { useDebounceWithStatus } from "@mendix/widget-plugin-hooks/useDebounceWithStatus";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import classNames from "classnames";
-import Quill, { Range } from "quill";
+import Quill from "quill";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import {
@@ -17,6 +17,7 @@ import {
 } from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { EditorContext, EditorProvider } from "../store/EditorProvider";
+import { useActionEvents } from "../store/useActionEvents";
 import { updateLegacyQuillFormats } from "../utils/helpers";
 import MendixTheme from "../utils/themes/mxTheme";
 import { createPreset } from "./CustomToolbars/presets";
@@ -59,11 +60,9 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     } = props;
 
     const globalState = useContext(EditorContext);
-
     const isFirstLoad = useRef<boolean>(false);
     const quillRef = useRef<Quill>(null);
-    const [isFocus, setIsFocus] = useState(false);
-    const editorValueRef = useRef<string>("");
+    const actionEvents = useActionEvents({ onBlur, onFocus, onChange, onChangeType, quill: quillRef?.current });
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
 
@@ -137,34 +136,6 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [quillRef.current, stringAttribute, calculateCounts, onChange?.isExecuting]);
 
-    const onSelectionChange = useCallback(
-        (range: Range) => {
-            if (range) {
-                // User cursor is selecting
-                if (!isFocus) {
-                    setIsFocus(true);
-                    executeAction(onFocus);
-                    editorValueRef.current = quillRef.current?.getText() || "";
-                }
-            } else {
-                // Cursor not in the editor
-                if (isFocus) {
-                    setIsFocus(false);
-                    executeAction(onBlur);
-
-                    if (onChangeType === "onLeave") {
-                        if (editorValueRef.current !== quillRef.current?.getText()) {
-                            executeAction(onChange);
-                        }
-                    }
-                }
-            }
-            (quillRef.current?.theme as MendixTheme).updatePicker(range);
-        },
-
-        [isFocus, onFocus, onBlur, onChange, onChangeType]
-    );
-
     const toolbarId = `widget_${id.replaceAll(".", "_")}_toolbar`;
     const shouldHideToolbar = (stringAttribute.readOnly && readOnlyStyle !== "text") || toolbarLocation === "hide";
     const toolbarPreset = shouldHideToolbar ? [] : createPreset(props);
@@ -192,6 +163,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
             }}
             spellCheck={props.spellCheck}
             tabIndex={tabIndex}
+            {...actionEvents}
         >
             <If condition={toolbarLocation === "auto"}>
                 <StickySentinel />
@@ -229,7 +201,6 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     }
                     toolbarId={shouldHideToolbar ? undefined : toolbarOptions ? toolbarOptions : toolbarId}
                     onTextChange={onTextChange}
-                    onSelectionChange={onSelectionChange}
                     className={"widget-rich-text-container"}
                     readOnly={stringAttribute.readOnly}
                     key={`${toolbarId}_${stringAttribute.readOnly}`}
