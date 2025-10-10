@@ -33,6 +33,10 @@ export interface CustomFontsType {
 
 export type StatusBarContentEnum = "wordCount" | "characterCount" | "characterCountHtml";
 
+export type TabActionEnum = "indent" | "changeFocus";
+
+export type CtrlTabActionEnum = "indent" | "changeFocus";
+
 export type ToolbarConfigEnum = "basic" | "advanced";
 
 export type CtItemTypeEnum = "separator" | "undo" | "redo" | "bold" | "italic" | "underline" | "strike" | "superScript" | "subScript" | "orderedList" | "bulletList" | "lowerAlphaList" | "checkList" | "minIndent" | "plusIndent" | "direction" | "link" | "image" | "video" | "formula" | "blockquote" | "code" | "codeBlock" | "viewCode" | "align" | "centerAlign" | "rightAlign" | "font" | "size" | "color" | "background" | "header" | "fullscreen" | "clean" | "tableBetter";
@@ -82,6 +86,8 @@ export interface RichTextContainerProps {
     imageSourceContent?: ReactNode;
     enableDefaultUpload: boolean;
     statusBarContent: StatusBarContentEnum;
+    tabAction: TabActionEnum;
+    ctrlTabAction: CtrlTabActionEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
@@ -131,6 +137,8 @@ export interface RichTextPreviewProps {
     imageSourceContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     enableDefaultUpload: boolean;
     statusBarContent: StatusBarContentEnum;
+    tabAction: TabActionEnum;
+    ctrlTabAction: CtrlTabActionEnum;
     toolbarConfig: ToolbarConfigEnum;
     history: boolean;
     fontStyle: boolean;
