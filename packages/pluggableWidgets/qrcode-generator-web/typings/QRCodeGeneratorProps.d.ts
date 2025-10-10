@@ -11,7 +11,9 @@ export interface QRCodeGeneratorContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    valueAttribute: EditableValue<string>;
+    qrValue: EditableValue<string>;
+    qrSize: number;
+    qrMargin: number;
 }
 
 export interface QRCodeGeneratorPreviewProps {
@@ -25,5 +27,7 @@ export interface QRCodeGeneratorPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    valueAttribute: string;
+    qrValue: string;
+    qrSize: number | null;
+    qrMargin: number | null;
 }

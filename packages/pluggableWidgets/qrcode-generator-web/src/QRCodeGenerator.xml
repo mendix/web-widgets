@@ -8,12 +8,20 @@
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="Data source">
-                <property key="valueAttribute" type="attribute" required="true">
+                <property key="qrValue" type="attribute" required="true">
                     <caption>Dynamic value</caption>
-                    <description>The attribute that contains the qrcodegeneratorweb value</description>
+                    <description>String to encode in the QR code</description>
                     <attributeTypes>
                         <attributeType name="String" />
                     </attributeTypes>
+                </property>
+                <property key="qrSize" type="integer" required="true" defaultValue="128">
+                    <caption>QR Code Size</caption>
+                    <description>Size of the QR code in pixels</description>
+                </property>
+                <property key="qrMargin" type="integer" required="true" defaultValue="2">
+                    <caption>QR Margin Size</caption>
+                    <description>Size of the QR margin in pixels</description>
                 </property>
             </propertyGroup>
         </propertyGroup>
