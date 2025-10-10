@@ -192,7 +192,6 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     }
                     toolbarId={shouldHideToolbar ? undefined : toolbarOptions ? toolbarOptions : toolbarId}
                     onTextChange={onTextChange}
-                    // onSelectionChange={onSelectionChange}
                     className={"widget-rich-text-container"}
                     readOnly={stringAttribute.readOnly}
                     key={`${toolbarId}_${stringAttribute.readOnly}`}
