@@ -15,7 +15,7 @@ import {
     useRole,
     useTypeahead
 } from "@floating-ui/react";
-import { MutableRefObject, useRef, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
 import { TriggerEnum } from "../../typings/LanguageSelectorProps";
 import { LanguageItem } from "src/LanguageSelector";
 
@@ -25,15 +25,15 @@ interface FloatingProps {
     languageList: LanguageItem[];
     onSelect?: (lang: LanguageItem) => void;
     position: Placement;
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpen: Dispatch<SetStateAction<boolean>>;
     triggerOn: TriggerEnum;
 }
 
 interface InternalFloatingProps {
     activeIndex: number | null;
     handleSelect: (index: number) => void;
-    isTypingRef: MutableRefObject<boolean>;
-    listRef: MutableRefObject<Array<HTMLElement | null>>;
+    isTypingRef: RefObject<boolean>;
+    listRef: RefObject<Array<HTMLElement | null>>;
     selectedIndex: number | null;
 }
 

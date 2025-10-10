@@ -2,7 +2,7 @@ import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/rea
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
 import { attrId, dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { fireEvent, render } from "@testing-library/react";
-import React, { createElement } from "react";
+import { ReactElement } from "react";
 import { AttributesType, DropdownSortContainerProps } from "../../../typings/DropdownSortProps";
 import { DropdownSort } from "../../DropdownSort";
 
@@ -29,7 +29,7 @@ const mockAttributes = (): AttributesType[] => [
     }
 ];
 
-function renderWithSortAPI(elt: React.ReactElement, api: SortAPI): ReturnType<typeof render> {
+function renderWithSortAPI(elt: ReactElement, api: SortAPI): ReturnType<typeof render> {
     const SortAPI = getGlobalSortContext();
     return render(<SortAPI.Provider value={api}>{elt}</SortAPI.Provider>);
 }

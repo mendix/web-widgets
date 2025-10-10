@@ -1,4 +1,4 @@
-/* 
+/*
 https://github.com/kimmobrunfeldt/progressbar.js/blob/master/src/utils.js
 The MIT License (MIT)
 
@@ -20,12 +20,12 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE. 
+THE SOFTWARE.
 */
 
 // Utility functions
 
-import React from "react";
+import { CSSProperties } from "react";
 import { ShapeOptions } from "./Types";
 
 const PREFIXES = "Webkit Moz O ms".split(" ");
@@ -72,7 +72,7 @@ function setStyle(element: HTMLElement, style: string, value: string): void {
     elStyle.setProperty(style, value);
 }
 
-function setStyles(element: HTMLElement | SVGElement, styles: React.CSSProperties): void {
+function setStyles(element: HTMLElement | SVGElement, styles: CSSProperties): void {
     forEachObject(styles, (styleValue, styleName) => {
         // Allow disabling some individual styles by setting them
         // to null or undefined

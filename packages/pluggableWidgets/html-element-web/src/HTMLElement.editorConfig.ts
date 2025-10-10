@@ -10,6 +10,7 @@ import {
     text,
     TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
+import { JSX } from "react";
 import { isVoidElement, prepareTag } from "./utils/props-utils";
 
 type TagAttributeValuePropName = keyof HTMLElementPreviewProps["attributes"][number];

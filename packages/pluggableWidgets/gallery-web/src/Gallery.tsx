@@ -3,7 +3,7 @@ import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-na
 import { getColumnAndRowBasedOnIndex, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { observer } from "mobx-react-lite";
-import { createElement, ReactElement, ReactNode, useCallback } from "react";
+import { ReactElement, ReactNode, useCallback } from "react";
 import { GalleryContainerProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { HeaderWidgetsHost } from "./components/HeaderWidgetsHost";

@@ -1,5 +1,5 @@
 import { useMergeRefs } from "@floating-ui/react";
-import { createElement, forwardRef, PropsWithChildren, ReactElement, RefObject } from "react";
+import { forwardRef, PropsWithChildren, ReactElement, RefObject } from "react";
 import { usePopupContext } from "../hooks/usePopupContext";
 
 export const PopupTrigger = forwardRef(

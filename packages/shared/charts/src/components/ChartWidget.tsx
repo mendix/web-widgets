@@ -1,6 +1,6 @@
 import { Dimensions, getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import classNames from "classnames";
-import { createElement, Fragment, ReactElement, useMemo } from "react";
+import { Fragment, ReactElement, ReactNode, useMemo } from "react";
 import { useDispatchResizeObserver } from "../hooks/useResizeObserver";
 import {
     ChartTypeEnum,
@@ -17,7 +17,7 @@ export interface ChartWidgetProps extends CustomLayoutProps, Dimensions, ChartPr
     className: string;
     type: ChartTypeEnum;
     enableThemeConfig: boolean;
-    playground: React.ReactNode | null;
+    playground: ReactNode | null;
 }
 
 export const ChartWidget = ({

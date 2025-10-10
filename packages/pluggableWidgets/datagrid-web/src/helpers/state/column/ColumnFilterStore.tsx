@@ -9,7 +9,7 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ListAttributeListValue, ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
 import { computed, makeObservable } from "mobx";
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
 

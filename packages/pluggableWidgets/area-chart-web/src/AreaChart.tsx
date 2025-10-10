@@ -7,7 +7,7 @@ import {
 } from "@mendix/shared-charts/main";
 import "@mendix/shared-charts/ui/Chart.scss";
 import classNames from "classnames";
-import { createElement, memo, ReactElement, useCallback } from "react";
+import { memo, ReactElement, useCallback } from "react";
 import { AreaChartContainerProps, SeriesType } from "../typings/AreaChartProps";
 
 const areaChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
@@ -70,8 +70,8 @@ export const AreaChart = memo(function AreaChart(props: AreaChartContainerProps)
             height={props.height}
             heightUnit={props.heightUnit}
             showLegend={props.showLegend}
-            xAxisLabel={props.xAxisLabel?.value}
-            yAxisLabel={props.yAxisLabel?.value}
+            xAxisLabel={props.xAxisLabel?.value ? { text: props.xAxisLabel.value } : undefined}
+            yAxisLabel={props.yAxisLabel?.value ? { text: props.yAxisLabel.value } : undefined}
             gridLinesMode={props.gridLines}
             customLayout={props.customLayout}
             customConfig={props.customConfigurations}

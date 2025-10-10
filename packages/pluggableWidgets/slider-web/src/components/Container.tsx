@@ -1,13 +1,13 @@
-import { createElement, useRef } from "react";
+import { ReactElement, useRef } from "react";
 import { SliderContainerProps } from "../../typings/SliderProps";
-import { useNumber } from "../utils/useNumber";
-import { Slider as SliderComponent } from "./Slider";
-import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
-import { createHandleGenerator } from "../utils/createHandleGenerator";
-import { useMarks } from "../utils/useMarks";
+import { createHandleRender } from "../utils/createHandleRender";
 import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
+import { useMarks } from "../utils/useMarks";
+import { useNumber } from "../utils/useNumber";
+import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
+import { Slider as SliderComponent } from "./Slider";
 
-export function Container(props: SliderContainerProps): React.ReactElement {
+export function Container(props: SliderContainerProps): ReactElement {
     const min = useNumber(minProp(props));
     const max = useNumber(maxProp(props));
     const step = useNumber(stepProp(props));
@@ -25,15 +25,16 @@ interface InnerContainerProps extends SliderContainerProps {
     step: number | undefined;
 }
 
-function InnerContainer(props: InnerContainerProps): React.ReactElement {
+function InnerContainer(props: InnerContainerProps): ReactElement {
     const sliderRef = useRef<HTMLDivElement>(null);
-    const handle = createHandleGenerator({
+    const handleRender = createHandleRender({
         tooltip: props.tooltip,
         showTooltip: props.showTooltip,
         tooltipType: props.tooltipType,
         tooltipAlwaysVisible: props.tooltipAlwaysVisible,
         sliderRef
     });
+
     const { onChange } = useOnChangeDebounced({ valueAttribute: props.valueAttribute, onChange: props.onChange });
     const marks = useMarks({
         noOfMarkers: props.noOfMarkers,
@@ -57,7 +58,7 @@ function InnerContainer(props: InnerContainerProps): React.ReactElement {
             step={props.step}
             onChange={onChange}
             marks={marks}
-            handle={handle}
+            handleRender={handleRender}
             ref={sliderRef}
         />
     );

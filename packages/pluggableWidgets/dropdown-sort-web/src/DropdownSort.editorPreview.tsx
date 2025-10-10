@@ -1,6 +1,6 @@
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { withSortAPI } from "@mendix/widget-plugin-sorting/react/hocs/withSortAPI";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { DropdownSortPreviewProps } from "../typings/DropdownSortProps";
 import { SortComponent } from "./components/SortComponent";
 

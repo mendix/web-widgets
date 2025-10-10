@@ -44,9 +44,9 @@
     },
     "dependencies": {
         "@mendix/widget-plugin-component-kit": "workspace:*",
-        "classnames": "^2.5.1",
-        "rc-slider": "^8.7.1",
-        "rc-tooltip": "^3.7.3"
+        "@rc-component/slider": "^1.0.0",
+        "@rc-component/tooltip": "^1.3.3",
+        "classnames": "^2.5.1"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
@@ -56,8 +56,6 @@
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
-        "@types/rc-slider": "^8.6.6",
-        "@types/rc-tooltip": "^3.7.7",
         "cross-env": "^7.0.3"
     }
 }

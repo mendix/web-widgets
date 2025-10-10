@@ -1,11 +1,11 @@
-import { createElement } from "react";
+import { ReactElement } from "react";
 import { TimelineContainerProps } from "../../typings/TimelineProps";
 import { ComponentProps } from "../helpers/types";
 import { useCustomItems } from "../helpers/useCustomItems";
 
-type Timeline = (props: TimelineContainerProps) => React.ReactElement;
+type Timeline = (props: TimelineContainerProps) => ReactElement;
 
-export function withCustomItems(Component: (props: ComponentProps) => React.ReactElement): Timeline {
+export function withCustomItems(Component: (props: ComponentProps) => ReactElement): Timeline {
     return function TimelineCustom(props) {
         return (
             <Component

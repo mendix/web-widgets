@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { ProgressCirclePreviewProps } from "../typings/ProgressCircleProps";
 import { ProgressCircle } from "./components/ProgressCircle";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";

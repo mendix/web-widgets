@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { JSX, ReactElement } from "react";
 
 type WidgetHeaderProps = {
     headerTitle?: string;

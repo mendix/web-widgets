@@ -1,5 +1,4 @@
 import { render } from "@testing-library/react";
-import { createElement } from "react";
 import ReactDOM from "react-dom";
 import { FilterComponent, FilterComponentProps } from "../FilterComponent";
 

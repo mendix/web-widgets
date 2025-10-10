@@ -6,7 +6,7 @@ import { Number_InputFilterInterface } from "@mendix/widget-plugin-filtering/typ
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { observer } from "mobx-react-lite";
-import { createElement, useRef } from "react";
+import { ReactElement, useRef } from "react";
 import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../../typings/DatagridNumberFilterProps";
 
 const filterDefs: Record<DefaultFilterEnum, string> = {
@@ -32,8 +32,8 @@ export interface ContainerProps extends DatagridNumberFilterContainerProps {
     parentChannelName?: string;
 }
 
-function Container(props: ContainerProps): React.ReactElement {
-    const id = (useRef<string>().current ??= `NumberFilter${generateUUID()}`);
+function Container(props: ContainerProps): ReactElement {
+    const id = (useRef<string>(undefined).current ??= `NumberFilter${generateUUID()}`);
 
     const controller = useSetup(
         () =>

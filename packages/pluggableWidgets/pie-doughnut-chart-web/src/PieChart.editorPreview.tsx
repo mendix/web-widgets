@@ -1,5 +1,5 @@
 import { ChartPreview } from "@mendix/shared-charts/preview";
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import PieChart from "./assets/PieChart.light.svg";
 import DoughnutChart from "./assets/DoughnutChart.light.svg";
 import PieChartLegend from "./assets/PieDoughnut-legend.light.svg";

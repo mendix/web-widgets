@@ -1,5 +1,5 @@
 import { ListActionValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
-import { createElement, ReactNode, useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { ListItemButton } from "../components/ListItemButton";
 

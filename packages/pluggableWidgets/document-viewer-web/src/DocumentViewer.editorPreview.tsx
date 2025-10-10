@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { DocumentViewerPreviewProps } from "typings/DocumentViewerProps";
 import "../ui/documentViewer.scss";
 import "../ui/documentViewerIcons.scss";

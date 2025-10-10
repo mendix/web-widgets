@@ -1,15 +1,16 @@
+import { FocusEvent, KeyboardEvent, MouseEvent } from "react";
 export type TargetEvent =
     | {
           type: "Mouse";
-          reactEvent: React.MouseEvent;
+          reactEvent: MouseEvent;
       }
     | {
           type: "Keyboard";
-          reactEvent: React.KeyboardEvent;
+          reactEvent: KeyboardEvent;
       }
     | {
           type: "Focus";
-          reactEvent: React.FocusEvent;
+          reactEvent: FocusEvent;
       };
 
 export type FocusTargetFx = (event: TargetEvent) => void;

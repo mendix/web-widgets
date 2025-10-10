@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 
 import { ShowIconEnum } from "../../typings/TreeNodeProps";
 import loadingCircleSvg from "../assets/loading-circle.svg";

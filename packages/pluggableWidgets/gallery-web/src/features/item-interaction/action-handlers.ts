@@ -1,7 +1,8 @@
 import { ElementEntry, EventCaseEntry } from "@mendix/widget-plugin-grid/event-switch/base";
 import { ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
-import { EventEntryContext } from "./base";
 import { onOwnSpaceKeyDown } from "@mendix/widget-plugin-grid/selection";
+import { KeyboardEvent } from "react";
+import { EventEntryContext } from "./base";
 
 const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<EventEntryContext, HTMLDivElement, "onClick"> => ({
     eventName: "onClick",
@@ -21,7 +22,7 @@ const onDoubleClick = (
     }
 });
 
-const canExecOnSpaceOrEnter = (_ctx: EventEntryContext, event: React.KeyboardEvent): boolean => {
+const canExecOnSpaceOrEnter = (_ctx: EventEntryContext, event: KeyboardEvent): boolean => {
     if (event.code === "Space") {
         return !event.shiftKey;
     }

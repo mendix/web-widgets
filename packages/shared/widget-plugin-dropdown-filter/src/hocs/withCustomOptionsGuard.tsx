@@ -1,5 +1,5 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { createElement, useState } from "react";
+import { ReactElement, useState } from "react";
 import { EnumFilterStore } from "../stores/EnumFilterStore";
 import { FilterOptionsType } from "../typings/widget";
 
@@ -9,8 +9,8 @@ interface Props {
 }
 
 export function withCustomOptionsGuard<P extends Props>(
-    Component: (props: P) => React.ReactElement
-): (props: P) => React.ReactElement {
+    Component: (props: P) => ReactElement
+): (props: P) => ReactElement {
     return function CustomOptionsGuard(props) {
         const [error] = useState((): Error | null => {
             for (const opt of props.filterOptions) {

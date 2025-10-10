@@ -1,6 +1,6 @@
 import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import classNames from "classnames";
-import { createElement, ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 
 type PickProps = "hasMoreItems" | "setPage" | "isInfinite";
 

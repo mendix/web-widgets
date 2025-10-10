@@ -1,7 +1,7 @@
 import { ThreeStateCheckBox, ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
-import { createElement, Fragment, ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import { CaptionContent } from "../../helpers/utils";
 
 interface SelectAllButtonProps extends Partial<UseComboboxPropGetters<string>> {

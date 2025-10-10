@@ -10,7 +10,8 @@ exports[`Google maps renders a map with current location 1`] = `
       class="widget-google-maps-wrapper"
     >
       <div
-        class="spinner"
+        class="widget-google-maps"
+        data-testid="map"
       />
     </div>
   </div>
@@ -27,7 +28,8 @@ exports[`Google maps renders a map with markers 1`] = `
       class="widget-google-maps-wrapper"
     >
       <div
-        class="spinner"
+        class="widget-google-maps"
+        data-testid="map"
       />
     </div>
   </div>
@@ -44,7 +46,8 @@ exports[`Google maps renders a map with percentage of parent units renders the s
       class="widget-google-maps-wrapper"
     >
       <div
-        class="spinner"
+        class="widget-google-maps"
+        data-testid="map"
       />
     </div>
   </div>
@@ -61,7 +64,8 @@ exports[`Google maps renders a map with percentage of width and height units ren
       class="widget-google-maps-wrapper"
     >
       <div
-        class="spinner"
+        class="widget-google-maps"
+        data-testid="map"
       />
     </div>
   </div>
@@ -78,7 +82,8 @@ exports[`Google maps renders a map with pixels renders structure correctly 1`] =
       class="widget-google-maps-wrapper"
     >
       <div
-        class="spinner"
+        class="widget-google-maps"
+        data-testid="map"
       />
     </div>
   </div>
@@ -95,7 +100,8 @@ exports[`Google maps renders a map with right structure 1`] = `
       class="widget-google-maps-wrapper"
     >
       <div
-        class="spinner"
+        class="widget-google-maps"
+        data-testid="map"
       />
     </div>
   </div>

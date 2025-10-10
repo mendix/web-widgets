@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createElement } from "react";
 import { PositionEnum, TriggerEnum } from "typings/LanguageSelectorProps";
 import { LanguageSwitcher, LanguageSwitcherProps } from "../LanguageSwitcher";
 import "@testing-library/jest-dom";

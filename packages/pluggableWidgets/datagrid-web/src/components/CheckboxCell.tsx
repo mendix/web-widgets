@@ -1,6 +1,6 @@
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import { ObjectItem } from "mendix";
-import { createElement, ReactElement } from "react";
+import { FocusEvent, ReactElement } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 import { CellElement, CellElementProps } from "./CellElement";
 
@@ -35,7 +35,7 @@ export function CheckboxCell({ item, rowIndex, lastRow, ...rest }: CheckboxCellP
     );
 }
 
-function scrollParentOnFocus(event: React.FocusEvent): void {
+function scrollParentOnFocus(event: FocusEvent): void {
     if (typeof event.target.parentElement?.scrollIntoView === "function") {
         event.target.parentElement.scrollIntoView(false);
     }
