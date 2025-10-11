@@ -40,7 +40,7 @@ export class CustomWeekController {
         }
     }
 
-    static title(date: Date, options: any, visibleDays: Set<number>): string {
+    static title(date: Date, options: any, visibleDays: Set<number>, titlePattern?: string): string {
         const range = getRange(date, visibleDays);
 
         const loc = options?.localizer ?? {
@@ -54,22 +54,28 @@ export class CustomWeekController {
         if (isContiguous) {
             const first = range[0];
             const last = range[range.length - 1];
+            if (titlePattern) {
+                return `${loc.format(first, titlePattern)} – ${loc.format(last, titlePattern)}`;
+            }
             return `${loc.format(first, "MMM dd")} – ${loc.format(last, "MMM dd")}`;
         }
 
+        if (titlePattern) {
+            return range.map(d => loc.format(d, titlePattern)).join(", ");
+        }
         return range.map(d => loc.format(d, "EEE")).join(", ");
     }
 
     // Main factory method that injects visibleDays
-    static getComponent(visibleDays: Set<number>): CustomWeekComponent {
+    static getComponent(visibleDays: Set<number>, titlePattern?: string): CustomWeekComponent {
         const Component = (viewProps: CalendarProps): ReactElement => {
             const controller = new CustomWeekController(viewProps.date as Date, viewProps, visibleDays);
             return controller.render();
         };
 
         Component.navigate = CustomWeekController.navigate;
-
-        Component.title = (date: Date, options: any): string => CustomWeekController.title(date, options, visibleDays);
+        Component.title = (date: Date, options: any): string =>
+            CustomWeekController.title(date, options, visibleDays, titlePattern);
 
         return Component;
     }

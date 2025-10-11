@@ -14,6 +14,20 @@ export type DefaultViewStandardEnum = "day" | "week" | "month";
 
 export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda";
 
+export type ItemTypeEnum = "previous" | "today" | "next" | "title" | "month" | "week" | "work_week" | "day" | "agenda";
+
+export type PositionEnum = "left" | "center" | "right";
+
+export type RenderModeEnum = "button" | "link";
+
+export interface ToolbarItemsType {
+    itemType: ItemTypeEnum;
+    position: PositionEnum;
+    caption?: DynamicValue<string>;
+    tooltip?: DynamicValue<string>;
+    renderMode: RenderModeEnum;
+}
+
 export type WidthUnitEnum = "pixels" | "percentage";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
@@ -23,6 +37,14 @@ export type MinHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "perc
 export type MaxHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "percentageOfView";
 
 export type OverflowYEnum = "auto" | "scroll" | "hidden";
+
+export interface ToolbarItemsPreviewType {
+    itemType: ItemTypeEnum;
+    position: PositionEnum;
+    caption: string;
+    tooltip: string;
+    renderMode: RenderModeEnum;
+}
 
 export interface CalendarContainerProps {
     name: string;
@@ -44,15 +66,11 @@ export interface CalendarContainerProps {
     defaultViewCustom: DefaultViewCustomEnum;
     showEventDate: DynamicValue<boolean>;
     timeFormat?: DynamicValue<string>;
+    topBarDateFormat?: DynamicValue<string>;
     minHour: number;
     maxHour: number;
     showAllEvents: boolean;
-    customViewShowDay: boolean;
-    customViewShowWeek: boolean;
-    customViewShowCustomWeek: boolean;
-    customViewCaption?: DynamicValue<string>;
-    customViewShowMonth: boolean;
-    customViewShowAgenda: boolean;
+    toolbarItems: ToolbarItemsType[];
     customViewShowMonday: boolean;
     customViewShowTuesday: boolean;
     customViewShowWednesday: boolean;
@@ -101,15 +119,11 @@ export interface CalendarPreviewProps {
     defaultViewCustom: DefaultViewCustomEnum;
     showEventDate: string;
     timeFormat: string;
+    topBarDateFormat: string;
     minHour: number | null;
     maxHour: number | null;
     showAllEvents: boolean;
-    customViewShowDay: boolean;
-    customViewShowWeek: boolean;
-    customViewShowCustomWeek: boolean;
-    customViewCaption: string;
-    customViewShowMonth: boolean;
-    customViewShowAgenda: boolean;
+    toolbarItems: ToolbarItemsPreviewType[];
     customViewShowMonday: boolean;
     customViewShowTuesday: boolean;
     customViewShowWednesday: boolean;
