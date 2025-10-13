@@ -411,14 +411,14 @@
                     <caption>Select all</caption>
                     <description>This caption used when total count is available.</description>
                     <translations>
-                        <translation lang="en_US">Select all %d items in the data source.</translation>
+                        <translation lang="en_US">Select all %d rows in the data source</translation>
                     </translations>
                 </property>
                 <property key="selectRemainingTemplate" type="textTemplate">
                     <caption>2</caption>
                     <description />
                     <translations>
-                        <translation lang="en_US">Select remaining items in the data source.</translation>
+                        <translation lang="en_US">Select remaining rows in the data source</translation>
                     </translations>
                 </property>
                 <property key="clearSelectionCaption" type="textTemplate">

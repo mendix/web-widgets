@@ -32,6 +32,8 @@ export class SelectAllController implements ReactiveController {
             setIsLocked: action,
             canExecute: computed,
             isExecuting: computed,
+            // Here we use keepAlive to make sure selection is never outdated.
+            // selection: computed({ keepAlive: true }),
             selection: computed,
             locked: observable,
             selectAllPages: action,
@@ -90,14 +92,15 @@ export class SelectAllController implements ReactiveController {
         return true;
     }
 
-    async selectAllPages(): Promise<void> {
+    async selectAllPages(): Promise<{ success: boolean }> {
         if (!this.beforeRunChecks()) {
-            return;
+            return { success: false };
         }
 
         this.setIsLocked(true);
 
         const { offset: initOffset, limit: initLimit } = this.query;
+        const initSelection = this.selection?.selection ?? [];
         const hasTotal = typeof this.query.totalCount === "number";
         const totalCount = this.query.totalCount ?? 0;
         let loaded = 0;
@@ -140,27 +143,38 @@ export class SelectAllController implements ReactiveController {
                 limit: initLimit,
                 offset: initOffset
             });
-
+            await this.reloadSelection();
             this.emitter.dispatchEvent(pe("loadend"));
 
-            const selectionBeforeReload = this.selection?.selection ?? [];
+            // const selectionBeforeReload = this.selection?.selection ?? [];
             // Reload selection to make sure setSelection is working as expected.
-            await this.reloadSelection();
-            this.selection?.setSelection(success ? allItems : selectionBeforeReload);
+            this.selection?.setSelection(success ? allItems : initSelection);
             this.locked = false;
             this.abortController = undefined;
 
             performance.mark("SelectAll_End");
             const measure1 = performance.measure("Measure1", "SelectAll_Start", "SelectAll_End");
             console.debug(`Data grid 2: 'select all' took ${(measure1.duration / 1000).toFixed(2)} seconds.`);
+            // eslint-disable-next-line no-unsafe-finally
+            return { success };
         }
     }
 
+    /**
+     * This method is a hack to reload selection. To work it requires at leas one object.
+     * The problem is that if we setting value equal to current selection, then prop is
+     * not reloaded. We solve this by setting ether empty array or array with one object.
+     * @returns
+     */
     reloadSelection(): Promise<void> {
-        const selection = this.selection;
-        selection?.setSelection([]);
+        const prevSelection = this.selection;
+        const items = this.query.items ?? [];
+        const currentSelection = this.selection?.selection ?? [];
+        const newSelection = currentSelection.length > 0 ? [] : items;
+        this.selection?.setSelection(newSelection);
         // `when` resolves when selection value is updated
-        return when(() => this.selection !== selection);
+        const ok = when(() => this.selection !== prevSelection);
+        return ok;
     }
 
     clearSelection(): void {

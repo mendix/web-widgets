@@ -61,7 +61,6 @@ const Container = observer((props: Props): ReactElement => {
     const checkboxEventsController = useCheckboxEventsController(selectActionHelper, focusController);
 
     const ctx = useConst(() => {
-        rootStore.basicData.setSelectionHelper(selectionHelper);
         const scope: DatagridRootScope = {
             basicData: rootStore.basicData,
             selectionHelper,
@@ -70,8 +69,9 @@ const Container = observer((props: Props): ReactElement => {
             checkboxEventsController,
             focusController,
             selectionCountStore: rootStore.selectionCountStore,
-            selectAllController: rootStore.selectAllController,
-            selectAllProgressStore: rootStore.selectAllProgressStore
+            selectAllProgressStore: rootStore.selectAllProgressStore,
+            selectAllBarViewModel: rootStore.selectAllBarViewModel,
+            selectionProgressDialogViewModel: rootStore.selectionProgressDialogViewModel
         };
 
         return scope;

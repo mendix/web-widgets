@@ -420,7 +420,8 @@ $root: ".widget-datagrid";
         align-items: center;
     }
 
-    &-exporting {
+    &-exporting,
+    &-selecting-all-pages {
         .widget-datagrid-top-bar,
         .widget-datagrid-header,
         .widget-datagrid-content,
@@ -432,30 +433,6 @@ $root: ".widget-datagrid";
             }
         }
     }
-
-    // Better positioning for multi-page selection modal
-    // &-selecting-all-pages {
-    //     .widget-datagrid-modal {
-    //         &-overlay {
-    //             position: fixed;
-    //             top: 0;
-    //             right: 0;
-    //             bottom: 0;
-    //             left: 0;
-    //         }
-
-    //         &-main {
-    //             position: fixed;
-    //             top: 0;
-    //             left: 0;
-    //             right: 0;
-    //             bottom: 0;
-    //             display: flex;
-    //             align-items: center;
-    //             justify-content: center;
-    //         }
-    //     }
-    // }
 
     &-col-select input:focus-visible {
         outline-offset: 0;
@@ -579,19 +556,32 @@ $root: ".widget-datagrid";
 :where(#{$root}-pb-start) {
     margin-block: var(--spacing-medium);
     padding-inline: var(--spacing-medium);
+    display: flex;
+    align-items: center;
 }
 
-#{$root}-clear-selection {
+#{$root}-btn-invisible {
     cursor: pointer;
     background: transparent;
     border: none;
-    text-decoration: underline;
     color: var(--link-color);
-    padding: 0;
+    padding: 0.3em;
+    border-radius: 6px;
     display: inline-block;
+
+    &:hover,
+    &:focus-visible {
+        background-color: #e6e7f2;
+    }
 }
+
 :where(#{$root}-select-all-bar) {
     grid-column: 1 / -1;
+    background-color: #f0f1f2;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: var(--spacing-smaller, 8px) var(--spacing-medium, 16px);
 }
 
 @keyframes skeleton-loading {

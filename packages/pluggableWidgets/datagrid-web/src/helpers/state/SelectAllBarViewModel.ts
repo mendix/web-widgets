@@ -1,7 +1,8 @@
 import { SelectAllController } from "@mendix/widget-plugin-grid/selection";
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/stores/SelectionCountStore";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
-import { makeAutoObservable } from "mobx";
+import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { autorun, makeAutoObservable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
 type Props = Pick<
@@ -18,14 +19,16 @@ type Props = Pick<
 
 type Gate = DerivedPropsGate<Props>;
 
-export class SelectAllBarViewModel {
+export class SelectAllBarViewModel implements ReactiveController {
     showClear = false;
 
     constructor(
+        host: ReactiveControllerHost,
         private gate: Gate,
         private selectAllController: SelectAllController,
         private count = new SelectionCountStore(gate)
     ) {
+        host.addController(this);
         makeAutoObservable(this);
     }
 
@@ -43,6 +46,10 @@ export class SelectAllBarViewModel {
 
     private get selectRemainingText(): string {
         return this.gate.props.selectRemainingTemplate?.value ?? "select.remaining.items";
+    }
+
+    private get isSelectionEmpty(): boolean {
+        return this.count.selectedCount === 0;
     }
 
     get selectAllLabel(): string {
@@ -63,14 +70,24 @@ export class SelectAllBarViewModel {
     }
 
     get clearVisible(): boolean {
+        if (this.showClear) return true;
         if (this.total > 0) return this.total === this.count.selectedCount;
-        return this.showClear;
+        return false;
     }
 
     get selectAllVisible(): boolean {
-        if (this.clearVisible) return false;
+        // Note: order of checks matter.
+        if (this.showClear) return false;
         if (this.total > 0) return this.total > this.count.selectedCount;
         return this.gate.props.datasource.hasMoreItems ?? false;
+    }
+
+    setup(): () => void {
+        return autorun(() => {
+            if (this.isSelectionEmpty) {
+                this.setShowClear(false);
+            }
+        });
     }
 
     onClear(): void {
@@ -79,7 +96,7 @@ export class SelectAllBarViewModel {
     }
 
     async onSelectAll(): Promise<void> {
-        await this.selectAllController.selectAllPages();
-        this.setShowClear(true);
+        const { success } = await this.selectAllController.selectAllPages();
+        this.setShowClear(success);
     }
 }

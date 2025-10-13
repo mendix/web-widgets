@@ -12,12 +12,12 @@ export const SelectAllBar = observer(function SelectAllBar(): React.ReactNode {
         <div className="widget-datagrid-select-all-bar">
             {vm.selectionCountText}&nbsp;
             <If condition={vm.selectAllVisible}>
-                <button className="btn" onClick={() => vm.onSelectAll()}>
+                <button className="widget-datagrid-btn-invisible btn" onClick={() => vm.onSelectAll()}>
                     {vm.selectAllLabel}
                 </button>
             </If>
             <If condition={vm.clearVisible}>
-                <button className="btn" onClick={() => vm.onClear()}>
+                <button className="widget-datagrid-btn-invisible btn" onClick={() => vm.onClear()}>
                     {vm.clearSelectionLabel}
                 </button>
             </If>

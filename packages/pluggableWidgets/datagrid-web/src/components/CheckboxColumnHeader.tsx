@@ -3,9 +3,9 @@ import { Fragment, ReactElement } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
 export function CheckboxColumnHeader(): ReactElement {
-    const { selectActionHelper, basicData } = useDatagridRootScope();
+    const { selectActionHelper, basicData, selectionHelper } = useDatagridRootScope();
     const { showCheckboxColumn, showSelectAllToggle, onSelectAll } = selectActionHelper;
-    const { selectionStatus, selectAllRowsLabel } = basicData;
+    const { selectAllRowsLabel } = basicData;
 
     if (showCheckboxColumn === false) {
         return <Fragment />;
@@ -14,7 +14,11 @@ export function CheckboxColumnHeader(): ReactElement {
     return (
         <div className="th widget-datagrid-col-select" role="columnheader">
             {showSelectAllToggle && (
-                <Checkbox status={selectionStatus} onChange={onSelectAll} aria-label={selectAllRowsLabel} />
+                <Checkbox
+                    status={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "none"}
+                    onChange={onSelectAll}
+                    aria-label={selectAllRowsLabel}
+                />
             )}
         </div>
     );
