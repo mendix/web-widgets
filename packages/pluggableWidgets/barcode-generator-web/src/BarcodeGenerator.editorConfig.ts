@@ -1,5 +1,5 @@
 import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
-import { QRCodeGeneratorPreviewProps } from "../typings/QRCodeGeneratorProps";
+import { BarcodeGeneratorPreviewProps } from "../typings/BarcodeGeneratorProps";
 
 export type Problem = {
     property?: string; // key of the property, at which the problem exists
@@ -10,7 +10,7 @@ export type Problem = {
     studioUrl?: string; // studio-specific link
 };
 
-export function getProperties(values: QRCodeGeneratorPreviewProps, defaultProperties: Properties): Properties {
+export function getProperties(values: BarcodeGeneratorPreviewProps, defaultProperties: Properties): Properties {
     if (values.codeFormat === "QR") {
         hidePropertiesIn(defaultProperties, values, ["codeWidth", "codeHeight", "displayValue"]);
     } else {
@@ -19,7 +19,7 @@ export function getProperties(values: QRCodeGeneratorPreviewProps, defaultProper
     return defaultProperties;
 }
 
-export function check(_values: QRCodeGeneratorPreviewProps): Problem[] {
+export function check(_values: BarcodeGeneratorPreviewProps): Problem[] {
     const errors: Problem[] = [];
 
     if (!_values.codeWidth || _values.codeWidth < 1) {

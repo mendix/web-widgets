@@ -1,11 +1,11 @@
 import { createElement, ReactElement, useEffect, useRef } from "react";
-import { QRCodeGeneratorContainerProps } from "../typings/QRCodeGeneratorProps";
+import { BarcodeGeneratorContainerProps } from "../typings/BarcodeGeneratorProps";
 import { QRCodeSVG } from "qrcode.react";
 import JsBarcode from "jsbarcode";
 
-import "./ui/QRCodeGenerator.scss";
+import "./ui/BarcodeGenerator.scss";
 
-export default function QRCodeGenerator({
+export default function BarcodeGenerator({
     codeValue,
     codeWidth,
     codeHeight,
@@ -14,7 +14,7 @@ export default function QRCodeGenerator({
     displayValue,
     qrSize,
     tabIndex
-}: QRCodeGeneratorContainerProps): ReactElement {
+}: BarcodeGeneratorContainerProps): ReactElement {
     const svgRef = useRef<SVGSVGElement>(null);
 
     const value = codeValue?.status === "available" ? codeValue.value : "";

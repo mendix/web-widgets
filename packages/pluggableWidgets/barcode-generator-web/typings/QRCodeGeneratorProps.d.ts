@@ -1,14 +1,14 @@
 /**
- * This file was generated from QRCodeGenerator.xml
+ * This file was generated from BarcodeGenerator.xml
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
 import { EditableValue } from "mendix";
 
-export type CodeFormatEnum = "CODE128" | "QR";
+export type CodeFormatEnum = "QR" | "CODE128" | "CODE39" | "CODE93" | "EAN8" | "EAN13" | "UPC" | "UPCE" | "ITF" | "ITF14" | "MSI" | "Pharmacode" | "CODABAR" | "DataMatrix" | "PDF417" | "AZTEC";
 
-export interface QRCodeGeneratorContainerProps {
+export interface BarcodeGeneratorContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
@@ -22,7 +22,7 @@ export interface QRCodeGeneratorContainerProps {
     codeMargin: number;
 }
 
-export interface QRCodeGeneratorPreviewProps {
+export interface BarcodeGeneratorPreviewProps {
     /**
      * @deprecated Deprecated since version 9.18.0. Please use class property instead.
      */
