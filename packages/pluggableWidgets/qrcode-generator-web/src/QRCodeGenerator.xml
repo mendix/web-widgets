@@ -8,20 +8,40 @@
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="Data source">
-                <property key="qrValue" type="attribute" required="true">
+                <property key="codeValue" type="attribute" required="true">
                     <caption>Dynamic value</caption>
                     <description>String to encode in the QR code</description>
                     <attributeTypes>
                         <attributeType name="String" />
                     </attributeTypes>
                 </property>
-                <property key="qrSize" type="integer" required="true" defaultValue="128">
-                    <caption>QR Code Size</caption>
-                    <description>Size of the QR code in pixels</description>
+                <property key="codeFormat" type="enumeration" required="true" defaultValue="CODE128">
+                    <caption>Barcode Format</caption>
+                    <description>Choose between QR or other barcode types</description>
+                    <enumerationValues>
+                        <enumerationValue key="CODE128">CODE 128</enumerationValue>
+                        <enumerationValue key="QR">QR Code</enumerationValue>
+                    </enumerationValues>
                 </property>
-                <property key="qrMargin" type="integer" required="true" defaultValue="2">
-                    <caption>QR Margin Size</caption>
-                    <description>Size of the QR margin in pixels</description>
+                <property key="displayValue" type="boolean" defaultValue="false">
+                    <caption>Display value</caption>
+                    <description>Display the value below the code</description>
+                </property>
+                <property key="codeWidth" type="integer" required="true" defaultValue="2">
+                    <caption>Bar width</caption>
+                    <description>Width of the barcode bars</description>
+                </property>
+                <property key="codeHeight" type="integer" required="true" defaultValue="200">
+                    <caption>Code height</caption>
+                    <description>In pixels</description>
+                </property>
+                <property key="qrSize" type="integer" required="true" defaultValue="128">
+                    <caption>QR Size</caption>
+                    <description>The size of the QR box</description>
+                </property>
+                <property key="codeMargin" type="integer" required="true" defaultValue="2">
+                    <caption>Margin size</caption>
+                    <description>In pixels</description>
                 </property>
             </propertyGroup>
         </propertyGroup>

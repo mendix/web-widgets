@@ -44,6 +44,7 @@
     },
     "dependencies": {
         "classnames": "^2.5.1",
+        "jsbarcode": "^3.12.1",
         "qrcode.react": "^4.2.0"
     },
     "devDependencies": {

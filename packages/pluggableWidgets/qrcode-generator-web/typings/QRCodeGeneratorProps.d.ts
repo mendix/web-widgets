@@ -6,14 +6,20 @@
 import { CSSProperties } from "react";
 import { EditableValue } from "mendix";
 
+export type CodeFormatEnum = "CODE128" | "QR";
+
 export interface QRCodeGeneratorContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    qrValue: EditableValue<string>;
+    codeValue: EditableValue<string>;
+    codeFormat: CodeFormatEnum;
+    displayValue: boolean;
+    codeWidth: number;
+    codeHeight: number;
     qrSize: number;
-    qrMargin: number;
+    codeMargin: number;
 }
 
 export interface QRCodeGeneratorPreviewProps {
@@ -27,7 +33,11 @@ export interface QRCodeGeneratorPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    qrValue: string;
+    codeValue: string;
+    codeFormat: CodeFormatEnum;
+    displayValue: boolean;
+    codeWidth: number | null;
+    codeHeight: number | null;
     qrSize: number | null;
-    qrMargin: number | null;
+    codeMargin: number | null;
 }

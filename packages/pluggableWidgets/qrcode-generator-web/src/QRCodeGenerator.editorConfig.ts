@@ -1,3 +1,4 @@
+import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { QRCodeGeneratorPreviewProps } from "../typings/QRCodeGeneratorProps";
 
 export type Problem = {
@@ -9,14 +10,39 @@ export type Problem = {
     studioUrl?: string; // studio-specific link
 };
 
+export function getProperties(values: QRCodeGeneratorPreviewProps, defaultProperties: Properties): Properties {
+    if (values.codeFormat === "QR") {
+        hidePropertiesIn(defaultProperties, values, ["codeWidth", "codeHeight", "displayValue"]);
+    } else {
+        hidePropertiesIn(defaultProperties, values, ["qrSize"]);
+    }
+    return defaultProperties;
+}
+
 export function check(_values: QRCodeGeneratorPreviewProps): Problem[] {
     const errors: Problem[] = [];
 
+    if (!_values.codeWidth || _values.codeWidth < 1) {
+        errors.push({
+            property: `codeWidth`,
+            severity: "error",
+            message: `The value of 'Bar width' must be at least 1.`
+        });
+    }
+
+    if (!_values.codeHeight || _values.codeHeight < 20) {
+        errors.push({
+            property: `codeHeight`,
+            severity: "error",
+            message: `The value of 'Code height' must be at least 20.`
+        });
+    }
+
     if (!_values.qrSize || _values.qrSize < 50) {
         errors.push({
-            property: `qrSize`,
+            property: `codeHeight`,
             severity: "error",
-            message: `The value of 'QR Code Size' may not be smaller than 50px.`
+            message: `The value of 'QR size' must be at least 50.`
         });
     }
 
