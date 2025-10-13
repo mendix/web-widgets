@@ -151,18 +151,13 @@ export class CalendarPropsBuilder {
     }
 
     private getSafeTimePattern(): string | undefined {
-        console.log("this.props.timeFormat?.status", this.props.timeFormat?.status);
         if (this.props.timeFormat?.status === "available") {
-            console.log("this.props.timeFormat.value", this.props.timeFormat.value);
             const trimmed = this.props.timeFormat.value?.trim();
             if (trimmed && trimmed.length > 0) {
-                console.log("trimmed", trimmed);
                 return trimmed;
             }
-            console.log("returning p");
             return "p";
         }
-        console.log("returning undefined");
         return undefined;
     }
 
