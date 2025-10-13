@@ -107,9 +107,12 @@ export interface DatagridContainerProps {
 =======
     selectAllPagesEnabled: boolean;
     selectAllPagesPageSize: number;
+<<<<<<< HEAD
     selectingAllLabel?: DynamicValue<string>;
     cancelSelectionLabel?: DynamicValue<string>;
 >>>>>>> 2e4671e66 (feat(datagrid-web): add multipage selection to dg2)
+=======
+>>>>>>> 448ce2ee2 (feat: add sab vm)
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     pageSize: number;
@@ -133,8 +136,13 @@ export interface DatagridContainerProps {
     cancelExportLabel?: DynamicValue<string>;
     selectRowLabel?: DynamicValue<string>;
     selectAllRowsLabel?: DynamicValue<string>;
+    selectingAllLabel?: DynamicValue<string>;
+    cancelSelectionLabel?: DynamicValue<string>;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
+    selectAllTemplate: DynamicValue<string>;
+    selectRemainingTemplate: DynamicValue<string>;
+    clearSelectionCaption: DynamicValue<string>;
 }
 
 export interface DatagridPreviewProps {
@@ -161,15 +169,17 @@ export interface DatagridPreviewProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
-<<<<<<< HEAD
+
     selectionCountPosition: SelectionCountPositionEnum;
     clearSelectionButtonLabel: string;
-=======
+
     selectAllPagesEnabled: boolean;
     selectAllPagesPageSize: number | null;
+
     selectingAllLabel: string;
     cancelSelectionLabel: string;
->>>>>>> 2e4671e66 (feat(datagrid-web): add multipage selection to dg2)
+
+
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     pageSize: number | null;
@@ -194,6 +204,11 @@ export interface DatagridPreviewProps {
     cancelExportLabel: string;
     selectRowLabel: string;
     selectAllRowsLabel: string;
+    selectingAllLabel: string;
+    cancelSelectionLabel: string;
     selectedCountTemplateSingular: string;
     selectedCountTemplatePlural: string;
+    selectAllTemplate: string;
+    selectRemainingTemplate: string;
+    clearSelectionCaption: string;
 }

@@ -33,3 +33,17 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
         </div>
     );
 }
+
+const SelectionCounter = observer(function SelectionCounter() {
+    const { selectionCountStore, selectActionHelper } = useDatagridRootScope();
+
+    return (
+        <If condition={selectionCountStore.selectedCountText !== ""}>
+            <span className="widget-datagrid-selection-count">{selectionCountStore.selectedCountText}</span>
+            &nbsp;|&nbsp;
+            <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
+                Clear selection
+            </button>
+        </If>
+    );
+});
