@@ -5,17 +5,7 @@ import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
 type Props = Pick<
     DatagridContainerProps,
-    | "exportDialogLabel"
-    | "cancelExportLabel"
-    | "selectRowLabel"
-    | "selectAllRowsLabel"
-    | "itemSelection"
-    | "onClick"
-    | "selectingAllLabel"
-    | "cancelSelectionLabel"
-    | "selectAllTemplate"
-    | "selectRemainingTemplate"
-    | "clearSelectionCaption"
+    "exportDialogLabel" | "cancelExportLabel" | "selectRowLabel" | "selectAllRowsLabel" | "itemSelection" | "onClick"
 >;
 
 type Gate = DerivedPropsGate<Props>;
@@ -48,14 +38,6 @@ export class GridBasicData {
 
     get selectAllRowsLabel(): string | undefined {
         return this.gate.props.selectAllRowsLabel?.value;
-    }
-
-    get selectingAllLabel(): string | undefined {
-        return this.gate.props.selectingAllLabel?.value;
-    }
-
-    get cancelSelectionLabel(): string | undefined {
-        return this.gate.props.cancelSelectionLabel?.value;
     }
 
     get gridInteractive(): boolean {

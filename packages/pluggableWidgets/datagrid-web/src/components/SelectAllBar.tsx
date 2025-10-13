@@ -4,23 +4,21 @@ import { createElement } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
 export const SelectAllBar = observer(function SelectAllBar(): React.ReactNode {
-    const { selectAllBarViewModel } = useDatagridRootScope();
-    const { barVisible, selectionCountText, clearVisible, clearSelectionLabel, selectAllVisible, selectAllLabel } =
-        selectAllBarViewModel;
+    const { selectAllBarViewModel: vm } = useDatagridRootScope();
 
-    if (!barVisible) return null;
+    if (!vm.barVisible) return null;
 
     return (
         <div className="widget-datagrid-select-all-bar">
-            {selectionCountText}&nbsp;
-            <If condition={selectAllVisible}>
-                <button className="btn" onClick={() => selectAllBarViewModel.onSelectAll()}>
-                    {selectAllLabel}
+            {vm.selectionCountText}&nbsp;
+            <If condition={vm.selectAllVisible}>
+                <button className="btn" onClick={() => vm.onSelectAll()}>
+                    {vm.selectAllLabel}
                 </button>
             </If>
-            <If condition={clearVisible}>
-                <button className="btn" onClick={() => selectAllBarViewModel.onClear()}>
-                    {clearSelectionLabel}
+            <If condition={vm.clearVisible}>
+                <button className="btn" onClick={() => vm.onClear()}>
+                    {vm.clearSelectionLabel}
                 </button>
             </If>
         </div>
