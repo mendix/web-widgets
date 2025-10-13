@@ -85,7 +85,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
 
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
     const { className, exporting, numberOfItems, onExportCancel, selectActionHelper } = props;
-    const { basicData, selectAllProgressStore, selectAllController } = useDatagridRootScope();
+    const { basicData, selectAllProgressStore } = useDatagridRootScope();
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
 
@@ -99,14 +99,7 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
             selectingAllPages={selectAllProgressStore.inProgress}
         >
             <Main {...props} data={exporting ? [] : props.data} />
-            <SelectionProgressDialog
-                open={selectAllProgressStore.inProgress}
-                selectingLabel={basicData.selectingAllLabel ?? "Selecting all items..."}
-                cancelLabel={basicData.cancelSelectionLabel ?? "Cancel selection"}
-                onCancel={() => selectAllController.abort()}
-                progress={selectAllProgressStore.loaded}
-                total={selectAllProgressStore.total}
-            />
+            <SelectionProgressDialog />
             {exporting && (
                 <ExportWidget
                     alertLabel={basicData.exportDialogLabel ?? "Export progress"}
