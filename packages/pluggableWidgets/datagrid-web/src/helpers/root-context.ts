@@ -11,7 +11,6 @@ import { SelectionProgressDialogViewModel } from "./state/SelectionProgressDialo
 
 export interface DatagridRootScope {
     basicData: GridBasicData;
-    // Controllers
     selectionHelper: SelectionHelper | undefined;
     selectActionHelper: SelectActionHelper;
     cellEventsController: EventsController;

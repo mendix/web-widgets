@@ -4,7 +4,6 @@ import {
     SelectionMode,
     WidgetSelectionProperty
 } from "@mendix/widget-plugin-grid/selection";
-import { ListValue } from "mendix";
 import { useMemo } from "react";
 import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum } from "../../typings/DatagridProps";
 export type SelectionMethod = "rowClick" | "checkbox" | "none";
@@ -13,9 +12,6 @@ export class SelectActionHelper extends SelectActionHandler {
     pageSize: number;
     private _selectionMethod: ItemSelectionMethodEnum;
     private _showSelectAllToggle: boolean;
-    private _datasource: ListValue;
-    private _selectAllPagesEnabled: boolean;
-    private _selectAllPagesBufferSize: number;
 
     constructor(
         selection: WidgetSelectionProperty,
@@ -23,18 +19,12 @@ export class SelectActionHelper extends SelectActionHandler {
         _selectionMethod: ItemSelectionMethodEnum,
         _showSelectAllToggle: boolean,
         pageSize: number,
-        private _selectionMode: SelectionMode,
-        datasource: ListValue,
-        selectAllPagesEnabled?: boolean,
-        selectAllPagesBufferSize?: number
+        private _selectionMode: SelectionMode
     ) {
         super(selection, selectionHelper);
         this._selectionMethod = _selectionMethod;
         this._showSelectAllToggle = _showSelectAllToggle;
         this.pageSize = pageSize;
-        this._datasource = datasource;
-        this._selectAllPagesEnabled = selectAllPagesEnabled ?? false;
-        this._selectAllPagesBufferSize = selectAllPagesBufferSize ?? 500;
     }
 
     get selectionMethod(): SelectionMethod {
@@ -52,14 +42,6 @@ export class SelectActionHelper extends SelectActionHandler {
     get selectionMode(): SelectionMode {
         return this.selectionMethod === "checkbox" ? "toggle" : this._selectionMode;
     }
-
-    get canSelectAllPages(): boolean {
-        return this._selectAllPagesEnabled && this.selectionType === "Multi";
-    }
-
-    get totalCount(): number | undefined {
-        return this._datasource?.totalCount;
-    }
 }
 
 export function useSelectActionHelper(
@@ -71,8 +53,6 @@ export function useSelectActionHelper(
         | "pageSize"
         | "itemSelectionMode"
         | "datasource"
-        | "selectAllPagesEnabled"
-        | "selectAllPagesPageSize"
     >,
     selectionHelper?: SelectionHelper
 ): SelectActionHelper {
@@ -83,10 +63,7 @@ export function useSelectActionHelper(
             props.itemSelectionMethod,
             props.showSelectAllToggle,
             props.pageSize ?? 5,
-            props.itemSelectionMode,
-            props.datasource as ListValue,
-            props.selectAllPagesEnabled,
-            props.selectAllPagesPageSize ?? 500
+            props.itemSelectionMode
         );
     }, [
         props.itemSelection,
@@ -94,9 +71,6 @@ export function useSelectActionHelper(
         props.itemSelectionMethod,
         props.showSelectAllToggle,
         props.pageSize,
-        props.itemSelectionMode,
-        props.datasource,
-        props.selectAllPagesEnabled,
-        props.selectAllPagesPageSize
+        props.itemSelectionMode
     ]);
 }
