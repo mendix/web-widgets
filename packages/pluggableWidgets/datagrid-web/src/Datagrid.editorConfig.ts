@@ -3,8 +3,7 @@ import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
-    Properties,
-    transformGroupsIntoTabs
+    Properties
 } from "@mendix/pluggable-widgets-tools";
 import {
     container,
@@ -22,7 +21,7 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridPro
 export function getProperties(
     values: DatagridPreviewProps,
     defaultProperties: Properties,
-    platform: "web" | "desktop"
+    _: "web" | "desktop"
 ): Properties {
     values.columns.forEach((column, index) => {
         if (column.showContentAs !== "attribute" && !column.sortable && !values.columnsFilterable) {
@@ -64,15 +63,6 @@ export function getProperties(
         }
         if (column.minWidth !== "manual") {
             hidePropertyIn(defaultProperties, values, "columns", index, "minWidthLimit");
-        }
-        if (!values.advanced && platform === "web") {
-            hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
-                "columnClass",
-                "sortable",
-                "resizable",
-                "draggable",
-                "hidable"
-            ]);
         }
     });
 
@@ -124,28 +114,6 @@ export function getProperties(
         },
         "columns"
     );
-
-    if (platform === "web") {
-        if (!values.advanced) {
-            hidePropertiesIn(defaultProperties, values, [
-                "pagination",
-                "pagingPosition",
-                "showEmptyPlaceholder",
-                "rowClass",
-                "columnsSortable",
-                "columnsDraggable",
-                "columnsResizable",
-                "columnsHidable",
-                "configurationAttribute",
-                "onConfigurationChange",
-                "filterSectionTitle"
-            ]);
-        }
-
-        transformGroupsIntoTabs(defaultProperties);
-    } else {
-        hidePropertyIn(defaultProperties, values, "advanced");
-    }
 
     if (values.configurationStorageType === "localStorage") {
         hidePropertiesIn(defaultProperties, values, ["configurationAttribute", "onConfigurationChange"]);

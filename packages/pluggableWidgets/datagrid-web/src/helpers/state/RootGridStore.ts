@@ -20,6 +20,8 @@ import { PaginationController } from "../../controllers/PaginationController";
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
+import { SelectAllBarViewModel } from "./SelectAllBarViewModel";
+import { SelectionProgressDialogViewModel } from "./SelectionProgressDialogViewModel";
 
 type RequiredProps = Pick<
     DatagridContainerProps,
@@ -36,7 +38,14 @@ type RequiredProps = Pick<
     | "pagination"
     | "showPagingButtons"
     | "showNumberOfRows"
-    | "clearSelectionButtonLabel"
+    | "selectAllPagesEnabled"
+    | "selectAllPagesPageSize"
+    | "onSelectionChange"
+    | "selectAllTemplate"
+    | "selectRemainingTemplate"
+    | "clearSelectionCaption"
+    | "selectingAllLabel"
+    | "cancelSelectionLabel"
 >;
 
 type Gate = DerivedPropsGate<RequiredProps>;
@@ -62,6 +71,8 @@ export class RootGridStore extends BaseControllerHost {
     filterAPI: FilterAPI;
     query: QueryController;
     gate: Gate;
+    selectAllBarViewModel: SelectAllBarViewModel;
+    selectionProgressDialogViewModel: SelectionProgressDialogViewModel;
 
     constructor({ gate, exportProgressStore, selectAllProgressStore, selectAllController }: Spec) {
         super();
@@ -122,6 +133,19 @@ export class RootGridStore extends BaseControllerHost {
             refreshIndicator: props.refreshIndicator,
             query
         });
+
+        this.selectAllBarViewModel = new SelectAllBarViewModel(
+            this,
+            gate,
+            this.selectAllController,
+            this.selectionCountStore
+        );
+
+        this.selectionProgressDialogViewModel = new SelectionProgressDialogViewModel(
+            gate,
+            selectAllProgressStore,
+            selectAllController
+        );
 
         combinedFilter.hydrate(props.datasource.filter);
     }
