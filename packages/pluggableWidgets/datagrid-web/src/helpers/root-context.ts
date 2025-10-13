@@ -6,6 +6,7 @@ import { createContext, useContext } from "react";
 import { GridBasicData } from "../helpers/state/GridBasicData";
 import { EventsController } from "../typings/CellComponent";
 import { SelectActionHelper } from "./SelectActionHelper";
+import { SelectAllBarViewModel } from "./state/SelectAllBarViewModel";
 
 export interface DatagridRootScope {
     basicData: GridBasicData;
@@ -18,6 +19,7 @@ export interface DatagridRootScope {
     focusController: FocusTargetController;
     selectionCountStore: SelectionCountStore;
     selectAllProgressStore: ProgressStore;
+    selectAllBarViewModel: SelectAllBarViewModel;
 }
 
 export const DatagridContext = createContext<DatagridRootScope | null>(null);

@@ -13,11 +13,18 @@ type Props = Pick<
     | "onClick"
     | "selectingAllLabel"
     | "cancelSelectionLabel"
+    | "selectAllTemplate"
+    | "selectRemainingTemplate"
+    | "clearSelectionCaption"
 >;
 
 type Gate = DerivedPropsGate<Props>;
 
-/** This is basic data class, just a props mapper. Don't add any state or complex logic. */
+/**
+ * This is basic data class, just a props mapper.
+ * Don't add any state or complex logic.
+ * Don't use this class to share instances. Use context.
+ */
 export class GridBasicData {
     private gate: Gate;
     private selectionHelper: SelectionHelper | null = null;
@@ -57,13 +64,5 @@ export class GridBasicData {
 
     get selectionStatus(): SelectionStatus {
         return this.selectionHelper?.type === "Multi" ? this.selectionHelper.selectionStatus : "none";
-    }
-
-    get currentSelectionHelper(): SelectionHelper | null {
-        return this.selectionHelper;
-    }
-
-    setSelectionHelper(selectionHelper: SelectionHelper | undefined): void {
-        this.selectionHelper = selectionHelper ?? null;
     }
 }
