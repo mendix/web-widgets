@@ -103,8 +103,6 @@ export interface DatagridContainerProps {
     keepSelection: boolean;
     selectAllPagesEnabled: boolean;
     selectAllPagesPageSize: number;
-    selectingAllLabel?: DynamicValue<string>;
-    cancelSelectionLabel?: DynamicValue<string>;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     pageSize: number;
@@ -128,8 +126,13 @@ export interface DatagridContainerProps {
     cancelExportLabel?: DynamicValue<string>;
     selectRowLabel?: DynamicValue<string>;
     selectAllRowsLabel?: DynamicValue<string>;
+    selectingAllLabel?: DynamicValue<string>;
+    cancelSelectionLabel?: DynamicValue<string>;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
+    selectAllTemplate: DynamicValue<string>;
+    selectRemainingTemplate: DynamicValue<string>;
+    clearSelectionCaption: DynamicValue<string>;
 }
 
 export interface DatagridPreviewProps {
@@ -158,8 +161,6 @@ export interface DatagridPreviewProps {
     keepSelection: boolean;
     selectAllPagesEnabled: boolean;
     selectAllPagesPageSize: number | null;
-    selectingAllLabel: string;
-    cancelSelectionLabel: string;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     pageSize: number | null;
@@ -184,6 +185,11 @@ export interface DatagridPreviewProps {
     cancelExportLabel: string;
     selectRowLabel: string;
     selectAllRowsLabel: string;
+    selectingAllLabel: string;
+    cancelSelectionLabel: string;
     selectedCountTemplateSingular: string;
     selectedCountTemplatePlural: string;
+    selectAllTemplate: string;
+    selectRemainingTemplate: string;
+    clearSelectionCaption: string;
 }

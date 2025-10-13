@@ -1,20 +1,28 @@
+import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
 import { createElement } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
 export const SelectAllBar = observer(function SelectAllBar(): React.ReactNode {
-    const {
-        selectAllController,
-        basicData: { selectionStatus }
-    } = useDatagridRootScope();
+    const { selectAllBarViewModel } = useDatagridRootScope();
+    const { barVisible, selectionCountText, clearVisible, clearSelectionLabel, selectAllVisible, selectAllLabel } =
+        selectAllBarViewModel;
 
-    if (selectionStatus === "unknown") return null;
-
-    if (selectionStatus === "none") return null;
+    if (!barVisible) return null;
 
     return (
         <div className="widget-datagrid-select-all-bar">
-            <button onClick={() => selectAllController.selectAllPages()}>Select remaining</button>
+            {selectionCountText}&nbsp;
+            <If condition={selectAllVisible}>
+                <button className="btn" onClick={() => selectAllBarViewModel.onSelectAll()}>
+                    {selectAllLabel}
+                </button>
+            </If>
+            <If condition={clearVisible}>
+                <button className="btn" onClick={() => selectAllBarViewModel.onClear()}>
+                    {clearSelectionLabel}
+                </button>
+            </If>
         </div>
     );
 });

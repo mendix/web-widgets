@@ -219,26 +219,12 @@
                     <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
                 </property>
                 <property key="selectAllPagesEnabled" type="boolean" defaultValue="false">
-                    <caption>Enable select all pages</caption>
-                    <description>Allow select all through multiple pages (based on current filter). Only works if total count is known.</description>
+                    <caption>Enable select all</caption>
+                    <description>Allow select all through multiple pages (based on current filter).</description>
                 </property>
-                <property key="selectAllPagesPageSize" type="integer" defaultValue="500">
+                <property key="selectAllPagesPageSize" type="integer" defaultValue="1024">
                     <caption>Select all page size</caption>
                     <description>When selecting items from a large data source, items are selected in batches. This setting controls the size of the batches.</description>
-                </property>
-                <property key="selectingAllLabel" type="textTemplate" required="false">
-                    <caption>Selecting all label</caption>
-                    <description>Label shown in the progress dialog when selecting all items</description>
-                    <translations>
-                        <translation lang="en_US">Selecting all items...</translation>
-                    </translations>
-                </property>
-                <property key="cancelSelectionLabel" type="textTemplate" required="false">
-                    <caption>Cancel selection label</caption>
-                    <description>Label for the cancel button in the selection progress dialog</description>
-                    <translations>
-                        <translation lang="en_US">Cancel selection</translation>
-                    </translations>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Loading state">
@@ -363,7 +349,7 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
-        <propertyGroup caption="Accessibility">
+        <propertyGroup caption="Texts">
             <propertyGroup caption="Aria labels">
                 <property key="filterSectionTitle" type="textTemplate" required="false">
                     <caption>Filter section</caption>
@@ -384,19 +370,35 @@
                     </translations>
                 </property>
                 <property key="selectRowLabel" type="textTemplate" required="false">
-                    <caption>Select row</caption>
+                    <caption>Select row label</caption>
                     <description>If selection is enabled, assistive technology will read this upon reaching a checkbox.</description>
                     <translations>
                         <translation lang="en_US">Select row</translation>
                     </translations>
                 </property>
                 <property key="selectAllRowsLabel" type="textTemplate" required="false">
-                    <caption>Select all row</caption>
+                    <caption>Select all label</caption>
                     <description>If selection is enabled, assistive technology will read this upon reaching 'Select all' checkbox.</description>
                     <translations>
                         <translation lang="en_US">Select all rows</translation>
                     </translations>
                 </property>
+                <property key="selectingAllLabel" type="textTemplate" required="false">
+                    <caption>Selecting all label</caption>
+                    <description>ARIA label for the progress dialog when selecting all items</description>
+                    <translations>
+                        <translation lang="en_US">Selecting all items...</translation>
+                    </translations>
+                </property>
+                <property key="cancelSelectionLabel" type="textTemplate" required="false">
+                    <caption>Cancel selection label</caption>
+                    <description>ARIA label for the cancel button in the selection progress dialog</description>
+                    <translations>
+                        <translation lang="en_US">Cancel selection</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Captions">
                 <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
                     <caption>Row count singular</caption>
                     <description>Must include '%d' to denote number position ('%d row selected')</description>
@@ -404,6 +406,27 @@
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
                     <caption>Row count plural</caption>
                     <description>Must include '%d' to denote number position ('%d rows selected')</description>
+                </property>
+                <property key="selectAllTemplate" type="textTemplate">
+                    <caption>Select all</caption>
+                    <description>This caption used when total count is available.</description>
+                    <translations>
+                        <translation lang="en_US">Select all %d items in the data source.</translation>
+                    </translations>
+                </property>
+                <property key="selectRemainingTemplate" type="textTemplate">
+                    <caption>2</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Select remaining items in the data source.</translation>
+                    </translations>
+                </property>
+                <property key="clearSelectionCaption" type="textTemplate">
+                    <caption>Clear selection caption</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Clear selection</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>
