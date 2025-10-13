@@ -1,34 +1,20 @@
 import { createElement, ReactElement } from "react";
-import { PseudoModal } from "./PseudoModal";
+import { useDatagridRootScope } from "../helpers/root-context";
 import { ExportAlert } from "./ExportAlert";
+import { PseudoModal } from "./PseudoModal";
 
-export type SelectionProgressDialogProps = {
-    open: boolean;
-    selectingLabel: string;
-    cancelLabel: string;
-    onCancel: () => void;
-    progress: number;
-    total: number;
-};
-
-export function SelectionProgressDialog({
-    open,
-    selectingLabel,
-    cancelLabel,
-    onCancel,
-    progress,
-    total
-}: SelectionProgressDialogProps): ReactElement | null {
-    if (!open) return null;
+export function SelectionProgressDialog(): ReactElement | null {
+    const { selectionProgressDialogViewModel: vm } = useDatagridRootScope();
+    if (!vm.open) return null;
     return (
         <PseudoModal>
             <ExportAlert
-                alertLabel={selectingLabel}
-                cancelLabel={cancelLabel}
+                alertLabel={vm.selectingAllLabel}
+                cancelLabel={vm.cancelSelectionLabel}
                 failed={false}
-                onCancel={onCancel}
-                progress={progress}
-                total={total}
+                onCancel={() => vm.onCancel()}
+                progress={vm.progress}
+                total={vm.total}
             />
         </PseudoModal>
     );
