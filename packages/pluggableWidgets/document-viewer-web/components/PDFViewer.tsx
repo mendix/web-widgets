@@ -35,17 +35,72 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
     const [numberOfPages, setNumberOfPages] = useState<number>(1);
     const { zoomLevel, zoomIn, zoomOut, reset } = useZoomScale();
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [pageInputValue, setPageInputValue] = useState<string>("1");
     const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
     const onDownloadClick = useCallback(() => {
         downloadFile(file.value?.uri);
     }, [file]);
 
+    const handlePageInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        // Allow only numbers and empty string
+        if (value === "" || /^\d+$/.test(value)) {
+            setPageInputValue(value);
+        }
+    }, []);
+
+    const validateAndSetPage = useCallback(() => {
+        const pageNumber = parseInt(pageInputValue, 10);
+        if (!isNaN(pageNumber) && pageNumber >= 1 && pageNumber <= numberOfPages) {
+            setCurrentPage(pageNumber);
+        } else {
+            // Reset to current page if invalid input
+            setPageInputValue(currentPage.toString());
+        }
+    }, [pageInputValue, numberOfPages, currentPage]);
+
+    const handlePageInputSubmit = useCallback(
+        (event: React.FormEvent) => {
+            event.preventDefault();
+            validateAndSetPage();
+        },
+        [validateAndSetPage]
+    );
+
+    const handlePageInputBlur = useCallback(() => {
+        validateAndSetPage();
+    }, [validateAndSetPage]);
+
+    const handlePageInputKeyDown = useCallback(
+        (event: React.KeyboardEvent<HTMLInputElement>) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                validateAndSetPage();
+            }
+            // Prevent non-numeric characters except backspace, delete, arrow keys, etc.
+            if (
+                !/[\d]/.test(event.key) &&
+                !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Home", "End", "Tab"].includes(event.key) &&
+                !event.ctrlKey &&
+                !event.metaKey
+            ) {
+                event.preventDefault();
+            }
+        },
+        [validateAndSetPage]
+    );
+
     useEffect(() => {
         if (file.status === "available" && file.value.uri) {
             setPdfUrl(file.value.uri);
         }
     }, [file, file.status, file.value?.uri]);
+
+    // Sync page input value with current page
+    useEffect(() => {
+        setPageInputValue(currentPage.toString());
+    }, [currentPage]);
 
     function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
         setNumberOfPages(numPages);
@@ -69,11 +124,27 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                             aria-label={"Go to previous page"}
                             title={"Go to previous page"}
                         ></button>
-                        <span>
-                            {currentPage} / {numberOfPages}
-                        </span>
+                        <div className="widget-document-viewer-page-input">
+                            <form onSubmit={handlePageInputSubmit}>
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    pattern="[0-9]*"
+                                    value={pageInputValue}
+                                    onChange={handlePageInputChange}
+                                    onKeyDown={handlePageInputKeyDown}
+                                    onBlur={handlePageInputBlur}
+                                    className="form-control widget-document-viewer-page-number-input"
+                                    aria-label="Page number"
+                                    title={`Go to page (1-${numberOfPages})`}
+                                    placeholder={currentPage.toString()}
+                                />
+                            </form>
+                            <span className="widget-document-viewer-total-pages">/ {numberOfPages}</span>
+                        </div>
                         <button
                             onClick={() => setCurrentPage(prev => Math.min(prev + 1, numberOfPages))}
+                            disabled={currentPage >= numberOfPages}
                             className="icons icon-Right btn btn-icon-only"
                             aria-label={"Go to next page"}
                             title={"Go to next page"}
