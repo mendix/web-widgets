@@ -1,8 +1,8 @@
 import classnames from "classnames";
-import { EditableValue } from "mendix";
-import { ReactElement, useRef } from "react";
+import { ReactElement } from "react";
 import { EventsContainerProps } from "../typings/EventsProps";
-import { useActionTimer } from "./hooks/timer";
+import { useOnLoadTimer } from "./hooks/useOnLoadTimer";
+import { useAttributeMonitor } from "./hooks/useAttributeMonitor";
 import { useParameterValue } from "./hooks/parameterValue";
 import "./ui/Events.scss";
 
@@ -23,7 +23,6 @@ export default function Events(props: EventsContainerProps): ReactElement {
         onEventChangeDelayParameterType,
         onEventChangeDelayExpression
     } = props;
-    const prevOnChangeAttributeValue = useRef<EditableValue<any> | undefined>(undefined);
 
     const delayValue = useParameterValue({
         parameterType: componentLoadDelayParameterType,
@@ -41,33 +40,21 @@ export default function Events(props: EventsContainerProps): ReactElement {
         parameterExpression: onEventChangeDelayExpression
     });
 
-    useActionTimer({
-        canExecute: onComponentLoad?.canExecute,
+    useOnLoadTimer({
+        canExecute: onComponentLoad ? onComponentLoad.canExecute && !onComponentLoad.isExecuting : false,
         execute: onComponentLoad?.execute,
         delay: delayValue,
         interval: intervalValue,
         repeat: componentLoadRepeat,
         attribute: undefined
     });
-    useActionTimer({
-        canExecute: onEventChange?.canExecute,
-        execute: () => {
-            if (onEventChangeAttribute?.status === "loading") {
-                return;
-            }
-            if (prevOnChangeAttributeValue?.current?.value === undefined) {
-                prevOnChangeAttributeValue.current = onEventChangeAttribute;
-            } else {
-                if (onEventChangeAttribute?.value !== prevOnChangeAttributeValue.current?.value) {
-                    prevOnChangeAttributeValue.current = onEventChangeAttribute;
-                    onEventChange?.execute();
-                }
-            }
-        },
+
+    useAttributeMonitor({
+        canExecute: onEventChange ? onEventChange.canExecute && !onEventChange.isExecuting : false,
+        execute: onEventChange?.execute,
         delay: onEventChangeDelayValue,
-        interval: 0,
-        repeat: false,
         attribute: onEventChangeAttribute
     });
+
     return <div className={classnames("widget-events", className)}></div>;
 }
