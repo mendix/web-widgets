@@ -582,6 +582,15 @@ $root: ".widget-datagrid";
     color: var(--link-color);
     padding: 0;
     display: inline-block;
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: 1px solid var(--brand-primary, $brand-primary);
+        outline-offset: 2px;
+    }
 }
 
 @keyframes skeleton-loading {
