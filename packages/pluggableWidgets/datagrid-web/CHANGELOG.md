@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed issue with checkbox state. Now state is in sync with selection.
+
+- We fixed issue with styles not being added to datagrid.
+
 ## [3.6.0] - 2025-10-01
 
 ### Fixed
