@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where onblur and onchange when user leave editor events not firing correctly if a focusable element is clicked as change focus user action.
+
+### Changed
+
+- We changed Tab keyboard behavior to add indentation instead of exiting focus from editor.
+
+### Added
+
+- We added alt+F11 keyboard shortcut to do focus next.
+
 ## [4.10.0] - 2025-10-02
 
 ### Fixed
