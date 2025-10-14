@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.6.1] DataWidgets - 2025-10-14
+
+### [3.6.1] Datagrid
+
+#### Fixed
+
+- We fixed issue with checkbox state. Now state is in sync with selection.
+
+- We fixed issue with styles not being added to datagrid.
+
+### [3.6.1] Gallery
+
+#### Fixed
+
+- We fixed issue with checkbox state. Now state is in sync with selection.
+
+### [3.6.1] SelectionHelper
+
+#### Fixed
+
+- We fixed issue with checkbox state. Now state is in sync with selection.
+
 ## [3.6.0] DataWidgets - 2025-10-01
 
 ### [3.6.0] DatagridDateFilter
