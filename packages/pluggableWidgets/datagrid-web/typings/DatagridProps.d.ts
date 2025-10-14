@@ -11,6 +11,8 @@ export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
 
 export type ItemSelectionModeEnum = "toggle" | "clear";
 
+export type SelectionCountPositionEnum = "top" | "bottom" | "off";
+
 export type LoadingTypeEnum = "spinner" | "skeleton";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
@@ -52,8 +54,6 @@ export type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 export type ShowPagingButtonsEnum = "always" | "auto";
 
 export type PagingPositionEnum = "bottom" | "top" | "both";
-
-export type SelectionCountPositionEnum = "top" | "bottom" | "off";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
@@ -98,6 +98,8 @@ export interface DatagridContainerProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
+    selectionCountPosition: SelectionCountPositionEnum;
+    clearSelectionButtonLabel?: DynamicValue<string>;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     columns: ColumnsType[];
@@ -107,8 +109,6 @@ export interface DatagridContainerProps {
     showPagingButtons: ShowPagingButtonsEnum;
     showNumberOfRows: boolean;
     pagingPosition: PagingPositionEnum;
-    selectionCountPosition: SelectionCountPositionEnum;
-    clearSelectionButtonLabel?: DynamicValue<string>;
     loadMoreButtonCaption?: DynamicValue<string>;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
@@ -152,6 +152,8 @@ export interface DatagridPreviewProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
+    selectionCountPosition: SelectionCountPositionEnum;
+    clearSelectionButtonLabel: string;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     columns: ColumnsPreviewType[];
@@ -161,8 +163,6 @@ export interface DatagridPreviewProps {
     showPagingButtons: ShowPagingButtonsEnum;
     showNumberOfRows: boolean;
     pagingPosition: PagingPositionEnum;
-    selectionCountPosition: SelectionCountPositionEnum;
-    clearSelectionButtonLabel: string;
     loadMoreButtonCaption: string;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

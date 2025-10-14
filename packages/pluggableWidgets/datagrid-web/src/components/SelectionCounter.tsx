@@ -14,11 +14,20 @@ export const SelectionCounter = observer(function SelectionCounter({
 
     const containerClass = location === "top" ? "widget-datagrid-tb-start" : "widget-datagrid-pb-start";
 
+    const clearButtonAriaLabel = `${selectionCountStore.clearButtonLabel} (${selectionCountStore.selectedCount} selected)`;
+
     return (
         <If condition={selectionCountStore.displayCount !== ""}>
             <div className={containerClass}>
-                <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>&nbsp;|&nbsp;
-                <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
+                <span className="widget-datagrid-selection-count" aria-live="polite" aria-atomic="true">
+                    {selectionCountStore.displayCount}
+                </span>
+                &nbsp;|&nbsp;
+                <button
+                    className="widget-datagrid-clear-selection"
+                    onClick={selectActionHelper.onClearSelection}
+                    aria-label={clearButtonAriaLabel}
+                >
                     {selectionCountStore.clearButtonLabel}
                 </button>
             </div>
