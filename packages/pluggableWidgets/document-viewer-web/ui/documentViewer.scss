@@ -87,3 +87,16 @@ div.widget-document-viewer {
         background-position: right;
     }
 }
+
+.widget-document-viewer-page-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.widget-document-viewer-page-input .widget-document-viewer-page-number-input {
+    padding: 3px 3px !important;
+    text-align: center;
+    margin-right: 5px;
+    width: 5ch;
+}
