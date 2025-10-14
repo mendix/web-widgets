@@ -199,6 +199,10 @@
                     <caption>Rotate</caption>
                     <description />
                 </property>
+                <property key="maxAutoZoom" type="integer" defaultValue="13">
+                    <caption>Maximum autozoom</caption>
+                    <description>Not available for Google maps</description>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Dimensions">

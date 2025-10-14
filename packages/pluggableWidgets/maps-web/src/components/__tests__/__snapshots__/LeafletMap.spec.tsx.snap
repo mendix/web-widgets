@@ -10,13 +10,13 @@ exports[`Leaflet maps renders a map with HERE maps as provider 1`] = `
       class="widget-leaflet-maps-wrapper"
     >
       <div
-        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         style="position: relative;"
         tabindex="0"
       >
         <div
           class="leaflet-pane leaflet-map-pane"
-          style="left: 0px; top: 0px;"
+          style="transform: translate3d(0px,0px,0);"
         >
           <div
             class="leaflet-pane leaflet-tile-pane"
@@ -27,13 +27,13 @@ exports[`Leaflet maps renders a map with HERE maps as provider 1`] = `
             >
               <div
                 class="leaflet-tile-container leaflet-zoom-animated"
-                style="z-index: 18; left: 0px; top: 0px;"
+                style="z-index: 18; transform: translate3d(0px,0px,0) scale(1);"
               >
                 <img
                   alt=""
                   class="leaflet-tile"
                   src="https://2.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/10/524/338/256/png8"
-                  style="width: 256px; height: 256px; left: -196px; top: -172px;"
+                  style="width: 256px; height: 256px; transform: translate3d(-196px,-172px,0);"
                 />
               </div>
             </div>
@@ -52,6 +52,10 @@ exports[`Leaflet maps renders a map with HERE maps as provider 1`] = `
           />
           <div
             class="leaflet-pane leaflet-popup-pane"
+          />
+          <div
+            class="leaflet-proxy leaflet-zoom-animated"
+            style="transform: translate3d(134340.33129244443px,86700.37048118314px,0) scale(512);"
           />
         </div>
         <div
@@ -119,13 +123,13 @@ exports[`Leaflet maps renders a map with MapBox maps as provider 1`] = `
       class="widget-leaflet-maps-wrapper"
     >
       <div
-        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         style="position: relative;"
         tabindex="0"
       >
         <div
           class="leaflet-pane leaflet-map-pane"
-          style="left: 0px; top: 0px;"
+          style="transform: translate3d(0px,0px,0);"
         >
           <div
             class="leaflet-pane leaflet-tile-pane"
@@ -136,13 +140,13 @@ exports[`Leaflet maps renders a map with MapBox maps as provider 1`] = `
             >
               <div
                 class="leaflet-tile-container leaflet-zoom-animated"
-                style="z-index: 18; left: 0px; top: 0px;"
+                style="z-index: 18; transform: translate3d(0px,0px,0) scale(1);"
               >
                 <img
                   alt=""
                   class="leaflet-tile"
                   src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/9/262/169"
-                  style="width: 512px; height: 512px; left: -196px; top: -172px;"
+                  style="width: 512px; height: 512px; transform: translate3d(-196px,-172px,0);"
                 />
               </div>
             </div>
@@ -161,6 +165,10 @@ exports[`Leaflet maps renders a map with MapBox maps as provider 1`] = `
           />
           <div
             class="leaflet-pane leaflet-popup-pane"
+          />
+          <div
+            class="leaflet-proxy leaflet-zoom-animated"
+            style="transform: translate3d(134340.33129244443px,86700.37048118314px,0) scale(512);"
           />
         </div>
         <div
@@ -228,13 +236,13 @@ exports[`Leaflet maps renders a map with attribution 1`] = `
       class="widget-leaflet-maps-wrapper"
     >
       <div
-        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         style="position: relative;"
         tabindex="0"
       >
         <div
           class="leaflet-pane leaflet-map-pane"
-          style="left: 0px; top: 0px;"
+          style="transform: translate3d(0px,0px,0);"
         >
           <div
             class="leaflet-pane leaflet-tile-pane"
@@ -245,13 +253,13 @@ exports[`Leaflet maps renders a map with attribution 1`] = `
             >
               <div
                 class="leaflet-tile-container leaflet-zoom-animated"
-                style="z-index: 18; left: 0px; top: 0px;"
+                style="z-index: 18; transform: translate3d(0px,0px,0) scale(1);"
               >
                 <img
                   alt=""
                   class="leaflet-tile"
                   src="https://b.tile.osm.org/10/524/338.png"
-                  style="width: 256px; height: 256px; left: -196px; top: -172px;"
+                  style="width: 256px; height: 256px; transform: translate3d(-196px,-172px,0);"
                 />
               </div>
             </div>
@@ -270,6 +278,10 @@ exports[`Leaflet maps renders a map with attribution 1`] = `
           />
           <div
             class="leaflet-pane leaflet-popup-pane"
+          />
+          <div
+            class="leaflet-proxy leaflet-zoom-animated"
+            style="transform: translate3d(134340.33129244443px,86700.37048118314px,0) scale(512);"
           />
         </div>
         <div
@@ -325,8 +337,30 @@ exports[`Leaflet maps renders a map with attribution 1`] = `
             >
               <a
                 href="https://leafletjs.com"
+                target="_blank"
                 title="A JavaScript library for interactive maps"
               >
+                <svg
+                  aria-hidden="true"
+                  class="leaflet-attribution-flag"
+                  height="8"
+                  viewBox="0 0 12 8"
+                  width="12"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 0h12v4H0z"
+                    fill="#4C7BE1"
+                  />
+                  <path
+                    d="M0 4h12v3H0z"
+                    fill="#FFD500"
+                  />
+                  <path
+                    d="M0 7h12v1H0z"
+                    fill="#E0BC00"
+                  />
+                </svg>
                 Leaflet
               </a>
                
@@ -361,13 +395,13 @@ exports[`Leaflet maps renders a map with current location 1`] = `
       class="widget-leaflet-maps-wrapper"
     >
       <div
-        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         style="position: relative;"
         tabindex="0"
       >
         <div
           class="leaflet-pane leaflet-map-pane"
-          style="left: 0px; top: 0px;"
+          style="transform: translate3d(0px,0px,0);"
         >
           <div
             class="leaflet-pane leaflet-tile-pane"
@@ -378,13 +412,13 @@ exports[`Leaflet maps renders a map with current location 1`] = `
             >
               <div
                 class="leaflet-tile-container leaflet-zoom-animated"
-                style="z-index: 18; left: 0px; top: 0px;"
+                style="z-index: 18; transform: translate3d(0px,0px,0) scale(1);"
               >
                 <img
                   alt=""
                   class="leaflet-tile"
-                  src="https://a.tile.osm.org/18/134340/86700.png"
-                  style="width: 256px; height: 256px; left: -85px; top: -95px;"
+                  src="https://b.tile.osm.org/10/524/338.png"
+                  style="width: 256px; height: 256px; transform: translate3d(-196px,-172px,0);"
                 />
               </div>
             </div>
@@ -399,9 +433,9 @@ exports[`Leaflet maps renders a map with current location 1`] = `
             class="leaflet-pane leaflet-marker-pane"
           >
             <div
-              class="leaflet-marker-icon custom-leaflet-map-icon-marker leaflet-zoom-hide"
+              class="leaflet-marker-icon custom-leaflet-map-icon-marker leaflet-zoom-animated"
               role="button"
-              style="margin-left: -6px; margin-top: -6px; width: 12px; height: 12px; left: 0px; top: 0px; z-index: 0;"
+              style="margin-left: -6px; margin-top: -6px; width: 12px; height: 12px; transform: translate3d(0px,0px,0); z-index: 0;"
               tabindex="0"
             >
               <img
@@ -417,6 +451,10 @@ exports[`Leaflet maps renders a map with current location 1`] = `
           <div
             class="leaflet-pane leaflet-popup-pane"
           />
+          <div
+            class="leaflet-proxy leaflet-zoom-animated"
+            style="transform: translate3d(134340.33129244443px,86700.37048118314px,0) scale(512);"
+          />
         </div>
         <div
           class="leaflet-control-container"
@@ -428,9 +466,9 @@ exports[`Leaflet maps renders a map with current location 1`] = `
               class="leaflet-control-zoom leaflet-bar leaflet-control"
             >
               <a
-                aria-disabled="true"
+                aria-disabled="false"
                 aria-label="Zoom in"
-                class="leaflet-control-zoom-in leaflet-disabled"
+                class="leaflet-control-zoom-in"
                 href="#"
                 role="button"
                 title="Zoom in"
@@ -483,13 +521,13 @@ exports[`Leaflet maps renders a map with markers 1`] = `
       class="widget-leaflet-maps-wrapper"
     >
       <div
-        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         style="position: relative;"
         tabindex="0"
       >
         <div
           class="leaflet-pane leaflet-map-pane"
-          style="left: 0px; top: 0px;"
+          style="transform: translate3d(0px,0px,0);"
         >
           <div
             class="leaflet-pane leaflet-tile-pane"
@@ -500,13 +538,13 @@ exports[`Leaflet maps renders a map with markers 1`] = `
             >
               <div
                 class="leaflet-tile-container leaflet-zoom-animated"
-                style="z-index: 18; left: 0px; top: 0px;"
+                style="z-index: 18; transform: translate3d(0px,0px,0) scale(1);"
               >
                 <img
                   alt=""
                   class="leaflet-tile"
-                  src="https://c.tile.osm.org/18/134337/86690.png"
-                  style="width: 256px; height: 256px; left: -38px; top: -217px;"
+                  src="https://b.tile.osm.org/10/524/338.png"
+                  style="width: 256px; height: 256px; transform: translate3d(-196px,-172px,0);"
                 />
               </div>
             </div>
@@ -521,9 +559,9 @@ exports[`Leaflet maps renders a map with markers 1`] = `
             class="leaflet-pane leaflet-marker-pane"
           >
             <div
-              class="leaflet-marker-icon custom-leaflet-map-icon-marker leaflet-zoom-hide leaflet-interactive"
+              class="leaflet-marker-icon custom-leaflet-map-icon-marker leaflet-zoom-animated leaflet-interactive"
               role="button"
-              style="margin-left: -6px; margin-top: -6px; width: 12px; height: 12px; left: 815px; top: 2438px; z-index: 2438;"
+              style="margin-left: -6px; margin-top: -6px; width: 12px; height: 12px; transform: translate3d(0px,0px,0); z-index: 0;"
               tabindex="0"
               title="Mendix HQ"
             >
@@ -534,9 +572,9 @@ exports[`Leaflet maps renders a map with markers 1`] = `
               />
             </div>
             <div
-              class="leaflet-marker-icon custom-leaflet-map-icon-marker leaflet-zoom-hide leaflet-interactive"
+              class="leaflet-marker-icon custom-leaflet-map-icon-marker leaflet-zoom-animated leaflet-interactive"
               role="button"
-              style="margin-left: -6px; margin-top: -6px; width: 12px; height: 12px; left: -814px; top: -2438px; z-index: -2438;"
+              style="margin-left: -6px; margin-top: -6px; width: 12px; height: 12px; transform: translate3d(-6px,-19px,0); z-index: -19;"
               tabindex="0"
               title="Gementee Rotterdam"
             >
@@ -553,6 +591,10 @@ exports[`Leaflet maps renders a map with markers 1`] = `
           <div
             class="leaflet-pane leaflet-popup-pane"
           />
+          <div
+            class="leaflet-proxy leaflet-zoom-animated"
+            style="transform: translate3d(134340.33129244443px,86700.37048118314px,0) scale(512);"
+          />
         </div>
         <div
           class="leaflet-control-container"
@@ -564,9 +606,9 @@ exports[`Leaflet maps renders a map with markers 1`] = `
               class="leaflet-control-zoom leaflet-bar leaflet-control"
             >
               <a
-                aria-disabled="true"
+                aria-disabled="false"
                 aria-label="Zoom in"
-                class="leaflet-control-zoom-in leaflet-disabled"
+                class="leaflet-control-zoom-in"
                 href="#"
                 role="button"
                 title="Zoom in"
@@ -619,13 +661,13 @@ exports[`Leaflet maps renders a map with percentage of parent units renders the 
       class="widget-leaflet-maps-wrapper"
     >
       <div
-        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         style="position: relative;"
         tabindex="0"
       >
         <div
           class="leaflet-pane leaflet-map-pane"
-          style="left: 0px; top: 0px;"
+          style="transform: translate3d(0px,0px,0);"
         >
           <div
             class="leaflet-pane leaflet-tile-pane"
@@ -636,13 +678,13 @@ exports[`Leaflet maps renders a map with percentage of parent units renders the 
             >
               <div
                 class="leaflet-tile-container leaflet-zoom-animated"
-                style="z-index: 18; left: 0px; top: 0px;"
+                style="z-index: 18; transform: translate3d(0px,0px,0) scale(1);"
               >
                 <img
                   alt=""
                   class="leaflet-tile"
                   src="https://b.tile.osm.org/10/524/338.png"
-                  style="width: 256px; height: 256px; left: -196px; top: -172px;"
+                  style="width: 256px; height: 256px; transform: translate3d(-196px,-172px,0);"
                 />
               </div>
             </div>
@@ -661,6 +703,10 @@ exports[`Leaflet maps renders a map with percentage of parent units renders the 
           />
           <div
             class="leaflet-pane leaflet-popup-pane"
+          />
+          <div
+            class="leaflet-proxy leaflet-zoom-animated"
+            style="transform: translate3d(134340.33129244443px,86700.37048118314px,0) scale(512);"
           />
         </div>
         <div
@@ -728,13 +774,13 @@ exports[`Leaflet maps renders a map with percentage of width and height units re
       class="widget-leaflet-maps-wrapper"
     >
       <div
-        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         style="position: relative;"
         tabindex="0"
       >
         <div
           class="leaflet-pane leaflet-map-pane"
-          style="left: 0px; top: 0px;"
+          style="transform: translate3d(0px,0px,0);"
         >
           <div
             class="leaflet-pane leaflet-tile-pane"
@@ -745,13 +791,13 @@ exports[`Leaflet maps renders a map with percentage of width and height units re
             >
               <div
                 class="leaflet-tile-container leaflet-zoom-animated"
-                style="z-index: 18; left: 0px; top: 0px;"
+                style="z-index: 18; transform: translate3d(0px,0px,0) scale(1);"
               >
                 <img
                   alt=""
                   class="leaflet-tile"
                   src="https://b.tile.osm.org/10/524/338.png"
-                  style="width: 256px; height: 256px; left: -196px; top: -172px;"
+                  style="width: 256px; height: 256px; transform: translate3d(-196px,-172px,0);"
                 />
               </div>
             </div>
@@ -770,6 +816,10 @@ exports[`Leaflet maps renders a map with percentage of width and height units re
           />
           <div
             class="leaflet-pane leaflet-popup-pane"
+          />
+          <div
+            class="leaflet-proxy leaflet-zoom-animated"
+            style="transform: translate3d(134340.33129244443px,86700.37048118314px,0) scale(512);"
           />
         </div>
         <div
@@ -837,13 +887,13 @@ exports[`Leaflet maps renders a map with pixels renders structure correctly 1`] 
       class="widget-leaflet-maps-wrapper"
     >
       <div
-        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         style="position: relative;"
         tabindex="0"
       >
         <div
           class="leaflet-pane leaflet-map-pane"
-          style="left: 0px; top: 0px;"
+          style="transform: translate3d(0px,0px,0);"
         >
           <div
             class="leaflet-pane leaflet-tile-pane"
@@ -854,13 +904,13 @@ exports[`Leaflet maps renders a map with pixels renders structure correctly 1`] 
             >
               <div
                 class="leaflet-tile-container leaflet-zoom-animated"
-                style="z-index: 18; left: 0px; top: 0px;"
+                style="z-index: 18; transform: translate3d(0px,0px,0) scale(1);"
               >
                 <img
                   alt=""
                   class="leaflet-tile"
                   src="https://b.tile.osm.org/10/524/338.png"
-                  style="width: 256px; height: 256px; left: -196px; top: -172px;"
+                  style="width: 256px; height: 256px; transform: translate3d(-196px,-172px,0);"
                 />
               </div>
             </div>
@@ -879,6 +929,10 @@ exports[`Leaflet maps renders a map with pixels renders structure correctly 1`] 
           />
           <div
             class="leaflet-pane leaflet-popup-pane"
+          />
+          <div
+            class="leaflet-proxy leaflet-zoom-animated"
+            style="transform: translate3d(134340.33129244443px,86700.37048118314px,0) scale(512);"
           />
         </div>
         <div
@@ -946,13 +1000,13 @@ exports[`Leaflet maps renders a map with right structure 1`] = `
       class="widget-leaflet-maps-wrapper"
     >
       <div
-        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+        class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         style="position: relative;"
         tabindex="0"
       >
         <div
           class="leaflet-pane leaflet-map-pane"
-          style="left: 0px; top: 0px;"
+          style="transform: translate3d(0px,0px,0);"
         >
           <div
             class="leaflet-pane leaflet-tile-pane"
@@ -963,13 +1017,13 @@ exports[`Leaflet maps renders a map with right structure 1`] = `
             >
               <div
                 class="leaflet-tile-container leaflet-zoom-animated"
-                style="z-index: 18; left: 0px; top: 0px;"
+                style="z-index: 18; transform: translate3d(0px,0px,0) scale(1);"
               >
                 <img
                   alt=""
                   class="leaflet-tile"
                   src="https://b.tile.osm.org/10/524/338.png"
-                  style="width: 256px; height: 256px; left: -196px; top: -172px;"
+                  style="width: 256px; height: 256px; transform: translate3d(-196px,-172px,0);"
                 />
               </div>
             </div>
@@ -988,6 +1042,10 @@ exports[`Leaflet maps renders a map with right structure 1`] = `
           />
           <div
             class="leaflet-pane leaflet-popup-pane"
+          />
+          <div
+            class="leaflet-proxy leaflet-zoom-animated"
+            style="transform: translate3d(134340.33129244443px,86700.37048118314px,0) scale(512);"
           />
         </div>
         <div
