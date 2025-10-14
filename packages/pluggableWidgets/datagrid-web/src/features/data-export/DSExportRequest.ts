@@ -4,14 +4,26 @@ import { ListValue, ObjectItem, ValueStatus } from "mendix";
 import { createNanoEvents, Emitter, Unsubscribe } from "nanoevents";
 import { ColumnsType, ShowContentAsEnum } from "../../../typings/DatagridProps";
 
-type RowData = Array<string | number | boolean>;
+/** Represents a single Excel cell (SheetJS compatible, simplified) */
+interface ExcelCell {
+    /** Cell type: 's' = string, 'n' = number, 'b' = boolean, 'd' = date */
+    t: "s" | "n" | "b" | "d";
+    /** Underlying value */
+    v: string | number | boolean | Date;
+    /** Optional Excel number/date format, e.g. "yyyy-mm-dd" or "$0.00" */
+    z?: string;
+    /** Optional pre-formatted display text */
+    w?: string;
+}
+
+type RowData = ExcelCell[];
 
 type HeaderDefinition = {
     name: string;
     type: string;
 };
 
-type ValueReader = (item: ObjectItem, props: ColumnsType) => string | boolean | number;
+type ValueReader = (item: ObjectItem, props: ColumnsType) => ExcelCell;
 
 type ReadersByType = Record<ShowContentAsEnum, ValueReader>;
 
@@ -253,47 +265,80 @@ export class DSExportRequest {
 const readers: ReadersByType = {
     attribute(item, props) {
         if (props.attribute === undefined) {
-            return "";
+            return makeEmptyCell();
         }
 
         const data = props.attribute.get(item);
 
         if (data.status !== "available") {
-            return "";
+            return makeEmptyCell();
         }
 
-        if (typeof data.value === "boolean") {
-            return data.value;
+        const value = data.value;
+
+        if (value instanceof Date) {
+            return {
+                t: "d", // date cell
+                v: value,
+                z: "dd/mm/yyyy hh:mm", // Excel date format
+                w: value.toISOString().split("T")[0] // human-readable fallback
+            };
         }
 
-        if (data.value instanceof Big) {
-            return data.value.toNumber();
+        if (typeof value === "boolean") {
+            return {
+                t: "b",
+                v: value,
+                w: value ? "TRUE" : "FALSE"
+            };
         }
 
-        return data.displayValue;
+        // Number (Big or JS number)
+        if (value instanceof Big || typeof value === "number") {
+            const num = value instanceof Big ? value.toNumber() : value;
+            return {
+                t: "n",
+                v: num,
+                z: '"$"#,##0.00_);\\("$"#,##0.00\\)',
+                w: num.toLocaleString(undefined, { minimumFractionDigits: 2 })
+            };
+        }
+
+        // Default: string (ensure fallback is a string)
+        return {
+            t: "s",
+            v: data.displayValue ?? "",
+            w: data.displayValue ?? ""
+        };
     },
 
     dynamicText(item, props) {
         if (props.dynamicText === undefined) {
-            return "";
+            return makeEmptyCell();
         }
 
         const data = props.dynamicText.get(item);
 
         switch (data.status) {
             case "available":
-                return data.value;
+                return { t: "s", v: data.value ?? "", w: data.value ?? "" };
             case "unavailable":
-                return "n/a";
+                return { t: "s", v: "n/a", w: "n/a" };
             default:
-                return "";
+                return makeEmptyCell();
         }
     },
 
     customContent(item, props) {
-        return props.exportValue?.get(item).value ?? "";
+        const value = props.exportValue?.get(item).value ?? "";
+        return { t: "s", v: value, w: value };
     }
 };
+
+// Helper for empty cells
+function makeEmptyCell(): ExcelCell {
+    return { t: "s", v: "", w: "" };
+}
 
 function createRowReader(columns: ColumnsType[]): RowReader {
     return item =>
