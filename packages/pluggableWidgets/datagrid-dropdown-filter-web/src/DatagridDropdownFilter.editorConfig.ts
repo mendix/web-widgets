@@ -119,21 +119,5 @@ export const getPreview = (values: DatagridDropdownFilterPreviewProps, isDarkMod
 export function check(_props: DatagridDropdownFilterPreviewProps): Problem[] {
     const errors: Problem[] = [];
 
-    const isEmpty = (value: string | undefined): boolean => !value || value.trim() === "";
-
-    if (_props.baseType === "ref") {
-        if (_props.refCaptionSource === "attr" && isEmpty(_props.refCaption)) {
-            errors.push({
-                property: "refCaption",
-                message: "Caption cannot be empty if the source is attribute"
-            });
-        } else if (_props.refCaptionSource === "exp" && isEmpty(_props.refCaptionExp)) {
-            errors.push({
-                property: "refCaptionExp",
-                message: "Caption cannot be empty if the source is expression"
-            });
-        }
-    }
-
     return errors;
 }
