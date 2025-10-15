@@ -69,7 +69,7 @@ export class SelectionProgressDialogViewModel implements ReactiveController {
                     this.#timerId = setTimeout(() => {
                         this.setDialogOpen(true);
                         this.#timerId = undefined;
-                    }, 2000);
+                    }, 1500);
                 } else {
                     this.setDialogOpen(false);
                     clearTimeout(this.#timerId);
