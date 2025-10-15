@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { MouseEvent, ReactElement } from "react";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { getValidationErrorId } from "../../helpers/utils";
+import { useWrapperProps } from "../../hooks/useWrapperProps";
 import { CaptionContent } from "../CaptionContent";
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Placeholder } from "../Placeholder";
@@ -11,6 +12,7 @@ export function CheckboxSelection({
     tabIndex = 0,
     inputId,
     ariaRequired,
+    ariaLabel,
     readOnlyStyle,
     groupName,
     noOptionsText
@@ -34,15 +36,14 @@ export function CheckboxSelection({
 
     return (
         <div
-            className={classNames("widget-checkbox-radio-selection-list", {
-                "widget-checkbox-radio-selection-readonly": isReadOnly,
-                [`widget-checkbox-radio-selection-readonly-${readOnlyStyle}`]: isReadOnly
+            {...useWrapperProps({
+                inputId,
+                isReadOnly,
+                isCheckbox: true,
+                readOnlyStyle,
+                ariaRequired,
+                ariaLabel
             })}
-            role="group"
-            aria-labelledby={`${inputId}-label`}
-            aria-required={ariaRequired?.value}
-            aria-describedby={!isSingleCheckbox && selector.validation ? errorId : undefined}
-            aria-invalid={!isSingleCheckbox && selector.validation ? true : undefined}
         >
             {options.map((optionId, index) => {
                 const isSelected = currentIds.includes(optionId);

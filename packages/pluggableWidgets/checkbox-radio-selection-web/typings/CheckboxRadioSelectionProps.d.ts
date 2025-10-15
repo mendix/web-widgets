@@ -68,7 +68,7 @@ export interface CheckboxRadioSelectionContainerProps {
     readOnlyStyle: ReadOnlyStyleEnum;
     onChangeEvent?: ActionValue;
     ariaRequired: DynamicValue<boolean>;
-    ariaLabel: string;
+    ariaLabel?: DynamicValue<string>;
 }
 
 export interface CheckboxRadioSelectionPreviewProps {

@@ -84,6 +84,7 @@ export interface SelectionBaseProps<Selector> {
     selector: Selector;
     tabIndex: number;
     ariaRequired: DynamicValue<boolean>;
+    ariaLabel: DynamicValue<string> | undefined;
     groupName: DynamicValue<string> | undefined;
     noOptionsText: string;
 }

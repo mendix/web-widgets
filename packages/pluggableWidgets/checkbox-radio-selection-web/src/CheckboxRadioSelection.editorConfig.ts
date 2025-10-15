@@ -133,22 +133,6 @@ export function getProperties(
         });
     }
 
-    if (values.optionsSourceCustomContentType === "yes") {
-        if (values.source === "context" && values.optionsSourceType === "association") {
-            hidePropertiesIn(defaultProperties, values, [
-                "optionsSourceAssociationCaptionType",
-                "optionsSourceAssociationCaptionAttribute",
-                "optionsSourceAssociationCaptionExpression"
-            ]);
-        } else if (values.source === "database") {
-            hidePropertiesIn(defaultProperties, values, [
-                "optionsSourceDatabaseCaptionType",
-                "optionsSourceDatabaseCaptionAttribute",
-                "optionsSourceDatabaseCaptionExpression"
-            ]);
-        }
-    }
-
     return defaultProperties;
 }
 
