@@ -218,13 +218,9 @@
                     <caption>Keep selection</caption>
                     <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
                 </property>
-                <property key="selectAllPagesEnabled" type="boolean" defaultValue="false">
+                <property key="enableSelectAll" type="boolean" defaultValue="false">
                     <caption>Enable select all</caption>
                     <description>Allow select all through multiple pages (based on current filter).</description>
-                </property>
-                <property key="selectAllPagesPageSize" type="integer" defaultValue="1024">
-                    <caption>Select all page size</caption>
-                    <description>When selecting items from a large data source, items are selected in batches. This setting controls the size of the batches.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Loading state">
@@ -407,18 +403,25 @@
                     <caption>Row count plural</caption>
                     <description>Must include '%d' to denote number position ('%d rows selected')</description>
                 </property>
+                <property key="selectAllText" type="textTemplate">
+                    <caption>Select all text</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Select all rows in the data source</translation>
+                    </translations>
+                </property>
                 <property key="selectAllTemplate" type="textTemplate">
-                    <caption>Select all</caption>
+                    <caption>Select all template</caption>
                     <description>This caption used when total count is available.</description>
                     <translations>
                         <translation lang="en_US">Select all %d rows in the data source</translation>
                     </translations>
                 </property>
-                <property key="selectRemainingTemplate" type="textTemplate">
-                    <caption>2</caption>
+                <property key="allSelectedText" type="textTemplate">
+                    <caption>Select status template</caption>
                     <description />
                     <translations>
-                        <translation lang="en_US">Select remaining rows in the data source</translation>
+                        <translation lang="en_US">All %d rows selected.</translation>
                     </translations>
                 </property>
                 <property key="clearSelectionCaption" type="textTemplate">

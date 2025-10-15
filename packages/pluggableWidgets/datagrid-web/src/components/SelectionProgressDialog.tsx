@@ -5,7 +5,7 @@ import { PseudoModal } from "./PseudoModal";
 
 export function SelectionProgressDialog(): ReactElement | null {
     const { selectionProgressDialogViewModel: vm } = useDatagridRootScope();
-    if (!vm.open) return null;
+    if (!vm.dialogOpen) return null;
     return (
         <PseudoModal>
             <ExportAlert

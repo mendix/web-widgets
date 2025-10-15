@@ -6,18 +6,22 @@ import { useDatagridRootScope } from "../helpers/root-context";
 export const SelectAllBar = observer(function SelectAllBar(): React.ReactNode {
     const { selectAllBarViewModel: vm } = useDatagridRootScope();
 
-    if (!vm.barVisible) return null;
+    if (!vm.isBarVisible) return null;
 
     return (
         <div className="widget-datagrid-select-all-bar">
-            {vm.selectionCountText}&nbsp;
-            <If condition={vm.selectAllVisible}>
-                <button className="widget-datagrid-btn-invisible btn" onClick={() => vm.onSelectAll()}>
+            {vm.selectionStatus}&nbsp;
+            <If condition={vm.isSelectAllVisible}>
+                <button
+                    disabled={vm.isSelectAllDisabled}
+                    className="widget-datagrid-btn-invisible"
+                    onClick={() => vm.onSelectAll()}
+                >
                     {vm.selectAllLabel}
                 </button>
             </If>
-            <If condition={vm.clearVisible}>
-                <button className="widget-datagrid-btn-invisible btn" onClick={() => vm.onClear()}>
+            <If condition={vm.isClearVisible}>
+                <button className="widget-datagrid-btn-invisible" onClick={() => vm.onClear()}>
                     {vm.clearSelectionLabel}
                 </button>
             </If>
