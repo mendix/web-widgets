@@ -489,7 +489,10 @@ $root: ".widget-datagrid";
 
     &-spinner {
         justify-content: center;
-        width: 100%;
+
+        &-full-width {
+            width: 100%;
+        }
 
         &-margin {
             margin: 52px 0;
@@ -580,7 +583,7 @@ $root: ".widget-datagrid";
     background: transparent;
     border: none;
     color: var(--link-color);
-    padding: 0.3em;
+    padding: 0.3em 0.5em;
     border-radius: 6px;
     display: inline-block;
 
@@ -597,6 +600,10 @@ $root: ".widget-datagrid";
     flex-flow: row nowrap;
     align-items: center;
     padding: var(--spacing-smaller, 8px) var(--spacing-medium, 16px);
+
+    #{$root}-spinner {
+        padding: 6.2px;
+    }
 }
 
 @keyframes skeleton-loading {

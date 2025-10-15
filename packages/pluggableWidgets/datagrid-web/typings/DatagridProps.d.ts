@@ -102,6 +102,7 @@ export interface DatagridContainerProps {
     showSelectAllToggle: boolean;
     keepSelection: boolean;
 <<<<<<< HEAD
+<<<<<<< HEAD
     selectionCountPosition: SelectionCountPositionEnum;
     clearSelectionButtonLabel?: DynamicValue<string>;
 =======
@@ -113,6 +114,9 @@ export interface DatagridContainerProps {
 >>>>>>> 2e4671e66 (feat(datagrid-web): add multipage selection to dg2)
 =======
 >>>>>>> 448ce2ee2 (feat: add sab vm)
+=======
+    enableSelectAll: boolean;
+>>>>>>> 298cb49db (refactor: change texts & etc)
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     pageSize: number;
@@ -140,8 +144,9 @@ export interface DatagridContainerProps {
     cancelSelectionLabel?: DynamicValue<string>;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
+    selectAllText: DynamicValue<string>;
     selectAllTemplate: DynamicValue<string>;
-    selectRemainingTemplate: DynamicValue<string>;
+    allSelectedText: DynamicValue<string>;
     clearSelectionCaption: DynamicValue<string>;
 }
 
@@ -169,6 +174,7 @@ export interface DatagridPreviewProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
+<<<<<<< HEAD
 
     selectionCountPosition: SelectionCountPositionEnum;
     clearSelectionButtonLabel: string;
@@ -180,6 +186,9 @@ export interface DatagridPreviewProps {
     cancelSelectionLabel: string;
 
 
+=======
+    enableSelectAll: boolean;
+>>>>>>> 298cb49db (refactor: change texts & etc)
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     pageSize: number | null;
@@ -208,7 +217,8 @@ export interface DatagridPreviewProps {
     cancelSelectionLabel: string;
     selectedCountTemplateSingular: string;
     selectedCountTemplatePlural: string;
+    selectAllText: string;
     selectAllTemplate: string;
-    selectRemainingTemplate: string;
+    allSelectedText: string;
     clearSelectionCaption: string;
 }

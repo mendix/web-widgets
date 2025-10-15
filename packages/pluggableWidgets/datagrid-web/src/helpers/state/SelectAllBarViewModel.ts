@@ -2,101 +2,163 @@ import { SelectAllController } from "@mendix/widget-plugin-grid/selection";
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/stores/SelectionCountStore";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
-import { autorun, makeAutoObservable } from "mobx";
+import { action, makeAutoObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
 type Props = Pick<
     DatagridContainerProps,
     | "cancelSelectionLabel"
     | "selectAllTemplate"
-    | "selectRemainingTemplate"
+    | "selectAllText"
     | "clearSelectionCaption"
     | "itemSelection"
     | "selectedCountTemplatePlural"
     | "selectedCountTemplateSingular"
     | "datasource"
+    | "allSelectedText"
 >;
 
 type Gate = DerivedPropsGate<Props>;
 
 export class SelectAllBarViewModel implements ReactiveController {
-    showClear = false;
+    private barVisible = false;
+    private clearVisible = false;
+    pending = false;
+
+    #gate: Gate;
+    #selectAllController: SelectAllController;
+    #count: SelectionCountStore;
 
     constructor(
         host: ReactiveControllerHost,
-        private gate: Gate,
-        private selectAllController: SelectAllController,
-        private count = new SelectionCountStore(gate)
+        gate: Gate,
+        selectAllController: SelectAllController,
+        count = new SelectionCountStore(gate)
     ) {
         host.addController(this);
-        makeAutoObservable(this);
+        type PrivateMembers = "setClearVisible" | "setPending" | "hideBar" | "showBar";
+        makeAutoObservable<this, PrivateMembers>(this, {
+            setClearVisible: action,
+            setPending: action,
+            hideBar: action,
+            showBar: action
+        });
+        this.#gate = gate;
+        this.#selectAllController = selectAllController;
+        this.#count = count;
     }
 
-    private setShowClear(value: boolean): void {
-        this.showClear = value;
+    private setClearVisible(value: boolean): void {
+        this.clearVisible = value;
+    }
+
+    private setPending(value: boolean): void {
+        this.pending = value;
+    }
+
+    private hideBar(): void {
+        this.barVisible = false;
+        this.clearVisible = false;
+    }
+
+    private showBar(): void {
+        this.barVisible = true;
     }
 
     private get total(): number {
-        return this.gate.props.datasource.totalCount ?? 0;
+        return this.#gate.props.datasource.totalCount ?? 0;
     }
 
     private get selectAllFormat(): string {
-        return this.gate.props.selectAllTemplate?.value ?? "select.all.items";
+        return this.#gate.props.selectAllTemplate?.value ?? "select.all.n.items";
     }
 
-    private get selectRemainingText(): string {
-        return this.gate.props.selectRemainingTemplate?.value ?? "select.remaining.items";
+    private get selectAllText(): string {
+        return this.#gate.props.selectAllText?.value ?? "select.all.items";
     }
 
-    private get isSelectionEmpty(): boolean {
-        return this.count.selectedCount === 0;
+    private get allSelectedText(): string {
+        const str = this.#gate.props.allSelectedText?.value ?? "all.selected";
+        return str.replace("%d", `${this.#count.selectedCount}`);
+    }
+
+    private get selectedSet(): Set<string> {
+        const selection = this.#gate.props.itemSelection;
+        if (!selection) return new Set();
+        if (selection.type === "Single") return new Set();
+        return new Set([...selection.selection.map(it => it.id)]);
+    }
+
+    private get isCurrentPageSelected(): boolean {
+        const items = this.#gate.props.datasource.items ?? [];
+        if (items.length === 0) return false;
+        return items.every(items => this.selectedSet.has(items.id));
+    }
+
+    private get isAllItemsSelected(): boolean {
+        if (this.total > 0) return this.total === this.#count.selectedCount;
+
+        const { offset, limit, items = [], hasMoreItems } = this.#gate.props.datasource;
+        const noMoreItems = typeof hasMoreItems === "boolean" && hasMoreItems === false;
+        const fullyLoaded = offset === 0 && limit >= items.length;
+
+        return fullyLoaded && noMoreItems && items.length === this.#count.selectedCount;
     }
 
     get selectAllLabel(): string {
         if (this.total > 0) return this.selectAllFormat.replace("%d", `${this.total}`);
-        return this.selectRemainingText;
+        return this.selectAllText;
     }
 
     get clearSelectionLabel(): string {
-        return this.gate.props.clearSelectionCaption?.value ?? "clear.selection.caption";
+        return this.#gate.props.clearSelectionCaption?.value ?? "clear.selection.caption";
     }
 
-    get selectionCountText(): string {
-        return this.count.selectedCountText;
+    get selectionStatus(): string {
+        if (this.isAllItemsSelected) return this.allSelectedText;
+        return this.#count.selectedCountText;
     }
 
-    get barVisible(): boolean {
-        return this.count.selectedCountText !== "";
+    get isBarVisible(): boolean {
+        return this.barVisible;
     }
 
-    get clearVisible(): boolean {
-        if (this.showClear) return true;
-        if (this.total > 0) return this.total === this.count.selectedCount;
-        return false;
+    get isClearVisible(): boolean {
+        return this.clearVisible;
     }
 
-    get selectAllVisible(): boolean {
-        // Note: order of checks matter.
-        if (this.showClear) return false;
-        if (this.total > 0) return this.total > this.count.selectedCount;
-        return this.gate.props.datasource.hasMoreItems ?? false;
+    get isSelectAllVisible(): boolean {
+        return !this.clearVisible;
+    }
+
+    get isSelectAllDisabled(): boolean {
+        return this.pending;
     }
 
     setup(): () => void {
-        return autorun(() => {
-            if (this.isSelectionEmpty) {
-                this.setShowClear(false);
+        return reaction(
+            () => this.isCurrentPageSelected,
+            isCurrentPageSelected => {
+                if (isCurrentPageSelected === false) {
+                    this.hideBar();
+                } else if (this.isAllItemsSelected === false) {
+                    this.showBar();
+                }
             }
-        });
+        );
     }
 
     onClear(): void {
-        this.selectAllController.clearSelection();
-        this.setShowClear(false);
+        this.#selectAllController.clearSelection();
     }
 
     async onSelectAll(): Promise<void> {
-        const { success } = await this.selectAllController.selectAllPages();
-        this.setShowClear(success);
+        this.setPending(true);
+        try {
+            const { success } = await this.#selectAllController.selectAllPages();
+            this.setClearVisible(success);
+        } finally {
+            this.setPending(false);
+        }
     }
 }

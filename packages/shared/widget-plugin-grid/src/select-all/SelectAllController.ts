@@ -9,23 +9,22 @@ type Gate = DerivedPropsGate<{ itemSelection?: SelectionMultiValue | SelectionSi
 interface SelectAllControllerSpec {
     gate: Gate;
     query: QueryController;
-    pageSize: number;
 }
 
 type SelectAllEventType = "loadstart" | "progress" | "abort" | "loadend";
 
 export class SelectAllController implements ReactiveController {
-    private readonly gate: Gate;
-    private readonly query: QueryController;
-    private abortController?: AbortController;
+    readonly #gate: Gate;
+    readonly #query: QueryController;
+    readonly #emitter = new EventTarget();
+    readonly #pageSize = 1024;
+    #abortController?: AbortController;
     private locked = false;
-    readonly pageSize: number = 1024;
-    private readonly emitter = new EventTarget();
 
     constructor(host: ReactiveControllerHost, spec: SelectAllControllerSpec) {
         host.addController(this);
-        this.gate = spec.gate;
-        this.query = spec.query;
+        this.#gate = spec.gate;
+        this.#query = spec.query;
 
         type PrivateMembers = "setIsLocked" | "locked";
         makeObservable<this, PrivateMembers>(this, {
@@ -47,22 +46,22 @@ export class SelectAllController implements ReactiveController {
     }
 
     on(type: SelectAllEventType, listener: (pe: ProgressEvent) => void): void {
-        this.emitter.addEventListener(type, listener);
+        this.#emitter.addEventListener(type, listener);
     }
 
     off(type: SelectAllEventType, listener: (pe: ProgressEvent) => void): void {
-        this.emitter.removeEventListener(type, listener);
+        this.#emitter.removeEventListener(type, listener);
     }
 
     get selection(): SelectionMultiValue | undefined {
-        const selection = this.gate.props.itemSelection;
+        const selection = this.#gate.props.itemSelection;
         if (selection === undefined) return;
         if (selection.type === "Single") return;
         return selection;
     }
 
     get canExecute(): boolean {
-        return this.gate.props.itemSelection?.type === "Multi" && !this.locked;
+        return this.#gate.props.itemSelection?.type === "Multi" && !this.locked;
     }
 
     get isExecuting(): boolean {
@@ -74,7 +73,7 @@ export class SelectAllController implements ReactiveController {
     }
 
     private beforeRunChecks(): boolean {
-        const selection = this.gate.props.itemSelection;
+        const selection = this.#gate.props.itemSelection;
 
         if (selection === undefined) {
             console.debug("SelectAllController: selection is undefined. Check widget selection setting.");
@@ -99,10 +98,10 @@ export class SelectAllController implements ReactiveController {
 
         this.setIsLocked(true);
 
-        const { offset: initOffset, limit: initLimit } = this.query;
+        const { offset: initOffset, limit: initLimit } = this.#query;
         const initSelection = this.selection?.selection ?? [];
-        const hasTotal = typeof this.query.totalCount === "number";
-        const totalCount = this.query.totalCount ?? 0;
+        const hasTotal = typeof this.#query.totalCount === "number";
+        const totalCount = this.#query.totalCount ?? 0;
         let loaded = 0;
         let offset = 0;
         let success = false;
@@ -110,25 +109,25 @@ export class SelectAllController implements ReactiveController {
             new ProgressEvent(type, { loaded, total: totalCount, lengthComputable: hasTotal });
         // We should avoid duplicates, so, we start with clean array.
         const allItems: ObjectItem[] = [];
-        this.abortController = new AbortController();
-        const signal = this.abortController.signal;
+        this.#abortController = new AbortController();
+        const signal = this.#abortController.signal;
 
         performance.mark("SelectAll_Start");
         try {
-            this.emitter.dispatchEvent(pe("loadstart"));
+            this.#emitter.dispatchEvent(pe("loadstart"));
             let loading = true;
             while (loading) {
-                const loadedItems = await this.query.fetchPage({
-                    limit: this.pageSize,
+                const loadedItems = await this.#query.fetchPage({
+                    limit: this.#pageSize,
                     offset,
                     signal
                 });
 
                 allItems.push(...loadedItems);
                 loaded += loadedItems.length;
-                offset += this.pageSize;
-                this.emitter.dispatchEvent(pe("progress"));
-                loading = !signal.aborted && this.query.hasMoreItems;
+                offset += this.#pageSize;
+                this.#emitter.dispatchEvent(pe("progress"));
+                loading = !signal.aborted && this.#query.hasMoreItems;
             }
             success = true;
         } catch (error) {
@@ -139,18 +138,18 @@ export class SelectAllController implements ReactiveController {
         } finally {
             // Restore init view
             // This step should be done before loadend to avoid UI flickering
-            await this.query.fetchPage({
+            await this.#query.fetchPage({
                 limit: initLimit,
                 offset: initOffset
             });
             await this.reloadSelection();
-            this.emitter.dispatchEvent(pe("loadend"));
+            this.#emitter.dispatchEvent(pe("loadend"));
 
             // const selectionBeforeReload = this.selection?.selection ?? [];
             // Reload selection to make sure setSelection is working as expected.
             this.selection?.setSelection(success ? allItems : initSelection);
             this.locked = false;
-            this.abortController = undefined;
+            this.#abortController = undefined;
 
             performance.mark("SelectAll_End");
             const measure1 = performance.measure("Measure1", "SelectAll_Start", "SelectAll_End");
@@ -168,7 +167,7 @@ export class SelectAllController implements ReactiveController {
      */
     reloadSelection(): Promise<void> {
         const prevSelection = this.selection;
-        const items = this.query.items ?? [];
+        const items = this.#query.items ?? [];
         const currentSelection = this.selection?.selection ?? [];
         const newSelection = currentSelection.length > 0 ? [] : items;
         this.selection?.setSelection(newSelection);
@@ -186,7 +185,7 @@ export class SelectAllController implements ReactiveController {
     }
 
     abort(): void {
-        this.abortController?.abort();
-        this.emitter.dispatchEvent(new ProgressEvent("abort"));
+        this.#abortController?.abort();
+        this.#emitter.dispatchEvent(new ProgressEvent("abort"));
     }
 }
