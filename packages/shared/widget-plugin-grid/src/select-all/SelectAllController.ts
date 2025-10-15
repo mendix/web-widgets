@@ -5,27 +5,20 @@ import { action, computed, makeObservable, observable, when } from "mobx";
 import { QueryController } from "../query/query-controller";
 
 type Gate = DerivedPropsGate<{ itemSelection?: SelectionMultiValue | SelectionSingleValue }>;
-
-interface SelectAllControllerSpec {
-    gate: Gate;
-    query: QueryController;
-}
-
 type SelectAllEventType = "loadstart" | "progress" | "abort" | "loadend";
 
 export class SelectAllController implements ReactiveController {
+    private locked = false;
+
     readonly #gate: Gate;
     readonly #query: QueryController;
     readonly #emitter = new EventTarget();
     readonly #pageSize = 1024;
+
     #abortController?: AbortController;
-    private locked = false;
 
-    constructor(host: ReactiveControllerHost, spec: SelectAllControllerSpec) {
+    constructor(host: ReactiveControllerHost, gate: Gate, query: QueryController) {
         host.addController(this);
-        this.#gate = spec.gate;
-        this.#query = spec.query;
-
         type PrivateMembers = "setIsLocked" | "locked";
         makeObservable<this, PrivateMembers>(this, {
             setIsLocked: action,
@@ -39,6 +32,9 @@ export class SelectAllController implements ReactiveController {
             clearSelection: action,
             abort: action
         });
+
+        this.#gate = gate;
+        this.#query = query;
     }
 
     setup(): () => void {
@@ -163,7 +159,6 @@ export class SelectAllController implements ReactiveController {
      * This method is a hack to reload selection. To work it requires at leas one object.
      * The problem is that if we setting value equal to current selection, then prop is
      * not reloaded. We solve this by setting ether empty array or array with one object.
-     * @returns
      */
     reloadSelection(): Promise<void> {
         const prevSelection = this.selection;
@@ -171,9 +166,7 @@ export class SelectAllController implements ReactiveController {
         const currentSelection = this.selection?.selection ?? [];
         const newSelection = currentSelection.length > 0 ? [] : items;
         this.selection?.setSelection(newSelection);
-        // `when` resolves when selection value is updated
-        const ok = when(() => this.selection !== prevSelection);
-        return ok;
+        return when(() => this.selection !== prevSelection);
     }
 
     clearSelection(): void {

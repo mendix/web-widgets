@@ -99,7 +99,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
         const basicData = new GridBasicData(gateProvider.gate as any);
         const query = new DatasourceController(host, { gate: gateProvider.gate });
         const selectionCountStore = new SelectionCountStore(gateProvider.gate as any);
-        const selectAllController = new SelectAllController(host, { gate: gateProvider.gate, pageSize: 2, query });
+        const selectAllController = new SelectAllController(host, gateProvider.gate, query);
         const selectAllProgressStore = new ProgressStore();
         return {
             basicData,

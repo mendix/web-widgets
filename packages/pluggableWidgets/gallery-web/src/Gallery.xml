@@ -198,6 +198,13 @@
                     <caption>Item count plural</caption>
                     <description>Must include '%d' to denote number position ('%d items selected')</description>
                 </property>
+                <property key="clearSelectionCaption" type="textTemplate">
+                    <caption>Clear selection caption</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Clear selection</translation>
+                    </translations>
+                </property>
             </propertyGroup>
         </propertyGroup>
     </properties>

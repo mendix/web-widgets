@@ -1,8 +1,8 @@
+import { ProgressStore } from "@mendix/widget-plugin-grid/stores/ProgressStore";
 import { ListValue } from "mendix";
 import { createNanoEvents, Emitter } from "nanoevents";
 import { ColumnsType } from "../../../typings/DatagridProps";
 import { DSExportRequest } from "./DSExportRequest";
-import { ProgressStore } from "./ProgressStore";
 
 interface ControllerEvents {
     sourcechange: (ds: ListValue) => void;
