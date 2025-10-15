@@ -91,7 +91,14 @@ export function getProperties(
     }
 
     if (values.datasource === "icon" && (values.imageIcon?.type === "glyph" || values.imageIcon?.type === "icon")) {
-        hidePropertiesIn(defaultProperties, values, ["widthUnit", "width", "heightUnit", "height"]);
+        hidePropertiesIn(defaultProperties, values, [
+            "widthUnit",
+            "width",
+            "heightUnit",
+            "height",
+            "minHeightUnit",
+            "maxHeightUnit"
+        ]);
     } else {
         hidePropertyIn(defaultProperties, values, "iconSize");
     }
