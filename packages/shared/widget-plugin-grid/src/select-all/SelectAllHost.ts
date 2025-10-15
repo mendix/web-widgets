@@ -18,7 +18,7 @@ export class SelectAllHost extends BaseControllerHost {
     constructor(spec: SelectAllHostSpec) {
         super();
         const query = new DatasourceController(this, { gate: spec.gate });
-        this.selectAllController = new SelectAllController(this, { gate: spec.gate, query, pageSize: 30 });
+        this.selectAllController = new SelectAllController(this, spec.gate, query);
         this.selectAllProgressStore = spec.selectAllProgressStore;
     }
 

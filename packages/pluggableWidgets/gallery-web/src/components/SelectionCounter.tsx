@@ -16,20 +16,12 @@ export const SelectionCounter = observer(function SelectionCounter({
     const clearButtonAriaLabel = `${selectionCountStore.clearButtonLabel} (${selectionCountStore.selectedCount} selected)`;
 
     return (
-        <If condition={selectionCountStore.displayCount !== ""}>
-            <div className={containerClass}>
-                <span className="widget-gallery-selection-count" aria-live="polite" aria-atomic="true">
-                    {selectionCountStore.displayCount}
-                </span>
-                &nbsp;|&nbsp;
-                <button
-                    className="widget-gallery-clear-selection"
-                    onClick={itemSelectHelper.onClearSelection}
-                    aria-label={clearButtonAriaLabel}
-                >
-                    {selectionCountStore.clearButtonLabel}
-                </button>
-            </div>
+        <If condition={selectionCountStore.selectedCountText !== ""}>
+            <span className="widget-gallery-selection-count">{selectionCountStore.selectedCountText}</span>
+            &nbsp;
+            <button className="widget-gallery-clear-selection" onClick={itemSelectHelper.onClearSelection}>
+                {selectionCountStore.clearSelectionText}
+            </button>
         </If>
     );
 });

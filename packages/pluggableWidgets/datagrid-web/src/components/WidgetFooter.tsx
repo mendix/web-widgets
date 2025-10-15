@@ -41,8 +41,8 @@ const SelectionCounter = observer(function SelectionCounter() {
         <If condition={selectionCountStore.selectedCountText !== ""}>
             <span className="widget-datagrid-selection-count">{selectionCountStore.selectedCountText}</span>
             &nbsp;
-            <button className="widget-datagrid-btn-invisible btn" onClick={selectActionHelper.onClearSelection}>
-                Clear selection
+            <button className="widget-datagrid-btn-invisible" onClick={selectActionHelper.onClearSelection}>
+                {selectionCountStore.clearSelectionText}
             </button>
         </If>
     );

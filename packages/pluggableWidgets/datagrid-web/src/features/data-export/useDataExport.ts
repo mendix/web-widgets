@@ -1,8 +1,8 @@
+import { ProgressStore } from "@mendix/widget-plugin-grid/stores/ProgressStore";
 import { useCallback, useEffect, useState } from "react";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { IColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { ExportController } from "./ExportController";
-import { ProgressStore } from "./ProgressStore";
 import { getExportRegistry } from "./registry";
 
 type ResourceEntry = {

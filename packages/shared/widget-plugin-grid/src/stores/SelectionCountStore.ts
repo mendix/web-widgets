@@ -58,7 +58,7 @@ export class SelectionCountStore {
         return this.formatPlural.replace("%d", `${count}`);
     }
 
-    get clearSelectionLabel(): string {
+    get clearSelectionText(): string {
         return this.gate.props.clearSelectionCaption?.value ?? "clear.selection.caption";
     }
 }

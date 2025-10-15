@@ -82,6 +82,20 @@ exports[`Table renders the structure correctly 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -172,6 +186,20 @@ exports[`Table renders the structure correctly for preview when no header is pro
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -295,6 +323,20 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -389,6 +431,20 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -479,6 +535,20 @@ exports[`Table renders the structure correctly with dragging 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -569,6 +639,20 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -659,6 +743,20 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -753,6 +851,20 @@ exports[`Table renders the structure correctly with filtering 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -853,6 +965,20 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -947,6 +1073,20 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -1078,6 +1218,20 @@ exports[`Table renders the structure correctly with hiding 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -1168,6 +1322,20 @@ exports[`Table renders the structure correctly with paging 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         >
           <div
@@ -1348,6 +1516,20 @@ exports[`Table renders the structure correctly with resizing 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -1438,6 +1620,20 @@ exports[`Table renders the structure correctly with sorting 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -1609,6 +1805,20 @@ exports[`Table with selection method checkbox render an extra column and add cla
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         >
           <div
@@ -1827,6 +2037,20 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
         class="widget-datagrid-paging-bottom"
       >
         <div
+<<<<<<< HEAD
+=======
+          class="widget-datagrid-pb-start"
+        >
+          <span
+            class="widget-datagrid-selection-count"
+          />
+           
+          <button
+            class="widget-datagrid-btn-invisible"
+          />
+        </div>
+        <div
+>>>>>>> 776cb753c (feat: fix ts issues)
           class="widget-datagrid-pb-end"
         >
           <div
