@@ -62,6 +62,33 @@
                                 <caption>Export value</caption>
                                 <description />
                             </property>
+                            <property key="exportType" type="enumeration" defaultValue="text">
+                                <caption>Export type</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="text">Text</enumerationValue>
+                                    <enumerationValue key="number">Number</enumerationValue>
+                                    <enumerationValue key="date">Date</enumerationValue>
+                                    <enumerationValue key="boolean">Boolean</enumerationValue>
+                                </enumerationValues>
+                            </property>
+                            <property key="exportNumberFormat" type="textTemplate" required="false">
+                                <caption>Export number format</caption>
+                                <description>
+                                    Optional Excel number format string to apply when exporting numeric values.
+                                    You can use any valid SheetJS number format, including currency, percentage, or custom patterns
+                                    (e.g. "#,##0.00", "$0.00", "0.00%").
+                                    See full syntax reference here: https://docs.sheetjs.com/docs/csf/features/nf/
+                                </description>
+                            </property>
+                            <property key="exportDateFormat" type="textTemplate" required="false">
+                                <caption>Export date format</caption>
+                                <description>
+                                    Optional Excel date format string to apply when exporting Date or DateTime values.
+                                    Follows JavaScript date format conventions supported by SheetJS
+                                    (e.g. "yyyy-mm-dd", "dd/mm/yyyy hh:mm", "mmm d, yyyy").
+                                </description>
+                            </property>
                             <property key="header" type="textTemplate" required="false">
                                 <caption>Caption</caption>
                                 <description />
