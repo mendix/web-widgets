@@ -16,6 +16,7 @@ type Props = Pick<
     | "selectedCountTemplateSingular"
     | "datasource"
     | "allSelectedText"
+    | "enableSelectAll"
 >;
 
 type Gate = DerivedPropsGate<Props>;
@@ -25,9 +26,10 @@ export class SelectAllBarViewModel implements ReactiveController {
     private clearVisible = false;
     pending = false;
 
-    #gate: Gate;
-    #selectAllController: SelectAllController;
-    #count: SelectionCountStore;
+    readonly #gate: Gate;
+    readonly #selectAllController: SelectAllController;
+    readonly #count: SelectionCountStore;
+    readonly #enableSelectAll: boolean;
 
     constructor(
         host: ReactiveControllerHost,
@@ -46,6 +48,7 @@ export class SelectAllBarViewModel implements ReactiveController {
         this.#gate = gate;
         this.#selectAllController = selectAllController;
         this.#count = count;
+        this.#enableSelectAll = gate.props.enableSelectAll;
     }
 
     private setClearVisible(value: boolean): void {
@@ -120,7 +123,7 @@ export class SelectAllBarViewModel implements ReactiveController {
     }
 
     get isBarVisible(): boolean {
-        return this.barVisible;
+        return this.#enableSelectAll && this.barVisible;
     }
 
     get isClearVisible(): boolean {
@@ -135,7 +138,9 @@ export class SelectAllBarViewModel implements ReactiveController {
         return this.pending;
     }
 
-    setup(): () => void {
+    setup(): (() => void) | void {
+        if (!this.#enableSelectAll) return;
+
         return reaction(
             () => this.isCurrentPageSelected,
             isCurrentPageSelected => {
