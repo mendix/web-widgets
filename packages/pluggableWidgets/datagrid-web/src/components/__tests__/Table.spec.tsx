@@ -1,23 +1,18 @@
 import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
-import {
-    MultiSelectionStatus,
-    useSelectionHelper,
-    MultiPageSelectionController
-} from "@mendix/widget-plugin-grid/selection";
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
-import {
-    list,
-    ListValueBuilder,
-    listWidget,
-    objectItems,
-    SelectionMultiValueBuilder
-} from "@mendix/widget-plugin-test-utils";
+import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
+import { MultiSelectionHelper, SelectAllController, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { ProgressStore } from "@mendix/widget-plugin-grid/stores/ProgressStore";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/stores/SelectionCountStore";
+import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { list, listWidget, objectItems, SelectionMultiValueBuilder } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { cleanup, getAllByRole, getByRole, queryByRole, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
 import { ReactElement } from "react";
-import { ItemSelectionMethodEnum } from "typings/DatagridProps";
+import { RootGridStore } from "src/helpers/state/RootGridStore";
+import { DatagridContainerProps, ItemSelectionMethodEnum } from "typings/DatagridProps";
 import { CellEventsController, useCellEventsController } from "../../features/row-interaction/CellEventsController";
 import {
     CheckboxEventsController,
@@ -26,11 +21,11 @@ import {
 import { SelectActionHelper, useSelectActionHelper } from "../../helpers/SelectActionHelper";
 import { DatagridContext, DatagridRootScope } from "../../helpers/root-context";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
+import { SelectAllBarViewModel } from "../../helpers/state/SelectAllBarViewModel";
+import { SelectionProgressDialogViewModel } from "../../helpers/state/SelectionProgressDialogViewModel";
 import { GridColumn } from "../../typings/GridColumn";
 import { column, mockGridColumn, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";
-import { RootGridStore } from "src/helpers/state/RootGridStore";
-import { SelectAllProgressStore } from "src/features/multi-page-selection/SelectAllProgressStore";
 // you can also pass the mock implementation
 // to jest.fn as an argument
 window.IntersectionObserver = jest.fn(() => ({
@@ -42,6 +37,8 @@ window.IntersectionObserver = jest.fn(() => ({
     unobserve: jest.fn(),
     takeRecords: jest.fn()
 }));
+
+class Host extends BaseControllerHost {}
 
 function withCtx(
     widgetProps: WidgetProps<GridColumn, ObjectItem>,
@@ -64,17 +61,29 @@ function withCtx(
         fmtPlural: "%d rows selected"
     };
 
+    const host = new Host();
+    const { gate } = new GateProvider({ datasource: list(4) } as DatagridContainerProps);
+    const query = new DatasourceController(host, { gate });
+    const selectAllProgressStore = new ProgressStore();
+    const selectAllController = new SelectAllController(host, gate, query);
+
     const mockContext = {
         basicData: defaultBasicData as unknown as GridBasicData,
         selectionHelper: undefined,
         selectActionHelper: widgetProps.selectActionHelper,
         cellEventsController: widgetProps.cellEventsController,
         checkboxEventsController: widgetProps.checkboxEventsController,
-        multiPageSelectionController: {} as unknown as MultiPageSelectionController,
         focusController: widgetProps.focusController,
         selectionCountStore: defaultSelectionCountStore as unknown as SelectionCountStore,
-        selectAllProgressStore: {} as unknown as SelectAllProgressStore,
+        selectAllProgressStore,
         rootStore: {} as unknown as RootGridStore,
+        selectAllBarViewModel: new SelectAllBarViewModel(host, gate, selectAllController),
+        selectionProgressDialogViewModel: new SelectionProgressDialogViewModel(
+            host,
+            gate,
+            selectAllProgressStore,
+            selectAllController
+        ),
         ...contextOverrides
     };
 
@@ -223,15 +232,7 @@ describe("Table", () => {
 
         beforeEach(() => {
             props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper(
-                "Single",
-                undefined,
-                "checkbox",
-                false,
-                5,
-                "clear",
-                new ListValueBuilder().build()
-            );
+            props.selectActionHelper = new SelectActionHelper("Single", undefined, "checkbox", false, 5, "clear");
             props.paging = true;
             props.data = objectItems(3);
         });
@@ -330,15 +331,7 @@ describe("Table", () => {
         const props = mockWidgetProps();
         props.data = objectItems(5);
         props.paging = true;
-        props.selectActionHelper = new SelectActionHelper(
-            "Multi",
-            undefined,
-            "checkbox",
-            false,
-            5,
-            "clear",
-            new ListValueBuilder().build()
-        );
+        props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", false, 5, "clear");
         renderWithRootContext(props);
 
         const colheader = screen.getAllByRole("columnheader")[0];
@@ -348,47 +341,47 @@ describe("Table", () => {
     describe("with multi selection helper", () => {
         it("render header checkbox if helper is given and checkbox state depends on the helper status", () => {
             const props = mockWidgetProps();
-            props.data = objectItems(5);
+            const items = list(5).items!;
+            props.data = items;
             props.paging = true;
-            props.selectActionHelper = new SelectActionHelper(
-                "Multi",
-                undefined,
-                "checkbox",
-                true,
-                5,
-                "clear",
-                new ListValueBuilder().build()
+            let selectionHelper;
+            let actionHelper;
+
+            // none
+            selectionHelper = new MultiSelectionHelper(
+                { selection: [] as ObjectItem[], type: "Multi" } as SelectionMultiValue,
+                items
             );
+            actionHelper = new SelectActionHelper("Multi", selectionHelper, "checkbox", true, 5, "clear");
 
-            const renderWithStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
-                return renderWithRootContext(props, {
-                    basicData: { selectionStatus: status } as unknown as GridBasicData
-                });
-            };
-
-            renderWithStatus("none");
+            renderWithRootContext(props, { selectActionHelper: actionHelper, selectionHelper });
             expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).not.toBeChecked();
-
             cleanup();
-            renderWithStatus("some");
-            expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
 
-            cleanup();
-            renderWithStatus("all");
+            // some
+            selectionHelper = new MultiSelectionHelper(
+                { selection: [items[0]] as ObjectItem[], type: "Multi" } as SelectionMultiValue,
+                items
+            );
+            actionHelper = new SelectActionHelper("Multi", selectionHelper, "checkbox", true, 5, "clear");
+            renderWithRootContext(props, { selectActionHelper: actionHelper, selectionHelper });
             expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
+            cleanup();
+
+            // all
+            selectionHelper = new MultiSelectionHelper(
+                { selection: items as ObjectItem[], type: "Multi" } as SelectionMultiValue,
+                items
+            );
+            actionHelper = new SelectActionHelper("Multi", selectionHelper, "checkbox", true, 5, "clear");
+            renderWithRootContext(props, { selectActionHelper: actionHelper, selectionHelper });
+            expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
+            cleanup();
         });
 
         it("not render header checkbox if method is rowClick", () => {
             const props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper(
-                "Multi",
-                undefined,
-                "rowClick",
-                false,
-                5,
-                "clear",
-                new ListValueBuilder().build()
-            );
+            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "rowClick", false, 5, "clear");
 
             renderWithRootContext(props);
 
@@ -398,19 +391,11 @@ describe("Table", () => {
 
         it("call onSelectAll when header checkbox is clicked", async () => {
             const props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper(
-                "Multi",
-                undefined,
-                "checkbox",
-                true,
-                5,
-                "clear",
-                new ListValueBuilder().build()
-            );
+            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
             props.selectActionHelper.onSelectAll = jest.fn();
 
             renderWithRootContext(props, {
-                basicData: { selectionStatus: "none" } as unknown as GridBasicData
+                selectionHelper: { selectionStatus: status, type: "Multi" } as MultiSelectionHelper
             });
 
             const checkbox = screen.getAllByRole("checkbox")[0];
@@ -428,15 +413,7 @@ describe("Table", () => {
 
         beforeEach(() => {
             props = mockWidgetProps();
-            props.selectActionHelper = new SelectActionHelper(
-                "Single",
-                undefined,
-                "rowClick",
-                true,
-                5,
-                "clear",
-                new ListValueBuilder().build()
-            );
+            props.selectActionHelper = new SelectActionHelper("Single", undefined, "rowClick", true, 5, "clear");
             props.paging = true;
             props.data = objectItems(3);
         });
@@ -543,9 +520,7 @@ describe("Table", () => {
                     itemSelectionMode: "clear",
                     showSelectAllToggle: false,
                     pageSize: 5,
-                    datasource: ds,
-                    selectAllPagesEnabled: false,
-                    selectAllPagesBufferSize: 500
+                    datasource: ds
                 },
                 helper
             );
@@ -568,8 +543,10 @@ describe("Table", () => {
                 checkboxEventsController,
                 focusController: props.focusController,
                 selectionCountStore: {} as unknown as SelectionCountStore,
-                selectAllProgressStore: {} as unknown as SelectAllProgressStore,
-                rootStore: {} as unknown as RootGridStore
+                selectAllProgressStore: {} as unknown as ProgressStore,
+                rootStore: {} as unknown as RootGridStore,
+                selectAllBarViewModel: {} as unknown as SelectAllBarViewModel,
+                selectionProgressDialogViewModel: {} as unknown as SelectionProgressDialogViewModel
             };
 
             return (
