@@ -1,17 +1,19 @@
+import { If } from "@mendix/widget-plugin-component-kit/If";
 import classNames from "classnames";
 import { ChangeEvent, MouseEvent, ReactElement } from "react";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { getValidationErrorId } from "../../helpers/utils";
+import { useWrapperProps } from "../../hooks/useWrapperProps";
 import { CaptionContent } from "../CaptionContent";
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Placeholder } from "../Placeholder";
-import { If } from "@mendix/widget-plugin-component-kit/If";
 
 export function RadioSelection({
     selector,
     tabIndex = 0,
     inputId,
     ariaRequired,
+    ariaLabel,
     readOnlyStyle,
     groupName,
     noOptionsText
@@ -43,15 +45,14 @@ export function RadioSelection({
 
     return (
         <div
-            className={classNames("widget-checkbox-radio-selection-list", {
-                "widget-checkbox-radio-selection-readonly": isReadOnly,
-                [`widget-checkbox-radio-selection-readonly-${readOnlyStyle}`]: isReadOnly
+            {...useWrapperProps({
+                inputId,
+                isReadOnly,
+                isCheckbox: asSingleCheckbox,
+                readOnlyStyle,
+                ariaRequired,
+                ariaLabel
             })}
-            role={asSingleCheckbox ? "group" : "radiogroup"}
-            aria-labelledby={`${inputId}-label`}
-            aria-required={ariaRequired?.value}
-            aria-describedby={!asSingleCheckbox && selector.validation ? errorId : undefined}
-            aria-invalid={!asSingleCheckbox && selector.validation ? true : undefined}
         >
             {options.map((optionId, index) => {
                 const isSelected = currentId === optionId;

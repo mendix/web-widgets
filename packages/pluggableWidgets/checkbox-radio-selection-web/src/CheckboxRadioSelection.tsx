@@ -19,6 +19,7 @@ export default function CheckboxRadioSelection(props: CheckboxRadioSelectionCont
         readOnlyStyle: props.readOnlyStyle,
         ariaRequired: props.ariaRequired,
         groupName: props.groupName,
+        ariaLabel: props.ariaLabel,
         noOptionsText: props.noOptionsText?.value ?? "No options available"
     };
 

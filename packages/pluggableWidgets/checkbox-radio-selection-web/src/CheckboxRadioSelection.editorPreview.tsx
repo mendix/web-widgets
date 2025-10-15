@@ -22,6 +22,7 @@ export const preview = (props: CheckboxRadioSelectionPreviewProps): ReactElement
         labelId: `${id}-label`,
         readOnlyStyle: props.readOnlyStyle,
         ariaRequired: dynamic(false),
+        ariaLabel: dynamic(""),
         groupName: dynamic(`${id}-group`),
         noOptionsText: "No options available"
     };

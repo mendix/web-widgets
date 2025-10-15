@@ -59,3 +59,7 @@ export function getCustomCaption(values: CheckboxRadioSelectionPreviewProps): st
 export function getValidationErrorId(inputId?: string): string | undefined {
     return inputId ? inputId + "-validation-message" : undefined;
 }
+
+export function getInputLabel(inputId: string): Element | null {
+    return document.querySelector(`label[for="${inputId}"]`);
+}

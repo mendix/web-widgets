@@ -276,7 +276,7 @@
                     <description />
                     <returnType type="Boolean" />
                 </property>
-                <property key="ariaLabel" type="string" defaultValue="" required="false">
+                <property key="ariaLabel" type="textTemplate" required="false">
                     <caption>Aria label</caption>
                     <description />
                 </property>
