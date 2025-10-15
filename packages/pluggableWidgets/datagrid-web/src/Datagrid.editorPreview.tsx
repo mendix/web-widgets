@@ -117,6 +117,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                 selectionCountStore
             ),
             selectionProgressDialogViewModel: new SelectionProgressDialogViewModel(
+                host,
                 gateProvider.gate as any,
                 selectAllProgressStore,
                 selectAllController

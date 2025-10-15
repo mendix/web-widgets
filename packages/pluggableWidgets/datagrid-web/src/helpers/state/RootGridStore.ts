@@ -142,6 +142,7 @@ export class RootGridStore extends BaseControllerHost {
         );
 
         this.selectionProgressDialogViewModel = new SelectionProgressDialogViewModel(
+            this,
             gate,
             selectAllProgressStore,
             selectAllController
