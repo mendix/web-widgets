@@ -4,7 +4,7 @@ import { MutableRefObject } from "react";
 import { Range } from "quill/core/selection";
 import Keyboard, { Context } from "quill/modules/keyboard";
 import { Scope } from "parchment";
-import { ACTION_DISPATCHER } from "../../utils/helpers";
+import { ACTION_DISPATCHER } from "../helpers";
 import { SET_FULLSCREEN_ACTION } from "../../store/store";
 
 /**
@@ -76,18 +76,34 @@ export function gotoToolbarKeyboardHandler(this: Keyboard, _range: Range, _conte
     (toolbar?.querySelector(".ql-formats button") as HTMLElement)?.focus();
 }
 
-// focus to status bar button (exit editor)
+// move to next element focus : status bar button (exit editor)
 export function gotoStatusBarKeyboardHandler(this: Keyboard, _range: Range, context: Context): boolean | void {
     if (context.format.table) {
         return true;
     }
-
     const statusBar = this.quill.container.parentElement?.parentElement?.nextElementSibling;
     if (statusBar) {
         (statusBar as HTMLElement)?.focus();
     } else {
         this.quill.blur();
     }
+}
+
+// default quill tab handler
+// https://github.com/slab/quill/blob/539cbffd0a13b18e9c65eb84dd35e6596e403158/packages/quill/src/modules/keyboard.ts#L412
+// but modified to add stopPropagation and preventDefault
+export function addIndentText(this: Keyboard, range: Range, context: Context): boolean | void {
+    if (context.format.table) {
+        return true;
+    }
+    this.quill.history.cutoff();
+    const delta = new Delta().retain(range.index).delete(range.length).insert("\t");
+    this.quill.updateContents(delta, Quill.sources.USER);
+    this.quill.history.cutoff();
+    this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+    context.event.stopPropagation();
+    context.event.preventDefault();
+    return false;
 }
 
 /**
