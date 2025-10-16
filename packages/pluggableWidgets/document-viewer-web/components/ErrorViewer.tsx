@@ -1,4 +1,4 @@
-import { createElement, useCallback } from "react";
+import { useCallback } from "react";
 import { DocRendererElement, DocumentRendererProps } from "./documentRenderer";
 import BaseViewer from "./BaseViewer";
 import { downloadFile } from "../utils/helpers";

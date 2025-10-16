@@ -1,4 +1,4 @@
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import { SliderContainerProps } from "../typings/SliderProps";
 import "./ui/Slider.scss";
 import { Container } from "./components/Container";

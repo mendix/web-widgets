@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import "../ui/Panel.scss";
 import "../ui/Sidebar.scss";
 
@@ -50,7 +50,7 @@ export const SidebarHeader = ({ className, onClose, children }: SidebarHeaderPro
 
 export interface SidebarPanelProps {
     className?: string;
-    heading?: React.ReactNode;
+    heading?: ReactNode;
     headingClassName?: string;
     children: ReactNode;
 }

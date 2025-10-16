@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
 import { act, render, RenderResult } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createElement } from "react";
 import { AccordionGroup, AccordionGroupProps, Target } from "../AccordionGroup";
 
 global.ResizeObserver = jest.fn().mockImplementation(() => ({

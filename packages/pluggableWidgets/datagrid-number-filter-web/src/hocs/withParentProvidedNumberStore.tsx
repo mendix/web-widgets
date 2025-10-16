@@ -3,13 +3,13 @@ import { useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "@mendix/widget-plugin-filtering/errors";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { isNumberFilter } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
-import { createElement, useRef } from "react";
+import { ReactElement, useRef } from "react";
 import { NumberFilterProps } from "../components/typings";
 
 export function withParentProvidedNumberStore<P>(
-    Component: (props: P & NumberFilterProps) => React.ReactElement
-): (props: P) => React.ReactElement {
-    return function FilterAPIProvider(props: P): React.ReactElement {
+    Component: (props: P & NumberFilterProps) => ReactElement
+): (props: P) => ReactElement {
+    return function FilterAPIProvider(props: P): ReactElement {
         const api = useNumberFilterAPI();
         if (api.hasError) {
             return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
@@ -23,7 +23,7 @@ export function withParentProvidedNumberStore<P>(
 
 export function useNumberFilterAPI(): Result<NumberFilterProps, APIError> {
     const ctx = useFilterAPI();
-    const numberAPI = useRef<NumberFilterProps>();
+    const numberAPI = useRef<NumberFilterProps>(undefined);
 
     if (ctx.hasError) {
         return error(ctx.error);

@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { Rating as RatingComponent } from "./components/Rating";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";

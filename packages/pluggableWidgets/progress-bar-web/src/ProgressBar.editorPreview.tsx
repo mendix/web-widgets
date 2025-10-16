@@ -1,5 +1,5 @@
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { ProgressBarPreviewProps } from "../typings/ProgressBarProps";
 import { ProgressBar } from "./components/ProgressBar";
 import { defaultValues, ProgressBarValues } from "./progressBarValues";

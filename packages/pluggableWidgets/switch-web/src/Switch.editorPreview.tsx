@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 
 import { SwitchPreviewProps } from "../typings/SwitchProps";
 import Switch from "./components/Switch";

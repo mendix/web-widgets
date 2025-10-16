@@ -1,7 +1,7 @@
 import { RefObject, useEffect } from "react";
 
 function onOuterEvents(
-    refs: RefObject<HTMLElement> | Array<RefObject<HTMLElement>>,
+    refs: RefObject<HTMLElement | null> | Array<RefObject<HTMLElement | null>>,
     callback: () => void
 ): (event: MouseEvent) => void {
     const nodes = Array.isArray(refs) ? refs : [refs];
@@ -14,7 +14,7 @@ function onOuterEvents(
 }
 
 export function useOnClickOutside(
-    refs: RefObject<HTMLElement> | Array<RefObject<HTMLElement>>,
+    refs: RefObject<HTMLElement | null> | Array<RefObject<HTMLElement | null>>,
     callback: () => void
 ): void {
     useEffect(() => {

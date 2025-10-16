@@ -1,5 +1,5 @@
 import { GUID } from "mendix";
-import { createElement, ReactElement, ReactNode } from "react";
+import { isValidElement, ReactElement, ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { UserEvent } from "@testing-library/user-event/setup/setup";
@@ -9,7 +9,13 @@ import { renderTreeNodeHeaderIcon } from "../HeaderIcon";
 
 jest.mock("../../assets/loading-circle.svg", () => "loading-logo.svg");
 
-const items: TreeNodeProps["items"] = [
+interface TreeNodeItem {
+    id: GUID;
+    headerContent: string;
+    bodyContent: ReactElement;
+}
+
+const items: TreeNodeItem[] = [
     { id: "11" as GUID, headerContent: "First header", bodyContent: <div>First content</div> },
     { id: "22" as GUID, headerContent: "Second header", bodyContent: <div>Second content</div> },
     { id: "33" as GUID, headerContent: "Third header", bodyContent: <div>Third content</div> }
@@ -56,7 +62,8 @@ describe("TreeNode", () => {
         renderTreeNode({ items, isUserDefinedLeafNode: false, startExpanded: true });
         items.forEach(item => {
             expect(screen.getByText(item.headerContent as string)).toBeInTheDocument();
-            expect(screen.getByText((item.bodyContent as React.ReactElement).props.children)).toBeInTheDocument();
+            const texts = getTextFromElement(item.bodyContent);
+            texts.forEach(text => expect(screen.getByText(text)).toBeInTheDocument());
         });
     });
 
@@ -64,7 +71,8 @@ describe("TreeNode", () => {
         renderTreeNode({ items, isUserDefinedLeafNode: false, startExpanded: false });
         items.forEach(item => {
             expect(screen.getByText(item.headerContent as string)).toBeInTheDocument();
-            expect(screen.queryByText((item.bodyContent as React.ReactElement).props.children)).not.toBeInTheDocument();
+            const texts = getTextFromElement(item.bodyContent);
+            texts.forEach(text => expect(screen.queryByText(text)).not.toBeInTheDocument());
         });
     });
 
@@ -674,3 +682,16 @@ describe("TreeNode", () => {
         });
     });
 });
+
+function getTextFromElement(element: unknown): string[] {
+    if (!isValidElement(element)) throw new Error("Not a React element");
+
+    const typedElement = element as ReactElement<{ children?: ReactNode }>;
+    const children = typedElement.props.children;
+
+    if (typeof children === "string") return [children];
+    if (Array.isArray(children)) {
+        return children.flatMap(child => (typeof child === "string" ? [child] : []));
+    }
+    return [];
+}

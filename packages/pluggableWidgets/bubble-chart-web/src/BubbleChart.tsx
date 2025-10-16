@@ -3,7 +3,7 @@ import "@mendix/shared-charts/ui/Chart.scss";
 import { defaultEqual, flatEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import Big from "big.js";
 import classNames from "classnames";
-import { createElement, memo, ReactElement, useCallback } from "react";
+import { memo, ReactElement, useCallback } from "react";
 import { BubbleChartContainerProps, LinesType } from "../typings/BubbleChartProps";
 import { calculateSizeRef } from "./utils";
 
@@ -94,8 +94,8 @@ export const BubbleChart = memo(
                 height={props.height}
                 heightUnit={props.heightUnit}
                 showLegend={props.showLegend}
-                xAxisLabel={props.xAxisLabel?.value}
-                yAxisLabel={props.yAxisLabel?.value}
+                xAxisLabel={props.xAxisLabel?.value ? { text: props.xAxisLabel.value } : undefined}
+                yAxisLabel={props.yAxisLabel?.value ? { text: props.yAxisLabel.value } : undefined}
                 gridLinesMode={props.gridLines}
                 playground={props.playground}
                 customLayout={props.customLayout}

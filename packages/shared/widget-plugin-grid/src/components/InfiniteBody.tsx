@@ -1,5 +1,4 @@
 import {
-    createElement,
     CSSProperties,
     PropsWithChildren,
     ReactElement,
@@ -24,11 +23,11 @@ const offsetBottom = 30;
 
 export function useInfiniteControl(
     props: PropsWithChildren<InfiniteBodyProps>
-): [trackScrolling: (e: any) => void, bodySize: number, containerRef: RefObject<HTMLDivElement>] {
+): [trackScrolling: (e: any) => void, bodySize: number, containerRef: RefObject<HTMLDivElement | null>] {
     const { setPage, hasMoreItems, isInfinite } = props;
     const [bodySize, setBodySize] = useState<number>(0);
     const containerRef = useRef<HTMLDivElement>(null);
-    const isVisible = useOnScreen(containerRef);
+    const isVisible = useOnScreen(containerRef as RefObject<HTMLElement>);
 
     const trackScrolling = useCallback(
         (e: any) => {

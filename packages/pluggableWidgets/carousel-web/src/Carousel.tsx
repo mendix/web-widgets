@@ -1,7 +1,7 @@
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import classNames from "classnames";
 import { GUID, ObjectItem, ValueStatus } from "mendix";
-import { createElement, ReactNode, useCallback, useId } from "react";
+import { ReactNode, useCallback, useId } from "react";
 import { CarouselContainerProps } from "../typings/CarouselProps";
 import { Carousel as CarouselComponent } from "./components/Carousel";
 import "./ui/Carousel.scss";

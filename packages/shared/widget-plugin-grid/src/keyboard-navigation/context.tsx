@@ -1,4 +1,4 @@
-import { createContext, createElement, PropsWithChildren, ReactElement, useContext, useMemo } from "react";
+import { createContext, PropsWithChildren, ReactElement, useContext, useMemo } from "react";
 import { FocusTargetController } from "./FocusTargetController";
 
 export const defaultValue = Symbol("DefaultKeyNavContextValue");

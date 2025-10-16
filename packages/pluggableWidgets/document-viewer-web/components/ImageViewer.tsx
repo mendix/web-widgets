@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { BaseControlViewer } from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps } from "./documentRenderer";
 

@@ -1,4 +1,4 @@
-import { createElement, PropsWithChildren, ReactElement } from "react";
+import { PropsWithChildren, ReactElement } from "react";
 import { PopupContext } from "../components/PopupContext";
 import { PopupTrigger } from "../components/PopupTrigger";
 import { usePopup } from "../hooks/usePopup";

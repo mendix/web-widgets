@@ -1,5 +1,4 @@
-import { createElement } from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, RenderResult, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import Switch, { SwitchProps } from "../Switch";
@@ -13,7 +12,7 @@ describe("Switch", () => {
         validation: undefined
     };
 
-    function renderSwitch(props: Partial<SwitchProps> = {}) {
+    function renderSwitch(props: Partial<SwitchProps> = {}): RenderResult {
         return render(<Switch {...{ ...defaultProps, ...props }} />);
     }
 

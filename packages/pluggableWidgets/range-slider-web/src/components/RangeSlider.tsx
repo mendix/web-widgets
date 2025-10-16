@@ -1,4 +1,4 @@
-import { createElement, CSSProperties, forwardRef, ReactElement, RefObject } from "react";
+import { CSSProperties, forwardRef, ReactElement, RefObject } from "react";
 import { Range, RangeProps } from "rc-slider";
 import classNames from "classnames";
 

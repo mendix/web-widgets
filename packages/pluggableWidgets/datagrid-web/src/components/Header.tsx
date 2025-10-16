@@ -1,5 +1,4 @@
 import {
-    createElement,
     Dispatch,
     DragEvent,
     DragEventHandler,

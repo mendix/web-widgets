@@ -1,5 +1,4 @@
-import { createElement } from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, RenderResult, screen } from "@testing-library/react";
 import { Rating, RatingProps } from "../Rating";
 import "@testing-library/jest-dom";
 
@@ -15,7 +14,7 @@ const defaultProps: RatingProps = {
     style: undefined
 };
 
-function renderRating(props?: Partial<RatingProps>) {
+function renderRating(props?: Partial<RatingProps>): RenderResult {
     return render(<Rating {...defaultProps} {...props} />);
 }
 

@@ -1,4 +1,4 @@
-import { createElement, FC } from "react";
+import { FC } from "react";
 
 export interface GridBackgroundProps {
     gridCellWidth: number;
@@ -12,7 +12,7 @@ export const Grid: FC<GridBackgroundProps> = ({
     gridCellHeight,
     gridBorderColor,
     gridBorderWidth,
-    showGrid
+    showGrid = true
 }) => {
     const id = `grid${Math.floor(Math.random() * 1000000)}`;
     return showGrid ? (
@@ -43,4 +43,3 @@ export const Grid: FC<GridBackgroundProps> = ({
 };
 
 Grid.displayName = "Grid";
-Grid.defaultProps = { showGrid: true };

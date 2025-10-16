@@ -1,6 +1,6 @@
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import classNames from "classnames";
-import { createElement, Fragment, ReactElement, useEffect, useState } from "react";
+import { Fragment, ReactElement, useEffect, useState } from "react";
 import { RichTextContainerProps } from "../typings/RichTextProps";
 import EditorWrapper from "./components/EditorWrapper";
 import "./ui/RichText.scss";

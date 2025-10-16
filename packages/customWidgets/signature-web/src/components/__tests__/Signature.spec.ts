@@ -41,7 +41,7 @@ describe("Signature", () => {
         });
         const canvasInstance: any = canvas.instance();
         canvasInstance.canvasNode = document.createElement("canvas");
-        const signaturePadOptions = spyOn(canvasInstance, "signaturePadOptions").and.callThrough();
+        const signaturePadOptions = jest.spyOn(canvasInstance, "signaturePadOptions");
         canvasInstance.componentDidMount();
         expect(signaturePadOptions).toHaveBeenCalled();
     });

@@ -1,5 +1,5 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { createElement, ReactElement, useMemo } from "react";
+import { ReactElement, useMemo } from "react";
 import { ComboboxPreviewProps } from "../typings/ComboboxProps";
 import { SingleSelection } from "./components/SingleSelection/SingleSelection";
 import { dynamic } from "@mendix/widget-plugin-test-utils";

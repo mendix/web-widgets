@@ -1,4 +1,4 @@
-import { createElement, ReactElement, RefObject } from "react";
+import { ReactElement, RefObject } from "react";
 import Tooltip from "rc-tooltip";
 import { Handle, HandleProps } from "rc-slider";
 import { DynamicValue } from "mendix";
@@ -18,7 +18,7 @@ type CreateHandleGeneratorParams = {
     tooltipTypeLower: "value" | "customText";
     tooltipTypeUpper: "value" | "customText";
     tooltipAlwaysVisible: boolean;
-    sliderRef: RefObject<HTMLDivElement>;
+    sliderRef: RefObject<HTMLDivElement | null>;
 };
 
 export function createHandleGenerator(props: CreateHandleGeneratorParams): HandleGenerator | undefined {

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { createElement, ReactElement, useMemo, useRef } from "react";
+import { JSX, ReactElement, useMemo, useRef } from "react";
 import { SelectionMethod } from "../helpers/SelectActionHelper";
 
 type P = JSX.IntrinsicElements["div"];

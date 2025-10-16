@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
-import { createElement, PropsWithChildren, ReactElement } from "react";
+import { PropsWithChildren, ReactElement } from "react";
 
 interface ComboboxOptionWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
     isSelected?: boolean;

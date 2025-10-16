@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useCombobox, UseComboboxProps, useMultipleSelection, UseMultipleSelectionProps } from "downshift";
 import { observer } from "mobx-react-lite";
-import { createElement, useId, useRef } from "react";
+import { CSSProperties, FocusEventHandler, ReactElement, UIEventHandler, useId, useRef } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
@@ -18,18 +18,18 @@ interface TagPickerProps {
     selectedStyle?: "boxes" | "text";
     ariaLabel: string;
     className?: string;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     useMultipleSelectionProps: () => UseMultipleSelectionProps<OptionWithState>;
     useComboboxProps: () => UseComboboxProps<OptionWithState>;
     onClear: () => void;
     onBlur: () => void;
-    onFocus?: React.FocusEventHandler<HTMLInputElement>;
-    onMenuScroll?: React.UIEventHandler<HTMLUListElement>;
+    onFocus?: FocusEventHandler<HTMLInputElement>;
+    onMenuScroll?: UIEventHandler<HTMLUListElement>;
 }
 
 const cls = classes();
 
-export const TagPicker = observer(function TagPicker(props: TagPickerProps): React.ReactElement {
+export const TagPicker = observer(function TagPicker(props: TagPickerProps): ReactElement {
     const [inputContainerId, helperText1] = [useId(), useId()];
     const { showCheckboxes, selectedStyle = "boxes", ariaLabel: inputLabel = "Search" } = props;
     const inputContainerRef = useRef<HTMLDivElement>(null);

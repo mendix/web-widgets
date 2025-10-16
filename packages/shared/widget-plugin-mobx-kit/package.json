@@ -31,6 +31,7 @@
         "test": "jest"
     },
     "dependencies": {
+        "@types/minimatch": "^3.0.5",
         "mobx": "6.12.3"
     },
     "devDependencies": {
@@ -38,10 +39,9 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/tsconfig-web-widgets": "workspace:*",
         "@swc/core": "^1.7.26",
-        "@swc/jest": "^0.2.36",
-        "@testing-library/react-hooks": "^8.0.1"
+        "@swc/jest": "^0.2.36"
     },
     "optionalDependencies": {
-        "react": "^18.0.0"
+        "react": ">=18.0.0 <19.0.0"
     }
 }

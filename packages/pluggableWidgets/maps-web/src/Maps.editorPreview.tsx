@@ -1,4 +1,4 @@
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import { MapsPreviewProps } from "../typings/MapsProps";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";

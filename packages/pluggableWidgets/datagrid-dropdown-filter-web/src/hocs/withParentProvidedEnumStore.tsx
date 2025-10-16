@@ -1,14 +1,14 @@
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { createElement, useRef } from "react";
+import { ReactElement, useRef } from "react";
 import { useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "@mendix/widget-plugin-filtering/errors";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { EnumFilterProps } from "../components/typings";
 
 export function withParentProvidedEnumStore<P extends { filterable: boolean }>(
-    Component: (props: P & EnumFilterProps) => React.ReactElement
-): (props: P) => React.ReactElement {
-    return function FilterAPIProvider(props: P): React.ReactElement {
+    Component: (props: P & EnumFilterProps) => ReactElement
+): (props: P) => ReactElement {
+    return function FilterAPIProvider(props: P): ReactElement {
         const api = useEnumFilterAPI();
         if (api.hasError) {
             return <Alert bootstrapStyle="danger">{api.error.message}</Alert>;
@@ -22,7 +22,7 @@ export function withParentProvidedEnumStore<P extends { filterable: boolean }>(
 
 function useEnumFilterAPI(): Result<EnumFilterProps, APIError> {
     const ctx = useFilterAPI();
-    const slctAPI = useRef<EnumFilterProps>();
+    const slctAPI = useRef<EnumFilterProps>(undefined);
 
     if (ctx.hasError) {
         return error(ctx.error);

@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { TimelineContainerProps } from "../typings/TimelineProps";
 import "./ui/Timeline.scss";
 import TimelineComponent from "./components/TimelineComponent";

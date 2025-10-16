@@ -1,4 +1,3 @@
-import { createElement } from "react";
 import { actionValue, EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { StarRatingContainerProps } from "../../../typings/StarRatingProps";
 import { Big } from "big.js";

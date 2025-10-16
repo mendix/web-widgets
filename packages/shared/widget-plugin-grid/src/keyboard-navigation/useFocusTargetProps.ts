@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { useKeyNavContext } from "./context";
 import { Listener } from "./FocusTargetController";
 import { posString } from "./position";
@@ -18,7 +18,7 @@ type ElementState = {
 };
 
 type ElementProps<T extends Focusable> = {
-    ref: React.RefObject<T>;
+    ref: RefObject<T | null>;
     tabIndex: 0 | -1;
     "data-position": string;
 };

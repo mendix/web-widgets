@@ -1,9 +1,9 @@
-import { createElement, Fragment, useRef } from "react";
+import { createElement, Fragment, ReactElement, useRef } from "react";
 
 export function withPreloader<P extends object>(
-    Component: (props: P) => React.ReactElement,
+    Component: (props: P) => ReactElement,
     isLoading: (props: P) => boolean
-): (props: P) => React.ReactElement {
+): (props: P) => ReactElement {
     return function Preloader(props: P) {
         const isLoaded = (useRef(false).current ||= !isLoading(props));
         return isLoaded ? <Component {...props} /> : <Fragment />;

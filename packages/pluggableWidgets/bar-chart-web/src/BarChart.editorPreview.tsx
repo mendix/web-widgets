@@ -1,5 +1,5 @@
 import { ChartPreview } from "@mendix/shared-charts/preview";
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import BarChartGrouped from "./assets/BarChart-grouped.light.svg";
 import BarChartStacked from "./assets/BarChart-stacked.light.svg";
 import BarChartLegend from "./assets/BarChart-legend.light.svg";

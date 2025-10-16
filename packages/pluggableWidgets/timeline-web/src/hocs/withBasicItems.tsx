@@ -1,11 +1,11 @@
-import { createElement } from "react";
+import { ReactElement } from "react";
 import { TimelineContainerProps } from "../../typings/TimelineProps";
 import { ComponentProps } from "../helpers/types";
 import { useBasicItems } from "../helpers/useBasicItems";
 
-type Timeline = (props: TimelineContainerProps) => React.ReactElement;
+type Timeline = (props: TimelineContainerProps) => ReactElement;
 
-export function withBasicItems(Component: (props: ComponentProps) => React.ReactElement): Timeline {
+export function withBasicItems(Component: (props: ComponentProps) => ReactElement): Timeline {
     return function TimelineBasic(props) {
         return (
             <Component

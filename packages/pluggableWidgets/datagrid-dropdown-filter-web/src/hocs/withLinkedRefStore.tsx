@@ -7,7 +7,7 @@ import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { AssociationMetaData, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
-import { createElement, useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 import { RefFilterProps } from "../components/typings";
 
@@ -32,10 +32,10 @@ export interface RequiredProps {
     fetchOptionsLazy: boolean;
 }
 
-type Component<P extends object> = (props: P) => React.ReactElement;
+type Component<P extends object> = (props: P) => ReactElement;
 
 export function withLinkedRefStore<P extends WidgetProps>(Cmp: Component<P & RefFilterProps>): Component<P> {
-    function StoreProvider(props: P & { filterAPI: FilterAPI }): React.ReactElement {
+    function StoreProvider(props: P & { filterAPI: FilterAPI }): ReactElement {
         const gate = useGate(props);
         const provider = useSetup(() => new RefStoreProvider(props.filterAPI, gate));
         return <Cmp {...props} filterStore={provider.store} parentChannelName={props.filterAPI.parentChannelName} />;

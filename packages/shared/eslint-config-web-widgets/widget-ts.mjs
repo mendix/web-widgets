@@ -31,6 +31,13 @@ export default tseslint.config(
             "no-loop-func": "error",
             "no-new-func": "error",
             "no-new-wrappers": "error",
+            "no-restricted-syntax": [
+                "error",
+                {
+                    selector: "TSTypeReference[typeName.left.name='React']",
+                    message: "Do not use implicit React namespace."
+                }
+            ],
             "no-return-await": "error",
             "no-sequences": "error",
             "no-template-curly-in-string": "error",
@@ -85,7 +92,8 @@ export default tseslint.config(
             "react/jsx-boolean-value": ["error", "never"],
             "react/no-deprecated": "warn",
             "react/jsx-uses-vars": "error",
-            "react/jsx-uses-react": "off"
+            "react/jsx-uses-react": "off",
+            "react/react-in-jsx-scope": "off"
         }
     },
     {

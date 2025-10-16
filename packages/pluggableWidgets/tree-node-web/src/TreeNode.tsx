@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { ObjectItem, ValueStatus } from "mendix";
 import { TreeNodeContainerProps } from "../typings/TreeNodeProps";
 import { TreeNode as TreeNodeComponent, TreeNodeItem } from "./components/TreeNode";

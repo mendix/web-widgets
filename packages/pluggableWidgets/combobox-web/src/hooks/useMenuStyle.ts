@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 
-export function useMenuStyle<T extends HTMLElement>(isOpen: boolean): [React.RefObject<T>, React.CSSProperties] {
+export function useMenuStyle<T extends HTMLElement>(isOpen: boolean): [RefObject<T | null>, CSSProperties] {
     const ref = useRef<T>(null);
-    const [style, setStyle] = useState<React.CSSProperties>({ visibility: "hidden", position: "fixed" });
+    const [style, setStyle] = useState<CSSProperties>({ visibility: "hidden", position: "fixed" });
     const [setStyleDebounced, abort] = useMemo(() => debounce(setStyle, 32), [setStyle]);
     const menuHeight = ref.current?.offsetHeight ?? 0;
     const targetBox = usePositionObserver(ref.current?.parentElement ?? null, isOpen);
@@ -27,7 +27,7 @@ export function useMenuStyle<T extends HTMLElement>(isOpen: boolean): [React.Ref
     return [ref, style];
 }
 
-function getMenuPosition(targetBox: DOMRect, menuBox: DOMRect): React.CSSProperties {
+function getMenuPosition(targetBox: DOMRect, menuBox: DOMRect): CSSProperties {
     const { height } = menuBox;
     const bottomSpace = window.innerHeight - targetBox.bottom;
     const topSpace = targetBox.top - height < 0 ? targetBox.top - height : 0;

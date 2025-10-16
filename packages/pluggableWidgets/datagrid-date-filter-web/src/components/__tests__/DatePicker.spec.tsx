@@ -1,5 +1,4 @@
 import { render } from "@testing-library/react";
-import { createElement } from "react";
 import ReactDOM from "react-dom";
 import { doubleMonthOrDayWhenSingle } from "../../utils/date-utils";
 import { DatePicker } from "../DatePicker";

@@ -1,5 +1,5 @@
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
-import { createElement, FC } from "react";
+import { FC } from "react";
 import { EnumStoreProvider } from "@mendix/widget-plugin-filtering/custom-filter-api/EnumStoreProvider";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { AttributeMetaData } from "mendix";

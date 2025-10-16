@@ -29,7 +29,7 @@ export type ReaderProps = {
     detectionLogic?: "zxing" | "native";
 };
 
-export type UseReaderHook = (args: ReaderProps) => { ref: RefObject<HTMLVideoElement>; useBrowserAPI: boolean };
+export type UseReaderHook = (args: ReaderProps) => { ref: RefObject<HTMLVideoElement | null>; useBrowserAPI: boolean };
 
 export const returnVideoWidthHeight = (
     curVideoRef: HTMLVideoElement,

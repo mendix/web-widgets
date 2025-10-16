@@ -28,7 +28,7 @@ test.describe("Slider", () => {
         await expect(value).toContain("10");
 
         const handleStyle = await page.locator(".mx-name-sliderContext .rc-slider-handle").getAttribute("style");
-        await expect(handleStyle).toContain("left: 50%; right: auto; transform: translateX(-50%);");
+        await expect(handleStyle).toContain("left: 50%; transform: translateX(-50%);");
     });
 
     test("renders without context", async ({ page }) => {
@@ -228,26 +228,26 @@ test.describe("Slider", () => {
             await page.waitForLoadState("networkidle");
 
             await expect(page.locator(".mx-name-slider")).toBeVisible();
-            await expect(page.locator(".rc-slider-tooltip-content")).toHaveText("Slider");
+            await expect(page.locator(".rc-slider-tooltip-container")).toHaveText("Slider");
 
             await page
                 .locator(".mx-name-slider .rc-slider-handle")
                 .dragTo(page.locator(".mx-name-slider .rc-slider .rc-slider-dot:nth-child(2)"), { force: true });
 
-            await expect(page.locator(".rc-slider-tooltip-content")).toHaveText("Slider");
+            await expect(page.locator(".rc-slider-tooltip-container")).toHaveText("Slider");
         });
 
         test("renders the slider's value", async ({ page }) => {
             await page.goto("/p/tooltip-with-slider-value");
             await page.waitForLoadState("networkidle");
 
-            await expect(page.locator(".rc-slider-tooltip-content")).toHaveText("10.00");
+            await expect(page.locator(".rc-slider-tooltip-container")).toHaveText("10.00");
 
             await page
                 .locator(".mx-name-slider .rc-slider-handle")
                 .dragTo(page.locator(".mx-name-slider .rc-slider .rc-slider-dot:nth-child(3)"), { force: true });
 
-            await expect(page.locator(".rc-slider-tooltip-content")).toHaveText(/20.00/);
+            await expect(page.locator(".rc-slider-tooltip-container")).toHaveText(/20.00/);
         });
     });
 });

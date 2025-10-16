@@ -4,8 +4,8 @@ import "../ui/accordion-main.scss";
 
 type ResizeObserverProps = {
     renderCollapsed: boolean;
-    contentWrapperRef: RefObject<HTMLDivElement>;
-    contentRef: RefObject<HTMLDivElement>;
+    contentWrapperRef: RefObject<HTMLDivElement | null>;
+    contentRef: RefObject<HTMLDivElement | null>;
 };
 
 export function CallResizeObserver(entries: ResizeObserverEntry[], props: ResizeObserverProps): void {

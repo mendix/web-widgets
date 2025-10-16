@@ -1,8 +1,10 @@
-export type InferEvent<T> = T extends React.EventHandler<infer E> ? E : never;
+import { DOMAttributes, EventHandler } from "react";
+
+export type InferEvent<T> = T extends EventHandler<infer E> ? E : never;
 
 export type EventName = "onClick" | "onDoubleClick" | "onKeyDown" | "onKeyUp" | "onMouseDown" | "onFocus";
 
-export type ElementProps<T> = { [name in EventName]?: React.DOMAttributes<T>[name] };
+export type ElementProps<T> = { [name in EventName]?: DOMAttributes<T>[name] };
 
 export type EventCaseEntry<
     Context,

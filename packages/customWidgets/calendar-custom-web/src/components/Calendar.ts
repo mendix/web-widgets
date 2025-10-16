@@ -1,4 +1,4 @@
-import { Component, createElement, CSSProperties, ReactChild, ReactNode } from "react";
+import { Component, createElement, CSSProperties, ReactNode } from "react";
 
 import { Alert } from "./Alert";
 import { Container, Style } from "../utils/namespaces";
@@ -20,18 +20,18 @@ const localizer = BigCalendar.momentLocalizer(moment);
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
 export interface CalendarProps {
-    alertMessage?: ReactChild;
+    alertMessage?: ReactNode;
     className?: string;
     events: CalendarEvent[];
     color?: string;
-    formats?: {};
+    formats?: object;
     enableCreate: boolean;
     height: number;
     heightUnit: Style.HeightUnitType;
     defaultView: Style.View;
     loading?: boolean;
     startPosition?: Date;
-    messages: {};
+    messages: object;
     editable: string;
     titleFormat?: (date: Date) => void;
     weekdayFormat?: (date: Date) => void;
@@ -141,7 +141,7 @@ class Calendar extends Component<CalendarProps, State> {
 
     private renderCalendar(): ReactNode {
         const wrapToolbar =
-            (injectedProps: HOCToolbarProps): Function =>
+            (injectedProps: HOCToolbarProps): ((toolbarProps: Container.ToolbarProps) => void) =>
             (toolbarProps: Container.ToolbarProps) =>
                 createElement(CustomToolbar as any, { ...injectedProps, ...toolbarProps });
 

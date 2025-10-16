@@ -1,4 +1,4 @@
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import { RangeSliderPreviewProps } from "../typings/RangeSliderProps";
 import { RangeSlider } from "./components/RangeSlider";
 import { createMarks } from "./utils/marks";

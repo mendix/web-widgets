@@ -1,13 +1,4 @@
-import {
-    createElement,
-    Dispatch,
-    MutableRefObject,
-    ReactElement,
-    useCallback,
-    useMemo,
-    useReducer,
-    useRef
-} from "react";
+import { Dispatch, MutableRefObject, ReactElement, useCallback, useMemo, useReducer, useRef } from "react";
 
 import { AccordionGroup, AccordionGroupProps, Target } from "./AccordionGroup";
 import { CollapsedAccordionGroupsReducerAction, getCollapsedAccordionGroupsReducer } from "../utils/reducers";

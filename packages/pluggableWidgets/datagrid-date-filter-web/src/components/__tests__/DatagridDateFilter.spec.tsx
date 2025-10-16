@@ -10,7 +10,7 @@ import {
 import "@testing-library/jest-dom";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { AttributeMetaData } from "mendix";
-import { createContext, createElement } from "react";
+import { createContext } from "react";
 import { DatagridDateFilterContainerProps } from "../../../typings/DatagridDateFilterProps";
 import { MXGlobalObject, MXSessionConfig } from "../../../typings/global";
 import DatagridDateFilter from "../../DatagridDateFilter";

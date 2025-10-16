@@ -1,7 +1,7 @@
 import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { usePositionObserver } from "@mendix/widget-plugin-hooks/usePositionObserver";
 import classNames from "classnames";
-import { createElement, CSSProperties, ReactElement, useCallback, useRef, useState } from "react";
+import { CSSProperties, ReactElement, useCallback, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface SortComponentProps<Dir = "asc" | "desc"> {

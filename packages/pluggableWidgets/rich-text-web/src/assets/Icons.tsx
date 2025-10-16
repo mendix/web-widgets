@@ -1,4 +1,4 @@
-import { ReactElement, createElement } from "react";
+import { ReactElement } from "react";
 
 export function IconLowerAlpha(): ReactElement {
     return (

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ChangeEvent, createElement, MouseEvent, ReactElement } from "react";
+import { ChangeEvent, MouseEvent, ReactElement } from "react";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { getValidationErrorId } from "../../helpers/utils";
 import { CaptionContent } from "../CaptionContent";

@@ -1,4 +1,4 @@
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { render } from "@testing-library/react";
 
 import { Vimeo, VimeoProps } from "../Vimeo";

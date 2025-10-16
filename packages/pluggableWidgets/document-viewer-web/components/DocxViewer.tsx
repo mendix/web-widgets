@@ -1,5 +1,5 @@
 import { Options, parseAsync, renderDocument, WordDocument } from "docx-preview";
-import { createElement, useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { BaseControlViewer } from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
 import "./DocxViewer.scss";

@@ -1,6 +1,7 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { useCombobox, UseComboboxProps } from "downshift";
 import { action, autorun, computed, makeObservable, observable, reaction } from "mobx";
+import { FocusEvent } from "react";
 import { SearchStore } from "../../stores/SearchStore";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { GConstructor } from "../../typings/type-utils";
@@ -117,7 +118,7 @@ export function ComboboxControllerMixin<TBase extends BaseController>(Base: TBas
             this.inputValue = value;
         }
 
-        handleFocus(event: React.FocusEvent<HTMLInputElement>): void {
+        handleFocus(event: FocusEvent<HTMLInputElement>): void {
             event.target.select();
         }
 

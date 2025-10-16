@@ -1,3 +1,5 @@
+import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
+import { ReactElement } from "react";
 import {
     GroupByDayOptionsEnum,
     GroupByKeyEnum,
@@ -5,13 +7,11 @@ import {
     TimelinePreviewProps
 } from "../typings/TimelineProps";
 import TimelineComponent from "./components/TimelineComponent";
-import { createElement } from "react";
 import { BasicItemType, CustomItemType, ItemType, TimelineData } from "./helpers/types";
-import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
 
 declare function require(name: string): string;
 
-export function preview(props: TimelinePreviewProps): React.ReactElement {
+export function preview(props: TimelinePreviewProps): ReactElement {
     const structuredEvents = (): TimelineData => {
         const eventsMap = new Map<string, ItemType[]>();
         let groupKey = "";

@@ -1,5 +1,5 @@
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
-import { createElement, MouseEvent, ReactElement, TouchEvent, useCallback, useEffect, useRef, useState } from "react";
+import { MouseEvent, ReactElement, TouchEvent, useCallback, useEffect, useRef, useState } from "react";
 
 export interface ColumnResizerProps {
     minWidth?: number;

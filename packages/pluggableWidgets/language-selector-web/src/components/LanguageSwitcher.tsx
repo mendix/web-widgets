@@ -1,6 +1,6 @@
 import { FloatingFocusManager } from "@floating-ui/react";
 import classNames from "classnames";
-import { createElement, CSSProperties, ReactElement, useState } from "react";
+import { CSSProperties, ReactElement, useState } from "react";
 import { PositionEnum, TriggerEnum } from "../../typings/LanguageSelectorProps";
 import { useFloatingUI } from "../hooks/useFloatingUI";
 import { LanguageItem } from "../LanguageSelector";

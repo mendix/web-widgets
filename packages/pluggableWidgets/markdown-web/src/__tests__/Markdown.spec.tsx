@@ -1,7 +1,6 @@
 import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
-import { createElement } from "react";
 import { MarkdownContainerProps } from "typings/MarkdownProps";
 import Markdown from "../Markdown";
 

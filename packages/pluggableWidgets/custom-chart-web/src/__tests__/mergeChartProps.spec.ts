@@ -23,7 +23,7 @@ describe("mergeChartProps utility function", () => {
             // Arrange
             const chartProps: ChartProps = {
                 data: [{ x: [1, 2], y: [3, 4], type: "scatter" }],
-                layout: { title: "Test Chart" },
+                layout: { title: { text: "Test Chart" } },
                 config: { displayModeBar: false },
                 width: 800,
                 height: 600
@@ -151,7 +151,7 @@ describe("mergeChartProps utility function", () => {
             // Arrange
             const chartProps: ChartProps = {
                 data: [{ x: [1, 2], y: [3, 4], type: "scatter", name: "original" }],
-                layout: { title: "Original Title" },
+                layout: { title: { text: "Original Title" } },
                 config: { displayModeBar: true },
                 width: 800,
                 height: 600

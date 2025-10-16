@@ -1,4 +1,4 @@
-import { createElement, CSSProperties, ReactElement, useRef, useState } from "react";
+import { CSSProperties, ReactElement, useRef, useState } from "react";
 import classNames from "classnames";
 
 export interface RatingProps {

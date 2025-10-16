@@ -1,7 +1,6 @@
 import Quill, { EmitterSource, QuillOptions, Range } from "quill";
 import Delta from "quill-delta";
 import {
-    createElement,
     CSSProperties,
     forwardRef,
     Fragment,

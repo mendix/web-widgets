@@ -20,8 +20,7 @@
         "noUnusedParameters": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "jsx": "react",
-        "jsxFactory": "createElement"
+        "jsx": "react-jsx"
     },
     "files": ["./node_modules/mendix-client/index.d.ts"],
     "include": ["./src", "./typings"],

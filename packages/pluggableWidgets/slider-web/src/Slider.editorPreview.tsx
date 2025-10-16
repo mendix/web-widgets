@@ -1,4 +1,4 @@
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import { Slider } from "./components/Slider";
 import { SliderPreviewProps } from "../typings/SliderProps";
 import { getPreviewValues } from "./utils/getPreviewValues";

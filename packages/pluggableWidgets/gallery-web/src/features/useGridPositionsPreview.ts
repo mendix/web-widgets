@@ -1,5 +1,5 @@
 import { ObjectItem } from "mendix";
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { GalleryProps } from "../components/Gallery";
 
 export type GridPositionsProps = Pick<GalleryProps<ObjectItem>, "desktopItems" | "phoneItems" | "tabletItems"> & {
@@ -12,7 +12,7 @@ type GridPositionReturn = {
     numberOfItems: number;
 };
 
-function useObservedColumns(): [React.RefObject<HTMLDivElement>, number] {
+function useObservedColumns(): [RefObject<HTMLDivElement | null>, number] {
     const containerRef = useRef<HTMLDivElement>(null);
     const [numberOfColumns, setNumberOfColumns] = useState(12);
 
@@ -39,7 +39,7 @@ function useObservedColumns(): [React.RefObject<HTMLDivElement>, number] {
 
 export function useGridPositionsPreview(
     config: GridPositionsProps
-): GridPositionReturn & { containerRef: React.RefObject<HTMLDivElement> } {
+): GridPositionReturn & { containerRef: RefObject<HTMLDivElement | null> } {
     const [containerRef, numberOfColumns] = useObservedColumns();
     const maxItems = numberOfColumns * 3;
     const numberOfItems = Math.min(maxItems, config.totalItems);

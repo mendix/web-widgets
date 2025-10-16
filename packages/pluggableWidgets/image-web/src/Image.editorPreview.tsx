@@ -1,6 +1,6 @@
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { WebIcon } from "mendix";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { ImagePreviewProps } from "../typings/ImageProps";
 import { Image as ImageComponent } from "./components/Image/Image";
 

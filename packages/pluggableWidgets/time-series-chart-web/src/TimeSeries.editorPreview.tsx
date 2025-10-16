@@ -1,5 +1,5 @@
 import { ChartPreview } from "@mendix/shared-charts/preview";
-import { createElement, ReactNode } from "react";
+import { ReactNode } from "react";
 import TimeSeries from "./assets/TimeSeries.light.svg";
 import TimeSeriesRange from "./assets/TimeSeries-range.light.svg";
 import TimeSeriesLegend from "./assets/TimeSeries-legend.light.svg";
