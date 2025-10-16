@@ -19,7 +19,11 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
     }
 
     if (values.itemSelection !== "Multi") {
-        hidePropertiesIn(defaultProperties, values, ["keepSelection"]);
+        hidePropertiesIn(defaultProperties, values, [
+            "keepSelection",
+            "selectionCountPosition",
+            "clearSelectionButtonLabel"
+        ]);
     }
 
     const usePersonalization = values.storeFilters || values.storeSort;

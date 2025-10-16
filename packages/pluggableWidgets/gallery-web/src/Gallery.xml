@@ -37,6 +37,22 @@
                     <caption>Keep selection</caption>
                     <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
                 </property>
+                <property key="selectionCountPosition" type="enumeration" defaultValue="bottom" required="true">
+                    <caption>Show selection count</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="top">Top</enumerationValue>
+                        <enumerationValue key="bottom">Bottom</enumerationValue>
+                        <enumerationValue key="off">Off</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
+                    <caption>Clear selection label</caption>
+                    <description>Customize the label of the 'Clear section' button</description>
+                    <translations>
+                        <translation lang="en_US">Clear selection</translation>
+                    </translations>
+                </property>
                 <property key="content" type="widgets" dataSource="datasource" required="false">
                     <caption>Content placeholder</caption>
                     <description />

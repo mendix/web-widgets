@@ -8,7 +8,7 @@ type WidgetFooterProps = {
     loadMoreButtonCaption?: string;
     hasMoreItems: boolean;
     setPage?: (computePage: (prevPage: number) => number) => void;
-} & JSX.IntrinsicElements["div"];
+} & React.JSX.IntrinsicElements["div"];
 
 export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
     const { pagination, selectionCount, paginationType, loadMoreButtonCaption, hasMoreItems, setPage, ...rest } = props;

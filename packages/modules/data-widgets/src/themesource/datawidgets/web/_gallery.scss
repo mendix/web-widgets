@@ -75,9 +75,16 @@ $gallery-screen-md: $screen-md;
     }
 
     .widget-gallery-filter,
-    .widget-gallery-empty,
-    .widget-gallery-pagination {
+    .widget-gallery-empty {
         flex: 1;
+    }
+
+    &-top-bar {
+        container: widget-gallery-header / inline-size;
+    }
+
+    &-footer {
+        container: widget-gallery-footer / inline-size;
     }
 
     /**
@@ -91,20 +98,30 @@ $gallery-screen-md: $screen-md;
     width: inherit;
 }
 
-:where(.widget-gallery-footer-controls) {
+:where(.widget-gallery-footer-controls, .widget-gallery-top-bar-controls) {
     display: flex;
     flex-flow: row nowrap;
+    align-items: center;
 }
 
-:where(.widget-gallery-fc-start) {
-    margin-block: var(--spacing-medium);
-    padding-inline: var(--spacing-medium);
+:where(.widget-gallery-fc-end, .widget-gallery-tb-end) {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
-:where(.widget-gallery-fc-start, .widget-gallery-fc-middle, .widget-gallery-fc-end) {
+:where(.widget-gallery-fc-start, .widget-gallery-tb-start, .widget-gallery-fc-end, .widget-gallery-tb-end) {
     flex-grow: 1;
     flex-basis: 33.33%;
     min-height: 20px;
+    height: 54px;
+    padding: var(--spacing-small) 0;
+}
+
+:where(.widget-gallery-fc-start, .widget-gallery-tb-start) {
+    padding-inline: var(--spacing-medium);
+    display: flex;
+    align-items: center;
 }
 
 .widget-gallery-clear-selection {
@@ -115,4 +132,33 @@ $gallery-screen-md: $screen-md;
     color: var(--link-color);
     padding: 0;
     display: inline-block;
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: 1px solid var(--brand-primary, $brand-primary);
+        outline-offset: 2px;
+    }
+}
+
+@container widget-gallery-footer (width < 500px) {
+    .widget-gallery-footer-controls {
+        flex-direction: column;
+        :where(.widget-gallery-fc-start, .widget-gallery-fc-end, .widget-gallery-fc-middle) {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+}
+
+@container widget-gallery-header (width < 500px) {
+    .widget-gallery-top-bar-controls {
+        flex-direction: column-reverse;
+        :where(.widget-gallery-tb-start, .widget-gallery-tb-end) {
+            width: 100%;
+            justify-content: center;
+        }
+    }
 }

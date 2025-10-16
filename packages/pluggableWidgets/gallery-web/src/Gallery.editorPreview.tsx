@@ -64,7 +64,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
     );
 
     return (
-        <div ref={containerRef}>
+        <div ref={containerRef as React.RefObject<HTMLDivElement>}>
             <GalleryComponent
                 className={props.class}
                 desktopItems={props.desktopItems!}
