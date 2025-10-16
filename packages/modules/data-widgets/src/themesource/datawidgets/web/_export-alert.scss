@@ -20,7 +20,7 @@
             display: flex;
             padding: 4px;
             &:focus-visible {
-                outline: 1px solid $brand-primary;
+                outline: 1px solid var(--brand-primary, $brand-primary);
             }
         }
     }
