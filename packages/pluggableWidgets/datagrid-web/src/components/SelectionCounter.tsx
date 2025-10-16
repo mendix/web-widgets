@@ -1,6 +1,5 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
-import { createElement } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
 type SelectionCounterLocation = "top" | "bottom" | undefined;

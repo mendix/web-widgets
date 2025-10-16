@@ -22,7 +22,7 @@ export function withParentProvidedEnumStore<P extends { filterable: boolean }>(
 
 function useEnumFilterAPI(): Result<EnumFilterProps, APIError> {
     const ctx = useFilterAPI();
-    const slctAPI = useRef<EnumFilterProps>(undefined);
+    const slctAPI = useRef<EnumFilterProps | undefined>(undefined);
 
     if (ctx.hasError) {
         return error(ctx.error);

@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - We enhanced datagrid selection UI with responsive container queries and improved layout styling for header and footer components.
+- We enhanced gallery selection UI with responsive container queries and improved layout styling for header and footer components to match datagrid implementation.
 
 ## [3.6.1] DataWidgets - 2025-10-14
 

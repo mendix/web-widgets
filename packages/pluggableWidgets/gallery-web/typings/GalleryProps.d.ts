@@ -8,6 +8,8 @@ import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, L
 
 export type ItemSelectionModeEnum = "toggle" | "clear";
 
+export type SelectionCountPositionEnum = "top" | "bottom" | "off";
+
 export type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 
 export type ShowPagingButtonsEnum = "always" | "auto";
@@ -30,6 +32,8 @@ export interface GalleryContainerProps {
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMode: ItemSelectionModeEnum;
     keepSelection: boolean;
+    selectionCountPosition: SelectionCountPositionEnum;
+    clearSelectionButtonLabel?: DynamicValue<string>;
     content?: ListWidgetValue;
     refreshIndicator: boolean;
     desktopItems: number;
@@ -75,6 +79,8 @@ export interface GalleryPreviewProps {
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMode: ItemSelectionModeEnum;
     keepSelection: boolean;
+    selectionCountPosition: SelectionCountPositionEnum;
+    clearSelectionButtonLabel: string;
     content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     refreshIndicator: boolean;
     desktopItems: number | null;
