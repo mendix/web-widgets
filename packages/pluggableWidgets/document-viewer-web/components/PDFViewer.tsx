@@ -97,6 +97,14 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
         }
     }, [file, file.status, file.value?.uri]);
 
+    // Reset page to 1 when file changes (including content changes)
+    useEffect(() => {
+        if (file.value?.uri) {
+            setCurrentPage(1);
+            setPageInputValue("1");
+        }
+    }, [file.value]);
+
     // Sync page input value with current page
     useEffect(() => {
         setPageInputValue(currentPage.toString());
