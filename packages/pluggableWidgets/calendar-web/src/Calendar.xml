@@ -141,23 +141,23 @@
                     <properties>
                         <property key="itemType" type="enumeration" defaultValue="month">
                             <caption>Item</caption>
-                            <category>Toolbar</category>
+                            <category>Appearance</category>
                             <description>Select which item to render on the toolbar.</description>
                             <enumerationValues>
-                                <enumerationValue key="previous">Previous button</enumerationValue>
-                                <enumerationValue key="today">Today button</enumerationValue>
-                                <enumerationValue key="next">Next button</enumerationValue>
+                                <enumerationValue key="day">Day view button</enumerationValue>
+                                <enumerationValue key="month">Month view button</enumerationValue>
+                                <enumerationValue key="agenda">Agenda view button</enumerationValue>
+                                <enumerationValue key="week">Week view button</enumerationValue>
+                                <enumerationValue key="work_week">Custom week view button</enumerationValue>
                                 <enumerationValue key="title">Title date text</enumerationValue>
-                                <enumerationValue key="month">Month button</enumerationValue>
-                                <enumerationValue key="week">Week button</enumerationValue>
-                                <enumerationValue key="work_week">Work week button</enumerationValue>
-                                <enumerationValue key="day">Day button</enumerationValue>
-                                <enumerationValue key="agenda">Agenda button</enumerationValue>
+                                <enumerationValue key="previous">Previous button</enumerationValue>
+                                <enumerationValue key="next">Next button</enumerationValue>
+                                <enumerationValue key="today">Today button</enumerationValue>
                             </enumerationValues>
                         </property>
                         <property key="position" type="enumeration" defaultValue="left">
                             <caption>Position</caption>
-                            <category>Toolbar</category>
+                            <category>Appearance</category>
                             <description>Align the item within the toolbar.</description>
                             <enumerationValues>
                                 <enumerationValue key="left">Left</enumerationValue>
@@ -167,22 +167,62 @@
                         </property>
                         <property key="caption" type="textTemplate" required="false">
                             <caption>Caption</caption>
-                            <category>Toolbar</category>
+                            <category>Appearance</category>
                             <description>Optional text for the button or title. If empty, a default localized label is used.</description>
                         </property>
                         <property key="tooltip" type="textTemplate" required="false">
                             <caption>Tooltip</caption>
-                            <category>Toolbar</category>
+                            <category>Appearance</category>
                             <description>Optional hover text for the button.</description>
                         </property>
                         <property key="renderMode" type="enumeration" defaultValue="button">
                             <caption>Render mode</caption>
-                            <category>Toolbar</category>
+                            <category>Appearance</category>
                             <description>Choose how the item is rendered.</description>
                             <enumerationValues>
                                 <enumerationValue key="button">Button</enumerationValue>
                                 <enumerationValue key="link">Link</enumerationValue>
                             </enumerationValues>
+                        </property>
+                        <property key="customViewHeaderDayFormat" type="textTemplate" required="false">
+                            <caption>Header day format</caption>
+                            <category>Custom formats</category>
+                            <description>Format of date(s) in the header above the day, week, month, custom or Agenda view.</description>
+                        </property>
+                        <property key="customViewCellDateFormat" type="textTemplate" required="false">
+                            <caption>Cell date format</caption>
+                            <category>Custom formats</category>
+                            <description>Date shown in the month cells.</description>
+                        </property>
+                        <property key="customViewGutterTimeFormat" type="textTemplate" required="false">
+                            <caption>Time gutter format</caption>
+                            <category>Custom formats</category>
+                            <description>Time shown as the first column in the week, day and agenda view.</description>
+                        </property>
+                        <property key="customViewGutterDateFormat" type="textTemplate" required="false">
+                            <caption>Date gutter format</caption>
+                            <category>Custom formats</category>
+                            <description>Date shown as the first column in the agenda view.</description>
+                        </property>
+                        <property key="customViewAllDayText" type="textTemplate" required="false">
+                            <caption>All day text</caption>
+                            <category>Text</category>
+                            <description>Text shown in the all day column.</description>
+                        </property>
+                        <property key="customViewTextHeaderDate" type="textTemplate" required="false">
+                            <caption>Text header date</caption>
+                            <category>Text</category>
+                            <description>Text showing in the agenda view to header in the column date.</description>
+                        </property>
+                        <property key="customViewTextHeaderTime" type="textTemplate" required="false">
+                            <caption>Text header time</caption>
+                            <category>Text</category>
+                            <description>Text showing in the agenda view to header in the column time.</description>
+                        </property>
+                        <property key="customViewTextHeaderEvent" type="textTemplate" required="false">
+                            <caption>Text header event</caption>
+                            <category>Text</category>
+                            <description>Text showing in the agenda view to header in the column event.</description>
                         </property>
                     </properties>
                 </property>
