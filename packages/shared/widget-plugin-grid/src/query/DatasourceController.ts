@@ -1,8 +1,8 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
-import { ListValue, ValueStatus } from "mendix";
-import { action, autorun, computed, IComputedValue, makeAutoObservable } from "mobx";
+import { ListValue, ObjectItem, ValueStatus } from "mendix";
+import { action, autorun, computed, IComputedValue, makeAutoObservable, when } from "mobx";
 import { QueryController } from "./query-controller";
 
 type Gate = DerivedPropsGate<{ datasource: ListValue }>;
@@ -103,6 +103,10 @@ export class DatasourceController implements ReactiveController, QueryController
         return this.datasource.hasMoreItems ?? false;
     }
 
+    get items(): ObjectItem[] | undefined {
+        return this.datasource.items;
+    }
+
     /**
      * Returns computed value that holds controller copy.
      * Recomputes the copy every time the datasource changes.
@@ -163,5 +167,40 @@ export class DatasourceController implements ReactiveController, QueryController
 
     setPageSize(size: number): void {
         this.pageSize = size;
+    }
+
+    reload(): Promise<void> {
+        const ds = this.datasource;
+        this.datasource.reload();
+        return when(() => this.datasource !== ds);
+    }
+
+    fetchPage({
+        limit,
+        offset,
+        signal
+    }: {
+        limit: number;
+        offset: number;
+        signal?: AbortSignal;
+    }): Promise<ObjectItem[]> {
+        return new Promise((resolve, reject) => {
+            if (signal && signal.aborted) {
+                return reject(signal.reason);
+            }
+
+            const predicate = when(
+                () =>
+                    this.datasource.offset === offset &&
+                    this.datasource.limit === limit &&
+                    this.datasource.status === "available",
+                { signal }
+            );
+
+            predicate.then(() => resolve(this.datasource.items ?? []), reject);
+
+            this.datasource.setOffset(offset);
+            this.datasource.setLimit(limit);
+        });
     }
 }

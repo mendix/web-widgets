@@ -5,6 +5,11 @@ import { enableStaticRendering } from "mobx-react-lite";
 enableStaticRendering(true);
 
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
+import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
+import { SelectAllController } from "@mendix/widget-plugin-grid/selection";
+import { ProgressStore } from "@mendix/widget-plugin-grid/stores/ProgressStore";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/stores/SelectionCountStore";
+import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
@@ -15,11 +20,11 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps"
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
-import { DatagridContext } from "./helpers/root-context";
+import { DatagridContext, DatagridRootScope } from "./helpers/root-context";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { GridBasicData } from "./helpers/state/GridBasicData";
-
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
+import { SelectAllBarViewModel } from "./helpers/state/SelectAllBarViewModel";
+import { SelectionProgressDialogViewModel } from "./helpers/state/SelectionProgressDialogViewModel";
 import "./ui/DatagridPreview.scss";
 
 // Fix type definition for Selectable
@@ -61,6 +66,8 @@ const initColumns: ColumnsPreviewType[] = [
 
 const numberOfItems = 3;
 
+class Host extends BaseControllerHost {}
+
 export function preview(props: DatagridPreviewProps): ReactElement {
     const EmptyPlaceholder = props.emptyPlaceholder.renderer;
     const data: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
@@ -87,9 +94,13 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     const eventsController = { getProps: () => Object.create({}) };
 
     const ctx = useConst(() => {
-        const gateProvider = new GateProvider({});
-        const basicData = new GridBasicData(gateProvider.gate);
-        const selectionCountStore = new SelectionCountStore(gateProvider.gate);
+        const host = new Host();
+        const gateProvider = new GateProvider({ datasource: {} as any, itemSelection: undefined });
+        const basicData = new GridBasicData(gateProvider.gate as any);
+        const query = new DatasourceController(host, { gate: gateProvider.gate });
+        const selectionCountStore = new SelectionCountStore(gateProvider.gate as any);
+        const selectAllController = new SelectAllController(host, gateProvider.gate, query);
+        const selectAllProgressStore = new ProgressStore();
         return {
             basicData,
             selectionHelper: undefined,
@@ -97,8 +108,21 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             cellEventsController: eventsController,
             checkboxEventsController: eventsController,
             focusController,
-            selectionCountStore
-        };
+            selectionCountStore,
+            selectAllProgressStore,
+            selectAllBarViewModel: new SelectAllBarViewModel(
+                host,
+                gateProvider.gate as any,
+                selectAllController,
+                selectionCountStore
+            ),
+            selectionProgressDialogViewModel: new SelectionProgressDialogViewModel(
+                host,
+                gateProvider.gate as any,
+                selectAllProgressStore,
+                selectAllController
+            )
+        } satisfies DatagridRootScope;
     });
 
     return (

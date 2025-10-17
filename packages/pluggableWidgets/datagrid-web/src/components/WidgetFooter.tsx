@@ -44,10 +44,11 @@ const SelectionCounter = observer(function SelectionCounter() {
     const { selectionCountStore, selectActionHelper } = useDatagridRootScope();
 
     return (
-        <If condition={selectionCountStore.displayCount !== ""}>
-            <span className="widget-datagrid-selection-count">{selectionCountStore.displayCount}</span>&nbsp;|&nbsp;
-            <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
-                Clear selection
+        <If condition={selectionCountStore.selectedCountText !== ""}>
+            <span className="widget-datagrid-selection-count">{selectionCountStore.selectedCountText}</span>
+            &nbsp;
+            <button className="widget-datagrid-btn-link" onClick={selectActionHelper.onClearSelection}>
+                {selectionCountStore.clearSelectionText}
             </button>
         </If>
     );

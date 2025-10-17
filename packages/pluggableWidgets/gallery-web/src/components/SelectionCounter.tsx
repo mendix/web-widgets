@@ -6,10 +6,11 @@ export const SelectionCounter = observer(function SelectionCounter() {
     const { selectionCountStore, itemSelectHelper } = useGalleryRootScope();
 
     return (
-        <If condition={selectionCountStore.displayCount !== ""}>
-            <span className="widget-gallery-selection-count">{selectionCountStore.displayCount}</span>&nbsp;|&nbsp;
+        <If condition={selectionCountStore.selectedCountText !== ""}>
+            <span className="widget-gallery-selection-count">{selectionCountStore.selectedCountText}</span>
+            &nbsp;
             <button className="widget-gallery-clear-selection" onClick={itemSelectHelper.onClearSelection}>
-                Clear selection
+                {selectionCountStore.clearSelectionText}
             </button>
         </If>
     );

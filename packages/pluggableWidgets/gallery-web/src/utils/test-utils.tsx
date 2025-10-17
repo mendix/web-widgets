@@ -4,7 +4,7 @@ import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigati
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import { getColumnAndRowBasedOnIndex, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { list, listAction, objectItems } from "@mendix/widget-plugin-test-utils";
+import { dynamic, list, listAction, objectItems } from "@mendix/widget-plugin-test-utils";
 import { render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ObjectItem } from "mendix";
@@ -57,7 +57,8 @@ export function createMockGalleryContext(): GalleryRootScope {
         storeFilters: false,
         storeSort: false,
         refreshIndicator: false,
-        keepSelection: false
+        keepSelection: false,
+        clearSelectionCaption: dynamic("Clear selection")
     };
 
     // Create a proper gate provider and gate

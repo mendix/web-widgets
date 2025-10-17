@@ -2,8 +2,11 @@ import { createContextWithStub, FilterAPI } from "@mendix/widget-plugin-filterin
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
+import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
 import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
+import { SelectAllController } from "@mendix/widget-plugin-grid/selection";
+import { ProgressStore } from "@mendix/widget-plugin-grid/stores/ProgressStore";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/stores/SelectionCountStore";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
@@ -14,10 +17,11 @@ import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { DatasourceParamsController } from "../../controllers/DatasourceParamsController";
 import { DerivedLoaderController } from "../../controllers/DerivedLoaderController";
 import { PaginationController } from "../../controllers/PaginationController";
-import { ProgressStore } from "../../features/data-export/ProgressStore";
 import { StaticInfo } from "../../typings/static-info";
 import { ColumnGroupStore } from "./ColumnGroupStore";
 import { GridPersonalizationStore } from "./GridPersonalizationStore";
+import { SelectAllBarViewModel } from "./SelectAllBarViewModel";
+import { SelectionProgressDialogViewModel } from "./SelectionProgressDialogViewModel";
 
 type RequiredProps = Pick<
     DatagridContainerProps,
@@ -34,13 +38,23 @@ type RequiredProps = Pick<
     | "pagination"
     | "showPagingButtons"
     | "showNumberOfRows"
+    | "enableSelectAll"
+    | "onSelectionChange"
+    | "selectAllTemplate"
+    | "selectAllText"
+    | "allSelectedText"
+    | "clearSelectionCaption"
+    | "selectingAllLabel"
+    | "cancelSelectionLabel"
 >;
 
 type Gate = DerivedPropsGate<RequiredProps>;
 
 type Spec = {
     gate: Gate;
-    exportCtrl: ProgressStore;
+    exportProgressStore: ProgressStore;
+    selectAllProgressStore: ProgressStore;
+    selectAllController: SelectAllController;
 };
 
 export class RootGridStore extends BaseControllerHost {
@@ -49,14 +63,18 @@ export class RootGridStore extends BaseControllerHost {
     selectionCountStore: SelectionCountStore;
     basicData: GridBasicData;
     staticInfo: StaticInfo;
-    exportProgressCtrl: ProgressStore;
+    exportProgressStore: ProgressStore;
+    selectAllController: SelectAllController;
+    selectAllProgressStore: ProgressStore;
     loaderCtrl: DerivedLoaderController;
     paginationCtrl: PaginationController;
-    readonly filterAPI: FilterAPI;
+    filterAPI: FilterAPI;
+    query: QueryController;
+    gate: Gate;
+    selectAllBarViewModel: SelectAllBarViewModel;
+    selectionProgressDialogViewModel: SelectionProgressDialogViewModel;
 
-    private gate: Gate;
-
-    constructor({ gate, exportCtrl }: Spec) {
+    constructor({ gate, exportProgressStore, selectAllProgressStore, selectAllController }: Spec) {
         super();
         const { props } = gate;
 
@@ -69,7 +87,7 @@ export class RootGridStore extends BaseControllerHost {
 
         const filterHost = new CustomFilterHost();
 
-        const query = new DatasourceController(this, { gate });
+        const query = (this.query = new DatasourceController(this, { gate }));
 
         this.filterAPI = createContextWithStub({
             filterObserver: filterHost,
@@ -91,7 +109,11 @@ export class RootGridStore extends BaseControllerHost {
 
         this.paginationCtrl = new PaginationController(this, { gate, query });
 
-        this.exportProgressCtrl = exportCtrl;
+        this.exportProgressStore = exportProgressStore;
+
+        this.selectAllProgressStore = selectAllProgressStore;
+
+        this.selectAllController = selectAllController;
 
         new DatasourceParamsController(this, {
             query,
@@ -105,12 +127,26 @@ export class RootGridStore extends BaseControllerHost {
         });
 
         this.loaderCtrl = new DerivedLoaderController({
-            exp: exportCtrl,
+            exp: exportProgressStore,
             cols: this.columnsStore,
             showSilentRefresh: props.refreshInterval > 1,
             refreshIndicator: props.refreshIndicator,
             query
         });
+
+        this.selectAllBarViewModel = new SelectAllBarViewModel(
+            this,
+            gate,
+            this.selectAllController,
+            this.selectionCountStore
+        );
+
+        this.selectionProgressDialogViewModel = new SelectionProgressDialogViewModel(
+            this,
+            gate,
+            selectAllProgressStore,
+            selectAllController
+        );
 
         combinedFilter.hydrate(props.datasource.filter);
     }
@@ -120,13 +156,10 @@ export class RootGridStore extends BaseControllerHost {
         add(super.setup());
         add(this.columnsStore.setup());
         add(() => this.settingsStore.dispose());
-        add(autorun(() => this.updateProps(this.gate.props)));
-
+        // Column store & settings store is still using old `updateProps`
+        // approach. So, we use autorun to sync props.
+        add(autorun(() => this.columnsStore.updateProps(this.gate.props)));
+        add(autorun(() => this.settingsStore.updateProps(this.gate.props)));
         return disposeAll;
-    }
-
-    private updateProps(props: RequiredProps): void {
-        this.columnsStore.updateProps(props);
-        this.settingsStore.updateProps(props);
     }
 }

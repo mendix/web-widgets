@@ -57,6 +57,7 @@ export interface GalleryContainerProps {
     ariaLabelItem?: ListExpressionValue<string>;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
+    clearSelectionCaption: DynamicValue<string>;
 }
 
 export interface GalleryPreviewProps {
@@ -103,4 +104,5 @@ export interface GalleryPreviewProps {
     ariaLabelItem: string;
     selectedCountTemplateSingular: string;
     selectedCountTemplatePlural: string;
+    clearSelectionCaption: string;
 }
