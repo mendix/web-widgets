@@ -92,6 +92,7 @@ const Container = observer(function GalleryContainer(props: GalleryContainerProp
             getPosition={getPositionCallback}
             loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
             showRefreshIndicator={rootStore.loaderCtrl.showRefreshIndicator}
+            selectionCountPosition={props.selectionCountPosition}
         />
     );
 });

@@ -11,6 +11,8 @@ export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
 
 export type ItemSelectionModeEnum = "toggle" | "clear";
 
+export type SelectionCountPositionEnum = "top" | "bottom" | "off";
+
 export type LoadingTypeEnum = "spinner" | "skeleton";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
@@ -96,6 +98,8 @@ export interface DatagridContainerProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
+    selectionCountPosition: SelectionCountPositionEnum;
+    clearSelectionButtonLabel?: DynamicValue<string>;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     columns: ColumnsType[];
@@ -148,6 +152,8 @@ export interface DatagridPreviewProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
+    selectionCountPosition: SelectionCountPositionEnum;
+    clearSelectionButtonLabel: string;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     columns: ColumnsPreviewType[];

@@ -1,8 +1,8 @@
-import { JSX, ReactElement } from "react";
+import { ComponentPropsWithoutRef, ReactElement } from "react";
 
 type WidgetHeaderProps = {
     headerTitle?: string;
-} & JSX.IntrinsicElements["div"];
+} & ComponentPropsWithoutRef<"div">;
 
 export function WidgetHeader(props: WidgetHeaderProps): ReactElement | null {
     const { children, headerTitle, ...rest } = props;

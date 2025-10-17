@@ -1,6 +1,6 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
-import { useGalleryRootScope } from "../helpers/root-context";
+import { useDatagridRootScope } from "../helpers/root-context";
 
 type SelectionCounterLocation = "top" | "bottom" | undefined;
 
@@ -9,22 +9,22 @@ export const SelectionCounter = observer(function SelectionCounter({
 }: {
     location?: SelectionCounterLocation;
 }) {
-    const { selectionCountStore, itemSelectHelper } = useGalleryRootScope();
+    const { selectionCountStore, selectActionHelper } = useDatagridRootScope();
 
-    const containerClass = location === "top" ? "widget-gallery-tb-start" : "widget-gallery-pb-start";
+    const containerClass = location === "top" ? "widget-datagrid-tb-start" : "widget-datagrid-pb-start";
 
     const clearButtonAriaLabel = `${selectionCountStore.clearButtonLabel} (${selectionCountStore.selectedCount} selected)`;
 
     return (
         <If condition={selectionCountStore.displayCount !== ""}>
             <div className={containerClass}>
-                <span className="widget-gallery-selection-count" aria-live="polite" aria-atomic="true">
+                <span className="widget-datagrid-selection-count" aria-live="polite" aria-atomic="true">
                     {selectionCountStore.displayCount}
                 </span>
                 &nbsp;|&nbsp;
                 <button
-                    className="widget-gallery-clear-selection"
-                    onClick={itemSelectHelper.onClearSelection}
+                    className="widget-datagrid-clear-selection"
+                    onClick={selectActionHelper.onClearSelection}
                     aria-label={clearButtonAriaLabel}
                 >
                     {selectionCountStore.clearButtonLabel}
