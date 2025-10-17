@@ -56,7 +56,7 @@ export type ResolvedToolbarItem = {
 };
 
 export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props: ToolbarProps) => ReactElement {
-    return function ConfigurableToolbar({ label, localizer, onNavigate, onView, view, views }: ToolbarProps) {
+    return function ConfigurableToolbar({ label, localizer, onNavigate, onView, view }: ToolbarProps) {
         const renderButton = (
             key: string,
             content: ReactElement | string,
@@ -74,10 +74,6 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                 {content}
             </Button>
         );
-
-        const isViewEnabled = (name: View): boolean => {
-            return Array.isArray(views) ? (views as View[]).includes(name) : true;
-        };
 
         const groups: Record<"left" | "center" | "right", ResolvedToolbarItem[]> = {
             left: [],
@@ -100,9 +96,10 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                         item.tooltip
                     );
                 case "today":
+                    // Always provide a default caption for 'today' button
                     return renderButton(
                         "today",
-                        (item.caption ?? localizer.messages.today) as unknown as ReactElement,
+                        (item.caption || localizer.messages.today) as unknown as ReactElement,
                         () => onNavigate(Navigate.TODAY),
                         false,
                         item.renderMode,
@@ -118,6 +115,7 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                         item.tooltip
                     );
                 case "title":
+                    // Title always shows the formatted label, regardless of caption
                     return (
                         <span key="title" className="calendar-label" title={item.tooltip}>
                             {label}
@@ -129,10 +127,8 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                 case "day":
                 case "agenda": {
                     const name = item.itemType as View;
-                    if (!isViewEnabled(name)) {
-                        return null;
-                    }
-                    const caption = item.caption ?? localizer.messages[name];
+                    // Provide default caption from localizer messages if not specified
+                    const caption = item.caption || localizer.messages[name];
                     return renderButton(
                         name,
                         caption as unknown as ReactElement,
