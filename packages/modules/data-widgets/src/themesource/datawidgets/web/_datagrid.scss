@@ -481,10 +481,7 @@ $root: ".widget-datagrid";
 
     &-spinner {
         justify-content: center;
-
-        &-full-width {
-            width: 100%;
-        }
+        width: 100%;
 
         &-margin {
             margin: 52px 0;
@@ -563,7 +560,7 @@ $root: ".widget-datagrid";
     align-items: center;
 }
 
-#{$root}-btn-invisible {
+#{$root}-btn-link {
     cursor: pointer;
     background: transparent;
     border: none;
