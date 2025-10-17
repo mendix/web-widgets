@@ -170,11 +170,6 @@
                             <category>Appearance</category>
                             <description>Optional text for the button or title. If empty, a default localized label is used.</description>
                         </property>
-                        <property key="tooltip" type="textTemplate" required="false">
-                            <caption>Tooltip</caption>
-                            <category>Appearance</category>
-                            <description>Optional hover text for the button.</description>
-                        </property>
                         <property key="renderMode" type="enumeration" defaultValue="button">
                             <caption>Render mode</caption>
                             <category>Appearance</category>
@@ -182,6 +177,24 @@
                             <enumerationValues>
                                 <enumerationValue key="button">Button</enumerationValue>
                                 <enumerationValue key="link">Link</enumerationValue>
+                            </enumerationValues>
+                        </property>
+                        <property key="buttonTooltip" type="textTemplate" required="false">
+                            <caption>Button tooltip</caption>
+                            <category>Appearance</category>
+                            <description>Tooltip for the button.</description>
+                        </property>
+                        <property key="buttonStyle" type="enumeration" defaultValue="default">
+                            <caption>Button style</caption>
+                            <category>Appearance</category>
+                            <description>Style of the button.</description>
+                            <enumerationValues>
+                                <enumerationValue key="default">Default</enumerationValue>
+                                <enumerationValue key="primary">Primary</enumerationValue>
+                                <enumerationValue key="success">Success</enumerationValue>
+                                <enumerationValue key="info">Info</enumerationValue>
+                                <enumerationValue key="warning">Warning</enumerationValue>
+                                <enumerationValue key="danger">Danger</enumerationValue>
                             </enumerationValues>
                         </property>
                         <property key="customViewHeaderDayFormat" type="textTemplate" required="false">

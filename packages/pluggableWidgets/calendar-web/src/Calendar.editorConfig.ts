@@ -48,6 +48,9 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
     }
 
     values.toolbarItems?.forEach((item, index) => {
+        if (item.itemType === "title") {
+            hideNestedPropertiesIn(defaultProperties, values, "toolbarItems", index, ["buttonTooltip", "buttonStyle"]);
+        }
         // Hide all format properties for non-view items (navigation buttons, title)
         if (!["day", "month", "agenda", "week", "work_week"].includes(item.itemType)) {
             hideNestedPropertiesIn(defaultProperties, values, "toolbarItems", index, [
