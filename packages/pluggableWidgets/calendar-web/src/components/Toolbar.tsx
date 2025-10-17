@@ -51,7 +51,6 @@ export type ResolvedToolbarItem = {
     itemType: "previous" | "today" | "next" | "title" | "month" | "week" | "work_week" | "day" | "agenda";
     position: "left" | "center" | "right";
     caption?: string;
-    tooltip?: string;
     renderMode: "button" | "link";
     // Custom formatting/text options for Custom view
     customViewHeaderDayFormat?: string;
@@ -62,6 +61,9 @@ export type ResolvedToolbarItem = {
     customViewTextHeaderDate?: string;
     customViewTextHeaderTime?: string;
     customViewTextHeaderEvent?: string;
+    // Custom button presentation
+    customButtonTooltip?: string;
+    customButtonStyle?: "default" | "primary" | "success" | "info" | "warning" | "danger";
 };
 
 export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props: ToolbarProps) => ReactElement {
@@ -72,17 +74,27 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
             onClick: () => void,
             active = false,
             renderMode: "button" | "link" = "button",
-            tooltip?: string
+            tooltip?: string,
+            styleClass?: string
         ): ReactElement => (
             <Button
                 key={key}
-                className={classNames("btn", renderMode === "link" ? "btn-link" : "btn-default", { active })}
+                className={classNames("btn", styleClass ?? (renderMode === "link" ? "btn-link" : "btn-default"), {
+                    active
+                })}
                 onClick={onClick}
                 title={tooltip}
             >
                 {content}
             </Button>
         );
+
+        const resolveStyleClass = (item: ResolvedToolbarItem): string => {
+            if (item.renderMode === "link") {
+                return "btn-link";
+            }
+            return `btn-${item.customButtonStyle ?? "default"}`;
+        };
 
         const groups: Record<"left" | "center" | "right", ResolvedToolbarItem[]> = {
             left: [],
@@ -102,7 +114,8 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                         () => onNavigate(Navigate.PREVIOUS),
                         false,
                         item.renderMode,
-                        item.tooltip
+                        item.customButtonTooltip,
+                        resolveStyleClass(item)
                     );
                 case "today":
                     // Always provide a default caption for 'today' button
@@ -112,7 +125,8 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                         () => onNavigate(Navigate.TODAY),
                         false,
                         item.renderMode,
-                        item.tooltip
+                        item.customButtonTooltip,
+                        resolveStyleClass(item)
                     );
                 case "next":
                     return renderButton(
@@ -121,12 +135,13 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                         () => onNavigate(Navigate.NEXT),
                         false,
                         item.renderMode,
-                        item.tooltip
+                        item.customButtonTooltip,
+                        resolveStyleClass(item)
                     );
                 case "title":
                     // Title always shows the formatted label, regardless of caption
                     return (
-                        <span key="title" className="calendar-label" title={item.tooltip}>
+                        <span key="title" className="calendar-label" title={item.customButtonTooltip}>
                             {label}
                         </span>
                     );
@@ -144,7 +159,8 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                         () => onView(name),
                         view === name,
                         item.renderMode,
-                        item.tooltip
+                        item.customButtonTooltip,
+                        resolveStyleClass(item)
                     );
                 }
                 default:

@@ -20,12 +20,15 @@ export type PositionEnum = "left" | "center" | "right";
 
 export type RenderModeEnum = "button" | "link";
 
+export type ButtonStyleEnum = "default" | "primary" | "success" | "info" | "warning" | "danger";
+
 export interface ToolbarItemsType {
     itemType: ItemTypeEnum;
     position: PositionEnum;
     caption?: DynamicValue<string>;
-    tooltip?: DynamicValue<string>;
     renderMode: RenderModeEnum;
+    buttonTooltip?: DynamicValue<string>;
+    buttonStyle: ButtonStyleEnum;
     customViewHeaderDayFormat?: DynamicValue<string>;
     customViewCellDateFormat?: DynamicValue<string>;
     customViewGutterTimeFormat?: DynamicValue<string>;
@@ -50,8 +53,9 @@ export interface ToolbarItemsPreviewType {
     itemType: ItemTypeEnum;
     position: PositionEnum;
     caption: string;
-    tooltip: string;
     renderMode: RenderModeEnum;
+    buttonTooltip: string;
+    buttonStyle: ButtonStyleEnum;
     customViewHeaderDayFormat: string;
     customViewCellDateFormat: string;
     customViewGutterTimeFormat: string;
