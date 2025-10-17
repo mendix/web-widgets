@@ -7,7 +7,7 @@ import {
     ObjectItem,
     ValueStatus
 } from "mendix";
-import { JSX, KeyboardEvent, ReactElement, ReactNode } from "react";
+import { ComponentPropsWithoutRef, KeyboardEvent, ReactElement, ReactNode } from "react";
 import { AlignmentEnum, ColumnsType } from "../../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../../typings/GridColumn";
 import { Big } from "big.js";
@@ -269,7 +269,7 @@ function CustomContent({
     children: ReactNode;
     allowEventPropagation: boolean;
 }): ReactElement {
-    const wrapperProps: JSX.IntrinsicElements["div"] = allowEventPropagation
+    const wrapperProps: ComponentPropsWithoutRef<"div"> = allowEventPropagation
         ? {}
         : {
               onClick: stopPropagation,

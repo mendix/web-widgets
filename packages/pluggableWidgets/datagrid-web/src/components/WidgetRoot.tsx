@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import { JSX, ReactElement, useMemo, useRef } from "react";
+import { ComponentPropsWithoutRef, ReactElement, useMemo, useRef } from "react";
 import { SelectionMethod } from "../helpers/SelectActionHelper";
 
-type P = JSX.IntrinsicElements["div"];
+type P = ComponentPropsWithoutRef<"div">;
 
 export interface WidgetRootProps extends P {
     className?: string;
