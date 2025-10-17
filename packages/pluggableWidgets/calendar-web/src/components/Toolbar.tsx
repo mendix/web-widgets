@@ -53,6 +53,15 @@ export type ResolvedToolbarItem = {
     caption?: string;
     tooltip?: string;
     renderMode: "button" | "link";
+    // Custom formatting/text options for Custom view
+    customViewHeaderDayFormat?: string;
+    customViewCellDateFormat?: string;
+    customViewGutterTimeFormat?: string;
+    customViewGutterDateFormat?: string;
+    customViewAllDayText?: string;
+    customViewTextHeaderDate?: string;
+    customViewTextHeaderTime?: string;
+    customViewTextHeaderEvent?: string;
 };
 
 export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props: ToolbarProps) => ReactElement {
