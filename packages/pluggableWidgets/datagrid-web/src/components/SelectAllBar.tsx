@@ -1,9 +1,9 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
-import { createElement } from "react";
+import { ReactNode } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
-export const SelectAllBar = observer(function SelectAllBar(): React.ReactNode {
+export const SelectAllBar = observer(function SelectAllBar(): ReactNode {
     const { selectAllBarViewModel: vm } = useDatagridRootScope();
 
     if (!vm.isBarVisible) return null;
@@ -14,14 +14,14 @@ export const SelectAllBar = observer(function SelectAllBar(): React.ReactNode {
             <If condition={vm.isSelectAllVisible}>
                 <button
                     disabled={vm.isSelectAllDisabled}
-                    className="widget-datagrid-btn-invisible"
+                    className="widget-datagrid-btn-link"
                     onClick={() => vm.onSelectAll()}
                 >
                     {vm.selectAllLabel}
                 </button>
             </If>
             <If condition={vm.isClearVisible}>
-                <button className="widget-datagrid-btn-invisible" onClick={() => vm.onClear()}>
+                <button className="widget-datagrid-btn-link" onClick={() => vm.onClear()}>
                     {vm.clearSelectionLabel}
                 </button>
             </If>
