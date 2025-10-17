@@ -4,19 +4,13 @@ import { ReactElement } from "react";
 type SpinnerLoaderProps = {
     size?: "small" | "medium" | "large";
     withMargins?: boolean;
-    fullWidth?: boolean;
 };
 
-export function SpinnerLoader({
-    size = "medium",
-    withMargins = false,
-    fullWidth = true
-}: SpinnerLoaderProps): ReactElement {
+export function SpinnerLoader({ size = "medium", withMargins = false }: SpinnerLoaderProps): ReactElement {
     return (
         <div
             className={classNames("widget-datagrid-spinner", {
-                "widget-datagrid-spinner-margin": withMargins,
-                "widget-datagrid-spinner-full-width": fullWidth
+                "widget-datagrid-spinner-margin": withMargins
             })}
             aria-busy
             aria-live="polite"
