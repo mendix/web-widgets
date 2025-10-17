@@ -85,17 +85,12 @@ export class SelectAllBarViewModel implements ReactiveController {
         return str.replace("%d", `${this.#count.selectedCount}`);
     }
 
-    private get selectedSet(): Set<string> {
-        const selection = this.#gate.props.itemSelection;
-        if (!selection) return new Set();
-        if (selection.type === "Single") return new Set();
-        return new Set([...selection.selection.map(it => it.id)]);
-    }
-
     private get isCurrentPageSelected(): boolean {
-        const items = this.#gate.props.datasource.items ?? [];
-        if (items.length === 0) return false;
-        return items.every(items => this.selectedSet.has(items.id));
+        const selection = this.#gate.props.itemSelection;
+        if (!selection || selection.type === "Single") return false;
+        const pageIds = new Set(this.#gate.props.datasource.items?.map(item => item.id) ?? []);
+        const selectionSubArray = selection.selection.filter(item => pageIds.has(item.id));
+        return selectionSubArray.length === pageIds.size && pageIds.size > 0;
     }
 
     private get isAllItemsSelected(): boolean {
