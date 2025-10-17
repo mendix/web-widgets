@@ -55,7 +55,10 @@ const initColumns: ColumnsPreviewType[] = [
         minWidth: "auto",
         minWidthLimit: 100,
         allowEventPropagation: true,
-        exportValue: ""
+        exportValue: "",
+        exportDateFormat: "",
+        exportNumberFormat: "",
+        exportType: "text"
     }
 ];
 
