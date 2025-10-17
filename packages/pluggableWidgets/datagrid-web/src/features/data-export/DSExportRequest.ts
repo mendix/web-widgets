@@ -1,10 +1,10 @@
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import Big from "big.js";
-import { ListValue, ObjectItem, ValueStatus } from "mendix";
+import { DynamicValue, ListValue, ObjectItem, ValueStatus } from "mendix";
 import { createNanoEvents, Emitter, Unsubscribe } from "nanoevents";
 import { ColumnsType, ShowContentAsEnum } from "../../../typings/DatagridProps";
 
-/** Represents a single Excel cell (SheetJS compatible, simplified) */
+/** Represents a single Excel cell (SheetJS compatible) */
 interface ExcelCell {
     /** Cell type: 's' = string, 'n' = number, 'b' = boolean, 'd' = date */
     t: "s" | "n" | "b" | "d";
@@ -275,13 +275,17 @@ const readers: ReadersByType = {
         }
 
         const value = data.value;
+        const format = getCellFormat({
+            exportType: props.exportType,
+            exportDateFormat: props.exportDateFormat,
+            exportNumberFormat: props.exportNumberFormat
+        });
 
         if (value instanceof Date) {
             return {
-                t: "d", // date cell
+                t: "d",
                 v: value,
-                z: "dd/mm/yyyy hh:mm", // Excel date format
-                w: value.toISOString().split("T")[0] // human-readable fallback
+                z: format
             };
         }
 
@@ -293,22 +297,18 @@ const readers: ReadersByType = {
             };
         }
 
-        // Number (Big or JS number)
         if (value instanceof Big || typeof value === "number") {
             const num = value instanceof Big ? value.toNumber() : value;
             return {
                 t: "n",
                 v: num,
-                z: '"$"#,##0.00_);\\("$"#,##0.00\\)',
-                w: num.toLocaleString(undefined, { minimumFractionDigits: 2 })
+                z: format
             };
         }
 
-        // Default: string (ensure fallback is a string)
         return {
             t: "s",
-            v: data.displayValue ?? "",
-            w: data.displayValue ?? ""
+            v: data.displayValue ?? ""
         };
     },
 
@@ -321,9 +321,14 @@ const readers: ReadersByType = {
 
         switch (data.status) {
             case "available":
-                return { t: "s", v: data.value ?? "", w: data.value ?? "" };
+                const format = getCellFormat({
+                    exportType: props.exportType,
+                    exportDateFormat: props.exportDateFormat,
+                    exportNumberFormat: props.exportNumberFormat
+                });
+                return { t: "s", v: data.value ?? "", z: format };
             case "unavailable":
-                return { t: "s", v: "n/a", w: "n/a" };
+                return { t: "s", v: "n/a" };
             default:
                 return makeEmptyCell();
         }
@@ -331,13 +336,34 @@ const readers: ReadersByType = {
 
     customContent(item, props) {
         const value = props.exportValue?.get(item).value ?? "";
-        return { t: "s", v: value, w: value };
+        const format = getCellFormat({
+            exportType: props.exportType,
+            exportDateFormat: props.exportDateFormat,
+            exportNumberFormat: props.exportNumberFormat
+        });
+        return { t: "s", v: value, z: format };
     }
 };
 
-// Helper for empty cells
 function makeEmptyCell(): ExcelCell {
-    return { t: "s", v: "", w: "" };
+    return { t: "s", v: "" };
+}
+
+interface DataExportProps {
+    exportType: "text" | "number" | "date" | "boolean";
+    exportDateFormat?: DynamicValue<string>;
+    exportNumberFormat?: DynamicValue<string>;
+}
+
+function getCellFormat({ exportType, exportDateFormat, exportNumberFormat }: DataExportProps): string | undefined {
+    switch (exportType) {
+        case "date":
+            return exportDateFormat?.status === "available" ? exportDateFormat.value : "mm/dd/yyyy";
+        case "number":
+            return exportNumberFormat?.status === "available" ? exportNumberFormat.value : undefined;
+        default:
+            return undefined;
+    }
 }
 
 function createRowReader(columns: ColumnsType[]): RowReader {
