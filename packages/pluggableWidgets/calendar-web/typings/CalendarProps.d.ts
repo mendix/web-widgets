@@ -14,7 +14,7 @@ export type DefaultViewStandardEnum = "day" | "week" | "month";
 
 export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda";
 
-export type ItemTypeEnum = "previous" | "today" | "next" | "title" | "month" | "week" | "work_week" | "day" | "agenda";
+export type ItemTypeEnum = "day" | "month" | "agenda" | "week" | "work_week" | "title" | "previous" | "next" | "today";
 
 export type PositionEnum = "left" | "center" | "right";
 
@@ -26,6 +26,14 @@ export interface ToolbarItemsType {
     caption?: DynamicValue<string>;
     tooltip?: DynamicValue<string>;
     renderMode: RenderModeEnum;
+    customViewHeaderDayFormat?: DynamicValue<string>;
+    customViewCellDateFormat?: DynamicValue<string>;
+    customViewGutterTimeFormat?: DynamicValue<string>;
+    customViewGutterDateFormat?: DynamicValue<string>;
+    customViewAllDayText?: DynamicValue<string>;
+    customViewTextHeaderDate?: DynamicValue<string>;
+    customViewTextHeaderTime?: DynamicValue<string>;
+    customViewTextHeaderEvent?: DynamicValue<string>;
 }
 
 export type WidthUnitEnum = "pixels" | "percentage";
@@ -44,6 +52,14 @@ export interface ToolbarItemsPreviewType {
     caption: string;
     tooltip: string;
     renderMode: RenderModeEnum;
+    customViewHeaderDayFormat: string;
+    customViewCellDateFormat: string;
+    customViewGutterTimeFormat: string;
+    customViewGutterDateFormat: string;
+    customViewAllDayText: string;
+    customViewTextHeaderDate: string;
+    customViewTextHeaderTime: string;
+    customViewTextHeaderEvent: string;
 }
 
 export interface CalendarContainerProps {

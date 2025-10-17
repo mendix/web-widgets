@@ -49,9 +49,7 @@ export class CalendarPropsBuilder {
                 toolbar
             },
             defaultView: this.defaultView,
-            messages: {
-                work_week: workWeekCaption
-            },
+            messages: this.buildMessages(workWeekCaption),
             events: this.events,
             formats,
             localizer,
@@ -69,6 +67,27 @@ export class CalendarPropsBuilder {
             min: this.minTime,
             max: this.maxTime
         };
+    }
+
+    private buildMessages(workWeekCaption: string): {
+        work_week: string;
+        allDay?: string;
+        date?: string;
+        time?: string;
+        event?: string;
+    } {
+        if (this.isCustomView && this.toolbarItems && this.toolbarItems.length > 0) {
+            const byType = new Map(this.toolbarItems.map(i => [i.itemType, i]));
+            const agenda = byType.get("agenda");
+            return {
+                work_week: workWeekCaption,
+                ...(agenda?.customViewAllDayText ? { allDay: agenda.customViewAllDayText } : {}),
+                ...(agenda?.customViewTextHeaderDate ? { date: agenda.customViewTextHeaderDate } : {}),
+                ...(agenda?.customViewTextHeaderTime ? { time: agenda.customViewTextHeaderTime } : {}),
+                ...(agenda?.customViewTextHeaderEvent ? { event: agenda.customViewTextHeaderEvent } : {})
+            } as const;
+        }
+        return { work_week: workWeekCaption } as const;
     }
 
     private buildEvents(items: ObjectItem[]): CalendarEvent[] {
@@ -127,11 +146,6 @@ export class CalendarPropsBuilder {
             ) => `${formatWith(start, loc)} – ${formatWith(end, loc)}`;
         }
 
-        // Ensure showEventDate=false always hides event time ranges
-        if (this.props.showEventDate?.value === false) {
-            formats.eventTimeRangeFormat = () => "";
-        }
-
         const titlePattern = this.props.topBarDateFormat?.value?.trim();
         if (titlePattern) {
             formats.dayHeaderFormat = (date: Date, _culture: string, loc: DateLocalizer) =>
@@ -148,6 +162,80 @@ export class CalendarPropsBuilder {
                 _culture: string,
                 loc: DateLocalizer
             ) => `${loc.format(start, titlePattern)} – ${loc.format(end, titlePattern)}`;
+        }
+
+        // Apply per-view custom formats only in custom view mode
+        if (this.isCustomView && this.toolbarItems && this.toolbarItems.length > 0) {
+            const byType = new Map(this.toolbarItems.map(i => [i.itemType, i]));
+
+            type HeaderFormat = Formats["dayHeaderFormat"];
+            const applyHeader = (pattern?: string, existing?: HeaderFormat): HeaderFormat | undefined => {
+                if (!pattern) return existing;
+                return (date: Date, _culture: string, loc: DateLocalizer) => loc.format(date, pattern);
+            };
+
+            const dayHeaderPattern = byType.get("day")?.customViewHeaderDayFormat || this.props.topBarDateFormat?.value;
+            const weekHeaderPattern =
+                byType.get("week")?.customViewHeaderDayFormat ||
+                byType.get("work_week")?.customViewHeaderDayFormat ||
+                this.props.topBarDateFormat?.value;
+            const monthHeaderPattern =
+                byType.get("month")?.customViewHeaderDayFormat || this.props.topBarDateFormat?.value;
+            const agendaHeaderPattern =
+                byType.get("agenda")?.customViewHeaderDayFormat || this.props.topBarDateFormat?.value;
+
+            formats.dayHeaderFormat = applyHeader(dayHeaderPattern, formats.dayHeaderFormat);
+            formats.dayRangeHeaderFormat = (
+                range: { start: Date; end: Date },
+                _culture: string,
+                loc: DateLocalizer
+            ) => {
+                const pattern = weekHeaderPattern;
+                if (pattern) {
+                    return `${loc.format(range.start, pattern)} – ${loc.format(range.end, pattern)}`;
+                }
+                return `${loc.format(range.start, "P")} – ${loc.format(range.end, "P")}`;
+            };
+            formats.monthHeaderFormat = applyHeader(monthHeaderPattern, formats.monthHeaderFormat);
+            formats.agendaHeaderFormat = (range: { start: Date; end: Date }, _culture: string, loc: DateLocalizer) => {
+                const pattern = agendaHeaderPattern;
+                if (pattern) {
+                    return `${loc.format(range.start, pattern)} – ${loc.format(range.end, pattern)}`;
+                }
+                return `${loc.format(range.start, "P")} – ${loc.format(range.end, "P")}`;
+            };
+
+            // Month day numbers
+            const monthCellDate = byType.get("month")?.customViewCellDateFormat;
+            if (monthCellDate) {
+                formats.dateFormat = (date: Date, _culture: string, loc: DateLocalizer) =>
+                    loc.format(date, monthCellDate);
+            }
+
+            // Time gutters
+            const weekTimeGutter = byType.get("week")?.customViewGutterTimeFormat;
+            const dayTimeGutter = byType.get("day")?.customViewGutterTimeFormat;
+            const workWeekTimeGutter = byType.get("work_week")?.customViewGutterTimeFormat;
+            const chosenTimeGutter = weekTimeGutter || dayTimeGutter || workWeekTimeGutter;
+            if (chosenTimeGutter) {
+                formats.timeGutterFormat = (date: Date, _culture: string, loc: DateLocalizer) =>
+                    loc.format(date, chosenTimeGutter);
+            }
+            const agendaTime = byType.get("agenda")?.customViewGutterTimeFormat;
+            if (agendaTime) {
+                formats.agendaTimeFormat = (date: Date, _culture: string, loc: DateLocalizer) =>
+                    loc.format(date, agendaTime);
+            }
+            const agendaDate = byType.get("agenda")?.customViewGutterDateFormat;
+            if (agendaDate) {
+                formats.agendaDateFormat = (date: Date, _culture: string, loc: DateLocalizer) =>
+                    loc.format(date, agendaDate);
+            }
+        }
+
+        // Ensure showEventDate=false always hides event time ranges
+        if (this.props.showEventDate?.value === false) {
+            formats.eventTimeRangeFormat = () => "";
         }
 
         return formats;
@@ -226,7 +314,15 @@ export class CalendarPropsBuilder {
             position: i.position,
             caption: i.caption?.value,
             tooltip: i.tooltip?.value,
-            renderMode: i.renderMode
+            renderMode: i.renderMode,
+            customViewHeaderDayFormat: i.customViewHeaderDayFormat?.value,
+            customViewCellDateFormat: i.customViewCellDateFormat?.value,
+            customViewGutterTimeFormat: i.customViewGutterTimeFormat?.value,
+            customViewGutterDateFormat: i.customViewGutterDateFormat?.value,
+            customViewAllDayText: i.customViewAllDayText?.value,
+            customViewTextHeaderDate: i.customViewTextHeaderDate?.value,
+            customViewTextHeaderTime: i.customViewTextHeaderTime?.value,
+            customViewTextHeaderEvent: i.customViewTextHeaderEvent?.value
         }));
     }
 }
