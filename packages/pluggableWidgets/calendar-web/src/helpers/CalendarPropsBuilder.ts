@@ -41,13 +41,16 @@ export class CalendarPropsBuilder {
                 ? createConfigurableToolbar(this.toolbarItems)
                 : CustomToolbar;
 
+        // Use custom caption for work_week if provided in toolbar items, else default to "Custom"
+        const workWeekCaption = this.toolbarItems?.find(item => item.itemType === "work_week")?.caption || "Custom";
+
         return {
             components: {
                 toolbar
             },
             defaultView: this.defaultView,
             messages: {
-                work_week: "Custom"
+                work_week: workWeekCaption
             },
             events: this.events,
             formats,
