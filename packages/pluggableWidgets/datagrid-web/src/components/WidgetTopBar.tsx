@@ -1,9 +1,9 @@
-import { ReactElement, ReactNode } from "react";
+import { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react";
 
 type WidgetTopBarProps = {
     pagination: ReactNode;
     selectionCount: ReactNode;
-} & JSX.IntrinsicElements["div"];
+} & ComponentPropsWithoutRef<"div">;
 
 export function WidgetTopBar(props: WidgetTopBarProps): ReactElement {
     const { pagination, selectionCount, ...rest } = props;

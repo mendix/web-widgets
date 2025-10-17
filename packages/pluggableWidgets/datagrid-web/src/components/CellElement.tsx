@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { DOMAttributes, forwardRef, JSX, memo, ReactElement, ReactNode } from "react";
+import { ComponentPropsWithoutRef, DOMAttributes, forwardRef, memo, ReactElement, ReactNode } from "react";
 import { AlignmentEnum } from "typings/DatagridProps";
 
 export type CellElementProps = {
@@ -14,7 +14,7 @@ export type CellElementProps = {
     wrapText?: boolean;
     ["aria-hidden"]?: boolean;
     tabIndex?: number;
-} & Omit<JSX.IntrinsicElements["div"], "ref" | "children">;
+} & Omit<ComponentPropsWithoutRef<"div">, "children">;
 
 const component = forwardRef<HTMLDivElement, CellElementProps>(function CellElement(
     { className, borderTop, clickable, previewAsHidden, wrapText, alignment, tabIndex, ...rest }: CellElementProps,

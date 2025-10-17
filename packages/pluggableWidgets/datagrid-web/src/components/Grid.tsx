@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import { JSX, ReactElement } from "react";
+import { ComponentPropsWithoutRef, ReactElement } from "react";
 
-type P = Omit<JSX.IntrinsicElements["div"], "role" | "ref">;
+type P = Omit<ComponentPropsWithoutRef<"div">, "role">;
 
 export interface GridProps extends P {
     className?: string;

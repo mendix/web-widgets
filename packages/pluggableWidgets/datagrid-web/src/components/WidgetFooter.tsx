@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from "react";
+import { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react";
 import { PaginationEnum } from "../../typings/DatagridProps";
 
 type WidgetFooterProps = {
@@ -8,7 +8,7 @@ type WidgetFooterProps = {
     loadMoreButtonCaption?: string;
     hasMoreItems: boolean;
     setPage?: (computePage: (prevPage: number) => number) => void;
-} & React.JSX.IntrinsicElements["div"];
+} & ComponentPropsWithoutRef<"div">;
 
 export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
     const { pagination, selectionCount, paginationType, loadMoreButtonCaption, hasMoreItems, setPage, ...rest } = props;

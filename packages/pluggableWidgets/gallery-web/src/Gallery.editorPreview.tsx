@@ -7,7 +7,7 @@ import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selectio
 import { getGlobalSortContext } from "@mendix/widget-plugin-sorting/react/context";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
 import { GUID, ObjectItem } from "mendix";
-import { createElement, ReactElement, ReactNode, useCallback, useMemo } from "react";
+import { createElement, ReactElement, ReactNode, RefObject, useCallback, useMemo } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { Gallery as GalleryComponent } from "./components/Gallery";
 import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
@@ -64,7 +64,7 @@ function Preview(props: GalleryPreviewProps): ReactElement {
     );
 
     return (
-        <div ref={containerRef as React.RefObject<HTMLDivElement>}>
+        <div ref={containerRef as RefObject<HTMLDivElement>}>
             <GalleryComponent
                 className={props.class}
                 desktopItems={props.desktopItems!}
