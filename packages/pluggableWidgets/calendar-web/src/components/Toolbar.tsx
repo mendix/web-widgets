@@ -46,3 +46,134 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
         </div>
     );
 }
+
+export type ResolvedToolbarItem = {
+    itemType: "previous" | "today" | "next" | "title" | "month" | "week" | "work_week" | "day" | "agenda";
+    position: "left" | "center" | "right";
+    caption?: string;
+    renderMode: "button" | "link";
+    // Custom formatting/text options for Custom view
+    customViewHeaderDayFormat?: string;
+    customViewCellDateFormat?: string;
+    customViewGutterTimeFormat?: string;
+    customViewGutterDateFormat?: string;
+    customViewAllDayText?: string;
+    customViewTextHeaderDate?: string;
+    customViewTextHeaderTime?: string;
+    customViewTextHeaderEvent?: string;
+    // Custom button presentation
+    customButtonTooltip?: string;
+    customButtonStyle?: "default" | "primary" | "success" | "info" | "warning" | "danger";
+};
+
+export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props: ToolbarProps) => ReactElement {
+    return function ConfigurableToolbar({ label, localizer, onNavigate, onView, view }: ToolbarProps) {
+        const renderButton = (
+            key: string,
+            content: ReactElement | string,
+            onClick: () => void,
+            active = false,
+            renderMode: "button" | "link" = "button",
+            tooltip?: string,
+            styleClass?: string
+        ): ReactElement => (
+            <Button
+                key={key}
+                className={classNames("btn", styleClass ?? (renderMode === "link" ? "btn-link" : "btn-default"), {
+                    active
+                })}
+                onClick={onClick}
+                title={tooltip}
+            >
+                {content}
+            </Button>
+        );
+
+        const resolveStyleClass = (item: ResolvedToolbarItem): string => {
+            if (item.renderMode === "link") {
+                return "btn-link";
+            }
+            return `btn-${item.customButtonStyle ?? "default"}`;
+        };
+
+        const groups: Record<"left" | "center" | "right", ResolvedToolbarItem[]> = {
+            left: [],
+            center: [],
+            right: []
+        };
+        items.forEach(item => {
+            groups[item.position].push(item);
+        });
+
+        const renderItem = (item: ResolvedToolbarItem): ReactElement | null => {
+            switch (item.itemType) {
+                case "previous":
+                    return renderButton(
+                        "prev",
+                        <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-backward" }} />,
+                        () => onNavigate(Navigate.PREVIOUS),
+                        false,
+                        item.renderMode,
+                        item.customButtonTooltip,
+                        resolveStyleClass(item)
+                    );
+                case "today":
+                    // Always provide a default caption for 'today' button
+                    return renderButton(
+                        "today",
+                        (item.caption || localizer.messages.today) as unknown as ReactElement,
+                        () => onNavigate(Navigate.TODAY),
+                        false,
+                        item.renderMode,
+                        item.customButtonTooltip,
+                        resolveStyleClass(item)
+                    );
+                case "next":
+                    return renderButton(
+                        "next",
+                        <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-forward" }} />,
+                        () => onNavigate(Navigate.NEXT),
+                        false,
+                        item.renderMode,
+                        item.customButtonTooltip,
+                        resolveStyleClass(item)
+                    );
+                case "title":
+                    // Title always shows the formatted label, regardless of caption
+                    return (
+                        <span key="title" className="calendar-label" title={item.customButtonTooltip}>
+                            {label}
+                        </span>
+                    );
+                case "month":
+                case "week":
+                case "work_week":
+                case "day":
+                case "agenda": {
+                    const name = item.itemType as View;
+                    // Provide default caption from localizer messages if not specified
+                    const caption = item.caption || localizer.messages[name];
+                    return renderButton(
+                        name,
+                        caption as unknown as ReactElement,
+                        () => onView(name),
+                        view === name,
+                        item.renderMode,
+                        item.customButtonTooltip,
+                        resolveStyleClass(item)
+                    );
+                }
+                default:
+                    return null;
+            }
+        };
+
+        return (
+            <div className="calendar-toolbar">
+                <div className="btn-group">{groups.left.map(renderItem)}</div>
+                <div className="btn-group">{groups.center.map(renderItem)}</div>
+                <div className="btn-group">{groups.right.map(renderItem)}</div>
+            </div>
+        );
+    };
+}
