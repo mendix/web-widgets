@@ -283,8 +283,8 @@ const readers: ReadersByType = {
 
         if (value instanceof Date) {
             return {
-                t: "d",
-                v: value,
+                t: format === undefined ? "s" : "d",
+                v: format === undefined ? data.displayValue : value,
                 z: format
             };
         }
@@ -358,7 +358,7 @@ interface DataExportProps {
 function getCellFormat({ exportType, exportDateFormat, exportNumberFormat }: DataExportProps): string | undefined {
     switch (exportType) {
         case "date":
-            return exportDateFormat?.status === "available" ? exportDateFormat.value : "mm/dd/yyyy";
+            return exportDateFormat?.status === "available" ? exportDateFormat.value : undefined;
         case "number":
             return exportNumberFormat?.status === "available" ? exportNumberFormat.value : undefined;
         default:
