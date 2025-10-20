@@ -1,5 +1,6 @@
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import { Fragment, ReactElement } from "react";
+import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
+import { Fragment, ReactElement, ReactNode } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
 export function CheckboxColumnHeader(): ReactElement {
@@ -24,7 +25,7 @@ export function CheckboxColumnHeader(): ReactElement {
     );
 }
 
-function Checkbox(props: { status: SelectionStatus; onChange: () => void; "aria-label"?: string }): React.ReactNode {
+function Checkbox(props: { status: SelectionStatus; onChange: () => void; "aria-label"?: string }): ReactNode {
     if (props.status === "unknown") {
         console.error("Data grid 2: don't know how to render column checkbox with selectionStatus=unknown");
         return null;
