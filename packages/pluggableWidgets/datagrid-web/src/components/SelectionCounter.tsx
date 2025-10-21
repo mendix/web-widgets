@@ -13,8 +13,6 @@ export const SelectionCounter = observer(function SelectionCounter({
 
     const containerClass = location === "top" ? "widget-datagrid-tb-start" : "widget-datagrid-pb-start";
 
-    const clearButtonAriaLabel = `${selectionCountStore.clearButtonLabel} (${selectionCountStore.selectedCount} selected)`;
-
     return (
         <If condition={selectionCountStore.displayCount !== ""}>
             <div className={containerClass}>
@@ -22,11 +20,7 @@ export const SelectionCounter = observer(function SelectionCounter({
                     {selectionCountStore.displayCount}
                 </span>
                 &nbsp;|&nbsp;
-                <button
-                    className="widget-datagrid-clear-selection"
-                    onClick={selectActionHelper.onClearSelection}
-                    aria-label={clearButtonAriaLabel}
-                >
+                <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
                     {selectionCountStore.clearButtonLabel}
                 </button>
             </div>
