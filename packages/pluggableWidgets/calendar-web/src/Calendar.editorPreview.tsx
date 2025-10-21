@@ -82,7 +82,6 @@ export function preview(props: CalendarPreviewProps): ReactElement {
                       itemType: i.itemType,
                       position: i.position,
                       caption: i.caption,
-                      tooltip: i.tooltip,
                       renderMode: i.renderMode
                   })) as any
               )
