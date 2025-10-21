@@ -11,8 +11,8 @@ type Gate = DerivedPropsGate<{
 
 export class SelectionCountStore {
     private gate: Gate;
-    private singular: string = "row.count.singular";
-    private plural: string = "row.count.plural";
+    private singular: string = "%d.row.count";
+    private plural: string = "%d.rows.count";
 
     constructor(gate: Gate, spec: { singular?: string; plural?: string; clearLabel?: string } = {}) {
         this.singular = spec.singular ?? this.singular;
