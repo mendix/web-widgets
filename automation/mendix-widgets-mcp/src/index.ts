@@ -18,6 +18,7 @@ import type {
 import {
     scanPackages,
     inspectWidget,
+    findWidgetByName,
     determineBuildCommand,
     determineTestCommand,
     formatCommandResult
@@ -33,7 +34,7 @@ const exec = promisify(execCallback);
 // Simple inline verification function to avoid ESM/CommonJS compatibility issues
 async function verifyWidgetManifest(packagePath: string, packageJson: any): Promise<void> {
     try {
-        const packageXmlPath = join(packagePath, "package.xml");
+        const packageXmlPath = join(packagePath, "src", "package.xml");
         const packageXmlContent = await readFile(packageXmlPath, "utf-8");
 
         // Simple regex-based extraction of version from package.xml
@@ -55,7 +56,18 @@ async function verifyWidgetManifest(packagePath: string, packageJson: any): Prom
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const REPO_ROOT = resolve(__dirname, "../../../");
+
+// Determine REPO_ROOT:
+// 1. Use REPO_ROOT environment variable if set (Docker, production)
+// 2. Use CWD if provided (useful when running from monorepo root)
+// 3. Fall back to resolving from __dirname (local development from MCP server directory)
+const REPO_ROOT = process.env.REPO_ROOT ? resolve(process.env.REPO_ROOT) : resolve(__dirname, "../../../");
+
+// Debug logging for REPO_ROOT
+console.error(`[MCP Init] __dirname: ${__dirname}`);
+console.error(`[MCP Init] process.cwd(): ${process.cwd()}`);
+console.error(`[MCP Init] REPO_ROOT env: ${process.env.REPO_ROOT || "not set"}`);
+console.error(`[MCP Init] Resolved REPO_ROOT: ${REPO_ROOT}`);
 
 // Initialize guardrails, diff engine, and property engine
 const guardrails = new Guardrails(REPO_ROOT);
@@ -64,9 +76,9 @@ const propertyEngine = new PropertyEngine();
 
 async function main(): Promise<void> {
     const server = new McpServer({
-        name: "mendix-widgets-copilot",
+        name: "mendix-widgets-mcp",
         version: "0.1.0",
-        title: "Mendix Widgets Copilot",
+        title: "Mendix Widgets MCP",
         capabilities: {
             resources: {}, // Resources will be registered dynamically
             tools: {} // Tools are registered below
@@ -85,7 +97,7 @@ async function main(): Promise<void> {
                 {
                     type: "text",
                     text: JSON.stringify({
-                        name: "mendix-widgets-copilot",
+                        name: "mendix-widgets-mcp",
                         version: "0.1.0",
                         repoPath: repoPath ?? null
                     })
@@ -127,13 +139,47 @@ async function main(): Promise<void> {
         {
             title: "Inspect Widget",
             description:
-                "Inspect a specific widget package and return detailed information about its structure, manifests, and files",
+                "Inspect a specific widget package. Accepts either a full path or widget name (e.g., 'combobox-web' or '@mendix/combobox-web')",
             inputSchema: {
-                packagePath: z.string().describe("Path to the widget package directory")
+                packagePath: z
+                    .string()
+                    .describe("Widget name (e.g., 'combobox-web') or full path to the widget package directory")
             }
         },
         withGuardrails(async ({ packagePath }) => {
-            const validatedPath = await guardrails.validatePackage(packagePath);
+            let resolvedPath = packagePath;
+
+            // If packagePath doesn't start with / and doesn't look like an absolute path, try to resolve it as a widget name
+            const isAbsolutePath = packagePath.startsWith("/") || packagePath.startsWith(REPO_ROOT);
+
+            if (!isAbsolutePath) {
+                const packagesDir = join(REPO_ROOT, "packages");
+                const foundPath = await findWidgetByName(packagesDir, packagePath);
+
+                if (foundPath) {
+                    resolvedPath = foundPath;
+                } else {
+                    return {
+                        content: [
+                            {
+                                type: "text",
+                                text: JSON.stringify(
+                                    {
+                                        success: false,
+                                        error: `Widget '${packagePath}' not found. Try using the full path or check available widgets with list_packages.`,
+                                        searchedIn: packagesDir,
+                                        repoRoot: REPO_ROOT
+                                    },
+                                    null,
+                                    2
+                                )
+                            }
+                        ]
+                    };
+                }
+            }
+
+            const validatedPath = await guardrails.validatePackage(resolvedPath);
             const inspection = await inspectWidget(validatedPath);
 
             return {
@@ -151,13 +197,48 @@ async function main(): Promise<void> {
         "verify_manifest_versions",
         {
             title: "Verify Manifest Versions",
-            description: "Verify that package.json and package.xml versions are in sync for a widget",
+            description:
+                "Verify that package.json and package.xml versions are in sync for a widget. Accepts either a full path or widget name (e.g., 'combobox-web' or '@mendix/combobox-web')",
             inputSchema: {
-                packagePath: z.string().describe("Path to the widget package directory")
+                packagePath: z
+                    .string()
+                    .describe("Widget name (e.g., 'combobox-web') or full path to the widget package directory")
             }
         },
         withGuardrails(async ({ packagePath }) => {
-            const validatedPath = await guardrails.validatePackage(packagePath);
+            let resolvedPath = packagePath;
+
+            // If packagePath doesn't start with / and doesn't look like an absolute path, try to resolve it as a widget name
+            const isAbsolutePath = packagePath.startsWith("/") || packagePath.startsWith(REPO_ROOT);
+
+            if (!isAbsolutePath) {
+                const packagesDir = join(REPO_ROOT, "packages");
+                const foundPath = await findWidgetByName(packagesDir, packagePath);
+
+                if (foundPath) {
+                    resolvedPath = foundPath;
+                } else {
+                    return {
+                        content: [
+                            {
+                                type: "text",
+                                text: JSON.stringify(
+                                    {
+                                        success: false,
+                                        error: `Widget '${packagePath}' not found. Try using the full path or check available widgets with list_packages.`,
+                                        searchedIn: packagesDir,
+                                        repoRoot: REPO_ROOT
+                                    },
+                                    null,
+                                    2
+                                )
+                            }
+                        ]
+                    };
+                }
+            }
+
+            const validatedPath = await guardrails.validatePackage(resolvedPath);
             const packageJsonPath = join(validatedPath, "package.json");
             const packageJsonContent = await readFile(packageJsonPath, "utf-8");
             const packageJson = JSON.parse(packageJsonContent);
@@ -782,6 +863,15 @@ async function main(): Promise<void> {
     console.error(`Registered ${prompts.length} prompt templates for guided workflows`);
 
     await server.connect(new StdioServerTransport());
+
+    // Handle graceful shutdown
+    const shutdown = () => {
+        console.error("Shutting down MCP server...");
+        process.exit(0);
+    };
+
+    process.on("SIGINT", shutdown);
+    process.on("SIGTERM", shutdown);
 }
 
 main()

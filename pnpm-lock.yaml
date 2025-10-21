@@ -61,7 +61,7 @@ importers:
         specifier: ^2.5.4
         version: 2.5.4
 
-  automation/mendix-widgets-copilot:
+  automation/mendix-widgets-mcp:
     dependencies:
       '@mendix/automation-utils':
         specifier: workspace:^

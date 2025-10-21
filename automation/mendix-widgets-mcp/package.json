@@ -1,7 +1,7 @@
 {
-    "name": "@mendix/mendix-widgets-copilot",
+    "name": "@mendix/mendix-widgets-mcp",
     "version": "0.1.0",
-    "description": "Mendix Widgets Copilot MCP server for the web-widgets monorepo",
+    "description": "Mendix Widgets MCP server for the web-widgets monorepo",
     "license": "Apache-2.0",
     "private": true,
     "type": "module",
