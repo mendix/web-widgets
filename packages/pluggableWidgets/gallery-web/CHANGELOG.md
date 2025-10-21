@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where setting the gallery gap to 0 caused an offset, which made the bottom border of items to dissapear.
 
+### Added
+
+- We introduced a new caption setting for the clear selection button.
+
 ## [3.6.1] - 2025-10-14
 
 ### Fixed
