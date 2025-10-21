@@ -101,6 +101,11 @@ $rte-brand-primary: #264ae5;
         position: relative;
         text-transform: none;
         justify-content: end;
+
+        &.hide-status-bar {
+            border-top: none;
+            height: 0;
+        }
     }
 
     &.editor-readPanel {
