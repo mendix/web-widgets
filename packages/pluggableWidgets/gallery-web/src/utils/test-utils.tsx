@@ -57,7 +57,8 @@ export function createMockGalleryContext(): GalleryRootScope {
         storeFilters: false,
         storeSort: false,
         refreshIndicator: false,
-        keepSelection: false
+        keepSelection: false,
+        refreshInterval: 0
     };
 
     // Create a proper gate provider and gate
@@ -75,7 +76,8 @@ export function createMockGalleryContext(): GalleryRootScope {
         stateStorageType: "localStorage",
         storeFilters: false,
         storeSort: false,
-        refreshIndicator: false
+        refreshIndicator: false,
+        refreshInterval: 0
     });
 
     const mockSelectHelper = new SelectActionHandler("None", undefined);
