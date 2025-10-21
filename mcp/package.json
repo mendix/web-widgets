@@ -1,7 +1,7 @@
 {
-    "name": "@mendix/mendix-widgets-copilot",
+    "name": "@mendix/mendix-pluggable-mcp",
     "version": "0.1.0",
-    "description": "Mendix Widgets Copilot MCP server for the web-widgets monorepo",
+    "description": "Mendix Widgets MCP server for the web-widgets monorepo",
     "license": "Apache-2.0",
     "private": true,
     "type": "module",
@@ -17,7 +17,6 @@
         "start": "node build/index.js"
     },
     "dependencies": {
-        "@mendix/automation-utils": "workspace:^",
         "@modelcontextprotocol/sdk": "^1.17.4",
         "fast-xml-parser": "^4.5.3",
         "zod": "^3.25.67"

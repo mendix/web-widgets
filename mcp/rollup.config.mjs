@@ -18,9 +18,7 @@ export default {
         "path",
         "url",
         "child_process",
-        "util",
-        // Keep workspace dependencies external (they won't be bundled)
-        "@mendix/automation-utils"
+        "util"
     ],
     plugins: [
         // Handle JSON imports

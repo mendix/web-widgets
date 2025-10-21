@@ -8,7 +8,7 @@
     },
     "scripts": {
         "build": "turbo run build",
-        "build:mcp": "cd automation/mendix-widgets-copilot && pnpm build",
+        "build:mcp": "cd mcp && pnpm build",
         "changelog": "pnpm --filter @mendix/automation-utils run changelog",
         "oss-clearance": "pnpm --filter @mendix/automation-utils run oss-clearance",
         "create-gh-release": "turbo run create-gh-release --concurrency 1",

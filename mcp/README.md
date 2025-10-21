@@ -1,4 +1,4 @@
-# Mendix Widgets Copilot MCP Server
+# Mendix Widgets MCP Server
 
 An MCP (Model Context Protocol) server that provides AI-powered tooling for the `web-widgets` monorepo. Enables discovery, inspection, building, testing, property manipulation, and verification of Mendix widget packages through natural language interactions.
 
@@ -119,7 +119,7 @@ The MCP server is **pre-configured** for the team! Just follow these steps:
     pnpm run build:mcp
 
     # Or from the MCP directory:
-    cd automation/mendix-widgets-copilot && pnpm build
+    cd mcp && pnpm build
     ```
 
 2. **Restart Cursor** - The MCP server will be automatically available via the workspace configuration in `.cursor/mcp.json`
@@ -138,9 +138,9 @@ The workspace already includes the MCP configuration in `.cursor/mcp.json`:
 ```json
 {
     "mcpServers": {
-        "mendix-widgets-copilot": {
+        "mendix-pluggable-mcp": {
             "command": "node",
-            "args": ["automation/mendix-widgets-copilot/build/index.js"],
+            "args": ["mcp/build/index.js"],
             "env": {
                 "MX_PROJECT_PATH": "${workspaceFolder}/../test-project"
             },
@@ -155,7 +155,7 @@ The workspace already includes the MCP configuration in `.cursor/mcp.json`:
 For hot-reload during MCP server development:
 
 ```bash
-cd web-widgets/automation/mendix-widgets-copilot
+cd web-widgets/mcp
 pnpm dev
 ```
 

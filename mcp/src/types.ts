@@ -53,6 +53,7 @@ export interface TranslationResult {
     error?: string;
 }
 
+// EXPERIMENTAL
 export interface PropertyDefinition {
     key: string;
     type: "text" | "boolean" | "integer" | "enumeration" | "expression" | "action" | "attribute";
@@ -136,4 +137,12 @@ export interface WidgetSampleContent {
             packageJson?: any;
         };
     };
+}
+
+export interface ToolDefinition {
+    name: string;
+    title: string;
+    description: string;
+    inputSchema: Record<string, any>;
+    handler: (args: any) => Promise<{ content: Array<{ type: "text"; text: string }> }>;
 }

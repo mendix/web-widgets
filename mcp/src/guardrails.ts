@@ -43,9 +43,18 @@ export class Guardrails {
         const resolvedPath = resolve(targetPath);
         const relativePath = relative(this.repoRoot, resolvedPath);
 
+        // Debug logging
+        console.error(`[Guardrails] validatePath called with: ${targetPath}`);
+        console.error(`[Guardrails] repoRoot: ${this.repoRoot}`);
+        console.error(`[Guardrails] resolvedPath: ${resolvedPath}`);
+        console.error(`[Guardrails] relativePath: ${relativePath}`);
+
         // Must be within repo
         if (relativePath.startsWith("..")) {
-            throw new GuardrailError(`Path ${targetPath} is outside the repository`, "PATH_OUTSIDE_REPO");
+            throw new GuardrailError(
+                `Path ${targetPath} is outside the repository. RepoRoot: ${this.repoRoot}, Resolved: ${resolvedPath}, Relative: ${relativePath}`,
+                "PATH_OUTSIDE_REPO"
+            );
         }
 
         // Check against blocked paths
@@ -111,7 +120,11 @@ export class Guardrails {
      * Validate that a package path is a valid widget/module
      */
     async validatePackage(packagePath: string): Promise<string> {
-        const validatedPath = await this.validatePath(packagePath);
+        // First resolve the path - it might be relative or absolute
+        const resolvedPath = resolve(packagePath);
+
+        // Validate it's accessible
+        const validatedPath = await this.validatePath(resolvedPath);
 
         // Must have package.json
         const packageJsonPath = join(validatedPath, "package.json");
@@ -127,7 +140,7 @@ export class Guardrails {
 
         if (pathParts.length < 3 || pathParts[0] !== "packages") {
             throw new GuardrailError(
-                `${packagePath} is not in expected packages directory structure`,
+                `${packagePath} is not in expected packages directory structure. Path: ${relativePath}, Parts: ${pathParts.join("/")}`,
                 "INVALID_PACKAGE_STRUCTURE"
             );
         }
