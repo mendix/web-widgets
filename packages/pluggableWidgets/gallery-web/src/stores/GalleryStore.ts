@@ -37,6 +37,7 @@ interface StaticProps {
     storeFilters: boolean;
     storeSort: boolean;
     refreshIndicator: boolean;
+    refreshInterval: number;
 }
 
 export type GalleryPropsGate = DerivedPropsGate<DynamicProps>;
@@ -99,10 +100,14 @@ export class GalleryStore extends BaseControllerHost {
             host: this._sortHost
         };
 
-        this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator);
+        this.loaderCtrl = new DerivedLoaderController({
+            showSilentRefresh: spec.refreshInterval > 1,
+            refreshIndicator: spec.refreshIndicator,
+            query: this._query
+        });
 
         new RefreshController(this, {
-            delay: 0,
+            delay: spec.refreshInterval * 1000,
             query: this._query.derivedQuery
         });
 
