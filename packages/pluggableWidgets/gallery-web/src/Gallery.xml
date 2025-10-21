@@ -16,6 +16,10 @@
                     <caption>Data source</caption>
                     <description />
                 </property>
+                <property key="refreshInterval" type="integer" defaultValue="0">
+                    <caption>Refresh time (in seconds)</caption>
+                    <description />
+                </property>
                 <property key="itemSelection" type="selection" dataSource="datasource">
                     <caption>Selection</caption>
                     <description />
