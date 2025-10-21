@@ -1,4 +1,4 @@
 packages:
     - "packages/*/*"
     - "automation/*"
-    - "automation/mendix-widgets-mcp"
+    - "mcp"

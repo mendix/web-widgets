@@ -73,6 +73,29 @@ export async function resolveWidgetFiles(packagePath: string): Promise<{
     return { widgetName, srcPath, widgetXmlPath, editorConfigPath, editorPreviewPath };
 }
 
+/**
+ * Find a widget package by name (e.g., "combobox-web" or "@mendix/combobox-web")
+ * Returns the full path to the package directory
+ */
+export async function findWidgetByName(packagesDir: string, widgetName: string): Promise<string | null> {
+    const packages = await scanPackages(packagesDir);
+
+    // Normalize the widget name
+    const normalizedName = widgetName.startsWith("@mendix/") ? widgetName : `@mendix/${widgetName}`;
+
+    // Try exact match first
+    let found = packages.find(pkg => pkg.name === normalizedName);
+
+    // Try partial match (e.g., "combobox" matches "combobox-web")
+    if (!found) {
+        found = packages.find(
+            pkg => pkg.name.includes(widgetName.replace("@mendix/", "")) || pkg.path.includes(widgetName)
+        );
+    }
+
+    return found ? found.path : null;
+}
+
 export async function scanPackages(packagesDir: string): Promise<PackageInfo[]> {
     const packages: PackageInfo[] = [];
 
