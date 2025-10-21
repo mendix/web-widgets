@@ -3,7 +3,9 @@ import {
     enterKeyKeyboardHandler,
     exitFullscreenKeyboardHandler,
     gotoStatusBarKeyboardHandler,
-    gotoToolbarKeyboardHandler
+    gotoToolbarKeyboardHandler,
+    movePrevFocus,
+    shiftEnterKeyKeyboardHandler
 } from "./toolbarHandlers";
 import QuillTableBetter from "../formats/quill-table-better/quill-table-better";
 
@@ -13,19 +15,28 @@ export function getKeyboardBindings(): Record<string, unknown> {
             key: "Enter",
             handler: enterKeyKeyboardHandler
         },
+        shiftEnter: {
+            key: "Enter",
+            shiftKey: true,
+            collapsed: true,
+            handler: shiftEnterKeyKeyboardHandler
+        },
         focusTab: {
             key: "F10",
             altKey: true,
+            collapsed: true,
             handler: gotoToolbarKeyboardHandler
         },
         shiftTab: {
             key: "Tab",
             shiftKey: true,
-            handler: gotoToolbarKeyboardHandler
+            collapsed: true,
+            handler: movePrevFocus
         },
         nextFocusTab: {
             key: "F11",
             altKey: true,
+            collapsed: true,
             handler: gotoStatusBarKeyboardHandler
         },
         escape: {

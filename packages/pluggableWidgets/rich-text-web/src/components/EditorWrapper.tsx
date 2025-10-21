@@ -202,15 +202,18 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     formOrientation={formOrientation}
                 />
             </div>
-            <If condition={enableStatusBar}>
-                <div className="widget-rich-text-footer" tabIndex={-1}>
+            <div
+                className={classNames("widget-rich-text-footer", { "hide-status-bar": !enableStatusBar })}
+                tabIndex={-1}
+            >
+                <If condition={enableStatusBar}>
                     <span>
                         <span>{wordCount}</span>
                         <span>{` ${statusBarContent === "wordCount" ? "word" : "character"}`}</span>
                         <span>{wordCount === 1 ? "" : "s"}</span>
                     </span>
-                </div>
-            </If>
+                </If>
+            </div>
         </div>
     );
 }

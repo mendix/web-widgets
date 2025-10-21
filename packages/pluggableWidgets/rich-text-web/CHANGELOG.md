@@ -13,10 +13,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - We changed Tab keyboard behavior to add indentation instead of exiting focus from editor.
+- We changed `&nbsp;` mark for empty line in favor for `<br />` break tag instead.
 
 ### Added
 
-- We added alt+F11 keyboard shortcut to do focus next.
+- We added alt+F11 keyboard shortcut to do focus next, and alt+F10 to focus on toolbar.
+- We added shift+enter keyboard shortcut to add `<br />` break tag.
 
 ## [4.10.0] - 2025-10-02
 
