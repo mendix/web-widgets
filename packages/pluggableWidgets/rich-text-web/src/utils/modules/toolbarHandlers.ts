@@ -70,10 +70,37 @@ export function enterKeyKeyboardHandler(this: Keyboard, range: Range, context: C
     });
 }
 
+export function shiftEnterKeyKeyboardHandler(this: Keyboard, range: Range, context: Context): any {
+    if (context.format.table) {
+        return true;
+    }
+    this.quill.insertEmbed(range.index, "softbreak", true, Quill.sources.USER);
+    this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+    return false;
+}
+
+export function movePrevFocus(this: Keyboard, range: Range, context: Context): any {
+    if (context.format.table || context.format.indent || context.format.list || context.format.blockquote) {
+        context.event.stopPropagation();
+        context.event.preventDefault();
+        return true;
+    }
+
+    gotoToolbarKeyboardHandler.call(this, range, context);
+}
+
 // focus to first toolbar button
-export function gotoToolbarKeyboardHandler(this: Keyboard, _range: Range, _context: Context): void {
+export function gotoToolbarKeyboardHandler(this: Keyboard, _range: Range, context: Context): any {
+    if (context.format.table) {
+        return true;
+    }
+
     const toolbar = this.quill.container.parentElement?.parentElement?.querySelector(".widget-rich-text-toolbar");
-    (toolbar?.querySelector(".ql-formats button") as HTMLElement)?.focus();
+    if (toolbar) {
+        (toolbar?.querySelector(".ql-formats button") as HTMLElement)?.focus();
+    } else {
+        this.quill.blur();
+    }
 }
 
 // move to next element focus : status bar button (exit editor)
@@ -81,6 +108,7 @@ export function gotoStatusBarKeyboardHandler(this: Keyboard, _range: Range, cont
     if (context.format.table) {
         return true;
     }
+
     const statusBar = this.quill.container.parentElement?.parentElement?.nextElementSibling;
     if (statusBar) {
         (statusBar as HTMLElement)?.focus();
