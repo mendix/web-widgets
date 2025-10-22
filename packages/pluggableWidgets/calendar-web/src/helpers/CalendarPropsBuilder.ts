@@ -35,7 +35,6 @@ export class CalendarPropsBuilder {
     build(): DragAndDropCalendarProps<CalendarEvent> {
         const formats = this.buildFormats();
         const views = this.buildVisibleViews();
-
         const toolbar =
             this.isCustomView && this.toolbarItems && this.toolbarItems.length > 0
                 ? createConfigurableToolbar(this.toolbarItems)
@@ -44,11 +43,17 @@ export class CalendarPropsBuilder {
         // Use custom caption for work_week if provided in toolbar items, else default to "Custom"
         const workWeekCaption = this.toolbarItems?.find(item => item.itemType === "work_week")?.caption || "Custom";
 
+        // Ensure defaultView is actually enabled in views, otherwise pick the first enabled view
+        const enabledViews = Object.entries(views)
+            .filter(([_, enabled]) => enabled !== false)
+            .map(([view]) => view as "day" | "week" | "work_week" | "month" | "agenda");
+        const safeDefaultView = enabledViews.includes(this.defaultView) ? this.defaultView : enabledViews[0];
+
         return {
             components: {
                 toolbar
             },
-            defaultView: this.defaultView,
+            defaultView: safeDefaultView,
             messages: this.buildMessages(workWeekCaption),
             events: this.events,
             formats,
@@ -170,63 +175,77 @@ export class CalendarPropsBuilder {
 
             type HeaderFormat = Formats["dayHeaderFormat"];
             const applyHeader = (pattern?: string, existing?: HeaderFormat): HeaderFormat | undefined => {
-                if (!pattern) return existing;
+                if (!pattern || pattern.trim() === "") return existing;
                 return (date: Date, _culture: string, loc: DateLocalizer) => loc.format(date, pattern);
             };
 
-            const dayHeaderPattern = byType.get("day")?.customViewHeaderDayFormat || this.props.topBarDateFormat?.value;
-            const weekHeaderPattern =
-                byType.get("week")?.customViewHeaderDayFormat ||
-                byType.get("work_week")?.customViewHeaderDayFormat ||
-                this.props.topBarDateFormat?.value;
-            const monthHeaderPattern =
-                byType.get("month")?.customViewHeaderDayFormat || this.props.topBarDateFormat?.value;
-            const agendaHeaderPattern =
-                byType.get("agenda")?.customViewHeaderDayFormat || this.props.topBarDateFormat?.value;
+            // Helper to get non-empty pattern or fallback
+            const getPattern = (pattern?: string, fallback?: string): string | undefined => {
+                const trimmed = pattern?.trim();
+                return trimmed && trimmed.length > 0 ? trimmed : fallback;
+            };
 
-            formats.dayHeaderFormat = applyHeader(dayHeaderPattern, formats.dayHeaderFormat);
-            formats.dayRangeHeaderFormat = (
-                range: { start: Date; end: Date },
-                _culture: string,
-                loc: DateLocalizer
-            ) => {
-                const pattern = weekHeaderPattern;
-                if (pattern) {
-                    return `${loc.format(range.start, pattern)} – ${loc.format(range.end, pattern)}`;
-                }
-                return `${loc.format(range.start, "P")} – ${loc.format(range.end, "P")}`;
-            };
-            formats.monthHeaderFormat = applyHeader(monthHeaderPattern, formats.monthHeaderFormat);
-            formats.agendaHeaderFormat = (range: { start: Date; end: Date }, _culture: string, loc: DateLocalizer) => {
-                const pattern = agendaHeaderPattern;
-                if (pattern) {
-                    return `${loc.format(range.start, pattern)} – ${loc.format(range.end, pattern)}`;
-                }
-                return `${loc.format(range.start, "P")} – ${loc.format(range.end, "P")}`;
-            };
+            const dayHeaderPattern = getPattern(
+                byType.get("day")?.customViewHeaderDayFormat,
+                this.props.topBarDateFormat?.value
+            );
+            const weekHeaderPattern = getPattern(
+                byType.get("week")?.customViewHeaderDayFormat || byType.get("work_week")?.customViewHeaderDayFormat,
+                this.props.topBarDateFormat?.value
+            );
+            const monthHeaderPattern = getPattern(
+                byType.get("month")?.customViewHeaderDayFormat,
+                this.props.topBarDateFormat?.value
+            );
+            const agendaHeaderPattern = getPattern(
+                byType.get("agenda")?.customViewHeaderDayFormat,
+                this.props.topBarDateFormat?.value
+            );
+
+            // Only apply if we have a valid pattern
+            if (dayHeaderPattern) {
+                formats.dayHeaderFormat = applyHeader(dayHeaderPattern, formats.dayHeaderFormat);
+            }
+            if (weekHeaderPattern) {
+                formats.dayRangeHeaderFormat = (
+                    range: { start: Date; end: Date },
+                    _culture: string,
+                    loc: DateLocalizer
+                ) => `${loc.format(range.start, weekHeaderPattern)} – ${loc.format(range.end, weekHeaderPattern)}`;
+            }
+            if (monthHeaderPattern) {
+                formats.monthHeaderFormat = applyHeader(monthHeaderPattern, formats.monthHeaderFormat);
+            }
+            if (agendaHeaderPattern) {
+                formats.agendaHeaderFormat = (
+                    range: { start: Date; end: Date },
+                    _culture: string,
+                    loc: DateLocalizer
+                ) => `${loc.format(range.start, agendaHeaderPattern)} – ${loc.format(range.end, agendaHeaderPattern)}`;
+            }
 
             // Month day numbers
-            const monthCellDate = byType.get("month")?.customViewCellDateFormat;
+            const monthCellDate = getPattern(byType.get("month")?.customViewCellDateFormat);
             if (monthCellDate) {
                 formats.dateFormat = (date: Date, _culture: string, loc: DateLocalizer) =>
                     loc.format(date, monthCellDate);
             }
 
             // Time gutters
-            const weekTimeGutter = byType.get("week")?.customViewGutterTimeFormat;
-            const dayTimeGutter = byType.get("day")?.customViewGutterTimeFormat;
-            const workWeekTimeGutter = byType.get("work_week")?.customViewGutterTimeFormat;
+            const weekTimeGutter = getPattern(byType.get("week")?.customViewGutterTimeFormat);
+            const dayTimeGutter = getPattern(byType.get("day")?.customViewGutterTimeFormat);
+            const workWeekTimeGutter = getPattern(byType.get("work_week")?.customViewGutterTimeFormat);
             const chosenTimeGutter = weekTimeGutter || dayTimeGutter || workWeekTimeGutter;
             if (chosenTimeGutter) {
                 formats.timeGutterFormat = (date: Date, _culture: string, loc: DateLocalizer) =>
                     loc.format(date, chosenTimeGutter);
             }
-            const agendaTime = byType.get("agenda")?.customViewGutterTimeFormat;
+            const agendaTime = getPattern(byType.get("agenda")?.customViewGutterTimeFormat);
             if (agendaTime) {
                 formats.agendaTimeFormat = (date: Date, _culture: string, loc: DateLocalizer) =>
                     loc.format(date, agendaTime);
             }
-            const agendaDate = byType.get("agenda")?.customViewGutterDateFormat;
+            const agendaDate = getPattern(byType.get("agenda")?.customViewGutterDateFormat);
             if (agendaDate) {
                 formats.agendaDateFormat = (date: Date, _culture: string, loc: DateLocalizer) =>
                     loc.format(date, agendaDate);
