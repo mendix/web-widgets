@@ -102,7 +102,7 @@
                         <enumerationValue key="day">Day</enumerationValue>
                         <enumerationValue key="week">Week</enumerationValue>
                         <enumerationValue key="month">Month</enumerationValue>
-                        <enumerationValue key="work_week">Custom</enumerationValue>
+                        <enumerationValue key="work_week">Work week</enumerationValue>
                         <enumerationValue key="agenda">Agenda</enumerationValue>
                     </enumerationValues>
                 </property>
@@ -148,7 +148,7 @@
                                 <enumerationValue key="month">Month view button</enumerationValue>
                                 <enumerationValue key="agenda">Agenda view button</enumerationValue>
                                 <enumerationValue key="week">Week view button</enumerationValue>
-                                <enumerationValue key="work_week">Custom week view button</enumerationValue>
+                                <enumerationValue key="work_week">Work week view button</enumerationValue>
                                 <enumerationValue key="title">Title date text</enumerationValue>
                                 <enumerationValue key="previous">Previous button</enumerationValue>
                                 <enumerationValue key="next">Next button</enumerationValue>
