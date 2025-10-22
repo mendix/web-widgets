@@ -1,9 +1,8 @@
 import classNames from "classnames";
-import { Fragment, ReactElement, ReactNode } from "react";
-import { LoadingTypeEnum, PaginationEnum } from "../../typings/DatagridProps";
+import { Fragment, ReactElement, ReactNode, RefObject } from "react";
+import { LoadingTypeEnum } from "../../typings/DatagridProps";
 import { SpinnerLoader } from "./loader/SpinnerLoader";
 import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
-import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 
 interface Props {
     className?: string;
@@ -15,20 +14,12 @@ interface Props {
     columnsSize: number;
     rowsSize: number;
     pageSize: number;
-    pagination: PaginationEnum;
-    hasMoreItems: boolean;
-    setPage?: (update: (page: number) => number) => void;
+    trackScrolling?: (e: any) => void;
+    bodyRef: RefObject<HTMLDivElement | null>;
 }
 
 export function GridBody(props: Props): ReactElement {
-    const { children, pagination, hasMoreItems, setPage } = props;
-
-    const isInfinite = pagination === "virtualScrolling";
-    const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
-        hasMoreItems,
-        isInfinite,
-        setPage
-    });
+    const { children, bodyRef, trackScrolling } = props;
 
     const content = (): ReactElement => {
         if (props.isFirstLoad) {
@@ -44,15 +35,10 @@ export function GridBody(props: Props): ReactElement {
 
     return (
         <div
-            className={classNames(
-                "widget-datagrid-grid-body table-content",
-                { "infinite-loading": isInfinite },
-                props.className
-            )}
-            style={isInfinite && bodySize > 0 ? { maxHeight: `${bodySize}px` } : {}}
+            className={classNames("widget-datagrid-grid-body table-content", props.className)}
             role="rowgroup"
-            ref={containerRef}
-            onScroll={isInfinite ? trackScrolling : undefined}
+            ref={bodyRef}
+            onScroll={trackScrolling}
         >
             {content()}
         </div>

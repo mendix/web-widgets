@@ -25,6 +25,7 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
+import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -157,6 +158,14 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     });
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
+    const isInfinite = paginationType === "virtualScrolling";
+
+    const [trackBodyScrolling, bodyHeight, gridWidth, scrollBarSize, gridBodyRef, gridContainerRef, gridHeaderRef] =
+        useInfiniteControl({
+            setPage,
+            isInfinite,
+            hasMoreItems
+        });
 
     return (
         <Fragment>
@@ -166,6 +175,11 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 <Grid
                     aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
                     style={cssGridStyles}
+                    containerRef={gridContainerRef}
+                    isInfinite={isInfinite}
+                    bodyHeight={bodyHeight}
+                    gridWidth={gridWidth}
+                    scrollBarSize={scrollBarSize}
                 >
                     <GridHeader
                         availableColumns={props.availableColumns}
@@ -182,6 +196,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         id={props.id}
                         isLoading={props.columnsLoading}
                         preview={props.preview}
+                        headerRef={gridHeaderRef}
                     />
                     {showRefreshIndicator ? <RefreshIndicator /> : null}
                     <GridBody
@@ -192,9 +207,8 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         columnsSize={visibleColumns.length}
                         rowsSize={rows.length}
                         pageSize={pageSize}
-                        pagination={props.paginationType}
-                        hasMoreItems={hasMoreItems}
-                        setPage={setPage}
+                        trackScrolling={trackBodyScrolling}
+                        bodyRef={gridBodyRef}
                     >
                         <RowsRenderer
                             preview={props.preview ?? false}

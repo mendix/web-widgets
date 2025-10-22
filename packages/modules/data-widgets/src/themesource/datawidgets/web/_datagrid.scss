@@ -394,19 +394,12 @@ $root: ".widget-datagrid";
             display: grid !important;
             min-width: fit-content;
             margin-bottom: 0;
+            &.infinite-loading {
+                // in order to restrict the scroll to row area
+                // we need to prevent table itself to expanding beyond available position
+                min-width: 0;
+            }
         }
-    }
-
-    &-content {
-        overflow-x: auto;
-    }
-
-    &-grid-head {
-        display: contents;
-    }
-
-    &-grid-body {
-        display: contents;
     }
 
     &.widget-datagrid-selection-method-click {
@@ -520,10 +513,30 @@ $root: ".widget-datagrid";
     margin: 0 auto;
 }
 
-.infinite-loading.widget-datagrid-grid-body {
-    // when virtual scroll is enabled we make area that holds rows scrollable
-    // (while the area that holds column headers still stays in place)
-    overflow-y: auto;
+.infinite-loading {
+    .widget-datagrid-grid-head {
+        width: calc(var(--mx-grid-width) - var(--mx-grid-scrollbar-size));
+        overflow-x: hidden;
+    }
+    .widget-datagrid-grid-head[data-scrolled-y="true"] {
+        box-shadow: 0 5px 5px -5px gray;
+    }
+
+    .widget-datagrid-grid-body {
+        width: var(--mx-grid-width);
+        overflow-y: auto;
+        max-height: var(--mx-grid-body-height);
+    }
+
+    .widget-datagrid-grid-head[data-scrolled-x="true"]:after {
+        content: "";
+        position: absolute;
+        left: 0px;
+        width: 10px;
+        box-shadow: inset 5px 0 5px -5px gray;
+        top: 0;
+        bottom: 0;
+    }
 }
 
 .widget-datagrid-grid-head,

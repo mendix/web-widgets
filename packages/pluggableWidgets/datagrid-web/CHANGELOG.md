@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We improved virtual scrolling behavior when horizontal scrolling is present due to grid size.
+
 ### Added
 
 - We fixed an issue where missing consistency checks for the captions were causing runtime errors instead of in Studio Pro
