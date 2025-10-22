@@ -11,7 +11,6 @@ type Members =
     | "offset"
     | "hasMoreItems";
 
-/** @deprecated Use `QueryService` instead */
 export interface QueryController extends Pick<ListValue, Members> {
     backgroundRefresh(): void;
     setPageLimit(value: number): void;

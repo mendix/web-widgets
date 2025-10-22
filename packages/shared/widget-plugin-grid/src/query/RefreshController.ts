@@ -11,6 +11,10 @@ interface ObservableAtom {
 
 type RefreshControllerSpec = { delay: number; query: ObservableAtom };
 
+/**
+ * @deprecated
+ * @todo This class should be merged with DatasourceService
+ */
 export class RefreshController implements ReactiveController {
     private query: ObservableAtom;
     private readonly delay: number;

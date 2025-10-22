@@ -13,7 +13,7 @@ export class DatasourceController implements ReactiveController, QueryController
     private gate: Gate;
     private backgroundCheck = false;
     private fetching = false;
-    private pageSize = Infinity;
+    private pageLimit = Infinity;
 
     constructor(host: ReactiveControllerHost, spec: DatasourceControllerSpec) {
         host.addController(this);
@@ -24,11 +24,11 @@ export class DatasourceController implements ReactiveController, QueryController
             | "updateFlags"
             | "setRefreshing"
             | "setFetching"
-            | "pageSize"
+            | "pageLimit"
             | "setIsLoaded";
         makeAutoObservable<this, PrivateMembers>(this, {
             setup: false,
-            pageSize: false,
+            pageLimit: false,
             updateFlags: action,
             resetFlags: action,
             setRefreshing: action,
@@ -60,7 +60,7 @@ export class DatasourceController implements ReactiveController, QueryController
     }
 
     private resetLimit(): void {
-        this.datasource.setLimit(this.pageSize);
+        this.datasource.setLimit(this.pageLimit);
     }
 
     private get isDSLoading(): boolean {
@@ -161,7 +161,8 @@ export class DatasourceController implements ReactiveController, QueryController
         this.datasource.setFilter(...params);
     }
 
-    setPageSize(size: number): void {
-        this.pageSize = size;
+    setPageLimit(value: number): void {
+        this.pageLimit = value;
+        this.resetLimit();
     }
 }

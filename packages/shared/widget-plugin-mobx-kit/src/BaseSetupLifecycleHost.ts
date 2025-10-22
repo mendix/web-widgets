@@ -1,9 +1,9 @@
 import { disposeBatch } from "./disposeBatch";
-import { ReactiveController, ReactiveControllerHost } from "./reactive-controller";
+import { ReactiveController, ReactiveControllerHost, SetupLifecycle } from "./reactive-controller";
 
-/** @deprecated Use `BaseSetupLifecycleHost` */
-export abstract class BaseControllerHost implements ReactiveControllerHost {
+export abstract class BaseSetupLifecycleHost implements ReactiveControllerHost, SetupLifecycle {
     private controllers: Set<ReactiveController> = new Set();
+    private nodes: Set<SetupLifecycle> = new Set();
     private isSetupCalled: boolean = false;
 
     addController(controller: ReactiveController): void {
@@ -12,6 +12,14 @@ export abstract class BaseControllerHost implements ReactiveControllerHost {
 
     removeController(controller: ReactiveController): void {
         this.controllers.delete(controller);
+    }
+
+    addNode(node: SetupLifecycle): void {
+        this.nodes.add(node);
+    }
+
+    removeNode(node: SetupLifecycle): void {
+        this.nodes.delete(node);
     }
 
     setup(): () => void {
@@ -26,6 +34,10 @@ export abstract class BaseControllerHost implements ReactiveControllerHost {
             if (cleanup) {
                 add(cleanup);
             }
+        }
+        for (const node of this.nodes) {
+            const cleanup = node.setup?.();
+            if (cleanup) add(cleanup);
         }
         return disposeAll;
     }
