@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import { ReactElement } from "react";
-import { Calendar, dateFnsLocalizer, EventPropGetter } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer, EventPropGetter, View } from "react-big-calendar";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
 import { createConfigurableToolbar, CustomToolbar } from "./components/Toolbar";
 import { eventPropGetter, format, getDay, parse, startOfWeek } from "./utils/calendar-utils";
@@ -75,27 +75,35 @@ export function preview(props: CalendarPreviewProps): ReactElement {
     // Cast eventPropGetter to satisfy preview Calendar generic
     const previewEventPropGetter = eventPropGetter as unknown as EventPropGetter<(typeof events)[0]>;
 
+    const isCustomView = props.view === "custom";
     const toolbar =
-        props.view === "custom" && props.toolbarItems?.length
+        isCustomView && props.toolbarItems?.length
             ? createConfigurableToolbar(
                   props.toolbarItems.map(i => ({
                       itemType: i.itemType,
                       position: i.position,
                       caption: i.caption,
-                      renderMode: i.renderMode
+                      renderMode: i.renderMode,
+                      customButtonTooltip: undefined,
+                      customButtonStyle: i.buttonStyle
                   })) as any
               )
             : CustomToolbar;
+
+    const defaultView = isCustomView ? props.defaultViewCustom : props.defaultViewStandard;
+    const views: View[] = isCustomView
+        ? (["day", "week", "month", "work_week"] as View[])
+        : (["day", "week", "month"] as View[]);
 
     return (
         <div className={classnames("widget-events-preview", "widget-calendar", className)} style={wrapperStyle}>
             <Calendar
                 components={{ toolbar }}
-                defaultView={props.defaultViewStandard}
+                defaultView={defaultView}
                 events={events}
                 localizer={localizer}
                 messages={{ ...localizer.messages, work_week: "Custom" }}
-                views={["day", "week", "month", "work_week"]}
+                views={views}
                 eventPropGetter={previewEventPropGetter}
             />
         </div>
