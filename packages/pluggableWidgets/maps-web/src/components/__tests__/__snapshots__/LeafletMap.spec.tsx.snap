@@ -11,7 +11,7 @@ exports[`Leaflet maps renders a map with HERE maps as provider 1`] = `
     >
       <div
         class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        style="position: relative;"
+        style="top: 0px; bottom: 0px; left: 0px; right: 0px; position: absolute; z-index: 1;"
         tabindex="0"
       >
         <div
@@ -120,7 +120,7 @@ exports[`Leaflet maps renders a map with MapBox maps as provider 1`] = `
     >
       <div
         class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        style="position: relative;"
+        style="top: 0px; bottom: 0px; left: 0px; right: 0px; position: absolute; z-index: 1;"
         tabindex="0"
       >
         <div
@@ -229,7 +229,7 @@ exports[`Leaflet maps renders a map with attribution 1`] = `
     >
       <div
         class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        style="position: relative;"
+        style="top: 0px; bottom: 0px; left: 0px; right: 0px; position: absolute; z-index: 1;"
         tabindex="0"
       >
         <div
@@ -362,7 +362,7 @@ exports[`Leaflet maps renders a map with current location 1`] = `
     >
       <div
         class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        style="position: relative;"
+        style="top: 0px; bottom: 0px; left: 0px; right: 0px; position: absolute; z-index: 1;"
         tabindex="0"
       >
         <div
@@ -484,7 +484,7 @@ exports[`Leaflet maps renders a map with markers 1`] = `
     >
       <div
         class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        style="position: relative;"
+        style="top: 0px; bottom: 0px; left: 0px; right: 0px; position: absolute; z-index: 1;"
         tabindex="0"
       >
         <div
@@ -620,7 +620,7 @@ exports[`Leaflet maps renders a map with percentage of parent units renders the 
     >
       <div
         class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        style="position: relative;"
+        style="top: 0px; bottom: 0px; left: 0px; right: 0px; position: absolute; z-index: 1;"
         tabindex="0"
       >
         <div
@@ -729,7 +729,7 @@ exports[`Leaflet maps renders a map with percentage of width and height units re
     >
       <div
         class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        style="position: relative;"
+        style="top: 0px; bottom: 0px; left: 0px; right: 0px; position: absolute; z-index: 1;"
         tabindex="0"
       >
         <div
@@ -838,7 +838,7 @@ exports[`Leaflet maps renders a map with pixels renders structure correctly 1`] 
     >
       <div
         class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        style="position: relative;"
+        style="top: 0px; bottom: 0px; left: 0px; right: 0px; position: absolute; z-index: 1;"
         tabindex="0"
       >
         <div
@@ -947,7 +947,7 @@ exports[`Leaflet maps renders a map with right structure 1`] = `
     >
       <div
         class="widget-leaflet-maps leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        style="position: relative;"
+        style="top: 0px; bottom: 0px; left: 0px; right: 0px; position: absolute; z-index: 1;"
         tabindex="0"
       >
         <div

@@ -84,6 +84,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                     scrollWheelZoom={scrollWheelZoom}
                     zoom={autoZoom ? translateZoom("city") : zoom}
                     zoomControl={zoomControl}
+                    style={{ top: 0, bottom: 0, left: 0, right: 0, position: "absolute", zIndex: 1 }}
                 >
                     <TileLayer {...baseMapLayer(mapProvider, mapsToken)} />
                     {locations
