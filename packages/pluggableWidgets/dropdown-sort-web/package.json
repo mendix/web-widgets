@@ -1,7 +1,7 @@
 {
     "name": "@mendix/dropdown-sort-web",
     "widgetName": "DropdownSort",
-    "version": "3.4.0",
+    "version": "3.7.0",
     "description": "Adds sorting functionality to Gallery widget.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",

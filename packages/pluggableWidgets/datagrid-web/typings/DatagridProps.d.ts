@@ -7,12 +7,6 @@ import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListAttributeListValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
-export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
-
-export type ItemSelectionModeEnum = "toggle" | "clear";
-
-export type LoadingTypeEnum = "spinner" | "skeleton";
-
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
 
 export type HidableEnum = "yes" | "hidden" | "no";
@@ -47,6 +41,14 @@ export interface ColumnsType {
     wrapText: boolean;
 }
 
+export type OnClickTriggerEnum = "single" | "double";
+
+export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
+
+export type ItemSelectionModeEnum = "toggle" | "clear";
+
+export type LoadingTypeEnum = "spinner" | "skeleton";
+
 export type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 
 export type ShowPagingButtonsEnum = "always" | "auto";
@@ -54,8 +56,6 @@ export type ShowPagingButtonsEnum = "always" | "auto";
 export type PagingPositionEnum = "bottom" | "top" | "both";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
-
-export type OnClickTriggerEnum = "single" | "double";
 
 export type ConfigurationStorageTypeEnum = "attribute" | "localStorage";
 
@@ -88,18 +88,22 @@ export interface DatagridContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    advanced: boolean;
     datasource: ListValue;
     refreshInterval: number;
+    columns: ColumnsType[];
+    columnsFilterable: boolean;
+    onClickTrigger: OnClickTriggerEnum;
+    onClick?: ListActionValue;
+    onSelectionChange?: ActionValue;
+    filtersPlaceholder?: ReactNode;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMethod: ItemSelectionMethodEnum;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
+    enableSelectAll: boolean;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
-    columns: ColumnsType[];
-    columnsFilterable: boolean;
     pageSize: number;
     pagination: PaginationEnum;
     showPagingButtons: ShowPagingButtonsEnum;
@@ -109,10 +113,6 @@ export interface DatagridContainerProps {
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
-    onClickTrigger: OnClickTriggerEnum;
-    onClick?: ListActionValue;
-    onSelectionChange?: ActionValue;
-    filtersPlaceholder?: ReactNode;
     columnsSortable: boolean;
     columnsResizable: boolean;
     columnsDraggable: boolean;
@@ -125,8 +125,14 @@ export interface DatagridContainerProps {
     cancelExportLabel?: DynamicValue<string>;
     selectRowLabel?: DynamicValue<string>;
     selectAllRowsLabel?: DynamicValue<string>;
+    selectingAllLabel?: DynamicValue<string>;
+    cancelSelectionLabel?: DynamicValue<string>;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
+    selectAllText: DynamicValue<string>;
+    selectAllTemplate: DynamicValue<string>;
+    allSelectedText: DynamicValue<string>;
+    clearSelectionCaption: DynamicValue<string>;
 }
 
 export interface DatagridPreviewProps {
@@ -140,18 +146,22 @@ export interface DatagridPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    advanced: boolean;
     datasource: {} | { caption: string } | { type: string } | null;
     refreshInterval: number | null;
+    columns: ColumnsPreviewType[];
+    columnsFilterable: boolean;
+    onClickTrigger: OnClickTriggerEnum;
+    onClick: {} | null;
+    onSelectionChange: {} | null;
+    filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMethod: ItemSelectionMethodEnum;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
+    enableSelectAll: boolean;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
-    columns: ColumnsPreviewType[];
-    columnsFilterable: boolean;
     pageSize: number | null;
     pagination: PaginationEnum;
     showPagingButtons: ShowPagingButtonsEnum;
@@ -161,10 +171,6 @@ export interface DatagridPreviewProps {
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     rowClass: string;
-    onClickTrigger: OnClickTriggerEnum;
-    onClick: {} | null;
-    onSelectionChange: {} | null;
-    filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     columnsSortable: boolean;
     columnsResizable: boolean;
     columnsDraggable: boolean;
@@ -178,6 +184,12 @@ export interface DatagridPreviewProps {
     cancelExportLabel: string;
     selectRowLabel: string;
     selectAllRowsLabel: string;
+    selectingAllLabel: string;
+    cancelSelectionLabel: string;
     selectedCountTemplateSingular: string;
     selectedCountTemplatePlural: string;
+    selectAllText: string;
+    selectAllTemplate: string;
+    allSelectedText: string;
+    clearSelectionCaption: string;
 }

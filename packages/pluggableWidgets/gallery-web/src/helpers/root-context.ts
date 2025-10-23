@@ -1,5 +1,5 @@
 import { SelectActionHandler, SelectionHelper } from "@mendix/widget-plugin-grid/selection";
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/stores/SelectionCountStore";
 import { createContext, useContext } from "react";
 import { GalleryStore } from "../stores/GalleryStore";
 
