@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- We mitigated the issue with Maps widgets not rendering in some cases.
+
 - We fixed an issue where GoogleMap and LeafletMap uses array index for the list item which causes issues when filtering large amounts of locations. Thanks to @jeroen-huizer-conclusion for the contribution.
 
 - We fixed an issue where where browser console throw warning of unknown listener when the location has title in LeafletMap. Thanks to @jeroen-huizer-conclusion for the contribution.
