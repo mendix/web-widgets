@@ -157,7 +157,10 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     ) : null;
 
     const selectionCount =
-        selectionCountStore.selectedCount > 0 && selectionCountPosition !== "off" && selectionCountPosition ? (
+        selectionCountStore.selectedCount > 0 &&
+        selectActionHelper.selectionType === "Multi" &&
+        selectionCountPosition !== "off" &&
+        selectionCountPosition ? (
             <SelectionCounter location={selectionCountPosition} />
         ) : null;
 
