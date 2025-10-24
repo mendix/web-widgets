@@ -9,6 +9,7 @@ import {
     LoadingTypeEnum,
     PaginationEnum,
     PagingPositionEnum,
+    SelectionCountPositionEnum,
     ShowPagingButtonsEnum
 } from "../../typings/DatagridProps";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
@@ -25,6 +26,7 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
+import { SelectionCounter } from "./SelectionCounter";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -48,6 +50,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     page: number;
     paginationType: PaginationEnum;
     loadMoreButtonCaption?: string;
+    selectionCountPosition?: SelectionCountPositionEnum;
     pageSize: number;
     paging: boolean;
     pagingPosition: PagingPositionEnum;
@@ -118,6 +121,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         headerContent,
         headerTitle,
         loadMoreButtonCaption,
+        selectionCountPosition,
         numberOfItems,
         page,
         pageSize,
@@ -131,10 +135,11 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         visibleColumns
     } = props;
 
-    const { basicData } = useDatagridRootScope();
+    const { basicData, selectionCountStore } = useDatagridRootScope();
 
     const showHeader = !!headerContent;
-    const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
+    const showTopBarPagination = paging && (pagingPosition === "top" || pagingPosition === "both");
+    const showFooterPagination = paging && (pagingPosition === "bottom" || pagingPosition === "both");
 
     const pagination = paging ? (
         <Pagination
@@ -151,6 +156,17 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         />
     ) : null;
 
+    const selectionCount =
+        selectionCountStore.selectedCount > 0 &&
+        selectActionHelper.selectionType === "Multi" &&
+        selectionCountPosition !== "off" &&
+        selectionCountPosition ? (
+            <SelectionCounter location={selectionCountPosition} />
+        ) : null;
+
+    const showTopbarSelectionCount = selectionCount && selectionCountPosition === "top";
+    const showFooterSelectionCount = selectionCount && selectionCountPosition === "bottom";
+
     const cssGridStyles = gridStyle(visibleColumns, {
         selectItemColumn: selectActionHelper.showCheckboxColumn,
         visibilitySelectorColumn: columnsHidable
@@ -160,7 +176,10 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 
     return (
         <Fragment>
-            {showTopBar && <WidgetTopBar>{pagination}</WidgetTopBar>}
+            <WidgetTopBar
+                pagination={showTopBarPagination ? pagination : undefined}
+                selectionCount={showTopbarSelectionCount ? selectionCount : undefined}
+            ></WidgetTopBar>
             {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
             <WidgetContent>
                 <Grid
@@ -231,8 +250,8 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                 </Grid>
             </WidgetContent>
             <WidgetFooter
-                pagination={pagination}
-                pagingPosition={pagingPosition}
+                pagination={showFooterPagination ? pagination : undefined}
+                selectionCount={showFooterSelectionCount ? selectionCount : undefined}
                 paginationType={paginationType}
                 loadMoreButtonCaption={loadMoreButtonCaption}
                 hasMoreItems={hasMoreItems}

@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- We added configurable selection count visibility and clear selection button label template for improved row selection management.
+
 - We fixed an issue where missing consistency checks for the captions were causing runtime errors instead of in Studio Pro
 
 ## [3.6.1] - 2025-10-14

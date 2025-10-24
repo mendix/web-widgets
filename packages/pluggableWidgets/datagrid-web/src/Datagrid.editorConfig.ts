@@ -75,6 +75,7 @@ export function getProperties(
             ]);
         }
     });
+
     if (values.pagination === "buttons") {
         hidePropertyIn(defaultProperties, values, "showNumberOfRows");
     } else {
@@ -169,7 +170,11 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
     }
 
     if (itemSelection !== "Multi") {
-        hidePropertyIn(defaultProperties, values, "keepSelection");
+        hidePropertiesIn(defaultProperties, values, [
+            "keepSelection",
+            "selectionCountPosition",
+            "clearSelectionButtonLabel"
+        ]);
     }
 }
 

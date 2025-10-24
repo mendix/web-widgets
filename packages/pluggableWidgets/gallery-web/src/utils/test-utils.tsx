@@ -57,7 +57,8 @@ export function createMockGalleryContext(): GalleryRootScope {
         storeFilters: false,
         storeSort: false,
         refreshIndicator: false,
-        keepSelection: false
+        keepSelection: false,
+        selectionCountPosition: "bottom"
     };
 
     // Create a proper gate provider and gate

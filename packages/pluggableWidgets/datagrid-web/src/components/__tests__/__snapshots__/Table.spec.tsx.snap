@@ -6,6 +6,13 @@ exports[`Table renders the structure correctly 1`] = `
     class="test widget-datagrid"
   >
     <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
+    <div
       class="widget-datagrid-content"
     >
       <div
@@ -75,9 +82,6 @@ exports[`Table renders the structure correctly 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -91,6 +95,13 @@ exports[`Table renders the structure correctly for preview when no header is pro
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -161,9 +172,6 @@ exports[`Table renders the structure correctly for preview when no header is pro
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -177,6 +185,13 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -280,9 +295,6 @@ exports[`Table renders the structure correctly with column alignments 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -296,6 +308,13 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -370,9 +389,6 @@ exports[`Table renders the structure correctly with custom filtering 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -386,6 +402,13 @@ exports[`Table renders the structure correctly with dragging 1`] = `
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -456,9 +479,6 @@ exports[`Table renders the structure correctly with dragging 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -472,6 +492,13 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -542,9 +569,6 @@ exports[`Table renders the structure correctly with dynamic row class 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -558,6 +582,13 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -628,9 +659,6 @@ exports[`Table renders the structure correctly with empty placeholder 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -644,6 +672,13 @@ exports[`Table renders the structure correctly with filtering 1`] = `
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -718,9 +753,6 @@ exports[`Table renders the structure correctly with filtering 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -734,6 +766,13 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       aria-label="filter title"
       class="widget-datagrid-header header-filters"
@@ -814,9 +853,6 @@ exports[`Table renders the structure correctly with header filters and a11y 1`] 
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -830,6 +866,13 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -904,9 +947,6 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -920,6 +960,13 @@ exports[`Table renders the structure correctly with hiding 1`] = `
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -1031,9 +1078,6 @@ exports[`Table renders the structure correctly with hiding 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -1047,6 +1091,13 @@ exports[`Table renders the structure correctly with paging 1`] = `
   <div
     class="test widget-datagrid"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -1116,9 +1167,6 @@ exports[`Table renders the structure correctly with paging 1`] = `
       <div
         class="widget-datagrid-paging-bottom"
       >
-        <div
-          class="widget-datagrid-pb-start"
-        />
         <div
           class="widget-datagrid-pb-end"
         >
@@ -1224,6 +1272,13 @@ exports[`Table renders the structure correctly with resizing 1`] = `
     class="test widget-datagrid"
   >
     <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
+    <div
       class="widget-datagrid-content"
     >
       <div
@@ -1292,9 +1347,6 @@ exports[`Table renders the structure correctly with resizing 1`] = `
       <div
         class="widget-datagrid-paging-bottom"
       >
-        <div
-          class="widget-datagrid-pb-start"
-        />
         <div
           class="widget-datagrid-pb-end"
         />
@@ -1310,6 +1362,13 @@ exports[`Table renders the structure correctly with sorting 1`] = `
     class="test widget-datagrid"
   >
     <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
+    <div
       class="widget-datagrid-content"
     >
       <div
@@ -1379,9 +1438,6 @@ exports[`Table renders the structure correctly with sorting 1`] = `
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         />
       </div>
@@ -1395,6 +1451,13 @@ exports[`Table with selection method checkbox render an extra column and add cla
   <div
     class="test widget-datagrid widget-datagrid-selectable-rows widget-datagrid-selection-method-checkbox"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -1546,9 +1609,6 @@ exports[`Table with selection method checkbox render an extra column and add cla
         class="widget-datagrid-paging-bottom"
       >
         <div
-          class="widget-datagrid-pb-start"
-        />
-        <div
           class="widget-datagrid-pb-end"
         >
           <div
@@ -1652,6 +1712,13 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
   <div
     class="test widget-datagrid widget-datagrid-selectable-rows widget-datagrid-selection-method-click"
   >
+    <div
+      class="widget-datagrid-top-bar table-header"
+    >
+      <div
+        class="widget-datagrid-padding-top"
+      />
+    </div>
     <div
       class="widget-datagrid-content"
     >
@@ -1759,9 +1826,6 @@ exports[`Table with selection method rowClick add class to each selected cell 1`
       <div
         class="widget-datagrid-paging-bottom"
       >
-        <div
-          class="widget-datagrid-pb-start"
-        />
         <div
           class="widget-datagrid-pb-end"
         >
