@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the default fallback language for any language other than English was Dutch.
+
 ## [2.11.0] - 2025-04-16
 
 ### Changed
