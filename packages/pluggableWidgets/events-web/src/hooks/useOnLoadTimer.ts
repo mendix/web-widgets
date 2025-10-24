@@ -11,7 +11,7 @@ interface UseOnLoadTimerProps {
 }
 
 class TimerExecutor {
-    private intervalHandle: number | undefined;
+    private intervalHandle: ReturnType<typeof setTimeout> | undefined;
     private isFirstTime: boolean = true;
     private isPendingExecution: boolean = false;
     private canExecute: boolean = false;
@@ -53,7 +53,7 @@ class TimerExecutor {
         }
 
         // schedule a timer
-        this.intervalHandle = window.setTimeout(
+        this.intervalHandle = setTimeout(
             () => {
                 this.isPendingExecution = true;
                 this.trigger();
@@ -72,7 +72,7 @@ class TimerExecutor {
     }
 
     stop(): void {
-        window.clearTimeout(this.intervalHandle);
+        clearTimeout(this.intervalHandle);
         this.intervalHandle = undefined;
         this.delay = undefined;
         this.interval = undefined;
