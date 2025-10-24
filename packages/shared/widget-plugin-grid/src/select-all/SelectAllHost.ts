@@ -6,20 +6,21 @@ import { DatasourceController } from "../query/DatasourceController";
 import { ProgressStore } from "../stores/ProgressStore";
 import { SelectAllController } from "./SelectAllController";
 
-type SelectAllHostSpec = {
-    gate: DerivedPropsGate<{ itemSelection?: SelectionMultiValue | SelectionSingleValue; datasource: ListValue }>;
-    selectAllProgressStore: ProgressStore;
-};
+interface DynamicProps {
+    itemSelection?: SelectionMultiValue | SelectionSingleValue;
+    datasource: ListValue;
+}
 
 export class SelectAllHost extends BaseControllerHost {
     readonly selectAllController: SelectAllController;
-    readonly selectAllProgressStore: ProgressStore;
 
-    constructor(spec: SelectAllHostSpec) {
+    constructor(
+        gate: DerivedPropsGate<DynamicProps>,
+        private readonly selectAllProgressStore: ProgressStore
+    ) {
         super();
-        const query = new DatasourceController(this, { gate: spec.gate });
-        this.selectAllController = new SelectAllController(this, spec.gate, query);
-        this.selectAllProgressStore = spec.selectAllProgressStore;
+        const query = new DatasourceController(this, { gate });
+        this.selectAllController = new SelectAllController(this, gate, query);
     }
 
     setup(): () => void {

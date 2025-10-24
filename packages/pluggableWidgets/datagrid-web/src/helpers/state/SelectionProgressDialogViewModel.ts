@@ -5,10 +5,10 @@ import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugi
 import { DynamicValue } from "mendix";
 import { action, makeAutoObservable, reaction } from "mobx";
 
-type Gate = DerivedPropsGate<{
+interface DynamicProps {
     selectingAllLabel?: DynamicValue<string>;
     cancelSelectionLabel?: DynamicValue<string>;
-}>;
+}
 
 export class SelectionProgressDialogViewModel implements ReactiveController {
     /**
@@ -16,24 +16,17 @@ export class SelectionProgressDialogViewModel implements ReactiveController {
      * avoid UI flickering.
      */
     private dialogOpen = false;
-
-    #gate: Gate;
-    #progressStore: ProgressStore;
-    #selectAllController: SelectAllController;
-    #timerId: ReturnType<typeof setTimeout> | undefined;
+    private timerId: ReturnType<typeof setTimeout> | undefined;
 
     constructor(
         host: ReactiveControllerHost,
-        gate: Gate,
-        progressStore: ProgressStore,
-        selectAllController: SelectAllController
+        private readonly gate: DerivedPropsGate<DynamicProps>,
+        private readonly progressStore: ProgressStore,
+        private readonly selectAllController: SelectAllController
     ) {
         host.addController(this);
         type PrivateMembers = "setDialogOpen";
         makeAutoObservable<this, PrivateMembers>(this, { setDialogOpen: action });
-        this.#gate = gate;
-        this.#progressStore = progressStore;
-        this.#selectAllController = selectAllController;
     }
 
     private setDialogOpen(value: boolean): void {
@@ -45,40 +38,40 @@ export class SelectionProgressDialogViewModel implements ReactiveController {
     }
 
     get progress(): number {
-        return this.#progressStore.loaded;
+        return this.progressStore.loaded;
     }
 
     get total(): number {
-        return this.#progressStore.total;
+        return this.progressStore.total;
     }
 
     get selectingAllLabel(): string {
-        return this.#gate.props.selectingAllLabel?.value ?? "Selecting all items...";
+        return this.gate.props.selectingAllLabel?.value ?? "Selecting all items...";
     }
 
     get cancelSelectionLabel(): string {
-        return this.#gate.props.cancelSelectionLabel?.value ?? "Cancel selection";
+        return this.gate.props.cancelSelectionLabel?.value ?? "Cancel selection";
     }
 
     setup(): () => void {
         return reaction(
-            () => this.#progressStore.inProgress,
+            () => this.progressStore.inProgress,
             inProgress => {
                 if (inProgress) {
-                    // Delay showing dialog for 2 second
-                    this.#timerId = setTimeout(() => {
+                    // Delay showing dialog to avoid flickering for fast operations
+                    this.timerId = setTimeout(() => {
                         this.setDialogOpen(true);
-                        this.#timerId = undefined;
+                        this.timerId = undefined;
                     }, 1500);
                 } else {
                     this.setDialogOpen(false);
-                    clearTimeout(this.#timerId);
+                    clearTimeout(this.timerId);
                 }
             }
         );
     }
 
     onCancel(): void {
-        this.#selectAllController.abort();
+        this.selectAllController.abort();
     }
 }

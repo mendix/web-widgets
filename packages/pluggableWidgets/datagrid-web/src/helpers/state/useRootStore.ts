@@ -22,9 +22,7 @@ export function useRootStore(props: DatagridContainerProps): RootGridStore {
 
     const selectAllGateProvider = useConst(() => new GateProvider(props));
 
-    const selectAllHost = useSetup(
-        () => new SelectAllHost({ gate: selectAllGateProvider.gate, selectAllProgressStore })
-    );
+    const selectAllHost = useSetup(() => new SelectAllHost(selectAllGateProvider.gate, selectAllProgressStore));
 
     const rootStore = useSetup(
         () =>

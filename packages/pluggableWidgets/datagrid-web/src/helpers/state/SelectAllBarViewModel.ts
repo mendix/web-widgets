@@ -5,7 +5,7 @@ import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugi
 import { action, makeAutoObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
-type Props = Pick<
+type DynamicProps = Pick<
     DatagridContainerProps,
     | "cancelSelectionLabel"
     | "selectAllTemplate"
@@ -19,23 +19,18 @@ type Props = Pick<
     | "enableSelectAll"
 >;
 
-type Gate = DerivedPropsGate<Props>;
-
 export class SelectAllBarViewModel implements ReactiveController {
     private barVisible = false;
     private clearVisible = false;
-    pending = false;
+    private readonly enableSelectAll: boolean;
 
-    readonly #gate: Gate;
-    readonly #selectAllController: SelectAllController;
-    readonly #count: SelectionCountStore;
-    readonly #enableSelectAll: boolean;
+    pending = false;
 
     constructor(
         host: ReactiveControllerHost,
-        gate: Gate,
-        selectAllController: SelectAllController,
-        count = new SelectionCountStore(gate)
+        private readonly gate: DerivedPropsGate<DynamicProps>,
+        private readonly selectAllController: SelectAllController,
+        private readonly count = new SelectionCountStore(gate)
     ) {
         host.addController(this);
         type PrivateMembers = "setClearVisible" | "setPending" | "hideBar" | "showBar";
@@ -45,10 +40,7 @@ export class SelectAllBarViewModel implements ReactiveController {
             hideBar: action,
             showBar: action
         });
-        this.#gate = gate;
-        this.#selectAllController = selectAllController;
-        this.#count = count;
-        this.#enableSelectAll = gate.props.enableSelectAll;
+        this.enableSelectAll = gate.props.enableSelectAll;
     }
 
     private setClearVisible(value: boolean): void {
@@ -69,38 +61,40 @@ export class SelectAllBarViewModel implements ReactiveController {
     }
 
     private get total(): number {
-        return this.#gate.props.datasource.totalCount ?? 0;
+        return this.gate.props.datasource.totalCount ?? 0;
     }
 
     private get selectAllFormat(): string {
-        return this.#gate.props.selectAllTemplate?.value ?? "select.all.n.items";
+        return this.gate.props.selectAllTemplate?.value ?? "select.all.n.items";
     }
 
     private get selectAllText(): string {
-        return this.#gate.props.selectAllText?.value ?? "select.all.items";
+        return this.gate.props.selectAllText?.value ?? "select.all.items";
     }
 
     private get allSelectedText(): string {
-        const str = this.#gate.props.allSelectedText?.value ?? "all.selected";
-        return str.replace("%d", `${this.#count.selectedCount}`);
+        const str = this.gate.props.allSelectedText?.value ?? "all.selected";
+        return str.replace("%d", `${this.count.selectedCount}`);
     }
 
     private get isCurrentPageSelected(): boolean {
-        const selection = this.#gate.props.itemSelection;
+        const selection = this.gate.props.itemSelection;
+
         if (!selection || selection.type === "Single") return false;
-        const pageIds = new Set(this.#gate.props.datasource.items?.map(item => item.id) ?? []);
+
+        const pageIds = new Set(this.gate.props.datasource.items?.map(item => item.id) ?? []);
         const selectionSubArray = selection.selection.filter(item => pageIds.has(item.id));
         return selectionSubArray.length === pageIds.size && pageIds.size > 0;
     }
 
     private get isAllItemsSelected(): boolean {
-        if (this.total > 0) return this.total === this.#count.selectedCount;
+        if (this.total > 0) return this.total === this.count.selectedCount;
 
-        const { offset, limit, items = [], hasMoreItems } = this.#gate.props.datasource;
+        const { offset, limit, items = [], hasMoreItems } = this.gate.props.datasource;
         const noMoreItems = typeof hasMoreItems === "boolean" && hasMoreItems === false;
         const fullyLoaded = offset === 0 && limit >= items.length;
 
-        return fullyLoaded && noMoreItems && items.length === this.#count.selectedCount;
+        return fullyLoaded && noMoreItems && items.length === this.count.selectedCount;
     }
 
     get selectAllLabel(): string {
@@ -109,16 +103,16 @@ export class SelectAllBarViewModel implements ReactiveController {
     }
 
     get clearSelectionLabel(): string {
-        return this.#gate.props.clearSelectionCaption?.value ?? "clear.selection.caption";
+        return this.gate.props.clearSelectionCaption?.value ?? "clear.selection.caption";
     }
 
     get selectionStatus(): string {
         if (this.isAllItemsSelected) return this.allSelectedText;
-        return this.#count.selectedCountText;
+        return this.count.selectedCountText;
     }
 
     get isBarVisible(): boolean {
-        return this.#enableSelectAll && this.barVisible;
+        return this.enableSelectAll && this.barVisible;
     }
 
     get isClearVisible(): boolean {
@@ -134,7 +128,7 @@ export class SelectAllBarViewModel implements ReactiveController {
     }
 
     setup(): (() => void) | void {
-        if (!this.#enableSelectAll) return;
+        if (!this.enableSelectAll) return;
 
         return reaction(
             () => this.isCurrentPageSelected,
@@ -149,13 +143,13 @@ export class SelectAllBarViewModel implements ReactiveController {
     }
 
     onClear(): void {
-        this.#selectAllController.clearSelection();
+        this.selectAllController.clearSelection();
     }
 
     async onSelectAll(): Promise<void> {
         this.setPending(true);
         try {
-            const { success } = await this.#selectAllController.selectAllPages();
+            const { success } = await this.selectAllController.selectAllPages();
             this.setClearVisible(success);
         } finally {
             this.setPending(false);
