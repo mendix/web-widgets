@@ -99,11 +99,7 @@ export class CalendarPropsBuilder {
         if (this.props.timeFormat?.status === "available") {
             const timeFormat = this.props.timeFormat.value?.trim() || "p";
 
-            formats.timeGutterFormat = (date: Date, _culture: string, localizer: DateLocalizer) => {
-                // Some versions of date-fns (used internally by react-big-calendar) throw
-                // when the supplied format string does not contain any long-format tokens
-                // ("P" or "p"). This try/catch ensures that we gracefully fall back to a
-                // locale-aware default ("p") instead of crashing the whole widget.
+            const timeFormatFn = (date: Date, _culture: string, localizer: DateLocalizer): string => {
                 try {
                     return localizer.format(date, timeFormat);
                 } catch (e) {
@@ -114,6 +110,27 @@ export class CalendarPropsBuilder {
                     return localizer.format(date, "p");
                 }
             };
+
+            const rangeFormatFn = (
+                { start, end }: { start: Date; end: Date },
+                _culture: string,
+                localizer: DateLocalizer
+            ): string => {
+                try {
+                    return `${localizer.format(start, timeFormat)} - ${localizer.format(end, timeFormat)}`;
+                } catch (e) {
+                    console.warn(
+                        `[Calendar] Failed to format time range using pattern "${timeFormat}" – falling back to default pattern "p".`,
+                        e
+                    );
+                    return `${localizer.format(start, "p")} - ${localizer.format(end, "p")}`;
+                }
+            };
+
+            formats.timeGutterFormat = timeFormatFn;
+            formats.agendaTimeFormat = timeFormatFn;
+            formats.agendaTimeRangeFormat = rangeFormatFn;
+            formats.eventTimeRangeFormat = rangeFormatFn;
         }
 
         return formats;
