@@ -120,7 +120,7 @@ $cb-skeleton-dark: #d2d2d2;
             background-color: var(--color-default-light, $cb-highlighted-index);
         }
         & > .widget-combobox-icon-container {
-            margin-right: var(--dropdown-outer-padding, $cb-menu-outer-padding);
+            margin-inline-end: var(--dropdown-outer-padding, $cb-menu-outer-padding);
         }
 
         .widget-combobox-caption-text {
@@ -205,7 +205,7 @@ $cb-skeleton-dark: #d2d2d2;
         }
 
         & + .widget-combobox-down-arrow {
-            border-left: 1px solid var(--gray, $cb-separator-border);
+            border-inline-start: 1px solid var(--gray, $cb-separator-border);
         }
     }
     &-down-arrow {
@@ -213,7 +213,7 @@ $cb-skeleton-dark: #d2d2d2;
         flex-wrap: wrap;
         align-content: center;
         cursor: pointer;
-        padding-left: var(--spacing-smaller, $cb-spacing);
+        padding-inline-start: var(--spacing-smaller, $cb-spacing);
 
         &-icon {
             transition: transform 0.2s;
@@ -234,8 +234,8 @@ $cb-skeleton-dark: #d2d2d2;
         &-text {
             color: var(--cb-text-color, var(--gray-darker, $cb-typography-color));
             position: absolute;
-            left: 0;
-            right: 0;
+            inset-inline-start: 0;
+            inset-inline-end: 0;
             top: 0;
             bottom: 0;
             text-overflow: ellipsis;
@@ -265,8 +265,8 @@ $cb-skeleton-dark: #d2d2d2;
             &:placeholder-shown {
                 position: absolute;
                 top: 0;
-                left: 0;
-                right: 0;
+                inset-inline-start: 0;
+                inset-inline-end: 0;
                 bottom: 0;
             }
             &:focus:not(:placeholder-shown) + .widget-combobox-placeholder-custom {
@@ -385,7 +385,7 @@ $cb-skeleton-dark: #d2d2d2;
             width: 148px;
 
             &-small {
-                margin-right: 8px;
+                margin-inline-end: 8px;
                 width: 16px;
             }
         }
