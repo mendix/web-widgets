@@ -44,7 +44,7 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
             "customViewShowSunday"
         ]);
     } else {
-        hidePropertyIn(defaultProperties, values, "defaultViewStandard");
+        hidePropertiesIn(defaultProperties, values, ["defaultViewStandard", "topBarDateFormat"]);
     }
 
     values.toolbarItems?.forEach((item, index) => {
