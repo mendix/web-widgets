@@ -397,11 +397,17 @@
             <propertyGroup caption="Captions">
                 <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
                     <caption>Row count singular</caption>
-                    <description>Must include '%d' to denote number position ('%d row selected')</description>
+                    <description>Must include '%d' to denote number position</description>
+                    <translations>
+                        <translation lang="en_US">%d row selected</translation>
+                    </translations>
                 </property>
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
                     <caption>Row count plural</caption>
-                    <description>Must include '%d' to denote number position ('%d rows selected')</description>
+                    <description>Must include '%d' to denote number position</description>
+                    <translations>
+                        <translation lang="en_US">%d rows selected</translation>
+                    </translations>
                 </property>
                 <property key="selectAllText" type="textTemplate">
                     <caption>Select all text</caption>
