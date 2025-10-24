@@ -6,6 +6,7 @@ import CustomListItem from "./formats/customList";
 import CustomLink from "./formats/link";
 import CustomVideo from "./formats/video";
 import CustomImage from "./formats/image";
+import SoftBreak from "./formats/softBreak";
 import Button from "./formats/button";
 import { Attributor } from "parchment";
 const direction = Quill.import("attributors/style/direction") as Attributor;
@@ -18,6 +19,7 @@ import MxUploader from "./modules/uploader";
 import MxBlock from "./formats/block";
 import CustomClipboard from "./modules/clipboard";
 import { WhiteSpaceStyle } from "./formats/whiteSpace";
+
 class Empty {
     doSomething(): string {
         return "";
@@ -33,6 +35,7 @@ Quill.register(WhiteSpaceStyle, true);
 Quill.register(CustomLink, true);
 Quill.register(CustomVideo, true);
 Quill.register(CustomImage, true);
+Quill.register({ "formats/softbreak": SoftBreak }, true);
 Quill.register(direction, true);
 Quill.register(alignment, true);
 Quill.register(IndentLeftStyle, true);
