@@ -6,6 +6,7 @@ import { DnDCalendar } from "./utils/calendar-utils";
 import { constructWrapperStyle } from "./utils/style-utils";
 import "./ui/Calendar.scss";
 import { useCalendarEvents } from "./helpers/useCalendarEvents";
+import { useLocalizer } from "./helpers/useLocalizer";
 
 export default function MxCalendar(props: CalendarContainerProps): ReactElement {
     // useMemo with empty dependency array is used
@@ -15,10 +16,14 @@ export default function MxCalendar(props: CalendarContainerProps): ReactElement 
     const wrapperStyle = useMemo(() => constructWrapperStyle(props), []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const calendarController = useMemo(() => new CalendarPropsBuilder(props), []);
+
+    // Get locale-aware localizer
+    const { localizer, culture } = useLocalizer();
+
     const calendarProps = useMemo(() => {
         calendarController.updateProps(props);
-        return calendarController.build();
-    }, [props, calendarController]);
+        return calendarController.build(localizer, culture);
+    }, [props, calendarController, localizer, culture]);
 
     const calendarEvents = useCalendarEvents(props);
     return (
