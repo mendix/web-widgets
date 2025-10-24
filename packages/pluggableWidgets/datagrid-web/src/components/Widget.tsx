@@ -21,12 +21,14 @@ import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
 import { GridHeader } from "./GridHeader";
 import { RowsRenderer } from "./RowsRenderer";
+import { SelectAllBar } from "./SelectAllBar";
+import { SelectionCounter } from "./SelectionCounter";
+import { SelectionProgressDialog } from "./SelectionProgressDialog";
 import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { SelectionCounter } from "./SelectionCounter";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -83,7 +85,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
 
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
     const { className, exporting, numberOfItems, onExportCancel, selectActionHelper } = props;
-    const { basicData } = useDatagridRootScope();
+    const { basicData, selectionProgressDialogViewModel } = useDatagridRootScope();
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
 
@@ -94,8 +96,10 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
             selection={selectionEnabled}
             style={props.styles}
             exporting={exporting}
+            selectingAllPages={selectionProgressDialogViewModel.isOpen}
         >
             <Main {...props} data={exporting ? [] : props.data} />
+            <SelectionProgressDialog />
             {exporting && (
                 <ExportWidget
                     alertLabel={basicData.exportDialogLabel ?? "Export progress"}
@@ -138,8 +142,10 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     const { basicData, selectionCountStore } = useDatagridRootScope();
 
     const showHeader = !!headerContent;
-    const showTopBarPagination = paging && (pagingPosition === "top" || pagingPosition === "both");
-    const showFooterPagination = paging && (pagingPosition === "bottom" || pagingPosition === "both");
+    const showTopBar = paging && (pagingPosition === "top" || pagingPosition === "both");
+    const isSelectionEnabled = selectActionHelper.selectionType !== "None";
+    const isSelectionMulti = isSelectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined;
+    const isSelectAllBarEnabled = isSelectionMulti;
 
     const pagination = paging ? (
         <Pagination
@@ -172,8 +178,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         visibilitySelectorColumn: columnsHidable
     });
 
-    const selectionEnabled = selectActionHelper.selectionType !== "None";
-
     return (
         <Fragment>
             <WidgetTopBar
@@ -182,10 +186,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             ></WidgetTopBar>
             {showHeader && <WidgetHeader headerTitle={headerTitle}>{headerContent}</WidgetHeader>}
             <WidgetContent>
-                <Grid
-                    aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
-                    style={cssGridStyles}
-                >
+                <Grid aria-multiselectable={isSelectionMulti} style={cssGridStyles}>
                     <GridHeader
                         availableColumns={props.availableColumns}
                         columns={visibleColumns}
@@ -202,6 +203,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         isLoading={props.columnsLoading}
                         preview={props.preview}
                     />
+                    {isSelectAllBarEnabled && <SelectAllBar />}
                     {showRefreshIndicator ? <RefreshIndicator /> : null}
                     <GridBody
                         isFirstLoad={props.isFirstLoad}

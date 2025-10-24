@@ -1,10 +1,10 @@
-import { useMemo } from "react";
 import {
     SelectActionHandler,
     SelectionHelper,
     SelectionMode,
     WidgetSelectionProperty
 } from "@mendix/widget-plugin-grid/selection";
+import { useMemo } from "react";
 import { DatagridContainerProps, DatagridPreviewProps, ItemSelectionMethodEnum } from "../../typings/DatagridProps";
 export type SelectionMethod = "rowClick" | "checkbox" | "none";
 
@@ -47,21 +47,30 @@ export class SelectActionHelper extends SelectActionHandler {
 export function useSelectActionHelper(
     props: Pick<
         DatagridContainerProps | DatagridPreviewProps,
-        "itemSelection" | "itemSelectionMethod" | "showSelectAllToggle" | "pageSize" | "itemSelectionMode"
+        | "itemSelection"
+        | "itemSelectionMethod"
+        | "showSelectAllToggle"
+        | "pageSize"
+        | "itemSelectionMode"
+        | "datasource"
     >,
     selectionHelper?: SelectionHelper
 ): SelectActionHelper {
-    return useMemo(
-        () =>
-            new SelectActionHelper(
-                props.itemSelection,
-                selectionHelper,
-                props.itemSelectionMethod,
-                props.showSelectAllToggle,
-                props.pageSize ?? 5,
-                props.itemSelectionMode
-            ),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [selectionHelper]
-    );
+    return useMemo(() => {
+        return new SelectActionHelper(
+            props.itemSelection,
+            selectionHelper,
+            props.itemSelectionMethod,
+            props.showSelectAllToggle,
+            props.pageSize ?? 5,
+            props.itemSelectionMode
+        );
+    }, [
+        props.itemSelection,
+        selectionHelper,
+        props.itemSelectionMethod,
+        props.showSelectAllToggle,
+        props.pageSize,
+        props.itemSelectionMode
+    ]);
 }

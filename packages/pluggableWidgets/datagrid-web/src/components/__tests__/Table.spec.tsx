@@ -1,13 +1,18 @@
 import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
-import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
+import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
+import { MultiSelectionHelper, SelectAllController, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { ProgressStore } from "@mendix/widget-plugin-grid/stores/ProgressStore";
+import { SelectionCountStore } from "@mendix/widget-plugin-grid/stores/SelectionCountStore";
+import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { list, listWidget, objectItems, SelectionMultiValueBuilder } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { cleanup, getAllByRole, getByRole, queryByRole, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ListValue, ObjectItem, SelectionMultiValue } from "mendix";
 import { ReactElement } from "react";
-import { ItemSelectionMethodEnum } from "typings/DatagridProps";
+import { RootGridStore } from "src/helpers/state/RootGridStore";
+import { DatagridContainerProps, ItemSelectionMethodEnum } from "typings/DatagridProps";
 import { CellEventsController, useCellEventsController } from "../../features/row-interaction/CellEventsController";
 import {
     CheckboxEventsController,
@@ -16,10 +21,11 @@ import {
 import { SelectActionHelper, useSelectActionHelper } from "../../helpers/SelectActionHelper";
 import { DatagridContext, DatagridRootScope } from "../../helpers/root-context";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
+import { SelectAllBarViewModel } from "../../helpers/state/SelectAllBarViewModel";
+import { SelectionProgressDialogViewModel } from "../../helpers/state/SelectionProgressDialogViewModel";
 import { GridColumn } from "../../typings/GridColumn";
 import { column, mockGridColumn, mockWidgetProps } from "../../utils/test-utils";
 import { Widget, WidgetProps } from "../Widget";
-
 // you can also pass the mock implementation
 // to jest.fn as an argument
 window.IntersectionObserver = jest.fn(() => ({
@@ -31,6 +37,8 @@ window.IntersectionObserver = jest.fn(() => ({
     unobserve: jest.fn(),
     takeRecords: jest.fn()
 }));
+
+class Host extends BaseControllerHost {}
 
 function withCtx(
     widgetProps: WidgetProps<GridColumn, ObjectItem>,
@@ -53,6 +61,12 @@ function withCtx(
         fmtPlural: "%d rows selected"
     };
 
+    const host = new Host();
+    const { gate } = new GateProvider({ datasource: list(4) } as DatagridContainerProps);
+    const query = new DatasourceController(host, { gate });
+    const selectAllProgressStore = new ProgressStore();
+    const selectAllController = new SelectAllController(host, gate, query);
+
     const mockContext = {
         basicData: defaultBasicData as unknown as GridBasicData,
         selectionHelper: undefined,
@@ -61,6 +75,15 @@ function withCtx(
         checkboxEventsController: widgetProps.checkboxEventsController,
         focusController: widgetProps.focusController,
         selectionCountStore: defaultSelectionCountStore as unknown as SelectionCountStore,
+        selectAllProgressStore,
+        rootStore: {} as unknown as RootGridStore,
+        selectAllBarViewModel: new SelectAllBarViewModel(host, gate, selectAllController),
+        selectionProgressDialogViewModel: new SelectionProgressDialogViewModel(
+            host,
+            gate,
+            selectAllProgressStore,
+            selectAllController
+        ),
         ...contextOverrides
     };
 
@@ -318,26 +341,42 @@ describe("Table", () => {
     describe("with multi selection helper", () => {
         it("render header checkbox if helper is given and checkbox state depends on the helper status", () => {
             const props = mockWidgetProps();
-            props.data = objectItems(5);
+            const items = list(5).items!;
+            props.data = items;
             props.paging = true;
-            props.selectActionHelper = new SelectActionHelper("Multi", undefined, "checkbox", true, 5, "clear");
+            let selectionHelper;
+            let actionHelper;
 
-            const renderWithStatus = (status: MultiSelectionStatus): ReturnType<typeof render> => {
-                return renderWithRootContext(props, {
-                    basicData: { selectionStatus: status } as unknown as GridBasicData
-                });
-            };
+            // none
+            selectionHelper = new MultiSelectionHelper(
+                { selection: [] as ObjectItem[], type: "Multi" } as SelectionMultiValue,
+                items
+            );
+            actionHelper = new SelectActionHelper("Multi", selectionHelper, "checkbox", true, 5, "clear");
 
-            renderWithStatus("none");
+            renderWithRootContext(props, { selectActionHelper: actionHelper, selectionHelper });
             expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).not.toBeChecked();
-
             cleanup();
-            renderWithStatus("some");
-            expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
 
-            cleanup();
-            renderWithStatus("all");
+            // some
+            selectionHelper = new MultiSelectionHelper(
+                { selection: [items[0]] as ObjectItem[], type: "Multi" } as SelectionMultiValue,
+                items
+            );
+            actionHelper = new SelectActionHelper("Multi", selectionHelper, "checkbox", true, 5, "clear");
+            renderWithRootContext(props, { selectActionHelper: actionHelper, selectionHelper });
             expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
+            cleanup();
+
+            // all
+            selectionHelper = new MultiSelectionHelper(
+                { selection: items as ObjectItem[], type: "Multi" } as SelectionMultiValue,
+                items
+            );
+            actionHelper = new SelectActionHelper("Multi", selectionHelper, "checkbox", true, 5, "clear");
+            renderWithRootContext(props, { selectActionHelper: actionHelper, selectionHelper });
+            expect(queryByRole(screen.getAllByRole("columnheader")[0], "checkbox")).toBeChecked();
+            cleanup();
         });
 
         it("not render header checkbox if method is rowClick", () => {
@@ -356,7 +395,7 @@ describe("Table", () => {
             props.selectActionHelper.onSelectAll = jest.fn();
 
             renderWithRootContext(props, {
-                basicData: { selectionStatus: "none" } as unknown as GridBasicData
+                selectionHelper: { selectionStatus: status, type: "Multi" } as MultiSelectionHelper
             });
 
             const checkbox = screen.getAllByRole("checkbox")[0];
@@ -480,7 +519,8 @@ describe("Table", () => {
                     itemSelectionMethod: selectionMethod,
                     itemSelectionMode: "clear",
                     showSelectAllToggle: false,
-                    pageSize: 5
+                    pageSize: 5,
+                    datasource: ds
                 },
                 helper
             );
@@ -502,7 +542,11 @@ describe("Table", () => {
                 cellEventsController,
                 checkboxEventsController,
                 focusController: props.focusController,
-                selectionCountStore: {} as unknown as SelectionCountStore
+                selectionCountStore: {} as unknown as SelectionCountStore,
+                selectAllProgressStore: {} as unknown as ProgressStore,
+                rootStore: {} as unknown as RootGridStore,
+                selectAllBarViewModel: {} as unknown as SelectAllBarViewModel,
+                selectionProgressDialogViewModel: {} as unknown as SelectionProgressDialogViewModel
             };
 
             return (

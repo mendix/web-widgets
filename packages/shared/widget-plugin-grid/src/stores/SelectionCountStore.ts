@@ -6,14 +6,13 @@ type Gate = DerivedPropsGate<{
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
-    clearSelectionButtonLabel?: DynamicValue<string>;
+    clearSelectionCaption?: DynamicValue<string>;
 }>;
 
 export class SelectionCountStore {
     private gate: Gate;
-    private singular: string = "%d row selected";
-    private plural: string = "%d rows selected";
-    private defaultClearLabel: string = "Clear selection";
+    private singular: string = "%d.row.count";
+    private plural: string = "%d.rows.count";
 
     constructor(gate: Gate, spec: { singular?: string; plural?: string; clearLabel?: string } = {}) {
         this.singular = spec.singular ?? this.singular;
@@ -22,23 +21,18 @@ export class SelectionCountStore {
         this.gate = gate;
 
         makeObservable(this, {
-            displayCount: computed,
+            selectedCountText: computed,
             selectedCount: computed,
-            fmtSingular: computed,
-            fmtPlural: computed,
-            clearButtonLabel: computed
+            formatSingular: computed,
+            formatPlural: computed
         });
     }
 
-    get clearButtonLabel(): string {
-        return this.gate.props.clearSelectionButtonLabel?.value || this.defaultClearLabel;
-    }
-
-    get fmtSingular(): string {
+    get formatSingular(): string {
         return this.gate.props.selectedCountTemplateSingular?.value || this.singular;
     }
 
-    get fmtPlural(): string {
+    get formatPlural(): string {
         return this.gate.props.selectedCountTemplatePlural?.value || this.plural;
     }
 
@@ -57,10 +51,14 @@ export class SelectionCountStore {
         return itemSelection.selection?.length ?? 0;
     }
 
-    get displayCount(): string {
+    get selectedCountText(): string {
         const count = this.selectedCount;
         if (count === 0) return "";
-        if (count === 1) return this.fmtSingular.replace("%d", "1");
-        return this.fmtPlural.replace("%d", `${count}`);
+        if (count === 1) return this.formatSingular.replace("%d", "1");
+        return this.formatPlural.replace("%d", `${count}`);
+    }
+
+    get clearSelectionText(): string {
+        return this.gate.props.clearSelectionCaption?.value ?? "clear.selection.caption";
     }
 }
