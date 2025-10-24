@@ -9,8 +9,30 @@ jest.mock("react-big-calendar", () => {
     const originalModule = jest.requireActual("react-big-calendar");
     return {
         ...originalModule,
-        Calendar: ({ children, ...props }: any) => (
-            <div data-testid="mock-calendar" {...props}>
+        Calendar: ({
+            children,
+            defaultView,
+            culture,
+            resizable,
+            selectable,
+            showAllEvents,
+            min,
+            max,
+            events,
+            ...domProps
+        }: any) => (
+            <div
+                data-testid="mock-calendar"
+                data-default-view={defaultView}
+                data-culture={culture}
+                data-resizable={resizable}
+                data-selectable={selectable}
+                data-show-all-events={showAllEvents}
+                data-min={min?.toISOString()}
+                data-max={max?.toISOString()}
+                data-events-count={events?.length ?? 0}
+                {...domProps}
+            >
                 {children}
             </div>
         ),

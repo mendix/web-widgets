@@ -15,6 +15,7 @@ import {
     startOfMonth,
     startOfWeek
 } from "date-fns";
+import type { MXLocaleDates, MXLocaleNumbers, MXLocalePatterns, MXSessionData } from "../../typings/global";
 
 // Utility to lighten hex colors. Accepts #RGB or #RRGGBB.
 function lightenColor(color: string, amount = 0.2): string {
@@ -106,10 +107,39 @@ export function getViewRange(view: string, date: Date): { start: Date; end: Date
     }
 }
 
+// Helper to get Mendix session locale
+export interface MendixLocaleData {
+    code: string;
+    languageTag: string;
+    firstDayOfWeek: number;
+    dates?: MXLocaleDates;
+    patterns?: MXLocalePatterns;
+    numbers?: MXLocaleNumbers;
+}
+
+export function getMendixLocale(): MendixLocaleData | null {
+    try {
+        const sessionData: MXSessionData | undefined = window.mx?.session?.sessionData;
+        if (sessionData?.locale) {
+            return {
+                code: sessionData.locale.code || "en-US",
+                languageTag: sessionData.locale.languageTag || sessionData.locale.code || "en-US",
+                firstDayOfWeek: sessionData.locale.firstDayOfWeek ?? 0,
+                dates: sessionData.locale.dates,
+                patterns: sessionData.locale.patterns,
+                numbers: sessionData.locale.numbers
+            };
+        }
+    } catch (e) {
+        console.warn("[Calendar] Failed to get Mendix locale:", e);
+    }
+    return null;
+}
+
 export const localizer = dateFnsLocalizer({
     format,
     parse,
     startOfWeek,
     getDay,
-    locales: {}
+    locales: {} // Will be populated dynamically
 });
