@@ -1,24 +1,18 @@
 import { autoEffect } from "@mendix/widget-plugin-mobx-kit/autoEffect";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
 
-interface QueryHelper {
+interface QueryService {
+    datasource: unknown;
     backgroundRefresh(): void;
 }
-
-interface ObservableAtom {
-    get(): QueryHelper;
-}
-
-type RefreshControllerSpec = { delay: number; query: ObservableAtom };
-
 export class RefreshController implements ReactiveController {
-    private query: ObservableAtom;
-    private readonly delay: number;
-
-    constructor(host: ReactiveControllerHost, spec: RefreshControllerSpec) {
+    constructor(
+        host: ReactiveControllerHost,
+        private readonly query: QueryService,
+        private readonly delay = 0
+    ) {
         host.addController(this);
-        this.query = spec.query;
-        this.delay = Math.max(spec.delay, 0);
+        this.delay = Math.max(delay, 0);
     }
 
     setup(): (() => void) | void {
@@ -28,11 +22,16 @@ export class RefreshController implements ReactiveController {
         // Set timer every time we got new ds ref value
         // Avoid using any other reactive dependencies other then ds
         return autoEffect(() => {
-            return this.scheduleRefresh(this.query.get(), this.delay);
+            return this.scheduleRefresh(this.query.datasource, this.query, this.delay);
         });
     }
 
-    private scheduleRefresh(helper: QueryHelper, delay: number): () => void {
+    private scheduleRefresh(
+        /** ref is used only as placeholder. */
+        _ref: unknown,
+        helper: QueryService,
+        delay: number
+    ): () => void {
         const timerId = setTimeout(() => {
             helper.backgroundRefresh();
         }, delay);

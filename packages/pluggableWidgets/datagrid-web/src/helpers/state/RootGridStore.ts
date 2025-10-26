@@ -127,7 +127,7 @@ export class RootGridStore extends BaseControllerHost {
     }
 
     private updateProps(props: RequiredProps): void {
-        this.columnsStore.updateProps(props);
+        this.columnsStore.updateColumns(props);
         this.settingsStore.updateProps(props);
     }
 }

@@ -10,17 +10,11 @@ type Gate = DerivedPropsGate<{
 }>;
 
 export class SelectionCountStore {
-    private gate: Gate;
     private singular: string = "%d row selected";
     private plural: string = "%d rows selected";
     private defaultClearLabel: string = "Clear selection";
 
-    constructor(gate: Gate, spec: { singular?: string; plural?: string; clearLabel?: string } = {}) {
-        this.singular = spec.singular ?? this.singular;
-        this.plural = spec.plural ?? this.plural;
-        this.defaultClearLabel = spec.clearLabel ?? this.defaultClearLabel;
-        this.gate = gate;
-
+    constructor(private readonly gate: Gate) {
         makeObservable(this, {
             displayCount: computed,
             selectedCount: computed,

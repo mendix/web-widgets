@@ -18,4 +18,6 @@ export interface QueryController extends Pick<ListValue, Members> {
     isFirstLoad: boolean;
     isRefreshing: boolean;
     isFetchingNextBatch: boolean;
+    isSilentRefresh: boolean;
+    datasource: ListValue;
 }

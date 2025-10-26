@@ -16,7 +16,7 @@ describe("DatasourceController loading states", () => {
         const host = new TestControllerHost();
         provider = new GateProvider({ datasource: list.loading(), refreshIndicator: false, refreshInterval: 0 });
         host.setup();
-        controller = new DatasourceController(host, { gate: provider.gate });
+        controller = new DatasourceController(host, provider.gate);
         controller.setup();
     });
 

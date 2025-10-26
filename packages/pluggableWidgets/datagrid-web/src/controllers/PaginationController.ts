@@ -1,38 +1,28 @@
 import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
 import { PaginationEnum, ShowPagingButtonsEnum } from "../../typings/DatagridProps";
 
-type Gate = DerivedPropsGate<{
-    pageSize: number;
+export interface PaginationConfig {
     pagination: PaginationEnum;
     showPagingButtons: ShowPagingButtonsEnum;
     showNumberOfRows: boolean;
-}>;
-
-type PaginationControllerSpec = {
-    gate: Gate;
-    query: QueryController;
-};
+    pageSize: number;
+}
 
 type PaginationKind = `${PaginationEnum}.${ShowPagingButtonsEnum}`;
 
 export class PaginationController implements ReactiveController {
-    private gate: Gate;
-    private query: QueryController;
     readonly pagination: PaginationEnum;
     readonly paginationKind: PaginationKind;
-    readonly showPagingButtons: ShowPagingButtonsEnum;
-    readonly showNumberOfRows: boolean;
 
-    constructor(host: ReactiveControllerHost, { gate, query }: PaginationControllerSpec) {
+    constructor(
+        host: ReactiveControllerHost,
+        private readonly config: PaginationConfig,
+        private query: QueryController
+    ) {
         host.addController(this);
-        this.gate = gate;
-        this.query = query;
-        this.pagination = gate.props.pagination;
-        this.showPagingButtons = gate.props.showPagingButtons;
-        this.showNumberOfRows = gate.props.showNumberOfRows;
-        this.paginationKind = `${this.pagination}.${this.showPagingButtons}`;
+        this.pagination = config.pagination;
+        this.paginationKind = `${this.pagination}.${config.showPagingButtons}`;
         this.setInitParams();
     }
 
@@ -41,7 +31,7 @@ export class PaginationController implements ReactiveController {
     }
 
     get pageSize(): number {
-        return this.gate.props.pageSize;
+        return this.config.pageSize;
     }
 
     get currentPage(): number {
@@ -61,12 +51,12 @@ export class PaginationController implements ReactiveController {
                 return totalCount > this.query.limit;
             }
             default:
-                return this.showNumberOfRows;
+                return this.config.showNumberOfRows;
         }
     }
 
     private setInitParams(): void {
-        if (this.pagination === "buttons" || this.showNumberOfRows) {
+        if (this.pagination === "buttons" || this.config.showNumberOfRows) {
             this.query.requestTotalCount(true);
         }
 
