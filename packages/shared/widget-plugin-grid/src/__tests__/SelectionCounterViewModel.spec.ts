@@ -1,22 +1,20 @@
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { objectItems, SelectionMultiValueBuilder, SelectionSingleValueBuilder } from "@mendix/widget-plugin-test-utils";
-import { SelectionMultiValue, SelectionSingleValue } from "mendix";
-import { SelectionCountStore } from "../../stores/SelectionCountStore";
+import { Props, SelectionCounterViewModel } from "../view-models/SelectionCounterViewModel";
 
-type Props = {
-    itemSelection?: SelectionSingleValue | SelectionMultiValue;
-};
+const createMinimalMockProps = (overrides: Partial<Props> = {}): Props => ({
+    selectionCountPosition: "bottom",
+    ...overrides
+});
 
-const createMinimalMockProps = (overrides: Props = {}): Props => ({ ...overrides });
-
-describe("SelectionCountStore", () => {
+describe("SelectionCounterViewModel", () => {
     let gateProvider: GateProvider<Props>;
-    let selectionCountStore: SelectionCountStore;
+    let selectionCounterVM: SelectionCounterViewModel;
 
     beforeEach(() => {
         const mockProps = createMinimalMockProps();
         gateProvider = new GateProvider(mockProps);
-        selectionCountStore = new SelectionCountStore(gateProvider.gate);
+        selectionCounterVM = new SelectionCounterViewModel(gateProvider.gate);
     });
 
     describe("when itemSelection is undefined", () => {
@@ -24,7 +22,7 @@ describe("SelectionCountStore", () => {
             const props = createMinimalMockProps({ itemSelection: undefined });
             gateProvider.setProps(props);
 
-            expect(selectionCountStore.selectedCount).toBe(0);
+            expect(selectionCounterVM.selectedCount).toBe(0);
         });
     });
 
@@ -34,16 +32,16 @@ describe("SelectionCountStore", () => {
             const props = createMinimalMockProps({ itemSelection: singleSelection });
             gateProvider.setProps(props);
 
-            expect(selectionCountStore.selectedCount).toBe(0);
+            expect(selectionCounterVM.selectedCount).toBe(0);
         });
 
-        it("should return 1 when one item is selected", () => {
+        it("should return 0 even when one item is selected (single selection mode)", () => {
             const items = objectItems(3);
             const singleSelection = new SelectionSingleValueBuilder().withSelected(items[0]).build();
             const props = createMinimalMockProps({ itemSelection: singleSelection });
             gateProvider.setProps(props);
 
-            expect(selectionCountStore.selectedCount).toBe(1);
+            expect(selectionCounterVM.selectedCount).toBe(0);
         });
     });
 
@@ -53,7 +51,7 @@ describe("SelectionCountStore", () => {
             const props = createMinimalMockProps({ itemSelection: multiSelection });
             gateProvider.setProps(props);
 
-            expect(selectionCountStore.selectedCount).toBe(0);
+            expect(selectionCounterVM.selectedCount).toBe(0);
         });
 
         it("should return correct count when multiple items are selected", () => {
@@ -63,7 +61,7 @@ describe("SelectionCountStore", () => {
             const props = createMinimalMockProps({ itemSelection: multiSelection });
             gateProvider.setProps(props);
 
-            expect(selectionCountStore.selectedCount).toBe(3);
+            expect(selectionCounterVM.selectedCount).toBe(3);
         });
 
         it("should return correct count when all items are selected", () => {
@@ -72,7 +70,7 @@ describe("SelectionCountStore", () => {
             const props = createMinimalMockProps({ itemSelection: multiSelection });
             gateProvider.setProps(props);
 
-            expect(selectionCountStore.selectedCount).toBe(4);
+            expect(selectionCounterVM.selectedCount).toBe(4);
         });
 
         it("should reactively update when selection changes", () => {
@@ -82,19 +80,19 @@ describe("SelectionCountStore", () => {
             gateProvider.setProps(props);
 
             // Initially no items selected
-            expect(selectionCountStore.selectedCount).toBe(0);
+            expect(selectionCounterVM.selectedCount).toBe(0);
 
             // Select one item
             multiSelection.setSelection([items[0]]);
-            expect(selectionCountStore.selectedCount).toBe(1);
+            expect(selectionCounterVM.selectedCount).toBe(1);
 
             // Select two more items
             multiSelection.setSelection([items[0], items[1], items[2]]);
-            expect(selectionCountStore.selectedCount).toBe(3);
+            expect(selectionCounterVM.selectedCount).toBe(3);
 
             // Clear selection
             multiSelection.setSelection([]);
-            expect(selectionCountStore.selectedCount).toBe(0);
+            expect(selectionCounterVM.selectedCount).toBe(0);
         });
     });
 });

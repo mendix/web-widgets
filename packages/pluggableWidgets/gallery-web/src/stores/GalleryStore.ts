@@ -4,14 +4,14 @@ import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic
 import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
 import { PaginationController } from "@mendix/widget-plugin-grid/query/PaginationController";
 import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/stores/SelectionCountStore";
+import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/view-models/SelectionCounterViewModel";
 import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
 import { DynamicValue, EditableValue, ListValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
-import { PaginationEnum, StateStorageTypeEnum } from "../../typings/GalleryProps";
+import { PaginationEnum, SelectionCountPositionEnum, StateStorageTypeEnum } from "../../typings/GalleryProps";
 import { DerivedLoaderController } from "../controllers/DerivedLoaderController";
 import { QueryParamsController } from "../controllers/QueryParamsController";
 import { ObservableStorage } from "../typings/storage";
@@ -23,8 +23,10 @@ interface DynamicProps {
     datasource: ListValue;
     stateStorageAttr?: EditableValue<string>;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
-    sCountFmtSingular?: DynamicValue<string>;
-    sCountFmtPlural?: DynamicValue<string>;
+    selectedCountTemplateSingular?: DynamicValue<string>;
+    selectedCountTemplatePlural?: DynamicValue<string>;
+    // This is static prop, but because it's required in SelectionCounterViewModel, we keep it here
+    selectionCountPosition: SelectionCountPositionEnum;
 }
 
 interface StaticProps {
@@ -57,7 +59,7 @@ export class GalleryStore extends BaseControllerHost {
     readonly filterAPI: FilterAPI;
     readonly sortAPI: SortAPI;
     loaderCtrl: DerivedLoaderController;
-    selectionCountStore: SelectionCountStore;
+    selectionCounterViewModel: SelectionCounterViewModel;
 
     constructor(spec: GalleryStoreSpec) {
         super();
@@ -74,10 +76,7 @@ export class GalleryStore extends BaseControllerHost {
             showTotalCount: spec.showTotalCount
         });
 
-        this.selectionCountStore = new SelectionCountStore(spec.gate, {
-            singular: "%d item selected",
-            plural: "%d items selected"
-        });
+        this.selectionCounterViewModel = new SelectionCounterViewModel(spec.gate);
 
         this._filtersHost = new CustomFilterHost();
 

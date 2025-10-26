@@ -222,6 +222,15 @@
                     <caption>Enable select all</caption>
                     <description>Allow select all through multiple pages (based on current filter).</description>
                 </property>
+                <property key="selectionCountPosition" type="enumeration" defaultValue="bottom" required="true">
+                    <caption>Show selection count</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="top">Top</enumerationValue>
+                        <enumerationValue key="bottom">Bottom</enumerationValue>
+                        <enumerationValue key="off">Off</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Loading state">
                 <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">

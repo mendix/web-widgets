@@ -1,7 +1,7 @@
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { SelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { ProgressStore } from "@mendix/widget-plugin-grid/stores/ProgressStore";
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/stores/SelectionCountStore";
+import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/view-models/SelectionCounterViewModel";
 import { createContext, useContext } from "react";
 import { GridBasicData } from "../helpers/state/GridBasicData";
 import { EventsController } from "../typings/CellComponent";
@@ -16,7 +16,7 @@ export interface DatagridRootScope {
     cellEventsController: EventsController;
     checkboxEventsController: EventsController;
     focusController: FocusTargetController;
-    selectionCountStore: SelectionCountStore;
+    selectionCounterViewModel: SelectionCounterViewModel;
     selectAllProgressStore: ProgressStore;
     selectAllBarViewModel: SelectAllBarViewModel;
     selectionProgressDialogViewModel: SelectionProgressDialogViewModel;

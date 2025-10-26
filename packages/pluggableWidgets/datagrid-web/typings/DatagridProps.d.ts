@@ -3,9 +3,21 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListAttributeListValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
+import {
+    ActionValue,
+    DynamicValue,
+    EditableValue,
+    ListActionValue,
+    ListAttributeListValue,
+    ListAttributeValue,
+    ListExpressionValue,
+    ListValue,
+    ListWidgetValue,
+    SelectionMultiValue,
+    SelectionSingleValue
+} from "mendix";
+import { ComponentType, CSSProperties, ReactNode } from "react";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
 
@@ -19,7 +31,9 @@ export type AlignmentEnum = "left" | "center" | "right";
 
 export interface ColumnsType {
     showContentAs: ShowContentAsEnum;
-    attribute?: ListAttributeValue<string | Big | boolean | Date> | ListAttributeListValue<string | Big | boolean | Date>;
+    attribute?:
+        | ListAttributeValue<string | Big | boolean | Date>
+        | ListAttributeListValue<string | Big | boolean | Date>;
     content?: ListWidgetValue;
     dynamicText?: ListExpressionValue<string>;
     exportValue?: ListExpressionValue<string>;
@@ -46,6 +60,8 @@ export type OnClickTriggerEnum = "single" | "double";
 export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
 
 export type ItemSelectionModeEnum = "toggle" | "clear";
+
+export type SelectionCountPositionEnum = "top" | "bottom" | "off";
 
 export type LoadingTypeEnum = "spinner" | "skeleton";
 
@@ -101,22 +117,8 @@ export interface DatagridContainerProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    selectionCountPosition: SelectionCountPositionEnum;
-    clearSelectionButtonLabel?: DynamicValue<string>;
-=======
-    selectAllPagesEnabled: boolean;
-    selectAllPagesPageSize: number;
-<<<<<<< HEAD
-    selectingAllLabel?: DynamicValue<string>;
-    cancelSelectionLabel?: DynamicValue<string>;
->>>>>>> 2e4671e66 (feat(datagrid-web): add multipage selection to dg2)
-=======
->>>>>>> 448ce2ee2 (feat: add sab vm)
-=======
     enableSelectAll: boolean;
->>>>>>> 298cb49db (refactor: change texts & etc)
+    selectionCountPosition: SelectionCountPositionEnum;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     pageSize: number;
@@ -174,21 +176,8 @@ export interface DatagridPreviewProps {
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
-<<<<<<< HEAD
-
-    selectionCountPosition: SelectionCountPositionEnum;
-    clearSelectionButtonLabel: string;
-
-    selectAllPagesEnabled: boolean;
-    selectAllPagesPageSize: number | null;
-
-    selectingAllLabel: string;
-    cancelSelectionLabel: string;
-
-
-=======
     enableSelectAll: boolean;
->>>>>>> 298cb49db (refactor: change texts & etc)
+    selectionCountPosition: SelectionCountPositionEnum;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
     pageSize: number | null;

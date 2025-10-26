@@ -1,9 +1,8 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
-import { ReactNode } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 
-export const SelectAllBar = observer(function SelectAllBar(): ReactNode {
+export const SelectAllBar = observer(function SelectAllBar() {
     const { selectAllBarViewModel: vm } = useDatagridRootScope();
 
     if (!vm.isBarVisible) return null;

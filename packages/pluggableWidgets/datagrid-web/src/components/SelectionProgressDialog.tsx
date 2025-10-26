@@ -1,10 +1,11 @@
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 import { useDatagridRootScope } from "../helpers/root-context";
 import { ExportAlert } from "./ExportAlert";
 import { PseudoModal } from "./PseudoModal";
 
-export function SelectionProgressDialog(): ReactElement | null {
+export function SelectionProgressDialog(): ReactNode {
     const { selectionProgressDialogViewModel: vm } = useDatagridRootScope();
+
     if (!vm.isOpen) return null;
 
     return (

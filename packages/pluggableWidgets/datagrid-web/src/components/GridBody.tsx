@@ -1,9 +1,9 @@
+import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import classNames from "classnames";
 import { Fragment, ReactElement, ReactNode } from "react";
 import { LoadingTypeEnum, PaginationEnum } from "../../typings/DatagridProps";
-import { SpinnerLoader } from "./loader/SpinnerLoader";
 import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
-import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
+import { SpinnerLoader } from "./loader/SpinnerLoader";
 
 interface Props {
     className?: string;
@@ -30,18 +30,6 @@ export function GridBody(props: Props): ReactElement {
         setPage
     });
 
-    const content = (): ReactElement => {
-        if (props.isFirstLoad) {
-            return <Loader {...props} rowsSize={props.rowsSize > 0 ? props.rowsSize : props.pageSize} />;
-        }
-        return (
-            <Fragment>
-                {children}
-                {props.isFetchingNextBatch && <Loader {...props} rowsSize={props.pageSize} useBorderTop={false} />}
-            </Fragment>
-        );
-    };
-
     return (
         <div
             className={classNames(
@@ -54,7 +42,19 @@ export function GridBody(props: Props): ReactElement {
             ref={containerRef}
             onScroll={isInfinite ? trackScrolling : undefined}
         >
-            {content()}
+            {((): ReactElement => {
+                if (props.isFirstLoad) {
+                    return <Loader {...props} rowsSize={props.rowsSize > 0 ? props.rowsSize : props.pageSize} />;
+                }
+                return (
+                    <Fragment>
+                        {children}
+                        {props.isFetchingNextBatch && (
+                            <Loader {...props} rowsSize={props.pageSize} useBorderTop={false} />
+                        )}
+                    </Fragment>
+                );
+            })()}
         </div>
     );
 }

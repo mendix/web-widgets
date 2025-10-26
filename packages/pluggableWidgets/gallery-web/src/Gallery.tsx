@@ -1,4 +1,6 @@
-import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
+import { ReactElement } from "react";
+
+/* import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { getColumnAndRowBasedOnIndex, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
@@ -123,4 +125,9 @@ export function Gallery(props: GalleryContainerProps): ReactElement {
             <Container {...props} />
         </GalleryContext.Provider>
     );
+}
+ */ export function Gallery(): ReactElement {
+    // const scope = useCreateGalleryScope(props);
+
+    return <div></div>;
 }

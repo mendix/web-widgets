@@ -55,7 +55,11 @@ export function ExportAlert({
 function ExportProgress({ progress, total }: { progress: number; total: number | undefined }): ReactElement {
     const validTotal = isValidTotal(total) && total;
     return (
-        <Progress.Root className="widget-datagrid-export-progress" value={validTotal ? progress : null} max={total}>
+        <Progress.Root
+            className="widget-datagrid-export-progress"
+            value={validTotal ? progress : null}
+            max={validTotal ? total : undefined}
+        >
             <Progress.Indicator
                 className={classNames("widget-datagrid-export-progress-indicator", {
                     "widget-datagrid-export-progress-indicator-indeterminate": !validTotal
