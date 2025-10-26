@@ -13,22 +13,14 @@ interface ObservableSortStore {
     sortInstructions: SortInstruction[] | undefined;
 }
 
-type DatasourceParamsControllerSpec = {
-    query: QueryController;
-    filterHost: ObservableFilterStore;
-    sortHost: ObservableSortStore;
-};
-
 export class DatasourceParamsController implements ReactiveController {
-    private query: QueryController;
-    private filterHost: ObservableFilterStore;
-    private sortHost: ObservableSortStore;
-
-    constructor(host: ReactiveControllerHost, spec: DatasourceParamsControllerSpec) {
+    constructor(
+        host: ReactiveControllerHost,
+        private query: QueryController,
+        private filterHost: ObservableFilterStore,
+        private sortHost: ObservableSortStore
+    ) {
         host.addController(this);
-        this.filterHost = spec.filterHost;
-        this.sortHost = spec.sortHost;
-        this.query = spec.query;
     }
 
     setup(): () => void {

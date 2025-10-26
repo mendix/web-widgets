@@ -4,7 +4,9 @@ import { ConditionWithMeta } from "@mendix/widget-plugin-filtering/typings/Condi
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
-import { action, computed, makeObservable, observable } from "mobx";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { ReactiveController } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { action, autorun, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
@@ -37,7 +39,12 @@ export interface IColumnParentStore {
     sorting: IColumnSortingStore;
 }
 
-export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
+interface DynamicProps {
+    columns: DatagridContainerProps["columns"];
+    datasource: DatagridContainerProps["datasource"];
+}
+
+export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, ReactiveController {
     readonly _allColumns: ColumnStore[];
     readonly _allColumnsById: Map<ColumnId, ColumnStore> = new Map();
 
@@ -49,10 +56,11 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     isResizing = false;
 
     constructor(
-        props: Pick<DatagridContainerProps, "columns" | "datasource">,
+        private gate: DerivedPropsGate<DynamicProps>,
         info: StaticInfo,
         filterHost: ObservableFilterHost
     ) {
+        const { props } = gate;
         this._allColumns = [];
         this.columnFilters = [];
 
@@ -78,7 +86,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
             condWithMeta: computed,
             columnSettings: computed.struct,
             filterSettings: computed({ keepAlive: true }),
-            updateProps: action,
+            updateColumns: action,
             setIsResizing: action,
             swapColumns: action,
             setColumnSettings: action,
@@ -87,14 +95,20 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore {
     }
 
     setup(): () => void {
-        const [add, dispose] = disposeBatch();
+        const [add, disposeAll] = disposeBatch();
         for (const filter of this.columnFilters) {
             add(filter.setup());
         }
-        return dispose;
+        add(
+            autorun(() => {
+                const { props } = this.gate;
+                this.updateColumns(props);
+            })
+        );
+        return disposeAll;
     }
 
-    updateProps(props: Pick<DatagridContainerProps, "columns">): void {
+    updateColumns(props: Pick<DatagridContainerProps, "columns">): void {
         props.columns.forEach((columnProps, i) => {
             this._allColumns[i].updateProps(columnProps);
         });

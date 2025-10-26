@@ -5,19 +5,20 @@ import { ListValue, ValueStatus } from "mendix";
 import { action, autorun, computed, IComputedValue, makeAutoObservable } from "mobx";
 import { QueryController } from "./query-controller";
 
-type Gate = DerivedPropsGate<{ datasource: ListValue }>;
-
-type DatasourceControllerSpec = { gate: Gate };
+interface DynamicProps {
+    datasource: ListValue;
+}
 
 export class DatasourceController implements ReactiveController, QueryController {
-    private gate: Gate;
     private backgroundCheck = false;
     private fetching = false;
     private pageSize = Infinity;
 
-    constructor(host: ReactiveControllerHost, spec: DatasourceControllerSpec) {
+    constructor(
+        host: ReactiveControllerHost,
+        private gate: DerivedPropsGate<DynamicProps>
+    ) {
         host.addController(this);
-        this.gate = spec.gate;
 
         type PrivateMembers =
             | "resetFlags"
