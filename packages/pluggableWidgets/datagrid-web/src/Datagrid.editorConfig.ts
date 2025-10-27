@@ -65,6 +65,14 @@ export function getProperties(
         if (column.minWidth !== "manual") {
             hidePropertyIn(defaultProperties, values, "columns", index, "minWidthLimit");
         }
+        // Hide exportNumberFormat if exportType is not 'number'
+        if (column.exportType !== "number") {
+            hidePropertyIn(defaultProperties, values, "columns", index, "exportNumberFormat" as any);
+        }
+        // Hide exportDateFormat if exportType is not 'date'
+        if (column.exportType !== "date") {
+            hidePropertyIn(defaultProperties, values, "columns", index, "exportDateFormat" as any);
+        }
         if (!values.advanced && platform === "web") {
             hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
                 "columnClass",
@@ -214,7 +222,10 @@ export const getPreview = (
                   minWidth: "auto",
                   minWidthLimit: 100,
                   allowEventPropagation: true,
-                  exportValue: ""
+                  exportValue: "",
+                  exportType: "text",
+                  exportDateFormat: "",
+                  exportNumberFormat: ""
               }
           ];
     const columns = rowLayout({
