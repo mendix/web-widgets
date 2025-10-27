@@ -17,7 +17,7 @@ export class PaginationController implements ReactiveController {
 
     constructor(
         host: ReactiveControllerHost,
-        private readonly config: PaginationConfig,
+        private config: PaginationConfig,
         private query: QueryController
     ) {
         host.addController(this);

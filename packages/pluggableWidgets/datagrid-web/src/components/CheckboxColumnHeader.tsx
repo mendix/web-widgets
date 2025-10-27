@@ -1,9 +1,11 @@
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 import { Fragment, ReactElement, useCallback } from "react";
-import { useDatagridRootScope } from "../helpers/root-context";
+import { useBasicData } from "../deps-hooks";
+import { useLegacyContext } from "../helpers/root-context";
 
 export function CheckboxColumnHeader(): ReactElement {
-    const { selectActionHelper, basicData } = useDatagridRootScope();
+    const basicData = useBasicData();
+    const { selectActionHelper } = useLegacyContext();
     const { showCheckboxColumn, showSelectAllToggle, onSelectAll } = selectActionHelper;
     const { selectionStatus, selectAllRowsLabel } = basicData;
 

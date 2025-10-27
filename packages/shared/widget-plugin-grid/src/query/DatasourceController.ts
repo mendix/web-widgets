@@ -164,5 +164,6 @@ export class DatasourceController implements ReactiveController, QueryController
 
     setPageSize(size: number): void {
         this.pageSize = size;
+        this.resetLimit();
     }
 }

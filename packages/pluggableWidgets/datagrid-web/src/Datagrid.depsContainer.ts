@@ -44,6 +44,9 @@ type MainGateProps = Pick<
     | "clearSelectionButtonLabel"
 >;
 
+/** Root Datagrid container that resolve and inject dependencies. */
+export const rootContainer = new Container();
+
 /** Tokens to resolve dependencies from the container. */
 export const TOKENS = {
     basicDate: token<GridBasicData>("GridBasicData"),
@@ -69,45 +72,95 @@ export const TOKENS = {
     staticInfo: token<StaticInfo>("StaticInfo")
 };
 
-/** Root Datagrid container that resolve and inject dependencies. */
-export const rootContainer = new Container();
+class DatagridContainer extends Container {
+    constructor() {
+        super();
 
-// Class bindings, must be unique per container.
-rootContainer.bind(TOKENS.columnsStore).toInstance(ColumnGroupStore).inContainerScope();
-rootContainer.bind(TOKENS.combinedFilter).toInstance(CombinedFilter).inContainerScope();
-rootContainer.bind(TOKENS.exportProgressService).toInstance(ProgressStore).inContainerScope();
-rootContainer.bind(TOKENS.filterAPI).toInstance(WidgetFilterAPI).inContainerScope();
-rootContainer.bind(TOKENS.filterHost).toInstance(CustomFilterHost).inContainerScope();
-rootContainer.bind(TOKENS.paramsService).toInstance(DatasourceParamsController).inContainerScope();
-rootContainer.bind(TOKENS.personalizationService).toInstance(GridPersonalizationStore).inContainerScope();
-rootContainer.bind(TOKENS.query).toInstance(DatasourceController).inContainerScope();
-rootContainer.bind(TOKENS.refreshService).toInstance(RefreshController).inContainerScope();
-rootContainer.bind(TOKENS.setupService).toInstance(DatagridSetupService).inContainerScope();
-rootContainer
-    .bind(TOKENS.parentChannelName)
-    .toInstance(() => `datagrid/${generateUUID()}`)
-    .inContainerScope();
+        /** Bindings */
 
-// Inject dependencies
-injected(ColumnGroupStore, TOKENS.mainGate, TOKENS.staticInfo, TOKENS.filterHost);
-injected(DatasourceController, TOKENS.setupService, TOKENS.mainGate);
-injected(DatasourceParamsController, TOKENS.setupService, TOKENS.query, TOKENS.combinedFilter, TOKENS.columnsStore);
-injected(DerivedLoaderController, TOKENS.query, TOKENS.exportProgressService, TOKENS.columnsStore, TOKENS.loaderConfig);
-injected(GridPersonalizationStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.columnsStore, TOKENS.filterHost);
-injected(RefreshController, TOKENS.setupService, TOKENS.query, TOKENS.refreshInterval.optional);
-injected(SelectionCountStore, TOKENS.mainGate);
-injected(WidgetFilterAPI, TOKENS.parentChannelName, TOKENS.filterHost);
+        // Column store
+        this.bind(TOKENS.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
+        injected(ColumnGroupStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.staticInfo, TOKENS.filterHost);
 
-/** Create new container that inherit bindings from root container. */
-export function createContainer(): Container {
-    return new Container().extend(rootContainer);
+        // Basic data store
+        this.bind(TOKENS.basicDate).toInstance(GridBasicData).inSingletonScope();
+        injected(GridBasicData, TOKENS.mainGate);
+
+        // Combined filter
+        this.bind(TOKENS.combinedFilter).toInstance(CombinedFilter).inSingletonScope();
+        injected(CombinedFilter, TOKENS.setupService, TOKENS.combinedFilterConfig);
+
+        // Export progress store
+        this.bind(TOKENS.exportProgressService).toInstance(ProgressStore).inSingletonScope();
+
+        // FilterAPI
+        this.bind(TOKENS.filterAPI).toInstance(WidgetFilterAPI).inSingletonScope();
+        injected(WidgetFilterAPI, TOKENS.parentChannelName, TOKENS.filterHost);
+
+        // Filter host
+        this.bind(TOKENS.filterHost).toInstance(CustomFilterHost).inSingletonScope();
+
+        // Datasource params service
+        this.bind(TOKENS.paramsService).toInstance(DatasourceParamsController).inSingletonScope();
+        injected(
+            DatasourceParamsController,
+            TOKENS.setupService,
+            TOKENS.query,
+            TOKENS.combinedFilter,
+            TOKENS.columnsStore
+        );
+
+        // Personalization service
+        this.bind(TOKENS.personalizationService).toInstance(GridPersonalizationStore).inSingletonScope();
+        injected(
+            GridPersonalizationStore,
+            TOKENS.setupService,
+            TOKENS.mainGate,
+            TOKENS.columnsStore,
+            TOKENS.filterHost
+        );
+
+        // Query service
+        this.bind(TOKENS.query).toInstance(DatasourceController).inSingletonScope();
+        injected(DatasourceController, TOKENS.setupService, TOKENS.mainGate);
+
+        // Pagination service
+        this.bind(TOKENS.paginationService).toInstance(PaginationController).inSingletonScope();
+        injected(PaginationController, TOKENS.setupService, TOKENS.paginationConfig, TOKENS.query);
+
+        // Refresh service
+        this.bind(TOKENS.refreshService).toInstance(RefreshController).inSingletonScope();
+        injected(RefreshController, TOKENS.setupService, TOKENS.query, TOKENS.refreshInterval.optional);
+
+        // Setup service
+        this.bind(TOKENS.setupService).toInstance(DatagridSetupService).inSingletonScope();
+
+        // Events channel for child widgets
+        this.bind(TOKENS.parentChannelName)
+            .toInstance(() => `datagrid/${generateUUID()}`)
+            .inSingletonScope();
+
+        // Loader view model
+        this.bind(TOKENS.loaderViewModel).toInstance(DerivedLoaderController).inSingletonScope();
+        injected(
+            DerivedLoaderController,
+            TOKENS.query,
+            TOKENS.exportProgressService,
+            TOKENS.columnsStore,
+            TOKENS.loaderConfig
+        );
+
+        // Selection counter view model
+        this.bind(TOKENS.selectionCounter).toInstance(SelectionCountStore).inSingletonScope();
+        injected(SelectionCountStore, TOKENS.mainGate);
+    }
 }
 
 export function useDatagridDepsContainer(props: DatagridContainerProps): Container {
     const [container, mainGateProvider] = useConst(
         /** Function to clone container and setup prop dependant bindings. */
         function init(): [Container, GateProvider<MainGateProps>] {
-            const container = createContainer();
+            const container = new DatagridContainer();
             const exportProgress = container.get(TOKENS.exportProgressService);
             const gateProvider = new ClosableGateProvider<MainGateProps>(props, () => exportProgress.exporting);
 
@@ -142,9 +195,10 @@ export function useDatagridDepsContainer(props: DatagridContainerProps): Contain
                 pageSize: props.pageSize
             });
 
-            // Create internal services
+            // Make sure essential services are created upfront
             container.get(TOKENS.refreshService);
             container.get(TOKENS.paramsService);
+            container.get(TOKENS.paginationService);
 
             // Hydrate filters from props
             container.get(TOKENS.combinedFilter).hydrate(props.datasource.filter);

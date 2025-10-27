@@ -15,9 +15,8 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps"
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { ColumnPreview } from "./helpers/ColumnPreview";
-import { DatagridContext } from "./helpers/root-context";
+import { LegacyContext } from "./helpers/root-context";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
-import { GridBasicData } from "./helpers/state/GridBasicData";
 
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import "./ui/DatagridPreview.scss";
@@ -88,10 +87,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
 
     const ctx = useConst(() => {
         const gateProvider = new GateProvider({});
-        const basicData = new GridBasicData(gateProvider.gate);
         const selectionCountStore = new SelectionCountStore(gateProvider.gate);
         return {
-            basicData,
             selectionHelper: undefined,
             selectActionHelper,
             cellEventsController: eventsController,
@@ -102,7 +99,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
     });
 
     return (
-        <DatagridContext.Provider value={ctx}>
+        <LegacyContext.Provider value={ctx}>
             <Widget
                 CellComponent={Cell}
                 className={props.class}
@@ -167,7 +164,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                 isFirstLoad={false}
                 showRefreshIndicator={false}
             />
-        </DatagridContext.Provider>
+        </LegacyContext.Provider>
     );
 }
 

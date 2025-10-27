@@ -1,6 +1,7 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
-import { useDatagridRootScope } from "../helpers/root-context";
+import { useSelectionCounter } from "../deps-hooks";
+import { useLegacyContext } from "../helpers/root-context";
 
 type SelectionCounterLocation = "top" | "bottom" | undefined;
 
@@ -9,7 +10,8 @@ export const SelectionCounter = observer(function SelectionCounter({
 }: {
     location?: SelectionCounterLocation;
 }) {
-    const { selectionCountStore, selectActionHelper } = useDatagridRootScope();
+    const selectionCountStore = useSelectionCounter();
+    const { selectActionHelper } = useLegacyContext();
 
     const containerClass = location === "top" ? "widget-datagrid-tb-start" : "widget-datagrid-pb-start";
 

@@ -1,5 +1,5 @@
 import { Fragment, ReactElement } from "react";
-import { useDatagridRootScope } from "../../helpers/root-context";
+import { useLegacyContext } from "../../helpers/root-context";
 import { CellElement } from "../CellElement";
 import { SelectorCell } from "../SelectorCell";
 import { SkeletonLoader } from "./SkeletonLoader";
@@ -17,7 +17,7 @@ export function RowSkeletonLoader({
     pageSize,
     useBorderTop = true
 }: RowSkeletonLoaderProps): ReactElement {
-    const { selectActionHelper } = useDatagridRootScope();
+    const { selectActionHelper } = useLegacyContext();
     return (
         <Fragment>
             {Array.from({ length: pageSize }).map((_, i) => {
