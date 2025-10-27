@@ -14,7 +14,7 @@ import {
     useCheckboxEventsController
 } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectActionHelper, useSelectActionHelper } from "../../helpers/SelectActionHelper";
-import { DatagridContext, DatagridRootScope } from "../../helpers/root-context";
+import { DatagridRootScope, Legacy } from "../../helpers/root-context";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridColumn } from "../../typings/GridColumn";
 import { column, mockGridColumn, mockWidgetProps } from "../../utils/test-utils";
@@ -65,9 +65,9 @@ function withCtx(
     };
 
     return (
-        <DatagridContext.Provider value={mockContext}>
+        <Legacy.Provider value={mockContext}>
             <Widget {...widgetProps} />
-        </DatagridContext.Provider>
+        </Legacy.Provider>
     );
 }
 
@@ -506,14 +506,14 @@ describe("Table", () => {
             };
 
             return (
-                <DatagridContext.Provider value={contextValue}>
+                <Legacy.Provider value={contextValue}>
                     <Widget
                         {...props}
                         selectActionHelper={selectHelper}
                         cellEventsController={cellEventsController}
                         checkboxEventsController={checkboxEventsController}
                     />
-                </DatagridContext.Provider>
+                </Legacy.Provider>
             );
         }
 

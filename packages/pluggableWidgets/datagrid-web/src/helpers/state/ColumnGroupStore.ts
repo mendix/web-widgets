@@ -5,8 +5,8 @@ import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/Ob
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
-import { ReactiveController } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
-import { action, autorun, computed, makeObservable, observable } from "mobx";
+import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { action, autorun, computed, makeObservable, observable, trace } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
@@ -56,10 +56,12 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, 
     isResizing = false;
 
     constructor(
+        host: ReactiveControllerHost,
         private gate: DerivedPropsGate<DynamicProps>,
         info: StaticInfo,
         filterHost: ObservableFilterHost
     ) {
+        host.addController(this);
         const { props } = gate;
         this._allColumns = [];
         this.columnFilters = [];
@@ -83,15 +85,19 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, 
             _allColumnsOrdered: computed,
             availableColumns: computed,
             visibleColumns: computed,
-            condWithMeta: computed,
+            condWithMeta: computed({ keepAlive: true }),
             columnSettings: computed.struct,
             filterSettings: computed({ keepAlive: true }),
             updateColumns: action,
             setIsResizing: action,
             swapColumns: action,
             setColumnSettings: action,
-            hydrate: action
+            hydrate: action,
+            sortInstructions: computed({ keepAlive: true })
         });
+
+        trace(this, "condWithMeta");
+        trace(this, "sortInstructions");
     }
 
     setup(): () => void {

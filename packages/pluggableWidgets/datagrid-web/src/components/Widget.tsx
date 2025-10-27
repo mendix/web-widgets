@@ -12,8 +12,8 @@ import {
     SelectionCountPositionEnum,
     ShowPagingButtonsEnum
 } from "../../typings/DatagridProps";
+import { useBasicData, useSelectionCounter } from "../deps-hooks";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
-import { useDatagridRootScope } from "../helpers/root-context";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { ExportWidget } from "./ExportWidget";
@@ -21,12 +21,12 @@ import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
 import { GridHeader } from "./GridHeader";
 import { RowsRenderer } from "./RowsRenderer";
+import { SelectionCounter } from "./SelectionCounter";
 import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { SelectionCounter } from "./SelectionCounter";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -83,7 +83,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
 
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
     const { className, exporting, numberOfItems, onExportCancel, selectActionHelper } = props;
-    const { basicData } = useDatagridRootScope();
+    const basicData = useBasicData();
 
     const selectionEnabled = selectActionHelper.selectionType !== "None";
 
@@ -135,7 +135,9 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         visibleColumns
     } = props;
 
-    const { basicData, selectionCountStore } = useDatagridRootScope();
+    // const { basicData, selectionCountStore } = useLegacyContext();
+    const basicData = useBasicData();
+    const selectionCountVm = useSelectionCounter();
 
     const showHeader = !!headerContent;
     const showTopBarPagination = paging && (pagingPosition === "top" || pagingPosition === "both");
@@ -157,7 +159,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
     ) : null;
 
     const selectionCount =
-        selectionCountStore.selectedCount > 0 &&
+        selectionCountVm.selectedCount > 0 &&
         selectActionHelper.selectionType === "Multi" &&
         selectionCountPosition !== "off" &&
         selectionCountPosition ? (
