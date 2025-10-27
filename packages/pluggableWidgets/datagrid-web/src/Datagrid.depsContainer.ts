@@ -76,8 +76,6 @@ class DatagridContainer extends Container {
     constructor() {
         super();
 
-        /** Bindings */
-
         // Column store
         this.bind(TOKENS.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
         injected(ColumnGroupStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.staticInfo, TOKENS.filterHost);
