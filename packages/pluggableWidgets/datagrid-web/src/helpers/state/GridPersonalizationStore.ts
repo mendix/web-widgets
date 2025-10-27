@@ -1,7 +1,10 @@
 import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
-import { action, comparer, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { action, autorun, comparer, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId } from "../../typings/GridColumn";
 import {
@@ -20,21 +23,21 @@ type RequiredProps = Pick<
     "name" | "configurationStorageType" | "storeFiltersInPersonalization" | "configurationAttribute"
 >;
 
-export class GridPersonalizationStore {
+export class GridPersonalizationStore implements ReactiveController {
     private readonly gridName: string;
     private readonly gridColumnsHash: string;
     private readonly schemaVersion: GridPersonalizationStorageSettings["schemaVersion"] = 3;
     private readonly storeFilters: boolean;
-
-    private storage: PersonalizationStorage;
-
-    private disposers: IReactionDisposer[] = [];
+    private readonly storage: PersonalizationStorage;
 
     constructor(
-        props: RequiredProps,
+        host: ReactiveControllerHost,
+        private gate: DerivedPropsGate<RequiredProps>,
         private columnsStore: ColumnGroupStore,
         private customFilters: ObservableFilterHost
     ) {
+        host.addController(this);
+        const { props } = this.gate;
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);
         this.storeFilters = props.storeFiltersInPersonalization;
@@ -49,17 +52,20 @@ export class GridPersonalizationStore {
         } else {
             this.storage = new AttributePersonalizationStorage(props);
         }
-
-        this.disposers.push(this.setupReadReaction());
-        this.disposers.push(this.setupWriteReaction());
     }
 
-    dispose(): void {
-        this.disposers.forEach(d => d());
-    }
+    setup(): () => void {
+        const [add, disposeAll] = disposeBatch();
 
-    updateProps(props: RequiredProps): void {
-        this.storage.updateProps?.(props);
+        add(this.setupReadReaction());
+        add(this.setupWriteReaction());
+        add(
+            autorun(() => {
+                this.storage.updateProps?.(this.gate.props);
+            })
+        );
+
+        return disposeAll;
     }
 
     private setupReadReaction(): IReactionDisposer {
