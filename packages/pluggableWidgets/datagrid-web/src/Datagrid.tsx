@@ -145,6 +145,8 @@ DatagridRoot.displayName = "DatagridComponent";
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
     const container = useDatagridDepsContainer(props);
 
+    // NOTE: As of version 5 of brandi-react, ContainerProvider clones the container implicitly.
+    // Isolated flag ensures that we don't inherit any bindings from parent containers. (Datagrid in Datagrid scenario)
     return (
         <ContainerProvider container={container} isolated>
             <DatagridRoot {...props} />
