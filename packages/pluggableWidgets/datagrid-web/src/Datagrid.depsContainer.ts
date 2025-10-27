@@ -25,7 +25,7 @@ import { GridPersonalizationStore } from "./helpers/state/GridPersonalizationSto
 import { DatagridSetupService } from "./services/DatagridSetupService";
 import { StaticInfo } from "./typings/static-info";
 
-/** Type to declare props available through main gait. */
+/** Type to declare props available through main gate. */
 type MainGateProps = Pick<
     DatagridContainerProps,
     | "name"
@@ -45,7 +45,7 @@ type MainGateProps = Pick<
 >;
 
 /** Tokens to resolve dependencies from the container. */
-const TOKENS = {
+export const TOKENS = {
     basicDate: token<GridBasicData>("GridBasicData"),
     columnsStore: token<ColumnGroupStore>("ColumnGroupStore"),
     combinedFilter: token<CombinedFilter>("CombinedFilter"),
@@ -53,17 +53,17 @@ const TOKENS = {
     exportProgressService: token<ProgressStore>("ExportProgressService"),
     filterAPI: token<FilterAPI>("FilterAPI"),
     filterHost: token<CustomFilterHost>("FilterHost"),
-    loaderViewModel: token<DerivedLoaderController>("DatagridLoaderViewModel"),
     loaderConfig: token<DerivedLoaderControllerConfig>("DatagridLoaderConfig"),
+    loaderViewModel: token<DerivedLoaderController>("DatagridLoaderViewModel"),
     mainGate: token<DerivedPropsGate<MainGateProps>>("MainGateForProps"),
-    paginationService: token<PaginationController>("PaginationService"),
     paginationConfig: token<PaginationConfig>("PaginationConfig"),
+    paginationService: token<PaginationController>("PaginationService"),
     paramsService: token<DatasourceParamsController>("DatagridParamsService"),
     parentChannelName: token<string>("parentChannelName"),
     personalizationService: token<GridPersonalizationStore>("GridPersonalizationStore"),
     query: token<QueryController>("QueryService"),
-    refreshService: token<RefreshController>("DatagridRefreshService"),
     refreshInterval: token<number>("refreshInterval"),
+    refreshService: token<RefreshController>("DatagridRefreshService"),
     selectionCounter: token<SelectionCountStore>("SelectionCountStore"),
     setupService: token<ReactiveControllerHost>("DatagridSetupHost"),
     staticInfo: token<StaticInfo>("StaticInfo")
@@ -78,23 +78,25 @@ rootContainer.bind(TOKENS.combinedFilter).toInstance(CombinedFilter).inContainer
 rootContainer.bind(TOKENS.exportProgressService).toInstance(ProgressStore).inContainerScope();
 rootContainer.bind(TOKENS.filterAPI).toInstance(WidgetFilterAPI).inContainerScope();
 rootContainer.bind(TOKENS.filterHost).toInstance(CustomFilterHost).inContainerScope();
+rootContainer.bind(TOKENS.paramsService).toInstance(DatasourceParamsController).inContainerScope();
+rootContainer.bind(TOKENS.personalizationService).toInstance(GridPersonalizationStore).inContainerScope();
 rootContainer.bind(TOKENS.query).toInstance(DatasourceController).inContainerScope();
 rootContainer.bind(TOKENS.refreshService).toInstance(RefreshController).inContainerScope();
 rootContainer.bind(TOKENS.setupService).toInstance(DatagridSetupService).inContainerScope();
-rootContainer.bind(TOKENS.paramsService).toInstance(DatasourceParamsController).inContainerScope();
 rootContainer
     .bind(TOKENS.parentChannelName)
     .toInstance(() => `datagrid/${generateUUID()}`)
     .inContainerScope();
 
 // Inject dependencies
-injected(SelectionCountStore, TOKENS.mainGate);
-injected(DatasourceController, TOKENS.setupService, TOKENS.mainGate);
-injected(WidgetFilterAPI, TOKENS.parentChannelName, TOKENS.filterHost);
 injected(ColumnGroupStore, TOKENS.mainGate, TOKENS.staticInfo, TOKENS.filterHost);
-injected(DerivedLoaderController, TOKENS.query, TOKENS.exportProgressService, TOKENS.columnsStore, TOKENS.loaderConfig);
-injected(RefreshController, TOKENS.setupService, TOKENS.query, TOKENS.refreshInterval.optional);
+injected(DatasourceController, TOKENS.setupService, TOKENS.mainGate);
 injected(DatasourceParamsController, TOKENS.setupService, TOKENS.query, TOKENS.combinedFilter, TOKENS.columnsStore);
+injected(DerivedLoaderController, TOKENS.query, TOKENS.exportProgressService, TOKENS.columnsStore, TOKENS.loaderConfig);
+injected(GridPersonalizationStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.columnsStore, TOKENS.filterHost);
+injected(RefreshController, TOKENS.setupService, TOKENS.query, TOKENS.refreshInterval.optional);
+injected(SelectionCountStore, TOKENS.mainGate);
+injected(WidgetFilterAPI, TOKENS.parentChannelName, TOKENS.filterHost);
 
 /** Create new container that inherit bindings from root container. */
 export function createContainer(): Container {
