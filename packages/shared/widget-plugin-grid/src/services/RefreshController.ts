@@ -1,17 +1,18 @@
 import { autoEffect } from "@mendix/widget-plugin-mobx-kit/autoEffect";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 
 interface QueryService {
     datasource: unknown;
     backgroundRefresh(): void;
 }
-export class RefreshController implements ReactiveController {
+
+export class RefreshController implements SetupComponent {
     constructor(
-        host: ReactiveControllerHost,
+        host: SetupComponentHost,
         private readonly query: QueryService,
         private readonly delay = 0
     ) {
-        host.addController(this);
+        host.add(this);
         this.delay = Math.max(delay, 0);
     }
 

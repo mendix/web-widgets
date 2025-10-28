@@ -1,6 +1,6 @@
 import { reduceArray, restoreArray } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { FilterCondition } from "mendix/filters";
 import { action, computed, makeObservable, reaction } from "mobx";
 import { ConditionWithMeta } from "../../typings/ConditionWithMeta";
@@ -18,13 +18,13 @@ export interface CombinedFilterConfig {
     stableKey: string;
     inputs: ObservableInput[];
 }
-export class CombinedFilter implements ReactiveController {
+export class CombinedFilter implements SetupComponent {
     private inputs: ObservableInput[];
     readonly stableKey: string;
     readonly ownMetaKey = "CombinedFilter";
 
-    constructor(host: ReactiveControllerHost, config: CombinedFilterConfig) {
-        host.addController(this);
+    constructor(host: SetupComponentHost, config: CombinedFilterConfig) {
+        host.add(this);
         this.inputs = config.inputs;
         this.stableKey = config.stableKey;
 

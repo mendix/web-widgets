@@ -1,12 +1,9 @@
 import { createContextWithStub, FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
-import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
-import { PaginationController } from "@mendix/widget-plugin-grid/query/PaginationController";
-import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
+import { DatasourceService, RefreshController } from "@mendix/widget-plugin-grid/main";
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
-import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate, SetupHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
@@ -14,6 +11,7 @@ import { DynamicValue, EditableValue, ListValue, SelectionMultiValue, SelectionS
 import { PaginationEnum, StateStorageTypeEnum } from "../../typings/GalleryProps";
 import { DerivedLoaderController } from "../controllers/DerivedLoaderController";
 import { QueryParamsController } from "../controllers/QueryParamsController";
+import { PaginationController } from "../services/PaginationController";
 import { ObservableStorage } from "../typings/storage";
 import { AttributeStorage } from "./AttributeStorage";
 import { BrowserStorage } from "./BrowserStorage";
@@ -45,8 +43,8 @@ type GalleryStoreSpec = StaticProps & {
     gate: GalleryPropsGate;
 };
 
-export class GalleryStore extends BaseControllerHost {
-    private readonly _query: DatasourceController;
+export class GalleryStore extends SetupHost {
+    private readonly _query: DatasourceService;
     private readonly _filtersHost: CustomFilterHost;
     private readonly _sortHost: SortStoreHost;
     private _storage: ObservableStorage | null = null;
@@ -64,9 +62,9 @@ export class GalleryStore extends BaseControllerHost {
 
         this.name = spec.name;
 
-        this._query = new DatasourceController(this, spec.gate);
+        this._query = new DatasourceService(this, spec.gate);
 
-        this.paging = new PaginationController(this, {
+        this.paging = new PaginationController({
             query: this._query,
             pageSize: spec.pageSize,
             pagination: spec.pagination,

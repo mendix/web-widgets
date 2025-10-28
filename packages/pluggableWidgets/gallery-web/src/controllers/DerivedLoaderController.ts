@@ -1,9 +1,9 @@
-import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
+import { DatasourceService } from "@mendix/widget-plugin-grid/main";
 import { computed, makeObservable } from "mobx";
 
 export class DerivedLoaderController {
     constructor(
-        private datasourceController: DatasourceController,
+        private datasourceService: DatasourceService,
         private refreshIndicator: boolean
     ) {
         makeObservable(this, {
@@ -13,7 +13,7 @@ export class DerivedLoaderController {
     }
 
     get isRefreshing(): boolean {
-        const { isSilentRefresh, isRefreshing } = this.datasourceController;
+        const { isSilentRefresh, isRefreshing } = this.datasourceService;
         return !isSilentRefresh && isRefreshing;
     }
 

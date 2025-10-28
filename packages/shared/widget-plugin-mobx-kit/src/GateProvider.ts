@@ -1,15 +1,7 @@
-import { action, computed, makeObservable, observable } from "mobx";
-import { DerivedPropsGate, DerivedPropsGateProvider } from "./props-gate";
-
-class DerivedGate<T> implements DerivedPropsGate<T> {
-    constructor(protected atom: { props: T }) {
-        makeObservable(this, { props: computed });
-    }
-
-    get props(): T {
-        return this.atom.props;
-    }
-}
+import { action, makeObservable, observable } from "mobx";
+import { DerivedGate } from "./DerivedGate";
+import { DerivedPropsGate } from "./interfaces/DerivedPropsGate";
+import { DerivedPropsGateProvider } from "./interfaces/DerivedPropsGateProvider";
 
 class PropsAtom<T> {
     /**

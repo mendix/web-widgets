@@ -1,14 +1,14 @@
-import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { SetupHost } from "@mendix/widget-plugin-mobx-kit/SetupHost";
 // import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { list, obj } from "@mendix/widget-plugin-test-utils";
 import { ListValue } from "mendix";
-import { DatasourceController } from "../query/DatasourceController";
+import { DatasourceService } from "../services/DatasourceService";
 
-class TestControllerHost extends BaseControllerHost {}
+class TestControllerHost extends SetupHost {}
 
-describe("DatasourceController loading states", () => {
-    let controller: DatasourceController;
+describe("DatasourceService loading states", () => {
+    let controller: DatasourceService;
     let datasource: ListValue;
     let provider: GateProvider<{ datasource: ListValue; refreshIndicator: boolean; refreshInterval: number }>;
 
@@ -16,7 +16,7 @@ describe("DatasourceController loading states", () => {
         const host = new TestControllerHost();
         provider = new GateProvider({ datasource: list.loading(), refreshIndicator: false, refreshInterval: 0 });
         host.setup();
-        controller = new DatasourceController(host, provider.gate);
+        controller = new DatasourceService(host, provider.gate);
         controller.setup();
     });
 
@@ -112,23 +112,16 @@ describe("DatasourceController loading states", () => {
             expect(setFilterSpy).toHaveBeenCalledWith(filterOption);
         });
 
-        it("setPageSize updates pageSize property", () => {
-            controller.setPageSize(50);
+        it("setBaseLimit updates baseLimit property", () => {
+            controller.setBaseLimit(50);
             // @ts-expect-error: private property
-            expect(controller.pageSize).toBe(50);
+            expect(controller.baseLimit).toBe(50);
         });
 
         it("requestTotalCount triggers datasource.requestTotalCount", () => {
             const spy = jest.spyOn(datasource, "requestTotalCount");
             controller.requestTotalCount(true);
             expect(spy).toHaveBeenCalledWith(true);
-        });
-
-        it("derivedQuery returns a computed value and updates on datasource change", () => {
-            const derived = controller.derivedQuery;
-            expect(typeof derived.get).toBe("function");
-            provider.setProps({ datasource: list(2), refreshIndicator: false, refreshInterval: 0 });
-            expect(derived.get()).toBeInstanceOf(DatasourceController);
         });
     });
 });

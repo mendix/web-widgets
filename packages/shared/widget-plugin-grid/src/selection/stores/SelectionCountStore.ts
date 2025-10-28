@@ -1,4 +1,4 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { DynamicValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { computed, makeObservable } from "mobx";
 

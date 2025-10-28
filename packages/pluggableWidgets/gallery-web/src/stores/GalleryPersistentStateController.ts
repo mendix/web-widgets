@@ -1,6 +1,6 @@
 import { PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { action, comparer, computed, makeObservable, reaction } from "mobx";
 import { ObservableStorage } from "src/typings/storage";
 
@@ -12,7 +12,7 @@ interface GalleryPersistentStateControllerSpec {
     storeSort: boolean;
 }
 
-export class GalleryPersistentStateController {
+export class GalleryPersistentStateController implements SetupComponent {
     private readonly _storage: ObservableStorage;
     private readonly _filtersHost: Serializable;
     private readonly _sortHost: Serializable;
@@ -21,8 +21,8 @@ export class GalleryPersistentStateController {
 
     readonly schemaVersion: number = 1;
 
-    constructor(host: ReactiveControllerHost, spec: GalleryPersistentStateControllerSpec) {
-        host.addController(this);
+    constructor(host: SetupComponentHost, spec: GalleryPersistentStateControllerSpec) {
+        host.add(this);
         this._storage = spec.storage;
         this._filtersHost = spec.filtersHost;
         this._sortHost = spec.sortHost;

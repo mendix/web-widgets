@@ -11,13 +11,13 @@ type Members =
     | "offset"
     | "hasMoreItems";
 
-export interface QueryController extends Pick<ListValue, Members> {
+export interface QueryService extends Pick<ListValue, Members> {
     backgroundRefresh(): void;
-    setPageSize(size: number): void;
+    datasource: ListValue;
     hasMoreItems: boolean;
+    isFetchingNextBatch: boolean;
     isFirstLoad: boolean;
     isRefreshing: boolean;
-    isFetchingNextBatch: boolean;
     isSilentRefresh: boolean;
-    datasource: ListValue;
+    setBaseLimit(value: number): void;
 }

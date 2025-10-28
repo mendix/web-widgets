@@ -1,35 +1,34 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { ListValue, ValueStatus } from "mendix";
-import { action, autorun, computed, IComputedValue, makeAutoObservable } from "mobx";
-import { QueryController } from "./query-controller";
+import { action, autorun, makeAutoObservable } from "mobx";
+import { QueryService } from "../interfaces/QueryService";
 
 interface DynamicProps {
     datasource: ListValue;
 }
 
-export class DatasourceController implements ReactiveController, QueryController {
+export class DatasourceService implements SetupComponent, QueryService {
     private backgroundCheck = false;
     private fetching = false;
-    private pageSize = Infinity;
+    private baseLimit = Infinity;
 
     constructor(
-        host: ReactiveControllerHost,
+        host: SetupComponentHost,
         private gate: DerivedPropsGate<DynamicProps>
     ) {
-        host.addController(this);
+        host.add(this);
 
         type PrivateMembers =
             | "resetFlags"
             | "updateFlags"
             | "setRefreshing"
             | "setFetching"
-            | "pageSize"
+            | "baseLimit"
             | "setIsLoaded";
         makeAutoObservable<this, PrivateMembers>(this, {
             setup: false,
-            pageSize: false,
+            baseLimit: false,
             updateFlags: action,
             resetFlags: action,
             setRefreshing: action,
@@ -61,7 +60,7 @@ export class DatasourceController implements ReactiveController, QueryController
     }
 
     private resetLimit(): void {
-        this.datasource.setLimit(this.pageSize);
+        this.datasource.setLimit(this.baseLimit);
     }
 
     private get isDSLoading(): boolean {
@@ -102,16 +101,6 @@ export class DatasourceController implements ReactiveController, QueryController
 
     get hasMoreItems(): boolean {
         return this.datasource.hasMoreItems ?? false;
-    }
-
-    /**
-     * Returns computed value that holds controller copy.
-     * Recomputes the copy every time the datasource changes.
-     */
-    get derivedQuery(): IComputedValue<DatasourceController> {
-        const data = (): DatasourceController => [this.datasource].map(() => Object.create(this))[0];
-
-        return computed(data);
     }
 
     setup(): () => void {
@@ -162,8 +151,8 @@ export class DatasourceController implements ReactiveController, QueryController
         this.datasource.setFilter(...params);
     }
 
-    setPageSize(size: number): void {
-        this.pageSize = size;
+    setBaseLimit(size: number): void {
+        this.baseLimit = size;
         this.resetLimit();
     }
 }
