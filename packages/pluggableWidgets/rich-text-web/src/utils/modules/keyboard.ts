@@ -4,6 +4,8 @@ import {
     exitFullscreenKeyboardHandler,
     gotoStatusBarKeyboardHandler,
     gotoToolbarKeyboardHandler,
+    moveIndent,
+    moveOutdent,
     movePrevFocus,
     shiftEnterKeyKeyboardHandler
 } from "./toolbarHandlers";
@@ -30,8 +32,20 @@ export function getKeyboardBindings(): Record<string, unknown> {
         shiftTab: {
             key: "Tab",
             shiftKey: true,
-            collapsed: true,
             handler: movePrevFocus
+        },
+        outdent: {
+            key: "Tab",
+            shiftKey: true,
+            format: ["blockquote", "indent", "list"],
+            // highlight tab or tab at beginning of list, indent or blockquote
+            handler: moveOutdent
+        },
+        indent: {
+            // highlight tab or tab at beginning of list, indent or blockquote
+            key: "Tab",
+            format: ["blockquote", "indent", "list"],
+            handler: moveIndent
         },
         nextFocusTab: {
             key: "F11",
