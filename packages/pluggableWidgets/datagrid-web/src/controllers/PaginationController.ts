@@ -1,5 +1,5 @@
-import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { QueryService } from "@mendix/widget-plugin-grid/main";
+import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { PaginationEnum, ShowPagingButtonsEnum } from "../../typings/DatagridProps";
 
 export interface PaginationConfig {
@@ -11,16 +11,16 @@ export interface PaginationConfig {
 
 type PaginationKind = `${PaginationEnum}.${ShowPagingButtonsEnum}`;
 
-export class PaginationController implements ReactiveController {
+export class PaginationController implements SetupComponent {
     readonly pagination: PaginationEnum;
     readonly paginationKind: PaginationKind;
 
     constructor(
-        host: ReactiveControllerHost,
+        host: SetupComponentHost,
         private config: PaginationConfig,
-        private query: QueryController
+        private query: QueryService
     ) {
-        host.addController(this);
+        host.add(this);
         this.pagination = config.pagination;
         this.paginationKind = `${this.pagination}.${config.showPagingButtons}`;
         this.setInitParams();
@@ -60,7 +60,7 @@ export class PaginationController implements ReactiveController {
             this.query.requestTotalCount(true);
         }
 
-        this.query.setPageSize(this.pageSize);
+        this.query.setBaseLimit(this.pageSize);
     }
 
     setup(): void {}

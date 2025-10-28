@@ -1,4 +1,4 @@
-import { BaseControllerHost } from "@mendix/widget-plugin-mobx-kit/BaseControllerHost";
+import { SetupHost } from "@mendix/widget-plugin-mobx-kit/SetupHost";
 
 /** Host for components implemented setup hook */
-export class DatagridSetupService extends BaseControllerHost {}
+export class DatagridSetupService extends SetupHost {}

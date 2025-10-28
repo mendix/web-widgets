@@ -4,8 +4,8 @@ import { ConditionWithMeta } from "@mendix/widget-plugin-filtering/typings/Condi
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+
 import { action, autorun, computed, makeObservable, observable, trace } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
@@ -44,7 +44,7 @@ interface DynamicProps {
     datasource: DatagridContainerProps["datasource"];
 }
 
-export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, ReactiveController {
+export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, SetupComponent {
     readonly _allColumns: ColumnStore[];
     readonly _allColumnsById: Map<ColumnId, ColumnStore> = new Map();
 
@@ -56,12 +56,12 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, 
     isResizing = false;
 
     constructor(
-        host: ReactiveControllerHost,
+        host: SetupComponentHost,
         private gate: DerivedPropsGate<DynamicProps>,
         info: StaticInfo,
         filterHost: ObservableFilterHost
     ) {
-        host.addController(this);
+        host.add(this);
         const { props } = gate;
         this._allColumns = [];
         this.columnFilters = [];

@@ -2,8 +2,7 @@ import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { action, autorun, comparer, computed, IReactionDisposer, makeObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId } from "../../typings/GridColumn";
@@ -23,7 +22,7 @@ type RequiredProps = Pick<
     "name" | "configurationStorageType" | "storeFiltersInPersonalization" | "configurationAttribute"
 >;
 
-export class GridPersonalizationStore implements ReactiveController {
+export class GridPersonalizationStore implements SetupComponent {
     private readonly gridName: string;
     private readonly gridColumnsHash: string;
     private readonly schemaVersion: GridPersonalizationStorageSettings["schemaVersion"] = 3;
@@ -31,12 +30,12 @@ export class GridPersonalizationStore implements ReactiveController {
     private readonly storage: PersonalizationStorage;
 
     constructor(
-        host: ReactiveControllerHost,
+        host: SetupComponentHost,
         private gate: DerivedPropsGate<RequiredProps>,
         private columnsStore: ColumnGroupStore,
         private customFilters: ObservableFilterHost
     ) {
-        host.addController(this);
+        host.add(this);
         const { props } = this.gate;
         this.gridName = props.name;
         this.gridColumnsHash = getHash(this.columnsStore._allColumns, this.gridName);

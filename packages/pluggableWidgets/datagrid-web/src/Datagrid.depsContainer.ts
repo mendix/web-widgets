@@ -1,16 +1,15 @@
 import { FilterAPI, WidgetFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
-import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
-import { QueryController } from "@mendix/widget-plugin-grid/query/query-controller";
-import { RefreshController } from "@mendix/widget-plugin-grid/query/RefreshController";
+import { DatasourceService, QueryService, RefreshController } from "@mendix/widget-plugin-grid/main";
+
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { ClosableGateProvider } from "@mendix/widget-plugin-mobx-kit/ClosableGateProvider";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-import { ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected, token } from "brandi";
 import { useEffect } from "react";
@@ -64,11 +63,11 @@ export const TOKENS = {
     paramsService: token<DatasourceParamsController>("DatagridParamsService"),
     parentChannelName: token<string>("parentChannelName"),
     personalizationService: token<GridPersonalizationStore>("GridPersonalizationStore"),
-    query: token<QueryController>("QueryService"),
+    query: token<QueryService>("QueryService"),
     refreshInterval: token<number>("refreshInterval"),
     refreshService: token<RefreshController>("DatagridRefreshService"),
     selectionCounter: token<SelectionCountStore>("SelectionCountStore"),
-    setupService: token<ReactiveControllerHost>("DatagridSetupHost"),
+    setupService: token<SetupComponentHost>("DatagridSetupHost"),
     staticInfo: token<StaticInfo>("StaticInfo")
 };
 
@@ -119,8 +118,8 @@ class DatagridContainer extends Container {
         );
 
         // Query service
-        this.bind(TOKENS.query).toInstance(DatasourceController).inSingletonScope();
-        injected(DatasourceController, TOKENS.setupService, TOKENS.mainGate);
+        this.bind(TOKENS.query).toInstance(DatasourceService).inSingletonScope();
+        injected(DatasourceService, TOKENS.setupService, TOKENS.mainGate);
 
         // Pagination service
         this.bind(TOKENS.paginationService).toInstance(PaginationController).inSingletonScope();

@@ -1,5 +1,5 @@
 import { SelectionHelper, SelectionStatus } from "@mendix/widget-plugin-grid/selection";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { makeAutoObservable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
