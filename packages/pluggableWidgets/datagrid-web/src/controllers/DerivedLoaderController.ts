@@ -1,6 +1,5 @@
-import { QueryService } from "@mendix/widget-plugin-grid/main";
+import { QueryService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { computed, makeObservable } from "mobx";
-import { ProgressStore } from "../features/data-export/ProgressStore";
 import { IColumnGroupStore } from "../helpers/state/ColumnGroupStore";
 
 export interface DerivedLoaderControllerConfig {
@@ -11,7 +10,7 @@ export interface DerivedLoaderControllerConfig {
 export class DerivedLoaderController {
     constructor(
         private query: QueryService,
-        private exp: ProgressStore,
+        private exp: TaskProgressService,
         private cols: IColumnGroupStore,
         private config: DerivedLoaderControllerConfig
     ) {
@@ -28,7 +27,7 @@ export class DerivedLoaderController {
             return true;
         }
 
-        if (exp.exporting) {
+        if (exp.inProgress) {
             return false;
         }
 

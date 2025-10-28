@@ -1,8 +1,8 @@
+import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { useCallback, useEffect, useState } from "react";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { IColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { ExportController } from "./ExportController";
-import { ProgressStore } from "./ProgressStore";
 import { getExportRegistry } from "./registry";
 
 type ResourceEntry = {
@@ -15,8 +15,8 @@ type Props = Pick<DatagridContainerProps, "name" | "datasource" | "columns">;
 export function useDataExport(
     props: Props,
     columnsStore: IColumnGroupStore,
-    progress: ProgressStore
-): [store: ProgressStore, abort: () => void] {
+    progress: TaskProgressService
+): [abort: () => void] {
     const [entry] = useState(() => createEntry(props.name, progress));
     const abort = useCallback(() => entry?.controller.abort(), [entry]);
 
@@ -44,10 +44,10 @@ export function useDataExport(
         );
     }, [columnsStore.visibleColumns, entry]);
 
-    return [progress, abort];
+    return [abort];
 }
 
-function createEntry(name: string, progress: ProgressStore): ResourceEntry {
+function createEntry(name: string, progress: TaskProgressService): ResourceEntry {
     return {
         key: name,
         controller: new ExportController(progress)

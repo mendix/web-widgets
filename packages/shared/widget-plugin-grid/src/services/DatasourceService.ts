@@ -1,7 +1,7 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { ListValue, ValueStatus } from "mendix";
-import { action, autorun, makeAutoObservable } from "mobx";
+import { ListValue, ObjectItem, ValueStatus } from "mendix";
+import { action, autorun, makeAutoObservable, when } from "mobx";
 import { QueryService } from "../interfaces/QueryService";
 
 interface DynamicProps {
@@ -15,7 +15,8 @@ export class DatasourceService implements SetupComponent, QueryService {
 
     constructor(
         host: SetupComponentHost,
-        private gate: DerivedPropsGate<DynamicProps>
+        private gate: DerivedPropsGate<DynamicProps>,
+        private refreshIntervalMs = 0
     ) {
         host.add(this);
 
@@ -67,8 +68,12 @@ export class DatasourceService implements SetupComponent, QueryService {
         return this.datasource.status === "loading";
     }
 
-    get datasource(): ListValue {
+    private get datasource(): ListValue {
         return this.gate.props.datasource;
+    }
+
+    get items(): ObjectItem[] | undefined {
+        return this.datasource.items;
     }
 
     get isFirstLoad(): boolean {
@@ -113,6 +118,21 @@ export class DatasourceService implements SetupComponent, QueryService {
             })
         );
 
+        if (this.refreshIntervalMs > 0) {
+            let timerId: number | undefined;
+            const clearAutorun = autorun(() => {
+                // Subscribe to items to reschedule timer on items change
+                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                this.items;
+                clearInterval(timerId);
+                timerId = window.setTimeout(() => this.backgroundRefresh(), this.refreshIntervalMs);
+            });
+            add(() => {
+                clearAutorun();
+                clearInterval(timerId);
+            });
+        }
+
         return disposeAll;
     }
 
@@ -154,5 +174,40 @@ export class DatasourceService implements SetupComponent, QueryService {
     setBaseLimit(size: number): void {
         this.baseLimit = size;
         this.resetLimit();
+    }
+
+    reload(): Promise<void> {
+        const ds = this.datasource;
+        this.datasource.reload();
+        return when(() => this.datasource !== ds);
+    }
+
+    fetchPage({
+        limit,
+        offset,
+        signal
+    }: {
+        limit: number;
+        offset: number;
+        signal?: AbortSignal;
+    }): Promise<ObjectItem[]> {
+        return new Promise((resolve, reject) => {
+            if (signal && signal.aborted) {
+                return reject(signal.reason);
+            }
+
+            const pageIsLoaded = when(
+                () =>
+                    this.datasource.offset === offset &&
+                    this.datasource.limit === limit &&
+                    this.datasource.status === "available",
+                { signal }
+            );
+
+            pageIsLoaded.then(() => resolve(this.datasource.items ?? []), reject);
+
+            this.datasource.setOffset(offset);
+            this.datasource.setLimit(limit);
+        });
     }
 }

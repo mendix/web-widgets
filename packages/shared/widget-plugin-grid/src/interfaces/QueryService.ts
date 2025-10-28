@@ -1,4 +1,4 @@
-import { ListValue } from "mendix";
+import { ListValue, ObjectItem } from "mendix";
 
 type Members =
     | "setOffset"
@@ -9,15 +9,17 @@ type Members =
     | "totalCount"
     | "limit"
     | "offset"
-    | "hasMoreItems";
+    | "hasMoreItems"
+    | "items";
 
 export interface QueryService extends Pick<ListValue, Members> {
     backgroundRefresh(): void;
-    datasource: ListValue;
     hasMoreItems: boolean;
     isFetchingNextBatch: boolean;
     isFirstLoad: boolean;
     isRefreshing: boolean;
     isSilentRefresh: boolean;
     setBaseLimit(value: number): void;
+    reload(): Promise<void>;
+    fetchPage(params: { limit: number; offset: number; signal?: AbortSignal }): Promise<ObjectItem[]>;
 }

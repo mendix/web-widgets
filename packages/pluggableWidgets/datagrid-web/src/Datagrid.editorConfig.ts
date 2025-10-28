@@ -3,8 +3,7 @@ import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
-    Properties,
-    transformGroupsIntoTabs
+    Properties
 } from "@mendix/pluggable-widgets-tools";
 import {
     container,
@@ -19,11 +18,7 @@ import {
 
 import { ColumnsPreviewType, DatagridPreviewProps } from "../typings/DatagridProps";
 
-export function getProperties(
-    values: DatagridPreviewProps,
-    defaultProperties: Properties,
-    platform: "web" | "desktop"
-): Properties {
+export function getProperties(values: DatagridPreviewProps, defaultProperties: Properties): Properties {
     values.columns.forEach((column, index) => {
         if (column.showContentAs !== "attribute" && !column.sortable && !values.columnsFilterable) {
             hidePropertyIn(defaultProperties, values, "columns", index, "attribute");
@@ -64,15 +59,6 @@ export function getProperties(
         }
         if (column.minWidth !== "manual") {
             hidePropertyIn(defaultProperties, values, "columns", index, "minWidthLimit");
-        }
-        if (!values.advanced && platform === "web") {
-            hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
-                "columnClass",
-                "sortable",
-                "resizable",
-                "draggable",
-                "hidable"
-            ]);
         }
     });
 
@@ -125,28 +111,6 @@ export function getProperties(
         "columns"
     );
 
-    if (platform === "web") {
-        if (!values.advanced) {
-            hidePropertiesIn(defaultProperties, values, [
-                "pagination",
-                "pagingPosition",
-                "showEmptyPlaceholder",
-                "rowClass",
-                "columnsSortable",
-                "columnsDraggable",
-                "columnsResizable",
-                "columnsHidable",
-                "configurationAttribute",
-                "onConfigurationChange",
-                "filterSectionTitle"
-            ]);
-        }
-
-        transformGroupsIntoTabs(defaultProperties);
-    } else {
-        hidePropertyIn(defaultProperties, values, "advanced");
-    }
-
     if (values.configurationStorageType === "localStorage") {
         hidePropertiesIn(defaultProperties, values, ["configurationAttribute", "onConfigurationChange"]);
     }
@@ -172,7 +136,7 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
     if (itemSelection !== "Multi") {
         hidePropertiesIn(defaultProperties, values, [
             "keepSelection",
-            "selectionCountPosition",
+            "selectionCounterPosition",
             "clearSelectionButtonLabel"
         ]);
     }

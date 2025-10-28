@@ -3,9 +3,11 @@ import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filt
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import {
     DatasourceService,
+    ProgressService,
     QueryService,
-    RefreshController,
-    SelectionCounterViewModel
+    SelectAllService,
+    SelectionCounterViewModel,
+    TaskProgressService
 } from "@mendix/widget-plugin-grid/main";
 import { ClosableGateProvider } from "@mendix/widget-plugin-mobx-kit/ClosableGateProvider";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
@@ -14,13 +16,12 @@ import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { Container, injected, token } from "brandi";
+import { Container, DependencyModule, injected, token } from "brandi";
 import { useEffect } from "react";
 import { DatagridContainerProps, SelectionCounterPositionEnum } from "../typings/DatagridProps";
 import { DatasourceParamsController } from "./controllers/DatasourceParamsController";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./controllers/DerivedLoaderController";
 import { PaginationConfig, PaginationController } from "./controllers/PaginationController";
-import { ProgressStore } from "./features/data-export/ProgressStore";
 import { ColumnGroupStore } from "./helpers/state/ColumnGroupStore";
 import { GridBasicData } from "./helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "./helpers/state/GridPersonalizationStore";
@@ -46,16 +47,13 @@ type MainGateProps = Pick<
     | "clearSelectionButtonLabel"
 >;
 
-/** Root Datagrid container that resolve and inject dependencies. */
-export const rootContainer = new Container();
-
 /** Tokens to resolve dependencies from the container. */
 export const TOKENS = {
     basicDate: token<GridBasicData>("GridBasicData"),
     columnsStore: token<ColumnGroupStore>("ColumnGroupStore"),
     combinedFilter: token<CombinedFilter>("CombinedFilter"),
     combinedFilterConfig: token<CombinedFilterConfig>("CombinedFilterKey"),
-    exportProgressService: token<ProgressStore>("ExportProgressService"),
+    exportProgressService: token<TaskProgressService>("ExportProgressService"),
     filterAPI: token<FilterAPI>("FilterAPI"),
     filterHost: token<CustomFilterHost>("FilterHost"),
     loaderConfig: token<DerivedLoaderControllerConfig>("DatagridLoaderConfig"),
@@ -68,12 +66,34 @@ export const TOKENS = {
     personalizationService: token<GridPersonalizationStore>("GridPersonalizationStore"),
     query: token<QueryService>("QueryService"),
     refreshInterval: token<number>("refreshInterval"),
-    refreshService: token<RefreshController>("DatagridRefreshService"),
     selectionCounter: token<SelectionCounterViewModel>("SelectionCounterViewModel"),
     selectionCounterPosition: token<SelectionCounterPositionEnum>("SelectionCounterPositionEnum"),
     setupService: token<SetupComponentHost>("DatagridSetupHost"),
-    staticInfo: token<StaticInfo>("StaticInfo")
+    staticInfo: token<StaticInfo>("StaticInfo"),
+    selectAllProgressService: token<TaskProgressService>("SelectAllProgressService"),
+    selectAllGate: token<DerivedPropsGate<SelectAllGateProps>>("SelectAllGateForProps"),
+    selectAllQuery: token<QueryService>("SelectAllQueryService"),
+    SelectAllService: token<SelectAllService>("SelectAllService")
 };
+
+/** Deps injections */
+injected(ColumnGroupStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.staticInfo, TOKENS.filterHost);
+injected(GridBasicData, TOKENS.mainGate);
+injected(CombinedFilter, TOKENS.setupService, TOKENS.combinedFilterConfig);
+injected(WidgetFilterAPI, TOKENS.parentChannelName, TOKENS.filterHost);
+injected(DatasourceParamsController, TOKENS.setupService, TOKENS.query, TOKENS.combinedFilter, TOKENS.columnsStore);
+injected(GridPersonalizationStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.columnsStore, TOKENS.filterHost);
+injected(PaginationController, TOKENS.setupService, TOKENS.paginationConfig, TOKENS.query);
+injected(DatasourceService, TOKENS.setupService, TOKENS.mainGate, TOKENS.refreshInterval.optional);
+injected(DerivedLoaderController, TOKENS.query, TOKENS.exportProgressService, TOKENS.columnsStore, TOKENS.loaderConfig);
+injected(SelectionCounterViewModel, TOKENS.mainGate, TOKENS.selectionCounterPosition);
+injected(
+    SelectAllService,
+    TOKENS.setupService,
+    TOKENS.selectAllGate,
+    TOKENS.selectAllQuery,
+    TOKENS.selectAllProgressService
+);
 
 class DatagridContainer extends Container {
     constructor() {
@@ -81,89 +101,85 @@ class DatagridContainer extends Container {
 
         // Column store
         this.bind(TOKENS.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
-        injected(ColumnGroupStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.staticInfo, TOKENS.filterHost);
 
         // Basic data store
         this.bind(TOKENS.basicDate).toInstance(GridBasicData).inSingletonScope();
-        injected(GridBasicData, TOKENS.mainGate);
 
         // Combined filter
         this.bind(TOKENS.combinedFilter).toInstance(CombinedFilter).inSingletonScope();
-        injected(CombinedFilter, TOKENS.setupService, TOKENS.combinedFilterConfig);
 
-        // Export progress store
-        this.bind(TOKENS.exportProgressService).toInstance(ProgressStore).inSingletonScope();
+        // Export progress
+        this.bind(TOKENS.exportProgressService).toInstance(ProgressService).inSingletonScope();
+
+        // Select all progress
+        this.bind(TOKENS.selectAllProgressService).toInstance(ProgressService).inSingletonScope();
 
         // FilterAPI
         this.bind(TOKENS.filterAPI).toInstance(WidgetFilterAPI).inSingletonScope();
-        injected(WidgetFilterAPI, TOKENS.parentChannelName, TOKENS.filterHost);
 
         // Filter host
         this.bind(TOKENS.filterHost).toInstance(CustomFilterHost).inSingletonScope();
 
         // Datasource params service
         this.bind(TOKENS.paramsService).toInstance(DatasourceParamsController).inSingletonScope();
-        injected(
-            DatasourceParamsController,
-            TOKENS.setupService,
-            TOKENS.query,
-            TOKENS.combinedFilter,
-            TOKENS.columnsStore
-        );
 
         // Personalization service
         this.bind(TOKENS.personalizationService).toInstance(GridPersonalizationStore).inSingletonScope();
-        injected(
-            GridPersonalizationStore,
-            TOKENS.setupService,
-            TOKENS.mainGate,
-            TOKENS.columnsStore,
-            TOKENS.filterHost
-        );
 
         // Query service
         this.bind(TOKENS.query).toInstance(DatasourceService).inSingletonScope();
-        injected(DatasourceService, TOKENS.setupService, TOKENS.mainGate);
 
         // Pagination service
         this.bind(TOKENS.paginationService).toInstance(PaginationController).inSingletonScope();
-        injected(PaginationController, TOKENS.setupService, TOKENS.paginationConfig, TOKENS.query);
-
-        // Refresh service
-        this.bind(TOKENS.refreshService).toInstance(RefreshController).inSingletonScope();
-        injected(RefreshController, TOKENS.setupService, TOKENS.query, TOKENS.refreshInterval.optional);
 
         // Setup service
         this.bind(TOKENS.setupService).toInstance(DatagridSetupService).inSingletonScope();
 
         // Events channel for child widgets
         this.bind(TOKENS.parentChannelName)
-            .toInstance(() => `datagrid/${generateUUID()}`)
+            .toInstance(() => `Datagrid@${generateUUID()}`)
             .inSingletonScope();
 
         // Loader view model
         this.bind(TOKENS.loaderViewModel).toInstance(DerivedLoaderController).inSingletonScope();
-        injected(
-            DerivedLoaderController,
-            TOKENS.query,
-            TOKENS.exportProgressService,
-            TOKENS.columnsStore,
-            TOKENS.loaderConfig
-        );
 
         // Selection counter view model
         this.bind(TOKENS.selectionCounter).toInstance(SelectionCounterViewModel).inSingletonScope();
-        injected(SelectionCounterViewModel, TOKENS.mainGate, TOKENS.selectionCounterPosition);
+    }
+}
+
+type SelectAllGateProps = Pick<DatagridContainerProps, "itemSelection" | "datasource">;
+class SelectAllModule extends DependencyModule {
+    selectAllGateProvider: GateProvider<SelectAllGateProps>;
+    constructor(props: SelectAllGateProps) {
+        super();
+        this.selectAllGateProvider = new GateProvider<SelectAllGateProps>(props);
+        // Bind gate
+        this.bind(TOKENS.selectAllGate).toConstant(this.selectAllGateProvider.gate);
+        // Bind query
+        this.bind(TOKENS.selectAllQuery).toInstance(DatasourceService).inSingletonScope();
+        // Bind progress
+        this.bind(TOKENS.selectAllProgressService).toInstance(ProgressService).inSingletonScope();
+        // Bind service
+        this.bind(TOKENS.SelectAllService).toInstance(SelectAllService).inSingletonScope();
     }
 }
 
 export function useDatagridDepsContainer(props: DatagridContainerProps): Container {
-    const [container, mainGateProvider] = useConst(
+    const [container, mainGateHost, selectAllGateHost] = useConst(
         /** Function to clone container and setup prop dependant bindings. */
-        function init(): [Container, GateProvider<MainGateProps>] {
+        function init(): [Container, GateProvider<MainGateProps>, GateProvider<SelectAllGateProps>] {
             const container = new DatagridContainer();
+            const selectAllModule = new SelectAllModule(props);
+
+            container.use(TOKENS.selectAllProgressService).from(selectAllModule);
+            container.use(TOKENS.SelectAllService).from(selectAllModule);
+
             const exportProgress = container.get(TOKENS.exportProgressService);
-            const gateProvider = new ClosableGateProvider<MainGateProps>(props, () => exportProgress.exporting);
+            const selectAllProgress = container.get(TOKENS.selectAllProgressService);
+            const gateProvider = new ClosableGateProvider<MainGateProps>(props, function isLocked() {
+                return exportProgress.inProgress || selectAllProgress.inProgress;
+            });
 
             // Bind main gate
             container.bind(TOKENS.mainGate).toConstant(gateProvider.gate);
@@ -200,22 +216,24 @@ export function useDatagridDepsContainer(props: DatagridContainerProps): Contain
             container.bind(TOKENS.selectionCounterPosition).toConstant(props.selectionCounterPosition);
 
             // Make sure essential services are created upfront
-            container.get(TOKENS.refreshService);
             container.get(TOKENS.paramsService);
             container.get(TOKENS.paginationService);
 
             // Hydrate filters from props
             container.get(TOKENS.combinedFilter).hydrate(props.datasource.filter);
 
-            return [container, gateProvider];
+            return [container, gateProvider, selectAllModule.selectAllGateProvider];
         }
     );
 
     // Run setup hooks on mount
     useSetup(() => container.get(TOKENS.setupService));
 
-    // Push props through the main gate
-    useEffect(() => mainGateProvider.setProps(props));
+    // Push props through the gates
+    useEffect(() => {
+        mainGateHost.setProps(props);
+        selectAllGateHost.setProps(props);
+    });
 
     return container;
 }

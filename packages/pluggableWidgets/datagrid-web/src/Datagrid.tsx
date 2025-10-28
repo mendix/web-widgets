@@ -33,7 +33,7 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
     const loaderVM = useLoaderViewModel();
     const items = gate.props.datasource.items ?? [];
 
-    const [, abortExport] = useDataExport(props, columnsStore, exportProgress);
+    const [abortExport] = useDataExport(props, columnsStore, exportProgress);
 
     const selectionHelper = useSelectionHelper(
         props.itemSelection,
@@ -119,7 +119,7 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
                 rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
                 setPage={paginationService.setPage}
                 styles={props.style}
-                exporting={exportProgress.exporting}
+                exporting={exportProgress.inProgress}
                 processedRows={exportProgress.loaded}
                 visibleColumns={columnsStore.visibleColumns}
                 availableColumns={columnsStore.availableColumns}
