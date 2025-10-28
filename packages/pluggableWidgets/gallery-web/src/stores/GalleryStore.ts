@@ -64,7 +64,7 @@ export class GalleryStore extends BaseControllerHost {
 
         this.name = spec.name;
 
-        this._query = new DatasourceController(this, { gate: spec.gate });
+        this._query = new DatasourceController(this, spec.gate);
 
         this.paging = new PaginationController(this, {
             query: this._query,
@@ -74,10 +74,7 @@ export class GalleryStore extends BaseControllerHost {
             showTotalCount: spec.showTotalCount
         });
 
-        this.selectionCountStore = new SelectionCountStore(spec.gate, {
-            singular: "%d item selected",
-            plural: "%d items selected"
-        });
+        this.selectionCountStore = new SelectionCountStore(spec.gate);
 
         this._filtersHost = new CustomFilterHost();
 
@@ -101,10 +98,7 @@ export class GalleryStore extends BaseControllerHost {
 
         this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator);
 
-        new RefreshController(this, {
-            delay: 0,
-            query: this._query.derivedQuery
-        });
+        new RefreshController(this, this._query, 0);
 
         const useStorage = spec.storeFilters || spec.storeSort;
         if (useStorage) {
