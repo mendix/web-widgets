@@ -113,7 +113,6 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
                 pageSize={props.pageSize}
                 paginationType={props.pagination}
                 loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
-                selectionCountPosition={props.selectionCountPosition}
                 paging={paginationService.showPagination}
                 pagingPosition={props.pagingPosition}
                 showPagingButtons={props.showPagingButtons}

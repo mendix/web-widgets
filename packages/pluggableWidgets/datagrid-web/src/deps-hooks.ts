@@ -4,7 +4,7 @@ import { TOKENS } from "./Datagrid.depsContainer";
 const [
     useBasicData,
     usePaginationService,
-    useSelectionCounter,
+    useSelectionCounterViewModel,
     useLoaderViewModel,
     useColumnsStore,
     useExportProgressService,
@@ -31,6 +31,6 @@ export {
     useLoaderViewModel,
     useMainGate,
     usePaginationService,
-    useSelectionCounter,
+    useSelectionCounterViewModel,
     useStaticInfo
 };

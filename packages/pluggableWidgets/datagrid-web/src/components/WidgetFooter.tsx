@@ -1,22 +1,30 @@
+import { If } from "@mendix/widget-plugin-component-kit/If";
+import { observer } from "mobx-react-lite";
 import { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react";
 import { PaginationEnum } from "../../typings/DatagridProps";
+import { useSelectionCounterViewModel } from "../deps-hooks";
+import { SelectionCounter } from "./SelectionCounter";
 
 type WidgetFooterProps = {
     pagination: ReactNode;
-    selectionCount: ReactNode;
     paginationType: PaginationEnum;
     loadMoreButtonCaption?: string;
     hasMoreItems: boolean;
     setPage?: (computePage: (prevPage: number) => number) => void;
 } & ComponentPropsWithoutRef<"div">;
 
-export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
-    const { pagination, selectionCount, paginationType, loadMoreButtonCaption, hasMoreItems, setPage, ...rest } = props;
+export const WidgetFooter = observer(function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
+    const { pagination, paginationType, loadMoreButtonCaption, hasMoreItems, setPage, ...rest } = props;
+    const selectionCounterVM = useSelectionCounterViewModel();
 
     return (
         <div {...rest} className="widget-datagrid-footer table-footer">
             <div className="widget-datagrid-paging-bottom">
-                {selectionCount}
+                <If condition={selectionCounterVM.isBottomCounterVisible}>
+                    <div className="widget-datagrid-pb-start">
+                        <SelectionCounter />
+                    </div>
+                </If>
                 <div className="widget-datagrid-pb-end">
                     {pagination}
                     {hasMoreItems && paginationType === "loadMore" && (
@@ -32,4 +40,4 @@ export function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
             </div>
         </div>
     );
-}
+});

@@ -1,9 +1,12 @@
 import { FilterAPI, WidgetFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
-import { DatasourceService, QueryService, RefreshController } from "@mendix/widget-plugin-grid/main";
-
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
+import {
+    DatasourceService,
+    QueryService,
+    RefreshController,
+    SelectionCounterViewModel
+} from "@mendix/widget-plugin-grid/main";
 import { ClosableGateProvider } from "@mendix/widget-plugin-mobx-kit/ClosableGateProvider";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
@@ -13,7 +16,7 @@ import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected, token } from "brandi";
 import { useEffect } from "react";
-import { DatagridContainerProps } from "../typings/DatagridProps";
+import { DatagridContainerProps, SelectionCounterPositionEnum } from "../typings/DatagridProps";
 import { DatasourceParamsController } from "./controllers/DatasourceParamsController";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./controllers/DerivedLoaderController";
 import { PaginationConfig, PaginationController } from "./controllers/PaginationController";
@@ -66,7 +69,8 @@ export const TOKENS = {
     query: token<QueryService>("QueryService"),
     refreshInterval: token<number>("refreshInterval"),
     refreshService: token<RefreshController>("DatagridRefreshService"),
-    selectionCounter: token<SelectionCountStore>("SelectionCountStore"),
+    selectionCounter: token<SelectionCounterViewModel>("SelectionCounterViewModel"),
+    selectionCounterPosition: token<SelectionCounterPositionEnum>("SelectionCounterPositionEnum"),
     setupService: token<SetupComponentHost>("DatagridSetupHost"),
     staticInfo: token<StaticInfo>("StaticInfo")
 };
@@ -148,8 +152,8 @@ class DatagridContainer extends Container {
         );
 
         // Selection counter view model
-        this.bind(TOKENS.selectionCounter).toInstance(SelectionCountStore).inSingletonScope();
-        injected(SelectionCountStore, TOKENS.mainGate);
+        this.bind(TOKENS.selectionCounter).toInstance(SelectionCounterViewModel).inSingletonScope();
+        injected(SelectionCounterViewModel, TOKENS.mainGate, TOKENS.selectionCounterPosition);
     }
 }
 
@@ -191,6 +195,9 @@ export function useDatagridDepsContainer(props: DatagridContainerProps): Contain
                 showNumberOfRows: props.showNumberOfRows,
                 pageSize: props.pageSize
             });
+
+            // Bind selection counter position
+            container.bind(TOKENS.selectionCounterPosition).toConstant(props.selectionCounterPosition);
 
             // Make sure essential services are created upfront
             container.get(TOKENS.refreshService);

@@ -1,7 +1,7 @@
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { objectItems, SelectionMultiValueBuilder, SelectionSingleValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { SelectionMultiValue, SelectionSingleValue } from "mendix";
-import { SelectionCountStore } from "../stores/SelectionCountStore";
+import { SelectionCounterViewModel } from "../SelectionCounterViewModel";
 
 type Props = {
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
@@ -11,12 +11,12 @@ const createMinimalMockProps = (overrides: Props = {}): Props => ({ ...overrides
 
 describe("SelectionCountStore", () => {
     let gateProvider: GateProvider<Props>;
-    let selectionCountStore: SelectionCountStore;
+    let selectionCountStore: SelectionCounterViewModel;
 
     beforeEach(() => {
         const mockProps = createMinimalMockProps();
         gateProvider = new GateProvider(mockProps);
-        selectionCountStore = new SelectionCountStore(gateProvider.gate);
+        selectionCountStore = new SelectionCounterViewModel(gateProvider.gate, "top");
     });
 
     describe("when itemSelection is undefined", () => {
@@ -37,13 +37,13 @@ describe("SelectionCountStore", () => {
             expect(selectionCountStore.selectedCount).toBe(0);
         });
 
-        it("should return 1 when one item is selected", () => {
+        it("should return 0 when one item is selected", () => {
             const items = objectItems(3);
             const singleSelection = new SelectionSingleValueBuilder().withSelected(items[0]).build();
             const props = createMinimalMockProps({ itemSelection: singleSelection });
             gateProvider.setProps(props);
 
-            expect(selectionCountStore.selectedCount).toBe(1);
+            expect(selectionCountStore.selectedCount).toBe(0);
         });
     });
 

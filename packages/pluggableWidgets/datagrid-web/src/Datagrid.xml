@@ -53,7 +53,7 @@
                     <caption>Keep selection</caption>
                     <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
                 </property>
-                <property key="selectionCountPosition" type="enumeration" defaultValue="bottom" required="true">
+                <property key="selectionCounterPosition" type="enumeration" defaultValue="bottom" required="true">
                     <caption>Show selection count</caption>
                     <description />
                     <enumerationValues>
