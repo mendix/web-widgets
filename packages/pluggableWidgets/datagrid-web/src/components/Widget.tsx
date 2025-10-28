@@ -20,6 +20,8 @@ import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
 import { GridHeader } from "./GridHeader";
 import { RowsRenderer } from "./RowsRenderer";
+import { SelectAllBar } from "./SelectAllBar";
+import { SelectionProgressDialog } from "./SelectionProgressDialog";
 import { WidgetContent } from "./WidgetContent";
 import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
@@ -82,7 +84,6 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
     const { className, exporting, numberOfItems, onExportCancel, selectActionHelper } = props;
     const basicData = useBasicData();
-
     const selectionEnabled = selectActionHelper.selectionType !== "None";
 
     return (
@@ -94,6 +95,7 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
             exporting={exporting}
         >
             <Main {...props} data={exporting ? [] : props.data} />
+            <SelectionProgressDialog />
             {exporting && (
                 <ExportWidget
                     alertLabel={basicData.exportDialogLabel ?? "Export progress"}
@@ -185,6 +187,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         isLoading={props.columnsLoading}
                         preview={props.preview}
                     />
+                    <SelectAllBar />
                     {showRefreshIndicator ? <RefreshIndicator /> : null}
                     <GridBody
                         isFirstLoad={props.isFirstLoad}

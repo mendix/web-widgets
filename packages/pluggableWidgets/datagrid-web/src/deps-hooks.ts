@@ -10,7 +10,9 @@ const [
     useExportProgressService,
     useMainGate,
     useStaticInfo,
-    useDatagridFilterAPI
+    useDatagridFilterAPI,
+    useSelectAllBarViewModel,
+    useSelectionDialogViewModel
 ] = createInjectionHooks(
     TOKENS.basicDate,
     TOKENS.paginationService,
@@ -20,7 +22,9 @@ const [
     TOKENS.exportProgressService,
     TOKENS.mainGate,
     TOKENS.staticInfo,
-    TOKENS.filterAPI
+    TOKENS.filterAPI,
+    TOKENS.selectAllBar,
+    TOKENS.selectionDialogViewModel
 );
 
 export {
@@ -31,6 +35,8 @@ export {
     useLoaderViewModel,
     useMainGate,
     usePaginationService,
+    useSelectAllBarViewModel,
     useSelectionCounterViewModel,
+    useSelectionDialogViewModel,
     useStaticInfo
 };

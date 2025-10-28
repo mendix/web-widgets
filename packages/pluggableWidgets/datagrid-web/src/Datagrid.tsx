@@ -36,8 +36,8 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
     const [abortExport] = useDataExport(props, columnsStore, exportProgress);
 
     const selectionHelper = useSelectionHelper(
-        props.itemSelection,
-        props.datasource,
+        gate.props.itemSelection,
+        gate.props.datasource,
         props.onSelectionChange,
         props.keepSelection ? "always keep" : "always clear"
     );

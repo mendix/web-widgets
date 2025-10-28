@@ -12,7 +12,8 @@ export const SelectionCounter = observer(function SelectionCounter() {
             <span className="widget-datagrid-selection-count" aria-live="polite" aria-atomic="true">
                 {selectionCountStore.selectedCountText}
             </span>
-            <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
+            &nbsp;
+            <button className="widget-datagrid-btn-link" onClick={selectActionHelper.onClearSelection}>
                 {selectionCountStore.clearButtonLabel}
             </button>
         </Fragment>
