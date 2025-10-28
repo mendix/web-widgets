@@ -7,6 +7,12 @@ import { Scope } from "parchment";
 import { ACTION_DISPATCHER } from "../helpers";
 import { SET_FULLSCREEN_ACTION } from "../../store/store";
 
+function returnWithStopPropagation(context: Context): boolean {
+    context.event.stopPropagation();
+    context.event.preventDefault();
+    return true;
+}
+
 /**
  * give custom indent handler to use our custom "indent-left" and "indent-right" formats (formats/indent.ts)
  */
@@ -80,13 +86,36 @@ export function shiftEnterKeyKeyboardHandler(this: Keyboard, range: Range, conte
 }
 
 export function movePrevFocus(this: Keyboard, range: Range, context: Context): any {
-    if (context.format.table || context.format.indent || context.format.list || context.format.blockquote) {
-        context.event.stopPropagation();
-        context.event.preventDefault();
-        return true;
+    if (context.format.table) {
+        return returnWithStopPropagation(context);
+    } else if (context.collapsed) {
+        if (context.format.indent || context.format.list || context.format.blockquote) {
+            return returnWithStopPropagation(context);
+        }
     }
 
     gotoToolbarKeyboardHandler.call(this, range, context);
+    return returnWithStopPropagation(context);
+}
+
+// Copied from https://github.com/slab/quill/blob/539cbffd0a13b18e9c65eb84dd35e6596e403158/packages/quill/src/modules/keyboard.ts#L372
+// with added stopPropagation and preventDefault
+export function moveOutdent(this: Keyboard, _range: Range, context: Context): any {
+    if (context.collapsed && context.offset !== 0) {
+        return returnWithStopPropagation(context);
+    }
+    this.quill.format("indent", "-1", Quill.sources.USER);
+    return !returnWithStopPropagation(context);
+}
+
+// Copied from https://github.com/slab/quill/blob/539cbffd0a13b18e9c65eb84dd35e6596e403158/packages/quill/src/modules/keyboard.ts#L372
+// with added stopPropagation and preventDefault
+export function moveIndent(this: Keyboard, _range: Range, context: Context): any {
+    if (context.collapsed && context.offset !== 0) {
+        return returnWithStopPropagation(context);
+    }
+    this.quill.format("indent", "+1", Quill.sources.USER);
+    return !returnWithStopPropagation(context);
 }
 
 // focus to first toolbar button
@@ -99,7 +128,8 @@ export function gotoToolbarKeyboardHandler(this: Keyboard, _range: Range, contex
     if (toolbar) {
         (toolbar?.querySelector(".ql-formats button") as HTMLElement)?.focus();
     } else {
-        this.quill.blur();
+        // "widget-rich-text form-control"
+        this.quill.container.parentElement?.parentElement?.parentElement?.focus();
     }
 }
 
@@ -113,7 +143,8 @@ export function gotoStatusBarKeyboardHandler(this: Keyboard, _range: Range, cont
     if (statusBar) {
         (statusBar as HTMLElement)?.focus();
     } else {
-        this.quill.blur();
+        // "widget-rich-text form-control"
+        this.quill.container.parentElement?.parentElement?.parentElement?.focus();
     }
 }
 
@@ -124,14 +155,16 @@ export function addIndentText(this: Keyboard, range: Range, context: Context): b
     if (context.format.table) {
         return true;
     }
-    this.quill.history.cutoff();
-    const delta = new Delta().retain(range.index).delete(range.length).insert("\t");
-    this.quill.updateContents(delta, Quill.sources.USER);
-    this.quill.history.cutoff();
-    this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
-    context.event.stopPropagation();
-    context.event.preventDefault();
-    return false;
+    if (context.collapsed && context.offset === 0) {
+        return moveIndent.call(this, range, context);
+    } else {
+        this.quill.history.cutoff();
+        const delta = new Delta().retain(range.index).delete(range.length).insert("\t");
+        this.quill.updateContents(delta, Quill.sources.USER);
+        this.quill.history.cutoff();
+        this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+        return returnWithStopPropagation(context);
+    }
 }
 
 /**
