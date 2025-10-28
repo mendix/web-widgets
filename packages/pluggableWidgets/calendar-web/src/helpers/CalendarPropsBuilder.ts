@@ -2,7 +2,7 @@ import { ObjectItem } from "mendix";
 import { DateLocalizer, Formats, ViewsProps } from "react-big-calendar";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
 import { createConfigurableToolbar, CustomToolbar, ResolvedToolbarItem } from "../components/Toolbar";
-import { eventPropGetter } from "../utils/calendar-utils";
+import { eventPropGetter, getTextValue } from "../utils/calendar-utils";
 import { CalendarEvent, DragAndDropCalendarProps } from "../utils/typings";
 import { CustomWeekController } from "./CustomWeekController";
 
@@ -318,21 +318,22 @@ export class CalendarPropsBuilder {
         if (!items || items.length === 0) {
             return undefined;
         }
+
         return items.map(i => ({
             itemType: i.itemType,
             position: i.position,
-            caption: i.caption?.value,
+            caption: getTextValue(i.caption?.value),
             renderMode: i.renderMode,
-            customButtonTooltip: i.buttonTooltip?.value,
+            customButtonTooltip: getTextValue(i.buttonTooltip?.value),
             customButtonStyle: i.buttonStyle,
-            customViewHeaderDayFormat: i.customViewHeaderDayFormat?.value,
-            customViewCellDateFormat: i.customViewCellDateFormat?.value,
-            customViewGutterTimeFormat: i.customViewGutterTimeFormat?.value,
-            customViewGutterDateFormat: i.customViewGutterDateFormat?.value,
-            customViewAllDayText: i.customViewAllDayText?.value,
-            customViewTextHeaderDate: i.customViewTextHeaderDate?.value,
-            customViewTextHeaderTime: i.customViewTextHeaderTime?.value,
-            customViewTextHeaderEvent: i.customViewTextHeaderEvent?.value
+            customViewHeaderDayFormat: getTextValue(i.customViewHeaderDayFormat?.value),
+            customViewCellDateFormat: getTextValue(i.customViewCellDateFormat?.value),
+            customViewGutterTimeFormat: getTextValue(i.customViewGutterTimeFormat?.value),
+            customViewGutterDateFormat: getTextValue(i.customViewGutterDateFormat?.value),
+            customViewAllDayText: getTextValue(i.customViewAllDayText?.value),
+            customViewTextHeaderDate: getTextValue(i.customViewTextHeaderDate?.value),
+            customViewTextHeaderTime: getTextValue(i.customViewTextHeaderTime?.value),
+            customViewTextHeaderEvent: getTextValue(i.customViewTextHeaderEvent?.value)
         }));
     }
 }
