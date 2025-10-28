@@ -58,9 +58,11 @@ function createLocaleFromMendixData(mendixLocale: ReturnType<typeof getMendixLoc
             }
         } as Localize,
         formatLong: {
-            date: () => "P",
-            time: () => "p",
-            dateTime: () => "Pp"
+            // Use actual format strings from Mendix patterns, not tokens
+            // These are used when P/p tokens are encountered in format strings
+            date: () => mendixLocale?.patterns?.date || "MM/dd/yyyy",
+            time: () => mendixLocale?.patterns?.time || "h:mm a",
+            dateTime: () => mendixLocale?.patterns?.datetime || "MM/dd/yyyy, h:mm a"
         } as FormatLong,
         formatDistance: () => "",
         formatRelative: () => "",
