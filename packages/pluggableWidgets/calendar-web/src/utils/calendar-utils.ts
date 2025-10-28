@@ -107,6 +107,16 @@ export function getViewRange(view: string, date: Date): { start: Date; end: Date
     }
 }
 
+/**
+ * Converts empty or whitespace-only strings to undefined.
+ * Useful for handling optional textTemplate values from Mendix.
+ * @param value - The string value to check
+ * @returns The trimmed value if non-empty, otherwise undefined
+ */
+export function getTextValue(value?: string): string | undefined {
+    return value && value.trim().length > 0 ? value : undefined;
+}
+
 // Helper to get Mendix session locale
 export interface MendixLocaleData {
     code: string;
