@@ -153,7 +153,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                 }
             }}
             spellCheck={props.spellCheck}
-            tabIndex={tabIndex}
+            tabIndex={tabIndex ?? -1}
             {...actionEvents}
         >
             <If condition={toolbarLocation === "auto"}>
@@ -202,6 +202,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     formOrientation={formOrientation}
                 />
             </div>
+
             <div
                 className={classNames("widget-rich-text-footer", { "hide-status-bar": !enableStatusBar })}
                 tabIndex={-1}

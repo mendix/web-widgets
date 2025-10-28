@@ -88,9 +88,8 @@ $rte-brand-primary: #264ae5;
         display: none;
     }
 
-    .widget-rich-text-footer {
+    &-footer {
         align-items: center;
-        border-top: 1px solid var(--border-color-default, $rte-border-color-default);
         color: var(--font-color-detail);
         display: flex;
         flex: 0 0 auto;
@@ -102,9 +101,12 @@ $rte-brand-primary: #264ae5;
         text-transform: none;
         justify-content: end;
 
-        &.hide-status-bar {
-            border-top: none;
-            height: 0;
+        &:not(.hide-status-bar) {
+            border-top: 1px solid var(--border-color-default, $rte-border-color-default);
+        }
+
+        &:focus-within {
+            border-top: 1px solid var(--form-input-border-focus-color, var(--brand-primary, $rte-brand-primary));
         }
     }
 
