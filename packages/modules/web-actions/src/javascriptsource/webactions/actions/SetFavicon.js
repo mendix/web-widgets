@@ -41,7 +41,7 @@ export async function SetFavicon(iconUrl16x16, iconUrl32x32, appleTouchIconUrl) 
             const link = document.createElement("link");
             link.href = href;
             const bypassCacheHref = new URL(link.href);
-            bypassCacheHref.search = "v" + Date.now();
+            bypassCacheHref.searchParams.append("v", Date.now());
             link.href = bypassCacheHref.toString();
             link.rel = "icon";
             if (sizes) {
