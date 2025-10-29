@@ -16,10 +16,10 @@ export const SelectionCounter = observer(function SelectionCounter({
     const clearButtonAriaLabel = `${selectionCountStore.clearButtonLabel} (${selectionCountStore.selectedCount} selected)`;
 
     return (
-        <If condition={selectionCountStore.displayCount !== ""}>
+        <If condition={selectionCountStore.selectedCountText !== ""}>
             <div className={containerClass}>
                 <span className="widget-gallery-selection-count" aria-live="polite" aria-atomic="true">
-                    {selectionCountStore.displayCount}
+                    {selectionCountStore.selectedCountText}
                 </span>
                 &nbsp;|&nbsp;
                 <button

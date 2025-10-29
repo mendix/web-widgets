@@ -1,11 +1,11 @@
+import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/main";
 import { SelectActionHandler, SelectionHelper } from "@mendix/widget-plugin-grid/selection";
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { createContext, useContext } from "react";
 import { GalleryStore } from "../stores/GalleryStore";
 
 export interface GalleryRootScope {
     rootStore: GalleryStore;
-    selectionCountStore: SelectionCountStore;
+    selectionCountStore: SelectionCounterViewModel;
     selectionHelper: SelectionHelper | undefined;
     itemSelectHelper: SelectActionHandler;
 }

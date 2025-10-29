@@ -1,8 +1,8 @@
 import { createContextWithStub, FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
-import { DatasourceService } from "@mendix/widget-plugin-grid/main";
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
+import { DatasourceService, SelectionCounterViewModel } from "@mendix/widget-plugin-grid/main";
+
 import { DerivedPropsGate, SetupHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
@@ -23,6 +23,7 @@ interface DynamicProps {
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     sCountFmtSingular?: DynamicValue<string>;
     sCountFmtPlural?: DynamicValue<string>;
+    selectionCountPosition: "top" | "bottom" | "off";
 }
 
 interface StaticProps {
@@ -55,7 +56,7 @@ export class GalleryStore extends SetupHost {
     readonly filterAPI: FilterAPI;
     readonly sortAPI: SortAPI;
     loaderCtrl: DerivedLoaderController;
-    selectionCountStore: SelectionCountStore;
+    selectionCountStore: SelectionCounterViewModel;
 
     constructor(spec: GalleryStoreSpec) {
         super();
@@ -72,7 +73,7 @@ export class GalleryStore extends SetupHost {
             showTotalCount: spec.showTotalCount
         });
 
-        this.selectionCountStore = new SelectionCountStore(spec.gate);
+        this.selectionCountStore = new SelectionCounterViewModel(spec.gate, spec.gate.props.selectionCountPosition);
 
         this._filtersHost = new CustomFilterHost();
 
