@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.5.1] - 2025-10-29
+
 ### Fixed
 
 - We fixed an issue where showing icons as datasource would scale the icon container disproportionately and cause alignment issues.
