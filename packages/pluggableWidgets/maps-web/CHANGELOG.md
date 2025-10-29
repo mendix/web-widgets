@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.1.0] - 2025-10-29
+
 ### Fixed
 
 - We mitigated the issue with Maps widgets not rendering in some cases.
