@@ -15,14 +15,14 @@ export const WidgetTopBar = observer(function WidgetTopBar(props: WidgetTopBarPr
     return (
         <div {...rest} className="widget-datagrid-top-bar table-header">
             <div className="widget-datagrid-padding-top">
-                <If condition={selectionCounter.isTopCounterVisible}>
-                    <div className="widget-datagrid-tb-start">
+                <div className="widget-datagrid-tb-start">
+                    <If condition={selectionCounter.isTopCounterVisible}>
                         <SelectionCounter />
-                    </div>
-                </If>
-                <If condition={!!pagination}>
-                    <div className="widget-datagrid-tb-end">{pagination}</div>
-                </If>
+                    </If>
+                </div>
+                <div className="widget-datagrid-tb-end">
+                    <If condition={!!pagination}>{pagination}</If>
+                </div>
             </div>
         </div>
     );
