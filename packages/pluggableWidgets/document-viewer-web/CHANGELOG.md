@@ -8,13 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Initial widget implementation with DOCX,PDF,XLSX,TXT, and Image viewing capability.
+- We added feature in document viewer to enter the pdf page number manually. Thank you @mx-kshitij for the pull request.
 
 ## [1.1.1] - 2025-09-26
 
 ### Changed
 
-- We added feature in document viewer to enter the pdf page number manually.
+- We added advanced configuration to allow users to specify a self-hosted PDF.js worker file.
 
 ## [1.1.0] - 2025-09-11
 
