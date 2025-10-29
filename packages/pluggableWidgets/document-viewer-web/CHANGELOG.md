@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-10-29
+
 ### Added
 
 - We added feature in document viewer to enter the pdf page number manually. Thank you @mx-kshitij for the pull request.
