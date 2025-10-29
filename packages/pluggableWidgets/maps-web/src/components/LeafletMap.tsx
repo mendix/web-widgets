@@ -84,6 +84,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                     scrollWheelZoom={scrollWheelZoom}
                     zoom={autoZoom ? translateZoom("city") : zoom}
                     zoomControl={zoomControl}
+                    style={{ top: 0, bottom: 0, left: 0, right: 0, position: "absolute", zIndex: 1 }}
                 >
                     <TileLayer {...baseMapLayer(mapProvider, mapsToken)} />
                     {locations
@@ -101,7 +102,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                                 }
                                 interactive={!!marker.title || !!marker.onClick}
                                 key={`marker_${marker.id ?? marker.latitude + "_" + marker.longitude}`}
-                                eventHandlers={marker.title ? undefined : { click: marker.onClick }}
+                                eventHandlers={!marker.title && marker.onClick ? { click: marker.onClick } : undefined}
                                 position={{ lat: marker.latitude, lng: marker.longitude }}
                                 title={marker.title}
                             >
