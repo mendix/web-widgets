@@ -1,7 +1,7 @@
 import { createContextWithStub, FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
-import { DatasourceService, RefreshController } from "@mendix/widget-plugin-grid/main";
+import { DatasourceService } from "@mendix/widget-plugin-grid/main";
 import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { DerivedPropsGate, SetupHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
@@ -62,7 +62,7 @@ export class GalleryStore extends SetupHost {
 
         this.name = spec.name;
 
-        this._query = new DatasourceService(this, spec.gate);
+        this._query = new DatasourceService(this, spec.gate, 0 * 1000);
 
         this.paging = new PaginationController({
             query: this._query,
@@ -95,8 +95,6 @@ export class GalleryStore extends SetupHost {
         };
 
         this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator);
-
-        new RefreshController(this, this._query, 0);
 
         const useStorage = spec.storeFilters || spec.storeSort;
         if (useStorage) {
