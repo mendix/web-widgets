@@ -46,8 +46,6 @@ export class ColumnFilterStore implements IColumnFilterStore {
         makeObservable<this>(this, {
             condition: computed
         });
-
-        // trace(this, "condition");
     }
 
     setup(): () => void {

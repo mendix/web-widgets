@@ -6,7 +6,7 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 
-import { action, autorun, computed, makeObservable, observable, trace } from "mobx";
+import { action, autorun, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
@@ -95,9 +95,6 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, 
             hydrate: action,
             sortInstructions: computed({ keepAlive: true })
         });
-
-        trace(this, "condWithMeta");
-        trace(this, "sortInstructions");
     }
 
     setup(): () => void {

@@ -246,11 +246,20 @@ class DatagridContainer extends Container {
         // Make sure essential services are created upfront
         this.get(TOKENS.paramsService);
         this.get(TOKENS.paginationService);
+        if (this.isSettingsStorageEnabled(props)) {
+            this.get(TOKENS.personalizationService);
+        }
 
         // Hydrate filters from props
         this.get(TOKENS.combinedFilter).hydrate(props.datasource.filter);
 
         return this;
+    }
+
+    private isSettingsStorageEnabled(props: MainGateProps): boolean {
+        if (props.configurationStorageType === "localStorage") return true;
+        if (props.configurationStorageType === "attribute" && props.configurationAttribute) return true;
+        return false;
     }
 
     setProps = (_props: MainGateProps): void => {
