@@ -14,7 +14,6 @@ import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected, token } from "brandi";
 import { useEffect } from "react";
@@ -22,11 +21,11 @@ import { DatagridContainerProps, SelectionCounterPositionEnum } from "../typings
 import { DatasourceParamsController } from "./controllers/DatasourceParamsController";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./controllers/DerivedLoaderController";
 import { PaginationConfig, PaginationController } from "./controllers/PaginationController";
+import { datagridConfig, DatagridConfig } from "./Datagrid.config";
 import { ColumnGroupStore } from "./helpers/state/ColumnGroupStore";
 import { GridBasicData } from "./helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "./helpers/state/GridPersonalizationStore";
 import { DatagridSetupService } from "./services/DatagridSetupService";
-import { StaticInfo } from "./typings/static-info";
 import { SelectAllBarViewModel } from "./view-models/SelectAllBarViewModel";
 import { SelectionProgressDialogViewModel } from "./view-models/SelectionProgressDialogViewModel";
 
@@ -61,6 +60,7 @@ type MainGateProps = Pick<
 /** Tokens to resolve dependencies from the container. */
 export const TOKENS = {
     basicDate: token<GridBasicData>("GridBasicData"),
+    config: token<DatagridConfig>("DatagridConfig"),
     columnsStore: token<ColumnGroupStore>("ColumnGroupStore"),
     combinedFilter: token<CombinedFilter>("CombinedFilter"),
     combinedFilterConfig: token<CombinedFilterConfig>("CombinedFilterKey"),
@@ -81,7 +81,6 @@ export const TOKENS = {
     selectionCounter: token<SelectionCounterViewModel>("SelectionCounterViewModel"),
     selectionCounterPosition: token<SelectionCounterPositionEnum>("SelectionCounterPositionEnum"),
     setupService: token<SetupComponentHost>("DatagridSetupHost"),
-    staticInfo: token<StaticInfo>("StaticInfo"),
     enableSelectAll: token<boolean>("enableSelectAll"),
     selectAllProgressService: token<TaskProgressService>("SelectAllProgressService"),
     selectAllGate: token<DerivedPropsGate<SelectAllGateProps>>("SelectAllGateForProps"),
@@ -91,7 +90,7 @@ export const TOKENS = {
 };
 
 /** Deps injections */
-injected(ColumnGroupStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.staticInfo, TOKENS.filterHost);
+injected(ColumnGroupStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.config, TOKENS.filterHost);
 injected(GridBasicData, TOKENS.mainGate);
 injected(CombinedFilter, TOKENS.setupService, TOKENS.combinedFilterConfig);
 injected(WidgetFilterAPI, TOKENS.parentChannelName, TOKENS.filterHost);
@@ -138,7 +137,7 @@ class DatagridContainer extends Container {
      * Setup container bindings.
      * @remark Make sure not to bind things that already exist in root container.
      */
-    init(props: MainGateProps, root: RootContainer, selectAllModule: Container): DatagridContainer {
+    init(props: DatagridContainerProps, root: RootContainer, selectAllModule: Container): DatagridContainer {
         this.extend(root);
 
         // Connect select all module
@@ -160,6 +159,10 @@ class DatagridContainer extends Container {
         // Bind main gate
         this.bind(TOKENS.mainGate).toConstant(gateProvider.gate);
         this.bind(TOKENS.queryGate).toConstant(gateProvider.gate);
+
+        // Bind config
+        const config = datagridConfig(props);
+        this.bind(TOKENS.config).toConstant(config);
 
         // Columns store
         this.bind(TOKENS.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
@@ -192,9 +195,7 @@ class DatagridContainer extends Container {
         this.bind(TOKENS.paginationService).toInstance(PaginationController).inSingletonScope();
 
         // Events channel for child widgets
-        this.bind(TOKENS.parentChannelName)
-            .toInstance(() => `Datagrid@${generateUUID()}`)
-            .inSingletonScope();
+        this.bind(TOKENS.parentChannelName).toConstant(config.filtersChannelName);
 
         // Loader view model
         this.bind(TOKENS.loaderViewModel).toInstance(DerivedLoaderController).inSingletonScope();
@@ -207,12 +208,6 @@ class DatagridContainer extends Container {
 
         // Selection progress dialog view model
         this.bind(TOKENS.selectionDialogViewModel).toInstance(SelectionProgressDialogViewModel).inSingletonScope();
-
-        // Bind static info
-        this.bind(TOKENS.staticInfo).toConstant({
-            name: props.name,
-            filtersChannelName: this.get(TOKENS.parentChannelName)
-        });
 
         // Bind refresh interval
         this.bind(TOKENS.refreshInterval).toConstant(props.refreshInterval * 1000);
@@ -246,7 +241,7 @@ class DatagridContainer extends Container {
         // Make sure essential services are created upfront
         this.get(TOKENS.paramsService);
         this.get(TOKENS.paginationService);
-        if (this.isSettingsStorageEnabled(props)) {
+        if (config.settingsStorageEnabled) {
             this.get(TOKENS.personalizationService);
         }
 
@@ -254,12 +249,6 @@ class DatagridContainer extends Container {
         this.get(TOKENS.combinedFilter).hydrate(props.datasource.filter);
 
         return this;
-    }
-
-    private isSettingsStorageEnabled(props: MainGateProps): boolean {
-        if (props.configurationStorageType === "localStorage") return true;
-        if (props.configurationStorageType === "attribute" && props.configurationAttribute) return true;
-        return false;
     }
 
     setProps = (_props: MainGateProps): void => {
