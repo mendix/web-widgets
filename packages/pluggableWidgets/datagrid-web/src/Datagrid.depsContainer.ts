@@ -16,7 +16,7 @@ import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { Container, DependencyModule, injected, token } from "brandi";
+import { Container, injected, token } from "brandi";
 import { useEffect } from "react";
 import { DatagridContainerProps, SelectionCounterPositionEnum } from "../typings/DatagridProps";
 import { DatasourceParamsController } from "./controllers/DatasourceParamsController";
@@ -129,8 +129,6 @@ class RootContainer extends Container {
     constructor() {
         super();
         this.bind(TOKENS.setupService).toInstance(DatagridSetupService).inSingletonScope();
-        this.bind(TOKENS.exportProgressService).toInstance(ProgressService).inSingletonScope();
-        this.bind(TOKENS.selectAllProgressService).toInstance(ProgressService).inSingletonScope();
     }
 }
 
@@ -140,15 +138,23 @@ class DatagridContainer extends Container {
      * Setup container bindings.
      * @remark Make sure not to bind things that already exist in root container.
      */
-    init(props: MainGateProps, root: RootContainer, selectAllModule: DependencyModule): DatagridContainer {
+    init(props: MainGateProps, root: RootContainer, selectAllModule: Container): DatagridContainer {
         this.extend(root);
 
+        // Connect select all module
+        const selectAllService = selectAllModule.get(TOKENS.selectAllService);
+        const selectAllProgress = selectAllModule.get(TOKENS.selectAllProgressService);
+        // Bind select all service
+        this.bind(TOKENS.selectAllService).toConstant(selectAllService);
+        // Bind select all progress
+        this.bind(TOKENS.selectAllProgressService).toConstant(selectAllProgress);
+
+        // Create main gate
+        this.bind(TOKENS.exportProgressService).toInstance(ProgressService).inSingletonScope();
         const exportProgress = this.get(TOKENS.exportProgressService);
-        const selectAllProgress = this.get(TOKENS.selectAllProgressService);
         const gateProvider = new ClosableGateProvider<MainGateProps>(props, function isLocked() {
             return exportProgress.inProgress || selectAllProgress.inProgress;
         });
-
         this.setProps = props => gateProvider.setProps(props);
 
         // Bind main gate
@@ -184,9 +190,6 @@ class DatagridContainer extends Container {
 
         // Pagination service
         this.bind(TOKENS.paginationService).toInstance(PaginationController).inSingletonScope();
-
-        // Setup service
-        this.bind(TOKENS.setupService).toInstance(DatagridSetupService).inSingletonScope();
 
         // Events channel for child widgets
         this.bind(TOKENS.parentChannelName)
@@ -247,9 +250,6 @@ class DatagridContainer extends Container {
         // Hydrate filters from props
         this.get(TOKENS.combinedFilter).hydrate(props.datasource.filter);
 
-        // Bind select all service
-        this.use(TOKENS.selectAllService).from(selectAllModule);
-
         return this;
     }
 
@@ -260,20 +260,23 @@ class DatagridContainer extends Container {
 
 type SelectAllGateProps = Pick<DatagridContainerProps, "itemSelection" | "datasource">;
 
-/** Module used to bind independent query and gate for select all service */
-class SelectAllModule extends DependencyModule {
+/** Module used to create select all service with independent set of deps. */
+class SelectAllModule extends Container {
     id = `SelectAllModule@${generateUUID()}`;
-    /** Method for bindings that depend on props. */
     init(props: SelectAllGateProps, root: RootContainer): SelectAllModule {
-        const setupService = root.get(TOKENS.setupService);
-        const progress = root.get(TOKENS.selectAllProgressService);
-        const gateProvider = new GateProvider<SelectAllGateProps>(props);
-        const query = new DatasourceService(setupService, gateProvider.gate);
-        const selectService = new SelectAllService(setupService, gateProvider.gate, query, progress);
+        this.extend(root);
 
+        const gateProvider = new GateProvider<SelectAllGateProps>(props);
         this.setProps = props => gateProvider.setProps(props);
+
+        // Bind service deps
+        this.bind(TOKENS.selectAllGate).toConstant(gateProvider.gate);
+        this.bind(TOKENS.queryGate).toConstant(gateProvider.gate);
+        this.bind(TOKENS.query).toInstance(DatasourceService).inSingletonScope();
+        this.bind(TOKENS.selectAllProgressService).toInstance(ProgressService).inSingletonScope();
+
         // Finally bind select all service
-        this.bind(TOKENS.selectAllService).toConstant(selectService);
+        this.bind(TOKENS.selectAllService).toInstance(SelectAllService).inSingletonScope();
 
         return this;
     }
@@ -284,16 +287,13 @@ class SelectAllModule extends DependencyModule {
 }
 
 export function useDatagridDepsContainer(props: DatagridContainerProps): Container {
-    const [container, selectAllModule] = useConst(
-        /** Function to create main container and setup prop dependant bindings. */
-        function init(): [DatagridContainer, SelectAllModule] {
-            const root = new RootContainer();
-            const selectAllModule = new SelectAllModule().init(props, root);
-            const container = new DatagridContainer().init(props, root, selectAllModule);
+    const [container, selectAllModule] = useConst(function init(): [DatagridContainer, SelectAllModule] {
+        const root = new RootContainer();
+        const selectAllModule = new SelectAllModule().init(props, root);
+        const container = new DatagridContainer().init(props, root, selectAllModule);
 
-            return [container, selectAllModule];
-        }
-    );
+        return [container, selectAllModule];
+    });
 
     // Run setup hooks on mount
     useSetup(() => container.get(TOKENS.setupService));
