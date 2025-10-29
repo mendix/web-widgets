@@ -526,7 +526,7 @@ $root: ".widget-datagrid";
 
 .widget-datagrid .widget-datagrid-load-more {
     display: block !important;
-    margin: 0;
+    margin: var(--spacing-small, 8px) 0;
 }
 
 .infinite-loading.widget-datagrid-grid-body {
@@ -564,9 +564,6 @@ $root: ".widget-datagrid";
 :where(#{$root}-pb-start, #{$root}-tb-start, #{$root}-pb-end, #{$root}-tb-end, #{$root}-pb-middle) {
     flex-grow: 1;
     flex-basis: 33.33%;
-    min-height: 20px;
-    height: 54px;
-    padding: var(--spacing-small) 0;
 }
 
 :where(#{$root}-pb-middle) {
@@ -575,7 +572,6 @@ $root: ".widget-datagrid";
 }
 
 :where(#{$root}-pb-start, #{$root}-tb-start) {
-    padding-inline: var(--spacing-medium);
     display: flex;
     align-items: center;
 }
@@ -594,6 +590,13 @@ $root: ".widget-datagrid";
     &:focus-visible {
         background-color: var(--brand-primary-50, #e6e7f2);
     }
+}
+
+:where(#{$root}-selection-counter) {
+    display: flex;
+    align-items: center;
+    height: 54px;
+    padding: var(--spacing-small) var(--spacing-medium);
 }
 
 :where(#{$root}-select-all-bar) {

@@ -102,8 +102,8 @@ export interface DatagridContainerProps {
     itemSelectionMethod: ItemSelectionMethodEnum;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
-    keepSelection: boolean;
     enableSelectAll: boolean;
+    keepSelection: boolean;
     selectionCounterPosition: SelectionCounterPositionEnum;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
@@ -161,8 +161,8 @@ export interface DatagridPreviewProps {
     itemSelectionMethod: ItemSelectionMethodEnum;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
-    keepSelection: boolean;
     enableSelectAll: boolean;
+    keepSelection: boolean;
     selectionCounterPosition: SelectionCounterPositionEnum;
     loadingType: LoadingTypeEnum;
     refreshIndicator: boolean;
