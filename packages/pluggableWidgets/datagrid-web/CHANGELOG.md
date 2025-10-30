@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added configurable selection count visibility and clear selection button label template for improved row selection management.
 
+### Fixed
+
+- The property panel now shows keep selection property when datagrid is set to single selection.
+
 - We fixed an issue where missing consistency checks for the captions were causing runtime errors instead of in Studio Pro
 
 - We added a '"Select all" across pages' setting that, when enabled, allows users to select all rows across all pages.
