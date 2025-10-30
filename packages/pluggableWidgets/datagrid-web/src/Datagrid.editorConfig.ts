@@ -137,7 +137,8 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
         hidePropertiesIn(defaultProperties, values, [
             "keepSelection",
             "selectionCounterPosition",
-            "clearSelectionButtonLabel"
+            "clearSelectionButtonLabel",
+            "enableSelectAll"
         ]);
     }
 }
