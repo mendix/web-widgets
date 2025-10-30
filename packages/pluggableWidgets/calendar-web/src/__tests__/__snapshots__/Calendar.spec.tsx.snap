@@ -7,14 +7,18 @@ exports[`Calendar renders correctly with basic props 1`] = `
 >
   <div
     components="[object Object]"
+    data-culture="en-US"
+    data-default-view="day"
+    data-events-count="0"
+    data-max="2025-04-28T23:59:59.000Z"
+    data-min="2025-04-28T00:00:00.000Z"
+    data-resizable="true"
+    data-selectable="true"
+    data-show-all-events="true"
     data-testid="mock-calendar"
-    defaultview="work_week"
-    events=""
     formats="[object Object]"
     localizer="[object Object]"
-    max="Mon Apr 28 2025 23:59:59 GMT+0000 (Coordinated Universal Time)"
     messages="[object Object]"
-    min="Mon Apr 28 2025 00:00:00 GMT+0000 (Coordinated Universal Time)"
     views="[object Object]"
   />
 </div>

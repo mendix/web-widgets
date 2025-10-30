@@ -5,30 +5,10 @@ import {
     StructurePreviewProps,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
+import { hideNestedPropertiesIn, hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { CalendarPreviewProps } from "../typings/CalendarProps";
 import IconSVGDark from "./assets/StructureCalendarDark.svg";
 import IconSVG from "./assets/StructureCalendarLight.svg";
-
-const CUSTOM_VIEW_CONFIG: Array<keyof CalendarPreviewProps> = [
-    "customViewShowDay",
-    "customViewShowWeek",
-    "customViewShowMonth",
-    "customViewShowAgenda",
-    "customViewShowCustomWeek",
-    "customViewCaption",
-    "defaultViewCustom"
-];
-
-const CUSTOM_VIEW_DAYS_CONFIG: Array<keyof CalendarPreviewProps> = [
-    "customViewShowMonday",
-    "customViewShowTuesday",
-    "customViewShowWednesday",
-    "customViewShowThursday",
-    "customViewShowFriday",
-    "customViewShowSaturday",
-    "customViewShowSunday"
-];
 
 export function getProperties(values: CalendarPreviewProps, defaultProperties: Properties): Properties {
     if (values.heightUnit === "percentageOfWidth") {
@@ -51,16 +31,78 @@ export function getProperties(values: CalendarPreviewProps, defaultProperties: P
         hidePropertiesIn(defaultProperties, values, ["maxHeight", "overflowY"]);
     }
 
-    // Hide custom week range properties when the view is set to 'standard'
     if (values.view === "standard") {
-        hidePropertiesIn(defaultProperties, values, [...CUSTOM_VIEW_CONFIG, ...CUSTOM_VIEW_DAYS_CONFIG]);
+        hidePropertiesIn(defaultProperties, values, [
+            "defaultViewCustom",
+            "toolbarItems",
+            "customViewShowMonday",
+            "customViewShowTuesday",
+            "customViewShowWednesday",
+            "customViewShowThursday",
+            "customViewShowFriday",
+            "customViewShowSaturday",
+            "customViewShowSunday"
+        ]);
     } else {
-        hidePropertyIn(defaultProperties, values, "defaultViewStandard");
-
-        if (values.customViewShowCustomWeek === false) {
-            hidePropertiesIn(defaultProperties, values, ["customViewCaption", ...CUSTOM_VIEW_DAYS_CONFIG]);
-        }
+        hidePropertiesIn(defaultProperties, values, ["defaultViewStandard", "topBarDateFormat", "timeFormat"]);
     }
+
+    values.toolbarItems?.forEach((item, index) => {
+        if (item.itemType === "title") {
+            hideNestedPropertiesIn(defaultProperties, values, "toolbarItems", index, [
+                "caption",
+                "renderMode",
+                "buttonTooltip",
+                "buttonStyle"
+            ]);
+        }
+        // Hide all format properties for non-view items (navigation buttons, title)
+        if (!["day", "month", "agenda", "week", "work_week"].includes(item.itemType)) {
+            hideNestedPropertiesIn(defaultProperties, values, "toolbarItems", index, [
+                "customViewHeaderDayFormat",
+                "customViewCellDateFormat",
+                "customViewGutterDateFormat",
+                "customViewGutterTimeFormat",
+                "customViewAllDayText",
+                "customViewTextHeaderDate",
+                "customViewTextHeaderTime",
+                "customViewTextHeaderEvent"
+            ]);
+        } else {
+            switch (item.itemType) {
+                case "day":
+                case "week":
+                case "work_week":
+                    // Day/Week/Custom Week: show headerDayFormat, hide all others
+                    hideNestedPropertiesIn(defaultProperties, values, "toolbarItems", index, [
+                        "customViewCellDateFormat",
+                        "customViewGutterDateFormat",
+                        "customViewAllDayText",
+                        "customViewTextHeaderDate",
+                        "customViewTextHeaderTime",
+                        "customViewTextHeaderEvent"
+                    ]);
+                    break;
+                case "month":
+                    // Month: show headerDayFormat and cellDateFormat, hide gutter/agenda-specific
+                    hideNestedPropertiesIn(defaultProperties, values, "toolbarItems", index, [
+                        "customViewGutterDateFormat",
+                        "customViewGutterTimeFormat",
+                        "customViewAllDayText",
+                        "customViewTextHeaderDate",
+                        "customViewTextHeaderTime",
+                        "customViewTextHeaderEvent"
+                    ]);
+                    break;
+                case "agenda":
+                    // Agenda: show gutter and text headers, hide headerDayFormat and cellDateFormat
+                    hideNestedPropertiesIn(defaultProperties, values, "toolbarItems", index, [
+                        "customViewCellDateFormat"
+                    ]);
+                    break;
+            }
+        }
+    });
 
     // Show/hide title properties based on selection
     if (values.titleType === "attribute") {
