@@ -9,6 +9,7 @@
     "scripts": {
         "build": "turbo run build",
         "changelog": "pnpm --filter @mendix/automation-utils run changelog",
+        "oss-clearance": "pnpm --filter @mendix/automation-utils run oss-clearance",
         "create-gh-release": "turbo run create-gh-release --concurrency 1",
         "create-translation": "turbo run create-translation",
         "postinstall": "turbo run agent-rules",
