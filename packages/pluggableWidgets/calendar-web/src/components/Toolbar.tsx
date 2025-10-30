@@ -13,7 +13,7 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
 
     return (
         <div className="calendar-toolbar">
-            <div className="btn-group">
+            <div className="btn-group calendar-toolbar-left">
                 <Button className="btn btn-default" onClick={handlePrev}>
                     <IconInternal icon={{ type: "glyph", iconClass: "glyphicon-backward" }} />
                 </Button>
@@ -25,11 +25,11 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
                 </Button>
             </div>
 
-            <div className="btn-group">
+            <div className="btn-group calendar-toolbar-center">
                 <span className="calendar-label">{label}</span>
             </div>
 
-            <div className="btn-group">
+            <div className="btn-group calendar-toolbar-right">
                 {Array.isArray(views) &&
                     views.map(name => {
                         return (
@@ -170,9 +170,9 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
 
         return (
             <div className="calendar-toolbar">
-                <div className="btn-group">{groups.left.map(renderItem)}</div>
-                <div className="btn-group">{groups.center.map(renderItem)}</div>
-                <div className="btn-group">{groups.right.map(renderItem)}</div>
+                <div className="btn-group calendar-toolbar-left">{groups.left.map(renderItem)}</div>
+                <div className="btn-group calendar-toolbar-center">{groups.center.map(renderItem)}</div>
+                <div className="btn-group calendar-toolbar-right">{groups.right.map(renderItem)}</div>
             </div>
         );
     };
