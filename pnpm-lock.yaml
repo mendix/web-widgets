@@ -596,6 +596,46 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-test-utils
 
+  packages/pluggableWidgets/barcode-generator-web:
+    dependencies:
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
+      jsbarcode:
+        specifier: ^3.12.1
+        version: 3.12.1
+      qrcode.react:
+        specifier: ^4.2.0
+        version: 4.2.0(react@18.3.1)
+    devDependencies:
+      '@mendix/automation-utils':
+        specifier: workspace:*
+        version: link:../../../automation/utils
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/eslint-config-web-widgets
+      '@mendix/pluggable-widgets-tools':
+        specifier: 10.21.2
+        version: 10.21.2(@jest/transform@29.7.0)(@jest/types@30.2.0)(@swc/core@1.13.5)(@types/babel__core@7.20.5)(@types/node@22.14.1)(jest-util@30.2.0)(picomatch@4.0.3)(react-dom@18.3.1(react@18.3.1))(react-native@0.82.0(@babel/core@7.28.4)(@types/react@19.2.2)(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+
   packages/pluggableWidgets/barcode-scanner-web:
     dependencies:
       '@zxing/library':
@@ -7883,6 +7923,9 @@ packages:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
     hasBin: true
 
+  jsbarcode@3.12.1:
+    resolution: {integrity: sha512-QZQSqIknC2Rr/YOUyOkCBqsoiBAOTYK+7yNN3JsqfoUtJtkazxNw1dmPpxuv7VVvqW13kA3/mKiLq+s/e3o9hQ==}
+
   jsc-safe-url@0.2.4:
     resolution: {integrity: sha512-0wM3YBWtYePOjfyXQH5MWQ8H7sdk5EXSwZvmSLKk2RboVQ2Bu239jycHDz5J/8Blf3K0Qnoy2b6xD+z10MFB+Q==}
 
@@ -9173,6 +9216,11 @@ packages:
 
   pure-rand@6.1.0:
     resolution: {integrity: sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==}
+
+  qrcode.react@4.2.0:
+    resolution: {integrity: sha512-QpgqWi8rD9DsS9EP3z7BT+5lY5SFhsqGjpgW5DY/i3mK4M9DTBNz3ErMi8BWYEfI3L0d8GIbGmcdFAS1uIRGjA==}
+    peerDependencies:
+      react: '>=18.0.0 <19.0.0'
 
   querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
@@ -16985,6 +17033,8 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
+  jsbarcode@3.12.1: {}
+
   jsc-safe-url@0.2.4: {}
 
   jsdom@20.0.3:
@@ -18493,6 +18543,10 @@ snapshots:
   punycode@2.3.1: {}
 
   pure-rand@6.1.0: {}
+
+  qrcode.react@4.2.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   querystringify@2.2.0: {}
 

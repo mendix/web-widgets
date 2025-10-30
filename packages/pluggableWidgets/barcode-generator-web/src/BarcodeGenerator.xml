@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.barcodegenerator.BarcodeGenerator" pluginWidget="true" needsEntityContext="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Barcode Generator</name>
+    <description>Generate barcodes and QR codes from a string input</description>
+    <studioProCategory>Display</studioProCategory>
+    <studioCategory>Display</studioCategory>
+    <!-- <helpUrl>https://docs.mendix.com/appstore/widgets/barcode-generator</helpUrl> -->
+    <properties>
+        <propertyGroup caption="General">
+            <propertyGroup caption="Data source">
+                <property key="codeValue" type="attribute" required="true">
+                    <caption>Dynamic value</caption>
+                    <description>String to encode in the QR code</description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="codeFormat" type="enumeration" required="true" defaultValue="CODE128">
+                    <caption>Barcode Format</caption>
+                    <description>Choose between QR or other barcode types</description>
+                    <enumerationValues>
+                        <enumerationValue key="CODE128">Barcode</enumerationValue>
+                        <enumerationValue key="QRCode">QR Code</enumerationValue>
+                        <enumerationValue key="Custom">Custom Format</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Display">
+                <property key="displayValue" type="boolean" defaultValue="false">
+                    <caption>Display value</caption>
+                    <description>Display the value below the code</description>
+                </property>
+                <property key="codeWidth" type="integer" required="true" defaultValue="2">
+                    <caption>Bar width</caption>
+                    <description>Width of the barcode bars</description>
+                </property>
+                <property key="codeHeight" type="integer" required="true" defaultValue="200">
+                    <caption>Code height</caption>
+                    <description>In pixels</description>
+                </property>
+                <property key="qrSize" type="integer" required="true" defaultValue="128">
+                    <caption>QR Size</caption>
+                    <description>The size of the QR box</description>
+                </property>
+                <property key="codeMargin" type="integer" required="true" defaultValue="2">
+                    <caption>Margin size</caption>
+                    <description>In pixels</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Advanced">
+            <property key="customCodeFormat" type="enumeration" required="true" defaultValue="CODE128">
+                <caption>Barcode Format</caption>
+                <description>Choose between barcode types format</description>
+                <enumerationValues>
+                    <enumerationValue key="CODE128">CODE128</enumerationValue>
+                    <enumerationValue key="EAN13">EAN-13</enumerationValue>
+                    <enumerationValue key="EAN8">EAN-8</enumerationValue>
+                    <enumerationValue key="EAN5">EAN-5</enumerationValue>
+                    <enumerationValue key="EAN2">EAN-2</enumerationValue>
+                    <enumerationValue key="UPC">UPC</enumerationValue>
+                    <enumerationValue key="CODE39">CODE39</enumerationValue>
+                    <enumerationValue key="ITF14">ITF-14</enumerationValue>
+                    <enumerationValue key="MSI">MSI</enumerationValue>
+                    <enumerationValue key="pharmacode">Pharmacode</enumerationValue>
+                    <enumerationValue key="codabar">Codabar</enumerationValue>
+                    <enumerationValue key="CODE93">CODE93</enumerationValue>
+                </enumerationValues>
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>
