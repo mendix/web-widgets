@@ -30,6 +30,7 @@
         "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
         "format": "prettier --write .",
         "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+        "oss-clearance": "ts-node bin/rui-oss-clearance.ts",
         "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",
         "prepare-release": "ts-node bin/rui-prepare-release.ts",
         "start": "tsc --watch",
