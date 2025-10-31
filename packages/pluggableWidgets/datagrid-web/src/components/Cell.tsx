@@ -1,10 +1,10 @@
-import { ReactElement, useMemo } from "react";
-import { observer } from "mobx-react-lite";
-import { computed } from "mobx";
-import { GridColumn } from "../typings/GridColumn";
-import { CellComponentProps } from "../typings/CellComponent";
-import { CellElement } from "./CellElement";
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
+import { computed } from "mobx";
+import { observer } from "mobx-react-lite";
+import { ReactElement, useMemo } from "react";
+import { CellComponentProps } from "../typings/CellComponent";
+import { GridColumn } from "../typings/GridColumn";
+import { CellElement } from "./CellElement";
 
 const component = observer(function Cell(props: CellComponentProps<GridColumn>): ReactElement {
     const keyNavProps = useFocusTargetProps<HTMLDivElement>({

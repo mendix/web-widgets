@@ -12,6 +12,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where missing consistency checks for the captions were causing runtime errors instead of in Studio Pro
 
+- We added a '"Select all" across pages' setting that, when enabled, allows users to select all rows across all pages.
+
+### Breaking changes
+
+- The widget settings have been reorganized to make configuration easier.
+
+### Changed
+
+- Selection count texts now have default value for en_US locale.
+
 ## [3.6.1] - 2025-10-14
 
 ### Fixed

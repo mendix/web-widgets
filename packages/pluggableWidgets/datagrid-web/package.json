@@ -1,7 +1,7 @@
 {
     "name": "@mendix/datagrid-web",
     "widgetName": "Datagrid",
-    "version": "3.6.1",
+    "version": "3.7.0",
     "description": "A powerful, flexible grid for displaying, sorting, and editing data collections in Mendix web apps.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -50,6 +50,8 @@
         "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@radix-ui/react-progress": "^1.1.7",
+        "brandi": "^5.0.0",
+        "brandi-react": "^5.0.0",
         "classnames": "^2.5.1",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7",

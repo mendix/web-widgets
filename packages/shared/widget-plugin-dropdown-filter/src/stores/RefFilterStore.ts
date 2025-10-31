@@ -1,6 +1,6 @@
 import { flattenRefCond, selectedFromCond } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { AssociationMetaData, AttributeMetaData, ListValue, ObjectItem } from "mendix";
 import { ContainsCondition, EqualsCondition, FilterCondition, LiteralExpression } from "mendix/filters";
 import { association, attribute, contains, equals, literal, or } from "mendix/filters/builders";

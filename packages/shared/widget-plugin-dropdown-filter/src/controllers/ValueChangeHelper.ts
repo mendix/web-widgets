@@ -1,4 +1,4 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ActionValue, EditableValue } from "mendix";
 import { IReactionDisposer, reaction } from "mobx";

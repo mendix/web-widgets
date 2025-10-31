@@ -1,14 +1,14 @@
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
 import { action, makeObservable, observable } from "mobx";
 
-export class ResizeController implements ReactiveController {
+export class ResizeController implements SetupComponent {
     width = 0;
     height = 0;
     private cleanup: undefined | (() => void) = undefined;
 
-    constructor(host: ReactiveControllerHost) {
-        host.addController(this);
+    constructor(host: SetupComponentHost) {
+        host.add(this);
 
         makeObservable(this, {
             width: observable,

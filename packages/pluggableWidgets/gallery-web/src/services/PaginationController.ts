@@ -1,5 +1,4 @@
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
-import { QueryController } from "./query-controller";
+import { QueryService } from "@mendix/widget-plugin-grid/main";
 
 type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 
@@ -16,19 +15,18 @@ interface StaticProps {
 
 /** NOTE: Use gate for dynamic props */
 type PaginationControllerSpec = StaticProps & {
-    query: QueryController;
+    query: QueryService;
 };
 
-export class PaginationController implements ReactiveController {
+export class PaginationController {
     private readonly _pageSize: number;
-    private readonly _query: QueryController;
+    private readonly _query: QueryService;
     readonly pagination: PaginationEnum;
     readonly paginationKind: PaginationKind;
     readonly showPagingButtons: ShowPagingButtonsEnum;
     readonly showTotalCount: boolean;
 
-    constructor(host: ReactiveControllerHost, spec: PaginationControllerSpec) {
-        host.addController(this);
+    constructor(spec: PaginationControllerSpec) {
         this._pageSize = spec.pageSize;
         this._query = spec.query;
         this.pagination = spec.pagination;
@@ -76,10 +74,8 @@ export class PaginationController implements ReactiveController {
             this._query.requestTotalCount(true);
         }
 
-        this._query.setPageSize(this.pageSize);
+        this._query.setBaseLimit(this.pageSize);
     }
-
-    setup(): void {}
 
     setPage = (computePage: (prevPage: number) => number): void => {
         const newPage = computePage(this.currentPage);

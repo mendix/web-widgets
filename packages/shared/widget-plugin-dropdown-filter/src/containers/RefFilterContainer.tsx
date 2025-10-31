@@ -1,22 +1,21 @@
-import { RefSelectController } from "../controllers/RefSelectController";
-import { RefComboboxController } from "../controllers/RefComboboxController";
-import { RefTagPickerController } from "../controllers/RefTagPickerController";
-import { Select } from "../controls/select/Select";
-import { Combobox } from "../controls/combobox/Combobox";
-import { TagPicker } from "../controls/tag-picker/TagPicker";
-import { usePickerJSActions } from "../helpers/usePickerJSActions";
-import { RefFilterStore } from "../stores/RefFilterStore";
+import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { ActionValue, EditableValue } from "mendix";
 import { observer } from "mobx-react-lite";
 import { CSSProperties, ReactElement, useEffect } from "react";
-
+import { RefComboboxController } from "../controllers/RefComboboxController";
+import { RefSelectController } from "../controllers/RefSelectController";
+import { RefTagPickerController } from "../controllers/RefTagPickerController";
+import { Combobox } from "../controls/combobox/Combobox";
+import { Select } from "../controls/select/Select";
+import { TagPicker } from "../controls/tag-picker/TagPicker";
 import { useFrontendType } from "../helpers/useFrontendType";
-import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
+import { usePickerJSActions } from "../helpers/usePickerJSActions";
+import { RefFilterStore } from "../stores/RefFilterStore";
 import { SelectedItemsStyleEnum, SelectionMethodEnum } from "../typings/widget";
-import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
-import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
 
 export interface RefFilterContainerProps {
     ariaLabel: string;

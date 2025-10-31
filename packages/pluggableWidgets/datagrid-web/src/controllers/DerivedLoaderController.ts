@@ -1,20 +1,19 @@
+import { QueryService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { computed, makeObservable } from "mobx";
+import { IColumnGroupStore } from "../helpers/state/ColumnGroupStore";
 
-type DerivedLoaderControllerSpec = {
+export interface DerivedLoaderControllerConfig {
     showSilentRefresh: boolean;
     refreshIndicator: boolean;
-    exp: { exporting: boolean };
-    cols: { loaded: boolean };
-    query: {
-        isFetchingNextBatch: boolean;
-        isFirstLoad: boolean;
-        isRefreshing: boolean;
-        isSilentRefresh: boolean;
-    };
-};
+}
 
 export class DerivedLoaderController {
-    constructor(private spec: DerivedLoaderControllerSpec) {
+    constructor(
+        private query: QueryService,
+        private exp: TaskProgressService,
+        private cols: IColumnGroupStore,
+        private config: DerivedLoaderControllerConfig
+    ) {
         makeObservable(this, {
             isFirstLoad: computed,
             isFetchingNextBatch: computed,
@@ -23,12 +22,12 @@ export class DerivedLoaderController {
     }
 
     get isFirstLoad(): boolean {
-        const { cols, exp, query } = this.spec;
+        const { cols, exp, query } = this;
         if (!cols.loaded) {
             return true;
         }
 
-        if (exp.exporting) {
+        if (exp.inProgress) {
             return false;
         }
 
@@ -36,13 +35,13 @@ export class DerivedLoaderController {
     }
 
     get isFetchingNextBatch(): boolean {
-        return this.spec.query.isFetchingNextBatch;
+        return this.query.isFetchingNextBatch;
     }
 
     get isRefreshing(): boolean {
-        const { isSilentRefresh, isRefreshing } = this.spec.query;
+        const { isSilentRefresh, isRefreshing } = this.query;
 
-        if (this.spec.showSilentRefresh) {
+        if (this.config.showSilentRefresh) {
             return isSilentRefresh || isRefreshing;
         }
 
@@ -50,10 +49,6 @@ export class DerivedLoaderController {
     }
 
     get showRefreshIndicator(): boolean {
-        if (!this.spec.refreshIndicator) {
-            return false;
-        }
-
-        return this.isRefreshing;
+        return this.config.refreshIndicator ? this.isRefreshing : false;
     }
 }

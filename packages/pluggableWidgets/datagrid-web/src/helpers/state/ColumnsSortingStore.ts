@@ -1,5 +1,5 @@
-import { ColumnId } from "../../typings/GridColumn";
 import { action, makeObservable, observable } from "mobx";
+import { ColumnId } from "../../typings/GridColumn";
 import { SortDirection, SortInstruction, SortRule } from "../../typings/sorting";
 import { ColumnStore } from "./column/ColumnStore";
 

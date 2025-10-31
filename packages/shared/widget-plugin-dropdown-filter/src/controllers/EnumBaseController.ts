@@ -1,5 +1,5 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { autorun, computed, makeObservable } from "mobx";
 import { EnumFilterStore } from "../stores/EnumFilterStore";

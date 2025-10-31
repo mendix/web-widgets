@@ -208,11 +208,17 @@
                 </property>
                 <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
                     <caption>Item count singular</caption>
-                    <description>Must include '%d' to denote number position ('%d item selected')</description>
+                    <description>Must include '%d' to denote number position</description>
+                    <translations>
+                        <translation lang="en_US">%d row selected</translation>
+                    </translations>
                 </property>
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
                     <caption>Item count plural</caption>
-                    <description>Must include '%d' to denote number position ('%d items selected')</description>
+                    <description>Must include '%d' to denote number position</description>
+                    <translations>
+                        <translation lang="en_US">%d rows selected</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>

@@ -1,5 +1,5 @@
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { ActionValue, EditableValue } from "mendix";

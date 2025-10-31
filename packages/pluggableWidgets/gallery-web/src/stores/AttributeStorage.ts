@@ -1,19 +1,18 @@
 import { PlainJs } from "@mendix/filter-commons/typings/settings";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { EditableValue } from "mendix";
 import { computed, makeObservable } from "mobx";
-import { ObservableStorage } from "src/typings/storage";
+import { ObservableStorage } from "../typings/storage";
 
 type Gate = DerivedPropsGate<{
     stateStorageAttr: EditableValue<string>;
 }>;
 
-export class AttributeStorage implements ObservableStorage, ReactiveController {
+export class AttributeStorage implements ObservableStorage, SetupComponent {
     private readonly _gate: Gate;
 
-    constructor(host: ReactiveControllerHost, gate: Gate) {
-        host.addController(this);
+    constructor(host: SetupComponentHost, gate: Gate) {
+        host.add(this);
 
         this._gate = gate;
         makeObservable<this, "_attribute">(this, {

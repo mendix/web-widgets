@@ -1,4 +1,4 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { EnumBaseController, EnumBaseControllerProps } from "./EnumBaseController";
 import { ComboboxControllerMixin } from "./mixins/ComboboxControllerMixin";
 

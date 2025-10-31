@@ -1,4 +1,4 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { RefBaseController, RefBaseControllerProps } from "./RefBaseController";
 import { SelectControllerMixin } from "./mixins/SelectControllerMixin";
 

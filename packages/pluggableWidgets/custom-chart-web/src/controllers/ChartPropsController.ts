@@ -1,5 +1,5 @@
 import { EditorStoreState } from "@mendix/shared-charts/main";
-import { DerivedPropsGate, ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { makeAutoObservable } from "mobx";
 import { Config, Data, Layout } from "plotly.js-dist-min";
@@ -18,14 +18,14 @@ interface ChartPropsControllerSpec {
     editorStateGate: DerivedPropsGate<EditorStoreState>;
 }
 
-export class ChartPropsController implements ReactiveController {
+export class ChartPropsController implements SetupComponent {
     private cleanup: undefined | (() => void) = undefined;
     private editorStateGate: DerivedPropsGate<EditorStoreState>;
     private propsGate: DerivedPropsGate<ControllerProps>;
     private sizeProvider: SizeProvider;
 
-    constructor(host: ReactiveControllerHost, spec: ChartPropsControllerSpec) {
-        host.addController(this);
+    constructor(host: SetupComponentHost, spec: ChartPropsControllerSpec) {
+        host.add(this);
 
         this.editorStateGate = spec.editorStateGate;
         this.propsGate = spec.propsGate;

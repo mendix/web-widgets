@@ -1,6 +1,7 @@
 import { GateProvider } from "./GateProvider";
 
 export class ClosableGateProvider<T> extends GateProvider<T> {
+    readonly name = "ClosableGateProvider";
     constructor(
         props: T,
         private locked: () => boolean

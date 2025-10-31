@@ -1,29 +1,20 @@
-import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
-import { useDatagridRootScope } from "../helpers/root-context";
+import { useSelectionCounterViewModel } from "../deps-hooks";
+import { useLegacyContext } from "../helpers/root-context";
 
-type SelectionCounterLocation = "top" | "bottom" | undefined;
-
-export const SelectionCounter = observer(function SelectionCounter({
-    location
-}: {
-    location?: SelectionCounterLocation;
-}) {
-    const { selectionCountStore, selectActionHelper } = useDatagridRootScope();
-
-    const containerClass = location === "top" ? "widget-datagrid-tb-start" : "widget-datagrid-pb-start";
+export const SelectionCounter = observer(function SelectionCounter() {
+    const selectionCountStore = useSelectionCounterViewModel();
+    const { selectActionHelper } = useLegacyContext();
 
     return (
-        <If condition={selectionCountStore.displayCount !== ""}>
-            <div className={containerClass}>
-                <span className="widget-datagrid-selection-count" aria-live="polite" aria-atomic="true">
-                    {selectionCountStore.displayCount}
-                </span>
-                &nbsp;|&nbsp;
-                <button className="widget-datagrid-clear-selection" onClick={selectActionHelper.onClearSelection}>
-                    {selectionCountStore.clearButtonLabel}
-                </button>
-            </div>
-        </If>
+        <div className="widget-datagrid-selection-counter">
+            <span className="widget-datagrid-selection-text" aria-live="polite" aria-atomic="true">
+                {selectionCountStore.selectedCountText}
+            </span>
+            &nbsp;
+            <button className="widget-datagrid-btn-link" onClick={selectActionHelper.onClearSelection}>
+                {selectionCountStore.clearButtonLabel}
+            </button>
+        </div>
     );
 });

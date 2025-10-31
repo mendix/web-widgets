@@ -1,34 +1,35 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
-import { ListValue, ValueStatus } from "mendix";
-import { action, autorun, computed, IComputedValue, makeAutoObservable } from "mobx";
-import { QueryController } from "./query-controller";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { ListValue, ObjectItem, ValueStatus } from "mendix";
+import { action, autorun, makeAutoObservable, when } from "mobx";
+import { QueryService } from "../interfaces/QueryService";
 
-type Gate = DerivedPropsGate<{ datasource: ListValue }>;
+interface DynamicProps {
+    datasource: ListValue;
+}
 
-type DatasourceControllerSpec = { gate: Gate };
-
-export class DatasourceController implements ReactiveController, QueryController {
-    private gate: Gate;
+export class DatasourceService implements SetupComponent, QueryService {
     private backgroundCheck = false;
     private fetching = false;
-    private pageSize = Infinity;
+    private baseLimit = Infinity;
 
-    constructor(host: ReactiveControllerHost, spec: DatasourceControllerSpec) {
-        host.addController(this);
-        this.gate = spec.gate;
+    constructor(
+        host: SetupComponentHost,
+        private gate: DerivedPropsGate<DynamicProps>,
+        private refreshIntervalMs = 0
+    ) {
+        host.add(this);
 
         type PrivateMembers =
             | "resetFlags"
             | "updateFlags"
             | "setRefreshing"
             | "setFetching"
-            | "pageSize"
+            | "baseLimit"
             | "setIsLoaded";
         makeAutoObservable<this, PrivateMembers>(this, {
             setup: false,
-            pageSize: false,
+            baseLimit: false,
             updateFlags: action,
             resetFlags: action,
             setRefreshing: action,
@@ -60,15 +61,19 @@ export class DatasourceController implements ReactiveController, QueryController
     }
 
     private resetLimit(): void {
-        this.datasource.setLimit(this.pageSize);
+        this.datasource.setLimit(this.baseLimit);
     }
 
     private get isDSLoading(): boolean {
         return this.datasource.status === "loading";
     }
 
-    get datasource(): ListValue {
+    private get datasource(): ListValue {
         return this.gate.props.datasource;
+    }
+
+    get items(): ObjectItem[] | undefined {
+        return this.datasource.items;
     }
 
     get isFirstLoad(): boolean {
@@ -103,16 +108,6 @@ export class DatasourceController implements ReactiveController, QueryController
         return this.datasource.hasMoreItems ?? false;
     }
 
-    /**
-     * Returns computed value that holds controller copy.
-     * Recomputes the copy every time the datasource changes.
-     */
-    get derivedQuery(): IComputedValue<DatasourceController> {
-        const data = (): DatasourceController => [this.datasource].map(() => Object.create(this))[0];
-
-        return computed(data);
-    }
-
     setup(): () => void {
         const [add, disposeAll] = disposeBatch();
 
@@ -122,6 +117,21 @@ export class DatasourceController implements ReactiveController, QueryController
                 this.updateFlags(this.datasource.status);
             })
         );
+
+        if (this.refreshIntervalMs > 0) {
+            let timerId: number | undefined;
+            const clearAutorun = autorun(() => {
+                // Subscribe to items to reschedule timer on items change
+                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                this.items;
+                clearInterval(timerId);
+                timerId = window.setTimeout(() => this.backgroundRefresh(), this.refreshIntervalMs);
+            });
+            add(() => {
+                clearAutorun();
+                clearInterval(timerId);
+            });
+        }
 
         return disposeAll;
     }
@@ -161,7 +171,43 @@ export class DatasourceController implements ReactiveController, QueryController
         this.datasource.setFilter(...params);
     }
 
-    setPageSize(size: number): void {
-        this.pageSize = size;
+    setBaseLimit(size: number): void {
+        this.baseLimit = size;
+        this.resetLimit();
+    }
+
+    reload(): Promise<void> {
+        const ds = this.datasource;
+        this.datasource.reload();
+        return when(() => this.datasource !== ds);
+    }
+
+    fetchPage({
+        limit,
+        offset,
+        signal
+    }: {
+        limit: number;
+        offset: number;
+        signal?: AbortSignal;
+    }): Promise<ObjectItem[]> {
+        return new Promise((resolve, reject) => {
+            if (signal && signal.aborted) {
+                return reject(signal.reason);
+            }
+
+            const pageIsLoaded = when(
+                () =>
+                    this.datasource.offset === offset &&
+                    this.datasource.limit === limit &&
+                    this.datasource.status === "available",
+                { signal }
+            );
+
+            pageIsLoaded.then(() => resolve(this.datasource.items ?? []), reject);
+
+            this.datasource.setOffset(offset);
+            this.datasource.setLimit(limit);
+        });
     }
 }

@@ -65,3 +65,13 @@ export function createContextWithStub(options: {
         filterObserver: options.filterObserver
     };
 }
+
+export class WidgetFilterAPI implements FilterAPI {
+    readonly version = 3;
+    provider: Result<DirectProvider | ProviderStub, APIError> = value(PROVIDER_STUB);
+
+    constructor(
+        public readonly parentChannelName: string,
+        public readonly filterObserver: ObservableFilterHost
+    ) {}
+}

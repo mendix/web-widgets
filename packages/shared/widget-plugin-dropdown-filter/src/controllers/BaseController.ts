@@ -1,4 +1,4 @@
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { ActionValue, EditableValue } from "mendix";
 import { OptionsSerializer } from "../stores/OptionsSerializer";
 import { IJSActionsControlled, ResetHandler, SetValueHandler } from "../typings/IJSActionsControlled";

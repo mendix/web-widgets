@@ -1,16 +1,17 @@
 import { disposeBatch } from "./disposeBatch";
-import { ReactiveController, ReactiveControllerHost } from "./reactive-controller";
+import { SetupComponent } from "./interfaces/SetupComponent";
+import { SetupComponentHost } from "./interfaces/SetupComponentHost";
 
-export abstract class BaseControllerHost implements ReactiveControllerHost {
-    private controllers: Set<ReactiveController> = new Set();
+export abstract class SetupHost implements SetupComponentHost {
+    private components: Set<SetupComponent> = new Set();
     private isSetupCalled: boolean = false;
 
-    addController(controller: ReactiveController): void {
-        this.controllers.add(controller);
+    add(component: SetupComponent): void {
+        this.components.add(component);
     }
 
-    removeController(controller: ReactiveController): void {
-        this.controllers.delete(controller);
+    remove(component: SetupComponent): void {
+        this.components.delete(component);
     }
 
     setup(): () => void {
@@ -20,7 +21,7 @@ export abstract class BaseControllerHost implements ReactiveControllerHost {
         this.isSetupCalled = true;
 
         const [add, disposeAll] = disposeBatch();
-        for (const controller of this.controllers) {
+        for (const controller of this.components) {
             const cleanup = controller.setup?.();
             if (cleanup) {
                 add(cleanup);
