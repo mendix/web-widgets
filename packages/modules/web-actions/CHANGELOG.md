@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.11.1] - 2025-10-31
+
 ### Fixed
 
 - We fixed an issue where the search params of a URL were replaced by date on SetFavIcon action.
