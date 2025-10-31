@@ -1,6 +1,6 @@
 import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
+import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/main";
 import { MultiSelectionStatus, useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import { list, listWidget, objectItems, SelectionMultiValueBuilder } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { cleanup, getAllByRole, getByRole, queryByRole, render, screen } from "@testing-library/react";
@@ -60,7 +60,7 @@ function withCtx(
         cellEventsController: widgetProps.cellEventsController,
         checkboxEventsController: widgetProps.checkboxEventsController,
         focusController: widgetProps.focusController,
-        selectionCountStore: defaultSelectionCountStore as unknown as SelectionCountStore,
+        selectionCountStore: defaultSelectionCountStore as unknown as SelectionCounterViewModel,
         ...contextOverrides
     };
 
@@ -489,7 +489,7 @@ describe.skip("Table", () => {
                 cellEventsController,
                 checkboxEventsController,
                 focusController: props.focusController,
-                selectionCountStore: {} as unknown as SelectionCountStore
+                selectionCountStore: {} as unknown as SelectionCounterViewModel
             };
 
             return (
