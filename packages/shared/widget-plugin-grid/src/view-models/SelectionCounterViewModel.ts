@@ -9,7 +9,7 @@ interface DynamicProps {
     clearSelectionButtonLabel?: DynamicValue<string>;
 }
 
-/** @observable */
+/** @injectable */
 export class SelectionCounterViewModel {
     constructor(
         private readonly gate: DerivedPropsGate<DynamicProps>,

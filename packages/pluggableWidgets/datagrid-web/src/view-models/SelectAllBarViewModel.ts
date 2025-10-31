@@ -1,4 +1,3 @@
-import { SelectAllService, SelectionCounterViewModel } from "@mendix/widget-plugin-grid/main";
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { action, makeAutoObservable, reaction } from "mobx";
 import { DatagridContainerProps } from "../../typings/DatagridProps";
@@ -8,6 +7,18 @@ type DynamicProps = Pick<
     "selectAllTemplate" | "selectAllText" | "itemSelection" | "datasource" | "allSelectedText"
 >;
 
+interface SelectService {
+    selectAllPages(): Promise<{ success: boolean }> | { success: boolean };
+    clearSelection(): void;
+}
+
+interface CounterService {
+    selectedCount: number;
+    selectedCountText: string;
+    clearButtonLabel: string;
+}
+
+/** @injectable */
 export class SelectAllBarViewModel implements SetupComponent {
     private barVisible = false;
     private clearVisible = false;
@@ -17,8 +28,8 @@ export class SelectAllBarViewModel implements SetupComponent {
     constructor(
         host: SetupComponentHost,
         private readonly gate: DerivedPropsGate<DynamicProps>,
-        private readonly selectService: SelectAllService,
-        private readonly count: SelectionCounterViewModel,
+        private readonly selectService: SelectService,
+        private readonly count: CounterService,
         private readonly enableSelectAll: boolean
     ) {
         host.add(this);
