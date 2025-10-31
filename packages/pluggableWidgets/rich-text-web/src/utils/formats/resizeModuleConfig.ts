@@ -62,3 +62,10 @@ export const RESIZE_MODULE_CONFIG = {
         }
     }
 };
+
+export function getResizeModuleConfig(isReadOnly?: boolean): Record<string, unknown> | undefined {
+    if (isReadOnly) {
+        return {};
+    }
+    return { resize: RESIZE_MODULE_CONFIG };
+}
