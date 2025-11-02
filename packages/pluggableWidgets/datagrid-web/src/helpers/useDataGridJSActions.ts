@@ -1,11 +1,12 @@
 import { useOnClearSelectionEvent, useOnResetFiltersEvent } from "@mendix/widget-plugin-external-events/hooks";
+import { useDatagridConfig } from "../model/hooks/injection-hooks";
 import { SelectActionHelper } from "./SelectActionHelper";
-import { RootGridStore } from "./state/RootGridStore";
 
-export function useDataGridJSActions(root: RootGridStore, selectActionHelper?: SelectActionHelper): void {
-    useOnResetFiltersEvent(root.staticInfo.name, root.staticInfo.filtersChannelName);
+export function useDataGridJSActions(selectActionHelper?: SelectActionHelper): void {
+    const info = useDatagridConfig();
+    useOnResetFiltersEvent(info.name, info.filtersChannelName);
     useOnClearSelectionEvent({
-        widgetName: root.staticInfo.name,
+        widgetName: info.name,
         listener: () => selectActionHelper?.onClearSelection()
     });
 }

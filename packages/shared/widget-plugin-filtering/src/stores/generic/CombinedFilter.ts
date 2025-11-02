@@ -1,6 +1,6 @@
 import { reduceArray, restoreArray } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { FilterCondition } from "mendix/filters";
 import { action, computed, makeObservable, reaction } from "mobx";
 import { ConditionWithMeta } from "../../typings/ConditionWithMeta";
@@ -14,15 +14,19 @@ interface ObservableInput {
 
 type MetaBag = Record<string, string>;
 
-export class CombinedFilter implements ReactiveController {
-    private _inputs: ObservableInput[];
+export interface CombinedFilterConfig {
+    stableKey: string;
+    inputs: ObservableInput[];
+}
+export class CombinedFilter implements SetupComponent {
+    private inputs: ObservableInput[];
     readonly stableKey: string;
     readonly ownMetaKey = "CombinedFilter";
 
-    constructor(host: ReactiveControllerHost, spec: { stableKey: string; inputs: ObservableInput[] }) {
-        host.addController(this);
-        this._inputs = spec.inputs;
-        this.stableKey = spec.stableKey;
+    constructor(host: SetupComponentHost, config: CombinedFilterConfig) {
+        host.add(this);
+        this.inputs = config.inputs;
+        this.stableKey = config.stableKey;
 
         makeObservable(this, {
             filter: computed,
@@ -73,15 +77,15 @@ export class CombinedFilter implements ReactiveController {
         }
 
         const conditions = restoreArray(filter, meta[this.ownMetaKey]);
-        if (conditions.length !== this._inputs.length) {
+        if (conditions.length !== this.inputs.length) {
             console.error(
-                `CombinedFilter.hydrate: Number of conditions (${conditions.length}) does not match number of inputs (${this._inputs.length})`
+                `CombinedFilter.hydrate: Number of conditions (${conditions.length}) does not match number of inputs (${this.inputs.length})`
             );
             return;
         }
 
-        for (let i = 0; i < this._inputs.length; i++) {
-            const input = this._inputs[i];
+        for (let i = 0; i < this.inputs.length; i++) {
+            const input = this.inputs[i];
             const condWithMeta: ConditionWithMeta = {
                 cond: conditions[i],
                 meta: meta[input.metaKey]
@@ -103,7 +107,7 @@ export class CombinedFilter implements ReactiveController {
         const bag: MetaBag = {};
         const conditions: Array<FilterCondition | undefined> = [];
 
-        for (const { condWithMeta: data, metaKey } of this._inputs) {
+        for (const { condWithMeta: data, metaKey } of this.inputs) {
             bag[metaKey] = data.meta;
             conditions.push(data.cond);
         }

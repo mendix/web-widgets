@@ -8,10 +8,6 @@
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="General">
-                <property key="advanced" type="boolean" defaultValue="false">
-                    <caption>Enable advanced options</caption>
-                    <description />
-                </property>
                 <property key="datasource" type="datasource" isList="true">
                     <caption>Data source</caption>
                     <description />
@@ -19,67 +15,6 @@
                 <property key="refreshInterval" type="integer" defaultValue="0">
                     <caption>Refresh time (in seconds)</caption>
                     <description />
-                </property>
-                <property key="itemSelection" type="selection" dataSource="datasource">
-                    <caption>Selection</caption>
-                    <description />
-                    <selectionTypes>
-                        <selectionType name="None" />
-                        <selectionType name="Single" />
-                        <selectionType name="Multi" />
-                    </selectionTypes>
-                </property>
-                <property key="itemSelectionMethod" type="enumeration" defaultValue="checkbox">
-                    <caption>Selection method</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
-                        <enumerationValue key="rowClick">Row click</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="itemSelectionMode" type="enumeration" defaultValue="clear">
-                    <caption>Toggle on click</caption>
-                    <description>Defines item selection behavior.</description>
-                    <enumerationValues>
-                        <enumerationValue key="toggle">Yes</enumerationValue>
-                        <enumerationValue key="clear">No</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="showSelectAllToggle" type="boolean" defaultValue="true">
-                    <caption>Show (un)check all toggle</caption>
-                    <description>Show a checkbox in the grid header to check or uncheck multiple items.</description>
-                </property>
-                <property key="keepSelection" type="boolean" defaultValue="false">
-                    <caption>Keep selection</caption>
-                    <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
-                </property>
-                <property key="selectionCountPosition" type="enumeration" defaultValue="bottom" required="true">
-                    <caption>Show selection count</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="top">Top</enumerationValue>
-                        <enumerationValue key="bottom">Bottom</enumerationValue>
-                        <enumerationValue key="off">Off</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
-                    <caption>Clear selection label</caption>
-                    <description>Customize the label of the 'Clear section' button</description>
-                    <translations>
-                        <translation lang="en_US">Clear selection</translation>
-                    </translations>
-                </property>
-                <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
-                    <caption>Loading type</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="spinner">Spinner</enumerationValue>
-                        <enumerationValue key="skeleton">Skeleton</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="refreshIndicator" type="boolean" defaultValue="false">
-                    <caption>Show refresh indicator</caption>
-                    <description>Show a refresh indicator when the data is being loaded.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Columns">
@@ -225,7 +160,93 @@
                     <description />
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Rows">
+            <propertyGroup caption="Events">
+                <property key="onClickTrigger" type="enumeration" defaultValue="single">
+                    <caption>On click trigger</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="single">Single click</enumerationValue>
+                        <enumerationValue key="double">Double click</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="onClick" type="action" required="false" dataSource="datasource">
+                    <caption>On click action</caption>
+                    <description />
+                </property>
+                <property key="onSelectionChange" type="action" required="false">
+                    <caption>On selection change</caption>
+                    <description />
+                </property>
+                <property key="filtersPlaceholder" type="widgets" required="false">
+                    <caption>Filters placeholder</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Behavior">
+            <propertyGroup caption="Selection">
+                <property key="itemSelection" type="selection" dataSource="datasource">
+                    <caption>Selection</caption>
+                    <description />
+                    <selectionTypes>
+                        <selectionType name="None" />
+                        <selectionType name="Single" />
+                        <selectionType name="Multi" />
+                    </selectionTypes>
+                </property>
+                <property key="itemSelectionMethod" type="enumeration" defaultValue="checkbox">
+                    <caption>Selection method</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
+                        <enumerationValue key="rowClick">Row click</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="itemSelectionMode" type="enumeration" defaultValue="clear">
+                    <caption>Toggle on click</caption>
+                    <description>Defines item selection behavior.</description>
+                    <enumerationValues>
+                        <enumerationValue key="toggle">Yes</enumerationValue>
+                        <enumerationValue key="clear">No</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="showSelectAllToggle" type="boolean" defaultValue="true">
+                    <caption>"Select all" checkbox</caption>
+                    <description>Displays a checkbox in the grid header that allows selecting or deselecting all rows on the current page.</description>
+                </property>
+                <property key="enableSelectAll" type="boolean" defaultValue="false">
+                    <caption>"Select all" across pages</caption>
+                    <description>Shows a banner with the option to select all rows across all pages when all rows on the current page are selected.</description>
+                </property>
+                <property key="keepSelection" type="boolean" defaultValue="false">
+                    <caption>Keep selection</caption>
+                    <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
+                </property>
+                <property key="selectionCounterPosition" type="enumeration" defaultValue="bottom" required="true">
+                    <caption>Show selection count</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="top">Top</enumerationValue>
+                        <enumerationValue key="bottom">Bottom</enumerationValue>
+                        <enumerationValue key="off">Off</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Loading state">
+                <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
+                    <caption>Loading type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="spinner">Spinner</enumerationValue>
+                        <enumerationValue key="skeleton">Skeleton</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="refreshIndicator" type="boolean" defaultValue="false">
+                    <caption>Show refresh indicator</caption>
+                    <description>Show a refresh indicator when the data is being loaded.</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Pagination">
                 <property key="pageSize" type="integer" defaultValue="20">
                     <caption>Page size</caption>
                     <description />
@@ -267,6 +288,8 @@
                         <translation lang="en_US">Load More</translation>
                     </translations>
                 </property>
+            </propertyGroup>
+            <propertyGroup caption="Appearance">
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">
                     <caption>Empty list message</caption>
                     <description />
@@ -283,28 +306,6 @@
                     <caption>Dynamic row class</caption>
                     <description />
                     <returnType type="String" />
-                </property>
-            </propertyGroup>
-            <propertyGroup caption="Events">
-                <property key="onClickTrigger" type="enumeration" defaultValue="single">
-                    <caption>On click trigger</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="single">Single click</enumerationValue>
-                        <enumerationValue key="double">Double click</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="onClick" type="action" required="false" dataSource="datasource">
-                    <caption>On click action</caption>
-                    <description />
-                </property>
-                <property key="onSelectionChange" type="action" required="false">
-                    <caption>On selection change</caption>
-                    <description />
-                </property>
-                <property key="filtersPlaceholder" type="widgets" required="false">
-                    <caption>Filters placeholder</caption>
-                    <description />
                 </property>
             </propertyGroup>
         </propertyGroup>
@@ -353,7 +354,7 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
-        <propertyGroup caption="Accessibility">
+        <propertyGroup caption="Texts">
             <propertyGroup caption="Aria labels">
                 <property key="filterSectionTitle" type="textTemplate" required="false">
                     <caption>Filter section</caption>
@@ -374,26 +375,76 @@
                     </translations>
                 </property>
                 <property key="selectRowLabel" type="textTemplate" required="false">
-                    <caption>Select row</caption>
+                    <caption>Select row label</caption>
                     <description>If selection is enabled, assistive technology will read this upon reaching a checkbox.</description>
                     <translations>
                         <translation lang="en_US">Select row</translation>
                     </translations>
                 </property>
                 <property key="selectAllRowsLabel" type="textTemplate" required="false">
-                    <caption>Select all row</caption>
+                    <caption>Select all label</caption>
                     <description>If selection is enabled, assistive technology will read this upon reaching 'Select all' checkbox.</description>
                     <translations>
                         <translation lang="en_US">Select all rows</translation>
                     </translations>
                 </property>
+                <property key="selectingAllLabel" type="textTemplate" required="false">
+                    <caption>Selecting all label</caption>
+                    <description>ARIA label for the progress dialog when selecting all items</description>
+                    <translations>
+                        <translation lang="en_US">Selecting all items...</translation>
+                    </translations>
+                </property>
+                <property key="cancelSelectionLabel" type="textTemplate" required="false">
+                    <caption>Cancel selection label</caption>
+                    <description>ARIA label for the cancel button in the selection progress dialog</description>
+                    <translations>
+                        <translation lang="en_US">Cancel selection</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Captions">
                 <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
                     <caption>Row count singular</caption>
-                    <description>Must include '%d' to denote number position ('%d row selected')</description>
+                    <description>Must include '%d' to denote number position</description>
+                    <translations>
+                        <translation lang="en_US">%d row selected</translation>
+                    </translations>
                 </property>
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
                     <caption>Row count plural</caption>
-                    <description>Must include '%d' to denote number position ('%d rows selected')</description>
+                    <description>Must include '%d' to denote number position</description>
+                    <translations>
+                        <translation lang="en_US">%d rows selected</translation>
+                    </translations>
+                </property>
+                <property key="selectAllText" type="textTemplate">
+                    <caption>Select all text</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Select all rows in the data source</translation>
+                    </translations>
+                </property>
+                <property key="selectAllTemplate" type="textTemplate">
+                    <caption>Select all template</caption>
+                    <description>This caption used when total count is available.</description>
+                    <translations>
+                        <translation lang="en_US">Select all %d rows in the data source</translation>
+                    </translations>
+                </property>
+                <property key="allSelectedText" type="textTemplate">
+                    <caption>Select status template</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">All %d rows selected.</translation>
+                    </translations>
+                </property>
+                <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
+                    <caption>Clear selection label</caption>
+                    <description>Customize the label of the 'Clear section' button</description>
+                    <translations>
+                        <translation lang="en_US">Clear selection</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>

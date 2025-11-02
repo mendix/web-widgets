@@ -1,8 +1,8 @@
+import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { ListValue } from "mendix";
 import { createNanoEvents, Emitter } from "nanoevents";
 import { ColumnsType } from "../../../typings/DatagridProps";
 import { DSExportRequest } from "./DSExportRequest";
-import { ProgressStore } from "./ProgressStore";
 
 interface ControllerEvents {
     sourcechange: (ds: ListValue) => void;
@@ -20,9 +20,9 @@ export class ExportController {
     private properties: ColumnsType[] = [];
     private emitter: Emitter<ControllerEvents>;
     private locked = false;
-    private progressStore: ProgressStore;
+    private progressStore: TaskProgressService;
 
-    constructor(progress: ProgressStore) {
+    constructor(progress: TaskProgressService) {
         this.progressStore = progress;
         this.emitter = createNanoEvents();
         this.emitter.on("columnschange", this.oncolumnschange);

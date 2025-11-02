@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
 import { ColumnsPreviewType } from "../../typings/DatagridProps";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
-import { BaseColumn } from "./ColumnBase";
 import { SortDirection } from "../typings/sorting";
+import { BaseColumn } from "./ColumnBase";
 
 export class ColumnPreview extends BaseColumn implements GridColumn {
     private props: ColumnsPreviewType;
@@ -29,7 +29,7 @@ export class ColumnPreview extends BaseColumn implements GridColumn {
         return (this.props.header?.trim().length ?? 0) === 0 ? "[Empty caption]" : this.props.header;
     }
     get isAvailable(): boolean {
-        return this.props.visible !== "false";
+        return this.props.visible.trim() !== "false";
     }
     get isHidden(): boolean {
         return this.initiallyHidden;

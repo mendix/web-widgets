@@ -1,9 +1,9 @@
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { ISetupable } from "@mendix/widget-plugin-mobx-kit/setupable";
+import { SetupComponent } from "@mendix/widget-plugin-mobx-kit/main";
 import { FilterAPI } from "../context";
 import { Filter } from "../typings/ObservableFilterHost";
 
-export abstract class BaseStoreProvider<S extends Filter> implements ISetupable {
+export abstract class BaseStoreProvider<S extends Filter> implements SetupComponent {
     protected abstract _store: S;
     protected abstract filterAPI: FilterAPI;
     abstract readonly dataKey: string;

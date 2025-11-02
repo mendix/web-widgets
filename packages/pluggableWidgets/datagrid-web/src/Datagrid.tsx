@@ -3,40 +3,41 @@ import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-na
 import { useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { ContainerProvider } from "brandi-react";
 import { observer } from "mobx-react-lite";
 import { ReactElement, ReactNode, useCallback, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
-import { ProgressStore } from "./features/data-export/ProgressStore";
 import { useDataExport } from "./features/data-export/useDataExport";
 import { useCellEventsController } from "./features/row-interaction/CellEventsController";
 import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
-import { DatagridContext } from "./helpers/root-context";
+import { LegacyContext } from "./helpers/root-context";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
-import { IColumnGroupStore } from "./helpers/state/ColumnGroupStore";
-import { RootGridStore } from "./helpers/state/RootGridStore";
-import { useRootStore } from "./helpers/state/useRootStore";
 import { useDataGridJSActions } from "./helpers/useDataGridJSActions";
+import {
+    useColumnsStore,
+    useExportProgressService,
+    useLoaderViewModel,
+    useMainGate,
+    usePaginationService
+} from "./model/hooks/injection-hooks";
+import { useDatagridContainer } from "./model/hooks/useDatagridContainer";
 
-interface Props extends DatagridContainerProps {
-    columnsStore: IColumnGroupStore;
-    rootStore: RootGridStore;
-    progressStore: ProgressStore;
-}
+const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
+    const gate = useMainGate();
+    const columnsStore = useColumnsStore();
+    const paginationService = usePaginationService();
+    const exportProgress = useExportProgressService();
+    const loaderVM = useLoaderViewModel();
+    const items = gate.props.datasource.items ?? [];
 
-const Container = observer((props: Props): ReactElement => {
-    const { columnsStore, rootStore } = props;
-    const { paginationCtrl } = rootStore;
-
-    const items = props.datasource.items ?? [];
-
-    const [exportProgress, abortExport] = useDataExport(props, props.columnsStore, props.progressStore);
+    const [abortExport] = useDataExport(props, columnsStore, exportProgress);
 
     const selectionHelper = useSelectionHelper(
-        props.itemSelection,
-        props.datasource,
+        gate.props.itemSelection,
+        gate.props.datasource,
         props.onSelectionChange,
         props.keepSelection ? "always keep" : "always clear"
     );
@@ -48,7 +49,7 @@ const Container = observer((props: Props): ReactElement => {
         onClick: props.onClick
     });
 
-    useDataGridJSActions(rootStore, selectActionHelper);
+    useDataGridJSActions(selectActionHelper);
 
     const visibleColumnsCount = selectActionHelper.showCheckboxColumn
         ? columnsStore.visibleColumns.length + 1
@@ -64,21 +65,16 @@ const Container = observer((props: Props): ReactElement => {
 
     const checkboxEventsController = useCheckboxEventsController(selectActionHelper, focusController);
 
-    const ctx = useConst(() => {
-        rootStore.basicData.setSelectionHelper(selectionHelper);
-        return {
-            basicData: rootStore.basicData,
-            selectionHelper,
-            selectActionHelper,
-            cellEventsController,
-            checkboxEventsController,
-            focusController,
-            selectionCountStore: rootStore.selectionCountStore
-        };
-    });
-
     return (
-        <DatagridContext.Provider value={ctx}>
+        <LegacyContext.Provider
+            value={useConst({
+                selectionHelper,
+                selectActionHelper,
+                cellEventsController,
+                checkboxEventsController,
+                focusController
+            })}
+        >
             <Widget
                 className={props.class}
                 CellComponent={Cell}
@@ -103,7 +99,7 @@ const Container = observer((props: Props): ReactElement => {
                 headerTitle={props.filterSectionTitle?.value}
                 headerContent={
                     props.filtersPlaceholder && (
-                        <WidgetHeaderContext selectionHelper={selectionHelper} rootStore={rootStore}>
+                        <WidgetHeaderContext selectionHelper={selectionHelper}>
                             {props.filtersPlaceholder}
                         </WidgetHeaderContext>
                     )
@@ -113,18 +109,17 @@ const Container = observer((props: Props): ReactElement => {
                 id={useMemo(() => `DataGrid${generateUUID()}`, [])}
                 numberOfItems={props.datasource.totalCount}
                 onExportCancel={abortExport}
-                page={paginationCtrl.currentPage}
+                page={paginationService.currentPage}
                 pageSize={props.pageSize}
                 paginationType={props.pagination}
                 loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
-                selectionCountPosition={props.selectionCountPosition}
-                paging={paginationCtrl.showPagination}
+                paging={paginationService.showPagination}
                 pagingPosition={props.pagingPosition}
                 showPagingButtons={props.showPagingButtons}
                 rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
-                setPage={paginationCtrl.setPage}
+                setPage={paginationService.setPage}
                 styles={props.style}
-                exporting={exportProgress.exporting}
+                exporting={exportProgress.inProgress}
                 processedRows={exportProgress.loaded}
                 visibleColumns={columnsStore.visibleColumns}
                 availableColumns={columnsStore.availableColumns}
@@ -134,27 +129,26 @@ const Container = observer((props: Props): ReactElement => {
                 cellEventsController={cellEventsController}
                 checkboxEventsController={checkboxEventsController}
                 focusController={focusController}
-                isFirstLoad={rootStore.loaderCtrl.isFirstLoad}
-                isFetchingNextBatch={rootStore.loaderCtrl.isFetchingNextBatch}
-                showRefreshIndicator={rootStore.loaderCtrl.showRefreshIndicator}
+                isFirstLoad={loaderVM.isFirstLoad}
+                isFetchingNextBatch={loaderVM.isFetchingNextBatch}
+                showRefreshIndicator={loaderVM.showRefreshIndicator}
                 loadingType={props.loadingType}
                 columnsLoading={!columnsStore.loaded}
             />
-        </DatagridContext.Provider>
+        </LegacyContext.Provider>
     );
 });
 
-Container.displayName = "DatagridComponent";
+DatagridRoot.displayName = "DatagridComponent";
 
 export default function Datagrid(props: DatagridContainerProps): ReactElement | null {
-    const rootStore = useRootStore(props);
+    const container = useDatagridContainer(props);
 
+    // NOTE: As of version 5 of brandi-react, ContainerProvider clones the container implicitly.
+    // Isolated flag ensures that we don't inherit any bindings from parent containers. (Datagrid in Datagrid scenario)
     return (
-        <Container
-            {...props}
-            rootStore={rootStore}
-            columnsStore={rootStore.columnsStore}
-            progressStore={rootStore.exportProgressCtrl}
-        />
+        <ContainerProvider container={container} isolated>
+            <DatagridRoot {...props} />
+        </ContainerProvider>
     );
 }

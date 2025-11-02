@@ -1,5 +1,5 @@
-import { ChartProps, PlotlyChart } from "../components/PlotlyChart";
 import { autorun } from "mobx";
+import { ChartProps, PlotlyChart } from "../components/PlotlyChart";
 
 interface PropsProvider {
     mergedProps: ChartProps;
@@ -22,8 +22,6 @@ export class PlotlyController {
             this.cleanup?.();
         } else {
             const chart = new PlotlyChart(target, this.propsProvider.mergedProps);
-
-            // const [updatePlotlyDebounced, abort] = debounce((props: ChartProps) => chart.update(props), 100);
 
             const dispose = autorun(
                 () => {
