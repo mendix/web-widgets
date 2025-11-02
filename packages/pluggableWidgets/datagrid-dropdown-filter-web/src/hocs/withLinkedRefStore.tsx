@@ -3,7 +3,7 @@ import { RefFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/Ref
 import { FilterAPI, useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { BaseStoreProvider } from "@mendix/widget-plugin-filtering/custom-filter-api/BaseStoreProvider";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { AssociationMetaData, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";

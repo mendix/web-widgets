@@ -5,21 +5,21 @@ import {
     useCreateSelectionContextValue
 } from "@mendix/widget-plugin-grid/selection";
 import { memo, ReactElement, ReactNode } from "react";
-import { RootGridStore } from "../helpers/state/RootGridStore";
+import { useDatagridFilterAPI } from "../model/hooks/injection-hooks";
 
 interface WidgetHeaderContextProps {
     children?: ReactNode;
     selectionHelper?: SelectionHelper;
-    rootStore: RootGridStore;
 }
 
 const SelectionContext = getGlobalSelectionContext();
 const FilterContext = getGlobalFilterContextObject();
 
 function HeaderContainer(props: WidgetHeaderContextProps): ReactElement {
+    const filterAPI = useDatagridFilterAPI();
     const selectionContext = useCreateSelectionContextValue(props.selectionHelper);
     return (
-        <FilterContext.Provider value={props.rootStore.filterAPI}>
+        <FilterContext.Provider value={filterAPI}>
             <SelectionContext.Provider value={selectionContext}>{props.children}</SelectionContext.Provider>
         </FilterContext.Provider>
     );

@@ -50,6 +50,8 @@
         "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@radix-ui/react-progress": "^1.1.7",
+        "brandi": "^5.0.0",
+        "brandi-react": "^5.0.0",
         "classnames": "^2.5.1",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7",

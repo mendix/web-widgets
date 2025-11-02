@@ -1,6 +1,6 @@
-import { DatasourceController } from "@mendix/widget-plugin-grid/query/DatasourceController";
+import { DatasourceService } from "@mendix/widget-plugin-grid/main";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
-import { ReactiveController, ReactiveControllerHost } from "@mendix/widget-plugin-mobx-kit/reactive-controller";
+import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { SortInstruction } from "@mendix/widget-plugin-sorting/types/store";
 
 import { FilterCondition } from "mendix/filters";
@@ -14,18 +14,18 @@ interface ObservableSortStore {
     sortOrder: SortInstruction[] | undefined;
 }
 
-export class QueryParamsController implements ReactiveController {
-    private readonly _query: DatasourceController;
+export class QueryParamsController implements SetupComponent {
+    private readonly _query: DatasourceService;
     private readonly _filtersHost: ObservableFilterStore;
     private readonly _sortHost: ObservableSortStore;
 
     constructor(
-        host: ReactiveControllerHost,
-        query: DatasourceController,
+        host: SetupComponentHost,
+        query: DatasourceService,
         filters: ObservableFilterStore,
         sort: ObservableSortStore
     ) {
-        host.addController(this);
+        host.add(this);
 
         this._query = query;
         this._filtersHost = filters;

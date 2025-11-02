@@ -1,5 +1,4 @@
-import { SelectionHelper, SelectionStatus } from "@mendix/widget-plugin-grid/selection";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/props-gate";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { makeAutoObservable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 
@@ -13,7 +12,6 @@ type Gate = DerivedPropsGate<Props>;
 /** This is basic data class, just a props mapper. Don't add any state or complex logic. */
 export class GridBasicData {
     private gate: Gate;
-    private selectionHelper: SelectionHelper | null = null;
 
     constructor(gate: Gate) {
         this.gate = gate;
@@ -38,13 +36,5 @@ export class GridBasicData {
 
     get gridInteractive(): boolean {
         return !!(this.gate.props.itemSelection || this.gate.props.onClick);
-    }
-
-    get selectionStatus(): SelectionStatus {
-        return this.selectionHelper?.type === "Multi" ? this.selectionHelper.selectionStatus : "none";
-    }
-
-    setSelectionHelper(selectionHelper: SelectionHelper | undefined): void {
-        this.selectionHelper = selectionHelper ?? null;
     }
 }

@@ -80,7 +80,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
         props.paging && (props.paginationPosition === "bottom" || props.paginationPosition === "both");
 
     const selectionCounter =
-        !props.preview && props.selectionCountPosition !== "off" ? (
+        !props.preview && props.selectionCountPosition !== "off" && props.selectHelper.selectionType === "Multi" ? (
             <SelectionCounter location={props.selectionCountPosition} />
         ) : null;
 

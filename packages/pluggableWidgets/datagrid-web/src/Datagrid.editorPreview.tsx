@@ -1,29 +1,14 @@
-/* Disable warning that hooks can be used only in components */
-/* eslint-disable react-hooks/rules-of-hooks */
-
-import { enableStaticRendering } from "mobx-react-lite";
-enableStaticRendering(true);
-
-import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
-import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
-import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
+import { If } from "@mendix/widget-plugin-component-kit/If";
+import cn from "classnames";
 import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
-import { ReactElement, ReactNode, useCallback, useMemo } from "react";
+import { createContext, CSSProperties, PropsWithChildren, ReactElement, ReactNode, useContext } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
-import { Cell } from "./components/Cell";
-import { Widget } from "./components/Widget";
+import { FaArrowsAltV } from "./components/icons/FaArrowsAltV";
+import { FaEye } from "./components/icons/FaEye";
 import { ColumnPreview } from "./helpers/ColumnPreview";
-import { DatagridContext } from "./helpers/root-context";
-import { useSelectActionHelper } from "./helpers/SelectActionHelper";
-import { GridBasicData } from "./helpers/state/GridBasicData";
-
-import { SelectionCountStore } from "@mendix/widget-plugin-grid/selection/stores/SelectionCountStore";
 import "./ui/DatagridPreview.scss";
 
-// Fix type definition for Selectable
-// TODO: Open PR to fix in appdev.
 declare module "mendix/preview/Selectable" {
     interface SelectableProps<T> {
         object: T;
@@ -32,162 +17,303 @@ declare module "mendix/preview/Selectable" {
     }
 }
 
-const initColumns: ColumnsPreviewType[] = [
-    {
-        alignment: "left",
-        attribute: "No attribute selected",
-        columnClass: "",
-        content: { renderer: () => <div />, widgetCount: 0 },
-        draggable: false,
-        dynamicText: "Dynamic Text",
-        filter: { renderer: () => <div />, widgetCount: 0 },
+const defaultColumn: ColumnsPreviewType = {
+    alignment: "left",
+    attribute: "No attribute selected",
+    columnClass: "",
+    content: { renderer: () => <div />, widgetCount: 0 },
+    draggable: false,
+    dynamicText: "Dynamic Text",
+    filter: { renderer: () => <div />, widgetCount: 0 },
+    header: "Column",
+    hidable: "no",
+    resizable: false,
+    showContentAs: "attribute",
+    size: 1,
+    sortable: false,
+    tooltip: "",
+    visible: "true",
+    width: "autoFill",
+    wrapText: false,
+    minWidth: "auto",
+    minWidthLimit: 100,
+    allowEventPropagation: true,
+    exportValue: ""
+};
 
-        header: "Column",
-        hidable: "no",
-        resizable: false,
-        showContentAs: "attribute",
-        size: 1,
-        sortable: false,
-        tooltip: "",
-        visible: "true",
-        width: "autoFill",
-        wrapText: false,
-        minWidth: "auto",
-        minWidthLimit: 100,
-        allowEventPropagation: true,
-        exportValue: ""
-    }
-];
+const initColumns: ColumnsPreviewType[] = [defaultColumn];
 
 const numberOfItems = 3;
 
+const cls = {
+    root: "widget-datagrid",
+    topBar: "widget-datagrid-top-bar table-header",
+    header: "widget-datagrid-header header-filters",
+    content: "widget-datagrid-content",
+    grid: "widget-datagrid-grid table",
+    gridHeader: "widget-datagrid-grid-head",
+    gridBody: "widget-datagrid-grid-body table-content",
+    pb: "widget-datagrid-padding-bottom",
+    pbStart: "widget-datagrid-pb-start",
+    pbEnd: "widget-datagrid-pb-end"
+};
+
+const PropsCtx = createContext<DatagridPreviewProps>({} as DatagridPreviewProps);
+
+function useProps(): DatagridPreviewProps {
+    return useContext(PropsCtx);
+}
+
 export function preview(props: DatagridPreviewProps): ReactElement {
-    const EmptyPlaceholder = props.emptyPlaceholder.renderer;
-    const data: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
-        id: String(index) as GUID
-    }));
-    const gridId = useMemo(() => Date.now().toString(), []);
-    const previewColumns: ColumnsPreviewType[] = props.columns.length > 0 ? props.columns : initColumns;
-    const columns = previewColumns.map((col, index) => new ColumnPreview(col, index));
-    const noop = (..._: unknown[]): void => {
-        //
-    };
-    const pageSize = props.pageSize ?? 5;
-
-    const selectActionHelper = useSelectActionHelper(props, undefined);
-
-    const visibleColumnsCount = selectActionHelper.showCheckboxColumn ? columns.length + 1 : columns.length;
-
-    const focusController = useFocusTargetController({
-        rows: data.length,
-        columns: visibleColumnsCount,
-        pageSize
-    });
-
-    const eventsController = { getProps: () => Object.create({}) };
-
-    const ctx = useConst(() => {
-        const gateProvider = new GateProvider({});
-        const basicData = new GridBasicData(gateProvider.gate);
-        const selectionCountStore = new SelectionCountStore(gateProvider.gate);
-        return {
-            basicData,
-            selectionHelper: undefined,
-            selectActionHelper,
-            cellEventsController: eventsController,
-            checkboxEventsController: eventsController,
-            focusController,
-            selectionCountStore
-        };
-    });
-
     return (
-        <DatagridContext.Provider value={ctx}>
-            <Widget
-                CellComponent={Cell}
-                className={props.class}
-                columnsDraggable={props.columnsDraggable}
-                columnsFilterable={props.columnsFilterable}
-                columnsHidable={props.columnsHidable}
-                columnsResizable={props.columnsResizable}
-                columnsSortable={props.columnsSortable}
-                visibleColumns={columns}
-                availableColumns={[]}
-                columnsSwap={noop}
-                setIsResizing={noop}
-                data={data}
-                emptyPlaceholderRenderer={useCallback(
-                    (renderWrapper: (children: ReactNode) => ReactElement) => (
-                        <EmptyPlaceholder caption="Empty list message: Place widgets here">
-                            {renderWrapper(null)}
-                        </EmptyPlaceholder>
-                    ),
-                    [EmptyPlaceholder]
-                )}
-                exporting={false}
-                filterRenderer={useCallback(
-                    (renderWrapper, columnIndex) => {
-                        const column = props.columns.at(columnIndex);
-                        return column?.filter ? (
-                            <column.filter.renderer caption="Place filter widget here">
-                                {renderWrapper(null)}
-                            </column.filter.renderer>
-                        ) : (
-                            renderWrapper(null)
-                        );
-                    },
-                    [props.columns]
-                )}
-                headerContent={
-                    <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
-                        <div />
-                    </props.filtersPlaceholder.renderer>
-                }
-                hasMoreItems={false}
-                headerWrapperRenderer={selectableWrapperRenderer(previewColumns)}
-                numberOfItems={props.pageSize ?? numberOfItems}
-                page={0}
-                paginationType={props.pagination}
-                pageSize={props.pageSize ?? numberOfItems}
-                showPagingButtons={props.showPagingButtons}
-                loadMoreButtonCaption={props.loadMoreButtonCaption}
-                paging={props.pagination === "buttons" || props.showNumberOfRows}
-                pagingPosition={props.pagingPosition}
-                preview
-                processedRows={0}
-                styles={parseStyle(props.style)}
-                id={gridId}
-                selectActionHelper={selectActionHelper}
-                cellEventsController={eventsController}
-                checkboxEventsController={eventsController}
-                focusController={focusController}
-                isFetchingNextBatch={false}
-                loadingType="spinner"
-                columnsLoading={false}
-                isFirstLoad={false}
-                showRefreshIndicator={false}
-            />
-        </DatagridContext.Provider>
+        <PropsCtx.Provider value={props}>
+            <WidgetRoot>
+                <WidgetTopBar />
+                <WidgetHeader />
+                <WidgetContent>
+                    <Grid>
+                        <GridHeader />
+                        <GridBody />
+                    </Grid>
+                </WidgetContent>
+                <WidgetFooter>
+                    <PaddingBottom />
+                </WidgetFooter>
+            </WidgetRoot>
+        </PropsCtx.Provider>
     );
 }
 
-const selectableWrapperRenderer =
-    (columns: ColumnsPreviewType[]) =>
-    (columnIndex: number, header: ReactElement): ReactElement => {
-        const column = columns.at(columnIndex);
+function WidgetRoot({ children }: PropsWithChildren): ReactElement {
+    const props = useProps();
+    return (
+        <div className={cls.root} style={props.styleObject}>
+            {children}
+        </div>
+    );
+}
 
-        // We can't use Selectable when there no columns configured yet, so, just show header.
-        if (columns === initColumns || column === undefined) {
-            return header;
-        }
+function WidgetTopBar({ children }: PropsWithChildren): ReactElement {
+    return <div className={cls.topBar}>{children}</div>;
+}
 
-        return (
-            <Selectable
-                key={column.header || column.attribute}
-                caption={column.header.trim().length > 0 ? column.header : "[Empty caption]"}
-                object={column}
+function WidgetHeader(): ReactNode {
+    const { filtersPlaceholder } = useProps();
+    return (
+        <filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
+            <div className={cls.header} />
+        </filtersPlaceholder.renderer>
+    );
+}
+
+function WidgetContent({ children }: PropsWithChildren): ReactElement {
+    return <div className={cls.content}>{children}</div>;
+}
+
+function WidgetFooter({ children }: PropsWithChildren): ReactElement {
+    return <div className="widget-datagrid-footer">{children}</div>;
+}
+
+function Grid({ children }: PropsWithChildren): ReactElement {
+    return (
+        <div className={cls.grid} style={useGridStyle()}>
+            {children}
+        </div>
+    );
+}
+
+function GridHeader(): ReactNode {
+    const { columnsHidable } = useProps();
+    const checkboxColumnVisible = useCheckboxColumn();
+    const checkboxVisible = useHeaderCheckbox();
+    const columns = useColumns();
+
+    return (
+        <div className={cls.gridHeader}>
+            <div className="tr">
+                <If condition={checkboxColumnVisible}>
+                    <div className="th widget-datagrid-col-select" role="columnheader">
+                        {checkboxVisible ? <input type="checkbox" /> : null}
+                    </div>
+                </If>
+                {columns.map(column => (
+                    <ColumnHeader key={column.header || column.attribute} column={column} />
+                ))}
+                <If condition={columnsHidable}>
+                    <div className="th column-selector" role="columnheader">
+                        <div className="column-selector-content">
+                            <button className="btn btn-default column-selector-button">
+                                <FaEye />
+                            </button>
+                        </div>
+                    </div>
+                </If>
+            </div>
+        </div>
+    );
+}
+
+function ColumnHeader({ column }: { column: ColumnsPreviewType }): ReactNode {
+    const { columnsFilterable, columnsSortable, columnsHidable } = useProps();
+    const columnPreview = new ColumnPreview(column, 0);
+    const caption = columnPreview.header;
+    const canSort = columnsSortable && columnPreview.canSort;
+    return (
+        <SelectableColumn column={column}>
+            <div
+                className={cn("th", {
+                    "hidden-column-preview":
+                        !columnPreview.isAvailable || (columnsHidable && columnPreview.initiallyHidden)
+                })}
+                role="columnheader"
             >
-                {header}
-            </Selectable>
-        );
+                <div className="column-container">
+                    <div className="column-header">
+                        <span>{caption.length > 0 ? caption : "\u00a0"}</span>
+                        {canSort && <FaArrowsAltV />}
+                    </div>
+                    <column.filter.renderer caption="Filter placeholder">
+                        <div className="filter" style={columnsFilterable ? undefined : { display: "none" }} />
+                    </column.filter.renderer>
+                </div>
+            </div>
+        </SelectableColumn>
+    );
+}
+
+function GridBody(): ReactElement {
+    const data: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
+        id: String(index) as GUID
+    }));
+
+    return (
+        <div className={cls.gridBody}>
+            {data.map((item, index) => (
+                <PreviewRow key={item.id} first={index === 0} />
+            ))}
+            <EmptyPlaceholder />
+        </div>
+    );
+}
+
+function PreviewRow({ first }: { first: boolean }): ReactElement {
+    const { columnsHidable } = useProps();
+    const checkboxColumnVisible = useCheckboxColumn();
+    const columns = useColumns();
+
+    return (
+        <div className="tr tr-preview">
+            <If condition={checkboxColumnVisible}>
+                <div
+                    className={cn("td widget-datagrid-col-select", {
+                        "td-borders": first
+                    })}
+                    role="gridcell"
+                >
+                    <input type="checkbox" />
+                </div>
+            </If>
+            {columns.map((column, index, _, colPreview = new ColumnPreview(column, index)) => (
+                <SelectableColumn key={colPreview.columnId} column={column}>
+                    <div
+                        className={cn("td", {
+                            "td-borders": first,
+                            "hidden-column-preview":
+                                !colPreview.isAvailable || (columnsHidable && colPreview.initiallyHidden)
+                        })}
+                    >
+                        {colPreview.renderCellContent(null)}
+                    </div>
+                </SelectableColumn>
+            ))}
+            <If condition={columnsHidable}>
+                <div
+                    className={cn("td column-selector", {
+                        "td-borders": first
+                    })}
+                />
+            </If>
+        </div>
+    );
+}
+
+function SelectableColumn({ column, children }: PropsWithChildren<{ column: ColumnsPreviewType }>): ReactNode {
+    const selectable = useColumnSelectable();
+
+    if (!selectable) return children;
+
+    return (
+        <Selectable key={column.header || column.attribute} caption={column.header} object={column}>
+            {children}
+        </Selectable>
+    );
+}
+
+function EmptyPlaceholder(): ReactElement {
+    const { emptyPlaceholder } = useProps();
+    const { columnsHidable, columns } = useProps();
+    const checkboxColumnVisible = useCheckboxColumn();
+
+    return (
+        <emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
+            <div
+                className="td"
+                style={{
+                    gridColumn: `span ${columns.length + (columnsHidable ? 1 : 0) + (checkboxColumnVisible ? 1 : 0)}`
+                }}
+            />
+        </emptyPlaceholder.renderer>
+    );
+}
+
+function PaddingBottom(): ReactElement {
+    return (
+        <div className={cls.pb}>
+            <div className={cls.pbStart} />
+            <div className={cls.pbEnd} />
+        </div>
+    );
+}
+
+function useColumns(): ColumnsPreviewType[] {
+    const { columns } = useProps();
+    return columns.length > 0 ? columns : initColumns;
+}
+
+function useColumnSelectable(): boolean {
+    const { columns } = useProps();
+    return columns.length > 0;
+}
+
+function useHeaderCheckbox(): boolean {
+    const { itemSelection, itemSelectionMethod } = useProps();
+    return itemSelection === "Multi" && itemSelectionMethod === "checkbox";
+}
+
+function useCheckboxColumn(): boolean {
+    const { itemSelection, itemSelectionMethod } = useProps();
+    return itemSelection !== "None" && itemSelectionMethod === "checkbox";
+}
+
+function useGridStyle(): CSSProperties {
+    const props = useProps();
+    const columns = props.columns.length > 0 ? props.columns : initColumns;
+    const pcs = columns.map((col, idx) => new ColumnPreview(col, idx));
+    const columnSizes = pcs.map(c => c.getCssWidth());
+
+    const sizes: string[] = [];
+
+    if (useCheckboxColumn()) {
+        sizes.push("48px");
+    }
+
+    sizes.push(...columnSizes);
+
+    if (props.columnsHidable) {
+        sizes.push("54px");
+    }
+
+    return {
+        gridTemplateColumns: sizes.join(" ")
     };
+}
