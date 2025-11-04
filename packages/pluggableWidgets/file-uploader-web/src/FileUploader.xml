@@ -195,6 +195,24 @@
                 <caption>Object creation timeout</caption>
                 <description>Consider uploads unsuccessful if the Action to create new files/images does not create new objects within the configured amount of seconds.</description>
             </property>
+
+            <property key="onUploadSuccessFile" type="action" dataSource="associatedFiles">
+                <caption>On upload success</caption>
+                <description>The action to be called if file content uploaded successfully.</description>
+            </property>
+            <property key="onUploadSuccessImage" type="action" dataSource="associatedImages">
+                <caption>On upload success</caption>
+                <description>The action to be called if image content uploaded successfully.</description>
+            </property>
+            <property key="onUploadFailureFile" type="action" dataSource="associatedFiles">
+                <caption>On upload failure</caption>
+                <description>The action to be called if file content upload was not successful.</description>
+            </property>
+            <property key="onUploadFailureImage" type="action" dataSource="associatedImages">
+                <caption>On upload failure</caption>
+                <description>The action to be called if image content upload was not successful.</description>
+            </property>
+
             <property key="enableCustomButtons" type="boolean" defaultValue="false">
                 <caption>Enable custom buttons</caption>
                 <description />
