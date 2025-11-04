@@ -23,6 +23,16 @@
     align-items: center;
 }
 
+.swiper-button-next:focus {
+    outline: 2px solid #264ae5;
+    outline-offset: 2px;
+}
+
+.swiper-button-prev:focus {
+    outline: 2px solid #264ae5;
+    outline-offset: 2px;
+}
+
 .swiper-slide img {
     display: block;
     width: 100%;
