@@ -16,6 +16,71 @@
                     <caption>Refresh time (in seconds)</caption>
                     <description />
                 </property>
+                <property key="itemSelection" type="selection" dataSource="datasource">
+                    <caption>Selection</caption>
+                    <description />
+                    <selectionTypes>
+                        <selectionType name="None" />
+                        <selectionType name="Single" />
+                        <selectionType name="Multi" />
+                    </selectionTypes>
+                </property>
+                <property key="itemSelectionMethod" type="enumeration" defaultValue="checkbox">
+                    <caption>Selection method</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
+                        <enumerationValue key="rowClick">Row click</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="selectFirstRow" type="boolean" defaultValue="false">
+                    <caption>Auto select first row</caption>
+                    <description>Automatically select the first row</description>
+                </property>
+                <property key="itemSelectionMode" type="enumeration" defaultValue="clear">
+                    <caption>Toggle on click</caption>
+                    <description>Defines item selection behavior.</description>
+                    <enumerationValues>
+                        <enumerationValue key="toggle">Yes</enumerationValue>
+                        <enumerationValue key="clear">No</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="showSelectAllToggle" type="boolean" defaultValue="true">
+                    <caption>Show (un)check all toggle</caption>
+                    <description>Show a checkbox in the grid header to check or uncheck multiple items.</description>
+                </property>
+                <property key="keepSelection" type="boolean" defaultValue="false">
+                    <caption>Keep selection</caption>
+                    <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
+                </property>
+                <property key="selectionCountPosition" type="enumeration" defaultValue="bottom" required="true">
+                    <caption>Show selection count</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="top">Top</enumerationValue>
+                        <enumerationValue key="bottom">Bottom</enumerationValue>
+                        <enumerationValue key="off">Off</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
+                    <caption>Clear selection label</caption>
+                    <description>Customize the label of the 'Clear section' button</description>
+                    <translations>
+                        <translation lang="en_US">Clear selection</translation>
+                    </translations>
+                </property>
+                <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
+                    <caption>Loading type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="spinner">Spinner</enumerationValue>
+                        <enumerationValue key="skeleton">Skeleton</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="refreshIndicator" type="boolean" defaultValue="false">
+                    <caption>Show refresh indicator</caption>
+                    <description>Show a refresh indicator when the data is being loaded.</description>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Columns">
                 <property key="columns" type="object" isList="true">
