@@ -41,7 +41,7 @@ const defaultColumn: ColumnsPreviewType = {
     exportValue: "",
     exportDateFormat: "",
     exportNumberFormat: "",
-    exportType: "text"
+    exportType: "default"
 };
 
 const initColumns: ColumnsPreviewType[] = [defaultColumn];

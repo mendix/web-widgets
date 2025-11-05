@@ -188,7 +188,7 @@ export const getPreview = (
                   minWidthLimit: 100,
                   allowEventPropagation: true,
                   exportValue: "",
-                  exportType: "text",
+                  exportType: "default",
                   exportDateFormat: "",
                   exportNumberFormat: ""
               }

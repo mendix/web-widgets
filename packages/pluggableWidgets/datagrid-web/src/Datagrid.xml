@@ -62,11 +62,11 @@
                                 <caption>Export value</caption>
                                 <description />
                             </property>
-                            <property key="exportType" type="enumeration" defaultValue="text">
+                            <property key="exportType" type="enumeration" defaultValue="default">
                                 <caption>Export type</caption>
                                 <description />
                                 <enumerationValues>
-                                    <enumerationValue key="text">Text</enumerationValue>
+                                    <enumerationValue key="default">Default</enumerationValue>
                                     <enumerationValue key="number">Number</enumerationValue>
                                     <enumerationValue key="date">Date</enumerationValue>
                                     <enumerationValue key="boolean">Boolean</enumerationValue>

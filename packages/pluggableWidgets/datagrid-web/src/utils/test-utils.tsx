@@ -29,7 +29,7 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
         minWidth: "auto",
         minWidthLimit: 100,
         allowEventPropagation: true,
-        exportType: "text"
+        exportType: "default"
     };
 
     if (patch) {
