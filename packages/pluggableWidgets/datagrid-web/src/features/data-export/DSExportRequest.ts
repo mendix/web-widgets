@@ -264,13 +264,9 @@ export class DSExportRequest {
 
 const readers: ReadersByType = {
     attribute(item, props) {
-        if (props.attribute === undefined) {
-            return makeEmptyCell();
-        }
+        const data = props.attribute?.get(item);
 
-        const data = props.attribute.get(item);
-
-        if (data.status !== "available") {
+        if (data?.status !== "available") {
             return makeEmptyCell();
         }
 
@@ -282,53 +278,35 @@ const readers: ReadersByType = {
         });
 
         if (value instanceof Date) {
-            return {
-                t: format === undefined ? "s" : "d",
-                v: format === undefined ? data.displayValue : value,
-                z: format
-            };
+            return excelDate(format === undefined ? data.displayValue : value, format);
         }
 
         if (typeof value === "boolean") {
-            return {
-                t: "b",
-                v: value,
-                w: value ? "TRUE" : "FALSE"
-            };
+            return excelBoolean(value);
         }
 
         if (value instanceof Big || typeof value === "number") {
             const num = value instanceof Big ? value.toNumber() : value;
-            return {
-                t: "n",
-                v: num,
-                z: format
-            };
+            return excelNumber(num, format);
         }
 
-        return {
-            t: "s",
-            v: data.displayValue ?? ""
-        };
+        return excelString(data.displayValue ?? "");
     },
 
     dynamicText(item, props) {
-        if (props.dynamicText === undefined) {
-            return makeEmptyCell();
-        }
+        const data = props.dynamicText?.get(item);
 
-        const data = props.dynamicText.get(item);
-
-        switch (data.status) {
+        switch (data?.status) {
             case "available":
                 const format = getCellFormat({
                     exportType: props.exportType,
                     exportDateFormat: props.exportDateFormat,
                     exportNumberFormat: props.exportNumberFormat
                 });
-                return { t: "s", v: data.value ?? "", z: format };
+
+                return excelStringFormat(data.value ?? "", format);
             case "unavailable":
-                return { t: "s", v: "n/a" };
+                return excelString("n/a");
             default:
                 return makeEmptyCell();
         }
@@ -341,7 +319,8 @@ const readers: ReadersByType = {
             exportDateFormat: props.exportDateFormat,
             exportNumberFormat: props.exportNumberFormat
         });
-        return { t: "s", v: value, z: format };
+
+        return excelStringFormat(value, format);
     }
 };
 
@@ -349,8 +328,47 @@ function makeEmptyCell(): ExcelCell {
     return { t: "s", v: "" };
 }
 
+function excelNumber(value: number, format?: string): ExcelCell {
+    return {
+        t: "n",
+        v: value,
+        z: format
+    };
+}
+
+function excelString(value: string): ExcelCell {
+    return {
+        t: "s",
+        v: value
+    };
+}
+
+function excelStringFormat(value: string, format?: string): ExcelCell {
+    return {
+        t: "s",
+        v: value,
+        z: format
+    };
+}
+
+function excelDate(value: string | Date, format?: string): ExcelCell {
+    return {
+        t: format === undefined ? "s" : "d",
+        v: value,
+        z: format
+    };
+}
+
+function excelBoolean(value: boolean): ExcelCell {
+    return {
+        t: "b",
+        v: value,
+        w: value ? "TRUE" : "FALSE"
+    };
+}
+
 interface DataExportProps {
-    exportType: "text" | "number" | "date" | "boolean";
+    exportType: "default" | "number" | "date" | "boolean";
     exportDateFormat?: DynamicValue<string>;
     exportNumberFormat?: DynamicValue<string>;
 }
