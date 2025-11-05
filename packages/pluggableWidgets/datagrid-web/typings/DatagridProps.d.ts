@@ -108,6 +108,7 @@ export interface DatagridContainerProps {
     filtersPlaceholder?: ReactNode;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMethod: ItemSelectionMethodEnum;
+    selectFirstRow: boolean;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     enableSelectAll: boolean;
@@ -167,6 +168,7 @@ export interface DatagridPreviewProps {
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMethod: ItemSelectionMethodEnum;
+    selectFirstRow: boolean;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     enableSelectAll: boolean;
