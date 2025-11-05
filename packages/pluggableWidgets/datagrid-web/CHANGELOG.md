@@ -19,6 +19,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - We added configurable selection count visibility and clear selection button label template for improved row selection management.
+- We added the possiblity to configure the first row of a DataGrid to be auto-selected on first load, facilitating master-detail views.
+
+### Fixed
 
 ### Fixed
 
