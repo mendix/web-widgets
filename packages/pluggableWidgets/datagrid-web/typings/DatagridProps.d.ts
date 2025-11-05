@@ -95,6 +95,7 @@ export interface DatagridContainerProps {
     refreshInterval: number;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMethod: ItemSelectionMethodEnum;
+    selectFirstRow: boolean;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
@@ -149,6 +150,7 @@ export interface DatagridPreviewProps {
     refreshInterval: number | null;
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMethod: ItemSelectionMethodEnum;
+    selectFirstRow: boolean;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     keepSelection: boolean;
