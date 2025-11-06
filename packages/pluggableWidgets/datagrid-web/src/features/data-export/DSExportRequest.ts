@@ -304,7 +304,7 @@ const readers: ReadersByType = {
                     exportNumberFormat: props.exportNumberFormat
                 });
 
-                return excelStringFormat(data.value ?? "", format);
+                return excelString(data.value ?? "", format);
             case "unavailable":
                 return excelString("n/a");
             default:
@@ -320,7 +320,7 @@ const readers: ReadersByType = {
             exportNumberFormat: props.exportNumberFormat
         });
 
-        return excelStringFormat(value, format);
+        return excelString(value, format);
     }
 };
 
@@ -336,18 +336,11 @@ function excelNumber(value: number, format?: string): ExcelCell {
     };
 }
 
-function excelString(value: string): ExcelCell {
-    return {
-        t: "s",
-        v: value
-    };
-}
-
-function excelStringFormat(value: string, format?: string): ExcelCell {
+function excelString(value: string, format?: string): ExcelCell {
     return {
         t: "s",
         v: value,
-        z: format
+        z: format ?? undefined
     };
 }
 
