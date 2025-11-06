@@ -22,9 +22,9 @@ export function HTMLElement(props: HTMLElementContainerProps): ReactElement | nu
 
     return (
         <Fragment>
-            {items.map(item => (
+            {items.map((item, index) => (
                 <HTMLTag
-                    key={item?.id}
+                    key={item?.id || index}
                     tagName={tag as keyof JSX.IntrinsicElements}
                     attributes={{
                         ...prepareAttributes(createAttributeResolver(item), props.attributes, props.class, props.style),
