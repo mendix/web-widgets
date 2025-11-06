@@ -71,15 +71,15 @@ export class SelectAllBarViewModel implements SetupComponent {
     }
 
     private get selectAllFormat(): string {
-        return this.props.selectAllTemplate?.value ?? "select.all.n.items";
+        return this.props.selectAllTemplate?.value ?? "Select all %d rows in the data source";
     }
 
     private get selectAllText(): string {
-        return this.props.selectAllText?.value ?? "select.all.items";
+        return this.props.selectAllText?.value ?? "Select all rows in the data source";
     }
 
     private get allSelectedText(): string {
-        const str = this.props.allSelectedText?.value ?? "all.selected";
+        const str = this.props.allSelectedText?.value ?? "All %d rows selected.";
         return str.replace("%d", `${this.count.selectedCount}`);
     }
 

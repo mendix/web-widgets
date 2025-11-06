@@ -23,11 +23,11 @@ export class SelectionCounterViewModel {
     }
 
     private get formatSingular(): string {
-        return this.props.selectedCountTemplateSingular?.value || "%d.row.selected";
+        return this.props.selectedCountTemplateSingular?.value || "%d row selected";
     }
 
     private get formatPlural(): string {
-        return this.props.selectedCountTemplatePlural?.value || "%d.rows.selected";
+        return this.props.selectedCountTemplatePlural?.value || "%d rows selected";
     }
 
     get isTopCounterVisible(): boolean {
@@ -41,7 +41,7 @@ export class SelectionCounterViewModel {
     }
 
     get clearButtonLabel(): string {
-        return this.props.clearSelectionButtonLabel?.value || "clear.selection";
+        return this.props.clearSelectionButtonLabel?.value || "Clear selection";
     }
 
     get selectedCount(): number {
