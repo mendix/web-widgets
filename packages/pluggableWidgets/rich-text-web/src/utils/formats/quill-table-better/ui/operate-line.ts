@@ -1,11 +1,11 @@
 // @ts-nocheck
 import Quill from "quill";
 import type { QuillTableBetter, TableCell, TableColgroup } from "../types";
-import { setElementAttribute, setElementProperty, updateTableWidth } from "../utils";
+import { getCorrectWidth, setElementAttribute, setElementProperty, updateTableWidth } from "../utils";
 
 interface Options {
     tableNode: HTMLElement;
-    cellNode: HTMLElement;
+    cellNode: Element;
     mousePosition: {
         clientX: number;
         clientY: number;
@@ -180,9 +180,10 @@ class OperateLine {
     }
 
     handleMouseMove(e: MouseEvent) {
+        if (!this.quill.isEnabled()) return;
         const tableNode = (e.target as Element).closest("table.ql-table-better");
         if (!tableNode) return;
-        const cellNode = (e.target as Element).closest("td");
+        const cellNode = (e.target as Element).closest("td,th");
         const mousePosition = {
             clientX: e.clientX,
             clientY: e.clientY
@@ -227,6 +228,7 @@ class OperateLine {
         const colSum = this.getLevelColSum(cell);
         const quillCell = Quill.find(cell) as TableCell;
         const tableBlot = quillCell?.table();
+        const isPercent = tableBlot.isPercent();
         const colgroup = tableBlot.colgroup() as TableColgroup;
         const bounds = tableBlot.domNode.getBoundingClientRect();
         if (colgroup) {
@@ -265,8 +267,9 @@ class OperateLine {
                 }
             }
             for (const [node, width] of preNodes) {
-                setElementAttribute(node, { width });
-                setElementProperty(node as HTMLElement, { width: `${width}px` });
+                const correctWidth = getCorrectWidth(~~width, isPercent);
+                setElementAttribute(node, { width: correctWidth });
+                setElementProperty(node as HTMLElement, { width: correctWidth });
             }
         }
         if (cell.nextElementSibling == null) {

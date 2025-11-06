@@ -4,7 +4,7 @@ import QuillHeader from "quill/formats/header";
 import type { Props, TableCellChildren } from "../types";
 import { getCellFormats, getCorrectCellBlot } from "../utils";
 import { ListContainer } from "./list";
-import { TableCell, TableCellBlock } from "./table";
+import { TableCell, TableCellBlock, TableTh } from "./table";
 
 const Header = QuillHeader as typeof BlockBlot;
 
@@ -34,14 +34,14 @@ class TableHeader extends Header {
                 super.format("table-header", { cellId, value });
             }
         } else if (name === "list") {
-            const [formats, cellId] = this.getCellFormats(this.parent);
+            const [formats, cellId, blotName] = this.getCellFormats(this.parent);
             if (isReplace) {
                 this.wrap(ListContainer.blotName, { ...formats, cellId });
             } else {
-                this.wrap(TableCell.blotName, formats);
+                this.wrap(blotName, formats);
             }
             return this.replaceWith("table-list", value);
-        } else if (name === TableCell.blotName) {
+        } else if (value && (name === TableCell.blotName || name === TableTh.blotName)) {
             return this.wrap(name, value);
         } else if (name === this.statics.blotName && !value) {
             const cellId = this.domNode.getAttribute("data-cell");
@@ -68,7 +68,7 @@ class TableHeader extends Header {
 
     getCellFormats(parent: TableCell | TableCellChildren) {
         const cellBlot = getCorrectCellBlot(parent);
-        return getCellFormats(cellBlot!);
+        return [...getCellFormats(cellBlot!), cellBlot!.statics.blotName];
     }
 }
 
