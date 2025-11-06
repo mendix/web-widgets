@@ -17,6 +17,7 @@ export interface BarcodeGeneratorContainerProps {
     tabIndex?: number;
     codeValue: EditableValue<string>;
     codeFormat: CodeFormatEnum;
+    allowDownload: boolean;
     displayValue: boolean;
     codeWidth: number;
     codeHeight: number;
@@ -38,6 +39,7 @@ export interface BarcodeGeneratorPreviewProps {
     translate: (text: string) => string;
     codeValue: string;
     codeFormat: CodeFormatEnum;
+    allowDownload: boolean;
     displayValue: boolean;
     codeWidth: number | null;
     codeHeight: number | null;
