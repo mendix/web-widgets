@@ -353,15 +353,13 @@ async function createReleaseBranch(packageName: string, version: string): Promis
 }
 
 async function initializeJiraClient(): Promise<Jira> {
-    const projectKey = process.env.JIRA_PROJECT_KEY;
-    const baseUrl = process.env.JIRA_BASE_URL;
+    const projectKey = process.env.JIRA_PROJECT_KEY ?? "WC";
+    const baseUrl = process.env.JIRA_BASE_URL ?? "https://mendix.atlassian.net";
     const apiToken = process.env.JIRA_API_TOKEN;
 
     if (!projectKey || !baseUrl || !apiToken) {
         console.error(chalk.red("❌ Missing Jira environment variables"));
         console.log(chalk.dim("   Required variables:"));
-        console.log(chalk.dim("   export JIRA_PROJECT_KEY=WEB"));
-        console.log(chalk.dim("   export JIRA_BASE_URL=https://your-company.atlassian.net"));
         console.log(chalk.dim("   export JIRA_API_TOKEN=username@your-company.com:ATATT3xFfGF0..."));
         console.log(chalk.dim("   Get your API token at: https://id.atlassian.com/manage-profile/security/api-tokens"));
         throw new Error("Missing Jira environment variables");
