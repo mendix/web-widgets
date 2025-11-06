@@ -24,6 +24,10 @@
                         <enumerationValue key="Custom">Custom Format</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="allowDownload" type="boolean" defaultValue="false">
+                    <caption>Allow download</caption>
+                    <description>Adds a download button</description>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Display">
                 <property key="displayValue" type="boolean" defaultValue="false">
