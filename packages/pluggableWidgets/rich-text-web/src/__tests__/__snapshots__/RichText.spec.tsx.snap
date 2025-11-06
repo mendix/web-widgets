@@ -4228,6 +4228,10 @@ exports[`Rich Text renders richtext widget with readonly config 1`] = `
       </div>
       <div />
     </div>
+    <div
+      class="widget-rich-text-footer hide-status-bar"
+      tabindex="-1"
+    />
   </div>
 </div>
 `;
@@ -4818,7 +4822,7 @@ exports[`Rich Text renders with HTML character count status bar 1`] = `
     >
       <span>
         <span>
-          77
+          62
         </span>
         <span>
            character
