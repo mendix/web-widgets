@@ -52,6 +52,8 @@ export class GitHub {
     authSet = false;
     tmpPrefix = "gh-";
     authToken: string = "";
+    owner = "mendix";
+    repo = "web-widgets";
 
     async ensureAuth(): Promise<void> {
         if (!this.authSet) {
@@ -140,7 +142,7 @@ export class GitHub {
             const release =
                 (await fetch<{ id: string }>(
                     "GET",
-                    `https://api.github.com/repos/mendix/web-widgets/releases/tags/${releaseTag}`,
+                    `https://api.github.com/repos/${this.owner}/${this.repo}/releases/tags/${releaseTag}`,
                     undefined,
                     { ...this.ghAPIHeaders }
                 )) ?? [];
@@ -171,7 +173,7 @@ export class GitHub {
                 name: string;
                 browser_download_url: string;
             }>
-        >("GET", `https://api.github.com/repos/mendix/web-widgets/releases/${releaseId}/assets`, undefined, {
+        >("GET", `https://api.github.com/repos/${this.owner}/${this.repo}/releases/${releaseId}/assets`, undefined, {
             ...this.ghAPIHeaders
         });
     }
@@ -188,10 +190,10 @@ export class GitHub {
         return downloadUrl;
     }
 
-    async getDraftReleases(owner = "mendix", repo = "web-widgets"): Promise<GitHubDraftRelease[]> {
+    async getDraftReleases(): Promise<GitHubDraftRelease[]> {
         const releases = await fetch<GitHubDraftRelease[]>(
             "GET",
-            `https://api.github.com/repos/${owner}/${repo}/releases`,
+            `https://api.github.com/repos/${this.owner}/${this.repo}/releases`,
             undefined,
             {
                 ...this.ghAPIHeaders
@@ -202,15 +204,10 @@ export class GitHub {
         return releases.filter(release => release.draft);
     }
 
-    async downloadReleaseAsset(
-        assetId: string,
-        destinationPath: string,
-        owner = "mendix",
-        repo = "web-widgets"
-    ): Promise<void> {
+    async downloadReleaseAsset(assetId: string, destinationPath: string): Promise<void> {
         await this.ensureAuth();
 
-        const url = `https://api.github.com/repos/${owner}/${repo}/releases/assets/${assetId}`;
+        const url = `https://api.github.com/repos/${this.owner}/${this.repo}/releases/assets/${assetId}`;
 
         try {
             const response = await nodefetch(url, {
@@ -256,14 +253,14 @@ export class GitHub {
     }): Promise<void> {
         await this.ensureAuth();
 
-        const { workflowId, ref, inputs, owner = "mendix", repo = "web-widgets" } = params;
+        const { workflowId, ref, inputs } = params;
 
         // Convert inputs object to CLI parameters
         const inputParams = Object.entries(inputs)
             .map(([key, value]) => `-f ${key}=${value}`)
             .join(" ");
 
-        const repoParam = `${owner}/${repo}`;
+        const repoParam = `${this.owner}/${this.repo}`;
 
         const command = [`gh workflow run`, `"${workflowId}"`, `--ref "${ref}"`, inputParams, `-R "${repoParam}"`]
             .filter(Boolean)
@@ -290,13 +287,16 @@ export class GitHub {
     /**
      * Delete a release asset by ID
      */
-    private async deleteReleaseAsset(assetId: string, owner = "mendix", repo = "web-widgets"): Promise<void> {
+    async deleteReleaseAsset(assetId: string): Promise<void> {
         await this.ensureAuth();
 
-        const response = await nodefetch(`https://api.github.com/repos/${owner}/${repo}/releases/assets/${assetId}`, {
-            method: "DELETE",
-            headers: this.ghAPIHeaders
-        });
+        const response = await nodefetch(
+            `https://api.github.com/repos/${this.owner}/${this.repo}/releases/assets/${assetId}`,
+            {
+                method: "DELETE",
+                headers: this.ghAPIHeaders
+            }
+        );
 
         if (!response.ok) {
             throw new Error(`Failed to delete asset ${assetId}: ${response.status} ${response.statusText}`);
@@ -306,19 +306,13 @@ export class GitHub {
     /**
      * Upload a new asset to a release
      */
-    private async uploadReleaseAsset(
-        releaseId: string,
-        filePath: string,
-        assetName: string,
-        owner = "mendix",
-        repo = "web-widgets"
-    ): Promise<GitHubReleaseAsset> {
+    async uploadReleaseAsset(releaseId: string, filePath: string, assetName: string): Promise<GitHubReleaseAsset> {
         await this.ensureAuth();
 
         // Get release info to get upload URL
         const release = await fetch<{ upload_url: string }>(
             "GET",
-            `https://api.github.com/repos/${owner}/${repo}/releases/${releaseId}`,
+            `https://api.github.com/repos/${this.owner}/${this.repo}/releases/${releaseId}`,
             undefined,
             this.ghAPIHeaders
         );
@@ -350,24 +344,6 @@ export class GitHub {
         const asset = (await response.json()) as GitHubReleaseAsset;
 
         return asset;
-    }
-
-    /**
-     * Update a release asset by replacing it with a new file.
-     */
-    async updateReleaseAsset(
-        releaseId: string,
-        existingAsset: GitHubReleaseAsset,
-        localFilePath: string,
-        owner = "mendix",
-        repo = "web-widgets"
-    ): Promise<GitHubReleaseAsset> {
-        await this.ensureAuth();
-
-        await this.deleteReleaseAsset(existingAsset.id, owner, repo);
-
-        // Upload the new asset
-        return this.uploadReleaseAsset(releaseId, localFilePath, existingAsset.name, owner, repo);
     }
 }
 
