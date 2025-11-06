@@ -89,8 +89,10 @@ async function selectRelease(): Promise<GitHubDraftRelease> {
     printSuccess(`Found ${releases.length} draft release${releases.length !== 1 ? "s" : ""}`);
 
     if (releases.length === 0) {
-        printWarning("No draft releases found");
-        throw new Error("No releases available");
+        printWarning(
+            "No draft releases found. Please create a draft release before trying again using `prepare-release` tool"
+        );
+        throw new Error("No draft releases found");
     }
 
     console.log(); // spacing
@@ -252,18 +254,8 @@ async function handleIncludeCommand(): Promise<void> {
 
         printInfo(`Readme to include: ${readmeToInclude}`);
 
-        // Prepare folder structure
-        const [tmpFolder, downloadPath] = await createSBomGeneratorFolderStructure(release.name);
-        printInfo(`Working directory: ${tmpFolder}`);
-
-        // Step 5: Download and verify
-        await downloadAndVerifyAsset(mpkAsset, downloadPath);
-
-        // Step 6: Include readmeToInclude into the mpk
-        await includeReadmeOssIntoMpk(readmeToInclude, downloadPath);
-
         // Step 7: Upload updated asses to the draft release
-        const newAsset = await gh.updateReleaseAsset(release.id, mpkAsset, downloadPath);
+        const newAsset = await gh.uploadReleaseAsset(release.id, readmeToInclude, basename(readmeToInclude));
         console.log(`Successfully uploaded asset ${newAsset.name} (ID: ${newAsset.id})`);
 
         console.log(release.id);
