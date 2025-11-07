@@ -26,4 +26,5 @@ export type MainGateProps = Pick<
     | "cancelSelectionLabel"
     | "selectionCounterPosition"
     | "enableSelectAll"
+    | "emptyPlaceholder"
 >;

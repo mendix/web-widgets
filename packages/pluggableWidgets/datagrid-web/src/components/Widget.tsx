@@ -1,7 +1,6 @@
 import { RefreshIndicator } from "@mendix/widget-plugin-component-kit/RefreshIndicator";
 import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { observer } from "mobx-react-lite";
 import { CSSProperties, Fragment, ReactElement, ReactNode } from "react";
@@ -12,6 +11,7 @@ import {
     ShowPagingButtonsEnum
 } from "../../typings/DatagridProps";
 
+import { EmptyPlaceholder } from "../features/empty-message/EmptyPlaceholder";
 import { SelectAllBar } from "../features/select-all/SelectAllBar";
 import { SelectionProgressDialog } from "../features/select-all/SelectionProgressDialog";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
@@ -38,7 +38,6 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     columnsResizable: boolean;
     columnsSortable: boolean;
     data: T[];
-    emptyPlaceholderRenderer?: (renderWrapper: (children: ReactNode) => ReactElement) => ReactElement;
     exporting: boolean;
     filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
     hasMoreItems: boolean;
@@ -117,7 +116,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         CellComponent,
         columnsHidable,
         data: rows,
-        emptyPlaceholderRenderer,
         hasMoreItems,
         headerContent,
         headerTitle,
@@ -128,7 +126,6 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         paginationType,
         paging,
         pagingPosition,
-        preview,
         showRefreshIndicator,
         selectActionHelper,
         setPage,
@@ -216,23 +213,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                             eventsController={props.cellEventsController}
                             pageSize={props.pageSize}
                         />
-                        {(rows.length === 0 || preview) &&
-                            emptyPlaceholderRenderer &&
-                            emptyPlaceholderRenderer(children => (
-                                <div
-                                    key="row-footer"
-                                    className={classNames("td", { "td-borders": !preview })}
-                                    style={{
-                                        gridColumn: `span ${
-                                            visibleColumns.length +
-                                            (columnsHidable ? 1 : 0) +
-                                            (selectActionHelper.showCheckboxColumn ? 1 : 0)
-                                        }`
-                                    }}
-                                >
-                                    <div className="empty-placeholder">{children}</div>
-                                </div>
-                            ))}
+                        <EmptyPlaceholder />
                     </GridBody>
                 </Grid>
             </WidgetContent>

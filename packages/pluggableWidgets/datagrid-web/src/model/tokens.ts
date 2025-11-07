@@ -1,6 +1,8 @@
 import { FilterAPI, WidgetFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
+import { itemCountAtom } from "@mendix/widget-plugin-grid/core/models/datasource.model";
+import { emptyStateWidgetsAtom } from "@mendix/widget-plugin-grid/core/models/empty-state.model";
 import {
     DatasourceService,
     QueryService,
@@ -8,11 +10,13 @@ import {
     SelectionCounterViewModel,
     TaskProgressService
 } from "@mendix/widget-plugin-grid/main";
-import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { ComputedAtom, DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { injected, token } from "brandi";
 import { ListValue } from "mendix";
+import { ReactNode } from "react";
 import { SelectionCounterPositionEnum } from "../../typings/DatagridProps";
 import { MainGateProps } from "../../typings/MainGateProps";
+import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
 import { SelectAllGateProps } from "../features/select-all/SelectAllGateProps";
 import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
@@ -21,6 +25,7 @@ import { GridBasicData } from "../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationStore";
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
 import { DatagridConfig } from "./configs/Datagrid.config";
+import { visibleColumnsCountAtom } from "./models/columns.model";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
 import { PaginationConfig, PaginationController } from "./services/PaginationController";
 
@@ -31,6 +36,8 @@ export const TOKENS = {
     combinedFilter: token<CombinedFilter>("CombinedFilter"),
     combinedFilterConfig: token<CombinedFilterConfig>("CombinedFilterKey"),
     config: token<DatagridConfig>("DatagridConfig"),
+    emptyPlaceholderVM: token<EmptyPlaceholderViewModel>("EmptyPlaceholderViewModel"),
+    emptyPlaceholderWidgets: token<ComputedAtom<ReactNode>>("@computed:emptyPlaceholder"),
     enableSelectAll: token<boolean>("enableSelectAll"),
     exportProgressService: token<TaskProgressService>("ExportProgressService"),
     filterAPI: token<FilterAPI>("FilterAPI"),
@@ -53,7 +60,9 @@ export const TOKENS = {
     selectionCounterPosition: token<SelectionCounterPositionEnum>("SelectionCounterPositionEnum"),
     selectionCounterVM: token<SelectionCounterViewModel>("SelectionCounterViewModel"),
     selectionDialogVM: token<SelectionProgressDialogViewModel>("SelectionProgressDialogViewModel"),
-    setupService: token<SetupComponentHost>("DatagridSetupHost")
+    setupService: token<SetupComponentHost>("DatagridSetupHost"),
+    visibleColumnsCount: token<ComputedAtom<number>>("@computed:visibleColumnsCount"),
+    visibleRowCount: token<ComputedAtom<number>>("@computed:visibleRowCount")
 };
 
 /** Inject dependencies */
@@ -96,3 +105,11 @@ injected(
     TOKENS.selectAllProgressService,
     TOKENS.selectAllService
 );
+
+injected(EmptyPlaceholderViewModel, TOKENS.emptyPlaceholderWidgets, TOKENS.visibleColumnsCount, TOKENS.config);
+
+injected(visibleColumnsCountAtom, TOKENS.columnsStore);
+
+injected(itemCountAtom, TOKENS.mainGate);
+
+injected(emptyStateWidgetsAtom, TOKENS.mainGate, TOKENS.visibleRowCount);
