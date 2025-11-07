@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Added focus indicator and background to navigation buttons of carousel, removed autoplay by default
+
 ## [2.3.0] - 2025-08-19
 
 ### Changed
