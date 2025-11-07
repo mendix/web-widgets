@@ -1,6 +1,8 @@
 import { WidgetFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
+import { itemCountAtom } from "@mendix/widget-plugin-grid/core/models/datasource.model";
+import { emptyStateWidgetsAtom } from "@mendix/widget-plugin-grid/core/models/empty-state.model";
 import { DatasourceService, ProgressService, SelectionCounterViewModel } from "@mendix/widget-plugin-grid/main";
 import { ClosableGateProvider } from "@mendix/widget-plugin-mobx-kit/ClosableGateProvider";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
@@ -13,6 +15,7 @@ import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../../helpers/state/GridPersonalizationStore";
 import { DatagridConfig, datagridConfig } from "../configs/Datagrid.config";
+import { visibleColumnsCountAtom } from "../models/columns.model";
 import { DatasourceParamsController } from "../services/DatasourceParamsController";
 import { DerivedLoaderController } from "../services/DerivedLoaderController";
 import { PaginationController } from "../services/PaginationController";
@@ -124,6 +127,11 @@ export class DatagridContainer extends Container {
 
         // Bind select all enabled flag
         this.bind(TOKENS.enableSelectAll).toConstant(props.enableSelectAll);
+
+        // Atoms
+        this.bind(TOKENS.visibleColumnsCount).toInstance(visibleColumnsCountAtom).inTransientScope();
+        this.bind(TOKENS.visibleRowCount).toInstance(itemCountAtom).inTransientScope();
+        this.bind(TOKENS.emptyPlaceholderWidgets).toInstance(emptyStateWidgetsAtom).inTransientScope();
 
         this.postInit(props, config);
 
