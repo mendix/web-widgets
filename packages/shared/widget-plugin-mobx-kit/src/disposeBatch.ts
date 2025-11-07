@@ -1,19 +1,6 @@
-type MaybeFn = (() => void) | void;
+import { disposeBatch } from "./lib/disposeBatch";
 
-export function disposeBatch(): [add: (fn: MaybeFn) => void, disposeAll: () => void] {
-    const disposers = new Set<() => void>();
-
-    const add = (fn: MaybeFn): void => {
-        if (fn) {
-            disposers.add(fn);
-        }
-    };
-
-    const disposeAll = (): void => {
-        for (const fn of disposers) {
-            fn();
-        }
-        disposers.clear();
-    };
-    return [add, disposeAll];
-}
+export {
+    /** @deprecated import `disposeBatch` from `@mendix/widget-plugin-mobx-kit/main` instead */
+    disposeBatch
+};

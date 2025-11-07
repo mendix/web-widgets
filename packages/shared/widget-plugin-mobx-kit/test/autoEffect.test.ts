@@ -1,5 +1,5 @@
 import { configure, observable } from "mobx";
-import { autoEffect } from "../src/autoEffect";
+import { autoEffect } from "../src/lib/autoEffect";
 
 describe("autoEffect", () => {
     configure({

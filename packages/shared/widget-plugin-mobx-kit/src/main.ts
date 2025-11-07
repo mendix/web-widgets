@@ -1,9 +1,13 @@
-export { autoEffect } from "./autoEffect";
 export { DerivedGate } from "./DerivedGate";
-export { disposeBatch } from "./disposeBatch";
 export { GateProvider } from "./GateProvider";
+export type { ComputedAtom } from "./interfaces/ComputedAtom";
 export * from "./interfaces/DerivedPropsGate";
 export * from "./interfaces/DerivedPropsGateProvider";
 export * from "./interfaces/SetupComponent";
 export * from "./interfaces/SetupComponentHost";
+export { atomFactory } from "./lib/atomFactory";
+export { autoEffect } from "./lib/autoEffect";
+export { createEmitter } from "./lib/createEmitter";
+export type { Emitter } from "./lib/createEmitter";
+export { disposeBatch } from "./lib/disposeBatch";
 export { SetupHost } from "./SetupHost";
