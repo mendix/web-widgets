@@ -32,6 +32,7 @@
     },
     "dependencies": {
         "@types/minimatch": "^3.0.5",
+        "mitt": "^3.0.1",
         "mobx": "6.12.3"
     },
     "devDependencies": {

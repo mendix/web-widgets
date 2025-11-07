@@ -1,6 +1,6 @@
-import { disposeBatch } from "./disposeBatch";
 import { SetupComponent } from "./interfaces/SetupComponent";
 import { SetupComponentHost } from "./interfaces/SetupComponentHost";
+import { disposeBatch } from "./lib/disposeBatch";
 
 export abstract class SetupHost implements SetupComponentHost {
     private components: Set<SetupComponent> = new Set();
