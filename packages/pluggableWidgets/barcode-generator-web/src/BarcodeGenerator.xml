@@ -21,7 +21,25 @@
                     <enumerationValues>
                         <enumerationValue key="CODE128">Barcode</enumerationValue>
                         <enumerationValue key="QRCode">QR Code</enumerationValue>
-                        <enumerationValue key="Custom">Custom Format</enumerationValue>
+                        <enumerationValue key="Custom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="customCodeFormat" type="enumeration" required="true" defaultValue="CODE128">
+                    <caption>Custom Format</caption>
+                    <description>Choose between barcode types format</description>
+                    <enumerationValues>
+                        <enumerationValue key="CODE128">CODE128</enumerationValue>
+                        <enumerationValue key="EAN13">EAN-13</enumerationValue>
+                        <enumerationValue key="EAN8">EAN-8</enumerationValue>
+                        <enumerationValue key="EAN5">EAN-5</enumerationValue>
+                        <enumerationValue key="EAN2">EAN-2</enumerationValue>
+                        <enumerationValue key="UPC">UPC</enumerationValue>
+                        <enumerationValue key="CODE39">CODE39</enumerationValue>
+                        <enumerationValue key="ITF14">ITF-14</enumerationValue>
+                        <enumerationValue key="MSI">MSI</enumerationValue>
+                        <enumerationValue key="pharmacode">Pharmacode</enumerationValue>
+                        <enumerationValue key="codabar">Codabar</enumerationValue>
+                        <enumerationValue key="CODE93">CODE93</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="allowDownload" type="boolean" defaultValue="false">
@@ -42,35 +60,69 @@
                     <caption>Code height</caption>
                     <description>In pixels</description>
                 </property>
-                <property key="qrSize" type="integer" required="true" defaultValue="128">
-                    <caption>QR Size</caption>
-                    <description>The size of the QR box</description>
-                </property>
                 <property key="codeMargin" type="integer" required="true" defaultValue="2">
                     <caption>Margin size</caption>
                     <description>In pixels</description>
                 </property>
+                <property key="qrSize" type="integer" required="true" defaultValue="128">
+                    <caption>QR Size</caption>
+                    <description>The size of the QR box</description>
+                </property>
+                <property key="qrMargin" type="integer" required="true" defaultValue="2">
+                    <caption>Margin size</caption>
+                    <description />
+                </property>
+                <property key="qrTitle" type="string" required="true">
+                    <caption>Title</caption>
+                    <description>Used for accessibility reasons.</description>
+                </property>
+                <property key="qrLevel" type="enumeration" required="true" defaultValue="L">
+                    <caption>Level</caption>
+                    <description>The Error Correction Level to use</description>
+                    <enumerationValues>
+                        <enumerationValue key="L">L</enumerationValue>
+                        <enumerationValue key="M">M</enumerationValue>
+                        <enumerationValue key="Q">Q</enumerationValue>
+                        <enumerationValue key="H">H</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="qrImage" type="boolean" required="true" defaultValue="false">
+                    <caption>Image</caption>
+                    <description>Include an image on top the QR code</description>
+                </property>
+                <property key="qrImageSrc" type="image" required="true">
+                    <caption>Image source</caption>
+                    <description>URL or path to the image to display on the QR code</description>
+                </property>
+                <property key="qrImageCenter" type="boolean" required="true" defaultValue="true">
+                    <caption>Center image</caption>
+                    <description>Center the image in the QR code</description>
+                </property>
+                <property key="qrImageX" type="integer" required="true" defaultValue="0">
+                    <caption>Image X position</caption>
+                    <description>Horizontal position of the image</description>
+                </property>
+                <property key="qrImageY" type="integer" required="true" defaultValue="0">
+                    <caption>Image Y position</caption>
+                    <description>Vertical position of the image</description>
+                </property>
+                <property key="qrImageHeight" type="integer" required="true" defaultValue="24">
+                    <caption>Image height</caption>
+                    <description>Height of the image in pixels</description>
+                </property>
+                <property key="qrImageWidth" type="integer" required="true" defaultValue="24">
+                    <caption>Image width</caption>
+                    <description>Width of the image in pixels</description>
+                </property>
+                <property key="qrImageOpacity" type="decimal" required="true" defaultValue="1">
+                    <caption>Image opacity</caption>
+                    <description>Opacity of the image (0.0 to 1.0)</description>
+                </property>
+                <property key="qrImageExcavate" type="boolean" required="true" defaultValue="true">
+                    <caption>Excavate background</caption>
+                    <description>Remove QR code dots behind the image</description>
+                </property>
             </propertyGroup>
-        </propertyGroup>
-        <propertyGroup caption="Advanced">
-            <property key="customCodeFormat" type="enumeration" required="true" defaultValue="CODE128">
-                <caption>Barcode Format</caption>
-                <description>Choose between barcode types format</description>
-                <enumerationValues>
-                    <enumerationValue key="CODE128">CODE128</enumerationValue>
-                    <enumerationValue key="EAN13">EAN-13</enumerationValue>
-                    <enumerationValue key="EAN8">EAN-8</enumerationValue>
-                    <enumerationValue key="EAN5">EAN-5</enumerationValue>
-                    <enumerationValue key="EAN2">EAN-2</enumerationValue>
-                    <enumerationValue key="UPC">UPC</enumerationValue>
-                    <enumerationValue key="CODE39">CODE39</enumerationValue>
-                    <enumerationValue key="ITF14">ITF-14</enumerationValue>
-                    <enumerationValue key="MSI">MSI</enumerationValue>
-                    <enumerationValue key="pharmacode">Pharmacode</enumerationValue>
-                    <enumerationValue key="codabar">Codabar</enumerationValue>
-                    <enumerationValue key="CODE93">CODE93</enumerationValue>
-                </enumerationValues>
-            </property>
         </propertyGroup>
     </properties>
 </widget>
