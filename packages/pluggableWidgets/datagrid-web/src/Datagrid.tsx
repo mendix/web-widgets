@@ -38,7 +38,8 @@ const Container = observer((props: Props): ReactElement => {
         props.itemSelection,
         props.datasource,
         props.onSelectionChange,
-        props.keepSelection ? "always keep" : "always clear"
+        props.keepSelection || props.selectFirstRow ? "always keep" : "always clear",
+        props.selectFirstRow
     );
 
     const selectActionHelper = useSelectActionHelper(props, selectionHelper);
