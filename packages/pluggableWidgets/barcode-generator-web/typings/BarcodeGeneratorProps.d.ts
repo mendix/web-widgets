@@ -4,11 +4,14 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { EditableValue } from "mendix";
+import { DynamicValue, EditableValue, WebImage } from "mendix";
+import { Big } from "big.js";
 
 export type CodeFormatEnum = "CODE128" | "QRCode" | "Custom";
 
 export type CustomCodeFormatEnum = "CODE128" | "EAN13" | "EAN8" | "EAN5" | "EAN2" | "UPC" | "CODE39" | "ITF14" | "MSI" | "pharmacode" | "codabar" | "CODE93";
+
+export type QrLevelEnum = "L" | "M" | "Q" | "H";
 
 export interface BarcodeGeneratorContainerProps {
     name: string;
@@ -17,13 +20,25 @@ export interface BarcodeGeneratorContainerProps {
     tabIndex?: number;
     codeValue: EditableValue<string>;
     codeFormat: CodeFormatEnum;
+    customCodeFormat: CustomCodeFormatEnum;
     allowDownload: boolean;
     displayValue: boolean;
     codeWidth: number;
     codeHeight: number;
-    qrSize: number;
     codeMargin: number;
-    customCodeFormat: CustomCodeFormatEnum;
+    qrSize: number;
+    qrMargin: number;
+    qrTitle: string;
+    qrLevel: QrLevelEnum;
+    qrImage: boolean;
+    qrImageSrc: DynamicValue<WebImage>;
+    qrImageCenter: boolean;
+    qrImageX: number;
+    qrImageY: number;
+    qrImageHeight: number;
+    qrImageWidth: number;
+    qrImageOpacity: Big;
+    qrImageExcavate: boolean;
 }
 
 export interface BarcodeGeneratorPreviewProps {
@@ -39,11 +54,23 @@ export interface BarcodeGeneratorPreviewProps {
     translate: (text: string) => string;
     codeValue: string;
     codeFormat: CodeFormatEnum;
+    customCodeFormat: CustomCodeFormatEnum;
     allowDownload: boolean;
     displayValue: boolean;
     codeWidth: number | null;
     codeHeight: number | null;
-    qrSize: number | null;
     codeMargin: number | null;
-    customCodeFormat: CustomCodeFormatEnum;
+    qrSize: number | null;
+    qrMargin: number | null;
+    qrTitle: string;
+    qrLevel: QrLevelEnum;
+    qrImage: boolean;
+    qrImageSrc: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
+    qrImageCenter: boolean;
+    qrImageX: number | null;
+    qrImageY: number | null;
+    qrImageHeight: number | null;
+    qrImageWidth: number | null;
+    qrImageOpacity: number | null;
+    qrImageExcavate: boolean;
 }

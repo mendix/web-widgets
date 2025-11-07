@@ -12,9 +12,26 @@ export type Problem = {
 
 export function getProperties(values: BarcodeGeneratorPreviewProps, defaultProperties: Properties): Properties {
     if (values.codeFormat === "QRCode") {
-        hidePropertiesIn(defaultProperties, values, ["codeWidth", "codeHeight", "displayValue"]);
+        hidePropertiesIn(defaultProperties, values, ["codeWidth", "codeHeight", "displayValue", "codeMargin"]);
     } else {
-        hidePropertiesIn(defaultProperties, values, ["qrSize"]);
+        hidePropertiesIn(defaultProperties, values, ["qrImage", "qrSize", "qrMargin", "qrLevel", "qrTitle"]);
+    }
+
+    if (values.codeFormat !== "QRCode" || !values.qrImage) {
+        hidePropertiesIn(defaultProperties, values, [
+            "qrImageSrc",
+            "qrImageCenter",
+            "qrImageWidth",
+            "qrImageHeight",
+            "qrImageX",
+            "qrImageY",
+            "qrImageOpacity",
+            "qrImageExcavate"
+        ]);
+    }
+
+    if (values.qrImageCenter) {
+        hidePropertiesIn(defaultProperties, values, ["qrImageX", "qrImageY"]);
     }
 
     if (values.codeFormat !== "Custom") {
