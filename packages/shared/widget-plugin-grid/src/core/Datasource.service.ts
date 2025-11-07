@@ -124,12 +124,12 @@ export class DatasourceService implements SetupComponent, QueryService {
                 // Subscribe to items to reschedule timer on items change
                 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                 this.items;
-                clearInterval(timerId);
+                clearTimeout(timerId);
                 timerId = window.setTimeout(() => this.backgroundRefresh(), this.refreshIntervalMs);
             });
             add(() => {
                 clearAutorun();
-                clearInterval(timerId);
+                clearTimeout(timerId);
             });
         }
 
