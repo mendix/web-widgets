@@ -23,11 +23,15 @@
     align-items: center;
 }
 
-.swiper-button-next:focus {
-    outline: 2px solid #264ae5;
-    outline-offset: 2px;
+.swiper-button-next,
+.swiper-button-prev {
+    --swiper-navigation-size: 24px;
+    border-radius: 50%;
+    background-color: rgba(245, 245, 245, 0.7);
+    padding: 2em;
 }
 
+.swiper-button-next:focus,
 .swiper-button-prev:focus {
     outline: 2px solid #264ae5;
     outline-offset: 2px;
