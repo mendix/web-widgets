@@ -23,7 +23,7 @@ export class SelectionCounterViewModel {
     }
 
     private get formatSingular(): string {
-        return this.props.selectedCountTemplateSingular?.value || "%d items selected";
+        return this.props.selectedCountTemplateSingular?.value || "%d item selected";
     }
 
     private get formatPlural(): string {
