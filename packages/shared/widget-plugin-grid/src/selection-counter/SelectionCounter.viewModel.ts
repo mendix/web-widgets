@@ -23,11 +23,11 @@ export class SelectionCounterViewModel {
     }
 
     private get formatSingular(): string {
-        return this.props.selectedCountTemplateSingular?.value || "%d row selected";
+        return this.props.selectedCountTemplateSingular?.value || "%d items selected";
     }
 
     private get formatPlural(): string {
-        return this.props.selectedCountTemplatePlural?.value || "%d rows selected";
+        return this.props.selectedCountTemplatePlural?.value || "%d items selected";
     }
 
     get isTopCounterVisible(): boolean {

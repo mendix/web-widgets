@@ -210,14 +210,14 @@
                     <caption>Item count singular</caption>
                     <description>Must include '%d' to denote number position</description>
                     <translations>
-                        <translation lang="en_US">%d row selected</translation>
+                        <translation lang="en_US">%d items selected</translation>
                     </translations>
                 </property>
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
                     <caption>Item count plural</caption>
                     <description>Must include '%d' to denote number position</description>
                     <translations>
-                        <translation lang="en_US">%d rows selected</translation>
+                        <translation lang="en_US">%d items selected</translation>
                     </translations>
                 </property>
             </propertyGroup>
