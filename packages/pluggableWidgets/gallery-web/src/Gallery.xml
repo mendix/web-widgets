@@ -210,7 +210,7 @@
                     <caption>Item count singular</caption>
                     <description>Must include '%d' to denote number position</description>
                     <translations>
-                        <translation lang="en_US">%d items selected</translation>
+                        <translation lang="en_US">%d item selected</translation>
                     </translations>
                 </property>
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
