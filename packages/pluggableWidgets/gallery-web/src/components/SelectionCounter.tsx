@@ -21,7 +21,7 @@ export const SelectionCounter = observer(function SelectionCounter({
                 <span className="widget-gallery-selection-count" aria-live="polite" aria-atomic="true">
                     {selectionCountStore.selectedCountText}
                 </span>
-                &nbsp;
+                &nbsp;|&nbsp;
                 <button
                     className="widget-gallery-clear-selection"
                     onClick={itemSelectHelper.onClearSelection}
