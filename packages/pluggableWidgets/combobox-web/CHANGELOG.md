@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We improved behaviour of single selection with custom content.
+
 ## [2.6.2] - 2025-10-29
 
 ### Fixed

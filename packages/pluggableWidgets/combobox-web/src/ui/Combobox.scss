@@ -165,14 +165,30 @@ $cb-skeleton-dark: #d2d2d2;
         flex-grow: 1;
         border: none;
         padding: 0;
-        width: 100%;
 
-        &:not(:focus) {
-            opacity: 0;
+        // when there is no filter or the input is readonly
+        // collapse input so it it not visible
+        &-nofilter,
+        &:placeholder-shown:not(:focus) {
+            max-width: 0;
         }
 
-        &-nofilter {
-            cursor: pointer;
+        // when input is focused (:focus) and empty (:placeholder-shown)
+        // we still show custom content (so the input is "collapsed")
+        // but we still have to show the input cursor, so we allow 3 pixels width
+        &:placeholder-shown:focus:not(&-nofilter):has(+ .widget-combobox-placeholder-empty) {
+            max-width: 3px;
+            margin-right: -3px;
+        }
+    }
+
+    .widget-combobox-selected-items:not(.widget-combobox-boxes) {
+        .widget-combobox-input {
+            // when focused but empty - allow to show only cursor
+            &:placeholder-shown:focus:not(&-nofilter) {
+                max-width: 3px;
+                margin-right: -3px;
+            }
         }
     }
 
@@ -233,11 +249,8 @@ $cb-skeleton-dark: #d2d2d2;
 
         &-text {
             color: var(--cb-text-color, var(--gray-darker, $cb-typography-color));
-            position: absolute;
             inset-inline-start: 0;
             inset-inline-end: 0;
-            top: 0;
-            bottom: 0;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
@@ -269,7 +282,7 @@ $cb-skeleton-dark: #d2d2d2;
                 inset-inline-end: 0;
                 bottom: 0;
             }
-            &:focus:not(:placeholder-shown) + .widget-combobox-placeholder-custom {
+            &:not(:placeholder-shown) + .widget-combobox-placeholder-custom {
                 display: none;
             }
         }
@@ -294,7 +307,8 @@ $cb-skeleton-dark: #d2d2d2;
             input:placeholder-shown,
             input:not(:focus) {
                 & + .widget-combobox-placeholder-text {
-                    display: block;
+                    display: flex;
+                    align-items: center;
                 }
             }
         }
