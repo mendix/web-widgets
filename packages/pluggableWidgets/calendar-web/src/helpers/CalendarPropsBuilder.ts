@@ -116,7 +116,7 @@ export class CalendarPropsBuilder {
         if (this.props.titleType === "attribute" && this.props.titleAttribute) {
             return this.props.titleAttribute.get(item).value ?? "";
         } else if (this.props.titleType === "expression" && this.props.titleExpression) {
-            return String(this.props.titleExpression.get(item) ?? "");
+            return this.props.titleExpression.get(item)?.value ?? "";
         } else {
             return "Untitled Event";
         }

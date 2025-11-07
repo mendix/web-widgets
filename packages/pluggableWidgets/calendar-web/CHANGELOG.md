@@ -30,6 +30,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Fixed error when selecting a default view that was not enabled in the toolbar items configuration.
 
+- Fixed title expression not rendering the correct value.
+
 ### Breaking changes
 
 - Custom view buttons and their captions are now set inside the Custom top bar views configuration.
