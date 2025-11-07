@@ -18,6 +18,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - When the event time range is disabled, events no longer display start/end time text.
 
+### Fixed
+
+- Fixed localization to properly display date/time formatting, weekday names, and month names based on the Mendix application's configured language.
+
+- Fixed custom format patterns not being applied when user-defined formats were provided for toolbar items.
+
+- Fixed "Format string contains an unescaped latin alphabet character" error when custom format fields were left empty.
+
+- Fixed abbreviated month names (MMM format) and short weekday names reverting to English when custom formats were used.
+
+- Fixed error when selecting a default view that was not enabled in the toolbar items configuration.
+
 ### Breaking changes
 
 - Custom view buttons and their captions are now set inside the Custom top bar views configuration.
