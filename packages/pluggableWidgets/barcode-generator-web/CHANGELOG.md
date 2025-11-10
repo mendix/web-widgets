@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Comprehensive configuration and styling settings for various barcode types
+- Download functionality for barcodes
+
 ## [1.0.0] - 2025-10-09
 
 ### Added

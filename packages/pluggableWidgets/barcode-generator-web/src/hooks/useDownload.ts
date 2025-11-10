@@ -13,8 +13,8 @@ const FILENAMES = {
 
 interface UseDownloadParams {
     format: string;
-    svgRef: RefObject<SVGSVGElement>;
-    qrContainerRef: RefObject<HTMLDivElement>;
+    svgRef: RefObject<SVGSVGElement | null>;
+    qrContainerRef: RefObject<HTMLDivElement | null>;
 }
 interface UseDownloadReturn {
     downloadSVG: () => Promise<void>;
@@ -22,8 +22,8 @@ interface UseDownloadReturn {
 
 const getSvgElement = (
     format: string,
-    svgRef: RefObject<SVGSVGElement>,
-    qrContainerRef: RefObject<HTMLDivElement>
+    svgRef: RefObject<SVGSVGElement | null>,
+    qrContainerRef: RefObject<HTMLDivElement | null>
 ): SVGSVGElement | null => {
     if (format === "QRCode") {
         return qrContainerRef.current?.querySelector("svg") || null;
