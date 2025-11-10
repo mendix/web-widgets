@@ -1,7 +1,7 @@
 import { QRCodeSVG } from "qrcode.react";
-import { forwardRef } from "react";
+import { ComponentType, forwardRef } from "react";
 
-const QRCode = QRCodeSVG as React.ComponentType<{
+const QRCode = QRCodeSVG as ComponentType<{
     value: string;
     size: number;
     level: string;

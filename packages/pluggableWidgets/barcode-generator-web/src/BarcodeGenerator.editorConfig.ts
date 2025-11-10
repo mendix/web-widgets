@@ -1,4 +1,4 @@
-import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { BarcodeGeneratorPreviewProps } from "../typings/BarcodeGeneratorProps";
 
 export type Problem = {
@@ -30,6 +30,33 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
         ]);
     }
 
+    if (values.codeFormat !== "CODE128" && values.customCodeFormat !== "CODE128") {
+        hidePropertyIn(defaultProperties, values, "enableEan128");
+    }
+
+    if (
+        values.customCodeFormat !== "EAN13" &&
+        values.customCodeFormat !== "EAN8" &&
+        values.customCodeFormat !== "UPC"
+    ) {
+        hidePropertyIn(defaultProperties, values, "enableFlat");
+    }
+
+    if (values.customCodeFormat !== "EAN13") {
+        hidePropertyIn(defaultProperties, values, "lastChar");
+    }
+
+    if (values.customCodeFormat !== "EAN13" && values.customCodeFormat !== "EAN8") {
+        hidePropertiesIn(defaultProperties, values, ["addonFormat", "addonValue", "addonSpacing"]);
+    }
+    if (values.addonFormat !== "EAN5" && values.addonFormat !== "EAN2") {
+        hidePropertiesIn(defaultProperties, values, ["addonValue", "addonSpacing"]);
+    }
+
+    if (values.customCodeFormat !== "CODE39") {
+        hidePropertyIn(defaultProperties, values, "enableMod43");
+    }
+
     if (values.qrImageCenter) {
         hidePropertiesIn(defaultProperties, values, ["qrImageX", "qrImageY"]);
     }
@@ -37,6 +64,7 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
     if (values.codeFormat !== "Custom") {
         hidePropertiesIn(defaultProperties, values, ["customCodeFormat"]);
     }
+
     return defaultProperties;
 }
 
