@@ -27,8 +27,8 @@ interface CodeRendererProps {
     qrimageWidth: number;
     qrimageOpacity: number;
     qrimageExcavate: boolean;
-    svgRef: RefObject<SVGSVGElement>;
-    qrContainerRef: RefObject<HTMLDivElement>;
+    svgRef: RefObject<SVGSVGElement | null>;
+    qrContainerRef: RefObject<HTMLDivElement | null>;
 }
 
 export function CodeRenderer({
@@ -62,7 +62,7 @@ export function CodeRenderer({
     if (format === "QRCode") {
         return (
             <QRCodeRenderer
-                ref={qrContainerRef}
+                ref={qrContainerRef as RefObject<HTMLDivElement>}
                 value={value}
                 size={qrsize}
                 margin={qrmargin}
@@ -94,7 +94,7 @@ export function CodeRenderer({
             addonValue={addonValue}
             addonFormat={addonFormat}
             addonSpacing={addonSpacing}
-            ref={svgRef}
+            ref={svgRef as RefObject<SVGSVGElement>}
         />
     );
 }
