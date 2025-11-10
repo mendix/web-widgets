@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { RefObject, useCallback } from "react";
 
 // Constants
 const NAMESPACES = {
@@ -13,20 +13,17 @@ const FILENAMES = {
 
 interface UseDownloadParams {
     format: string;
-    svgRef: React.RefObject<SVGSVGElement>;
-    qrContainerRef: React.RefObject<HTMLDivElement>;
+    svgRef: RefObject<SVGSVGElement>;
+    qrContainerRef: RefObject<HTMLDivElement>;
 }
 interface UseDownloadReturn {
     downloadSVG: () => Promise<void>;
 }
 
-// Private helper functions
-
-// Get the appropriate SVG element based on format
 const getSvgElement = (
     format: string,
-    svgRef: React.RefObject<SVGSVGElement>,
-    qrContainerRef: React.RefObject<HTMLDivElement>
+    svgRef: RefObject<SVGSVGElement>,
+    qrContainerRef: RefObject<HTMLDivElement>
 ): SVGSVGElement | null => {
     if (format === "QRCode") {
         return qrContainerRef.current?.querySelector("svg") || null;
@@ -34,7 +31,6 @@ const getSvgElement = (
     return svgRef.current;
 };
 
-// Get filename based on format
 const getFilename = (format: string): string => {
     return format === "QRCode" ? FILENAMES.QRCode : FILENAMES.default;
 };
@@ -47,7 +43,6 @@ const prepareSvgForDownload = (svgElement: SVGSVGElement): SVGSVGElement => {
     return clonedSvg;
 };
 
-// Convert image URL to base64
 const convertImageToBase64 = async (url: string): Promise<string> => {
     try {
         const response = await fetch(url);
@@ -87,7 +82,6 @@ const processQRImages = async (clonedSvg: SVGSVGElement): Promise<void> => {
     }
 };
 
-// Create and trigger download
 const downloadBlob = (blob: Blob, filename: string): void => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -101,7 +95,6 @@ const downloadBlob = (blob: Blob, filename: string): void => {
 
 export function useDownload({ format, svgRef, qrContainerRef }: UseDownloadParams): UseDownloadReturn {
     const downloadSVG = useCallback(async () => {
-        // Get the appropriate SVG element
         const svgElement = getSvgElement(format, svgRef, qrContainerRef);
         if (!svgElement) {
             console.error("SVG element not found for download");
@@ -109,7 +102,6 @@ export function useDownload({ format, svgRef, qrContainerRef }: UseDownloadParam
         }
 
         try {
-            // Prepare SVG for download (clone and set namespaces)
             const clonedSvg = prepareSvgForDownload(svgElement);
 
             // Process QR code images if needed
@@ -117,12 +109,15 @@ export function useDownload({ format, svgRef, qrContainerRef }: UseDownloadParam
                 await processQRImages(clonedSvg);
             }
 
-            // Serialize the SVG
             const serializer = new XMLSerializer();
             const svgString = serializer.serializeToString(clonedSvg);
 
             // Create download blob and trigger download
-            const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+            const blobOptions = {
+                type: "image/svg+xml;charset=utf-8",
+                lastModified: Date.now()
+            };
+            const blob = new Blob([svgString], blobOptions);
             const filename = getFilename(format);
             downloadBlob(blob, filename);
         } catch (error) {

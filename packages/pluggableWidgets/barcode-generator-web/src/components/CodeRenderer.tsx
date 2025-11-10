@@ -1,16 +1,21 @@
-import { ReactElement } from "react";
+import { ReactElement, RefObject } from "react";
 import { QRCodeRenderer } from "./QRCodeRenderer";
 import { BarcodeRenderer } from "./BarcodeRenderer";
 
 interface CodeRendererProps {
     value: string;
     format: string;
-    // Barcode props
     width: number;
     height: number;
     margin: number;
     displayValue: boolean;
-    // QR Code props
+    enableEan128: boolean;
+    enableFlat: boolean;
+    lastChar: string;
+    enableMod43: boolean;
+    addonValue?: string;
+    addonFormat?: string;
+    addonSpacing?: number;
     qrsize: number;
     qrmargin: number;
     qrtitle: string;
@@ -22,9 +27,8 @@ interface CodeRendererProps {
     qrimageWidth: number;
     qrimageOpacity: number;
     qrimageExcavate: boolean;
-    // Refs for download functionality
-    svgRef: React.RefObject<SVGSVGElement>;
-    qrContainerRef: React.RefObject<HTMLDivElement>;
+    svgRef: RefObject<SVGSVGElement>;
+    qrContainerRef: RefObject<HTMLDivElement>;
 }
 
 export function CodeRenderer({
@@ -34,6 +38,13 @@ export function CodeRenderer({
     height,
     margin,
     displayValue,
+    enableEan128,
+    enableFlat,
+    lastChar,
+    enableMod43,
+    addonValue,
+    addonFormat,
+    addonSpacing,
     qrsize,
     qrmargin,
     qrtitle,
@@ -76,6 +87,13 @@ export function CodeRenderer({
             height={height}
             margin={margin}
             displayValue={displayValue}
+            enableEan128={enableEan128}
+            enableFlat={enableFlat}
+            lastChar={lastChar}
+            enableMod43={enableMod43}
+            addonValue={addonValue}
+            addonFormat={addonFormat}
+            addonSpacing={addonSpacing}
             ref={svgRef}
         />
     );

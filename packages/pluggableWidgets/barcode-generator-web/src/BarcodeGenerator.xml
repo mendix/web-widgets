@@ -31,8 +31,6 @@
                         <enumerationValue key="CODE128">CODE128</enumerationValue>
                         <enumerationValue key="EAN13">EAN-13</enumerationValue>
                         <enumerationValue key="EAN8">EAN-8</enumerationValue>
-                        <enumerationValue key="EAN5">EAN-5</enumerationValue>
-                        <enumerationValue key="EAN2">EAN-2</enumerationValue>
                         <enumerationValue key="UPC">UPC</enumerationValue>
                         <enumerationValue key="CODE39">CODE39</enumerationValue>
                         <enumerationValue key="ITF14">ITF-14</enumerationValue>
@@ -42,9 +40,47 @@
                         <enumerationValue key="CODE93">CODE93</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="enableEan128" type="boolean" defaultValue="false">
+                    <caption>EAN-128</caption>
+                    <description>Enable encoding CODE128 as GS1-128/EAN-128</description>
+                </property>
+                <property key="enableFlat" type="boolean" defaultValue="false">
+                    <caption>Flat</caption>
+                    <description>Enable flat barcode, skip guard bars</description>
+                </property>
+                <property key="lastChar" type="string" required="true">
+                    <caption>Last character</caption>
+                    <description>Character after the barcode</description>
+                </property>
+                <property key="enableMod43" type="boolean" required="true" defaultValue="false">
+                    <caption>Mod43</caption>
+                    <description>For code 39 if used with modulo 43 check digit</description>
+                </property>
                 <property key="allowDownload" type="boolean" defaultValue="false">
                     <caption>Allow download</caption>
                     <description>Adds a download button</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="EAN Addons">
+                <property key="addonFormat" type="enumeration" required="true" defaultValue="None">
+                    <caption>Addon format</caption>
+                    <description>Choose between EAN-5 or EAN-2 addon format</description>
+                    <enumerationValues>
+                        <enumerationValue key="None">None</enumerationValue>
+                        <enumerationValue key="EAN5">EAN-5</enumerationValue>
+                        <enumerationValue key="EAN2">EAN-2</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="addonValue" type="attribute" required="false">
+                    <caption>Addon value</caption>
+                    <description>Value for the addon barcode (5 digits for EAN-5, 2 digits for EAN-2)</description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="addonSpacing" type="integer" required="true" defaultValue="20">
+                    <caption>Addon spacing</caption>
+                    <description>Space between main barcode and addon (in pixels)</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Display">
@@ -54,11 +90,11 @@
                 </property>
                 <property key="codeWidth" type="integer" required="true" defaultValue="2">
                     <caption>Bar width</caption>
-                    <description>Width of the barcode bars</description>
+                    <description>Width of a single bar</description>
                 </property>
                 <property key="codeHeight" type="integer" required="true" defaultValue="200">
                     <caption>Code height</caption>
-                    <description>In pixels</description>
+                    <description>Height of the barcode</description>
                 </property>
                 <property key="codeMargin" type="integer" required="true" defaultValue="2">
                     <caption>Margin size</caption>
@@ -74,7 +110,7 @@
                 </property>
                 <property key="qrTitle" type="string" required="true">
                     <caption>Title</caption>
-                    <description>Used for accessibility reasons.</description>
+                    <description>Used for accessibility reasons</description>
                 </property>
                 <property key="qrLevel" type="enumeration" required="true" defaultValue="L">
                     <caption>Level</caption>

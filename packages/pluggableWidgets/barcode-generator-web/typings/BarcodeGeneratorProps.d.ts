@@ -9,7 +9,9 @@ import { Big } from "big.js";
 
 export type CodeFormatEnum = "CODE128" | "QRCode" | "Custom";
 
-export type CustomCodeFormatEnum = "CODE128" | "EAN13" | "EAN8" | "EAN5" | "EAN2" | "UPC" | "CODE39" | "ITF14" | "MSI" | "pharmacode" | "codabar" | "CODE93";
+export type CustomCodeFormatEnum = "CODE128" | "EAN13" | "EAN8" | "UPC" | "CODE39" | "ITF14" | "MSI" | "pharmacode" | "codabar" | "CODE93";
+
+export type AddonFormatEnum = "None" | "EAN5" | "EAN2";
 
 export type QrLevelEnum = "L" | "M" | "Q" | "H";
 
@@ -21,7 +23,14 @@ export interface BarcodeGeneratorContainerProps {
     codeValue: EditableValue<string>;
     codeFormat: CodeFormatEnum;
     customCodeFormat: CustomCodeFormatEnum;
+    enableEan128: boolean;
+    enableFlat: boolean;
+    lastChar: string;
+    enableMod43: boolean;
     allowDownload: boolean;
+    addonFormat: AddonFormatEnum;
+    addonValue?: EditableValue<string>;
+    addonSpacing: number;
     displayValue: boolean;
     codeWidth: number;
     codeHeight: number;
@@ -55,7 +64,14 @@ export interface BarcodeGeneratorPreviewProps {
     codeValue: string;
     codeFormat: CodeFormatEnum;
     customCodeFormat: CustomCodeFormatEnum;
+    enableEan128: boolean;
+    enableFlat: boolean;
+    lastChar: string;
+    enableMod43: boolean;
     allowDownload: boolean;
+    addonFormat: AddonFormatEnum;
+    addonValue: string;
+    addonSpacing: number | null;
     displayValue: boolean;
     codeWidth: number | null;
     codeHeight: number | null;

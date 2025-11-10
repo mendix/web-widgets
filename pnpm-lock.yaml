@@ -635,6 +635,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
+      eslint:
+        specifier: ^9.37.0
+        version: 9.37.0(jiti@2.6.1)
 
   packages/pluggableWidgets/barcode-scanner-web:
     dependencies:

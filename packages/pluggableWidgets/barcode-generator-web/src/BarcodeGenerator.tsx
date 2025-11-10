@@ -13,6 +13,13 @@ export default function BarcodeGenerator({
     customCodeFormat,
     codeMargin,
     displayValue,
+    enableEan128,
+    enableFlat,
+    lastChar,
+    enableMod43,
+    addonValue,
+    addonFormat,
+    addonSpacing,
     qrSize,
     qrMargin,
     qrTitle,
@@ -48,6 +55,13 @@ export default function BarcodeGenerator({
     const qrimageWidth = qrImageWidth ?? 24;
     const qrimageOpacity = qrImageOpacity?.toNumber() ?? 1;
     const qrimageExcavate = qrImageExcavate ?? true;
+    const supportsEan128 = enableEan128 ?? false;
+    const supportsFlat = enableFlat ?? false;
+    const lastCharacter = lastChar ?? "";
+    const supportsMod43 = enableMod43 ?? false;
+    const processedAddonValue = addonValue?.status === "available" ? addonValue.value : "";
+    const processedAddonFormat = addonFormat ?? "EAN5";
+    const processedAddonSpacing = addonSpacing ?? 20;
 
     const { downloadSVG } = useDownload({ format, svgRef, qrContainerRef });
 
@@ -64,6 +78,13 @@ export default function BarcodeGenerator({
                 height={height}
                 margin={margin}
                 displayValue={showValue}
+                enableEan128={supportsEan128}
+                enableFlat={supportsFlat}
+                lastChar={lastCharacter}
+                enableMod43={supportsMod43}
+                addonValue={processedAddonValue}
+                addonFormat={processedAddonFormat}
+                addonSpacing={processedAddonSpacing}
                 qrsize={qrsize}
                 qrmargin={qrmargin}
                 qrlevel={qrlevel}
