@@ -6,10 +6,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.7.0] DataWidgets - 2025-11-11
+
 ### Changed
 
 - We enhanced datagrid selection UI with responsive container queries and improved layout styling for header and footer components.
+
 - We enhanced gallery selection UI with responsive container queries and improved layout styling for header and footer components to match datagrid implementation.
+
+### [3.7.0] Datagrid
+
+#### Added
+
+- We added configurable selection count visibility and clear selection button label template for improved row selection management.
+
+- We fixed an issue where missing consistency checks for the captions were causing runtime errors instead of in Studio Pro
+
+- We added a '"Select all" across pages' setting that, when enabled, allows users to select all rows across all pages.
+
+#### Breaking changes
+
+- The widget settings have been reorganized to make configuration easier.
+
+#### Changed
+
+- Selection count texts now have default value for en_US locale.
+
+### [3.7.0] Gallery
+
+#### Added
+
+- We added configurable selection count visibility and clear selection button label template for improved row selection management.
+
+- We introduced a new caption setting for the clear selection button.
+
+#### Fixed
+
+- We fixed an issue where setting the gallery gap to 0 caused an offset, which made the bottom border of items to dissapear.
 
 ## [3.6.1] DataWidgets - 2025-10-14
 
