@@ -24,7 +24,7 @@ export function HTMLElement(props: HTMLElementContainerProps): ReactElement | nu
         <Fragment>
             {items.map(item => (
                 <HTMLTag
-                    key={item?.id}
+                    key={item?.id || `${props.name}_${index}`}
                     tagName={tag as keyof JSX.IntrinsicElements}
                     attributes={{
                         ...prepareAttributes(createAttributeResolver(item), props.attributes, props.class, props.style),
