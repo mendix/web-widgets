@@ -1,7 +1,11 @@
 import { atomFactory, ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
-import { computed } from "mobx";
+import { DynamicValue } from "mendix";
+import { computed, observable } from "mobx";
 
-/** Returns selected count in multi-selection mode and -1 otherwise. */
+/**
+ * Returns selected count in multi-selection mode and -1 otherwise.
+ * @injectable
+ */
 export function selectedCountMulti(gate: {
     itemSelection?: { type: string; selection: { length: number } };
 }): ComputedAtom<number> {
@@ -66,5 +70,34 @@ export function isCurrentPageSelectedAtom(
         if (!selection || selection.type === "Single") return false;
 
         return isCurrentPageSelected(selection.selection, items);
+    });
+}
+
+interface ObservableSelectorTexts {
+    clearSelectionButtonLabel: string;
+    selectedCountText: string;
+}
+
+export function selectedCounterTextsStore(
+    gate: DerivedPropsGate<{
+        clearSelectionButtonLabel?: DynamicValue<string>;
+        selectedCountTemplateSingular?: DynamicValue<string>;
+        selectedCountTemplatePlural?: DynamicValue<string>;
+    }>,
+    selectedCount: ComputedAtom<number>
+): ObservableSelectorTexts {
+    return observable({
+        get clearSelectionButtonLabel() {
+            return gate.props.clearSelectionButtonLabel?.value || "Clear selection";
+        },
+        get selectedCountText() {
+            const formatSingular = gate.props.selectedCountTemplateSingular?.value || "%d item selected";
+            const formatPlural = gate.props.selectedCountTemplatePlural?.value || "%d items selected";
+            const count = selectedCount.get();
+
+            if (count > 1) return formatPlural.replace("%d", `${count}`);
+            if (count === 1) return formatSingular.replace("%d", "1");
+            return "";
+        }
     });
 }
