@@ -1,5 +1,12 @@
-import { ComputedAtom, createEmitter, disposeBatch, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
-import { reaction } from "mobx";
+import {
+    ComputedAtom,
+    createEmitter,
+    DerivedPropsGate,
+    disposeBatch,
+    Emitter
+} from "@mendix/widget-plugin-mobx-kit/main";
+import { DynamicValue } from "mendix";
+import { observable, reaction } from "mobx";
 
 export type ServiceEvents = {
     loadstart: ProgressEvent;
@@ -24,6 +31,43 @@ export type SelectAllEvents = PrettyType<ServiceEvents & UIEvents>;
 /** @injectable */
 export function selectAllEmitter(): Emitter<SelectAllEvents> {
     return createEmitter<SelectAllEvents>();
+}
+
+interface ObservableSelectAllTexts {
+    selectionStatus: string;
+    selectAllLabel: string;
+}
+
+/** @injectable */
+export function selectAllTextsStore(
+    gate: DerivedPropsGate<{
+        allSelectedText?: DynamicValue<string>;
+        selectAllTemplate?: DynamicValue<string>;
+        selectAllText?: DynamicValue<string>;
+    }>,
+    selectedCount: ComputedAtom<number>,
+    selectedTexts: { selectedCountText: string },
+    totalCount: ComputedAtom<number>,
+    isAllItemsSelected: ComputedAtom<boolean>
+): ObservableSelectAllTexts {
+    return observable({
+        get selectAllLabel() {
+            const selectAllFormat = gate.props.selectAllTemplate?.value || "Select all %d rows in the data source";
+            const selectAllText = gate.props.selectAllText?.value || "Select all rows in the data source";
+            const total = totalCount.get();
+            if (total > 0) return selectAllFormat.replace("%d", `${total}`);
+            return selectAllText;
+        },
+        get selectionStatus() {
+            if (isAllItemsSelected.get()) return this.allSelectedText;
+            return selectedTexts.selectedCountText;
+        },
+        get allSelectedText() {
+            const str = gate.props.allSelectedText?.value ?? "All %d rows selected.";
+            const count = selectedCount.get();
+            return str.replace("%d", `${count}`);
+        }
+    });
 }
 
 export interface BarStore {
@@ -75,6 +119,7 @@ export function setupSelectService(service: SelectService, emitter: Emitter<Sele
     add(emitter.on("startSelecting", () => service.selectAllPages()));
     add(emitter.on("clear", () => service.clearSelection()));
     add(emitter.on("abort", () => service.abort()));
+    add(() => service.abort());
 
     return disposeAll;
 }
