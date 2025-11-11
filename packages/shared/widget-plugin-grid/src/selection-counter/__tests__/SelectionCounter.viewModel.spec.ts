@@ -1,100 +1,97 @@
-import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { objectItems, SelectionMultiValueBuilder, SelectionSingleValueBuilder } from "@mendix/widget-plugin-test-utils";
-import { SelectionMultiValue, SelectionSingleValue } from "mendix";
-import { SelectionCounterViewModel } from "../SelectionCounter.viewModel";
+import { computed, observable } from "mobx";
+import { SelectionCounterViewModel } from "../SelectionCounter.viewModel-atoms";
 
-type Props = {
-    itemSelection?: SelectionSingleValue | SelectionMultiValue;
-};
+describe("SelectionCounterViewModel", () => {
+    describe("selectedCount", () => {
+        it("returns value from selected atom", () => {
+            const selected = computed(() => 5);
+            const texts = { clearSelectionButtonLabel: "Clear", selectedCountText: "5 items selected" };
+            const viewModel = new SelectionCounterViewModel(selected, texts, "top");
 
-const createMinimalMockProps = (overrides: Props = {}): Props => ({ ...overrides });
+            expect(viewModel.selectedCount).toBe(5);
+        });
 
-describe("SelectionCountStore", () => {
-    let gateProvider: GateProvider<Props>;
-    let selectionCountStore: SelectionCounterViewModel;
+        it("updates reactively when atom changes", () => {
+            const selectedBox = observable.box(3);
+            const texts = { clearSelectionButtonLabel: "Clear", selectedCountText: "text" };
+            const viewModel = new SelectionCounterViewModel(selectedBox, texts, "top");
 
-    beforeEach(() => {
-        const mockProps = createMinimalMockProps();
-        gateProvider = new GateProvider(mockProps);
-        selectionCountStore = new SelectionCounterViewModel(gateProvider.gate, "top");
-    });
+            expect(viewModel.selectedCount).toBe(3);
 
-    describe("when itemSelection is undefined", () => {
-        it("should return 0 selected items", () => {
-            const props = createMinimalMockProps({ itemSelection: undefined });
-            gateProvider.setProps(props);
-
-            expect(selectionCountStore.selectedCount).toBe(0);
+            selectedBox.set(10);
+            expect(viewModel.selectedCount).toBe(10);
         });
     });
 
-    describe("when itemSelection is single selection", () => {
-        it("should return 0 when no item is selected", () => {
-            const singleSelection = new SelectionSingleValueBuilder().build();
-            const props = createMinimalMockProps({ itemSelection: singleSelection });
-            gateProvider.setProps(props);
+    describe("selectedCountText", () => {
+        it("returns value from texts object", () => {
+            const selected = computed(() => 5);
+            const texts = { clearSelectionButtonLabel: "Clear", selectedCountText: "5 items selected" };
+            const viewModel = new SelectionCounterViewModel(selected, texts, "top");
 
-            expect(selectionCountStore.selectedCount).toBe(0);
-        });
-
-        it("should return 0 when one item is selected", () => {
-            const items = objectItems(3);
-            const singleSelection = new SelectionSingleValueBuilder().withSelected(items[0]).build();
-            const props = createMinimalMockProps({ itemSelection: singleSelection });
-            gateProvider.setProps(props);
-
-            expect(selectionCountStore.selectedCount).toBe(0);
+            expect(viewModel.selectedCountText).toBe("5 items selected");
         });
     });
 
-    describe("when itemSelection is multi selection", () => {
-        it("should return 0 when no items are selected", () => {
-            const multiSelection = new SelectionMultiValueBuilder().build();
-            const props = createMinimalMockProps({ itemSelection: multiSelection });
-            gateProvider.setProps(props);
+    describe("clearButtonLabel", () => {
+        it("returns value from texts object", () => {
+            const selected = computed(() => 0);
+            const texts = { clearSelectionButtonLabel: "Clear selection", selectedCountText: "" };
+            const viewModel = new SelectionCounterViewModel(selected, texts, "top");
 
-            expect(selectionCountStore.selectedCount).toBe(0);
+            expect(viewModel.clearButtonLabel).toBe("Clear selection");
+        });
+    });
+
+    describe("isTopCounterVisible", () => {
+        it("returns true when position is top and selectedCount > 0", () => {
+            const selected = computed(() => 5);
+            const texts = { clearSelectionButtonLabel: "Clear", selectedCountText: "text" };
+            const viewModel = new SelectionCounterViewModel(selected, texts, "top");
+
+            expect(viewModel.isTopCounterVisible).toBe(true);
         });
 
-        it("should return correct count when multiple items are selected", () => {
-            const items = objectItems(5);
-            const selectedItems = [items[0], items[2], items[4]];
-            const multiSelection = new SelectionMultiValueBuilder().withSelected(selectedItems).build();
-            const props = createMinimalMockProps({ itemSelection: multiSelection });
-            gateProvider.setProps(props);
+        it("returns false when position is top but selectedCount is 0", () => {
+            const selected = computed(() => 0);
+            const texts = { clearSelectionButtonLabel: "Clear", selectedCountText: "text" };
+            const viewModel = new SelectionCounterViewModel(selected, texts, "top");
 
-            expect(selectionCountStore.selectedCount).toBe(3);
+            expect(viewModel.isTopCounterVisible).toBe(false);
         });
 
-        it("should return correct count when all items are selected", () => {
-            const items = objectItems(4);
-            const multiSelection = new SelectionMultiValueBuilder().withSelected(items).build();
-            const props = createMinimalMockProps({ itemSelection: multiSelection });
-            gateProvider.setProps(props);
+        it("returns false when position is not top", () => {
+            const selected = computed(() => 5);
+            const texts = { clearSelectionButtonLabel: "Clear", selectedCountText: "text" };
+            const viewModel = new SelectionCounterViewModel(selected, texts, "bottom");
 
-            expect(selectionCountStore.selectedCount).toBe(4);
+            expect(viewModel.isTopCounterVisible).toBe(false);
+        });
+    });
+
+    describe("isBottomCounterVisible", () => {
+        it("returns true when position is bottom and selectedCount > 0", () => {
+            const selected = computed(() => 5);
+            const texts = { clearSelectionButtonLabel: "Clear", selectedCountText: "text" };
+            const viewModel = new SelectionCounterViewModel(selected, texts, "bottom");
+
+            expect(viewModel.isBottomCounterVisible).toBe(true);
         });
 
-        it("should reactively update when selection changes", () => {
-            const items = objectItems(3);
-            const multiSelection = new SelectionMultiValueBuilder().build();
-            const props = createMinimalMockProps({ itemSelection: multiSelection });
-            gateProvider.setProps(props);
+        it("returns false when position is bottom but selectedCount is 0", () => {
+            const selected = computed(() => 0);
+            const texts = { clearSelectionButtonLabel: "Clear", selectedCountText: "text" };
+            const viewModel = new SelectionCounterViewModel(selected, texts, "bottom");
 
-            // Initially no items selected
-            expect(selectionCountStore.selectedCount).toBe(0);
+            expect(viewModel.isBottomCounterVisible).toBe(false);
+        });
 
-            // Select one item
-            multiSelection.setSelection([items[0]]);
-            expect(selectionCountStore.selectedCount).toBe(1);
+        it("returns false when position is not bottom", () => {
+            const selected = computed(() => 5);
+            const texts = { clearSelectionButtonLabel: "Clear", selectedCountText: "text" };
+            const viewModel = new SelectionCounterViewModel(selected, texts, "top");
 
-            // Select two more items
-            multiSelection.setSelection([items[0], items[1], items[2]]);
-            expect(selectionCountStore.selectedCount).toBe(3);
-
-            // Clear selection
-            multiSelection.setSelection([]);
-            expect(selectionCountStore.selectedCount).toBe(0);
+            expect(viewModel.isBottomCounterVisible).toBe(false);
         });
     });
 });

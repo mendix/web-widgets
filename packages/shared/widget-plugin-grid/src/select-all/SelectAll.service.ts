@@ -1,40 +1,32 @@
-import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
 import { ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { action, computed, makeObservable, observable, when } from "mobx";
 import { QueryService } from "../interfaces/QueryService";
-import { TaskProgressService } from "../interfaces/TaskProgressService";
+import { ServiceEvents } from "./select-all.model";
 
 interface DynamicProps {
     itemSelection?: SelectionMultiValue | SelectionSingleValue;
 }
 
-export class SelectAllService implements SetupComponent {
+export class SelectAllService {
     private locked = false;
     private abortController?: AbortController;
     private readonly pageSize = 1024;
 
     constructor(
-        host: SetupComponentHost,
         private gate: DerivedPropsGate<DynamicProps>,
         private query: QueryService,
-        private progress: TaskProgressService
+        private progress: Emitter<ServiceEvents>
     ) {
-        host.add(this);
-        type PrivateMembers = "setIsLocked" | "locked";
+        type PrivateMembers = "locked";
         makeObservable<this, PrivateMembers>(this, {
-            setIsLocked: action,
             canExecute: computed,
-            isExecuting: computed,
             selection: computed,
             locked: observable,
             selectAllPages: action,
             clearSelection: action,
             abort: action
         });
-    }
-
-    setup(): () => void {
-        return () => this.abort();
     }
 
     get selection(): SelectionMultiValue | undefined {
@@ -46,14 +38,6 @@ export class SelectAllService implements SetupComponent {
 
     get canExecute(): boolean {
         return this.gate.props.itemSelection?.type === "Multi" && !this.locked;
-    }
-
-    get isExecuting(): boolean {
-        return this.locked;
-    }
-
-    private setIsLocked(value: boolean): void {
-        this.locked = value;
     }
 
     private beforeRunChecks(): boolean {
@@ -94,8 +78,10 @@ export class SelectAllService implements SetupComponent {
             return { success: false };
         }
 
-        this.setIsLocked(true);
+        this.locked = true;
+        this.abortController = new AbortController();
 
+        const signal = this.abortController.signal;
         const { offset: initOffset, limit: initLimit } = this.query;
         const initSelection = this.selection?.selection ?? [];
         const hasTotal = typeof this.query.totalCount === "number";
@@ -107,12 +93,10 @@ export class SelectAllService implements SetupComponent {
             new ProgressEvent(type, { loaded, total: totalCount, lengthComputable: hasTotal });
         // We should avoid duplicates, so, we start with clean array.
         const allItems: ObjectItem[] = [];
-        this.abortController = new AbortController();
-        const signal = this.abortController.signal;
 
         performance.mark("SelectAll_Start");
         try {
-            this.progress.onloadstart(pe("loadstart"));
+            this.progress.emit("loadstart", pe("loadstart"));
             let loading = true;
             while (loading) {
                 const loadedItems = await this.query.fetchPage({
@@ -124,7 +108,7 @@ export class SelectAllService implements SetupComponent {
                 allItems.push(...loadedItems);
                 loaded += loadedItems.length;
                 offset += this.pageSize;
-                this.progress.onprogress(pe("progress"));
+                this.progress.emit("progress", pe("progress"));
                 loading = !signal.aborted && this.query.hasMoreItems;
             }
             success = true;
@@ -141,9 +125,7 @@ export class SelectAllService implements SetupComponent {
                 offset: initOffset
             });
             await this.reloadSelection();
-            this.progress.onloadend();
-
-            // const selectionBeforeReload = this.selection?.selection ?? [];
+            this.progress.emit("loadend");
             // Reload selection to make sure setSelection is working as expected.
             this.selection?.setSelection(success ? allItems : initSelection);
             this.locked = false;
