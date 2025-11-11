@@ -35,25 +35,44 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
     }
 
     if (
-        values.customCodeFormat !== "EAN13" &&
-        values.customCodeFormat !== "EAN8" &&
-        values.customCodeFormat !== "UPC"
+        values.codeFormat === "QRCode" ||
+        values.codeFormat === "CODE128" ||
+        (values.codeFormat === "Custom" &&
+            values.customCodeFormat !== "EAN13" &&
+            values.customCodeFormat !== "EAN8" &&
+            values.customCodeFormat !== "UPC")
     ) {
         hidePropertyIn(defaultProperties, values, "enableFlat");
     }
 
-    if (values.customCodeFormat !== "EAN13") {
+    if (
+        values.codeFormat === "QRCode" ||
+        values.codeFormat === "CODE128" ||
+        (values.codeFormat === "Custom" && values.customCodeFormat !== "EAN13")
+    ) {
         hidePropertyIn(defaultProperties, values, "lastChar");
     }
 
-    if (values.customCodeFormat !== "EAN13" && values.customCodeFormat !== "EAN8") {
+    if (
+        values.codeFormat === "QRCode" ||
+        values.codeFormat === "CODE128" ||
+        (values.codeFormat === "Custom" && values.customCodeFormat !== "EAN13" && values.customCodeFormat !== "EAN8")
+    ) {
         hidePropertiesIn(defaultProperties, values, ["addonFormat", "addonValue", "addonSpacing"]);
     }
-    if (values.addonFormat !== "EAN5" && values.addonFormat !== "EAN2") {
+    if (
+        values.codeFormat === "QRCode" ||
+        values.codeFormat === "CODE128" ||
+        (values.codeFormat === "Custom" && values.addonFormat !== "EAN5" && values.addonFormat !== "EAN2")
+    ) {
         hidePropertiesIn(defaultProperties, values, ["addonValue", "addonSpacing"]);
     }
 
-    if (values.customCodeFormat !== "CODE39") {
+    if (
+        values.codeFormat === "QRCode" ||
+        values.codeFormat === "CODE128" ||
+        (values.codeFormat === "Custom" && values.customCodeFormat !== "CODE39")
+    ) {
         hidePropertyIn(defaultProperties, values, "enableMod43");
     }
 
