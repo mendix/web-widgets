@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { BarStore } from "./select-all.model";
 
 export class SelectAllBarStore implements BarStore {
@@ -7,15 +7,7 @@ export class SelectAllBarStore implements BarStore {
     clearBtnVisible = false;
 
     constructor() {
-        makeObservable(this, {
-            pending: observable,
-            visible: observable,
-            clearBtnVisible: observable,
-            setClearBtnVisible: action,
-            setPending: action,
-            hideBar: action,
-            showBar: action
-        });
+        makeAutoObservable(this);
     }
 
     setClearBtnVisible(value: boolean): void {
