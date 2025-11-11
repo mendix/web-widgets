@@ -29,7 +29,7 @@ export interface BarcodeGeneratorContainerProps {
     enableMod43: boolean;
     allowDownload: boolean;
     addonFormat: AddonFormatEnum;
-    addonValue?: EditableValue<string>;
+    addonValue: EditableValue<string>;
     addonSpacing: number;
     displayValue: boolean;
     codeWidth: number;
