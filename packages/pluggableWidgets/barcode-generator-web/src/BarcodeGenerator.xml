@@ -48,7 +48,7 @@
                     <caption>Flat</caption>
                     <description>Enable flat barcode, skip guard bars</description>
                 </property>
-                <property key="lastChar" type="string" required="true">
+                <property key="lastChar" type="string" required="false">
                     <caption>Last character</caption>
                     <description>Character after the barcode</description>
                 </property>
@@ -71,7 +71,7 @@
                         <enumerationValue key="EAN2">EAN-2</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="addonValue" type="attribute" required="false">
+                <property key="addonValue" type="attribute" required="true">
                     <caption>Addon value</caption>
                     <description>Value for the addon barcode (5 digits for EAN-5, 2 digits for EAN-2)</description>
                     <attributeTypes>
