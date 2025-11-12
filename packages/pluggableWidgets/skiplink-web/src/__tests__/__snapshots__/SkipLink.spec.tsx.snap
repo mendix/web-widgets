@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SkipLink renders skiplink widget and adds skip link to DOM 1`] = `
+<div
+  id="root"
+>
+  <a
+    class="skip-link"
+    href="#main-content"
+    tabindex="0"
+  >
+    Skip to main content
+  </a>
+</div>
+`;
+
+exports[`SkipLink renders with custom link text 1`] = `
+<div
+  id="root"
+>
+  <a
+    class="skip-link"
+    href="#main-content"
+    tabindex="0"
+  >
+    Jump to content
+  </a>
+</div>
+`;
+
+exports[`SkipLink renders with custom main content id 1`] = `
+<div
+  id="root"
+>
+  <a
+    class="skip-link"
+    href="#content-area"
+    tabindex="0"
+  >
+    Skip to main content
+  </a>
+</div>
+`;
+
+exports[`SkipLink renders with empty main content id 1`] = `
+<div
+  id="root"
+>
+  <a
+    class="skip-link"
+    href="#"
+    tabindex="0"
+  >
+    Skip to main content
+  </a>
+</div>
+`;
