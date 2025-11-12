@@ -20,12 +20,6 @@ export function check(values: any): Problem[] {
             message: "Link text is required"
         });
     }
-    if (!values.mainContentId) {
-        errors.push({
-            property: "mainContentId",
-            message: "Main content ID is required"
-        });
-    }
     return errors;
 }
 
