@@ -4,16 +4,16 @@
     <description>A skip link for accessibility, allowing users to jump directly to the main content.</description>
     <studioProCategory>Accessibility</studioProCategory>
     <studioCategory>Accessibility</studioCategory>
-    <helpUrl>https://docs.mendix.com/appstore/widgets/skiplink</helpUrl>
+    <helpUrl></helpUrl>
     <properties>
         <propertyGroup caption="General">
             <property key="linkText" type="string" defaultValue="Skip to main content">
                 <caption>Link text</caption>
-                <description>The text displayed for the skip link.</description>
+                <description>The text displayed in the skip link.</description>
             </property>
-            <property key="mainContentId" type="string" defaultValue="main-content">
+            <property key="mainContentId" type="string">
                 <caption>Main content ID</caption>
-                <description>The id of the main content element to jump to.</description>
+                <description>The id of the main content element to jump to, if left empty the skip link widget will search for a main tag on the page.</description>
             </property>
         </propertyGroup>
     </properties>
