@@ -9,18 +9,18 @@ export class SelectionCounterViewModel {
             clearSelectionButtonLabel: string;
             selectedCountText: string;
         },
-        private position: "top" | "bottom" | "off"
+        private options: { position: "top" | "bottom" | "off" } = { position: "top" }
     ) {
         makeAutoObservable(this);
     }
 
     get isTopCounterVisible(): boolean {
-        if (this.position !== "top") return false;
+        if (this.options.position !== "top") return false;
         return this.selected.get() > 0;
     }
 
     get isBottomCounterVisible(): boolean {
-        if (this.position !== "bottom") return false;
+        if (this.options.position !== "bottom") return false;
         return this.selected.get() > 0;
     }
 
