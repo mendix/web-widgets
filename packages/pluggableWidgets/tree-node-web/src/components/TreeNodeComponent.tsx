@@ -1,62 +1,73 @@
 import classNames from "classnames";
 import { ObjectItem, WebIcon } from "mendix";
-import { CSSProperties, ReactElement, ReactNode, useCallback, useContext } from "react";
+import { ReactElement, useCallback } from "react";
 
-import { OpenNodeOnEnum, TreeNodeContainerProps } from "../../typings/TreeNodeProps";
+import { TreeNodeContainerProps } from "../../typings/TreeNodeProps";
 
+import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "./HeaderIcon";
 import { useTreeNodeFocusChangeHandler } from "./hooks/TreeNodeAccessibility";
 import { useTreeNodeRef } from "./hooks/useTreeNodeRef";
-import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "./HeaderIcon";
-import { TreeNodeBranch, TreeNodeBranchProps, treeNodeBranchUtils } from "./TreeNodeBranch";
-import { TreeNodeBranchContext, useInformParentContextOfChildNodes } from "./TreeNodeBranchContext";
+import { TreeNodeBranch, treeNodeBranchUtils } from "./TreeNodeBranch";
+import { useInformParentContextOfChildNodes } from "./TreeNodeBranchContext";
 
-export interface TreeNodeItem extends ObjectItem {
-    headerContent: ReactNode;
-    bodyContent: ReactNode;
-}
-
-export interface TreeNodeProps extends Pick<TreeNodeContainerProps, "tabIndex"> {
-    class: string;
-    style?: CSSProperties;
-    items: TreeNodeItem[] | null;
-    isUserDefinedLeafNode: TreeNodeBranchProps["isUserDefinedLeafNode"];
-    startExpanded: TreeNodeBranchProps["startExpanded"];
+export interface TreeNodeComponentProps
+    extends Pick<
+        TreeNodeContainerProps,
+        | "tabIndex"
+        | "class"
+        | "style"
+        | "hasChildren"
+        | "startExpanded"
+        | "showIcon"
+        | "animate"
+        | "animateIcon"
+        | "openNodeOn"
+        | "headerType"
+        | "headerCaption"
+        | "headerContent"
+        | "children"
+    > {
+    items: ObjectItem[] | null;
     showCustomIcon: boolean;
-    iconPlacement: TreeNodeBranchProps["iconPlacement"];
     expandedIcon?: WebIcon;
     collapsedIcon?: WebIcon;
-    animateIcon: boolean;
-    animateTreeNodeContent: TreeNodeBranchProps["animateTreeNodeContent"];
-    openNodeOn: OpenNodeOnEnum;
+    level?: number;
 }
 
-export function TreeNode({
-    class: className,
-    items,
-    style,
-    isUserDefinedLeafNode,
-    showCustomIcon,
-    startExpanded,
-    iconPlacement,
-    expandedIcon,
-    collapsedIcon,
-    tabIndex,
-    animateIcon,
-    animateTreeNodeContent,
-    openNodeOn
-}: TreeNodeProps): ReactElement | null {
-    const { level } = useContext(TreeNodeBranchContext);
+export function TreeNodeComponent(props: TreeNodeComponentProps): ReactElement | null {
+    const {
+        class: className,
+        tabIndex,
+        style,
+        items,
+        hasChildren,
+        startExpanded,
+        showIcon,
+        animate,
+        animateIcon,
+        openNodeOn,
+        headerType,
+        headerCaption,
+        headerContent,
+        children,
+        showCustomIcon,
+        expandedIcon,
+        collapsedIcon,
+        level
+    } = props;
     const [treeNodeElement, updateTreeNodeElement] = useTreeNodeRef();
+    const isUserDefinedLeafNode = hasChildren === false;
+    const showIconAnimation = animate && animateIcon;
 
     const renderHeaderIconCallback = useCallback<TreeNodeHeaderIcon>(
         (treeNodeState, iconPlacement) =>
             renderTreeNodeHeaderIcon(treeNodeState, iconPlacement, {
-                animateIcon,
+                animateIcon: showIconAnimation,
                 collapsedIcon,
                 expandedIcon,
                 showCustomIcon
             }),
-        [collapsedIcon, expandedIcon, showCustomIcon, animateIcon]
+        [collapsedIcon, expandedIcon, showCustomIcon, showIconAnimation]
     );
 
     const isInsideAnotherTreeNode = useCallback(() => {
@@ -79,20 +90,21 @@ export function TreeNode({
             data-focusindex={tabIndex || 0}
             role={level === 0 ? "tree" : "group"}
         >
-            {items.map(({ id, headerContent, bodyContent }) => (
+            {items.map((item, _idx) => (
                 <TreeNodeBranch
-                    key={id}
-                    id={id}
-                    headerContent={headerContent}
+                    key={item.id}
+                    id={item.id}
+                    headerContent={headerType === "text" ? headerCaption?.get(item).value : headerContent?.get(item)}
                     isUserDefinedLeafNode={isUserDefinedLeafNode}
                     startExpanded={startExpanded}
-                    iconPlacement={iconPlacement}
+                    iconPlacement={showIcon}
                     renderHeaderIcon={renderHeaderIconCallback}
                     changeFocus={changeTreeNodeBranchHeaderFocus}
-                    animateTreeNodeContent={animateTreeNodeContent}
+                    animateTreeNodeContent={animate}
                     openNodeOn={openNodeOn}
+                    item={item}
                 >
-                    {bodyContent}
+                    {children?.get(item)}
                 </TreeNodeBranch>
             ))}
         </ul>
