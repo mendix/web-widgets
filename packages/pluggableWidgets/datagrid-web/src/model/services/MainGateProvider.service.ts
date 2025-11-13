@@ -11,6 +11,10 @@ export class MainGateProvider<T> extends GateProvider<T> {
         this.exportProgress = new ProgressService();
     }
 
+    /**
+     * @remark
+     * To avoid unwanted UI rerenders, we block prop updates during the "select all" action or export.
+     */
     setProps(props: T): void {
         if (this.exportProgress.inProgress) return;
         if (this.selectAllProgress.inProgress) return;
