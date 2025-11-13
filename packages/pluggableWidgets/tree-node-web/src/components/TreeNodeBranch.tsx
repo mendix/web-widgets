@@ -14,13 +14,13 @@ import {
 } from "react";
 
 import { OpenNodeOnEnum, ShowIconEnum } from "../../typings/TreeNodeProps";
-
+import { GUID, ObjectItem, Option } from "mendix";
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
 import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
 import { TreeNodeFocusChangeHandler, useTreeNodeBranchKeyboardHandler } from "./hooks/TreeNodeAccessibility";
 
 import { TreeNodeHeaderIcon } from "./HeaderIcon";
-import { TreeNodeItem, TreeNodeState } from "./TreeNode";
+import { TreeNodeState } from "./TreeNodeComponent";
 import { TreeNodeBranchContext, TreeNodeBranchContextProps } from "./TreeNodeBranchContext";
 
 export interface TreeNodeBranchProps {
@@ -28,18 +28,19 @@ export interface TreeNodeBranchProps {
     children: ReactNode;
     headerContent: ReactNode;
     iconPlacement: ShowIconEnum;
-    id: TreeNodeItem["id"];
+    id: Option<GUID>;
     isUserDefinedLeafNode: boolean;
     openNodeOn: OpenNodeOnEnum;
     startExpanded: boolean;
     changeFocus: TreeNodeFocusChangeHandler;
     renderHeaderIcon: TreeNodeHeaderIcon;
+    item: ObjectItem;
 }
 
 export const treeNodeBranchUtils = {
     bodyClassName: "widget-tree-node-body",
-    getHeaderId: (id: TreeNodeItem["id"]) => `${id}TreeNodeBranchHeader`,
-    getBodyId: (id: TreeNodeItem["id"]) => `${id}TreeNodeBranchBody`
+    getHeaderId: (id: Option<GUID>) => `${id}TreeNodeBranchHeader`,
+    getBodyId: (id: Option<GUID>) => `${id}TreeNodeBranchBody`
 };
 
 export function TreeNodeBranch({
@@ -52,7 +53,8 @@ export function TreeNodeBranch({
     isUserDefinedLeafNode,
     openNodeOn,
     renderHeaderIcon,
-    startExpanded
+    startExpanded,
+    item
 }: TreeNodeBranchProps): ReactElement {
     const { level: currentContextLevel } = useContext(TreeNodeBranchContext);
 
@@ -184,6 +186,7 @@ export function TreeNodeBranch({
             {((!isActualLeafNode && treeNodeState !== TreeNodeState.COLLAPSED_WITH_JS) || isAnimating) && (
                 <TreeNodeBranchContext.Provider
                     value={{
+                        parent: item,
                         level: currentContextLevel + 1,
                         informParentOfChildNodes
                     }}

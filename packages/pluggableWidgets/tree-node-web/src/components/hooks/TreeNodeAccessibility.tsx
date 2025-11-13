@@ -1,5 +1,5 @@
 import { EventHandler, SyntheticEvent, useCallback, useMemo } from "react";
-import { TreeNodeState } from "../TreeNode";
+import { TreeNodeState } from "../TreeNodeComponent";
 import { KeyboardHandlerHook, useKeyboardHandler } from "./useKeyboardHandler";
 
 export const enum FocusTargetChange {
