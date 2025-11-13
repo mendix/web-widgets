@@ -1,5 +1,5 @@
 import { createInjectionHooks } from "brandi-react";
-import { TOKENS } from "../../model/tokens";
+import { SA_TOKENS } from "../../model/tokens";
 
-export const [useSelectAllBarViewModel] = createInjectionHooks(TOKENS.selectAllBarVM);
-export const [useSelectionDialogViewModel] = createInjectionHooks(TOKENS.selectionDialogVM);
+export const [useSelectAllBarViewModel] = createInjectionHooks(SA_TOKENS.selectAllBarVM);
+export const [useSelectionDialogViewModel] = createInjectionHooks(SA_TOKENS.selectionDialogVM);

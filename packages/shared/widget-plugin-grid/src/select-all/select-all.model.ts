@@ -33,7 +33,7 @@ export function selectAllEmitter(): Emitter<SelectAllEvents> {
     return createEmitter<SelectAllEvents>();
 }
 
-interface ObservableSelectAllTexts {
+export interface ObservableSelectAllTexts {
     selectionStatus: string;
     selectAllLabel: string;
 }

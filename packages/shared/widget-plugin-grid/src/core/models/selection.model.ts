@@ -2,16 +2,22 @@ import { atomFactory, ComputedAtom, DerivedPropsGate } from "@mendix/widget-plug
 import { DynamicValue } from "mendix";
 import { computed, observable } from "mobx";
 
+type Item = { id: string };
+type Selection = { type: "Single" } | { type: "Multi"; selection: Item[] };
+
 /**
  * Returns selected count in multi-selection mode and -1 otherwise.
  * @injectable
  */
-export function selectedCountMulti(gate: {
-    itemSelection?: { type: string; selection: { length: number } };
-}): ComputedAtom<number> {
+export function selectedCountMultiAtom(
+    gate: DerivedPropsGate<{
+        itemSelection?: Selection;
+    }>
+): ComputedAtom<number> {
     return computed(() => {
-        if (gate.itemSelection?.type === "Multi") {
-            return gate.itemSelection.selection.length;
+        const { itemSelection } = gate.props;
+        if (itemSelection?.type === "Multi") {
+            return itemSelection.selection.length;
         }
         return -1;
     });
@@ -43,8 +49,6 @@ export const isAllItemsSelectedAtom = atomFactory(
     isAllItemsSelected
 );
 
-type Item = { id: string };
-
 /** Return true if all items on current page selected. */
 export function isCurrentPageSelected(selection: Item[], items: Item[]): boolean {
     const pageIds = new Set(items.map(item => item.id));
@@ -58,7 +62,7 @@ export function isCurrentPageSelected(selection: Item[], items: Item[]): boolean
  */
 export function isCurrentPageSelectedAtom(
     gate: DerivedPropsGate<{
-        itemSelection?: { type: "Single" } | { type: "Multi"; selection: Item[] };
+        itemSelection?: Selection;
         datasource: { items?: Item[] };
     }>
 ): ComputedAtom<boolean> {
@@ -78,7 +82,7 @@ interface ObservableSelectorTexts {
     selectedCountText: string;
 }
 
-export function selectedCounterTextsStore(
+export function selectionCounterTextsStore(
     gate: DerivedPropsGate<{
         clearSelectionButtonLabel?: DynamicValue<string>;
         selectedCountTemplateSingular?: DynamicValue<string>;
