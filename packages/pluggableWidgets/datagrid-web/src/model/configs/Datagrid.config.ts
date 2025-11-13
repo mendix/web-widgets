@@ -12,6 +12,7 @@ export interface DatagridConfig {
     selectionEnabled: boolean;
     selectorColumnEnabled: boolean;
     settingsStorageEnabled: boolean;
+    enableSelectAll: boolean;
 }
 
 export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
@@ -26,7 +27,8 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         selectAllCheckboxEnabled: props.showSelectAllToggle,
         selectionEnabled: isSelectionEnabled(props),
         selectorColumnEnabled: props.columnsHidable,
-        settingsStorageEnabled: isSettingsStorageEnabled(props)
+        settingsStorageEnabled: isSettingsStorageEnabled(props),
+        enableSelectAll: props.enableSelectAll
     });
 }
 

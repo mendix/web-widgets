@@ -2,7 +2,7 @@ import { DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
 import { ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { action, computed, makeObservable, observable, when } from "mobx";
 import { QueryService } from "../interfaces/QueryService";
-import { ServiceEvents } from "./select-all.model";
+import { SelectAllEvents } from "./select-all.model";
 
 interface DynamicProps {
     itemSelection?: SelectionMultiValue | SelectionSingleValue;
@@ -16,7 +16,7 @@ export class SelectAllService {
     constructor(
         private gate: DerivedPropsGate<DynamicProps>,
         private query: QueryService,
-        private progress: Emitter<ServiceEvents>
+        private progress: Emitter<SelectAllEvents>
     ) {
         type PrivateMembers = "locked";
         makeObservable<this, PrivateMembers>(this, {
@@ -134,6 +134,8 @@ export class SelectAllService {
             performance.mark("SelectAll_End");
             const measure1 = performance.measure("Measure1", "SelectAll_Start", "SelectAll_End");
             console.debug(`Data grid 2: 'select all' took ${(measure1.duration / 1000).toFixed(2)} seconds.`);
+
+            this.progress.emit("done", { success });
             // eslint-disable-next-line no-unsafe-finally
             return { success };
         }
