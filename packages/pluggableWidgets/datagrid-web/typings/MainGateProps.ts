@@ -10,7 +10,6 @@ export type MainGateProps = Pick<
     | "configurationAttribute"
     | "configurationStorageType"
     | "datasource"
-    | "datasource"
     | "emptyPlaceholder"
     | "enableSelectAll"
     | "itemSelection"
