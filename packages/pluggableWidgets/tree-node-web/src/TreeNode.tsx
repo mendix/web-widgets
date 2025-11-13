@@ -1,31 +1,47 @@
-import { ReactElement, useEffect, useState } from "react";
-import { ObjectItem, ValueStatus } from "mendix";
+import { GUID, ObjectItem, Option, ValueStatus } from "mendix";
+import { association, equals, literal } from "mendix/filters/builders";
+import { ReactElement, useCallback, useContext, useEffect, useId, useState } from "react";
 import { TreeNodeContainerProps } from "../typings/TreeNodeProps";
-import { TreeNode as TreeNodeComponent, TreeNodeItem } from "./components/TreeNode";
+import { TreeNodeComponent } from "./components/TreeNodeComponent";
+import { TreeNodeBranchContext } from "./components/TreeNodeBranchContext";
 
-function mapDataSourceItemToTreeNodeItem(item: ObjectItem, props: TreeNodeContainerProps): TreeNodeItem {
-    return {
-        id: item.id,
-        headerContent:
-            props.headerType === "text" ? props.headerCaption?.get(item).value : props.headerContent?.get(item),
-        bodyContent: props.children?.get(item)
-    };
-}
+type treeNodeGraph = {
+    parentObject: ObjectItem;
+    items: ObjectItem[];
+};
 
 export function TreeNode(props: TreeNodeContainerProps): ReactElement {
     const { datasource } = props;
+    const rootId = useId();
 
-    const [treeNodeItems, setTreeNodeItems] = useState<TreeNodeItem[] | null>([]);
+    const [treeNodeItems, setTreeNodeItems] = useState(new Map<Option<GUID> | string, treeNodeGraph>());
+    const { level, parent } = useContext(TreeNodeBranchContext);
+
+    const filterContent = useCallback(
+        (item: Option<ObjectItem>) => {
+            if (props.parentAssociation) {
+                return equals(association(props.parentAssociation?.id), literal(item));
+            }
+        },
+        [props.parentAssociation, treeNodeItems, parent, rootId]
+    );
+
+    useEffect(() => {
+        // Initial Load of Top Level Items
+        datasource.setFilter(filterContent(parent?.id ? treeNodeItems.get(parent!.id)?.parentObject : undefined));
+    }, []);
 
     useEffect(() => {
         // only get the items when datasource is actually available
         // this is to prevent treenode resetting it's render while datasource is loading.
         if (datasource.status === ValueStatus.Available) {
+            const updatedItems = new Map(treeNodeItems);
             if (datasource.items && datasource.items.length) {
-                setTreeNodeItems(datasource.items.map(item => mapDataSourceItemToTreeNodeItem(item, props)));
+                updatedItems.set(parent?.id || rootId, { items: datasource.items, parentObject: parent! });
             } else {
-                setTreeNodeItems([]);
+                updatedItems.set(parent?.id || rootId, { items: [], parentObject: parent! });
             }
+            setTreeNodeItems(updatedItems);
         }
     }, [datasource.status, datasource.items]);
     const expandedIcon = props.expandedIcon?.status === ValueStatus.Available ? props.expandedIcon.value : undefined;
@@ -33,19 +49,12 @@ export function TreeNode(props: TreeNodeContainerProps): ReactElement {
 
     return (
         <TreeNodeComponent
-            class={props.class}
-            style={props.style}
-            items={treeNodeItems}
-            isUserDefinedLeafNode={!props.hasChildren}
-            startExpanded={props.startExpanded}
+            {...props}
+            items={treeNodeItems.get(parent?.id || rootId)?.items || null}
             showCustomIcon={Boolean(props.expandedIcon) || Boolean(props.collapsedIcon)}
-            iconPlacement={props.showIcon}
             expandedIcon={expandedIcon}
             collapsedIcon={collapsedIcon}
-            tabIndex={props.tabIndex}
-            animateIcon={props.animate && props.animateIcon}
-            animateTreeNodeContent={props.animate}
-            openNodeOn={props.openNodeOn}
+            level={level || 0}
         />
     );
 }

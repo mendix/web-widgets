@@ -5,9 +5,12 @@ import { ShowIconEnum } from "../../typings/TreeNodeProps";
 import loadingCircleSvg from "../assets/loading-circle.svg";
 
 import { ChevronIcon, CustomHeaderIcon } from "./Icons";
-import { TreeNodeProps, TreeNodeState } from "./TreeNode";
+import { TreeNodeComponentProps, TreeNodeState } from "./TreeNodeComponent";
 
-export type IconOptions = Pick<TreeNodeProps, "animateIcon" | "collapsedIcon" | "expandedIcon" | "showCustomIcon">;
+export type IconOptions = Pick<
+    TreeNodeComponentProps,
+    "animateIcon" | "collapsedIcon" | "expandedIcon" | "showCustomIcon"
+>;
 
 export type TreeNodeHeaderIcon = (
     treeNodeState: TreeNodeState,
