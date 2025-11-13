@@ -118,15 +118,15 @@ export class SelectAllService {
                 console.error(error);
             }
         } finally {
-            // Restore init view
-            // This step should be done before loadend to avoid UI flickering
+            // Restore init view. This step should be done before loadend to avoid UI flickering.
             await this.query.fetchPage({
                 limit: initLimit,
                 offset: initOffset
             });
-            await this.reloadSelection();
-            this.progress.emit("loadend");
             // Reload selection to make sure setSelection is working as expected.
+            await this.reloadSelection();
+
+            this.progress.emit("loadend");
             this.selection?.setSelection(success ? allItems : initSelection);
             this.locked = false;
             this.abortController = undefined;
