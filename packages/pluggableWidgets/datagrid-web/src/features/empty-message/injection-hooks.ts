@@ -1,4 +1,4 @@
 import { createInjectionHooks } from "brandi-react";
-import { TOKENS } from "../../model/tokens";
+import { DG_TOKENS as DG } from "../../model/tokens";
 
-export const [useEmptyPlaceholderVM] = createInjectionHooks(TOKENS.emptyPlaceholderVM);
+export const [useEmptyPlaceholderVM] = createInjectionHooks(DG.emptyPlaceholderVM);

@@ -1,160 +1,54 @@
-import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { DynamicValue, ListValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
-import { action, makeAutoObservable, reaction } from "mobx";
-
-type DynamicProps = {
-    datasource: ListValue;
-    selectAllTemplate?: DynamicValue<string>;
-    selectAllText?: DynamicValue<string>;
-    itemSelection?: SelectionSingleValue | SelectionMultiValue;
-    allSelectedText?: DynamicValue<string>;
-};
-
-interface SelectService {
-    selectAllPages(): Promise<{ success: boolean }> | { success: boolean };
-    clearSelection(): void;
-}
-
-interface CounterService {
-    selectedCount: number;
-    selectedCountText: string;
-    clearButtonLabel: string;
-}
+import { SelectAllEvents } from "@mendix/widget-plugin-grid/select-all/select-all.model";
+import { Emitter } from "@mendix/widget-plugin-mobx-kit/main";
+import { makeAutoObservable } from "mobx";
 
 /** @injectable */
-export class SelectAllBarViewModel implements SetupComponent {
-    private barVisible = false;
-    private clearVisible = false;
-
-    pending = false;
-
+export class SelectAllBarViewModel {
     constructor(
-        host: SetupComponentHost,
-        private readonly gate: DerivedPropsGate<DynamicProps>,
-        private readonly selectService: SelectService,
-        private readonly count: CounterService,
-        private readonly enableSelectAll: boolean
+        private emitter: Emitter<SelectAllEvents>,
+        private state: { pending: boolean; visible: boolean; clearBtnVisible: boolean },
+        private selectionTexts: {
+            clearSelectionButtonLabel: string;
+            selectedCountText: string;
+        },
+        private selectAllTexts: {
+            selectAllLabel: string;
+            selectionStatus: string;
+        },
+        private enableSelectAll: boolean
     ) {
-        host.add(this);
-        type PrivateMembers = "setClearVisible" | "setPending" | "hideBar" | "showBar";
-        makeAutoObservable<this, PrivateMembers>(this, {
-            setClearVisible: action,
-            setPending: action,
-            hideBar: action,
-            showBar: action
-        });
-    }
-
-    private get props(): DynamicProps {
-        return this.gate.props;
-    }
-
-    private setClearVisible(value: boolean): void {
-        this.clearVisible = value;
-    }
-
-    private setPending(value: boolean): void {
-        this.pending = value;
-    }
-
-    private hideBar(): void {
-        this.barVisible = false;
-        this.clearVisible = false;
-    }
-
-    private showBar(): void {
-        this.barVisible = true;
-    }
-
-    private get total(): number {
-        return this.props.datasource.totalCount ?? 0;
-    }
-
-    private get selectAllFormat(): string {
-        return this.props.selectAllTemplate?.value ?? "Select all %d rows in the data source";
-    }
-
-    private get selectAllText(): string {
-        return this.props.selectAllText?.value ?? "Select all rows in the data source";
-    }
-
-    private get allSelectedText(): string {
-        const str = this.props.allSelectedText?.value ?? "All %d rows selected.";
-        return str.replace("%d", `${this.count.selectedCount}`);
-    }
-
-    private get isCurrentPageSelected(): boolean {
-        const selection = this.props.itemSelection;
-
-        if (!selection || selection.type === "Single") return false;
-
-        const pageIds = new Set(this.props.datasource.items?.map(item => item.id) ?? []);
-        const selectionSubArray = selection.selection.filter(item => pageIds.has(item.id));
-        return selectionSubArray.length === pageIds.size && pageIds.size > 0;
-    }
-
-    private get isAllItemsSelected(): boolean {
-        if (this.total > 0) return this.total === this.count.selectedCount;
-
-        const { offset, limit, items = [], hasMoreItems } = this.gate.props.datasource;
-        const noMoreItems = typeof hasMoreItems === "boolean" && hasMoreItems === false;
-        const fullyLoaded = offset === 0 && limit >= items.length;
-
-        return fullyLoaded && noMoreItems && items.length === this.count.selectedCount;
+        makeAutoObservable(this);
     }
 
     get selectAllLabel(): string {
-        if (this.total > 0) return this.selectAllFormat.replace("%d", `${this.total}`);
-        return this.selectAllText;
+        return this.selectAllTexts.selectAllLabel;
     }
 
     get clearSelectionLabel(): string {
-        return this.count.clearButtonLabel;
+        return this.selectionTexts.clearSelectionButtonLabel;
     }
 
     get selectionStatus(): string {
-        if (this.isAllItemsSelected) return this.allSelectedText;
-        return this.count.selectedCountText;
+        return this.selectAllTexts.selectionStatus;
     }
 
     get isBarVisible(): boolean {
-        return this.enableSelectAll && this.barVisible;
+        return this.enableSelectAll && this.state.visible;
     }
 
     get isClearVisible(): boolean {
-        return this.clearVisible;
+        return this.state.clearBtnVisible;
     }
 
     get isSelectAllDisabled(): boolean {
-        return this.pending;
-    }
-
-    setup(): (() => void) | void {
-        if (!this.enableSelectAll) return;
-
-        return reaction(
-            () => this.isCurrentPageSelected,
-            isCurrentPageSelected => {
-                if (isCurrentPageSelected === false) {
-                    this.hideBar();
-                } else if (this.isAllItemsSelected === false) {
-                    this.showBar();
-                }
-            }
-        );
+        return this.state.pending;
     }
 
     onClear(): void {
-        this.selectService.clearSelection();
+        this.emitter.emit("clear");
     }
 
-    async onSelectAll(): Promise<void> {
-        this.setPending(true);
-        try {
-            const { success } = await this.selectService.selectAllPages();
-            this.setClearVisible(success);
-        } finally {
-            this.setPending(false);
-        }
+    onSelectAll(): void {
+        this.emitter.emit("startSelecting");
     }
 }
