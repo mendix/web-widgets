@@ -42,7 +42,7 @@ injected(selectionCounterTextsStore, CORE.mainGate, CORE.selection.selectedCount
 /**
  * Root container for bindings that can be shared down the hierarchy.
  * Declare only bindings that needs to be shared across multiple containers.
- * @remark Don't bind constants or other things that depend on props here.
+ * @remark Don't bind constants or directly prop-dependent values here. Prop-derived atoms/stores via dependency injection are acceptable.
  */
 export class RootContainer extends Container {
     id = `DatagridRootContainer@${generateUUID()}`;
