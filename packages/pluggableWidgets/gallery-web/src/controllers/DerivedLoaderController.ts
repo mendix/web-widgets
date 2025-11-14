@@ -4,20 +4,39 @@ import { computed, makeObservable } from "mobx";
 export class DerivedLoaderController {
     constructor(
         private datasourceService: DatasourceService,
-        private refreshIndicator: boolean
+        private refreshIndicator: boolean,
+        private showSilentRefresh: boolean
     ) {
         makeObservable(this, {
-            isRefreshing: computed,
-            showRefreshIndicator: computed
+            isFirstLoad: computed,
+            isFetchingNextBatch: computed,
+            isRefreshing: computed
         });
+    }
+
+    get isFirstLoad(): boolean {
+        return this.datasourceService.isFirstLoad;
+    }
+
+    get isFetchingNextBatch(): boolean {
+        return this.datasourceService.isFetchingNextBatch;
     }
 
     get isRefreshing(): boolean {
         const { isSilentRefresh, isRefreshing } = this.datasourceService;
+
+        if (this.showSilentRefresh) {
+            return isSilentRefresh || isRefreshing;
+        }
+
         return !isSilentRefresh && isRefreshing;
     }
 
     get showRefreshIndicator(): boolean {
-        return this.refreshIndicator && this.isRefreshing;
+        if (!this.refreshIndicator) {
+            return false;
+        }
+
+        return this.isRefreshing;
     }
 }
