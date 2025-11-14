@@ -8,7 +8,8 @@ describe("Slider", () => {
     const defaultSliderProps: SliderProps = {
         min: -100,
         max: 100,
-        step: 10
+        step: 10,
+        ariaLabelledByForHandle: "test-slider"
     };
 
     function renderSlider(props?: Partial<SliderProps>): ReturnType<typeof render> {
