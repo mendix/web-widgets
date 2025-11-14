@@ -20,6 +20,7 @@ exports[`Slider renders horizontal Slider correctly 1`] = `
       />
       <div
         aria-disabled="false"
+        aria-labelledby="test-slider"
         aria-orientation="horizontal"
         aria-valuemax="100"
         aria-valuemin="-100"
@@ -75,6 +76,7 @@ exports[`Slider renders markers correctly 1`] = `
       </div>
       <div
         aria-disabled="false"
+        aria-labelledby="test-slider"
         aria-orientation="horizontal"
         aria-valuemax="100"
         aria-valuemin="-100"
@@ -143,6 +145,7 @@ exports[`Slider renders vertical Slider correctly 1`] = `
       />
       <div
         aria-disabled="false"
+        aria-labelledby="test-slider"
         aria-orientation="vertical"
         aria-valuemax="100"
         aria-valuemin="-100"
