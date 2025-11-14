@@ -1,17 +1,29 @@
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import Big from "big.js";
-import { ListValue, ObjectItem, ValueStatus } from "mendix";
+import { DynamicValue, ListValue, ObjectItem, ValueStatus } from "mendix";
 import { createNanoEvents, Emitter, Unsubscribe } from "nanoevents";
 import { ColumnsType, ShowContentAsEnum } from "../../../typings/DatagridProps";
 
-type RowData = Array<string | number | boolean>;
+/** Represents a single Excel cell (SheetJS compatible) */
+interface ExcelCell {
+    /** Cell type: 's' = string, 'n' = number, 'b' = boolean, 'd' = date */
+    t: "s" | "n" | "b" | "d";
+    /** Underlying value */
+    v: string | number | boolean | Date;
+    /** Optional Excel number/date format, e.g. "yyyy-mm-dd" or "$0.00" */
+    z?: string;
+    /** Optional pre-formatted display text */
+    w?: string;
+}
+
+type RowData = ExcelCell[];
 
 type HeaderDefinition = {
     name: string;
     type: string;
 };
 
-type ValueReader = (item: ObjectItem, props: ColumnsType) => string | boolean | number;
+type ValueReader = (item: ObjectItem, props: ColumnsType) => ExcelCell;
 
 type ReadersByType = Record<ShowContentAsEnum, ValueReader>;
 
@@ -252,48 +264,118 @@ export class DSExportRequest {
 
 const readers: ReadersByType = {
     attribute(item, props) {
-        if (props.attribute === undefined) {
-            return "";
+        const data = props.attribute?.get(item);
+
+        if (data?.status !== "available") {
+            return makeEmptyCell();
         }
 
-        const data = props.attribute.get(item);
+        const value = data.value;
+        const format = getCellFormat({
+            exportType: props.exportType,
+            exportDateFormat: props.exportDateFormat,
+            exportNumberFormat: props.exportNumberFormat
+        });
 
-        if (data.status !== "available") {
-            return "";
+        if (value instanceof Date) {
+            return excelDate(format === undefined ? data.displayValue : value, format);
         }
 
-        if (typeof data.value === "boolean") {
-            return data.value;
+        if (typeof value === "boolean") {
+            return excelBoolean(value);
         }
 
-        if (data.value instanceof Big) {
-            return data.value.toNumber();
+        if (value instanceof Big || typeof value === "number") {
+            const num = value instanceof Big ? value.toNumber() : value;
+            return excelNumber(num, format);
         }
 
-        return data.displayValue;
+        return excelString(data.displayValue ?? "");
     },
 
     dynamicText(item, props) {
-        if (props.dynamicText === undefined) {
-            return "";
-        }
+        const data = props.dynamicText?.get(item);
 
-        const data = props.dynamicText.get(item);
-
-        switch (data.status) {
+        switch (data?.status) {
             case "available":
-                return data.value;
+                const format = getCellFormat({
+                    exportType: props.exportType,
+                    exportDateFormat: props.exportDateFormat,
+                    exportNumberFormat: props.exportNumberFormat
+                });
+
+                return excelString(data.value ?? "", format);
             case "unavailable":
-                return "n/a";
+                return excelString("n/a");
             default:
-                return "";
+                return makeEmptyCell();
         }
     },
 
     customContent(item, props) {
-        return props.exportValue?.get(item).value ?? "";
+        const value = props.exportValue?.get(item).value ?? "";
+        const format = getCellFormat({
+            exportType: props.exportType,
+            exportDateFormat: props.exportDateFormat,
+            exportNumberFormat: props.exportNumberFormat
+        });
+
+        return excelString(value, format);
     }
 };
+
+function makeEmptyCell(): ExcelCell {
+    return { t: "s", v: "" };
+}
+
+function excelNumber(value: number, format?: string): ExcelCell {
+    return {
+        t: "n",
+        v: value,
+        z: format
+    };
+}
+
+function excelString(value: string, format?: string): ExcelCell {
+    return {
+        t: "s",
+        v: value,
+        z: format ?? undefined
+    };
+}
+
+function excelDate(value: string | Date, format?: string): ExcelCell {
+    return {
+        t: format === undefined ? "s" : "d",
+        v: value,
+        z: format
+    };
+}
+
+function excelBoolean(value: boolean): ExcelCell {
+    return {
+        t: "b",
+        v: value,
+        w: value ? "TRUE" : "FALSE"
+    };
+}
+
+interface DataExportProps {
+    exportType: "default" | "number" | "date" | "boolean";
+    exportDateFormat?: DynamicValue<string>;
+    exportNumberFormat?: DynamicValue<string>;
+}
+
+function getCellFormat({ exportType, exportDateFormat, exportNumberFormat }: DataExportProps): string | undefined {
+    switch (exportType) {
+        case "date":
+            return exportDateFormat?.status === "available" ? exportDateFormat.value : undefined;
+        case "number":
+            return exportNumberFormat?.status === "available" ? exportNumberFormat.value : undefined;
+        default:
+            return undefined;
+    }
+}
 
 function createRowReader(columns: ColumnsType[]): RowReader {
     return item =>
