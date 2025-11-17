@@ -7,6 +7,7 @@ export interface BarcodeConfig {
     width: number;
     height: number;
     format: string;
+    isQRCode: boolean;
     margin: number;
     displayValue: boolean;
     allowDownload: boolean;
@@ -38,6 +39,7 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
     const value = props.codeValue?.status === "available" ? (props.codeValue.value ?? "") : "";
     const format =
         props.codeFormat === "Custom" ? (props.customCodeFormat ?? "CODE128") : (props.codeFormat ?? "CODE128");
+    const isQRCode = format === "QRCode";
 
     return Object.freeze({
         // Basic barcode properties
@@ -45,6 +47,7 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         width: props.codeWidth ?? 128,
         height: props.codeHeight ?? 128,
         format,
+        isQRCode,
         margin: props.codeMargin ?? 2,
         displayValue: props.displayValue ?? false,
         allowDownload: props.allowDownload ?? false,
