@@ -1,18 +1,18 @@
-import classNames from "classnames";
-import { ComponentPropsWithoutRef, ReactElement } from "react";
+import { observer } from "mobx-react-lite";
+import { PropsWithChildren, ReactElement } from "react";
+import { useDatagridConfig, useGridStyle } from "../model/hooks/injection-hooks";
 
-type P = Omit<ComponentPropsWithoutRef<"div">, "role">;
-
-export interface GridProps extends P {
-    className?: string;
-}
-
-export function Grid(props: GridProps): ReactElement {
-    const { className, style, children, ...rest } = props;
-
+export const Grid = observer(function Grid(props: PropsWithChildren): ReactElement {
+    const config = useDatagridConfig();
+    const style = useGridStyle().get();
     return (
-        <div className={classNames("widget-datagrid-grid table", className)} role="grid" style={style} {...rest}>
-            {children}
+        <div
+            aria-multiselectable={config.multiselectable}
+            className={"widget-datagrid-grid table"}
+            role="grid"
+            style={style}
+        >
+            {props.children}
         </div>
     );
-}
+});
