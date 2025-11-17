@@ -96,7 +96,7 @@ export class GalleryStore extends SetupHost {
             host: this._sortHost
         };
 
-        this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator, spec.refreshInterval > 1);
+        this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator, spec.refreshInterval >= 1);
 
         const useStorage = spec.storeFilters || spec.storeSort;
         if (useStorage) {

@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- We added a refresh intervel property, to allow defining an interval (in seconds) for refreshing the content in Gallery
+- We added a refresh interval property, to allow defining an interval (in seconds) for refreshing the content in Gallery
 
 ## [3.7.0] - 2025-11-11
 
