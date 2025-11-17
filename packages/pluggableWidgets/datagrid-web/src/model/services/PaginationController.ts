@@ -14,6 +14,7 @@ type PaginationKind = `${PaginationEnum}.${ShowPagingButtonsEnum}`;
 export class PaginationController implements SetupComponent {
     readonly pagination: PaginationEnum;
     readonly paginationKind: PaginationKind;
+    readonly showPagingButtons: ShowPagingButtonsEnum;
 
     constructor(
         host: SetupComponentHost,
@@ -23,6 +24,7 @@ export class PaginationController implements SetupComponent {
         host.add(this);
         this.pagination = config.pagination;
         this.paginationKind = `${this.pagination}.${config.showPagingButtons}`;
+        this.showPagingButtons = config.showPagingButtons;
         this.setInitParams();
     }
 
@@ -42,7 +44,7 @@ export class PaginationController implements SetupComponent {
         return this.isLimitBased ? limit / pageSize : offset / pageSize;
     }
 
-    get showPagination(): boolean {
+    get paginationVisible(): boolean {
         switch (this.paginationKind) {
             case "buttons.always":
                 return true;
@@ -55,6 +57,14 @@ export class PaginationController implements SetupComponent {
         }
     }
 
+    get hasMoreItems(): boolean {
+        return this.query.hasMoreItems;
+    }
+
+    get totalCount(): number | undefined {
+        return this.query.totalCount;
+    }
+
     private setInitParams(): void {
         if (this.pagination === "buttons" || this.config.showNumberOfRows) {
             this.query.requestTotalCount(true);
@@ -65,8 +75,8 @@ export class PaginationController implements SetupComponent {
 
     setup(): void {}
 
-    setPage = (computePage: (prevPage: number) => number): void => {
-        const newPage = computePage(this.currentPage);
+    setPage = (computePage: ((prevPage: number) => number) | number): void => {
+        const newPage = typeof computePage === "function" ? computePage(this.currentPage) : computePage;
         if (this.isLimitBased) {
             this.query.setLimit(newPage * this.pageSize);
         } else {
