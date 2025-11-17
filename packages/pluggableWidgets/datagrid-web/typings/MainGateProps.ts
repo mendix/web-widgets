@@ -14,6 +14,7 @@ export type MainGateProps = Pick<
     | "enableSelectAll"
     | "itemSelection"
     | "name"
+    | "onSelectionChange"
     | "pageSize"
     | "pagination"
     | "refreshIndicator"

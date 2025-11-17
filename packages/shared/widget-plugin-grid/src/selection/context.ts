@@ -1,17 +1,11 @@
 import { Context, createContext, useContext, useMemo } from "react";
-import { SelectionHelper } from "./helpers.js";
+import { MultiSelectionService } from "../interfaces/MultiSelectionService.js";
+import { SelectionHelperService } from "../interfaces/SelectionHelperService.js";
 import { error, Result, value } from "./result-meta.js";
-import { MultiSelectionStatus } from "./types.js";
 
 const CONTEXT_OBJECT_PATH = "com.mendix.widgets.web.selectable.selectionContext" as const;
 
-interface SelectionStore {
-    /** @observable */
-    selectionStatus: MultiSelectionStatus;
-    togglePageSelection(): void;
-}
-
-type SelectionContextObject = Context<SelectionStore | undefined>;
+type SelectionContextObject = Context<MultiSelectionService | undefined>;
 
 declare global {
     interface Window {
@@ -20,24 +14,16 @@ declare global {
 }
 
 export function getGlobalSelectionContext(): SelectionContextObject {
-    return (window[CONTEXT_OBJECT_PATH] ??= createContext<SelectionStore | undefined>(undefined));
+    return (window[CONTEXT_OBJECT_PATH] ??= createContext<MultiSelectionService | undefined>(undefined));
 }
-
-type UseCreateSelectionContextValueReturn = SelectionStore | undefined;
 
 export function useCreateSelectionContextValue(
-    selection: SelectionHelper | undefined
-): UseCreateSelectionContextValueReturn {
-    return useMemo(() => {
-        if (selection?.type === "Multi") {
-            return selection;
-        }
-
-        return undefined;
-    }, [selection]);
+    selection: SelectionHelperService | undefined
+): MultiSelectionService | undefined {
+    return useMemo(() => (selection?.type === "Multi" ? selection : undefined), [selection]);
 }
 
-export function useSelectionContextValue(): Result<SelectionStore, OutOfContextError> {
+export function useSelectionContextValue(): Result<MultiSelectionService, OutOfContextError> {
     const context = getGlobalSelectionContext();
     const contextValue = useContext(context);
 
