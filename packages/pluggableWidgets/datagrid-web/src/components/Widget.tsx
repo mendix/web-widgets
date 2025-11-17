@@ -111,22 +111,12 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
 
     const basicData = useBasicData();
 
-    const cssGridStyles = gridStyle(visibleColumns, {
-        selectItemColumn: selectActionHelper.showCheckboxColumn,
-        visibilitySelectorColumn: columnsHidable
-    });
-
-    const selectionEnabled = selectActionHelper.selectionType !== "None";
-
     return (
         <Fragment>
             <WidgetTopBar />
             <WidgetHeader headerTitle={headerTitle} headerContent={headerContent} />
             <WidgetContent>
-                <Grid
-                    aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
-                    style={cssGridStyles}
-                >
+                <Grid>
                     <GridHeader
                         availableColumns={props.availableColumns}
                         columns={visibleColumns}
@@ -174,28 +164,3 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         </Fragment>
     );
 });
-
-function gridStyle(columns: GridColumn[], optional: OptionalColumns): CSSProperties {
-    const columnSizes = columns.map(c => c.getCssWidth());
-
-    const sizes: string[] = [];
-
-    if (optional.selectItemColumn) {
-        sizes.push("48px");
-    }
-
-    sizes.push(...columnSizes);
-
-    if (optional.visibilitySelectorColumn) {
-        sizes.push("54px");
-    }
-
-    return {
-        gridTemplateColumns: sizes.join(" ")
-    };
-}
-
-type OptionalColumns = {
-    selectItemColumn?: boolean;
-    visibilitySelectorColumn?: boolean;
-};
