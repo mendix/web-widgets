@@ -18,7 +18,7 @@ import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-
 import { ComputedAtom, DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
 import { token } from "brandi";
 import { ListValue } from "mendix";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { MainGateProps } from "../../typings/MainGateProps";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
@@ -98,7 +98,9 @@ export const DG_TOKENS = {
     selectionCounterVM: token<SelectionCounterViewModel>("SelectionCounterViewModel"),
 
     selectionGate: token<DerivedPropsGate<SelectionDynamicProps>>("@gate:GateForSelectionHelper"),
-    selectionHelper: token<SelectionHelperService | undefined>("SelectionHelperService")
+    selectionHelper: token<SelectionHelperService | undefined>("SelectionHelperService"),
+
+    gridColumnsStyle: token<ComputedAtom<CSSProperties>>("@computed:GridColumnsStyle")
 };
 
 /** "Select all" module tokens. */
