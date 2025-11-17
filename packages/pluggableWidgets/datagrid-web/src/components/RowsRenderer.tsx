@@ -14,7 +14,6 @@ interface RowsRendererProps {
     eventsController: EventsController;
     focusController: FocusTargetController;
     interactive: boolean;
-    pageSize: number;
     preview: boolean;
     rowClass?: (item: ObjectItem) => string;
     rows: ObjectItem[];

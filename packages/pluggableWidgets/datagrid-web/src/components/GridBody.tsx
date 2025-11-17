@@ -1,9 +1,10 @@
-import classNames from "classnames";
-import { Fragment, ReactElement, ReactNode } from "react";
-import { LoadingTypeEnum, PaginationEnum } from "../../typings/DatagridProps";
-import { SpinnerLoader } from "./loader/SpinnerLoader";
-import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
 import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
+import classNames from "classnames";
+import { Fragment, ReactElement, ReactNode, useCallback } from "react";
+import { LoadingTypeEnum } from "../../typings/DatagridProps";
+import { usePaginationService } from "../model/hooks/injection-hooks";
+import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
+import { SpinnerLoader } from "./loader/SpinnerLoader";
 
 interface Props {
     className?: string;
@@ -14,30 +15,30 @@ interface Props {
     columnsHidable: boolean;
     columnsSize: number;
     rowsSize: number;
-    pageSize: number;
-    pagination: PaginationEnum;
-    hasMoreItems: boolean;
-    setPage?: (update: (page: number) => number) => void;
 }
 
 export function GridBody(props: Props): ReactElement {
-    const { children, pagination, hasMoreItems, setPage } = props;
+    const { children } = props;
 
-    const isInfinite = pagination === "virtualScrolling";
+    const paging = usePaginationService();
+    const pageSize = paging.pageSize;
+    const setPage = useCallback((cb: (n: number) => number) => paging.setPage(cb), [paging]);
+
+    const isInfinite = paging.pagination === "virtualScrolling";
     const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
-        hasMoreItems,
+        hasMoreItems: paging.hasMoreItems,
         isInfinite,
         setPage
     });
 
     const content = (): ReactElement => {
         if (props.isFirstLoad) {
-            return <Loader {...props} rowsSize={props.rowsSize > 0 ? props.rowsSize : props.pageSize} />;
+            return <Loader {...props} rowsSize={props.rowsSize > 0 ? props.rowsSize : pageSize} />;
         }
         return (
             <Fragment>
                 {children}
-                {props.isFetchingNextBatch && <Loader {...props} rowsSize={props.pageSize} useBorderTop={false} />}
+                {props.isFetchingNextBatch && <Loader {...props} rowsSize={pageSize} useBorderTop={false} />}
             </Fragment>
         );
     };

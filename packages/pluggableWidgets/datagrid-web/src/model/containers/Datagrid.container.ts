@@ -2,7 +2,7 @@ import { WidgetFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { emptyStateWidgetsAtom } from "@mendix/widget-plugin-grid/core/models/empty-state.model";
-import { DatasourceService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
+import { createSelectionHelper, DatasourceService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
@@ -17,6 +17,7 @@ import { DatagridConfig } from "../configs/Datagrid.config";
 import { DatasourceParamsController } from "../services/DatasourceParamsController";
 import { DerivedLoaderController } from "../services/DerivedLoaderController";
 import { PaginationController } from "../services/PaginationController";
+import { SelectionGate } from "../services/SelectionGate.service";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
 injected(ColumnGroupStore, CORE.setupService, CORE.mainGate, CORE.config, DG.filterHost);
@@ -30,6 +31,8 @@ injected(GridPersonalizationStore, CORE.setupService, CORE.mainGate, CORE.column
 injected(PaginationController, CORE.setupService, DG.paginationConfig, DG.query);
 injected(WidgetFilterAPI, DG.parentChannelName, DG.filterHost);
 injected(emptyStateWidgetsAtom, CORE.mainGate, CORE.atoms.itemCount);
+injected(SelectionGate, CORE.mainGate);
+injected(createSelectionHelper, CORE.setupService, DG.selectionGate, CORE.config.optional);
 
 injected(
     SelectionCounterViewModel,
@@ -69,6 +72,11 @@ export class DatagridContainer extends Container {
         // Empty placeholder
         this.bind(DG.emptyPlaceholderVM).toInstance(EmptyPlaceholderViewModel).inSingletonScope();
         this.bind(DG.emptyPlaceholderWidgets).toInstance(emptyStateWidgetsAtom).inTransientScope();
+
+        // Selection gate
+        this.bind(DG.selectionGate).toInstance(SelectionGate).inTransientScope();
+        // Selection helper
+        this.bind(DG.selectionHelper).toInstance(createSelectionHelper).inSingletonScope();
     }
 
     /**
@@ -141,6 +149,14 @@ export class DatagridContainer extends Container {
 
         if (config.settingsStorageEnabled) {
             this.get(DG.personalizationService);
+        }
+
+        if (config.selectionEnabled) {
+            // Create selection helper singleton
+            this.get(DG.selectionHelper);
+        } else {
+            // Override selection helper with undefined to disable selection features
+            this.bind(DG.selectionHelper).toConstant(undefined);
         }
 
         // Hydrate filters from props
