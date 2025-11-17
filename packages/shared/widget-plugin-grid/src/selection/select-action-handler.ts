@@ -1,11 +1,11 @@
 import { ObjectItem } from "mendix";
-import { SelectionHelper } from "./helpers";
+import { SelectionHelperService } from "../interfaces/SelectionHelperService";
 import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType, WidgetSelectionProperty } from "./types";
 
 export class SelectActionHandler {
     constructor(
         private selection: WidgetSelectionProperty,
-        protected selectionHelper: SelectionHelper | undefined
+        protected selectionHelper: SelectionHelperService | undefined
     ) {}
 
     get selectionType(): SelectionType {

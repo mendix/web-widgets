@@ -1,11 +1,11 @@
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { SelectionHelper } from "@mendix/widget-plugin-grid/selection";
+import { SelectionHelperService } from "@mendix/widget-plugin-grid/main";
 import { createContext, useContext } from "react";
 import { EventsController } from "../typings/CellComponent";
 import { SelectActionHelper } from "./SelectActionHelper";
 
 export interface LegacyRootScope {
-    selectionHelper: SelectionHelper | undefined;
+    selectionHelper: SelectionHelperService | undefined;
     selectActionHelper: SelectActionHelper;
     cellEventsController: EventsController;
     checkboxEventsController: EventsController;
