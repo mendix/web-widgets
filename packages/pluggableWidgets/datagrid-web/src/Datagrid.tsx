@@ -1,6 +1,5 @@
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
-import { useSelectionHelper } from "@mendix/widget-plugin-grid/selection";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ContainerProvider } from "brandi-react";
@@ -9,7 +8,6 @@ import { ReactElement, useCallback, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
-import { WidgetHeaderContext } from "./components/WidgetHeaderContext";
 import { useDataExport } from "./features/data-export/useDataExport";
 import { useCellEventsController } from "./features/row-interaction/CellEventsController";
 import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
@@ -21,26 +19,20 @@ import {
     useExportProgressService,
     useLoaderViewModel,
     useMainGate,
-    usePaginationService
+    useSelectionHelper
 } from "./model/hooks/injection-hooks";
 import { useDatagridContainer } from "./model/hooks/useDatagridContainer";
 
 const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
     const gate = useMainGate();
     const columnsStore = useColumnsStore();
-    const paginationService = usePaginationService();
     const exportProgress = useExportProgressService();
     const loaderVM = useLoaderViewModel();
     const items = gate.props.datasource.items ?? [];
 
     const [abortExport] = useDataExport(props, columnsStore, exportProgress);
 
-    const selectionHelper = useSelectionHelper(
-        gate.props.itemSelection,
-        gate.props.datasource,
-        props.onSelectionChange,
-        props.keepSelection ? "always keep" : "always clear"
-    );
+    const selectionHelper = useSelectionHelper();
 
     const selectActionHelper = useSelectActionHelper(props, selectionHelper);
 
@@ -92,27 +84,14 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
                     [columnsStore.columnFilters]
                 )}
                 headerTitle={props.filterSectionTitle?.value}
-                headerContent={
-                    props.filtersPlaceholder && (
-                        <WidgetHeaderContext selectionHelper={selectionHelper}>
-                            {props.filtersPlaceholder}
-                        </WidgetHeaderContext>
-                    )
-                }
-                hasMoreItems={props.datasource.hasMoreItems ?? false}
+                headerContent={props.filtersPlaceholder}
                 headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
                 id={useMemo(() => `DataGrid${generateUUID()}`, [])}
                 numberOfItems={props.datasource.totalCount}
                 onExportCancel={abortExport}
-                page={paginationService.currentPage}
-                pageSize={props.pageSize}
                 paginationType={props.pagination}
                 loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
-                paging={paginationService.showPagination}
-                pagingPosition={props.pagingPosition}
-                showPagingButtons={props.showPagingButtons}
                 rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
-                setPage={paginationService.setPage}
                 styles={props.style}
                 exporting={exportProgress.inProgress}
                 processedRows={exportProgress.loaded}

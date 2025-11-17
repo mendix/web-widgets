@@ -1,5 +1,5 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { DatagridContainerProps, PagingPositionEnum } from "../../../typings/DatagridProps";
 
 /** Config for static values that don't change at runtime. */
 export interface DatagridConfig {
@@ -13,12 +13,14 @@ export interface DatagridConfig {
     selectorColumnEnabled: boolean;
     settingsStorageEnabled: boolean;
     enableSelectAll: boolean;
+    keepSelection: boolean;
+    pagingPosition: PagingPositionEnum;
 }
 
 export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
     const id = `${props.name}:Datagrid@${generateUUID()}`;
 
-    return Object.freeze({
+    const config: DatagridConfig = {
         checkboxColumnEnabled: isCheckboxColumnEnabled(props),
         filtersChannelName: `${id}:events`,
         id,
@@ -28,8 +30,12 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         selectionEnabled: isSelectionEnabled(props),
         selectorColumnEnabled: props.columnsHidable,
         settingsStorageEnabled: isSettingsStorageEnabled(props),
-        enableSelectAll: props.enableSelectAll
-    });
+        enableSelectAll: props.enableSelectAll,
+        keepSelection: props.keepSelection,
+        pagingPosition: props.pagingPosition
+    };
+
+    return Object.freeze(config);
 }
 
 function isSelectionEnabled(props: DatagridContainerProps): boolean {

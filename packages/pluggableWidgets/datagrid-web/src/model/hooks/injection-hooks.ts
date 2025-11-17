@@ -9,3 +9,4 @@ export const [useExportProgressService] = createInjectionHooks(DG.exportProgress
 export const [useLoaderViewModel] = createInjectionHooks(DG.loaderVM);
 export const [useMainGate] = createInjectionHooks(CORE.mainGate);
 export const [usePaginationService] = createInjectionHooks(DG.paginationService);
+export const [useSelectionHelper] = createInjectionHooks(DG.selectionHelper);

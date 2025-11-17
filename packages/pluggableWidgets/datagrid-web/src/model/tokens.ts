@@ -1,7 +1,13 @@
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
-import { QueryService, SelectAllService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
+import {
+    QueryService,
+    SelectAllService,
+    SelectionDynamicProps,
+    SelectionHelperService,
+    TaskProgressService
+} from "@mendix/widget-plugin-grid/main";
 import { SelectAllFeature } from "@mendix/widget-plugin-grid/select-all/select-all.feature";
 import {
     BarStore,
@@ -43,7 +49,7 @@ export const CORE_TOKENS = {
 
     config: token<DatagridConfig>("DatagridConfig"),
 
-    mainGate: token<DerivedPropsGate<MainGateProps>>("MainGate"),
+    mainGate: token<DerivedPropsGate<MainGateProps>>("@gate:MainGate"),
 
     selection: {
         selectedCount: token<ComputedAtom<number>>("@computed:selectedCount"),
@@ -86,10 +92,13 @@ export const DG_TOKENS = {
     personalizationService: token<GridPersonalizationStore>("GridPersonalizationStore"),
 
     query: token<QueryService>("QueryService"),
-    queryGate: token<DerivedPropsGate<{ datasource: ListValue }>>("GateForQueryService"),
+    queryGate: token<DerivedPropsGate<{ datasource: ListValue }>>("@gate:GateForQueryService"),
 
     selectionCounterCfg: token<{ position: "top" | "bottom" | "off" }>("SelectionCounterConfig"),
-    selectionCounterVM: token<SelectionCounterViewModel>("SelectionCounterViewModel")
+    selectionCounterVM: token<SelectionCounterViewModel>("SelectionCounterViewModel"),
+
+    selectionGate: token<DerivedPropsGate<SelectionDynamicProps>>("@gate:GateForSelectionHelper"),
+    selectionHelper: token<SelectionHelperService | undefined>("SelectionHelperService")
 };
 
 /** "Select all" module tokens. */

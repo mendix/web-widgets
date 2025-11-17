@@ -10,4 +10,5 @@ export { autoEffect } from "./lib/autoEffect";
 export { createEmitter } from "./lib/createEmitter";
 export type { Emitter } from "./lib/createEmitter";
 export { disposeBatch } from "./lib/disposeBatch";
+export { MappedGate } from "./MappedGate";
 export { SetupHost } from "./SetupHost";
