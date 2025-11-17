@@ -15,6 +15,7 @@ export interface DatagridConfig {
     enableSelectAll: boolean;
     keepSelection: boolean;
     pagingPosition: PagingPositionEnum;
+    multiselectable: true | undefined;
 }
 
 export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
@@ -32,10 +33,16 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         settingsStorageEnabled: isSettingsStorageEnabled(props),
         enableSelectAll: props.enableSelectAll,
         keepSelection: props.keepSelection,
-        pagingPosition: props.pagingPosition
+        pagingPosition: props.pagingPosition,
+        multiselectable: isMultiselectable(props)
     };
 
     return Object.freeze(config);
+}
+
+function isMultiselectable(props: DatagridContainerProps): true | undefined {
+    const type = props.itemSelection?.type;
+    return type === "Multi" ? true : undefined;
 }
 
 function isSelectionEnabled(props: DatagridContainerProps): boolean {
