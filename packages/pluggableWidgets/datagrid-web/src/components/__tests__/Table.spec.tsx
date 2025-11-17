@@ -137,8 +137,7 @@ describe.skip("Table", () => {
 
     it("renders the structure correctly with empty placeholder", () => {
         const component = renderWithRootContext({
-            ...mockWidgetProps(),
-            emptyPlaceholderRenderer: renderWrapper => renderWrapper(<div />)
+            ...mockWidgetProps()
         });
 
         expect(component.asFragment()).toMatchSnapshot();
