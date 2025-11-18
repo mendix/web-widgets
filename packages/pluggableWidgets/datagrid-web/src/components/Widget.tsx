@@ -135,14 +135,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     />
                     <SelectAllBar />
                     {showRefreshIndicator ? <RefreshIndicator /> : null}
-                    <GridBody
-                        isFirstLoad={props.isFirstLoad}
-                        isFetchingNextBatch={props.isFetchingNextBatch}
-                        loadingType={props.loadingType}
-                        columnsHidable={columnsHidable}
-                        columnsSize={visibleColumns.length}
-                        rowsSize={rows.length}
-                    >
+                    <GridBody>
                         <RowsRenderer
                             preview={false}
                             interactive={basicData.gridInteractive}
