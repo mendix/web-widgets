@@ -22,6 +22,7 @@ export interface DatagridConfig {
     columnsHidable: boolean;
     columnsResizable: boolean;
     columnsSortable: boolean;
+    isInteractive: boolean;
 }
 
 export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
@@ -46,7 +47,8 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         columnsDraggable: props.columnsDraggable,
         columnsFilterable: props.columnsFilterable,
         columnsResizable: props.columnsResizable,
-        columnsSortable: props.columnsSortable
+        columnsSortable: props.columnsSortable,
+        isInteractive: isInteractive(props)
     };
 
     return Object.freeze(config);
@@ -70,4 +72,8 @@ function isSettingsStorageEnabled(props: DatagridContainerProps): boolean {
     if (props.configurationStorageType === "localStorage") return true;
     if (props.configurationStorageType === "attribute" && props.configurationAttribute) return true;
     return false;
+}
+
+function isInteractive(props: DatagridContainerProps): boolean {
+    return props.itemSelection !== undefined || props.onClick !== undefined;
 }
