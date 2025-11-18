@@ -121,7 +121,7 @@ export function TreeNodeBranch({
                 });
             }
         },
-        [captureElementHeight, eventTargetIsNotCurrentBranch, isActualLeafNode]
+        [captureElementHeight, eventTargetIsNotCurrentBranch, isActualLeafNode, fetchChildren, item]
     );
 
     const onHeaderKeyDown = useTreeNodeBranchKeyboardHandler(

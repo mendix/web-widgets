@@ -59,7 +59,6 @@ export function TreeNodeComponent(props: TreeNodeComponentProps): ReactElement |
         isInfiniteMode
     } = props;
     const [treeNodeElement, updateTreeNodeElement] = useTreeNodeRef();
-    const isUserDefinedLeafNode = hasChildren === false;
     const showIconAnimation = animate && animateIcon;
 
     const renderHeaderIconCallback = useCallback<TreeNodeHeaderIcon>(
@@ -98,7 +97,7 @@ export function TreeNodeComponent(props: TreeNodeComponentProps): ReactElement |
                     key={item.id}
                     id={item.id}
                     headerContent={headerType === "text" ? headerCaption?.get(item).value : headerContent?.get(item)}
-                    isUserDefinedLeafNode={isUserDefinedLeafNode}
+                    isUserDefinedLeafNode={hasChildren?.get(item).value === false}
                     startExpanded={startExpanded}
                     iconPlacement={showIcon}
                     renderHeaderIcon={renderHeaderIconCallback}
