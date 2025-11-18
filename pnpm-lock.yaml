@@ -8,6 +8,7 @@ overrides:
   '@codemirror/state': ^6.5.2
   '@codemirror/view': ^6.38.1
   '@mendix/pluggable-widgets-tools': 10.21.2
+  '@testing-library/react': '>=15.0.6'
   '@types/big.js': ^6.2.2
   '@types/node': ~22.14.0
   '@types/react': '>=18.2.36'
@@ -4706,12 +4707,20 @@ packages:
     resolution: {integrity: sha512-ynmNeT7asXyH3aSVv4vvX4Rb+0qjOhdNHnO/3vuZNqPmhDpV/+rCSGwQ7bLcmU2cJ4dvoheIO85LQj0IbJHEtg==}
     engines: {node: '>=8', npm: '>=6', yarn: '>=1'}
 
-  '@testing-library/react@13.4.0':
-    resolution: {integrity: sha512-sXOGON+WNTh3MLE9rve97ftaZukN3oNf2KjDy7YTx6hcTO2uuLHuCGynMDhFwGw/jYf4OJ2Qk0i4i79qMNNkyw==}
-    engines: {node: '>=12'}
+  '@testing-library/react@16.3.0':
+    resolution: {integrity: sha512-kFSyxiEDwv1WLl2fgsq6pPBbw5aWKrsY2/noi1Id0TK0UParSF62oFQFGHXIyaG4pp2tEub/Zlel+fjjZILDsw==}
+    engines: {node: '>=18'}
     peerDependencies:
+      '@testing-library/dom': ^10.0.0
+      '@types/react': '>=18.2.36'
+      '@types/react-dom': ^18.0.0 || ^19.0.0
       react: '>=18.0.0 <19.0.0'
       react-dom: '>=18.0.0 <19.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
 
   '@testing-library/user-event@14.6.1':
     resolution: {integrity: sha512-vq7fv0rnt+QTXgPxr5Hjc210p6YKq2kmdziLgnsZGgLJ9e6VAShx1pACLuRjd/AS/sr7phAR58OIIpf0LlmQNw==}
@@ -12456,7 +12465,7 @@ snapshots:
       '@rollup/pluginutils': 5.3.0(rollup@3.29.5)
       '@testing-library/dom': 8.20.1
       '@testing-library/jest-dom': 5.17.0
-      '@testing-library/react': 13.4.0(@types/react@19.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@testing-library/react': 16.3.0(@testing-library/dom@8.20.1)(@types/react-dom@18.3.7(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@testing-library/user-event': 14.6.1(@testing-library/dom@8.20.1)
       '@types/react': 19.2.2
       '@types/react-dom': 18.3.7(@types/react@19.2.2)
@@ -13063,15 +13072,15 @@ snapshots:
       lodash: 4.17.21
       redent: 3.0.0
 
-  '@testing-library/react@13.4.0(@types/react@19.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@testing-library/react@16.3.0(@testing-library/dom@8.20.1)(@types/react-dom@18.3.7(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@testing-library/dom': 8.20.1
-      '@types/react-dom': 18.3.7(@types/react@19.2.2)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-    transitivePeerDependencies:
-      - '@types/react'
+    optionalDependencies:
+      '@types/react': 19.2.2
+      '@types/react-dom': 18.3.7(@types/react@19.2.2)
 
   '@testing-library/user-event@14.6.1(@testing-library/dom@8.20.1)':
     dependencies:
