@@ -2,15 +2,15 @@ import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
-import { CellComponent, EventsController } from "../typings/CellComponent";
+import { EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
+import { Cell } from "./Cell";
 import { CheckboxCell } from "./CheckboxCell";
 import { SelectorCell } from "./SelectorCell";
 
-export interface RowProps<C extends GridColumn> {
+export interface RowProps {
     className?: string;
-    CellComponent: CellComponent<C>;
-    columns: C[];
+    columns: GridColumn[];
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
@@ -20,8 +20,8 @@ export interface RowProps<C extends GridColumn> {
     eventsController: EventsController;
 }
 
-export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
-    const { CellComponent: Cell, selectActionHelper, totalRows, eventsController } = props;
+export function Row(props: RowProps): ReactElement {
+    const { selectActionHelper, totalRows, eventsController } = props;
     const selected = selectActionHelper.isSelected(props.item);
     const ariaSelected = selectActionHelper.selectionType === "None" ? undefined : selected;
     const borderTop = props.index === 0;
