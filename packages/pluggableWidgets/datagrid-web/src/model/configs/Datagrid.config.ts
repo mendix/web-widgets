@@ -1,5 +1,5 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { DatagridContainerProps, PagingPositionEnum } from "../../../typings/DatagridProps";
+import { DatagridContainerProps, LoadingTypeEnum, PagingPositionEnum } from "../../../typings/DatagridProps";
 
 /** Config for static values that don't change at runtime. */
 export interface DatagridConfig {
@@ -16,6 +16,12 @@ export interface DatagridConfig {
     keepSelection: boolean;
     pagingPosition: PagingPositionEnum;
     multiselectable: true | undefined;
+    loadingType: LoadingTypeEnum;
+    columnsDraggable: boolean;
+    columnsFilterable: boolean;
+    columnsHidable: boolean;
+    columnsResizable: boolean;
+    columnsSortable: boolean;
 }
 
 export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
@@ -34,7 +40,13 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         enableSelectAll: props.enableSelectAll,
         keepSelection: props.keepSelection,
         pagingPosition: props.pagingPosition,
-        multiselectable: isMultiselectable(props)
+        multiselectable: isMultiselectable(props),
+        loadingType: props.loadingType,
+        columnsHidable: props.columnsHidable,
+        columnsDraggable: props.columnsDraggable,
+        columnsFilterable: props.columnsFilterable,
+        columnsResizable: props.columnsResizable,
+        columnsSortable: props.columnsSortable
     };
 
     return Object.freeze(config);
