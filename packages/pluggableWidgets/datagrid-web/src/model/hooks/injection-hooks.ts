@@ -16,3 +16,4 @@ export const [useVisibleColumnsCount] = createInjectionHooks(CORE.atoms.visibleC
 export const [useItemCount] = createInjectionHooks(CORE.atoms.itemCount);
 export const [useColumn] = createInjectionHooks(CORE.column);
 export const [useTexts] = createInjectionHooks(CORE.texts);
+export const [useRowClass] = createInjectionHooks(DG.rowClass);

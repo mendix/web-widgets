@@ -29,4 +29,5 @@ export type MainGateProps = Pick<
     | "showNumberOfRows"
     | "showPagingButtons"
     | "storeFiltersInPersonalization"
+    | "rowClass"
 >;

@@ -14,7 +14,7 @@ import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../../helpers/state/GridPersonalizationStore";
 import { DatagridConfig } from "../configs/Datagrid.config";
-import { gridStyleAtom } from "../models/grid.model";
+import { gridStyleAtom, rowClassProvider } from "../models/grid.model";
 import { DatasourceParamsController } from "../services/DatasourceParamsController";
 import { DerivedLoaderController } from "../services/DerivedLoaderController";
 import { PaginationController } from "../services/PaginationController";
@@ -35,6 +35,7 @@ injected(emptyStateWidgetsAtom, CORE.mainGate, CORE.atoms.itemCount);
 injected(SelectionGate, CORE.mainGate);
 injected(createSelectionHelper, CORE.setupService, DG.selectionGate, CORE.config.optional);
 injected(gridStyleAtom, CORE.columnsStore, CORE.config);
+injected(rowClassProvider, CORE.mainGate);
 
 injected(
     SelectionCounterViewModel,
@@ -81,6 +82,8 @@ export class DatagridContainer extends Container {
         this.bind(DG.selectionGate).toInstance(SelectionGate).inTransientScope();
         // Selection helper
         this.bind(DG.selectionHelper).toInstance(createSelectionHelper).inSingletonScope();
+        // Row class provider
+        this.bind(DG.rowClass).toInstance(rowClassProvider).inTransientScope();
     }
 
     /**
