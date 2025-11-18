@@ -11,3 +11,6 @@ export const [useMainGate] = createInjectionHooks(CORE.mainGate);
 export const [usePaginationService] = createInjectionHooks(DG.paginationService);
 export const [useSelectionHelper] = createInjectionHooks(DG.selectionHelper);
 export const [useGridStyle] = createInjectionHooks(DG.gridColumnsStyle);
+export const [useQueryService] = createInjectionHooks(DG.query);
+export const [useVisibleColumnsCount] = createInjectionHooks(CORE.atoms.visibleColumnsCount);
+export const [useItemCount] = createInjectionHooks(CORE.atoms.itemCount);
