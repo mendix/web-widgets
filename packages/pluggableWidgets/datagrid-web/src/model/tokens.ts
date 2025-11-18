@@ -29,6 +29,7 @@ import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationSt
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
 import { GridColumn } from "../typings/GridColumn";
 import { DatagridConfig } from "./configs/Datagrid.config";
+import { RowClassProvider } from "./models/grid.model";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
 import { PaginationConfig, PaginationController } from "./services/PaginationController";
@@ -105,7 +106,9 @@ export const DG_TOKENS = {
     selectionGate: token<DerivedPropsGate<SelectionDynamicProps>>("@gate:GateForSelectionHelper"),
     selectionHelper: token<SelectionHelperService | undefined>("SelectionHelperService"),
 
-    gridColumnsStyle: token<ComputedAtom<CSSProperties>>("@computed:GridColumnsStyle")
+    gridColumnsStyle: token<ComputedAtom<CSSProperties>>("@computed:GridColumnsStyle"),
+
+    rowClass: token<RowClassProvider>("@store:RowClassProvider")
 };
 
 /** "Select all" module tokens. */
