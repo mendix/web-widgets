@@ -47,9 +47,10 @@
                     <caption>Header caption</caption>
                     <description />
                 </property>
-                <property key="hasChildren" type="boolean" defaultValue="true">
+                <property key="hasChildren" type="expression" dataSource="datasource">
                     <caption>Has children</caption>
                     <description>Indicate whether the node has children or is an end node. When set to yes, a composable region becomes available to define the child nodes.</description>
+                    <returnType type="Boolean" />
                 </property>
                 <property key="startExpanded" type="boolean" defaultValue="false">
                     <caption>Start expanded</caption>
