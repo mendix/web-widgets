@@ -1,15 +1,16 @@
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { ObjectItem } from "mendix";
+import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
+import { useColumnsStore } from "../model/hooks/injection-hooks";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { Row } from "./Row";
 
 interface RowsRendererProps {
     Cell: CellComponent<GridColumn>;
-    columns: GridColumn[];
     columnsHidable: boolean;
     eventsController: EventsController;
     focusController: FocusTargetController;
@@ -17,11 +18,11 @@ interface RowsRendererProps {
     preview: boolean;
     rowClass?: (item: ObjectItem) => string;
     rows: ObjectItem[];
-    selectableWrapper?: (column: number, children: ReactElement) => ReactElement;
     selectActionHelper: SelectActionHelper;
 }
 
-export function RowsRenderer(props: RowsRendererProps): ReactElement {
+export const RowsRenderer = observer(function RowsRenderer(props: RowsRendererProps): ReactElement {
+    const { visibleColumns } = useColumnsStore();
     return (
         <KeyNavProvider focusController={props.focusController}>
             {props.rows.map((item, rowIndex) => {
@@ -30,19 +31,17 @@ export function RowsRenderer(props: RowsRendererProps): ReactElement {
                         totalRows={props.rows.length}
                         clickable={props.interactive}
                         selectActionHelper={props.selectActionHelper}
-                        preview={props.preview}
                         eventsController={props.eventsController}
                         CellComponent={props.Cell}
                         className={props.rowClass?.(item)}
-                        columns={props.columns}
+                        columns={visibleColumns}
                         index={rowIndex}
                         item={item}
                         key={`row_${item.id}`}
                         showSelectorCell={props.columnsHidable}
-                        selectableWrapper={props.selectableWrapper}
                     />
                 );
             })}
         </KeyNavProvider>
     );
-}
+});

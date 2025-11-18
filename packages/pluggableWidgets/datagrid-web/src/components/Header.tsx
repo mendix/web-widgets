@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import {
     Dispatch,
     DragEvent,
@@ -9,82 +10,69 @@ import {
     SetStateAction,
     useCallback
 } from "react";
-import classNames from "classnames";
+import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
-import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 
-import { ColumnResizerProps } from "./ColumnResizer";
+import { useColumn, useColumnsStore, useDatagridConfig } from "../model/hooks/injection-hooks";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
+import { ColumnResizerProps } from "./ColumnResizer";
 
 export interface HeaderProps {
-    className?: string;
-    gridId: string;
-    column: GridColumn;
-    sortable: boolean;
-    resizable: boolean;
-    filterable: boolean;
-    hidable: boolean;
-    draggable: boolean;
-    filterWidget?: ReactNode;
-    preview?: boolean;
+    isLast?: boolean;
     resizer: ReactElement<ColumnResizerProps>;
+
     dropTarget?: [ColumnId, "before" | "after"];
     isDragging?: [ColumnId | undefined, ColumnId, ColumnId | undefined];
     setDropTarget: Dispatch<SetStateAction<[ColumnId, "before" | "after"] | undefined>>;
     setIsDragging: Dispatch<SetStateAction<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>>;
-    swapColumns: (source: ColumnId, target: [ColumnId, "before" | "after"]) => void;
 }
 
 export function Header(props: HeaderProps): ReactElement {
-    const canSort = props.sortable && props.column.canSort;
-    const canDrag = props.draggable && (props.column.canDrag ?? false);
+    const { columnsFilterable, id: gridId } = useDatagridConfig();
+    const columnsStore = useColumnsStore();
+    const column = useColumn();
+    const { canDrag, canSort } = column;
+
     const draggableProps = useDraggable(
         canDrag,
-        props.swapColumns,
+        columnsStore.swapColumns.bind(columnsStore),
         props.dropTarget,
         props.setDropTarget,
         props.isDragging,
         props.setIsDragging
     );
 
-    const sortIcon = canSort ? getSortIcon(props.column) : null;
-    const sortProps = canSort ? getSortProps(props.column) : null;
-    const caption = props.column.header.trim();
+    const sortIcon = canSort ? getSortIcon(column) : null;
+    const sortProps = canSort ? getSortProps(column) : null;
+    const caption = column.header.trim();
 
     return (
         <div
-            aria-sort={getAriaSort(canSort, props.column)}
-            className={classNames(
-                "th",
-                {
-                    "hidden-column-preview":
-                        props.preview && (!props.column.isAvailable || (props.hidable && props.column.isHidden))
-                },
-                {
-                    [`drop-${props.dropTarget?.[1]}`]: props.column.columnId === props.dropTarget?.[0],
-                    dragging: props.column.columnId === props.isDragging?.[1],
-                    "dragging-over-self": props.column.columnId === props.isDragging?.[1] && !props.dropTarget
-                }
-            )}
+            aria-sort={getAriaSort(canSort, column)}
+            className={classNames("th", {
+                [`drop-${props.dropTarget?.[1]}`]: column.columnId === props.dropTarget?.[0],
+                dragging: column.columnId === props.isDragging?.[1],
+                "dragging-over-self": column.columnId === props.isDragging?.[1] && !props.dropTarget
+            })}
             role="columnheader"
             style={!canSort ? { cursor: "unset" } : undefined}
             title={caption}
-            ref={ref => props.column.setHeaderElementRef(ref)}
-            data-column-id={props.column.columnId}
+            ref={ref => column.setHeaderElementRef(ref)}
+            data-column-id={column.columnId}
             onDrop={draggableProps.onDrop}
             onDragEnter={draggableProps.onDragEnter}
             onDragOver={draggableProps.onDragOver}
         >
             <div
                 className={classNames("column-container")}
-                id={`${props.gridId}-column${props.column.columnId}`}
+                id={`${gridId}-column${column.columnId}`}
                 draggable={draggableProps.draggable}
                 onDragStart={draggableProps.onDragStart}
                 onDragEnd={draggableProps.onDragEnd}
             >
                 <div
-                    className={classNames("column-header", { clickable: canSort }, props.className)}
+                    className={classNames("column-header", { clickable: canSort }, `align-column-${column.alignment}`)}
                     style={{ pointerEvents: props.isDragging ? "none" : undefined }}
                     {...sortProps}
                     aria-label={canSort ? "sort " + caption : caption}
@@ -92,9 +80,13 @@ export function Header(props: HeaderProps): ReactElement {
                     <span>{caption.length > 0 ? caption : "\u00a0"}</span>
                     {sortIcon}
                 </div>
-                {props.filterable && props.filterWidget}
+                {columnsFilterable && (
+                    <div className="filter" style={{ pointerEvents: props.isDragging ? "none" : undefined }}>
+                        {columnsStore.columnFilters[column.columnIndex]?.renderFilterWidgets()}
+                    </div>
+                )}
             </div>
-            {props.resizable && props.column.canResize && props.resizer}
+            {column.canResize ? props.resizer : null}
         </div>
     );
 }

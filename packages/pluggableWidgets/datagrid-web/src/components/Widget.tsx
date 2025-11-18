@@ -11,7 +11,7 @@ import { SelectionProgressDialog } from "../features/select-all/SelectionProgres
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { useBasicData } from "../model/hooks/injection-hooks";
 import { CellComponent, EventsController } from "../typings/CellComponent";
-import { ColumnId, GridColumn } from "../typings/GridColumn";
+import { GridColumn } from "../typings/GridColumn";
 import { ExportWidget } from "./ExportWidget";
 import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
@@ -36,7 +36,6 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
     headerContent?: ReactNode;
     headerTitle?: string;
-    headerWrapperRenderer: (columnIndex: number, header: ReactElement) => ReactElement;
     id: string;
     numberOfItems?: number;
     onExportCancel?: () => void;
@@ -58,12 +57,6 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     checkboxEventsController: EventsController;
     selectActionHelper: SelectActionHelper;
     focusController: FocusTargetController;
-
-    visibleColumns: GridColumn[];
-    availableColumns: GridColumn[];
-
-    columnsSwap: (source: ColumnId, target: [ColumnId, "after" | "before"]) => void;
-    setIsResizing: (status: boolean) => void;
 }
 
 export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
@@ -105,8 +98,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         headerTitle,
         loadMoreButtonCaption,
         showRefreshIndicator,
-        selectActionHelper,
-        visibleColumns
+        selectActionHelper
     } = props;
 
     const basicData = useBasicData();
@@ -117,22 +109,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             <WidgetHeader headerTitle={headerTitle} headerContent={headerContent} />
             <WidgetContent>
                 <Grid>
-                    <GridHeader
-                        availableColumns={props.availableColumns}
-                        columns={visibleColumns}
-                        setIsResizing={props.setIsResizing}
-                        columnsDraggable={props.columnsDraggable}
-                        columnsFilterable={props.columnsFilterable}
-                        columnsHidable={props.columnsHidable}
-                        columnsResizable={props.columnsResizable}
-                        columnsSortable={props.columnsSortable}
-                        columnsSwap={props.columnsSwap}
-                        filterRenderer={props.filterRenderer}
-                        headerWrapperRenderer={props.headerWrapperRenderer}
-                        id={props.id}
-                        isLoading={props.columnsLoading}
-                        preview={false}
-                    />
+                    <GridHeader />
                     <SelectAllBar />
                     {showRefreshIndicator ? <RefreshIndicator /> : null}
                     <GridBody>
@@ -140,11 +117,9 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                             preview={false}
                             interactive={basicData.gridInteractive}
                             Cell={CellComponent}
-                            columns={visibleColumns}
                             columnsHidable={columnsHidable}
                             rows={rows}
                             rowClass={props.rowClass}
-                            selectableWrapper={props.headerWrapperRenderer}
                             selectActionHelper={selectActionHelper}
                             focusController={props.focusController}
                             eventsController={props.cellEventsController}
