@@ -15,3 +15,4 @@ export const [useQueryService] = createInjectionHooks(DG.query);
 export const [useVisibleColumnsCount] = createInjectionHooks(CORE.atoms.visibleColumnsCount);
 export const [useItemCount] = createInjectionHooks(CORE.atoms.itemCount);
 export const [useColumn] = createInjectionHooks(CORE.column);
+export const [useTexts] = createInjectionHooks(CORE.texts);

@@ -16,6 +16,7 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 import { Container, injected } from "brandi";
 import { visibleColumnsCountAtom } from "../models/columns.model";
 import { DatagridSetupService } from "../services/DatagridSetup.service";
+import { TextsService } from "../services/Texts.service";
 import { CORE_TOKENS as CORE } from "../tokens";
 
 // datasource
@@ -38,6 +39,9 @@ injected(
 injected(isCurrentPageSelectedAtom, CORE.mainGate);
 injected(selectedCountMultiAtom, CORE.mainGate);
 injected(selectionCounterTextsStore, CORE.mainGate, CORE.selection.selectedCount);
+
+// other
+injected(TextsService, CORE.mainGate);
 
 /**
  * Root container for bindings that can be shared down the hierarchy.
@@ -66,5 +70,6 @@ export class RootContainer extends Container {
         this.bind(CORE.selection.isCurrentPageSelected).toInstance(isCurrentPageSelectedAtom).inTransientScope();
         this.bind(CORE.selection.selectedCounterTextsStore).toInstance(selectionCounterTextsStore).inTransientScope();
         this.bind(CORE.selection.isAllItemsSelected).toInstance(isAllItemsSelectedAtom).inTransientScope();
+        this.bind(CORE.texts).toInstance(TextsService).inTransientScope();
     }
 }
