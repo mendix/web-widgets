@@ -38,7 +38,10 @@ const defaultColumn: ColumnsPreviewType = {
     minWidth: "auto",
     minWidthLimit: 100,
     allowEventPropagation: true,
-    exportValue: ""
+    exportValue: "",
+    exportDateFormat: "",
+    exportNumberFormat: "",
+    exportType: "default"
 };
 
 const initColumns: ColumnsPreviewType[] = [defaultColumn];

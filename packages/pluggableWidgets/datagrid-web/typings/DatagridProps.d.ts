@@ -9,6 +9,8 @@ import { Big } from "big.js";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
 
+export type ExportTypeEnum = "default" | "number" | "date" | "boolean";
+
 export type HidableEnum = "yes" | "hidden" | "no";
 
 export type WidthEnum = "autoFill" | "autoFit" | "manual";
@@ -23,6 +25,9 @@ export interface ColumnsType {
     content?: ListWidgetValue;
     dynamicText?: ListExpressionValue<string>;
     exportValue?: ListExpressionValue<string>;
+    exportType: ExportTypeEnum;
+    exportNumberFormat?: DynamicValue<string>;
+    exportDateFormat?: DynamicValue<string>;
     header?: DynamicValue<string>;
     tooltip?: ListExpressionValue<string>;
     filter?: ReactNode;
@@ -67,6 +72,9 @@ export interface ColumnsPreviewType {
     content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     dynamicText: string;
     exportValue: string;
+    exportType: ExportTypeEnum;
+    exportNumberFormat: string;
+    exportDateFormat: string;
     header: string;
     tooltip: string;
     filter: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };

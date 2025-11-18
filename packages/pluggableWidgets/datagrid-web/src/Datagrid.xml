@@ -62,6 +62,26 @@
                                 <caption>Export value</caption>
                                 <description />
                             </property>
+                            <property key="exportType" type="enumeration" defaultValue="default">
+                                <caption>Export type</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="default">Default</enumerationValue>
+                                    <enumerationValue key="number">Number</enumerationValue>
+                                    <enumerationValue key="date">Date</enumerationValue>
+                                    <enumerationValue key="boolean">Boolean</enumerationValue>
+                                </enumerationValues>
+                            </property>
+                            <property key="exportNumberFormat" type="expression" required="false">
+                                <caption>Export number format</caption>
+                                <description>Optional Excel number format for exported numeric values (e.g. "#,##0.00", "$0.00", "0.00%"). See all formats https://docs.sheetjs.com/docs/csf/features/nf/</description>
+                                <returnType type="String" />
+                            </property>
+                            <property key="exportDateFormat" type="expression" required="false">
+                                <caption>Export date format</caption>
+                                <description>Excel date format for exported Date/DateTime values (e.g. "yyyy-mm-dd", "dd/mm/yyyy hh mm").</description>
+                                <returnType type="String" />
+                            </property>
                             <property key="header" type="textTemplate" required="false">
                                 <caption>Caption</caption>
                                 <description />
