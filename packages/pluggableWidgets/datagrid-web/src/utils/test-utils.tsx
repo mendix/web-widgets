@@ -1,9 +1,9 @@
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
-import { dynamicValue, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
+import { dynamic, list, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
 import { GUID, ObjectItem } from "mendix";
-import { ColumnsType } from "../../typings/DatagridProps";
+import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
 import { Cell } from "../components/Cell";
 import { WidgetProps } from "../components/Widget";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
@@ -17,7 +17,7 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
         attribute: listAttr(() => "Attr value"),
         dynamicText: listExp(() => "Dynamic text"),
         draggable: false,
-        header: dynamicValue(header),
+        header: dynamic(header),
         hidable: "no" as const,
         resizable: false,
         showContentAs: "attribute",
@@ -25,7 +25,7 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
         sortable: false,
         width: "autoFill" as const,
         wrapText: false,
-        visible: dynamicValue(true),
+        visible: dynamic(true),
         minWidth: "auto",
         minWidthLimit: 100,
         allowEventPropagation: true,
@@ -105,5 +105,42 @@ export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
             new PositionController(),
             new VirtualGridLayout(1, columns.length, 10)
         )
+    };
+}
+
+export function mockContainerProps(overrides?: Partial<DatagridContainerProps>): DatagridContainerProps {
+    return {
+        class: "dg-one",
+        name: "datagrid2_1",
+        datasource: list(5),
+        refreshInterval: 0,
+        columnsFilterable: true,
+        columnsSortable: true,
+        columnsDraggable: true,
+        columnsHidable: true,
+        columnsResizable: true,
+        columns: [column("Col1"), column("Col2")],
+        itemSelectionMethod: "checkbox",
+        itemSelectionMode: "clear",
+        enableSelectAll: false,
+        keepSelection: false,
+        showSelectAllToggle: true,
+        pageSize: 10,
+        selectionCounterPosition: "bottom",
+        pagination: "buttons",
+        refreshIndicator: false,
+        loadingType: "spinner",
+        showPagingButtons: "auto",
+        pagingPosition: "bottom",
+        onClickTrigger: "single",
+        showNumberOfRows: false,
+        showEmptyPlaceholder: "none",
+        configurationStorageType: "attribute",
+        configurationAttribute: undefined,
+        storeFiltersInPersonalization: true,
+        selectAllText: dynamic("Select all items"),
+        selectAllTemplate: dynamic("Select all %d items"),
+        allSelectedText: dynamic("All items selected"),
+        ...overrides
     };
 }
