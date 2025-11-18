@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Grid renders without crashing 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-datagrid-grid table"
+    role="grid"
+    style="grid-template-columns: 1fr 1fr 54px;"
+  >
+    Test
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Grid renders without selector column 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-datagrid-grid table"
+    role="grid"
+    style="grid-template-columns: 1fr 1fr;"
+  >
+    Test
+  </div>
+</DocumentFragment>
+`;
