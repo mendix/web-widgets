@@ -10,6 +10,7 @@ type Props = Pick<
 type Gate = DerivedPropsGate<Props>;
 
 /** This is basic data class, just a props mapper. Don't add any state or complex logic. */
+/** @deprecated use `TextsService` instead */
 export class GridBasicData {
     private gate: Gate;
 
