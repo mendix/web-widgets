@@ -49,6 +49,7 @@
             "@codemirror/state": "^6.5.2",
             "@codemirror/view": "^6.38.1",
             "@mendix/pluggable-widgets-tools": "10.21.2",
+            "@testing-library/react": ">=15.0.6",
             "@types/big.js": "^6.2.2",
             "@types/node": "~22.14.0",
             "@types/react": ">=18.2.36",
