@@ -10,8 +10,7 @@ import { SelectAllBar } from "../features/select-all/SelectAllBar";
 import { SelectionProgressDialog } from "../features/select-all/SelectionProgressDialog";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { useBasicData } from "../model/hooks/injection-hooks";
-import { CellComponent, EventsController } from "../typings/CellComponent";
-import { GridColumn } from "../typings/GridColumn";
+import { EventsController } from "../typings/CellComponent";
 import { ExportWidget } from "./ExportWidget";
 import { Grid } from "./Grid";
 import { GridBody } from "./GridBody";
@@ -23,17 +22,15 @@ import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 
-export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
-    CellComponent: CellComponent<C>;
+export interface WidgetProps {
     className: string;
     columnsDraggable: boolean;
     columnsFilterable: boolean;
     columnsHidable: boolean;
     columnsResizable: boolean;
     columnsSortable: boolean;
-    data: T[];
+    data: ObjectItem[];
     exporting: boolean;
-    filterRenderer: (renderWrapper: (children: ReactNode) => ReactElement, columnIndex: number) => ReactElement;
     headerContent?: ReactNode;
     headerTitle?: string;
     id: string;
@@ -43,7 +40,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     loadMoreButtonCaption?: string;
 
     processedRows: number;
-    rowClass?: (item: T) => string;
+
     styles?: CSSProperties;
     rowAction?: ListActionValue;
     isFirstLoad: boolean;
@@ -59,7 +56,7 @@ export interface WidgetProps<C extends GridColumn, T extends ObjectItem = Object
     focusController: FocusTargetController;
 }
 
-export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
+export const Widget = observer(function Widget(props: WidgetProps) {
     const { className, exporting, numberOfItems, onExportCancel, selectActionHelper } = props;
     const basicData = useBasicData();
     const selectionEnabled = selectActionHelper.selectionType !== "None";
@@ -89,19 +86,8 @@ export const Widget = observer(<C extends GridColumn>(props: WidgetProps<C>): Re
     );
 });
 
-const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElement => {
-    const {
-        CellComponent,
-        columnsHidable,
-        data: rows,
-        headerContent,
-        headerTitle,
-        loadMoreButtonCaption,
-        showRefreshIndicator,
-        selectActionHelper
-    } = props;
-
-    const basicData = useBasicData();
+const Main = observer((props: WidgetProps): ReactElement => {
+    const { data: rows, headerContent, headerTitle, loadMoreButtonCaption, showRefreshIndicator } = props;
 
     return (
         <Fragment>
@@ -113,17 +99,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                     <SelectAllBar />
                     {showRefreshIndicator ? <RefreshIndicator /> : null}
                     <GridBody>
-                        <RowsRenderer
-                            preview={false}
-                            interactive={basicData.gridInteractive}
-                            Cell={CellComponent}
-                            columnsHidable={columnsHidable}
-                            rows={rows}
-                            rowClass={props.rowClass}
-                            selectActionHelper={selectActionHelper}
-                            focusController={props.focusController}
-                            eventsController={props.cellEventsController}
-                        />
+                        <RowsRenderer rows={rows} />
                         <EmptyPlaceholder />
                     </GridBody>
                 </Grid>
