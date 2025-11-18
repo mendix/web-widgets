@@ -14,3 +14,4 @@ export const [useGridStyle] = createInjectionHooks(DG.gridColumnsStyle);
 export const [useQueryService] = createInjectionHooks(DG.query);
 export const [useVisibleColumnsCount] = createInjectionHooks(CORE.atoms.visibleColumnsCount);
 export const [useItemCount] = createInjectionHooks(CORE.atoms.itemCount);
+export const [useColumn] = createInjectionHooks(CORE.column);

@@ -85,7 +85,6 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
                 )}
                 headerTitle={props.filterSectionTitle?.value}
                 headerContent={props.filtersPlaceholder}
-                headerWrapperRenderer={useCallback((_columnIndex: number, header: ReactElement) => header, [])}
                 id={useMemo(() => `DataGrid${generateUUID()}`, [])}
                 numberOfItems={props.datasource.totalCount}
                 onExportCancel={abortExport}
@@ -95,10 +94,6 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
                 styles={props.style}
                 exporting={exportProgress.inProgress}
                 processedRows={exportProgress.loaded}
-                visibleColumns={columnsStore.visibleColumns}
-                availableColumns={columnsStore.availableColumns}
-                setIsResizing={(status: boolean) => columnsStore.setIsResizing(status)}
-                columnsSwap={(moved, [target, placement]) => columnsStore.swapColumns(moved, [target, placement])}
                 selectActionHelper={selectActionHelper}
                 cellEventsController={cellEventsController}
                 checkboxEventsController={checkboxEventsController}
