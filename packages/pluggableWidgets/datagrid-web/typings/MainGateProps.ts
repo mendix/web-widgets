@@ -4,6 +4,7 @@ import { DatagridContainerProps } from "./DatagridProps";
 export type MainGateProps = Pick<
     DatagridContainerProps,
     | "allSelectedText"
+    | "cancelExportLabel"
     | "cancelSelectionLabel"
     | "clearSelectionButtonLabel"
     | "columns"
@@ -12,6 +13,7 @@ export type MainGateProps = Pick<
     | "datasource"
     | "emptyPlaceholder"
     | "enableSelectAll"
+    | "exportDialogLabel"
     | "itemSelection"
     | "name"
     | "onSelectionChange"
@@ -23,6 +25,7 @@ export type MainGateProps = Pick<
     | "selectAllTemplate"
     | "selectAllText"
     | "selectionCounterPosition"
+    | "selectRowLabel"
     | "showNumberOfRows"
     | "showPagingButtons"
     | "storeFiltersInPersonalization"

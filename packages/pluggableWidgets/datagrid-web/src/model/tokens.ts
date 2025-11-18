@@ -32,6 +32,7 @@ import { DatagridConfig } from "./configs/Datagrid.config";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
 import { PaginationConfig, PaginationController } from "./services/PaginationController";
+import { TextsService } from "./services/Texts.service";
 
 /** Tokens to resolve dependencies from the container. */
 
@@ -63,7 +64,9 @@ export const CORE_TOKENS = {
         }>("@store:selectedCounterTextsStore")
     },
 
-    setupService: token<DatagridSetupService>("DatagridSetupService")
+    setupService: token<DatagridSetupService>("DatagridSetupService"),
+
+    texts: token<TextsService>("@srv:TextsService")
 };
 
 /** Datagrid tokens. */
