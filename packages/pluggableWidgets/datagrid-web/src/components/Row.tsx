@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
+import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { CellComponent, EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
-import { SelectorCell } from "./SelectorCell";
 import { CheckboxCell } from "./CheckboxCell";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
+import { SelectorCell } from "./SelectorCell";
 
 export interface RowProps<C extends GridColumn> {
     className?: string;
@@ -14,23 +14,21 @@ export interface RowProps<C extends GridColumn> {
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
-    selectableWrapper?: (column: number, children: ReactElement) => ReactElement;
     selectActionHelper: SelectActionHelper;
-    preview: boolean;
     totalRows: number;
     clickable: boolean;
     eventsController: EventsController;
 }
 
 export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
-    const { CellComponent: Cell, selectActionHelper, preview, totalRows, eventsController } = props;
+    const { CellComponent: Cell, selectActionHelper, totalRows, eventsController } = props;
     const selected = selectActionHelper.isSelected(props.item);
     const ariaSelected = selectActionHelper.selectionType === "None" ? undefined : selected;
     const borderTop = props.index === 0;
 
     return (
         <div
-            className={classNames("tr", { "tr-selected": selected, "tr-preview": preview }, props.className)}
+            className={classNames("tr", { "tr-selected": selected }, props.className)}
             role="row"
             aria-selected={ariaSelected}
         >
@@ -52,12 +50,12 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                         columnIndex={selectActionHelper.showCheckboxColumn ? baseIndex + 1 : baseIndex}
                         item={props.item}
                         clickable={props.clickable}
-                        preview={preview}
+                        preview={false}
                         eventsController={eventsController}
                     />
                 );
 
-                return preview ? props.selectableWrapper?.(baseIndex, cell) : cell;
+                return cell;
             })}
             {props.showSelectorCell && (
                 <SelectorCell

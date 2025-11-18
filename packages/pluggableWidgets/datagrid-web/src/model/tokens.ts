@@ -27,6 +27,7 @@ import { ColumnGroupStore } from "../helpers/state/ColumnGroupStore";
 import { GridBasicData } from "../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationStore";
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
+import { GridColumn } from "../typings/GridColumn";
 import { DatagridConfig } from "./configs/Datagrid.config";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
@@ -46,6 +47,7 @@ export const CORE_TOKENS = {
         isAllItemsPresent: token<ComputedAtom<boolean>>("@computed:isAllItemsPresent")
     },
     columnsStore: token<ColumnGroupStore>("ColumnGroupStore"),
+    column: token<GridColumn>("@store:GridColumn"),
 
     config: token<DatagridConfig>("DatagridConfig"),
 
