@@ -9,6 +9,7 @@ import { useTreeNodeFocusChangeHandler } from "./hooks/TreeNodeAccessibility";
 import { useTreeNodeRef } from "./hooks/useTreeNodeRef";
 import { TreeNodeBranch, treeNodeBranchUtils } from "./TreeNodeBranch";
 import { useInformParentContextOfChildNodes } from "./TreeNodeBranchContext";
+import { TreeNodeRoot } from "./TreeNodeRoot";
 
 export interface TreeNodeComponentProps
     extends Pick<
@@ -31,7 +32,8 @@ export interface TreeNodeComponentProps
     showCustomIcon: boolean;
     expandedIcon?: WebIcon;
     collapsedIcon?: WebIcon;
-    level?: number;
+    level: number;
+    isInfiniteMode: boolean;
 }
 
 export function TreeNodeComponent(props: TreeNodeComponentProps): ReactElement | null {
@@ -53,7 +55,8 @@ export function TreeNodeComponent(props: TreeNodeComponentProps): ReactElement |
         showCustomIcon,
         expandedIcon,
         collapsedIcon,
-        level
+        level,
+        isInfiniteMode
     } = props;
     const [treeNodeElement, updateTreeNodeElement] = useTreeNodeRef();
     const isUserDefinedLeafNode = hasChildren === false;
@@ -103,8 +106,10 @@ export function TreeNodeComponent(props: TreeNodeComponentProps): ReactElement |
                     animateTreeNodeContent={animate}
                     openNodeOn={openNodeOn}
                     item={item}
+                    level={level}
                 >
                     {children?.get(item)}
+                    {isInfiniteMode && <TreeNodeRoot {...props}></TreeNodeRoot>}
                 </TreeNodeBranch>
             ))}
         </ul>

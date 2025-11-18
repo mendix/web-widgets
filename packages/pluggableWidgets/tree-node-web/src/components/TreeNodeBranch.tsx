@@ -13,15 +13,16 @@ import {
     useState
 } from "react";
 
-import { OpenNodeOnEnum, ShowIconEnum } from "../../typings/TreeNodeProps";
 import { GUID, ObjectItem, Option } from "mendix";
+import { OpenNodeOnEnum, ShowIconEnum } from "../../typings/TreeNodeProps";
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
-import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
 import { TreeNodeFocusChangeHandler, useTreeNodeBranchKeyboardHandler } from "./hooks/TreeNodeAccessibility";
+import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
 
 import { TreeNodeHeaderIcon } from "./HeaderIcon";
-import { TreeNodeState } from "./TreeNodeComponent";
 import { TreeNodeBranchContext, TreeNodeBranchContextProps } from "./TreeNodeBranchContext";
+import { TreeNodeState } from "./TreeNodeComponent";
+import { TreeNodeRootContext } from "./TreeNodeRootContext";
 
 export interface TreeNodeBranchProps {
     animateTreeNodeContent: boolean;
@@ -35,6 +36,7 @@ export interface TreeNodeBranchProps {
     changeFocus: TreeNodeFocusChangeHandler;
     renderHeaderIcon: TreeNodeHeaderIcon;
     item: ObjectItem;
+    level: number;
 }
 
 export const treeNodeBranchUtils = {
@@ -54,9 +56,10 @@ export function TreeNodeBranch({
     openNodeOn,
     renderHeaderIcon,
     startExpanded,
-    item
+    item,
+    level
 }: TreeNodeBranchProps): ReactElement {
-    const { level: currentContextLevel } = useContext(TreeNodeBranchContext);
+    const { fetchChildren } = useContext(TreeNodeRootContext);
 
     const treeNodeBranchRef = useRef<HTMLLIElement>(null);
     const treeNodeBranchBody = useRef<HTMLDivElement>(null);
@@ -100,6 +103,7 @@ export function TreeNodeBranch({
                 return;
             }
 
+            fetchChildren(item);
             if (!isActualLeafNode) {
                 captureElementHeight();
                 setTreeNodeState(treeNodeState => {
@@ -187,7 +191,7 @@ export function TreeNodeBranch({
                 <TreeNodeBranchContext.Provider
                     value={{
                         parent: item,
-                        level: currentContextLevel + 1,
+                        level: level + 1,
                         informParentOfChildNodes
                     }}
                 >
