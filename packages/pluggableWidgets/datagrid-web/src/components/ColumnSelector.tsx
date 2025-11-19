@@ -161,6 +161,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                             }
                         }}
                         role="menuitem"
+                        aria-selected={isVisible}
                         tabIndex={0}
                     >
                         <input
