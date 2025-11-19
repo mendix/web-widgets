@@ -38,15 +38,28 @@ export async function Export_To_Excel(datagridName, fileName, sheetName, include
         function handler(req) {
             let worksheet;
             let headers;
-
+			let columnTypes = [];
+			
             req.on("headers", (hds) => {
                 headers = hds.map(header => header.name);
+				columnTypes = hds.map((header) => header.type);
                 if (includeColumnHeaders) {
                     worksheet = utils.aoa_to_sheet([headers]);
                 }
             });
 
             req.on("data", (data) => {
+				data.forEach(row => {
+            		row.forEach((cellValue, index) => {
+               			 // Check if this column is a DateTime and the value is not null/empty
+	                	if (columnTypes[index] === "DateTime" && cellValue) {
+	                    // Convert the string to a JS Date Object
+	                    // SheetJS recognizes Date Objects and treats them as Excel Dates
+	                    row[index] = new Date(cellValue);
+                		}
+	            	});
+	       		});
+					
                 if (worksheet === undefined) {
                     worksheet = utils.aoa_to_sheet(data)
                 } else {
