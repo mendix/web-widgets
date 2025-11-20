@@ -1,12 +1,10 @@
 import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ContainerProvider } from "brandi-react";
 import { observer } from "mobx-react-lite";
-import { ReactElement, useCallback, useMemo } from "react";
+import { ReactElement } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
-import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
 import { useDataExport } from "./features/data-export/useDataExport";
 import { useCellEventsController } from "./features/row-interaction/CellEventsController";
@@ -17,7 +15,6 @@ import { useDataGridJSActions } from "./helpers/useDataGridJSActions";
 import {
     useColumnsStore,
     useExportProgressService,
-    useLoaderViewModel,
     useMainGate,
     useSelectionHelper
 } from "./model/hooks/injection-hooks";
@@ -27,7 +24,6 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
     const gate = useMainGate();
     const columnsStore = useColumnsStore();
     const exportProgress = useExportProgressService();
-    const loaderVM = useLoaderViewModel();
     const items = gate.props.datasource.items ?? [];
 
     const [abortExport] = useDataExport(props, columnsStore, exportProgress);
@@ -67,43 +63,7 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
                 focusController
             })}
         >
-            <Widget
-                className={props.class}
-                CellComponent={Cell}
-                columnsDraggable={props.columnsDraggable}
-                columnsFilterable={props.columnsFilterable}
-                columnsHidable={props.columnsHidable}
-                columnsResizable={props.columnsResizable}
-                columnsSortable={props.columnsSortable}
-                data={items}
-                filterRenderer={useCallback(
-                    (renderWrapper, columnIndex) => {
-                        const columnFilter = columnsStore.columnFilters[columnIndex];
-                        return renderWrapper(columnFilter.renderFilterWidgets());
-                    },
-                    [columnsStore.columnFilters]
-                )}
-                headerTitle={props.filterSectionTitle?.value}
-                headerContent={props.filtersPlaceholder}
-                id={useMemo(() => `DataGrid${generateUUID()}`, [])}
-                numberOfItems={props.datasource.totalCount}
-                onExportCancel={abortExport}
-                paginationType={props.pagination}
-                loadMoreButtonCaption={props.loadMoreButtonCaption?.value}
-                rowClass={useCallback((value: any) => props.rowClass?.get(value)?.value ?? "", [props.rowClass])}
-                styles={props.style}
-                exporting={exportProgress.inProgress}
-                processedRows={exportProgress.loaded}
-                selectActionHelper={selectActionHelper}
-                cellEventsController={cellEventsController}
-                checkboxEventsController={checkboxEventsController}
-                focusController={focusController}
-                isFirstLoad={loaderVM.isFirstLoad}
-                isFetchingNextBatch={loaderVM.isFetchingNextBatch}
-                showRefreshIndicator={loaderVM.showRefreshIndicator}
-                loadingType={props.loadingType}
-                columnsLoading={!columnsStore.loaded}
-            />
+            <Widget onExportCancel={abortExport} />
         </LegacyContext.Provider>
     );
 });

@@ -1,5 +1,10 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { DatagridContainerProps, LoadingTypeEnum, PagingPositionEnum } from "../../../typings/DatagridProps";
+import {
+    DatagridContainerProps,
+    ItemSelectionMethodEnum,
+    LoadingTypeEnum,
+    PagingPositionEnum
+} from "../../../typings/DatagridProps";
 
 /** Config for static values that don't change at runtime. */
 export interface DatagridConfig {
@@ -10,6 +15,7 @@ export interface DatagridConfig {
     refreshIntervalMs: number;
     selectAllCheckboxEnabled: boolean;
     selectionEnabled: boolean;
+    selectionMethod: ItemSelectionMethodEnum;
     selectorColumnEnabled: boolean;
     settingsStorageEnabled: boolean;
     enableSelectAll: boolean;
@@ -36,6 +42,7 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         refreshIntervalMs: props.refreshInterval * 1000,
         selectAllCheckboxEnabled: props.showSelectAllToggle,
         selectionEnabled: isSelectionEnabled(props),
+        selectionMethod: props.itemSelectionMethod,
         selectorColumnEnabled: props.columnsHidable,
         settingsStorageEnabled: isSettingsStorageEnabled(props),
         enableSelectAll: props.enableSelectAll,
