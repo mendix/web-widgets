@@ -32,6 +32,7 @@ import { SelectionProgressDialogViewModel } from "../features/select-all/Selecti
 import { ColumnGroupStore } from "../helpers/state/ColumnGroupStore";
 import { GridBasicData } from "../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationStore";
+import { HeaderDragnDropStore } from "../features/column/HeaderDragnDrop.store";
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
 import { GridColumn } from "../typings/GridColumn";
 import { DatagridConfig } from "./configs/Datagrid.config";
@@ -129,7 +130,8 @@ export const DG_TOKENS = {
     virtualLayout: token<ComputedAtom<VirtualGridLayout>>("@computed:virtualLayout"),
     clickActionHelper: token<ClickActionHelper>("@service:ClickActionHelper"),
     focusService: token<FocusTargetController>("@service:FocusTargetController"),
-    checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController")
+    checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController"),
+    headerDragDrop: token<HeaderDragnDropStore>("HeaderDragnDropStore")
 };
 
 /** "Select all" module tokens. */
