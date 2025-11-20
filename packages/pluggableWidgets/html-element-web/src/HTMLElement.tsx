@@ -1,4 +1,4 @@
-import { Fragment, JSX, ReactElement } from "react";
+import { Fragment, JSX, ReactElement, useId } from "react";
 
 import { HTMLElementContainerProps } from "../typings/HTMLElementProps";
 import {
@@ -16,15 +16,17 @@ export function HTMLElement(props: HTMLElementContainerProps): ReactElement | nu
     const tag = prepareTag(props.tagName, props.tagNameCustom);
     const items = props.tagUseRepeat ? props.tagContentRepeatDataSource?.items : [undefined];
 
+    const id = useId();
+
     if (!items?.length) {
         return null;
     }
 
     return (
         <Fragment>
-            {items.map(item => (
+            {items.map((item, index) => (
                 <HTMLTag
-                    key={item?.id}
+                    key={`${id}_${item?.id || index}`}
                     tagName={tag as keyof JSX.IntrinsicElements}
                     attributes={{
                         ...prepareAttributes(createAttributeResolver(item), props.attributes, props.class, props.style),
