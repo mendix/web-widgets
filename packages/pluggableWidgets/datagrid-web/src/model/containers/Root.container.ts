@@ -32,7 +32,7 @@ injected(visibleColumnsCountAtom, CORE.columnsStore);
 injected(isAllItemsPresentAtom, CORE.atoms.offset, CORE.atoms.hasMoreItems);
 injected(rowsAtom, CORE.mainGate);
 injected(pageSizeAtom, CORE.pageSizeStore);
-injected(columnCount, CORE.atoms.columnCount, CORE.config);
+injected(columnCount, CORE.atoms.visibleColumnsCount, CORE.config);
 
 // selection
 injected(
