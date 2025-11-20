@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite";
-import { useLegacyContext } from "../../helpers/root-context";
+import { useSelectActions } from "../../model/hooks/injection-hooks";
 import { useSelectionCounterViewModel } from "./injection-hooks";
 
 export const SelectionCounter = observer(function SelectionCounter() {
     const selectionCountStore = useSelectionCounterViewModel();
-    const { selectActionHelper } = useLegacyContext();
+    const selectActions = useSelectActions();
 
     return (
         <div className="widget-datagrid-selection-counter">
@@ -12,7 +12,7 @@ export const SelectionCounter = observer(function SelectionCounter() {
                 {selectionCountStore.selectedCountText}
             </span>
             &nbsp;|&nbsp;
-            <button className="widget-datagrid-btn-link" onClick={selectActionHelper.onClearSelection}>
+            <button className="widget-datagrid-btn-link" onClick={() => selectActions.clearSelection()}>
                 {selectionCountStore.clearButtonLabel}
             </button>
         </div>

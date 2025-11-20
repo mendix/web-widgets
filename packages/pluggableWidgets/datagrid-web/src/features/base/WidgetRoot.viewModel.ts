@@ -14,7 +14,7 @@ export class WidgetRootViewModel {
         }>,
         private config: { selectionEnabled: boolean; selectionMethod: SelectionMethod },
         private exportTask: TaskProgressService,
-        private selectAllTask: TaskProgressService
+        private selectAllVM: { isOpen: boolean }
     ) {
         makeAutoObservable(this);
     }
@@ -28,7 +28,7 @@ export class WidgetRootViewModel {
     }
 
     get selecting(): boolean {
-        return this.selectAllTask.inProgress;
+        return this.selectAllVM.isOpen;
     }
 
     get selectable(): boolean {
