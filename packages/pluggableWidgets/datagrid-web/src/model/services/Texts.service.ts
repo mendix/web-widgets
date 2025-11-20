@@ -26,4 +26,12 @@ export class TextsService {
     get selectAllRowsLabel(): string | undefined {
         return this.props.selectAllRowsLabel?.value;
     }
+
+    get headerAriaLabel(): string | undefined {
+        return this.props.filterSectionTitle?.value;
+    }
+
+    get loadMoreButtonCaption(): string | undefined {
+        return this.props.loadMoreButtonCaption?.value;
+    }
 }

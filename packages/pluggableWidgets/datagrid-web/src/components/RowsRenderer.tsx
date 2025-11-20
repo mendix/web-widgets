@@ -1,16 +1,12 @@
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
-import { ObjectItem } from "mendix";
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { useLegacyContext } from "../helpers/root-context";
-import { useColumnsStore, useDatagridConfig, useRowClass } from "../model/hooks/injection-hooks";
+import { useColumnsStore, useDatagridConfig, useRowClass, useRows } from "../model/hooks/injection-hooks";
 import { Row } from "./Row";
 
-interface RowsRendererProps {
-    rows: ObjectItem[];
-}
-
-export const RowsRenderer = observer(function RowsRenderer({ rows }: RowsRendererProps): ReactElement {
+export const RowsRenderer = observer(function RowsRenderer(): ReactElement {
+    const rows = useRows().get();
     const config = useDatagridConfig();
     const { visibleColumns } = useColumnsStore();
     const rowClass = useRowClass();

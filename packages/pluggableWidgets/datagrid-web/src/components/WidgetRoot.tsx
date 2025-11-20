@@ -1,41 +1,21 @@
 import classNames from "classnames";
 import { observer } from "mobx-react-lite";
-import { ComponentPropsWithoutRef, ReactElement, useMemo, useRef } from "react";
-import { useSelectionDialogViewModel } from "../features/select-all/injection-hooks";
-import { SelectionMethod } from "../helpers/SelectActionHelper";
+import { PropsWithChildren, ReactElement } from "react";
+import { useDatagridRootVM } from "../model/hooks/injection-hooks";
 
-type P = ComponentPropsWithoutRef<"div">;
-
-export interface WidgetRootProps extends P {
-    className?: string;
-    selection?: boolean;
-    selectionMethod: SelectionMethod;
-    exporting?: boolean;
-}
-
-export const WidgetRoot = observer(function WidgetRoot(props: WidgetRootProps): ReactElement {
-    const ref = useRef<HTMLDivElement>(null);
-    const { className, selectionMethod, selection, exporting, children, ...rest } = props;
-    const { isOpen: selectingAllPages } = useSelectionDialogViewModel();
-    const style = useMemo(() => {
-        const s = { ...props.style };
-        if ((exporting || selectingAllPages) && ref.current) {
-            s.height = ref.current.offsetHeight;
-        }
-        return s;
-    }, [props.style, exporting, selectingAllPages]);
+export const WidgetRoot = observer(function WidgetRoot({ children }: PropsWithChildren): ReactElement {
+    const vm = useDatagridRootVM();
 
     return (
         <div
-            {...rest}
-            ref={ref}
-            style={style}
-            className={classNames(className, "widget-datagrid", {
-                "widget-datagrid-exporting": exporting,
-                "widget-datagrid-selecting-all-pages": selectingAllPages,
-                "widget-datagrid-selectable-rows": selection,
-                "widget-datagrid-selection-method-checkbox": selection && selectionMethod === "checkbox",
-                "widget-datagrid-selection-method-click": selection && selectionMethod === "rowClick"
+            ref={vm.ref}
+            style={vm.style}
+            className={classNames(vm.className, "widget-datagrid", {
+                "widget-datagrid-exporting": vm.exporting,
+                "widget-datagrid-selecting-all-pages": vm.selecting,
+                "widget-datagrid-selectable-rows": vm.selectable,
+                "widget-datagrid-selection-method-checkbox": vm.selectable && vm.selectionMethod === "checkbox",
+                "widget-datagrid-selection-method-click": vm.selectable && vm.selectionMethod === "rowClick"
             })}
         >
             {children}
