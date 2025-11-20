@@ -1,17 +1,18 @@
+import { ClickEntry, ClickEventSwitch } from "@mendix/widget-plugin-grid/event-switch/ClickEventSwitch";
 import { ElementEntry, ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
-import { ObjectItem } from "mendix";
-import { useMemo } from "react";
-import { createActionHandlers } from "./action-handlers";
-import { CellContext } from "./base";
-import { createSelectHandlers } from "./select-handlers";
-import { SelectActionHelper } from "../../helpers/SelectActionHelper";
-import { SelectAdjacentFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
 import { ClickActionHelper, ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
+import { SelectAdjacentFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
+import { ObjectItem } from "mendix";
+import { useMemo } from "react";
+
+import { SelectActionsService } from "@mendix/widget-plugin-grid/main";
+import { createActionHandlers } from "./action-handlers";
+import { CellContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
-import { ClickEntry, ClickEventSwitch } from "@mendix/widget-plugin-grid/event-switch/ClickEventSwitch";
+import { createSelectHandlers } from "./select-handlers";
 
 export class CellEventsController {
     constructor(
@@ -45,10 +46,11 @@ export class CellEventsController {
 }
 
 export function useCellEventsController(
-    selectHelper: SelectActionHelper,
+    selectHelper: SelectActionsService,
     clickHelper: ClickActionHelper,
     focusController: FocusTargetController
 ): CellEventsController {
+    const pageSize = 10;
     return useMemo(() => {
         const cellContextFactory = (item: ObjectItem): CellContext => ({
             item,

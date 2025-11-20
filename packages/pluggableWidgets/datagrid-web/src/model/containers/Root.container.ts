@@ -14,10 +14,12 @@ import {
 } from "@mendix/widget-plugin-grid/core/models/selection.model";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected } from "brandi";
-import { visibleColumnsCountAtom } from "../models/columns.model";
+import { columnCount, visibleColumnsCountAtom } from "../models/columns.model";
+import { pageSizeAtom } from "../models/paging.model";
 import { rowsAtom } from "../models/rows.model";
 import { DatagridSetupService } from "../services/DatagridSetup.service";
 import { TextsService } from "../services/Texts.service";
+import { PageSizeStore } from "../stores/PageSize.store";
 import { CORE_TOKENS as CORE } from "../tokens";
 
 // datasource
@@ -29,6 +31,8 @@ injected(hasMoreItemsAtom, CORE.mainGate);
 injected(visibleColumnsCountAtom, CORE.columnsStore);
 injected(isAllItemsPresentAtom, CORE.atoms.offset, CORE.atoms.hasMoreItems);
 injected(rowsAtom, CORE.mainGate);
+injected(pageSizeAtom, CORE.pageSizeStore);
+injected(columnCount, CORE.atoms.columnCount, CORE.config);
 
 // selection
 injected(
@@ -41,6 +45,7 @@ injected(
 injected(isCurrentPageSelectedAtom, CORE.mainGate);
 injected(selectedCountMultiAtom, CORE.mainGate);
 injected(selectionCounterTextsStore, CORE.mainGate, CORE.selection.selectedCount);
+injected(PageSizeStore, CORE.initPageSize.optional);
 
 // other
 injected(TextsService, CORE.mainGate);
@@ -64,9 +69,12 @@ export class RootContainer extends Container {
         this.bind(CORE.atoms.limit).toInstance(limitAtom).inTransientScope();
         this.bind(CORE.atoms.offset).toInstance(offsetAtom).inTransientScope();
         this.bind(CORE.atoms.totalCount).toInstance(totalCountAtom).inTransientScope();
-        this.bind(CORE.atoms.visibleColumnsCount).toInstance(visibleColumnsCountAtom).inTransientScope();
         this.bind(CORE.atoms.isAllItemsPresent).toInstance(isAllItemsPresentAtom).inTransientScope();
         this.bind(CORE.rows).toInstance(rowsAtom).inTransientScope();
+
+        // columns
+        this.bind(CORE.atoms.visibleColumnsCount).toInstance(visibleColumnsCountAtom).inTransientScope();
+        this.bind(CORE.atoms.columnCount).toInstance(columnCount).inTransientScope();
 
         // selection
         this.bind(CORE.selection.selectedCount).toInstance(selectedCountMultiAtom).inTransientScope();
@@ -74,5 +82,9 @@ export class RootContainer extends Container {
         this.bind(CORE.selection.selectedCounterTextsStore).toInstance(selectionCounterTextsStore).inTransientScope();
         this.bind(CORE.selection.isAllItemsSelected).toInstance(isAllItemsSelectedAtom).inTransientScope();
         this.bind(CORE.texts).toInstance(TextsService).inTransientScope();
+
+        // paging
+        this.bind(CORE.atoms.pageSize).toInstance(pageSizeAtom).inTransientScope();
+        this.bind(CORE.pageSizeStore).toInstance(PageSizeStore).inSingletonScope();
     }
 }

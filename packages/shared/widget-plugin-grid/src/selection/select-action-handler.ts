@@ -6,7 +6,7 @@ import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType, WidgetSelection
 export class SelectActionHandler {
     constructor(
         private selection: WidgetSelectionProperty,
-        protected selectionHelper: SelectionHelperService | undefined
+        protected selectionHelper: SelectionHelperService
     ) {}
 
     get selectionType(): SelectionType {
@@ -93,7 +93,7 @@ export class SelectActionHandler {
     };
 
     private selectItem = (item: ObjectItem, toggleMode: boolean): void => {
-        if (this.selectionHelper === undefined) {
+        if (this.selectionHelper == null) {
             return;
         }
 

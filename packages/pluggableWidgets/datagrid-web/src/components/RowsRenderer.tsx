@@ -18,7 +18,7 @@ export const RowsRenderer = observer(function RowsRenderer(): ReactElement {
                     <Row
                         totalRows={rows.length}
                         clickable={config.isInteractive}
-                        selectActionHelper={selectActionHelper}
+                        selectActions={selectActionHelper}
                         eventsController={cellEventsController}
                         className={rowClass.class.get(item)}
                         columns={visibleColumns}

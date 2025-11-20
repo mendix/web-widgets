@@ -1,8 +1,12 @@
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
+import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import {
     QueryService,
+    SelectActionsService,
     SelectAllService,
     SelectionDynamicProps,
     SelectionHelperService,
@@ -22,6 +26,7 @@ import { CSSProperties, ReactNode } from "react";
 import { MainGateProps } from "../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
+import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
 import { ColumnGroupStore } from "../helpers/state/ColumnGroupStore";
@@ -35,6 +40,7 @@ import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
 import { PaginationConfig, PaginationController } from "./services/PaginationController";
 import { TextsService } from "./services/Texts.service";
+import { PageSizeStore } from "./stores/PageSize.store";
 
 /** Tokens to resolve dependencies from the container. */
 
@@ -47,9 +53,13 @@ export const CORE_TOKENS = {
         offset: token<ComputedAtom<number>>("@computed:offset"),
         totalCount: token<ComputedAtom<number>>("@computed:totalCount"),
         visibleColumnsCount: token<ComputedAtom<number>>("@computed:visibleColumnsCount"),
-        isAllItemsPresent: token<ComputedAtom<boolean>>("@computed:isAllItemsPresent")
+        isAllItemsPresent: token<ComputedAtom<boolean>>("@computed:isAllItemsPresent"),
+        pageSize: token<ComputedAtom<number>>("@computed:pageSize"),
+        columnCount: token<ComputedAtom<number>>("@computed:columnCount")
     },
     columnsStore: token<ColumnGroupStore>("ColumnGroupStore"),
+    initPageSize: token<number>("@const:initialPageSize"),
+    pageSizeStore: token<PageSizeStore>("@store:PageSizeStore"),
     column: token<GridColumn>("@store:GridColumn"),
     rows: token<ComputedAtom<ObjectItem[]>>("@computed:rowsArray"),
 
@@ -106,13 +116,20 @@ export const DG_TOKENS = {
     selectionCounterVM: token<SelectionCounterViewModel>("SelectionCounterViewModel"),
 
     selectionGate: token<DerivedPropsGate<SelectionDynamicProps>>("@gate:GateForSelectionHelper"),
-    selectionHelper: token<SelectionHelperService | undefined>("SelectionHelperService"),
+    selectionHelper: token<SelectionHelperService>("@service:SelectionHelperService"),
+    selectActions: token<SelectActionsService>("@service:SelectActionsService"),
+    selectionType: token<"Single" | "Multi" | "None">("@const:selectionType"),
 
     gridColumnsStyle: token<ComputedAtom<CSSProperties>>("@computed:GridColumnsStyle"),
 
     rowClass: token<RowClassProvider>("@store:RowClassProvider"),
 
-    datagridRootVM: token<WidgetRootViewModel>("WidgetRootViewModel")
+    datagridRootVM: token<WidgetRootViewModel>("WidgetRootViewModel"),
+
+    virtualLayout: token<ComputedAtom<VirtualGridLayout>>("@computed:virtualLayout"),
+    clickActionHelper: token<ClickActionHelper>("@service:ClickActionHelper"),
+    focusService: token<FocusTargetController>("@service:FocusTargetController"),
+    checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController")
 };
 
 /** "Select all" module tokens. */

@@ -10,17 +10,19 @@ import { useDataExport } from "./features/data-export/useDataExport";
 import { useCellEventsController } from "./features/row-interaction/CellEventsController";
 import { useCheckboxEventsController } from "./features/row-interaction/CheckboxEventsController";
 import { LegacyContext } from "./helpers/root-context";
-import { useSelectActionHelper } from "./helpers/SelectActionHelper";
 import { useDataGridJSActions } from "./helpers/useDataGridJSActions";
 import {
     useColumnsStore,
+    useDatagridConfig,
     useExportProgressService,
     useMainGate,
+    useSelectActions,
     useSelectionHelper
 } from "./model/hooks/injection-hooks";
 import { useDatagridContainer } from "./model/hooks/useDatagridContainer";
 
 const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
+    const config = useDatagridConfig();
     const gate = useMainGate();
     const columnsStore = useColumnsStore();
     const exportProgress = useExportProgressService();
@@ -30,7 +32,7 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
 
     const selectionHelper = useSelectionHelper();
 
-    const selectActionHelper = useSelectActionHelper(props, selectionHelper);
+    const selectActionHelper = useSelectActions();
 
     const clickActionHelper = useClickActionHelper({
         onClickTrigger: props.onClickTrigger,
@@ -39,7 +41,7 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
 
     useDataGridJSActions(selectActionHelper);
 
-    const visibleColumnsCount = selectActionHelper.showCheckboxColumn
+    const visibleColumnsCount = config.checkboxColumnEnabled
         ? columnsStore.visibleColumns.length + 1
         : columnsStore.visibleColumns.length;
 

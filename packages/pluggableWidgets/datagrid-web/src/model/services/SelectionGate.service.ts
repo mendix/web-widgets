@@ -9,9 +9,6 @@ export class SelectionGate extends MappedGate<MainGateProps, SelectionDynamicPro
 }
 
 function map(props: MainGateProps): SelectionDynamicProps {
-    if (!props.itemSelection) {
-        throw new Error("'itemSelection' prop is required for SelectionGate");
-    }
     return {
         selection: props.itemSelection,
         datasource: props.datasource,
