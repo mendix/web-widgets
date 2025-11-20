@@ -26,7 +26,6 @@ import { CSSProperties, ReactNode } from "react";
 import { MainGateProps } from "../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
-import { CellEventsController } from "../features/row-interaction/CellEventsController";
 import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
@@ -130,8 +129,7 @@ export const DG_TOKENS = {
     virtualLayout: token<ComputedAtom<VirtualGridLayout>>("@computed:virtualLayout"),
     clickActionHelper: token<ClickActionHelper>("@service:ClickActionHelper"),
     focusService: token<FocusTargetController>("@service:FocusTargetController"),
-    checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController"),
-    cellEventsHandler: token<CellEventsController>("@service:CellEventsController")
+    checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController")
 };
 
 /** "Select all" module tokens. */
