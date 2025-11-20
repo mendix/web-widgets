@@ -23,15 +23,7 @@ export function GridHeader(): ReactElement {
                 <CheckboxColumnHeader key="headers_column_select_all" />
                 {columns.map(column => (
                     <ColumnProvider column={column} key={`${column.columnId}`}>
-                        <ColumnContainer
-                            resizer={
-                                <ColumnResizer
-                                    onResizeStart={() => columnsStore.setIsResizing(true)}
-                                    onResizeEnds={() => columnsStore.setIsResizing(false)}
-                                    setColumnWidth={(width: number) => column.setSize(width)}
-                                />
-                            }
-                        />
+                        <ColumnContainer resizer={<ColumnResizer />} />
                     </ColumnProvider>
                 ))}
                 {columnsHidable && (
