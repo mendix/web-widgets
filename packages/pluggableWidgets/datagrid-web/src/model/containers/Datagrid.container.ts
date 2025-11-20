@@ -8,13 +8,15 @@ import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected } from "brandi";
 import { MainGateProps } from "../../../typings/MainGateProps";
+import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../../helpers/state/GridPersonalizationStore";
 import { DatagridConfig } from "../configs/Datagrid.config";
-import { gridStyleAtom, rowClassProvider } from "../models/grid.model";
+import { gridStyleAtom } from "../models/grid.model";
+import { rowClassProvider } from "../models/rows.model";
 import { DatasourceParamsController } from "../services/DatasourceParamsController";
 import { DerivedLoaderController } from "../services/DerivedLoaderController";
 import { PaginationController } from "../services/PaginationController";
@@ -26,7 +28,7 @@ injected(CombinedFilter, CORE.setupService, DG.combinedFilterConfig);
 injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFilter, CORE.columnsStore);
 injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
 injected(DerivedLoaderController, DG.query, DG.exportProgressService, CORE.columnsStore, DG.loaderConfig);
-injected(EmptyPlaceholderViewModel, DG.emptyPlaceholderWidgets, CORE.atoms.itemCount, CORE.config);
+
 injected(GridBasicData, CORE.mainGate);
 injected(GridPersonalizationStore, CORE.setupService, CORE.mainGate, CORE.columnsStore, DG.filterHost);
 injected(PaginationController, CORE.setupService, DG.paginationConfig, DG.query);
@@ -37,12 +39,16 @@ injected(createSelectionHelper, CORE.setupService, DG.selectionGate, CORE.config
 injected(gridStyleAtom, CORE.columnsStore, CORE.config);
 injected(rowClassProvider, CORE.mainGate);
 
+// View models
+
 injected(
     SelectionCounterViewModel,
     CORE.selection.selectedCount,
     CORE.selection.selectedCounterTextsStore,
     DG.selectionCounterCfg.optional
 );
+injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.progressService);
+injected(EmptyPlaceholderViewModel, DG.emptyPlaceholderWidgets, CORE.atoms.visibleColumnsCount, CORE.config);
 
 export class DatagridContainer extends Container {
     id = `DatagridContainer@${generateUUID()}`;
@@ -73,7 +79,7 @@ export class DatagridContainer extends Container {
         // Selection counter view model
         this.bind(DG.selectionCounterVM).toInstance(SelectionCounterViewModel).inSingletonScope();
         // Empty placeholder
-        this.bind(DG.emptyPlaceholderVM).toInstance(EmptyPlaceholderViewModel).inSingletonScope();
+        this.bind(DG.emptyPlaceholderVM).toInstance(EmptyPlaceholderViewModel).inTransientScope();
         this.bind(DG.emptyPlaceholderWidgets).toInstance(emptyStateWidgetsAtom).inTransientScope();
         // Grid columns style
         this.bind(DG.gridColumnsStyle).toInstance(gridStyleAtom).inTransientScope();
@@ -84,6 +90,8 @@ export class DatagridContainer extends Container {
         this.bind(DG.selectionHelper).toInstance(createSelectionHelper).inSingletonScope();
         // Row class provider
         this.bind(DG.rowClass).toInstance(rowClassProvider).inTransientScope();
+        // Widget root view model
+        this.bind(DG.datagridRootVM).toInstance(WidgetRootViewModel).inTransientScope();
     }
 
     /**
@@ -111,6 +119,7 @@ export class DatagridContainer extends Container {
         this.bind(CORE.config).toConstant(config);
 
         // Connect select all module
+        this.bind(SA_TOKENS.progressService).toConstant(selectAllModule.get(SA_TOKENS.progressService));
         this.bind(SA_TOKENS.selectionDialogVM).toConstant(selectAllModule.get(SA_TOKENS.selectionDialogVM));
         this.bind(SA_TOKENS.selectAllBarVM).toConstant(selectAllModule.get(SA_TOKENS.selectAllBarVM));
 

@@ -15,6 +15,7 @@ import {
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected } from "brandi";
 import { visibleColumnsCountAtom } from "../models/columns.model";
+import { rowsAtom } from "../models/rows.model";
 import { DatagridSetupService } from "../services/DatagridSetup.service";
 import { TextsService } from "../services/Texts.service";
 import { CORE_TOKENS as CORE } from "../tokens";
@@ -27,6 +28,7 @@ injected(limitAtom, CORE.mainGate);
 injected(hasMoreItemsAtom, CORE.mainGate);
 injected(visibleColumnsCountAtom, CORE.columnsStore);
 injected(isAllItemsPresentAtom, CORE.atoms.offset, CORE.atoms.hasMoreItems);
+injected(rowsAtom, CORE.mainGate);
 
 // selection
 injected(
@@ -64,6 +66,7 @@ export class RootContainer extends Container {
         this.bind(CORE.atoms.totalCount).toInstance(totalCountAtom).inTransientScope();
         this.bind(CORE.atoms.visibleColumnsCount).toInstance(visibleColumnsCountAtom).inTransientScope();
         this.bind(CORE.atoms.isAllItemsPresent).toInstance(isAllItemsPresentAtom).inTransientScope();
+        this.bind(CORE.rows).toInstance(rowsAtom).inTransientScope();
 
         // selection
         this.bind(CORE.selection.selectedCount).toInstance(selectedCountMultiAtom).inTransientScope();
