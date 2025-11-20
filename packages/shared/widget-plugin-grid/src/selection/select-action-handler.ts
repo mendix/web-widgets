@@ -2,6 +2,7 @@ import { ObjectItem } from "mendix";
 import { SelectionHelperService } from "../interfaces/SelectionHelperService";
 import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType, WidgetSelectionProperty } from "./types";
 
+/** @deprecated use `SelectActionsProvider` instead */
 export class SelectActionHandler {
     constructor(
         private selection: WidgetSelectionProperty,
