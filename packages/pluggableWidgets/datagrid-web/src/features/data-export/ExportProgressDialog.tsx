@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { ExportWidget } from "../../components/ExportWidget";
+import { ExportAlert } from "../../components/ExportAlert";
+import { PseudoModal } from "../../components/PseudoModal";
 import { useExportProgressService, useTexts } from "../../model/hooks/injection-hooks";
 
 export const ExportProgressDialog = function ExportProgressDialog(props: { onExportCancel?: () => void }): ReactNode {
@@ -9,14 +10,15 @@ export const ExportProgressDialog = function ExportProgressDialog(props: { onExp
     if (!progressSrv.inProgress) return null;
 
     return (
-        <ExportWidget
-            alertLabel={texts.exportDialogLabel ?? "Export progress"}
-            cancelLabel={texts.cancelExportLabel ?? "Cancel data export"}
-            failed={false}
-            onCancel={props.onExportCancel}
-            open={progressSrv.inProgress}
-            progress={progressSrv.loaded}
-            total={progressSrv.total}
-        />
+        <PseudoModal>
+            <ExportAlert
+                alertLabel={texts.exportDialogLabel ?? "Export progress"}
+                cancelLabel={texts.cancelExportLabel ?? "Cancel data export"}
+                failed={false}
+                onCancel={props.onExportCancel}
+                progress={progressSrv.loaded}
+                total={progressSrv.total}
+            />
+        </PseudoModal>
     );
 };
