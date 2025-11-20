@@ -4,19 +4,13 @@ import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switc
 import { ClickActionHelper, ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
-import {
-    SelectAdjacentFx,
-    SelectAllFx,
-    SelectFx,
-    SelectionMode,
-    SelectionType
-} from "@mendix/widget-plugin-grid/selection";
+import { SelectAdjacentFx, SelectAllFx, SelectFx } from "@mendix/widget-plugin-grid/selection";
 import { ObjectItem } from "mendix";
+import { useMemo } from "react";
 
 import { SelectActionsService } from "@mendix/widget-plugin-grid/main";
-import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { createActionHandlers } from "./action-handlers";
-import { CellContext, SelectionMethod } from "./base";
+import { CellContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
 import { createSelectHandlers } from "./select-handlers";
 
@@ -51,34 +45,29 @@ export class CellEventsController {
     }
 }
 
-export function createCellEventsController(
-    config: {
-        selectionType: SelectionType;
-        selectionMethod: SelectionMethod;
-        selectionMode: SelectionMode;
-    },
-    selectActions: SelectActionsService,
-    focusController: FocusTargetController,
+export function useCellEventsController(
+    selectHelper: SelectActionsService,
     clickHelper: ClickActionHelper,
-    pageSize: ComputedAtom<number>
+    focusController: FocusTargetController
 ): CellEventsController {
-    // Placeholder function, actual implementation will depend on the specific context and services available.
-    const cellContextFactory = (item: ObjectItem): CellContext => ({
-        type: "cell",
-        item,
-        pageSize: pageSize.get(),
-        selectionType: config.selectionType,
-        selectionMethod: config.selectionMethod,
-        selectionMode: config.selectionMode,
-        clickTrigger: clickHelper.clickTrigger
-    });
+    const pageSize = 10;
+    return useMemo(() => {
+        const cellContextFactory = (item: ObjectItem): CellContext => ({
+            item,
+            pageSize: selectHelper.pageSize,
+            selectionType: selectHelper.selectionType,
+            selectionMethod: selectHelper.selectionMethod,
+            selectionMode: selectHelper.selectionMode,
+            clickTrigger: clickHelper.clickTrigger
+        });
 
-    return new CellEventsController(
-        cellContextFactory,
-        selectActions.select,
-        selectActions.selectPage,
-        selectActions.selectAdjacent,
-        clickHelper.onExecuteAction,
-        focusController.dispatch
-    );
+        return new CellEventsController(
+            cellContextFactory,
+            selectHelper.onSelect,
+            selectHelper.onSelectAll,
+            selectHelper.onSelectAdjacent,
+            clickHelper.onExecuteAction,
+            focusController.dispatch
+        );
+    }, [selectHelper, clickHelper, focusController]);
 }
