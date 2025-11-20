@@ -3,17 +3,13 @@ import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
-import { useDatagridConfig, usePaginationService } from "../model/hooks/injection-hooks";
+import { useDatagridConfig, usePaginationService, useTexts } from "../model/hooks/injection-hooks";
 import { Pagination } from "./Pagination";
 
-type WidgetFooterProps = {
-    loadMoreButtonCaption?: string;
-};
-
-export const WidgetFooter = observer(function WidgetFooter(props: WidgetFooterProps): ReactElement | null {
+export const WidgetFooter = observer(function WidgetFooter(): ReactElement | null {
     const config = useDatagridConfig();
     const paging = usePaginationService();
-    const { loadMoreButtonCaption } = props;
+    const { loadMoreButtonCaption } = useTexts();
     const selectionCounterVM = useSelectionCounterViewModel();
 
     return (
