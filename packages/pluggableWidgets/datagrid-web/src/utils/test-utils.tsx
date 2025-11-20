@@ -1,11 +1,5 @@
-import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
-import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import { dynamic, list, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
-import { GUID, ObjectItem } from "mendix";
 import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
-import { Cell } from "../components/Cell";
-import { WidgetProps } from "../components/Widget";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
 import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
@@ -66,46 +60,6 @@ export function mockGridColumn(c: ColumnsType, index: number): GridColumn {
     };
 
     return new ColumnStore(index, c, parentStore);
-}
-
-export function mockWidgetProps(): WidgetProps<GridColumn, ObjectItem> {
-    const id = "dg1";
-    const columnsProp = [column("Test")];
-    const columns = columnsProp.map((col, index) => mockGridColumn(col, index));
-
-    return {
-        CellComponent: Cell,
-        className: "test",
-        columnsDraggable: false,
-        columnsFilterable: false,
-        columnsHidable: false,
-        columnsResizable: false,
-        columnsSortable: false,
-        data: [{ id: "123456" as GUID }],
-        exporting: false,
-        filterRenderer: () => <input type="text" defaultValue="dummy" />,
-        headerWrapperRenderer: (_index, header) => header,
-        id,
-        onExportCancel: jest.fn(),
-        paginationType: "buttons",
-        visibleColumns: columns,
-        availableColumns: columns,
-        columnsSwap: jest.fn(),
-        setIsResizing: jest.fn(),
-        processedRows: 0,
-        selectActionHelper: mockSelectionProps(),
-        cellEventsController: { getProps: () => Object.create({}) },
-        checkboxEventsController: { getProps: () => Object.create({}) },
-        isFirstLoad: false,
-        isFetchingNextBatch: false,
-        loadingType: "spinner",
-        columnsLoading: false,
-        showRefreshIndicator: false,
-        focusController: new FocusTargetController(
-            new PositionController(),
-            new VirtualGridLayout(1, columns.length, 10)
-        )
-    };
 }
 
 export function mockContainerProps(overrides?: Partial<DatagridContainerProps>): DatagridContainerProps {
