@@ -17,9 +17,10 @@ import {
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { ComputedAtom, DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
 import { token } from "brandi";
-import { ListValue } from "mendix";
+import { ListValue, ObjectItem } from "mendix";
 import { CSSProperties, ReactNode } from "react";
 import { MainGateProps } from "../../typings/MainGateProps";
+import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
@@ -29,7 +30,7 @@ import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationSt
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
 import { GridColumn } from "../typings/GridColumn";
 import { DatagridConfig } from "./configs/Datagrid.config";
-import { RowClassProvider } from "./models/grid.model";
+import { RowClassProvider } from "./models/rows.model";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
 import { PaginationConfig, PaginationController } from "./services/PaginationController";
@@ -50,6 +51,7 @@ export const CORE_TOKENS = {
     },
     columnsStore: token<ColumnGroupStore>("ColumnGroupStore"),
     column: token<GridColumn>("@store:GridColumn"),
+    rows: token<ComputedAtom<ObjectItem[]>>("@computed:rowsArray"),
 
     config: token<DatagridConfig>("DatagridConfig"),
 
@@ -108,7 +110,9 @@ export const DG_TOKENS = {
 
     gridColumnsStyle: token<ComputedAtom<CSSProperties>>("@computed:GridColumnsStyle"),
 
-    rowClass: token<RowClassProvider>("@store:RowClassProvider")
+    rowClass: token<RowClassProvider>("@store:RowClassProvider"),
+
+    datagridRootVM: token<WidgetRootViewModel>("WidgetRootViewModel")
 };
 
 /** "Select all" module tokens. */

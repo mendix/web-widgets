@@ -1,7 +1,7 @@
 import { listExpression, obj } from "@mendix/widget-plugin-test-utils";
 import { configure, isObservable, observable } from "mobx";
 import { MainGateProps } from "../../../../typings/MainGateProps";
-import { rowClassProvider } from "../grid.model";
+import { rowClassProvider } from "../rows.model";
 
 describe("rowClassProvider", () => {
     configure({
