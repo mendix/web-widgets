@@ -14,7 +14,7 @@ import { ModuleInfo, PackageInfo, WidgetInfo } from "./package-info";
 import { addFilesToPackageXml, PackageType } from "./package-xml";
 import { chmod, cp, ensureFileExists, exec, find, mkdir, popd, pushd, rm, unzip, zip } from "./shell";
 import chalk from "chalk";
-import { findOssReadme } from "./oss-readme";
+import { findOssReadme } from "./oss-clearance";
 
 type Step<Info, Config> = (params: { info: Info; config: Config }) => Promise<void>;
 
