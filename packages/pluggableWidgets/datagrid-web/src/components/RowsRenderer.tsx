@@ -1,15 +1,8 @@
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
-import {
-    useCellEventsHandler,
-    useColumnsStore,
-    useDatagridConfig,
-    useFocusService,
-    useRowClass,
-    useRows,
-    useSelectActions
-} from "../model/hooks/injection-hooks";
+import { useLegacyContext } from "../helpers/root-context";
+import { useColumnsStore, useDatagridConfig, useRowClass, useRows } from "../model/hooks/injection-hooks";
 import { Row } from "./Row";
 
 export const RowsRenderer = observer(function RowsRenderer(): ReactElement {
@@ -17,18 +10,15 @@ export const RowsRenderer = observer(function RowsRenderer(): ReactElement {
     const config = useDatagridConfig();
     const { visibleColumns } = useColumnsStore();
     const rowClass = useRowClass();
-    const cellEventsController = useCellEventsHandler();
-    const focusService = useFocusService();
-    const selectActions = useSelectActions();
-
+    const { cellEventsController, focusController, selectActionHelper } = useLegacyContext();
     return (
-        <KeyNavProvider focusController={focusService}>
+        <KeyNavProvider focusController={focusController}>
             {rows.map((item, rowIndex) => {
                 return (
                     <Row
                         totalRows={rows.length}
                         clickable={config.isInteractive}
-                        selectActions={selectActions}
+                        selectActions={selectActionHelper}
                         eventsController={cellEventsController}
                         className={rowClass.class.get(item)}
                         columns={visibleColumns}

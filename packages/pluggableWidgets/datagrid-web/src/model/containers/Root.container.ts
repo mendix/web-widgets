@@ -31,7 +31,7 @@ injected(hasMoreItemsAtom, CORE.mainGate);
 injected(visibleColumnsCountAtom, CORE.columnsStore);
 injected(isAllItemsPresentAtom, CORE.atoms.offset, CORE.atoms.hasMoreItems);
 injected(rowsAtom, CORE.mainGate);
-injected(columnCount, CORE.atoms.visibleColumnsCount, CORE.config);
+injected(columnCount, CORE.atoms.columnCount, CORE.config);
 
 // selection
 injected(
