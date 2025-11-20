@@ -31,6 +31,7 @@ import { PaginationViewModel } from "../../features/pagination/Pagination.viewMo
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
+import { HeaderDragnDropStore } from "../../features/column/HeaderDragnDrop.store";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../../helpers/state/GridPersonalizationStore";
 import { DatagridConfig } from "../configs/Datagrid.config";
@@ -116,6 +117,8 @@ export class DatagridContainer extends Container {
         this.bind(DG.basicDate).toInstance(GridBasicData).inSingletonScope();
         // Columns store
         this.bind(CORE.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
+        // Drag and Drop store
+        this.bind(DG.headerDragDrop).toInstance(HeaderDragnDropStore).inSingletonScope();
         // Query service
         this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
         // Grid sizing and scrolling store
