@@ -31,6 +31,7 @@ import { DynamicPaginationFeature } from "../features/pagination/DynamicPaginati
 import { GridPageControl } from "../features/pagination/GridPageControl";
 import { PaginationViewModel } from "../features/pagination/Pagination.viewModel";
 import { PaginationConfig } from "../features/pagination/pagination.config";
+import { CellEventsController } from "../features/row-interaction/CellEventsController";
 import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
@@ -144,7 +145,8 @@ export const DG_TOKENS = {
     virtualLayout: token<ComputedAtom<VirtualGridLayout>>("@computed:virtualLayout"),
     clickActionHelper: token<ClickActionHelper>("@service:ClickActionHelper"),
     focusService: token<FocusTargetController>("@service:FocusTargetController"),
-    checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController")
+    checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController"),
+    cellEventsHandler: token<CellEventsController>("@service:CellEventsController")
 };
 
 /** "Select all" module tokens. */

@@ -22,6 +22,7 @@ import { Container, injected } from "brandi";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
+import { createCellEventsController } from "../../features/row-interaction/CellEventsController";
 import { DynamicPaginationFeature } from "../../features/pagination/DynamicPagination.feature";
 import { PageControlService } from "../../features/pagination/PageControl.service";
 import { paginationConfig } from "../../features/pagination/pagination.config";
@@ -46,7 +47,7 @@ injected(ColumnGroupStore, CORE.setupService, CORE.mainGate, CORE.config, DG.fil
 injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFilter, CORE.columnsStore);
 injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
 injected(GridBasicData, CORE.mainGate);
-injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.progressService);
+injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.selectionDialogVM);
 injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction);
 
 /** Pagination **/
@@ -95,6 +96,7 @@ injected(createFocusController, CORE.setupService, DG.virtualLayout);
 injected(creteCheckboxEventsController, CORE.config, DG.selectActions, DG.focusService, DG.pageSize);
 injected(layoutAtom, CORE.atoms.itemCount, CORE.atoms.columnCount, DG.pageSize);
 injected(createClickActionHelper, CORE.setupService, CORE.mainGate);
+injected(createCellEventsController, CORE.config, DG.selectActions, DG.focusService, DG.clickActionHelper, DG.pageSize);
 
 // selection counter
 injected(
@@ -166,6 +168,8 @@ export class DatagridContainer extends Container {
         this.bind(DG.focusService).toInstance(createFocusController).inSingletonScope();
         // Checkbox events service
         this.bind(DG.checkboxEventsHandler).toInstance(creteCheckboxEventsController).inSingletonScope();
+        // Cell events service
+        this.bind(DG.cellEventsHandler).toInstance(createCellEventsController).inSingletonScope();
         // Click action helper
         this.bind(DG.clickActionHelper).toInstance(createClickActionHelper).inSingletonScope();
     }
@@ -226,6 +230,9 @@ export class DatagridContainer extends Container {
 
         // Bind selection counter position
         this.bind(DG.selectionCounterCfg).toConstant({ position: props.selectionCounterPosition });
+
+        // Bind selection type
+        this.bind(DG.selectionType).toConstant(config.selectionType);
 
         this.postInit(props, config);
 

@@ -23,3 +23,7 @@ export const [useRows] = createInjectionHooks(CORE.rows);
 export const [useSelectActions] = createInjectionHooks(DG.selectActions);
 export const [useCustomPagination] = createInjectionHooks(DG.customPagination);
 export const [usePaginationConfig] = createInjectionHooks(DG.paginationConfig);
+export const [useClickActionHelper] = createInjectionHooks(DG.clickActionHelper);
+export const [useFocusService] = createInjectionHooks(DG.focusService);
+export const [useCheckboxEventsHandler] = createInjectionHooks(DG.checkboxEventsHandler);
+export const [useCellEventsHandler] = createInjectionHooks(DG.cellEventsHandler);
