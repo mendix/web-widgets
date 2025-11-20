@@ -13,6 +13,7 @@ exports[`Column Resizer renders the structure correctly 1`] = `
           class="column-resizer-bar"
         />
       </div>
+       
     </div>
   </body>,
   "container": <div>
@@ -24,6 +25,7 @@ exports[`Column Resizer renders the structure correctly 1`] = `
         class="column-resizer-bar"
       />
     </div>
+     
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],
