@@ -19,3 +19,4 @@ export const [useTexts] = createInjectionHooks(CORE.texts);
 export const [useRowClass] = createInjectionHooks(DG.rowClass);
 export const [useDatagridRootVM] = createInjectionHooks(DG.datagridRootVM);
 export const [useRows] = createInjectionHooks(CORE.rows);
+export const [useSelectActions] = createInjectionHooks(DG.selectActions);

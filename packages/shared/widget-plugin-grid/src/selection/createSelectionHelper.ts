@@ -13,18 +13,25 @@ export function createSelectionHelper(
 ): SelectionHelperService {
     const { selection, datasource } = gate.props;
 
-    let helper: SelectionHelperService;
+    let helper: SelectionHelperService | null = null;
+
+    if (!selection) {
+        return null;
+    }
+
     if (selection.type === "Multi") {
         helper = new MultiSelectionHelper(selection, datasource.items ?? []);
-    } else {
+    } else if (selection.type === "Single") {
         helper = new SingleSelectionHelper(selection);
     }
     if (config.keepSelection) {
-        selection.setKeepSelection(() => true);
+        selection?.setKeepSelection(() => true);
     }
 
-    function setup(): () => void {
+    function setup(): (() => void) | void {
         const [add, disposeAll] = disposeBatch();
+
+        if (!helper) return;
 
         add(
             autorun(() => {
@@ -41,7 +48,7 @@ export function createSelectionHelper(
         if (gate.props.onSelectionChange) {
             const cleanup = reaction(
                 (): ObjectItem[] => {
-                    const selected = gate.props.selection.selection;
+                    const selected = gate.props.selection!.selection;
                     if (Array.isArray(selected)) return selected;
                     if (selected !== undefined) return [selected];
                     return [];
