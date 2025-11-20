@@ -102,18 +102,30 @@ export class FileStore {
             this.fileStatus = "uploading";
         });
 
+        // create object
         try {
-            // request object item
             this._objectItem = await this._rootStore.objectCreationHelper.request();
+        } catch (_e: unknown) {
+            runInAction(() => {
+                this.fileStatus = "uploadingError";
+                this._rootStore.objectCreationHelper.reportCreationFailure();
+            });
+            return;
+        }
+
+        // upload content to object
+        try {
             await saveFile(this._objectItem, this._file!);
             await this.fetchMxObject();
 
             runInAction(() => {
                 this.fileStatus = "done";
+                this._rootStore.objectCreationHelper.reportUploadSuccess(this._objectItem!);
             });
         } catch (_e: unknown) {
             runInAction(() => {
                 this.fileStatus = "uploadingError";
+                this._rootStore.objectCreationHelper.reportUploadFailure(this._objectItem!);
             });
         }
     }
