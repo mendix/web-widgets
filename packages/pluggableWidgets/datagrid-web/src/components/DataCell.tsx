@@ -1,12 +1,26 @@
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
+import { ObjectItem } from "mendix";
 import { computed } from "mobx";
 import { observer } from "mobx-react-lite";
-import { ReactElement, useMemo } from "react";
-import { CellComponentProps } from "../typings/CellComponent";
+import { ReactElement, ReactNode, useMemo } from "react";
+import { EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { CellElement } from "./CellElement";
 
-const component = observer(function Cell(props: CellComponentProps<GridColumn>): ReactElement {
+interface DataCellProps {
+    children?: ReactNode;
+    className?: string;
+    column: GridColumn;
+    item: ObjectItem;
+    key?: string | number;
+    rowIndex: number;
+    columnIndex?: number;
+    clickable?: boolean;
+    preview?: boolean;
+    eventsController: EventsController;
+}
+
+export const DataCell = observer(function DataCell(props: DataCellProps): ReactElement {
     const keyNavProps = useFocusTargetProps<HTMLDivElement>({
         columnIndex: props.columnIndex ?? -1,
         rowIndex: props.rowIndex
@@ -36,6 +50,3 @@ const component = observer(function Cell(props: CellComponentProps<GridColumn>):
         </CellElement>
     );
 });
-
-// Override NamedExoticComponent type
-export const Cell = component as (props: CellComponentProps<GridColumn>) => ReactElement;

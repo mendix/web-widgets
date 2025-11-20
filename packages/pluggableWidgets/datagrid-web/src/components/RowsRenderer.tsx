@@ -26,6 +26,7 @@ export const RowsRenderer = observer(function RowsRenderer(): ReactElement {
                         item={item}
                         key={`row_${item.id}`}
                         showSelectorCell={config.columnsHidable}
+                        checkboxColumnEnabled={config.checkboxColumnEnabled}
                     />
                 );
             })}

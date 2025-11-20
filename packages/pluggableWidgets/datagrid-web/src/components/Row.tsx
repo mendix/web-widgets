@@ -4,8 +4,8 @@ import { ReactElement } from "react";
 import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
-import { Cell } from "./Cell";
 import { CheckboxCell } from "./CheckboxCell";
+import { DataCell } from "./DataCell";
 import { SelectorCell } from "./SelectorCell";
 
 export interface RowProps {
@@ -18,6 +18,7 @@ export interface RowProps {
     totalRows: number;
     clickable: boolean;
     eventsController: EventsController;
+    checkboxColumnEnabled: boolean;
 }
 
 export function Row(props: RowProps): ReactElement {
@@ -32,7 +33,7 @@ export function Row(props: RowProps): ReactElement {
             role="row"
             aria-selected={ariaSelected}
         >
-            {selectActionHelper.showCheckboxColumn && (
+            {props.checkboxColumnEnabled && (
                 <CheckboxCell
                     item={props.item}
                     key="checkbox_cell"
@@ -42,20 +43,18 @@ export function Row(props: RowProps): ReactElement {
                 />
             )}
             {props.columns.map((column, baseIndex) => {
-                const cell = (
-                    <Cell
+                return (
+                    <DataCell
                         key={`row_${props.item.id}_col_${column.columnId}`}
                         column={column}
                         rowIndex={props.index}
-                        columnIndex={selectActionHelper.showCheckboxColumn ? baseIndex + 1 : baseIndex}
+                        columnIndex={props.checkboxColumnEnabled ? baseIndex + 1 : baseIndex}
                         item={props.item}
                         clickable={props.clickable}
                         preview={false}
                         eventsController={eventsController}
                     />
                 );
-
-                return cell;
             })}
             {props.showSelectorCell && (
                 <SelectorCell
