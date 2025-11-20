@@ -1,19 +1,16 @@
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
 import { useColumnsStore, useDatagridConfig } from "../model/hooks/injection-hooks";
-import { ColumnId } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnProvider } from "./ColumnProvider";
 import { ColumnResizer } from "./ColumnResizer";
 import { ColumnSelector } from "./ColumnSelector";
-import { Header } from "./Header";
+import { ColumnContainer } from "./ColumnContainer";
 import { HeaderSkeletonLoader } from "./loader/HeaderSkeletonLoader";
 
 export function GridHeader(): ReactElement {
     const { columnsHidable, id: gridId } = useDatagridConfig();
     const columnsStore = useColumnsStore();
     const columns = columnsStore.visibleColumns;
-    const [dragOver, setDragOver] = useState<[ColumnId, "before" | "after"] | undefined>(undefined);
-    const [isDragging, setIsDragging] = useState<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>();
 
     if (!columnsStore.loaded) {
         return <HeaderSkeletonLoader size={columns.length} />;
@@ -25,9 +22,7 @@ export function GridHeader(): ReactElement {
                 <CheckboxColumnHeader key="headers_column_select_all" />
                 {columns.map(column => (
                     <ColumnProvider column={column} key={`${column.columnId}`}>
-                        <Header
-                            dropTarget={dragOver}
-                            isDragging={isDragging}
+                        <ColumnContainer
                             resizer={
                                 <ColumnResizer
                                     onResizeStart={() => columnsStore.setIsResizing(true)}
@@ -35,8 +30,6 @@ export function GridHeader(): ReactElement {
                                     setColumnWidth={(width: number) => column.setSize(width)}
                                 />
                             }
-                            setDropTarget={setDragOver}
-                            setIsDragging={setIsDragging}
                         />
                     </ColumnProvider>
                 ))}
