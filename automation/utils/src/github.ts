@@ -1,7 +1,29 @@
-import { mkdtemp, writeFile } from "fs/promises";
+import { mkdtemp, readFile, writeFile } from "fs/promises";
+import { createWriteStream } from "fs";
 import { join } from "path";
+import { pipeline } from "stream/promises";
+import nodefetch from "node-fetch";
 import { fetch } from "./fetch";
 import { exec } from "./shell";
+
+export interface GitHubReleaseAsset {
+    id: string;
+    name: string;
+    browser_download_url: string;
+    size: number;
+    content_type: string;
+    digest: string;
+}
+
+export interface GitHubDraftRelease {
+    id: string;
+    tag_name: string;
+    name: string;
+    draft: boolean;
+    created_at: string;
+    published_at: string | null;
+    assets: GitHubReleaseAsset[];
+}
 
 interface GitHubReleaseInfo {
     title: string;
@@ -29,12 +51,13 @@ interface GitHubPRInfo {
 export class GitHub {
     authSet = false;
     tmpPrefix = "gh-";
+    authToken: string = "";
+    owner = "mendix";
+    repo = "web-widgets";
 
     async ensureAuth(): Promise<void> {
         if (!this.authSet) {
-            if (process.env.GITHUB_TOKEN) {
-                // when using GITHUB_TOKEN, gh will automatically use it
-            } else if (process.env.GH_PAT) {
+            if (process.env.GH_PAT) {
                 await exec(`echo "${process.env.GH_PAT}" | gh auth login --with-token`);
             } else {
                 // No environment variables set, check if already authenticated
@@ -53,8 +76,10 @@ export class GitHub {
         try {
             // Try to run 'gh auth status' to check if authenticated
             await exec("gh auth status", { stdio: "pipe" });
+            const { stdout: token } = await exec(`gh auth token`, { stdio: "pipe" });
+            this.authToken = token.trim();
             return true;
-        } catch (error) {
+        } catch (_error: unknown) {
             // If the command fails, the user is not authenticated
             return false;
         }
@@ -107,7 +132,7 @@ export class GitHub {
     get ghAPIHeaders(): Record<string, string> {
         return {
             "X-GitHub-Api-Version": "2022-11-28",
-            Authorization: `Bearer ${process.env.GH_PAT}`
+            Authorization: `Bearer ${this.authToken || process.env.GH_PAT}`
         };
     }
 
@@ -117,7 +142,7 @@ export class GitHub {
             const release =
                 (await fetch<{ id: string }>(
                     "GET",
-                    `https://api.github.com/repos/mendix/web-widgets/releases/tags/${releaseTag}`,
+                    `https://api.github.com/repos/${this.owner}/${this.repo}/releases/tags/${releaseTag}`,
                     undefined,
                     { ...this.ghAPIHeaders }
                 )) ?? [];
@@ -148,7 +173,7 @@ export class GitHub {
                 name: string;
                 browser_download_url: string;
             }>
-        >("GET", `https://api.github.com/repos/mendix/web-widgets/releases/${releaseId}/assets`, undefined, {
+        >("GET", `https://api.github.com/repos/${this.owner}/${this.repo}/releases/${releaseId}/assets`, undefined, {
             ...this.ghAPIHeaders
         });
     }
@@ -163,6 +188,53 @@ export class GitHub {
         }
 
         return downloadUrl;
+    }
+
+    async getDraftReleases(): Promise<GitHubDraftRelease[]> {
+        const releases = await fetch<GitHubDraftRelease[]>(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/releases`,
+            undefined,
+            {
+                ...this.ghAPIHeaders
+            }
+        );
+
+        // Filter only draft releases
+        return releases.filter(release => release.draft);
+    }
+
+    async downloadReleaseAsset(assetId: string, destinationPath: string): Promise<void> {
+        await this.ensureAuth();
+
+        const url = `https://api.github.com/repos/${this.owner}/${this.repo}/releases/assets/${assetId}`;
+
+        try {
+            const response = await nodefetch(url, {
+                method: "GET",
+                headers: {
+                    Accept: "application/octet-stream",
+                    ...this.ghAPIHeaders
+                },
+                redirect: "follow"
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to download asset ${assetId}: ${response.status} ${response.statusText}`);
+            }
+
+            if (!response.body) {
+                throw new Error(`No response body received for asset ${assetId}`);
+            }
+
+            // Stream the response body to the file
+            const fileStream = createWriteStream(destinationPath);
+            await pipeline(response.body, fileStream);
+        } catch (error) {
+            throw new Error(
+                `Failed to download release asset ${assetId}: ${error instanceof Error ? error.message : String(error)}`
+            );
+        }
     }
 
     async createReleaseNotesFile(releaseNotesText: string): Promise<string> {
@@ -181,14 +253,14 @@ export class GitHub {
     }): Promise<void> {
         await this.ensureAuth();
 
-        const { workflowId, ref, inputs, owner = "mendix", repo = "web-widgets" } = params;
+        const { workflowId, ref, inputs } = params;
 
         // Convert inputs object to CLI parameters
         const inputParams = Object.entries(inputs)
             .map(([key, value]) => `-f ${key}=${value}`)
             .join(" ");
 
-        const repoParam = `${owner}/${repo}`;
+        const repoParam = `${this.owner}/${this.repo}`;
 
         const command = [`gh workflow run`, `"${workflowId}"`, `--ref "${ref}"`, inputParams, `-R "${repoParam}"`]
             .filter(Boolean)
@@ -210,6 +282,68 @@ export class GitHub {
                 package: packageName
             }
         });
+    }
+
+    /**
+     * Delete a release asset by ID
+     */
+    async deleteReleaseAsset(assetId: string): Promise<void> {
+        await this.ensureAuth();
+
+        const response = await nodefetch(
+            `https://api.github.com/repos/${this.owner}/${this.repo}/releases/assets/${assetId}`,
+            {
+                method: "DELETE",
+                headers: this.ghAPIHeaders
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`Failed to delete asset ${assetId}: ${response.status} ${response.statusText}`);
+        }
+    }
+
+    /**
+     * Upload a new asset to a release
+     */
+    async uploadReleaseAsset(releaseId: string, filePath: string, assetName: string): Promise<GitHubReleaseAsset> {
+        await this.ensureAuth();
+
+        // Get release info to get upload URL
+        const release = await fetch<{ upload_url: string }>(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/releases/${releaseId}`,
+            undefined,
+            this.ghAPIHeaders
+        );
+
+        // The upload_url comes with {?name,label} template, we need to replace it
+        const uploadUrl = release.upload_url.replace(/\{[^}]+}/g, "") + `?name=${encodeURIComponent(assetName)}`;
+
+        // Read the file
+        const fileBuffer = await readFile(filePath);
+
+        // Upload the file
+        const response = await nodefetch(uploadUrl, {
+            method: "POST",
+            headers: {
+                ...this.ghAPIHeaders,
+                "Content-Type": "application/octet-stream",
+                "Content-Length": fileBuffer.length.toString()
+            },
+            body: fileBuffer
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(
+                `Failed to upload asset ${assetName}: ${response.status} ${response.statusText} - ${errorText}`
+            );
+        }
+
+        const asset = (await response.json()) as GitHubReleaseAsset;
+
+        return asset;
     }
 }
 
