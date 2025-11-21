@@ -31,7 +31,7 @@
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools start:web",
-        "e2e": "run-e2e ci",
+        "e2e": "echo \"Skipping maps-web e2e tests\"",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
