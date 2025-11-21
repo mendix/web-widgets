@@ -22,7 +22,6 @@ export default function ColumnHeader(props: ColumnHeaderProps): ReactElement {
             {...props.sortProps}
             aria-label={props.canSort ? "sort " + props.caption : props.caption}
         >
-            <span>{props.caption.length > 0 ? props.caption : "\u00a0"}</span>
             {props.children}
         </div>
     );

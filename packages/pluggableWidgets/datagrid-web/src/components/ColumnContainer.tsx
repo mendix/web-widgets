@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { HTMLAttributes, KeyboardEvent, ReactElement, ReactNode, useMemo } from "react";
+import { DragEventHandler, HTMLAttributes, KeyboardEvent, ReactElement, ReactNode, useMemo } from "react";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
@@ -15,6 +15,11 @@ import { observer } from "mobx-react-lite";
 export interface ColumnContainerProps {
     isLast?: boolean;
     resizer: ReactElement<ColumnResizerProps>;
+}
+interface DragHandleProps {
+    draggable: boolean;
+    onDragStart?: DragEventHandler<HTMLSpanElement>;
+    onDragEnd?: DragEventHandler<HTMLSpanElement>;
 }
 
 export const ColumnContainer = observer(function ColumnContainer(props: ColumnContainerProps): ReactElement {
@@ -56,13 +61,7 @@ export const ColumnContainer = observer(function ColumnContainer(props: ColumnCo
             onDragEnter={draggableProps.onDragEnter}
             onDragOver={draggableProps.onDragOver}
         >
-            <div
-                className={classNames("column-container")}
-                id={`${gridId}-column${column.columnId}`}
-                draggable={draggableProps.draggable}
-                onDragStart={draggableProps.onDragStart}
-                onDragEnd={draggableProps.onDragEnd}
-            >
+            <div className={classNames("column-container")} id={`${gridId}-column${column.columnId}`}>
                 <ColumnHeader
                     sortProps={sortProps}
                     canSort={canSort}
@@ -70,6 +69,16 @@ export const ColumnContainer = observer(function ColumnContainer(props: ColumnCo
                     isDragging={isDragging}
                     columnAlignment={column.alignment}
                 >
+                    {draggableProps.draggable && (
+                        <DragHandle
+                            draggable={draggableProps.draggable}
+                            onDragStart={draggableProps.onDragStart}
+                            onDragEnd={draggableProps.onDragEnd}
+                        />
+                    )}
+                    <span style={draggableProps.draggable ? { paddingInlineStart: "4px" } : undefined}>
+                        {caption.length > 0 ? caption : "\u00a0"}
+                    </span>
                     {canSort ? <SortIcon /> : null}
                 </ColumnHeader>
                 {columnsFilterable && (
@@ -82,6 +91,45 @@ export const ColumnContainer = observer(function ColumnContainer(props: ColumnCo
         </div>
     );
 });
+
+function DragHandle({ draggable, onDragStart, onDragEnd }: DragHandleProps): ReactElement {
+    const handleMouseDown = (e: React.MouseEvent) => {
+        // Only stop propagation, don't prevent default - we need default for drag to work
+        e.stopPropagation();
+    };
+
+    const handleClick = (e: React.MouseEvent) => {
+        // Stop click events from bubbling to prevent sorting
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+    const handleDragStart = (e: React.DragEvent<HTMLSpanElement>) => {
+        // Don't stop propagation here - let the drag start properly
+        if (onDragStart) {
+            onDragStart(e);
+        }
+    };
+
+    const handleDragEnd = (e: React.DragEvent<HTMLSpanElement>) => {
+        if (onDragEnd) {
+            onDragEnd(e);
+        }
+    };
+
+    return (
+        <span
+            className="drag-handle"
+            draggable={draggable}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onMouseDown={handleMouseDown}
+            onClick={handleClick}
+        >
+            ⠿
+        </span>
+    );
+}
 
 function SortIcon(): ReactNode {
     const column = useColumn();
