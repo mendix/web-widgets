@@ -37,7 +37,7 @@ describe("HTMLTag", () => {
     });
 
     it("with innerHTML apply html sanitizing", () => {
-        const checkSapshot = (html: string): void => {
+        const checkSnapshot = (html: string): void => {
             expect(
                 render(
                     <HTMLTag
@@ -53,10 +53,10 @@ describe("HTMLTag", () => {
             ).toMatchSnapshot();
         };
 
-        checkSapshot("<p>Lorem ipsum <script>alert(1)</script></p>");
-        checkSapshot("<img src=x onerror=alert(1)>");
-        checkSapshot(`<b onmouseover=alert(‘XSS testing!‘)>ok</b>`);
-        checkSapshot("<a>123</a><option><style><img src=x onerror=alert(1)></style>");
+        checkSnapshot("<p>Lorem ipsum <script>alert(1)</script></p>");
+        checkSnapshot("<img src=x onerror=alert(1)>");
+        checkSnapshot(`<b onmouseover=alert(‘XSS testing!‘)>ok</b>`);
+        checkSnapshot("<a>123</a><option><style><img src=x onerror=alert(1)></style>");
     });
 
     it("fires events", async () => {
