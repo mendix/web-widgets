@@ -1,7 +1,7 @@
+import { SelectActionsService } from "@mendix/widget-plugin-grid/main";
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
 import { CheckboxCell } from "./CheckboxCell";
@@ -14,7 +14,7 @@ export interface RowProps {
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
-    selectActionHelper: SelectActionHelper;
+    selectActions: SelectActionsService;
     totalRows: number;
     clickable: boolean;
     eventsController: EventsController;
@@ -22,9 +22,9 @@ export interface RowProps {
 }
 
 export function Row(props: RowProps): ReactElement {
-    const { selectActionHelper, totalRows, eventsController } = props;
-    const selected = selectActionHelper.isSelected(props.item);
-    const ariaSelected = selectActionHelper.selectionType === "None" ? undefined : selected;
+    const { selectActions, totalRows, eventsController } = props;
+    const selected = selectActions.isSelected(props.item);
+    const ariaSelected = selectActions.selectionType === "None" ? undefined : selected;
     const borderTop = props.index === 0;
 
     return (

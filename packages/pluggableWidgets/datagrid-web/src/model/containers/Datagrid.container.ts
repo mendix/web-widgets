@@ -2,7 +2,15 @@ import { WidgetFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
 import { emptyStateWidgetsAtom } from "@mendix/widget-plugin-grid/core/models/empty-state.model";
-import { createSelectionHelper, DatasourceService, TaskProgressService } from "@mendix/widget-plugin-grid/main";
+import {
+    createClickActionHelper,
+    createFocusController,
+    createSelectionHelper,
+    DatasourceService,
+    layoutAtom,
+    SelectActionsProvider,
+    TaskProgressService
+} from "@mendix/widget-plugin-grid/main";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
@@ -10,6 +18,8 @@ import { Container, injected } from "brandi";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
+import { createCellEventsController } from "../../features/row-interaction/CellEventsController";
+import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
@@ -23,32 +33,56 @@ import { PaginationController } from "../services/PaginationController";
 import { SelectionGate } from "../services/SelectionGate.service";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
+// base
 injected(ColumnGroupStore, CORE.setupService, CORE.mainGate, CORE.config, DG.filterHost);
-injected(CombinedFilter, CORE.setupService, DG.combinedFilterConfig);
 injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFilter, CORE.columnsStore);
 injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
+injected(PaginationController, CORE.setupService, DG.paginationConfig, DG.query);
+injected(GridBasicData, CORE.mainGate);
+injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.selectionDialogVM);
+
+// loader
 injected(DerivedLoaderController, DG.query, DG.exportProgressService, CORE.columnsStore, DG.loaderConfig);
 
-injected(GridBasicData, CORE.mainGate);
-injected(GridPersonalizationStore, CORE.setupService, CORE.mainGate, CORE.columnsStore, DG.filterHost);
-injected(PaginationController, CORE.setupService, DG.paginationConfig, DG.query);
+// filtering
+injected(CombinedFilter, CORE.setupService, DG.combinedFilterConfig);
 injected(WidgetFilterAPI, DG.parentChannelName, DG.filterHost);
+
+// empty state
 injected(emptyStateWidgetsAtom, CORE.mainGate, CORE.atoms.itemCount);
+injected(EmptyPlaceholderViewModel, DG.emptyPlaceholderWidgets, CORE.atoms.visibleColumnsCount, CORE.config);
+
+// personalization
+injected(GridPersonalizationStore, CORE.setupService, CORE.mainGate, CORE.columnsStore, DG.filterHost);
+
+// selection
 injected(SelectionGate, CORE.mainGate);
 injected(createSelectionHelper, CORE.setupService, DG.selectionGate, CORE.config.optional);
 injected(gridStyleAtom, CORE.columnsStore, CORE.config);
 injected(rowClassProvider, CORE.mainGate);
 
-// View models
+// row-interaction
+injected(SelectActionsProvider, DG.selectionType, DG.selectionHelper);
+injected(createFocusController, CORE.setupService, DG.virtualLayout);
+injected(creteCheckboxEventsController, CORE.config, DG.selectActions, DG.focusService, CORE.atoms.pageSize);
+injected(layoutAtom, CORE.atoms.itemCount, CORE.atoms.columnCount, CORE.atoms.pageSize);
+injected(createClickActionHelper, CORE.setupService, CORE.mainGate);
+injected(
+    createCellEventsController,
+    CORE.config,
+    DG.selectActions,
+    DG.focusService,
+    DG.clickActionHelper,
+    CORE.atoms.pageSize
+);
 
+// selection counter
 injected(
     SelectionCounterViewModel,
     CORE.selection.selectedCount,
     CORE.selection.selectedCounterTextsStore,
     DG.selectionCounterCfg.optional
 );
-injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.progressService);
-injected(EmptyPlaceholderViewModel, DG.emptyPlaceholderWidgets, CORE.atoms.visibleColumnsCount, CORE.config);
 
 export class DatagridContainer extends Container {
     id = `DatagridContainer@${generateUUID()}`;
@@ -92,6 +126,18 @@ export class DatagridContainer extends Container {
         this.bind(DG.rowClass).toInstance(rowClassProvider).inTransientScope();
         // Widget root view model
         this.bind(DG.datagridRootVM).toInstance(WidgetRootViewModel).inTransientScope();
+        // Select actions provider
+        this.bind(DG.selectActions).toInstance(SelectActionsProvider).inSingletonScope();
+        // Virtual layout
+        this.bind(DG.virtualLayout).toInstance(layoutAtom).inTransientScope();
+        // Focus service
+        this.bind(DG.focusService).toInstance(createFocusController).inSingletonScope();
+        // Checkbox events service
+        this.bind(DG.checkboxEventsHandler).toInstance(creteCheckboxEventsController).inSingletonScope();
+        // Cell events service
+        this.bind(DG.cellEventsHandler).toInstance(createCellEventsController).inSingletonScope();
+        // Click action helper
+        this.bind(DG.clickActionHelper).toInstance(createClickActionHelper).inSingletonScope();
     }
 
     /**
@@ -149,8 +195,14 @@ export class DatagridContainer extends Container {
             pageSize: props.pageSize
         });
 
+        // Bind init page size
+        this.bind(CORE.initPageSize).toConstant(props.pageSize);
+
         // Bind selection counter position
         this.bind(DG.selectionCounterCfg).toConstant({ position: props.selectionCounterPosition });
+
+        // Bind selection type
+        this.bind(DG.selectionType).toConstant(config.selectionType);
 
         this.postInit(props, config);
 
@@ -172,7 +224,7 @@ export class DatagridContainer extends Container {
             this.get(DG.selectionHelper);
         } else {
             // Override selection helper with undefined to disable selection features
-            this.bind(DG.selectionHelper).toConstant(undefined);
+            this.bind(DG.selectionHelper).toConstant(null);
         }
 
         // Hydrate filters from props

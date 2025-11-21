@@ -6,7 +6,7 @@ import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType } from "./types"
 export class SelectActionsProvider implements SelectActionsService {
     constructor(
         private type: SelectionType,
-        private selectionHelper?: SelectionHelperService
+        private selectionHelper: SelectionHelperService
     ) {
         if (type === "Multi") {
             if (!selectionHelper || selectionHelper.type !== "Multi") {
@@ -94,7 +94,7 @@ export class SelectActionsProvider implements SelectActionsService {
     };
 
     private selectItem = (item: ObjectItem, toggleMode: boolean): void => {
-        if (this.selectionHelper === undefined) {
+        if (this.selectionHelper == null) {
             return;
         }
 
