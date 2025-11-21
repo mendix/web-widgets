@@ -2,7 +2,6 @@ import { dynamic, list, listAttribute, listExpression } from "@mendix/widget-plu
 import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
 import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
-import { SelectActionHelper } from "../model/services/GridSelectActionsProvider.service";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
