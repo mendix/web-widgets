@@ -1,41 +1,38 @@
+import { If } from "@mendix/widget-plugin-component-kit/If";
 import { ThreeStateCheckBox } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import { SelectionStatus } from "@mendix/widget-plugin-grid/selection";
+import { observer } from "mobx-react-lite";
 import { Fragment, ReactElement, ReactNode } from "react";
-import { useLegacyContext } from "../helpers/root-context";
-import { useBasicData } from "../model/hooks/injection-hooks";
+import { useDatagridConfig, useSelectActions, useSelectionHelper, useTexts } from "../model/hooks/injection-hooks";
 
 export function CheckboxColumnHeader(): ReactElement {
-    const { selectActionHelper, selectionHelper } = useLegacyContext();
-    const { showCheckboxColumn, showSelectAllToggle, onSelectAll } = selectActionHelper;
-    const { selectAllRowsLabel } = useBasicData();
+    const { selectAllCheckboxEnabled, checkboxColumnEnabled } = useDatagridConfig();
 
-    if (showCheckboxColumn === false) {
+    if (checkboxColumnEnabled === false) {
         return <Fragment />;
     }
 
     return (
         <div className="th widget-datagrid-col-select" role="columnheader">
-            {showSelectAllToggle && (
-                <Checkbox
-                    status={selectionHelper?.type === "Multi" ? selectionHelper.selectionStatus : "none"}
-                    onChange={onSelectAll}
-                    aria-label={selectAllRowsLabel}
-                />
-            )}
+            <If condition={selectAllCheckboxEnabled}>
+                <Checkbox />
+            </If>
         </div>
     );
 }
 
-function Checkbox(props: { status: SelectionStatus; onChange: () => void; "aria-label"?: string }): ReactNode {
-    if (props.status === "unknown") {
-        console.error("Data grid 2: don't know how to render column checkbox with selectionStatus=unknown");
+const Checkbox = observer(function Checkbox(): ReactNode {
+    const { selectAllRowsLabel } = useTexts();
+    const selectionHelper = useSelectionHelper();
+    const selectActions = useSelectActions();
+
+    if (!selectionHelper || selectionHelper.type !== "Multi") {
         return null;
     }
     return (
         <ThreeStateCheckBox
-            value={props.status}
-            onChange={props.onChange}
-            aria-label={props["aria-label"] ?? "Select all rows"}
+            value={selectionHelper.selectionStatus}
+            onChange={() => selectActions.selectPage()}
+            aria-label={selectAllRowsLabel || "Select all rows"}
         />
     );
-}
+});

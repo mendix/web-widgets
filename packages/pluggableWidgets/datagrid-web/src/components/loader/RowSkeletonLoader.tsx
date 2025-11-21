@@ -1,5 +1,5 @@
 import { Fragment, ReactElement } from "react";
-import { useLegacyContext } from "../../helpers/root-context";
+import { useDatagridConfig } from "../../model/hooks/injection-hooks";
 import { CellElement } from "../CellElement";
 import { SelectorCell } from "../SelectorCell";
 import { SkeletonLoader } from "./SkeletonLoader";
@@ -17,14 +17,14 @@ export function RowSkeletonLoader({
     pageSize,
     useBorderTop = true
 }: RowSkeletonLoaderProps): ReactElement {
-    const { selectActionHelper } = useLegacyContext();
+    const { checkboxColumnEnabled } = useDatagridConfig();
     return (
         <Fragment>
             {Array.from({ length: pageSize }).map((_, i) => {
                 const borderTop = useBorderTop && i === 0;
                 return (
                     <div className="tr" role="row" key={i}>
-                        {selectActionHelper.showCheckboxColumn && (
+                        {checkboxColumnEnabled && (
                             <CellElement borderTop={borderTop} className="widget-datagrid-col-select" tabIndex={-1}>
                                 <input type="checkbox" />
                             </CellElement>

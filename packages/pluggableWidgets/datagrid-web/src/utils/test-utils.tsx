@@ -1,8 +1,8 @@
 import { dynamic, list, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
 import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
 import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
+import { SelectActionHelper } from "../model/services/GridSelectActionsProvider.service";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {

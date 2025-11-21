@@ -1,10 +1,7 @@
+import { SelectionMode, SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import {
-    DatagridContainerProps,
-    ItemSelectionMethodEnum,
-    LoadingTypeEnum,
-    PagingPositionEnum
-} from "../../../typings/DatagridProps";
+import { DatagridContainerProps, LoadingTypeEnum, PagingPositionEnum } from "../../../typings/DatagridProps";
+import { type SelectionMethod } from "../../features/row-interaction/base";
 
 /** Config for static values that don't change at runtime. */
 export interface DatagridConfig {
@@ -15,7 +12,9 @@ export interface DatagridConfig {
     refreshIntervalMs: number;
     selectAllCheckboxEnabled: boolean;
     selectionEnabled: boolean;
-    selectionMethod: ItemSelectionMethodEnum;
+    selectionType: SelectionType;
+    selectionMethod: SelectionMethod;
+    selectionMode: SelectionMode;
     selectorColumnEnabled: boolean;
     settingsStorageEnabled: boolean;
     enableSelectAll: boolean;
@@ -42,7 +41,9 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         refreshIntervalMs: props.refreshInterval * 1000,
         selectAllCheckboxEnabled: props.showSelectAllToggle,
         selectionEnabled: isSelectionEnabled(props),
-        selectionMethod: props.itemSelectionMethod,
+        selectionType: selectionType(props),
+        selectionMethod: selectionMethod(props),
+        selectionMode: props.itemSelectionMode,
         selectorColumnEnabled: props.columnsHidable,
         settingsStorageEnabled: isSettingsStorageEnabled(props),
         enableSelectAll: props.enableSelectAll,
@@ -83,4 +84,12 @@ function isSettingsStorageEnabled(props: DatagridContainerProps): boolean {
 
 function isInteractive(props: DatagridContainerProps): boolean {
     return props.itemSelection !== undefined || props.onClick !== undefined;
+}
+
+function selectionType(props: DatagridContainerProps): SelectionType {
+    return props.itemSelection ? props.itemSelection.type : "None";
+}
+
+function selectionMethod(props: DatagridContainerProps): SelectionMethod {
+    return props.itemSelection ? props.itemSelectionMethod : "none";
 }
