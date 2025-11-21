@@ -36,6 +36,7 @@ interface StaticProps {
     storeFilters: boolean;
     storeSort: boolean;
     refreshIndicator: boolean;
+    refreshInterval: number;
 }
 
 export type GalleryPropsGate = DerivedPropsGate<DynamicProps>;
@@ -63,7 +64,7 @@ export class GalleryStore extends SetupHost {
 
         this.name = spec.name;
 
-        this._query = new DatasourceService(this, spec.gate, 0 * 1000);
+        this._query = new DatasourceService(this, spec.gate, spec.refreshInterval * 1000);
 
         this.paging = new PaginationController({
             query: this._query,
@@ -95,7 +96,7 @@ export class GalleryStore extends SetupHost {
             host: this._sortHost
         };
 
-        this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator);
+        this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator, spec.refreshInterval >= 1);
 
         const useStorage = spec.storeFilters || spec.storeSort;
         if (useStorage) {
