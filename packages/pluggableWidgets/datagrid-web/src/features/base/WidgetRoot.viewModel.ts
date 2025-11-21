@@ -2,7 +2,7 @@ import { TaskProgressService } from "@mendix/widget-plugin-grid/main";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { makeAutoObservable } from "mobx";
 import { createRef, CSSProperties } from "react";
-import { ItemSelectionMethodEnum } from "../../../typings/DatagridProps";
+import { type SelectionMethod } from "../row-interaction/base";
 
 export class WidgetRootViewModel {
     ref = createRef<HTMLDivElement>();
@@ -12,9 +12,9 @@ export class WidgetRootViewModel {
             style?: CSSProperties;
             class?: string;
         }>,
-        private config: { selectionEnabled: boolean; selectionMethod: ItemSelectionMethodEnum },
+        private config: { selectionEnabled: boolean; selectionMethod: SelectionMethod },
         private exportTask: TaskProgressService,
-        private selectAllTask: TaskProgressService
+        private selectAllVM: { isOpen: boolean }
     ) {
         makeAutoObservable(this);
     }
@@ -28,14 +28,14 @@ export class WidgetRootViewModel {
     }
 
     get selecting(): boolean {
-        return this.selectAllTask.inProgress;
+        return this.selectAllVM.isOpen;
     }
 
     get selectable(): boolean {
         return this.config.selectionEnabled;
     }
 
-    get selectionMethod(): ItemSelectionMethodEnum {
+    get selectionMethod(): SelectionMethod {
         return this.config.selectionMethod;
     }
 
