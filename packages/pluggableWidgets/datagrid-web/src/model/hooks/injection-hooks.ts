@@ -1,11 +1,11 @@
 import { createInjectionHooks } from "brandi-react";
-import { TOKENS } from "../tokens";
+import { CORE_TOKENS as CORE, DG_TOKENS as DG } from "../tokens";
 
-export const [useBasicData] = createInjectionHooks(TOKENS.basicDate);
-export const [useColumnsStore] = createInjectionHooks(TOKENS.columnsStore);
-export const [useDatagridConfig] = createInjectionHooks(TOKENS.config);
-export const [useDatagridFilterAPI] = createInjectionHooks(TOKENS.filterAPI);
-export const [useExportProgressService] = createInjectionHooks(TOKENS.exportProgressService);
-export const [useLoaderViewModel] = createInjectionHooks(TOKENS.loaderVM);
-export const [useMainGate] = createInjectionHooks(TOKENS.mainGate);
-export const [usePaginationService] = createInjectionHooks(TOKENS.paginationService);
+export const [useBasicData] = createInjectionHooks(DG.basicDate);
+export const [useColumnsStore] = createInjectionHooks(CORE.columnsStore);
+export const [useDatagridConfig] = createInjectionHooks(CORE.config);
+export const [useDatagridFilterAPI] = createInjectionHooks(DG.filterAPI);
+export const [useExportProgressService] = createInjectionHooks(DG.exportProgressService);
+export const [useLoaderViewModel] = createInjectionHooks(DG.loaderVM);
+export const [useMainGate] = createInjectionHooks(CORE.mainGate);
+export const [usePaginationService] = createInjectionHooks(DG.paginationService);

@@ -5,7 +5,7 @@ import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { ContainerProvider } from "brandi-react";
 import { observer } from "mobx-react-lite";
-import { ReactElement, ReactNode, useCallback, useMemo } from "react";
+import { ReactElement, useCallback, useMemo } from "react";
 import { DatagridContainerProps } from "../typings/DatagridProps";
 import { Cell } from "./components/Cell";
 import { Widget } from "./components/Widget";
@@ -84,11 +84,6 @@ const DatagridRoot = observer((props: DatagridContainerProps): ReactElement => {
                 columnsResizable={props.columnsResizable}
                 columnsSortable={props.columnsSortable}
                 data={items}
-                emptyPlaceholderRenderer={useCallback(
-                    (renderWrapper: (children: ReactNode) => ReactElement) =>
-                        props.showEmptyPlaceholder === "custom" ? renderWrapper(props.emptyPlaceholder) : <div />,
-                    [props.emptyPlaceholder, props.showEmptyPlaceholder]
-                )}
                 filterRenderer={useCallback(
                     (renderWrapper, columnIndex) => {
                         const columnFilter = columnsStore.columnFilters[columnIndex];
