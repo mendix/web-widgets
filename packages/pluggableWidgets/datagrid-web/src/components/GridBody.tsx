@@ -12,7 +12,7 @@ import {
 import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
 import { SpinnerLoader } from "./loader/SpinnerLoader";
 
-export function GridBody(props: PropsWithChildren): ReactElement {
+export const GridBody = observer(function GridBody(props: PropsWithChildren): ReactElement {
     const { children } = props;
     const { bodySize, containerRef, isInfinite, handleScroll } = useBodyScroll();
 
@@ -27,7 +27,7 @@ export function GridBody(props: PropsWithChildren): ReactElement {
             <ContentGuard>{children}</ContentGuard>
         </div>
     );
-}
+});
 
 const ContentGuard = observer(function ContentGuard(props: PropsWithChildren): ReactNode {
     const loaderVM = useLoaderViewModel();
