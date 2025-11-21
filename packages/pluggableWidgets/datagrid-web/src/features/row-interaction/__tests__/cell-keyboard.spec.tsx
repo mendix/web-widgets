@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-conditional-expect */
 import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { ClickTrigger } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { SelectionType } from "@mendix/widget-plugin-grid/selection";
@@ -5,9 +6,9 @@ import { objectItems } from "@mendix/widget-plugin-test-utils";
 import { render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ReactElement } from "react";
-import { SelectionMethod } from "../../../helpers/SelectActionHelper";
+
 import { createActionHandlers } from "../action-handlers";
-import { CellContext } from "../base";
+import { CellContext, SelectionMethod } from "../base";
 import { createSelectHandlers } from "../select-handlers";
 
 function setup(jsx: ReactElement): { user: UserEvent } & RenderResult {
@@ -41,6 +42,7 @@ describe("grid cell", () => {
 
                 const props = eventSwitch<CellContext, HTMLDivElement>(
                     (): CellContext => ({
+                        type: "cell",
                         item,
                         pageSize: 10,
                         selectionMethod: sm as SelectionMethod,
@@ -88,6 +90,7 @@ describe("grid cell", () => {
 
                 const props = eventSwitch<CellContext, HTMLDivElement>(
                     (): CellContext => ({
+                        type: "cell",
                         item,
                         pageSize: 10,
                         selectionMethod: "rowClick",
@@ -171,6 +174,7 @@ describe("grid cell", () => {
 
                 const props = eventSwitch<CellContext, HTMLDivElement>(
                     (): CellContext => ({
+                        type: "cell",
                         item,
                         pageSize: 10,
                         selectionMethod: "rowClick",
@@ -212,6 +216,7 @@ describe("grid cell", () => {
 
                 const props = eventSwitch<CellContext, HTMLDivElement>(
                     (): CellContext => ({
+                        type: "cell",
                         item,
                         pageSize: 10,
                         selectionMethod: "none",
@@ -235,6 +240,7 @@ describe("grid cell", () => {
 
             const props = eventSwitch<CellContext, HTMLDivElement>(
                 (): CellContext => ({
+                    type: "cell",
                     item,
                     pageSize: 10,
                     selectionMethod: "none",
@@ -261,6 +267,7 @@ describe("grid cell", () => {
 
             const props = eventSwitch<CellContext, HTMLDivElement>(
                 (): CellContext => ({
+                    type: "cell",
                     item,
                     pageSize: 10,
                     selectionMethod: "none",
@@ -302,6 +309,7 @@ describe("grid cell", () => {
 
                 const props = eventSwitch<CellContext, HTMLDivElement>(
                     (): CellContext => ({
+                        type: "cell",
                         item,
                         pageSize: 10,
                         selectionMethod,
@@ -330,6 +338,7 @@ describe("grid cell", () => {
 
                 const props = eventSwitch<CellContext, HTMLDivElement>(
                     (): CellContext => ({
+                        type: "cell",
                         item,
                         pageSize: 10,
                         selectionMethod: "checkbox",
