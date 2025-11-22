@@ -1,4 +1,4 @@
-import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { BarcodeGeneratorPreviewProps } from "../typings/BarcodeGeneratorProps";
 
 export type Problem = {
@@ -12,14 +12,78 @@ export type Problem = {
 
 export function getProperties(values: BarcodeGeneratorPreviewProps, defaultProperties: Properties): Properties {
     if (values.codeFormat === "QRCode") {
-        hidePropertiesIn(defaultProperties, values, ["codeWidth", "codeHeight", "displayValue"]);
+        hidePropertiesIn(defaultProperties, values, ["codeWidth", "codeHeight", "displayValue", "codeMargin"]);
     } else {
-        hidePropertiesIn(defaultProperties, values, ["qrSize"]);
+        hidePropertiesIn(defaultProperties, values, ["qrImage", "qrSize", "qrMargin", "qrLevel", "qrTitle"]);
+    }
+
+    if (values.codeFormat !== "QRCode" || !values.qrImage) {
+        hidePropertiesIn(defaultProperties, values, [
+            "qrImageSrc",
+            "qrImageCenter",
+            "qrImageWidth",
+            "qrImageHeight",
+            "qrImageX",
+            "qrImageY",
+            "qrImageOpacity",
+            "qrImageExcavate"
+        ]);
+    }
+
+    if (values.codeFormat !== "CODE128" && values.customCodeFormat !== "CODE128") {
+        hidePropertyIn(defaultProperties, values, "enableEan128");
+    }
+
+    if (
+        values.codeFormat === "QRCode" ||
+        values.codeFormat === "CODE128" ||
+        (values.codeFormat === "Custom" &&
+            values.customCodeFormat !== "EAN13" &&
+            values.customCodeFormat !== "EAN8" &&
+            values.customCodeFormat !== "UPC")
+    ) {
+        hidePropertyIn(defaultProperties, values, "enableFlat");
+    }
+
+    if (
+        values.codeFormat === "QRCode" ||
+        values.codeFormat === "CODE128" ||
+        (values.codeFormat === "Custom" && values.customCodeFormat !== "EAN13")
+    ) {
+        hidePropertyIn(defaultProperties, values, "lastChar");
+    }
+
+    if (
+        values.codeFormat === "QRCode" ||
+        values.codeFormat === "CODE128" ||
+        (values.codeFormat === "Custom" && values.customCodeFormat !== "EAN13" && values.customCodeFormat !== "EAN8")
+    ) {
+        hidePropertiesIn(defaultProperties, values, ["addonFormat", "addonValue", "addonSpacing"]);
+    }
+    if (
+        values.codeFormat === "QRCode" ||
+        values.codeFormat === "CODE128" ||
+        (values.codeFormat === "Custom" && values.addonFormat !== "EAN5" && values.addonFormat !== "EAN2")
+    ) {
+        hidePropertiesIn(defaultProperties, values, ["addonValue", "addonSpacing"]);
+    }
+
+    if (
+        values.codeFormat === "QRCode" ||
+        values.codeFormat === "CODE128" ||
+        (values.codeFormat === "Custom" && values.customCodeFormat !== "CODE39")
+    ) {
+        hidePropertyIn(defaultProperties, values, "enableMod43");
+    }
+
+    if (values.qrImageCenter) {
+        hidePropertiesIn(defaultProperties, values, ["qrImageX", "qrImageY"]);
     }
 
     if (values.codeFormat !== "Custom") {
         hidePropertiesIn(defaultProperties, values, ["customCodeFormat"]);
     }
+
     return defaultProperties;
 }
 
