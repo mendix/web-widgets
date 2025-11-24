@@ -31,6 +31,7 @@ describe("BarcodeGenerator", () => {
         lastChar: "",
         enableMod43: false,
         allowDownload: false,
+        downloadAriaLabel: "Download barcode",
         displayValue: false,
         codeWidth: 2,
         codeHeight: 200,

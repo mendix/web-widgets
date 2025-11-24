@@ -1,5 +1,6 @@
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { BarcodeGeneratorPreviewProps } from "../typings/BarcodeGeneratorProps";
+import { validateAddonValue, validateBarcodeValue } from "./config/validation";
 
 export type Problem = {
     property?: string; // key of the property, at which the problem exists
@@ -114,5 +115,42 @@ export function check(_values: BarcodeGeneratorPreviewProps): Problem[] {
         });
     }
 
-    return errors;
+    // Design-time validation for static barcode value(s)
+    const valueProblems = validateCodeValues(_values);
+    return errors.concat(valueProblems);
+}
+
+function getActiveFormat(values: BarcodeGeneratorPreviewProps): string {
+    if (values.codeFormat === "Custom") {
+        return values.customCodeFormat || "CODE128";
+    }
+
+    return values.codeFormat;
+}
+
+function validateCodeValues(values: BarcodeGeneratorPreviewProps): Problem[] {
+    const problems: Problem[] = [];
+    const val = values.codeValue ?? "";
+    const addon = values.addonValue ?? "";
+    const format = getActiveFormat(values);
+
+    // Only validate static (design-time) values — if empty, skip (user may bind dynamically)
+    if (!val) {
+        // still validate addon if present
+    } else {
+        const result = validateBarcodeValue(format, val);
+        if (!result.valid) {
+            const msg = result.message || "Invalid barcode value for selected format.";
+            problems.push({ property: "codeValue", severity: "warning", message: msg });
+        }
+    }
+
+    // Validate addon value if visible
+    const addonResult = validateAddonValue(values.addonFormat, addon);
+    if (!addonResult.valid) {
+        const msg = addonResult.message || "Invalid addon value.";
+        problems.push({ property: "addonValue", severity: "warning", message: msg });
+    }
+
+    return problems;
 }
