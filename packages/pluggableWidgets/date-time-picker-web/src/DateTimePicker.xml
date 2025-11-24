@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.datetimepicker.DateTimePicker" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Date Time Picker</name>
+    <description />
+    <studioProCategory>Input elements</studioProCategory>
+    <studioCategory>Display</studioCategory>
+    <helpUrl>https://docs.mendix.com/appstore/widgets/datetimepicker</helpUrl>
+    <properties>
+        <propertyGroup caption="General">
+            <propertyGroup caption="General">
+                <property key="type" type="enumeration" defaultValue="date">
+                    <caption>Picker type</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="date">Date</enumerationValue>
+                        <enumerationValue key="time">Time</enumerationValue>
+                        <enumerationValue key="range">Range</enumerationValue>
+                        <enumerationValue key="datetime">Date and Time</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="dateFormat" type="string" required="false" defaultValue="MM/dd/yyyy">
+                    <caption>Date format</caption>
+                    <description />
+                </property>
+                <property key="timeFormat" type="string" required="false" defaultValue="hh:mm a">
+                    <caption>Time format</caption>
+                    <description />
+                </property>
+                <property key="dateTimeFormat" type="string" required="false" defaultValue="MM/dd/yyyy hh:mm a">
+                    <caption>Date time format</caption>
+                    <description />
+                </property>
+                <property key="placeholder" type="expression" required="false">
+                    <caption>Placeholder</caption>
+                    <description />
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Data source">
+                <property key="dateAttribute" type="attribute">
+                    <caption>Value</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="DateTime" />
+                    </attributeTypes>
+                </property>
+
+                <property key="endDateAttribute" type="attribute" required="false">
+                    <caption>End value</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="DateTime" />
+                    </attributeTypes>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Label">
+                <property key="showLabel" type="boolean" defaultValue="true">
+                    <caption>Show label</caption>
+                    <description />
+                </property>
+                <property key="label" type="expression" required="false">
+                    <caption>Label caption</caption>
+                    <description />
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Editability">
+                <property key="editable" type="enumeration" defaultValue="default">
+                    <caption>Editable</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="default">Default</enumerationValue>
+                        <enumerationValue key="never">Never</enumerationValue>
+                        <enumerationValue key="conditionally">Conditionally</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="editabilityCondition" type="expression" required="false">
+                    <caption>Condition</caption>
+                    <description />
+                    <returnType type="Boolean" />
+                </property>
+                <property key="readOnlyStyle" type="enumeration" defaultValue="default">
+                    <caption>Read-only style</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="default">Based on data view (Control)</enumerationValue>
+                        <enumerationValue key="control">Control</enumerationValue>
+                        <enumerationValue key="text">Text</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Visibility">
+                <property key="visible" type="expression" required="false">
+                    <caption>Visible</caption>
+                    <description />
+                    <returnType type="Boolean" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Validation">
+                <property key="validationType" type="enumeration" defaultValue="none">
+                    <caption>Validation</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="none">None</enumerationValue>
+                        <enumerationValue key="required">Required</enumerationValue>
+                        <enumerationValue key="future">Date in the future</enumerationValue>
+                        <enumerationValue key="past">Date in the past</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="customValidation" type="expression" required="false">
+                    <caption>Custom condition</caption>
+                    <description />
+                    <returnType type="Boolean" />
+                </property>
+                <property key="validationMessage" type="expression" required="false">
+                    <caption>Message</caption>
+                    <description />
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Accessibility">
+                <property key="ariaRequired" type="boolean" defaultValue="true">
+                    <caption>Aria required</caption>
+                    <description>Used by assistive technologies to indicate that a field is required.</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Events">
+            <property key="onChange" type="action" required="false">
+                <caption>On change</caption>
+                <description />
+            </property>
+            <property key="onEnter" type="action" required="false">
+                <caption>On enter</caption>
+                <description />
+            </property>
+            <property key="onLeave" type="action" required="false">
+                <caption>On leave</caption>
+                <description />
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>
