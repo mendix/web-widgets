@@ -24,6 +24,18 @@
                         <enumerationValue key="Custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="allowDownload" type="boolean" defaultValue="false">
+                    <caption>Allow download</caption>
+                    <description>Adds a download button</description>
+                </property>
+                <property key="downloadAriaLabel" type="string" required="false">
+                    <caption>Button aria-label</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Advanced">
+            <propertyGroup caption="Advanced Barcode Settings">
                 <property key="customCodeFormat" type="enumeration" required="true" defaultValue="CODE128">
                     <caption>Custom Format</caption>
                     <description>Choose between barcode types format</description>
@@ -56,10 +68,6 @@
                     <caption>Mod43</caption>
                     <description>For code 39 if used with modulo 43 check digit</description>
                 </property>
-                <property key="allowDownload" type="boolean" defaultValue="false">
-                    <caption>Allow download</caption>
-                    <description>Adds a download button</description>
-                </property>
             </propertyGroup>
             <propertyGroup caption="EAN Addons">
                 <property key="addonFormat" type="enumeration" required="true" defaultValue="None">
@@ -83,82 +91,82 @@
                     <description>Space between main barcode and addon (in pixels)</description>
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Display">
-                <property key="displayValue" type="boolean" defaultValue="false">
-                    <caption>Display value</caption>
-                    <description>Display the value below the code</description>
-                </property>
-                <property key="codeWidth" type="integer" required="true" defaultValue="2">
-                    <caption>Bar width</caption>
-                    <description>Width of a single bar</description>
-                </property>
-                <property key="codeHeight" type="integer" required="true" defaultValue="200">
-                    <caption>Code height</caption>
-                    <description>Height of the barcode</description>
-                </property>
-                <property key="codeMargin" type="integer" required="true" defaultValue="2">
-                    <caption>Margin size</caption>
-                    <description>In pixels</description>
-                </property>
-                <property key="qrSize" type="integer" required="true" defaultValue="128">
-                    <caption>QR Size</caption>
-                    <description>The size of the QR box</description>
-                </property>
-                <property key="qrMargin" type="integer" required="true" defaultValue="2">
-                    <caption>Margin size</caption>
-                    <description />
-                </property>
-                <property key="qrTitle" type="string" required="true">
-                    <caption>Title</caption>
-                    <description>Used for accessibility reasons</description>
-                </property>
-                <property key="qrLevel" type="enumeration" required="true" defaultValue="L">
-                    <caption>Level</caption>
-                    <description>The Error Correction Level to use</description>
-                    <enumerationValues>
-                        <enumerationValue key="L">L</enumerationValue>
-                        <enumerationValue key="M">M</enumerationValue>
-                        <enumerationValue key="Q">Q</enumerationValue>
-                        <enumerationValue key="H">H</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="qrImage" type="boolean" required="true" defaultValue="false">
-                    <caption>Image</caption>
-                    <description>Include an image on top the QR code</description>
-                </property>
-                <property key="qrImageSrc" type="image" required="true">
-                    <caption>Image source</caption>
-                    <description>URL or path to the image to display on the QR code</description>
-                </property>
-                <property key="qrImageCenter" type="boolean" required="true" defaultValue="true">
-                    <caption>Center image</caption>
-                    <description>Center the image in the QR code</description>
-                </property>
-                <property key="qrImageX" type="integer" required="true" defaultValue="0">
-                    <caption>Image X position</caption>
-                    <description>Horizontal position of the image</description>
-                </property>
-                <property key="qrImageY" type="integer" required="true" defaultValue="0">
-                    <caption>Image Y position</caption>
-                    <description>Vertical position of the image</description>
-                </property>
-                <property key="qrImageHeight" type="integer" required="true" defaultValue="24">
-                    <caption>Image height</caption>
-                    <description>Height of the image in pixels</description>
-                </property>
-                <property key="qrImageWidth" type="integer" required="true" defaultValue="24">
-                    <caption>Image width</caption>
-                    <description>Width of the image in pixels</description>
-                </property>
-                <property key="qrImageOpacity" type="decimal" required="true" defaultValue="1">
-                    <caption>Image opacity</caption>
-                    <description>Opacity of the image (0.0 to 1.0)</description>
-                </property>
-                <property key="qrImageExcavate" type="boolean" required="true" defaultValue="true">
-                    <caption>Excavate background</caption>
-                    <description>Remove QR code dots behind the image</description>
-                </property>
-            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Display">
+            <property key="displayValue" type="boolean" defaultValue="false">
+                <caption>Display value</caption>
+                <description>Display the value below the code</description>
+            </property>
+            <property key="codeWidth" type="integer" required="true" defaultValue="2">
+                <caption>Bar width</caption>
+                <description>Width of a single bar</description>
+            </property>
+            <property key="codeHeight" type="integer" required="true" defaultValue="200">
+                <caption>Code height</caption>
+                <description>Height of the barcode</description>
+            </property>
+            <property key="codeMargin" type="integer" required="true" defaultValue="2">
+                <caption>Margin size</caption>
+                <description>In pixels</description>
+            </property>
+            <property key="qrSize" type="integer" required="true" defaultValue="128">
+                <caption>QR Size</caption>
+                <description>The size of the QR box</description>
+            </property>
+            <property key="qrMargin" type="integer" required="true" defaultValue="2">
+                <caption>Margin size</caption>
+                <description />
+            </property>
+            <property key="qrTitle" type="string" required="true">
+                <caption>Title</caption>
+                <description>Used for accessibility reasons</description>
+            </property>
+            <property key="qrLevel" type="enumeration" required="true" defaultValue="L">
+                <caption>Level</caption>
+                <description>The Error Correction Level to use</description>
+                <enumerationValues>
+                    <enumerationValue key="L">L</enumerationValue>
+                    <enumerationValue key="M">M</enumerationValue>
+                    <enumerationValue key="Q">Q</enumerationValue>
+                    <enumerationValue key="H">H</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="qrImage" type="boolean" required="true" defaultValue="false">
+                <caption>Image</caption>
+                <description>Include an image on top the QR code</description>
+            </property>
+            <property key="qrImageSrc" type="image" required="true">
+                <caption>Image source</caption>
+                <description>URL or path to the image to display on the QR code</description>
+            </property>
+            <property key="qrImageCenter" type="boolean" required="true" defaultValue="true">
+                <caption>Center image</caption>
+                <description>Center the image in the QR code</description>
+            </property>
+            <property key="qrImageX" type="integer" required="true" defaultValue="0">
+                <caption>Image X position</caption>
+                <description>Horizontal position of the image</description>
+            </property>
+            <property key="qrImageY" type="integer" required="true" defaultValue="0">
+                <caption>Image Y position</caption>
+                <description>Vertical position of the image</description>
+            </property>
+            <property key="qrImageHeight" type="integer" required="true" defaultValue="24">
+                <caption>Image height</caption>
+                <description>Height of the image in pixels</description>
+            </property>
+            <property key="qrImageWidth" type="integer" required="true" defaultValue="24">
+                <caption>Image width</caption>
+                <description>Width of the image in pixels</description>
+            </property>
+            <property key="qrImageOpacity" type="decimal" required="true" defaultValue="1">
+                <caption>Image opacity</caption>
+                <description>Opacity of the image (0.0 to 1.0)</description>
+            </property>
+            <property key="qrImageExcavate" type="boolean" required="true" defaultValue="true">
+                <caption>Excavate background</caption>
+                <description>Remove QR code dots behind the image</description>
+            </property>
         </propertyGroup>
     </properties>
 </widget>

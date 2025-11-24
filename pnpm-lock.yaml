@@ -632,9 +632,6 @@ importers:
       '@mendix/widget-plugin-test-utils':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-test-utils
-      '@types/react':
-        specifier: '>=18.2.36'
-        version: 19.2.2
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3

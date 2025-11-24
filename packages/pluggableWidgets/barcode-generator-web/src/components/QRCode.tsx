@@ -20,7 +20,8 @@ export const QRCodeRenderer = () => {
         qrImageHeight: imageHeight,
         qrImageWidth: imageWidth,
         qrImageOpacity: imageOpacity,
-        qrImageExcavate: imageExcavate
+        qrImageExcavate: imageExcavate,
+        downloadAriaLabel: downloadAriaLabel
     } = useBarcodeConfig();
     const imageSettings = imageSrc
         ? {
@@ -46,7 +47,12 @@ export const QRCodeRenderer = () => {
                 imageSettings={imageSettings}
             />
             {allowDownload && (
-                <button type="button" onClick={downloadQrCode} className="btn btn-default">
+                <button
+                    type="button"
+                    aria-label={downloadAriaLabel}
+                    onClick={downloadQrCode}
+                    className="btn btn-default"
+                >
                     Download QR Code
                 </button>
             )}

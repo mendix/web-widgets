@@ -11,6 +11,7 @@ export interface BarcodeConfig {
     margin: number;
     displayValue: boolean;
     allowDownload: boolean;
+    downloadAriaLabel?: string;
 
     // Advanced barcode options
     enableEan128: boolean;
@@ -51,6 +52,7 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         margin: props.codeMargin ?? 2,
         displayValue: props.displayValue ?? false,
         allowDownload: props.allowDownload ?? false,
+        downloadAriaLabel: props.downloadAriaLabel,
 
         // Advanced barcode options
         enableEan128: props.enableEan128 ?? false,
