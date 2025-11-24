@@ -2,7 +2,7 @@ import { dynamic, list, listAttr, listExp } from "@mendix/widget-plugin-test-uti
 import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
 import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
-import { SelectActionHelper } from "../model/services/GridSelectActionsProvider.service";
+// import { SelectActionHelper } from "../model/services/GridSelectActionsProvider.service";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
@@ -32,16 +32,6 @@ export const column = (header = "Test", patch?: (col: ColumnsType) => void): Col
 
     return c;
 };
-
-export function mockSelectionProps(patch?: (props: SelectActionHelper) => SelectActionHelper): SelectActionHelper {
-    const props = new SelectActionHelper("None", undefined, "checkbox", false, 5, "clear");
-
-    if (patch) {
-        patch(props);
-    }
-
-    return props;
-}
 
 export function mockGridColumn(c: ColumnsType, index: number): GridColumn {
     const parentStore: IColumnParentStore = {
