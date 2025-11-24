@@ -29,6 +29,7 @@ export interface GalleryContainerProps {
     tabIndex?: number;
     filtersPlaceholder?: ReactNode;
     datasource: ListValue;
+    refreshInterval: number;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMode: ItemSelectionModeEnum;
     keepSelection: boolean;
@@ -76,6 +77,7 @@ export interface GalleryPreviewProps {
     translate: (text: string) => string;
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     datasource: {} | { caption: string } | { type: string } | null;
+    refreshInterval: number | null;
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMode: ItemSelectionModeEnum;
     keepSelection: boolean;

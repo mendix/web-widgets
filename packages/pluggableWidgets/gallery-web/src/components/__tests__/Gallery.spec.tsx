@@ -1,10 +1,15 @@
-import { listAction, listExp, setupIntersectionObserverStub } from "@mendix/widget-plugin-test-utils";
+import { listAction, listExpression, setupIntersectionObserverStub } from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
 import { render, waitFor } from "@testing-library/react";
 import { ObjectItem } from "mendix";
+import { createElement } from "react";
 import { ItemHelperBuilder } from "../../utils/builders/ItemHelperBuilder";
 import { mockItemHelperWithAction, mockProps, setup, withGalleryContext } from "../../utils/test-utils";
 import { Gallery } from "../Gallery";
+
+jest.mock("@mendix/widget-plugin-component-kit/RefreshIndicator", () => ({
+    RefreshIndicator: (_props: any) => createElement("div", { "data-testid": "refresh-indicator" })
+}));
 
 describe("Gallery", () => {
     beforeAll(() => {
@@ -23,6 +28,20 @@ describe("Gallery", () => {
             );
 
             expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("renders RefreshIndicator when `showRefreshIndicator` is true", () => {
+            const base = mockProps();
+            const props = { ...base, showRefreshIndicator: true };
+            const { getByTestId } = render(withGalleryContext(<Gallery {...props} />));
+            expect(getByTestId("refresh-indicator")).toBeInTheDocument();
+        });
+
+        it("does not render RefreshIndicator when `showRefreshIndicator` is false", () => {
+            const base = mockProps();
+            const props = { ...base, showRefreshIndicator: false };
+            const { queryByTestId } = render(withGalleryContext(<Gallery {...props} />));
+            expect(queryByTestId("refresh-indicator")).toBeNull();
         });
     });
 
@@ -84,7 +103,9 @@ describe("Gallery", () => {
                 withGalleryContext(
                     <Gallery
                         {...mockProps()}
-                        itemHelper={ItemHelperBuilder.sample(b => b.withItemClass(listExp(() => "custom-class")))}
+                        itemHelper={ItemHelperBuilder.sample(b =>
+                            b.withItemClass(listExpression(() => "custom-class"))
+                        )}
                     />
                 )
             );
