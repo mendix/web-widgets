@@ -80,8 +80,15 @@ export function shiftEnterKeyKeyboardHandler(this: Keyboard, range: Range, conte
     if (context.format.table) {
         return true;
     }
+
+    if (context.suffix === "") {
+        // if it is on the end of block
+        // we need to insert two soft breaks to create a new line within the same block
+        // this is to override /n behavior
+        this.quill.insertEmbed(range.index, "softbreak", true, Quill.sources.USER);
+    }
     this.quill.insertEmbed(range.index, "softbreak", true, Quill.sources.USER);
-    this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+    this.quill.setSelection(range.index + 2, Quill.sources.SILENT);
     return false;
 }
 
