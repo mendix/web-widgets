@@ -29,10 +29,12 @@ export interface HeaderProps {
 }
 
 export function Header(props: HeaderProps): ReactElement {
-    const { columnsFilterable, id: gridId } = useDatagridConfig();
+    const { columnsFilterable, id: gridId, columnsDraggable, columnsResizable, columnsSortable } = useDatagridConfig();
     const columnsStore = useColumnsStore();
     const column = useColumn();
-    const { canDrag, canSort } = column;
+    const canDrag = columnsDraggable && column.canDrag;
+    const canSort = columnsSortable && column.canSort;
+    const canResize = columnsResizable && column.canResize;
 
     const draggableProps = useDraggable(
         canDrag,
@@ -86,7 +88,7 @@ export function Header(props: HeaderProps): ReactElement {
                     </div>
                 )}
             </div>
-            {column.canResize ? props.resizer : null}
+            {canResize ? props.resizer : null}
         </div>
     );
 }

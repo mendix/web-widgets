@@ -4,23 +4,26 @@ exports[`Header renders the structure correctly 1`] = `
 <DocumentFragment>
   <div
     class="th"
-    data-column-id="dg1-column0"
+    data-column-id="0"
     role="columnheader"
     style="cursor: unset;"
-    title="Test"
+    title="Column 1"
   >
     <div
       class="column-container"
-      id="dg1-columndg1-column0"
+      id="datagrid2_1:Datagrid@2-column0"
     >
       <div
-        aria-label="Test"
-        class="column-header"
+        aria-label="Column 1"
+        class="column-header align-column-left"
       >
         <span>
-          Test
+          Column 1
         </span>
       </div>
+      <div
+        class="filter"
+      />
     </div>
   </div>
 </DocumentFragment>
@@ -30,50 +33,27 @@ exports[`Header renders the structure correctly when draggable 1`] = `
 <DocumentFragment>
   <div
     class="th"
-    data-column-id="dg1-column0"
+    data-column-id="0"
     role="columnheader"
     style="cursor: unset;"
-    title="Test"
+    title="Column 1"
   >
     <div
       class="column-container"
       draggable="true"
-      id="dg1-columndg1-column0"
+      id="datagrid2_1:Datagrid@14-column0"
     >
       <div
-        aria-label="Test"
-        class="column-header"
+        aria-label="Column 1"
+        class="column-header align-column-left"
       >
         <span>
-          Test
+          Column 1
         </span>
       </div>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Header renders the structure correctly when filterable with custom classes 1`] = `
-<DocumentFragment>
-  <div
-    class="th"
-    data-column-id="dg1-column0"
-    role="columnheader"
-    style="cursor: unset;"
-    title="Test"
-  >
-    <div
-      class="column-container"
-      id="dg1-columndg1-column0"
-    >
       <div
-        aria-label="Test"
-        class="column-header my-custom-class"
-      >
-        <span>
-          Test
-        </span>
-      </div>
+        class="filter"
+      />
     </div>
   </div>
 </DocumentFragment>
@@ -83,82 +63,29 @@ exports[`Header renders the structure correctly when filterable with custom filt
 <DocumentFragment>
   <div
     class="th"
-    data-column-id="dg1-column0"
+    data-column-id="0"
     role="columnheader"
     style="cursor: unset;"
-    title="Test"
+    title="Column 1"
   >
     <div
       class="column-container"
-      id="dg1-columndg1-column0"
+      id="datagrid2_1:Datagrid@18-column0"
     >
       <div
-        aria-label="Test"
-        class="column-header"
+        aria-label="Column 1"
+        class="column-header align-column-left"
       >
         <span>
-          Test
+          Column 1
         </span>
       </div>
-      <div>
-        <label>
-          Date picker filter
-        </label>
-        <input
-          type="date"
-        />
-      </div>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Header renders the structure correctly when filterable with no custom filter 1`] = `
-<DocumentFragment>
-  <div
-    class="th"
-    data-column-id="dg1-column0"
-    role="columnheader"
-    style="cursor: unset;"
-    title="Test"
-  >
-    <div
-      class="column-container"
-      id="dg1-columndg1-column0"
-    >
       <div
-        aria-label="Test"
-        class="column-header"
+        class="filter"
       >
-        <span>
-          Test
-        </span>
-      </div>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Header renders the structure correctly when is hidden and preview 1`] = `
-<DocumentFragment>
-  <div
-    class="th"
-    data-column-id="dg1-column0"
-    role="columnheader"
-    style="cursor: unset;"
-    title="Test"
-  >
-    <div
-      class="column-container"
-      id="dg1-columndg1-column0"
-    >
-      <div
-        aria-label="Test"
-        class="column-header"
-      >
-        <span>
-          Test
-        </span>
+        <div>
+          Custom filter
+        </div>
       </div>
     </div>
   </div>
@@ -169,30 +96,25 @@ exports[`Header renders the structure correctly when resizable 1`] = `
 <DocumentFragment>
   <div
     class="th"
-    data-column-id="dg1-column0"
+    data-column-id="0"
     role="columnheader"
     style="cursor: unset;"
-    title="Test"
+    title="Column 1"
   >
     <div
       class="column-container"
-      id="dg1-columndg1-column0"
+      id="datagrid2_1:Datagrid@10-column0"
     >
       <div
-        aria-label="Test"
-        class="column-header"
+        aria-label="Column 1"
+        class="column-header align-column-left"
       >
         <span>
-          Test
+          Column 1
         </span>
       </div>
-    </div>
-    <div
-      aria-hidden="true"
-      class="column-resizer"
-    >
       <div
-        class="column-resizer-bar"
+        class="filter"
       />
     </div>
   </div>
@@ -204,22 +126,22 @@ exports[`Header renders the structure correctly when sortable 1`] = `
   <div
     aria-sort="none"
     class="th"
-    data-column-id="dg1-column0"
+    data-column-id="0"
     role="columnheader"
-    title="Test"
+    title="Column 1"
   >
     <div
       class="column-container"
-      id="dg1-columndg1-column0"
+      id="datagrid2_1:Datagrid@6-column0"
     >
       <div
-        aria-label="sort Test"
-        class="column-header clickable"
+        aria-label="sort Column 1"
+        class="column-header clickable align-column-left"
         role="button"
         tabindex="0"
       >
         <span>
-          Test
+          Column 1
         </span>
         <svg
           aria-hidden="true"
@@ -237,6 +159,9 @@ exports[`Header renders the structure correctly when sortable 1`] = `
           />
         </svg>
       </div>
+      <div
+        class="filter"
+      />
     </div>
   </div>
 </DocumentFragment>
@@ -246,23 +171,26 @@ exports[`Header renders the structure correctly when value is empty 1`] = `
 <DocumentFragment>
   <div
     class="th"
-    data-column-id="dg1-column0"
+    data-column-id="0"
     role="columnheader"
     style="cursor: unset;"
     title=""
   >
     <div
       class="column-container"
-      id="dg1-columndg1-column0"
+      id="datagrid2_1:Datagrid@26-column0"
     >
       <div
         aria-label=""
-        class="column-header"
+        class="column-header align-column-left"
       >
         <span>
            
         </span>
       </div>
+      <div
+        class="filter"
+      />
     </div>
   </div>
 </DocumentFragment>

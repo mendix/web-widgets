@@ -19,6 +19,7 @@ describe("'select row' checkbox", () => {
         const [item] = objectItems(1);
         const props = eventSwitch<CheckboxContext, HTMLInputElement>(
             () => ({
+                type: "checkbox",
                 item,
                 pageSize: 10,
                 selectionType: "Single",
@@ -39,6 +40,7 @@ describe("'select row' checkbox", () => {
         const [item] = objectItems(1);
         const props = eventSwitch<CheckboxContext, HTMLInputElement>(
             () => ({
+                type: "checkbox",
                 item,
                 pageSize: 10,
                 selectionType: "Single",
@@ -61,6 +63,7 @@ describe("'select row' checkbox", () => {
         const [item] = objectItems(1);
         const props = eventSwitch<CheckboxContext, HTMLInputElement>(
             () => ({
+                type: "checkbox",
                 item,
                 pageSize: 10,
                 selectionType: "Single",
@@ -81,6 +84,7 @@ describe("'select row' checkbox", () => {
         const [item] = objectItems(1);
         const props = eventSwitch<CheckboxContext, HTMLInputElement>(
             () => ({
+                type: "checkbox",
                 item,
                 pageSize: 10,
                 selectionType: "Multi",
@@ -101,6 +105,7 @@ describe("'select row' checkbox", () => {
         const [item] = objectItems(1);
         const props = eventSwitch<CheckboxContext, HTMLInputElement>(
             () => ({
+                type: "checkbox",
                 item,
                 pageSize: 10,
                 selectionType: "Multi",
@@ -121,6 +126,7 @@ describe("'select row' checkbox", () => {
         const [item] = objectItems(1);
         const props = eventSwitch<CheckboxContext, HTMLInputElement>(
             () => ({
+                type: "checkbox",
                 item,
                 pageSize: 10,
                 selectionType: "Multi",
