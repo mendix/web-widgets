@@ -39,7 +39,7 @@ import { DatagridConfig } from "./configs/Datagrid.config";
 import { RowClassProvider } from "./models/rows.model";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
-import { PaginationConfig, PaginationController } from "./services/PaginationController";
+import { PaginationConfig, PaginationService } from "./services/Pagination.service";
 import { TextsService } from "./services/Texts.service";
 import { PageSizeStore } from "./stores/PageSize.store";
 
@@ -102,7 +102,7 @@ export const DG_TOKENS = {
     loaderVM: token<DerivedLoaderController>("DatagridLoaderViewModel"),
 
     paginationConfig: token<PaginationConfig>("PaginationConfig"),
-    paginationService: token<PaginationController>("PaginationService"),
+    paginationService: token<PaginationService>("PaginationService"),
 
     parentChannelName: token<string>("parentChannelName"),
     refreshInterval: token<number>("refreshInterval"),

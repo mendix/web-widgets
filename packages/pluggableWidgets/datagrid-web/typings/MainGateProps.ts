@@ -37,4 +37,5 @@ export type MainGateProps = Pick<
     | "showPagingButtons"
     | "storeFiltersInPersonalization"
     | "style"
+    | "dynamicPageSize"
 >;
