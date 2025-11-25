@@ -6,7 +6,7 @@ import { useSelectionCounterViewModel } from "../features/selection-counter/inje
 import { useDatagridConfig, usePaginationService, useTexts } from "../model/hooks/injection-hooks";
 import { Pagination } from "./Pagination";
 
-export const WidgetFooter = observer(function WidgetFooter(): ReactElement | null {
+export const WidgetFooter = observer(function WidgetFooter(): ReactElement {
     const config = useDatagridConfig();
     const paging = usePaginationService();
     const { loadMoreButtonCaption } = useTexts();

@@ -1,7 +1,6 @@
-import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import classNames from "classnames";
 import { observer } from "mobx-react-lite";
-import { Fragment, PropsWithChildren, ReactElement, ReactNode, RefObject, UIEventHandler, useCallback } from "react";
+import { Fragment, PropsWithChildren, ReactElement, ReactNode } from "react";
 import {
     useDatagridConfig,
     useItemCount,
@@ -9,6 +8,7 @@ import {
     usePaginationService,
     useVisibleColumnsCount
 } from "../model/hooks/injection-hooks";
+import { useBodyScroll } from "../model/hooks/useBodyScroll";
 import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
 import { SpinnerLoader } from "./loader/SpinnerLoader";
 
@@ -75,30 +75,6 @@ const ContentGuard = observer(function ContentGuard(props: PropsWithChildren): R
         </Fragment>
     );
 });
-
-function useBodyScroll(): {
-    handleScroll: UIEventHandler<HTMLDivElement> | undefined;
-    bodySize: number;
-    containerRef: RefObject<HTMLDivElement | null>;
-    isInfinite: boolean;
-} {
-    const paging = usePaginationService();
-    const setPage = useCallback((cb: (n: number) => number) => paging.setPage(cb), [paging]);
-
-    const isInfinite = paging.pagination === "virtualScrolling";
-    const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
-        hasMoreItems: paging.hasMoreItems,
-        isInfinite,
-        setPage
-    });
-
-    return {
-        handleScroll: isInfinite ? trackScrolling : undefined,
-        bodySize,
-        containerRef,
-        isInfinite
-    };
-}
 
 const Spinner = (): ReactNode => (
     <div className="widget-datagrid-loader-container">
