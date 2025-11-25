@@ -29,7 +29,7 @@ import { gridStyleAtom } from "../models/grid.model";
 import { rowClassProvider } from "../models/rows.model";
 import { DatasourceParamsController } from "../services/DatasourceParamsController";
 import { DerivedLoaderController } from "../services/DerivedLoaderController";
-import { PaginationController } from "../services/PaginationController";
+import { PaginationService } from "../services/Pagination.service";
 import { SelectionGate } from "../services/SelectionGate.service";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
@@ -37,7 +37,7 @@ import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 injected(ColumnGroupStore, CORE.setupService, CORE.mainGate, CORE.config, DG.filterHost);
 injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFilter, CORE.columnsStore);
 injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
-injected(PaginationController, CORE.setupService, DG.paginationConfig, DG.query);
+injected(PaginationService, DG.paginationConfig, DG.query);
 injected(GridBasicData, CORE.mainGate);
 injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.selectionDialogVM);
 
@@ -97,7 +97,7 @@ export class DatagridContainer extends Container {
         // Query service
         this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
         // Pagination service
-        this.bind(DG.paginationService).toInstance(PaginationController).inSingletonScope();
+        this.bind(DG.paginationService).toInstance(PaginationService).inSingletonScope();
         // Datasource params service
         this.bind(DG.paramsService).toInstance(DatasourceParamsController).inSingletonScope();
         // FilterAPI
@@ -213,7 +213,10 @@ export class DatagridContainer extends Container {
     private postInit(props: MainGateProps, config: DatagridConfig): void {
         // Make sure essential services are created upfront
         this.get(DG.paramsService);
-        this.get(DG.paginationService);
+
+        const query = this.get(DG.query);
+        query.requestTotalCount(config.requestTotalCount);
+        query.setBaseLimit(config.constPageSize);
 
         if (config.settingsStorageEnabled) {
             this.get(DG.personalizationService);
