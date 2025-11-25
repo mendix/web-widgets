@@ -305,6 +305,13 @@
                         <enumerationValue key="both">Both</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="dynamicPageSize" type="attribute" required="false">
+                    <caption>Dynamic page size attribute</caption>
+                    <description>Optional attribute to set the page size dynamically. The attribute requires Integer type.</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
                 <property key="loadMoreButtonCaption" type="textTemplate" required="false">
                     <caption>Load more caption</caption>
                     <description />

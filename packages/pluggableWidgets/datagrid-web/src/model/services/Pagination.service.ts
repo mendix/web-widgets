@@ -1,5 +1,4 @@
 import { QueryService } from "@mendix/widget-plugin-grid/main";
-import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { PaginationEnum, ShowPagingButtonsEnum } from "../../../typings/DatagridProps";
 
 export interface PaginationConfig {
@@ -11,21 +10,18 @@ export interface PaginationConfig {
 
 type PaginationKind = `${PaginationEnum}.${ShowPagingButtonsEnum}`;
 
-export class PaginationController implements SetupComponent {
+export class PaginationService {
     readonly pagination: PaginationEnum;
     readonly paginationKind: PaginationKind;
     readonly showPagingButtons: ShowPagingButtonsEnum;
 
     constructor(
-        host: SetupComponentHost,
         private config: PaginationConfig,
         private query: QueryService
     ) {
-        host.add(this);
         this.pagination = config.pagination;
         this.paginationKind = `${this.pagination}.${config.showPagingButtons}`;
         this.showPagingButtons = config.showPagingButtons;
-        this.setInitParams();
     }
 
     get isLimitBased(): boolean {
@@ -64,16 +60,6 @@ export class PaginationController implements SetupComponent {
     get totalCount(): number | undefined {
         return this.query.totalCount;
     }
-
-    private setInitParams(): void {
-        if (this.pagination === "buttons" || this.config.showNumberOfRows) {
-            this.query.requestTotalCount(true);
-        }
-
-        this.query.setBaseLimit(this.pageSize);
-    }
-
-    setup(): void {}
 
     setPage = (computePage: ((prevPage: number) => number) | number): void => {
         const newPage = typeof computePage === "function" ? computePage(this.currentPage) : computePage;
