@@ -1,6 +1,6 @@
 import { getGlobalFilterContextObject } from "@mendix/widget-plugin-filtering/context";
 import { getGlobalSelectionContext, useCreateSelectionContextValue } from "@mendix/widget-plugin-grid/selection";
-import { PropsWithChildren, ReactElement, ReactNode } from "react";
+import { PropsWithChildren, ReactElement } from "react";
 import { useDatagridFilterAPI, useMainGate, useSelectionHelper, useTexts } from "../model/hooks/injection-hooks";
 
 const Selection = getGlobalSelectionContext();
@@ -16,7 +16,7 @@ function HeaderContainer(props: PropsWithChildren): ReactElement {
     );
 }
 
-export const WidgetHeader = function WidgetHeader(): ReactNode {
+export const WidgetHeader = function WidgetHeader(): ReactElement | null {
     const { headerAriaLabel } = useTexts();
     const { filtersPlaceholder } = useMainGate().props;
 

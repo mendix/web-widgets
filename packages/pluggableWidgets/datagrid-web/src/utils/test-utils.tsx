@@ -1,15 +1,14 @@
-import { dynamic, list, listAttr, listExp } from "@mendix/widget-plugin-test-utils";
+import { dynamic, list, listAttribute, listExpression } from "@mendix/widget-plugin-test-utils";
 import { ColumnsType, DatagridContainerProps } from "../../typings/DatagridProps";
 import { ColumnStore } from "../helpers/state/column/ColumnStore";
 import { IColumnParentStore } from "../helpers/state/ColumnGroupStore";
-// import { SelectActionHelper } from "../model/services/GridSelectActionsProvider.service";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 
 export const column = (header = "Test", patch?: (col: ColumnsType) => void): ColumnsType => {
     const c: ColumnsType = {
         alignment: "left" as const,
-        attribute: listAttr(() => "Attr value"),
-        dynamicText: listExp(() => "Dynamic text"),
+        attribute: listAttribute(() => "Attr value"),
+        dynamicText: listExpression(() => "Dynamic text"),
         draggable: false,
         header: dynamic(header),
         hidable: "no" as const,

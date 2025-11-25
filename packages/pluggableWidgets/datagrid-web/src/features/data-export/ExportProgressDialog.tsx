@@ -1,9 +1,11 @@
-import { ReactNode } from "react";
+import { ReactElement } from "react";
 import { ExportAlert } from "../../components/ExportAlert";
 import { PseudoModal } from "../../components/PseudoModal";
 import { useExportProgressService, useTexts } from "../../model/hooks/injection-hooks";
 
-export const ExportProgressDialog = function ExportProgressDialog(props: { onExportCancel?: () => void }): ReactNode {
+export const ExportProgressDialog = function ExportProgressDialog(props: {
+    onExportCancel?: () => void;
+}): ReactElement | null {
     const progressSrv = useExportProgressService();
     const texts = useTexts();
 

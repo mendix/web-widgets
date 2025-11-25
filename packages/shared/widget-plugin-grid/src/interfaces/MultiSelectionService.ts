@@ -4,7 +4,6 @@ import { MoveEvent1D, MoveEvent2D, MultiSelectionStatus, SelectionMode } from ".
 export interface MultiSelectionService {
     type: "Multi";
     selectionStatus: MultiSelectionStatus;
-    togglePageSelection(): void;
     isSelected(item: ObjectItem): boolean;
     add(item: ObjectItem): void;
     remove(item: ObjectItem): void;

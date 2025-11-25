@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactElement } from "react";
 import { ExportProgressDialog } from "../features/data-export/ExportProgressDialog";
 import { EmptyPlaceholder } from "../features/empty-message/EmptyPlaceholder";
 import { SelectAllBar } from "../features/select-all/SelectAllBar";
@@ -14,7 +14,7 @@ import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
 
-export function Widget(props: { onExportCancel?: () => void }): ReactNode {
+export function Widget(props: { onExportCancel?: () => void }): ReactElement {
     return (
         <WidgetRoot>
             <WidgetTopBar />
