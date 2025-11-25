@@ -16,7 +16,7 @@ export class WidgetRootViewModel {
         private exportTask: TaskProgressService,
         private selectAllVM: { isOpen: boolean }
     ) {
-        makeAutoObservable(this);
+        makeAutoObservable(this, { ref: false });
     }
 
     get className(): string | undefined {
