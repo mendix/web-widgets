@@ -1,10 +1,10 @@
 import { Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import {
-    StructurePreviewProps,
-    RowLayoutProps,
     ContainerProps,
-    TextProps,
-    structurePreviewPalette
+    RowLayoutProps,
+    structurePreviewPalette,
+    StructurePreviewProps,
+    TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 export function getProperties(defaultValues: Properties): Properties {
