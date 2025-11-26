@@ -1,4 +1,4 @@
- Changelog
+# Changelog
 
 All notable changes to this widget will be documented in this file.
 
