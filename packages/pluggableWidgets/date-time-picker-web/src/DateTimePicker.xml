@@ -58,10 +58,9 @@
                     <caption>Show label</caption>
                     <description />
                 </property>
-                <property key="label" type="expression" required="false">
+                <property key="label" type="textTemplate" required="false">
                     <caption>Label caption</caption>
                     <description />
-                    <returnType type="String" />
                 </property>
             </propertyGroup>
             <propertyGroup caption="Editability">
@@ -103,8 +102,6 @@
                     <enumerationValues>
                         <enumerationValue key="none">None</enumerationValue>
                         <enumerationValue key="required">Required</enumerationValue>
-                        <enumerationValue key="future">Date in the future</enumerationValue>
-                        <enumerationValue key="past">Date in the past</enumerationValue>
                         <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
