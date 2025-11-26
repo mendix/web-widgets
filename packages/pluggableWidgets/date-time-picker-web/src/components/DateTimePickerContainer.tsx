@@ -35,19 +35,19 @@ export function DateTimePickerContainer(props: DateTimePickerContainerProps) {
             data-focusindex={props.tabIndex}
             style={props.style}
         >
-            <div className="widget-datetimepicker-label-wrapper">
-                <div id={portalId} />
+            {label ? (
+                <div className="widget-datetimepicker-label-wrapper">
+                    <div id={portalId} />
 
-                {label ? (
                     <label className="widget-datetimepicker-label" id={pickerProps.ariaLabelledBy}>
                         {label}
                     </label>
-                ) : (
-                    <span className="sr-only" id={pickerProps.ariaLabelledBy}>
-                        Date picker
-                    </span>
-                )}
-            </div>
+                </div>
+            ) : (
+                <span className="sr-only" id={pickerProps.ariaLabelledBy}>
+                    Date picker
+                </span>
+            )}
 
             <div className="widget-datetimepicker-wrapper">
                 <ReactDatePicker {...pickerProps} ref={controller.pickerRef} />
