@@ -15,16 +15,16 @@
         "type": "widget",
         "mpkName": "com.mendix.widget.web.SkipLink.mpk"
     },
-    "testProject": {
-        "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "skiplink-web"
-    },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "11.1.0",
         "appNumber": 119999,
         "appName": "SkipLink",
         "reactReady": true
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "skiplink-web"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:web",
