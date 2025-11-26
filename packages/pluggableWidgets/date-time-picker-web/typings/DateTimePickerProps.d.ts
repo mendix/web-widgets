@@ -12,7 +12,7 @@ export type EditableEnum = "default" | "never" | "conditionally";
 
 export type ReadOnlyStyleEnum = "default" | "control" | "text";
 
-export type ValidationTypeEnum = "none" | "required" | "future" | "past" | "custom";
+export type ValidationTypeEnum = "none" | "required" | "custom";
 
 export interface DateTimePickerContainerProps {
     name: string;
