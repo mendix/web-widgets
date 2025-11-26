@@ -15,8 +15,6 @@ export function DateTimePickerContainer(props: DateTimePickerContainerProps) {
     const label = props.showLabel && props.label?.status === "available" ? props.label.value : null;
     const portalId = `datepicker_` + Math.random();
 
-    console.info("Rendering DateTimePicker", label, pickerProps);
-
     // still have to add validation for max and min time and validation message
     console.info("unused props", {
         name: props.name,
