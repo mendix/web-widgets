@@ -1,9 +1,9 @@
 import { ActionValue } from "mendix";
 import { action, computed, makeObservable, observable } from "mobx";
 import { ClassAttributes, createRef, KeyboardEvent, KeyboardEventHandler, MouseEvent, MouseEventHandler } from "react";
-import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
+import ReactDatePicker, { DatePickerProps, DatePicker } from "react-datepicker";
 
-interface DatePickerBackendProps extends ReactDatePickerProps, ClassAttributes<ReactDatePicker> {}
+type DatePickerBackendProps = DatePickerProps & ClassAttributes<ReactDatePicker>;
 
 interface PickerState {
     startDate: Date | undefined;
@@ -25,7 +25,7 @@ export class DatePickerController {
     private _defaultState: Array<Date | undefined>;
     private _type: "date" | "time" | "datetime" | "range";
     expanded = false;
-    pickerRef = createRef<ReactDatePicker<undefined, undefined>>();
+    pickerRef = createRef<DatePicker>();
 
     constructor(params: Params) {
         this._dates = this.getDefaults(params);

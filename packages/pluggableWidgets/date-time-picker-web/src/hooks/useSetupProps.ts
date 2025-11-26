@@ -96,7 +96,7 @@ export function useSetupProps(
 
         // Popper props
         ...popperProps
-    };
+    } as DatePickerProps;
 }
 
 function formatPropsBuilder(
