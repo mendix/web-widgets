@@ -25,12 +25,33 @@ describe("BarcodeGenerator", () => {
         class: "mx-barcode-generator",
         tabIndex: -1,
         codeFormat: "QRCode" as CodeFormatEnum,
+        customCodeFormat: "CODE128" as CustomCodeFormatEnum,
+        enableEan128: false,
+        enableFlat: false,
+        lastChar: "",
+        enableMod43: false,
+        allowDownload: false,
+        downloadAriaLabel: "Download barcode",
         displayValue: false,
         codeWidth: 2,
         codeHeight: 200,
-        qrSize: 128,
         codeMargin: 4,
-        customCodeFormat: "CODE128" as CustomCodeFormatEnum,
+        qrSize: 128,
+        qrMargin: 2,
+        qrTitle: "",
+        qrLevel: "L" as any,
+        qrImage: false,
+        qrImageSrc: { status: "unavailable" } as any,
+        qrImageCenter: true,
+        qrImageX: 0,
+        qrImageY: 0,
+        qrImageHeight: 24,
+        qrImageWidth: 24,
+        qrImageOpacity: { toNumber: () => 1 } as any,
+        qrImageExcavate: true,
+        addonFormat: "None" as any,
+        addonValue: { status: "unavailable" } as any,
+        addonSpacing: 20,
         codeValue: new EditableValueBuilder<string>().withValue(barcodeDefaultValue).build()
     };
 
@@ -87,7 +108,7 @@ describe("BarcodeGenerator", () => {
     it("renders CODE128 barcode when format is not QR", () => {
         const props = {
             ...defaultProps,
-            codeFormat: "CODE128" as const,
+            codeFormat: "CODE128" as CodeFormatEnum,
             codeValue: {
                 value: "123456789",
                 status: "available"
@@ -108,7 +129,11 @@ describe("BarcodeGenerator", () => {
                 width: 2,
                 height: 200,
                 margin: 4,
-                displayValue: false
+                displayValue: false,
+                ean128: false,
+                flat: false,
+                lastChar: "",
+                mod43: false
             }
         );
     });
@@ -207,7 +232,46 @@ describe("BarcodeGenerator", () => {
             width: 2, // from defaultProps
             height: 200, // from defaultProps
             margin: 4, // from defaultProps
-            displayValue: false
+            displayValue: false,
+            ean128: false,
+            flat: false,
+            lastChar: "",
+            mod43: false
         });
+    });
+
+    it("supports EAN addon functionality", () => {
+        const mockBarcodeInstance = {
+            EAN13: jest.fn().mockReturnThis(),
+            blank: jest.fn().mockReturnThis(),
+            EAN5: jest.fn().mockReturnThis(),
+            render: jest.fn()
+        };
+
+        mockJsBarcode.mockReturnValue(mockBarcodeInstance);
+
+        const props = {
+            ...defaultProps,
+            codeFormat: "Custom" as CodeFormatEnum,
+            customCodeFormat: "EAN13" as any,
+            addonValue: {
+                value: "12345",
+                status: "available"
+            } as any,
+            addonFormat: "EAN5" as any,
+            addonSpacing: 25,
+            codeValue: {
+                value: "1234567890128",
+                status: "available"
+            } as any
+        };
+
+        render(<BarcodeGenerator {...props} />);
+
+        expect(mockJsBarcode).toHaveBeenCalled();
+        expect(mockBarcodeInstance.EAN13).toHaveBeenCalledWith("1234567890128", expect.any(Object));
+        expect(mockBarcodeInstance.blank).toHaveBeenCalledWith(25);
+        expect(mockBarcodeInstance.EAN5).toHaveBeenCalledWith("12345", expect.any(Object));
+        expect(mockBarcodeInstance.render).toHaveBeenCalled();
     });
 });
