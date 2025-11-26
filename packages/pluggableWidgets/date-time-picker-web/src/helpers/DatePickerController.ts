@@ -24,6 +24,7 @@ export class DatePickerController {
     private _timer = -1;
     private _defaultState: Array<Date | undefined>;
     private _type: "date" | "time" | "datetime" | "range";
+    private _onChange?: ActionValue<"none">;
     expanded = false;
     pickerRef = createRef<DatePicker>();
 
@@ -31,8 +32,7 @@ export class DatePickerController {
         this._dates = this.getDefaults(params);
         this._defaultState = this.getDefaults(params);
         this._type = params.type;
-
-        // implement onChange action
+        this._onChange = params.onChange;
 
         makeObservable(this, {
             pickerState: computed,
@@ -63,9 +63,13 @@ export class DatePickerController {
             const [start, end] = value as [Date | null, Date | null];
             this._dates[0] = start ?? undefined;
             this._dates[1] = end ?? undefined;
+
+            this._onChange?.canExecute && !this._onChange.isExecuting && this._onChange.execute();
             return;
         } else {
             this._dates[0] = value as Date;
+
+            this._onChange?.canExecute && !this._onChange.isExecuting && this._onChange.execute();
             return;
         }
     };
