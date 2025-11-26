@@ -4,7 +4,7 @@
     <description>A skip link for accessibility, allowing users to jump directly to the main content.</description>
     <studioProCategory>Accessibility</studioProCategory>
     <studioCategory>Accessibility</studioCategory>
-    <helpUrl></helpUrl>
+    <helpUrl />
     <properties>
         <propertyGroup caption="General">
             <property key="linkText" type="string" defaultValue="Skip to main content">
