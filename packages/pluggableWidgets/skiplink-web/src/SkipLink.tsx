@@ -26,14 +26,13 @@ export function SkipLink({ linkText, mainContentId }: SkipLinkProps): null {
         link.tabIndex = 0;
 
         // Handler to move focus to the main content
-        function handleClick(event: MouseEvent) {
+        function handleClick(event: MouseEvent): void {
             event.preventDefault();
             let main: HTMLElement;
             const mainByID = document.getElementById(mainContentId);
-            if(mainContentId !== "" && mainByID !== null){
+            if (mainContentId !== "" && mainByID !== null) {
                 main = mainByID;
-            } 
-            else {
+            } else {
                 main = document.getElementsByTagName("main")[0];
             }
 
