@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { SkipLinkPreviewProps } from "../typings/SkipLinkProps";
 
 export const preview = (props: SkipLinkPreviewProps): ReactElement => {
