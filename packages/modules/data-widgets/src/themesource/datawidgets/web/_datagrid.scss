@@ -149,6 +149,10 @@ $root: ".widget-datagrid";
                 }
             }
 
+            .drag-handle + .column-caption {
+                padding-inline-start: 4px;
+            }
+
             &:focus:not(:focus-visible) {
                 outline: none;
             }
