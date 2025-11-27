@@ -39,6 +39,7 @@ import { ColumnGroupStore } from "../helpers/state/ColumnGroupStore";
 import { GridBasicData } from "../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationStore";
 import { HeaderDragnDropStore } from "../features/column/HeaderDragnDrop.store";
+import { HeaderDragnDropViewModel } from "../features/column/HeaderDragnDrop.viewModel";
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
 import { GridColumn } from "../typings/GridColumn";
 import { DatagridConfig } from "./configs/Datagrid.config";
@@ -147,7 +148,9 @@ export const DG_TOKENS = {
     clickActionHelper: token<ClickActionHelper>("@service:ClickActionHelper"),
     focusService: token<FocusTargetController>("@service:FocusTargetController"),
     checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController"),
-    headerDragDrop: token<HeaderDragnDropStore>("HeaderDragnDropStore"),
+    headerDragDrop: token<HeaderDragnDropStore>("@store:HeaderDragnDropStore"),
+    columnsDraggable: token<boolean>("@const:columnsDraggable"),
+    columnHeaderVM: token<HeaderDragnDropViewModel>("ColumnHeaderViewModel"),
     cellEventsHandler: token<CellEventsController>("@service:CellEventsController")
 };
 

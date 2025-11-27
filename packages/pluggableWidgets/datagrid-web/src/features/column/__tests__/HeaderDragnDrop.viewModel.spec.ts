@@ -1,40 +1,42 @@
 import { DragEvent } from "react";
-import { ColumnHeaderViewModel } from "../ColumnHeader.viewModel";
+import { HeaderDragnDropViewModel } from "../HeaderDragnDrop.viewModel";
 import { HeaderDragnDropStore } from "../HeaderDragnDrop.store";
 import { ColumnId } from "../../../typings/GridColumn";
 
 describe("ColumnHeaderViewModel", () => {
     let dndStore: HeaderDragnDropStore;
     let mockColumnsStore: any;
+    let mockColumn: any;
 
     beforeEach(() => {
         dndStore = new HeaderDragnDropStore();
         mockColumnsStore = {
             swapColumns: jest.fn()
         };
+        mockColumn = {
+            canDrag: true,
+            columnId: "col1" as ColumnId
+        };
     });
 
     describe("when columnsDraggable is false", () => {
         it("returns empty draggableProps", () => {
-            const vm = new ColumnHeaderViewModel({
+            const vm = new HeaderDragnDropViewModel(
                 dndStore,
-                columnsStore: mockColumnsStore,
-                columnsDraggable: false
-            });
+                mockColumnsStore,
+                { columnsDraggable: false },
+                mockColumn
+            );
 
             expect(vm.draggableProps).toEqual({});
         });
     });
 
     describe("when columnsDraggable is true", () => {
-        let vm: ColumnHeaderViewModel;
+        let vm: HeaderDragnDropViewModel;
 
         beforeEach(() => {
-            vm = new ColumnHeaderViewModel({
-                dndStore,
-                columnsStore: mockColumnsStore,
-                columnsDraggable: true
-            });
+            vm = new HeaderDragnDropViewModel(dndStore, mockColumnsStore, { columnsDraggable: true }, mockColumn);
         });
 
         it("returns draggable props with handlers", () => {

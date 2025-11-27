@@ -1,22 +1,20 @@
 import { makeAutoObservable } from "mobx";
 import { DragEvent, DragEventHandler } from "react";
 import { HeaderDragnDropStore } from "./HeaderDragnDrop.store";
-import { ColumnId } from "../../typings/GridColumn";
+import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 
 /**
  * View model for a single column header drag & drop interactions.
  * Encapsulates previous `useDraggable` hook logic and uses MobX store for shared drag state.
  */
-export class ColumnHeaderViewModel {
-    private readonly dndStore: HeaderDragnDropStore;
-    private readonly columnsStore: ColumnGroupStore;
-    private readonly columnsDraggable: boolean;
-
-    constructor(params: { dndStore: HeaderDragnDropStore; columnsStore: ColumnGroupStore; columnsDraggable: boolean }) {
-        this.dndStore = params.dndStore;
-        this.columnsStore = params.columnsStore;
-        this.columnsDraggable = params.columnsDraggable;
+export class HeaderDragnDropViewModel {
+    constructor(
+        private dndStore: HeaderDragnDropStore,
+        private columnsStore: ColumnGroupStore,
+        private config: { columnsDraggable: boolean },
+        private column: GridColumn
+    ) {
         makeAutoObservable(this);
     }
 
@@ -28,6 +26,10 @@ export class ColumnHeaderViewModel {
         return this.dndStore.isDragging;
     }
 
+    get isDraggable(): boolean {
+        return this.config.columnsDraggable && this.column.canDrag;
+    }
+
     /** Handlers exposed to the component. */
     get draggableProps(): {
         draggable?: boolean;
@@ -37,7 +39,7 @@ export class ColumnHeaderViewModel {
         onDragEnter?: DragEventHandler;
         onDragEnd?: DragEventHandler;
     } {
-        if (!this.columnsDraggable) {
+        if (!this.isDraggable) {
             return {};
         }
         return {
@@ -50,7 +52,7 @@ export class ColumnHeaderViewModel {
         };
     }
 
-    private handleDragStart = (e: DragEvent<HTMLDivElement>): void => {
+    handleDragStart = (e: DragEvent<HTMLDivElement>): void => {
         const elt = (e.target as HTMLDivElement).closest(".th") as HTMLDivElement;
         if (!elt) {
             return;
@@ -61,7 +63,7 @@ export class ColumnHeaderViewModel {
         this.dndStore.setIsDragging([columnAtTheLeft, columnId, columnAtTheRight]);
     };
 
-    private handleDragOver = (e: DragEvent<HTMLDivElement>): void => {
+    handleDragOver = (e: DragEvent<HTMLDivElement>): void => {
         const dragging = this.dragging;
         if (!dragging) {
             return;
@@ -93,15 +95,15 @@ export class ColumnHeaderViewModel {
         }
     };
 
-    private handleDragEnter = (e: DragEvent<HTMLDivElement>): void => {
+    handleDragEnter = (e: DragEvent<HTMLDivElement>): void => {
         e.preventDefault();
     };
 
-    private handleDragEnd = (): void => {
+    handleDragEnd = (): void => {
         this.dndStore.clearDragState();
     };
 
-    private handleOnDrop = (_e: DragEvent<HTMLDivElement>): void => {
+    handleOnDrop = (_e: DragEvent<HTMLDivElement>): void => {
         const dragging = this.dragging;
         const dropTarget = this.dropTarget;
         this.handleDragEnd();
