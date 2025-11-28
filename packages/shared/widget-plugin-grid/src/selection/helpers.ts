@@ -2,9 +2,11 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import type { ActionValue, ListValue, ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { action, computed, makeObservable, observable } from "mobx";
 import { useEffect, useRef, useState } from "react";
+import { MultiSelectionService } from "../interfaces/MultiSelectionService";
+import { SingleSelectionService } from "../interfaces/SingleSelectionService";
 import { Direction, MoveEvent1D, MoveEvent2D, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size } from "./types";
 
-class SingleSelectionHelper {
+export class SingleSelectionHelper implements SingleSelectionService {
     type = "Single" as const;
     constructor(private selectionValue: SelectionSingleValue) {}
 
@@ -18,12 +20,12 @@ class SingleSelectionHelper {
     reduceTo(value: ObjectItem): void {
         this.selectionValue.setSelection(value);
     }
-    remove(_value: ObjectItem): void {
+    remove(): void {
         this.selectionValue.setSelection(undefined);
     }
 }
 
-export class MultiSelectionHelper {
+export class MultiSelectionHelper implements MultiSelectionService {
     type = "Multi" as const;
     private rangeStart: number | undefined;
     private rangeEnd: number | undefined;
@@ -339,6 +341,7 @@ export class MultiSelectionHelper {
 
 const clamp = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
+/** @deprecated use container and createSelectionHelper instead. */
 export function useSelectionHelper(
     selection: SelectionSingleValue | SelectionMultiValue | undefined,
     dataSource: ListValue,
@@ -400,7 +403,6 @@ function selectionStateHandler(
     return keepSelection === "always keep" ? () => true : () => false;
 }
 
-export type { SingleSelectionHelper };
 export type SelectionHelper = SingleSelectionHelper | MultiSelectionHelper;
 
 function objectListEqual(a: ObjectItem[], b: ObjectItem[]): boolean {

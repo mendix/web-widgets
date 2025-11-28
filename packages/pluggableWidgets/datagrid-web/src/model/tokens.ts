@@ -1,98 +1,149 @@
-import { FilterAPI, WidgetFilterAPI } from "@mendix/widget-plugin-filtering/context";
+import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
+import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import {
-    DatasourceService,
     QueryService,
+    SelectActionsService,
     SelectAllService,
-    SelectionCounterViewModel,
+    SelectionDynamicProps,
+    SelectionHelperService,
     TaskProgressService
 } from "@mendix/widget-plugin-grid/main";
-import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { injected, token } from "brandi";
-import { ListValue } from "mendix";
-import { SelectionCounterPositionEnum } from "../../typings/DatagridProps";
+import { SelectAllFeature } from "@mendix/widget-plugin-grid/select-all/select-all.feature";
+import {
+    BarStore,
+    ObservableSelectAllTexts,
+    SelectAllEvents
+} from "@mendix/widget-plugin-grid/select-all/select-all.model";
+import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
+import { ComputedAtom, DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
+import { token } from "brandi";
+import { ListValue, ObjectItem } from "mendix";
+import { CSSProperties, ReactNode } from "react";
 import { MainGateProps } from "../../typings/MainGateProps";
+import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
+import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
+import { CellEventsController } from "../features/row-interaction/CellEventsController";
+import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
-import { SelectAllGateProps } from "../features/select-all/SelectAllGateProps";
 import { SelectionProgressDialogViewModel } from "../features/select-all/SelectionProgressDialog.viewModel";
 import { ColumnGroupStore } from "../helpers/state/ColumnGroupStore";
 import { GridBasicData } from "../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationStore";
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
+import { GridColumn } from "../typings/GridColumn";
 import { DatagridConfig } from "./configs/Datagrid.config";
+import { RowClassProvider } from "./models/rows.model";
+import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
 import { PaginationConfig, PaginationController } from "./services/PaginationController";
+import { TextsService } from "./services/Texts.service";
+import { PageSizeStore } from "./stores/PageSize.store";
 
-/** Tokens to resolve dependencies from the container. Please keep in alphabetical order. */
-export const TOKENS = {
-    basicDate: token<GridBasicData>("GridBasicData"),
+/** Tokens to resolve dependencies from the container. */
+
+/** Core tokens shared across containers through root container. */
+export const CORE_TOKENS = {
+    atoms: {
+        hasMoreItems: token<ComputedAtom<boolean | undefined>>("@computed:hasMoreItems"),
+        itemCount: token<ComputedAtom<number>>("@computed:itemCount"),
+        limit: token<ComputedAtom<number>>("@computed:limit"),
+        offset: token<ComputedAtom<number>>("@computed:offset"),
+        totalCount: token<ComputedAtom<number>>("@computed:totalCount"),
+        visibleColumnsCount: token<ComputedAtom<number>>("@computed:visibleColumnsCount"),
+        isAllItemsPresent: token<ComputedAtom<boolean>>("@computed:isAllItemsPresent"),
+        pageSize: token<ComputedAtom<number>>("@computed:pageSize"),
+        columnCount: token<ComputedAtom<number>>("@computed:columnCount")
+    },
     columnsStore: token<ColumnGroupStore>("ColumnGroupStore"),
-    combinedFilter: token<CombinedFilter>("CombinedFilter"),
-    combinedFilterConfig: token<CombinedFilterConfig>("CombinedFilterKey"),
+    initPageSize: token<number>("@const:initialPageSize"),
+    pageSizeStore: token<PageSizeStore>("@store:PageSizeStore"),
+    column: token<GridColumn>("@store:GridColumn"),
+    rows: token<ComputedAtom<ObjectItem[]>>("@computed:rowsArray"),
+
     config: token<DatagridConfig>("DatagridConfig"),
-    enableSelectAll: token<boolean>("enableSelectAll"),
-    exportProgressService: token<TaskProgressService>("ExportProgressService"),
-    filterAPI: token<FilterAPI>("FilterAPI"),
-    filterHost: token<CustomFilterHost>("FilterHost"),
-    loaderConfig: token<DerivedLoaderControllerConfig>("DatagridLoaderConfig"),
-    loaderVM: token<DerivedLoaderController>("DatagridLoaderViewModel"),
-    mainGate: token<DerivedPropsGate<MainGateProps>>("MainGate"),
-    paginationConfig: token<PaginationConfig>("PaginationConfig"),
-    paginationService: token<PaginationController>("PaginationService"),
-    paramsService: token<DatasourceParamsController>("DatagridParamsService"),
-    parentChannelName: token<string>("parentChannelName"),
-    personalizationService: token<GridPersonalizationStore>("GridPersonalizationStore"),
-    query: token<QueryService>("QueryService"),
-    queryGate: token<DerivedPropsGate<{ datasource: ListValue }>>("GateForQueryService"),
-    refreshInterval: token<number>("refreshInterval"),
-    selectAllBarVM: token<SelectAllBarViewModel>("SelectAllBarViewModel"),
-    selectAllGate: token<DerivedPropsGate<SelectAllGateProps>>("GateForSelectAllService"),
-    selectAllProgressService: token<TaskProgressService>("SelectAllProgressService"),
-    selectAllService: token<SelectAllService>("SelectAllService"),
-    selectionCounterPosition: token<SelectionCounterPositionEnum>("SelectionCounterPositionEnum"),
-    selectionCounterVM: token<SelectionCounterViewModel>("SelectionCounterViewModel"),
-    selectionDialogVM: token<SelectionProgressDialogViewModel>("SelectionProgressDialogViewModel"),
-    setupService: token<SetupComponentHost>("DatagridSetupHost")
+
+    mainGate: token<DerivedPropsGate<MainGateProps>>("@gate:MainGate"),
+
+    selection: {
+        selectedCount: token<ComputedAtom<number>>("@computed:selectedCount"),
+        isAllItemsSelected: token<ComputedAtom<boolean>>("@computed:isAllItemsSelected"),
+        isCurrentPageSelected: token<ComputedAtom<boolean>>("@computed:isCurrentPageSelected"),
+        selectedCounterTextsStore: token<{
+            clearSelectionButtonLabel: string;
+            selectedCountText: string;
+        }>("@store:selectedCounterTextsStore")
+    },
+
+    setupService: token<DatagridSetupService>("DatagridSetupService"),
+
+    texts: token<TextsService>("@srv:TextsService")
 };
 
-/** Inject dependencies */
+/** Datagrid tokens. */
+export const DG_TOKENS = {
+    basicDate: token<GridBasicData>("GridBasicData"),
 
-injected(ColumnGroupStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.config, TOKENS.filterHost);
+    combinedFilter: token<CombinedFilter>("CombinedFilter"),
+    combinedFilterConfig: token<CombinedFilterConfig>("CombinedFilterKey"),
 
-injected(GridBasicData, TOKENS.mainGate);
+    emptyPlaceholderVM: token<EmptyPlaceholderViewModel>("EmptyPlaceholderViewModel"),
+    emptyPlaceholderWidgets: token<ComputedAtom<ReactNode>>("@computed:emptyPlaceholder"),
 
-injected(CombinedFilter, TOKENS.setupService, TOKENS.combinedFilterConfig);
+    exportProgressService: token<TaskProgressService>("ExportProgressService"),
 
-injected(WidgetFilterAPI, TOKENS.parentChannelName, TOKENS.filterHost);
+    filterAPI: token<FilterAPI>("FilterAPI"),
+    filterHost: token<CustomFilterHost>("FilterHost"),
 
-injected(DatasourceParamsController, TOKENS.setupService, TOKENS.query, TOKENS.combinedFilter, TOKENS.columnsStore);
+    loaderConfig: token<DerivedLoaderControllerConfig>("DatagridLoaderConfig"),
+    loaderVM: token<DerivedLoaderController>("DatagridLoaderViewModel"),
 
-injected(GridPersonalizationStore, TOKENS.setupService, TOKENS.mainGate, TOKENS.columnsStore, TOKENS.filterHost);
+    paginationConfig: token<PaginationConfig>("PaginationConfig"),
+    paginationService: token<PaginationController>("PaginationService"),
 
-injected(PaginationController, TOKENS.setupService, TOKENS.paginationConfig, TOKENS.query);
+    parentChannelName: token<string>("parentChannelName"),
+    refreshInterval: token<number>("refreshInterval"),
 
-injected(DatasourceService, TOKENS.setupService, TOKENS.queryGate, TOKENS.refreshInterval.optional);
+    paramsService: token<DatasourceParamsController>("DatagridParamsService"),
+    personalizationService: token<GridPersonalizationStore>("GridPersonalizationStore"),
 
-injected(DerivedLoaderController, TOKENS.query, TOKENS.exportProgressService, TOKENS.columnsStore, TOKENS.loaderConfig);
+    query: token<QueryService>("QueryService"),
+    queryGate: token<DerivedPropsGate<{ datasource: ListValue }>>("@gate:GateForQueryService"),
 
-injected(SelectionCounterViewModel, TOKENS.mainGate, TOKENS.selectionCounterPosition);
+    selectionCounterCfg: token<{ position: "top" | "bottom" | "off" }>("SelectionCounterConfig"),
+    selectionCounterVM: token<SelectionCounterViewModel>("SelectionCounterViewModel"),
 
-injected(SelectAllService, TOKENS.setupService, TOKENS.selectAllGate, TOKENS.query, TOKENS.selectAllProgressService);
+    selectionGate: token<DerivedPropsGate<SelectionDynamicProps>>("@gate:GateForSelectionHelper"),
+    selectionHelper: token<SelectionHelperService>("@service:SelectionHelperService"),
+    selectActions: token<SelectActionsService>("@service:SelectActionsService"),
+    selectionType: token<"Single" | "Multi" | "None">("@const:selectionType"),
 
-injected(
-    SelectAllBarViewModel,
-    TOKENS.setupService,
-    TOKENS.mainGate,
-    TOKENS.selectAllService,
-    TOKENS.selectionCounterVM,
-    TOKENS.enableSelectAll
-);
+    gridColumnsStyle: token<ComputedAtom<CSSProperties>>("@computed:GridColumnsStyle"),
 
-injected(
-    SelectionProgressDialogViewModel,
-    TOKENS.setupService,
-    TOKENS.mainGate,
-    TOKENS.selectAllProgressService,
-    TOKENS.selectAllService
-);
+    rowClass: token<RowClassProvider>("@store:RowClassProvider"),
+
+    datagridRootVM: token<WidgetRootViewModel>("WidgetRootViewModel"),
+
+    virtualLayout: token<ComputedAtom<VirtualGridLayout>>("@computed:virtualLayout"),
+    clickActionHelper: token<ClickActionHelper>("@service:ClickActionHelper"),
+    focusService: token<FocusTargetController>("@service:FocusTargetController"),
+    checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController"),
+    cellEventsHandler: token<CellEventsController>("@service:CellEventsController")
+};
+
+/** "Select all" module tokens. */
+export const SA_TOKENS = {
+    barStore: token<BarStore>("SelectAllBarStore"),
+    emitter: token<Emitter<SelectAllEvents>>("SelectAllEmitter"),
+    gate: token<DerivedPropsGate<MainGateProps>>("MainGateForSelectAllContainer"),
+    progressService: token<TaskProgressService>("SelectAllProgressService"),
+    selectAllTextsStore: token<ObservableSelectAllTexts>("SelectAllTextsStore"),
+    selectAllBarVM: token<SelectAllBarViewModel>("SelectAllBarViewModel"),
+    selectAllService: token<SelectAllService>("SelectAllService"),
+    selectionDialogVM: token<SelectionProgressDialogViewModel>("SelectionProgressDialogViewModel"),
+    enableSelectAll: token<boolean>("enableSelectAllFeatureFlag"),
+    feature: token<SelectAllFeature>("SelectAllFeature")
+};

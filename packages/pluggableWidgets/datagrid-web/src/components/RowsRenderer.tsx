@@ -1,49 +1,45 @@
 import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
-import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
-import { ObjectItem } from "mendix";
+import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
-import { CellComponent, EventsController } from "../typings/CellComponent";
-import { GridColumn } from "../typings/GridColumn";
+import {
+    useCellEventsHandler,
+    useColumnsStore,
+    useDatagridConfig,
+    useFocusService,
+    useRowClass,
+    useRows,
+    useSelectActions
+} from "../model/hooks/injection-hooks";
 import { Row } from "./Row";
 
-interface RowsRendererProps {
-    Cell: CellComponent<GridColumn>;
-    columns: GridColumn[];
-    columnsHidable: boolean;
-    eventsController: EventsController;
-    focusController: FocusTargetController;
-    interactive: boolean;
-    pageSize: number;
-    preview: boolean;
-    rowClass?: (item: ObjectItem) => string;
-    rows: ObjectItem[];
-    selectableWrapper?: (column: number, children: ReactElement) => ReactElement;
-    selectActionHelper: SelectActionHelper;
-}
+export const RowsRenderer = observer(function RowsRenderer(): ReactElement {
+    const rows = useRows().get();
+    const config = useDatagridConfig();
+    const { visibleColumns } = useColumnsStore();
+    const rowClass = useRowClass();
+    const cellEventsController = useCellEventsHandler();
+    const focusService = useFocusService();
+    const selectActions = useSelectActions();
 
-export function RowsRenderer(props: RowsRendererProps): ReactElement {
     return (
-        <KeyNavProvider focusController={props.focusController}>
-            {props.rows.map((item, rowIndex) => {
+        <KeyNavProvider focusController={focusService}>
+            {rows.map((item, rowIndex) => {
                 return (
                     <Row
-                        totalRows={props.rows.length}
-                        clickable={props.interactive}
-                        selectActionHelper={props.selectActionHelper}
-                        preview={props.preview}
-                        eventsController={props.eventsController}
-                        CellComponent={props.Cell}
-                        className={props.rowClass?.(item)}
-                        columns={props.columns}
+                        totalRows={rows.length}
+                        clickable={config.isInteractive}
+                        selectActions={selectActions}
+                        eventsController={cellEventsController}
+                        className={rowClass.class.get(item)}
+                        columns={visibleColumns}
                         index={rowIndex}
                         item={item}
                         key={`row_${item.id}`}
-                        showSelectorCell={props.columnsHidable}
-                        selectableWrapper={props.selectableWrapper}
+                        showSelectorCell={config.columnsHidable}
+                        checkboxColumnEnabled={config.checkboxColumnEnabled}
                     />
                 );
             })}
         </KeyNavProvider>
     );
-}
+});

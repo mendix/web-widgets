@@ -41,7 +41,7 @@ exports[`Dropdown Filter with single instance with single attribute renders corr
     <div
       class="widget-dropdown-filter-popover"
       hidden=""
-      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
+      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px); width: 0px;"
     >
       <div
         class="widget-dropdown-filter-menu-slot"
