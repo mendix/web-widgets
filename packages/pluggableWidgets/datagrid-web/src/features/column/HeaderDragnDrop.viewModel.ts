@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { DragEvent, DragEventHandler } from "react";
+import { DragEvent } from "react";
 import { HeaderDragnDropStore } from "./HeaderDragnDrop.store";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
@@ -7,6 +7,7 @@ import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
 /**
  * View model for a single column header drag & drop interactions.
  * Encapsulates previous `useDraggable` hook logic and uses MobX store for shared drag state.
+ * @injectable
  */
 export class HeaderDragnDropViewModel {
     constructor(
@@ -28,28 +29,6 @@ export class HeaderDragnDropViewModel {
 
     get isDraggable(): boolean {
         return this.config.columnsDraggable && this.column.canDrag;
-    }
-
-    /** Handlers exposed to the component. */
-    get draggableProps(): {
-        draggable?: boolean;
-        onDragStart?: DragEventHandler;
-        onDragOver?: DragEventHandler;
-        onDrop?: DragEventHandler;
-        onDragEnter?: DragEventHandler;
-        onDragEnd?: DragEventHandler;
-    } {
-        if (!this.isDraggable) {
-            return {};
-        }
-        return {
-            draggable: true,
-            onDragStart: this.handleDragStart,
-            onDragOver: this.handleDragOver,
-            onDrop: this.handleOnDrop,
-            onDragEnter: this.handleDragEnter,
-            onDragEnd: this.handleDragEnd
-        };
     }
 
     handleDragStart = (e: DragEvent<HTMLDivElement>): void => {

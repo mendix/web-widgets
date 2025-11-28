@@ -149,8 +149,7 @@ export const DG_TOKENS = {
     focusService: token<FocusTargetController>("@service:FocusTargetController"),
     checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController"),
     headerDragDrop: token<HeaderDragnDropStore>("@store:HeaderDragnDropStore"),
-    columnsDraggable: token<boolean>("@const:columnsDraggable"),
-    columnHeaderVM: token<HeaderDragnDropViewModel>("ColumnHeaderViewModel"),
+    headerDragnDropVM: token<HeaderDragnDropViewModel>("@viewmodel:ColumnHeaderViewModel"),
     cellEventsHandler: token<CellEventsController>("@service:CellEventsController")
 };
 

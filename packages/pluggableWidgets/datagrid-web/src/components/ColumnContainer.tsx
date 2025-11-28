@@ -14,30 +14,29 @@ export const ColumnContainer = observer(function ColumnContainer(props: ColumnCo
     const { columnsFilterable, id: gridId } = useDatagridConfig();
     const { columnFilters } = useColumnsStore();
     const { canSort, columnId, columnIndex, canResize, sortDir, header } = useColumn();
-    const { draggableProps, dropTarget, dragging } = useColumnHeaderVM();
-
+    const vm = useColumnHeaderVM();
     const caption = header.trim();
 
     return (
         <div
             aria-sort={getAriaSort(canSort, sortDir)}
             className={classNames("th", {
-                [`drop-${dropTarget?.[1]}`]: columnId === dropTarget?.[0],
-                dragging: columnId === dragging?.[1],
-                "dragging-over-self": columnId === dragging?.[1] && !dropTarget
+                [`drop-${vm.dropTarget?.[1]}`]: columnId === vm.dropTarget?.[0],
+                dragging: columnId === vm.dragging?.[1],
+                "dragging-over-self": columnId === vm.dragging?.[1] && !vm.dropTarget
             })}
             role="columnheader"
             style={!canSort ? { cursor: "unset" } : undefined}
             title={caption}
             data-column-id={columnId}
-            onDrop={draggableProps.onDrop}
-            onDragEnter={draggableProps.onDragEnter}
-            onDragOver={draggableProps.onDragOver}
+            onDrop={vm.handleOnDrop}
+            onDragEnter={vm.handleDragEnter}
+            onDragOver={vm.handleDragOver}
         >
             <div className={classNames("column-container")} id={`${gridId}-column${columnId}`}>
                 <ColumnHeader />
                 {columnsFilterable && (
-                    <div className="filter" style={{ pointerEvents: dragging ? "none" : undefined }}>
+                    <div className="filter" style={{ pointerEvents: vm.dragging ? "none" : undefined }}>
                         {columnFilters[columnIndex]?.renderFilterWidgets()}
                     </div>
                 )}
