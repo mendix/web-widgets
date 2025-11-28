@@ -1671,7 +1671,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-component-kit
       dompurify:
-        specifier: ^3.2.6
+        specifier: ^3.3.0
         version: 3.3.0
     devDependencies:
       '@mendix/automation-utils':
@@ -2142,7 +2142,7 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       dompurify:
-        specifier: ^3.2.6
+        specifier: ^3.3.0
         version: 3.3.0
       js-beautify:
         specifier: ^1.15.4
