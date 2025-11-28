@@ -133,15 +133,6 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
         this.customContentType = customContentType;
         this.lazyLoading = lazyLoading;
         this.loadingType = loadingType;
-
-        if (this.selection.selection === undefined) {
-            const objectId = this.options.getAll().find(option => {
-                return targetAttribute && _valuesIsEqual(targetAttribute?.value, this.values.get(option));
-            });
-            if (objectId) {
-                this.selection.setSelection(this.options._optionToValue(objectId));
-            }
-        }
     }
 
     setValue(objectId: string | null): void {
