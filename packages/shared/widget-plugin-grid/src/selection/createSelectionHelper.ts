@@ -9,7 +9,7 @@ import { MultiSelectionHelper, SingleSelectionHelper } from "./helpers";
 export function createSelectionHelper(
     host: SetupComponentHost,
     gate: DerivedPropsGate<SelectionDynamicProps>,
-    config: { keepSelection: boolean } = { keepSelection: false }
+    config: { keepSelection: boolean; autoSelect: boolean } = { keepSelection: false, autoSelect: false }
 ): SelectionHelperService {
     const { selection, datasource } = gate.props;
 
@@ -58,7 +58,15 @@ export function createSelectionHelper(
             );
             add(cleanup);
         }
-
+        if (helper.type === "Single" && config.autoSelect) {
+            const dispose = autorun(() => {
+                const firstItem = gate.props.datasource.items?.[0];
+                if (!firstItem) return;
+                helper.reduceTo(firstItem);
+                dispose();
+            });
+            add(dispose);
+        }
         return disposeAll;
     }
 
