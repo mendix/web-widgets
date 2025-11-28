@@ -204,11 +204,11 @@
                 <caption>On upload success</caption>
                 <description>The action to be called if image content uploaded successfully.</description>
             </property>
-            <property key="onUploadFailureFile" type="action" dataSource="associatedFiles">
+            <property key="onUploadFailureFile" type="action" dataSource="associatedFiles" defaultValue="FileUploader.ACT_DeleteUploadedFileDocument" defaultType="CallNanoflow">
                 <caption>On upload failure</caption>
                 <description>The action to be called if file content upload was not successful.</description>
             </property>
-            <property key="onUploadFailureImage" type="action" dataSource="associatedImages">
+            <property key="onUploadFailureImage" type="action" dataSource="associatedImages" defaultValue="FileUploader.ACT_DeleteUploadedImageDocument" defaultType="CallNanoflow">
                 <caption>On upload failure</caption>
                 <description>The action to be called if image content upload was not successful.</description>
             </property>
