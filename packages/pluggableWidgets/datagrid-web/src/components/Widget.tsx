@@ -4,7 +4,7 @@ import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navig
 import classNames from "classnames";
 import { ListActionValue, ObjectItem } from "mendix";
 import { observer } from "mobx-react-lite";
-import { CSSProperties, Fragment, ReactElement, ReactNode } from "react";
+import { CSSProperties, Fragment, ReactElement, ReactNode, useState } from "react";
 import {
     LoadingTypeEnum,
     PaginationEnum,
@@ -25,6 +25,8 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
+import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
+import { MockHeader } from "./MockHeader";
 
 export interface WidgetProps<C extends GridColumn, T extends ObjectItem = ObjectItem> {
     CellComponent: CellComponent<C>;
@@ -151,12 +153,28 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
         />
     ) : null;
 
-    const cssGridStyles = gridStyle(visibleColumns, {
-        selectItemColumn: selectActionHelper.showCheckboxColumn,
-        visibilitySelectorColumn: columnsHidable
-    });
-
     const selectionEnabled = selectActionHelper.selectionType !== "None";
+    const isInfinite = paginationType === "virtualScrolling";
+
+    const [trackBodyScrolling, bodyHeight, gridWidth, scrollBarSize, gridBodyRef, gridContainerRef, gridHeaderRef] =
+        useInfiniteControl({
+            setPage,
+            isInfinite,
+            hasMoreItems
+        });
+
+    const [headerSizes, setHeaderSizes] = useState<number[] | undefined>(undefined);
+
+    const gridRootStyles = {
+        ...gridStyle(visibleColumns, {
+            selectItemColumn: selectActionHelper.showCheckboxColumn,
+            visibilitySelectorColumn: columnsHidable
+        }),
+        "--mx-grid-template-columns-header": headerSizes?.map(v => `${v}px`).join(" "),
+        "--mx-grid-width": gridWidth,
+        "--mx-grid-body-height": bodyHeight,
+        "--mx-grid-scrollbar-size": scrollBarSize
+    };
 
     return (
         <Fragment>
@@ -165,7 +183,9 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
             <WidgetContent>
                 <Grid
                     aria-multiselectable={selectionEnabled ? selectActionHelper.selectionType === "Multi" : undefined}
-                    style={cssGridStyles}
+                    style={gridRootStyles}
+                    containerRef={gridContainerRef}
+                    isInfinite={isInfinite}
                 >
                     <GridHeader
                         availableColumns={props.availableColumns}
@@ -182,6 +202,7 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         id={props.id}
                         isLoading={props.columnsLoading}
                         preview={props.preview}
+                        headerRef={gridHeaderRef}
                     />
                     {showRefreshIndicator ? <RefreshIndicator /> : null}
                     <GridBody
@@ -192,10 +213,15 @@ const Main = observer(<C extends GridColumn>(props: WidgetProps<C>): ReactElemen
                         columnsSize={visibleColumns.length}
                         rowsSize={rows.length}
                         pageSize={pageSize}
-                        pagination={props.paginationType}
-                        hasMoreItems={hasMoreItems}
-                        setPage={setPage}
+                        trackScrolling={trackBodyScrolling}
+                        bodyRef={gridBodyRef}
                     >
+                        <MockHeader
+                            showCheckboxColumn={selectActionHelper.showCheckboxColumn}
+                            showColumnSelectorColumn={columnsHidable}
+                            visibleColumns={visibleColumns}
+                            updateColumnSizes={setHeaderSizes}
+                        />
                         <RowsRenderer
                             preview={props.preview ?? false}
                             interactive={basicData.gridInteractive}
@@ -258,8 +284,8 @@ function gridStyle(columns: GridColumn[], optional: OptionalColumns): CSSPropert
     }
 
     return {
-        gridTemplateColumns: sizes.join(" ")
-    };
+        "--mx-grid-template-columns": sizes.join(" ")
+    } as any;
 }
 
 type OptionalColumns = {

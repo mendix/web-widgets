@@ -32,6 +32,12 @@ window.IntersectionObserver = jest.fn(() => ({
     takeRecords: jest.fn()
 }));
 
+window.ResizeObserver = jest.fn(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn()
+}));
+
 function withCtx(
     widgetProps: WidgetProps<GridColumn, ObjectItem>,
     contextOverrides: Partial<DatagridRootScope> = {}

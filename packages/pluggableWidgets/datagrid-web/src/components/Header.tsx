@@ -70,7 +70,6 @@ export function Header(props: HeaderProps): ReactElement {
             role="columnheader"
             style={!canSort ? { cursor: "unset" } : undefined}
             title={caption}
-            ref={ref => props.column.setHeaderElementRef(ref)}
             data-column-id={props.column.columnId}
             onDrop={draggableProps.onDrop}
             onDragEnter={draggableProps.onDragEnter}

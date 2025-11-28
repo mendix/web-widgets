@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useCallback, useState } from "react";
+import { ReactElement, ReactNode, RefObject, useCallback, useState } from "react";
 import { ColumnId, GridColumn } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnResizer } from "./ColumnResizer";
@@ -21,6 +21,7 @@ type GridHeaderProps = {
     id: string;
     isLoading: boolean;
     preview?: boolean;
+    headerRef: RefObject<HTMLDivElement | null>;
 };
 
 export function GridHeader({
@@ -37,7 +38,8 @@ export function GridHeader({
     headerWrapperRenderer,
     id,
     isLoading,
-    preview
+    preview,
+    headerRef
 }: GridHeaderProps): ReactElement {
     const [dragOver, setDragOver] = useState<[ColumnId, "before" | "after"] | undefined>(undefined);
     const [isDragging, setIsDragging] = useState<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>();
@@ -56,7 +58,7 @@ export function GridHeader({
     }
 
     return (
-        <div className="widget-datagrid-grid-head" role="rowgroup">
+        <div className="widget-datagrid-grid-head" role="rowgroup" ref={headerRef}>
             <div key="headers_row" className="tr" role="row">
                 <CheckboxColumnHeader key="headers_column_select_all" />
                 {columns.map((column, index) =>
