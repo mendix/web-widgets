@@ -11,7 +11,7 @@
                 <caption>Link text</caption>
                 <description>The text displayed in the skip link.</description>
             </property>
-            <property key="mainContentId" type="string">
+            <property key="mainContentId" type="string" required="false">
                 <caption>Main content ID</caption>
                 <description>The id of the main content element to jump to, if left empty the skip link widget will search for a main tag on the page.</description>
             </property>
