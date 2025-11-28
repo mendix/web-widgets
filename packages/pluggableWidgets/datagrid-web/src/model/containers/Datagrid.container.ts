@@ -22,6 +22,7 @@ import { createCellEventsController } from "../../features/row-interaction/CellE
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
+import { HeaderDragnDropStore } from "../../features/column/HeaderDragnDrop.store";
 import { HeaderDragnDropViewModel } from "../../features/column/HeaderDragnDrop.viewModel";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../../helpers/state/GridPersonalizationStore";
@@ -86,6 +87,7 @@ injected(
 );
 
 // drag and drop
+injected(HeaderDragnDropStore);
 injected(HeaderDragnDropViewModel, DG.headerDragDrop, CORE.columnsStore, CORE.config, CORE.column);
 
 export class DatagridContainer extends Container {
@@ -99,7 +101,9 @@ export class DatagridContainer extends Container {
         // Columns store
         this.bind(CORE.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
         // Drag and Drop store
-        this.bind(DG.columnHeaderVM).toInstance(HeaderDragnDropViewModel).inSingletonScope();
+        this.bind(DG.headerDragDrop).toInstance(HeaderDragnDropStore).inSingletonScope();
+        // Drag and Drop view model
+        this.bind(DG.headerDragnDropVM).toInstance(HeaderDragnDropViewModel).inSingletonScope();
         // Query service
         this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
         // Pagination service
@@ -169,9 +173,6 @@ export class DatagridContainer extends Container {
 
         // Config
         this.bind(CORE.config).toConstant(config);
-
-        // Columns draggable setting
-        this.bind(DG.columnsDraggable).toConstant(config.columnsDraggable);
 
         // Connect select all module
         this.bind(SA_TOKENS.progressService).toConstant(selectAllModule.get(SA_TOKENS.progressService));
