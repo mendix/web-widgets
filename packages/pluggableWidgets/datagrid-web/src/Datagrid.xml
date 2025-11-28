@@ -33,7 +33,7 @@
                         <enumerationValue key="rowClick">Row click</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="selectFirstRow" type="boolean" defaultValue="false">
+                <property key="autoSelect" type="boolean" defaultValue="false">
                     <caption>Auto select first row</caption>
                     <description>Automatically select the first row</description>
                 </property>
@@ -52,15 +52,6 @@
                 <property key="keepSelection" type="boolean" defaultValue="false">
                     <caption>Keep selection</caption>
                     <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
-                </property>
-                <property key="selectionCountPosition" type="enumeration" defaultValue="bottom" required="true">
-                    <caption>Show selection count</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="top">Top</enumerationValue>
-                        <enumerationValue key="bottom">Bottom</enumerationValue>
-                        <enumerationValue key="off">Off</enumerationValue>
-                    </enumerationValues>
                 </property>
                 <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
                     <caption>Clear selection label</caption>

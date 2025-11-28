@@ -64,6 +64,7 @@ export function mockContainerProps(overrides?: Partial<DatagridContainerProps>):
         columnsResizable: true,
         columns: [column("Col1"), column("Col2")],
         itemSelectionMethod: "checkbox",
+        autoSelect: false,
         itemSelectionMode: "clear",
         enableSelectAll: false,
         keepSelection: false,

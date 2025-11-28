@@ -7,6 +7,12 @@ import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListAttributeListValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
+export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
+
+export type ItemSelectionModeEnum = "toggle" | "clear";
+
+export type LoadingTypeEnum = "spinner" | "skeleton";
+
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";
 
 export type ExportTypeEnum = "default" | "number" | "date" | "boolean";
@@ -100,6 +106,15 @@ export interface DatagridContainerProps {
     tabIndex?: number;
     datasource: ListValue;
     refreshInterval: number;
+    itemSelection?: SelectionSingleValue | SelectionMultiValue;
+    itemSelectionMethod: ItemSelectionMethodEnum;
+    autoSelect: boolean;
+    itemSelectionMode: ItemSelectionModeEnum;
+    showSelectAllToggle: boolean;
+    keepSelection: boolean;
+    clearSelectionButtonLabel?: DynamicValue<string>;
+    loadingType: LoadingTypeEnum;
+    refreshIndicator: boolean;
     columns: ColumnsType[];
     columnsFilterable: boolean;
     onClickTrigger: OnClickTriggerEnum;
@@ -108,7 +123,6 @@ export interface DatagridContainerProps {
     filtersPlaceholder?: ReactNode;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMethod: ItemSelectionMethodEnum;
-    selectFirstRow: boolean;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     enableSelectAll: boolean;
@@ -160,6 +174,15 @@ export interface DatagridPreviewProps {
     translate: (text: string) => string;
     datasource: {} | { caption: string } | { type: string } | null;
     refreshInterval: number | null;
+    itemSelection: "None" | "Single" | "Multi";
+    itemSelectionMethod: ItemSelectionMethodEnum;
+    autoSelect: boolean;
+    itemSelectionMode: ItemSelectionModeEnum;
+    showSelectAllToggle: boolean;
+    keepSelection: boolean;
+    clearSelectionButtonLabel: string;
+    loadingType: LoadingTypeEnum;
+    refreshIndicator: boolean;
     columns: ColumnsPreviewType[];
     columnsFilterable: boolean;
     onClickTrigger: OnClickTriggerEnum;
@@ -168,7 +191,6 @@ export interface DatagridPreviewProps {
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMethod: ItemSelectionMethodEnum;
-    selectFirstRow: boolean;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     enableSelectAll: boolean;

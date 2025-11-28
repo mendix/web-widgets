@@ -143,7 +143,7 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
     }
 
     if (itemSelection !== "Single") {
-        hidePropertyIn(defaultProperties, values, "selectFirstRow");
+        hidePropertyIn(defaultProperties, values, "autoSelect");
     }
 
     if (itemSelection !== "Multi" || itemSelectionMethod !== "checkbox") {
