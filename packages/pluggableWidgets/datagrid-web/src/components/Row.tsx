@@ -1,40 +1,39 @@
+import { SelectActionsService } from "@mendix/widget-plugin-grid/main";
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { ReactElement } from "react";
-import { CellComponent, EventsController } from "../typings/CellComponent";
+import { EventsController } from "../typings/CellComponent";
 import { GridColumn } from "../typings/GridColumn";
-import { SelectorCell } from "./SelectorCell";
 import { CheckboxCell } from "./CheckboxCell";
-import { SelectActionHelper } from "../helpers/SelectActionHelper";
+import { DataCell } from "./DataCell";
+import { SelectorCell } from "./SelectorCell";
 
-export interface RowProps<C extends GridColumn> {
+export interface RowProps {
     className?: string;
-    CellComponent: CellComponent<C>;
-    columns: C[];
+    columns: GridColumn[];
     item: ObjectItem;
     index: number;
     showSelectorCell?: boolean;
-    selectableWrapper?: (column: number, children: ReactElement) => ReactElement;
-    selectActionHelper: SelectActionHelper;
-    preview: boolean;
+    selectActions: SelectActionsService;
     totalRows: number;
     clickable: boolean;
     eventsController: EventsController;
+    checkboxColumnEnabled: boolean;
 }
 
-export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
-    const { CellComponent: Cell, selectActionHelper, preview, totalRows, eventsController } = props;
-    const selected = selectActionHelper.isSelected(props.item);
-    const ariaSelected = selectActionHelper.selectionType === "None" ? undefined : selected;
+export function Row(props: RowProps): ReactElement {
+    const { selectActions, totalRows, eventsController } = props;
+    const selected = selectActions.isSelected(props.item);
+    const ariaSelected = selectActions.selectionType === "None" ? undefined : selected;
     const borderTop = props.index === 0;
 
     return (
         <div
-            className={classNames("tr", { "tr-selected": selected, "tr-preview": preview }, props.className)}
+            className={classNames("tr", { "tr-selected": selected }, props.className)}
             role="row"
             aria-selected={ariaSelected}
         >
-            {selectActionHelper.showCheckboxColumn && (
+            {props.checkboxColumnEnabled && (
                 <CheckboxCell
                     item={props.item}
                     key="checkbox_cell"
@@ -44,20 +43,18 @@ export function Row<C extends GridColumn>(props: RowProps<C>): ReactElement {
                 />
             )}
             {props.columns.map((column, baseIndex) => {
-                const cell = (
-                    <Cell
+                return (
+                    <DataCell
                         key={`row_${props.item.id}_col_${column.columnId}`}
                         column={column}
                         rowIndex={props.index}
-                        columnIndex={selectActionHelper.showCheckboxColumn ? baseIndex + 1 : baseIndex}
+                        columnIndex={props.checkboxColumnEnabled ? baseIndex + 1 : baseIndex}
                         item={props.item}
                         clickable={props.clickable}
-                        preview={preview}
+                        preview={false}
                         eventsController={eventsController}
                     />
                 );
-
-                return preview ? props.selectableWrapper?.(baseIndex, cell) : cell;
             })}
             {props.showSelectorCell && (
                 <SelectorCell

@@ -1,5 +1,7 @@
+import { SelectionMode, SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { DatagridContainerProps, LoadingTypeEnum, PagingPositionEnum } from "../../../typings/DatagridProps";
+import { type SelectionMethod } from "../../features/row-interaction/base";
 
 /** Config for static values that don't change at runtime. */
 export interface DatagridConfig {
@@ -10,14 +12,29 @@ export interface DatagridConfig {
     refreshIntervalMs: number;
     selectAllCheckboxEnabled: boolean;
     selectionEnabled: boolean;
+    selectionType: SelectionType;
+    selectionMethod: SelectionMethod;
+    selectionMode: SelectionMode;
     selectorColumnEnabled: boolean;
     settingsStorageEnabled: boolean;
+    enableSelectAll: boolean;
+    keepSelection: boolean;
+    autoSelect: boolean;
+    pagingPosition: PagingPositionEnum;
+    multiselectable: true | undefined;
+    loadingType: LoadingTypeEnum;
+    columnsDraggable: boolean;
+    columnsFilterable: boolean;
+    columnsHidable: boolean;
+    columnsResizable: boolean;
+    columnsSortable: boolean;
+    isInteractive: boolean;
 }
 
 export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
     const id = `${props.name}:Datagrid@${generateUUID()}`;
 
-    return Object.freeze({
+    const config: DatagridConfig = {
         checkboxColumnEnabled: isCheckboxColumnEnabled(props),
         filtersChannelName: `${id}:events`,
         id,
@@ -25,9 +42,31 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         refreshIntervalMs: props.refreshInterval * 1000,
         selectAllCheckboxEnabled: props.showSelectAllToggle,
         selectionEnabled: isSelectionEnabled(props),
+        selectionType: selectionType(props),
+        selectionMethod: selectionMethod(props),
+        selectionMode: props.itemSelectionMode,
         selectorColumnEnabled: props.columnsHidable,
-        settingsStorageEnabled: isSettingsStorageEnabled(props)
-    });
+        settingsStorageEnabled: isSettingsStorageEnabled(props),
+        enableSelectAll: props.enableSelectAll,
+        keepSelection: props.keepSelection,
+        autoSelect: props.autoSelect,
+        pagingPosition: props.pagingPosition,
+        multiselectable: isMultiselectable(props),
+        loadingType: props.loadingType,
+        columnsHidable: props.columnsHidable,
+        columnsDraggable: props.columnsDraggable,
+        columnsFilterable: props.columnsFilterable,
+        columnsResizable: props.columnsResizable,
+        columnsSortable: props.columnsSortable,
+        isInteractive: isInteractive(props)
+    };
+
+    return Object.freeze(config);
+}
+
+function isMultiselectable(props: DatagridContainerProps): true | undefined {
+    const type = props.itemSelection?.type;
+    return type === "Multi" ? true : undefined;
 }
 
 function isSelectionEnabled(props: DatagridContainerProps): boolean {
@@ -43,4 +82,16 @@ function isSettingsStorageEnabled(props: DatagridContainerProps): boolean {
     if (props.configurationStorageType === "localStorage") return true;
     if (props.configurationStorageType === "attribute" && props.configurationAttribute) return true;
     return false;
+}
+
+function isInteractive(props: DatagridContainerProps): boolean {
+    return props.itemSelection !== undefined || props.onClick !== undefined;
+}
+
+function selectionType(props: DatagridContainerProps): SelectionType {
+    return props.itemSelection ? props.itemSelection.type : "None";
+}
+
+function selectionMethod(props: DatagridContainerProps): SelectionMethod {
+    return props.itemSelection ? props.itemSelectionMethod : "none";
 }
