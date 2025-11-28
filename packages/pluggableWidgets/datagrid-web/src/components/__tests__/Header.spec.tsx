@@ -7,10 +7,10 @@ import { createDatagridContainer } from "../../model/containers/createDatagridCo
 import { CORE_TOKENS } from "../../model/tokens";
 import { column, mockContainerProps } from "../../utils/test-utils";
 import { ColumnProvider } from "../ColumnProvider";
+import { ColumnContainer } from "../ColumnContainer";
 import { ColumnResizer } from "../ColumnResizer";
-import { Header, HeaderProps } from "../Header";
 
-describe("Header", () => {
+describe("ColumnContainer", () => {
     it("renders the structure correctly", () => {
         const props = mockContainerProps({
             columns: [column("Column 1")]
@@ -22,7 +22,7 @@ describe("Header", () => {
         const component = render(
             <ContainerProvider container={container}>
                 <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
+                    <ColumnContainer resizer={<ColumnResizer />} />
                 </ColumnProvider>
             </ContainerProvider>
         );
@@ -44,7 +44,7 @@ describe("Header", () => {
         const component = render(
             <ContainerProvider container={container}>
                 <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
+                    <ColumnContainer resizer={<ColumnResizer />} />
                 </ColumnProvider>
             </ContainerProvider>
         );
@@ -66,7 +66,7 @@ describe("Header", () => {
         const component = render(
             <ContainerProvider container={container}>
                 <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} resizer={<div>resizer</div>} />
+                    <ColumnContainer resizer={<div>resizer</div>} />
                 </ColumnProvider>
             </ContainerProvider>
         );
@@ -88,7 +88,7 @@ describe("Header", () => {
         const component = render(
             <ContainerProvider container={container}>
                 <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
+                    <ColumnContainer resizer={<ColumnResizer />} />
                 </ColumnProvider>
             </ContainerProvider>
         );
@@ -110,7 +110,7 @@ describe("Header", () => {
         const component = render(
             <ContainerProvider container={container}>
                 <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
+                    <ColumnContainer resizer={<ColumnResizer />} />
                 </ColumnProvider>
             </ContainerProvider>
         );
@@ -134,7 +134,7 @@ describe("Header", () => {
         const component = render(
             <ContainerProvider container={container}>
                 <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
+                    <ColumnContainer resizer={<ColumnResizer />} />
                 </ColumnProvider>
             </ContainerProvider>
         );
@@ -159,19 +159,10 @@ describe("Header", () => {
         const component = render(
             <ContainerProvider container={container}>
                 <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
+                    <ColumnContainer resizer={<ColumnResizer />} />
                 </ColumnProvider>
             </ContainerProvider>
         );
         expect(component.asFragment()).toMatchSnapshot();
     });
 });
-
-function mockHeaderProps(): HeaderProps {
-    return {
-        dropTarget: undefined,
-        resizer: <ColumnResizer setColumnWidth={jest.fn()} />,
-        setDropTarget: jest.fn(),
-        setIsDragging: jest.fn()
-    };
-}

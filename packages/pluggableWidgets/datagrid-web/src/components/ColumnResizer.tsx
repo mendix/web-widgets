@@ -1,24 +1,18 @@
 import { useEventCallback } from "@mendix/widget-plugin-hooks/useEventCallback";
 import { MouseEvent, ReactElement, TouchEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useColumn, useColumnsStore } from "../model/hooks/injection-hooks";
 
 export interface ColumnResizerProps {
     minWidth?: number;
-    setColumnWidth: (width: number) => void;
-    onResizeEnds?: () => void;
-    onResizeStart?: () => void;
 }
 
-export function ColumnResizer({
-    minWidth = 50,
-    setColumnWidth,
-    onResizeEnds,
-    onResizeStart
-}: ColumnResizerProps): ReactElement {
+export function ColumnResizer({ minWidth = 50 }: ColumnResizerProps): ReactElement {
+    const column = useColumn();
+    const columnsStore = useColumnsStore();
     const [isResizing, setIsResizing] = useState(false);
     const [startPosition, setStartPosition] = useState(0);
     const [currentWidth, setCurrentWidth] = useState(0);
     const resizerReference = useRef<HTMLDivElement>(null);
-    const onStart = useEventCallback(onResizeStart);
 
     const onStartDrag = useCallback(
         (e: TouchEvent<HTMLDivElement> & MouseEvent<HTMLDivElement>): void => {
@@ -26,12 +20,12 @@ export function ColumnResizer({
             setStartPosition(mouseX);
             setIsResizing(true);
             if (resizerReference.current) {
-                const column = resizerReference.current.parentElement!;
-                setCurrentWidth(column.offsetWidth);
+                const columnElement = resizerReference.current.parentElement!;
+                setCurrentWidth(columnElement.offsetWidth);
             }
-            onStart();
+            columnsStore.setIsResizing(true);
         },
-        [onStart]
+        [columnsStore]
     );
     const onEndDrag = useCallback((): void => {
         if (!isResizing) {
@@ -39,9 +33,9 @@ export function ColumnResizer({
         }
         setIsResizing(false);
         setCurrentWidth(0);
-        onResizeEnds?.();
-    }, [onResizeEnds, isResizing]);
-    const setColumnWidthStable = useEventCallback(setColumnWidth);
+        columnsStore.setIsResizing(false);
+    }, [columnsStore, isResizing]);
+    const setColumnWidthStable = useEventCallback((width: number) => column.setSize(width));
     const onMouseMove = useCallback(
         (e: TouchEvent & MouseEvent & Event): void => {
             if (!isResizing) {
