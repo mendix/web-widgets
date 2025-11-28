@@ -1,4 +1,4 @@
-import { DynamicValue, ListValue, ObjectItem } from "mendix";
+import { DynamicValue, ObjectItem } from "mendix";
 import { FileUploaderContainerProps, UploadModeEnum } from "../../typings/FileUploaderProps";
 import { action, computed, makeObservable, observable } from "mobx";
 import { Big } from "big.js";
@@ -26,7 +26,6 @@ export class FileUploaderStore {
     _uploadMode: UploadModeEnum;
     _maxFileSizeMiB = 0;
     _maxFileSize = 0;
-    _ds?: ListValue;
     _maxFilesPerUpload: DynamicValue<Big>;
 
     errorMessage?: string = undefined;
@@ -90,19 +89,15 @@ export class FileUploaderStore {
     }
 
     updateProps(props: FileUploaderContainerProps): void {
-        if (props.uploadMode === "files") {
-            this.objectCreationHelper.updateProps(props.createFileAction);
-            this._ds = props.associatedFiles;
-        } else {
-            this.objectCreationHelper.updateProps(props.createImageAction);
-            this._ds = props.associatedImages;
-        }
+        this.objectCreationHelper.updateProps(props);
 
         // Update max files properties
         this._maxFilesPerUpload = props.maxFilesPerUpload;
 
         this.translations.updateProps(props);
-        this.updateProcessor.processUpdate(this._ds);
+        this.updateProcessor.processUpdate(
+            props.uploadMode === "files" ? props.associatedFiles : props.associatedImages
+        );
     }
 
     processExistingFileItem(item: ObjectItem): void {

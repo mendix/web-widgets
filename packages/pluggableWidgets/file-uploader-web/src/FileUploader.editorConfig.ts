@@ -26,6 +26,12 @@ export function getProperties(
         ]);
     }
 
+    if (values.uploadMode === "files") {
+        hidePropertiesIn(properties, values, ["onUploadSuccessImage", "onUploadFailureImage"]);
+    } else {
+        hidePropertiesIn(properties, values, ["onUploadSuccessFile", "onUploadFailureFile"]);
+    }
+
     if (values.enableCustomButtons) {
         values.customButtons.forEach((_button, index) => {
             hideNestedPropertiesIn(
