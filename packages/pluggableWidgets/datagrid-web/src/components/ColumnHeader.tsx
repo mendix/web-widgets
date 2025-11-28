@@ -13,24 +13,20 @@ interface DragHandleProps {
 }
 
 export const ColumnHeader = observer(function ColumnHeader(): ReactElement {
-    const { draggableProps, dragging } = useColumnHeaderVM();
     const { header, canSort, alignment, toggleSort } = useColumn();
     const caption = header.trim();
     const sortProps = canSort ? getSortProps(toggleSort) : null;
+    const vm = useColumnHeaderVM();
 
     return (
         <div
             className={classNames("column-header", { clickable: canSort }, `align-column-${alignment}`)}
-            style={{ pointerEvents: dragging ? "none" : undefined }}
+            style={{ pointerEvents: vm.dragging ? "none" : undefined }}
             {...sortProps}
             aria-label={canSort ? "sort " + caption : caption}
         >
-            {draggableProps.draggable && (
-                <DragHandle
-                    draggable={draggableProps.draggable}
-                    onDragStart={draggableProps.onDragStart}
-                    onDragEnd={draggableProps.onDragEnd}
-                />
+            {vm.isDraggable && (
+                <DragHandle draggable={vm.isDraggable} onDragStart={vm.handleDragStart} onDragEnd={vm.handleDragEnd} />
             )}
             <span className="column-caption">{caption.length > 0 ? caption : "\u00a0"}</span>
             {canSort ? <SortIcon /> : null}
