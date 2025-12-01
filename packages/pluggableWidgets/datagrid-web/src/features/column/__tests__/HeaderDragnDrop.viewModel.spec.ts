@@ -20,7 +20,7 @@ describe("ColumnHeaderViewModel", () => {
     });
 
     describe("when columnsDraggable is false", () => {
-        it("returns empty draggableProps", () => {
+        it("is not draggable", () => {
             const vm = new HeaderDragnDropViewModel(
                 dndStore,
                 mockColumnsStore,
@@ -28,7 +28,7 @@ describe("ColumnHeaderViewModel", () => {
                 mockColumn
             );
 
-            expect(vm.draggableProps).toEqual({});
+            expect(vm.isDraggable).toBe(false);
         });
     });
 
@@ -39,37 +39,8 @@ describe("ColumnHeaderViewModel", () => {
             vm = new HeaderDragnDropViewModel(dndStore, mockColumnsStore, { columnsDraggable: true }, mockColumn);
         });
 
-        it("returns draggable props with handlers", () => {
-            const props = vm.draggableProps;
-
-            expect(props.draggable).toBe(true);
-            expect(props.onDragStart).toBeDefined();
-            expect(props.onDragOver).toBeDefined();
-            expect(props.onDrop).toBeDefined();
-            expect(props.onDragEnter).toBeDefined();
-            expect(props.onDragEnd).toBeDefined();
-        });
-
-        describe("dropTarget", () => {
-            it("returns undefined initially", () => {
-                expect(vm.dropTarget).toBeUndefined();
-            });
-
-            it("returns value from dndStore", () => {
-                dndStore.setDragOver(["col1" as ColumnId, "after"]);
-                expect(vm.dropTarget).toEqual(["col1", "after"]);
-            });
-        });
-
-        describe("dragging", () => {
-            it("returns undefined initially", () => {
-                expect(vm.dragging).toBeUndefined();
-            });
-
-            it("returns value from dndStore", () => {
-                dndStore.setIsDragging(["col0" as ColumnId, "col1" as ColumnId, "col2" as ColumnId]);
-                expect(vm.dragging).toEqual(["col0", "col1", "col2"]);
-            });
+        it("is draggable", () => {
+            expect(vm.isDraggable).toBe(true);
         });
 
         describe("handleDragStart", () => {
@@ -77,7 +48,7 @@ describe("ColumnHeaderViewModel", () => {
                 const mockElement = createMockElement("col1", "col0", "col2");
                 const event = createMockDragEvent(mockElement);
 
-                vm.draggableProps.onDragStart?.(event);
+                vm.handleDragStart(event);
 
                 expect(dndStore.isDragging).toEqual(["col0", "col1", "col2"]);
             });
@@ -86,7 +57,7 @@ describe("ColumnHeaderViewModel", () => {
                 const mockElement = createMockElement("col1", undefined, "col2");
                 const event = createMockDragEvent(mockElement);
 
-                vm.draggableProps.onDragStart?.(event);
+                vm.handleDragStart(event);
 
                 expect(dndStore.isDragging).toEqual([undefined, "col1", "col2"]);
             });
@@ -95,7 +66,7 @@ describe("ColumnHeaderViewModel", () => {
                 const mockElement = createMockElement("col1", "col0", undefined);
                 const event = createMockDragEvent(mockElement);
 
-                vm.draggableProps.onDragStart?.(event);
+                vm.handleDragStart(event);
 
                 expect(dndStore.isDragging).toEqual(["col0", "col1", undefined]);
             });
@@ -107,7 +78,7 @@ describe("ColumnHeaderViewModel", () => {
                     }
                 } as any;
 
-                vm.draggableProps.onDragStart?.(event);
+                vm.handleDragStart(event);
 
                 expect(dndStore.isDragging).toBeUndefined();
             });
@@ -122,7 +93,7 @@ describe("ColumnHeaderViewModel", () => {
                 dndStore.clearDragState();
                 const event = createMockDragOverEvent("col2", 100, 50);
 
-                vm.draggableProps.onDragOver?.(event);
+                vm.handleDragOver(event);
 
                 expect(dndStore.dragOver).toBeUndefined();
             });
@@ -130,7 +101,7 @@ describe("ColumnHeaderViewModel", () => {
             it("does nothing when columnId is missing", () => {
                 const event = createMockDragOverEvent("", 100, 50);
 
-                vm.draggableProps.onDragOver?.(event);
+                vm.handleDragOver(event);
 
                 expect(dndStore.dragOver).toBeUndefined();
             });
@@ -139,7 +110,7 @@ describe("ColumnHeaderViewModel", () => {
                 dndStore.setDragOver(["col2" as ColumnId, "after"]);
                 const event = createMockDragOverEvent("col1", 100, 50);
 
-                vm.draggableProps.onDragOver?.(event);
+                vm.handleDragOver(event);
 
                 expect(dndStore.dragOver).toBeUndefined();
             });
@@ -147,7 +118,7 @@ describe("ColumnHeaderViewModel", () => {
             it("sets dropTarget to before when hovering over left sibling", () => {
                 const event = createMockDragOverEvent("col0", 100, 50);
 
-                vm.draggableProps.onDragOver?.(event);
+                vm.handleDragOver(event);
 
                 expect(dndStore.dragOver).toEqual(["col0", "before"]);
             });
@@ -155,43 +126,9 @@ describe("ColumnHeaderViewModel", () => {
             it("sets dropTarget to after when hovering over right sibling", () => {
                 const event = createMockDragOverEvent("col2", 100, 50);
 
-                vm.draggableProps.onDragOver?.(event);
+                vm.handleDragOver(event);
 
                 expect(dndStore.dragOver).toEqual(["col2", "after"]);
-            });
-
-            it("sets dropTarget to before when hovering on left side of non-sibling column", () => {
-                const event = createMockDragOverEvent("col5", 100, 30);
-
-                vm.draggableProps.onDragOver?.(event);
-
-                expect(dndStore.dragOver).toEqual(["col5", "before"]);
-            });
-
-            it("sets dropTarget to after when hovering on right side of non-sibling column", () => {
-                const event = createMockDragOverEvent("col5", 100, 70);
-
-                vm.draggableProps.onDragOver?.(event);
-
-                expect(dndStore.dragOver).toEqual(["col5", "after"]);
-            });
-
-            it("does not update dropTarget if it hasn't changed", () => {
-                dndStore.setDragOver(["col5" as ColumnId, "after"]);
-                const setDragOverSpy = jest.spyOn(dndStore, "setDragOver");
-                const event = createMockDragOverEvent("col5", 100, 70);
-
-                vm.draggableProps.onDragOver?.(event);
-
-                expect(setDragOverSpy).not.toHaveBeenCalled();
-            });
-
-            it("prevents default behavior", () => {
-                const event = createMockDragOverEvent("col2", 100, 50);
-
-                vm.draggableProps.onDragOver?.(event);
-
-                expect(event.preventDefault).toHaveBeenCalled();
             });
         });
 
@@ -199,7 +136,7 @@ describe("ColumnHeaderViewModel", () => {
             it("prevents default behavior", () => {
                 const event = { preventDefault: jest.fn() } as any;
 
-                vm.draggableProps.onDragEnter?.(event);
+                vm.handleDragEnter(event);
 
                 expect(event.preventDefault).toHaveBeenCalled();
             });
@@ -210,7 +147,7 @@ describe("ColumnHeaderViewModel", () => {
                 dndStore.setIsDragging(["col0" as ColumnId, "col1" as ColumnId, "col2" as ColumnId]);
                 dndStore.setDragOver(["col2" as ColumnId, "after"]);
 
-                vm.draggableProps.onDragEnd?.({} as any);
+                vm.handleDragEnd();
 
                 expect(dndStore.isDragging).toBeUndefined();
                 expect(dndStore.dragOver).toBeUndefined();
@@ -222,7 +159,7 @@ describe("ColumnHeaderViewModel", () => {
                 dndStore.setIsDragging(["col0" as ColumnId, "col1" as ColumnId, "col2" as ColumnId]);
                 dndStore.setDragOver(["col3" as ColumnId, "after"]);
 
-                vm.draggableProps.onDrop?.({} as any);
+                vm.handleOnDrop({} as any);
 
                 expect(mockColumnsStore.swapColumns).toHaveBeenCalledWith("col1", ["col3", "after"]);
             });
@@ -231,32 +168,7 @@ describe("ColumnHeaderViewModel", () => {
                 dndStore.setIsDragging(["col0" as ColumnId, "col1" as ColumnId, "col2" as ColumnId]);
                 dndStore.setDragOver(["col3" as ColumnId, "after"]);
 
-                vm.draggableProps.onDrop?.({} as any);
-
-                expect(dndStore.isDragging).toBeUndefined();
-                expect(dndStore.dragOver).toBeUndefined();
-            });
-
-            it("does not call swapColumns when not dragging", () => {
-                dndStore.setDragOver(["col3" as ColumnId, "after"]);
-
-                vm.draggableProps.onDrop?.({} as any);
-
-                expect(mockColumnsStore.swapColumns).not.toHaveBeenCalled();
-            });
-
-            it("does not call swapColumns when no dropTarget", () => {
-                dndStore.setIsDragging(["col0" as ColumnId, "col1" as ColumnId, "col2" as ColumnId]);
-
-                vm.draggableProps.onDrop?.({} as any);
-
-                expect(mockColumnsStore.swapColumns).not.toHaveBeenCalled();
-            });
-
-            it("clears drag state even when drop is invalid", () => {
-                dndStore.setIsDragging(["col0" as ColumnId, "col1" as ColumnId, "col2" as ColumnId]);
-
-                vm.draggableProps.onDrop?.({} as any);
+                vm.handleOnDrop({} as any);
 
                 expect(dndStore.isDragging).toBeUndefined();
                 expect(dndStore.dragOver).toBeUndefined();

@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import { DragEventHandler, DragEvent, HTMLAttributes, KeyboardEvent, MouseEvent, ReactElement, ReactNode } from "react";
+import { DragEvent, DragEventHandler, HTMLAttributes, KeyboardEvent, MouseEvent, ReactElement, ReactNode } from "react";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
-import { useColumn, useColumnHeaderVM } from "../model/hooks/injection-hooks";
+import { useColumn, useHeaderDragnDropVM } from "../model/hooks/injection-hooks";
 import { observer } from "mobx-react-lite";
 
 interface DragHandleProps {
@@ -13,10 +13,11 @@ interface DragHandleProps {
 }
 
 export const ColumnHeader = observer(function ColumnHeader(): ReactElement {
-    const { header, canSort, alignment, toggleSort } = useColumn();
+    const column = useColumn();
+    const { header, canSort, alignment } = column;
     const caption = header.trim();
-    const sortProps = canSort ? getSortProps(toggleSort) : null;
-    const vm = useColumnHeaderVM();
+    const sortProps = canSort ? getSortProps(() => column.toggleSort()) : null;
+    const vm = useHeaderDragnDropVM();
 
     return (
         <div

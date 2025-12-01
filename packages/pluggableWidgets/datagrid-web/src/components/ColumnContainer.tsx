@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ReactElement } from "react";
 import { ColumnHeader } from "./ColumnHeader";
-import { useColumn, useColumnsStore, useDatagridConfig, useColumnHeaderVM } from "../model/hooks/injection-hooks";
+import { useColumn, useColumnsStore, useDatagridConfig, useHeaderDragnDropVM } from "../model/hooks/injection-hooks";
 import { ColumnResizerProps } from "./ColumnResizer";
 import { observer } from "mobx-react-lite";
 
@@ -13,8 +13,9 @@ export interface ColumnContainerProps {
 export const ColumnContainer = observer(function ColumnContainer(props: ColumnContainerProps): ReactElement {
     const { columnsFilterable, id: gridId } = useDatagridConfig();
     const { columnFilters } = useColumnsStore();
-    const { canSort, columnId, columnIndex, canResize, sortDir, header } = useColumn();
-    const vm = useColumnHeaderVM();
+    const column = useColumn();
+    const { canSort, columnId, columnIndex, canResize, sortDir, header } = column;
+    const vm = useHeaderDragnDropVM();
     const caption = header.trim();
 
     return (
