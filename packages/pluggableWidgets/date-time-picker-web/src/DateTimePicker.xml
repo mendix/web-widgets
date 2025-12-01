@@ -54,46 +54,13 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Label">
-                <property key="showLabel" type="boolean" defaultValue="true">
-                    <caption>Show label</caption>
-                    <description />
-                </property>
-                <property key="label" type="textTemplate" required="false">
-                    <caption>Label caption</caption>
-                    <description />
-                </property>
+                <systemProperty key="Label" />
             </propertyGroup>
             <propertyGroup caption="Editability">
-                <property key="editable" type="enumeration" defaultValue="default">
-                    <caption>Editable</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="default">Default</enumerationValue>
-                        <enumerationValue key="never">Never</enumerationValue>
-                        <enumerationValue key="conditionally">Conditionally</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="editabilityCondition" type="expression" required="false">
-                    <caption>Condition</caption>
-                    <description />
-                    <returnType type="Boolean" />
-                </property>
-                <property key="readOnlyStyle" type="enumeration" defaultValue="default">
-                    <caption>Read-only style</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="default">Based on data view (Control)</enumerationValue>
-                        <enumerationValue key="control">Control</enumerationValue>
-                        <enumerationValue key="text">Text</enumerationValue>
-                    </enumerationValues>
-                </property>
+                <systemProperty key="Editability" />
             </propertyGroup>
-            <propertyGroup caption="Visibility">
-                <property key="visible" type="expression" required="false">
-                    <caption>Visible</caption>
-                    <description />
-                    <returnType type="Boolean" />
-                </property>
+            <propertyGroup caption="Conditional visibility">
+                <systemProperty key="Visibility" />
             </propertyGroup>
             <propertyGroup caption="Validation">
                 <property key="validationType" type="enumeration" defaultValue="none">
