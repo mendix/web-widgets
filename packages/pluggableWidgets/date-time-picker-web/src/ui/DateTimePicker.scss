@@ -2,29 +2,10 @@
     align-items: center;
     color: var(--font-color-default);
     display: flex;
+    flex: 1;
     font-size: var(--font-size-small);
-    margin: 0 -15px 16px -15px;
-
-    &-label-wrapper {
-        flex: 0 0 25%;
-        max-width: 25%;
-        padding: 0 16px;
-    }
-
-    &-label {
-        font-size: var(--font-size-default);
-        font-weight: 600;
-        text-align: right;
-        text-overflow: ellipsis;
-        width: 100%;
-    }
-
-    &-wrapper {
-        align-items: center;
-        display: flex;
-        flex: 1;
-        padding: 0 16px;
-    }
+    margin: 0 -15px;
+    padding: 0 16px;
 
     &-input {
         background-color: var(--bg-color-secondary);
