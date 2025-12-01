@@ -2,11 +2,14 @@ import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     container,
     ContainerProps,
-    dropzone,
+    rowLayout,
     structurePreviewPalette,
-    StructurePreviewProps
+    StructurePreviewProps,
+    svgImage
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { DateTimePickerPreviewProps } from "../typings/DateTimePickerProps";
+import IconSVG from "./assets/close.svg";
+const IconSVGDark = IconSVG.replace('fill="#000000"', 'fill="#FFFFFF"');
 
 export function getProperties(values: DateTimePickerPreviewProps, defaultProperties: Properties): Properties {
     if (values.type !== "date" && values.type !== "range") {
@@ -25,14 +28,6 @@ export function getProperties(values: DateTimePickerPreviewProps, defaultPropert
         hidePropertiesIn(defaultProperties, values, ["endDateAttribute"]);
     }
 
-    if (values.showLabel === false) {
-        hidePropertiesIn(defaultProperties, values, ["label"]);
-    }
-
-    if (values.editable !== "conditionally") {
-        hidePropertiesIn(defaultProperties, values, ["editabilityCondition"]);
-    }
-
     if (values.validationType !== "custom") {
         hidePropertiesIn(defaultProperties, values, ["customValidation"]);
     }
@@ -43,7 +38,7 @@ export function getProperties(values: DateTimePickerPreviewProps, defaultPropert
 export function getPreview(values: DateTimePickerPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const structurePreviewChildren: StructurePreviewProps[] = [];
-    let dropdownPreviewChildren: StructurePreviewProps[] = [];
+    // let dropdownPreviewChildren: StructurePreviewProps[] = [];
     let readOnly = values.readOnly;
 
     if (structurePreviewChildren.length === 0) {
@@ -54,27 +49,33 @@ export function getPreview(values: DateTimePickerPreviewProps, isDarkMode: boole
         });
     }
 
-    return {
-        type: "Container",
-        children: [
-            {
-                type: "RowLayout",
-                columnSize: "grow",
-                borders: true,
-                borderWidth: 1,
-                borderRadius: 2,
-                backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.container,
-                children: [
-                    {
-                        type: "Container",
-                        grow: 1,
-                        padding: 4,
-                        children: structurePreviewChildren
-                    },
-                    container({ grow: 0, padding: 4 })()
-                ]
-            },
-            ...dropdownPreviewChildren
+    return container()(
+        rowLayout({
+            columnSize: "grow",
+            borders: true,
+            borderWidth: 1,
+            borderRadius: 2,
+            backgroundColor: readOnly ? palette.background.containerDisabled : palette.background.container
+        })(
+            container({
+                grow: 1,
+                padding: 4
+            })(...structurePreviewChildren),
+            getIconPreview(isDarkMode)
+        )
+    );
+}
+
+function getIconPreview(isDarkMode: boolean): ContainerProps {
+    return container({
+        grow: 0,
+        padding: 4
+    })(
+        ...[
+            container({ padding: 1 })(),
+            svgImage({ width: 16, height: 16 })(
+                decodeURIComponent((isDarkMode ? IconSVGDark : IconSVG).replace("data:image/svg+xml,", ""))
+            )
         ]
-    };
+    );
 }
