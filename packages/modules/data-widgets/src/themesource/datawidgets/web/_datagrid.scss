@@ -147,6 +147,9 @@ $root: ".widget-datagrid";
                     background-color: var(--brand-primary-50, $brand-light);
                     color: var(--brand-primary, $brand-primary);
                 }
+                :active {
+                    cursor: grabbing;
+                }
             }
 
             .drag-handle + .column-caption {
