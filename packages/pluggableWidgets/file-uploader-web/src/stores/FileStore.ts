@@ -21,6 +21,7 @@ export type FileStatus =
     | "uploading"
     | "done"
     | "uploadingError"
+    | "removedAfterError"
     | "removedFile"
     | "validationError";
 
@@ -64,7 +65,8 @@ export class FileStore {
     }
 
     markMissing(): void {
-        this.fileStatus = "missing";
+        this.fileStatus = this.fileStatus === "uploadingError" ? "removedAfterError" : "missing";
+
         this._mxObject = undefined;
         this._objectItem = undefined;
     }
