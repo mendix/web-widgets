@@ -1,4 +1,5 @@
-import { EditableValue, ListAttributeValue, ObjectItem, SelectionSingleValue } from "mendix";
+import { ActionValue, EditableValue, ListAttributeValue, ObjectItem, SelectionSingleValue } from "mendix";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
@@ -32,6 +33,7 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
     values: DatabaseValuesProvider;
     protected _attr: R | undefined;
     private selection?: SelectionSingleValue;
+    private onChangeEvent?: ActionValue;
 
     constructor(props: { filterInputDebounceInterval: number }) {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
@@ -133,6 +135,16 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
         this.customContentType = customContentType;
         this.lazyLoading = lazyLoading;
         this.loadingType = loadingType;
+        this.onChangeEvent = props.onChangeDatabaseEvent;
+
+        if (this.selection.selection === undefined) {
+            const objectId = this.options.getAll().find(option => {
+                return targetAttribute && _valuesIsEqual(targetAttribute?.value, this.values.get(option));
+            });
+            if (objectId) {
+                this.selection.setSelection(this.options._optionToValue(objectId));
+            }
+        }
     }
 
     setValue(objectId: string | null): void {
@@ -142,5 +154,6 @@ export class DatabaseSingleSelectionSelector<T extends string | Big, R extends E
             this.selection?.setSelection(this.options._optionToValue(objectId));
         }
         this.currentId = objectId;
+        executeAction(this.onChangeEvent);
     }
 }
