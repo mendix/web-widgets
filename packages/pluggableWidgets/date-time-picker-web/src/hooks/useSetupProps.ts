@@ -16,7 +16,7 @@ export function useSetupProps(
         dateTimeFormat,
         placeholder,
         dateAttribute,
-        editable,
+        endDateAttribute,
         ariaRequired,
         onEnter,
         onLeave
@@ -34,7 +34,7 @@ export function useSetupProps(
         timeFormat,
         dateTimeFormat,
         dateAttribute.value ?? new Date(),
-        null,
+        endDateAttribute?.value ?? null,
         locale
     );
 
@@ -59,6 +59,8 @@ export function useSetupProps(
         ]
     };
 
+    const disabled = dateAttribute.readOnly || false;
+
     return {
         // Static props
         allowSameDay: false,
@@ -76,7 +78,7 @@ export function useSetupProps(
         // Base props
         ariaLabelledBy: `${id}-label`,
         ariaRequired: ariaRequired.toString(),
-        disabled: editable === "never",
+        disabled,
         locale: calendarLocale,
         placeholderText: placeholder?.status === "available" ? placeholder.value : "",
         tabIndex: tabIndex ?? 0,
