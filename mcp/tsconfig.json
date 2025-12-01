@@ -1,0 +1,25 @@
+{
+    "include": ["./src"],
+    "compilerOptions": {
+        "lib": ["ES2022"],
+        "module": "esnext",
+        "moduleResolution": "node",
+        "target": "ES2022",
+        "outDir": "./build",
+        "rootDir": "./src",
+        "types": ["node"],
+        "strict": true,
+        "noEmitOnError": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true,
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+        "declaration": true,
+        "sourceMap": true,
+        "declarationMap": true
+    }
+}
