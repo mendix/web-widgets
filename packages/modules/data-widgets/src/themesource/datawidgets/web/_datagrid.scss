@@ -395,6 +395,11 @@ $root: ".widget-datagrid";
             display: grid !important;
             min-width: fit-content;
             margin-bottom: 0;
+            &.infinite-loading {
+                // in order to restrict the scroll to row area
+                // we need to prevent table itself to expanding beyond available position
+                min-width: 0;
+            }
         }
     }
 
@@ -530,24 +535,57 @@ $root: ".widget-datagrid";
     margin: var(--spacing-small, 8px) 0;
 }
 
-.infinite-loading.widget-datagrid-grid-body {
-    // when virtual scroll is enabled we make area that holds rows scrollable
-    // (while the area that holds column headers still stays in place)
-    overflow-y: auto;
+.infinite-loading {
+    .widget-datagrid-grid-head {
+        width: calc(var(--mx-grid-width) - var(--mx-grid-scrollbar-size));
+        overflow-x: hidden;
+    }
+    .widget-datagrid-grid-head[data-scrolled-y="true"] {
+        box-shadow: 0 5px 5px -5px gray;
+    }
+
+    .widget-datagrid-grid-body {
+        width: var(--mx-grid-width);
+        overflow-y: auto;
+        max-height: var(--mx-grid-body-height);
+    }
+
+    .widget-datagrid-grid-head[data-scrolled-x="true"]:after {
+        content: "";
+        position: absolute;
+        left: 0px;
+        width: 10px;
+        box-shadow: inset 5px 0 5px -5px gray;
+        top: 0;
+        bottom: 0;
+    }
 }
 
-.widget-datagrid-grid-head,
+.widget-datagrid-grid-head {
+    display: grid;
+
+    // this head is not part of the grid, so it has dedicated column template  --mx-grid-template-columns-head
+    // but it might not be available at the initial render, so we use template from the grid --mx-grid-template-columns
+    // using template from the grid might to misalignment from the grid itself,
+    // but in practice:
+    //   - grid has no data at that moment, so misalignment is not visible.
+    //   - as soon as the grid itself gets rendered --mx-grid-template-columns-head gets calculated
+    //     and everything looks like it should.
+    grid-template-columns: var(--mx-grid-template-columns-head, var(--mx-grid-template-columns));
+}
 .widget-datagrid-grid-body {
     // this element has to position their children (columns or headers)
     // as grid and have those aligned with the parent grid
     display: grid;
     // this property makes sure we align our own grid columns
     // to the columns defined in the global grid
-    grid-template-columns: subgrid;
+    grid-template-columns: var(--mx-grid-template-columns);
+}
 
-    // ensure that we cover all columns of original top level grid
-    // so our own columns get aligned with the parent
+.grid-mock-header {
+    grid-template-columns: subgrid;
     grid-column: 1 / -1;
+    display: grid;
 }
 
 :where(#{$root}-paging-bottom, #{$root}-padding-top) {

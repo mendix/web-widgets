@@ -42,6 +42,7 @@ import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./servic
 import { PaginationConfig, PaginationController } from "./services/PaginationController";
 import { TextsService } from "./services/Texts.service";
 import { PageSizeStore } from "./stores/PageSize.store";
+import { GridSizeStore } from "./stores/GridSize.store";
 
 /** Tokens to resolve dependencies from the container. */
 
@@ -103,6 +104,8 @@ export const DG_TOKENS = {
 
     paginationConfig: token<PaginationConfig>("PaginationConfig"),
     paginationService: token<PaginationController>("PaginationService"),
+
+    gridSizeStore: token<GridSizeStore>("@store:GridSizeStore"),
 
     parentChannelName: token<string>("parentChannelName"),
     refreshInterval: token<number>("refreshInterval"),
