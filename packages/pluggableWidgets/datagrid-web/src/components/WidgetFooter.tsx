@@ -6,11 +6,18 @@ import { useSelectionCounterViewModel } from "../features/selection-counter/inje
 import { useDatagridConfig, usePaginationService, useTexts } from "../model/hooks/injection-hooks";
 import { Pagination } from "./Pagination";
 
-export const WidgetFooter = observer(function WidgetFooter(): ReactElement {
+export const WidgetFooter = observer(function WidgetFooter(): ReactElement | null {
     const config = useDatagridConfig();
     const paging = usePaginationService();
     const { loadMoreButtonCaption } = useTexts();
     const selectionCounterVM = useSelectionCounterViewModel();
+
+    const showLoadMore = paging.hasMoreItems && paging.pagination === "loadMore";
+    const showFooter = selectionCounterVM.isBottomCounterVisible || showLoadMore || paging.pagination;
+
+    if (!showFooter) {
+        return null;
+    }
 
     return (
         <div className="widget-datagrid-footer table-footer">
