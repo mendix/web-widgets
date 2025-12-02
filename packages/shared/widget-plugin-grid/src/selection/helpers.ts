@@ -346,39 +346,17 @@ export function useSelectionHelper(
     selection: SelectionSingleValue | SelectionMultiValue | undefined,
     dataSource: ListValue,
     onSelectionChange: ActionValue | undefined,
-    keepSelection: Parameters<typeof selectionStateHandler>[0],
-    selectFirstRow?: boolean
+    keepSelection: Parameters<typeof selectionStateHandler>[0]
 ): SelectionHelper | undefined {
     const prevObjectListRef = useRef<ObjectItem[]>([]);
     const firstLoadDone = useRef(false);
-    const hasAutoSelected = useRef(false);
+
     useState(() => {
         if (selection) {
             selection.setKeepSelection(selectionStateHandler(keepSelection));
         }
     });
     firstLoadDone.current ||= dataSource?.status !== "loading";
-
-    useEffect(() => {
-        if (
-            selectFirstRow &&
-            dataSource.status === "available" &&
-            dataSource.items &&
-            dataSource.items.length > 0 &&
-            selection &&
-            selection.type === "Single" &&
-            !selection.selection &&
-            !hasAutoSelected.current
-        ) {
-            setTimeout(() => {
-                if (!selection.selection) {
-                    const firstItem = dataSource.items![0];
-                    selection.setSelection(firstItem);
-                    hasAutoSelected.current = true;
-                }
-            }, 100);
-        }
-    }, [dataSource.status, dataSource.items, selectFirstRow, selection]);
 
     useEffect(() => {
         const prevObjectList = prevObjectListRef.current;
