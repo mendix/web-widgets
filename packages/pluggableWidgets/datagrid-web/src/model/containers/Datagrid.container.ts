@@ -40,6 +40,7 @@ import { DatasourceParamsController } from "../services/DatasourceParamsControll
 import { DerivedLoaderController } from "../services/DerivedLoaderController";
 import { SelectionGate } from "../services/SelectionGate.service";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
+import { GridSizeStore } from "../stores/GridSize.store";
 
 // base
 injected(ColumnGroupStore, CORE.setupService, CORE.mainGate, CORE.config, DG.filterHost);
@@ -47,6 +48,7 @@ injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFil
 injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
 injected(GridBasicData, CORE.mainGate);
 injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.selectionDialogVM);
+injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction);
 
 /** Pagination **/
 injected(createSetPageAction, DG.query, DG.paginationConfig, DG.currentPage, DG.pageSize);
@@ -85,7 +87,7 @@ injected(GridPersonalizationStore, CORE.setupService, CORE.mainGate, CORE.column
 // selection
 injected(SelectionGate, CORE.mainGate);
 injected(createSelectionHelper, CORE.setupService, DG.selectionGate, CORE.config.optional);
-injected(gridStyleAtom, CORE.columnsStore, CORE.config);
+injected(gridStyleAtom, CORE.columnsStore, CORE.config, DG.gridSizeStore);
 injected(rowClassProvider, CORE.mainGate);
 
 // row-interaction
@@ -116,6 +118,8 @@ export class DatagridContainer extends Container {
         this.bind(CORE.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
         // Query service
         this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
+        // Grid sizing and scrolling store
+        this.bind(DG.gridSizeStore).toInstance(GridSizeStore).inSingletonScope();
         // Datasource params service
         this.bind(DG.paramsService).toInstance(DatasourceParamsController).inSingletonScope();
         // FilterAPI
@@ -260,5 +264,7 @@ export class DatagridContainer extends Container {
 
         // Hydrate filters from props
         this.get(DG.combinedFilter).hydrate(props.datasource.filter);
+
+        this.get(DG.gridSizeStore);
     }
 }

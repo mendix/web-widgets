@@ -46,6 +46,7 @@ import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
 import { TextsService } from "./services/Texts.service";
 import { PageSizeStore } from "./stores/PageSize.store";
+import { GridSizeStore } from "./stores/GridSize.store";
 
 /** Tokens to resolve dependencies from the container. */
 
@@ -115,6 +116,8 @@ export const DG_TOKENS = {
     paginationVM: token<PaginationViewModel>("@viewModel:PaginationService"),
     setPageAction: token<SetPageAction>("@action:setPage"),
     setPageSizeAction: token<SetPageAction>("@action:setPageSize"),
+
+    gridSizeStore: token<GridSizeStore>("@store:GridSizeStore"),
 
     parentChannelName: token<string>("parentChannelName"),
     refreshInterval: token<number>("refreshInterval"),

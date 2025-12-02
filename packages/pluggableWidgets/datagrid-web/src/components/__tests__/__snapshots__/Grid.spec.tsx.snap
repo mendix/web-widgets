@@ -5,7 +5,7 @@ exports[`Grid renders without crashing 1`] = `
   <div
     class="widget-datagrid-grid table"
     role="grid"
-    style="grid-template-columns: 1fr 1fr 54px;"
+    style="--mx-grid-template-columns: 1fr 1fr 54px;"
   >
     Test
   </div>
@@ -17,7 +17,7 @@ exports[`Grid renders without selector column 1`] = `
   <div
     class="widget-datagrid-grid table"
     role="grid"
-    style="grid-template-columns: 1fr 1fr;"
+    style="--mx-grid-template-columns: 1fr 1fr;"
   >
     Test
   </div>

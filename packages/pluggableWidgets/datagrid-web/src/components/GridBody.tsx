@@ -1,8 +1,8 @@
-import classNames from "classnames";
 import { observer } from "mobx-react-lite";
 import { Fragment, PropsWithChildren, ReactElement, ReactNode } from "react";
 import {
     useDatagridConfig,
+    useGridSizeStore,
     useItemCount,
     useLoaderViewModel,
     usePaginationVM,
@@ -14,14 +14,14 @@ import { SpinnerLoader } from "./loader/SpinnerLoader";
 
 export const GridBody = observer(function GridBody(props: PropsWithChildren): ReactElement {
     const { children } = props;
-    const { bodySize, containerRef, isInfinite, handleScroll } = useBodyScroll();
+    const gridSizeStore = useGridSizeStore();
+    const { handleScroll } = useBodyScroll();
 
     return (
         <div
-            className={classNames("widget-datagrid-grid-body table-content", { "infinite-loading": isInfinite })}
-            style={isInfinite && bodySize > 0 ? { maxHeight: `${bodySize}px` } : {}}
+            className={"widget-datagrid-grid-body table-content"}
             role="rowgroup"
-            ref={containerRef}
+            ref={gridSizeStore.gridBodyRef}
             onScroll={handleScroll}
         >
             <ContentGuard>{children}</ContentGuard>
