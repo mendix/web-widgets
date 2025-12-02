@@ -37,15 +37,78 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                 }
             })
         ],
-        transform: false
+        transform: false,
+        whileElementsMounted: (reference, _, updateFn) => {
+            if (reference instanceof Element) {
+                const observer = new ResizeObserver(() => updateFn());
+                observer.observe(reference);
+                return () => observer.disconnect();
+            }
+
+            updateFn();
+            return () => {};
+        }
     });
 
-    useEffect(() => {
-        if (!show || !refs.reference.current || !refs.floating.current) {
-            return;
+    const isRTL = useMemo(() => {
+        const refEl = refs.reference.current;
+
+        if (refEl instanceof Element) {
+            try {
+                const dir = getComputedStyle(refEl).direction;
+                return dir === "rtl";
+            } catch {
+                return document?.dir === "rtl";
+            }
         }
-        return autoUpdate(refs.reference.current, refs.floating.current, update);
-    }, [show, refs.reference, refs.floating, update]);
+
+        if (typeof document !== "undefined") {
+            return document.dir === "rtl";
+        }
+
+        return false;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [refs.reference.current]);
+
+    const correctedFloatingStyles = useMemo(() => {
+        const styles = floatingStyles;
+
+        if (!isRTL || !styles || styles.left == null) {
+            return styles;
+        }
+
+        const leftVal =
+            typeof styles.left === "number" ? styles.left : parseFloat(String(styles.left).replace("px", ""));
+
+        const floatingEl = refs.floating.current;
+        const floatingWidth = floatingEl instanceof HTMLElement ? floatingEl.offsetWidth : 0;
+
+        const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 0;
+        const rightVal = Math.max(0, viewportWidth - leftVal - floatingWidth);
+
+        return {
+            ...styles,
+            left: "auto",
+            right: rightVal
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isRTL, floatingStyles, refs.floating.current]);
+
+    useEffect(() => {
+        update();
+    }, [isRTL, update]);
+
+    useEffect(() => {
+        if (!show) return;
+
+        const ref = refs.reference.current;
+        const flt = refs.floating.current;
+        if (ref && flt) {
+            const cleanup = autoUpdate(ref, flt, update);
+            return () => cleanup();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [show, refs.reference.current, refs.floating.current, update]);
 
     const dismiss = useDismiss(context);
     const click = useClick(context);
@@ -63,7 +126,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             className={`column-selectors`}
             data-focusindex={0}
             role="menu"
-            style={{ ...floatingStyles, maxHeight }}
+            style={{ ...correctedFloatingStyles, maxHeight }}
             {...getFloatingProps()}
         >
             {props.columns.map((column, index) => {
