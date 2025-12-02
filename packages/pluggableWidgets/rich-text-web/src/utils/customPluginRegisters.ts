@@ -29,6 +29,7 @@ class Empty {
  * Custom format registration for quill.
  */
 Quill.debug("error");
+Quill.register({ "modules/clipboard": CustomClipboard }, true);
 Quill.register({ "themes/snow": MendixTheme }, true);
 Quill.register(CustomListItem, true);
 Quill.register(WhiteSpaceStyle, true);
@@ -48,4 +49,3 @@ Quill.register("modules/resize", QuillResize, true);
 // add empty handler for view code, this format is handled by toolbar's custom config via ViewCodeDialog
 Quill.register({ "ui/view-code": Empty });
 Quill.register({ "modules/table-better": QuillTableBetter }, true);
-Quill.register({ "modules/clipboard": CustomClipboard }, true);
