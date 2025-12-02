@@ -10,6 +10,8 @@ import { pipeline } from "stream/promises";
 import fetch from "node-fetch";
 import { createLogger, format, transports } from "winston";
 import * as crossZip from "cross-zip";
+import { GitHub } from "../../utils/src/github";
+import { getPackageFileContent } from "../../utils/src/package-info";
 
 const execAsync = promisify(exec);
 
@@ -46,9 +48,9 @@ interface TestProject {
     branchName: string;
 }
 
-interface WidgetPackage {
-    name: string;
-    version: string;
+interface WidgetPackageJson {
+    name?: string;
+    version?: string;
     scripts?: {
         [key: string]: string;
     };
@@ -109,51 +111,42 @@ class DockerError extends SnapshotUpdaterError {
     }
 }
 
-// Utility classes
-class FileSystem {
-    static async ensureDir(dirPath: string): Promise<void> {
+// Utility functions
+const FileSystem = {
+    async ensureDir(dirPath: string): Promise<void> {
         try {
             await fs.mkdir(dirPath, { recursive: true });
-        } catch (error) {
+        } catch (_error) {
             throw new SnapshotUpdaterError(`Failed to create directory: ${dirPath}`, "FS_ERROR");
         }
-    }
+    },
 
-    static async removeDir(dirPath: string): Promise<void> {
+    async removeDir(dirPath: string): Promise<void> {
         if (existsSync(dirPath)) {
             await fs.rm(dirPath, { recursive: true, force: true });
         }
-    }
+    },
 
-    static async copyFile(src: string, dest: string): Promise<void> {
+    async copyFile(src: string, dest: string): Promise<void> {
         await fs.copyFile(src, dest);
-    }
+    },
 
-    static async readJsonFile<T>(filePath: string): Promise<T> {
-        try {
-            const content = await fs.readFile(filePath, "utf8");
-            return JSON.parse(content);
-        } catch (error) {
-            throw new SnapshotUpdaterError(`Failed to read JSON file: ${filePath}`, "JSON_ERROR");
-        }
+    async createTempDir(): Promise<string> {
+        return fs.mkdtemp(path.join(process.env.TMPDIR || "/tmp", "mx-e2e-"));
     }
+};
 
-    static async createTempDir(): Promise<string> {
-        return await fs.mkdtemp(path.join(process.env.TMPDIR || "/tmp", "mx-e2e-"));
-    }
-}
-
-class DockerManager {
-    static async isRunning(): Promise<boolean> {
+const DockerManager = {
+    async isRunning(): Promise<boolean> {
         try {
             await execAsync("docker info");
             return true;
         } catch {
             return false;
         }
-    }
+    },
 
-    static async findFreePort(): Promise<number> {
+    async findFreePort(): Promise<number> {
         try {
             const { stdout } = await execAsync(
                 "node -e \"const net = require('net'); const server = net.createServer(); server.listen(0, () => { console.log(server.address().port); server.close(); });\""
@@ -163,9 +156,9 @@ class DockerManager {
             // Fallback to random port in ephemeral range
             return Math.floor(Math.random() * (65535 - 49152) + 49152);
         }
-    }
+    },
 
-    static async runContainer(options: {
+    async runContainer(options: {
         image: string;
         name?: string;
         ports?: Record<number, number>;
@@ -205,29 +198,29 @@ class DockerManager {
         try {
             const { stdout } = await execAsync(`docker ${args.join(" ")}`);
             return stdout.trim();
-        } catch (error) {
-            throw new DockerError(`Failed to run container: ${error}`);
+        } catch (_error) {
+            throw new DockerError(`Failed to run container: ${_error}`);
         }
-    }
+    },
 
-    static async isContainerRunning(name: string): Promise<boolean> {
+    async isContainerRunning(name: string): Promise<boolean> {
         try {
             const { stdout } = await execAsync(`docker ps --filter name=${name} --format "{{.Names}}"`);
             return stdout.trim() === name;
         } catch {
             return false;
         }
-    }
+    },
 
-    static async stopContainer(name: string): Promise<void> {
+    async stopContainer(name: string): Promise<void> {
         try {
             await execAsync(`docker rm -f ${name}`);
         } catch {
             // Container might not exist or already stopped
         }
-    }
+    },
 
-    static async getContainerLogs(name: string): Promise<string> {
+    async getContainerLogs(name: string): Promise<string> {
         try {
             const { stdout } = await execAsync(`docker logs ${name}`);
             return stdout;
@@ -235,20 +228,22 @@ class DockerManager {
             return "No logs available";
         }
     }
-}
+};
 
-class GitHubClient {
+class GitHubHelper extends GitHub {
     private readonly baseUrl = "https://api.github.com";
     private readonly headers: Record<string, string>;
 
     constructor(private readonly token?: string) {
+        super();
         this.headers = {
             "User-Agent": "mx-e2e-script",
-            Accept: "application/vnd.github+json"
+            Accept: "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28"
         };
 
         if (token) {
-            this.headers["Authorization"] = `Bearer ${token}`;
+            this.headers.Authorization = `Bearer ${token}`;
         }
     }
 
@@ -286,7 +281,7 @@ class GitHubClient {
 
 class AtlasUpdater {
     constructor(
-        private readonly githubClient: GitHubClient,
+        private readonly githubClient: GitHubHelper,
         private readonly tempDir: string
     ) {}
 
@@ -463,7 +458,7 @@ class SnapshotUpdater {
     }
 
     private setupCleanup(): void {
-        const cleanup = async () => {
+        const cleanup = async (): Promise<void> => {
             if (this.tempDir) {
                 await FileSystem.removeDir(this.tempDir);
             }
@@ -527,7 +522,7 @@ class SnapshotUpdater {
         logger.info(`Setting up test project for ${widgetName}...`);
 
         const widgetDir = path.join(this.rootDir, CONFIG.PATHS.PLUGGABLE_WIDGETS, widgetName);
-        const widgetPkg = await FileSystem.readJsonFile<WidgetPackage>(path.join(widgetDir, "package.json"));
+        const widgetPkg = (await getPackageFileContent(widgetDir)) as WidgetPackageJson;
 
         if (!widgetPkg.testProject) {
             throw new ValidationError("No testProject field in widget package.json");
@@ -538,7 +533,7 @@ class SnapshotUpdater {
 
         // Update Atlas components
         if (options.githubToken) {
-            const githubClient = new GitHubClient(options.githubToken);
+            const githubClient = new GitHubHelper(options.githubToken);
             const atlasUpdater = new AtlasUpdater(githubClient, this.tempDir!);
 
             const testProjectDir = path.join(this.rootDir, CONFIG.PATHS.TEST_PROJECT);
@@ -554,7 +549,8 @@ class SnapshotUpdater {
         }
 
         // Build and copy widget
-        await this.buildAndCopyWidget(widgetName, widgetPkg.version);
+        const version = widgetPkg.version || "0.0.0";
+        await this.buildAndCopyWidget(widgetName, version);
     }
 
     private async downloadTestProject(testProject: TestProject): Promise<void> {
@@ -612,7 +608,7 @@ class SnapshotUpdater {
         logger.info(`Building widget ${widgetName}...`);
 
         const widgetDir = path.join(this.rootDir, CONFIG.PATHS.PLUGGABLE_WIDGETS, widgetName);
-        const widgetPkg = await FileSystem.readJsonFile<WidgetPackage>(path.join(widgetDir, "package.json"));
+        const widgetPkg = (await getPackageFileContent(widgetDir)) as WidgetPackageJson;
 
         if (!widgetPkg || typeof widgetPkg.version !== "string") {
             throw new SnapshotUpdaterError(`Invalid package.json in widget ${widgetName}`);
@@ -759,7 +755,7 @@ class SnapshotUpdater {
                 if (runtimeContainerId) {
                     break;
                 }
-            } catch (error) {
+            } catch (_error) {
                 // Continue waiting
             }
             await new Promise(resolve => setTimeout(resolve, 100));
@@ -789,7 +785,7 @@ class SnapshotUpdater {
                     logger.info("Mendix runtime is ready");
                     return;
                 }
-            } catch (error) {
+            } catch (_error) {
                 logger.info(`Could not reach http://${ip}:${port}, trying again...`);
             }
             await new Promise(resolve => setTimeout(resolve, 3000));
@@ -801,7 +797,7 @@ class SnapshotUpdater {
             try {
                 const logContent = await fs.readFile(path.join(this.rootDir, "results/runtime.log"), "utf8");
                 logger.error(logContent);
-            } catch (error) {
+            } catch (_error) {
                 logger.error("Could not read runtime.log");
             }
             throw new DockerError("Runtime didn't start in time, exiting now...");
