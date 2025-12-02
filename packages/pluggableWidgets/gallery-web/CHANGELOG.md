@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the footer would take up unnecessary spacing when no content was rendered inside.
+
 ### Added
 
 - We added a refresh interval property, to allow defining an interval (in seconds) for refreshing the content in Gallery
