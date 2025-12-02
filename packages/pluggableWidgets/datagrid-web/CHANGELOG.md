@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- We fixed an issue where the footer would take up unnecessary spacing when no content was rendered inside.
+
+### Added
+
 - We added missing Dutch translations for Datagrid 2.
 
 ### Changed
