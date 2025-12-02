@@ -14,7 +14,7 @@
         "build:tsc": "tsc",
         "clean": "rm -f build/*.d.ts build/*.d.ts.map build/diff-engine.js* build/guardrails.js* build/helpers.js* build/prompts.js* build/property-engine.js* build/sampling.js* build/types.js*",
         "dev": "tsx watch src/index.ts",
-        "start": "node build/index.js"
+        "start": "npm run build && node build/index.js"
     },
     "dependencies": {
         "@modelcontextprotocol/sdk": "^1.17.4",

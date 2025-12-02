@@ -2,3 +2,5 @@ packages:
     - "packages/*/*"
     - "automation/*"
     - "mcp"
+catalog:
+    rollup: "3.29"
