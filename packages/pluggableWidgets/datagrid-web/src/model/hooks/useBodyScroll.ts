@@ -1,6 +1,6 @@
 import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import { RefObject, UIEventHandler, useCallback } from "react";
-import { usePaginationService } from "./injection-hooks";
+import { usePaginationVM } from "./injection-hooks";
 
 export function useBodyScroll(): {
     handleScroll: UIEventHandler<HTMLDivElement> | undefined;
@@ -8,7 +8,7 @@ export function useBodyScroll(): {
     containerRef: RefObject<HTMLDivElement | null>;
     isInfinite: boolean;
 } {
-    const paging = usePaginationService();
+    const paging = usePaginationVM();
     const setPage = useCallback((cb: (n: number) => number) => paging.setPage(cb), [paging]);
 
     const isInfinite = paging.pagination === "virtualScrolling";

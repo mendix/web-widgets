@@ -29,7 +29,6 @@ export interface DatagridConfig {
     columnsResizable: boolean;
     columnsSortable: boolean;
     isInteractive: boolean;
-    dynamicPageSizeEnabled: boolean;
     requestTotalCount: boolean;
     constPageSize: number;
 }
@@ -62,7 +61,6 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         columnsResizable: props.columnsResizable,
         columnsSortable: props.columnsSortable,
         isInteractive: isInteractive(props),
-        dynamicPageSizeEnabled: dynamicPageSizeEnabled(props),
         requestTotalCount: requestTotalCount(props),
         constPageSize: props.pageSize
     };
@@ -100,10 +98,6 @@ function selectionType(props: DatagridContainerProps): SelectionType {
 
 function selectionMethod(props: DatagridContainerProps): SelectionMethod {
     return props.itemSelection ? props.itemSelectionMethod : "none";
-}
-
-function dynamicPageSizeEnabled(props: DatagridContainerProps): boolean {
-    return props.dynamicPageSize !== undefined;
 }
 
 function requestTotalCount(props: DatagridContainerProps): boolean {

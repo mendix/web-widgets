@@ -12,6 +12,8 @@ export type MainGateProps = Pick<
     | "configurationAttribute"
     | "configurationStorageType"
     | "datasource"
+    | "dynamicPage"
+    | "dynamicPageSize"
     | "emptyPlaceholder"
     | "enableSelectAll"
     | "exportDialogLabel"
@@ -37,5 +39,7 @@ export type MainGateProps = Pick<
     | "showPagingButtons"
     | "storeFiltersInPersonalization"
     | "style"
-    | "dynamicPageSize"
+    | "totalCountValue"
+    | "useCustomPagination"
+    | "customPagination"
 >;
