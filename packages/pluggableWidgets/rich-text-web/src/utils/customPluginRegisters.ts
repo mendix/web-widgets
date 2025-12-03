@@ -17,7 +17,6 @@ import QuillResize from "quill-resize-module";
 import QuillTableBetter from "./formats/quill-table-better/quill-table-better";
 import MxUploader from "./modules/uploader";
 import MxBlock from "./formats/block";
-import CustomClipboard from "./modules/clipboard";
 import { WhiteSpaceStyle } from "./formats/whiteSpace";
 
 class Empty {
@@ -29,7 +28,6 @@ class Empty {
  * Custom format registration for quill.
  */
 Quill.debug("error");
-Quill.register({ "modules/clipboard": CustomClipboard }, true);
 Quill.register({ "themes/snow": MendixTheme }, true);
 Quill.register(CustomListItem, true);
 Quill.register(WhiteSpaceStyle, true);
