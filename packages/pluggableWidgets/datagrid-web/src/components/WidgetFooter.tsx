@@ -3,12 +3,12 @@ import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
-import { useDatagridConfig, usePaginationService, useTexts } from "../model/hooks/injection-hooks";
+import { useDatagridConfig, usePaginationVM, useTexts } from "../model/hooks/injection-hooks";
 import { Pagination } from "./Pagination";
 
 export const WidgetFooter = observer(function WidgetFooter(): ReactElement {
     const config = useDatagridConfig();
-    const paging = usePaginationService();
+    const paging = usePaginationVM();
     const { loadMoreButtonCaption } = useTexts();
     const selectionCounterVM = useSelectionCounterViewModel();
 
