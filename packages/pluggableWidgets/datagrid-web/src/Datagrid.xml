@@ -284,6 +284,14 @@
                         <enumerationValue key="loadMore">Load more</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="useCustomPagination" type="boolean" defaultValue="false">
+                    <caption>Custom pagination</caption>
+                    <description />
+                </property>
+                <property key="customPagination" type="widgets" required="false">
+                    <caption>Custom pagination</caption>
+                    <description />
+                </property>
                 <property key="showPagingButtons" type="enumeration" defaultValue="always">
                     <caption>Show paging buttons</caption>
                     <description />
@@ -305,13 +313,6 @@
                         <enumerationValue key="both">Both</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="dynamicPageSize" type="attribute" required="false">
-                    <caption>Dynamic page size attribute</caption>
-                    <description>Optional attribute to set the page size dynamically. The attribute requires Integer type.</description>
-                    <attributeTypes>
-                        <attributeType name="Integer" />
-                    </attributeTypes>
-                </property>
                 <property key="loadMoreButtonCaption" type="textTemplate" required="false">
                     <caption>Load more caption</caption>
                     <description />
@@ -319,6 +320,27 @@
                         <translation lang="en_US">Load More</translation>
                         <translation lang="nl_NL">Laad meer</translation>
                     </translations>
+                </property>
+                <property key="dynamicPageSize" type="attribute" required="false">
+                    <caption>Page size attribute</caption>
+                    <description>Attribute to set the page size dynamically.</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
+                <property key="dynamicPage" type="attribute" required="false">
+                    <caption>Page attribute</caption>
+                    <description>Attribute to set the page dynamically.</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
+                <property key="totalCountValue" type="attribute" required="false">
+                    <caption>Total count</caption>
+                    <description>Attribute to store current total count</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Appearance">

@@ -1,10 +1,10 @@
 import { Pagination as PaginationComponent } from "@mendix/widget-plugin-grid/components/Pagination";
 import { observer } from "mobx-react-lite";
 import { ReactNode } from "react";
-import { usePaginationService } from "../model/hooks/injection-hooks";
+import { usePaginationVM } from "../model/hooks/injection-hooks";
 
 export const Pagination = observer(function Pagination(): ReactNode {
-    const paging = usePaginationService();
+    const paging = usePaginationVM();
 
     if (!paging.paginationVisible) return null;
 
