@@ -6,12 +6,24 @@
 
 import { EmbedBlot, type ScrollBlot } from "parchment";
 import Quill, { Delta } from "quill";
-import Clipboard, { matchNewline } from "quill/modules/clipboard";
+import Clipboard from "quill/modules/clipboard";
 
-function isLine(node: Node, scroll: ScrollBlot): boolean {
+export default class CustomClipboard extends Clipboard {
+    constructor(quill: Quill, options: any) {
+        super(quill, options);
+        // remove default list matchers for ol and ul
+        this.matchers = this.matchers.filter(matcher => matcher[0] !== "ol, ul" && matcher[1].name !== "matchText");
+
+        this.matchers.unshift([Node.TEXT_NODE, customMatchText]);
+        // add custom list matchers for ol and ul to allow custom list types (lower-alpha, lower-roman, etc.)
+        this.addMatcher("ol, ul", matchList);
+    }
+}
+
+function isLine(node: Node, scroll: ScrollBlot): any {
     if (!(node instanceof Element)) return false;
     const match = scroll.query(node);
-    // @ts-expect-error prototype does not exist on Blot
+    // @ts-expect-error prototype not exist on match
     if (match && match.prototype instanceof EmbedBlot) return false;
 
     return [
@@ -62,10 +74,10 @@ function isBetweenInlineElements(node: HTMLElement, scroll: ScrollBlot): boolean
 }
 
 const preNodes = new WeakMap();
-function isPre(node: Node | null): any {
+function isPre(node: Node | null): boolean {
     if (node == null) return false;
     if (!preNodes.has(node)) {
-        // @ts-expect-error tagName does not exist on Node
+        // @ts-expect-error tagName not exist on Node
         if (node.tagName === "PRE") {
             preNodes.set(node, true);
         } else {
@@ -75,10 +87,8 @@ function isPre(node: Node | null): any {
     return preNodes.get(node);
 }
 
-// overrides matchText from Quill's Clipboard module
-// removing text replacements that interfere with adding \t (tab)
-function matchText(node: HTMLElement, delta: Delta, scroll: ScrollBlot): Delta {
-    // @ts-expect-error data does not exist on HTMLElement
+function customMatchText(node: HTMLElement, delta: Delta, scroll: ScrollBlot): Delta {
+    // @ts-expect-error data not exist on node
     let text = node.data as string;
     // Word represents empty line with <o:p>&nbsp;</o:p>
     if (node.parentElement?.tagName === "O:P") {
@@ -88,6 +98,7 @@ function matchText(node: HTMLElement, delta: Delta, scroll: ScrollBlot): Delta {
         if (text.trim().length === 0 && text.includes("\n") && !isBetweenInlineElements(node, scroll)) {
             return delta;
         }
+        // collapse consecutive spaces into one
         text = text.replace(/ {2,}/g, " ");
         if (
             (node.nextSibling == null && node.parentElement != null && isLine(node.parentElement, scroll)) ||
@@ -100,7 +111,7 @@ function matchText(node: HTMLElement, delta: Delta, scroll: ScrollBlot): Delta {
     return delta.insert(text);
 }
 
-function matchList(node: HTMLElement, delta: Delta, _scroll: ScrollBlot): Delta {
+function matchList(node: HTMLElement, delta: Delta): Delta {
     const format = "list";
     let list = "ordered";
     const element = node as HTMLUListElement;
@@ -131,20 +142,6 @@ function matchList(node: HTMLElement, delta: Delta, _scroll: ScrollBlot): Delta 
             return newDelta.push(op);
         }
         const formats = list ? { [format]: list } : {};
-
         return newDelta.insert(op.insert, { ...formats, ...op.attributes });
     }, new Delta());
-}
-
-export default class CustomClipboard extends Clipboard {
-    constructor(quill: Quill, options: any) {
-        super(quill, options);
-
-        // remove default list matchers for ol and ul
-        this.matchers = this.matchers.filter(matcher => matcher[0] !== "ol, ul" && matcher[0] !== Node.TEXT_NODE);
-        this.addMatcher(Node.TEXT_NODE, matchNewline);
-        this.addMatcher(Node.TEXT_NODE, matchText);
-        // add custom list matchers for ol and ul to allow custom list types (lower-alpha, lower-roman, etc.)
-        this.addMatcher("ol, ul", matchList);
-    }
 }
