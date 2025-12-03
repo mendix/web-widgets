@@ -5,7 +5,7 @@ import {
     useDatagridConfig,
     useItemCount,
     useLoaderViewModel,
-    usePaginationService,
+    usePaginationVM,
     useVisibleColumnsCount
 } from "../model/hooks/injection-hooks";
 import { useBodyScroll } from "../model/hooks/useBodyScroll";
@@ -31,7 +31,7 @@ export const GridBody = observer(function GridBody(props: PropsWithChildren): Re
 
 const ContentGuard = observer(function ContentGuard(props: PropsWithChildren): ReactNode {
     const loaderVM = useLoaderViewModel();
-    const { pageSize } = usePaginationService();
+    const { pageSize } = usePaginationVM();
     const config = useDatagridConfig();
     const columnsCount = useVisibleColumnsCount().get();
     const itemCount = useItemCount().get();
