@@ -120,7 +120,6 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     }, [quillRef.current, onChange?.isExecuting]);
 
     const onTextChange = useCallback(() => {
-        console.log("onTextChange called", quillRef?.current?.getContents());
         if (stringAttribute.value !== quillRef?.current?.getSemanticHTML()) {
             setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
         }
