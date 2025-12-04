@@ -11,8 +11,6 @@ export function gridStyleAtom(
     config: DatagridConfig,
     gridSizeStore: GridSizeStore
 ): ComputedAtom<CSSProperties> {
-    // todo: include custom variables from gridSizeStore;
-
     return computed(
         () =>
             ({
