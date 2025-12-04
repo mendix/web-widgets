@@ -52,7 +52,7 @@ export class GridSizeStore {
         return this.hasMoreItemsAtom.get() ?? false;
     }
 
-    get isInfinite(): boolean {
+    get hasVirtualScrolling(): boolean {
         return this.paginationConfig.pagination === "virtualScrolling";
     }
 

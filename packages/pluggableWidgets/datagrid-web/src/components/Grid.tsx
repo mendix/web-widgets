@@ -7,12 +7,13 @@ export const Grid = observer(function Grid(props: PropsWithChildren): ReactEleme
     const config = useDatagridConfig();
     const gridSizeStore = useGridSizeStore();
 
-    // TODO: add check custom css styling is applie
     const style = useGridStyle().get();
     return (
         <div
             aria-multiselectable={config.multiselectable}
-            className={classNames("widget-datagrid-grid table", { "infinite-loading": gridSizeStore.isInfinite })}
+            className={classNames("widget-datagrid-grid table", {
+                "infinite-loading": gridSizeStore.hasVirtualScrolling
+            })}
             role="grid"
             style={style}
             ref={gridSizeStore.gridContainerRef}

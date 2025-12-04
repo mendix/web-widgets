@@ -43,13 +43,13 @@ export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | 
     );
 
     const gridBody = gridSizeStore.gridBodyRef.current;
-    const { isInfinite, gridBodyHeight, hasMoreItems } = gridSizeStore;
+    const { hasVirtualScrolling, gridBodyHeight, hasMoreItems } = gridSizeStore;
 
     const lockGridBodyHeight = useCallback((): void => {
-        if (isVisible && isInfinite && hasMoreItems && gridBodyHeight === undefined && gridBody) {
+        if (isVisible && hasVirtualScrolling && hasMoreItems && gridBodyHeight === undefined && gridBody) {
             gridSizeStore.setGridBodyHeight(gridBody.clientHeight - offsetBottom);
         }
-    }, [isVisible, isInfinite, hasMoreItems, gridBodyHeight, gridBody, gridSizeStore]);
+    }, [isVisible, hasVirtualScrolling, hasMoreItems, gridBodyHeight, gridBody, gridSizeStore]);
 
     useLayoutEffect(() => {
         setTimeout(() => lockGridBodyHeight(), 100);
@@ -57,7 +57,7 @@ export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | 
 
     useLayoutEffect(() => {
         const observeTarget = gridSizeStore.gridContainerRef.current;
-        if (!gridSizeStore.isInfinite || !observeTarget) return;
+        if (!gridSizeStore.hasVirtualScrolling || !observeTarget) return;
 
         const resizeObserver = new ResizeObserver(entries => {
             for (const entry of entries) {
@@ -72,5 +72,5 @@ export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | 
         };
     }, [gridSizeStore]);
 
-    return [gridSizeStore.isInfinite ? trackBodyScrolling : undefined];
+    return [gridSizeStore.hasVirtualScrolling ? trackBodyScrolling : undefined];
 }
