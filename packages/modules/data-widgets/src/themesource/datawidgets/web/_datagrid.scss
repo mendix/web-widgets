@@ -537,7 +537,7 @@ $root: ".widget-datagrid";
 
 .infinite-loading {
     .widget-datagrid-grid-head {
-        width: calc(var(--mx-grid-width) - var(--mx-grid-scrollbar-size));
+        width: calc(var(--widgets-grid-width) - var(--widgets-grid-scrollbar-size));
         overflow-x: hidden;
     }
     .widget-datagrid-grid-head[data-scrolled-y="true"] {
@@ -545,9 +545,9 @@ $root: ".widget-datagrid";
     }
 
     .widget-datagrid-grid-body {
-        width: var(--mx-grid-width);
+        width: var(--widgets-grid-width);
         overflow-y: auto;
-        max-height: var(--mx-grid-body-height);
+        max-height: var(--widgets-grid-body-height);
     }
 
     .widget-datagrid-grid-head[data-scrolled-x="true"]:after {
@@ -564,14 +564,14 @@ $root: ".widget-datagrid";
 .widget-datagrid-grid-head {
     display: grid;
 
-    // this head is not part of the grid, so it has dedicated column template  --mx-grid-template-columns-head
-    // but it might not be available at the initial render, so we use template from the grid --mx-grid-template-columns
+    // this head is not part of the grid, so it has dedicated column template  --widgets-grid-template-columns-head
+    // but it might not be available at the initial render, so we use template from the grid --widgets-grid-template-columns
     // using template from the grid might to misalignment from the grid itself,
     // but in practice:
     //   - grid has no data at that moment, so misalignment is not visible.
-    //   - as soon as the grid itself gets rendered --mx-grid-template-columns-head gets calculated
+    //   - as soon as the grid itself gets rendered --widgets-grid-template-columns-head gets calculated
     //     and everything looks like it should.
-    grid-template-columns: var(--mx-grid-template-columns-head, var(--mx-grid-template-columns));
+    grid-template-columns: var(--widgets-grid-template-columns-head, var(--widgets-grid-template-columns));
 }
 .widget-datagrid-grid-body {
     // this element has to position their children (columns or headers)
@@ -579,7 +579,7 @@ $root: ".widget-datagrid";
     display: grid;
     // this property makes sure we align our own grid columns
     // to the columns defined in the global grid
-    grid-template-columns: var(--mx-grid-template-columns);
+    grid-template-columns: var(--widgets-grid-template-columns);
 }
 
 .grid-mock-header {

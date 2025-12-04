@@ -16,14 +16,14 @@ export function gridStyleAtom(
     return computed(
         () =>
             ({
-                "--mx-grid-template-columns": templateColumns(columns.visibleColumns, {
+                "--widgets-grid-template-columns": templateColumns(columns.visibleColumns, {
                     checkboxColumn: config.checkboxColumnEnabled,
                     selectorColumn: config.selectorColumnEnabled
                 }),
-                "--mx-grid-template-columns-head": gridSizeStore.templateColumnsHead,
-                "--mx-grid-body-height": asPx(gridSizeStore.gridBodyHeight),
-                "--mx-grid-width": asPx(gridSizeStore.gridWidth),
-                "--mx-grid-scrollbar-size": asPx(gridSizeStore.scrollBarSize)
+                "--widgets-grid-template-columns-head": gridSizeStore.templateColumnsHead,
+                "--widgets-grid-body-height": asPx(gridSizeStore.gridBodyHeight),
+                "--widgets-grid-width": asPx(gridSizeStore.gridWidth),
+                "--widgets-grid-scrollbar-size": asPx(gridSizeStore.scrollBarSize)
             }) as CSSProperties
     );
 }
