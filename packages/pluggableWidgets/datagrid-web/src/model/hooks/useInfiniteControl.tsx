@@ -1,8 +1,7 @@
-import { RefObject, UIEvent, useCallback, useLayoutEffect } from "react";
+import { RefObject, UIEvent, useCallback, useEffect, useLayoutEffect } from "react";
 import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 import { useGridSizeStore } from "@mendix/datagrid-web/src/model/hooks/injection-hooks";
-
-const offsetBottom = 30;
+import { VIRTUAL_SCROLLING_OFFSET } from "../stores/GridSize.store";
 
 export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | undefined] {
     const gridSizeStore = useGridSizeStore();
@@ -33,7 +32,7 @@ export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | 
              * causing mismatch by 1 pixel point, thus, add magic number 2 as buffer.
              */
             const bottom =
-                Math.floor(target.scrollHeight - offsetBottom - target.scrollTop) <=
+                Math.floor(target.scrollHeight - VIRTUAL_SCROLLING_OFFSET - target.scrollTop) <=
                 Math.floor(target.clientHeight) + 2;
             if (bottom) {
                 gridSizeStore.bumpPage();
@@ -42,18 +41,9 @@ export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | 
         [gridSizeStore]
     );
 
-    const gridBody = gridSizeStore.gridBodyRef.current;
-    const { hasVirtualScrolling, gridBodyHeight, hasMoreItems } = gridSizeStore;
-
-    const lockGridBodyHeight = useCallback((): void => {
-        if (isVisible && hasVirtualScrolling && hasMoreItems && gridBodyHeight === undefined && gridBody) {
-            gridSizeStore.setGridBodyHeight(gridBody.clientHeight - offsetBottom);
-        }
-    }, [isVisible, hasVirtualScrolling, hasMoreItems, gridBodyHeight, gridBody, gridSizeStore]);
-
-    useLayoutEffect(() => {
-        setTimeout(() => lockGridBodyHeight(), 100);
-    }, [lockGridBodyHeight]);
+    useEffect(() => {
+        setTimeout(() => isVisible && gridSizeStore.lockGridBodyHeight(), 100);
+    }, [isVisible, gridSizeStore]);
 
     useLayoutEffect(() => {
         const observeTarget = gridSizeStore.gridContainerRef.current;
