@@ -2,6 +2,8 @@ import { action, computed, makeAutoObservable, observable } from "mobx";
 import { createRef } from "react";
 import { PaginationController } from "../services/PaginationController";
 
+export const VIRTUAL_SCROLLING_OFFSET = 30;
+
 export class GridSizeStore {
     gridContainerRef = createRef<HTMLDivElement>();
     gridBodyRef = createRef<HTMLDivElement>();
@@ -29,17 +31,13 @@ export class GridSizeStore {
             setGridWidth: action,
 
             gridBodyHeight: observable,
-            setGridBodyHeight: action,
+            lockGridBodyHeight: action,
 
             columnSizes: observable,
             updateColumnSizes: action,
 
             templateColumnsHead: computed
         });
-    }
-
-    get hasMoreItems(): boolean {
-        return this.paging.hasMoreItems;
     }
 
     get hasVirtualScrolling(): boolean {
@@ -64,11 +62,19 @@ export class GridSizeStore {
         this.gridWidth = size;
     }
 
-    setGridBodyHeight(size: number): void {
-        this.gridBodyHeight = size;
-    }
-
     updateColumnSizes(sizes: number[]): void {
         this.columnSizes = sizes;
+    }
+
+    lockGridBodyHeight(): void {
+        if (!this.hasVirtualScrolling || !this.paging.hasMoreItems) {
+            return;
+        }
+        const gridBody = this.gridBodyRef.current;
+        if (!gridBody || this.gridBodyHeight !== undefined) {
+            return;
+        }
+
+        this.gridBodyHeight = gridBody.clientHeight - VIRTUAL_SCROLLING_OFFSET;
     }
 }
