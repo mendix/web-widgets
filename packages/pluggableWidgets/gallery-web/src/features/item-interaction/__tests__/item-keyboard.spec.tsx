@@ -303,4 +303,71 @@ describe("gallery item", () => {
             }
         );
     });
+
+    describe("input field interactions", () => {
+        it("does not prevent Space key in input fields", async () => {
+            const onExecuteAction = jest.fn();
+
+            const [item] = objectItems(1);
+
+            const props = eventSwitch<EventEntryContext, HTMLDivElement>(
+                (): EventEntryContext => ({
+                    item,
+                    selectionType: "None",
+                    selectionMode: "clear",
+                    clickTrigger: "single"
+                }),
+                [...createActionHandlers(onExecuteAction)]
+            );
+            const { user, getByRole } = setup(
+                <div role="listitem" tabIndex={1} {...props}>
+                    <input type="text" />
+                </div>
+            );
+            const input = getByRole("textbox") as HTMLInputElement;
+
+            // Focus on input without clicking the container
+            input.focus();
+            await user.keyboard(" ");
+            await user.keyboard("Hello");
+            await user.keyboard(" ");
+            await user.keyboard("World");
+
+            expect(input.value).toBe(" Hello World");
+            expect(onExecuteAction).toHaveBeenCalledTimes(0);
+        });
+
+        it("does not prevent Space key in textarea fields", async () => {
+            const onExecuteAction = jest.fn();
+
+            const [item] = objectItems(1);
+
+            const props = eventSwitch<EventEntryContext, HTMLDivElement>(
+                (): EventEntryContext => ({
+                    item,
+                    selectionType: "None",
+                    selectionMode: "clear",
+                    clickTrigger: "single"
+                }),
+                [...createActionHandlers(onExecuteAction)]
+            );
+            const { user, getByRole } = setup(
+                <div role="listitem" tabIndex={1} {...props}>
+                    <textarea />
+                </div>
+            );
+            const textarea = getByRole("textbox") as HTMLTextAreaElement;
+
+            // Focus on textarea without clicking the container
+            textarea.focus();
+            await user.keyboard("Multi");
+            await user.keyboard(" ");
+            await user.keyboard("line");
+            await user.keyboard(" ");
+            await user.keyboard("text");
+
+            expect(textarea.value).toBe("Multi line text");
+            expect(onExecuteAction).toHaveBeenCalledTimes(0);
+        });
+    });
 });

@@ -21,7 +21,7 @@ function keyboardHandlers(): KeyboardHandlers {
     let pressed = false;
     return {
         onKeyDown: event => {
-            if (isTriggerKey(event)) {
+            if (isTriggerKey(event) && !isInputElement(event)) {
                 preventAndStop(event);
                 if (isOwn(event)) {
                     pressed = true;
@@ -29,7 +29,7 @@ function keyboardHandlers(): KeyboardHandlers {
             }
         },
         onKeyUp: event => {
-            if (isTriggerKey(event) && isOwn(event) && pressed) {
+            if (isTriggerKey(event) && isOwn(event) && pressed && !isInputElement(event)) {
                 preventAndStop(event);
                 event.currentTarget.dispatchEvent(new MouseEvent("click", { bubbles: true }));
                 pressed = false;
@@ -46,6 +46,10 @@ function isTriggerKey(event: KeyboardEvent): boolean {
 
 function isOwn(event: KeyboardEvent): boolean {
     return event.currentTarget === event.target;
+}
+
+function isInputElement(event: KeyboardEvent): boolean {
+    return event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement;
 }
 
 function preventAndStop(event: { stopPropagation(): void; preventDefault(): void }): void {

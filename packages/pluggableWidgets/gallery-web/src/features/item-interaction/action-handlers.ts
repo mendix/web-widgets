@@ -3,6 +3,7 @@ import { ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionH
 import { onOwnSpaceKeyDown } from "@mendix/widget-plugin-grid/selection";
 import { KeyboardEvent } from "react";
 import { EventEntryContext } from "./base";
+import { withInputEventsFilter } from "./keyboard-utils";
 
 const onClick = (execActionFx: ExecuteActionFx): EventCaseEntry<EventEntryContext, HTMLDivElement, "onClick"> => ({
     eventName: "onClick",
@@ -23,6 +24,11 @@ const onDoubleClick = (
 });
 
 const canExecOnSpaceOrEnter = (_ctx: EventEntryContext, event: KeyboardEvent): boolean => {
+    // Don't trigger action on input/textarea elements
+    if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+        return false;
+    }
+
     if (event.code === "Space") {
         return !event.shiftKey;
     }
@@ -60,10 +66,12 @@ export function createActionHandlers(
     return [
         onClick(execActionFx),
         onDoubleClick(execActionFx),
-        onOwnSpaceKeyDown(e => {
-            e.preventDefault();
-            e.stopPropagation();
-        }),
+        withInputEventsFilter([
+            onOwnSpaceKeyDown(e => {
+                e.preventDefault();
+                e.stopPropagation();
+            })
+        ]),
         ...onSpaceOrEnter(execActionFx)
     ];
 }
