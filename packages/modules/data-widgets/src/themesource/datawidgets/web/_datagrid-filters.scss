@@ -20,12 +20,12 @@
     position: relative;
 
     .filter-input {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
     }
 
     .btn-calendar {
-        margin-left: 5px; //Review in atlas, the current date picker is also 5px
+        margin-inline-start: 5px; //Review in atlas, the current date picker is also 5px
         .button-icon {
             width: 18px;
             height: 18px;
@@ -43,16 +43,16 @@
 
         .filter-selector-button {
             padding: 8px;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-            border-right: none;
+            border-start-end-radius: 0;
+            border-end-end-radius: 0;
+            border-inline-end: none;
             height: 100%;
 
             &:before {
                 justify-content: center;
                 width: 20px;
                 height: 20px;
-                padding-left: 4px; /* The font has spaces in the right side, so to align in the middle we need this */
+                padding-inline-start: 4px; /* The font has spaces in the right side, so to align in the middle we need this */
             }
         }
     }
