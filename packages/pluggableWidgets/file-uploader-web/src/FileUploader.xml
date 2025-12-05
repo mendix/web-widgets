@@ -96,6 +96,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">Drag and drop files here</translation>
+                    <translation lang="nl_NL">Sleep hier bestanden naartoe</translation>
                 </translations>
             </property>
             <property key="dropzoneAcceptedMessage" type="textTemplate">
@@ -103,6 +104,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">All files can be uploaded.</translation>
+                    <translation lang="nl_NL">Alle bestanden kunnen worden geüpload.</translation>
                 </translations>
             </property>
             <property key="dropzoneRejectedMessage" type="textTemplate">
@@ -110,6 +112,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">Some files may not be uploadable.</translation>
+                    <translation lang="nl_NL">Sommige bestanden kunnen mogelijk niet worden geüpload.</translation>
                 </translations>
             </property>
             <property key="uploadInProgressMessage" type="textTemplate">
@@ -117,6 +120,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">Uploading...</translation>
+                    <translation lang="nl_NL">Uploaden...</translation>
                 </translations>
             </property>
             <property key="uploadSuccessMessage" type="textTemplate">
@@ -124,6 +128,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">Uploaded successfully.</translation>
+                    <translation lang="nl_NL">Succesvol geüpload.</translation>
                 </translations>
             </property>
             <property key="uploadFailureGenericMessage" type="textTemplate">
@@ -131,6 +136,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">An error occurred during uploading.</translation>
+                    <translation lang="nl_NL">Er is een fout opgetreden tijdens het uploaden.</translation>
                 </translations>
             </property>
             <property key="uploadFailureInvalidFileFormatMessage" type="textTemplate">
@@ -138,6 +144,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">File format is not supported, supported formats are ###.</translation>
+                    <translation lang="nl_NL">Bestandsformaat wordt niet ondersteund, ondersteunde formaten zijn ###.</translation>
                 </translations>
             </property>
             <property key="uploadFailureFileIsTooBigMessage" type="textTemplate">
@@ -145,6 +152,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">File size exceeds the maximum limit of ### megabytes.</translation>
+                    <translation lang="nl_NL">Bestandsgrootte overschrijdt de maximale limiet van ### megabytes.</translation>
                 </translations>
             </property>
             <property key="uploadFailureTooManyFilesMessage" type="textTemplate">
@@ -152,6 +160,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">Too many files added. Only ### files per upload are allowed.</translation>
+                    <translation lang="nl_NL">Te veel bestanden toegevoegd. Slechts ### bestanden per upload zijn toegestaan.</translation>
                 </translations>
             </property>
             <property key="unavailableCreateActionMessage" type="textTemplate">
@@ -159,6 +168,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">Can&apos;t upload files at this time. Please contact your system administrator.</translation>
+                    <translation lang="nl_NL">Kan op dit moment geen bestanden uploaden. Neem contact op met uw systeembeheerder.</translation>
                 </translations>
             </property>
             <property key="downloadButtonTextMessage" type="textTemplate">
@@ -166,6 +176,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">Download this file</translation>
+                    <translation lang="nl_NL">Download dit bestand</translation>
                 </translations>
             </property>
             <property key="removeButtonTextMessage" type="textTemplate">
@@ -173,6 +184,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">Remove this file</translation>
+                    <translation lang="nl_NL">Verwijder dit bestand</translation>
                 </translations>
             </property>
             <property key="removeSuccessMessage" type="textTemplate">
@@ -180,6 +192,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">Removed successfully.</translation>
+                    <translation lang="nl_NL">Succesvol verwijderd.</translation>
                 </translations>
             </property>
             <property key="removeErrorMessage" type="textTemplate">
@@ -187,6 +200,7 @@
                 <description />
                 <translations>
                     <translation lang="en_US">An error occurred while removing this file.</translation>
+                    <translation lang="nl_NL">Er is een fout opgetreden bij het verwijderen van dit bestand.</translation>
                 </translations>
             </property>
         </propertyGroup>
