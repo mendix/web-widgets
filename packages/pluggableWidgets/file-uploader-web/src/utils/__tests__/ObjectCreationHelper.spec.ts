@@ -6,7 +6,7 @@ describe("ObjectCreationHelper", () => {
         jest.useFakeTimers();
         const createAction = actionValue(true, false);
         const helper = new ObjectCreationHelper("grid1", 10);
-        helper.updateProps(createAction);
+        helper.updateProps({ uploadMode: "files", createFileAction: createAction });
         helper.enable();
         const req1 = helper.request();
         const req2 = helper.request();
@@ -34,7 +34,7 @@ describe("ObjectCreationHelper", () => {
         jest.useFakeTimers();
         const helper = new ObjectCreationHelper("grid1", 10);
         const createAction = actionValue(true, false);
-        helper.updateProps(createAction);
+        helper.updateProps({ uploadMode: "files", createFileAction: createAction });
         helper.enable();
         const req1 = helper.request();
         const req2 = helper.request();
@@ -48,7 +48,7 @@ describe("ObjectCreationHelper", () => {
         jest.useFakeTimers();
         const helper = new ObjectCreationHelper("grid1", 10);
         const createAction = actionValue(true, false);
-        helper.updateProps(createAction);
+        helper.updateProps({ uploadMode: "files", createFileAction: createAction });
         const req1 = helper.request();
         const req2 = helper.request();
         jest.advanceTimersByTime(1000);

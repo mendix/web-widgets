@@ -76,6 +76,10 @@ export interface FileUploaderContainerProps {
     removeSuccessMessage: DynamicValue<string>;
     removeErrorMessage: DynamicValue<string>;
     objectCreationTimeout: number;
+    onUploadSuccessFile?: ListActionValue;
+    onUploadSuccessImage?: ListActionValue;
+    onUploadFailureFile?: ListActionValue;
+    onUploadFailureImage?: ListActionValue;
     enableCustomButtons: boolean;
     customButtons: CustomButtonsType[];
 }
@@ -115,6 +119,10 @@ export interface FileUploaderPreviewProps {
     removeSuccessMessage: string;
     removeErrorMessage: string;
     objectCreationTimeout: number | null;
+    onUploadSuccessFile: {} | null;
+    onUploadSuccessImage: {} | null;
+    onUploadFailureFile: {} | null;
+    onUploadFailureImage: {} | null;
     enableCustomButtons: boolean;
     customButtons: CustomButtonsPreviewType[];
 }
