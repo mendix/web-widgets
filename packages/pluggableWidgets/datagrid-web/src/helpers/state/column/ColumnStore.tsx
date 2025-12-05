@@ -28,6 +28,8 @@ export class ColumnStore implements GridColumn {
     private baseInfo: BaseColumnInfo;
     private parentStore: IColumnParentStore;
 
+    // this holds size of the column that it had prior to resizing started
+    // this is needed to prevent personalization being saved while resizing
     private frozenSize: number | undefined;
 
     // dynamic props from PW API

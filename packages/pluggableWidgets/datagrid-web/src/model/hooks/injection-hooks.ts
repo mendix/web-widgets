@@ -9,6 +9,7 @@ export const [useExportProgressService] = createInjectionHooks(DG.exportProgress
 export const [useLoaderViewModel] = createInjectionHooks(DG.loaderVM);
 export const [useMainGate] = createInjectionHooks(CORE.mainGate);
 export const [usePaginationService] = createInjectionHooks(DG.paginationService);
+export const [useGridSizeStore] = createInjectionHooks(DG.gridSizeStore);
 export const [useSelectionHelper] = createInjectionHooks(DG.selectionHelper);
 export const [useGridStyle] = createInjectionHooks(DG.gridColumnsStyle);
 export const [useQueryService] = createInjectionHooks(DG.query);
