@@ -16,10 +16,6 @@
                     <caption>Refresh time (in seconds)</caption>
                     <description />
                 </property>
-                <property key="autoSelect" type="boolean" defaultValue="false">
-                    <caption>Auto select first row</caption>
-                    <description>Automatically select the first row</description>
-                </property>
             </propertyGroup>
             <propertyGroup caption="Columns">
                 <property key="columns" type="object" isList="true">
@@ -225,6 +221,10 @@
                         <enumerationValue key="checkbox">Checkbox</enumerationValue>
                         <enumerationValue key="rowClick">Row click</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="autoSelect" type="boolean" defaultValue="false">
+                    <caption>Auto select first row</caption>
+                    <description>Automatically select the first row</description>
                 </property>
                 <property key="itemSelectionMode" type="enumeration" defaultValue="clear">
                     <caption>Toggle on click</caption>

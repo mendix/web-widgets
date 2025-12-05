@@ -59,21 +59,21 @@ export function createSelectionHelper(
             add(cleanup);
         }
         if (helper.type === "Single" && config.autoSelect) {
-            const dispose = autorun(() => {
-                const { datasource, selection } = gate.props;
-                const firstItem = datasource.items?.[0];
+            const dispose = autorun(
+                () => {
+                    const { datasource } = gate.props;
+                    const firstItem = datasource.items?.[0];
 
-                if (datasource.status === "available") {
-                    if (firstItem && !selection?.selection) {
-                        setTimeout(() => {
-                            if (!gate.props.selection?.selection) {
-                                (gate.props.selection as SelectionSingleValue)?.setSelection(firstItem);
-                            }
-                        }, 0);
+                    if (!firstItem) return;
+
+                    if (helper.isSelected(firstItem)) {
+                        dispose();
+                    } else {
+                        helper.reduceTo(firstItem);
                     }
-                    dispose();
-                }
-            });
+                },
+                { delay: 100 }
+            );
             add(dispose);
         }
         return disposeAll;
