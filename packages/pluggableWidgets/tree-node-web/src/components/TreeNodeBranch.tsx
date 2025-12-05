@@ -13,33 +13,36 @@ import {
     useState
 } from "react";
 
+import { GUID, ObjectItem, Option } from "mendix";
 import { OpenNodeOnEnum, ShowIconEnum } from "../../typings/TreeNodeProps";
-
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
-import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
 import { TreeNodeFocusChangeHandler, useTreeNodeBranchKeyboardHandler } from "./hooks/TreeNodeAccessibility";
+import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
 
 import { TreeNodeHeaderIcon } from "./HeaderIcon";
-import { TreeNodeItem, TreeNodeState } from "./TreeNode";
 import { TreeNodeBranchContext, TreeNodeBranchContextProps } from "./TreeNodeBranchContext";
+import { TreeNodeState } from "./TreeNodeComponent";
+import { TreeNodeRootContext } from "./TreeNodeRootContext";
 
 export interface TreeNodeBranchProps {
     animateTreeNodeContent: boolean;
     children: ReactNode;
     headerContent: ReactNode;
     iconPlacement: ShowIconEnum;
-    id: TreeNodeItem["id"];
+    id: Option<GUID>;
     isUserDefinedLeafNode: boolean;
     openNodeOn: OpenNodeOnEnum;
     startExpanded: boolean;
     changeFocus: TreeNodeFocusChangeHandler;
     renderHeaderIcon: TreeNodeHeaderIcon;
+    item: ObjectItem;
+    level: number;
 }
 
 export const treeNodeBranchUtils = {
     bodyClassName: "widget-tree-node-body",
-    getHeaderId: (id: TreeNodeItem["id"]) => `${id}TreeNodeBranchHeader`,
-    getBodyId: (id: TreeNodeItem["id"]) => `${id}TreeNodeBranchBody`
+    getHeaderId: (id: Option<GUID>) => `${id}TreeNodeBranchHeader`,
+    getBodyId: (id: Option<GUID>) => `${id}TreeNodeBranchBody`
 };
 
 export function TreeNodeBranch({
@@ -52,9 +55,11 @@ export function TreeNodeBranch({
     isUserDefinedLeafNode,
     openNodeOn,
     renderHeaderIcon,
-    startExpanded
+    startExpanded,
+    item,
+    level
 }: TreeNodeBranchProps): ReactElement {
-    const { level: currentContextLevel } = useContext(TreeNodeBranchContext);
+    const { fetchChildren } = useContext(TreeNodeRootContext);
 
     const treeNodeBranchRef = useRef<HTMLLIElement>(null);
     const treeNodeBranchBody = useRef<HTMLDivElement>(null);
@@ -98,6 +103,7 @@ export function TreeNodeBranch({
                 return;
             }
 
+            fetchChildren(item);
             if (!isActualLeafNode) {
                 captureElementHeight();
                 setTreeNodeState(treeNodeState => {
@@ -115,7 +121,7 @@ export function TreeNodeBranch({
                 });
             }
         },
-        [captureElementHeight, eventTargetIsNotCurrentBranch, isActualLeafNode]
+        [captureElementHeight, eventTargetIsNotCurrentBranch, isActualLeafNode, fetchChildren, item]
     );
 
     const onHeaderKeyDown = useTreeNodeBranchKeyboardHandler(
@@ -184,7 +190,8 @@ export function TreeNodeBranch({
             {((!isActualLeafNode && treeNodeState !== TreeNodeState.COLLAPSED_WITH_JS) || isAnimating) && (
                 <TreeNodeBranchContext.Provider
                     value={{
-                        level: currentContextLevel + 1,
+                        parent: item,
+                        level: level + 1,
                         informParentOfChildNodes
                     }}
                 >
