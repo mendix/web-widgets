@@ -87,6 +87,9 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
     const showTopSelectionCounter = selectionCounter && props.selectionCountPosition === "top";
     const showBottomSelectionCounter = selectionCounter && props.selectionCountPosition === "bottom";
 
+    const showLoadMore = props.paginationType === "loadMore";
+    const showFooter = showBottomSelectionCounter || showBottomPagination || showLoadMore;
+
     return (
         <GalleryRoot
             className={props.className}
@@ -140,21 +143,25 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         <div className="empty-placeholder">{children}</div>
                     </section>
                 ))}
-            <GalleryFooter>
-                <div className="widget-gallery-footer-controls">
-                    {showBottomSelectionCounter && <div className="widget-gallery-fc-start">{selectionCounter}</div>}
+            {showFooter && (
+                <GalleryFooter>
+                    <div className="widget-gallery-footer-controls">
+                        {showBottomSelectionCounter && (
+                            <div className="widget-gallery-fc-start">{selectionCounter}</div>
+                        )}
 
-                    <div className="widget-gallery-fc-end">
-                        {showBottomPagination && pagination}
-                        {props.paginationType === "loadMore" &&
-                            (props.preview ? (
-                                <LoadMorePreview>{loadMoreButtonCaption}</LoadMorePreview>
-                            ) : (
-                                <LoadMore>{loadMoreButtonCaption}</LoadMore>
-                            ))}
+                        <div className="widget-gallery-fc-end">
+                            {showBottomPagination && pagination}
+                            {showLoadMore &&
+                                (props.preview ? (
+                                    <LoadMorePreview>{loadMoreButtonCaption}</LoadMorePreview>
+                                ) : (
+                                    <LoadMore>{loadMoreButtonCaption}</LoadMore>
+                                ))}
+                        </div>
                     </div>
-                </div>
-            </GalleryFooter>
+                </GalleryFooter>
+            )}
         </GalleryRoot>
     );
 }
