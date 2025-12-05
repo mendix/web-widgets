@@ -1,0 +1,42 @@
+{
+    "name": "pluggable-widgets-mcp",
+    "version": "0.1.0",
+    "description": "MCP server for Mendix Pluggable Widgets",
+    "copyright": "© Mendix Technology BV 2025. All rights reserved.",
+    "author": "Mendix",
+    "license": "Apache-2.0",
+    "type": "module",
+    "main": "dist/index.js",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc && tsc-alias -p tsconfig.json --resolve-full-paths",
+        "dev": "tsx watch src/index.ts",
+        "generate-source-map": "tsc --sourceMap --declaration --declarationMap",
+        "lint": "eslint src/ package.json",
+        "start": "npm run build && node dist/index.js",
+        "start:http": "npm run build && node dist/index.js http",
+        "start:stdio": "npm run build && node dist/index.js stdio"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.24.2",
+        "cors": "^2.8.5",
+        "express": "^5.1.0",
+        "node-pty": "^1.0.0",
+        "tsx": "^4.21.0",
+        "zod": "^4.1.13"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.2",
+        "@types/node": "^24.10.1",
+        "tsc-alias": "^1.8.16",
+        "typescript": "^5.9.3"
+    },
+    "keywords": [],
+    "packageManager": "pnpm@10.17.0",
+    "engines": {
+        "node": ">=22"
+    }
+}
