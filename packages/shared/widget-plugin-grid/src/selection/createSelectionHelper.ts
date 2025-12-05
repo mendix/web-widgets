@@ -60,10 +60,19 @@ export function createSelectionHelper(
         }
         if (helper.type === "Single" && config.autoSelect) {
             const dispose = autorun(() => {
-                const firstItem = gate.props.datasource.items?.[0];
-                if (!firstItem) return;
-                helper.reduceTo(firstItem);
-                dispose();
+                const { datasource, selection } = gate.props;
+                const firstItem = datasource.items?.[0];
+
+                if (datasource.status === "available") {
+                    if (firstItem && !selection?.selection) {
+                        setTimeout(() => {
+                            if (!gate.props.selection?.selection) {
+                                (gate.props.selection as SelectionSingleValue)?.setSelection(firstItem);
+                            }
+                        }, 0);
+                    }
+                    dispose();
+                }
             });
             add(dispose);
         }
