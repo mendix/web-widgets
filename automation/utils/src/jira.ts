@@ -14,6 +14,7 @@ interface JiraProject {
 }
 
 interface JiraIssue {
+    id: string;
     key: string;
     fields: {
         summary: string;
@@ -66,7 +67,7 @@ export class Jira {
         }
 
         if (!response.ok) {
-            throw new Error(`API request failed (${response.status}): ${response.statusText}`);
+            throw new Error(`API request failed (${response.status}): ${response.statusText}. While fetching: ${url}`);
         }
 
         if (response.status === 204) {
@@ -154,19 +155,14 @@ export class Jira {
         });
     }
 
-    private async getIssuesForVersion(versionId: string): Promise<string[]> {
-        const issues = await this.apiRequest<{ issues: Array<{ key: string }> }>(
-            "GET",
-            `/search?jql=fixVersion=${versionId}`
-        );
-
-        return issues.issues.map(issue => issue.key);
-    }
-
     async getIssuesWithDetailsForVersion(versionId: string): Promise<JiraIssue[]> {
         const response = await this.apiRequest<{ issues: JiraIssue[] }>(
             "GET",
-            `/search?jql=fixVersion=${versionId}&fields=summary`
+            `/search/jql?` +
+                new URLSearchParams([
+                    ["jql", `project = ${this.projectId} AND fixVersion = ${versionId}`],
+                    ["fields", "summary"]
+                ]).toString()
         );
 
         return response.issues;
