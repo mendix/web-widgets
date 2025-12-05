@@ -100,7 +100,6 @@ export interface DatagridContainerProps {
     tabIndex?: number;
     datasource: ListValue;
     refreshInterval: number;
-    autoSelect: boolean;
     columns: ColumnsType[];
     columnsFilterable: boolean;
     onClickTrigger: OnClickTriggerEnum;
@@ -109,6 +108,7 @@ export interface DatagridContainerProps {
     filtersPlaceholder?: ReactNode;
     itemSelection?: SelectionSingleValue | SelectionMultiValue;
     itemSelectionMethod: ItemSelectionMethodEnum;
+    autoSelect: boolean;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     enableSelectAll: boolean;
@@ -160,7 +160,6 @@ export interface DatagridPreviewProps {
     translate: (text: string) => string;
     datasource: {} | { caption: string } | { type: string } | null;
     refreshInterval: number | null;
-    autoSelect: boolean;
     columns: ColumnsPreviewType[];
     columnsFilterable: boolean;
     onClickTrigger: OnClickTriggerEnum;
@@ -169,6 +168,7 @@ export interface DatagridPreviewProps {
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemSelection: "None" | "Single" | "Multi";
     itemSelectionMethod: ItemSelectionMethodEnum;
+    autoSelect: boolean;
     itemSelectionMode: ItemSelectionModeEnum;
     showSelectAllToggle: boolean;
     enableSelectAll: boolean;
