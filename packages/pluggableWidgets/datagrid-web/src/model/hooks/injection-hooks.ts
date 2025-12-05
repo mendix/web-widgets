@@ -20,6 +20,7 @@ export const [useRowClass] = createInjectionHooks(DG.rowClass);
 export const [useDatagridRootVM] = createInjectionHooks(DG.datagridRootVM);
 export const [useRows] = createInjectionHooks(CORE.rows);
 export const [useSelectActions] = createInjectionHooks(DG.selectActions);
+export const [useHeaderDragnDropVM] = createInjectionHooks(DG.headerDragnDropVM);
 export const [useClickActionHelper] = createInjectionHooks(DG.clickActionHelper);
 export const [useFocusService] = createInjectionHooks(DG.focusService);
 export const [useCheckboxEventsHandler] = createInjectionHooks(DG.checkboxEventsHandler);

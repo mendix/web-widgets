@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header renders the structure correctly 1`] = `
+exports[`ColumnContainer renders the structure correctly 1`] = `
 <DocumentFragment>
   <div
     class="th"
@@ -17,7 +17,9 @@ exports[`Header renders the structure correctly 1`] = `
         aria-label="Column 1"
         class="column-header align-column-left"
       >
-        <span>
+        <span
+          class="column-caption"
+        >
           Column 1
         </span>
       </div>
@@ -29,7 +31,7 @@ exports[`Header renders the structure correctly 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Header renders the structure correctly when draggable 1`] = `
+exports[`ColumnContainer renders the structure correctly when draggable 1`] = `
 <DocumentFragment>
   <div
     class="th"
@@ -40,14 +42,21 @@ exports[`Header renders the structure correctly when draggable 1`] = `
   >
     <div
       class="column-container"
-      draggable="true"
       id="datagrid2_1:Datagrid@14-column0"
     >
       <div
         aria-label="Column 1"
         class="column-header align-column-left"
       >
-        <span>
+        <span
+          class="drag-handle"
+          draggable="true"
+        >
+          ⠿
+        </span>
+        <span
+          class="column-caption"
+        >
           Column 1
         </span>
       </div>
@@ -59,7 +68,7 @@ exports[`Header renders the structure correctly when draggable 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Header renders the structure correctly when filterable with custom filter 1`] = `
+exports[`ColumnContainer renders the structure correctly when filterable with custom filter 1`] = `
 <DocumentFragment>
   <div
     class="th"
@@ -76,7 +85,9 @@ exports[`Header renders the structure correctly when filterable with custom filt
         aria-label="Column 1"
         class="column-header align-column-left"
       >
-        <span>
+        <span
+          class="column-caption"
+        >
           Column 1
         </span>
       </div>
@@ -92,7 +103,7 @@ exports[`Header renders the structure correctly when filterable with custom filt
 </DocumentFragment>
 `;
 
-exports[`Header renders the structure correctly when resizable 1`] = `
+exports[`ColumnContainer renders the structure correctly when resizable 1`] = `
 <DocumentFragment>
   <div
     class="th"
@@ -109,7 +120,9 @@ exports[`Header renders the structure correctly when resizable 1`] = `
         aria-label="Column 1"
         class="column-header align-column-left"
       >
-        <span>
+        <span
+          class="column-caption"
+        >
           Column 1
         </span>
       </div>
@@ -121,7 +134,7 @@ exports[`Header renders the structure correctly when resizable 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Header renders the structure correctly when sortable 1`] = `
+exports[`ColumnContainer renders the structure correctly when sortable 1`] = `
 <DocumentFragment>
   <div
     aria-sort="none"
@@ -140,7 +153,9 @@ exports[`Header renders the structure correctly when sortable 1`] = `
         role="button"
         tabindex="0"
       >
-        <span>
+        <span
+          class="column-caption"
+        >
           Column 1
         </span>
         <svg
@@ -167,7 +182,7 @@ exports[`Header renders the structure correctly when sortable 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Header renders the structure correctly when value is empty 1`] = `
+exports[`ColumnContainer renders the structure correctly when value is empty 1`] = `
 <DocumentFragment>
   <div
     class="th"
@@ -184,7 +199,9 @@ exports[`Header renders the structure correctly when value is empty 1`] = `
         aria-label=""
         class="column-header align-column-left"
       >
-        <span>
+        <span
+          class="column-caption"
+        >
            
         </span>
       </div>
