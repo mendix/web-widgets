@@ -55,6 +55,7 @@
                     <description>Customize the label of the 'Clear section' button</description>
                     <translations>
                         <translation lang="en_US">Clear selection</translation>
+                        <translation lang="nl_NL">Selectie wissen</translation>
                     </translations>
                 </property>
                 <property key="content" type="widgets" dataSource="datasource" required="false">
@@ -120,6 +121,7 @@
                     <description />
                     <translations>
                         <translation lang="en_US">Load More</translation>
+                        <translation lang="nl_NL">Laad meer</translation>
                     </translations>
                 </property>
             </propertyGroup>
@@ -215,6 +217,7 @@
                     <description>Must include '%d' to denote number position</description>
                     <translations>
                         <translation lang="en_US">%d item selected</translation>
+                        <translation lang="nl_NL">%d item geselecteerd</translation>
                     </translations>
                 </property>
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
@@ -222,6 +225,7 @@
                     <description>Must include '%d' to denote number position</description>
                     <translations>
                         <translation lang="en_US">%d items selected</translation>
+                        <translation lang="nl_NL">%d items geselecteerd</translation>
                     </translations>
                 </property>
             </propertyGroup>

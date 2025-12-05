@@ -306,6 +306,7 @@
                     <description />
                     <translations>
                         <translation lang="en_US">Load More</translation>
+                        <translation lang="nl_NL">Laad meer</translation>
                     </translations>
                 </property>
             </propertyGroup>
@@ -385,6 +386,7 @@
                     <description>Assistive technology will read this upon reaching a export dialog.</description>
                     <translations>
                         <translation lang="en_US">Export progress</translation>
+                        <translation lang="nl_NL">Exportvoortgang</translation>
                     </translations>
                 </property>
                 <property key="cancelExportLabel" type="textTemplate" required="false">
@@ -392,6 +394,7 @@
                     <description>Assistive technology will read this upon reaching a cancel button.</description>
                     <translations>
                         <translation lang="en_US">Cancel data export</translation>
+                        <translation lang="nl_NL">Gegevensexport annuleren</translation>
                     </translations>
                 </property>
                 <property key="selectRowLabel" type="textTemplate" required="false">
@@ -399,6 +402,7 @@
                     <description>If selection is enabled, assistive technology will read this upon reaching a checkbox.</description>
                     <translations>
                         <translation lang="en_US">Select row</translation>
+                        <translation lang="nl_NL">Rij selecteren</translation>
                     </translations>
                 </property>
                 <property key="selectAllRowsLabel" type="textTemplate" required="false">
@@ -406,6 +410,7 @@
                     <description>If selection is enabled, assistive technology will read this upon reaching 'Select all' checkbox.</description>
                     <translations>
                         <translation lang="en_US">Select all rows</translation>
+                        <translation lang="nl_NL">Selecteer alle rijen</translation>
                     </translations>
                 </property>
                 <property key="selectingAllLabel" type="textTemplate" required="false">
@@ -413,6 +418,7 @@
                     <description>ARIA label for the progress dialog when selecting all items</description>
                     <translations>
                         <translation lang="en_US">Selecting all items...</translation>
+                        <translation lang="nl_NL">Alle items selecteren...</translation>
                     </translations>
                 </property>
                 <property key="cancelSelectionLabel" type="textTemplate" required="false">
@@ -420,6 +426,7 @@
                     <description>ARIA label for the cancel button in the selection progress dialog</description>
                     <translations>
                         <translation lang="en_US">Cancel selection</translation>
+                        <translation lang="nl_NL">Selectie annuleren</translation>
                     </translations>
                 </property>
             </propertyGroup>
@@ -429,6 +436,7 @@
                     <description>Must include '%d' to denote number position</description>
                     <translations>
                         <translation lang="en_US">%d row selected</translation>
+                        <translation lang="nl_NL">%d rij geselecteerd</translation>
                     </translations>
                 </property>
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
@@ -436,6 +444,7 @@
                     <description>Must include '%d' to denote number position</description>
                     <translations>
                         <translation lang="en_US">%d rows selected</translation>
+                        <translation lang="nl_NL">%d rijen geselecteerd</translation>
                     </translations>
                 </property>
                 <property key="selectAllText" type="textTemplate">
@@ -443,6 +452,7 @@
                     <description />
                     <translations>
                         <translation lang="en_US">Select all rows in the data source</translation>
+                        <translation lang="nl_NL">Selecteer alle rijen in de gegevensbron</translation>
                     </translations>
                 </property>
                 <property key="selectAllTemplate" type="textTemplate">
@@ -450,6 +460,7 @@
                     <description>This caption used when total count is available.</description>
                     <translations>
                         <translation lang="en_US">Select all %d rows in the data source</translation>
+                        <translation lang="nl_NL">Selecteer alle %d rijen in de gegevensbron</translation>
                     </translations>
                 </property>
                 <property key="allSelectedText" type="textTemplate">
@@ -457,6 +468,7 @@
                     <description />
                     <translations>
                         <translation lang="en_US">All %d rows selected.</translation>
+                        <translation lang="nl_NL">Alle %d rijen geselecteerd.</translation>
                     </translations>
                 </property>
                 <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
@@ -464,6 +476,7 @@
                     <description>Customize the label of the 'Clear section' button</description>
                     <translations>
                         <translation lang="en_US">Clear selection</translation>
+                        <translation lang="nl_NL">Selectie wissen</translation>
                     </translations>
                 </property>
             </propertyGroup>
