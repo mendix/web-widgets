@@ -19,7 +19,7 @@ async function main(): Promise<void> {
 
     console.log(`Starting release process for tag ${chalk.green(tag)}`);
 
-    const artifactUrl = await gh.getMPKReleaseArtifactUrl(tag);
+    const artifactUrl = await gh.getMPKReleaseAssetUrl(tag);
 
     const draft = await createDraft({
         appName: marketplace.appName,

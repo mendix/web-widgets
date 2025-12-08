@@ -47,6 +47,10 @@ jobs:
                   fi
             - name: Install dependencies
               run: pnpm install
+            - name: Include OSS README in MPK artifact
+              run:  pnpm run include-oss-in-artifact
+              env:
+                  GH_PAT: ${{ secrets.GITHUB_TOKEN }}
             - name: Run publish script
               run: pnpm run publish-marketplace --filter=$PACKAGE
               env:

@@ -27,10 +27,14 @@ export function findAllReadmeOssLocally(): string[] {
     return matchingFiles1.concat(matchingFiles2);
 }
 
-export function getRecommendedReadmeOss(name: string, version: string, availableReadmes: string[]): string | undefined {
-    const fileNames = availableReadmes.map(r => basename(r));
+export function getRecommendedReadmeOss(
+    packageName: string,
+    packageVersion: string,
+    availableReadmes: string[]
+): string | undefined {
+    const fileNames = availableReadmes.map(r => [basename(r), r]);
 
-    return fileNames.find(r => r.includes(name) && r.includes(version));
+    return fileNames.find(([name]) => name.includes(packageName) && name.includes(packageVersion))?.at(1);
 }
 
 export async function createSBomGeneratorFolderStructure(

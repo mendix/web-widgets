@@ -161,25 +161,12 @@ export class GitHub {
         }
     }
 
-    async getReleaseArtifacts(releaseTag: string): Promise<Array<{ name: string; browser_download_url: string }>> {
+    async getMPKReleaseAssetUrl(releaseTag: string): Promise<string> {
         const releaseId = await this.getReleaseIdByReleaseTag(releaseTag);
-
         if (!releaseId) {
             throw new Error(`Could not find release with tag '${releaseTag}' on GitHub`);
         }
-
-        return fetch<
-            Array<{
-                name: string;
-                browser_download_url: string;
-            }>
-        >("GET", `https://api.github.com/repos/${this.owner}/${this.repo}/releases/${releaseId}/assets`, undefined, {
-            ...this.ghAPIHeaders
-        });
-    }
-
-    async getMPKReleaseArtifactUrl(releaseTag: string): Promise<string> {
-        const artifacts = await this.getReleaseArtifacts(releaseTag);
+        const artifacts = await this.listReleaseAssets(releaseId);
 
         const downloadUrl = artifacts.find(asset => asset.name.endsWith(".mpk"))?.browser_download_url;
 
@@ -202,39 +189,6 @@ export class GitHub {
 
         // Filter only draft releases
         return releases.filter(release => release.draft);
-    }
-
-    async downloadReleaseAsset(assetId: string, destinationPath: string): Promise<void> {
-        await this.ensureAuth();
-
-        const url = `https://api.github.com/repos/${this.owner}/${this.repo}/releases/assets/${assetId}`;
-
-        try {
-            const response = await nodefetch(url, {
-                method: "GET",
-                headers: {
-                    Accept: "application/octet-stream",
-                    ...this.ghAPIHeaders
-                },
-                redirect: "follow"
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to download asset ${assetId}: ${response.status} ${response.statusText}`);
-            }
-
-            if (!response.body) {
-                throw new Error(`No response body received for asset ${assetId}`);
-            }
-
-            // Stream the response body to the file
-            const fileStream = createWriteStream(destinationPath);
-            await pipeline(response.body, fileStream);
-        } catch (error) {
-            throw new Error(
-                `Failed to download release asset ${assetId}: ${error instanceof Error ? error.message : String(error)}`
-            );
-        }
     }
 
     async createReleaseNotesFile(releaseNotesText: string): Promise<string> {
@@ -282,6 +236,50 @@ export class GitHub {
                 package: packageName
             }
         });
+    }
+
+    async listReleaseAssets(releaseId: string): Promise<GitHubReleaseAsset[]> {
+        return fetch<GitHubReleaseAsset[]>(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/releases/${releaseId}/assets`,
+            undefined,
+            {
+                ...this.ghAPIHeaders
+            }
+        );
+    }
+
+    async downloadReleaseAsset(assetId: string, destinationPath: string): Promise<void> {
+        await this.ensureAuth();
+
+        const url = `https://api.github.com/repos/${this.owner}/${this.repo}/releases/assets/${assetId}`;
+
+        try {
+            const response = await nodefetch(url, {
+                method: "GET",
+                headers: {
+                    Accept: "application/octet-stream",
+                    ...this.ghAPIHeaders
+                },
+                redirect: "follow"
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to download asset ${assetId}: ${response.status} ${response.statusText}`);
+            }
+
+            if (!response.body) {
+                throw new Error(`No response body received for asset ${assetId}`);
+            }
+
+            // Stream the response body to the file
+            const fileStream = createWriteStream(destinationPath);
+            await pipeline(response.body, fileStream);
+        } catch (error) {
+            throw new Error(
+                `Failed to download release asset ${assetId}: ${error instanceof Error ? error.message : String(error)}`
+            );
+        }
     }
 
     /**
