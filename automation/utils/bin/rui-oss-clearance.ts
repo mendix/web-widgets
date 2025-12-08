@@ -12,8 +12,7 @@ import {
     createSBomGeneratorFolderStructure,
     findAllReadmeOssLocally,
     generateSBomArtifactsInFolder,
-    getRecommendedReadmeOss,
-    includeReadmeOssIntoMpk
+    getRecommendedReadmeOss
 } from "../src/oss-clearance";
 
 // ============================================================================
@@ -216,7 +215,6 @@ async function handleIncludeCommand(): Promise<void> {
     printHeader("OSS Clearance Readme Include");
 
     try {
-        // TODO: Implement include command logic
         // Step 1: Verify authentication
         await verifyGitHubAuth();
 

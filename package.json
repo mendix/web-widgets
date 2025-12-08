@@ -17,6 +17,7 @@
         "prepare": "husky install",
         "prepare-release": "pnpm --filter @mendix/automation-utils run prepare-release",
         "publish-marketplace": "turbo run publish-marketplace",
+        "include-oss-in-artifact": "pnpm --filter @mendix/automation-utils run include-oss-in-artifact",
         "release": "turbo run release",
         "test": "turbo run test --continue --concurrency 1",
         "verify": "turbo run verify --continue --concurrency 1",
