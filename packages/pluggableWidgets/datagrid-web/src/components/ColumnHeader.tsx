@@ -1,15 +1,15 @@
 import classNames from "classnames";
-import { DragEvent, DragEventHandler, HTMLAttributes, KeyboardEvent, MouseEvent, ReactElement, ReactNode } from "react";
+import { HTMLAttributes, KeyboardEvent, ReactElement, ReactNode } from "react";
+import { DragHandle } from "./DragHandle";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
 import { useColumn, useHeaderDragnDropVM } from "../model/hooks/injection-hooks";
 import { observer } from "mobx-react-lite";
+import { SortDirection } from "../typings/sorting";
 
-interface DragHandleProps {
-    draggable: boolean;
-    onDragStart?: DragEventHandler<HTMLSpanElement>;
-    onDragEnd?: DragEventHandler<HTMLSpanElement>;
+interface SortIconProps {
+    direction: SortDirection | undefined;
 }
 
 export const ColumnHeader = observer(function ColumnHeader(): ReactElement {
@@ -30,53 +30,13 @@ export const ColumnHeader = observer(function ColumnHeader(): ReactElement {
                 <DragHandle draggable={vm.isDraggable} onDragStart={vm.handleDragStart} onDragEnd={vm.handleDragEnd} />
             )}
             <span className="column-caption">{caption.length > 0 ? caption : "\u00a0"}</span>
-            {canSort ? <SortIcon /> : null}
+            {canSort ? <SortIcon direction={column.sortDir} /> : null}
         </div>
     );
 });
 
-function DragHandle({ draggable, onDragStart, onDragEnd }: DragHandleProps): ReactElement {
-    const handleMouseDown = (e: MouseEvent<HTMLSpanElement>): void => {
-        // Only stop propagation, don't prevent default - we need default for drag to work
-        e.stopPropagation();
-    };
-
-    const handleClick = (e: MouseEvent<HTMLSpanElement>): void => {
-        // Stop click events from bubbling to prevent sorting
-        e.stopPropagation();
-        e.preventDefault();
-    };
-
-    const handleDragStart = (e: DragEvent<HTMLSpanElement>): void => {
-        // Don't stop propagation here - let the drag start properly
-        if (onDragStart) {
-            onDragStart(e);
-        }
-    };
-
-    const handleDragEnd = (e: DragEvent<HTMLSpanElement>): void => {
-        if (onDragEnd) {
-            onDragEnd(e);
-        }
-    };
-
-    return (
-        <span
-            className="drag-handle"
-            draggable={draggable}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-            onMouseDown={handleMouseDown}
-            onClick={handleClick}
-        >
-            ⠿
-        </span>
-    );
-}
-
-function SortIcon(): ReactNode {
-    const column = useColumn();
-    switch (column.sortDir) {
+function SortIcon({ direction }: SortIconProps): ReactNode {
+    switch (direction) {
         case "asc":
             return <FaLongArrowAltUp />;
         case "desc":
