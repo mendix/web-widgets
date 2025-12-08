@@ -58,7 +58,7 @@ export function createSelectionHelper(
             );
             add(cleanup);
         }
-        if (helper.type !== null && config.autoSelect) {
+        if (helper !== null && config.autoSelect) {
             const dispose = autorun(
                 () => {
                     const { datasource } = gate.props;
