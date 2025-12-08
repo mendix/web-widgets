@@ -139,16 +139,23 @@ $root: ".widget-datagrid";
                 width: 14px;
                 padding: 0;
                 flex-grow: 0;
+                flex-shrink: 0;
                 display: flex;
                 justify-content: center;
+                align-self: normal;
                 z-index: 1;
 
                 &:hover {
                     background-color: var(--brand-primary-50, $brand-light);
-                    color: var(--brand-primary, $brand-primary);
+                    svg {
+                        color: var(--brand-primary, $brand-primary);
+                    }
                 }
-                :active {
+                &:active {
                     cursor: grabbing;
+                }
+                svg {
+                    margin: 0;
                 }
             }
 
