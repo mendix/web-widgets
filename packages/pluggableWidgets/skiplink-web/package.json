@@ -32,7 +32,7 @@
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "MENDIX_VERSION=11.1.0.75979 run-e2e ci --no-update-project",
-        "e2edev": "run-e2e dev --with-preps",
+        "e2edev": "MENDIX_VERSION=11.1.0.75979 run-e2e dev --with-preps  --no-update-project",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
