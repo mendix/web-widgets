@@ -16,6 +16,9 @@ test.describe("heatmap-chart-web", () => {
             const customColorContainer = await page.locator(".mx-name-containerCustomColor");
             await expect(customColorContainer).toBeVisible({ timeout: 10000 });
             await customColorContainer.scrollIntoViewIfNeeded();
+            await expect(customColorContainer.locator(".mx-react-plotly-chart")).toBeVisible({ timeout: 5000 });
+            await expect(customColorContainer.locator("g.colorbar")).toBeVisible({ timeout: 5000 });
+            await page.waitForTimeout(500);
             await expect(customColorContainer).toHaveScreenshot(`heatmapChartCustomColor.png`, {
                 threshold: 0.5
             });
@@ -27,6 +30,9 @@ test.describe("heatmap-chart-web", () => {
             const ascendingContainer = await page.locator(".mx-name-containerAscending");
             await expect(ascendingContainer).toBeVisible({ timeout: 10000 });
             await ascendingContainer.scrollIntoViewIfNeeded();
+            await expect(ascendingContainer.locator(".mx-react-plotly-chart")).toBeVisible({ timeout: 5000 });
+            await expect(ascendingContainer.locator("g.colorbar")).toBeVisible({ timeout: 5000 });
+            await page.waitForTimeout(500);
             await expect(ascendingContainer).toHaveScreenshot(`heatmapChartAscending.png`, {
                 threshold: 0.5
             });
@@ -36,7 +42,11 @@ test.describe("heatmap-chart-web", () => {
             page
         }) => {
             const descendingContainer = await page.locator(".mx-name-containerDescending");
+            await expect(descendingContainer).toBeVisible({ timeout: 10000 });
             await descendingContainer.scrollIntoViewIfNeeded();
+            await expect(descendingContainer.locator(".mx-react-plotly-chart")).toBeVisible({ timeout: 5000 });
+            await expect(descendingContainer.locator("g.colorbar")).toBeVisible({ timeout: 5000 });
+            await page.waitForTimeout(500);
             await expect(descendingContainer).toHaveScreenshot(`heatmapChartDescending.png`, {
                 threshold: 0.5
             });
