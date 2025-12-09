@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We changed `hasChildren` configuration from boolean to expression.
+
+### Fixed
+
+- We fixed an issue where Tree Nodes showing loading spinner when children can't be found while `hasChildren` property configured to `true`.
+
 ## [3.6.0] - 2025-10-01
 
 ### Changed
