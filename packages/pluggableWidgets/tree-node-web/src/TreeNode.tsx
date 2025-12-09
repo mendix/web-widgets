@@ -8,7 +8,8 @@ function mapDataSourceItemToTreeNodeItem(item: ObjectItem, props: TreeNodeContai
         id: item.id,
         headerContent:
             props.headerType === "text" ? props.headerCaption?.get(item).value : props.headerContent?.get(item),
-        bodyContent: props.children?.get(item)
+        bodyContent: props.children?.get(item),
+        isUserDefinedLeafNode: props.hasChildren?.get(item).value === false
     };
 }
 
@@ -36,7 +37,6 @@ export function TreeNode(props: TreeNodeContainerProps): ReactElement {
             class={props.class}
             style={props.style}
             items={treeNodeItems}
-            isUserDefinedLeafNode={!props.hasChildren}
             startExpanded={props.startExpanded}
             showCustomIcon={Boolean(props.expandedIcon) || Boolean(props.collapsedIcon)}
             iconPlacement={props.showIcon}
