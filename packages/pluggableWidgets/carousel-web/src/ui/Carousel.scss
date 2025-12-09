@@ -28,13 +28,13 @@
     --swiper-navigation-size: 24px;
     border-radius: 50%;
     background-color: rgba(245, 245, 245, 0.7);
-    padding: 2em;
+    padding: var(--spacing-large);
 }
 
 .swiper-button-next:focus,
 .swiper-button-prev:focus {
-    outline: 2px solid #264ae5;
-    outline-offset: 2px;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
 }
 
 .swiper-slide img {
