@@ -1,5 +1,5 @@
-import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { mapPreviewIconToWebIcon } from "@mendix/widget-plugin-platform/preview/map-icon";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { GUID } from "mendix";
 import { ReactElement } from "react";
 import { TreeNodePreviewProps } from "../typings/TreeNodeProps";
@@ -32,10 +32,10 @@ export function preview(props: TreeNodePreviewProps): ReactElement | null {
                         <props.children.renderer caption="Place other tree nodes here.">
                             <div />
                         </props.children.renderer>
-                    )
+                    ),
+                    isUserDefinedLeafNode: !props.hasChildren
                 }
             ]}
-            isUserDefinedLeafNode={!props.hasChildren}
             startExpanded
             showCustomIcon={Boolean(props.expandedIcon) || Boolean(props.collapsedIcon)}
             iconPlacement={props.showIcon}
