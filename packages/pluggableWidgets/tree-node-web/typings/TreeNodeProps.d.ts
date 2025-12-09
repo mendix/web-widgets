@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { DynamicValue, ListValue, ListExpressionValue, ListWidgetValue, WebIcon } from "mendix";
+import { DynamicValue, ListValue, ListExpressionValue, ListReferenceValue, ListWidgetValue, WebIcon } from "mendix";
 
 export type HeaderTypeEnum = "text" | "custom";
 
@@ -19,11 +19,12 @@ export interface TreeNodeContainerProps {
     tabIndex?: number;
     advancedMode: boolean;
     datasource: ListValue;
+    parentAssociation?: ListReferenceValue;
     headerType: HeaderTypeEnum;
     openNodeOn: OpenNodeOnEnum;
     headerContent?: ListWidgetValue;
     headerCaption?: ListExpressionValue<string>;
-    hasChildren: boolean;
+    hasChildren: ListExpressionValue<boolean>;
     startExpanded: boolean;
     children?: ListWidgetValue;
     animate: boolean;
@@ -46,11 +47,12 @@ export interface TreeNodePreviewProps {
     translate: (text: string) => string;
     advancedMode: boolean;
     datasource: {} | { caption: string } | { type: string } | null;
+    parentAssociation: string;
     headerType: HeaderTypeEnum;
     openNodeOn: OpenNodeOnEnum;
     headerContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     headerCaption: string;
-    hasChildren: boolean;
+    hasChildren: string;
     startExpanded: boolean;
     children: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     animate: boolean;
