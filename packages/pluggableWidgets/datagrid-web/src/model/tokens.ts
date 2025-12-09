@@ -105,6 +105,7 @@ export const DG_TOKENS = {
     loaderVM: token<DerivedLoaderController>("DatagridLoaderViewModel"),
 
     currentPage: token<ComputedAtom<number>>("@computed:currentPage"),
+    customPagination: token<ComputedAtom<ReactNode>>("@computed:customPagination"),
     dynamicPage: token<ComputedAtom<number>>("@computed:dynamicPage"),
     dynamicPageSize: token<ComputedAtom<number>>("@computed:dynamicPageSize"),
     dynamicPagination: token<DynamicPaginationFeature>("@feature:DynamicPaginationFeature"),
