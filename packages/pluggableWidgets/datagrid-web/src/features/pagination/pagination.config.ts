@@ -10,6 +10,7 @@ export interface PaginationConfig {
     isLimitBased: boolean;
     dynamicPageSizeEnabled: boolean;
     dynamicPageEnabled: boolean;
+    customPaginationEnabled: boolean;
 }
 
 export type PaginationKind = `${PaginationEnum}.${ShowPagingButtonsEnum}` | "custom";
@@ -23,7 +24,8 @@ export function paginationConfig(props: MainGateProps): PaginationConfig {
         isLimitBased: isLimitBased(props),
         paginationKind: paginationKind(props),
         dynamicPageSizeEnabled: dynamicPageSizeEnabled(props),
-        dynamicPageEnabled: dynamicPageEnabled(props)
+        dynamicPageEnabled: dynamicPageEnabled(props),
+        customPaginationEnabled: props.useCustomPagination
     };
 
     return Object.freeze(config);

@@ -25,7 +25,7 @@ import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPla
 import { DynamicPaginationFeature } from "../../features/pagination/DynamicPagination.feature";
 import { PageControlService } from "../../features/pagination/PageControl.service";
 import { paginationConfig } from "../../features/pagination/pagination.config";
-import { dynamicPageAtom, dynamicPageSizeAtom } from "../../features/pagination/pagination.model";
+import { customPaginationAtom, dynamicPageAtom, dynamicPageSizeAtom } from "../../features/pagination/pagination.model";
 import { PaginationViewModel } from "../../features/pagination/Pagination.viewModel";
 import { createCellEventsController } from "../../features/row-interaction/CellEventsController";
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
@@ -66,6 +66,7 @@ injected(
     CORE.atoms.totalCount,
     DG.pageControl
 );
+injected(customPaginationAtom, CORE.mainGate);
 
 // loader
 injected(DerivedLoaderController, DG.query, DG.exportProgressService, CORE.columnsStore, DG.loaderConfig);
@@ -137,6 +138,7 @@ export class DatagridContainer extends Container {
 
         /** Pagination **/
         this.bind(DG.currentPage).toInstance(currentPageAtom).inTransientScope();
+        this.bind(DG.customPagination).toInstance(customPaginationAtom).inTransientScope();
         this.bind(DG.dynamicPage).toInstance(dynamicPageAtom).inTransientScope();
         this.bind(DG.dynamicPageSize).toInstance(dynamicPageSizeAtom).inTransientScope();
         this.bind(DG.dynamicPagination).toInstance(DynamicPaginationFeature).inSingletonScope();
