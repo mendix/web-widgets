@@ -1,7 +1,22 @@
-import { ActionValue, ObjectItem } from "mendix";
+import { ActionValue, ListActionValue, ObjectItem } from "mendix";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
+
+type UpdateProps = Pick<
+    FileUploaderContainerProps,
+    | "uploadMode"
+    | "createFileAction"
+    | "createImageAction"
+    | "onUploadFailureFile"
+    | "onUploadSuccessFile"
+    | "onUploadFailureImage"
+    | "onUploadSuccessImage"
+>;
 
 export class ObjectCreationHelper {
     private objectCreationAction?: ActionValue;
+    private onUploadFailure?: ListActionValue;
+    private onUploadSuccess?: ListActionValue;
     private requestingEnabled = false;
     private currentWaiting: Array<[(v: ObjectItem) => void, (e: Error) => void]> = [];
     private itemCreationTimer?: number = undefined;
@@ -25,8 +40,16 @@ export class ObjectCreationHelper {
         }
     }
 
-    updateProps(createAction?: ActionValue): void {
-        this.objectCreationAction = createAction;
+    updateProps(props: UpdateProps): void {
+        if (props.uploadMode === "files") {
+            this.objectCreationAction = props.createFileAction;
+            this.onUploadFailure = props.onUploadFailureFile;
+            this.onUploadSuccess = props.onUploadSuccessFile;
+        } else {
+            this.objectCreationAction = props.createImageAction;
+            this.onUploadFailure = props.onUploadFailureImage;
+            this.onUploadSuccess = props.onUploadSuccessImage;
+        }
     }
 
     request(): Promise<ObjectItem> {
@@ -53,6 +76,19 @@ export class ObjectCreationHelper {
         }
 
         this.executeCreation();
+    }
+
+    reportCreationFailure(): void {
+        console.warn(`File object creation has failed.`);
+    }
+
+    reportUploadFailure(item: ObjectItem): void {
+        console.warn(`Uploading file content to ${item.id} has failed.`);
+        executeAction(this.onUploadFailure?.get(item));
+    }
+
+    reportUploadSuccess(item: ObjectItem): void {
+        executeAction(this.onUploadSuccess?.get(item));
     }
 
     private executeCreation(): void {
