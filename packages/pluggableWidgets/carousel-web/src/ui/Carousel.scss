@@ -27,7 +27,7 @@
 .swiper-button-prev {
     --swiper-navigation-size: 24px;
     border-radius: 50%;
-    background-color: rgba(245, 245, 245, 0.7);
+    background-color: var(--gray-200);
     padding: var(--spacing-large);
 }
 
