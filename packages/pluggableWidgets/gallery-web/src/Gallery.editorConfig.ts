@@ -34,10 +34,6 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
         hidePropertyIn(defaultProperties, values, "onConfigurationChange");
     }
 
-    // Hide scrolling settings for now.
-    hidePropertiesIn(defaultProperties, values, ["showPagingButtons", "showTotalCount"]);
-    /** Pagination */
-
     if (values.pagination === "buttons") {
         hidePropertyIn(defaultProperties, values, "showTotalCount");
     } else {
