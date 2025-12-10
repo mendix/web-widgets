@@ -3,20 +3,25 @@ import { Config, Data, Layout } from "plotly.js-dist-min";
 import { ChartProps } from "../components/PlotlyChart";
 
 export function parseData(staticData?: string, attributeData?: string, sampleData?: string): Data[] {
-    let finalData: Data[] = [];
-
     try {
-        const dataAttribute = attributeData ? JSON.parse(attributeData) : [];
-        finalData = [...finalData, ...(staticData ? JSON.parse(staticData) : []), ...dataAttribute];
+        const staticTraces: Data[] = staticData ? JSON.parse(staticData) : [];
+        const attrTraces: Data[] = attributeData ? JSON.parse(attributeData) : [];
 
-        if (dataAttribute.length === 0) {
-            finalData = [...finalData, ...(sampleData ? JSON.parse(sampleData) : [])];
+        // Use sampleData as fallback when attributeData is empty
+        const dynamicTraces: Data[] = attrTraces.length > 0 ? attrTraces : sampleData ? JSON.parse(sampleData) : [];
+
+        const maxLen = Math.max(staticTraces.length, dynamicTraces.length);
+        const result: Data[] = [];
+
+        for (let i = 0; i < maxLen; i++) {
+            result.push({ ...staticTraces[i], ...dynamicTraces[i] } as Data);
         }
+
+        return result;
     } catch (error) {
         console.error("Error parsing chart data:", error);
+        return [];
     }
-
-    return finalData;
 }
 
 export function parseLayout(staticLayout?: string, attributeLayout?: string, sampleLayout?: string): Partial<Layout> {
