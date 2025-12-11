@@ -350,6 +350,7 @@ export function useSelectionHelper(
 ): SelectionHelper | undefined {
     const prevObjectListRef = useRef<ObjectItem[]>([]);
     const firstLoadDone = useRef(false);
+
     useState(() => {
         if (selection) {
             selection.setKeepSelection(selectionStateHandler(keepSelection));

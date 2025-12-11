@@ -222,6 +222,10 @@
                         <enumerationValue key="rowClick">Row click</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="autoSelect" type="boolean" defaultValue="false">
+                    <caption>Auto select first row</caption>
+                    <description>Automatically select the first row</description>
+                </property>
                 <property key="itemSelectionMode" type="enumeration" defaultValue="clear">
                     <caption>Toggle on click</caption>
                     <description>Defines item selection behavior.</description>
