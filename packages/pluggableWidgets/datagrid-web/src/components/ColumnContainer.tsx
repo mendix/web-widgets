@@ -31,9 +31,9 @@ export const ColumnContainer = observer(function ColumnContainer(props: ColumnCo
             title={caption}
             ref={ref => column.setHeaderElementRef(ref)}
             data-column-id={columnId}
-            onDrop={vm.handleOnDrop}
-            onDragEnter={vm.handleDragEnter}
-            onDragOver={vm.handleDragOver}
+            onDrop={vm.isDraggable ? vm.handleOnDrop : undefined}
+            onDragEnter={vm.isDraggable ? vm.handleDragEnter : undefined}
+            onDragOver={vm.isDraggable ? vm.handleDragOver : undefined}
         >
             <div className={classNames("column-container")} id={`${gridId}-column${columnId}`}>
                 <ColumnHeader />

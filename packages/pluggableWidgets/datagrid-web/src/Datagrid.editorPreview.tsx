@@ -174,7 +174,7 @@ function ColumnHeader({ column }: { column: ColumnsPreviewType }): ReactNode {
             >
                 <div className="column-container">
                     <div className="column-header">
-                        {columnsDraggable && (
+                        {columnsDraggable && columnPreview.canDrag && (
                             <DragHandle draggable={false} onDragStart={() => {}} onDragEnd={() => {}} />
                         )}
                         <span>{caption.length > 0 ? caption : "\u00a0"}</span>

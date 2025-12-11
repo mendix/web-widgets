@@ -6,7 +6,7 @@ import { SelectAdjacentFx, SelectAllFx, SelectFx, SelectionType, WidgetSelection
 export class SelectActionHandler {
     constructor(
         private selection: WidgetSelectionProperty,
-        protected selectionHelper: SelectionHelperService
+        protected selectionHelper: SelectionHelperService | undefined
     ) {}
 
     get selectionType(): SelectionType {
