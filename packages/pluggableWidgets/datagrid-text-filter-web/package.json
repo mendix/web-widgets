@@ -1,7 +1,7 @@
 {
     "name": "@mendix/datagrid-text-filter-web",
     "widgetName": "DatagridTextFilter",
-    "version": "3.7.0",
+    "version": "3.8.0",
     "description": "Filter Data Grid 2 rows by text input, supporting contains, starts with, and equals operations.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
