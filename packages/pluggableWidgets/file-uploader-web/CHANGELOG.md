@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We added missing dutch translations for File Uploader.
+
 ## [2.4.0] - 2025-12-10
 
 ### Added

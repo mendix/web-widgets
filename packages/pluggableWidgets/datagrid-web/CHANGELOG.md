@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We added missing dutch translations for Datagrid 2.
+
 ### Added
 
 - We added a new property for export to excel. The new property allows to set the cell export type and also the format for type number and date.
