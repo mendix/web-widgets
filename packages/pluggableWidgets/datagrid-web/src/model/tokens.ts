@@ -10,6 +10,7 @@ import {
     SelectAllService,
     SelectionDynamicProps,
     SelectionHelperService,
+    SetPageAction,
     TaskProgressService
 } from "@mendix/widget-plugin-grid/main";
 import { SelectAllFeature } from "@mendix/widget-plugin-grid/select-all/select-all.feature";
@@ -26,6 +27,10 @@ import { CSSProperties, ReactNode } from "react";
 import { MainGateProps } from "../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
+import { DynamicPaginationFeature } from "../features/pagination/DynamicPagination.feature";
+import { GridPageControl } from "../features/pagination/GridPageControl";
+import { PaginationViewModel } from "../features/pagination/Pagination.viewModel";
+import { PaginationConfig } from "../features/pagination/pagination.config";
 import { CellEventsController } from "../features/row-interaction/CellEventsController";
 import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
 import { SelectAllBarViewModel } from "../features/select-all/SelectAllBar.viewModel";
@@ -39,7 +44,6 @@ import { DatagridConfig } from "./configs/Datagrid.config";
 import { RowClassProvider } from "./models/rows.model";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
-import { PaginationConfig, PaginationController } from "./services/PaginationController";
 import { TextsService } from "./services/Texts.service";
 import { PageSizeStore } from "./stores/PageSize.store";
 
@@ -55,7 +59,6 @@ export const CORE_TOKENS = {
         totalCount: token<ComputedAtom<number>>("@computed:totalCount"),
         visibleColumnsCount: token<ComputedAtom<number>>("@computed:visibleColumnsCount"),
         isAllItemsPresent: token<ComputedAtom<boolean>>("@computed:isAllItemsPresent"),
-        pageSize: token<ComputedAtom<number>>("@computed:pageSize"),
         columnCount: token<ComputedAtom<number>>("@computed:columnCount")
     },
     columnsStore: token<ColumnGroupStore>("ColumnGroupStore"),
@@ -101,8 +104,17 @@ export const DG_TOKENS = {
     loaderConfig: token<DerivedLoaderControllerConfig>("DatagridLoaderConfig"),
     loaderVM: token<DerivedLoaderController>("DatagridLoaderViewModel"),
 
-    paginationConfig: token<PaginationConfig>("PaginationConfig"),
-    paginationService: token<PaginationController>("PaginationService"),
+    currentPage: token<ComputedAtom<number>>("@computed:currentPage"),
+    customPagination: token<ComputedAtom<ReactNode>>("@computed:customPagination"),
+    dynamicPage: token<ComputedAtom<number>>("@computed:dynamicPage"),
+    dynamicPageSize: token<ComputedAtom<number>>("@computed:dynamicPageSize"),
+    dynamicPagination: token<DynamicPaginationFeature>("@feature:DynamicPaginationFeature"),
+    pageControl: token<GridPageControl>("@service:GridPageControl"),
+    pageSize: token<ComputedAtom<number>>("@computed:pageSize"),
+    paginationConfig: token<PaginationConfig>("@config:PaginationConfig"),
+    paginationVM: token<PaginationViewModel>("@viewModel:PaginationService"),
+    setPageAction: token<SetPageAction>("@action:setPage"),
+    setPageSizeAction: token<SetPageAction>("@action:setPageSize"),
 
     parentChannelName: token<string>("parentChannelName"),
     refreshInterval: token<number>("refreshInterval"),

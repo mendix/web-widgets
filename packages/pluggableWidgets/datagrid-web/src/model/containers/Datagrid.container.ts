@@ -6,8 +6,12 @@ import {
     createClickActionHelper,
     createFocusController,
     createSelectionHelper,
+    createSetPageAction,
+    createSetPageSizeAction,
+    currentPageAtom,
     DatasourceService,
     layoutAtom,
+    pageSizeAtom,
     SelectActionsProvider,
     TaskProgressService
 } from "@mendix/widget-plugin-grid/main";
@@ -18,6 +22,11 @@ import { Container, injected } from "brandi";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
+import { DynamicPaginationFeature } from "../../features/pagination/DynamicPagination.feature";
+import { PageControlService } from "../../features/pagination/PageControl.service";
+import { paginationConfig } from "../../features/pagination/pagination.config";
+import { customPaginationAtom, dynamicPageAtom, dynamicPageSizeAtom } from "../../features/pagination/pagination.model";
+import { PaginationViewModel } from "../../features/pagination/Pagination.viewModel";
 import { createCellEventsController } from "../../features/row-interaction/CellEventsController";
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
@@ -29,7 +38,6 @@ import { gridStyleAtom } from "../models/grid.model";
 import { rowClassProvider } from "../models/rows.model";
 import { DatasourceParamsController } from "../services/DatasourceParamsController";
 import { DerivedLoaderController } from "../services/DerivedLoaderController";
-import { PaginationController } from "../services/PaginationController";
 import { SelectionGate } from "../services/SelectionGate.service";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
@@ -37,9 +45,28 @@ import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 injected(ColumnGroupStore, CORE.setupService, CORE.mainGate, CORE.config, DG.filterHost);
 injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFilter, CORE.columnsStore);
 injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
-injected(PaginationController, CORE.setupService, DG.paginationConfig, DG.query);
 injected(GridBasicData, CORE.mainGate);
 injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.selectionDialogVM);
+
+/** Pagination **/
+injected(createSetPageAction, DG.query, DG.paginationConfig, DG.currentPage, DG.pageSize);
+injected(createSetPageSizeAction, DG.query, DG.paginationConfig, DG.currentPage, CORE.pageSizeStore, DG.setPageAction);
+injected(currentPageAtom, DG.query, DG.pageSize, DG.paginationConfig);
+injected(dynamicPageAtom, CORE.mainGate, DG.paginationConfig);
+injected(dynamicPageSizeAtom, CORE.mainGate);
+injected(PageControlService, CORE.mainGate, DG.setPageSizeAction, DG.setPageAction);
+injected(pageSizeAtom, CORE.pageSizeStore);
+injected(PaginationViewModel, DG.paginationConfig, DG.query, DG.currentPage, DG.pageSize, DG.setPageAction);
+injected(
+    DynamicPaginationFeature,
+    CORE.setupService,
+    DG.paginationConfig,
+    DG.dynamicPage,
+    DG.dynamicPageSize,
+    CORE.atoms.totalCount,
+    DG.pageControl
+);
+injected(customPaginationAtom, CORE.mainGate);
 
 // loader
 injected(DerivedLoaderController, DG.query, DG.exportProgressService, CORE.columnsStore, DG.loaderConfig);
@@ -64,17 +91,10 @@ injected(rowClassProvider, CORE.mainGate);
 // row-interaction
 injected(SelectActionsProvider, DG.selectionType, DG.selectionHelper);
 injected(createFocusController, CORE.setupService, DG.virtualLayout);
-injected(creteCheckboxEventsController, CORE.config, DG.selectActions, DG.focusService, CORE.atoms.pageSize);
-injected(layoutAtom, CORE.atoms.itemCount, CORE.atoms.columnCount, CORE.atoms.pageSize);
+injected(creteCheckboxEventsController, CORE.config, DG.selectActions, DG.focusService, DG.pageSize);
+injected(layoutAtom, CORE.atoms.itemCount, CORE.atoms.columnCount, DG.pageSize);
 injected(createClickActionHelper, CORE.setupService, CORE.mainGate);
-injected(
-    createCellEventsController,
-    CORE.config,
-    DG.selectActions,
-    DG.focusService,
-    DG.clickActionHelper,
-    CORE.atoms.pageSize
-);
+injected(createCellEventsController, CORE.config, DG.selectActions, DG.focusService, DG.clickActionHelper, DG.pageSize);
 
 // selection counter
 injected(
@@ -96,8 +116,6 @@ export class DatagridContainer extends Container {
         this.bind(CORE.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
         // Query service
         this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
-        // Pagination service
-        this.bind(DG.paginationService).toInstance(PaginationController).inSingletonScope();
         // Datasource params service
         this.bind(DG.paramsService).toInstance(DatasourceParamsController).inSingletonScope();
         // FilterAPI
@@ -117,6 +135,18 @@ export class DatagridContainer extends Container {
         this.bind(DG.emptyPlaceholderWidgets).toInstance(emptyStateWidgetsAtom).inTransientScope();
         // Grid columns style
         this.bind(DG.gridColumnsStyle).toInstance(gridStyleAtom).inTransientScope();
+
+        /** Pagination **/
+        this.bind(DG.currentPage).toInstance(currentPageAtom).inTransientScope();
+        this.bind(DG.customPagination).toInstance(customPaginationAtom).inTransientScope();
+        this.bind(DG.dynamicPage).toInstance(dynamicPageAtom).inTransientScope();
+        this.bind(DG.dynamicPageSize).toInstance(dynamicPageSizeAtom).inTransientScope();
+        this.bind(DG.dynamicPagination).toInstance(DynamicPaginationFeature).inSingletonScope();
+        this.bind(DG.pageSize).toInstance(pageSizeAtom).inTransientScope();
+        this.bind(DG.pageControl).toInstance(PageControlService).inSingletonScope();
+        this.bind(DG.paginationVM).toInstance(PaginationViewModel).inSingletonScope();
+        this.bind(DG.setPageAction).toInstance(createSetPageAction).inSingletonScope();
+        this.bind(DG.setPageSizeAction).toInstance(createSetPageSizeAction).inSingletonScope();
 
         // Selection gate
         this.bind(DG.selectionGate).toInstance(SelectionGate).inTransientScope();
@@ -188,12 +218,8 @@ export class DatagridContainer extends Container {
         });
 
         // Bind pagination config
-        this.bind(DG.paginationConfig).toConstant({
-            pagination: props.pagination,
-            showPagingButtons: props.showPagingButtons,
-            showNumberOfRows: props.showNumberOfRows,
-            pageSize: props.pageSize
-        });
+
+        this.bind(DG.paginationConfig).toConstant(paginationConfig(props));
 
         // Bind init page size
         this.bind(CORE.initPageSize).toConstant(props.pageSize);
@@ -212,8 +238,12 @@ export class DatagridContainer extends Container {
     /** Post init hook for final configuration. */
     private postInit(props: MainGateProps, config: DatagridConfig): void {
         // Make sure essential services are created upfront
-        this.get(DG.paramsService);
-        this.get(DG.paginationService);
+        this.get(DG.paramsService); // Enable sort & filtering
+        this.get(DG.dynamicPagination); // Enable dynamic pagination feature
+
+        const query = this.get(DG.query);
+        query.requestTotalCount(config.requestTotalCount);
+        query.setBaseLimit(config.constPageSize);
 
         if (config.settingsStorageEnabled) {
             this.get(DG.personalizationService);
