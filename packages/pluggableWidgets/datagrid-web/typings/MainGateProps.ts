@@ -27,6 +27,7 @@ export type MainGateProps = Pick<
     | "onSelectionChange"
     | "pageSize"
     | "pagination"
+    | "pagingPosition"
     | "refreshIndicator"
     | "refreshInterval"
     | "rowClass"

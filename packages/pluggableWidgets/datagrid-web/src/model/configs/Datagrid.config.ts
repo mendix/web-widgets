@@ -1,6 +1,6 @@
 import { SelectionMode, SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { DatagridContainerProps, LoadingTypeEnum, PagingPositionEnum } from "../../../typings/DatagridProps";
+import { DatagridContainerProps, LoadingTypeEnum } from "../../../typings/DatagridProps";
 import { type SelectionMethod } from "../../features/row-interaction/base";
 
 /** Config for static values that don't change at runtime. */
@@ -29,8 +29,6 @@ export interface DatagridConfig {
     columnsResizable: boolean;
     columnsSortable: boolean;
     isInteractive: boolean;
-    requestTotalCount: boolean;
-    constPageSize: number;
 }
 
 export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
@@ -60,9 +58,7 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         columnsFilterable: props.columnsFilterable,
         columnsResizable: props.columnsResizable,
         columnsSortable: props.columnsSortable,
-        isInteractive: isInteractive(props),
-        requestTotalCount: requestTotalCount(props),
-        constPageSize: props.pageSize
+        isInteractive: isInteractive(props)
     };
 
     return Object.freeze(config);
@@ -98,8 +94,4 @@ function selectionType(props: DatagridContainerProps): SelectionType {
 
 function selectionMethod(props: DatagridContainerProps): SelectionMethod {
     return props.itemSelection ? props.itemSelectionMethod : "none";
-}
-
-function requestTotalCount(props: DatagridContainerProps): boolean {
-    return props.pagination === "buttons" || props.showNumberOfRows;
 }
