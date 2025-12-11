@@ -6,5 +6,5 @@ export function useItemSelectHelper(
     selectionHelper: SelectionHelper | undefined
 ): SelectActionHandler {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    return useMemo(() => new SelectActionHandler(selection, selectionHelper ?? null), [selectionHelper]);
+    return useMemo(() => new SelectActionHandler(selection, selectionHelper), [selectionHelper]);
 }

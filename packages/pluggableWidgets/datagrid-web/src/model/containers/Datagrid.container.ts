@@ -124,8 +124,8 @@ export class DatagridContainer extends Container {
         this.bind(CORE.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
         // Drag and Drop store
         this.bind(DG.headerDragDrop).toInstance(HeaderDragnDropStore).inSingletonScope();
-        // Drag and Drop view model
-        this.bind(DG.headerDragnDropVM).toInstance(HeaderDragnDropViewModel).inSingletonScope();
+        // Drag and Drop view model (per column, not singleton)
+        this.bind(DG.headerDragnDropVM).toInstance(HeaderDragnDropViewModel).inTransientScope();
         // Query service
         this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
         // Grid sizing and scrolling store
