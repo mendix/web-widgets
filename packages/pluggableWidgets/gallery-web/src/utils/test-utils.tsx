@@ -81,7 +81,7 @@ export function createMockGalleryContext(): GalleryRootScope {
         refreshInterval: 0
     });
 
-    const mockSelectHelper = new SelectActionHandler("None", undefined);
+    const mockSelectHelper = new SelectActionHandler("None", null);
 
     return {
         rootStore: mockStore,
@@ -110,7 +110,7 @@ type Mocks = {
 export function mockProps(params: Helpers & Mocks = {}): GalleryProps<ObjectItem> {
     const {
         onClick = undefined,
-        selectHelper = new SelectActionHandler("None", undefined),
+        selectHelper = new SelectActionHandler("None", null),
         actionHelper = new ClickActionHelper("single", onClick),
         focusController = new FocusTargetController(new PositionController(), new VirtualGridLayout(3, 4, 10)),
         itemEventsController = new ItemEventsController(

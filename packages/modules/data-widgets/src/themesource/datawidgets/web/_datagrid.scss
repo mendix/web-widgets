@@ -131,6 +131,38 @@ $root: ".widget-datagrid";
                 align-self: center;
             }
 
+            /* Drag handle */
+            .drag-handle {
+                cursor: grab;
+                pointer-events: auto;
+                position: relative;
+                width: 14px;
+                padding: 0;
+                flex-grow: 0;
+                flex-shrink: 0;
+                display: flex;
+                justify-content: center;
+                align-self: normal;
+                z-index: 1;
+
+                &:hover {
+                    background-color: var(--brand-primary-50, $brand-light);
+                    svg {
+                        color: var(--brand-primary, $brand-primary);
+                    }
+                }
+                &:active {
+                    cursor: grabbing;
+                }
+                svg {
+                    margin: 0;
+                }
+            }
+
+            .drag-handle + .column-caption {
+                padding-inline-start: 4px;
+            }
+
             &:focus:not(:focus-visible) {
                 outline: none;
             }

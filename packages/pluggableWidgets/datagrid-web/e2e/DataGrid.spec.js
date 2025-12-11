@@ -49,10 +49,9 @@ test.describe("capabilities: sorting", () => {
         await page.goto("/");
         await page.waitForLoadState("networkidle");
         await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1)).toHaveText("First Name");
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg")).toHaveAttribute(
-            "data-icon",
-            "arrows-alt-v"
-        );
+        await expect(
+            page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg[data-icon='arrows-alt-v']")
+        ).toBeVisible();
         await expect(page.getByRole("gridcell", { name: "12" }).first()).toHaveText("12");
     });
 
@@ -60,15 +59,13 @@ test.describe("capabilities: sorting", () => {
         await page.goto("/");
         await page.waitForLoadState("networkidle");
         await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1)).toHaveText("First Name");
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg")).toHaveAttribute(
-            "data-icon",
-            "arrows-alt-v"
-        );
+        await expect(
+            page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg[data-icon='arrows-alt-v']")
+        ).toBeVisible();
         await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg")).toHaveAttribute(
-            "data-icon",
-            "long-arrow-alt-up"
-        );
+        await expect(
+            page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg[data-icon='long-arrow-alt-up']")
+        ).toBeVisible();
         await expect(page.getByRole("gridcell", { name: "10" }).first()).toHaveText("10");
     });
 
@@ -78,10 +75,9 @@ test.describe("capabilities: sorting", () => {
         await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1)).toHaveText("First Name");
         await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
         await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg")).toHaveAttribute(
-            "data-icon",
-            "long-arrow-alt-down"
-        );
+        await expect(
+            page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg[data-icon='long-arrow-alt-down']")
+        ).toBeVisible();
         await expect(page.getByRole("gridcell", { name: "12" }).first()).toHaveText("12");
     });
 });
