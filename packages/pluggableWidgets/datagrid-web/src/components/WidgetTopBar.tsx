@@ -3,11 +3,11 @@ import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
-import { useDatagridConfig } from "../model/hooks/injection-hooks";
+import { usePaginationConfig } from "../model/hooks/injection-hooks";
 import { Pagination } from "./Pagination";
 
 export const WidgetTopBar = observer(function WidgetTopBar(): ReactElement {
-    const config = useDatagridConfig();
+    const pgConfig = usePaginationConfig();
     const selectionCounter = useSelectionCounterViewModel();
 
     return (
@@ -19,7 +19,7 @@ export const WidgetTopBar = observer(function WidgetTopBar(): ReactElement {
                     </If>
                 </div>
                 <div className="widget-datagrid-tb-end">
-                    <If condition={config.pagingPosition !== "bottom"}>
+                    <If condition={pgConfig.pagingPosition !== "bottom"}>
                         <Pagination />
                     </If>
                 </div>

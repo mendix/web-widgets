@@ -20,7 +20,6 @@ describe("datagridConfig", () => {
             loadingType: "spinner",
             multiselectable: undefined,
             name: "datagrid2_1",
-            pagingPosition: "bottom",
             refreshIntervalMs: 0,
             selectAllCheckboxEnabled: true,
             selectionEnabled: false,
