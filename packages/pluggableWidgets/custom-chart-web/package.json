@@ -49,6 +49,7 @@
         "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "classnames": "^2.5.1",
+        "deepmerge": "^4.3.1",
         "plotly.js-dist-min": "^3.0.0"
     },
     "devDependencies": {

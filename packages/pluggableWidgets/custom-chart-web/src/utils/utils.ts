@@ -1,6 +1,12 @@
 import { EditorStoreState } from "@mendix/shared-charts/main";
+import deepmerge from "deepmerge";
 import { Config, Data, Layout } from "plotly.js-dist-min";
 import { ChartProps } from "../components/PlotlyChart";
+
+// Custom merge options: arrays are replaced (not concatenated) to match Plotly expectations
+const mergeOptions: deepmerge.Options = {
+    arrayMerge: (_target, source) => source
+};
 
 export function parseData(staticData?: string, attributeData?: string, sampleData?: string): Data[] {
     try {
@@ -14,7 +20,9 @@ export function parseData(staticData?: string, attributeData?: string, sampleDat
         const result: Data[] = [];
 
         for (let i = 0; i < maxLen; i++) {
-            result.push({ ...staticTraces[i], ...dynamicTraces[i] } as Data);
+            const staticTrace = (staticTraces[i] ?? {}) as Record<string, unknown>;
+            const dynamicTrace = (dynamicTraces[i] ?? {}) as Record<string, unknown>;
+            result.push(deepmerge(staticTrace, dynamicTrace, mergeOptions) as Data);
         }
 
         return result;
@@ -25,19 +33,16 @@ export function parseData(staticData?: string, attributeData?: string, sampleDat
 }
 
 export function parseLayout(staticLayout?: string, attributeLayout?: string, sampleLayout?: string): Partial<Layout> {
-    let finalLayout: Partial<Layout> = {};
-
     try {
-        const layoutAttribute = attributeLayout ? JSON.parse(attributeLayout) : {};
-        finalLayout = { ...finalLayout, ...(staticLayout ? JSON.parse(staticLayout) : {}), ...layoutAttribute };
+        const staticObj = staticLayout ? JSON.parse(staticLayout) : {};
+        const attrObj = attributeLayout ? JSON.parse(attributeLayout) : {};
+        const dynamicObj = Object.keys(attrObj).length > 0 ? attrObj : sampleLayout ? JSON.parse(sampleLayout) : {};
 
-        if (Object.keys(layoutAttribute).length === 0) {
-            finalLayout = { ...finalLayout, ...(sampleLayout ? JSON.parse(sampleLayout) : {}) };
-        }
+        return deepmerge(staticObj, dynamicObj, mergeOptions);
     } catch (error) {
         console.error("Error parsing chart layout:", error);
+        return {};
     }
-    return finalLayout;
 }
 
 export function parseConfig(configOptions?: string): Partial<Config> {
@@ -56,16 +61,10 @@ export function parseConfig(configOptions?: string): Partial<Config> {
 export function mergeChartProps(chartProps: ChartProps, editorState: EditorStoreState): ChartProps {
     return {
         ...chartProps,
-        config: {
-            ...chartProps.config,
-            ...parseConfig(editorState.config)
-        },
-        layout: {
-            ...chartProps.layout,
-            ...parseLayout(editorState.layout)
-        },
+        config: deepmerge(chartProps.config, parseConfig(editorState.config), mergeOptions),
+        layout: deepmerge(chartProps.layout, parseLayout(editorState.layout), mergeOptions),
         data: chartProps.data.map((trace, index) => {
-            let stateTrace: Data = {};
+            let stateTrace: Data | null = null;
             try {
                 if (!editorState.data || !editorState.data[index]) {
                     return trace;
@@ -75,10 +74,11 @@ export function mergeChartProps(chartProps: ChartProps, editorState: EditorStore
                 console.warn(`Editor props for trace(${index}) is not a valid JSON:${editorState.data[index]}`);
                 console.warn("Please make sure the props is a valid JSON string.");
             }
-            return {
-                ...trace,
-                ...stateTrace
-            } as Data;
+            // deepmerge can't handle null, so return trace unchanged if stateTrace is null/undefined
+            if (stateTrace == null || typeof stateTrace !== "object") {
+                return trace;
+            }
+            return deepmerge(trace as object, stateTrace as object, mergeOptions) as Data;
         })
     };
 }
