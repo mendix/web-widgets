@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.8.0] - 2025-12-11
+
 ### Fixed
 
 - We added missing dutch translations for Datagrid 2.

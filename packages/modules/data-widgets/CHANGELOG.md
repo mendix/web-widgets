@@ -6,9 +6,67 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.8.0] DataWidgets - 2025-12-11
+
 ### Fixed
 
 - We fixed an issue where custom content would overflow its container cell.
+
+### [3.8.0] DatagridDateFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.8.0] DatagridDropdownFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.8.0] DatagridNumberFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.8.0] DatagridTextFilter
+
+#### Changed
+
+- Internal improvements.
+
+### [3.8.0] Datagrid
+
+#### Fixed
+
+- We added missing dutch translations for Datagrid 2.
+
+#### Added
+
+- We added a new property for export to excel. The new property allows to set the cell export type and also the format for type number and date.
+
+- We have introduced the "Page" and "Page Size" attributes to provide complete control over DataGrid pagination.
+
+### [3.8.0] Gallery
+
+#### Fixed
+
+- We added missing dutch translations for Gallery.
+
+#### Added
+
+- We added a refresh interval property, to allow defining an interval (in seconds) for refreshing the content in Gallery
+
+### [3.8.0] TreeNode
+
+#### Changed
+
+- We changed `hasChildren` configuration from boolean to expression.
+
+#### Fixed
+
+- We fixed an issue where Tree Nodes showing loading spinner when children can't be found while `hasChildren` property configured to `true`.
 
 ## [3.7.0] DataWidgets - 2025-11-11
 
