@@ -242,8 +242,9 @@ export class DatagridContainer extends Container {
         this.get(DG.dynamicPagination); // Enable dynamic pagination feature
 
         const query = this.get(DG.query);
-        query.requestTotalCount(config.requestTotalCount);
-        query.setBaseLimit(config.constPageSize);
+        const pgConfig = this.get(DG.paginationConfig);
+        query.requestTotalCount(pgConfig.requestTotalCount);
+        query.setBaseLimit(pgConfig.constPageSize);
 
         if (config.settingsStorageEnabled) {
             this.get(DG.personalizationService);
