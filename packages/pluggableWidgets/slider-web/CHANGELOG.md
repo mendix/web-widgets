@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We increase the rc-slider library version dependencies to support react 19.
+
 ## [2.1.4] - 2024-08-28
 
 ### Changed
