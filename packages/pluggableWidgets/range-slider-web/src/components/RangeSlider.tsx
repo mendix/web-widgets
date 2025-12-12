@@ -1,8 +1,7 @@
 import { CSSProperties, forwardRef, ReactElement, RefObject } from "react";
-import { Range, RangeProps } from "rc-slider";
+import Slider, { SliderProps } from "@rc-component/slider";
 import classNames from "classnames";
-
-export interface RangeSliderProps extends RangeProps {
+export interface RangeSliderProps extends SliderProps {
     classNameSlider?: string;
     rootStyle?: CSSProperties;
 }
@@ -23,7 +22,7 @@ export const RangeSlider = forwardRef(
                 className
             )}
         >
-            <Range className={classNameSlider} {...rcRangeProps} />
+            <Slider range className={classNameSlider} {...rcRangeProps} />
         </div>
     )
 );
