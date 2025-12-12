@@ -3,10 +3,10 @@ import { RangeSliderContainerProps } from "../../typings/RangeSliderProps";
 import { useNumber } from "../utils/useNumber";
 import { RangeSlider as RangeComponent } from "./RangeSlider";
 import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
-import { createHandleGenerator } from "../utils/createHandleGenerator";
 import { useMarks } from "../utils/useMarks";
 import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
 import { useScheduleUpdateOnce } from "@mendix/widget-plugin-hooks/useScheduleUpdateOnce";
+import { HandleTooltip } from "./TooltipHandler";
 
 export function Container(props: RangeSliderContainerProps): ReactElement {
     const min = useNumber(minProp(props));
@@ -54,15 +54,8 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
         heightUnit: props.heightUnit
     });
 
-    const handle = createHandleGenerator({
-        tooltipLower: props.tooltipLower,
-        tooltipUpper: props.tooltipUpper,
-        showTooltip: props.showTooltip,
-        tooltipTypeLower: props.tooltipTypeLower,
-        tooltipTypeUpper: props.tooltipTypeUpper,
-        tooltipAlwaysVisible: props.tooltipAlwaysVisible,
-        sliderRef
-    });
+    const tooltipTypeCheck = [props.tooltipTypeLower, props.tooltipTypeUpper];
+    const tooltipValue = [props.tooltipLower, props.tooltipUpper];
 
     useScheduleUpdateOnce(() => lowerBoundAttribute.status === "available");
 
@@ -78,7 +71,21 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
             marks={marks}
             min={props.min}
             max={props.max}
-            handle={handle}
+            handleRender={(node, handleProps) => {
+                const isCustomText = tooltipTypeCheck[handleProps.index] === "customText";
+                const displayValue = isCustomText ? (tooltipValue[handleProps.index]?.value ?? "") : handleProps.value;
+                return (
+                    <HandleTooltip
+                        value={displayValue}
+                        index={handleProps.index}
+                        visible={handleProps.dragging}
+                        sliderRef={sliderRef}
+                        {...props}
+                    >
+                        {node}
+                    </HandleTooltip>
+                );
+            }}
             ref={sliderRef}
         />
     );
