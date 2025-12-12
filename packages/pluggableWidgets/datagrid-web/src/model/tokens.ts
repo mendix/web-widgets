@@ -5,6 +5,7 @@ import { ClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActio
 import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import {
+    ObservableSelectAllTexts,
     QueryService,
     SelectActionsService,
     SelectAllService,
@@ -14,11 +15,7 @@ import {
     TaskProgressService
 } from "@mendix/widget-plugin-grid/main";
 import { SelectAllFeature } from "@mendix/widget-plugin-grid/select-all/select-all.feature";
-import {
-    BarStore,
-    ObservableSelectAllTexts,
-    SelectAllEvents
-} from "@mendix/widget-plugin-grid/select-all/select-all.model";
+import { BarStore, SelectAllEvents } from "@mendix/widget-plugin-grid/select-all/select-all.model";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { ComputedAtom, DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
 import { token } from "brandi";
@@ -79,7 +76,8 @@ export const CORE_TOKENS = {
         selectedCounterTextsStore: token<{
             clearSelectionButtonLabel: string;
             selectedCountText: string;
-        }>("@store:selectedCounterTextsStore")
+        }>("@store:selectedCounterTextsStore"),
+        selectAllTexts: token<ObservableSelectAllTexts>("@store:SelectAllTexts")
     },
 
     setupService: token<DatagridSetupService>("DatagridSetupService"),
@@ -155,7 +153,6 @@ export const SA_TOKENS = {
     emitter: token<Emitter<SelectAllEvents>>("SelectAllEmitter"),
     gate: token<DerivedPropsGate<MainGateProps>>("MainGateForSelectAllContainer"),
     progressService: token<TaskProgressService>("SelectAllProgressService"),
-    selectAllTextsStore: token<ObservableSelectAllTexts>("SelectAllTextsStore"),
     selectAllBarVM: token<SelectAllBarViewModel>("SelectAllBarViewModel"),
     selectAllService: token<SelectAllService>("SelectAllService"),
     selectionDialogVM: token<SelectionProgressDialogViewModel>("SelectionProgressDialogViewModel"),
