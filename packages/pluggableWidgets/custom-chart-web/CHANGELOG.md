@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We changed the event data to return more properties instead of only bbox coordinates.
+
 ## [1.1.2] - 2025-09-22
 
 ### Fixed
