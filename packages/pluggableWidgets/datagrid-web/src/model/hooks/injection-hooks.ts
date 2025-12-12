@@ -24,3 +24,4 @@ export const [useClickActionHelper] = createInjectionHooks(DG.clickActionHelper)
 export const [useFocusService] = createInjectionHooks(DG.focusService);
 export const [useCheckboxEventsHandler] = createInjectionHooks(DG.checkboxEventsHandler);
 export const [useCellEventsHandler] = createInjectionHooks(DG.cellEventsHandler);
+export const [useSelectAllTexts] = createInjectionHooks(CORE.selection.selectAllTexts);
