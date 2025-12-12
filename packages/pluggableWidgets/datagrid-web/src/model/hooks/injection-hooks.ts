@@ -27,3 +27,4 @@ export const [useCheckboxEventsHandler] = createInjectionHooks(DG.checkboxEvents
 export const [useCellEventsHandler] = createInjectionHooks(DG.cellEventsHandler);
 export const [useCustomPagination] = createInjectionHooks(DG.customPagination);
 export const [usePaginationConfig] = createInjectionHooks(DG.paginationConfig);
+export const [useSelectAllTexts] = createInjectionHooks(CORE.selection.selectAllTexts);
