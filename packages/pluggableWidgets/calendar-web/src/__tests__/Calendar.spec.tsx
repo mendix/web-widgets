@@ -86,6 +86,8 @@ const customViewProps: CalendarContainerProps = {
     customViewShowFriday: true,
     customViewShowSaturday: false,
     showAllEvents: true,
+    step: 60,
+    timeslots: 2,
     toolbarItems: [],
     topBarDateFormat: undefined
 };
