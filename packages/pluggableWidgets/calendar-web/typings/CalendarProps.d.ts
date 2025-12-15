@@ -90,6 +90,8 @@ export interface CalendarContainerProps {
     minHour: number;
     maxHour: number;
     showAllEvents: boolean;
+    step: number;
+    timeslots: number;
     toolbarItems: ToolbarItemsType[];
     customViewShowMonday: boolean;
     customViewShowTuesday: boolean;
@@ -143,6 +145,8 @@ export interface CalendarPreviewProps {
     minHour: number | null;
     maxHour: number | null;
     showAllEvents: boolean;
+    step: number | null;
+    timeslots: number | null;
     toolbarItems: ToolbarItemsPreviewType[];
     customViewShowMonday: boolean;
     customViewShowTuesday: boolean;
