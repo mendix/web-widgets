@@ -1,12 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CalendarEvent, EventDropOrResize } from "../utils/typings";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
-import { CalendarProps, NavigateAction } from "react-big-calendar";
+import { CalendarProps, NavigateAction, View } from "react-big-calendar";
 import { getViewRange } from "../utils/calendar-utils";
 
 type CalendarEventHandlers = Pick<
     CalendarProps<CalendarEvent>,
-    "onSelectEvent" | "onDoubleClickEvent" | "onKeyPressEvent" | "onSelectSlot" | "onNavigate" | "selected"
+    | "onSelectEvent"
+    | "onDoubleClickEvent"
+    | "onKeyPressEvent"
+    | "onSelectSlot"
+    | "onNavigate"
+    | "selected"
+    | "onRangeChange"
 > & {
     onEventDrop: (event: EventDropOrResize) => void;
     onEventResize: (event: EventDropOrResize) => void;
@@ -116,12 +122,30 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
         [onDragDropResize]
     );
 
-    const handleRangeChange = useCallback(
+    const handleNavigate = useCallback(
         (date: Date, view: string, _action: NavigateAction) => {
             const action = onViewRangeChange;
 
             if (action?.canExecute) {
                 const { start, end } = getViewRange(view, date);
+                action.execute({
+                    rangeStart: start,
+                    rangeEnd: end,
+                    currentView: view
+                });
+            }
+        },
+        [onViewRangeChange]
+    );
+
+    const handleRangeChange = useCallback(
+        (range: Date[] | { start: Date; end: Date }, view?: View) => {
+            const action = onViewRangeChange;
+
+            if (action?.canExecute) {
+                const start = Array.isArray(range) ? range[0] : range.start;
+                const end = Array.isArray(range) ? range[range.length - 1] : range.end;
+
                 action.execute({
                     rangeStart: start,
                     rangeEnd: end,
@@ -152,7 +176,8 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
         onSelectSlot: handleCreateEvent,
         onEventDrop: handleEventDropOrResize,
         onEventResize: handleEventDropOrResize,
-        onNavigate: handleRangeChange,
+        onNavigate: handleNavigate,
+        onRangeChange: handleRangeChange,
         selected
     };
 }

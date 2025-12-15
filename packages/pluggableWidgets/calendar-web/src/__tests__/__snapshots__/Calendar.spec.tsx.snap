@@ -19,6 +19,8 @@ exports[`Calendar renders correctly with basic props 1`] = `
     formats="[object Object]"
     localizer="[object Object]"
     messages="[object Object]"
+    step="60"
+    timeslots="2"
     views="[object Object]"
   />
 </div>
