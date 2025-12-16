@@ -20,7 +20,6 @@ export interface DatagridConfig {
     enableSelectAll: boolean;
     keepSelection: boolean;
     autoSelect: boolean;
-    pagingPosition: PagingPositionEnum;
     multiselectable: true | undefined;
     loadingType: LoadingTypeEnum;
     columnsDraggable: boolean;
@@ -50,7 +49,6 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         enableSelectAll: props.enableSelectAll,
         keepSelection: props.keepSelection,
         autoSelect: props.autoSelect,
-        pagingPosition: props.pagingPosition,
         multiselectable: isMultiselectable(props),
         loadingType: props.loadingType,
         columnsHidable: props.columnsHidable,
