@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We improved virtual scrolling behavior when horizontal scrolling is present due to grid size.
 
+- We added screen reader support for a11y.
+
 ### Added
 
 - We added a new property for export to excel. The new property allows to set the cell export type and also the format for type number and date.
