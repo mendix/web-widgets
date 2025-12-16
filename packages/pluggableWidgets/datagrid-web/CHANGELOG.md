@@ -48,6 +48,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We improved virtual scrolling behavior when horizontal scrolling is present due to grid size.
 
+- We added screen reader support for a11y.
+
 ### Added
 
 - We added missing Dutch translations for Datagrid 2.
