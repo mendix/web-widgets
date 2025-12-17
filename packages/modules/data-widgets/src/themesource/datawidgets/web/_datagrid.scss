@@ -411,14 +411,6 @@ $root: ".widget-datagrid";
         overflow-x: auto;
     }
 
-    &-grid-head {
-        display: contents;
-    }
-
-    &-grid-body {
-        display: contents;
-    }
-
     &-footer {
         container: widget-datagrid-footer / inline-size;
     }
@@ -537,23 +529,36 @@ $root: ".widget-datagrid";
 
 .infinite-loading {
     .widget-datagrid-grid-head {
+        // lock header width
+        // and prevent it from having own scrolling
+        // as scrolling is synchronized in JS
         width: calc(var(--widgets-grid-width) - var(--widgets-grid-scrollbar-size));
         overflow-x: hidden;
     }
     .widget-datagrid-grid-head[data-scrolled-y="true"] {
+        // add shadow under the header
+        // implying that grid is scrolled vertically (there are rows hidden under header)
+        // the data attribute added in JS
         box-shadow: 0 5px 5px -5px gray;
     }
 
     .widget-datagrid-grid-body {
+        // lock the size of the body
+        // and enable it to have own scrolling
+        // body is the leading element
+        // header scroll will be synced to match it
         width: var(--widgets-grid-width);
         overflow-y: auto;
         max-height: var(--widgets-grid-body-height);
     }
 
     .widget-datagrid-grid-head[data-scrolled-x="true"]:after {
+        // add inner shadow to the left side of the grid
+        // implying that the grid is scrolled horizontally (there are rows hidden on the left)
+        // the data attribute added in JS
         content: "";
         position: absolute;
-        left: 0px;
+        left: 0;
         width: 10px;
         box-shadow: inset 5px 0 5px -5px gray;
         top: 0;
@@ -563,6 +568,7 @@ $root: ".widget-datagrid";
 
 .widget-datagrid-grid-head {
     display: grid;
+    min-width: 0;
 
     // this head is not part of the grid, so it has dedicated column template  --widgets-grid-template-columns-head
     // but it might not be available at the initial render, so we use template from the grid --widgets-grid-template-columns
@@ -573,6 +579,7 @@ $root: ".widget-datagrid";
     //     and everything looks like it should.
     grid-template-columns: var(--widgets-grid-template-columns-head, var(--widgets-grid-template-columns));
 }
+
 .widget-datagrid-grid-body {
     // this element has to position their children (columns or headers)
     // as grid and have those aligned with the parent grid
@@ -583,9 +590,7 @@ $root: ".widget-datagrid";
 }
 
 .grid-mock-header {
-    grid-template-columns: subgrid;
-    grid-column: 1 / -1;
-    display: grid;
+    display: contents;
 }
 
 :where(#{$root}-paging-bottom, #{$root}-padding-top) {

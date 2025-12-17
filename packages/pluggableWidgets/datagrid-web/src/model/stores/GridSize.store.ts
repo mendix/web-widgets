@@ -59,7 +59,12 @@ export class GridSizeStore {
     }
 
     get templateColumnsHead(): string | undefined {
-        return this.columnSizes?.map(s => `${s}px`).join(" ");
+        return this.columnSizes
+            ?.map(s => {
+                const str = s.toString();
+                return `${str.slice(0, str.indexOf(".") + 4)}px`;
+            })
+            .join(" ");
     }
 
     bumpPage(): void {

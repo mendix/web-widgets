@@ -1,44 +1,42 @@
-import { ReactNode, useCallback, useEffect, useRef } from "react";
+import { ReactNode, useCallback, useEffect } from "react";
 import { useColumnsStore, useDatagridConfig, useGridSizeStore } from "../model/hooks/injection-hooks";
-
-function getColumnSizes(container: HTMLDivElement | null): Map<string, number> {
-    const sizes = new Map<string, number>();
-    if (container) {
-        container.querySelectorAll<HTMLDivElement>("[data-column-id]").forEach(c => {
-            const columnId = c.dataset.columnId;
-            if (!columnId) {
-                console.debug("getColumnSizes: can't find id on:", c);
-                return;
-            }
-            sizes.set(columnId, c.offsetWidth);
-        });
-    }
-
-    return sizes;
-}
 
 export function MockHeader(): ReactNode {
     const columnsStore = useColumnsStore();
     const config = useDatagridConfig();
     const gridSizeStore = useGridSizeStore();
-    const headerRef = useRef<HTMLDivElement | null>(null);
-    const resizeCallback = useCallback<ResizeObserverCallback>(() => {
-        gridSizeStore.updateColumnSizes(getColumnSizes(headerRef.current).values().toArray());
-    }, [headerRef, gridSizeStore]);
+    const resizeCallback = useCallback<ResizeObserverCallback>(
+        entries => {
+            const container = entries[0].target.parentElement!;
+            const sizes = new Map<string, number>();
+            container.querySelectorAll<HTMLDivElement>("[data-column-id]").forEach(c => {
+                const columnId = c.dataset.columnId;
+                if (!columnId) {
+                    console.debug("getColumnSizes: can't find id on:", c);
+                    return;
+                }
+
+                sizes.set(columnId, c.getBoundingClientRect().width);
+            });
+            gridSizeStore.updateColumnSizes(sizes.values().toArray());
+        },
+        [gridSizeStore]
+    );
 
     useEffect(() => {
         const observer = new ResizeObserver(resizeCallback);
 
-        if (headerRef.current) {
-            observer.observe(headerRef.current);
-        }
+        columnsStore.visibleColumns.forEach(c => {
+            if (c.headerElementRef) observer.observe(c.headerElementRef);
+        });
+
         return () => {
             observer.disconnect();
         };
-    }, [resizeCallback, headerRef]);
+    }, [resizeCallback, columnsStore.visibleColumns]);
 
     return (
-        <div className={"grid-mock-header"} aria-hidden ref={headerRef}>
+        <div className={"grid-mock-header"} aria-hidden>
             {config.checkboxColumnEnabled && <div data-column-id="checkboxes" key={"checkboxes"}></div>}
             {columnsStore.visibleColumns.map(c => (
                 <div

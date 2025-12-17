@@ -1,4 +1,4 @@
-import { RefObject, UIEvent, useCallback, useEffect, useLayoutEffect } from "react";
+import { RefObject, UIEvent, useCallback, useEffect } from "react";
 import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 import { useGridSizeStore } from "@mendix/datagrid-web/src/model/hooks/injection-hooks";
 import { VIRTUAL_SCROLLING_OFFSET } from "../stores/GridSize.store";
@@ -43,15 +43,15 @@ export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | 
 
     useEffect(() => {
         setTimeout(() => isVisible && gridSizeStore.lockGridBodyHeight(), 100);
-    }, [isVisible, gridSizeStore]);
+    });
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const observeTarget = gridSizeStore.gridContainerRef.current;
         if (!gridSizeStore.hasVirtualScrolling || !observeTarget) return;
 
         const resizeObserver = new ResizeObserver(entries => {
             for (const entry of entries) {
-                gridSizeStore.setGridWidth(entry.target.clientWidth ? entry.target.clientWidth : undefined);
+                gridSizeStore.setGridWidth(entry.contentRect.width);
             }
         });
 
