@@ -1,7 +1,10 @@
 import * as pty from "node-pty";
 import { GENERATIONS_DIR, SCAFFOLD_TIMEOUT_MS } from "@/config";
-import type { WidgetOptions } from "@/tools/types";
+import { DEFAULT_WIDGET_OPTIONS, type WidgetOptions, type WidgetOptionsInput } from "@/tools/types";
 import { ProgressTracker } from "./progress-tracker";
+
+// Re-export for backward compatibility with existing imports
+export { DEFAULT_WIDGET_OPTIONS };
 
 /**
  * Generator prompt patterns in order - must match answers array.
@@ -35,18 +38,15 @@ export const SCAFFOLD_PROGRESS = {
 } as const;
 
 /**
- * Default values for widget options.
+ * Buffer size for prompt detection in terminal output.
+ * Increased from 500 to improve reliability with terminal buffering.
  */
-export const DEFAULT_WIDGET_OPTIONS = {
-    version: "1.0.0",
-    author: "Mendix",
-    license: "Apache-2.0",
-    organization: "Mendix",
-    template: "empty" as const,
-    programmingLanguage: "typescript" as const,
-    unitTests: true,
-    e2eTests: false
-} as const;
+const PROMPT_DETECTION_BUFFER_SIZE = 1000;
+
+/**
+ * Delay between sending answers to allow terminal to process.
+ */
+const ANSWER_SEND_DELAY_MS = 200;
 
 /**
  * Local state for tracking generator process progress.
@@ -56,14 +56,15 @@ interface GeneratorLocalState {
     answerIndex: number;
     promptMatchedIndex: number;
     allPromptsAnswered: boolean;
+    lastActivityTime: number;
 }
 
 /**
  * Builds widget options from input arguments with defaults applied.
+ * Takes the schema-validated input (with optional fields) and returns
+ * fully resolved options (all fields required).
  */
-export function buildWidgetOptions(
-    args: Partial<WidgetOptions> & Pick<WidgetOptions, "name" | "description">
-): WidgetOptions {
+export function buildWidgetOptions(args: WidgetOptionsInput): WidgetOptions {
     return {
         name: args.name,
         description: args.description,
@@ -72,31 +73,49 @@ export function buildWidgetOptions(
         license: args.license ?? DEFAULT_WIDGET_OPTIONS.license,
         organization: args.organization ?? DEFAULT_WIDGET_OPTIONS.organization,
         template: args.template ?? DEFAULT_WIDGET_OPTIONS.template,
-        programmingLanguage: DEFAULT_WIDGET_OPTIONS.programmingLanguage,
+        programmingLanguage: args.programmingLanguage ?? DEFAULT_WIDGET_OPTIONS.programmingLanguage,
         unitTests: args.unitTests ?? DEFAULT_WIDGET_OPTIONS.unitTests,
         e2eTests: args.e2eTests ?? DEFAULT_WIDGET_OPTIONS.e2eTests
     };
 }
 
 /**
- * Builds the answers array for the generator prompts.
+ * Arrow key escape sequence for navigating interactive prompts.
  */
-export function buildGeneratorAnswers(options: WidgetOptions): string[] {
+const ARROW_DOWN = "\x1b[B";
+
+/**
+ * Maps programming language option to the key sequence needed.
+ * TypeScript is the first option (just Enter), JavaScript needs arrow down first.
+ */
+function getLanguageKeySequence(language: "typescript" | "javascript"): string {
+    return language === "javascript" ? ARROW_DOWN : "";
+}
+
+/**
+ * Builds the answers array for the generator prompts.
+ * @param options - Fully resolved widget options (all fields required)
+ * @param outputDir - Output directory (used for project path calculation)
+ */
+export function buildGeneratorAnswers(options: WidgetOptions, outputDir?: string): string[] {
+    // Calculate relative project path from widget folder to parent directory
+    const projectPath = outputDir ? "../" : "../";
+
     return [
         "", // Widget name - already passed as CLI arg
         options.description,
-        options.organization ?? DEFAULT_WIDGET_OPTIONS.organization,
+        options.organization,
         "© Mendix Technology BV 2025", // Copyright
         options.license,
         options.version,
         options.author,
-        "../", // Project path (relative to widget folder inside generations/)
-        "", // Programming language - Enter for TypeScript (default)
+        projectPath, // Project path (relative to widget folder)
+        getLanguageKeySequence(options.programmingLanguage), // Programming language selection
         "", // Component type - Enter for Function Components (default)
         "", // Platform - Enter for web (default)
-        options.template ?? DEFAULT_WIDGET_OPTIONS.template,
-        options.unitTests !== false ? "yes" : "no",
-        options.e2eTests === true ? "yes" : "no"
+        options.template,
+        options.unitTests ? "yes" : "no",
+        options.e2eTests ? "yes" : "no"
     ];
 }
 
@@ -126,6 +145,7 @@ export function cleanTerminalOutput(data: string): string {
 
 /**
  * Handles generator output and sends answers when prompts are detected.
+ * Uses a larger buffer and improved logging for reliability.
  */
 function handleGeneratorOutput(
     state: GeneratorLocalState,
@@ -133,6 +153,9 @@ function handleGeneratorOutput(
     sendNextAnswer: () => void,
     onAllPromptsAnswered: () => void
 ): void {
+    // Update activity timestamp for stuck detection
+    state.lastActivityTime = Date.now();
+
     if (state.answerIndex < GENERATOR_PROMPTS.length) {
         // Skip if we've already matched this prompt
         if (state.promptMatchedIndex >= state.answerIndex) {
@@ -140,7 +163,7 @@ function handleGeneratorOutput(
         }
 
         const expectedPattern = GENERATOR_PROMPTS[state.answerIndex];
-        const recentOutput = state.output.slice(-500).toLowerCase();
+        const recentOutput = state.output.slice(-PROMPT_DETECTION_BUFFER_SIZE).toLowerCase();
 
         if (recentOutput.includes(expectedPattern.toLowerCase())) {
             state.promptMatchedIndex = state.answerIndex;
@@ -158,7 +181,15 @@ function handleGeneratorOutput(
                 })
                 .catch(() => undefined);
 
-            setTimeout(sendNextAnswer, 150);
+            setTimeout(sendNextAnswer, ANSWER_SEND_DELAY_MS);
+        } else {
+            // Debug logging for unmatched prompts (only log occasionally to avoid spam)
+            const cleanedRecent = cleanTerminalOutput(recentOutput.slice(-200));
+            if (cleanedRecent.length > 0 && state.output.length % 500 < 50) {
+                console.error(
+                    `[create-widget] Waiting for prompt "${expectedPattern}" (index ${state.answerIndex}), recent: "${cleanedRecent.slice(-100)}"`
+                );
+            }
         }
     } else {
         onAllPromptsAnswered();
@@ -167,16 +198,24 @@ function handleGeneratorOutput(
 
 /**
  * Runs the Mendix widget generator using node-pty for terminal interaction.
+ * @param options - Widget configuration options
+ * @param tracker - Progress tracker for notifications
+ * @param outputDir - Directory where the widget will be created (defaults to GENERATIONS_DIR)
  */
-export function runWidgetGenerator(options: WidgetOptions, tracker: ProgressTracker): Promise<string> {
-    const answers = buildGeneratorAnswers(options);
+export function runWidgetGenerator(
+    options: WidgetOptions,
+    tracker: ProgressTracker,
+    outputDir: string = GENERATIONS_DIR
+): Promise<string> {
+    const answers = buildGeneratorAnswers(options, outputDir);
 
     return new Promise((resolve, reject) => {
         const state: GeneratorLocalState = {
             output: "",
             answerIndex: 0,
             promptMatchedIndex: -1,
-            allPromptsAnswered: false
+            allPromptsAnswered: false,
+            lastActivityTime: Date.now()
         };
 
         tracker.start("initializing");
@@ -185,20 +224,34 @@ export function runWidgetGenerator(options: WidgetOptions, tracker: ProgressTrac
             name: "xterm-color",
             cols: 120,
             rows: 30,
-            cwd: GENERATIONS_DIR,
+            cwd: outputDir,
             env: { ...process.env, FORCE_COLOR: "0" }
         });
 
         const sendNextAnswer = (): void => {
             if (state.answerIndex < answers.length) {
                 const answer = answers[state.answerIndex];
-                const displayAnswer = answer === "" ? "(Enter)" : `"${answer}"`;
+                const displayAnswer =
+                    answer === "" ? "(Enter)" : answer.startsWith("\x1b") ? "(Arrow+Enter)" : `"${answer}"`;
                 const idx = state.answerIndex + 1;
                 console.error(`[create-widget] [${idx}/${answers.length}] Sending: ${displayAnswer}`);
                 state.answerIndex++;
                 ptyProcess.write(answer + "\r");
             }
         };
+
+        // Stuck detection: if no progress for 30 seconds, try resending current answer
+        const stuckCheckInterval = setInterval(() => {
+            const timeSinceActivity = Date.now() - state.lastActivityTime;
+            if (timeSinceActivity > 30000 && !state.allPromptsAnswered && state.answerIndex > 0) {
+                console.error(
+                    `[create-widget] No progress for ${Math.round(timeSinceActivity / 1000)}s at step ${state.answerIndex}, retrying...`
+                );
+                // Resend Enter to potentially unstick the process
+                ptyProcess.write("\r");
+                state.lastActivityTime = Date.now();
+            }
+        }, 10000);
 
         ptyProcess.onData(data => {
             state.output += data;
@@ -215,6 +268,7 @@ export function runWidgetGenerator(options: WidgetOptions, tracker: ProgressTrac
         });
 
         ptyProcess.onExit(({ exitCode }) => {
+            clearInterval(stuckCheckInterval);
             tracker.stop();
             if (exitCode === 0) {
                 const widgetFolder = `${options.name.toLowerCase()}-web`;
@@ -233,6 +287,7 @@ export function runWidgetGenerator(options: WidgetOptions, tracker: ProgressTrac
         });
 
         const timeout = setTimeout(() => {
+            clearInterval(stuckCheckInterval);
             tracker.stop();
             console.error("[create-widget] Widget scaffold timed out after 5 minutes");
             tracker
