@@ -1,70 +1,27 @@
 import { mkdir } from "node:fs/promises";
 import { z } from "zod";
 import { GENERATIONS_DIR } from "@/config";
-import type { ToolContext, ToolDefinition, ToolResponse } from "@/tools/types";
 import {
-    buildWidgetOptions,
     DEFAULT_WIDGET_OPTIONS,
-    GENERATOR_PROMPTS,
-    runWidgetGenerator,
-    SCAFFOLD_PROGRESS
-} from "@/tools/utils/generator";
+    widgetOptionsSchema,
+    type ToolContext,
+    type ToolDefinition,
+    type ToolResponse
+} from "@/tools/types";
+import { buildWidgetOptions, GENERATOR_PROMPTS, runWidgetGenerator, SCAFFOLD_PROGRESS } from "@/tools/utils/generator";
 import { ProgressTracker } from "@/tools/utils/progress-tracker";
 import { createErrorResponse, createToolResponse } from "@/tools/utils/response";
 
-const createWidgetSchema = z.object({
-    name: z
+/**
+ * Schema for create-widget tool input.
+ * Extends the base widgetOptionsSchema with tool-specific options like outputPath.
+ */
+const createWidgetSchema = widgetOptionsSchema.extend({
+    outputPath: z
         .string()
-        .min(1)
-        .max(100)
-        .describe("[REQUIRED] The name of the widget in PascalCase (e.g., 'MyAwesomeWidget', 'DataChart')"),
-    description: z.string().min(1).max(200).describe("[REQUIRED] A brief description of what the widget does"),
-    version: z
-        .string()
-        .regex(/^\d+\.\d+\.\d+$/, "Version must be in semver format: x.y.z")
-        .optional()
-        .describe(`[OPTIONAL] Initial version in semver format. Default: "${DEFAULT_WIDGET_OPTIONS.version}"`),
-    author: z
-        .string()
-        .min(1)
-        .max(100)
-        .optional()
-        .describe(`[OPTIONAL] Author name. Default: "${DEFAULT_WIDGET_OPTIONS.author}"`),
-    license: z
-        .string()
-        .min(1)
-        .max(50)
-        .optional()
-        .describe(`[OPTIONAL] License type. Default: "${DEFAULT_WIDGET_OPTIONS.license}"`),
-    organization: z
-        .string()
-        .min(1)
-        .max(100)
         .optional()
         .describe(
-            `[OPTIONAL] Organization name for the widget namespace. Default: "${DEFAULT_WIDGET_OPTIONS.organization}"`
-        ),
-    template: z
-        .enum(["full", "empty"])
-        .optional()
-        .describe(
-            `[OPTIONAL] Widget template: "full" includes sample code and examples, "empty" is minimal/blank. Default: "${DEFAULT_WIDGET_OPTIONS.template}"`
-        ),
-    programmingLanguage: z
-        .enum(["typescript", "javascript"])
-        .optional()
-        .describe(
-            `[OPTIONAL] Programming language for the widget source code. Default: "${DEFAULT_WIDGET_OPTIONS.programmingLanguage}"`
-        ),
-    unitTests: z
-        .boolean()
-        .optional()
-        .describe(`[OPTIONAL] Include unit test setup with Jest. Default: ${DEFAULT_WIDGET_OPTIONS.unitTests}`),
-    e2eTests: z
-        .boolean()
-        .optional()
-        .describe(
-            `[OPTIONAL] Include end-to-end test setup with Playwright. Default: ${DEFAULT_WIDGET_OPTIONS.e2eTests}`
+            "[OPTIONAL] Directory where widget will be created. Defaults to ./generations/ within the MCP server package."
         )
 });
 
@@ -87,9 +44,22 @@ OPTIONAL (with defaults):
   • programmingLanguage: "typescript" or "javascript" (default: "${DEFAULT_WIDGET_OPTIONS.programmingLanguage}")
   • unitTests: Include Jest test setup (default: ${DEFAULT_WIDGET_OPTIONS.unitTests})
   • e2eTests: Include Playwright E2E tests (default: ${DEFAULT_WIDGET_OPTIONS.e2eTests})
+  • outputPath: Directory where widget will be created (default: ./generations/)
 
 Ask the user if they want to customize any options before proceeding.`;
 
+/**
+ * Returns scaffolding-related tools for widget creation and management.
+ *
+ * Currently contains only the create-widget tool, but structured as an array
+ * for extensibility. This modular pattern allows easy addition of related tools
+ * such as:
+ * - Widget property editing
+ * - XML configuration management
+ * - Build and deployment automation
+ *
+ * @see AGENTS.md Roadmap Context section for planned additions
+ */
 export function getScaffoldingTools(): Array<ToolDefinition<CreateWidgetInput>> {
     return [
         {
@@ -104,6 +74,7 @@ export function getScaffoldingTools(): Array<ToolDefinition<CreateWidgetInput>> 
 
 async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext): Promise<ToolResponse> {
     const options = buildWidgetOptions(args);
+    const outputDir = args.outputPath ?? GENERATIONS_DIR;
     const tracker = new ProgressTracker({
         context,
         logger: "scaffolding",
@@ -116,14 +87,15 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
         await tracker.info(`Starting widget scaffolding for "${options.name}"...`, {
             widgetName: options.name,
             template: options.template,
-            organization: options.organization
+            organization: options.organization,
+            outputDir
         });
 
-        // Ensure generations directory exists
-        await mkdir(GENERATIONS_DIR, { recursive: true });
+        // Ensure output directory exists
+        await mkdir(outputDir, { recursive: true });
 
-        const widgetFolder = await runWidgetGenerator(options, tracker);
-        const widgetPath = `${GENERATIONS_DIR}/${widgetFolder}`;
+        const widgetFolder = await runWidgetGenerator(options, tracker, outputDir);
+        const widgetPath = `${outputDir}/${widgetFolder}`;
 
         console.error(`[create-widget] Widget created successfully at ${widgetPath}`);
         await tracker.progress(SCAFFOLD_PROGRESS.COMPLETE, "Widget created successfully!");
