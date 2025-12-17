@@ -1,10 +1,11 @@
-import { Jira } from "../src/jira";
-import { PackageListing, selectPackage } from "../src/monorepo";
+import { Jira, JiraVersion } from "../src/jira";
 import chalk from "chalk";
 import { prompt } from "enquirer";
-import { getNextVersion, writeVersion } from "../src/bump-version";
+import { bumpPackageJson, bumpXml, getNextVersion } from "../src/bump-version";
 import { exec } from "../src/shell";
 import { gh } from "../src/github";
+import { printGithubAuthHelp } from "../src/cli-utils";
+import { printPkgInformation, selectPackageV2 } from "../src/prepare-release-helpers";
 
 async function main(): Promise<void> {
     try {
@@ -17,33 +18,32 @@ async function main(): Promise<void> {
             await gh.ensureAuth();
             console.log(chalk.green("✅ GitHub authentication verified"));
         } catch (error) {
-            console.log(chalk.red(`❌ GitHub authentication failed: ${(error as Error).message}`));
-            console.log(chalk.yellow("\n💡 First, make sure GitHub CLI is installed:"));
-            console.log(chalk.cyan("   Download from: https://cli.github.com/"));
-            console.log(chalk.cyan("   Or install via brew: brew install gh"));
-            console.log(chalk.yellow("\n💡 Then authenticate with GitHub using one of these options:"));
-            console.log(chalk.yellow("   1. Set GITHUB_TOKEN environment variable:"));
-            console.log(chalk.cyan("      export GITHUB_TOKEN=your_token_here"));
-            console.log(chalk.yellow("   2. Set GH_PAT environment variable:"));
-            console.log(chalk.cyan("      export GH_PAT=your_token_here"));
-            console.log(chalk.yellow("   3. Use GitHub CLI to authenticate:"));
-            console.log(chalk.cyan("      gh auth login"));
-            console.log(chalk.yellow("\n   Get a token at: https://github.com/settings/tokens"));
+            printGithubAuthHelp((error as Error).message);
             process.exit(1);
         }
 
         // Step 1: Initialize Jira client
-        let jira: Jira;
+        let jira: Jira | undefined;
         try {
             jira = await initializeJiraClient();
-        } catch (error) {
-            console.log(chalk.red(`❌ ${(error as Error).message}`));
-            process.exit(1);
+        } catch (_e) {
+            // Ask user if they want to continue without it
+            const { confirmSkipJira } = await prompt<{ confirmSkipJira: boolean }>({
+                type: "confirm",
+                name: "confirmSkipJira",
+                message: `❓ Do you want to skip Jira? You won't be able to create Jira version automatically.`,
+                initial: true
+            });
+
+            if (!confirmSkipJira) {
+                process.exit(1);
+            }
         }
 
         // Step 2: Select package and determine version
         console.log(chalk.bold("\n📋 STEP 2: Package Selection"));
-        const { pkg, baseName, nextVersion, jiraVersionName, isVersionBumped } = await selectPackageAndVersion();
+        const { selectedPackage, baseName, nextVersion, jiraVersionName, isVersionBumped } =
+            await selectPackageAndVersion();
 
         // Step 3: Check if Jira version exists
         console.log(chalk.bold("\n📋 STEP 3: Jira Version Setup"));
@@ -58,11 +58,28 @@ async function main(): Promise<void> {
 
         // Step 4.1: Write versions to the files (if user chose to bump version)
         if (isVersionBumped) {
-            await writeVersion(pkg, nextVersion);
-            console.log(chalk.green(`✅ Updated ${baseName} to ${nextVersion}`));
+            if (selectedPackage.type === "module") {
+                bumpPackageJson(selectedPackage.path, nextVersion);
+                console.log(chalk.green(`✅ Bumped ${chalk.bold(selectedPackage.info.name)} to ${nextVersion}`));
+                for (const widget of selectedPackage.widgets) {
+                    await bumpXml(widget.path, nextVersion);
+                    bumpPackageJson(widget.path, nextVersion);
+                    console.log(chalk.green(`✅ Bumped ${chalk.bold(widget.info.name)} to ${nextVersion}`));
+                }
+            } else {
+                bumpPackageJson(selectedPackage.path, nextVersion);
+                await bumpXml(selectedPackage.path, nextVersion);
+                console.log(chalk.green(`✅ Bumped ${chalk.bold(baseName)} to ${nextVersion}`));
+            }
 
             await exec(`git reset`, { stdio: "pipe" }); // Unstage all files
-            await exec(`git add ${pkg.path}`, { stdio: "pipe" }); // Stage only the package
+            await exec(`git add ${selectedPackage.path}`, { stdio: "pipe" }); // Stage only the package
+            if (selectedPackage.type === "module") {
+                // stage widgets as well
+                for (const widget of selectedPackage.widgets) {
+                    await exec(`git add ${widget.path}`, { stdio: "pipe" }); // Stage only the package
+                }
+            }
 
             // Step 4.2: Commit changes
             const { confirmCommit } = await prompt<{ confirmCommit: boolean }>({
@@ -101,10 +118,12 @@ async function main(): Promise<void> {
         console.log(chalk.green("✅ Branch pushed to GitHub"));
 
         console.log(chalk.bold("\n📋 STEP 5: GitHub Release Workflow"));
-        await triggerGitHubReleaseWorkflow(pkg.name, tmpBranchName);
+        await triggerGitHubReleaseWorkflow(selectedPackage.info.name, tmpBranchName);
 
-        console.log(chalk.bold("\n📋 STEP 6: Jira Issue Management"));
-        await manageIssuesForVersion(jira, jiraVersion.id, jiraVersionName);
+        if (jira && jiraVersion) {
+            console.log(chalk.bold("\n📋 STEP 6: Jira Issue Management"));
+            await manageIssuesForVersion(jira, jiraVersion.id, jiraVersionName);
+        }
 
         console.log(chalk.cyan("\n🎉 Release preparation completed! 🎉"));
         console.log(chalk.cyan(`   Package: ${baseName} v${nextVersion}`));
@@ -368,68 +387,69 @@ async function initializeJiraClient(): Promise<Jira> {
     // Initialize Jira client
     const jira = new Jira(projectKey, baseUrl, apiToken);
 
-    // Initialize Jira project data with retry mechanism
-    let initialized = false;
-    while (!initialized) {
-        try {
-            console.log("🔄 Initializing Jira project data...");
-            await jira.initializeProjectData();
-            console.log(chalk.green("✅ Jira project data initialized"));
-            initialized = true;
-        } catch (error) {
-            console.error(chalk.red(`❌ Jira init failed: ${(error as Error).message}`));
-
-            const { retry } = await prompt<{ retry: boolean }>({
-                type: "confirm",
-                name: "retry",
-                message: "❓ Retry Jira initialization?",
-                initial: true
-            });
-
-            if (!retry) {
-                throw new Error("Cannot proceed without Jira initialization");
-            }
-        }
+    try {
+        console.log("🔄 Initializing Jira project data...");
+        await jira.initializeProjectData();
+        console.log(chalk.green("✅ Jira project data initialized"));
+    } catch (error) {
+        console.error(chalk.red(`❌ Jira init failed: ${(error as Error).message}`));
+        throw new Error("Jira initialization failed");
     }
 
     return jira;
 }
 
 async function selectPackageAndVersion(): Promise<{
-    pkg: PackageListing;
+    selectedPackage: Awaited<ReturnType<typeof selectPackageV2>>;
     baseName: string;
     nextVersion: string;
     jiraVersionName: string;
     isVersionBumped: boolean;
 }> {
-    const pkg = await selectPackage();
-    const baseName = pkg.name.split("/").pop()!;
+    const selectedPackage = await selectPackageV2();
 
-    console.log(`📦 Selected: ${chalk.blue(baseName)} (current: ${chalk.green(pkg.version)})`);
+    if (selectedPackage.type === "widget") {
+        console.log(`📦 Selected widget:`);
+    } else {
+        console.log(`📦 Selected module:`);
+    }
+    printPkgInformation(selectedPackage);
 
     // Ask user if they want to bump the version before showing version selection dialog
     const { confirmBumpVersion } = await prompt<{ confirmBumpVersion: boolean }>({
         type: "confirm",
         name: "confirmBumpVersion",
-        message: `❓ Do you want to bump ${baseName} from version ${chalk.green(pkg.version)}?`,
+        message: `❓ Do you want to bump version for ${chalk.bold(selectedPackage.info.name)}?`,
         initial: true
     });
 
     // Only call getNextVersion if user wants to bump version
-    let nextVersion = pkg.version;
+    let nextVersion = selectedPackage.info.version.format();
     if (confirmBumpVersion) {
-        nextVersion = await getNextVersion(pkg.version);
+        nextVersion = await getNextVersion(selectedPackage.info.version.format());
         console.log(`🔼 Next version: ${chalk.green(nextVersion)}`);
     } else {
-        console.log(chalk.yellow(`⚠️ Version bump skipped. Keeping version ${chalk.green(pkg.version)}`));
+        console.log(
+            chalk.yellow(
+                `⚠️ Version bump skipped. Keeping version ${chalk.green(selectedPackage.info.version.format())}`
+            )
+        );
     }
 
-    const jiraVersionName = `${baseName}-v${nextVersion}`;
+    const jiraName = selectedPackage.info.name.split("/")[1]!;
+    const jiraVersionName = `${jiraName}-v${nextVersion}`;
 
-    return { pkg, baseName, nextVersion, jiraVersionName, isVersionBumped: confirmBumpVersion };
+    return { selectedPackage, baseName: jiraName, nextVersion, jiraVersionName, isVersionBumped: confirmBumpVersion };
 }
 
-async function checkAndCreateJiraVersion(jira: Jira, jiraVersionName: string): Promise<any> {
+async function checkAndCreateJiraVersion(
+    jira: Jira | undefined,
+    jiraVersionName: string
+): Promise<JiraVersion | undefined> {
+    if (!jira) {
+        console.log(chalk.yellow("  ⚠️  Skipping jira version creation"));
+        return undefined;
+    }
     let jiraVersion = jira.findVersion(jiraVersionName);
     if (jiraVersion) {
         console.log(chalk.yellow(`⚠️  Jira version ${chalk.blue(jiraVersionName)} already exists`));
@@ -443,8 +463,8 @@ async function checkAndCreateJiraVersion(jira: Jira, jiraVersionName: string): P
         });
 
         if (!createVersion) {
-            console.log(chalk.red("❌ Process canceled"));
-            process.exit(1);
+            console.log(chalk.yellow("  ⚠️  Skipping jira version creation"));
+            return undefined;
         }
 
         // Create Jira version

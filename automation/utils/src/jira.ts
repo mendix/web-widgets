@@ -1,6 +1,6 @@
 import nodefetch, { RequestInit } from "node-fetch";
 
-interface JiraVersion {
+export interface JiraVersion {
     id: string;
     name: string;
     archived: boolean;
