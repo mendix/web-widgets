@@ -317,6 +317,6 @@ function useGridStyle(): CSSProperties {
     }
 
     return {
-        gridTemplateColumns: sizes.join(" ")
-    };
+        "--widgets-grid-template-columns": sizes.join(" ")
+    } as CSSProperties;
 }
