@@ -1,4 +1,5 @@
-import { MouseEvent, useEffect, useRef } from "react";
+import { MouseEvent, useState } from "react";
+import { createPortal } from 'react-dom';
 import "./ui/SkipLink.scss";
 import { SkipLinkContainerProps } from "typings/SkipLinkProps";
 
@@ -7,23 +8,32 @@ import { SkipLinkContainerProps } from "typings/SkipLinkProps";
  * When activated, focus is programmatically set to the main content.
  */
 export function SkipLink(props: SkipLinkContainerProps) {
-    const skipLinkRef = useRef<HTMLAnchorElement | null>(null);
-
-    useEffect(() => {
-        // Insert as the first child of the element with ID 'root'
-        const root = document.getElementById("root");
-        if (root && skipLinkRef.current) {
-            root.insertBefore(skipLinkRef.current, root.firstChild);
+    const [linkRoot] = useState(() => {           
+        const link = document.createElement('div');
+         const root = document.getElementById("root");
+        // Insert as first child immediately
+        if (root && root.firstElementChild) {
+            root.insertBefore(link, root.firstElementChild);
+        } else if (root) {
+            root.appendChild(link);
+        } else{
+            console.error("No root element found on page");
         }
-    }, [skipLinkRef.current]);
+        return link;
+    })
 
     function handleClick(event: MouseEvent): void {
         event.preventDefault();
         let main: HTMLElement;
-        const mainByID = document.getElementById(props.mainContentId);
-        if (props.mainContentId !== "" && mainByID !== null) {
-            main = mainByID;
-        } else {
+        if(props.mainContentId !== "") {
+            const mainByID = document.getElementById(props.mainContentId);
+            if (mainByID !== null) {
+                main = mainByID;
+            } else{
+                console.error(`Element with id: ${props.mainContentId} not found on page`);
+                return;
+            }
+        } else{ 
             main = document.getElementsByTagName("main")[0];
         }
 
@@ -44,15 +54,14 @@ export function SkipLink(props: SkipLinkContainerProps) {
         }
     }
 
-    return (
+    return createPortal(
         <a
-            ref={skipLinkRef}
             className={`widget-skip-link ${props.class}`}
             href={`#${props.mainContentId}`}
             tabIndex={props.tabIndex}
             onClick={handleClick}
         >
             {props.linkText}
-        </a>
+        </a>, linkRoot
     );
 }
