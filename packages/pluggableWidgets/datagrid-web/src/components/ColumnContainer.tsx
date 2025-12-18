@@ -4,6 +4,7 @@ import { ColumnHeader } from "./ColumnHeader";
 import { useColumn, useColumnsStore, useDatagridConfig, useHeaderDragnDropVM } from "../model/hooks/injection-hooks";
 import { ColumnResizerProps } from "./ColumnResizer";
 import { observer } from "mobx-react-lite";
+import { DragHandle } from "./DragHandle";
 
 export interface ColumnContainerProps {
     isLast?: boolean;
@@ -34,6 +35,9 @@ export const ColumnContainer = observer(function ColumnContainer(props: ColumnCo
             onDragEnter={vm.isDraggable ? vm.handleDragEnter : undefined}
             onDragOver={vm.isDraggable ? vm.handleDragOver : undefined}
         >
+            {vm.isDraggable && (
+                <DragHandle draggable={vm.isDraggable} onDragStart={vm.handleDragStart} onDragEnd={vm.handleDragEnd} />
+            )}
             <div className={classNames("column-container")} id={`${gridId}-column${columnId}`}>
                 <ColumnHeader />
                 {columnsFilterable && (

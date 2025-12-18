@@ -22,7 +22,7 @@ $root: ".widget-datagrid";
             background-color: var(--bg-color-secondary, $bg-color-secondary);
             border-width: 0;
             border-color: var(--grid-border-color, $grid-border-color);
-            padding: var(--spacing-medium, $spacing-medium);
+            padding: 0 var(--spacing-medium, $spacing-medium);
             top: 0;
             min-width: 0;
             position: relative;
@@ -44,7 +44,7 @@ $root: ".widget-datagrid";
             top: 0;
             height: 100%;
             width: var(--spacing-smaller, $spacing-smaller);
-            background-color: $dragging-color-effect;
+            background-color: var(--brand-primary, $dragging-color-effect);
 
             z-index: 1;
         }
@@ -92,6 +92,55 @@ $root: ".widget-datagrid";
             }
         }
 
+        /* Drag handle */
+        .drag-handle {
+            cursor: grab;
+            pointer-events: auto;
+            position: relative;
+            padding: 4px;
+            // margin-inline-end: 4px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-self: normal;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+
+            &:hover {
+                // background-color: var(--brand-primary-50, $brand-light);
+                svg {
+                    color: var(--brand-primary, $brand-primary);
+                }
+            }
+            &:active {
+                cursor: grabbing;
+            }
+            &:focus-visible {
+                opacity: 1;
+            }
+            svg {
+                margin: 0;
+                width: 8px;
+            }
+        }
+
+        &:hover .drag-handle,
+        &:focus-within .drag-handle {
+            opacity: 1;
+        }
+
+        /* Parent background change on drag handle hover */
+        &:has(.drag-handle:hover) {
+            background-color: var(--brand-primary-50, $brand-light);
+        }
+
+        /* Remove left padding when drag handle is present */
+        &:has(.drag-handle) {
+            padding-left: 0;
+        }
+
         /* Content of the column header */
         .column-container {
             display: flex;
@@ -99,6 +148,7 @@ $root: ".widget-datagrid";
             flex-grow: 1;
             align-self: stretch;
             min-width: 0;
+            padding: var(--spacing-small, $spacing-small) 0;
 
             &:not(:has(.filter)) {
                 .column-header {
@@ -129,38 +179,6 @@ $root: ".widget-datagrid";
                 color: var(--gray-dark, $gray-dark);
                 height: var(--btn-font-size, $btn-font-size);
                 align-self: center;
-            }
-
-            /* Drag handle */
-            .drag-handle {
-                cursor: grab;
-                pointer-events: auto;
-                position: relative;
-                width: 14px;
-                padding: 0;
-                flex-grow: 0;
-                flex-shrink: 0;
-                display: flex;
-                justify-content: center;
-                align-self: normal;
-                z-index: 1;
-
-                &:hover {
-                    background-color: var(--brand-primary-50, $brand-light);
-                    svg {
-                        color: var(--brand-primary, $brand-primary);
-                    }
-                }
-                &:active {
-                    cursor: grabbing;
-                }
-                svg {
-                    margin: 0;
-                }
-            }
-
-            .drag-handle + .column-caption {
-                padding-inline-start: 4px;
             }
 
             &:focus:not(:focus-visible) {

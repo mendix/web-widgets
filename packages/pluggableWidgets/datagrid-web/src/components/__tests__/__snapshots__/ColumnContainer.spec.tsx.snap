@@ -40,6 +40,23 @@ exports[`ColumnContainer renders the structure correctly when draggable 1`] = `
     style="cursor: unset;"
     title="Column 1"
   >
+    <span
+      class="drag-handle"
+      draggable="true"
+    >
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        viewBox="0 0 320 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M96 64c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-128 160c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-128 160c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32z"
+          fill="currentColor"
+        />
+      </svg>
+    </span>
     <div
       class="column-container"
       id="datagrid2_1:Datagrid@14-column0"
@@ -48,23 +65,6 @@ exports[`ColumnContainer renders the structure correctly when draggable 1`] = `
         aria-label="Column 1"
         class="column-header align-column-left"
       >
-        <span
-          class="drag-handle"
-          draggable="true"
-        >
-          <svg
-            aria-hidden="true"
-            focusable="false"
-            role="img"
-            viewBox="0 0 320 512"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M96 64c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-128 160c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-128 160c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32z"
-              fill="currentColor"
-            />
-          </svg>
-        </span>
         <span
           class="column-caption"
         >

@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { HTMLAttributes, KeyboardEvent, ReactElement, ReactNode } from "react";
-import { DragHandle } from "./DragHandle";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
@@ -26,9 +25,6 @@ export const ColumnHeader = observer(function ColumnHeader(): ReactElement {
             {...sortProps}
             aria-label={canSort ? "sort " + caption : caption}
         >
-            {vm.isDraggable && (
-                <DragHandle draggable={vm.isDraggable} onDragStart={vm.handleDragStart} onDragEnd={vm.handleDragEnd} />
-            )}
             <span className="column-caption">{caption.length > 0 ? caption : "\u00a0"}</span>
             {canSort ? <SortIcon direction={column.sortDir} /> : null}
         </div>
