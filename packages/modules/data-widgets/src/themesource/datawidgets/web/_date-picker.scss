@@ -60,7 +60,7 @@ $dg-border-color: #d7d7d7;
     &:hover {
         border-radius: 50%;
         color: var(--brand-primary, $brand-primary);
-        background-color: var(--gray-ligter, $gray-lighter);
+        background-color: var(--gray-lighter, $gray-lighter);
     }
 }
 
@@ -76,7 +76,7 @@ $dg-border-color: #d7d7d7;
 .react-datepicker__day--today:not(.react-datepicker__day--in-range),
 .react-datepicker__day--keyboard-selected {
     color: var(--brand-primary, $brand-primary);
-    background-color: var(--gray-ligter, $gray-lighter);
+    background-color: var(--gray-lighter, $gray-lighter);
 }
 
 .react-datepicker__month-select:focus-visible,

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue with background-color styles on hover in date picker.
+
 ## [3.6.0] - 2025-10-01
 
 ### Changed
