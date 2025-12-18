@@ -1,7 +1,7 @@
 {
     "name": "@mendix/custom-chart-web",
     "widgetName": "CustomChart",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Create customizable charts with Plotly.js for advanced visualization needs",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
@@ -49,6 +49,7 @@
         "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "classnames": "^2.5.1",
+        "deepmerge": "^4.3.1",
         "plotly.js-dist-min": "^3.0.0"
     },
     "devDependencies": {
