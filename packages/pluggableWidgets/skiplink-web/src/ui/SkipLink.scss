@@ -1,4 +1,4 @@
-.skip-link {
+.widget.skip-link {
     position: absolute;
     top: 0;
     left: 0;
@@ -14,7 +14,7 @@
     font-weight: bold;
 }
 
-.skip-link:focus {
+.widget.skip-link:focus {
     transform: translateY(0);
     outline: none;
 }

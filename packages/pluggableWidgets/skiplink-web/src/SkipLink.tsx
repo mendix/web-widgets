@@ -17,7 +17,7 @@ export function SkipLink(props: SkipLinkContainerProps) {
         }
     }, [skipLinkRef.current]);
 
-    function handleClick(event: MouseEvent<HTMLAnchorElement, MouseEvent>): void {
+    function handleClick(event: MouseEvent): void {
         event.preventDefault();
         let main: HTMLElement;
         const mainByID = document.getElementById(props.mainContentId);
@@ -47,7 +47,7 @@ export function SkipLink(props: SkipLinkContainerProps) {
     return (
         <a
             ref={skipLinkRef}
-            className={`skip-link ${props.class}`}
+            className={`widget-skip-link ${props.class}`}
             href={`#${props.mainContentId}`}
             tabIndex={props.tabIndex}
             onClick={handleClick}
