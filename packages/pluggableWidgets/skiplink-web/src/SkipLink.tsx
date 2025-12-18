@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { MouseEvent, useEffect, useRef } from "react";
 import "./ui/SkipLink.scss";
-import { SkipLinkContainerProps } from 'typings/SkipLinkProps';
+import { SkipLinkContainerProps } from "typings/SkipLinkProps";
 
 /**
  * Inserts a skip link as the first child of the element with ID 'root'.
@@ -17,7 +17,7 @@ export function SkipLink(props: SkipLinkContainerProps) {
         }
     }, [skipLinkRef.current]);
 
-    function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void {
+    function handleClick(event: MouseEvent<HTMLAnchorElement, MouseEvent>): void {
         event.preventDefault();
         let main: HTMLElement;
         const mainByID = document.getElementById(props.mainContentId);
@@ -40,16 +40,19 @@ export function SkipLink(props: SkipLinkContainerProps) {
                 main.addEventListener("blur", () => main.removeAttribute("tabindex"), { once: true });
             }
         } else {
-            console.error("Could not find a main element on page and no mainContentId specified in widget properties.")
+            console.error("Could not find a main element on page and no mainContentId specified in widget properties.");
         }
     }
 
-    return <a 
+    return (
+        <a
             ref={skipLinkRef}
-            className={`skip-link ${props.class}`} 
-            href={`#${props.mainContentId}`} 
+            className={`skip-link ${props.class}`}
+            href={`#${props.mainContentId}`}
             tabIndex={props.tabIndex}
-            onClick={handleClick}>
+            onClick={handleClick}
+        >
             {props.linkText}
-        </a>;
+        </a>
+    );
 }
