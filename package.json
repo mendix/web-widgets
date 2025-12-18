@@ -12,7 +12,6 @@
         "oss-clearance": "pnpm --filter @mendix/automation-utils run oss-clearance",
         "create-gh-release": "turbo run create-gh-release --concurrency 1",
         "create-translation": "turbo run create-translation",
-        "postinstall": "turbo run agent-rules",
         "lint": "turbo run lint --continue --concurrency 1",
         "prepare": "husky install",
         "prepare-release": "pnpm --filter @mendix/automation-utils run prepare-release",
@@ -21,7 +20,9 @@
         "release": "turbo run release",
         "test": "turbo run test --continue --concurrency 1",
         "verify": "turbo run verify --continue --concurrency 1",
-        "version": "pnpm --filter @mendix/automation-utils run version"
+        "version": "pnpm --filter @mendix/automation-utils run version",
+        "update-screenshots": "pnpm --filter @mendix/automation-utils run update-screenshots",
+        "postinstall": "turbo run agent-rules"
     },
     "devDependencies": {
         "husky": "^8.0.3",
