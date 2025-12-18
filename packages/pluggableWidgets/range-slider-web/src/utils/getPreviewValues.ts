@@ -1,7 +1,4 @@
 import { RangeSliderPreviewProps } from "../../typings/RangeSliderProps";
-
-interface GetPreviewValuesParams extends Omit<RangeSliderPreviewProps, "class"> {}
-
 interface PreviewValues {
     min: number;
     max: number;
@@ -9,7 +6,7 @@ interface PreviewValues {
     step: number;
 }
 
-export function getPreviewValues(params: GetPreviewValuesParams): PreviewValues {
+export function getPreviewValues(params: Omit<RangeSliderPreviewProps, "class">): PreviewValues {
     const min = params.minValueType === "static" ? (params.staticMinimumValue ?? 0) : 0;
     const max = params.maxValueType === "static" ? (params.staticMaximumValue ?? 100) : 100;
     const step = params.stepSizeType === "static" ? (params.stepValue ?? 1) : 1;

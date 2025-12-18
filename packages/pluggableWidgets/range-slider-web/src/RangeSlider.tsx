@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { RangeSliderContainerProps } from "../typings/RangeSliderProps";
-import "rc-slider/assets/index.css";
-import "rc-tooltip/assets/bootstrap.css";
+import "@rc-component/slider/assets/index.css";
+import "@rc-component/tooltip/assets/bootstrap.css";
 import "./ui/RangeSlider.scss";
 import { Container } from "./components/Container";
 
