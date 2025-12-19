@@ -5,7 +5,7 @@ exports[`SkipLink renders skiplink widget and adds skip link to DOM 1`] = `
   id="root"
 >
   <a
-    class="skip-link"
+    class="widget-skip-link"
     href="#main-content"
     tabindex="0"
   >
@@ -19,7 +19,7 @@ exports[`SkipLink renders with custom link text 1`] = `
   id="root"
 >
   <a
-    class="skip-link"
+    class="widget-skip-link"
     href="#main-content"
     tabindex="0"
   >
@@ -33,7 +33,7 @@ exports[`SkipLink renders with custom main content id 1`] = `
   id="root"
 >
   <a
-    class="skip-link"
+    class="widget-skip-link"
     href="#content-area"
     tabindex="0"
   >
@@ -47,7 +47,7 @@ exports[`SkipLink renders with empty main content id 1`] = `
   id="root"
 >
   <a
-    class="skip-link"
+    class="widget-skip-link"
     href="#"
     tabindex="0"
   >

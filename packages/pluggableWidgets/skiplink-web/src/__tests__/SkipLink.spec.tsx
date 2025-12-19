@@ -31,7 +31,7 @@ describe("SkipLink", () => {
         render(<SkipLink {...defaultProps} />);
 
         // Check that the skip link was added to the root element
-        const skipLink = rootElement.querySelector(".skip-link") as HTMLAnchorElement;
+        const skipLink = rootElement.querySelector(".widget-skip-link") as HTMLAnchorElement;
         expect(skipLink).toBeInTheDocument();
         expect(skipLink.textContent).toBe("Skip to main content");
         expect(skipLink.href).toBe(`${window.location.origin}/#main-content`);
@@ -44,7 +44,7 @@ describe("SkipLink", () => {
     it("renders with custom link text", () => {
         render(<SkipLink {...defaultProps} linkText="Jump to content" />);
 
-        const skipLink = rootElement.querySelector(".skip-link") as HTMLAnchorElement;
+        const skipLink = rootElement.querySelector(".widget-skip-link") as HTMLAnchorElement;
         expect(skipLink).toBeInTheDocument();
         expect(skipLink.textContent).toBe("Jump to content");
 
@@ -54,7 +54,7 @@ describe("SkipLink", () => {
     it("renders with custom main content id", () => {
         render(<SkipLink {...defaultProps} mainContentId="content-area" />);
 
-        const skipLink = rootElement.querySelector(".skip-link") as HTMLAnchorElement;
+        const skipLink = rootElement.querySelector(".widget-skip-link") as HTMLAnchorElement;
         expect(skipLink).toBeInTheDocument();
         expect(skipLink.href).toBe(`${window.location.origin}/#content-area`);
 
@@ -64,7 +64,7 @@ describe("SkipLink", () => {
     it("renders with empty main content id", () => {
         render(<SkipLink {...defaultProps} mainContentId="" />);
 
-        const skipLink = rootElement.querySelector(".skip-link") as HTMLAnchorElement;
+        const skipLink = rootElement.querySelector(".widget-skip-link") as HTMLAnchorElement;
         expect(skipLink).toBeInTheDocument();
         expect(skipLink.href).toBe(`${window.location.origin}/#`);
 
@@ -75,10 +75,10 @@ describe("SkipLink", () => {
         const { unmount } = render(<SkipLink {...defaultProps} />);
 
         // Verify skip link is present
-        expect(rootElement.querySelector(".skip-link")).toBeInTheDocument();
+        expect(rootElement.querySelector(".widget-skip-link")).toBeInTheDocument();
 
         // Unmount and verify cleanup
         unmount();
-        expect(rootElement.querySelector(".skip-link")).not.toBeInTheDocument();
+        expect(rootElement.querySelector(".widget-skip-link")).not.toBeInTheDocument();
     });
 });
