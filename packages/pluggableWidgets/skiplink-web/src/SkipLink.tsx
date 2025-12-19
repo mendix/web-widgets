@@ -1,5 +1,5 @@
 import { MouseEvent, useState } from "react";
-import { createPortal } from 'react-dom';
+import { createPortal } from "react-dom";
 import "./ui/SkipLink.scss";
 import { SkipLinkContainerProps } from "typings/SkipLinkProps";
 
@@ -8,32 +8,32 @@ import { SkipLinkContainerProps } from "typings/SkipLinkProps";
  * When activated, focus is programmatically set to the main content.
  */
 export function SkipLink(props: SkipLinkContainerProps) {
-    const [linkRoot] = useState(() => {           
-        const link = document.createElement('div');
-         const root = document.getElementById("root");
+    const [linkRoot] = useState(() => {
+        const link = document.createElement("div");
+        const root = document.getElementById("root");
         // Insert as first child immediately
         if (root && root.firstElementChild) {
             root.insertBefore(link, root.firstElementChild);
         } else if (root) {
             root.appendChild(link);
-        } else{
+        } else {
             console.error("No root element found on page");
         }
         return link;
-    })
+    });
 
     function handleClick(event: MouseEvent): void {
         event.preventDefault();
         let main: HTMLElement;
-        if(props.mainContentId !== "") {
+        if (props.mainContentId !== "") {
             const mainByID = document.getElementById(props.mainContentId);
             if (mainByID !== null) {
                 main = mainByID;
-            } else{
+            } else {
                 console.error(`Element with id: ${props.mainContentId} not found on page`);
                 return;
             }
-        } else{ 
+        } else {
             main = document.getElementsByTagName("main")[0];
         }
 
@@ -62,6 +62,7 @@ export function SkipLink(props: SkipLinkContainerProps) {
             onClick={handleClick}
         >
             {props.linkText}
-        </a>, linkRoot
+        </a>,
+        linkRoot
     );
 }
