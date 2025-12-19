@@ -60,9 +60,10 @@ export class GridSizeStore {
 
     get templateColumnsHead(): string | undefined {
         return this.columnSizes
-            ?.map(s => {
-                const str = s.toString();
-                return `${str.slice(0, str.indexOf(".") + 4)}px`;
+            ?.map(size => {
+                const str = size.toString();
+                const dotIndex = str.indexOf(".");
+                return `${dotIndex === -1 ? str : str.slice(0, dotIndex + 4)}px`;
             })
             .join(" ");
     }
