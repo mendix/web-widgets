@@ -4,13 +4,14 @@ exports[`SkipLink renders skiplink widget and adds skip link to DOM 1`] = `
 <div
   id="root"
 >
-  <a
-    class="widget-skip-link"
-    href="#main-content"
-    tabindex="0"
-  >
-    Skip to main content
-  </a>
+  <div>
+    <a
+      class="widget-skip-link mx-skiplink"
+      href="#main-content"
+    >
+      Skip to main content
+    </a>
+  </div>
 </div>
 `;
 
@@ -18,13 +19,14 @@ exports[`SkipLink renders with custom link text 1`] = `
 <div
   id="root"
 >
-  <a
-    class="widget-skip-link"
-    href="#main-content"
-    tabindex="0"
-  >
-    Jump to content
-  </a>
+  <div>
+    <a
+      class="widget-skip-link mx-skiplink"
+      href="#main-content"
+    >
+      Jump to content
+    </a>
+  </div>
 </div>
 `;
 
@@ -32,13 +34,14 @@ exports[`SkipLink renders with custom main content id 1`] = `
 <div
   id="root"
 >
-  <a
-    class="widget-skip-link"
-    href="#content-area"
-    tabindex="0"
-  >
-    Skip to main content
-  </a>
+  <div>
+    <a
+      class="widget-skip-link mx-skiplink"
+      href="#content-area"
+    >
+      Skip to main content
+    </a>
+  </div>
 </div>
 `;
 
@@ -46,12 +49,13 @@ exports[`SkipLink renders with empty main content id 1`] = `
 <div
   id="root"
 >
-  <a
-    class="widget-skip-link"
-    href="#"
-    tabindex="0"
-  >
-    Skip to main content
-  </a>
+  <div>
+    <a
+      class="widget-skip-link mx-skiplink"
+      href="#"
+    >
+      Skip to main content
+    </a>
+  </div>
 </div>
 `;
