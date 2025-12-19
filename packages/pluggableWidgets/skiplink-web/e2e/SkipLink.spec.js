@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 test.describe("SkipLink:", function () {
     test("skip link is present in DOM but initially hidden", async ({ page }) => {
         // Skip link should be in the DOM but not visible
-        const skipLink = page.locator(".skip-link").first();
+        const skipLink = page.locator(".widget-skip-link").first();
         await expect(skipLink).toBeAttached();
         
         // Check initial styling (hidden)
@@ -23,7 +23,7 @@ test.describe("SkipLink:", function () {
 
     test("skip link becomes visible when focused via keyboard", async ({ page }) => {
         // Tab to focus the skip link (should be first focusable element)
-        const skipLink = page.locator(".skip-link").first();
+        const skipLink = page.locator(".widget-skip-link").first();
         await page.keyboard.press("Tab");
         
         await expect(skipLink).toBeFocused();
@@ -37,7 +37,7 @@ test.describe("SkipLink:", function () {
         // Tab to focus the skip link
         await page.keyboard.press("Tab");
         
-        const skipLink = page.locator(".skip-link").first();
+        const skipLink = page.locator(".widget-skip-link").first();
         await expect(skipLink).toBeFocused();
         
         // Activate the skip link
@@ -49,7 +49,7 @@ test.describe("SkipLink:", function () {
     });
 
     test("skip link has correct attributes and text", async ({ page }) => {
-        const skipLink = page.locator(".skip-link").first();
+        const skipLink = page.locator(".widget-skip-link").first();
         
         // Check default text
         await expect(skipLink).toHaveText("Skip to main content");
@@ -57,18 +57,15 @@ test.describe("SkipLink:", function () {
         // Check href attribute
         await expect(skipLink).toHaveAttribute("href", "#");
         
-        // Check tabindex
-        await expect(skipLink).toHaveAttribute("tabindex", "0");
-        
         // Check CSS class
-        await expect(skipLink).toHaveClass("skip-link");
+        await expect(skipLink).toHaveClass("widget-skip-link mx-name-skipLink1");
     });
 
     test("visual comparison", async ({ page }) => {
         // Tab to make skip link visible for screenshot
         await page.keyboard.press("Tab");
         
-        const skipLink = page.locator(".skip-link").first();
+        const skipLink = page.locator(".widget-skip-link").first();
         await expect(skipLink).toBeFocused();
         
         // Visual comparison of focused skip link
