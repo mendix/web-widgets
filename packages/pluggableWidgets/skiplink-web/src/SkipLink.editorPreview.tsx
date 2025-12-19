@@ -5,14 +5,14 @@ export const preview = (props: SkipLinkPreviewProps): ReactElement => {
     if (props.renderMode === "xray") {
         return (
             <div style={{ position: "relative", height: 40 }}>
-                <a href={`#${props.mainContentId}`} style={props.styleObject}>
+                <a href={`#${props.mainContentId}`} className={"widget-skip-link-preview"} style={props.styleObject}>
                     {props.linkText}
                 </a>
             </div>
         );
     } else {
         return (
-            <a href={`#${props.mainContentId}`} style={props.styleObject}>
+            <a href={`#${props.mainContentId}`} className={"widget-skip-link-preview"} style={props.styleObject}>
                 {props.linkText}
             </a>
         );
