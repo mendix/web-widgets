@@ -2268,6 +2268,43 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
 
+  packages/pluggableWidgets/skiplink-web:
+    dependencies:
+      '@floating-ui/react':
+        specifier: ^0.26.27
+        version: 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mendix/widget-plugin-component-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-component-kit
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
+    devDependencies:
+      '@mendix/automation-utils':
+        specifier: workspace:*
+        version: link:../../../automation/utils
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/eslint-config-web-widgets
+      '@mendix/pluggable-widgets-tools':
+        specifier: 10.21.2
+        version: 10.21.2(@jest/transform@29.7.0)(@jest/types@30.2.0)(@swc/core@1.13.5)(@types/babel__core@7.20.5)(@types/node@22.14.1)(jest-util@30.2.0)(picomatch@4.0.3)(react-dom@18.3.1(react@18.3.1))(react-native@0.82.0(@babel/core@7.28.4)(@types/react@19.2.2)(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/prettier-config-web-widgets
+      '@mendix/run-e2e':
+        specifier: workspace:*
+        version: link:../../../automation/run-e2e
+      '@mendix/widget-plugin-hooks':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-hooks
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
+
   packages/pluggableWidgets/slider-web:
     dependencies:
       '@mendix/widget-plugin-component-kit':
