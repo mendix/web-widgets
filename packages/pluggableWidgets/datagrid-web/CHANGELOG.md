@@ -8,7 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- We added missing dutch translations for Datagrid 2.
+- We added missing Dutch translations for Datagrid 2.
+
+### Changed
+
+- We improved virtual scrolling behavior when horizontal scrolling is present due to grid size.
 
 ### Added
 

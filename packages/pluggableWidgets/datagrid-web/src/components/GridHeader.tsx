@@ -1,5 +1,5 @@
 import { ReactElement, useState } from "react";
-import { useColumnsStore, useDatagridConfig } from "../model/hooks/injection-hooks";
+import { useColumnsStore, useDatagridConfig, useGridSizeStore } from "../model/hooks/injection-hooks";
 import { ColumnId } from "../typings/GridColumn";
 import { CheckboxColumnHeader } from "./CheckboxColumnHeader";
 import { ColumnProvider } from "./ColumnProvider";
@@ -11,6 +11,7 @@ import { HeaderSkeletonLoader } from "./loader/HeaderSkeletonLoader";
 export function GridHeader(): ReactElement {
     const { columnsHidable, id: gridId } = useDatagridConfig();
     const columnsStore = useColumnsStore();
+    const gridSizeStore = useGridSizeStore();
     const columns = columnsStore.visibleColumns;
     const [dragOver, setDragOver] = useState<[ColumnId, "before" | "after"] | undefined>(undefined);
     const [isDragging, setIsDragging] = useState<[ColumnId | undefined, ColumnId, ColumnId | undefined] | undefined>();
@@ -20,7 +21,7 @@ export function GridHeader(): ReactElement {
     }
 
     return (
-        <div className="widget-datagrid-grid-head" role="rowgroup">
+        <div className="widget-datagrid-grid-head" role="rowgroup" ref={gridSizeStore.gridHeaderRef}>
             <div key="headers_row" className="tr" role="row">
                 <CheckboxColumnHeader key="headers_column_select_all" />
                 {columns.map(column => (
