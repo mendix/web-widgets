@@ -23,7 +23,7 @@ export interface TreeNodeContainerProps {
     openNodeOn: OpenNodeOnEnum;
     headerContent?: ListWidgetValue;
     headerCaption?: ListExpressionValue<string>;
-    hasChildren: boolean;
+    hasChildren: ListExpressionValue<boolean>;
     startExpanded: boolean;
     children?: ListWidgetValue;
     animate: boolean;
@@ -50,7 +50,7 @@ export interface TreeNodePreviewProps {
     openNodeOn: OpenNodeOnEnum;
     headerContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     headerCaption: string;
-    hasChildren: boolean;
+    hasChildren: string;
     startExpanded: boolean;
     children: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     animate: boolean;
