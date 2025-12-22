@@ -25,7 +25,7 @@
                     <caption>Navigation controls</caption>
                     <description />
                 </property>
-                <property key="autoplay" type="boolean" defaultValue="true">
+                <property key="autoplay" type="boolean" defaultValue="false">
                     <caption>Auto play</caption>
                     <description />
                 </property>
