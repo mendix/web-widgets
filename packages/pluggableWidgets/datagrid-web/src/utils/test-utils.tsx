@@ -85,6 +85,8 @@ export function mockContainerProps(overrides?: Partial<DatagridContainerProps>):
         selectAllText: dynamic("Select all items"),
         selectAllTemplate: dynamic("Select all %d items"),
         allSelectedText: dynamic("All items selected"),
+        useCustomPagination: false,
+        customPagination: undefined,
         ...overrides
     };
 }

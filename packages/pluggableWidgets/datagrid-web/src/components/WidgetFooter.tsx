@@ -3,14 +3,15 @@ import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
-import { useDatagridConfig, usePaginationService, useTexts } from "../model/hooks/injection-hooks";
+import { useCustomPagination, usePaginationConfig, usePaginationVM, useTexts } from "../model/hooks/injection-hooks";
 import { Pagination } from "./Pagination";
 
 export const WidgetFooter = observer(function WidgetFooter(): ReactElement {
-    const config = useDatagridConfig();
-    const paging = usePaginationService();
+    const pgConfig = usePaginationConfig();
+    const paging = usePaginationVM();
     const { loadMoreButtonCaption } = useTexts();
     const selectionCounterVM = useSelectionCounterViewModel();
+    const customPagination = useCustomPagination();
 
     return (
         <div className="widget-datagrid-footer table-footer">
@@ -32,9 +33,10 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement {
                     </div>
                 </If>
                 <div className="widget-datagrid-pb-end">
-                    <If condition={config.pagingPosition !== "top"}>
+                    <If condition={pgConfig.pagingPosition !== "top"}>
                         <Pagination />
                     </If>
+                    <If condition={pgConfig.customPaginationEnabled}>{customPagination.get()}</If>
                 </div>
             </div>
         </div>

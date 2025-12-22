@@ -1,6 +1,6 @@
 import { SelectionMode, SelectionType } from "@mendix/widget-plugin-grid/selection";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { DatagridContainerProps, LoadingTypeEnum, PagingPositionEnum } from "../../../typings/DatagridProps";
+import { DatagridContainerProps, LoadingTypeEnum } from "../../../typings/DatagridProps";
 import { type SelectionMethod } from "../../features/row-interaction/base";
 
 /** Config for static values that don't change at runtime. */
@@ -20,7 +20,6 @@ export interface DatagridConfig {
     enableSelectAll: boolean;
     keepSelection: boolean;
     autoSelect: boolean;
-    pagingPosition: PagingPositionEnum;
     multiselectable: true | undefined;
     loadingType: LoadingTypeEnum;
     columnsDraggable: boolean;
@@ -50,7 +49,6 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         enableSelectAll: props.enableSelectAll,
         keepSelection: props.keepSelection,
         autoSelect: props.autoSelect,
-        pagingPosition: props.pagingPosition,
         multiselectable: isMultiselectable(props),
         loadingType: props.loadingType,
         columnsHidable: props.columnsHidable,

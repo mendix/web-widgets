@@ -14,8 +14,8 @@ import {
 } from "@mendix/widget-plugin-grid/core/models/selection.model";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected } from "brandi";
+
 import { columnCount, visibleColumnsCountAtom } from "../models/columns.model";
-import { pageSizeAtom } from "../models/paging.model";
 import { rowsAtom } from "../models/rows.model";
 import { DatagridSetupService } from "../services/DatagridSetup.service";
 import { TextsService } from "../services/Texts.service";
@@ -31,7 +31,6 @@ injected(hasMoreItemsAtom, CORE.mainGate);
 injected(visibleColumnsCountAtom, CORE.columnsStore);
 injected(isAllItemsPresentAtom, CORE.atoms.offset, CORE.atoms.hasMoreItems);
 injected(rowsAtom, CORE.mainGate);
-injected(pageSizeAtom, CORE.pageSizeStore);
 injected(columnCount, CORE.atoms.visibleColumnsCount, CORE.config);
 
 // selection
@@ -84,7 +83,6 @@ export class RootContainer extends Container {
         this.bind(CORE.texts).toInstance(TextsService).inTransientScope();
 
         // paging
-        this.bind(CORE.atoms.pageSize).toInstance(pageSizeAtom).inTransientScope();
         this.bind(CORE.pageSizeStore).toInstance(PageSizeStore).inSingletonScope();
     }
 }
