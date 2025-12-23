@@ -4,7 +4,6 @@ import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
 import { createContext, CSSProperties, PropsWithChildren, ReactElement, ReactNode, useContext } from "react";
 import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps";
-import { DragHandle } from "./components/DragHandle";
 import { FaArrowsAltV } from "./components/icons/FaArrowsAltV";
 import { FaEye } from "./components/icons/FaEye";
 import { ColumnPreview } from "./helpers/ColumnPreview";
@@ -159,7 +158,7 @@ function GridHeader(): ReactNode {
 }
 
 function ColumnHeader({ column }: { column: ColumnsPreviewType }): ReactNode {
-    const { columnsFilterable, columnsSortable, columnsHidable, columnsDraggable } = useProps();
+    const { columnsFilterable, columnsSortable, columnsHidable } = useProps();
     const columnPreview = new ColumnPreview(column, 0);
     const caption = columnPreview.header;
     const canSort = columnsSortable && columnPreview.canSort;
@@ -174,9 +173,6 @@ function ColumnHeader({ column }: { column: ColumnsPreviewType }): ReactNode {
             >
                 <div className="column-container">
                     <div className="column-header">
-                        {columnsDraggable && columnPreview.canDrag && (
-                            <DragHandle draggable={false} onDragStart={() => {}} onDragEnd={() => {}} />
-                        )}
                         <span>{caption.length > 0 ? caption : "\u00a0"}</span>
                         {canSort && <FaArrowsAltV />}
                     </div>

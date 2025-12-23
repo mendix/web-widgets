@@ -3,7 +3,7 @@ import { HTMLAttributes, KeyboardEvent, ReactElement, ReactNode } from "react";
 import { FaArrowsAltV } from "./icons/FaArrowsAltV";
 import { FaLongArrowAltDown } from "./icons/FaLongArrowAltDown";
 import { FaLongArrowAltUp } from "./icons/FaLongArrowAltUp";
-import { useColumn, useHeaderDragnDropVM } from "../model/hooks/injection-hooks";
+import { useColumn, useHeaderDndVM } from "../model/hooks/injection-hooks";
 import { observer } from "mobx-react-lite";
 import { SortDirection } from "../typings/sorting";
 
@@ -16,12 +16,12 @@ export const ColumnHeader = observer(function ColumnHeader(): ReactElement {
     const { header, canSort, alignment } = column;
     const caption = header.trim();
     const sortProps = canSort ? getSortProps(() => column.toggleSort()) : null;
-    const vm = useHeaderDragnDropVM();
+    const vm = useHeaderDndVM();
 
     return (
         <div
             className={classNames("column-header", { clickable: canSort }, `align-column-${alignment}`)}
-            style={{ pointerEvents: vm.dragging ? "none" : undefined }}
+            style={{ pointerEvents: vm.isDragging ? "none" : undefined }}
             {...sortProps}
             aria-label={canSort ? "sort " + caption : caption}
         >

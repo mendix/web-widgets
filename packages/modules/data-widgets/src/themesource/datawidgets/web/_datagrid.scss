@@ -30,41 +30,8 @@ $root: ".widget-datagrid";
     }
 
     .th {
-        &.dragging {
-            opacity: 0.5;
-            &.dragging-over-self {
-                opacity: 0.8;
-            }
-        }
-
-        &.drop-after:after,
-        &.drop-before:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            height: 100%;
-            width: var(--spacing-smaller, $spacing-smaller);
-            background-color: var(--brand-primary, $dragging-color-effect);
-
-            z-index: 1;
-        }
-
-        &.drop-before {
-            &:after {
-                left: 0;
-            }
-            &:not(:first-child):after {
-                transform: translateX(-50%);
-            }
-        }
-
-        &.drop-after {
-            &:after {
-                right: 0;
-            }
-            &:not(:last-child):after {
-                transform: translateX(50%);
-            }
+        &.dragging-over-self {
+            opacity: 0.8;
         }
 
         /* Clickable column header (Sortable) */
@@ -97,19 +64,17 @@ $root: ".widget-datagrid";
             cursor: grab;
             pointer-events: auto;
             position: relative;
-            padding: 4px;
-            // margin-inline-end: 4px;
+            padding: 12px 4px 4px 4px;
             flex-grow: 0;
             flex-shrink: 0;
             display: flex;
             justify-content: center;
-            align-self: normal;
+            align-self: flex-start;
             z-index: 1;
             opacity: 0;
             transition: opacity 0.15s ease;
 
             &:hover {
-                // background-color: var(--brand-primary-50, $brand-light);
                 svg {
                     color: var(--brand-primary, $brand-primary);
                 }
@@ -126,6 +91,14 @@ $root: ".widget-datagrid";
             }
         }
 
+        &.locked-drag-active {
+            z-index: 2;
+        }
+
+        &.dragging-over-self {
+            opacity: 0.25;
+        }
+
         &:hover .drag-handle,
         &:focus-within .drag-handle {
             opacity: 1;
@@ -134,6 +107,21 @@ $root: ".widget-datagrid";
         /* Parent background change on drag handle hover */
         &:has(.drag-handle:hover) {
             background-color: var(--brand-primary-50, $brand-light);
+        }
+
+        /* Drag preview (dnd-kit) should look like hovered header */
+        &.drag-preview {
+            background-color: var(--brand-primary-50, $brand-light);
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--gray-light, $gray-light);
+
+            .drag-handle {
+                opacity: 1;
+
+                svg {
+                    color: var(--brand-primary, $brand-primary);
+                }
+            }
         }
 
         /* Remove left padding when drag handle is present */
@@ -193,7 +181,9 @@ $root: ".widget-datagrid";
         /* Header filter */
         .filter {
             display: flex;
-            margin-top: 4px;
+            > * {
+                margin-top: 4px;
+            }
             > .form-group {
                 margin-bottom: 0;
             }
