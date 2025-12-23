@@ -7,6 +7,7 @@ import { ColumnsPreviewType, DatagridPreviewProps } from "typings/DatagridProps"
 import { FaArrowsAltV } from "./components/icons/FaArrowsAltV";
 import { FaEye } from "./components/icons/FaEye";
 import { ColumnPreview } from "./helpers/ColumnPreview";
+
 import "./ui/DatagridPreview.scss";
 
 declare module "mendix/preview/Selectable" {
