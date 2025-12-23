@@ -1,44 +1,20 @@
-import { DragEvent, DragEventHandler, MouseEvent, ReactElement } from "react";
+import { ReactElement } from "react";
+import { DraggableAttributes, DraggableSyntheticListeners } from "@dnd-kit/core";
 import { FaGripVertical } from "./icons/FaGripVertical";
 
 interface DragHandleProps {
-    draggable: boolean;
-    onDragStart?: DragEventHandler<HTMLSpanElement>;
-    onDragEnd?: DragEventHandler<HTMLSpanElement>;
+    setActivatorNodeRef: (element: HTMLElement | null) => void;
+    listeners?: DraggableSyntheticListeners;
+    attributes?: DraggableAttributes;
 }
-export function DragHandle({ draggable, onDragStart, onDragEnd }: DragHandleProps): ReactElement {
-    const handleMouseDown = (e: MouseEvent<HTMLSpanElement>): void => {
-        // Only stop propagation, don't prevent default - we need default for drag to work
-        e.stopPropagation();
-    };
-
-    const handleClick = (e: MouseEvent<HTMLSpanElement>): void => {
-        // Stop click events from bubbling to prevent sorting
-        e.stopPropagation();
-        e.preventDefault();
-    };
-
-    const handleDragStart = (e: DragEvent<HTMLSpanElement>): void => {
-        // Don't stop propagation here - let the drag start properly
-        if (onDragStart) {
-            onDragStart(e);
-        }
-    };
-
-    const handleDragEnd = (e: DragEvent<HTMLSpanElement>): void => {
-        if (onDragEnd) {
-            onDragEnd(e);
-        }
-    };
-
+export function DragHandle({ setActivatorNodeRef, listeners, attributes }: DragHandleProps): ReactElement {
     return (
         <span
             className="drag-handle"
-            draggable={draggable}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-            onMouseDown={handleMouseDown}
-            onClick={handleClick}
+            ref={setActivatorNodeRef}
+            aria-label="Drag to reorder"
+            {...attributes}
+            {...listeners}
         >
             <FaGripVertical />
         </span>

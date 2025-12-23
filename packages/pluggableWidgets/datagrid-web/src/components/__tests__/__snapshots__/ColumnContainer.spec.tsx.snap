@@ -6,7 +6,6 @@ exports[`ColumnContainer renders the structure correctly 1`] = `
     class="th"
     data-column-id="0"
     role="columnheader"
-    style="cursor: unset;"
     title="Column 1"
   >
     <div
@@ -14,7 +13,6 @@ exports[`ColumnContainer renders the structure correctly 1`] = `
       id="datagrid2_1:Datagrid@2-column0"
     >
       <div
-        aria-label="Column 1"
         class="column-header align-column-left"
       >
         <span
@@ -28,6 +26,23 @@ exports[`ColumnContainer renders the structure correctly 1`] = `
       />
     </div>
   </div>
+  <div
+    id="DndDescribedBy-0"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-0"
+    role="status"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
 </DocumentFragment>
 `;
 
@@ -37,34 +52,37 @@ exports[`ColumnContainer renders the structure correctly when draggable 1`] = `
     class="th"
     data-column-id="0"
     role="columnheader"
-    style="cursor: unset;"
     title="Column 1"
   >
-    <span
-      class="drag-handle"
-      draggable="true"
-    >
-      <svg
-        aria-hidden="true"
-        focusable="false"
-        role="img"
-        viewBox="0 0 320 512"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M96 64c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-128 160c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-128 160c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32z"
-          fill="currentColor"
-        />
-      </svg>
-    </span>
     <div
       class="column-container"
       id="datagrid2_1:Datagrid@14-column0"
     >
       <div
-        aria-label="Column 1"
         class="column-header align-column-left"
       >
+        <span
+          aria-describedby="DndDescribedBy-3"
+          aria-disabled="false"
+          aria-label="Drag to reorder"
+          aria-roledescription="sortable"
+          class="drag-handle"
+          role="button"
+          tabindex="0"
+        >
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+            viewBox="0 0 320 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M96 64c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-128 160c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-128 160c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm128 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
         <span
           class="column-caption"
         >
@@ -76,6 +94,23 @@ exports[`ColumnContainer renders the structure correctly when draggable 1`] = `
       />
     </div>
   </div>
+  <div
+    id="DndDescribedBy-3"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-3"
+    role="status"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
 </DocumentFragment>
 `;
 
@@ -85,7 +120,6 @@ exports[`ColumnContainer renders the structure correctly when filterable with cu
     class="th"
     data-column-id="0"
     role="columnheader"
-    style="cursor: unset;"
     title="Column 1"
   >
     <div
@@ -93,7 +127,6 @@ exports[`ColumnContainer renders the structure correctly when filterable with cu
       id="datagrid2_1:Datagrid@18-column0"
     >
       <div
-        aria-label="Column 1"
         class="column-header align-column-left"
       >
         <span
@@ -111,6 +144,23 @@ exports[`ColumnContainer renders the structure correctly when filterable with cu
       </div>
     </div>
   </div>
+  <div
+    id="DndDescribedBy-4"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-4"
+    role="status"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
 </DocumentFragment>
 `;
 
@@ -120,7 +170,6 @@ exports[`ColumnContainer renders the structure correctly when resizable 1`] = `
     class="th"
     data-column-id="0"
     role="columnheader"
-    style="cursor: unset;"
     title="Column 1"
   >
     <div
@@ -128,7 +177,6 @@ exports[`ColumnContainer renders the structure correctly when resizable 1`] = `
       id="datagrid2_1:Datagrid@10-column0"
     >
       <div
-        aria-label="Column 1"
         class="column-header align-column-left"
       >
         <span
@@ -142,6 +190,23 @@ exports[`ColumnContainer renders the structure correctly when resizable 1`] = `
       />
     </div>
   </div>
+  <div
+    id="DndDescribedBy-2"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-2"
+    role="status"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
 </DocumentFragment>
 `;
 
@@ -159,37 +224,56 @@ exports[`ColumnContainer renders the structure correctly when sortable 1`] = `
       id="datagrid2_1:Datagrid@6-column0"
     >
       <div
-        aria-label="sort Column 1"
-        class="column-header clickable align-column-left"
-        role="button"
-        tabindex="0"
+        class="column-header align-column-left"
       >
         <span
           class="column-caption"
         >
           Column 1
         </span>
-        <svg
-          aria-hidden="true"
-          class="svg-inline--fa fa-arrows-alt-v fa-w-8"
-          data-icon="arrows-alt-v"
-          data-prefix="fas"
-          focusable="false"
-          role="img"
-          viewBox="0 0 256 512"
-          xmlns="http://www.w3.org/2000/svg"
+        <button
+          aria-label="Sort by Column 1"
+          class="sort-button"
         >
-          <path
-            d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-            fill="currentColor"
-          />
-        </svg>
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-arrows-alt-v fa-w-8"
+            data-icon="arrows-alt-v"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 256 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
       </div>
       <div
         class="filter"
       />
     </div>
   </div>
+  <div
+    id="DndDescribedBy-1"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-1"
+    role="status"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
 </DocumentFragment>
 `;
 
@@ -199,7 +283,6 @@ exports[`ColumnContainer renders the structure correctly when value is empty 1`]
     class="th"
     data-column-id="0"
     role="columnheader"
-    style="cursor: unset;"
     title=""
   >
     <div
@@ -207,7 +290,6 @@ exports[`ColumnContainer renders the structure correctly when value is empty 1`]
       id="datagrid2_1:Datagrid@26-column0"
     >
       <div
-        aria-label=""
         class="column-header align-column-left"
       >
         <span
@@ -221,5 +303,22 @@ exports[`ColumnContainer renders the structure correctly when value is empty 1`]
       />
     </div>
   </div>
+  <div
+    id="DndDescribedBy-6"
+    style="display: none;"
+  >
+    
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+  </div>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    id="DndLiveRegion-6"
+    role="status"
+    style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+  />
 </DocumentFragment>
 `;

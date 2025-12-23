@@ -31,8 +31,8 @@ import { PaginationViewModel } from "../../features/pagination/Pagination.viewMo
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
-import { HeaderDragnDropStore } from "../../features/column/HeaderDragnDrop.store";
-import { HeaderDragnDropViewModel } from "../../features/column/HeaderDragnDrop.viewModel";
+import { HeaderDndStore } from "../../features/column/HeaderDnd.store";
+import { HeaderDndViewModel } from "../../features/column/HeaderDnd.viewModel";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../../helpers/state/GridPersonalizationStore";
 import { DatagridConfig } from "../configs/Datagrid.config";
@@ -108,9 +108,9 @@ injected(
     DG.selectionCounterCfg.optional
 );
 
-// drag and drop
-injected(HeaderDragnDropStore);
-injected(HeaderDragnDropViewModel, DG.headerDragDrop, CORE.columnsStore, CORE.config, CORE.column);
+// header drag and drop (dnd-kit)
+injected(HeaderDndStore);
+injected(HeaderDndViewModel, DG.headerDndStore, CORE.columnsStore);
 
 export class DatagridContainer extends Container {
     id = `DatagridContainer@${generateUUID()}`;
@@ -122,10 +122,9 @@ export class DatagridContainer extends Container {
         this.bind(DG.basicDate).toInstance(GridBasicData).inSingletonScope();
         // Columns store
         this.bind(CORE.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
-        // Drag and Drop store
-        this.bind(DG.headerDragDrop).toInstance(HeaderDragnDropStore).inSingletonScope();
-        // Drag and Drop view model (per column, not singleton)
-        this.bind(DG.headerDragnDropVM).toInstance(HeaderDragnDropViewModel).inTransientScope();
+        // Header drag and drop (dnd-kit) store/view model
+        this.bind(DG.headerDndStore).toInstance(HeaderDndStore).inSingletonScope();
+        this.bind(DG.headerDndVM).toInstance(HeaderDndViewModel).inSingletonScope();
         // Query service
         this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
         // Grid sizing and scrolling store

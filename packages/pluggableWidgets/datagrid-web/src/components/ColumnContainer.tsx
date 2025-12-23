@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { ReactElement } from "react";
 import { ColumnHeader } from "./ColumnHeader";
-import { useColumn, useColumnsStore, useDatagridConfig, useHeaderDragnDropVM } from "../model/hooks/injection-hooks";
+import { useColumn, useColumnsStore, useDatagridConfig, useHeaderDndVM } from "../model/hooks/injection-hooks";
 import { ColumnResizerProps } from "./ColumnResizer";
 import { observer } from "mobx-react-lite";
-import { DragHandle } from "./DragHandle";
+import { useSortable } from "@dnd-kit/sortable";
 
 export interface ColumnContainerProps {
     isLast?: boolean;
@@ -12,41 +12,43 @@ export interface ColumnContainerProps {
 }
 
 export const ColumnContainer = observer(function ColumnContainer(props: ColumnContainerProps): ReactElement {
-    const { columnsFilterable, id: gridId } = useDatagridConfig();
-    const { columnFilters } = useColumnsStore();
+    const { columnsFilterable, columnsResizable, columnsSortable, id: gridId } = useDatagridConfig();
+    const columnsStore = useColumnsStore();
+    const { columnFilters } = columnsStore;
     const column = useColumn();
     const { canSort, columnId, columnIndex, canResize, sortDir, header } = column;
-    const vm = useHeaderDragnDropVM();
+    const isSortable = columnsSortable && canSort;
+    const isResizable = columnsResizable && canResize;
     const caption = header.trim();
+    const vm = useHeaderDndVM();
+    const { setNodeRef, transform, transition, isDragging } = useSortable({
+        id: columnId
+    });
+    const style = vm.getHeaderCellStyle(columnId, { transform, transition });
+    const isLocked = !column.canDrag;
 
     return (
         <div
-            aria-sort={getAriaSort(canSort, sortDir)}
+            aria-sort={getAriaSort(isSortable, sortDir)}
             className={classNames("th", {
-                [`drop-${vm.dropTarget?.[1]}`]: columnId === vm.dropTarget?.[0],
-                dragging: columnId === vm.dragging?.[1],
-                "dragging-over-self": columnId === vm.dragging?.[1] && !vm.dropTarget
+                "dragging-over-self": isDragging,
+                "locked-drag-active": isLocked && vm.isDragging
             })}
             role="columnheader"
-            style={!canSort ? { cursor: "unset" } : undefined}
+            style={style}
             title={caption}
+            ref={setNodeRef}
             data-column-id={columnId}
-            onDrop={vm.isDraggable ? vm.handleOnDrop : undefined}
-            onDragEnter={vm.isDraggable ? vm.handleDragEnter : undefined}
-            onDragOver={vm.isDraggable ? vm.handleDragOver : undefined}
         >
-            {vm.isDraggable && (
-                <DragHandle draggable={vm.isDraggable} onDragStart={vm.handleDragStart} onDragEnd={vm.handleDragEnd} />
-            )}
             <div className={classNames("column-container")} id={`${gridId}-column${columnId}`}>
                 <ColumnHeader />
                 {columnsFilterable && (
-                    <div className="filter" style={{ pointerEvents: vm.dragging ? "none" : undefined }}>
+                    <div className="filter" style={{ pointerEvents: vm.isDragging ? "none" : undefined }}>
                         {columnFilters[columnIndex]?.renderFilterWidgets()}
                     </div>
                 )}
             </div>
-            {canResize ? props.resizer : null}
+            {isResizable ? props.resizer : null}
         </div>
     );
 });
