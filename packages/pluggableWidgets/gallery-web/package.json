@@ -46,6 +46,8 @@
         "@mendix/widget-plugin-filtering": "workspace:*",
         "@mendix/widget-plugin-mobx-kit": "workspace:^",
         "@mendix/widget-plugin-sorting": "workspace:*",
+        "brandi": "^5.0.0",
+        "brandi-react": "^5.0.0",
         "classnames": "^2.5.1",
         "mobx": "6.12.3",
         "mobx-react-lite": "4.0.7"
