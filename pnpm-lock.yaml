@@ -1563,6 +1563,12 @@ importers:
       '@mendix/widget-plugin-sorting':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-sorting
+      brandi:
+        specifier: ^5.0.0
+        version: 5.0.0
+      brandi-react:
+        specifier: ^5.0.0
+        version: 5.0.0(brandi@5.0.0)(react@18.3.1)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
