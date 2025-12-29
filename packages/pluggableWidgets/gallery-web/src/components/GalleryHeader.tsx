@@ -1,13 +1,12 @@
-import { JSX, ReactElement } from "react";
+import { ReactElement } from "react";
+import { useMainGate } from "../model/hooks/injection-hooks";
 
-type GalleryHeaderProps = Omit<JSX.IntrinsicElements["div"], "ref">;
+export function GalleryHeader(): ReactElement | null {
+    const { filtersPlaceholder } = useMainGate().props;
 
-export function GalleryHeader(props: GalleryHeaderProps): ReactElement | null {
-    const { children } = props;
-
-    if (!children) {
+    if (!filtersPlaceholder) {
         return null;
     }
 
-    return <section {...props} className="widget-gallery-header widget-gallery-filter" />;
+    return <section className="widget-gallery-header widget-gallery-filter">{filtersPlaceholder}</section>;
 }
