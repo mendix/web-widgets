@@ -6,6 +6,7 @@ import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
 import { Container, injected } from "brandi";
+import { GalleryRootViewModel } from "../../features/base/GalleryRoot.viewModel";
 import { GalleryGateProps } from "../../typings/GalleryGateProps";
 import { GalleryConfig } from "../configs/Gallery.config";
 import { QueryParamsService } from "../services/QueryParams.service";
@@ -84,7 +85,16 @@ const sortBindings: BindingGroup = {
     }
 };
 
-const groups = [coreBindings, queryBindings, filterBindings, sortBindings];
+const viewBindings: BindingGroup = {
+    define(container) {
+        container.bind(GY.galleryRootVM).toInstance(GalleryRootViewModel).inSingletonScope();
+    },
+    inject() {
+        injected(GalleryRootViewModel, CORE.mainGate);
+    }
+};
+
+const groups = [coreBindings, queryBindings, filterBindings, sortBindings, viewBindings];
 
 // Inject tokens from groups
 for (const grp of groups) {
@@ -107,17 +117,21 @@ export class GalleryContainer extends Container {
         props: GalleryGateProps;
         mainGate: DerivedPropsGate<GalleryGateProps>;
         config: GalleryConfig;
-    }): void {
+    }): GalleryContainer {
         for (const grp of groups) {
             grp.init?.(this, dependencies);
         }
 
         this.postInit();
+
+        return this;
     }
 
-    private postInit(): void {
+    private postInit(): GalleryContainer {
         for (const grp of groups) {
             grp.postInit?.(this);
         }
+
+        return this;
     }
 }
