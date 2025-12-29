@@ -9,8 +9,8 @@ import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
 import { DynamicValue, EditableValue, ListValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { PaginationEnum, StateStorageTypeEnum } from "../../typings/GalleryProps";
-import { DerivedLoaderController } from "../controllers/DerivedLoaderController";
 import { QueryParamsController } from "../controllers/QueryParamsController";
+import { LoaderService } from "../model/services/Loder.service";
 import { PaginationController } from "../services/PaginationController";
 import { ObservableStorage } from "../typings/storage";
 import { AttributeStorage } from "./AttributeStorage";
@@ -56,7 +56,7 @@ export class GalleryStore extends SetupHost {
     readonly paging: PaginationController;
     readonly filterAPI: FilterAPI;
     readonly sortAPI: SortAPI;
-    loaderCtrl: DerivedLoaderController;
+    loaderCtrl: LoaderService;
     selectionCountStore: SelectionCounterViewModel;
 
     constructor(spec: GalleryStoreSpec) {
@@ -96,7 +96,7 @@ export class GalleryStore extends SetupHost {
             host: this._sortHost
         };
 
-        this.loaderCtrl = new DerivedLoaderController(this._query, spec.refreshIndicator, spec.refreshInterval >= 1);
+        this.loaderCtrl = new LoaderService(this._query, spec.refreshIndicator, spec.refreshInterval >= 1);
 
         const useStorage = spec.storeFilters || spec.storeSort;
         if (useStorage) {
