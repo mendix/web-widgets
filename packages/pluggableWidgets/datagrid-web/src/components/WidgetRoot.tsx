@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { PropsWithChildren, ReactElement } from "react";
 import { useDatagridRootVM } from "../model/hooks/injection-hooks";
 
+/** @remark vm source `WidgetRoot.viewModel.ts` */
 export const WidgetRoot = observer(function WidgetRoot({ children }: PropsWithChildren): ReactElement {
     const vm = useDatagridRootVM();
 

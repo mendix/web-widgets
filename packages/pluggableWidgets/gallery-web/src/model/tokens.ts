@@ -8,6 +8,7 @@ import { DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx
 import { SortInstruction } from "@mendix/widget-plugin-sorting/types/store";
 import { token } from "brandi";
 import { ListValue } from "mendix";
+import { GalleryRootViewModel } from "../features/base/GalleryRoot.viewModel";
 import { GalleryGateProps } from "../typings/GalleryGateProps";
 import { GalleryConfig } from "./configs/Gallery.config";
 import { QueryParamsService } from "./services/QueryParams.service";
@@ -37,5 +38,8 @@ export const GY_TOKENS = {
 
     // sorting
     sortHost: token<{ sortOrder: SortInstruction[] | undefined }>(label("@service:sortHost")),
-    sortHostConfig: token<{ initSort: SortInstruction[] }>(label("@config:sortHostConfig"))
+    sortHostConfig: token<{ initSort: SortInstruction[] }>(label("@config:sortHostConfig")),
+
+    // gallery root
+    galleryRootVM: token<GalleryRootViewModel>(label("@viewModel:galleryRootVM"))
 };
