@@ -11,6 +11,7 @@ import { ListValue } from "mendix";
 import { GalleryRootViewModel } from "../features/base/GalleryRoot.viewModel";
 import { GalleryGateProps } from "../typings/GalleryGateProps";
 import { GalleryConfig } from "./configs/Gallery.config";
+import { LoaderService } from "./services/Loder.service";
 import { QueryParamsService } from "./services/QueryParams.service";
 
 const label = (name: string): string => `Gallery/${name}`;
@@ -41,5 +42,9 @@ export const GY_TOKENS = {
     sortHostConfig: token<{ initSort: SortInstruction[] }>(label("@config:sortHostConfig")),
 
     // gallery root
-    galleryRootVM: token<GalleryRootViewModel>(label("@viewModel:galleryRootVM"))
+    galleryRootVM: token<GalleryRootViewModel>(label("@viewModel:galleryRootVM")),
+
+    // loader
+    loaderConfig: token<{ refreshIndicator: boolean; showSilentRefresh: boolean }>(label("@config:loaderConfig")),
+    loader: token<LoaderService>(label("@service:loader"))
 };
