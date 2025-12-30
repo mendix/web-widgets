@@ -1,4 +1,4 @@
-import * as pty from "node-pty";
+import type * as NodePty from "node-pty";
 import { GENERATIONS_DIR, SCAFFOLD_TIMEOUT_MS } from "@/config";
 import { DEFAULT_WIDGET_OPTIONS, type WidgetOptions, type WidgetOptionsInput } from "@/tools/types";
 import { ProgressTracker } from "./progress-tracker";
@@ -143,6 +143,38 @@ export function cleanTerminalOutput(data: string): string {
     );
 }
 
+type NodePtyModule = typeof NodePty;
+
+async function loadNodePty(): Promise<NodePtyModule> {
+    try {
+        // NOTE: node-pty is a native addon. Import it lazily so the MCP server can still start
+        // in environments where the addon is not available/built (e.g. missing toolchain).
+        const mod: any = await import("node-pty");
+        const pty = (mod?.default ?? mod) as NodePtyModule;
+
+        if (typeof pty?.spawn !== "function") {
+            throw new Error("node-pty loaded but does not expose spawn()");
+        }
+
+        return pty;
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+
+        throw new Error(
+            [
+                "Failed to load `node-pty` (native addon). This is required for the `create-widget` tool.",
+                "",
+                "Fix (macOS):",
+                "- Install Xcode Command Line Tools: `xcode-select --install`",
+                "- Rebuild the addon: `pnpm -w rebuild node-pty` (or run it from the repo root)",
+                "- If you're on Node.js 22+, consider upgrading `node-pty` to a version that supports your Node version",
+                "",
+                `Original error: ${message}`
+            ].join("\n")
+        );
+    }
+}
+
 /**
  * Handles generator output and sends answers when prompts are detected.
  * Uses a larger buffer and improved logging for reliability.
@@ -202,11 +234,12 @@ function handleGeneratorOutput(
  * @param tracker - Progress tracker for notifications
  * @param outputDir - Directory where the widget will be created (defaults to GENERATIONS_DIR)
  */
-export function runWidgetGenerator(
+export async function runWidgetGenerator(
     options: WidgetOptions,
     tracker: ProgressTracker,
     outputDir: string = GENERATIONS_DIR
 ): Promise<string> {
+    const pty = await loadNodePty();
     const answers = buildGeneratorAnswers(options, outputDir);
 
     return new Promise((resolve, reject) => {
