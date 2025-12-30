@@ -1,9 +1,10 @@
 import { SERVER_ICON, SERVER_INSTRUCTIONS, SERVER_NAME, SERVER_VERSION, SERVER_WEBSITE_URL } from "@/config";
+import { registerResources } from "@/resources";
 import { getAllTools } from "@/tools";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 /**
- * Creates and configures a new MCP server instance with all registered tools.
+ * Creates and configures a new MCP server instance with all registered tools and resources.
  */
 export function createMcpServer(): McpServer {
     const server = new McpServer(
@@ -25,6 +26,7 @@ export function createMcpServer(): McpServer {
     );
 
     registerTools(server);
+    registerResources(server);
 
     return server;
 }

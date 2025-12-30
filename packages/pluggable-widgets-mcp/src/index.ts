@@ -5,19 +5,15 @@ type TransportMode = "http" | "stdio";
 
 const mode = (process.argv[2] as TransportMode) || "http";
 
-async function main(): Promise<void> {
-    switch (mode) {
-        case "stdio":
-            await startStdioServer();
-            break;
-        case "http":
-        default:
-            await startHttpServer();
-            break;
-    }
+switch (mode) {
+    case "stdio":
+        startStdioServer().catch(err => {
+            console.error("Fatal error:", err);
+            process.exit(1);
+        });
+        break;
+    case "http":
+    default:
+        startHttpServer();
+        break;
 }
-
-main().catch(err => {
-    console.error("Fatal error:", err);
-    process.exit(1);
-});

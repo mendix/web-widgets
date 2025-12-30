@@ -1,16 +1,16 @@
-import { mkdir } from "node:fs/promises";
-import { z } from "zod";
 import { GENERATIONS_DIR } from "@/config";
 import {
     DEFAULT_WIDGET_OPTIONS,
-    widgetOptionsSchema,
     type ToolContext,
     type ToolDefinition,
-    type ToolResponse
+    type ToolResponse,
+    widgetOptionsSchema
 } from "@/tools/types";
 import { buildWidgetOptions, GENERATOR_PROMPTS, runWidgetGenerator, SCAFFOLD_PROGRESS } from "@/tools/utils/generator";
 import { ProgressTracker } from "@/tools/utils/progress-tracker";
 import { createErrorResponse, createToolResponse } from "@/tools/utils/response";
+import { mkdir } from "node:fs/promises";
+import { z } from "zod";
 
 /**
  * Schema for create-widget tool input.
@@ -110,10 +110,34 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
                 "",
                 `Location: ${widgetPath}`,
                 "",
-                "Next steps:",
+                "=== TO IMPLEMENT WIDGET FUNCTIONALITY ===",
+                "",
+                "1. FETCH GUIDELINES (MCP Resources):",
+                "   - mendix://guidelines/frontend (CSS/SCSS, Atlas UI, naming conventions)",
+                "   - mendix://guidelines/implementation (step-by-step widget development)",
+                "   - mendix://guidelines/backend-structure (Mendix data API: EditableValue, ActionValue)",
+                "",
+                "2. EXPLORE WIDGET STRUCTURE:",
+                `   Use list-widget-files tool with widgetPath: "${widgetPath}"`,
+                "",
+                "3. READ EXISTING CODE:",
+                `   Use read-widget-file tool to inspect:`,
+                `   - src/${options.name}.tsx (main component entry point)`,
+                `   - src/${options.name}.xml (widget properties definition)`,
+                `   - src/components/ (UI components - create if needed)`,
+                "",
+                "4. IMPLEMENT CHANGES:",
+                `   Use write-widget-file tool to create/update files`,
+                "",
+                "=== KEY FILES ===",
+                `- ${widgetPath}/src/${options.name}.tsx - Main widget component`,
+                `- ${widgetPath}/src/${options.name}.xml - Properties configuration`,
+                `- ${widgetPath}/src/${options.name}.editorPreview.tsx - Studio Pro preview`,
+                "",
+                "=== BUILD & TEST ===",
                 `1. cd ${widgetPath}`,
                 "2. pnpm install",
-                "3. pnpm start (to build and watch for changes)",
+                "3. pnpm start (builds and watches for changes)",
                 "",
                 "The widget will be available in Mendix Studio Pro after syncing the app directory."
             ].join("\n")
