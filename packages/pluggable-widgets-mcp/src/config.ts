@@ -21,5 +21,11 @@ const __dirname = import.meta.dirname ?? dirname(fileURLToPath(import.meta.url))
 export const PACKAGE_ROOT = join(__dirname, "../");
 export const GENERATIONS_DIR = join(PACKAGE_ROOT, "generations");
 
+// Path to docs/requirements (relative to monorepo root)
+export const DOCS_DIR = join(PACKAGE_ROOT, "../../docs/requirements");
+
+// Allowed file extensions for widget file operations
+export const ALLOWED_EXTENSIONS = [".tsx", ".ts", ".xml", ".scss", ".css", ".json", ".md", ".editorConfig.ts"];
+
 // Timeouts
 export const SCAFFOLD_TIMEOUT_MS = 300000; // 5 minutes
