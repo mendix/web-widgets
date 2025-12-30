@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We have introduced the "Page" and "Page Size" attributes to provide complete control over DataGrid pagination.
 
+- We added support for custom pagination controls at the bottom of the DataGrid. Now you can design your own pagination buttons.
+
 ## [3.7.0] - 2025-11-11
 
 ### Added
