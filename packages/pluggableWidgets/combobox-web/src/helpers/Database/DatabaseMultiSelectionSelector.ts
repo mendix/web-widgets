@@ -1,5 +1,6 @@
 import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
-import { ListAttributeValue, ObjectItem, SelectionMultiValue } from "mendix";
+import { ActionValue, ListAttributeValue, ObjectItem, SelectionMultiValue } from "mendix";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import {
     ComboboxContainerProps,
     LoadingTypeEnum,
@@ -33,6 +34,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
     protected lazyLoader: LazyLoadProvider = new LazyLoadProvider();
     private _objectsMap: Map<string, ObjectItem> = new Map();
     selectedItemsSorting: SelectedItemsSortingEnum = "none";
+    private onChangeEvent?: ActionValue;
 
     constructor(props: { filterInputDebounceInterval: number }) {
         this.caption = new DatabaseCaptionsProvider(this._objectsMap);
@@ -124,6 +126,7 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         this.selection.setKeepSelection?.(() => true);
         this.selectionMethod = props.selectionMethod;
         this.selectedItemsSorting = props.selectedItemsSorting;
+        this.onChangeEvent = props.onChangeDatabaseEvent;
 
         this.currentId = sortSelectedItems(
             this.selection?.selection,
@@ -154,5 +157,6 @@ export class DatabaseMultiSelectionSelector implements MultiSelector {
         if (newValue) {
             this.selection?.setSelection(newValue);
         }
+        executeAction(this.onChangeEvent);
     }
 }
