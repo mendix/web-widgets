@@ -1,30 +1,45 @@
-import { GUID } from "mendix";
-import { isValidElement, ReactElement, ReactNode } from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { UserEvent } from "@testing-library/user-event/setup/setup";
-import "@testing-library/jest-dom";
-import { TreeNode, TreeNodeProps, TreeNodeState } from "../TreeNode";
+import { GUID } from "mendix";
+import { isValidElement, ReactElement, ReactNode } from "react";
 import { renderTreeNodeHeaderIcon } from "../HeaderIcon";
+import { TreeNode, TreeNodeProps, TreeNodeState } from "../TreeNode";
 
 jest.mock("../../assets/loading-circle.svg", () => "loading-logo.svg");
 
 interface TreeNodeItem {
     id: GUID;
     headerContent: string;
+    isUserDefinedLeafNode: boolean;
     bodyContent: ReactElement;
 }
 
 const items: TreeNodeItem[] = [
-    { id: "11" as GUID, headerContent: "First header", bodyContent: <div>First content</div> },
-    { id: "22" as GUID, headerContent: "Second header", bodyContent: <div>Second content</div> },
-    { id: "33" as GUID, headerContent: "Third header", bodyContent: <div>Third content</div> }
+    {
+        id: "11" as GUID,
+        headerContent: "First header",
+        isUserDefinedLeafNode: false,
+        bodyContent: <div>First content</div>
+    },
+    {
+        id: "22" as GUID,
+        headerContent: "Second header",
+        isUserDefinedLeafNode: false,
+        bodyContent: <div>Second content</div>
+    },
+    {
+        id: "33" as GUID,
+        headerContent: "Third header",
+        isUserDefinedLeafNode: false,
+        bodyContent: <div>Third content</div>
+    }
 ];
 
 const defaultProps: TreeNodeProps = {
     class: "",
     items: [],
-    isUserDefinedLeafNode: false,
     startExpanded: false,
     showCustomIcon: false,
     iconPlacement: "right",
@@ -59,7 +74,7 @@ describe("TreeNode", () => {
     });
 
     it("shows all headers and contents when starting expanded", () => {
-        renderTreeNode({ items, isUserDefinedLeafNode: false, startExpanded: true });
+        renderTreeNode({ items, startExpanded: true });
         items.forEach(item => {
             expect(screen.getByText(item.headerContent as string)).toBeInTheDocument();
             const texts = getTextFromElement(item.bodyContent);
@@ -68,7 +83,7 @@ describe("TreeNode", () => {
     });
 
     it("does not show item content when not starting expanded", () => {
-        renderTreeNode({ items, isUserDefinedLeafNode: false, startExpanded: false });
+        renderTreeNode({ items, startExpanded: false });
         items.forEach(item => {
             expect(screen.getByText(item.headerContent as string)).toBeInTheDocument();
             const texts = getTextFromElement(item.bodyContent);
@@ -82,16 +97,17 @@ describe("TreeNode", () => {
             {
                 id: "44" as GUID,
                 headerContent: <div>This is the 44 header</div>,
+                isUserDefinedLeafNode: false,
                 bodyContent: <div>Fourth content</div>
             }
         ];
-        renderTreeNode({ items: newItems, isUserDefinedLeafNode: false, startExpanded: true });
+        renderTreeNode({ items: newItems, startExpanded: true });
         expect(screen.getByText("This is the 44 header")).toBeInTheDocument();
         expect(screen.getByText("Fourth content")).toBeInTheDocument();
     });
 
     it("shows the tree node headers in the correct order as a treeitem when not defined as a leaf node", () => {
-        renderTreeNode({ items, isUserDefinedLeafNode: false, startExpanded: false });
+        renderTreeNode({ items, startExpanded: false });
         const treeNodeHeaders = screen.getAllByRole("treeitem");
         expect(treeNodeHeaders).toHaveLength(items.length);
         items.forEach(item => {
@@ -100,7 +116,7 @@ describe("TreeNode", () => {
     });
 
     it("correctly collapses and expands the tree node branch content when clicking on the header", async () => {
-        renderTreeNode({ items, isUserDefinedLeafNode: false, startExpanded: false });
+        renderTreeNode({ items, startExpanded: false });
 
         const treeNodeItems = screen.getAllByRole("treeitem");
 
@@ -122,7 +138,6 @@ describe("TreeNode", () => {
             expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
             collapsedIcon: { type: "image", iconUrl: "image.png" },
             items,
-            isUserDefinedLeafNode: false,
             startExpanded: false
         });
         expect(screen.getByText("First header")).toBeInTheDocument();
@@ -134,7 +149,6 @@ describe("TreeNode", () => {
             expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
             collapsedIcon: { type: "image", iconUrl: "image.png" },
             items,
-            isUserDefinedLeafNode: false,
             startExpanded: true
         });
         expect(screen.getByText("First header")).toBeInTheDocument();
@@ -143,9 +157,8 @@ describe("TreeNode", () => {
             {
                 id: "11" as GUID,
                 headerContent: "Parent treeview with a nested treeview that is empty",
-                bodyContent: (
-                    <TreeNode {...defaultProps} items={[]} isUserDefinedLeafNode={false} startExpanded={false} />
-                )
+                isUserDefinedLeafNode: false,
+                bodyContent: <TreeNode {...defaultProps} items={[]} startExpanded={false} />
             }
         ];
         renderTreeNode({
@@ -153,7 +166,6 @@ describe("TreeNode", () => {
             expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
             collapsedIcon: { type: "image", iconUrl: "image.png" },
             items: nestedItems,
-            isUserDefinedLeafNode: false,
             startExpanded: true
         });
         expect(screen.getByText("Parent treeview with a nested treeview that is empty")).toBeInTheDocument();
@@ -164,9 +176,8 @@ describe("TreeNode", () => {
             {
                 id: "11" as GUID,
                 headerContent: "Parent treeview with a nested treeview that is empty",
-                bodyContent: (
-                    <TreeNode {...defaultProps} items={[]} isUserDefinedLeafNode={false} startExpanded={false} />
-                )
+                isUserDefinedLeafNode: false,
+                bodyContent: <TreeNode {...defaultProps} items={[]} startExpanded={false} />
             }
         ];
         renderTreeNode({
@@ -174,7 +185,6 @@ describe("TreeNode", () => {
             expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
             collapsedIcon: { type: "image", iconUrl: "image.png" },
             items: nestedItems,
-            isUserDefinedLeafNode: false,
             startExpanded: true
         });
         expect(screen.getByText("Parent treeview with a nested treeview that is empty")).toBeInTheDocument();
@@ -187,9 +197,10 @@ describe("TreeNode", () => {
                 id: "11" as GUID,
                 headerContent:
                     "Parent treeview with a nested treeview that is empty and wrapped with a random other widget",
+                isUserDefinedLeafNode: false,
                 bodyContent: (
                     <RandomOtherWidget>
-                        <TreeNode {...defaultProps} items={[]} isUserDefinedLeafNode={false} startExpanded={false} />
+                        <TreeNode {...defaultProps} items={[]} startExpanded={false} />
                     </RandomOtherWidget>
                 )
             }
@@ -199,7 +210,6 @@ describe("TreeNode", () => {
             expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
             collapsedIcon: { type: "image", iconUrl: "image.png" },
             items: nestedItems,
-            isUserDefinedLeafNode: false,
             startExpanded: true
         });
         expect(
@@ -214,8 +224,14 @@ describe("TreeNode", () => {
             showCustomIcon: true,
             expandedIcon: { type: "glyph", iconClass: "expanded-icon" },
             collapsedIcon: { type: "image", iconUrl: "image.png" },
-            items: [{ id: "11" as GUID, headerContent: "First header", bodyContent: undefined }],
-            isUserDefinedLeafNode: false,
+            items: [
+                {
+                    id: "11" as GUID,
+                    headerContent: "First header",
+                    isUserDefinedLeafNode: false,
+                    bodyContent: undefined
+                }
+            ],
             startExpanded: true
         });
         expect(screen.getByText("First header")).toBeInTheDocument();
@@ -224,7 +240,6 @@ describe("TreeNode", () => {
     it("adds a CSS class for the header when the icon animates on toggle", () => {
         renderTreeNode({
             items,
-            isUserDefinedLeafNode: false,
             startExpanded: true,
             animateIcon: true
         });
@@ -241,8 +256,18 @@ describe("TreeNode", () => {
                 return <TreeNode {...props} />;
             };
             const testItems: TreeNodeProps["items"] = [
-                { id: "1" as GUID, headerContent: "Header 1", bodyContent: <div>Content 1</div> },
-                { id: "2" as GUID, headerContent: "Header 2", bodyContent: <div>Content 2</div> }
+                {
+                    id: "1" as GUID,
+                    headerContent: "Header 1",
+                    isUserDefinedLeafNode: false,
+                    bodyContent: <div>Content 1</div>
+                },
+                {
+                    id: "2" as GUID,
+                    headerContent: "Header 2",
+                    isUserDefinedLeafNode: false,
+                    bodyContent: <div>Content 2</div>
+                }
             ];
             render(<TestBranch {...defaultProps} items={testItems} />);
             expect(renderSpy).toHaveBeenCalledTimes(1);
@@ -260,10 +285,16 @@ describe("TreeNode", () => {
     describe("when interacting through the keyboard", () => {
         beforeEach(() => {
             const treeNodeItems = [
-                { id: "1" as GUID, headerContent: "First header", bodyContent: <div>First content</div> },
+                {
+                    id: "1" as GUID,
+                    headerContent: "First header",
+                    isUserDefinedLeafNode: false,
+                    bodyContent: <div>First content</div>
+                },
                 {
                     id: "2" as GUID,
                     headerContent: "Second header",
+                    isUserDefinedLeafNode: false,
                     bodyContent: (
                         <TreeNode
                             {...defaultProps}
@@ -272,20 +303,22 @@ describe("TreeNode", () => {
                                 {
                                     id: "21" as GUID,
                                     headerContent: "Second First header",
+                                    isUserDefinedLeafNode: false,
                                     bodyContent: <div>Second First content</div>
                                 },
                                 {
                                     id: "22" as GUID,
                                     headerContent: "Second Second header",
+                                    isUserDefinedLeafNode: false,
                                     bodyContent: <div>Second Second content</div>
                                 },
                                 {
                                     id: "23" as GUID,
                                     headerContent: "Second Third header",
+                                    isUserDefinedLeafNode: false,
                                     bodyContent: <div>Second Third content</div>
                                 }
                             ]}
-                            isUserDefinedLeafNode={false}
                             startExpanded={false}
                         />
                     )
@@ -293,19 +326,13 @@ describe("TreeNode", () => {
                 {
                     id: "3" as GUID,
                     headerContent: "Third header",
-                    bodyContent: (
-                        <TreeNode
-                            {...defaultProps}
-                            class=""
-                            items={[]}
-                            isUserDefinedLeafNode={false}
-                            startExpanded={false}
-                        />
-                    )
+                    isUserDefinedLeafNode: false,
+                    bodyContent: <TreeNode {...defaultProps} class="" items={[]} startExpanded={false} />
                 },
                 {
                     id: "4" as GUID,
                     headerContent: "Fourth header",
+                    isUserDefinedLeafNode: false,
                     bodyContent: <div>Fourth content</div>
                 }
             ];
@@ -313,7 +340,6 @@ describe("TreeNode", () => {
             renderTreeNode({
                 class: "",
                 items: treeNodeItems,
-                isUserDefinedLeafNode: false,
                 startExpanded: false
             });
         });
