@@ -27,13 +27,14 @@ interface InnerContainerProps extends SliderContainerProps {
 
 function InnerContainer(props: InnerContainerProps): ReactElement {
     const sliderRef = useRef<HTMLDivElement>(null);
-    const handleRender = createHandleRender({
-        tooltip: props.tooltip,
-        showTooltip: props.showTooltip,
-        tooltipType: props.tooltipType,
-        tooltipAlwaysVisible: props.tooltipAlwaysVisible,
-        sliderRef
-    });
+    const handleRender = props.showTooltip
+        ? createHandleRender({
+              tooltip: props.tooltip,
+              tooltipType: props.tooltipType,
+              tooltipAlwaysVisible: props.tooltipAlwaysVisible,
+              sliderRef
+          })
+        : undefined;
 
     const { onChange } = useOnChangeDebounced({ valueAttribute: props.valueAttribute, onChange: props.onChange });
     const marks = useMarks({
