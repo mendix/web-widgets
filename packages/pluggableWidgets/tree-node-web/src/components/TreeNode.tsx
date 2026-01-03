@@ -13,13 +13,13 @@ import { TreeNodeBranchContext, useInformParentContextOfChildNodes } from "./Tre
 export interface TreeNodeItem extends ObjectItem {
     headerContent: ReactNode;
     bodyContent: ReactNode;
+    isUserDefinedLeafNode: boolean;
 }
 
 export interface TreeNodeProps extends Pick<TreeNodeContainerProps, "tabIndex"> {
     class: string;
     style?: CSSProperties;
     items: TreeNodeItem[] | null;
-    isUserDefinedLeafNode: TreeNodeBranchProps["isUserDefinedLeafNode"];
     startExpanded: TreeNodeBranchProps["startExpanded"];
     showCustomIcon: boolean;
     iconPlacement: TreeNodeBranchProps["iconPlacement"];
@@ -34,7 +34,6 @@ export function TreeNode({
     class: className,
     items,
     style,
-    isUserDefinedLeafNode,
     showCustomIcon,
     startExpanded,
     iconPlacement,
@@ -79,22 +78,25 @@ export function TreeNode({
             data-focusindex={tabIndex || 0}
             role={level === 0 ? "tree" : "group"}
         >
-            {items.map(({ id, headerContent, bodyContent }) => (
-                <TreeNodeBranch
-                    key={id}
-                    id={id}
-                    headerContent={headerContent}
-                    isUserDefinedLeafNode={isUserDefinedLeafNode}
-                    startExpanded={startExpanded}
-                    iconPlacement={iconPlacement}
-                    renderHeaderIcon={renderHeaderIconCallback}
-                    changeFocus={changeTreeNodeBranchHeaderFocus}
-                    animateTreeNodeContent={animateTreeNodeContent}
-                    openNodeOn={openNodeOn}
-                >
-                    {bodyContent}
-                </TreeNodeBranch>
-            ))}
+            {items.map(item => {
+                const { id, headerContent, bodyContent, isUserDefinedLeafNode } = item;
+                return (
+                    <TreeNodeBranch
+                        key={id}
+                        id={id}
+                        headerContent={headerContent}
+                        isUserDefinedLeafNode={isUserDefinedLeafNode}
+                        startExpanded={startExpanded}
+                        iconPlacement={iconPlacement}
+                        renderHeaderIcon={renderHeaderIconCallback}
+                        changeFocus={changeTreeNodeBranchHeaderFocus}
+                        animateTreeNodeContent={animateTreeNodeContent}
+                        openNodeOn={openNodeOn}
+                    >
+                        {bodyContent}
+                    </TreeNodeBranch>
+                );
+            })}
         </ul>
     );
 }
