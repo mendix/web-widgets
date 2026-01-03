@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where `<br />` tag not added properly on end of line.
+
+- We fixed an issue where tab `\t` being removed on save.
+
 ## [4.11.0] - 2025-11-06
 
 ### Fixed
