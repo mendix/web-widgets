@@ -78,7 +78,7 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
                     <HandleTooltip
                         value={displayValue}
                         index={handleProps.index}
-                        visible={handleProps.dragging}
+                        visible={handleProps.dragging && props.showTooltip}
                         sliderRef={sliderRef}
                         {...props}
                     >
