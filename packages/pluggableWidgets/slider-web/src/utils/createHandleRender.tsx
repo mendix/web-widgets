@@ -6,7 +6,6 @@ import { RefObject } from "react";
 import "@rc-component/tooltip/assets/bootstrap.css";
 
 type CreateHandleRenderProps = {
-    showTooltip: boolean;
     tooltip?: DynamicValue<string>;
     tooltipType: "value" | "customText";
     tooltipAlwaysVisible: boolean;
@@ -15,16 +14,11 @@ type CreateHandleRenderProps = {
 
 export function createHandleRender({
     tooltip,
-    showTooltip,
     tooltipType,
     tooltipAlwaysVisible,
     sliderRef
 }: CreateHandleRenderProps): RcSliderProps["handleRender"] | undefined {
     const isCustomText = tooltipType === "customText";
-
-    if (!showTooltip) {
-        return;
-    }
 
     const handleRender: RcSliderProps["handleRender"] = (node, props) => {
         const { dragging, index, ...restProps } = props;
