@@ -1,7 +1,7 @@
 import { action, computed, makeAutoObservable, observable } from "mobx";
 import { createRef } from "react";
-import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/src/interfaces/ComputedAtom";
-import { SetPageAction } from "@mendix/widget-plugin-grid/src/pagination/pagination.model.ts";
+import { SetPageAction } from "@mendix/widget-plugin-grid/main";
+import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { PaginationConfig } from "../../features/pagination/pagination.config";
 
 export const VIRTUAL_SCROLLING_OFFSET = 30;
@@ -16,19 +16,11 @@ export class GridSizeStore {
     gridBodyHeight?: number;
     columnSizes?: number[];
 
-    hasMoreItemsAtom: ComputedAtom<boolean | undefined>;
-    paginationConfig: PaginationConfig;
-    setPageAction: SetPageAction;
-
     constructor(
-        hasMoreItemsAtom: ComputedAtom<boolean | undefined>,
-        paginationConfig: PaginationConfig,
-        setPageAction: SetPageAction
+        private readonly hasMoreItemsAtom: ComputedAtom<boolean | undefined>,
+        private readonly paginationConfig: PaginationConfig,
+        private readonly setPageAction: SetPageAction
     ) {
-        this.hasMoreItemsAtom = hasMoreItemsAtom;
-        this.paginationConfig = paginationConfig;
-        this.setPageAction = setPageAction;
-
         makeAutoObservable(this, {
             gridContainerRef: false,
             gridBodyRef: false,
@@ -69,7 +61,7 @@ export class GridSizeStore {
     }
 
     bumpPage(): void {
-        if (this.hasMoreItemsAtom.get()) {
+        if (this.hasMoreItems) {
             return this.setPageAction(page => page + 1);
         }
     }
@@ -87,7 +79,7 @@ export class GridSizeStore {
     }
 
     lockGridBodyHeight(): void {
-        if (!this.hasVirtualScrolling || !this.paging.hasMoreItems) {
+        if (!this.hasVirtualScrolling || !this.hasMoreItems) {
             return;
         }
         const gridBody = this.gridBodyRef.current;
