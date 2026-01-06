@@ -23,11 +23,13 @@ export class ColumnStore implements GridColumn {
     size: number | undefined = undefined;
     orderWeight: number;
 
-    private headerElementRef: HTMLDivElement | null = null;
+    headerElementRef: HTMLDivElement | null = null;
 
     private baseInfo: BaseColumnInfo;
     private parentStore: IColumnParentStore;
 
+    // this holds size of the column that it had prior to resizing started
+    // this is needed to prevent personalization being saved while resizing
     private frozenSize: number | undefined;
 
     // dynamic props from PW API
