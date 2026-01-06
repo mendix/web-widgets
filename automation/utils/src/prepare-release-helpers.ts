@@ -35,7 +35,9 @@ type PackagesFullInfoMap = Map<string, PackagesFullInfo>;
 async function loadPackagesFullInfo(packages: PackageListing[]): Promise<PackagesFullInfoList> {
     const results: PackagesFullInfoList = [];
     for (const pkg of packages) {
-        if (pkg.path.includes("/pluggableWidgets/")) {
+        const normalizedPath = pkg.path.replace(/\\/g, "/");
+
+        if (normalizedPath.includes("/pluggableWidgets/")) {
             try {
                 const widgetInfo = await getWidgetInfo(pkg.path);
                 const changelog = await getWidgetChangelog(pkg.path);
@@ -43,7 +45,7 @@ async function loadPackagesFullInfo(packages: PackageListing[]): Promise<Package
             } catch (_e) {
                 // ignore or log error
             }
-        } else if (pkg.path.includes("/modules/")) {
+        } else if (normalizedPath.includes("/modules/")) {
             try {
                 const moduleInfo = await getModuleInfo(pkg.path);
                 const changelog = await getModuleChangelog(pkg.path, moduleInfo.mxpackage.name);
@@ -107,7 +109,7 @@ function createPackagesTree(map: PackagesFullInfoMap, list: PackagesFullInfoList
 }
 
 export async function selectPackageV2(): Promise<WidgetPkg | ModulePkg> {
-    const pkgs = await listPackages(["'*'", "!web-widgets"]);
+    const pkgs = await listPackages(['"*"', '"!web-widgets"']);
     const pkgsList = await loadPackagesFullInfo(pkgs);
     const pkgsMap = createPackagesMap(pkgsList);
     const pkgsTree = createPackagesTree(pkgsMap, pkgsList);
