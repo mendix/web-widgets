@@ -1,7 +1,7 @@
-import { ReactElement, useEffect, useState } from "react";
 import { ObjectItem, ValueStatus } from "mendix";
+import { ReactElement, useEffect, useState } from "react";
 import { TreeNodeContainerProps } from "../typings/TreeNodeProps";
-import { TreeNode as TreeNodeComponent, TreeNodeItem } from "./components/TreeNode";
+import { InfoTreeNodeItem, TreeNode as TreeNodeComponent, TreeNodeItem } from "./components/TreeNode";
 
 function mapDataSourceItemToTreeNodeItem(item: ObjectItem, props: TreeNodeContainerProps): TreeNodeItem {
     return {
@@ -15,8 +15,7 @@ function mapDataSourceItemToTreeNodeItem(item: ObjectItem, props: TreeNodeContai
 
 export function TreeNode(props: TreeNodeContainerProps): ReactElement {
     const { datasource } = props;
-
-    const [treeNodeItems, setTreeNodeItems] = useState<TreeNodeItem[] | null>([]);
+    const [treeNodeItems, setTreeNodeItems] = useState<TreeNodeItem[] | InfoTreeNodeItem | null>([]);
 
     useEffect(() => {
         // only get the items when datasource is actually available
@@ -25,7 +24,9 @@ export function TreeNode(props: TreeNodeContainerProps): ReactElement {
             if (datasource.items && datasource.items.length) {
                 setTreeNodeItems(datasource.items.map(item => mapDataSourceItemToTreeNodeItem(item, props)));
             } else {
-                setTreeNodeItems([]);
+                setTreeNodeItems({
+                    Message: "No data available"
+                });
             }
         }
     }, [datasource.status, datasource.items]);

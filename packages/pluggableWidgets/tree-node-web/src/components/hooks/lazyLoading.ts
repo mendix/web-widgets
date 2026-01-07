@@ -10,7 +10,7 @@ export const useTreeNodeLazyLoading = (
     hasNestedTreeNode: () => boolean;
 } => {
     const hasNestedTreeNode = useCallback(
-        () => treeNodeBranchBody.current?.lastElementChild?.className.includes("widget-tree-node") ?? false,
+        () => treeNodeBranchBody.current?.lastElementChild?.className.includes("widget-tree-node") ?? true,
         []
     );
 
