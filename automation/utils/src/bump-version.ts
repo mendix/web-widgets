@@ -23,7 +23,7 @@ export function getNewVersion(bumpVersionType: BumpVersionType, currentVersion: 
 }
 
 export function bumpPackageJson(path: string, version: string): void {
-    spawnSync("npm", ["version", version], { cwd: path });
+    spawnSync("pnpm", ["version", version], { cwd: path });
 }
 
 export async function bumpXml(path: string, version: string): Promise<boolean> {
