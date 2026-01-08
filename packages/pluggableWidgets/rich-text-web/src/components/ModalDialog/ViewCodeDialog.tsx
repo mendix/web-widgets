@@ -29,7 +29,9 @@ const BEAUTIFY_OPTIONS: beautify.HTMLBeautifyOptions = {
 export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement {
     const { onSubmit, onClose, currentCode, formOrientation } = props;
     const [formState, setFormState] = useState({
-        src: beautify.html(currentCode ?? "", BEAUTIFY_OPTIONS) || ""
+        // temporarily change tab characters to em space to avoid beautify removing them
+        src:
+            beautify.html(currentCode?.replace(/\t/g, "&emsp;") ?? "", BEAUTIFY_OPTIONS)?.replace(/&emsp;/g, "\t") || ""
     });
     const onCodeChange = useCallback((value: string, _viewUpdate: ViewUpdate) => {
         setFormState({ ...formState, src: value });
