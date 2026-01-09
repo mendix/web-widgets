@@ -5,17 +5,6 @@ import { mkdtemp, stat } from "node:fs/promises";
 import { chmod, cp, exec, mkdir, mv, rm, unzip, zip } from "./shell";
 import chalk from "chalk";
 
-export function findOssReadme(packageRoot: string, widgetName: string, version: string): string | undefined {
-    const readmeossPattern = `**/*${widgetName}__${version}__READMEOSS_*.html`;
-
-    console.info(`Looking for READMEOSS file matching pattern: ${readmeossPattern}`);
-
-    // Use glob to find files matching the pattern in package root
-    const matchingFiles = globSync(readmeossPattern, { cwd: packageRoot, absolute: true, ignore: "**/dist/**" });
-
-    return matchingFiles[0];
-}
-
 export function findAllReadmeOssLocally(): string[] {
     const readmeossPattern = join("**", `*__*__READMEOSS_*.html`);
     const path1 = join(homedir(), "Downloads");
@@ -90,5 +79,7 @@ export async function includeReadmeOssIntoMpk(readmeOssPath: string, mpkPath: st
 
     // zip it back
     await zip(unzipTarget, mpkPath);
+
+    // remove tmp folder
     rm("-rf", unzipTarget);
 }
