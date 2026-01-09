@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-01-07
+
 ### Breaking changes
 
 - We updated rc-slider library to @rc-component/slider. This is a major version upgrade of rc-slider that might break current custom styling.
