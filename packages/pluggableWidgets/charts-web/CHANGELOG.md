@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [6.1.3] Charts - 2026-01-05
+
+### [1.1.3] CustomChart
+
+#### Changed
+
+- We changed the event data to return more properties instead of only bbox coordinates.
+
 ## [6.1.2] Charts - 2025-09-22
 
 ### [1.1.2] CustomChart
