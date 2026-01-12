@@ -54,7 +54,7 @@ async function main(): Promise<void> {
     if (!htmlAsset) {
         console.log(chalk.yellow("⚠️  No HTML file found in release - nothing to include"));
         console.log(chalk.gray("   Skipping MPK modification\n"));
-        process.exit(0);
+        return;
     }
 
     console.log(chalk.green(`✅ Found HTML: ${htmlAsset.name}`));
@@ -80,8 +80,8 @@ async function main(): Promise<void> {
         await includeReadmeOssIntoMpk(htmlPath, mpkPath);
         console.log(chalk.green("✅ Merge completed"));
 
-        // Step 5: Remove old assets, upload patched MPK
-        console.log(chalk.blue("\n🔄 Replacing MPK asset in release..."));
+        // Step 5: Remove old assets and upload patched MPK
+        console.log(chalk.blue("\n🔄 Replacing assets in release..."));
 
         console.log(chalk.gray(`   → Deleting old MPK asset...`));
         await gh.deleteReleaseAsset(mpkAsset.id);
@@ -93,16 +93,23 @@ async function main(): Promise<void> {
         const newAsset = await gh.uploadReleaseAsset(releaseId, mpkPath, mpkAsset.name);
 
         console.log(chalk.green(`✅ Successfully replaced MPK asset (ID: ${newAsset.id})`));
-        console.log(chalk.bold.green(`\n🎉 Process completed successfully!\n`));
+
+        // Summary
+        console.log(chalk.bold.green(`\n🎉 Process completed successfully!`));
+        console.log(chalk.gray(`   Release: ${releaseTag}`));
+        console.log(chalk.gray(`   MPK: ${mpkAsset.name} (with embedded READMEOSS)\n`));
     } finally {
-        // Step 8: Cleanup temp files
+        // Cleanup temp files
         console.log(chalk.gray("🧹 Cleaning up temporary files..."));
         await rm("-rf", tmpFolder);
     }
 }
 
-main().catch(error => {
-    console.error(chalk.red(`\n❌ Error: ${error.message}\n`));
-    console.error(error);
+main().catch((error: unknown) => {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(chalk.red(`\n❌ Error: ${message}\n`));
+    if (error instanceof Error && error.stack) {
+        console.error(chalk.gray(error.stack));
+    }
     process.exit(1);
 });
