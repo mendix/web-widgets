@@ -40,10 +40,10 @@ export function CaptionContent(props: CaptionContentProps): ReactElement {
         onClick: onClick
             ? onClick
             : htmlFor
-              ? (e: MouseEvent) => {
-                    e.preventDefault();
-                }
-              : undefined
+            ? (e: MouseEvent) => {
+                  e.preventDefault();
+              }
+            : undefined
     });
 }
 
