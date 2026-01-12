@@ -1,7 +1,7 @@
 {
     "name": "@mendix/selection-helper-web",
     "widgetName": "SelectionHelper",
-    "version": "1.0.4",
+    "version": "1.27.9",
     "description": "",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
