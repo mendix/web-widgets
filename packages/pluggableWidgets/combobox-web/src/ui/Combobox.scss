@@ -18,6 +18,7 @@ $cb-skeleton-light: rgba(194, 194, 194, 0.2);
 $cb-skeleton-dark: #d2d2d2;
 
 .widget-combobox {
+    min-width: 0;
     flex-grow: 1;
     position: relative;
     transition: color 150ms ease 0s;
@@ -292,12 +293,13 @@ $cb-skeleton-dark: #d2d2d2;
 
     &-selected {
         &-items {
+            min-width: 0; // allow to wrap, otherwise it grows out of parent
             display: flex;
             flex-grow: 1;
-            flex-wrap: wrap;
             position: relative;
 
             &.widget-combobox-boxes {
+                flex-wrap: wrap;
                 margin: -2px 0;
                 .widget-combobox-input {
                     &-nofilter {
@@ -306,10 +308,17 @@ $cb-skeleton-dark: #d2d2d2;
                 }
             }
 
+            // prevent textbox and text from wrapping
+            // design requires input-like representation
+            &.widget-combobox-text {
+                flex-wrap: nowrap;
+            }
+
             input:placeholder-shown,
             input:not(:focus) {
                 & + .widget-combobox-placeholder-text {
-                    display: flex;
+                    display: initial;
+                    text-overflow: ellipsis;
                     align-items: center;
                 }
             }
