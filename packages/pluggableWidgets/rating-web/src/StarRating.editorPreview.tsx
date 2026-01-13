@@ -28,7 +28,7 @@ export function preview(props: StarRatingPreviewProps): ReactElement {
             fullIcon={fullIcon}
             maximumValue={props.maximumStars ?? 5}
             style={parseStyle(props.style)}
-            value={Number(props.maximumStars ?? 5) - 1}
+            value={(props.maximumStars ?? 5) - 1}
         />
     );
 }
