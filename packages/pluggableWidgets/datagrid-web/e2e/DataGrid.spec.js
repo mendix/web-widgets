@@ -1,5 +1,5 @@
 import path from "path";
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import * as XLSX from "xlsx";
 import AxeBuilder from "@axe-core/playwright";
 
@@ -62,7 +62,7 @@ test.describe("capabilities: sorting", () => {
         await expect(
             page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg[data-icon='arrows-alt-v']")
         ).toBeVisible();
-        await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
+        await page.locator(".mx-name-datagrid1 .column-header").nth(1).locator(".sort-button").click();
         await expect(
             page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg[data-icon='long-arrow-alt-up']")
         ).toBeVisible();
@@ -73,8 +73,8 @@ test.describe("capabilities: sorting", () => {
         await page.goto("/");
         await page.waitForLoadState("networkidle");
         await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1)).toHaveText("First Name");
-        await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
-        await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
+        await page.locator(".mx-name-datagrid1 .column-header").nth(1).locator(".sort-button").click();
+        await page.locator(".mx-name-datagrid1 .column-header").nth(1).locator(".sort-button").click();
         await expect(
             page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg[data-icon='long-arrow-alt-down']")
         ).toBeVisible();
