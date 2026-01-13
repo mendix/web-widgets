@@ -24,10 +24,12 @@ echo "Downloading mxbuild ${MENDIX_VERSION} and docker building for ${BUILDPLATF
     && tar xfz /tmp/mxbuild.tar.gz --directory /tmp/mxbuild \
     && rm /tmp/mxbuild.tar.gz && \
 \
-    apt-get update -qqy && \
-    apt-get install -qqy libicu70 && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get update --allow-insecure-repositories -qqy && \
+    apt-get install -qqy --allow-unauthenticated libicu70 && \
     apt-get -qqy remove --auto-remove wget && \
     apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
 \
     echo "#!/bin/bash -x" >/bin/mxbuild && \
     echo "/tmp/mxbuild/modeler/mxbuild --java-home=/opt/java/openjdk --java-exe-path=/opt/java/openjdk/bin/java \$@" >>/bin/mxbuild && \
