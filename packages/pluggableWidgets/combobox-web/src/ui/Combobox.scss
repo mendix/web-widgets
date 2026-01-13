@@ -179,6 +179,7 @@ $cb-skeleton-dark: #d2d2d2;
         &:placeholder-shown:focus:not(&-nofilter):has(+ .widget-combobox-placeholder-empty) {
             max-width: 3px;
             margin-right: -3px;
+            background: transparent;
         }
     }
 
@@ -188,6 +189,7 @@ $cb-skeleton-dark: #d2d2d2;
             &:placeholder-shown:focus:not(&-nofilter) {
                 max-width: 3px;
                 margin-right: -3px;
+                background: transparent;
             }
         }
     }
