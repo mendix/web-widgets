@@ -154,6 +154,7 @@ export default tseslint.config(
             "@typescript-eslint/no-empty-object-type": "warn",
             "@typescript-eslint/no-unsafe-function-type": "warn",
             "@typescript-eslint/no-wrapper-object-types": "warn",
+            "@typescript-eslint/no-unnecessary-type-conversion": "error",
 
             "@typescript-eslint/ban-ts-comment": "warn",
             "@typescript-eslint/camelcase": "off",

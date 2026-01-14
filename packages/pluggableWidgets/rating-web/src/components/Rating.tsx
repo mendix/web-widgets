@@ -94,9 +94,9 @@ export function Rating(props: RatingProps): ReactElement {
                         role="radio"
                         tabIndex={index === Math.max(props.value - 1, 0) ? 0 : -1}
                     >
-                        {Number(currentIndex) <= props.value ? (
+                        {currentIndex <= props.value ? (
                             props.fullIcon
-                        ) : hover && currentIndex <= Number(hover) ? (
+                        ) : hover && currentIndex <= hover ? (
                             <div className="rating-item-hover">{props.fullIcon}</div>
                         ) : (
                             props.emptyIcon

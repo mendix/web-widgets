@@ -63,7 +63,7 @@ export function SingleSelection({
     const inputProps = getInputProps(
         {
             disabled: selector.readOnly,
-            readOnly: selector.options.filterType === "none",
+            readOnly: selector.options.filterType === "none" || !!selector.currentId,
             ref: inputRef,
             "aria-required": ariaRequired.value,
             "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined
@@ -88,7 +88,10 @@ export function SingleSelection({
                 >
                     <input
                         className={classNames("widget-combobox-input", {
-                            "widget-combobox-input-nofilter": selector.options.filterType === "none"
+                            "widget-combobox-input-nofilter":
+                                selector.options.filterType === "none" ||
+                                selector.readOnly ||
+                                (!selector.clearable && !!selector.currentId)
                         })}
                         tabIndex={tabIndex}
                         {...inputProps}
