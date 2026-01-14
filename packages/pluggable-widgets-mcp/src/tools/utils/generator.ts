@@ -229,6 +229,16 @@ function handleGeneratorOutput(
 }
 
 /**
+ * Gets the path to npx based on the current node executable.
+ * This ensures we use the correct npx even when PATH is not fully available.
+ */
+function getNpxPath(): string {
+    const nodePath = process.execPath;
+    const nodeDir = nodePath.substring(0, nodePath.lastIndexOf("/"));
+    return `${nodeDir}/npx`;
+}
+
+/**
  * Runs the Mendix widget generator using node-pty for terminal interaction.
  * @param options - Widget configuration options
  * @param tracker - Progress tracker for notifications
@@ -241,6 +251,7 @@ export async function runWidgetGenerator(
 ): Promise<string> {
     const pty = await loadNodePty();
     const answers = buildGeneratorAnswers(options, outputDir);
+    const npxPath = getNpxPath();
 
     return new Promise((resolve, reject) => {
         const state: GeneratorLocalState = {
@@ -253,7 +264,8 @@ export async function runWidgetGenerator(
 
         tracker.start("initializing");
 
-        const ptyProcess = pty.spawn("npx", ["@mendix/generator-widget", options.name], {
+        // Use full path to npx to avoid PATH issues in STDIO mode
+        const ptyProcess = pty.spawn(npxPath, ["@mendix/generator-widget", options.name], {
             name: "xterm-color",
             cols: 120,
             rows: 30,

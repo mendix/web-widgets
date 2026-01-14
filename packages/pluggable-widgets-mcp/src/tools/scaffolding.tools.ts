@@ -1,14 +1,14 @@
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { GENERATIONS_DIR } from "@/config";
-import {
-    DEFAULT_WIDGET_OPTIONS,
-    type ToolContext,
-    type ToolDefinition,
-    type ToolResponse,
-    widgetOptionsSchema
-} from "@/tools/types";
+import { DEFAULT_WIDGET_OPTIONS, type ToolContext, type ToolResponse, widgetOptionsSchema } from "@/tools/types";
 import { buildWidgetOptions, GENERATOR_PROMPTS, runWidgetGenerator, SCAFFOLD_PROGRESS } from "@/tools/utils/generator";
 import { ProgressTracker } from "@/tools/utils/progress-tracker";
-import { createErrorResponse, createToolResponse } from "@/tools/utils/response";
+import {
+    createStructuredError,
+    createStructuredErrorResponse,
+    createToolResponse,
+    type ErrorCode
+} from "@/tools/utils/response";
 import { mkdir } from "node:fs/promises";
 import { z } from "zod";
 
@@ -21,7 +21,7 @@ const createWidgetSchema = widgetOptionsSchema.extend({
         .string()
         .optional()
         .describe(
-            "[OPTIONAL] Directory where widget will be created. Defaults to ./generations/ within the MCP server package."
+            "[OPTIONAL] Directory where widget will be created. Defaults to ./generations/ in the current working directory. For desktop clients without a clear working directory, ask the user for their preferred location."
         )
 });
 
@@ -49,27 +49,26 @@ OPTIONAL (with defaults):
 Ask the user if they want to customize any options before proceeding.`;
 
 /**
- * Returns scaffolding-related tools for widget creation and management.
+ * Registers scaffolding-related tools for widget creation and management.
  *
- * Currently contains only the create-widget tool, but structured as an array
- * for extensibility. This modular pattern allows easy addition of related tools
- * such as:
+ * Currently registers the create-widget tool. This modular pattern allows
+ * easy addition of related tools such as:
  * - Widget property editing
  * - XML configuration management
  * - Build and deployment automation
  *
  * @see AGENTS.md Roadmap Context section for planned additions
  */
-export function getScaffoldingTools(): Array<ToolDefinition<CreateWidgetInput>> {
-    return [
+export function registerScaffoldingTools(server: McpServer): void {
+    server.registerTool(
+        "create-widget",
         {
-            name: "create-widget",
             title: "Create Widget",
             description: CREATE_WIDGET_DESCRIPTION,
-            inputSchema: createWidgetSchema,
-            handler: handleCreateWidget
-        }
-    ];
+            inputSchema: createWidgetSchema
+        },
+        handleCreateWidget
+    );
 }
 
 async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext): Promise<ToolResponse> {
@@ -148,6 +147,30 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
             widgetName: options.name,
             error: message
         });
-        return createErrorResponse(`Failed to create widget: ${message}`);
+
+        // Categorize the error for structured response
+        let code: ErrorCode = "ERR_SCAFFOLD_FAILED";
+        let suggestion = "Check the error details and try again. Ensure you have npm/npx available.";
+
+        if (message.includes("timed out")) {
+            code = "ERR_SCAFFOLD_TIMEOUT";
+            suggestion =
+                "The generator took too long. Check your network connection and npm registry access. Try running 'npx @mendix/generator-widget' manually.";
+        } else if (message.includes("prompt") || message.includes("expected")) {
+            code = "ERR_SCAFFOLD_PROMPT";
+            suggestion =
+                "The generator prompts may have changed. This could be a version mismatch. Please report this issue.";
+        } else if (message.includes("ENOENT") || message.includes("not found")) {
+            code = "ERR_NOT_FOUND";
+            suggestion =
+                "A required file or command was not found. Ensure node, npm, and npx are installed and in PATH.";
+        }
+
+        return createStructuredErrorResponse(
+            createStructuredError(code, `Failed to create widget "${options.name}"`, {
+                suggestion,
+                rawOutput: message
+            })
+        );
     }
 }

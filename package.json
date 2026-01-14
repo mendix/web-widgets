@@ -13,6 +13,7 @@
         "create-gh-release": "turbo run create-gh-release --concurrency 1",
         "create-translation": "turbo run create-translation",
         "include-oss-in-artifact": "pnpm --filter @mendix/automation-utils run include-oss-in-artifact",
+        "start:mcp": "pnpm --filter pluggable-widgets-mcp run start",
         "lint": "turbo run lint --continue --concurrency 1",
         "merge-changelogs-pr": "pnpm --filter @mendix/automation-utils run merge-changelogs-pr",
         "oss-clearance": "pnpm --filter @mendix/automation-utils run oss-clearance",

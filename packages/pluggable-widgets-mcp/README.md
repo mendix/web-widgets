@@ -8,8 +8,24 @@ A Model Context Protocol (MCP) server that enables AI assistants to scaffold Men
 
 ```bash
 pnpm install
+pnpm build          # Build the server
 pnpm start          # HTTP mode (default)
 pnpm start:stdio    # STDIO mode
+```
+
+## Global Installation
+
+For use with MCP clients (Cursor, Claude Desktop, LMStudio), install globally:
+
+```bash
+# Build first
+pnpm build
+
+# Link globally using npm (NOT pnpm - better MCP client compatibility)
+npm link
+
+# Verify installation
+which pluggable-widgets-mcp
 ```
 
 ## Transport Modes
@@ -53,6 +69,21 @@ pnpm start:stdio
 
 **_Some client setups like Claude Desktop support STDIO only (for now)_**
 
+**Option 1: Global command (after `npm link`)**
+
+```json
+{
+    "mcpServers": {
+        "pluggable-widgets-mcp": {
+            "command": "pluggable-widgets-mcp",
+            "args": ["stdio"]
+        }
+    }
+}
+```
+
+**Option 2: Absolute path (more reliable during development)**
+
 ```json
 {
     "mcpServers": {
@@ -63,6 +94,8 @@ pnpm start:stdio
     }
 }
 ```
+
+> **Note:** After rebuilding the server, you may need to restart/reconnect your MCP client to pick up changes.
 
 ## Available Tools
 
@@ -84,6 +117,34 @@ Scaffolds a new Mendix pluggable widget using `@mendix/generator-widget`.
 | `e2eTests`            | No       | `false`      | Include E2E test setup (Playwright)  |
 
 Generated widgets are placed in `generations/` directory within this package.
+
+### File Operation Tools
+
+| Tool                       | Description                                                  |
+| -------------------------- | ------------------------------------------------------------ |
+| `list-widget-files`        | Lists all files in a widget directory, grouped by type       |
+| `read-widget-file`         | Reads the contents of a file from a widget directory         |
+| `write-widget-file`        | Writes content to a file (creates parent dirs automatically) |
+| `batch-write-widget-files` | Writes multiple files atomically                             |
+
+**Security:** Path traversal is blocked; only allowed extensions: `.tsx`, `.ts`, `.xml`, `.scss`, `.css`, `.json`, `.md`
+
+### build-widget
+
+Builds a widget using `pluggable-widgets-tools`, producing an `.mpk` file.
+
+| Parameter    | Required | Description                           |
+| ------------ | -------- | ------------------------------------- |
+| `widgetPath` | Yes      | Absolute path to the widget directory |
+
+Returns structured errors for TypeScript, XML, or dependency issues.
+
+## Available Resources
+
+| URI                                   | Description                                                                |
+| ------------------------------------- | -------------------------------------------------------------------------- |
+| `mendix://guidelines/property-types`  | Complete reference for all Mendix widget property types                    |
+| `mendix://guidelines/widget-patterns` | Reusable patterns for common widget types (Button, Input, Container, etc.) |
 
 ## Development
 
@@ -135,13 +196,15 @@ This is useful for verifying tool behavior without needing a full AI client inte
 
 ## Roadmap
 
-- [x] Widget scaffolding
+- [x] Widget scaffolding (`create-widget`)
 - [x] HTTP transport
 - [x] STDIO transport
 - [x] Progress notifications
-- [ ] Widget editing and modification
-- [ ] Property management
-- [ ] Build and deployment tools
+- [x] File operations (list, read, write, batch-write)
+- [x] Build tool (`build-widget`)
+- [x] Guideline resources (property-types, widget-patterns)
+- [ ] Widget property editing (XML manipulation)
+- [ ] TypeScript error recovery suggestions
 
 ## License
 

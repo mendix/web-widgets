@@ -1,17 +1,20 @@
 {
-    "name": "pluggable-widgets-mcp",
+    "name": "@mendix/pluggable-widgets-mcp",
     "version": "0.1.0",
     "description": "MCP server for Mendix Pluggable Widgets",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "author": "Mendix",
     "license": "Apache-2.0",
+    "bin": {
+        "pluggable-widgets-mcp": "./dist/index.js"
+    },
     "type": "module",
     "main": "dist/index.js",
     "files": [
         "dist"
     ],
     "scripts": {
-        "build": "tsc && tsc-alias -p tsconfig.json --resolve-full-paths",
+        "build": "tsc && tsc-alias -p tsconfig.json --resolve-full-paths && chmod +x dist/index.js",
         "dev": "tsx watch src/index.ts",
         "generate-source-map": "tsc --sourceMap --declaration --declarationMap",
         "lint": "eslint src/ package.json",

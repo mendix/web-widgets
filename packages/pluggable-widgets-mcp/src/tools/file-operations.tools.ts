@@ -1,8 +1,9 @@
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import { dirname, extname, join, resolve } from "node:path";
 import { z } from "zod";
 import { ALLOWED_EXTENSIONS } from "@/config";
-import type { AnyToolDefinition, ToolResponse } from "@/tools/types";
+import type { ToolResponse } from "@/tools/types";
 import { createErrorResponse, createToolResponse } from "@/tools/utils/response";
 
 // =============================================================================
@@ -93,9 +94,20 @@ const writeWidgetFileSchema = z.object({
     content: z.string().describe("The content to write to the file")
 });
 
+const fileEntrySchema = z.object({
+    relativePath: z.string().min(1).describe("Relative path within the widget directory"),
+    content: z.string().describe("File content to write")
+});
+
+const batchWriteWidgetFilesSchema = z.object({
+    widgetPath: z.string().min(1).describe("Absolute path to the widget directory"),
+    files: z.array(fileEntrySchema).min(1).describe("Array of files to write")
+});
+
 type ListWidgetFilesInput = z.infer<typeof listWidgetFilesSchema>;
 type ReadWidgetFileInput = z.infer<typeof readWidgetFileSchema>;
 type WriteWidgetFileInput = z.infer<typeof writeWidgetFileSchema>;
+type BatchWriteWidgetFilesInput = z.infer<typeof batchWriteWidgetFilesSchema>;
 
 // =============================================================================
 // Tool Handlers
@@ -214,6 +226,67 @@ async function handleWriteWidgetFile(args: WriteWidgetFileInput): Promise<ToolRe
     }
 }
 
+async function handleBatchWriteWidgetFiles(args: BatchWriteWidgetFilesInput): Promise<ToolResponse> {
+    const results: Array<{ path: string; success: boolean; error?: string }> = [];
+
+    // Validate all paths first before writing anything
+    for (const file of args.files) {
+        try {
+            validatePaths(args.widgetPath, file.relativePath, true);
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            return createErrorResponse(`Validation failed for ${file.relativePath}: ${message}`);
+        }
+    }
+
+    // Write all files
+    for (const file of args.files) {
+        try {
+            const fullPath = join(args.widgetPath, file.relativePath);
+
+            // Ensure parent directory exists
+            const parentDir = dirname(fullPath);
+            await mkdir(parentDir, { recursive: true });
+
+            // Write the file
+            await writeFile(fullPath, file.content, "utf-8");
+
+            console.error(`[file-operations] Wrote file: ${fullPath}`);
+            results.push({ path: file.relativePath, success: true });
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            results.push({ path: file.relativePath, success: false, error: message });
+        }
+    }
+
+    const successful = results.filter(r => r.success);
+    const failed = results.filter(r => !r.success);
+
+    if (failed.length === 0) {
+        return createToolResponse(
+            [`Successfully wrote ${successful.length} files:`, "", ...successful.map(r => `  - ${r.path}`)].join("\n")
+        );
+    } else if (successful.length === 0) {
+        return createErrorResponse(
+            [`Failed to write all ${failed.length} files:`, "", ...failed.map(r => `  - ${r.path}: ${r.error}`)].join(
+                "\n"
+            )
+        );
+    } else {
+        return createToolResponse(
+            [
+                `Partial success: ${successful.length} written, ${failed.length} failed`,
+                "",
+                "Written:",
+                ...successful.map(r => `  - ${r.path}`),
+                "",
+                "Failed:",
+                ...failed.map(r => `  - ${r.path}: ${r.error}`)
+            ].join("\n")
+        );
+    }
+}
+
 // =============================================================================
 // Tool Definitions
 // =============================================================================
@@ -248,34 +321,61 @@ IMPORTANT: Follow Mendix widget development guidelines:
 
 Allowed file types: ${ALLOWED_EXTENSIONS.join(", ")}`;
 
+const BATCH_WRITE_WIDGET_FILES_DESCRIPTION = `Writes multiple files to a widget directory in a single operation.
+
+Use this for atomic writes when updating XML, TSX, and SCSS together.
+Validates all paths before writing to ensure consistency.
+Creates parent directories if they don't exist.
+
+Example use case: After generating XML from a widget definition,
+write the XML, TSX component, and SCSS files together.
+
+Allowed file types: ${ALLOWED_EXTENSIONS.join(", ")}`;
+
 /**
- * Returns file operation tools for reading and writing widget files.
+ * Registers file operation tools for reading and writing widget files.
  *
  * These tools enable LLMs to implement widget functionality after scaffolding
  * by reading existing code and writing new/updated files.
  */
-export function getFileOperationTools(): AnyToolDefinition[] {
-    return [
+export function registerFileOperationTools(server: McpServer): void {
+    server.registerTool(
+        "list-widget-files",
         {
-            name: "list-widget-files",
             title: "List Widget Files",
             description: LIST_WIDGET_FILES_DESCRIPTION,
-            inputSchema: listWidgetFilesSchema,
-            handler: handleListWidgetFiles
+            inputSchema: listWidgetFilesSchema
         },
+        handleListWidgetFiles
+    );
+
+    server.registerTool(
+        "read-widget-file",
         {
-            name: "read-widget-file",
             title: "Read Widget File",
             description: READ_WIDGET_FILE_DESCRIPTION,
-            inputSchema: readWidgetFileSchema,
-            handler: handleReadWidgetFile
+            inputSchema: readWidgetFileSchema
         },
+        handleReadWidgetFile
+    );
+
+    server.registerTool(
+        "write-widget-file",
         {
-            name: "write-widget-file",
             title: "Write Widget File",
             description: WRITE_WIDGET_FILE_DESCRIPTION,
-            inputSchema: writeWidgetFileSchema,
-            handler: handleWriteWidgetFile
-        }
-    ];
+            inputSchema: writeWidgetFileSchema
+        },
+        handleWriteWidgetFile
+    );
+
+    server.registerTool(
+        "batch-write-widget-files",
+        {
+            title: "Batch Write Widget Files",
+            description: BATCH_WRITE_WIDGET_FILES_DESCRIPTION,
+            inputSchema: batchWriteWidgetFilesSchema
+        },
+        handleBatchWriteWidgetFiles
+    );
 }
