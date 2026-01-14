@@ -22,6 +22,8 @@ export class PaginationViewModel {
             pageSize: computed,
             currentPage: computed,
             paginationVisible: computed,
+            showLoadMore: computed,
+            showVirtualScrollingWithRowCount: computed,
             hasMoreItems: computed,
             totalCount: computed
         });
@@ -49,6 +51,14 @@ export class PaginationViewModel {
             default:
                 return this.config.showNumberOfRows;
         }
+    }
+
+    get showLoadMore(): boolean {
+        return this.hasMoreItems && this.pagination === "loadMore";
+    }
+
+    get showVirtualScrollingWithRowCount(): boolean {
+        return this.pagination === "virtualScrolling" && this.config.showNumberOfRows;
     }
 
     get hasMoreItems(): boolean {

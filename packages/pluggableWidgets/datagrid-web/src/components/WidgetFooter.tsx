@@ -13,12 +13,11 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
     const selectionCounterVM = useSelectionCounterViewModel();
     const customPagination = useCustomPagination();
 
-    const showLoadMore = paging.hasMoreItems && paging.pagination === "loadMore";
     const showFooter =
         selectionCounterVM.isBottomCounterVisible ||
-        showLoadMore ||
-        paging.pagination !== "virtualScrolling" ||
-        pgConfig.customPaginationEnabled;
+        paging.paginationVisible ||
+        paging.showVirtualScrollingWithRowCount ||
+        paging.showLoadMore;
 
     if (!showFooter) {
         return null;
