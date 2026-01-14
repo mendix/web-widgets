@@ -23,40 +23,20 @@ export interface GuidelineResource {
  */
 export const GUIDELINE_RESOURCES: GuidelineResource[] = [
     {
-        name: "frontend-guidelines",
-        uri: "mendix://guidelines/frontend",
-        title: "Frontend Guidelines",
-        description: "CSS/SCSS styling, naming conventions, component best practices, and Atlas UI integration",
-        filename: "frontend-guidelines.md"
-    },
-    {
-        name: "implementation-plan",
-        uri: "mendix://guidelines/implementation",
-        title: "Implementation Plan",
-        description: "Step-by-step guide for creating new widgets, including PR templates and testing requirements",
-        filename: "implementation-plan.md"
-    },
-    {
-        name: "app-flow",
-        uri: "mendix://guidelines/app-flow",
-        title: "Application Flow",
-        description: "Complete widget development lifecycle from scaffolding to Studio Pro integration",
-        filename: "app-flow.md"
-    },
-    {
-        name: "backend-structure",
-        uri: "mendix://guidelines/backend-structure",
-        title: "Backend Structure",
+        name: "property-types",
+        uri: "mendix://guidelines/property-types",
+        title: "Property Types Reference",
         description:
-            "Widget-to-Mendix runtime integration, data handling with EditableValue/ActionValue, and event management",
-        filename: "backend-structure.md"
+            "Complete reference for all Mendix widget property types (string, boolean, action, attribute, etc.) with JSON schema and XML output examples",
+        filename: "property-types.md"
     },
     {
-        name: "tech-stack",
-        uri: "mendix://guidelines/tech-stack",
-        title: "Technology Stack",
-        description: "Core technologies (TypeScript, React, SCSS), monorepo structure, and development tools",
-        filename: "tech-stack.md"
+        name: "widget-patterns",
+        uri: "mendix://guidelines/widget-patterns",
+        title: "Widget Patterns",
+        description:
+            "Reusable patterns for common widget types (button, input, display, container, data list) with TSX and SCSS templates",
+        filename: "widget-patterns.md"
     }
 ];
 

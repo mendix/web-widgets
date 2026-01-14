@@ -10,7 +10,15 @@ import { sessionManager } from "./session";
  */
 export function startHttpServer(): void {
     const app = createMcpExpressApp();
-    app.use(cors());
+    app.use(
+        cors({
+            origin: true,
+            methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
+            allowedHeaders: "*",
+            exposedHeaders: ["mcp-session-id"],
+            credentials: true
+        })
+    );
 
     setupRoutes(app);
 
