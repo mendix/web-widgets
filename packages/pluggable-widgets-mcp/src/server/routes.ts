@@ -30,6 +30,11 @@ function setupHealthRoute(app: Express): void {
  * Main MCP endpoint handling session management and request routing.
  */
 function setupMcpRoute(app: Express): void {
+    // Handle CORS preflight explicitly
+    app.options("/mcp", (_req: Request, res: Response) => {
+        res.status(204).end();
+    });
+
     app.all("/mcp", async (req: Request, res: Response) => {
         const sessionId = req.headers["mcp-session-id"] as string | undefined;
 
@@ -41,8 +46,8 @@ function setupMcpRoute(app: Express): void {
                 return;
             }
 
-            // Case 2: New session - create transport and server
-            if (!sessionId && isInitializeRequest(req.body)) {
+            // Case 2: New session via POST with initialize request
+            if (req.method === "POST" && !sessionId && isInitializeRequest(req.body)) {
                 const transport = sessionManager.createTransport();
                 const server = createMcpServer();
                 await server.connect(transport);
@@ -50,9 +55,20 @@ function setupMcpRoute(app: Express): void {
                 return;
             }
 
-            // Case 3: Invalid request
+            // Case 3: GET request for SSE - create new session
+            // StreamableHTTP uses GET for server-to-client event streams
+            if (req.method === "GET") {
+                const transport = sessionManager.createTransport();
+                const server = createMcpServer();
+                await server.connect(transport);
+                await transport.handleRequest(req, res);
+                return;
+            }
+
+            // Case 4: Invalid request
             sendJsonRpcError(res, 400, "Bad Request: No valid session ID provided");
-        } catch {
+        } catch (error) {
+            console.error("[MCP] Route error:", error);
             sendJsonRpcError(
                 res,
                 400,

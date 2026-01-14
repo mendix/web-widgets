@@ -19,10 +19,10 @@ export const SERVER_INSTRUCTIONS =
 // Paths - use fileURLToPath for Node.js 18 compatibility (import.meta.dirname requires Node 20.11+)
 const __dirname = import.meta.dirname ?? dirname(fileURLToPath(import.meta.url));
 export const PACKAGE_ROOT = join(__dirname, "../");
-export const GENERATIONS_DIR = join(PACKAGE_ROOT, "generations");
+export const GENERATIONS_DIR = join(process.cwd(), "generations");
 
-// Path to docs/requirements (relative to monorepo root)
-export const DOCS_DIR = join(PACKAGE_ROOT, "../../docs/requirements");
+// Path to local docs folder
+export const DOCS_DIR = join(PACKAGE_ROOT, "docs");
 
 // Allowed file extensions for widget file operations
 export const ALLOWED_EXTENSIONS = [".tsx", ".ts", ".xml", ".scss", ".css", ".json", ".md", ".editorConfig.ts"];

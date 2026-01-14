@@ -1,19 +1,21 @@
-import type { AnyToolDefinition } from "@/tools/types";
-import { getFileOperationTools } from "./file-operations.tools";
-import { getScaffoldingTools } from "./scaffolding.tools";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { registerBuildTools } from "./build.tools";
+import { registerFileOperationTools } from "./file-operations.tools";
+import { registerScaffoldingTools } from "./scaffolding.tools";
 
 /**
- * Gets all tool definitions for registration with the MCP server.
+ * Registers all tools with the MCP server.
  *
  * Tools are organized by category:
  * - Scaffolding: Widget creation (create-widget)
- * - File Operations: Read/write widget files (list-widget-files, read-widget-file, write-widget-file)
+ * - File Operations: Read/write widget files (list-widget-files, read-widget-file, write-widget-file, batch-write-widget-files)
+ * - Build: Widget building and validation (build-widget)
+ *
+ * Each category registers its tools directly with the server, preserving
+ * full type safety through the SDK's generic inference.
  */
-export function getAllTools(): AnyToolDefinition[] {
-    const tools: AnyToolDefinition[] = [];
-
-    tools.push(...getScaffoldingTools());
-    tools.push(...getFileOperationTools());
-
-    return tools;
+export function registerAllTools(server: McpServer): void {
+    registerScaffoldingTools(server);
+    registerFileOperationTools(server);
+    registerBuildTools(server);
 }

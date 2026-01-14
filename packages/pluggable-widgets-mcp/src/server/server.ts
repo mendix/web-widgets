@@ -1,6 +1,6 @@
 import { SERVER_ICON, SERVER_INSTRUCTIONS, SERVER_NAME, SERVER_VERSION, SERVER_WEBSITE_URL } from "@/config";
 import { registerResources } from "@/resources";
-import { getAllTools } from "@/tools";
+import { registerAllTools } from "@/tools";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 /**
@@ -25,27 +25,8 @@ export function createMcpServer(): McpServer {
         }
     );
 
-    registerTools(server);
+    registerAllTools(server);
     registerResources(server);
 
     return server;
-}
-
-/**
- * Registers all available tools with the MCP server.
- */
-function registerTools(server: McpServer): void {
-    const tools = getAllTools();
-
-    for (const tool of tools) {
-        server.registerTool(
-            tool.name,
-            {
-                title: tool.title,
-                description: tool.description,
-                inputSchema: tool.inputSchema
-            },
-            tool.handler
-        );
-    }
 }
