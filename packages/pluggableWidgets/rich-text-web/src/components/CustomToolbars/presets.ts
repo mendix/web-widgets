@@ -13,7 +13,7 @@ function defineBasicGroups(widgetProps: Partial<RichTextContainerProps>): toolba
     const enabledGroups: Array<toolbarContentType | undefined> = Object.entries(widgetProps).map(([prop, enabled]) => {
         if (Object.hasOwn(TOOLBAR_GROUP, prop) && enabled) {
             return {
-                children: TOOLBAR_GROUP[prop.toString()]
+                children: TOOLBAR_GROUP[prop]
             };
         } else {
             return undefined;
