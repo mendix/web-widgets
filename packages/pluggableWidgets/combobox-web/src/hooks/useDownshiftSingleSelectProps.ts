@@ -64,20 +64,21 @@ export function useDownshiftSingleSelectProps(
             stateReducer(state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
                 const { changes, type } = actionAndChanges;
                 switch (type) {
+                    // clear input when user toggles (closes) dropdown.
                     case useCombobox.stateChangeTypes.ToggleButtonClick:
                         return {
                             ...changes,
-                            inputValue:
-                                state.isOpen && selector.currentId ? selector.caption.get(selector.currentId) : ""
+                            inputValue: ""
                         };
 
+                    // when item is selected, downshift fills in input automatically, prevent that.
+                    case useCombobox.stateChangeTypes.FunctionSelectItem:
+                    case useCombobox.stateChangeTypes.ItemClick:
                     case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
+                    case useCombobox.stateChangeTypes.InputKeyDownEnter:
                         return {
                             ...changes,
-                            inputValue:
-                                changes.inputValue === selector.caption.emptyCaption
-                                    ? ""
-                                    : selector.caption.get(selector.currentId)
+                            inputValue: ""
                         };
 
                     case useCombobox.stateChangeTypes.InputFocus:
@@ -88,15 +89,13 @@ export function useDownshiftSingleSelectProps(
                             highlightedIndex: changes.selectedItem ? -1 : this.defaultHighlightedIndex
                         };
 
+                    // clear input when user want to close the popup with escape (or it was closed programmatically)
                     case useCombobox.stateChangeTypes.InputKeyDownEscape:
                     case useCombobox.stateChangeTypes.FunctionCloseMenu:
                         return {
                             ...changes,
                             isOpen: false,
-                            inputValue:
-                                changes.selectedItem || selector.currentId
-                                    ? selector.caption.get(selector.currentId)
-                                    : ""
+                            inputValue: ""
                         };
                     case useCombobox.stateChangeTypes.InputBlur:
                         return state;

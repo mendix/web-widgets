@@ -16,8 +16,16 @@ import Combobox from "../Combobox";
 async function getToggleButton(component: RenderResult): Promise<Element> {
     return component.container.querySelector(".widget-combobox-down-arrow")!;
 }
-async function getInput(component: RenderResult): Promise<HTMLInputElement> {
-    return (await component.findByRole("combobox")) as HTMLInputElement;
+
+async function getVisibleValueNode(component: RenderResult): Promise<HTMLDivElement> {
+    const custom = component.container.querySelector(".widget-combobox-placeholder-custom") as HTMLDivElement;
+    const text = component.container.querySelector(".widget-combobox-placeholder-text") as HTMLDivElement;
+
+    return custom ?? text;
+}
+
+async function findOptions(component: RenderResult): Promise<Element[]> {
+    return component.findAllByRole("option");
 }
 
 describe("Combo box (Static values)", () => {
@@ -89,8 +97,8 @@ describe("Combo box (Static values)", () => {
     });
     it("renders combobox widget with selected value", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const input = await getInput(component);
-        expect(input.value).toEqual("caption1");
+        const value = await getVisibleValueNode(component);
+        expect(value.textContent).toEqual("caption1");
     });
 
     it("toggles combobox menu on: input TOGGLE BUTTON", async () => {
@@ -107,24 +115,29 @@ describe("Combo box (Static values)", () => {
     });
     it("sets option to selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const input = await getInput(component);
+        const value = await getVisibleValueNode(component);
+        expect(value.textContent).toEqual("caption1");
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
-        const option1 = await component.findByText("caption2");
-        fireEvent.click(option1);
-        expect(input.value).toEqual("caption2");
+        const options = await findOptions(component);
+        fireEvent.click(options[1]);
+
+        component.rerender(<Combobox {...defaultProps} />);
+
+        const value2 = await getVisibleValueNode(component);
+        expect(value2.textContent).toEqual("caption2");
         expect(defaultProps.staticAttribute?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.staticAttribute?.value).toEqual("value2");
     });
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const input = await getInput(component);
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
-        const options = await component.findAllByText("caption1");
-        fireEvent.click(options[1]);
-        expect(input.value).toEqual("caption1");
+        const options = await findOptions(component);
+        fireEvent.click(options[0]);
+        const value = await getVisibleValueNode(component);
+        expect(value.textContent).toEqual("caption1");
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.staticAttribute.value).toEqual("value1");
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];

@@ -21,6 +21,12 @@ async function getToggleButton(component: RenderResult): Promise<Element> {
 async function getInput(component: RenderResult): Promise<HTMLInputElement> {
     return (await component.findByRole("combobox")) as HTMLInputElement;
 }
+async function getVisibleValueNode(component: RenderResult): Promise<HTMLDivElement> {
+    const custom = component.container.querySelector(".widget-combobox-placeholder-custom") as HTMLDivElement;
+    const text = component.container.querySelector(".widget-combobox-placeholder-text") as HTMLDivElement;
+
+    return custom ?? text;
+}
 
 describe("Combo box (Association)", () => {
     beforeAll(() => {
@@ -108,12 +114,13 @@ describe("Combo box (Association)", () => {
     });
     it("sets option to selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const input = await getInput(component);
+        const value = await getVisibleValueNode(component);
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
         const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
-        expect(input.value).toEqual("obj_222");
+        component.rerender(<Combobox {...defaultProps} />);
+        expect(value.textContent).toEqual("obj_222");
         expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.attributeAssociation?.value).toEqual({ id: "obj_222" });
@@ -121,17 +128,16 @@ describe("Combo box (Association)", () => {
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
 
-        const input = await getInput(component);
-        const labelText = await component.container.querySelector(
-            ".widget-combobox-placeholder-text .widget-combobox-caption-text"
-        );
         const toggleButton = await getToggleButton(component);
         fireEvent.click(toggleButton);
 
         const option1 = await component.findByText("obj_222");
         fireEvent.click(option1);
 
-        expect(input.value).toEqual("obj_222");
+        component.rerender(<Combobox {...defaultProps} />);
+
+        const value = await getVisibleValueNode(component);
+        expect(value.textContent).toEqual("obj_222");
         expect(defaultProps.attributeAssociation?.setValue).toHaveBeenCalled();
         expect(component.queryAllByRole("option")).toHaveLength(0);
         expect(defaultProps.attributeAssociation?.value).toEqual({ id: "obj_222" });
@@ -139,6 +145,11 @@ describe("Combo box (Association)", () => {
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
 
+        component.rerender(<Combobox {...defaultProps} />);
+
+        const labelText = await component.container.querySelector(
+            ".widget-combobox-placeholder-text .widget-combobox-caption-text"
+        );
         expect(labelText?.innerHTML).toEqual(defaultProps.emptyOptionText?.value);
         expect(defaultProps.attributeAssociation?.value).toEqual(undefined);
     });
