@@ -1,73 +1,10 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
-import { dirname, extname, join, resolve } from "node:path";
+import { dirname, extname, join } from "node:path";
 import { z } from "zod";
-import { ALLOWED_EXTENSIONS } from "@/config";
+import { ALLOWED_EXTENSIONS, validateFilePath } from "@/security";
 import type { ToolResponse } from "@/tools/types";
 import { createErrorResponse, createToolResponse } from "@/tools/utils/response";
-
-// =============================================================================
-// Path Validation Utilities
-// =============================================================================
-
-/**
- * Validates that a file path is within the allowed widget directory.
- * Prevents directory traversal attacks.
- *
- * @param basePath - The base widget directory path
- * @param relativePath - The relative file path to validate
- * @returns true if the path is safe, false otherwise
- */
-function isPathWithinDirectory(basePath: string, relativePath: string): boolean {
-    // Resolve both paths to absolute paths
-    const resolvedBase = resolve(basePath);
-    const resolvedFull = resolve(basePath, relativePath);
-
-    // Check that the resolved path starts with the base path
-    // This prevents ../ traversal attacks
-    return resolvedFull.startsWith(resolvedBase + "/") || resolvedFull === resolvedBase;
-}
-
-/**
- * Validates that a file extension is allowed for write operations.
- *
- * @param filePath - The file path to check
- * @returns true if the extension is allowed, false otherwise
- */
-function isExtensionAllowed(filePath: string): boolean {
-    const ext = extname(filePath).toLowerCase();
-    // Also allow files without extension (like .gitignore patterns)
-    // and special config files
-    if (ext === "") {
-        const filename = filePath.split("/").pop() || "";
-        // Allow common config files without extensions
-        return ["package", "tsconfig", "eslintrc", ".gitignore", ".prettierrc"].some(
-            name => filename.includes(name) || filename.startsWith(".")
-        );
-    }
-    return ALLOWED_EXTENSIONS.includes(ext);
-}
-
-/**
- * Validates widget path and file path for security.
- * Throws an error if validation fails.
- */
-function validatePaths(widgetPath: string, filePath: string, checkExtension = false): void {
-    // Check for obvious path traversal attempts
-    if (filePath.includes("..")) {
-        throw new Error("Path traversal not allowed: '..' detected in file path");
-    }
-
-    // Validate path is within widget directory
-    if (!isPathWithinDirectory(widgetPath, filePath)) {
-        throw new Error("File path must be within the widget directory");
-    }
-
-    // For write operations, check extension
-    if (checkExtension && !isExtensionAllowed(filePath)) {
-        throw new Error(`File extension not allowed. Allowed extensions: ${ALLOWED_EXTENSIONS.join(", ")}`);
-    }
-}
 
 // =============================================================================
 // Schemas
@@ -184,7 +121,7 @@ async function handleListWidgetFiles(args: ListWidgetFilesInput): Promise<ToolRe
 
 async function handleReadWidgetFile(args: ReadWidgetFileInput): Promise<ToolResponse> {
     try {
-        validatePaths(args.widgetPath, args.filePath);
+        validateFilePath(args.widgetPath, args.filePath);
 
         const fullPath = join(args.widgetPath, args.filePath);
         const content = await readFile(fullPath, "utf-8");
@@ -200,7 +137,7 @@ async function handleReadWidgetFile(args: ReadWidgetFileInput): Promise<ToolResp
 
 async function handleWriteWidgetFile(args: WriteWidgetFileInput): Promise<ToolResponse> {
     try {
-        validatePaths(args.widgetPath, args.filePath, true);
+        validateFilePath(args.widgetPath, args.filePath, true);
 
         const fullPath = join(args.widgetPath, args.filePath);
 
@@ -232,7 +169,7 @@ async function handleBatchWriteWidgetFiles(args: BatchWriteWidgetFilesInput): Pr
     // Validate all paths first before writing anything
     for (const file of args.files) {
         try {
-            validatePaths(args.widgetPath, file.relativePath, true);
+            validateFilePath(args.widgetPath, file.relativePath, true);
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
             return createErrorResponse(`Validation failed for ${file.relativePath}: ${message}`);
