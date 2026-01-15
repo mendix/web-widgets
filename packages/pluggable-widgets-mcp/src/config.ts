@@ -24,8 +24,5 @@ export const GENERATIONS_DIR = join(process.cwd(), "generations");
 // Path to local docs folder
 export const DOCS_DIR = join(PACKAGE_ROOT, "docs");
 
-// Allowed file extensions for widget file operations
-export const ALLOWED_EXTENSIONS = [".tsx", ".ts", ".xml", ".scss", ".css", ".json", ".md", ".editorConfig.ts"];
-
 // Timeouts
 export const SCAFFOLD_TIMEOUT_MS = 300000; // 5 minutes

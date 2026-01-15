@@ -9,8 +9,8 @@ A Model Context Protocol (MCP) server that enables AI assistants to scaffold Men
 ```bash
 pnpm install
 pnpm build          # Build the server
-pnpm start          # HTTP mode (default)
-pnpm start:stdio    # STDIO mode
+pnpm start          # STDIO mode (default)
+pnpm start:stdio    # HTTP mode
 ```
 
 ## Global Installation
@@ -30,26 +30,26 @@ which pluggable-widgets-mcp
 
 ## Transport Modes
 
-### HTTP Mode (default)
+### STDIO Mode (default)
+
+Runs via stdin/stdout for CLI-based MCP clients (Claude Desktop, etc.).
+
+```bash
+pnpm start
+pnpm start:stdio
+```
+
+### HTTP Mode
 
 Runs an HTTP server for web-based MCP clients.
 
 ```bash
-pnpm start
 pnpm start:http
 ```
 
 - Server runs on `http://localhost:3100` (override with `PORT` env var)
 - Health check: `GET /health`
 - MCP endpoint: `POST /mcp`
-
-### STDIO Mode
-
-Runs via stdin/stdout for CLI-based MCP clients (Claude Desktop, etc.).
-
-```bash
-pnpm start:stdio
-```
 
 ## MCP Client Configuration
 
@@ -127,7 +127,10 @@ Generated widgets are placed in `generations/` directory within this package.
 | `write-widget-file`        | Writes content to a file (creates parent dirs automatically) |
 | `batch-write-widget-files` | Writes multiple files atomically                             |
 
-**Security:** Path traversal is blocked; only allowed extensions: `.tsx`, `.ts`, `.xml`, `.scss`, `.css`, `.json`, `.md`
+**Security:** All file operations are protected by `src/security/guardrails.ts`:
+
+- Path traversal is blocked (no `..` escapes)
+- Extension whitelist: `.tsx`, `.ts`, `.xml`, `.scss`, `.css`, `.json`, `.md`
 
 ### build-widget
 
