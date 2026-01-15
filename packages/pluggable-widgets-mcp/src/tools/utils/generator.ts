@@ -316,7 +316,8 @@ export async function runWidgetGenerator(
             clearInterval(stuckCheckInterval);
             tracker.stop();
             if (exitCode === 0) {
-                const widgetFolder = `${options.name.toLowerCase()}-web`;
+                // Generator creates folder with exact widget name (preserves case)
+                const widgetFolder = options.name;
                 console.error(`[create-widget] Widget scaffolded successfully: ${widgetFolder}`);
                 resolve(widgetFolder);
             } else {

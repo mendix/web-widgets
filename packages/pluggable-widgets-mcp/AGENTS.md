@@ -19,16 +19,24 @@ This package implements an MCP server that enables AI assistants to scaffold and
 src/
 ├── index.ts              # Entry point - transport mode selection
 ├── config.ts             # Server configuration and constants
+├── security/
+│   ├── guardrails.ts     # Security validation (path traversal, extension whitelist)
+│   └── index.ts          # Security module exports
 ├── server/
-│   ├── server.ts         # MCP server factory and tool registration
+│   ├── server.ts         # MCP server factory and tool/resource registration
 │   ├── http.ts           # HTTP transport setup (Express)
 │   ├── stdio.ts          # STDIO transport setup
 │   ├── routes.ts         # Express route handlers
 │   └── session.ts        # HTTP session management
+├── resources/
+│   ├── index.ts          # Resource registration
+│   └── guidelines.ts     # Widget development guidelines
 └── tools/
-    ├── index.ts          # Tool aggregation
+    ├── index.ts          # Tool registration aggregation
     ├── types.ts          # MCP tool type definitions
-    ├── scaffolding.tools.ts  # Widget creation tool
+    ├── scaffolding.tools.ts      # Widget creation (create-widget)
+    ├── file-operations.tools.ts  # File read/write/list operations
+    ├── build.tools.ts            # Widget building and validation
     └── utils/
         ├── generator.ts      # Widget generator PTY wrapper
         ├── progress-tracker.ts # Progress/logging helper
@@ -42,28 +50,44 @@ src/
 
 The server supports two transport modes selected via CLI argument:
 
-- **HTTP** (default): Multi-session Express server on port 3100
-- **STDIO**: Single-session stdin/stdout for CLI integration
+- **STDIO** (default): Single-session stdin/stdout for CLI integration (Claude Code, Claude Desktop)
+- **HTTP**: Multi-session Express server on port 3100 for web clients and testing
 
 ### Tool Registration
 
-Tools are defined using the `ToolDefinition<T>` interface:
+Tools are registered directly with the MCP server using the SDK's `server.tool()` method. The current architecture uses category-based registration functions:
 
 ```typescript
-interface ToolDefinition<T> {
-    name: string; // Tool identifier
-    title: string; // Human-readable name
-    description: string; // LLM-facing description
-    inputSchema: ZodType<T>; // Zod schema for validation
-    handler: ToolHandler<T>; // Async handler function
+// src/tools/index.ts
+export function registerAllTools(server: McpServer): void {
+    registerScaffoldingTools(server); // Widget creation
+    registerFileOperationTools(server); // File operations
+    registerBuildTools(server); // Building & validation
 }
 ```
 
-New tools should be:
+**Available Tools**:
 
-1. Created in `src/tools/` with a `*.tools.ts` suffix
-2. Export a `get*Tools()` function returning `ToolDefinition[]`
-3. Registered in `src/tools/index.ts`
+- **Scaffolding**: `create-widget` - Scaffolds new widgets via PTY interaction
+- **File Operations**:
+    - `list-widget-files` - Lists files in widget directory
+    - `read-widget-file` - Reads widget file contents
+    - `write-widget-file` - Writes single file
+    - `batch-write-widget-files` - Writes multiple files atomically
+- **Build**: `build-widget` - Compiles widget and parses errors (TypeScript, XML, dependencies)
+
+### Resources
+
+MCP resources provide read-only documentation that clients can fetch on-demand:
+
+```typescript
+// src/resources/index.ts
+export function registerResources(server: McpServer): void {
+    registerGuidelineResources(server); // Widget development guidelines
+}
+```
+
+Resources are loaded from `docs/` directory and exposed via URIs like `resource://guidelines/property-types`.
 
 ### Widget Generator Integration
 
@@ -78,10 +102,10 @@ The `create-widget` tool uses `node-pty` to interact with the Mendix widget gene
 
 ```bash
 pnpm dev          # Development mode with hot reload (tsx watch)
-pnpm build        # TypeScript compilation + path alias resolution
-pnpm start        # Build and run (HTTP mode)
+pnpm build        # TypeScript compilation + path alias resolution (preserves shebang)
+pnpm start        # Build and run (HTTP mode on port 3100)
 pnpm start:stdio  # Build and run (STDIO mode)
-pnpm lint         # ESLint + Prettier check
+pnpm lint         # ESLint check
 ```
 
 ## Adding New Tools
@@ -89,42 +113,46 @@ pnpm lint         # ESLint + Prettier check
 1. **Create tool file**: `src/tools/my-feature.tools.ts`
 
 ```typescript
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import type { ToolDefinition, ToolResponse } from "@/tools/types";
-import { createToolResponse, createErrorResponse } from "@/tools/utils/response";
 
-const mySchema = z.object({
+const myToolSchema = z.object({
     param: z.string().describe("Parameter description for LLM")
 });
 
-type MyInput = z.infer<typeof mySchema>;
-
-export function getMyTools(): ToolDefinition<MyInput>[] {
-    return [
-        {
-            name: "my-tool",
-            title: "My Tool",
-            description: "What this tool does (shown to LLM)",
-            inputSchema: mySchema,
-            handler: async (args, context) => {
-                // Implementation
-                return createToolResponse("Success message");
-            }
+export function registerMyTools(server: McpServer): void {
+    server.tool(
+        "my-tool", // Tool name
+        "Description shown to LLM", // Tool description
+        myToolSchema, // Input validation schema
+        async ({ param }) => {
+            // Handler with typed args
+            // Implementation
+            return {
+                content: [
+                    {
+                        type: "text",
+                        text: "Success message"
+                    }
+                ]
+            };
         }
-    ];
+    );
+
+    console.error("[my-feature] Registered 1 tool");
 }
 ```
 
 2. **Register in index**: Update `src/tools/index.ts`
 
 ```typescript
-import { getMyTools } from "./my-feature.tools";
+import { registerMyTools } from "./my-feature.tools";
 
-export function getAllTools(): AnyToolDefinition[] {
-    return [
-        ...getScaffoldingTools(),
-        ...getMyTools() // Add here
-    ];
+export function registerAllTools(server: McpServer): void {
+    registerScaffoldingTools(server);
+    registerFileOperationTools(server);
+    registerBuildTools(server);
+    registerMyTools(server); // Add here
 }
 ```
 
@@ -145,8 +173,8 @@ export function getAllTools(): AnyToolDefinition[] {
 ### Type Safety
 
 - All tool inputs must have Zod schemas
-- Use `ToolContext` for MCP-provided context (notifications, progress)
-- Avoid `any` except in `AnyToolDefinition` (required for heterogeneous tool arrays)
+- Tool handlers receive fully typed arguments via Zod inference
+- Use `McpServer` methods directly for type-safe tool registration
 
 ## Testing
 
@@ -162,14 +190,38 @@ npx @modelcontextprotocol/inspector
 # Connect to http://localhost:3100/mcp
 ```
 
+## Security
+
+All security validation is centralized in `src/security/guardrails.ts` for easy auditing:
+
+```typescript
+import { validateFilePath, ALLOWED_EXTENSIONS } from "@/security";
+
+// Validates path traversal and extension whitelist
+validateFilePath(widgetPath, filePath, true); // true = check extension
+```
+
+### Security Measures
+
+| Protection          | Function                  | Description                                                         |
+| ------------------- | ------------------------- | ------------------------------------------------------------------- |
+| Path Traversal      | `validateFilePath()`      | Blocks `..` sequences and resolved path escapes                     |
+| Extension Whitelist | `isExtensionAllowed()`    | Only allows: `.tsx`, `.ts`, `.xml`, `.scss`, `.css`, `.json`, `.md` |
+| Directory Boundary  | `isPathWithinDirectory()` | Ensures files stay within widget directory                          |
+
+When adding file operation tools, always use `validateFilePath()` from the security module.
+
 ## Key Files Reference
 
-| File                       | Purpose                                |
-| -------------------------- | -------------------------------------- |
-| `config.ts`                | All constants (ports, timeouts, paths) |
-| `tools/types.ts`           | MCP tool type definitions              |
-| `tools/utils/generator.ts` | Widget generator prompts and defaults  |
-| `server/session.ts`        | HTTP session lifecycle management      |
+| File                       | Purpose                                          |
+| -------------------------- | ------------------------------------------------ |
+| `config.ts`                | Server constants (ports, timeouts, paths)        |
+| `security/guardrails.ts`   | Security validation (path traversal, extensions) |
+| `tools/index.ts`           | Tool registration aggregation                    |
+| `tools/utils/generator.ts` | Widget generator PTY prompts and defaults        |
+| `resources/guidelines.ts`  | Widget development guideline resources           |
+| `server/session.ts`        | HTTP session lifecycle management                |
+| `server/server.ts`         | MCP server factory and registration entry point  |
 
 ## Common Patterns
 

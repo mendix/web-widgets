@@ -93,8 +93,13 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
         // Ensure output directory exists
         await mkdir(outputDir, { recursive: true });
 
-        const widgetFolder = await runWidgetGenerator(options, tracker, outputDir);
+        // Create widget folder - we control the folder name (matches user's input)
+        const widgetFolder = options.name;
         const widgetPath = `${outputDir}/${widgetFolder}`;
+        await mkdir(widgetPath, { recursive: true });
+
+        // Run generator inside the widget folder (it outputs files directly there)
+        await runWidgetGenerator(options, tracker, widgetPath);
 
         console.error(`[create-widget] Widget created successfully at ${widgetPath}`);
         await tracker.progress(SCAFFOLD_PROGRESS.COMPLETE, "Widget created successfully!");
@@ -135,8 +140,8 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
                 "",
                 "=== BUILD & TEST ===",
                 `1. cd ${widgetPath}`,
-                "2. pnpm install",
-                "3. pnpm start (builds and watches for changes)",
+                "2. npm install",
+                "3. npm start (builds and watches for changes)",
                 "",
                 "The widget will be available in Mendix Studio Pro after syncing the app directory."
             ].join("\n")
