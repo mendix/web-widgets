@@ -6,9 +6,63 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.8.0] DataWidgets - 2026-01-16
+
 ### Fixed
 
 - We fixed an issue where custom content would overflow its container cell.
+
+### [3.8.0] DatagridDateFilter
+
+#### Fixed
+
+- We fixed an issue with background-color styles on hover in date picker.
+
+### [3.8.0] Datagrid
+
+#### Fixed
+
+- We fixed an issue where the footer would take up unnecessary spacing when no content was rendered inside.
+
+#### Added
+
+- We added missing Dutch translations for Datagrid 2.
+
+#### Changed
+
+- We improved virtual scrolling behavior when horizontal scrolling is present due to grid size.
+
+#### Added
+
+- We added a new property for export to excel. The new property allows to set the cell export type and also the format for type number and date.
+
+- We have introduced the "Page" and "Page Size" attributes to provide complete control over DataGrid pagination.
+
+- We added support for custom pagination controls at the bottom of the DataGrid. Now you can design your own pagination buttons.
+
+### [3.8.0] Gallery
+
+#### Fixed
+
+- We fixed an issue where the footer would take up unnecessary spacing when no content was rendered inside.
+
+- We fixed an issue where the row count wasn't displayed when "Virtual scroll" is on.
+
+#### Added
+
+- We added missing dutch translations for Gallery.
+
+- We added a refresh interval property, to allow defining an interval (in seconds) for refreshing the content in Gallery
+
+### [3.8.0] TreeNode
+
+#### Changed
+
+- We changed `hasChildren` configuration from boolean to expression.
+
+#### Fixed
+
+- We fixed an issue where Tree Nodes showing loading spinner when children can't be found while `hasChildren` property configured to `true`.
 
 ## [3.7.0] DataWidgets - 2025-11-11
 
