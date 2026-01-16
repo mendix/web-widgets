@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Breaking changes
+
+- The DOM structure is rewritten, which may break existing CSS styling. We recommend checking the custom styling if there is any in your project.
+
 ### Fixed
 
 - We fixed an issue where the footer would take up unnecessary spacing when no content was rendered inside.

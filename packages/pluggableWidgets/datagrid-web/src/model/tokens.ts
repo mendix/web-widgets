@@ -38,6 +38,8 @@ import { SelectionProgressDialogViewModel } from "../features/select-all/Selecti
 import { ColumnGroupStore } from "../helpers/state/ColumnGroupStore";
 import { GridBasicData } from "../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationStore";
+import { HeaderDndStore } from "../features/column/HeaderDnd.store";
+import { HeaderDndViewModel } from "../features/column/HeaderDnd.viewModel";
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
 import { GridColumn } from "../typings/GridColumn";
 import { DatagridConfig } from "./configs/Datagrid.config";
@@ -146,6 +148,8 @@ export const DG_TOKENS = {
     clickActionHelper: token<ClickActionHelper>("@service:ClickActionHelper"),
     focusService: token<FocusTargetController>("@service:FocusTargetController"),
     checkboxEventsHandler: token<CheckboxEventsController>("@service:CheckboxEventsController"),
+    headerDndStore: token<HeaderDndStore>("@store:HeaderDndStore"),
+    headerDndVM: token<HeaderDndViewModel>("@viewmodel:HeaderDndViewModel"),
     cellEventsHandler: token<CellEventsController>("@service:CellEventsController")
 };
 

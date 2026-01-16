@@ -1,15 +1,31 @@
 import { dynamic } from "@mendix/widget-plugin-test-utils";
+import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ContainerProvider } from "brandi-react";
+import { ReactElement } from "react";
 import { createDatagridContainer } from "../../model/containers/createDatagridContainer";
 import { CORE_TOKENS } from "../../model/tokens";
 import { column, mockContainerProps } from "../../utils/test-utils";
 import { ColumnProvider } from "../ColumnProvider";
+import { ColumnContainer } from "../ColumnContainer";
 import { ColumnResizer } from "../ColumnResizer";
-import { Header, HeaderProps } from "../Header";
+import { DndContext } from "@dnd-kit/core";
+import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 
-describe("Header", () => {
+describe("ColumnContainer", () => {
+    function renderWithProviders(container: any, col: any, element: ReactElement): ReturnType<typeof render> {
+        return render(
+            <ContainerProvider container={container}>
+                <DndContext>
+                    <SortableContext items={[col.columnId]} strategy={horizontalListSortingStrategy}>
+                        <ColumnProvider column={col}>{element}</ColumnProvider>
+                    </SortableContext>
+                </DndContext>
+            </ContainerProvider>
+        );
+    }
+
     it("renders the structure correctly", () => {
         const props = mockContainerProps({
             columns: [column("Column 1")]
@@ -18,13 +34,7 @@ describe("Header", () => {
         const columns = container.get(CORE_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
-        const component = render(
-            <ContainerProvider container={container}>
-                <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
-                </ColumnProvider>
-            </ContainerProvider>
-        );
+        const component = renderWithProviders(container, col, <ColumnContainer resizer={<ColumnResizer />} />);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -40,13 +50,7 @@ describe("Header", () => {
         const columns = container.get(CORE_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
-        const component = render(
-            <ContainerProvider container={container}>
-                <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
-                </ColumnProvider>
-            </ContainerProvider>
-        );
+        const component = renderWithProviders(container, col, <ColumnContainer resizer={<ColumnResizer />} />);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -62,13 +66,7 @@ describe("Header", () => {
         const columns = container.get(CORE_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
-        const component = render(
-            <ContainerProvider container={container}>
-                <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} resizer={<div>resizer</div>} />
-                </ColumnProvider>
-            </ContainerProvider>
-        );
+        const component = renderWithProviders(container, col, <ColumnContainer resizer={<div>resizer</div>} />);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -84,13 +82,7 @@ describe("Header", () => {
         const columns = container.get(CORE_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
-        const component = render(
-            <ContainerProvider container={container}>
-                <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
-                </ColumnProvider>
-            </ContainerProvider>
-        );
+        const component = renderWithProviders(container, col, <ColumnContainer resizer={<ColumnResizer />} />);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -106,13 +98,7 @@ describe("Header", () => {
         const columns = container.get(CORE_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
-        const component = render(
-            <ContainerProvider container={container}>
-                <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
-                </ColumnProvider>
-            </ContainerProvider>
-        );
+        const component = renderWithProviders(container, col, <ColumnContainer resizer={<ColumnResizer />} />);
 
         expect(component.asFragment()).toMatchSnapshot();
     });
@@ -130,14 +116,8 @@ describe("Header", () => {
         const col = columns.visibleColumns[0];
         const spy = jest.spyOn(col, "toggleSort");
 
-        const component = render(
-            <ContainerProvider container={container}>
-                <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
-                </ColumnProvider>
-            </ContainerProvider>
-        );
-        const button = component.getByLabelText("sort Column 1");
+        const component = renderWithProviders(container, col, <ColumnContainer resizer={<ColumnResizer />} />);
+        const button = component.getByLabelText("Sort by Column 1");
 
         expect(button).toBeInTheDocument();
         await user.click(button);
@@ -155,22 +135,7 @@ describe("Header", () => {
         const columns = container.get(CORE_TOKENS.columnsStore);
         const col = columns.visibleColumns[0];
 
-        const component = render(
-            <ContainerProvider container={container}>
-                <ColumnProvider column={col}>
-                    <Header {...mockHeaderProps()} />
-                </ColumnProvider>
-            </ContainerProvider>
-        );
+        const component = renderWithProviders(container, col, <ColumnContainer resizer={<ColumnResizer />} />);
         expect(component.asFragment()).toMatchSnapshot();
     });
 });
-
-function mockHeaderProps(): HeaderProps {
-    return {
-        dropTarget: undefined,
-        resizer: <ColumnResizer setColumnWidth={jest.fn()} />,
-        setDropTarget: jest.fn(),
-        setIsDragging: jest.fn()
-    };
-}

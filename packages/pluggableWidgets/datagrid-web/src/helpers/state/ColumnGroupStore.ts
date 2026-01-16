@@ -127,10 +127,58 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, 
     swapColumns(source: ColumnId, [target, placement]: [ColumnId, "after" | "before"]): void {
         const columnSource = this._allColumnsById.get(source)!;
         const columnTarget = this._allColumnsById.get(target)!;
-        columnSource.orderWeight = columnTarget.orderWeight + (placement === "after" ? 1 : -1);
 
-        // normalize columns
-        this._allColumnsOrdered.forEach((column, idx) => {
+        // Reorder only among movable (draggable) columns so that locked
+        // (non-draggable) columns keep their original positions.
+        const allOrdered = this._allColumnsOrdered;
+        const movable = allOrdered.filter(c => c.canDrag);
+
+        const srcMovIdx = movable.findIndex(c => c.columnId === source);
+        const tgtMovIdx = movable.findIndex(c => c.columnId === target);
+
+        // Fallback to simple relative weight if either column is not in movable set
+        if (srcMovIdx < 0 || tgtMovIdx < 0) {
+            columnSource.orderWeight = columnTarget.orderWeight + (placement === "after" ? 1 : -1);
+            this._allColumnsOrdered.forEach((column, idx) => {
+                column.orderWeight = idx * 10;
+            });
+            return;
+        }
+
+        // Build new movable order with source removed and inserted at target position
+        const newMovable = movable.slice();
+        // remove source
+        newMovable.splice(srcMovIdx, 1);
+
+        // compute insert index relative to original movable indices
+        const originalTgtIdx = tgtMovIdx;
+        let insertIdx: number;
+        if (srcMovIdx < originalTgtIdx) {
+            // removing source shifted target left by 1
+            insertIdx = originalTgtIdx - 1 + (placement === "after" ? 1 : 0);
+        } else {
+            insertIdx = originalTgtIdx + (placement === "after" ? 1 : 0);
+        }
+
+        // clamp
+        if (insertIdx < 0) insertIdx = 0;
+        if (insertIdx > newMovable.length) insertIdx = newMovable.length;
+
+        newMovable.splice(insertIdx, 0, columnSource);
+
+        // Merge back into the full ordered list: replace movable slots in-order
+        const merged: ColumnStore[] = [];
+        let movableCursor = 0;
+        for (const col of allOrdered) {
+            if (col.canDrag) {
+                merged.push(newMovable[movableCursor++]);
+            } else {
+                merged.push(col);
+            }
+        }
+
+        // normalize weights based on merged order
+        merged.forEach((column, idx) => {
             column.orderWeight = idx * 10;
         });
     }

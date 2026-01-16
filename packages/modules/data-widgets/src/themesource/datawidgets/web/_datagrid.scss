@@ -30,43 +30,6 @@ $root: ".widget-datagrid";
     }
 
     .th {
-        &.dragging {
-            opacity: 0.5;
-            &.dragging-over-self {
-                opacity: 0.8;
-            }
-        }
-
-        &.drop-after:after,
-        &.drop-before:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            height: 100%;
-            width: var(--spacing-smaller, $spacing-smaller);
-            background-color: $dragging-color-effect;
-
-            z-index: 1;
-        }
-
-        &.drop-before {
-            &:after {
-                left: 0;
-            }
-            &:not(:first-child):after {
-                transform: translateX(-50%);
-            }
-        }
-
-        &.drop-after {
-            &:after {
-                right: 0;
-            }
-            &:not(:last-child):after {
-                transform: translateX(50%);
-            }
-        }
-
         /* Clickable column header (Sortable) */
         .clickable {
             cursor: pointer;
@@ -78,6 +41,8 @@ $root: ".widget-datagrid";
             align-self: stretch;
             cursor: col-resize;
             margin-right: -12px;
+            margin-top: calc(0px - var(--spacing-medium, 16px));
+            margin-bottom: calc(0px - var(--spacing-medium, 16px));
 
             &:hover .column-resizer-bar {
                 background-color: var(--brand-primary, $brand-primary);
@@ -89,6 +54,70 @@ $root: ".widget-datagrid";
             .column-resizer-bar {
                 height: 100%;
                 width: 4px;
+            }
+        }
+
+        &.locked-drag-active {
+            z-index: 2;
+        }
+
+        &.dragging-over-self {
+            opacity: 0.25;
+        }
+
+        /* Drag handle */
+        .drag-handle {
+            cursor: grab;
+            pointer-events: auto;
+            position: relative;
+            width: var(--spacing-medium, $spacing-medium);
+            padding: 0;
+            flex-grow: 0;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-self: center;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+
+            &:hover {
+                svg {
+                    color: var(--brand-primary, $brand-primary);
+                }
+            }
+            &:active {
+                cursor: grabbing;
+            }
+            &:focus-visible {
+                opacity: 1;
+            }
+            > svg {
+                margin: 0;
+            }
+        }
+
+        &:hover .drag-handle {
+            opacity: 1;
+        }
+
+        /* Parent background change on drag handle hover */
+        &:has(.drag-handle:hover) {
+            background-color: var(--brand-primary-50, $brand-light);
+        }
+
+        /* Drag preview (dnd-kit) should look like hovered header */
+        &.drag-preview {
+            background-color: var(--brand-primary-50, $brand-light);
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--gray-light, $gray-light);
+
+            .drag-handle {
+                opacity: 1;
+
+                svg {
+                    color: var(--brand-primary, $brand-primary);
+                }
             }
         }
 
@@ -114,7 +143,12 @@ $root: ".widget-datagrid";
             align-items: baseline;
             font-weight: 600;
 
-            span {
+            .column-caption {
+                user-select: text;
+                cursor: text;
+            }
+
+            span:not(.drag-handle) {
                 min-width: 0;
                 flex-grow: 1;
                 text-overflow: ellipsis;
@@ -124,11 +158,31 @@ $root: ".widget-datagrid";
             }
 
             svg {
-                margin-left: 8px;
+                margin-inline-start: 8px;
                 flex: 0 0 var(--btn-font-size, $btn-font-size);
                 color: var(--gray-dark, $gray-dark);
                 height: var(--btn-font-size, $btn-font-size);
                 align-self: center;
+            }
+
+            .sort-button {
+                background: none;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                font-size: inherit;
+                color: inherit;
+                height: 100%;
+
+                &:focus:not(:focus-visible) {
+                    outline: none;
+                }
+
+                &:focus-visible {
+                    outline: 1px solid var(--brand-primary, $brand-primary);
+                }
             }
 
             &:focus:not(:focus-visible) {
@@ -138,12 +192,22 @@ $root: ".widget-datagrid";
             &:focus-visible {
                 outline: 1px solid var(--brand-primary, $brand-primary);
             }
+
+            &:has(.drag-handle) {
+                margin-inline-start: calc(var(--spacing-medium, 16px) * -1 + 1px);
+                .drag-handle svg {
+                    flex: none;
+                    margin: 0;
+                }
+            }
         }
 
         /* Header filter */
         .filter {
             display: flex;
-            margin-top: 4px;
+            > * {
+                margin-top: 4px;
+            }
             > .form-group {
                 margin-bottom: 0;
             }
@@ -299,6 +363,12 @@ $root: ".widget-datagrid";
     .align-column-right {
         justify-content: flex-end;
     }
+}
+
+.table-compact .table .th:hover .column-header:has(.drag-handle),
+.table-compact .table .th.drag-preview .column-header:has(.drag-handle) {
+    margin-inline-start: 0;
+    transition: margin-inline-start 0.2s ease;
 }
 
 :where(.table .th .filter input:not([type="checkbox"])) {

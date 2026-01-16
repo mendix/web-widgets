@@ -22,15 +22,17 @@ import { Container, injected } from "brandi";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
+import { createCellEventsController } from "../../features/row-interaction/CellEventsController";
 import { DynamicPaginationFeature } from "../../features/pagination/DynamicPagination.feature";
 import { PageControlService } from "../../features/pagination/PageControl.service";
 import { paginationConfig } from "../../features/pagination/pagination.config";
 import { customPaginationAtom, dynamicPageAtom, dynamicPageSizeAtom } from "../../features/pagination/pagination.model";
 import { PaginationViewModel } from "../../features/pagination/Pagination.viewModel";
-import { createCellEventsController } from "../../features/row-interaction/CellEventsController";
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
 import { ColumnGroupStore } from "../../helpers/state/ColumnGroupStore";
+import { HeaderDndStore } from "../../features/column/HeaderDnd.store";
+import { HeaderDndViewModel } from "../../features/column/HeaderDnd.viewModel";
 import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../../helpers/state/GridPersonalizationStore";
 import { DatagridConfig } from "../configs/Datagrid.config";
@@ -106,6 +108,10 @@ injected(
     DG.selectionCounterCfg.optional
 );
 
+// header drag and drop (dnd-kit)
+injected(HeaderDndStore);
+injected(HeaderDndViewModel, DG.headerDndStore, CORE.columnsStore);
+
 export class DatagridContainer extends Container {
     id = `DatagridContainer@${generateUUID()}`;
     constructor(root: Container) {
@@ -116,6 +122,9 @@ export class DatagridContainer extends Container {
         this.bind(DG.basicDate).toInstance(GridBasicData).inSingletonScope();
         // Columns store
         this.bind(CORE.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
+        // Header drag and drop (dnd-kit) store/view model
+        this.bind(DG.headerDndStore).toInstance(HeaderDndStore).inSingletonScope();
+        this.bind(DG.headerDndVM).toInstance(HeaderDndViewModel).inSingletonScope();
         // Query service
         this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
         // Grid sizing and scrolling store
