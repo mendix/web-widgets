@@ -4,10 +4,17 @@ import { ReactElement } from "react";
 import { SelectionAriaLive } from "../features/selection-counter/SelectionAriaLive";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
-import { useCustomPagination, usePaginationConfig, usePaginationVM, useTexts } from "../model/hooks/injection-hooks";
+import {
+    useCustomPagination,
+    useDatagridConfig,
+    usePaginationConfig,
+    usePaginationVM,
+    useTexts
+} from "../model/hooks/injection-hooks";
 import { Pagination } from "./Pagination";
 
 export const WidgetFooter = observer(function WidgetFooter(): ReactElement | null {
+    const config = useDatagridConfig();
     const pgConfig = usePaginationConfig();
     const paging = usePaginationVM();
     const { loadMoreButtonCaption } = useTexts();
