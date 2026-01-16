@@ -4,6 +4,7 @@ import LinkBlot from "quill/formats/link";
 import { BaseTooltip } from "quill/themes/base";
 import { linkConfigType } from "../formats";
 import { ACTION_DISPATCHER } from "../helpers";
+import { computePosition, flip, shift } from "@floating-ui/dom";
 
 export default class MxTooltip extends BaseTooltip {
     static TEMPLATE = [
@@ -56,10 +57,7 @@ export default class MxTooltip extends BaseTooltip {
                     // @ts-expect-error Fix me later
                     this.preview.setAttribute("href", preview);
                     this.show();
-                    const bounds = this.quill.getBounds(this.linkRange);
-                    if (bounds != null) {
-                        this.position(bounds);
-                    }
+                    this.setPosition(link.domNode);
                     return;
                 }
             } else {
@@ -84,6 +82,18 @@ export default class MxTooltip extends BaseTooltip {
         } else {
             super.edit(mode, preview);
         }
+    }
+
+    setPosition(domNode: HTMLElement): void {
+        computePosition(domNode, this.root, {
+            placement: "bottom",
+            middleware: [flip(), shift({ padding: 5 })]
+        }).then(({ x, y }) => {
+            Object.assign(this.root.style, {
+                left: `${x}px`,
+                top: `${y}px`
+            });
+        });
     }
 
     show(): void {
