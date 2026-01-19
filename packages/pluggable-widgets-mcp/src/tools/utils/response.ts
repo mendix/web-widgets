@@ -14,7 +14,9 @@ export type ErrorCode =
     | "ERR_SCAFFOLD_FAILED" // Generic scaffold failure
     | "ERR_FILE_PATH" // Invalid file path
     | "ERR_FILE_WRITE" // File write failure
-    | "ERR_NOT_FOUND"; // Resource not found
+    | "ERR_NOT_FOUND" // Resource not found
+    | "ERR_OUTPUT_PATH_REQUIRED" // Output path required (e.g., in Claude Desktop)
+    | "ERR_OUTPUT_PATH_INVALID"; // Output path is not accessible
 
 /**
  * Structured error with code, message, and optional details.
