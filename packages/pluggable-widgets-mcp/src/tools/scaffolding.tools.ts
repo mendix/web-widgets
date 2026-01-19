@@ -9,7 +9,8 @@ import {
     createToolResponse,
     type ErrorCode
 } from "@/tools/utils/response";
-import { mkdir } from "node:fs/promises";
+import { access, mkdir } from "node:fs/promises";
+import { dirname } from "node:path";
 import { z } from "zod";
 
 /**
@@ -81,6 +82,23 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
     });
 
     try {
+        // Pre-validate ONLY for default path (catches Claude Desktop's non-existent cwd)
+        // For user-provided paths, let mkdir try and give a specific error if it fails
+        if (!args.outputPath) {
+            const parentDir = dirname(outputDir);
+            try {
+                await access(parentDir);
+            } catch {
+                return createStructuredErrorResponse(
+                    createStructuredError("ERR_OUTPUT_PATH_REQUIRED", "Cannot create widget in default location", {
+                        suggestion:
+                            "The default output directory is not accessible (common in Claude Desktop). Please provide an explicit 'outputPath' parameter with a valid directory path on your system (e.g., '/Users/yourname/Projects/widgets', '~/widgets', or '/tmp/widgets').",
+                        rawOutput: `Default path "${outputDir}" is not accessible. The working directory may not exist in this environment.`
+                    })
+                );
+            }
+        }
+
         console.error(`[create-widget] Starting widget scaffolding for "${options.name}"...`);
         await tracker.progress(SCAFFOLD_PROGRESS.START, `Starting widget scaffolding for "${options.name}"...`);
         await tracker.info(`Starting widget scaffolding for "${options.name}"...`, {
@@ -167,8 +185,13 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
                 "The generator prompts may have changed. This could be a version mismatch. Please report this issue.";
         } else if (message.includes("ENOENT") || message.includes("not found")) {
             code = "ERR_NOT_FOUND";
-            suggestion =
-                "A required file or command was not found. Ensure node, npm, and npx are installed and in PATH.";
+            // Check if this is a path issue vs a command issue
+            if (message.includes("mkdir") || message.includes(outputDir)) {
+                suggestion = `Cannot create directory "${outputDir}". Try a different 'outputPath' that you have write access to.`;
+            } else {
+                suggestion =
+                    "Node.js, npm, or npx was not found. This tool requires a local development environment with npm installed. It cannot run in sandboxed environments like Claude Desktop's artifact sandbox.";
+            }
         }
 
         return createStructuredErrorResponse(

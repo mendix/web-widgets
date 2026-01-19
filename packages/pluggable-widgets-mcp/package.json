@@ -33,7 +33,7 @@
     "devDependencies": {
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.6",
-        "@types/node": "^24.10.1",
+        "@types/node": "*",
         "tsc-alias": "^1.8.16",
         "typescript": "^5.9.3"
     },
