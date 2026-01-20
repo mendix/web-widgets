@@ -197,6 +197,59 @@ npx @modelcontextprotocol/inspector
 
 This is useful for verifying tool behavior without needing a full AI client integration.
 
+## Understanding Feedback and Notifications
+
+This server uses MCP's notification system to provide progress updates and logging. However, **different types of feedback appear in different places**—not all feedback shows up in your chat conversation.
+
+### Where Different Types of Feedback Appear
+
+| Feedback Type              | Where It Appears                       | Example                                                           |
+| -------------------------- | -------------------------------------- | ----------------------------------------------------------------- |
+| **Tool Results**           | ✅ Chat conversation                   | Widget created at `/path/to/widget`, Build completed successfully |
+| **Progress Notifications** | ⚙️ Client UI (spinners, progress bars) | "Scaffolding widget...", "Building widget..."                     |
+| **Log Messages**           | 🔍 Debug console (MCP Inspector)       | Detailed operation logs, debug info                               |
+
+### Why Progress Doesn't Show in Chat
+
+**This is by design per the MCP specification**, not a bug. The MCP architecture separates concerns:
+
+- **`notifications/progress`** → Routed to client UI indicators (loading spinners, status bars)
+- **`notifications/message`** → Routed to debug/inspector consoles for developers
+- **Tool results** → Returned to the conversation when operations complete
+
+This means:
+
+- Long operations (scaffolding, building) will show **results** when complete
+- You won't see intermediate progress steps in the chat history
+- MCP Inspector shows all notifications in real-time (bottom-right panel)
+
+### Viewing Debug Output
+
+**With MCP Inspector:**
+
+1. Run: `npx @modelcontextprotocol/inspector node dist/index.js stdio`
+2. Execute a tool (e.g., `create-widget`)
+3. Watch the **Notifications panel** (bottom-right) for progress updates
+4. Check the **Logs panel** for detailed debug output
+
+**With Claude Desktop:**
+
+- Progress notifications may appear as UI indicators (client-dependent)
+- Check Claude Desktop's developer console for log messages (if available)
+- Tool results will always appear in the conversation
+
+### Expected Behavior Examples
+
+**During widget scaffolding:**
+
+- Chat shows: "Starting scaffolding..." → (wait) → "Widget created at `/path`"
+- Inspector shows: Step-by-step progress notifications for all 14 prompts
+
+**During widget building:**
+
+- Chat shows: "Building..." → (wait) → "Build successful" or structured error
+- Inspector shows: TypeScript compilation progress, dependency resolution
+
 ## Roadmap
 
 - [x] Widget scaffolding (`create-widget`)
