@@ -131,13 +131,13 @@
                     <caption>Show all events</caption>
                     <description>Auto-adjust calendar height to display all events without "more" links</description>
                 </property>
-                <property key="step" type="integer" defaultValue="60">
+                <property key="step" type="integer" defaultValue="30">
                     <caption>Step</caption>
                     <description>Determines the selectable time increments in week and day views</description>
                 </property>
-                <property key="timeslots" type="integer" defaultValue="2">
+                <property key="timeslots" type="integer" defaultValue="1">
                     <caption>Time slots</caption>
-                    <description>The number of slots per "section" in the time grid views. Adjust with step to change the default of 1 hour long groups, with 30 minute slots.</description>
+                    <description>The number of slots per "section" in the time grid views. Adjust with step to change the default of 1 hour long groups, with 30 minute slots</description>
                 </property>
             </propertyGroup>
         </propertyGroup>
