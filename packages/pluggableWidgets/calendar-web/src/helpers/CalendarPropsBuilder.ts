@@ -14,6 +14,8 @@ export class CalendarPropsBuilder {
     private minTime: Date;
     private maxTime: Date;
     private toolbarItems?: ResolvedToolbarItem[];
+    private step: number;
+    private timeSlots: number;
 
     constructor(private props: CalendarContainerProps) {
         this.isCustomView = props.view === "custom";
@@ -23,6 +25,8 @@ export class CalendarPropsBuilder {
         this.minTime = this.buildTime(props.minHour ?? 0);
         this.maxTime = this.buildTime(props.maxHour ?? 24);
         this.toolbarItems = this.buildToolbarItems();
+        this.step = props.step;
+        this.timeSlots = props.timeslots;
     }
 
     updateProps(props: CalendarContainerProps): void {
@@ -71,7 +75,9 @@ export class CalendarPropsBuilder {
             titleAccessor: (event: CalendarEvent) => event.title,
             showAllEvents: this.props.showAllEvents,
             min: this.minTime,
-            max: this.maxTime
+            max: this.maxTime,
+            step: this.step,
+            timeslots: this.timeSlots
         };
     }
 
