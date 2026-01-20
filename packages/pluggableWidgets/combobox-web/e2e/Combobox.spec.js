@@ -10,6 +10,7 @@ test.describe("combobox-web", () => {
         await page.goto("/p/combobox");
         await page.waitForLoadState("networkidle");
         await page.click(".mx-name-actionButton1");
+        await page.waitForLoadState("networkidle");
     });
 
     test.describe("data source types", () => {
@@ -125,4 +126,70 @@ test.describe("combobox-web", () => {
             });
         });
     });
+
+    test.describe("searching and selecting", () => {
+        test("clears with backspace", async ({ page }) => {
+            const comboBox = page.locator(".mx-name-comboBox2");
+            await expect(comboBox).toBeVisible({ timeout: 10000 });
+
+            // check nothing is selected
+            await expect(getSelectedText(comboBox)).toContainClass("widget-combobox-placeholder-empty");
+
+            // open the dropdown
+            await page.click(".mx-name-comboBox2");
+
+            // select europe
+            await getOptionItem(comboBox, "Europe").click({ delay: 10 });
+            await expect(getSelectedText(comboBox)).toContainText("Europe");
+
+            // check input stays focused
+            await expect(getFilterInput(comboBox)).toBeFocused();
+
+            // press Backspace to clear
+            await page.keyboard.press("Backspace");
+
+            // check if cleared
+            await expect(getSelectedText(comboBox)).toContainClass("widget-combobox-placeholder-empty");
+        });
+
+        test("types filter when selected", async ({ page }) => {
+            const comboBox = page.locator(".mx-name-comboBox2");
+            await expect(comboBox).toBeVisible({ timeout: 10000 });
+
+            // check nothing is selected
+            await expect(getSelectedText(comboBox)).toContainClass("widget-combobox-placeholder-empty");
+
+            // open the dropdown
+            await page.click(".mx-name-comboBox2");
+
+            // select europe
+            await getOptionItem(comboBox, "Europe").click({ delay: 10 });
+            await expect(getSelectedText(comboBox)).toContainText("Europe");
+
+            // check input stays focused
+            await expect(getFilterInput(comboBox)).toBeFocused();
+
+            // type filter text
+            await page.keyboard.type("aaa");
+
+            // check if filtered
+            await expect(getOptions(comboBox)).toHaveText(["Antartica", "Australia"]);
+        });
+    });
 });
+
+function getOptions(combobox) {
+    return combobox.locator(`[role=listbox] [role=option]`);
+}
+
+function getOptionItem(combobox, text) {
+    return combobox.locator(`[role=listbox] [role=option]:has-text("${text}")`);
+}
+
+function getSelectedText(combobox) {
+    return combobox.locator(".widget-combobox-placeholder-text");
+}
+
+function getFilterInput(combobox) {
+    return combobox.locator("input");
+}
