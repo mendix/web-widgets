@@ -13,7 +13,9 @@ export default class CustomClipboard extends Clipboard {
         super(quill, options);
         // remove default CLIPBOARD_CONFIG list matchers for ol and ul
         // https://github.com/slab/quill/blob/539cbffd0a13b18e9c65eb84dd35e6596e403158/packages/quill/src/modules/clipboard.ts#L32
-        this.matchers = this.matchers.filter(matcher => matcher[0] !== "ol, ul" && matcher[0] !== Node.TEXT_NODE);
+        this.matchers = this.matchers.filter(
+            matcher => matcher[0] !== "ol, ul" && matcher[0] !== Node.TEXT_NODE && matcher[0] !== "br"
+        );
         // adding back, we do not actually want to remove newline matching
         this.matchers.unshift([Node.TEXT_NODE, matchNewline]);
         // add custom text matcher to better handle spaces and newlines
