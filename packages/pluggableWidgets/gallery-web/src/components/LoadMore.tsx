@@ -11,7 +11,7 @@ export function LoadMoreButton(props: JSX.IntrinsicElements["button"]): ReactNod
     );
 }
 
-export const LoadMore = observer(function LoadMore(props: { children: ReactNode }): ReactNode {
+export const LoadMore = observer(function LoadMore(): ReactNode {
     const {
         rootStore: { paging }
     } = useGalleryRootScope();
@@ -24,5 +24,9 @@ export const LoadMore = observer(function LoadMore(props: { children: ReactNode 
         return null;
     }
 
-    return <LoadMoreButton onClick={() => paging.setPage(n => n + 1)}>{props.children}</LoadMoreButton>;
+    return (
+        <LoadMoreButton onClick={() => paging.setPage(n => n + 1)}>
+            Fix me: Add load more caption from props
+        </LoadMoreButton>
+    );
 });

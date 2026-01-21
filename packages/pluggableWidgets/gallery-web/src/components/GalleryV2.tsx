@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
-import { GalleryFooter } from "./GalleryFooter";
+import { GalleryFooter as Footer } from "./GalleryFooter";
+import { GalleryFooterControls as FooterControls } from "./GalleryFooterControls";
 import { GalleryHeader as Header } from "./GalleryHeader";
 import { GalleryRoot as Root } from "./GalleryRoot";
 import { GalleryTopBar as TopBar } from "./GalleryTopBar";
@@ -11,21 +12,9 @@ export function Gallery(): ReactElement {
                 <div className="widget-gallery-top-bar-controls"></div>
             </TopBar>
             <Header />
-            <GalleryFooter>
-                <div className="widget-gallery-footer-controls">
-                    {showBottomSelectionCounter && <div className="widget-gallery-fc-start">{selectionCounter}</div>}
-
-                    <div className="widget-gallery-fc-end">
-                        {showBottomPagination && pagination}
-                        {props.paginationType === "loadMore" &&
-                            (props.preview ? (
-                                <LoadMorePreview>{loadMoreButtonCaption}</LoadMorePreview>
-                            ) : (
-                                <LoadMore>{loadMoreButtonCaption}</LoadMore>
-                            ))}
-                    </div>
-                </div>
-            </GalleryFooter>
+            <Footer>
+                <FooterControls />
+            </Footer>
         </Root>
     );
 }

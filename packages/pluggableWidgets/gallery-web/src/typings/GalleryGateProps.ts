@@ -13,4 +13,6 @@ export type GalleryGateProps = Pick<
     | "refreshIndicator"
     | "refreshInterval"
     | "selectionCountPosition"
+    | "itemSelection"
+    | "onSelectionChange"
 >;
