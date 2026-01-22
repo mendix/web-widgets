@@ -55,6 +55,7 @@ export async function TakePicture(picture, showConfirmationScreen, pictureQualit
         let stream;
         let videoIsReady = false;
         let shouldFaceEnvironment = true;
+        let retryAttempt = 0;
         const {
             video,
             wrapper,
@@ -84,12 +85,30 @@ export async function TakePicture(picture, showConfirmationScreen, pictureQualit
         });
         switchControl.addEventListener("click", switchControlHandler);
         actionControl.addEventListener("click", () => {
+
+             if(!videoIsReady){
+                actionControl.disabled = true;
+                // reload video if not ready yet (some devices need this extra step)
+                if(retryAttempt < 3){
+                    retryAttempt++;
+                } else {
+                    mx.ui.error(getUserText("Media not available.", "Media niet beschikbaar."));
+                    return;
+                }
+                video.load();
+                setTimeout(() => {
+                    actionControl.click();
+                }, 50);
+                return;
+            }
+
             removeAllControlButtons();
             if (showConfirmationScreen) {
                 // Delay the `takePictureHandler` to the next cycle so the UI preparations can go first. Otherwise, the control-buttons are not removed while the second screen is being set up.
                 setTimeout(() => {
                     takePictureHandler(() => {
                         addAllControlButtons();
+                        retryAttempt = 0;
                         video.play();
                     });
                 }, 0);
@@ -101,6 +120,8 @@ export async function TakePicture(picture, showConfirmationScreen, pictureQualit
                     closeControlHandler();
                 });
             }
+
+            actionControl.disabled = false;
         });
         video.addEventListener("loadedmetadata", () => (videoIsReady = true));
         function getVideoCanvas() {
