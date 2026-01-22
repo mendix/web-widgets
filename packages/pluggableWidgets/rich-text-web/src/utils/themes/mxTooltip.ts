@@ -86,7 +86,7 @@ export default class MxTooltip extends BaseTooltip {
 
     setPosition(domNode: HTMLElement): void {
         computePosition(domNode, this.root, {
-            placement: "bottom",
+            placement: "bottom-end",
             middleware: [flip(), shift({ padding: 5 })]
         }).then(({ x, y }) => {
             Object.assign(this.root.style, {

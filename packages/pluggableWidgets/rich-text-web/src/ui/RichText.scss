@@ -13,6 +13,13 @@ $rte-brand-primary: #264ae5;
     .ql-container {
         border: unset;
         overflow: hidden;
+
+        .ql-tooltip {
+            position: fixed;
+            width: max-content;
+            left: 0;
+            z-index: 1;
+        }
     }
 
     &.fullscreen {
