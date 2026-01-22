@@ -42,6 +42,9 @@ import TextBlot, { escapeText } from "quill/blots/text";
 import { Delta, Op } from "quill/core";
 import Editor from "quill/core/editor";
 import { STANDARD_LIST_TYPES } from "./formats/customList";
+import DOMPurify from "dompurify";
+import { parseSanitizationConfig } from "./helpers";
+import Scroll from "quill/blots/scroll";
 
 interface ListItem {
     child: Blot;
@@ -51,11 +54,22 @@ interface ListItem {
     type: string;
 }
 
+interface MxQuillOptions extends QuillOptions {
+    // add custom options here if needed in future
+    sanitizeConfig?: string;
+}
+
 /**
  * Rich Text's extended Quill Editor
  * allowing us to override certain editor's function, such as: getHTML
  */
 class MxEditor extends Editor {
+    sanitizeConfig?: DOMPurify.Config;
+    purify = DOMPurify(window);
+    constructor(scroll: Scroll, sanitizeConfig?: DOMPurify.Config) {
+        super(scroll);
+        this.sanitizeConfig = sanitizeConfig;
+    }
     /**
      * copied without modification from Quill's editor
      * https://github.com/slab/quill/blob/main/packages/quill/src/core/editor.ts
@@ -66,11 +80,16 @@ class MxEditor extends Editor {
             const lineLength = line.length();
             const isWithinLine = line.length() >= lineOffset + length;
             if (isWithinLine && !(lineOffset === 0 && length === lineLength)) {
-                return convertHTML(line, lineOffset, length, true);
+                return this.convertHTML(line, lineOffset, length, true);
             }
-            return convertHTML(this.scroll, index, length, true);
+            return this.convertHTML(this.scroll, index, length, true);
         }
         return "";
+    }
+
+    convertHTML(blot: Blot, index: number, length: number, isRoot = false): string {
+        const html = convertHTML(blot, index, length, isRoot);
+        return this.purify.sanitize(html, { ...this.sanitizeConfig, RETURN_DOM_FRAGMENT: false, RETURN_DOM: false });
     }
 }
 
@@ -78,9 +97,13 @@ class MxEditor extends Editor {
  * Extension's of quill to allow us replacing the editor instance.
  */
 export default class MxQuill extends Quill {
-    constructor(container: HTMLElement | string, options: QuillOptions = {}) {
-        super(container, options);
-        this.editor = new MxEditor(this.scroll);
+    sanitizeConfig?: DOMPurify.Config;
+
+    constructor(container: HTMLElement | string, options: MxQuillOptions = {}) {
+        const { sanitizeConfig, ...quilOptions } = options;
+        super(container, quilOptions);
+        this.sanitizeConfig = parseSanitizationConfig(sanitizeConfig);
+        this.editor = new MxEditor(this.scroll, this.sanitizeConfig);
     }
 
     setContents(dlta: Delta | Op[], source?: EmitterSource): Delta {

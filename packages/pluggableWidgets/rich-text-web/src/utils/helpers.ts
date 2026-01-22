@@ -2,6 +2,7 @@ import { CSSProperties } from "react";
 import Quill from "quill";
 import { Delta, Op } from "quill/core";
 import { RichTextContainerProps } from "typings/RichTextProps";
+import DOMPurify, { Config } from "dompurify";
 
 export const ACTION_DISPATCHER = "ACTION_DISPATCHER";
 
@@ -67,3 +68,30 @@ export function transformLegacyQuillFormats(delta: Delta): { data: Op[]; isDirty
     });
     return { data: newDelta, isDirty };
 }
+
+type Sanitize = (html: string) => string;
+
+export function parseSanitizationConfig(config?: string): Config {
+    try {
+        if (!config) {
+            return {};
+        }
+        return JSON.parse(config);
+    } catch (e) {
+        console.error(e);
+        throw new Error(
+            'Can not parse "Configuration for HTML sanitization" value. Please check your widget configuration.'
+        );
+    }
+}
+
+export function createSanitize(config?: string): Sanitize {
+    const configObject = parseSanitizationConfig(config);
+    const purify = DOMPurify(window);
+    return html => purify.sanitize(html, { ...configObject, RETURN_DOM_FRAGMENT: false, RETURN_DOM: false });
+}
+
+// export function useSanitize(config?: string): ReturnType<typeof createSanitize> {
+//     const [sanitize] = useState(() => createSanitize(config));
+//     return sanitize;
+// }
