@@ -5,6 +5,7 @@ export function mockContainerProps(): GalleryContainerProps {
     return {
         class: "gallery-test-class",
         name: "gallery_1",
+        tabIndex: 0,
         datasource: list(20),
         refreshInterval: 0,
         refreshIndicator: false,

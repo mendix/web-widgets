@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import { PropsWithChildren, ReactElement } from "react";
 import { useGalleryRootVM } from "../model/hooks/injection-hooks";
 
-/** @remark vm source `features/base/GalleryRoot.viewModel.ts` */
 export const GalleryRoot = observer(function GalleryRoot(props: PropsWithChildren): ReactElement {
     const { children } = props;
     const vm = useGalleryRootVM();
