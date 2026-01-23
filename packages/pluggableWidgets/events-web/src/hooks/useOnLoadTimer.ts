@@ -14,6 +14,7 @@ class TimerExecutor {
     private intervalHandle: ReturnType<typeof setTimeout> | undefined;
     private isFirstTime: boolean = true;
     private isPendingExecution: boolean = false;
+    private waitingExecutionToFinish: boolean = false;
     private canExecute: boolean = false;
 
     private delay?: number;
@@ -22,10 +23,26 @@ class TimerExecutor {
 
     private callback?: () => void;
 
-    setCallback(callback: () => void, canExecute: boolean): void {
+    setCallback(callback: () => void, newCanExecute: boolean): void {
         this.callback = callback;
-        this.canExecute = canExecute;
 
+        if (this.waitingExecutionToFinish && this.canExecute && !newCanExecute) {
+            // this means we just executed the command, and canExecute went from true to false
+            // we should not do anything, only wait for the flag to go back to true
+            this.canExecute = newCanExecute;
+            return;
+        }
+
+        if (this.waitingExecutionToFinish && !this.canExecute && newCanExecute) {
+            // this means action completed successfully
+            // we can start a new timer
+            this.waitingExecutionToFinish = false;
+            this.canExecute = newCanExecute;
+            this.next();
+            return;
+        }
+
+        this.canExecute = newCanExecute;
         this.trigger();
     }
 
@@ -34,7 +51,10 @@ class TimerExecutor {
         this.interval = interval;
         this.repeat = repeat;
 
-        this.next();
+        if (this.isFirstTime) {
+            // kickstart the timer for the first time
+            this.next();
+        }
     }
 
     get isReady(): boolean {
@@ -42,7 +62,7 @@ class TimerExecutor {
     }
 
     next(): void {
-        if (!this.isReady) {
+        if (!this.isReady || this.waitingExecutionToFinish) {
             return;
         }
 
@@ -56,9 +76,8 @@ class TimerExecutor {
         this.intervalHandle = setTimeout(
             () => {
                 this.isPendingExecution = true;
-                this.trigger();
                 this.isFirstTime = false;
-                this.next();
+                this.trigger();
             },
             this.isFirstTime ? this.delay : this.interval
         );
@@ -67,6 +86,7 @@ class TimerExecutor {
     trigger(): void {
         if (this.isPendingExecution && this.canExecute) {
             this.isPendingExecution = false;
+            this.waitingExecutionToFinish = true;
             this.callback?.();
         }
     }
@@ -77,6 +97,9 @@ class TimerExecutor {
         this.delay = undefined;
         this.interval = undefined;
         this.repeat = false;
+        this.isFirstTime = true;
+        this.isPendingExecution = false;
+        this.waitingExecutionToFinish = false;
     }
 }
 
@@ -97,11 +120,4 @@ export function useOnLoadTimer(props: UseOnLoadTimerProps): void {
             timerExecutor.stop();
         };
     }, [timerExecutor, delay, interval, repeat]);
-
-    // cleanup
-    useEffect(() => {
-        return () => {
-            timerExecutor.stop();
-        };
-    }, [timerExecutor]);
 }
