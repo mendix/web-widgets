@@ -35,8 +35,7 @@
         "oss-clearance": "ts-node bin/rui-oss-clearance.ts",
         "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",
         "prepare-release": "ts-node bin/rui-prepare-release.ts",
-        "start": "tsc --watch",
-        "version": "ts-node bin/rui-bump-version.ts"
+        "start": "tsc --watch"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
