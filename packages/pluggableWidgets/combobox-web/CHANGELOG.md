@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.7.1] - 2026-01-26
+
 ### Fixed
 
 - We fixed an issue with filter input in single selection mode being disabled in some cases.
@@ -13,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - We made it possibly to clear the selection in single selection mode with Backspace key.
+
 - We improved keyboard navigation for multi selection with
 
 ## [2.7.0] - 2026-01-14
