@@ -12,9 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the footer would take up unnecessary spacing when no content was rendered inside.
 
-### Added
-
-- We added missing Dutch translations for Datagrid 2.
+- The property panel now shows keep selection property when Datagrid is set to single selection.
 
 ### Changed
 
@@ -22,11 +20,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- We added missing Dutch translations for Datagrid 2.
+
 - We added a new property for export to excel. The new property allows to set the cell export type and also the format for type number and date.
 
 - We have introduced the "Page" and "Page Size" attributes to provide complete control over DataGrid pagination.
 
 - We added support for custom pagination controls at the bottom of the DataGrid. Now you can design your own pagination buttons.
+
+- We added the possibility to configure the first row of a DataGrid to be auto-selected on first load, facilitating master-detail views.
 
 ## [3.7.0] - 2025-11-11
 
@@ -34,11 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added configurable selection count visibility and clear selection button label template for improved row selection management.
 
-- We added the possiblity to configure the first row of a DataGrid to be auto-selected on first load, facilitating master-detail views.
-
 ### Fixed
-
-- The property panel now shows keep selection property when datagrid is set to single selection.
 
 - We fixed an issue where missing consistency checks for the captions were causing runtime errors instead of in Studio Pro
 
