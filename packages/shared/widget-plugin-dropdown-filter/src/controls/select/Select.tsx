@@ -33,18 +33,18 @@ export const Select = observer(function Select(props: SelectProps): ReactElement
     const showClear = clearable && !isEmpty;
 
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
-
+    const { ref: _ignoredRef, ...buttonProps } = getToggleButtonProps({
+        "aria-label": props.ariaLabel || "filter",
+        onFocus: props.onFocus
+    });
     return (
         <div
+            ref={refs.setReference}
             className={cn(cls.root, "form-control", "variant-select", props.className)}
             data-expanded={isOpen}
             data-empty={isEmpty ? true : undefined}
             style={props.style}
-            {...getToggleButtonProps({
-                "aria-label": props.ariaLabel || "filter",
-                ref: refs.setReference,
-                onFocus: props.onFocus
-            })}
+            {...buttonProps}
         >
             <div className={cls.inputContainer}>
                 <span className={cls.toggle}>{props.value}</span>
