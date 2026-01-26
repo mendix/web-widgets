@@ -1,30 +1,23 @@
-import { InfiniteBodyProps, useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
+import { useInfiniteControl } from "@mendix/widget-plugin-grid/components/InfiniteBody";
 import classNames from "classnames";
-import { ReactElement, ReactNode } from "react";
+import { observer } from "mobx-react-lite";
+import { PropsWithChildren, ReactElement } from "react";
+import { usePaginationConfig, usePaginationVM } from "../model/hooks/injection-hooks";
 
-type PickProps = "hasMoreItems" | "setPage" | "isInfinite";
-
-export type GalleryContentProps = {
-    className?: string;
-    children?: ReactNode;
-} & Pick<InfiniteBodyProps, PickProps>;
-
-export function GalleryContent({
+export const GalleryContent = observer(function GalleryContent({
     children,
-    className,
-    hasMoreItems,
-    isInfinite,
-    setPage
-}: GalleryContentProps): ReactElement {
+}: PropsWithChildren): ReactElement {
+    const paginationVM = usePaginationVM();
+    const isInfinite = usePaginationConfig().isLimitBased;
     const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
-        hasMoreItems,
-        isInfinite,
-        setPage
+        hasMoreItems: paginationVM.hasMoreItems,
+        isInfinite: isInfinite,
+        setPage: paginationVM.setPage.bind(paginationVM)
     });
 
     return (
         <div
-            className={classNames("widget-gallery-content", { "infinite-loading": isInfinite }, className)}
+            className={classNames("widget-gallery-content", { "infinite-loading": isInfinite })}
             ref={containerRef}
             onScroll={isInfinite ? trackScrolling : undefined}
             style={isInfinite && bodySize > 0 ? { maxHeight: bodySize } : undefined}
@@ -33,3 +26,4 @@ export function GalleryContent({
         </div>
     );
 }
+)

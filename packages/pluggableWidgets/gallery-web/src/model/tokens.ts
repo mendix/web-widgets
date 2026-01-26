@@ -13,9 +13,14 @@ import {
     SelectionDynamicProps,
     SelectionHelperService
 } from "@mendix/widget-plugin-grid/main";
-import { DynamicPaginationFeature, PageSizeStore } from "@mendix/widget-plugin-grid/pagination/main";
+import {
+    DynamicPaginationFeature,
+    PageSizeStore,
+    PaginationViewModel
+} from "@mendix/widget-plugin-grid/pagination/main";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { ComputedAtom, DerivedPropsGate, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { SortInstruction } from "@mendix/widget-plugin-sorting/types/store";
 import { token } from "brandi";
 import { ListValue } from "mendix";
@@ -24,6 +29,7 @@ import { ItemEventsController } from "../features/item-interaction/ItemEventsCon
 import { GalleryGateProps } from "../typings/GalleryGateProps";
 import { GalleryRootViewModel } from "../view-models/GalleryRoot.viewModel";
 import { GalleryConfig } from "./configs/Gallery.config";
+import { GalleryPaginationConfig } from "./configs/GalleryPagination.config";
 import { LoaderService } from "./services/Loader.service";
 import { QueryParamsService } from "./services/QueryParams.service";
 import { TextsService } from "./services/Texts.service";
@@ -54,8 +60,11 @@ export const CORE_TOKENS = {
             selectedCountText: string;
         }>(label("@store:selectedCounterTextsStore"))
     },
+
     // pagination
+    initPageSize: token<number>(label("@const:initPageSize")),
     pageSizeStore: token<PageSizeStore>(label("@store:PageSizeStore")),
+
     // texts
     texts: token<TextsService>(label("@service:texts"))
 };
@@ -75,6 +84,7 @@ export const GY_TOKENS = {
     parentChannelName: token<string>(label("@const:parentChannelName")),
 
     // sorting
+    sortAPI: token<SortAPI>(label("@service:sortAPI")),
     sortHost: token<{ sortOrder: SortInstruction[] | undefined }>(label("@service:sortHost")),
     sortHostConfig: token<{ initSort: SortInstruction[] }>(label("@config:sortHostConfig")),
 
@@ -109,9 +119,9 @@ export const GY_TOKENS = {
         dynamicPagination: token<DynamicPaginationFeature>(label("@feature:dynamicPagination")),
         pageControl: token<GridPageControl>(label("@service:pageControl")),
         pageSize: token<ComputedAtom<number>>(label("@computed:pageSize")),
-        paginationConfig: token<any>(label("@config:paginationConfig")),
-        paginationVM: token<any>(label("@viewModel:paginationVM")),
-        setPageAction: token<any>(label("@action:setPageAction")),
-        setPageSizeAction: token<any>(label("@action:setPageSizeAction"))
+        paginationConfig: token<GalleryPaginationConfig>(label("@config:paginationConfig")),
+        paginationVM: token<PaginationViewModel>(label("@viewModel:paginationVM")),
+        setPageAction: token<never>(label("@action:setPageAction")),
+        setPageSizeAction: token<never>(label("@action:setPageSizeAction"))
     }
 };

@@ -10,6 +10,7 @@ import { Container, injected } from "brandi";
 import { GalleryGateProps } from "../../typings/GalleryGateProps";
 import { GalleryRootViewModel } from "../../view-models/GalleryRoot.viewModel";
 import { GalleryConfig } from "../configs/Gallery.config";
+import { galleryPaginationConfig } from "../configs/GalleryPagination.config";
 import { LoaderService } from "../services/Loader.service";
 import { QueryParamsService } from "../services/QueryParams.service";
 import { SelectionGate } from "../services/SelectionGate.service";
@@ -82,13 +83,18 @@ const _03_filterBindings: BindingGroup = {
 const _04_sortBindings: BindingGroup = {
     inject() {
         injected(SortStoreHost, GY.sortHostConfig.optional);
+        
     },
     define(container) {
         container.bind(GY.sortHost).toInstance(SortStoreHost).inSingletonScope();
     },
     init(container, { props }) {
         container.bind(GY.sortHostConfig).toConstant({ initSort: props.datasource.sortOrder });
-    }
+        container.bind(GY.sortAPI).toConstant({
+            version: 1,
+            host: container.get(GY.sortHost) as SortStoreHost
+        })
+    },
 };
 
 const _05_viewBindings: BindingGroup = {
@@ -150,6 +156,23 @@ const _07_selectionBindings: BindingGroup = {
     }
 };
 
+const _08_paginationBindings: BindingGroup = {
+    inject() {
+        // injected(GalleryPaginationConfig, CORE.mainGate);
+    },
+    init(container, { props }) {
+        const config = galleryPaginationConfig(props);
+        container.bind(GY.paging.paginationConfig).toConstant(config);
+        container.bind(CORE.initPageSize).toConstant(config.constPageSize);
+    },
+    postInit(container) {
+        const config = container.get(GY.paging.paginationConfig);
+        const query = container.get(GY.query);
+        query.requestTotalCount(config.requestTotalCount);
+        query.setBaseLimit(config.constPageSize);
+    }
+};
+
 const groups = [
     _01_coreBindings,
     _02_queryBindings,
@@ -157,7 +180,8 @@ const groups = [
     _04_sortBindings,
     _05_viewBindings,
     _06_loaderBindings,
-    _07_selectionBindings
+    _07_selectionBindings,
+    _08_paginationBindings
 ];
 
 // Inject tokens from groups

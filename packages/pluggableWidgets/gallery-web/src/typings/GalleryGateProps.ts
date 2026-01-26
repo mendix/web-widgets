@@ -15,4 +15,9 @@ export type GalleryGateProps = Pick<
     | "selectionCountPosition"
     | "itemSelection"
     | "onSelectionChange"
+    | "pagination"
+    | "pagingPosition"
+    | "showPagingButtons"
+    | "pageSize"
+    | "showTotalCount"
 >;
