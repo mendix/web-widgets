@@ -13,6 +13,7 @@
         "create-gh-release": "turbo run create-gh-release --concurrency 1",
         "create-translation": "turbo run create-translation",
         "postinstall": "turbo run agent-rules",
+        "start:mcp": "pnpm --filter pluggable-widgets-mcp run start",
         "lint": "turbo run lint --continue --concurrency 1",
         "prepare": "husky install",
         "prepare-release": "pnpm --filter @mendix/automation-utils run prepare-release",
