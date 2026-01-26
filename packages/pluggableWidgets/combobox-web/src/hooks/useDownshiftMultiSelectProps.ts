@@ -8,7 +8,7 @@ import {
     useMultipleSelection,
     UseMultipleSelectionReturnValue
 } from "downshift";
-import { useCallback, useMemo } from "react";
+import { RefObject, useCallback, useMemo } from "react";
 import { A11yStatusMessage, MultiSelector } from "../helpers/types";
 
 export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturnValue<string> &
@@ -36,6 +36,7 @@ interface Options {
 export function useDownshiftMultiSelectProps(
     selector: MultiSelector,
     options: Options,
+    inputRef: RefObject<HTMLInputElement | null>,
     a11yStatusMessage: A11yStatusMessage
 ): UseDownshiftMultiSelectPropsReturnValue {
     const {
@@ -57,13 +58,23 @@ export function useDownshiftMultiSelectProps(
             selector.setValue(selectedItems ?? []);
         },
 
-        onStateChange({ selectedItems: newSelectedItems, type }) {
+        onStateChange({ selectedItems: newSelectedItems, type, activeIndex: newActiveIndex }) {
             switch (type) {
                 case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownBackspace:
                 case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownDelete:
+                    if (newActiveIndex === -1) {
+                        inputRef.current?.focus();
+                    }
+                    setSelectedItems(newSelectedItems!);
+                    break;
                 case useMultipleSelection.stateChangeTypes.DropdownKeyDownBackspace:
                 case useMultipleSelection.stateChangeTypes.FunctionRemoveSelectedItem:
                     setSelectedItems(newSelectedItems!);
+                    break;
+                case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownNavigationNext:
+                    if (newActiveIndex === -1) {
+                        inputRef.current?.focus();
+                    }
                     break;
                 default:
                     break;

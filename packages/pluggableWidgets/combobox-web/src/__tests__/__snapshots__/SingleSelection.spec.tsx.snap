@@ -23,7 +23,6 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           class="widget-combobox-input"
           id="comboBox1"
           placeholder=" "
-          readonly=""
           role="combobox"
           tabindex="0"
           value=""

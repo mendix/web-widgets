@@ -94,6 +94,7 @@ export function useDownshiftSingleSelectProps(
                     case useCombobox.stateChangeTypes.FunctionCloseMenu:
                         return {
                             ...changes,
+                            selectedItem: state.selectedItem,
                             isOpen: false,
                             inputValue: ""
                         };

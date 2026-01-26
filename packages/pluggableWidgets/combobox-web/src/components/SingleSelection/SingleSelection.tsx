@@ -26,7 +26,9 @@ export function SingleSelection({
         getMenuProps,
         reset,
         isOpen,
-        highlightedIndex
+        highlightedIndex,
+        inputValue,
+        selectItem
     } = useDownshiftSingleSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
     const lazyLoading = selector.lazyLoading ?? false;
@@ -63,10 +65,15 @@ export function SingleSelection({
     const inputProps = getInputProps(
         {
             disabled: selector.readOnly,
-            readOnly: selector.options.filterType === "none" || !!selector.currentId,
+            readOnly: selector.options.filterType === "none",
             ref: inputRef,
             "aria-required": ariaRequired.value,
-            "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined
+            "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined,
+            onKeyDown: e => {
+                if (e.key === "Backspace" && inputValue === "") {
+                    selectItem(null);
+                }
+            }
         },
         { suppressRefError: true }
     );
