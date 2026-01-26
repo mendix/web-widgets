@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Stabilized the dropdown anchor ref to prevent render loops and incorrect menu positioning.
+
 ## [3.6.0] - 2025-10-01
 
 ### Changed
