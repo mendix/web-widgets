@@ -1,9 +1,11 @@
-import { ActionValue } from "mendix";
-import { action, computed, makeObservable, observable } from "mobx";
+import { ActionValue, Option } from "mendix";
+import { action, computed, makeAutoObservable, observable } from "mobx";
 import { ClassAttributes, createRef, KeyboardEvent, KeyboardEventHandler, MouseEvent, MouseEventHandler } from "react";
 import ReactDatePicker, { DatePickerProps, DatePicker } from "react-datepicker";
 
 type DatePickerBackendProps = DatePickerProps & ClassAttributes<ReactDatePicker>;
+
+type ExternalOnChange = ActionValue<{ startDate: Option<Date>; endDate: Option<Date> }>;
 
 interface PickerState {
     startDate: Date | undefined;
@@ -15,7 +17,7 @@ interface PickerState {
 type Params = {
     defaultStart?: Date;
     defaultEnd?: Date;
-    onChange?: ActionValue<"none">;
+    onChange?: ExternalOnChange;
     type: "date" | "time" | "datetime" | "range";
 };
 
@@ -24,7 +26,7 @@ export class DatePickerController {
     private _timer = -1;
     private _defaultState: Array<Date | undefined>;
     private _type: "date" | "time" | "datetime" | "range";
-    private _onChange?: ActionValue<"none">;
+    private _onChange?: ExternalOnChange;
     expanded = false;
     pickerRef = createRef<DatePicker>();
 
@@ -34,7 +36,7 @@ export class DatePickerController {
         this._type = params.type;
         this._onChange = params.onChange;
 
-        makeObservable(this, {
+        makeAutoObservable(this, {
             pickerState: computed,
             expanded: observable,
             handlePickerChange: action,
@@ -59,17 +61,26 @@ export class DatePickerController {
     }
 
     handlePickerChange: DatePickerBackendProps["onChange"] = (value: Date | [Date | null, Date | null] | null) => {
+        console.info("Picker value changed", { value });
         if (this._selectsRange) {
             const [start, end] = value as [Date | null, Date | null];
             this._dates[0] = start ?? undefined;
             this._dates[1] = end ?? undefined;
 
-            this._onChange?.canExecute && !this._onChange.isExecuting && this._onChange.execute();
+            if (start !== null) {
+                console.info("Executing onChange for range selection", { start, end });
+                this._onChange?.canExecute &&
+                    !this._onChange.isExecuting &&
+                    this._onChange.execute({ startDate: start, endDate: end ?? undefined });
+            }
             return;
         } else {
             this._dates[0] = value as Date;
 
-            this._onChange?.canExecute && !this._onChange.isExecuting && this._onChange.execute();
+            console.info("Executing onChange for single date selection", { value, onChange: this._onChange });
+            this._onChange?.canExecute &&
+                !this._onChange.isExecuting &&
+                this._onChange.execute({ startDate: value as Date, endDate: undefined });
             return;
         }
     };

@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, Option } from "mendix";
 
 export type TypeEnum = "date" | "time" | "range" | "datetime";
 
@@ -24,7 +24,7 @@ export interface DateTimePickerContainerProps {
     customValidation?: DynamicValue<boolean>;
     validationMessage?: DynamicValue<string>;
     ariaRequired: boolean;
-    onChange?: ActionValue;
+    onChange?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date> }>;
     onEnter?: ActionValue;
     onLeave?: ActionValue;
 }

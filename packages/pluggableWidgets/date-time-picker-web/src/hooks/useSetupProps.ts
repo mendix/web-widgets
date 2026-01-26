@@ -16,7 +16,6 @@ export function useSetupProps(
         dateTimeFormat,
         placeholder,
         dateAttribute,
-        endDateAttribute,
         ariaRequired,
         onEnter,
         onLeave
@@ -33,8 +32,8 @@ export function useSetupProps(
         dateFormat,
         timeFormat,
         dateTimeFormat,
-        dateAttribute.value ?? new Date(),
-        endDateAttribute?.value ?? null,
+        controller.pickerState.startDate ?? new Date(),
+        controller.pickerState.endDate ?? null,
         locale
     );
 
@@ -60,6 +59,8 @@ export function useSetupProps(
     };
 
     const disabled = dateAttribute.readOnly || false;
+
+    console.info("DatetimePicker formatter props", formatProps);
 
     return {
         // Static props
@@ -106,7 +107,7 @@ function formatPropsBuilder(
     dateFormat: string,
     timeFormat: string,
     dateTimeFormat: string,
-    date: Date,
+    startDate: Date,
     endDate: Date | null,
     locale: MXSessionLocale
 ): Omit<DatePickerProps, "onChange"> {
@@ -116,7 +117,7 @@ function formatPropsBuilder(
                 dateFormat: dateFormat || pickerDateFormat(locale),
                 showTimeSelect: false,
                 showTimeSelectOnly: false,
-                selected: date
+                selected: startDate
             };
         case "time":
             return {
@@ -125,7 +126,7 @@ function formatPropsBuilder(
                 showTimeSelectOnly: true,
                 timeIntervals: 15,
                 timeCaption: "Time",
-                selected: date
+                selected: startDate
             };
         case "datetime":
             return {
@@ -134,15 +135,15 @@ function formatPropsBuilder(
                 timeIntervals: 15,
                 timeCaption: "Time",
                 timeFormat: timeFormat || "h:mm aa",
-                selected: date
+                selected: startDate
             };
         case "range":
             return {
                 dateFormat: dateFormat || pickerDateFormat(locale),
-                selected: date,
+                selected: startDate,
                 isClearable: true,
                 selectsRange: true,
-                startDate: date,
+                startDate: startDate,
                 endDate: endDate
             };
     }

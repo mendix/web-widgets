@@ -94,6 +94,10 @@
             <property key="onChange" type="action" required="false">
                 <caption>On change</caption>
                 <description />
+                <actionVariables>
+                    <actionVariable key="startDate" type="DateTime" caption="Start date" />
+                    <actionVariable key="endDate" type="DateTime" caption="End date" />
+                </actionVariables>
             </property>
             <property key="onEnter" type="action" required="false">
                 <caption>On enter</caption>

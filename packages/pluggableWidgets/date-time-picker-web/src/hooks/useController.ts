@@ -1,11 +1,11 @@
-import { ActionValue } from "mendix";
+import { ActionValue, Option } from "mendix";
 import { useEffect, useState } from "react";
 import { TypeEnum } from "typings/DateTimePickerProps";
 import { DatePickerController } from "../helpers/DatePickerController";
 
 type UseControllerProps = {
     endDate?: Date;
-    onChange?: ActionValue<"none">;
+    onChange?: ActionValue<{ startDate: Option<Date>; endDate: Option<Date> }>;
     startDate?: Date;
     type: TypeEnum;
 };

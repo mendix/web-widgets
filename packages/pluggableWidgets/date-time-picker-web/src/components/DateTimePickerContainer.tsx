@@ -1,9 +1,10 @@
+import { observer } from "mobx-react-lite";
 import ReactDatePicker from "react-datepicker";
 import { DateTimePickerContainerProps } from "typings/DateTimePickerProps";
 import { useController } from "../hooks/useController";
 import { useSetupProps } from "../hooks/useSetupProps";
 
-export function DateTimePickerContainer(props: DateTimePickerContainerProps) {
+export const DateTimePickerContainer = observer(function DateTimePickerContainer(props: DateTimePickerContainerProps) {
     const controller = useController({
         endDate: props.endDateAttribute?.status === "available" ? (props.endDateAttribute.value as Date) : undefined,
         startDate: props.dateAttribute.status === "available" ? (props.dateAttribute.value as Date) : undefined,
@@ -44,4 +45,4 @@ export function DateTimePickerContainer(props: DateTimePickerContainerProps) {
             {hasValidationMessage && <div role="alert">{props.validationMessage?.value}</div>}
         </div>
     );
-}
+});
