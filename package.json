@@ -38,6 +38,9 @@
             ]
         },
         "overrides": {
+            "@babel/core": "^7.26.10",
+            "@babel/helpers": "^7.26.10",
+            "@babel/runtime": "^7.26.10",
             "@mendix/pluggable-widgets-tools": "10.16.0",
             "react": "^18.0.0",
             "react-dom": "^18.0.0",
