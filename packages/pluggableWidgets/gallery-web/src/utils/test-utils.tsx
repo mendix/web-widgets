@@ -3,18 +3,16 @@ import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navig
 import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import { getColumnAndRowBasedOnIndex, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
-import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { list, listAction, objectItems } from "@mendix/widget-plugin-test-utils";
 import { render, RenderResult } from "@testing-library/react";
 import userEvent, { UserEvent } from "@testing-library/user-event";
 import { ObjectItem } from "mendix";
-import { createElement, ReactElement } from "react";
+import { ReactElement } from "react";
 import { GalleryContainerProps } from "../../typings/GalleryProps";
 import { GalleryProps } from "../components/Gallery";
 import { ItemEventsController } from "../features/item-interaction/ItemEventsController";
 import { ItemHelper } from "../helpers/ItemHelper";
-import { GalleryContext, GalleryRootScope } from "../helpers/root-context";
-import { GalleryStore } from "../stores/GalleryStore";
+// import { GalleryStore } from "../stores/GalleryStore";
 import { ItemHelperBuilder } from "./builders/ItemHelperBuilder";
 
 export function setup(jsx: ReactElement): { user: UserEvent } & RenderResult {
@@ -36,65 +34,65 @@ export function mockItemHelperWithAction(execute: () => void): ItemHelper {
     );
 }
 
-export function createMockGalleryContext(): GalleryRootScope {
-    // Create minimal GalleryContainerProps for the store
-    const mockContainerProps: GalleryContainerProps = {
-        name: "gallery-test",
-        class: "gallery-test-class",
-        datasource: list(3),
-        itemSelectionMode: "clear",
-        desktopItems: 4,
-        tabletItems: 3,
-        phoneItems: 2,
-        pageSize: 10,
-        pagination: "buttons",
-        showTotalCount: false,
-        showPagingButtons: "always",
-        pagingPosition: "bottom",
-        showEmptyPlaceholder: "none",
-        onClickTrigger: "single",
-        stateStorageType: "localStorage",
-        storeFilters: false,
-        storeSort: false,
-        refreshIndicator: false,
-        keepSelection: false,
-        selectionCountPosition: "bottom",
-        refreshInterval: 0
-    };
+// export function createMockGalleryContext(): GalleryRootScope {
+//     // Create minimal GalleryContainerProps for the store
+//     const mockContainerProps: GalleryContainerProps = {
+//         name: "gallery-test",
+//         class: "gallery-test-class",
+//         datasource: list(3),
+//         itemSelectionMode: "clear",
+//         desktopItems: 4,
+//         tabletItems: 3,
+//         phoneItems: 2,
+//         pageSize: 10,
+//         pagination: "buttons",
+//         showTotalCount: false,
+//         showPagingButtons: "always",
+//         pagingPosition: "bottom",
+//         showEmptyPlaceholder: "none",
+//         onClickTrigger: "single",
+//         stateStorageType: "localStorage",
+//         storeFilters: false,
+//         storeSort: false,
+//         refreshIndicator: false,
+//         keepSelection: false,
+//         selectionCountPosition: "bottom",
+//         refreshInterval: 0
+//     };
 
-    // Create a proper gate provider and gate
-    const gateProvider = new GateProvider(mockContainerProps);
-    const gate = gateProvider.gate;
+//     // Create a proper gate provider and gate
+//     const gateProvider = new GateProvider(mockContainerProps);
+//     const gate = gateProvider.gate;
 
-    // Create real GalleryStore instance
-    const mockStore = new GalleryStore({
-        gate,
-        name: "gallery-test",
-        pagination: "buttons",
-        showPagingButtons: "always",
-        showTotalCount: false,
-        pageSize: 10,
-        stateStorageType: "localStorage",
-        storeFilters: false,
-        storeSort: false,
-        refreshIndicator: false,
-        refreshInterval: 0
-    });
+//     // Create real GalleryStore instance
+//     const mockStore = new GalleryStore({
+//         gate,
+//         name: "gallery-test",
+//         pagination: "buttons",
+//         showPagingButtons: "always",
+//         showTotalCount: false,
+//         pageSize: 10,
+//         stateStorageType: "localStorage",
+//         storeFilters: false,
+//         storeSort: false,
+//         refreshIndicator: false,
+//         refreshInterval: 0
+//     });
 
-    const mockSelectHelper = new SelectActionHandler("None", undefined);
+//     const mockSelectHelper = new SelectActionHandler("None", undefined);
 
-    return {
-        rootStore: mockStore,
-        selectionHelper: undefined,
-        itemSelectHelper: mockSelectHelper,
-        selectionCountStore: mockStore.selectionCountStore
-    };
-}
+//     return {
+//         rootStore: mockStore,
+//         selectionHelper: undefined,
+//         itemSelectHelper: mockSelectHelper,
+//         selectionCountStore: mockStore.selectionCountStore
+//     };
+// }
 
-export function withGalleryContext(component: ReactElement, context?: GalleryRootScope): ReactElement {
-    const contextValue = context || createMockGalleryContext();
-    return createElement(GalleryContext.Provider, { value: contextValue }, component);
-}
+// export function withGalleryContext(component: ReactElement, context?: GalleryRootScope): ReactElement {
+//     const contextValue = context || createMockGalleryContext();
+//     return createElement(GalleryContext.Provider, { value: contextValue }, component);
+// }
 
 type Helpers = {
     selectHelper?: SelectActionHandler;
@@ -157,5 +155,31 @@ export function mockProps(params: Helpers & Mocks = {}): GalleryProps<ObjectItem
         focusController,
         getPosition: (index: number) => getColumnAndRowBasedOnIndex(3, 3, index),
         showRefreshIndicator: false
+    };
+}
+
+export function mockContainerProps(): GalleryContainerProps {
+    return {
+        class: "gallery-test-class",
+        name: "gallery_1",
+        datasource: list(20),
+        refreshInterval: 0,
+        refreshIndicator: false,
+        itemSelectionMode: "clear",
+        keepSelection: false,
+        selectionCountPosition: "bottom",
+        desktopItems: 4,
+        tabletItems: 3,
+        phoneItems: 2,
+        pageSize: 10,
+        pagination: "buttons",
+        showTotalCount: false,
+        showPagingButtons: "auto",
+        pagingPosition: "bottom",
+        showEmptyPlaceholder: "none",
+        onClickTrigger: "single",
+        stateStorageType: "attribute",
+        storeFilters: false,
+        storeSort: false
     };
 }

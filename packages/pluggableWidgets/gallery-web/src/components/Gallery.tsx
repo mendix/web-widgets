@@ -7,15 +7,12 @@ import { ObjectItem } from "mendix";
 import { CSSProperties, ReactElement, ReactNode } from "react";
 import { GalleryItemHelper } from "../typings/GalleryItem";
 import { GalleryContent } from "./GalleryContent";
-import { GalleryFooter } from "./GalleryFooter";
-import { GalleryHeader } from "./GalleryHeader";
 import { GalleryRoot } from "./GalleryRoot";
 import { GalleryTopBar } from "./GalleryTopBar";
 import { ListBox } from "./ListBox";
 import { ListItem } from "./ListItem";
 
 import { PaginationEnum, SelectionCountPositionEnum, ShowPagingButtonsEnum } from "typings/GalleryProps";
-import { LoadMore, LoadMoreButton as LoadMorePreview } from "../components/LoadMore";
 import { ItemEventsController } from "../typings/ItemEventsController";
 import { SelectionCounter } from "./SelectionCounter";
 
@@ -58,7 +55,6 @@ export interface GalleryProps<T extends ObjectItem> {
 }
 
 export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
-    const { loadMoreButtonCaption = "Load more" } = props;
     const pagination = props.paging ? (
         <Pagination
             canNextPage={props.hasMoreItems}
@@ -91,19 +87,14 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
     const showFooter = showBottomSelectionCounter || showBottomPagination || showLoadMore;
 
     return (
-        <GalleryRoot
-            className={props.className}
-            style={props.style}
-            selectable={false}
-            data-focusindex={props.tabIndex || 0}
-        >
+        <GalleryRoot>
             <GalleryTopBar>
                 <div className="widget-gallery-top-bar-controls">
                     {showTopSelectionCounter && selectionCounter}
                     {showTopPagination && <div className="widget-gallery-tb-end">{pagination}</div>}
                 </div>
             </GalleryTopBar>
-            {props.showHeader && <GalleryHeader aria-label={props.headerTitle}>{props.header}</GalleryHeader>}
+            {props.showHeader}
             {props.showRefreshIndicator ? <RefreshIndicator className="mx-refresh-container-padding" /> : null}
             <GalleryContent
                 hasMoreItems={props.hasMoreItems}
@@ -143,25 +134,7 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
                         <div className="empty-placeholder">{children}</div>
                     </section>
                 ))}
-            {showFooter && (
-                <GalleryFooter>
-                    <div className="widget-gallery-footer-controls">
-                        {showBottomSelectionCounter && (
-                            <div className="widget-gallery-fc-start">{selectionCounter}</div>
-                        )}
-
-                        <div className="widget-gallery-fc-end">
-                            {showBottomPagination && pagination}
-                            {showLoadMore &&
-                                (props.preview ? (
-                                    <LoadMorePreview>{loadMoreButtonCaption}</LoadMorePreview>
-                                ) : (
-                                    <LoadMore>{loadMoreButtonCaption}</LoadMore>
-                                ))}
-                        </div>
-                    </div>
-                </GalleryFooter>
-            )}
+            {showFooter}
         </GalleryRoot>
     );
 }

@@ -1,11 +1,10 @@
-import { DatasourceService } from "@mendix/widget-plugin-grid/main";
+import { QueryService } from "@mendix/widget-plugin-grid/main";
 import { computed, makeObservable } from "mobx";
 
-export class DerivedLoaderController {
+export class LoaderService {
     constructor(
-        private datasourceService: DatasourceService,
-        private refreshIndicator: boolean,
-        private showSilentRefresh: boolean
+        private query: QueryService,
+        private config: { refreshIndicator: boolean; showSilentRefresh: boolean }
     ) {
         makeObservable(this, {
             isFirstLoad: computed,
@@ -15,17 +14,17 @@ export class DerivedLoaderController {
     }
 
     get isFirstLoad(): boolean {
-        return this.datasourceService.isFirstLoad;
+        return this.query.isFirstLoad;
     }
 
     get isFetchingNextBatch(): boolean {
-        return this.datasourceService.isFetchingNextBatch;
+        return this.query.isFetchingNextBatch;
     }
 
     get isRefreshing(): boolean {
-        const { isSilentRefresh, isRefreshing } = this.datasourceService;
+        const { isSilentRefresh, isRefreshing } = this.query;
 
-        if (this.showSilentRefresh) {
+        if (this.config.showSilentRefresh) {
             return isSilentRefresh || isRefreshing;
         }
 
@@ -33,7 +32,7 @@ export class DerivedLoaderController {
     }
 
     get showRefreshIndicator(): boolean {
-        if (!this.refreshIndicator) {
+        if (!this.config.refreshIndicator) {
             return false;
         }
 

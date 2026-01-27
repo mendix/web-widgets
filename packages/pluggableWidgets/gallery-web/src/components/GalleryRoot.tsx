@@ -1,25 +1,15 @@
 import classNames from "classnames";
-import { JSX, ReactElement } from "react";
+import { observer } from "mobx-react-lite";
+import { PropsWithChildren, ReactElement } from "react";
+import { useGalleryRootVM } from "../model/hooks/injection-hooks";
 
-export type GalleryRootProps = Omit<JSX.IntrinsicElements["div"], "ref"> & {
-    selectable?: boolean;
-};
-
-export function GalleryRoot(props: GalleryRootProps): ReactElement {
-    const { className, selectable, children, ...rest } = props;
+export const GalleryRoot = observer(function GalleryRoot(props: PropsWithChildren): ReactElement {
+    const { children } = props;
+    const vm = useGalleryRootVM();
 
     return (
-        <div
-            className={classNames(
-                "widget-gallery",
-                {
-                    "widget-gallery-selectable": selectable
-                },
-                className
-            )}
-            {...rest}
-        >
+        <div className={classNames("widget-gallery", vm.className)} style={vm.style} data-focusindex={vm.tabIndex}>
             {children}
         </div>
     );
-}
+});
