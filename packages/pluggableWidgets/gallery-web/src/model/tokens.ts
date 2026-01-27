@@ -23,13 +23,15 @@ import { ComputedAtom, DerivedPropsGate, SetupComponentHost } from "@mendix/widg
 import { SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import { SortInstruction } from "@mendix/widget-plugin-sorting/types/store";
 import { token } from "brandi";
-import { ListValue } from "mendix";
+import { ListValue, ObjectItem } from "mendix";
 import { ReactNode } from "react";
 import { ItemEventsController } from "../features/item-interaction/ItemEventsController";
 import { GalleryGateProps } from "../typings/GalleryGateProps";
+import { GalleryItemViewModel } from "../view-models/GalleryItem.viewModel";
 import { GalleryRootViewModel } from "../view-models/GalleryRoot.viewModel";
 import { GalleryConfig } from "./configs/Gallery.config";
 import { GalleryPaginationConfig } from "./configs/GalleryPagination.config";
+import { LayoutService } from "./services/Layout.service";
 import { LoaderService } from "./services/Loader.service";
 import { QueryParamsService } from "./services/QueryParams.service";
 import { TextsService } from "./services/Texts.service";
@@ -50,6 +52,7 @@ export const CORE_TOKENS = {
     mainGate: token<DerivedPropsGate<GalleryGateProps>>(label("@gate:mainGate")),
     setupService: token<SetupComponentHost>(label("@service:setupService")),
     config: token<GalleryConfig>(label("@config:galleryConfig")),
+    items: token<ComputedAtom<ObjectItem[]>>(label("@computed:items")),
 
     selection: {
         selectedCount: token<ComputedAtom<number>>(label("@computed:selectedCount")),
@@ -88,8 +91,9 @@ export const GY_TOKENS = {
     sortHost: token<{ sortOrder: SortInstruction[] | undefined }>(label("@service:sortHost")),
     sortHostConfig: token<{ initSort: SortInstruction[] }>(label("@config:sortHostConfig")),
 
-    // gallery root
+    // view models
     galleryRootVM: token<GalleryRootViewModel>(label("@viewModel:galleryRootVM")),
+    galleryItemVM: token<GalleryItemViewModel>(label("@viewModel:galleryItemVM")),
 
     // loader
     loaderConfig: token<{ refreshIndicator: boolean; showSilentRefresh: boolean }>(label("@config:loaderConfig")),
@@ -103,9 +107,10 @@ export const GY_TOKENS = {
     selectActions: token<SelectActionsService>(label("@service:selectActions")),
     selectionType: token<"Single" | "Multi" | "None">(label("@const:selectionType")),
 
-    // keyboard navigation
+    // keyboard navigation & layout
     virtualLayout: token<ComputedAtom<VirtualGridLayout>>(label("@computed:virtualLayout")),
-    focusService: token<FocusTargetController>(label("@service:focusService")),
+    keyNavFocusService: token<FocusTargetController>(label("@service:keyNavFocusService")),
+    layoutService: token<LayoutService>(label("@service:layoutService")),
 
     // item interaction
     clickActionHelper: token<ClickActionHelper>(label("@service:clickActionHelper")),

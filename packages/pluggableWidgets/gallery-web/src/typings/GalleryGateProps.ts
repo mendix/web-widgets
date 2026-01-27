@@ -20,4 +20,12 @@ export type GalleryGateProps = Pick<
     | "showPagingButtons"
     | "pageSize"
     | "showTotalCount"
+    | "desktopItems"
+    | "tabletItems"
+    | "phoneItems"
+    | "ariaLabelListBox"
+    | "itemClass"
+    | "onClick"
+    | "content"
+    | "ariaLabelItem"
 >;

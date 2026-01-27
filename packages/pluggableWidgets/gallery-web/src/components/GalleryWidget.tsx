@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { GalleryContent as Content } from "./GalleryContent";
 import { GalleryFooter as Footer } from "./GalleryFooter";
 import { GalleryFooterControls as FooterControls } from "./GalleryFooterControls";
 import { GalleryHeader as Header } from "./GalleryHeader";
@@ -13,6 +14,7 @@ export function GalleryWidget(): ReactElement {
                 <TopBarControls />
             </TopBar>
             <Header />
+            <Content></Content>
             <Footer>
                 <FooterControls />
             </Footer>

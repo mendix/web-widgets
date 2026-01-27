@@ -15,6 +15,10 @@ export interface GalleryConfig {
     autoSelect: boolean;
     // settings
     settingsStorageEnabled: boolean;
+    // grid settings
+    desktopItems: number;
+    tabletItems: number;
+    phoneItems: number;
 }
 
 export function galleryConfig(props: GalleryContainerProps): GalleryConfig {
@@ -29,7 +33,10 @@ export function galleryConfig(props: GalleryContainerProps): GalleryConfig {
         selectionMode: props.itemSelectionMode,
         keepSelection: props.keepSelection,
         autoSelect: false,
-        settingsStorageEnabled: false
+        settingsStorageEnabled: false,
+        desktopItems: props.desktopItems,
+        tabletItems: props.tabletItems,
+        phoneItems: props.phoneItems
     };
 }
 

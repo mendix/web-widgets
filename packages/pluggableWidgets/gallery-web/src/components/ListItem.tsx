@@ -1,28 +1,31 @@
+import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
+import { PositionInGrid } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
 import { JSX, ReactElement, RefObject, useMemo } from "react";
-import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
-import { PositionInGrid, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
 
-import { GalleryItemHelper } from "../typings/GalleryItem";
+import { useGalleryItemVM, useSelectActions } from "../model/hooks/injection-hooks";
+
 import { ItemEventsController } from "../typings/ItemEventsController";
+import { ListItemButton } from "./ListItemButton";
 
 type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
     eventsController: ItemEventsController;
     getPosition: (index: number) => PositionInGrid;
-    helper: GalleryItemHelper;
     item: ObjectItem;
     itemIndex: number;
-    selectHelper: SelectActionHandler;
+
     preview?: boolean;
-    label?: string;
 };
 
 export function ListItem(props: ListItemProps): ReactElement {
-    const { eventsController, getPosition, helper, item, itemIndex, selectHelper, label, ...rest } = props;
-    const clickable = helper.hasOnClick(item) || selectHelper.selectionType !== "None";
-    const ariaProps = getAriaProps(item, selectHelper, label);
+    const { eventsController, getPosition, item, itemIndex, ...rest } = props;
+    const selectActions = useSelectActions();
+    const itemVM = useGalleryItemVM();
+
+    const clickable = itemVM.hasOnClick(item) || selectActions.selectionType !== "None";
+    const ariaProps = getAriaProps(item, selectActions, itemVM.label(item));
     const { columnIndex, rowIndex } = getPosition(itemIndex);
     const keyNavProps = useFocusTargetProps({ columnIndex: columnIndex ?? -1, rowIndex });
     const handlers = useMemo(() => eventsController.getProps(item), [eventsController, item]);
@@ -37,7 +40,7 @@ export function ListItem(props: ListItemProps): ReactElement {
                     "widget-gallery-selected": ariaProps["aria-selected"],
                     "widget-gallery-preview": props.preview
                 },
-                helper.itemClass(item)
+                itemVM.class(item)
             )}
             {...ariaProps}
             onClick={handlers.onClick}
@@ -49,7 +52,11 @@ export function ListItem(props: ListItemProps): ReactElement {
             ref={keyNavProps.ref as RefObject<HTMLDivElement>}
             tabIndex={keyNavProps.tabIndex}
         >
-            {helper.render(item)}
+            {itemVM.hasOnClick(item) === true ? (
+                <ListItemButton>{itemVM.content(item)}</ListItemButton>
+            ) : (
+                itemVM.content(item)
+            )}
         </div>
     );
 }

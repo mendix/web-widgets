@@ -1,20 +1,42 @@
 import { WidgetFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
-import { createSelectionHelper, DatasourceService, SelectActionsProvider } from "@mendix/widget-plugin-grid/main";
+import {
+    createFocusController,
+    createSelectionHelper,
+    DatasourceService,
+    SelectActionsProvider
+} from "@mendix/widget-plugin-grid/main";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
 import { Container, injected } from "brandi";
 import { GalleryGateProps } from "../../typings/GalleryGateProps";
+import { GalleryItemViewModel } from "../../view-models/GalleryItem.viewModel";
 import { GalleryRootViewModel } from "../../view-models/GalleryRoot.viewModel";
 import { GalleryConfig } from "../configs/Gallery.config";
 import { galleryPaginationConfig } from "../configs/GalleryPagination.config";
+import { itemsAtom } from "../models/items.model";
+import { layoutAtom } from "../models/layout.model";
+import { LayoutService } from "../services/Layout.service";
 import { LoaderService } from "../services/Loader.service";
 import { QueryParamsService } from "../services/QueryParams.service";
 import { SelectionGate } from "../services/SelectionGate.service";
 import { CORE_TOKENS as CORE, GY_TOKENS as GY } from "../tokens";
+// import {
+//     createClickActionHelper,
+//     createFocusController,
+//     createSelectionHelper,
+//     createSetPageAction,
+//     createSetPageSizeAction,
+//     currentPageAtom,
+//     DatasourceService,
+//     layoutAtom,
+//     pageSizeAtom,
+//     SelectActionsProvider,
+//     TaskProgressService
+// } from "@mendix/widget-plugin-grid/main";
 interface InitDependencies {
     props: GalleryGateProps;
     mainGate: DerivedPropsGate<GalleryGateProps>;
@@ -34,9 +56,13 @@ interface BindingGroup {
 }
 
 const _01_coreBindings: BindingGroup = {
+    inject() {
+        injected(itemsAtom, CORE.mainGate);
+    },
     init(container, { mainGate, config }) {
         container.bind(CORE.mainGate).toConstant(mainGate);
         container.bind(CORE.config).toConstant(config);
+        container.bind(CORE.items).toInstance(itemsAtom).inTransientScope();
     }
 };
 
@@ -83,7 +109,6 @@ const _03_filterBindings: BindingGroup = {
 const _04_sortBindings: BindingGroup = {
     inject() {
         injected(SortStoreHost, GY.sortHostConfig.optional);
-        
     },
     define(container) {
         container.bind(GY.sortHost).toInstance(SortStoreHost).inSingletonScope();
@@ -93,16 +118,18 @@ const _04_sortBindings: BindingGroup = {
         container.bind(GY.sortAPI).toConstant({
             version: 1,
             host: container.get(GY.sortHost) as SortStoreHost
-        })
-    },
+        });
+    }
 };
 
 const _05_viewBindings: BindingGroup = {
     inject() {
         injected(GalleryRootViewModel, CORE.mainGate);
+        injected(GalleryItemViewModel, CORE.mainGate);
     },
     define(container) {
-        container.bind(GY.galleryRootVM).toInstance(GalleryRootViewModel).inSingletonScope();
+        container.bind(GY.galleryRootVM).toInstance(GalleryRootViewModel).inTransientScope();
+        container.bind(GY.galleryItemVM).toInstance(GalleryItemViewModel).inTransientScope();
     }
 };
 
@@ -173,6 +200,21 @@ const _08_paginationBindings: BindingGroup = {
     }
 };
 
+const _09_keyNavBindings: BindingGroup = {
+    inject() {
+        injected(createFocusController, CORE.setupService, GY.virtualLayout);
+        injected(LayoutService, CORE.setupService, CORE.config, CORE.data.itemCount);
+        injected(layoutAtom, GY.layoutService, GY.paging.pageSize);
+    },
+    define(container: Container) {
+        container.bind(GY.virtualLayout).toInstance(layoutAtom).inTransientScope();
+        container.bind(GY.keyNavFocusService).toInstance(createFocusController).inSingletonScope();
+    },
+    init(container, { mainGate }) {
+        container.bind(CORE.mainGate).toConstant(mainGate);
+    }
+};
+
 const groups = [
     _01_coreBindings,
     _02_queryBindings,
@@ -181,7 +223,8 @@ const groups = [
     _05_viewBindings,
     _06_loaderBindings,
     _07_selectionBindings,
-    _08_paginationBindings
+    _08_paginationBindings,
+    _09_keyNavBindings
 ];
 
 // Inject tokens from groups

@@ -4,14 +4,12 @@ import { observer } from "mobx-react-lite";
 import { PropsWithChildren, ReactElement } from "react";
 import { usePaginationConfig, usePaginationVM } from "../model/hooks/injection-hooks";
 
-export const GalleryContent = observer(function GalleryContent({
-    children,
-}: PropsWithChildren): ReactElement {
+export const GalleryContent = observer(function GalleryContent({ children }: PropsWithChildren): ReactElement {
     const paginationVM = usePaginationVM();
     const isInfinite = usePaginationConfig().isLimitBased;
     const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
         hasMoreItems: paginationVM.hasMoreItems,
-        isInfinite: isInfinite,
+        isInfinite,
         setPage: paginationVM.setPage.bind(paginationVM)
     });
 
@@ -25,5 +23,4 @@ export const GalleryContent = observer(function GalleryContent({
             {children}
         </div>
     );
-}
-)
+});
