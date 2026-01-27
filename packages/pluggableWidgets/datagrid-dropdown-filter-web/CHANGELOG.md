@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- Stabilized the dropdown anchor ref to prevent render loops and incorrect menu positioning.
+- We fixed an issue where certain selecting conditions, like rapidly selecting/deselecting would cause the widget to crash.
 
 ## [3.6.0] - 2025-10-01
 
