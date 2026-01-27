@@ -1,12 +1,13 @@
 import cn from "classnames";
 import { useSelect, UseSelectProps } from "downshift";
 import { observer } from "mobx-react-lite";
-import { CSSProperties, FocusEventHandler, ReactElement, UIEventHandler } from "react";
+import { CSSProperties, FocusEventHandler, ReactElement, Ref, UIEventHandler } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
 import { Arrow, classes } from "../picker-primitives";
+import { useMergedRefs } from "../../utils/useMergedRefs";
 
 interface SelectProps {
     value: string;
@@ -33,13 +34,14 @@ export const Select = observer(function Select(props: SelectProps): ReactElement
     const showClear = clearable && !isEmpty;
 
     const { refs, floatingStyles } = useFloatingMenu(isOpen);
-    const { ref: _ignoredRef, ...buttonProps } = getToggleButtonProps({
+    const { ref: downshiftRef, ...buttonProps } = getToggleButtonProps({
         "aria-label": props.ariaLabel || "filter",
         onFocus: props.onFocus
-    });
+    }) as ReturnType<typeof getToggleButtonProps> & { ref?: Ref<HTMLDivElement> };
+    const setReference = useMergedRefs<HTMLDivElement>(refs.setReference, downshiftRef);
     return (
         <div
-            ref={refs.setReference}
+            ref={setReference}
             className={cn(cls.root, "form-control", "variant-select", props.className)}
             data-expanded={isOpen}
             data-empty={isEmpty ? true : undefined}
