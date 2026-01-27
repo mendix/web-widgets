@@ -70,7 +70,7 @@ export function SingleSelection({
             "aria-required": ariaRequired.value,
             "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined,
             onKeyDown: e => {
-                if (e.key === "Backspace" && inputValue === "") {
+                if (selector.clearable && e.key === "Backspace" && inputValue === "") {
                     selectItem(null);
                 }
             }
@@ -96,9 +96,7 @@ export function SingleSelection({
                     <input
                         className={classNames("widget-combobox-input", {
                             "widget-combobox-input-nofilter":
-                                selector.options.filterType === "none" ||
-                                selector.readOnly ||
-                                (!selector.clearable && !!selector.currentId)
+                                selector.options.filterType === "none" || selector.readOnly
                         })}
                         tabIndex={tabIndex}
                         {...inputProps}
