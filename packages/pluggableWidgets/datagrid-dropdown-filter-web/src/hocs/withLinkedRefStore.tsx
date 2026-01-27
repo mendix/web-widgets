@@ -7,7 +7,7 @@ import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { AssociationMetaData, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
-import { ReactElement, useEffect, useMemo } from "react";
+import { ReactElement, useEffect } from "react";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 import { RefFilterProps } from "../components/typings";
 
@@ -88,35 +88,10 @@ function mapProps(props: WidgetProps): RequiredProps {
 }
 
 function useGate(props: WidgetProps): DerivedPropsGate<RequiredProps> {
-    const {
-        name,
-        refEntity,
-        refOptions,
-        refCaption,
-        refCaptionExp,
-        refCaptionSource,
-        refSearchAttr,
-        fetchOptionsLazy
-    } = props;
-
-    const mappedProps = useMemo(
-        () =>
-            mapProps({
-                name,
-                refEntity,
-                refOptions,
-                refCaption,
-                refCaptionExp,
-                refCaptionSource,
-                refSearchAttr,
-                fetchOptionsLazy
-            }),
-        [name, refEntity, refOptions, refCaption, refCaptionExp, refCaptionSource, refSearchAttr, fetchOptionsLazy]
-    );
-    const gp = useConst(() => new GateProvider(mappedProps));
+    const gp = useConst(() => new GateProvider(mapProps(props)));
     useEffect(() => {
-        gp.setProps(mappedProps);
-    }, [gp, mappedProps]);
+        gp.setProps(mapProps(props));
+    });
 
     return gp.gate;
 }
