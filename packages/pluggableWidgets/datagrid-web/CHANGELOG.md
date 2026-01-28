@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.27.9] - 2026-01-28
+
 ### Changed
 
 - We updated internal dependencies.
@@ -14,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### [2.27.5] Datagrid
 
-### Changed
+## # Changed
 
 - We have removed support for reference set associations to allow data grid to work on SP 9.24 and include all the changes from 2.27.4 up to 2.30.6.
 
