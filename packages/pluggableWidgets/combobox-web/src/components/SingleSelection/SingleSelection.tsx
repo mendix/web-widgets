@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Fragment, ReactElement, useMemo, useRef } from "react";
+import { Fragment, KeyboardEventHandler, ReactElement, useMemo, useRef } from "react";
 import { ClearButton } from "../../assets/icons";
 import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
 import { getInputLabel, getValidationErrorId } from "../../helpers/utils";
@@ -27,7 +27,6 @@ export function SingleSelection({
         reset,
         isOpen,
         highlightedIndex,
-        inputValue,
         selectItem
     } = useDownshiftSingleSelectProps(selector, options, a11yConfig.a11yStatusMessage);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -61,6 +60,17 @@ export function SingleSelection({
     const inputLabel = getInputLabel(options.inputId);
     const errorId = getValidationErrorId(options.inputId);
     const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
+    const onInputKeyDown = useMemo<KeyboardEventHandler<HTMLInputElement> | undefined>(() => {
+        if (!selector.clearable) {
+            return undefined;
+        }
+
+        return e => {
+            if (e.key === "Backspace" && e.currentTarget.value === "") {
+                selectItem(null);
+            }
+        };
+    }, [selector.clearable, selectItem]);
 
     const inputProps = getInputProps(
         {
@@ -69,11 +79,7 @@ export function SingleSelection({
             ref: inputRef,
             "aria-required": ariaRequired.value,
             "aria-label": !hasLabel && options.ariaLabel ? options.ariaLabel : undefined,
-            onKeyDown: e => {
-                if (e.key === "Backspace" && inputValue === "") {
-                    selectItem(null);
-                }
-            }
+            onKeyDown: onInputKeyDown
         },
         { suppressRefError: true }
     );
@@ -96,9 +102,7 @@ export function SingleSelection({
                     <input
                         className={classNames("widget-combobox-input", {
                             "widget-combobox-input-nofilter":
-                                selector.options.filterType === "none" ||
-                                selector.readOnly ||
-                                (!selector.clearable && !!selector.currentId)
+                                selector.options.filterType === "none" || selector.readOnly
                         })}
                         tabIndex={tabIndex}
                         {...inputProps}
