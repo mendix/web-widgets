@@ -84,8 +84,9 @@ export async function TakePicture(picture, showConfirmationScreen, pictureQualit
             resolve(false);
         });
         switchControl.addEventListener("click", switchControlHandler);
-        actionControl.addEventListener("click", () => {
-
+        actionControl.addEventListener("click", actionControlClicked);
+        video.addEventListener("loadedmetadata", () => (videoIsReady = true));
+        function actionControlClicked() {
              if(!videoIsReady){
                 actionControl.disabled = true;
                 // reload video if not ready yet (some devices need this extra step)
@@ -97,7 +98,7 @@ export async function TakePicture(picture, showConfirmationScreen, pictureQualit
                 }
                 video.load();
                 setTimeout(() => {
-                    actionControl.click();
+                    actionControlClicked();
                 }, 50);
                 return;
             }
@@ -122,8 +123,7 @@ export async function TakePicture(picture, showConfirmationScreen, pictureQualit
             }
 
             actionControl.disabled = false;
-        });
-        video.addEventListener("loadedmetadata", () => (videoIsReady = true));
+        }
         function getVideoCanvas() {
             const videoCanvas = document.createElement("canvas");
             videoCanvas.height = video.videoHeight;
