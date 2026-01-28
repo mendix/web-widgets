@@ -1,4 +1,4 @@
-import { autoUpdate, useFloating } from "@floating-ui/react-dom";
+import { autoUpdate, flip, useFloating } from "@floating-ui/react-dom";
 import { useSelect as useDownshiftSelect, UseSelectPropGetters } from "downshift";
 import { CSSProperties, JSX, useCallback, useEffect, useMemo } from "react";
 
@@ -39,8 +39,18 @@ export function useSelect(props: useSelectProps): ViewProps {
         onSelectedItemChange: ({ selectedItem }) => props.onSelect(selectedItem?.value ?? null)
     });
 
+    const floatingMiddleware = useMemo(
+        () => [
+            flip({
+                fallbackStrategy: "initialPlacement"
+            })
+        ],
+        []
+    );
+
     const { refs, floatingStyles, update } = useFloating({
         open: isOpen,
+        middleware: floatingMiddleware,
         placement: "bottom-start",
         strategy: "fixed"
     });
