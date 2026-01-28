@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We updated internal dependencies.
+
 ## [2.27.5] DataWidgets - 2025-06-05
 
 ### [2.27.5] Datagrid

@@ -1,7 +1,7 @@
 {
     "name": "@mendix/datagrid-number-filter-web",
     "widgetName": "DatagridNumberFilter",
-    "version": "2.9.3",
+    "version": "2.27.9",
     "description": "",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
