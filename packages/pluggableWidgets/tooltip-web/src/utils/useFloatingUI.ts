@@ -47,6 +47,7 @@ type FloatingPropsReturn = Partial<UseFloatingReturn<ReferenceElement>> &
 export function useFloatingUI(props: FloatingProps): FloatingPropsReturn {
     const { position, showTooltip, setShowTooltip, arrowElement, openOn } = props;
     const { refs, floatingStyles, context, middlewareData, placement } = useFloating({
+        strategy: "fixed",
         placement: position,
         open: showTooltip,
         onOpenChange: setShowTooltip,
