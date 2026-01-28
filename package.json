@@ -20,8 +20,7 @@
         "include-oss-in-artifact": "pnpm --filter @mendix/automation-utils run include-oss-in-artifact",
         "release": "turbo run release",
         "test": "turbo run test --continue --concurrency 1",
-        "verify": "turbo run verify --continue --concurrency 1",
-        "version": "pnpm --filter @mendix/automation-utils run version"
+        "verify": "turbo run verify --continue --concurrency 1"
     },
     "devDependencies": {
         "husky": "^8.0.3",

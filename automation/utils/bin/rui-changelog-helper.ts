@@ -2,7 +2,6 @@
 
 import { prompt } from "enquirer";
 import { getPackageInfo, PackageListing, selectPackage } from "../src";
-import { getNextVersion, writeVersion } from "../src/bump-version";
 import {
     getModuleChangelog,
     getWidgetChangelog,
@@ -56,22 +55,7 @@ async function getChangelogSections(): Promise<LogSection[]> {
     return sections;
 }
 
-async function selectNextVersion(currentVersion: string): Promise<string | undefined> {
-    const { bump } = await prompt<{ bump: boolean }>({
-        type: "confirm",
-        initial: true,
-        name: "bump",
-        message: "Would you like to bump the package version?"
-    });
-
-    if (bump) {
-        return getNextVersion(currentVersion);
-    }
-
-    return undefined;
-}
-
-async function writeChanges(pkg: PackageListing, sections: LogSection[], nextVersion?: string): Promise<void> {
+async function writeChanges(pkg: PackageListing, sections: LogSection[]): Promise<void> {
     let changelog: WidgetChangelogFileWrapper | ModuleChangelogFileWrapper;
     try {
         changelog = await getWidgetChangelog(pkg.path);
@@ -81,16 +65,11 @@ async function writeChanges(pkg: PackageListing, sections: LogSection[], nextVer
     }
 
     changelog.addUnreleasedSections(sections).save();
-
-    if (nextVersion) {
-        await writeVersion(pkg, nextVersion);
-    }
 }
 
 async function main(): Promise<void> {
     const pkg = await selectPackage();
     const sections = await getChangelogSections();
-    const nextVersion = await selectNextVersion(pkg.version);
 
     const { save } = await prompt<{ save: boolean }>({
         type: "confirm",
@@ -100,7 +79,7 @@ async function main(): Promise<void> {
     });
 
     if (save) {
-        await oraPromise(writeChanges(pkg, sections, nextVersion), "Writing changes...");
+        await oraPromise(writeChanges(pkg, sections), "Writing changes...");
         console.log("Done.");
     } else {
         console.log("Exit without changes.");
