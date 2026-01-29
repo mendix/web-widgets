@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode, useCallback, useState } from "react";
 import { GUID } from "mendix";
 import classNames from "classnames";
-import { A11y, Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
+import { A11y, Autoplay, EffectFade, Keyboard, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { PaginationOptions, SwiperOptions } from "swiper/types";
 import "swiper/css";
@@ -57,10 +57,13 @@ export function Carousel(props: CarouselProps): ReactElement {
             effect: "fade",
             fadeEffect: { crossFade: true }
         }),
-        modules: [A11y, Navigation, Pagination, EffectFade, Autoplay],
+        modules: [A11y, Navigation, Pagination, EffectFade, Autoplay, Keyboard],
         a11y: {
             enabled: true,
             slideRole: "listitem"
+        },
+        keyboard: {
+            enabled: true
         }
     };
 

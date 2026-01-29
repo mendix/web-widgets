@@ -1,10 +1,12 @@
 // Atlas UI compatible variable naming for data widgets
 $gray-200: #e3e3e5 !default;
-$spacing-large: 24px !default;
+$spacing-small: 8px !default;
 $focus-outline: 2px solid #264ae5 !default;
 $focus-outline-offset: 2px !default;
 
 .swiper {
+    --swiper-navigation-size: 30px;
+    --swiper-navigation-color: var(--brand-primary);
     width: 100%;
     height: 100%;
 }
@@ -31,16 +33,14 @@ $focus-outline-offset: 2px !default;
 
 .swiper-button-next,
 .swiper-button-prev {
-    --swiper-navigation-size: 24px;
     border-radius: 50%;
     background-color: var(--gray-200, $gray-200);
-    padding: var(--spacing-large, $spacing-large);
-}
+    padding: var(--spacing-small, $spacing-small);
 
-.swiper-button-next:focus,
-.swiper-button-prev:focus {
-    outline: var(--focus-outline, $focus-outline);
-    outline-offset: var(--focus-outline-offset, $focus-outline-offset);
+    &:focus {
+        outline: var(--focus-outline, $focus-outline);
+        outline-offset: var(--focus-outline-offset, $focus-outline-offset);
+    }
 }
 
 .swiper-slide img {
