@@ -10,8 +10,8 @@ export const GalleryItems = observer(function GalleryItems() {
     const texts = useTextsService();
     const focusController = useKeyNavFocus();
 
-    if (items.length === 0) {
-        return <div>Empty</div>;
+    if (items.length < 1) {
+        return null;
     }
 
     return (
