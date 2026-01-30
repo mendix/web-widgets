@@ -1,6 +1,6 @@
 import { getColumnAndRowBasedOnIndex, PositionInGrid } from "@mendix/widget-plugin-grid/selection";
 import { ComputedAtom, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { action, computed, makeAutoObservable } from "mobx";
+import { action, computed, makeAutoObservable, trace } from "mobx";
 import { GalleryContainerProps } from "../../../typings/GalleryProps";
 
 type Breakpoint = "desktop" | "tablet" | "phone";
@@ -18,13 +18,15 @@ export class LayoutService implements SetupComponent {
         this.width = window.innerWidth;
 
         makeAutoObservable(this, {
-            breakpoint: computed,
+            setWidth: action,
             numberOfColumns: computed,
             numberOfRows: computed,
-            getPositionFn: computed,
-            setWidth: action,
             setup: false
         });
+
+        trace(this, "width");
+        trace(this, "numberOfColumns");
+        trace(this, "numberOfRows");
     }
 
     setWidth(width: number): void {

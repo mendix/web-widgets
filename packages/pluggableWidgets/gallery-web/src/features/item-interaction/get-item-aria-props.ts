@@ -1,5 +1,4 @@
-import { SelectActionsService } from "@mendix/widget-plugin-grid/interfaces/SelectActionsService";
-import { ObjectItem } from "mendix";
+import { SelectionType } from "@mendix/widget-plugin-grid/selection";
 
 type ListItemRole = "option" | "listitem";
 
@@ -10,11 +9,11 @@ type ListItemAriaProps = {
     "aria-label": string | undefined;
 };
 
-export function getAriaProps(item: ObjectItem, helper: SelectActionsService, label?: string): ListItemAriaProps {
-    if (helper.selectionType === "Single" || helper.selectionType === "Multi") {
+export function getAriaProps(selectionType: SelectionType, isSelected: boolean,  label?: string): ListItemAriaProps {
+    if (selectionType === "Single" || selectionType === "Multi") {
         return {
             role: "option",
-            "aria-selected": helper.isSelected(item),
+            "aria-selected": isSelected,
             tabIndex: 0,
             "aria-label": label
         };
