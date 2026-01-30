@@ -10,7 +10,7 @@ import { updateTestProject } from "./update-test-project.mjs";
 import { await200 } from "./utils.mjs";
 import * as config from "./config.mjs";
 
-const { ls } = sh;
+const { ls, exec } = sh;
 
 export async function dev() {
     console.log(c.cyan("Run e2e tests in development environment"));
@@ -31,6 +31,20 @@ export async function dev() {
             "camel-case-expansion": true
         }
     };
+
+    if (!process.env.GITHUB_TOKEN) {
+        console.log("GITHUB_TOKEN not found. Fetching from GitHub CLI...");
+
+        const result = exec("gh auth token", { silent: true });
+
+        if (result.code === 0) {
+            process.env.GITHUB_TOKEN = result.stdout.trim();
+            console.log("Successfully set GITHUB_TOKEN from gh CLI.");
+        } else {
+            console.error('Error: Could not retrieve token. Ensure you are logged in via "gh auth login".');
+            process.exit(1);
+        }
+    }
 
     // We add local node_modules/.bin to PATH to make cypress bin is available for
     // any package in monorepo.
