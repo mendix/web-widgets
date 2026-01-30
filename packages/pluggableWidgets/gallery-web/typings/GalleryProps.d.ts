@@ -5,6 +5,7 @@
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import { Big } from "big.js";
 
 export type ItemSelectionModeEnum = "toggle" | "clear";
 
@@ -42,16 +43,26 @@ export interface GalleryContainerProps {
     phoneItems: number;
     pageSize: number;
     pagination: PaginationEnum;
+    useCustomPagination: boolean;
+    customPagination?: ReactNode;
     showTotalCount: boolean;
     showPagingButtons: ShowPagingButtonsEnum;
     pagingPosition: PagingPositionEnum;
     loadMoreButtonCaption?: DynamicValue<string>;
+    dynamicPageSize?: EditableValue<Big>;
+    dynamicPage?: EditableValue<Big>;
+    totalCountValue?: EditableValue<Big>;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     itemClass?: ListExpressionValue<string>;
     onClickTrigger: OnClickTriggerEnum;
     onClick?: ListActionValue;
     onSelectionChange?: ActionValue;
+    selectedCountTemplateSingular?: DynamicValue<string>;
+    selectedCountTemplatePlural?: DynamicValue<string>;
+    selectAllText: DynamicValue<string>;
+    selectAllTemplate: DynamicValue<string>;
+    allSelectedText: DynamicValue<string>;
     stateStorageType: StateStorageTypeEnum;
     stateStorageAttr?: EditableValue<string>;
     storeFilters: boolean;
@@ -60,8 +71,6 @@ export interface GalleryContainerProps {
     emptyMessageTitle?: DynamicValue<string>;
     ariaLabelListBox?: DynamicValue<string>;
     ariaLabelItem?: ListExpressionValue<string>;
-    selectedCountTemplateSingular?: DynamicValue<string>;
-    selectedCountTemplatePlural?: DynamicValue<string>;
 }
 
 export interface GalleryPreviewProps {
@@ -90,16 +99,26 @@ export interface GalleryPreviewProps {
     phoneItems: number | null;
     pageSize: number | null;
     pagination: PaginationEnum;
+    useCustomPagination: boolean;
+    customPagination: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     showTotalCount: boolean;
     showPagingButtons: ShowPagingButtonsEnum;
     pagingPosition: PagingPositionEnum;
     loadMoreButtonCaption: string;
+    dynamicPageSize: string;
+    dynamicPage: string;
+    totalCountValue: string;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemClass: string;
     onClickTrigger: OnClickTriggerEnum;
     onClick: {} | null;
     onSelectionChange: {} | null;
+    selectedCountTemplateSingular: string;
+    selectedCountTemplatePlural: string;
+    selectAllText: string;
+    selectAllTemplate: string;
+    allSelectedText: string;
     stateStorageType: StateStorageTypeEnum;
     stateStorageAttr: string;
     onConfigurationChange: {} | null;
@@ -109,6 +128,4 @@ export interface GalleryPreviewProps {
     emptyMessageTitle: string;
     ariaLabelListBox: string;
     ariaLabelItem: string;
-    selectedCountTemplateSingular: string;
-    selectedCountTemplatePlural: string;
 }

@@ -95,6 +95,14 @@
                         <enumerationValue key="loadMore">Load more</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="useCustomPagination" type="boolean" defaultValue="false">
+                    <caption>Custom pagination</caption>
+                    <description />
+                </property>
+                <property key="customPagination" type="widgets" required="false">
+                    <caption>Custom pagination</caption>
+                    <description />
+                </property>
                 <property key="showTotalCount" type="boolean" defaultValue="false">
                     <caption>Show total count</caption>
                     <description />
@@ -123,6 +131,27 @@
                         <translation lang="en_US">Load More</translation>
                         <translation lang="nl_NL">Laad meer</translation>
                     </translations>
+                </property>
+                <property key="dynamicPageSize" type="attribute" required="false">
+                    <caption>Page size attribute</caption>
+                    <description>Attribute to set the page size dynamically.</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
+                <property key="dynamicPage" type="attribute" required="false">
+                    <caption>Page attribute</caption>
+                    <description>Attribute to set the page dynamically.</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
+                <property key="totalCountValue" type="attribute" required="false">
+                    <caption>Total count</caption>
+                    <description>Attribute to store current total count</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Items">
@@ -160,6 +189,48 @@
                 <property key="onSelectionChange" type="action" required="false">
                     <caption>On selection change</caption>
                     <description />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Captions">
+                <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
+                    <caption>Row count singular</caption>
+                    <description>Must include '%d' to denote number position</description>
+                    <translations>
+                        <translation lang="en_US">%d row selected</translation>
+                        <translation lang="nl_NL">%d rij geselecteerd</translation>
+                    </translations>
+                </property>
+                <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
+                    <caption>Row count plural</caption>
+                    <description>Must include '%d' to denote number position</description>
+                    <translations>
+                        <translation lang="en_US">%d rows selected</translation>
+                        <translation lang="nl_NL">%d rijen geselecteerd</translation>
+                    </translations>
+                </property>
+                <property key="selectAllText" type="textTemplate">
+                    <caption>Select all text</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Select all rows in the data source</translation>
+                        <translation lang="nl_NL">Selecteer alle rijen in de gegevensbron</translation>
+                    </translations>
+                </property>
+                <property key="selectAllTemplate" type="textTemplate">
+                    <caption>Select all template</caption>
+                    <description>This caption used when total count is available.</description>
+                    <translations>
+                        <translation lang="en_US">Select all %d rows in the data source</translation>
+                        <translation lang="nl_NL">Selecteer alle %d rijen in de gegevensbron</translation>
+                    </translations>
+                </property>
+                <property key="allSelectedText" type="textTemplate">
+                    <caption>Select status template</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">All %d rows selected.</translation>
+                        <translation lang="nl_NL">Alle %d rijen geselecteerd.</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>
@@ -211,22 +282,6 @@
                 <property key="ariaLabelItem" type="textTemplate" dataSource="datasource" required="false">
                     <caption>Item description</caption>
                     <description>Assistive technology will read this upon reaching each gallery item.</description>
-                </property>
-                <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
-                    <caption>Item count singular</caption>
-                    <description>Must include '%d' to denote number position</description>
-                    <translations>
-                        <translation lang="en_US">%d item selected</translation>
-                        <translation lang="nl_NL">%d item geselecteerd</translation>
-                    </translations>
-                </property>
-                <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
-                    <caption>Item count plural</caption>
-                    <description>Must include '%d' to denote number position</description>
-                    <translations>
-                        <translation lang="en_US">%d items selected</translation>
-                        <translation lang="nl_NL">%d items geselecteerd</translation>
-                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>

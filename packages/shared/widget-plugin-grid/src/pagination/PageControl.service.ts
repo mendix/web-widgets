@@ -1,8 +1,8 @@
-import { SetPageAction, SetPageSizeAction } from "@mendix/widget-plugin-grid/main";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { Big } from "big.js";
 import { EditableValue } from "mendix";
-import { GridPageControl } from "./GridPageControl";
+import { GridPageControl } from "../interfaces/GridPageControl";
+import { SetPageAction, SetPageSizeAction } from "./pagination.model";
 
 export class PageControlService implements GridPageControl {
     constructor(
