@@ -1,13 +1,41 @@
-import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
+import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { action, computed } from "mobx";
+import { ReactNode } from "react";
 import { QueryService } from "../main";
 
+/** Atom for the dynamic page index provided by the widget's props. */
+export function dynamicPageAtom(
+    gate: DerivedPropsGate<{ dynamicPage?: { value?: Big } }>,
+    config: { isLimitBased: boolean }
+): ComputedAtom<number> {
+    return computed(() => {
+        const page = gate.props.dynamicPage?.value?.toNumber() ?? -1;
+        if (config.isLimitBased) {
+            return Math.max(page, -1);
+        }
+        // Switch to zero-based index for offset-based pagination
+        return Math.max(page - 1, -1);
+    });
+}
+
 /**
- * Return observable atom holding page size. Value -1 means no meaningful page size is set.
- * @injectable
+ * Return observable atom holding page size.
+ * Value -1 means no meaningful page size is set.
  */
-export function boundPageSize(get: () => number): ComputedAtom<number> {
-    return computed(() => Math.max(get(), -1));
+export function dynamicPageSizeAtom(
+    gate: DerivedPropsGate<{ dynamicPageSize?: { value?: Big } }>
+): ComputedAtom<number> {
+    return computed(() => {
+        const pageSize = gate.props.dynamicPageSize?.value?.toNumber() ?? -1;
+        return Math.max(pageSize, -1);
+    });
+}
+
+/** Atom for custom pagination widgets. */
+export function customPaginationAtom(
+    gate: DerivedPropsGate<{ customPagination?: ReactNode }>
+): ComputedAtom<ReactNode> {
+    return computed(() => gate.props.customPagination);
 }
 
 /**

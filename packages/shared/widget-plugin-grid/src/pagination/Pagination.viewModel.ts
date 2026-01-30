@@ -1,15 +1,28 @@
-import { QueryService, SetPageAction } from "@mendix/widget-plugin-grid/main";
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { computed, makeObservable } from "mobx";
-import { PaginationEnum, ShowPagingButtonsEnum } from "../../../typings/DatagridProps";
-import { PaginationConfig } from "./pagination.config";
+import { QueryService } from "../interfaces/QueryService";
+import { SetPageAction } from "./pagination.model";
+
+type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
+
+type ShowPagingButtonsEnum = "always" | "auto";
+
+export type PaginationKind = `${PaginationEnum}.${ShowPagingButtonsEnum}` | "custom";
 
 export class PaginationViewModel {
     readonly pagination: PaginationEnum;
     readonly showPagingButtons: ShowPagingButtonsEnum;
 
     constructor(
-        private config: PaginationConfig,
+        private config: {
+            pagination: PaginationEnum;
+            paginationKind: PaginationKind;
+            showPagingButtons: ShowPagingButtonsEnum;
+            // Gallery
+            showNumberOfItems?: boolean;
+            // Datagrid
+            showNumberOfRows?: boolean;
+        },
         private query: QueryService,
         private currentPageAtom: ComputedAtom<number>,
         private pageSizeAtom: ComputedAtom<number>,
@@ -22,8 +35,6 @@ export class PaginationViewModel {
             pageSize: computed,
             currentPage: computed,
             paginationVisible: computed,
-            showLoadMore: computed,
-            showVirtualScrollingWithRowCount: computed,
             hasMoreItems: computed,
             totalCount: computed
         });
@@ -49,16 +60,8 @@ export class PaginationViewModel {
                 return false;
             }
             default:
-                return this.config.showNumberOfRows;
+                return this.config.showNumberOfItems || this.config.showNumberOfRows || false;
         }
-    }
-
-    get showLoadMore(): boolean {
-        return this.hasMoreItems && this.pagination === "loadMore";
-    }
-
-    get showVirtualScrollingWithRowCount(): boolean {
-        return this.pagination === "virtualScrolling" && this.config.showNumberOfRows;
     }
 
     get hasMoreItems(): boolean {

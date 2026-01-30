@@ -1,31 +1,30 @@
+import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
-import { JSX, ReactElement, RefObject, useMemo } from "react";
-import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
-import { PositionInGrid, SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
+import { observer } from "mobx-react-lite";
+import { ReactElement, RefObject, useMemo } from "react";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
+import { useGalleryItemVM, useItemEventsVM, useLayoutService, useSelectActions } from "../model/hooks/injection-hooks";
+import { ListItemButton } from "./ListItemButton";
 
-import { GalleryItemHelper } from "../typings/GalleryItem";
-import { ItemEventsController } from "../typings/ItemEventsController";
-
-type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
-    eventsController: ItemEventsController;
-    getPosition: (index: number) => PositionInGrid;
-    helper: GalleryItemHelper;
+type ListItemProps = {
     item: ObjectItem;
     itemIndex: number;
-    selectHelper: SelectActionHandler;
-    preview?: boolean;
-    label?: string;
 };
 
-export function ListItem(props: ListItemProps): ReactElement {
-    const { eventsController, getPosition, helper, item, itemIndex, selectHelper, label, ...rest } = props;
-    const clickable = helper.hasOnClick(item) || selectHelper.selectionType !== "None";
-    const ariaProps = getAriaProps(item, selectHelper, label);
+export const ListItem = observer(function ListItem(props: ListItemProps): ReactElement {
+    const { item, itemIndex, ...rest } = props;
+
+    const eventsVM = useItemEventsVM().get();
+    const selectActions = useSelectActions();
+    const itemVM = useGalleryItemVM();
+    const getPosition = useLayoutService().getPositionFn;
+
+    const clickable = itemVM.hasOnClick(item) || selectActions.selectionType !== "None";
+    const ariaProps = getAriaProps(item, selectActions, itemVM.label(item));
     const { columnIndex, rowIndex } = getPosition(itemIndex);
     const keyNavProps = useFocusTargetProps({ columnIndex: columnIndex ?? -1, rowIndex });
-    const handlers = useMemo(() => eventsController.getProps(item), [eventsController, item]);
+    const handlers = useMemo(() => eventsVM.getProps(item), [eventsVM, item]);
 
     return (
         <div
@@ -34,10 +33,9 @@ export function ListItem(props: ListItemProps): ReactElement {
                 "widget-gallery-item",
                 {
                     "widget-gallery-clickable": clickable,
-                    "widget-gallery-selected": ariaProps["aria-selected"],
-                    "widget-gallery-preview": props.preview
+                    "widget-gallery-selected": ariaProps["aria-selected"]
                 },
-                helper.itemClass(item)
+                itemVM.class(item)
             )}
             {...ariaProps}
             onClick={handlers.onClick}
@@ -49,7 +47,11 @@ export function ListItem(props: ListItemProps): ReactElement {
             ref={keyNavProps.ref as RefObject<HTMLDivElement>}
             tabIndex={keyNavProps.tabIndex}
         >
-            {helper.render(item)}
+            {itemVM.hasOnClick(item) === true ? (
+                <ListItemButton>{itemVM.content(item)}</ListItemButton>
+            ) : (
+                itemVM.content(item)
+            )}
         </div>
     );
-}
+});
