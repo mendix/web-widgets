@@ -56,6 +56,10 @@ function printProgress(message: string): void {
     console.log(chalk.gray(`   → ${message}`));
 }
 
+function printProgressCheck(message: string): void {
+    console.log(chalk.gray(`   ☑ ${message}`));
+}
+
 // ============================================================================
 // Core Functions
 // ============================================================================
@@ -163,11 +167,11 @@ async function downloadAndVerifyAsset(mpkAsset: GitHubReleaseAsset, downloadPath
 
     printProgress(`Downloading to: ${downloadPath}`);
     await gh.downloadReleaseAsset(mpkAsset.id, downloadPath);
-    printSuccess("Download completed");
+    printProgressCheck("Download completed");
 
     printProgress("Computing SHA-256 hash...");
     const fileHash = await computeHash(downloadPath);
-    printInfo(`Computed hash: ${fileHash}`);
+    printProgressCheck(`Computed hash: ${fileHash}`);
 
     const expectedDigest = mpkAsset.digest.replace("sha256:", "");
     if (fileHash !== expectedDigest) {
@@ -177,7 +181,7 @@ async function downloadAndVerifyAsset(mpkAsset: GitHubReleaseAsset, downloadPath
         throw new Error("Asset integrity verification failed");
     }
 
-    printSuccess("Hash verification passed");
+    printProgressCheck("Hash verification passed");
     return fileHash;
 }
 
@@ -249,11 +253,7 @@ async function handleIncludeAction(release: GitHubDraftRelease): Promise<void> {
 
     // Step 4: Find and select OSS Readme
     const readmes = findAllReadmeOssLocally();
-    const recommendedReadmeOss = getRecommendedReadmeOss(
-        release.name.split(" ")[0],
-        release.name.split(" ")[1],
-        readmes
-    );
+    const recommendedReadmeOss = getRecommendedReadmeOss(release.name, readmes);
 
     let readmeToInclude: string;
 
@@ -270,6 +270,8 @@ async function handleIncludeAction(release: GitHubDraftRelease): Promise<void> {
 
         readmeToInclude = selectedReadme;
     } else {
+        printSuccess(`Auto selected based on release name:`);
+        printSuccess(`${chalk.bold(basename(recommendedReadmeOss))}`);
         readmeToInclude = recommendedReadmeOss;
     }
 
@@ -331,7 +333,7 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
         // Download MPK to temp folder
         printProgress(`Downloading ${mpkAsset.name}...`);
         await gh.downloadReleaseAsset(mpkAsset.id, mpkPath);
-        printSuccess("Download completed");
+        printProgressCheck("Download completed");
 
         // Copy HTML to temp folder
         const { cp } = await import("../src/shell");
@@ -340,7 +342,7 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
         // Embed HTML into MPK
         printProgress("Merging HTML into MPK...");
         await includeReadmeOssIntoMpk(htmlPath, mpkPath);
-        printSuccess("Merge completed");
+        printProgressCheck("Merge completed");
 
         // Get modified MPK size
         const { stat } = await import("node:fs/promises");
@@ -376,12 +378,12 @@ async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readme
         const backupName = mpkAsset.name.replace(".mpk", "._mpk");
         printProgress(`Renaming original MPK to ${backupName}...`);
         await gh.updateReleaseAsset(mpkAsset.id, backupName);
-        printSuccess("Original MPK renamed");
+        printProgressCheck("Original MPK renamed");
 
         // Upload modified MPK
         printProgress(`Uploading modified MPK...`);
         const newMpkAsset = await gh.uploadReleaseAsset(release.id, mpkPath, mpkAsset.name);
-        printSuccess(`Modified MPK uploaded (ID: ${newMpkAsset.id})`);
+        printProgressCheck(`Modified MPK uploaded (ID: ${newMpkAsset.id})`);
 
         console.log(chalk.bold.green(`\n🎉 Successfully embedded OSS Readme into MPK!`));
         console.log(chalk.gray(`   Release: ${release.name}`));
