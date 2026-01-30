@@ -1,5 +1,5 @@
+import { SelectActionsService } from "@mendix/widget-plugin-grid/interfaces/SelectActionsService";
 import { ObjectItem } from "mendix";
-import { SelectActionHandler } from "@mendix/widget-plugin-grid/selection";
 
 type ListItemRole = "option" | "listitem";
 
@@ -10,7 +10,7 @@ type ListItemAriaProps = {
     "aria-label": string | undefined;
 };
 
-export function getAriaProps(item: ObjectItem, helper: SelectActionHandler, label?: string): ListItemAriaProps {
+export function getAriaProps(item: ObjectItem, helper: SelectActionsService, label?: string): ListItemAriaProps {
     if (helper.selectionType === "Single" || helper.selectionType === "Multi") {
         return {
             role: "option",

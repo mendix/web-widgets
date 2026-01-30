@@ -1,6 +1,6 @@
 import { ComputedAtom, disposeBatch, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { autorun, reaction } from "mobx";
-import { GridPageControl } from "./GridPageControl";
+import { GridPageControl } from "../interfaces/GridPageControl";
 
 export class DynamicPaginationFeature implements SetupComponent {
     id = "DynamicPaginationFeature";
