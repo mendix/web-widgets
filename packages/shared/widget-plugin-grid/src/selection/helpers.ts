@@ -8,7 +8,13 @@ import { Direction, MoveEvent1D, MoveEvent2D, MultiSelectionStatus, ScrollKeyCod
 
 export class SingleSelectionHelper implements SingleSelectionService {
     type = "Single" as const;
-    constructor(private selectionValue: SelectionSingleValue) {}
+    constructor(private selectionValue: SelectionSingleValue) {
+        type PrivateMembers = "selectionValue";
+        makeObservable<this, PrivateMembers>(this, {
+            selectionValue: observable.ref,
+            updateProps: action
+        });
+    }
 
     updateProps(value: SelectionSingleValue): void {
         this.selectionValue = value;
