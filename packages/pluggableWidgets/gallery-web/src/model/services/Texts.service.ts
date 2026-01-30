@@ -10,4 +10,8 @@ export class TextsService {
     get headerAriaLabel(): string | undefined {
         return this.gate.props.filterSectionTitle?.value;
     }
+
+    get listboxAriaLabel(): string | undefined {
+        return this.gate.props.ariaLabelListBox?.value;
+    }
 }

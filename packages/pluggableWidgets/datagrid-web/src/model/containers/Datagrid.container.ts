@@ -6,15 +6,23 @@ import {
     createClickActionHelper,
     createFocusController,
     createSelectionHelper,
-    createSetPageAction,
-    createSetPageSizeAction,
-    currentPageAtom,
     DatasourceService,
     layoutAtom,
-    pageSizeAtom,
     SelectActionsProvider,
     TaskProgressService
 } from "@mendix/widget-plugin-grid/main";
+import {
+    createSetPageAction,
+    createSetPageSizeAction,
+    currentPageAtom,
+    customPaginationAtom,
+    dynamicPageAtom,
+    dynamicPageSizeAtom,
+    DynamicPaginationFeature,
+    PageControlService,
+    pageSizeAtom,
+    PaginationViewModel
+} from "@mendix/widget-plugin-grid/pagination/main";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
@@ -22,11 +30,7 @@ import { Container, injected } from "brandi";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
-import { DynamicPaginationFeature } from "../../features/pagination/DynamicPagination.feature";
-import { PageControlService } from "../../features/pagination/PageControl.service";
 import { paginationConfig } from "../../features/pagination/pagination.config";
-import { customPaginationAtom, dynamicPageAtom, dynamicPageSizeAtom } from "../../features/pagination/pagination.model";
-import { PaginationViewModel } from "../../features/pagination/Pagination.viewModel";
 import { createCellEventsController } from "../../features/row-interaction/CellEventsController";
 import { creteCheckboxEventsController } from "../../features/row-interaction/CheckboxEventsController";
 import { SelectAllModule } from "../../features/select-all/SelectAllModule.container";
@@ -39,8 +43,8 @@ import { rowClassProvider } from "../models/rows.model";
 import { DatasourceParamsController } from "../services/DatasourceParamsController";
 import { DerivedLoaderController } from "../services/DerivedLoaderController";
 import { SelectionGate } from "../services/SelectionGate.service";
-import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 import { GridSizeStore } from "../stores/GridSize.store";
+import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
 // base
 injected(ColumnGroupStore, CORE.setupService, CORE.mainGate, CORE.config, DG.filterHost);
@@ -48,7 +52,7 @@ injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFil
 injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
 injected(GridBasicData, CORE.mainGate);
 injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.selectionDialogVM);
-injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction);
+injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction.optional);
 
 /** Pagination **/
 injected(createSetPageAction, DG.query, DG.paginationConfig, DG.currentPage, DG.pageSize);

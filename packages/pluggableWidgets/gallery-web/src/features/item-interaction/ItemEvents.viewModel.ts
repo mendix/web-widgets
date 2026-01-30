@@ -1,24 +1,26 @@
-import { ObjectItem } from "mendix";
-import { useMemo } from "react";
 import { ElementEntry, ElementProps } from "@mendix/widget-plugin-grid/event-switch/base";
-import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
 import { ClickEntry, ClickEventSwitch } from "@mendix/widget-plugin-grid/event-switch/ClickEventSwitch";
+import { eventSwitch } from "@mendix/widget-plugin-grid/event-switch/event-switch";
+import { ClickActionHelper, ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 import { FocusTargetFx } from "@mendix/widget-plugin-grid/keyboard-navigation/base";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { SelectActionsService } from "@mendix/widget-plugin-grid/main";
 import {
-    SelectActionHandler,
     SelectAdjacentFx,
     SelectAllFx,
     SelectFx,
-    SelectionMode
+    SelectionMode,
+    SelectionType
 } from "@mendix/widget-plugin-grid/selection";
-import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
+import { ObjectItem } from "mendix";
+import { computed } from "mobx";
+import { createActionHandlers } from "./action-handlers";
 import { EventEntryContext } from "./base";
 import { createFocusTargetHandlers } from "./focus-target-handlers";
 import { createItemHandlers } from "./item-handlers";
-import { createActionHandlers } from "./action-handlers";
-import { ClickActionHelper, ExecuteActionFx } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
 
-export class ItemEventsController implements ItemEventsController {
+export class ItemEventsViewModel {
     constructor(
         private contextFactory: (item: ObjectItem) => EventEntryContext,
         private selectFx: SelectFx,
@@ -50,30 +52,33 @@ export class ItemEventsController implements ItemEventsController {
     }
 }
 
-export function useItemEventsController(
-    selectHelper: SelectActionHandler,
+export function createItemEventsVMAtom(
+    config: {
+        selectionType: SelectionType;
+        selectionMode: SelectionMode;
+    },
+    selectActions: SelectActionsService,
     clickHelper: ClickActionHelper,
     focusController: FocusTargetController,
-    numberOfColumns: number,
-    selectionMode: SelectionMode
-): ItemEventsController {
-    return useMemo(
+    numberOfColumns: ComputedAtom<number>
+): ComputedAtom<ItemEventsViewModel> {
+    const contextFactory = (item: ObjectItem): EventEntryContext => ({
+        item,
+        selectionType: config.selectionType,
+        selectionMode: config.selectionMode,
+        clickTrigger: clickHelper.clickTrigger
+    });
+
+    return computed(
         () =>
-            new ItemEventsController(
-                item => ({
-                    item,
-                    selectionType: selectHelper.selectionType,
-                    selectionMode,
-                    clickTrigger: clickHelper.clickTrigger
-                }),
-                selectHelper.onSelect,
-                selectHelper.onSelectAll,
+            new ItemEventsViewModel(
+                contextFactory,
+                selectActions.select,
+                selectActions.selectPage,
                 clickHelper.onExecuteAction,
                 focusController.dispatch,
-                selectHelper.onSelectAdjacent,
-                numberOfColumns
-            ),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [selectHelper, focusController, numberOfColumns]
+                selectActions.selectAdjacent,
+                numberOfColumns.get()
+            )
     );
 }

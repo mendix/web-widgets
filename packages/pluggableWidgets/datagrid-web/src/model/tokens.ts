@@ -10,9 +10,15 @@ import {
     SelectAllService,
     SelectionDynamicProps,
     SelectionHelperService,
-    SetPageAction,
     TaskProgressService
 } from "@mendix/widget-plugin-grid/main";
+import {
+    DynamicPaginationFeature,
+    GridPageControl,
+    PageSizeStore,
+    PaginationViewModel,
+    SetPageAction
+} from "@mendix/widget-plugin-grid/pagination/main";
 import { SelectAllFeature } from "@mendix/widget-plugin-grid/select-all/select-all.feature";
 import {
     BarStore,
@@ -27,9 +33,6 @@ import { CSSProperties, ReactNode } from "react";
 import { MainGateProps } from "../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
-import { DynamicPaginationFeature } from "../features/pagination/DynamicPagination.feature";
-import { GridPageControl } from "../features/pagination/GridPageControl";
-import { PaginationViewModel } from "../features/pagination/Pagination.viewModel";
 import { PaginationConfig } from "../features/pagination/pagination.config";
 import { CellEventsController } from "../features/row-interaction/CellEventsController";
 import { CheckboxEventsController } from "../features/row-interaction/CheckboxEventsController";
@@ -45,7 +48,6 @@ import { RowClassProvider } from "./models/rows.model";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
 import { TextsService } from "./services/Texts.service";
-import { PageSizeStore } from "./stores/PageSize.store";
 import { GridSizeStore } from "./stores/GridSize.store";
 
 /** Tokens to resolve dependencies from the container. */
