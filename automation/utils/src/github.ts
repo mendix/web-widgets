@@ -339,9 +339,35 @@ export class GitHub {
             );
         }
 
-        const asset = (await response.json()) as GitHubReleaseAsset;
+        return (await response.json()) as GitHubReleaseAsset;
+    }
 
-        return asset;
+    /**
+     * Update a release asset's name
+     */
+    async updateReleaseAsset(assetId: string, newName: string): Promise<GitHubReleaseAsset> {
+        await this.ensureAuth();
+
+        const response = await nodefetch(
+            `https://api.github.com/repos/${this.owner}/${this.repo}/releases/assets/${assetId}`,
+            {
+                method: "PATCH",
+                headers: {
+                    ...this.ghAPIHeaders,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name: newName })
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(
+                `Failed to update asset ${assetId}: ${response.status} ${response.statusText} - ${errorText}`
+            );
+        }
+
+        return (await response.json()) as GitHubReleaseAsset;
     }
 }
 

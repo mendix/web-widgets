@@ -12,7 +12,8 @@ import {
     createSBomGeneratorFolderStructure,
     findAllReadmeOssLocally,
     generateSBomArtifactsInFolder,
-    getRecommendedReadmeOss
+    getRecommendedReadmeOss,
+    includeReadmeOssIntoMpk
 } from "../src/oss-clearance";
 
 // ============================================================================
@@ -274,9 +275,124 @@ async function handleIncludeAction(release: GitHubDraftRelease): Promise<void> {
 
     printInfo(`Readme to include: ${readmeToInclude}`);
 
-    // Step 5: Upload asset to the draft release
+    // Step 5: Ask how to include the README
+    console.log(); // spacing
+    const { includeMethod } = await prompt<{ includeMethod: "asset" | "embedded" }>({
+        type: "select",
+        name: "includeMethod",
+        message: "How would you like to include the OSS Readme?",
+        choices: [
+            {
+                name: "asset",
+                message: "Upload as separate asset (adds HTML file to release)"
+            },
+            {
+                name: "embedded",
+                message: "Embed into MPK (modifies MPK to include HTML inside)"
+            }
+        ]
+    });
+
+    if (includeMethod === "asset") {
+        await handleIncludeAsAssetAction(release, readmeToInclude);
+    } else {
+        await handleIncludeAsEmbeddedAction(release, readmeToInclude);
+    }
+}
+
+async function handleIncludeAsAssetAction(release: GitHubDraftRelease, readmeToInclude: string): Promise<void> {
+    printStep(5, 5, "Uploading README as separate asset...");
+
     const newAsset = await gh.uploadReleaseAsset(release.id, readmeToInclude, basename(readmeToInclude));
     printSuccess(`Successfully uploaded asset ${newAsset.name} (ID: ${newAsset.id})`);
+    printInfo(`Size: ${newAsset.size} bytes`);
+}
+
+async function handleIncludeAsEmbeddedAction(release: GitHubDraftRelease, readmeToInclude: string): Promise<void> {
+    printStep(5, 5, "Embedding README into MPK...");
+
+    // Find MPK asset
+    const mpkAsset = release.assets.find(asset => asset.name.endsWith(".mpk"));
+    if (!mpkAsset) {
+        printError("No MPK asset found in release");
+        throw new Error("MPK asset not found");
+    }
+
+    printInfo(`Found MPK: ${mpkAsset.name} (${mpkAsset.size} bytes)`);
+
+    // Create temp folder
+    const { mkdtemp } = await import("node:fs/promises");
+    const { tmpdir } = await import("node:os");
+    const tmpFolder = await mkdtemp(join(tmpdir(), "mpk-oss-embed-"));
+    const mpkPath = join(tmpFolder, mpkAsset.name);
+    const htmlPath = join(tmpFolder, basename(readmeToInclude));
+
+    try {
+        // Download MPK to temp folder
+        printProgress(`Downloading ${mpkAsset.name}...`);
+        await gh.downloadReleaseAsset(mpkAsset.id, mpkPath);
+        printSuccess("Download completed");
+
+        // Copy HTML to temp folder
+        const { cp } = await import("../src/shell");
+        await cp(readmeToInclude, htmlPath);
+
+        // Embed HTML into MPK
+        printProgress("Merging HTML into MPK...");
+        await includeReadmeOssIntoMpk(htmlPath, mpkPath);
+        printSuccess("Merge completed");
+
+        // Get modified MPK size
+        const { stat } = await import("node:fs/promises");
+        const modifiedMpkStats = await stat(mpkPath);
+        const sizeDiff = modifiedMpkStats.size - mpkAsset.size;
+        printInfo(`Modified MPK size: ${modifiedMpkStats.size} bytes (+${sizeDiff} bytes)`);
+
+        // Confirm before uploading
+        console.log(); // spacing
+        console.log(chalk.yellow("⚠️  This will modify the release assets:"));
+        console.log(
+            chalk.gray(
+                `   1. Original MPK will be renamed: ${mpkAsset.name} → ${mpkAsset.name.replace(".mpk", "._mpk")}`
+            )
+        );
+        console.log(chalk.gray(`   2. Modified MPK will be uploaded: ${mpkAsset.name}`));
+
+        const { confirmed } = await prompt<{ confirmed: boolean }>({
+            type: "confirm",
+            name: "confirmed",
+            message: "Do you want to proceed with these changes?",
+            initial: false
+        });
+
+        if (!confirmed) {
+            printWarning("Operation cancelled by user");
+            return;
+        }
+
+        printProgress("Updating release assets...");
+
+        // Rename original MPK
+        const backupName = mpkAsset.name.replace(".mpk", "._mpk");
+        printProgress(`Renaming original MPK to ${backupName}...`);
+        await gh.updateReleaseAsset(mpkAsset.id, backupName);
+        printSuccess("Original MPK renamed");
+
+        // Upload modified MPK
+        printProgress(`Uploading modified MPK...`);
+        const newMpkAsset = await gh.uploadReleaseAsset(release.id, mpkPath, mpkAsset.name);
+        printSuccess(`Modified MPK uploaded (ID: ${newMpkAsset.id})`);
+
+        console.log(chalk.bold.green(`\n🎉 Successfully embedded OSS Readme into MPK!`));
+        console.log(chalk.gray(`   Release: ${release.name}`));
+        console.log(chalk.gray(`   Modified MPK: ${newMpkAsset.name} (${newMpkAsset.size} bytes)`));
+        console.log(chalk.gray(`   Backup MPK: ${backupName}`));
+    } finally {
+        // Cleanup temp files
+        printProgress("Cleaning up temporary files...");
+        const { rm } = await import("../src/shell");
+        await rm("-rf", tmpFolder);
+    }
 }
 
 // ============================================================================
