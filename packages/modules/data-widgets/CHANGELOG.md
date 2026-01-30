@@ -6,6 +6,62 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.27.9] DataWidgets - 2026-01-28
+
+### [2.27.9] DatagridDateFilter
+
+#### Changed
+
+- We updated internal dependencies.
+
+### [2.27.9] DatagridDropdownFilter
+
+#### Changed
+
+- We updated internal dependencies.
+
+### [2.27.9] DatagridNumberFilter
+
+#### Changed
+
+- We updated internal dependencies.
+
+### [2.27.9] DatagridTextFilter
+
+#### Changed
+
+- We updated internal dependencies.
+
+### [2.27.9] Datagrid
+
+#### Changed
+
+- We updated internal dependencies.
+
+### [1.27.9] DropdownSort
+
+#### Changed
+
+- We updated internal dependencies.
+
+### [1.27.9] Gallery
+
+#### Changed
+
+- We updated internal dependencies.
+
+### [1.27.9] SelectionHelper
+
+#### Changed
+
+- We updated internal dependencies.
+
+### [1.27.9] TreeNode
+
+#### Changed
+
+- We updated internal dependencies.
+
 ## [2.27.8] DataWidgets - 2025-08-26
 
 ### [2.27.1] DatagridDropdownFilter
