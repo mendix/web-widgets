@@ -58,7 +58,10 @@ describe("parseData", () => {
     });
 
     it("returns empty array on invalid JSON", () => {
+        const spy = jest.spyOn(console, "error").mockImplementation(() => {});
         expect(parseData("invalid json")).toEqual([]);
+        expect(spy).toHaveBeenCalled();
+        spy.mockRestore();
     });
 
     it("merges sampleData with static when attributeData is empty", () => {
@@ -79,6 +82,74 @@ describe("parseData", () => {
         const attributeData = JSON.stringify([]);
         const sampleData = JSON.stringify([{ y: [5] }]);
         expect(parseData(staticData, attributeData, sampleData)).toEqual([{ type: "line", x: [1], y: [5] }]);
+    });
+
+    it("concatenates independent traces when both static and dynamic have data arrays", () => {
+        const staticData = JSON.stringify([
+            {
+                type: "scatter",
+                mode: "lines+markers+text",
+                name: "Sessions",
+                x: ["2025-12-01", "2025-12-02", "2025-12-03"],
+                y: [10, 15, 13]
+            }
+        ]);
+        const attributeData = JSON.stringify([
+            {
+                type: "scatter",
+                mode: "lines+markers+text",
+                name: "Sessions (Source B)",
+                x: ["2025-12-01", "2025-12-02", "2025-12-03"],
+                y: [8, 12, 11]
+            }
+        ]);
+        const result = parseData(staticData, attributeData);
+        expect(result).toHaveLength(2);
+        expect(result[0].name).toBe("Sessions");
+        expect(result[1].name).toBe("Sessions (Source B)");
+    });
+
+    it("merges template static trace with data-only dynamic trace (template pattern)", () => {
+        const staticData = JSON.stringify([
+            { type: "bar", name: "Sessions A", marker: { color: "rgb(30, 94, 168)" } },
+            { type: "scatter", name: "Sessions B", mode: "lines+markers", marker: { color: "rgb(35, 195, 159)" } }
+        ]);
+        const attributeData = JSON.stringify([
+            { x: ["2025-12-01", "2025-12-02"], y: [10, 15] },
+            { x: ["2025-12-01", "2025-12-02"], y: [8, 12] }
+        ]);
+        const result = parseData(staticData, attributeData);
+        expect(result).toHaveLength(2);
+        expect(result[0]).toEqual({
+            type: "bar",
+            name: "Sessions A",
+            marker: { color: "rgb(30, 94, 168)" },
+            x: ["2025-12-01", "2025-12-02"],
+            y: [10, 15]
+        });
+        expect(result[1]).toEqual({
+            type: "scatter",
+            name: "Sessions B",
+            mode: "lines+markers",
+            marker: { color: "rgb(35, 195, 159)" },
+            x: ["2025-12-01", "2025-12-02"],
+            y: [8, 12]
+        });
+    });
+
+    it("concatenates when static has more data-carrying traces than dynamic", () => {
+        const staticData = JSON.stringify([
+            { type: "scatter", x: [1, 2], y: [3, 4] },
+            { type: "bar", x: [5, 6], y: [7, 8] }
+        ]);
+        const attributeData = JSON.stringify([{ type: "scatter", x: [10, 20], y: [30, 40] }]);
+        const result = parseData(staticData, attributeData);
+        // Index 0: both have data and share keys (x, y) → concatenate (2 traces)
+        // Index 1: only static has data → keep as-is (1 trace)
+        expect(result).toHaveLength(3);
+        expect(result[0]).toEqual({ type: "scatter", x: [1, 2], y: [3, 4] });
+        expect(result[1]).toEqual({ type: "scatter", x: [10, 20], y: [30, 40] });
+        expect(result[2]).toEqual({ type: "bar", x: [5, 6], y: [7, 8] });
     });
 
     describe("deep merge behavior", () => {
@@ -122,10 +193,13 @@ describe("parseData", () => {
             ]);
         });
 
-        it("attribute arrays replace static arrays (not concatenate)", () => {
+        it("keeps traces separate when both have data arrays", () => {
             const staticData = JSON.stringify([{ x: [1, 2, 3], y: [4, 5, 6] }]);
             const attributeData = JSON.stringify([{ x: [10, 20] }]);
-            expect(parseData(staticData, attributeData)).toEqual([{ x: [10, 20], y: [4, 5, 6] }]);
+            const result = parseData(staticData, attributeData);
+            expect(result).toHaveLength(2);
+            expect(result[0]).toEqual({ x: [1, 2, 3], y: [4, 5, 6] });
+            expect(result[1]).toEqual({ x: [10, 20] });
         });
 
         it("deeply merges font and other nested layout-like properties in traces", () => {

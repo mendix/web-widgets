@@ -7,6 +7,31 @@ import { ChartProps } from "../components/PlotlyChart";
 const deepmergePlotly = <T extends object>(target: T, source: T): T =>
     deepmerge(target, source, { arrayMerge: (_target, src) => src });
 
+// Keys indicating a trace carries its own plottable data (not just styling/config)
+const DATA_KEYS = new Set([
+    "x",
+    "y",
+    "z",
+    "values",
+    "labels",
+    "lat",
+    "lon",
+    "r",
+    "theta",
+    "open",
+    "high",
+    "low",
+    "close",
+    "ids",
+    "parents"
+]);
+
+function sharesDataKeys(a: Record<string, unknown>, b: Record<string, unknown>): boolean {
+    const aKeys = Object.keys(a);
+    const bKeys = new Set(Object.keys(b));
+    return aKeys.some(key => DATA_KEYS.has(key) && bKeys.has(key));
+}
+
 export function parseData(staticData?: string, attributeData?: string, sampleData?: string): Data[] {
     try {
         const staticTraces: Data[] = staticData ? JSON.parse(staticData) : [];
@@ -19,9 +44,16 @@ export function parseData(staticData?: string, attributeData?: string, sampleDat
         const result: Data[] = [];
 
         for (let i = 0; i < maxLen; i++) {
-            const staticTrace = (staticTraces[i] ?? {}) as Record<string, unknown>;
-            const dynamicTrace = (dynamicTraces[i] ?? {}) as Record<string, unknown>;
-            result.push(deepmergePlotly(staticTrace, dynamicTrace));
+            const staticTrace = staticTraces[i] as Record<string, unknown> | undefined;
+            const dynamicTrace = dynamicTraces[i] as Record<string, unknown> | undefined;
+
+            if (staticTrace && dynamicTrace && sharesDataKeys(staticTrace, dynamicTrace)) {
+                // Both traces carry their own data — treat as independent traces
+                result.push(staticTrace as Data, dynamicTrace as Data);
+            } else {
+                // One is a template, the other provides data — merge them
+                result.push(deepmergePlotly((staticTrace ?? {}) as Data, (dynamicTrace ?? {}) as Data));
+            }
         }
 
         return result;
