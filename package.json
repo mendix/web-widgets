@@ -9,15 +9,15 @@
     "scripts": {
         "build": "turbo run build",
         "changelog": "pnpm --filter @mendix/automation-utils run changelog",
-        "oss-clearance": "pnpm --filter @mendix/automation-utils run oss-clearance",
         "create-gh-release": "turbo run create-gh-release --concurrency 1",
         "create-translation": "turbo run create-translation",
+        "include-oss-in-artifact": "pnpm --filter @mendix/automation-utils run include-oss-in-artifact",
         "postinstall": "turbo run agent-rules",
         "lint": "turbo run lint --continue --concurrency 1",
+        "oss-clearance": "pnpm --filter @mendix/automation-utils run oss-clearance",
         "prepare": "husky install",
         "prepare-release": "pnpm --filter @mendix/automation-utils run prepare-release",
         "publish-marketplace": "turbo run publish-marketplace",
-        "include-oss-in-artifact": "pnpm --filter @mendix/automation-utils run include-oss-in-artifact",
         "release": "turbo run release",
         "test": "turbo run test --continue --concurrency 1",
         "verify": "turbo run verify --continue --concurrency 1"
@@ -27,10 +27,10 @@
         "turbo": "^2.5.4"
     },
     "prettier": "@mendix/prettier-config-web-widgets",
-    "packageManager": "pnpm@10.17.0+sha512.fce8a3dd29a4ed2ec566fb53efbb04d8c44a0f05bc6f24a73046910fb9c3ce7afa35a0980500668fa3573345bd644644fa98338fa168235c80f4aa17aa17fbef",
+    "packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264",
     "engines": {
         "node": ">=22",
-        "pnpm": "10.17.0"
+        "pnpm": "<11.x.x"
     },
     "pnpm": {
         "peerDependencyRules": {
