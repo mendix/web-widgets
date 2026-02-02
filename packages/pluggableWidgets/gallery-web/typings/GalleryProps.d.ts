@@ -7,10 +7,6 @@ import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
-export type ItemSelectionModeEnum = "toggle" | "clear";
-
-export type SelectionCountPositionEnum = "top" | "bottom" | "off";
-
 export type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 
 export type ShowPagingButtonsEnum = "always" | "auto";
@@ -20,6 +16,12 @@ export type PagingPositionEnum = "bottom" | "top" | "both";
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
 export type OnClickTriggerEnum = "single" | "double";
+
+export type ItemSelectionMethodEnum = "checkbox" | "rowClick";
+
+export type ItemSelectionModeEnum = "toggle" | "clear";
+
+export type SelectionCountPositionEnum = "top" | "bottom" | "off";
 
 export type StateStorageTypeEnum = "attribute" | "localStorage";
 
@@ -31,11 +33,6 @@ export interface GalleryContainerProps {
     filtersPlaceholder?: ReactNode;
     datasource: ListValue;
     refreshInterval: number;
-    itemSelection?: SelectionSingleValue | SelectionMultiValue;
-    itemSelectionMode: ItemSelectionModeEnum;
-    keepSelection: boolean;
-    selectionCountPosition: SelectionCountPositionEnum;
-    clearSelectionButtonLabel?: DynamicValue<string>;
     content?: ListWidgetValue;
     refreshIndicator: boolean;
     desktopItems: number;
@@ -63,6 +60,14 @@ export interface GalleryContainerProps {
     selectAllText: DynamicValue<string>;
     selectAllTemplate: DynamicValue<string>;
     allSelectedText: DynamicValue<string>;
+    itemSelection?: SelectionSingleValue | SelectionMultiValue;
+    itemSelectionMethod: ItemSelectionMethodEnum;
+    autoSelect: boolean;
+    itemSelectionMode: ItemSelectionModeEnum;
+    showSelectAllToggle: boolean;
+    enableSelectAll: boolean;
+    keepSelection: boolean;
+    selectionCountPosition: SelectionCountPositionEnum;
     stateStorageType: StateStorageTypeEnum;
     stateStorageAttr?: EditableValue<string>;
     storeFilters: boolean;
@@ -71,6 +76,7 @@ export interface GalleryContainerProps {
     emptyMessageTitle?: DynamicValue<string>;
     ariaLabelListBox?: DynamicValue<string>;
     ariaLabelItem?: ListExpressionValue<string>;
+    clearSelectionButtonLabel?: DynamicValue<string>;
 }
 
 export interface GalleryPreviewProps {
@@ -87,11 +93,6 @@ export interface GalleryPreviewProps {
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     datasource: {} | { caption: string } | { type: string } | null;
     refreshInterval: number | null;
-    itemSelection: "None" | "Single" | "Multi";
-    itemSelectionMode: ItemSelectionModeEnum;
-    keepSelection: boolean;
-    selectionCountPosition: SelectionCountPositionEnum;
-    clearSelectionButtonLabel: string;
     content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     refreshIndicator: boolean;
     desktopItems: number | null;
@@ -119,6 +120,14 @@ export interface GalleryPreviewProps {
     selectAllText: string;
     selectAllTemplate: string;
     allSelectedText: string;
+    itemSelection: "None" | "Single" | "Multi";
+    itemSelectionMethod: ItemSelectionMethodEnum;
+    autoSelect: boolean;
+    itemSelectionMode: ItemSelectionModeEnum;
+    showSelectAllToggle: boolean;
+    enableSelectAll: boolean;
+    keepSelection: boolean;
+    selectionCountPosition: SelectionCountPositionEnum;
     stateStorageType: StateStorageTypeEnum;
     stateStorageAttr: string;
     onConfigurationChange: {} | null;
@@ -128,4 +137,5 @@ export interface GalleryPreviewProps {
     emptyMessageTitle: string;
     ariaLabelListBox: string;
     ariaLabelItem: string;
+    clearSelectionButtonLabel: string;
 }

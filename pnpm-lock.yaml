@@ -8,6 +8,7 @@ overrides:
   '@codemirror/state': ^6.5.2
   '@codemirror/view': ^6.38.1
   '@mendix/pluggable-widgets-tools': 10.21.2
+  '@prettier/plugin-xml': '>=3.4.1'
   '@testing-library/react': '>=15.0.6'
   '@types/big.js': ^6.2.2
   '@types/node': ~22.14.0
@@ -2692,7 +2693,7 @@ importers:
         specifier: ^9.34.0
         version: 9.37.0
       '@prettier/plugin-xml':
-        specifier: ^3.4.2
+        specifier: '>=3.4.1'
         version: 3.4.2(prettier@3.5.3)
       eslint:
         specifier: ^9.34.0
@@ -4365,9 +4366,6 @@ packages:
 
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
-
-  '@prettier/plugin-xml@1.2.0':
-    resolution: {integrity: sha512-bFvVAZKs59XNmntYjyefn3K4TBykS6E+d6ZW8IcylAs88ZO+TzLhp0dPpi0VKfPzq1Nb+kpDnPRTiwb4zY6NgA==}
 
   '@prettier/plugin-xml@3.4.2':
     resolution: {integrity: sha512-/UyNlHfkuLXG6Ed85KB0WBF283xn2yavR+UtRibBRUcvEJId2DSLdGXwJ/cDa1X++SWDPzq3+GSFniHjkNy7yg==}
@@ -10653,6 +10651,7 @@ packages:
   whatwg-encoding@2.0.0:
     resolution: {integrity: sha512-p41ogyeMUrw3jWclHWTQg1k05DSVXPLcVxRTYsXUk+ZooOCZLcoYgPZ/HL/D/N+uQPOtcp1me1WhBEaX02mhWg==}
     engines: {node: '>=12'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-fetch@3.6.20:
     resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}
@@ -12465,7 +12464,7 @@ snapshots:
       '@babel/preset-env': 7.28.3(@babel/core@7.28.4)
       '@babel/preset-react': 7.27.1(@babel/core@7.28.4)
       '@cfaester/enzyme-adapter-react-18': 0.6.0(enzyme@3.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@prettier/plugin-xml': 1.2.0
+      '@prettier/plugin-xml': 3.4.2(prettier@3.5.3)
       '@rollup/plugin-alias': 5.1.1(rollup@3.29.5)
       '@rollup/plugin-babel': 6.1.0(@babel/core@7.28.4)(@types/babel__core@7.20.5)(rollup@3.29.5)
       '@rollup/plugin-commonjs': 28.0.7(rollup@3.29.5)
@@ -12705,11 +12704,6 @@ snapshots:
   '@plotly/regl@2.1.2': {}
 
   '@popperjs/core@2.11.8': {}
-
-  '@prettier/plugin-xml@1.2.0':
-    dependencies:
-      '@xml-tools/parser': 1.0.11
-      prettier: 3.5.3
 
   '@prettier/plugin-xml@3.4.2(prettier@3.5.3)':
     dependencies:

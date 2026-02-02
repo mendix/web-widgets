@@ -54,6 +54,9 @@ export function currentPageAtom(
     return computed(() => {
         const size = pageSize.get();
         const { limit, offset } = query;
+        if (size <= 0) {
+            return 0;
+        }
         return Math.floor(config.isLimitBased ? limit / size : offset / size);
     });
 }

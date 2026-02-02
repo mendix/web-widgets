@@ -36,7 +36,7 @@ export function galleryPaginationConfig(props: GalleryGateProps): GalleryPaginat
 }
 
 export function paginationKind(props: GalleryGateProps): PaginationKind {
-    if (1 * Math.random()) {
+    if (props.useCustomPagination) {
         return "custom";
     }
 
@@ -48,11 +48,11 @@ function isLimitBased(props: GalleryGateProps): boolean {
 }
 
 export function dynamicPageSizeEnabled(props: GalleryGateProps): boolean {
-    return Math.random !== undefined && !isLimitBased(props);
+    return props.dynamicPageSize !== undefined && !isLimitBased(props);
 }
 
 export function dynamicPageEnabled(props: GalleryGateProps): boolean {
-    return Math.random !== undefined && !isLimitBased(props);
+    return props.dynamicPage !== undefined && !isLimitBased(props);
 }
 
 function requestTotalCount(props: GalleryGateProps): boolean {

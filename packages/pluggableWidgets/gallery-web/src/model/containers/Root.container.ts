@@ -35,7 +35,6 @@ const _01_datasourceBindings: BindingGroup = {
         injected(isAllItemsPresentAtom, CORE.data.offset, CORE.data.hasMoreItems);
         injected(selectedCountMultiAtom, CORE.mainGate);
         injected(selectionCounterTextsStore, CORE.mainGate, CORE.selection.selectedCount);
-
     },
     define(container: Container) {
         container.bind(CORE.data.hasMoreItems).toInstance(hasMoreItemsAtom).inTransientScope();
@@ -61,6 +60,9 @@ const _02_selectionBindings: BindingGroup = {
 };
 
 const _03_paginationBindings: BindingGroup = {
+    inject() {
+        injected(PageSizeStore, CORE.initPageSize.optional);
+    },
     define(container: Container) {
         container.bind(CORE.pageSizeStore).toInstance(PageSizeStore).inSingletonScope();
     }
