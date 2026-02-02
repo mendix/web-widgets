@@ -1,13 +1,16 @@
-import { spawnSync } from "node:child_process";
+import { spawnSync, execSync } from "node:child_process";
 import { delimiter } from "node:path";
 import { fileURLToPath } from "node:url";
 import parseArgs from "yargs-parser";
 import c from "ansi-colors";
 import enquirer from "enquirer";
+import sh from "shelljs";
 import { setupTestProject } from "./setup-test-project.mjs";
 import { updateTestProject } from "./update-test-project.mjs";
 import { await200 } from "./utils.mjs";
 import * as config from "./config.mjs";
+
+const { ls, exec } = sh;
 
 export async function dev() {
     console.log(c.cyan("Run e2e tests in development environment"));
@@ -28,6 +31,20 @@ export async function dev() {
             "camel-case-expansion": true
         }
     };
+
+    if (!process.env.GITHUB_TOKEN) {
+        console.log("GITHUB_TOKEN not found. Fetching from GitHub CLI...");
+
+        const result = exec("gh auth token", { silent: true });
+
+        if (result.code === 0) {
+            process.env.GITHUB_TOKEN = result.stdout.trim();
+            console.log("Successfully set GITHUB_TOKEN from gh CLI.");
+        } else {
+            console.error('Error: Could not retrieve token. Ensure you are logged in via "gh auth login".');
+            process.exit(1);
+        }
+    }
 
     // We add local node_modules/.bin to PATH to make cypress bin is available for
     // any package in monorepo.
@@ -52,6 +69,29 @@ export async function dev() {
                 ].join("\n")
             )
         );
+
+        // Print out Mendix version from MPR file
+        try {
+            const mprFiles = ls(config.mprFileGlob);
+            if (mprFiles.length > 0) {
+                const mprFile = mprFiles[0];
+                try {
+                    const version = execSync(`sqlite3 "${mprFile}" "select _ProductVersion from _MetaData;"`, {
+                        encoding: "utf-8",
+                        stdio: ["pipe", "pipe", "pipe"]
+                    }).trim();
+                    console.log(c.cyan(`Test project was created with Mendix version: ${c.bold(version)}`));
+                } catch (error) {
+                    if (error.message.includes("sqlite3") || error.code === "ENOENT") {
+                        console.log(c.gray("sqlite3 command not found, unable to get Mendix version info"));
+                    } else {
+                        console.log(c.gray("Unable to read Mendix version from project file"));
+                    }
+                }
+            }
+        } catch {
+            console.log(c.gray("Unable to determine Mendix version"));
+        }
 
         await enquirer.prompt({
             type: "confirm",

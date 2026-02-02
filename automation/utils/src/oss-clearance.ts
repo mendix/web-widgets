@@ -16,12 +16,14 @@ export function findAllReadmeOssLocally(): string[] {
     return matchingFiles1.concat(matchingFiles2);
 }
 
-export function getRecommendedReadmeOss(
-    packageName: string,
-    packageVersion: string,
-    availableReadmes: string[]
-): string | undefined {
-    const fileNames = availableReadmes.map(r => [basename(r), r]);
+export function getRecommendedReadmeOss(packageNameAndVersion: string, availableReadmes: string[]): string | undefined {
+    const fileNames = availableReadmes.map(r => [basename(r).toLowerCase(), r]);
+
+    const nameParts = packageNameAndVersion.split(" ");
+    const version = nameParts.pop()!;
+
+    const packageName = nameParts.join("").toLowerCase();
+    const packageVersion = version.replace("v", "");
 
     return fileNames.find(([name]) => name.includes(packageName) && name.includes(packageVersion))?.at(1);
 }
