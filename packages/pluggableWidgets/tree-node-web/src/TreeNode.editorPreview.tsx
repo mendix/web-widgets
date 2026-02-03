@@ -3,7 +3,7 @@ import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { GUID } from "mendix";
 import { ReactElement } from "react";
 import { TreeNodePreviewProps } from "../typings/TreeNodeProps";
-import { TreeNode } from "./components/TreeNode";
+import { TreeNode, TreeNodeItem } from "./components/TreeNode";
 
 function renderTextTemplateWithFallback(textTemplateValue: string, placeholder: string): string {
     if (textTemplateValue.trim().length === 0) {
@@ -44,6 +44,10 @@ export function preview(props: TreeNodePreviewProps): ReactElement | null {
             animateIcon={false}
             animateTreeNodeContent={false}
             openNodeOn={"headerClick"}
+            fetchChildren={() => {
+                return new Promise<TreeNodeItem[]>(resolve => resolve([]));
+            }}
+            isInfiniteTreeNodesEnabled={false}
         />
     );
 }
