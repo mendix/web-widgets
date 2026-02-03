@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { autoUpdate, ReferenceType, size, useFloating } from "@floating-ui/react-dom";
+import { autoUpdate, flip, ReferenceType, size, useFloating } from "@floating-ui/react-dom";
 
 export function useFloatingMenu<T extends ReferenceType = HTMLDivElement>(
     open: boolean
@@ -12,6 +12,10 @@ export function useFloatingMenu<T extends ReferenceType = HTMLDivElement>(
                         width: `${rects.reference.width}px`
                     });
                 }
+            }),
+            flip({
+                crossAxis: false,
+                fallbackStrategy: "initialPlacement"
             })
         ],
         []

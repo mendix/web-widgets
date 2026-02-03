@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We improved the filter selector dropdown behavior so it now automatically selects the best placement based on the available space.
+
 ## [3.8.0] - 2026-01-16
 
 ### Fixed
