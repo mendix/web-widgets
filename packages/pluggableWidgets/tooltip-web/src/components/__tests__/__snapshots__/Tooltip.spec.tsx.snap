@@ -21,7 +21,7 @@ exports[`Tooltip render DOM structure 1`] = `
       data-floating-ui-focusable=""
       id=":r0:"
       role="tooltip"
-      style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
+      style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
       tabindex="-1"
     >
       Tooltip text
