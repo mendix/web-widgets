@@ -107,7 +107,6 @@ export function getProperties(
             "selectionMethod",
             "selectAllButton",
             "selectAllButtonCaption",
-            "onChangeEvent",
             ...ASSOCIATION_SOURCE_CONFIG
         ]);
         if (values.optionsSourceDatabaseDataSource === null) {
@@ -140,8 +139,18 @@ export function getProperties(
             if (values.customEditability !== "conditionally") {
                 hidePropertiesIn(defaultProperties, values, ["customEditabilityExpression"]);
             }
+
+            // hide generic On change event when value is not saved anywhere.
+            // Users should use On change that is assigned to the selection API (onChangeDatabaseEvent)
+            hidePropertiesIn(defaultProperties, values, ["onChangeEvent"]);
         } else {
             hidePropertiesIn(defaultProperties, values, ["customEditability", "customEditabilityExpression"]);
+
+            // hide On change event that is tied to the selection API (onChangeDatabaseEvent)
+            // this event runs on initialization even though the actual value set to
+            // Target (databaseAttributeString) is not changing and this is confusing.
+            // Users should use generic On change event
+            hidePropertiesIn(defaultProperties, values, ["onChangeDatabaseEvent"]);
         }
     } else if (values.source === "static") {
         hidePropertiesIn(defaultProperties, values, [
