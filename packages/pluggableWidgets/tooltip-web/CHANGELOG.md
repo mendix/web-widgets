@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-02-03
+
 ### Fixed
 
 - We fixed an issue where the tooltip would cause scrollbars to appear in some cases.
