@@ -27,6 +27,7 @@
     "scripts": {
         "agent-rules": "ts-node bin/rui-agent-rules.ts",
         "changelog": "ts-node bin/rui-changelog-helper.ts",
+        "check-changelogs": "ts-node bin/rui-check-changelogs.ts",
         "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
         "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
         "format": "prettier --write .",
