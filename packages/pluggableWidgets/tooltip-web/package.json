@@ -1,7 +1,7 @@
 {
     "name": "@mendix/tooltip-web",
     "widgetName": "Tooltip",
-    "version": "1.4.2",
+    "version": "1.5.0",
     "description": "Shows a value inside a colored tooltip or label",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
