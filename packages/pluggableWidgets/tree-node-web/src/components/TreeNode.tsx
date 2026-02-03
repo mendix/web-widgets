@@ -1,19 +1,20 @@
 import classNames from "classnames";
-import { ObjectItem, WebIcon } from "mendix";
+import { ObjectItem, Option, WebIcon } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, useCallback, useContext } from "react";
-
 import { OpenNodeOnEnum, TreeNodeContainerProps } from "../../typings/TreeNodeProps";
 
-import { useTreeNodeFocusChangeHandler } from "./hooks/TreeNodeAccessibility";
-import { useTreeNodeRef } from "./hooks/useTreeNodeRef";
 import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "./HeaderIcon";
 import { TreeNodeBranch, TreeNodeBranchProps, treeNodeBranchUtils } from "./TreeNodeBranch";
 import { TreeNodeBranchContext, useInformParentContextOfChildNodes } from "./TreeNodeBranchContext";
+import { useTreeNodeFocusChangeHandler } from "./hooks/TreeNodeAccessibility";
+import { useLocalizedTreeNode } from "./hooks/useInfiniteTreeNodes";
+import { useTreeNodeRef } from "./hooks/useTreeNodeRef";
 
 export interface TreeNodeItem extends ObjectItem {
     headerContent: ReactNode;
     bodyContent: ReactNode;
     isUserDefinedLeafNode: boolean;
+    children?: TreeNodeItem[];
 }
 
 export interface InfoTreeNodeItem {
@@ -32,23 +33,31 @@ export interface TreeNodeProps extends Pick<TreeNodeContainerProps, "tabIndex"> 
     animateIcon: boolean;
     animateTreeNodeContent: TreeNodeBranchProps["animateTreeNodeContent"];
     openNodeOn: OpenNodeOnEnum;
+    fetchChildren: (item?: Option<ObjectItem>) => Promise<TreeNodeItem[]>;
+    isInfiniteTreeNodesEnabled: boolean;
 }
 
-export function TreeNode({
-    class: className,
-    items,
-    style,
-    showCustomIcon,
-    startExpanded,
-    iconPlacement,
-    expandedIcon,
-    collapsedIcon,
-    tabIndex,
-    animateIcon,
-    animateTreeNodeContent,
-    openNodeOn
-}: TreeNodeProps): ReactElement | null {
+export function TreeNode(props: TreeNodeProps): ReactElement | null {
+    const {
+        class: className,
+        items,
+        style,
+        showCustomIcon,
+        startExpanded,
+        iconPlacement,
+        expandedIcon,
+        collapsedIcon,
+        tabIndex,
+        animateIcon,
+        animateTreeNodeContent,
+        openNodeOn,
+        fetchChildren,
+        isInfiniteTreeNodesEnabled
+    } = props;
     const { level } = useContext(TreeNodeBranchContext);
+    // localized items if infinite tree nodes is enabled,
+    // this is to allow each nodes updates their own items when children are fetched
+    const { localizedItems: localItems, appendChildren } = useLocalizedTreeNode(items, isInfiniteTreeNodesEnabled);
     const [treeNodeElement, updateTreeNodeElement] = useTreeNodeRef();
 
     const renderHeaderIconCallback = useCallback<TreeNodeHeaderIcon>(
@@ -66,11 +75,11 @@ export function TreeNode({
         return treeNodeElement?.parentElement?.className.includes(treeNodeBranchUtils.bodyClassName) ?? false;
     }, [treeNodeElement]);
 
-    useInformParentContextOfChildNodes(Array.isArray(items) ? items.length : 0, isInsideAnotherTreeNode);
+    useInformParentContextOfChildNodes(Array.isArray(localItems) ? localItems.length : 0, isInsideAnotherTreeNode);
 
     const changeTreeNodeBranchHeaderFocus = useTreeNodeFocusChangeHandler();
 
-    if (items === null || (Array.isArray(items) && items.length === 0)) {
+    if (localItems === null || (Array.isArray(localItems) && localItems.length === 0)) {
         return null;
     }
 
@@ -82,23 +91,24 @@ export function TreeNode({
             data-focusindex={tabIndex || 0}
             role={level === 0 ? "tree" : "group"}
         >
-            {Array.isArray(items) &&
-                items.map(item => {
-                    const { id, headerContent, bodyContent, isUserDefinedLeafNode } = item;
+            {Array.isArray(localItems) &&
+                localItems.map(item => {
                     return (
                         <TreeNodeBranch
-                            key={id}
-                            id={id}
-                            headerContent={headerContent}
-                            isUserDefinedLeafNode={isUserDefinedLeafNode}
+                            key={item.id}
+                            item={item}
                             startExpanded={startExpanded}
                             iconPlacement={iconPlacement}
                             renderHeaderIcon={renderHeaderIconCallback}
                             changeFocus={changeTreeNodeBranchHeaderFocus}
                             animateTreeNodeContent={animateTreeNodeContent}
                             openNodeOn={openNodeOn}
+                            fetchChildren={fetchChildren}
+                            isInfiniteTreeNodesEnabled={isInfiniteTreeNodesEnabled}
+                            appendChildren={appendChildren}
+                            treeNodeProps={props}
                         >
-                            {bodyContent}
+                            {item.bodyContent}
                         </TreeNodeBranch>
                     );
                 })}
