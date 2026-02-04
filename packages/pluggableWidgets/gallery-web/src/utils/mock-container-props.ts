@@ -1,4 +1,4 @@
-import { dynamic, list } from "@mendix/widget-plugin-test-utils";
+import { list } from "@mendix/widget-plugin-test-utils";
 import { GalleryContainerProps } from "../../typings/GalleryProps";
 
 export function mockContainerProps(): GalleryContainerProps {
@@ -26,8 +26,7 @@ export function mockContainerProps(): GalleryContainerProps {
         storeFilters: false,
         storeSort: false,
         useCustomPagination: false,
-        selectAllTemplate: dynamic("%d items selected"),
-        selectAllText: dynamic("Select all"),
-        allSelectedText: dynamic("All items selected")
+        autoSelect: false,
+        loadingType: "spinner"
     };
 }
