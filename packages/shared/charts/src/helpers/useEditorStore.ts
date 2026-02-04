@@ -1,5 +1,5 @@
 import { Data } from "plotly.js-dist-min";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { fallback, pprint } from "../utils/json";
 import { EditorStore, EditorStoreState } from "./EditorStore";
 
@@ -7,6 +7,7 @@ export type EditorStoreInitializer = () => EditorStoreState;
 
 type Params = {
     dataLength: number;
+    dataSourceKey?: Data[];
     initState?: EditorStoreInitializer;
 };
 
@@ -22,6 +23,20 @@ export function useEditorStore(params: Params): EditorStore {
 
         return store;
     });
+
+    const isInitialMount = useRef(true);
+
+    useEffect(() => {
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+            return;
+        }
+        if (params.initState) {
+            const state = params.initState();
+            store.reset(state);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [store, params.dataSourceKey]);
 
     useEffect(
         () => () => {
