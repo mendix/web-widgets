@@ -19,11 +19,13 @@ export const GalleryHeader = observer(function GalleryHeader(): ReactElement | n
         return null;
     }
 
-    return <FilterAPI.Provider value={filterAPI}>
-        <SortAPI.Provider value={sortAPI}>
-            <SelectionContext.Provider value={selectionContext}>
-                <section className="widget-gallery-header widget-gallery-filter">{filtersPlaceholder}</section>
-            </SelectionContext.Provider>
-        </SortAPI.Provider>
-    </FilterAPI.Provider>
+    return (
+        <FilterAPI.Provider value={filterAPI}>
+            <SortAPI.Provider value={sortAPI}>
+                <SelectionContext.Provider value={selectionContext}>
+                    <section className="widget-gallery-header widget-gallery-filter">{filtersPlaceholder}</section>
+                </SelectionContext.Provider>
+            </SortAPI.Provider>
+        </FilterAPI.Provider>
+    );
 });
