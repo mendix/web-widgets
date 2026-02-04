@@ -8,17 +8,17 @@ import { Pagination } from "./Pagination";
 export function GalleryTobBarControls(): ReactElement {
     const counterVM = useSelectionCounterViewModel();
     const pgConfig = usePaginationConfig();
-    
+
     return (
         <div className="widget-gallery-top-bar-controls">
             <div className="widget-gallery-tb-start">
                 <If condition={counterVM.isTopCounterVisible}>
                     <SelectionCounter />
                 </If>
+            </div>
+            <div className="widget-gallery-tb-end">
                 <If condition={pgConfig.pagingPosition !== "bottom"}>
-                    <div className="widget-gallery-tb-end">
-                        <Pagination />
-                    </div>
+                    <Pagination />
                 </If>
             </div>
         </div>
