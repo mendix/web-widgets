@@ -8,6 +8,7 @@ import { GalleryItems as Items } from "./GalleryItems";
 import { GalleryRoot as Root } from "./GalleryRoot";
 import { GalleryTobBarControls as TopBarControls } from "./GalleryTobBarControls";
 import { GalleryTopBar as TopBar } from "./GalleryTopBar";
+import { RefreshStatus } from "./RefreshStatus";
 
 export function GalleryWidget(): ReactElement {
     return (
@@ -16,6 +17,7 @@ export function GalleryWidget(): ReactElement {
                 <TopBarControls />
             </TopBar>
             <Header />
+            <RefreshStatus />
             <Content>
                 <Items />
             </Content>

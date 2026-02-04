@@ -69,17 +69,9 @@
                         <selectionType name="Multi" />
                     </selectionTypes>
                 </property>
-                <property key="itemSelectionMethod" type="enumeration" defaultValue="checkbox">
-                    <caption>Selection method</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="checkbox">Checkbox</enumerationValue>
-                        <enumerationValue key="rowClick">Row click</enumerationValue>
-                    </enumerationValues>
-                </property>
                 <property key="autoSelect" type="boolean" defaultValue="false">
-                    <caption>Auto select first row</caption>
-                    <description>Automatically select the first row</description>
+                    <caption>Auto select first item</caption>
+                    <description>Automatically select the first item</description>
                 </property>
                 <property key="itemSelectionMode" type="enumeration" defaultValue="clear">
                     <caption>Toggle on click</caption>
@@ -88,14 +80,6 @@
                         <enumerationValue key="toggle">Yes</enumerationValue>
                         <enumerationValue key="clear">No</enumerationValue>
                     </enumerationValues>
-                </property>
-                <property key="showSelectAllToggle" type="boolean" defaultValue="true">
-                    <caption>"Select all" checkbox</caption>
-                    <description>Displays a checkbox in the grid header that allows selecting or deselecting all rows on the current page.</description>
-                </property>
-                <property key="enableSelectAll" type="boolean" defaultValue="false">
-                    <caption>"Select all" across pages</caption>
-                    <description>Shows a banner with the option to select all rows across all pages when all rows on the current page are selected.</description>
                 </property>
                 <property key="keepSelection" type="boolean" defaultValue="false">
                     <caption>Keep selection</caption>
@@ -251,24 +235,22 @@
         </propertyGroup>
         <propertyGroup caption="Texts">
             <propertyGroup caption="Aria labels">
-                <propertyGroup caption="Aria labels">
-                    <property key="filterSectionTitle" type="textTemplate" required="false">
-                        <caption>Filter section</caption>
-                        <description>Assistive technology will read this upon reaching a filtering or sorting section.</description>
-                    </property>
-                    <property key="emptyMessageTitle" type="textTemplate" required="false">
-                        <caption>Empty message</caption>
-                        <description>Assistive technology will read this upon reaching an empty message section.</description>
-                    </property>
-                    <property key="ariaLabelListBox" type="textTemplate" required="false">
-                        <caption>Content description</caption>
-                        <description>Assistive technology will read this upon reaching gallery.</description>
-                    </property>
-                    <property key="ariaLabelItem" type="textTemplate" dataSource="datasource" required="false">
-                        <caption>Item description</caption>
-                        <description>Assistive technology will read this upon reaching each gallery item.</description>
-                    </property>
-                </propertyGroup>
+                <property key="filterSectionTitle" type="textTemplate" required="false">
+                    <caption>Filter section</caption>
+                    <description>Assistive technology will read this upon reaching a filtering or sorting section.</description>
+                </property>
+                <property key="emptyMessageTitle" type="textTemplate" required="false">
+                    <caption>Empty message</caption>
+                    <description>Assistive technology will read this upon reaching an empty message section.</description>
+                </property>
+                <property key="ariaLabelListBox" type="textTemplate" required="false">
+                    <caption>Content description</caption>
+                    <description>Assistive technology will read this upon reaching gallery.</description>
+                </property>
+                <property key="ariaLabelItem" type="textTemplate" dataSource="datasource" required="false">
+                    <caption>Item description</caption>
+                    <description>Assistive technology will read this upon reaching each gallery item.</description>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Captions">
                 <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
@@ -285,30 +267,6 @@
                     <translations>
                         <translation lang="en_US">%d rows selected</translation>
                         <translation lang="nl_NL">%d rijen geselecteerd</translation>
-                    </translations>
-                </property>
-                <property key="Text" type="textTemplate">
-                    <caption>Select all text</caption>
-                    <description />
-                    <translations>
-                        <translation lang="en_US">Select all rows in the data source</translation>
-                        <translation lang="nl_NL">Selecteer alle rijen in de gegevensbron</translation>
-                    </translations>
-                </property>
-                <property key="selectAllTemplate" type="textTemplate">
-                    <caption>Select all template</caption>
-                    <description>This caption used when total count is available.</description>
-                    <translations>
-                        <translation lang="en_US">Select all %d rows in the data source</translation>
-                        <translation lang="nl_NL">Selecteer alle %d rijen in de gegevensbron</translation>
-                    </translations>
-                </property>
-                <property key="allSelectedText" type="textTemplate">
-                    <caption>Select status template</caption>
-                    <description />
-                    <translations>
-                        <translation lang="en_US">All %d rows selected.</translation>
-                        <translation lang="nl_NL">Alle %d rijen geselecteerd.</translation>
                     </translations>
                 </property>
                 <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
