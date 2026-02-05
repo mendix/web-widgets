@@ -10,18 +10,18 @@ interface BarcodeRendererProps {
 
 export function BarcodeRenderer({ config }: BarcodeRendererProps): ReactElement {
     const ref = useRenderBarcode(config);
-    const { allowDownload, downloadAriaLabel } = config;
+    const { downloadButton } = config;
 
     return (
         <Fragment>
             <svg ref={ref} />
-            {allowDownload && (
+            {downloadButton && (
                 <button
                     className="btn btn-default"
-                    aria-label={downloadAriaLabel}
+                    aria-label={downloadButton.label}
                     onClick={() => downloadBarcodeFromRef(ref)}
                 >
-                    Download barcode
+                    {downloadButton.caption}
                 </button>
             )}
         </Fragment>

@@ -1,5 +1,10 @@
 import { BarcodeGeneratorContainerProps, QrLevelEnum } from "../../typings/BarcodeGeneratorProps";
 
+interface DownloadButtonConfig {
+    caption?: string;
+    label?: string;
+}
+
 /** Configuration for barcode (non-QR) rendering */
 export interface BarcodeTypeConfig {
     type: "barcode";
@@ -9,8 +14,7 @@ export interface BarcodeTypeConfig {
     format: string;
     margin: number;
     displayValue: boolean;
-    allowDownload: boolean;
-    downloadAriaLabel?: string;
+    downloadButton?: DownloadButtonConfig;
 
     // Advanced barcode options
     enableEan128: boolean;
@@ -30,8 +34,7 @@ export interface QRCodeTypeConfig {
     margin: number;
     title: string;
     level: QrLevelEnum;
-    allowDownload: boolean;
-    downloadAriaLabel?: string;
+    downloadButton?: DownloadButtonConfig;
     image?: {
         src: string;
         x: number | undefined;
@@ -49,6 +52,13 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
     const codeValue = props.codeValue?.value ?? "";
     const format = props.codeFormat === "Custom" ? props.customCodeFormat : props.codeFormat;
 
+    const downloadButtonConfig = props.allowDownload
+        ? {
+              caption: props.downloadButtonCaption?.value,
+              label: props.downloadButtonAriaLabel?.value
+          }
+        : undefined;
+
     if (format === "QRCode") {
         return {
             type: "qrcode",
@@ -57,8 +67,7 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
             margin: props.qrMargin ?? 2,
             title: props.qrTitle ?? "",
             level: props.qrLevel ?? "L",
-            allowDownload: props.allowDownload ?? false,
-            downloadAriaLabel: props.downloadAriaLabel,
+            downloadButton: downloadButtonConfig,
             image:
                 props.qrImageSrc?.status === "available"
                     ? {
@@ -82,8 +91,7 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         format,
         margin: props.codeMargin ?? 2,
         displayValue: props.displayValue ?? false,
-        allowDownload: props.allowDownload ?? false,
-        downloadAriaLabel: props.downloadAriaLabel,
+        downloadButton: downloadButtonConfig,
 
         // Advanced barcode options
         enableEan128: props.enableEan128 ?? false,
