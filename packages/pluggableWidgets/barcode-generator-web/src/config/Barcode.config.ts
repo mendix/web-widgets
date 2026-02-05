@@ -1,13 +1,12 @@
-import { BarcodeGeneratorContainerProps } from "../../typings/BarcodeGeneratorProps";
+import { BarcodeGeneratorContainerProps, QrLevelEnum } from "../../typings/BarcodeGeneratorProps";
 
-/** Configuration for static values that don't change at runtime. */
-export interface BarcodeConfig {
-    // Basic barcode properties
-    value: string;
+/** Configuration for barcode (non-QR) rendering */
+export interface BarcodeTypeConfig {
+    type: "barcode";
+    codeValue: string;
     width: number;
     height: number;
     format: string;
-    isQRCode: boolean;
     margin: number;
     displayValue: boolean;
     allowDownload: boolean;
@@ -21,34 +20,66 @@ export interface BarcodeConfig {
     addonValue: string;
     addonFormat: string;
     addonSpacing: number;
-
-    // QR Code properties
-    qrSize: number;
-    qrMargin: number;
-    qrTitle: string;
-    qrLevel: string;
-    qrImageSrc: string;
-    qrImageX: number | undefined;
-    qrImageY: number | undefined;
-    qrImageHeight: number;
-    qrImageWidth: number;
-    qrImageOpacity: number;
-    qrImageExcavate: boolean;
 }
 
-export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeConfig {
-    const value = props.codeValue?.status === "available" ? (props.codeValue.value ?? "") : "";
-    const format =
-        props.codeFormat === "Custom" ? (props.customCodeFormat ?? "CODE128") : (props.codeFormat ?? "CODE128");
-    const isQRCode = format === "QRCode";
+/** Configuration for QR code rendering */
+export interface QRCodeTypeConfig {
+    type: "qrcode";
+    codeValue: string;
+    size: number;
+    margin: number;
+    title: string;
+    level: QrLevelEnum;
+    allowDownload: boolean;
+    downloadAriaLabel?: string;
+    image?: {
+        src: string;
+        x: number | undefined;
+        y: number | undefined;
+        height: number;
+        width: number;
+        opacity: number;
+        excavate: boolean;
+    };
+}
 
-    return Object.freeze({
-        // Basic barcode properties
-        value,
+export type BarcodeConfig = BarcodeTypeConfig | QRCodeTypeConfig;
+
+export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeConfig {
+    const codeValue = props.codeValue?.value ?? "";
+    const format = props.codeFormat === "Custom" ? props.customCodeFormat : props.codeFormat;
+
+    if (format === "QRCode") {
+        return {
+            type: "qrcode",
+            codeValue,
+            size: props.qrSize ?? 128,
+            margin: props.qrMargin ?? 2,
+            title: props.qrTitle ?? "",
+            level: props.qrLevel ?? "L",
+            allowDownload: props.allowDownload ?? false,
+            downloadAriaLabel: props.downloadAriaLabel,
+            image:
+                props.qrImageSrc?.status === "available"
+                    ? {
+                          src: props.qrImageSrc.value.uri,
+                          x: props.qrImageX === 0 ? undefined : props.qrImageX,
+                          y: props.qrImageY === 0 ? undefined : props.qrImageY,
+                          height: props.qrImageHeight ?? 24,
+                          width: props.qrImageWidth ?? 24,
+                          opacity: props.qrImageOpacity?.toNumber() ?? 1,
+                          excavate: props.qrImageExcavate ?? true
+                      }
+                    : undefined
+        };
+    }
+
+    return {
+        type: "barcode",
+        codeValue,
         width: props.codeWidth ?? 128,
         height: props.codeHeight ?? 128,
         format,
-        isQRCode,
         margin: props.codeMargin ?? 2,
         displayValue: props.displayValue ?? false,
         allowDownload: props.allowDownload ?? false,
@@ -61,20 +92,6 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         enableMod43: props.enableMod43 ?? false,
         addonValue: props.addonValue?.status === "available" ? (props.addonValue.value ?? "") : "",
         addonFormat: props.addonFormat,
-        addonSpacing: props.addonSpacing ?? 20,
-
-        // QR Code properties
-        qrSize: props.qrSize ?? 128,
-        qrMargin: props.qrMargin ?? 2,
-        qrTitle: props.qrTitle ?? "",
-        qrLevel: props.qrLevel ?? "L",
-        qrImageSrc:
-            props.qrImageSrc?.status === "available" && props.qrImageSrc.value ? props.qrImageSrc.value.uri : "",
-        qrImageX: props.qrImageX === 0 ? undefined : props.qrImageX,
-        qrImageY: props.qrImageY === 0 ? undefined : props.qrImageY,
-        qrImageHeight: props.qrImageHeight ?? 24,
-        qrImageWidth: props.qrImageWidth ?? 24,
-        qrImageOpacity: props.qrImageOpacity?.toNumber() ?? 1,
-        qrImageExcavate: props.qrImageExcavate ?? true
-    });
+        addonSpacing: props.addonSpacing ?? 20
+    };
 }

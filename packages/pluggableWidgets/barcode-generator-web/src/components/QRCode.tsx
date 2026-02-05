@@ -1,56 +1,33 @@
 import { QRCodeSVG } from "qrcode.react";
-import { Fragment, useRef } from "react";
-import { useDownloadQrCode } from "../hooks/useDownloadQRCode";
-import { useBarcodeConfig } from "../config/BarcodeContext";
+import { Fragment, ReactElement, useRef } from "react";
+import { downloadQrCodeFromRef } from "../utils/download-svg";
+import { QRCodeTypeConfig } from "../config/Barcode.config";
 
-export const QRCodeRenderer = () => {
+interface QRCodeRendererProps {
+    config: QRCodeTypeConfig;
+}
+
+export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
     const ref = useRef<SVGSVGElement>(null);
-    const { downloadQrCode } = useDownloadQrCode({ ref });
 
-    const {
-        value,
-        allowDownload,
-        qrSize: size,
-        qrMargin: margin,
-        qrTitle: title,
-        qrLevel: level,
-        qrImageSrc: imageSrc,
-        qrImageX: imageX,
-        qrImageY: imageY,
-        qrImageHeight: imageHeight,
-        qrImageWidth: imageWidth,
-        qrImageOpacity: imageOpacity,
-        qrImageExcavate: imageExcavate,
-        downloadAriaLabel: downloadAriaLabel
-    } = useBarcodeConfig();
-    const imageSettings = imageSrc
-        ? {
-              src: imageSrc,
-              x: imageX,
-              y: imageY,
-              height: imageHeight,
-              width: imageWidth,
-              opacity: imageOpacity,
-              excavate: imageExcavate
-          }
-        : undefined;
+    const { codeValue, allowDownload, size, margin, title, level, downloadAriaLabel, image } = config;
 
     return (
         <Fragment>
             <QRCodeSVG
                 ref={ref}
-                value={value}
+                value={codeValue}
                 size={size}
-                level={level.toUpperCase() as "L" | "M" | "Q" | "H"}
+                level={level}
                 marginSize={margin}
                 title={title}
-                imageSettings={imageSettings}
+                imageSettings={image}
             />
             {allowDownload && (
                 <button
                     type="button"
                     aria-label={downloadAriaLabel}
-                    onClick={downloadQrCode}
+                    onClick={() => downloadQrCodeFromRef(ref)}
                     className="btn btn-default"
                 >
                     Download QR Code
@@ -58,4 +35,4 @@ export const QRCodeRenderer = () => {
             )}
         </Fragment>
     );
-};
+}
