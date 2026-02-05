@@ -1,22 +1,29 @@
 import { useRenderBarcode } from "../hooks/useRenderBarcode";
-import { useDownloadBarcode } from "../hooks/useDownloadBarcode";
-import { useBarcodeConfig } from "../config/BarcodeContext";
+import { downloadBarcodeFromRef } from "../utils/download-svg";
+import { BarcodeTypeConfig } from "../config/Barcode.config";
 
-import { Fragment } from "react";
+import { Fragment, ReactElement } from "react";
 
-export const BarcodeRenderer = () => {
-    const ref = useRenderBarcode();
-    const { allowDownload, downloadAriaLabel } = useBarcodeConfig();
-    const { downloadBarcode } = useDownloadBarcode({ ref });
+interface BarcodeRendererProps {
+    config: BarcodeTypeConfig;
+}
+
+export function BarcodeRenderer({ config }: BarcodeRendererProps): ReactElement {
+    const ref = useRenderBarcode(config);
+    const { allowDownload, downloadAriaLabel } = config;
 
     return (
         <Fragment>
             <svg ref={ref} />
             {allowDownload && (
-                <button className="btn btn-default" aria-label={downloadAriaLabel} onClick={downloadBarcode}>
+                <button
+                    className="btn btn-default"
+                    aria-label={downloadAriaLabel}
+                    onClick={() => downloadBarcodeFromRef(ref)}
+                >
                     Download barcode
                 </button>
             )}
         </Fragment>
     );
-};
+}
