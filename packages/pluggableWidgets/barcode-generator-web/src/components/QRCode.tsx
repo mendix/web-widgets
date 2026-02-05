@@ -10,7 +10,7 @@ interface QRCodeRendererProps {
 export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
     const ref = useRef<SVGSVGElement>(null);
 
-    const { codeValue, allowDownload, size, margin, title, level, downloadAriaLabel, image } = config;
+    const { codeValue, downloadButton, size, margin, title, level, image } = config;
 
     return (
         <Fragment>
@@ -23,14 +23,14 @@ export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
                 title={title}
                 imageSettings={image}
             />
-            {allowDownload && (
+            {downloadButton && (
                 <button
                     type="button"
-                    aria-label={downloadAriaLabel}
+                    aria-label={downloadButton.label}
                     onClick={() => downloadQrCodeFromRef(ref)}
                     className="btn btn-default"
                 >
-                    Download QR Code
+                    {downloadButton.caption}
                 </button>
             )}
         </Fragment>

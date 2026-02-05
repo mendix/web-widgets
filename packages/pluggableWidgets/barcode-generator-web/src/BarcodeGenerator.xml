@@ -28,9 +28,21 @@
                     <caption>Allow download</caption>
                     <description>Adds a download button</description>
                 </property>
-                <property key="downloadAriaLabel" type="string" required="false">
-                    <caption>Button aria-label</caption>
+                <property key="downloadButtonCaption" type="textTemplate" required="false">
+                    <caption>Download button text</caption>
                     <description />
+                    <translations>
+                        <translation lang="en_US">Download</translation>
+                        <translation lang="nl_NL">Downloaden</translation>
+                    </translations>
+                </property>
+                <property key="downloadButtonAriaLabel" type="textTemplate" required="false">
+                    <caption>Download button aria-label</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Download code as file</translation>
+                        <translation lang="nl_NL">Sla code op als bestand</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>
