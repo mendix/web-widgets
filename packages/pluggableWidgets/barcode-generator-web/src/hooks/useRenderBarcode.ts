@@ -1,12 +1,12 @@
-import { useBarcodeConfig } from "../config/BarcodeContext";
+import { BarcodeTypeConfig } from "../config/Barcode.config";
 import { RefObject, useEffect, useRef } from "react";
 import { type BarcodeRenderOptions, renderBarcode } from "../utils/barcodeRenderer-utils";
 
-export const useRenderBarcode = (): RefObject<SVGSVGElement | null> => {
+export const useRenderBarcode = (config: BarcodeTypeConfig): RefObject<SVGSVGElement | null> => {
     const ref = useRef<SVGSVGElement>(null);
 
     const {
-        value,
+        codeValue: value,
         width,
         height,
         format,
@@ -19,7 +19,7 @@ export const useRenderBarcode = (): RefObject<SVGSVGElement | null> => {
         enableMod43,
         addonFormat,
         addonSpacing
-    } = useBarcodeConfig();
+    } = config;
 
     useEffect(() => {
         if (ref && typeof ref !== "function" && ref.current && value) {
@@ -45,7 +45,21 @@ export const useRenderBarcode = (): RefObject<SVGSVGElement | null> => {
                 console.error("Error generating barcode:", error);
             }
         }
-    }, [value, addonValue]);
+    }, [
+        value,
+        format,
+        width,
+        height,
+        margin,
+        displayValue,
+        enableEan128,
+        enableFlat,
+        lastChar,
+        enableMod43,
+        addonValue,
+        addonFormat,
+        addonSpacing
+    ]);
 
     return ref;
 };
