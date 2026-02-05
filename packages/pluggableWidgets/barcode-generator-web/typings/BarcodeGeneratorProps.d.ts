@@ -23,7 +23,8 @@ export interface BarcodeGeneratorContainerProps {
     codeValue: EditableValue<string>;
     codeFormat: CodeFormatEnum;
     allowDownload: boolean;
-    downloadAriaLabel: string;
+    downloadButtonCaption?: DynamicValue<string>;
+    downloadButtonAriaLabel?: DynamicValue<string>;
     customCodeFormat: CustomCodeFormatEnum;
     enableEan128: boolean;
     enableFlat: boolean;
@@ -65,7 +66,8 @@ export interface BarcodeGeneratorPreviewProps {
     codeValue: string;
     codeFormat: CodeFormatEnum;
     allowDownload: boolean;
-    downloadAriaLabel: string;
+    downloadButtonCaption: string;
+    downloadButtonAriaLabel: string;
     customCodeFormat: CustomCodeFormatEnum;
     enableEan128: boolean;
     enableFlat: boolean;
