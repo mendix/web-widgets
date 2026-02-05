@@ -35,8 +35,8 @@ export class EditorStore {
         return () => (this.listeners = this.listeners.filter(l => l !== listener));
     }
 
-    resetData(length = 0): void {
-        this.state.data = Array(length).fill("{}");
+    resetData(freshData: JSONString[]): void {
+        this.state = { ...this.state, data: [...freshData] };
         this.emit();
     }
 
