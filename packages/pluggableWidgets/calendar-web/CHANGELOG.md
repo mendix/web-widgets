@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added support for configuring calendar time grid density via timeslots and step properties to control the widget’s required space.
+
+### Fixed
+
+- We fixed an issue where the “On view range changed” event nanoflow did not trigger when switching from Day/Week to Month view, causing Month view to only load events from the last week instead of the full month range.
+
 ## [2.2.0] - 2025-11-11
 
 ### Added
