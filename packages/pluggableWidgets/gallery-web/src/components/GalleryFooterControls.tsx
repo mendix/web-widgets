@@ -16,7 +16,7 @@ export const GalleryFooterControls = observer(function GalleryFooterControls(): 
         <div className="widget-gallery-footer-controls">
             <div className="widget-gallery-fc-start">
                 <If condition={counterVM.isBottomCounterVisible}>
-                     <SelectionCounter />
+                    <SelectionCounter />
                 </If>
             </div>
             <div className="widget-gallery-fc-middle">
@@ -31,5 +31,4 @@ export const GalleryFooterControls = observer(function GalleryFooterControls(): 
             </div>
         </div>
     );
-}
-)
+});

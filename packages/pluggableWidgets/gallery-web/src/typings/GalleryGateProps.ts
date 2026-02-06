@@ -39,4 +39,5 @@ export type GalleryGateProps = Pick<
     | "customPagination"
     | "emptyMessageTitle"
     | "emptyPlaceholder"
+    | "loadMoreButtonCaption"
 >;

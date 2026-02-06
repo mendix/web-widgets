@@ -1,11 +1,12 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
+import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
 import { usePaginationConfig } from "../model/hooks/injection-hooks";
 import { Pagination } from "./Pagination";
 
-export function GalleryTobBarControls(): ReactElement {
+export const GalleryTobBarControls = observer(function GalleryTobBarControls(): ReactElement {
     const counterVM = useSelectionCounterViewModel();
     const pgConfig = usePaginationConfig();
 
@@ -23,4 +24,4 @@ export function GalleryTobBarControls(): ReactElement {
             </div>
         </div>
     );
-}
+});

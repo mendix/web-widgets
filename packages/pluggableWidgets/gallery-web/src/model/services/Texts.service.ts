@@ -14,4 +14,8 @@ export class TextsService {
     get listboxAriaLabel(): string | undefined {
         return this.gate.props.ariaLabelListBox?.value;
     }
+
+    get loadMoreCaption(): string | undefined {
+        return this.gate.props.loadMoreButtonCaption?.value;
+    }
 }

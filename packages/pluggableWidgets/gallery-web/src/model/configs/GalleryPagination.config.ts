@@ -7,6 +7,7 @@ export interface GalleryPaginationConfig {
     dynamicPageEnabled: boolean;
     dynamicPageSizeEnabled: boolean;
     isLimitBased: boolean;
+    isVirtualScrolling: boolean;
     pagination: PaginationEnum;
     paginationKind: PaginationKind;
     pagingPosition: PagingPositionEnum;
@@ -24,6 +25,7 @@ export function galleryPaginationConfig(props: GalleryGateProps): GalleryPaginat
         dynamicPageEnabled: dynamicPageEnabled(props),
         dynamicPageSizeEnabled: dynamicPageSizeEnabled(props),
         isLimitBased: isLimitBased(props),
+        isVirtualScrolling: props.pagination === "virtualScrolling",
         pagination: props.pagination,
         paginationKind: paginationKind(props),
         pagingPosition: props.pagingPosition,
