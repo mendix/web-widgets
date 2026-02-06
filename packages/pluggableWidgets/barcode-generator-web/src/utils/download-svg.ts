@@ -1,14 +1,9 @@
 import { RefObject } from "react";
-import { downloadBlob, FILENAMES, prepareSvgForDownload, processQRImages } from "./download-utils";
+import { convertSvgToPng, downloadBlob, prepareSvgForDownload, processQRImages } from "./download-utils";
 
 type SvgType = "barcode" | "qrcode";
 
-/**
- * Downloads an SVG element as a file
- * @param svgElement - The SVG element to download
- * @param type - The type of SVG (barcode or qrcode)
- */
-export async function downloadSvg(svgElement: SVGSVGElement, type: SvgType): Promise<void> {
+export async function downloadSvg(svgElement: SVGSVGElement, type: SvgType, fileName: string): Promise<void> {
     try {
         const clonedSvg = prepareSvgForDownload(svgElement);
 
@@ -17,17 +12,11 @@ export async function downloadSvg(svgElement: SVGSVGElement, type: SvgType): Pro
             await processQRImages(clonedSvg);
         }
 
-        const serializer = new XMLSerializer();
-        const svgString = serializer.serializeToString(clonedSvg);
+        // Convert SVG to PNG with 2x scale for better quality
+        const pngBlob = await convertSvgToPng(clonedSvg, 2);
 
-        // Create download blob and trigger download
-        const blobOptions = {
-            type: "image/svg+xml;charset=utf-8",
-            lastModified: Date.now()
-        };
-        const blob = new Blob([svgString], blobOptions);
-        const filename = type === "qrcode" ? FILENAMES.QRCode : FILENAMES.Barcode;
-        downloadBlob(blob, filename);
+        // Trigger download
+        downloadBlob(pngBlob, fileName);
     } catch (error) {
         console.error(`Error downloading ${type}:`, error);
     }
@@ -36,23 +25,23 @@ export async function downloadSvg(svgElement: SVGSVGElement, type: SvgType): Pro
 /**
  * Helper function to download a barcode SVG from a ref
  */
-export function downloadBarcodeFromRef(ref: RefObject<SVGSVGElement | null>): Promise<void> {
+export function downloadBarcodeFromRef(ref: RefObject<SVGSVGElement | null>, fileName: string): Promise<void> {
     const svgElement = ref.current;
     if (!svgElement) {
         console.error("SVG element not found for download");
         return Promise.resolve();
     }
-    return downloadSvg(svgElement, "barcode");
+    return downloadSvg(svgElement, "barcode", fileName);
 }
 
 /**
  * Helper function to download a QR code SVG from a ref
  */
-export function downloadQrCodeFromRef(ref: RefObject<SVGSVGElement | null>): Promise<void> {
+export function downloadQrCodeFromRef(ref: RefObject<SVGSVGElement | null>, fileName: string): Promise<void> {
     const svgElement = ref.current;
     if (!svgElement) {
         console.error("SVG element not found for download");
         return Promise.resolve();
     }
-    return downloadSvg(svgElement, "qrcode");
+    return downloadSvg(svgElement, "qrcode", fileName);
 }
