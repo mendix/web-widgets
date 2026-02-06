@@ -32,8 +32,8 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
     );
 
     const editorStore = useEditorStore({
-        dataLength: chartPropsController.data.length,
-        initState: initStateFromProps(chartPropsController.data)
+        initState: initStateFromProps(chartPropsController.data),
+        dataSourceKey: chartPropsController.data
     });
 
     useEffect(() => {

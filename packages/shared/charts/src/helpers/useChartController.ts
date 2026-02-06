@@ -12,7 +12,6 @@ type Params = {
 export function useChartController(props: ChartProps, params: Params): [ChartProps, PlaygroundData] {
     const { playgroundOn } = params;
     const store = useEditorStore({
-        dataLength: props.data.length,
         initState: initStateFromProps(props)
     });
     const playgroundContext = usePlaygroundDataFactory(props, store);
