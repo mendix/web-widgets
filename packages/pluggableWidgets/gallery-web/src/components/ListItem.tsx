@@ -41,7 +41,7 @@ export const ListItem = observer(function ListItem(props: ListItemProps): ReactE
                 "widget-gallery-item",
                 {
                     "widget-gallery-clickable": clickable,
-                    "widget-gallery-selected": ariaProps["aria-selected"]
+                    "widget-gallery-selected": isSelected
                 },
                 itemVM.class(item)
             )}
@@ -54,6 +54,7 @@ export const ListItem = observer(function ListItem(props: ListItemProps): ReactE
             data-position={keyNavProps["data-position"]}
             ref={keyNavProps.ref as RefObject<HTMLDivElement>}
             tabIndex={keyNavProps.tabIndex}
+            data-selected={isSelected ? true : undefined}
         >
             {itemVM.hasOnClick(item) === true ? (
                 <ListItemButton>{itemVM.content(item)}</ListItemButton>

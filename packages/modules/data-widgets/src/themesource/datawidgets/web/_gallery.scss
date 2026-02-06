@@ -5,6 +5,7 @@
 ========================================================================== */
 $gallery-screen-lg: $screen-lg;
 $gallery-screen-md: $screen-md;
+$root: ".widget-gallery";
 
 @mixin grid-items($number, $suffix) {
     @for $i from 1 through $number {
@@ -160,5 +161,21 @@ $gallery-screen-md: $screen-md;
             width: 100%;
             justify-content: center;
         }
+    }
+}
+
+#{$root}-btn-link {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: var(--link-color);
+    padding: 0.3em 0.5em;
+    border-radius: 6px;
+    display: inline-block;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus-visible {
+        background-color: var(--brand-primary-50, #e6e7f2);
     }
 }
