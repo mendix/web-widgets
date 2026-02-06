@@ -27,7 +27,7 @@ export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
                 <button
                     type="button"
                     aria-label={downloadButton.label}
-                    onClick={() => downloadQrCodeFromRef(ref)}
+                    onClick={() => downloadQrCodeFromRef(ref, downloadButton.fileName)}
                     className="btn btn-default"
                 >
                     {downloadButton.caption}

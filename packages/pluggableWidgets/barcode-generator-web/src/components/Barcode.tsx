@@ -19,7 +19,7 @@ export function BarcodeRenderer({ config }: BarcodeRendererProps): ReactElement 
                 <button
                     className="btn btn-default"
                     aria-label={downloadButton.label}
-                    onClick={() => downloadBarcodeFromRef(ref)}
+                    onClick={() => downloadBarcodeFromRef(ref, downloadButton.fileName)}
                 >
                     {downloadButton.caption}
                 </button>
