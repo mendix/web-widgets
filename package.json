@@ -9,6 +9,7 @@
     "scripts": {
         "build": "turbo run build",
         "changelog": "pnpm --filter @mendix/automation-utils run changelog",
+        "check-changelogs": "pnpm --filter @mendix/automation-utils run check-changelogs",
         "create-gh-release": "turbo run create-gh-release --concurrency 1",
         "create-translation": "turbo run create-translation",
         "include-oss-in-artifact": "pnpm --filter @mendix/automation-utils run include-oss-in-artifact",
