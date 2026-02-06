@@ -6,7 +6,7 @@ import { usePaginationConfig, usePaginationVM } from "../model/hooks/injection-h
 
 export const GalleryContent = observer(function GalleryContent({ children }: PropsWithChildren): ReactElement {
     const paginationVM = usePaginationVM();
-    const isInfinite = usePaginationConfig().isLimitBased;
+    const isInfinite = usePaginationConfig().isVirtualScrolling;
     const [trackScrolling, bodySize, containerRef] = useInfiniteControl({
         hasMoreItems: paginationVM.hasMoreItems,
         isInfinite,
