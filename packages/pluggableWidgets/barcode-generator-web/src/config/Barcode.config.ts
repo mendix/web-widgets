@@ -3,6 +3,7 @@ import { BarcodeGeneratorContainerProps, QrLevelEnum } from "../../typings/Barco
 interface DownloadButtonConfig {
     caption?: string;
     label?: string;
+    fileName: string;
 }
 
 /** Configuration for barcode (non-QR) rendering */
@@ -55,7 +56,8 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
     const downloadButtonConfig = props.allowDownload
         ? {
               caption: props.downloadButtonCaption?.value,
-              label: props.downloadButtonAriaLabel?.value
+              label: props.downloadButtonAriaLabel?.value,
+              fileName: format === "QRCode" ? `qrcode_${hashCode(codeValue)}.png` : `barcode_${hashCode(codeValue)}.png`
           }
         : undefined;
 
@@ -102,4 +104,22 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         addonFormat: props.addonFormat,
         addonSpacing: props.addonSpacing ?? 20
     };
+}
+
+function hashCode(s: string): string {
+    if (!s) {
+        return "empty";
+    }
+
+    let hash = 0;
+    for (let i = 0; i < s.length; i++) {
+        const char = s.charCodeAt(i);
+        // eslint-disable-next-line no-bitwise
+        hash = (hash << 5) - hash + char;
+        // eslint-disable-next-line no-bitwise
+        hash = hash & hash; // Convert to 32-bit integer
+    }
+
+    // Convert to base36 and take first 10 characters
+    return Math.abs(hash).toString(36).substring(0, 10);
 }
