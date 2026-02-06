@@ -39,7 +39,7 @@ const Pagination = (): ReactNode => {
             pageSize={props.pageSize ?? 10}
             showPagingButtons={"always"}
             previousPage={() => {}}
-            pagination="buttons"
+            pagination={props.pagination}
         />
     );
 };
@@ -161,10 +161,12 @@ function useBottomCounter(): boolean {
 
 function usePagingTop(): boolean {
     const props = useProps();
-    return props.pagination === "buttons" && props.pagingPosition !== "bottom";
+    const visible = props.showTotalCount || props.pagination === "buttons";
+    return visible && props.pagingPosition !== "bottom";
 }
 
 function usePagingBot(): boolean {
     const props = useProps();
-    return props.pagination === "buttons" && props.pagingPosition !== "top";
+    const visible = props.showTotalCount || props.pagination === "buttons";
+    return visible && props.pagingPosition !== "top";
 }
