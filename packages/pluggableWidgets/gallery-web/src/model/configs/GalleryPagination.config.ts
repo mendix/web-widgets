@@ -13,7 +13,7 @@ export interface GalleryPaginationConfig {
     pagingPosition: PagingPositionEnum;
     requestTotalCount: boolean;
     showPagingButtons: ShowPagingButtonsEnum;
-    showTotalCount: boolean;
+    showNumberOfItems: boolean;
 }
 
 export type PaginationKind = `${PaginationEnum}.${ShowPagingButtonsEnum}` | "custom";
@@ -31,7 +31,7 @@ export function galleryPaginationConfig(props: GalleryGateProps): GalleryPaginat
         pagingPosition: props.pagingPosition,
         requestTotalCount: requestTotalCount(props),
         showPagingButtons: props.showPagingButtons,
-        showTotalCount: props.showTotalCount
+        showNumberOfItems: props.showTotalCount
     };
 
     return Object.freeze(config);
