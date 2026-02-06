@@ -33,7 +33,7 @@ export function galleryConfig(props: GalleryContainerProps): GalleryConfig {
         selectionType: selectionType(props),
         selectionMode: props.itemSelectionMode,
         keepSelection: props.keepSelection,
-        autoSelect: false,
+        autoSelect: props.autoSelect,
         settingsStorageEnabled: false,
         desktopItems: props.desktopItems,
         tabletItems: props.tabletItems,
