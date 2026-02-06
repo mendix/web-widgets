@@ -8,7 +8,7 @@ import { computed } from "mobx";
 export function itemCountAtom(
     gate: DerivedPropsGate<{ datasource: { items?: { length: number } } }>
 ): ComputedAtom<number> {
-    return computed(() => gate.props.datasource.items?.length ?? -1);
+    return computed(() => gate.props.datasource.items?.length ?? -1, { name: "plugin:@computed:itemCountAtom" });
 }
 
 /**
@@ -36,7 +36,7 @@ export function offsetAtom(gate: DerivedPropsGate<{ datasource: { offset: number
  * @injectable
  */
 export function limitAtom(gate: DerivedPropsGate<{ datasource: { limit: number } }>): ComputedAtom<number> {
-    return computed(() => gate.props.datasource.limit);
+    return computed(() => gate.props.datasource.limit, { name: 'plugin:@computed:limitAtom' });
 }
 
 /**

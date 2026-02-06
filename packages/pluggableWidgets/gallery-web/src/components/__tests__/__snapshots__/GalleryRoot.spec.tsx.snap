@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GalleryRoot should render with correct className, style and tabIndex 1`] = `
+<DocumentFragment>
+  <div
+    class="widget-gallery gallery-test-class"
+    data-focusindex="42"
+    style="color: blue;"
+  />
+</DocumentFragment>
+`;
