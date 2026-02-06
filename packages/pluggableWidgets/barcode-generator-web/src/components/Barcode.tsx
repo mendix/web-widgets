@@ -1,5 +1,5 @@
 import { useRenderBarcode } from "../hooks/useRenderBarcode";
-import { downloadBarcodeFromRef } from "../utils/download-svg";
+import { downloadCode } from "../utils/download-code";
 import { BarcodeTypeConfig } from "../config/Barcode.config";
 
 import { Fragment, ReactElement } from "react";
@@ -19,7 +19,7 @@ export function BarcodeRenderer({ config }: BarcodeRendererProps): ReactElement 
                 <button
                     className="btn btn-default"
                     aria-label={downloadButton.label}
-                    onClick={() => downloadBarcodeFromRef(ref, downloadButton.fileName)}
+                    onClick={() => downloadCode(ref, config.type, downloadButton.fileName)}
                 >
                     {downloadButton.caption}
                 </button>

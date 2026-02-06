@@ -1,6 +1,6 @@
 import { QRCodeSVG } from "qrcode.react";
 import { Fragment, ReactElement, useRef } from "react";
-import { downloadQrCodeFromRef } from "../utils/download-svg";
+import { downloadCode } from "../utils/download-code";
 import { QRCodeTypeConfig } from "../config/Barcode.config";
 
 interface QRCodeRendererProps {
@@ -27,7 +27,7 @@ export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
                 <button
                     type="button"
                     aria-label={downloadButton.label}
-                    onClick={() => downloadQrCodeFromRef(ref, downloadButton.fileName)}
+                    onClick={() => downloadCode(ref, config.type, downloadButton.fileName)}
                     className="btn btn-default"
                 >
                     {downloadButton.caption}
