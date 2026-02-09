@@ -1,7 +1,8 @@
+import copyFiles from "@mendix/rollup-web-widgets/copyFiles.mjs";
 import commonjs from "@rollup/plugin-commonjs";
 
 export default args => {
-    const result = args.configDefaultConfig;
+    const result = copyFiles(args);
     return result.map((config, _index) => {
         if (config.output.format !== "es") {
             return config;

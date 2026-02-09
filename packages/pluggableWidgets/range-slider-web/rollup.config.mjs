@@ -1,7 +1,8 @@
+import copyFiles from "@mendix/rollup-web-widgets/copyFiles.mjs";
 import { fileURLToPath } from "url";
 
 export default args => {
-    const result = args.configDefaultConfig;
+    const result = copyFiles(args);
     const [jsConfig, mJsConfig] = result;
 
     const folderUrl = new URL("dist/tmp/widgets/com/mendix/widget/custom/RangeSlider/", import.meta.url);
