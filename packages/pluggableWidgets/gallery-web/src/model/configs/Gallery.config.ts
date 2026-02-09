@@ -33,7 +33,7 @@ export function galleryConfig(props: GalleryContainerProps): GalleryConfig {
         selectionType: selectionType(props),
         selectionMode: props.itemSelectionMode,
         keepSelection: props.keepSelection,
-        autoSelect: props.autoSelect,
+        autoSelect: isAutoSelectEnabled(props),
         settingsStorageEnabled: false,
         desktopItems: props.desktopItems,
         tabletItems: props.tabletItems,
@@ -48,4 +48,8 @@ function isSelectionEnabled(props: GalleryContainerProps): boolean {
 
 function selectionType(props: GalleryContainerProps): SelectionType {
     return props.itemSelection ? props.itemSelection.type : "None";
+}
+
+function isAutoSelectEnabled(props: GalleryContainerProps): boolean {
+    return props.itemSelection?.type === "Multi" && props.autoSelect;
 }
