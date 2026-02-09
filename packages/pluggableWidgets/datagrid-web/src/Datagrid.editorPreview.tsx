@@ -1,4 +1,5 @@
 import { If } from "@mendix/widget-plugin-component-kit/If";
+import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
 import cn from "classnames";
 import { GUID, ObjectItem } from "mendix";
 import { Selectable } from "mendix/preview/Selectable";
@@ -51,13 +52,18 @@ const numberOfItems = 3;
 const cls = {
     root: "widget-datagrid",
     topBar: "widget-datagrid-top-bar table-header",
+    pagingTop: "widget-datagrid-padding-top",
+    ptStart: "widget-datagrid-tb-start",
+    ptEnd: "widget-datagrid-tb-end",
     header: "widget-datagrid-header header-filters",
     content: "widget-datagrid-content",
     grid: "widget-datagrid-grid table",
     gridHeader: "widget-datagrid-grid-head",
     gridBody: "widget-datagrid-grid-body table-content",
+    footer: "widget-datagrid-footer table-footer",
     pb: "widget-datagrid-padding-bottom",
     pbStart: "widget-datagrid-pb-start",
+    pbMid: "widget-datagrid-pb-middle",
     pbEnd: "widget-datagrid-pb-end"
 };
 
@@ -79,9 +85,7 @@ export function preview(props: DatagridPreviewProps): ReactElement {
                         <GridBody />
                     </Grid>
                 </WidgetContent>
-                <WidgetFooter>
-                    <PaddingBottom />
-                </WidgetFooter>
+                <WidgetFooter />
             </WidgetRoot>
         </PropsCtx.Provider>
     );
@@ -96,8 +100,15 @@ function WidgetRoot({ children }: PropsWithChildren): ReactElement {
     );
 }
 
-function WidgetTopBar({ children }: PropsWithChildren): ReactElement {
-    return <div className={cls.topBar}>{children}</div>;
+function WidgetTopBar(): ReactElement {
+    return (
+        <div className={cls.topBar}>
+            <div className={cls.pagingTop}>
+                <div className={cls.ptStart}>{useTopCounter() ? <SelectionCounter /> : null}</div>
+                <div className={cls.ptEnd}>{usePagingTop() ? <Pagination /> : null}</div>
+            </div>
+        </div>
+    );
 }
 
 function WidgetHeader(): ReactNode {
@@ -113,8 +124,23 @@ function WidgetContent({ children }: PropsWithChildren): ReactElement {
     return <div className={cls.content}>{children}</div>;
 }
 
-function WidgetFooter({ children }: PropsWithChildren): ReactElement {
-    return <div className="widget-datagrid-footer">{children}</div>;
+function WidgetFooter(): ReactElement {
+    const props = useProps();
+    return (
+        <div className={cls.footer}>
+            <div className={cls.pb}>
+                <div className={cls.pbStart}>{useBottomCounter() ? <SelectionCounter /> : null}</div>
+                <div className={cls.pbMid}>
+                    {props.pagination === "loadMore" ? (
+                        <button className="btn btn-primary widget-datagrid-load-more">
+                            {props.loadMoreButtonCaption}
+                        </button>
+                    ) : null}
+                </div>
+                <div className={cls.pbEnd}>{usePagingBot() ? <Pagination /> : null}</div>
+            </div>
+        </div>
+    );
 }
 
 function Grid({ children }: PropsWithChildren): ReactElement {
@@ -269,14 +295,36 @@ function EmptyPlaceholder(): ReactElement {
     );
 }
 
-function PaddingBottom(): ReactElement {
+const SelectionCounter = (): ReactNode => {
+    const props = useProps();
     return (
-        <div className={cls.pb}>
-            <div className={cls.pbStart} />
-            <div className={cls.pbEnd} />
+        <div className="widget-datagrid-selection-counter">
+            <span className="widget-gallery-selection-counter-text" aria-live="polite" aria-atomic="true">
+                {props.selectedCountTemplateSingular}
+            </span>
+            &nbsp;|&nbsp;
+            <button className="widget-gallery-btn-link">{props.clearSelectionButtonLabel}</button>
         </div>
     );
-}
+};
+
+const Pagination = (): ReactNode => {
+    const props = useProps();
+    return (
+        <PagingButtons
+            canNextPage
+            canPreviousPage
+            gotoPage={() => {}}
+            nextPage={() => {}}
+            numberOfItems={props.pageSize ?? 20}
+            page={0}
+            pageSize={props.pageSize ?? 10}
+            showPagingButtons={"always"}
+            previousPage={() => {}}
+            pagination={props.pagination}
+        />
+    );
+};
 
 function useColumns(): ColumnsPreviewType[] {
     const { columns } = useProps();
@@ -319,4 +367,26 @@ function useGridStyle(): CSSProperties {
     return {
         "--widgets-grid-template-columns": sizes.join(" ")
     } as CSSProperties;
+}
+
+function useTopCounter(): boolean {
+    const { itemSelection, selectionCounterPosition } = useProps();
+    return itemSelection === "Multi" && selectionCounterPosition === "top";
+}
+
+function useBottomCounter(): boolean {
+    const { itemSelection, selectionCounterPosition } = useProps();
+    return itemSelection === "Multi" && selectionCounterPosition === "bottom";
+}
+
+function usePagingTop(): boolean {
+    const props = useProps();
+    const visible = props.showNumberOfRows || props.pagination === "buttons";
+    return visible && props.pagingPosition !== "bottom";
+}
+
+function usePagingBot(): boolean {
+    const props = useProps();
+    const visible = props.showNumberOfRows || props.pagination === "buttons";
+    return visible && props.pagingPosition !== "top";
 }
