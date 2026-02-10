@@ -1,7 +1,7 @@
 {
     "name": "@mendix/rating-web",
     "widgetName": "StarRating",
-    "version": "3.2.1",
+    "version": "3.2.2",
     "description": "Displays a rating mechanism with icons",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
