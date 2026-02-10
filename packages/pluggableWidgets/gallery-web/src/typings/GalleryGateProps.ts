@@ -40,4 +40,8 @@ export type GalleryGateProps = Pick<
     | "emptyMessageTitle"
     | "emptyPlaceholder"
     | "loadMoreButtonCaption"
+    | "stateStorageType"
+    | "stateStorageAttr"
+    | "storeFilters"
+    | "storeSort"
 >;

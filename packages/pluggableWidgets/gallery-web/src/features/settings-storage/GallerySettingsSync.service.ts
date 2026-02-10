@@ -3,31 +3,19 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { action, comparer, computed, makeObservable, reaction } from "mobx";
 import { ObservableStorage } from "src/typings/storage";
+import { GallerySettingsConfig } from "../../model/configs/GallerySettings.config";
 
-interface GalleryPersistentStateControllerSpec {
-    filtersHost: Serializable;
-    sortHost: Serializable;
-    storage: ObservableStorage;
-    storeFilters: boolean;
-    storeSort: boolean;
-}
-
-export class GalleryPersistentStateController implements SetupComponent {
-    private readonly _storage: ObservableStorage;
-    private readonly _filtersHost: Serializable;
-    private readonly _sortHost: Serializable;
-    readonly storeFilters: boolean;
-    readonly storeSort: boolean;
-
+export class GallerySettingsSyncService implements SetupComponent {
     readonly schemaVersion: number = 1;
 
-    constructor(host: SetupComponentHost, spec: GalleryPersistentStateControllerSpec) {
+    constructor(
+        host: SetupComponentHost,
+        private filtersHost: Serializable,
+        private sortHost: Serializable,
+        private storage: ObservableStorage,
+        private config: GallerySettingsConfig
+    ) {
         host.add(this);
-        this._storage = spec.storage;
-        this._filtersHost = spec.filtersHost;
-        this._sortHost = spec.sortHost;
-        this.storeFilters = spec.storeFilters;
-        this.storeSort = spec.storeSort;
 
         makeObservable<this, "_persistentState">(this, {
             _persistentState: computed,
@@ -41,13 +29,13 @@ export class GalleryPersistentStateController implements SetupComponent {
         // Write state to storage
         const clearWrite = reaction(
             () => this._persistentState,
-            data => this._storage.setData(data),
+            data => this.storage.setData(data),
             { delay: 250, equals: comparer.structural }
         );
 
         // Update state from storage
         const clearRead = reaction(
-            () => this._storage.data,
+            () => this.storage.data,
             data => {
                 if (data == null) {
                     return;
@@ -56,7 +44,7 @@ export class GalleryPersistentStateController implements SetupComponent {
                     this.fromJSON(data);
                 } else {
                     console.warn("Invalid gallery settings. Reset storage to avoid conflicts.");
-                    this._storage.setData(null);
+                    this.storage.setData(null);
                 }
             },
             { fireImmediately: true, equals: comparer.structural }
@@ -83,21 +71,21 @@ export class GalleryPersistentStateController implements SetupComponent {
         if (!this._validate(data)) {
             return;
         }
-        if (this.storeFilters) {
-            this._filtersHost.fromJSON(data.filters);
+        if (this.config.storeFilters) {
+            this.filtersHost.fromJSON(data.filters);
         }
-        if (this.storeSort) {
-            this._sortHost.fromJSON(data.sort);
+        if (this.config.storeSort) {
+            this.sortHost.fromJSON(data.sort);
         }
     }
 
     toJSON(): PlainJs {
         const data: PlainJs = { version: 1 };
-        if (this.storeFilters) {
-            data.filters = this._filtersHost.toJSON();
+        if (this.config.storeFilters) {
+            data.filters = this.filtersHost.toJSON();
         }
-        if (this.storeSort) {
-            data.sort = this._sortHost.toJSON();
+        if (this.config.storeSort) {
+            data.sort = this.sortHost.toJSON();
         }
         return data;
     }

@@ -26,12 +26,15 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
 import { Container, injected } from "brandi";
 import { createItemEventsVMAtom } from "../../features/item-interaction/ItemEvents.viewModel";
+import { createSettingsStorage } from "../../features/settings-storage/create-settings-storage";
+import { GallerySettingsSyncService } from "../../features/settings-storage/GallerySettingsSync.service";
 import { GalleryGateProps } from "../../typings/GalleryGateProps";
 import { EmptyPlaceholderViewModel } from "../../view-models/EmptyPlaceholder.viewModel";
 import { GalleryItemViewModel } from "../../view-models/GalleryItem.viewModel";
 import { GalleryRootViewModel } from "../../view-models/GalleryRoot.viewModel";
 import { GalleryConfig } from "../configs/Gallery.config";
 import { galleryPaginationConfig } from "../configs/GalleryPagination.config";
+import { settingsConfig } from "../configs/GallerySettings.config";
 import { itemsAtom } from "../models/items.model";
 import { layoutAtom, numberOfColumnsAtom } from "../models/layout.model";
 import { LayoutService } from "../services/Layout.service";
@@ -282,6 +285,33 @@ const _09_itemEventsBindings: BindingGroup = {
     }
 };
 
+const _10_settingsBindings: BindingGroup = {
+    inject() {
+        injected(createSettingsStorage, CORE.setupService, CORE.mainGate);
+        injected(
+            GallerySettingsSyncService,
+            CORE.setupService,
+            GY.filterHost,
+            GY.sortHost,
+            GY.settingsStorage,
+            GY.settingsConfig
+        );
+    },
+    define(container) {
+        container.bind(GY.settingsStorage).toInstance(createSettingsStorage).inSingletonScope();
+        container.bind(GY.settingsService).toInstance(GallerySettingsSyncService).inSingletonScope();
+    },
+    init(container, { props }) {
+        const config = settingsConfig(props);
+        container.bind(GY.settingsConfig).toConstant(config);
+
+        if (config.settingsSyncEnabled) {
+            // Start settings sync
+            container.get(GY.settingsService);
+        }
+    }
+};
+
 const groups = [
     _01_coreBindings,
     _02_queryBindings,
@@ -291,7 +321,8 @@ const groups = [
     _06_loaderBindings,
     _07_selectionBindings,
     _08_paginationBindings,
-    _09_itemEventsBindings
+    _09_itemEventsBindings,
+    _10_settingsBindings
 ];
 
 // Inject tokens from groups
