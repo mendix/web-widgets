@@ -3,7 +3,6 @@ import { basename, join, parse } from "path";
 import { homedir, tmpdir } from "node:os";
 import { mkdtemp, stat } from "node:fs/promises";
 import { chmod, cp, exec, mkdir, mv, rm, unzip, zip } from "./shell";
-import chalk from "chalk";
 
 export function findAllReadmeOssLocally(): string[] {
     const readmeossPattern = join("**", `*__*__READMEOSS_*.html`);
@@ -26,6 +25,11 @@ export function getRecommendedReadmeOss(packageNameAndVersion: string, available
     const packageVersion = version.replace("v", "");
 
     return fileNames.find(([name]) => name.includes(packageName) && name.includes(packageVersion))?.at(1);
+}
+
+export function hasReadmeOssInAssets(assetNames: string[]): boolean {
+    const readmeOssPattern = /^.*__.*__READMEOSS_.*\.html$/i;
+    return assetNames.some(name => readmeOssPattern.test(name));
 }
 
 export async function createSBomGeneratorFolderStructure(
