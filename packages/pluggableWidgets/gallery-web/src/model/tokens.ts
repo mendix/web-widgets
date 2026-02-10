@@ -1,5 +1,6 @@
 /** Tokens to resolve dependencies from the container. */
 
+import { Serializable } from "@mendix/filter-commons/typings/settings";
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
@@ -27,12 +28,15 @@ import { token } from "brandi";
 import { ListValue, ObjectItem } from "mendix";
 import { ReactNode } from "react";
 import { ItemEventsViewModel } from "../features/item-interaction/ItemEvents.viewModel";
+import { GallerySettingsSyncService } from "../features/settings-storage/GallerySettingsSync.service";
 import { GalleryGateProps } from "../typings/GalleryGateProps";
+import { ObservableStorage } from "../typings/storage";
 import { EmptyPlaceholderViewModel } from "../view-models/EmptyPlaceholder.viewModel";
 import { GalleryItemViewModel } from "../view-models/GalleryItem.viewModel";
 import { GalleryRootViewModel } from "../view-models/GalleryRoot.viewModel";
 import { GalleryConfig } from "./configs/Gallery.config";
 import { GalleryPaginationConfig } from "./configs/GalleryPagination.config";
+import { GallerySettingsConfig } from "./configs/GallerySettings.config";
 import { LayoutService } from "./services/Layout.service";
 import { LoaderService } from "./services/Loader.service";
 import { QueryParamsService } from "./services/QueryParams.service";
@@ -90,7 +94,7 @@ export const GY_TOKENS = {
 
     // sorting
     sortAPI: token<SortAPI>(label("@service:sortAPI")),
-    sortHost: token<{ sortOrder: SortInstruction[] | undefined }>(label("@service:sortHost")),
+    sortHost: token<{ sortOrder: SortInstruction[] | undefined } & Serializable>(label("@service:sortHost")),
     sortHostConfig: token<{ initSort: SortInstruction[] }>(label("@config:sortHostConfig")),
 
     // view models
@@ -130,5 +134,10 @@ export const GY_TOKENS = {
         paginationVM: token<PaginationViewModel>(label("@viewModel:paginationVM")),
         setPageAction: token<SetPageAction>("@action:setPage"),
         setPageSizeAction: token<SetPageAction>("@action:setPageSize")
-    }
+    },
+
+    // settings storage
+    settingsStorage: token<ObservableStorage>(label("@store:settingsStorage")),
+    settingsService: token<GallerySettingsSyncService>(label("@store:settingsService")),
+    settingsConfig: token<GallerySettingsConfig>(label("@config:settingsConfig"))
 };
