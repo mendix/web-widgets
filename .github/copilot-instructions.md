@@ -10,7 +10,7 @@ Use this guide to review both code and workflow. Focus on Mendix pluggable widge
     - `packages/customWidgets/*`
     - `packages/shared/*` (configs, plugins)
 - **Stack**: TypeScript, React, SCSS, Rollup via `@mendix/pluggable-widgets-tools`, Jest/RTL, ESLint/Prettier.
-- **Commands** (root): `pnpm lint`, `pnpm test`, `pnpm build`, `pnpm -w changelog`, `pnpm -w version`.
+- **Commands** (root): `pnpm lint`, `pnpm test`, `pnpm build`, `pnpm -w changelog`.
 
 ## What to check on every PR
 
@@ -319,7 +319,7 @@ This repository uses a comprehensive three-tier testing strategy:
 - Build: `pnpm build`
 - E2E (dev): `pnpm e2edev` (with GUI debugger)
 - E2E (CI): `pnpm e2e` (headless)
-- Prepare changelog/version (workspace): `pnpm -w changelog`, `pnpm -w version`
+- Prepare changelog (workspace): `pnpm -w changelog`
 
 ## Tone and format for comments
 

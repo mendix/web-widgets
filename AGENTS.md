@@ -55,7 +55,6 @@ Key commands for working with this repository:
 - **`pnpm test`** - Run unit tests across all packages  
 - **`pnpm build`** - Build all packages
 - **`pnpm -w changelog`** - Update changelogs
-- **`pnpm -w version`** - Bump versions across packages
 
 ## AI Development Assistant Context
 
@@ -92,3 +91,28 @@ When working on this repository, prioritize:
 5. **Testing**: Use `pnpm test` for unit tests, `pnpm e2e` for E2E tests
 
 For detailed implementation guidance, refer to the specific requirement documents linked above.
+
+## How-To's
+
+### Code Linting
+
+ESLint with Prettier integration handles code quality and formatting. Fix errors using cli as much as possible, manual fixing is a last resort.
+
+#### Key Rules
+
+1. **Location**: Always `cd` into widget directory (e.g., `packages/pluggableWidgets/combobox-web/`) before running lint commands
+2. **Command**: Use `pnpm run lint` (with optional `--fix` for fixing), this is custom command, not eslint - do not pass any extra arguments or filenames 
+3. **Focus**: Fix only errors and warnings in files you modified; ignore warnings in untouched files
+
+#### Workflow
+
+1. **Check**: Run `pnpm run lint`
+    - Output shows `prettier/prettier` violations (formatting) and ESLint rule errors
+
+2. **Auto-fix**: Run `pnpm run lint --fix`
+    - Fixes Prettier formatting and auto-fixable ESLint rules
+    - Note: after fixes, this checks for errors as `pnpm run lint` would do, no need to rerun `pnpm run lint` before next step
+
+3. **Manual fix**: Edit code directly for remaining errors
+
+4. **Verify**: Re-run `pnpm run lint` until output shows 0 errors or passes silently
