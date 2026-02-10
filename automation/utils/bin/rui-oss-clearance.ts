@@ -13,6 +13,7 @@ import {
     findAllReadmeOssLocally,
     generateSBomArtifactsInFolder,
     getRecommendedReadmeOss,
+    hasReadmeOssInAssets,
     includeReadmeOssIntoMpk
 } from "../src/oss-clearance";
 
@@ -120,10 +121,15 @@ async function selectRelease(): Promise<GitHubDraftRelease> {
             name: "tag_name",
             message: "Select a release to process:",
             choices: [
-                ...releases.map(r => ({
-                    name: r.tag_name,
-                    message: `${r.name} ${chalk.gray(`(${r.tag_name})`)}`
-                })),
+                ...releases.map(r => {
+                    const assetNames = r.assets.map(a => a.name);
+                    const hasReadmeOss = hasReadmeOssInAssets(assetNames);
+                    const indicator = hasReadmeOss ? "✅" : "";
+                    return {
+                        name: r.tag_name,
+                        message: `${r.name} ${chalk.gray(`(${r.tag_name})`)} ${indicator} `
+                    };
+                }),
                 {
                     name: "__refresh__",
                     message: chalk.cyan("--- Refresh the list ---")
