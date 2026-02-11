@@ -170,11 +170,6 @@ export function TreeNodeBranch({
         }
     }, [animateTreeNodeContent, animateTreeNodeContentProp, treeNodeState]);
 
-    // useEffect(() => {
-    //     loadChildNodes();
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
-
     useEffect(() => {
         setIsActualLeafNode(isUserDefinedLeafNode || (!children && !isInfiniteTreeNodesEnabled));
     }, [children, isUserDefinedLeafNode, isInfiniteTreeNodesEnabled]);
