@@ -1,8 +1,9 @@
 import { useRenderBarcode } from "../hooks/useRenderBarcode";
 import { downloadCode } from "../utils/download-code";
 import { BarcodeTypeConfig } from "../config/Barcode.config";
+import { DownloadIcon } from "./icons/DownloadIcon";
 
-import { Fragment, ReactElement } from "react";
+import { ReactElement } from "react";
 
 interface BarcodeRendererProps {
     config: BarcodeTypeConfig;
@@ -10,20 +11,25 @@ interface BarcodeRendererProps {
 
 export function BarcodeRenderer({ config }: BarcodeRendererProps): ReactElement {
     const ref = useRenderBarcode(config);
-    const { downloadButton } = config;
+    const { downloadButton, buttonPosition } = config;
+
+    const button = downloadButton && (
+        <a
+            className="mx-link"
+            role="button"
+            aria-label={downloadButton.label}
+            tabIndex={0}
+            onClick={() => downloadCode(ref, config.type, downloadButton.fileName)}
+        >
+            <DownloadIcon /> {downloadButton.caption}
+        </a>
+    );
 
     return (
-        <Fragment>
+        <div className="barcode-renderer">
+            {buttonPosition === "top" && button}
             <svg ref={ref} />
-            {downloadButton && (
-                <button
-                    className="btn btn-default"
-                    aria-label={downloadButton.label}
-                    onClick={() => downloadCode(ref, config.type, downloadButton.fileName)}
-                >
-                    {downloadButton.caption}
-                </button>
-            )}
-        </Fragment>
+            {buttonPosition === "bottom" && button}
+        </div>
     );
 }

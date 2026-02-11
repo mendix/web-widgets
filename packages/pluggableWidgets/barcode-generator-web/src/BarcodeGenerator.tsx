@@ -15,7 +15,13 @@ export default function BarcodeGenerator(props: BarcodeGeneratorContainerProps):
     }
 
     return (
-        <div className={classNames(props.class, "barcode-generator")} tabIndex={props.tabIndex} style={props.style}>
+        <div
+            className={classNames(props.class, "barcode-generator", {
+                "barcode-generator--as-card": props.showAsCard
+            })}
+            tabIndex={props.tabIndex}
+            style={props.style}
+        >
             {config.type === "qrcode" ? <QRCodeRenderer config={config} /> : <BarcodeRenderer config={config} />}
         </div>
     );

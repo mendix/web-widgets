@@ -3,4 +3,46 @@ $widget-prefix: "barcode-generator";
 
 .#{$widget-prefix} {
     display: inline-block;
+    border-radius: var(--card-border-radius);
+
+    &--as-card {
+        background-color: var(--card-bg);
+        border: var(--card-border);
+        padding: var(--spacing-medium);
+    }
+}
+
+.qrcode-renderer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    svg {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+    }
+
+    .qrcode-renderer-title {
+        font-weight: var(--font-weight-normal);
+        font-size: var(--font-size-small);
+        color: var(--gray-darker);
+        margin: 0;
+    }
+}
+
+.barcode-renderer {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 12px;
+
+    svg {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+    }
 }

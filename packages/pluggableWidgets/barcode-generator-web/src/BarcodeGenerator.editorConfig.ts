@@ -31,7 +31,7 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
         ]);
     }
 
-    if (values.codeFormat !== "CODE128" && values.customCodeFormat !== "CODE128") {
+    if (values.codeFormat === "QRCode" || (values.codeFormat !== "CODE128" && values.customCodeFormat !== "CODE128")) {
         hidePropertyIn(defaultProperties, values, "enableEan128");
     }
 
