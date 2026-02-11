@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ObjectItem, Option, WebIcon } from "mendix";
+import { ObjectItem, WebIcon } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, useCallback, useContext } from "react";
 import { OpenNodeOnEnum, TreeNodeContainerProps } from "../../typings/TreeNodeProps";
 
@@ -7,7 +7,7 @@ import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "./HeaderIcon";
 import { TreeNodeBranch, TreeNodeBranchProps, treeNodeBranchUtils } from "./TreeNodeBranch";
 import { TreeNodeBranchContext, useInformParentContextOfChildNodes } from "./TreeNodeBranchContext";
 import { useTreeNodeFocusChangeHandler } from "./hooks/TreeNodeAccessibility";
-import { useLocalizedTreeNode } from "./hooks/useInfiniteTreeNodes";
+import { ItemType, useLocalizedTreeNode } from "./hooks/useInfiniteTreeNodes";
 import { useTreeNodeRef } from "./hooks/useTreeNodeRef";
 
 export interface TreeNodeItem extends ObjectItem {
@@ -15,6 +15,7 @@ export interface TreeNodeItem extends ObjectItem {
     bodyContent: ReactNode;
     isUserDefinedLeafNode: boolean;
     children?: TreeNodeItem[];
+    parentId?: string | null | undefined;
 }
 
 export interface InfoTreeNodeItem {
@@ -33,7 +34,7 @@ export interface TreeNodeProps extends Pick<TreeNodeContainerProps, "tabIndex"> 
     animateIcon: boolean;
     animateTreeNodeContent: TreeNodeBranchProps["animateTreeNodeContent"];
     openNodeOn: OpenNodeOnEnum;
-    fetchChildren: (item?: Option<ObjectItem>) => Promise<TreeNodeItem[]>;
+    fetchChildren: (item?: ItemType) => Promise<TreeNodeItem[]>;
     isInfiniteTreeNodesEnabled: boolean;
 }
 
@@ -57,7 +58,11 @@ export function TreeNode(props: TreeNodeProps): ReactElement | null {
     const { level } = useContext(TreeNodeBranchContext);
     // localized items if infinite tree nodes is enabled,
     // this is to allow each nodes updates their own items when children are fetched
-    const { localizedItems: localItems, appendChildren } = useLocalizedTreeNode(items, isInfiniteTreeNodesEnabled);
+    const { localizedItems: localItems, appendChildren } = useLocalizedTreeNode(
+        items,
+        isInfiniteTreeNodesEnabled,
+        fetchChildren
+    );
     const [treeNodeElement, updateTreeNodeElement] = useTreeNodeRef();
 
     const renderHeaderIconCallback = useCallback<TreeNodeHeaderIcon>(
