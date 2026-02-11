@@ -1,7 +1,7 @@
 {
     "name": "@mendix/markdown-web",
     "widgetName": "Markdown",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Markdown viewer to preview markdown.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
