@@ -9,7 +9,7 @@ const widgetName = "Signature";
 const widgetConfig = {
     mode: "production",
     devtool: false,
-    externals: ["react", "react-dom"],
+    externals: ["react", "react-dom", "react/jsx-runtime"],
     entry: "./src/components/SignatureContainer.ts",
     output: {
         path: path.resolve(__dirname, "dist/tmp"),
@@ -59,7 +59,7 @@ const widgetConfig = {
 const previewConfig = {
     mode: "production",
     devtool: false,
-    externals: ["react", "react-dom"],
+    externals: ["react", "react-dom", "react/jsx-runtime"],
     entry: `./src/${widgetName}.webmodeler.ts`,
     output: {
         path: path.resolve(__dirname, "dist/tmp"),

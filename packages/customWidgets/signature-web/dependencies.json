@@ -1,5 +1,1 @@
-[
-    { "classnames": { "version": "2.5.1", "url": null } },
-    { "react-resize-detector": { "version": "9.1.1", "url": null } },
-    { "signature_pad": { "version": "4.0.0", "url": null } }
-]
+[{ "classnames": { "version": "2.5.1", "url": null } }, { "signature_pad": { "version": "4.0.0", "url": null } }]

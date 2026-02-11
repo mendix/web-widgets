@@ -1,9 +1,6 @@
 import { PureComponent, ReactNode } from "react";
-
-// @ts-expect-error signature_pad has no types
-import SignaturePad, { IOptions } from "signature_pad";
+import SignaturePad, { Options } from "signature_pad";
 import classNames from "classnames";
-import ReactResizeDetector from "react-resize-detector";
 
 import { Alert } from "./Alert";
 import { Grid } from "./Grid";
@@ -31,8 +28,7 @@ export type penOptions = "fountain" | "ballpoint" | "marker";
 
 export class Signature extends PureComponent<SignatureProps> {
     private canvasNode: HTMLCanvasElement | null = null;
-    // @ts-expect-error signature_pad has no types
-    private signaturePad: SignaturePad;
+    private signaturePad: SignaturePad | undefined;
 
     render(): ReactNode {
         const { className, alertMessage, wrapperStyle } = this.props;
@@ -43,6 +39,7 @@ export class Signature extends PureComponent<SignatureProps> {
                 className={classNames("widget-signature", className)}
                 classNameInner="widget-signature-wrapper form-control mx-textarea-input mx-textarea"
                 style={wrapperStyle}
+                onResize={this.onResize}
             >
                 <Alert bootstrapStyle="danger">{alertMessage}</Alert>
                 <Grid {...this.props} />
@@ -52,7 +49,6 @@ export class Signature extends PureComponent<SignatureProps> {
                         this.canvasNode = node;
                     }}
                 />
-                <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
             </SizeContainer>
         );
     }
@@ -61,6 +57,7 @@ export class Signature extends PureComponent<SignatureProps> {
         if (this.canvasNode) {
             this.signaturePad = new SignaturePad(this.canvasNode, {
                 penColor: this.props.penColor,
+                // @ts-expect-error // looks like this never worked, there is no onEnd in SignaturePad code
                 onEnd: this.handleSignEnd,
                 ...this.signaturePadOptions()
             });
@@ -87,7 +84,7 @@ export class Signature extends PureComponent<SignatureProps> {
     }
 
     private onResize = (): void => {
-        if (this.canvasNode) {
+        if (this.canvasNode && this.signaturePad) {
             const data = this.signaturePad.toData();
             this.canvasNode.width =
                 this.canvasNode && this.canvasNode.parentElement ? this.canvasNode.parentElement.offsetWidth : 0;
@@ -98,8 +95,8 @@ export class Signature extends PureComponent<SignatureProps> {
         }
     };
 
-    private signaturePadOptions(): IOptions {
-        let options: IOptions = {};
+    private signaturePadOptions(): Options {
+        let options: Options = {};
         if (this.props.penType === "fountain") {
             options = { minWidth: 0.6, maxWidth: 2.6, velocityFilterWeight: 0.6 };
         } else if (this.props.penType === "ballpoint") {
@@ -111,7 +108,7 @@ export class Signature extends PureComponent<SignatureProps> {
     }
 
     private handleSignEnd = (): void => {
-        if (this.props.onSignEndAction) {
+        if (this.props.onSignEndAction && this.signaturePad) {
             this.props.onSignEndAction(this.signaturePad.toDataURL());
         }
     };
