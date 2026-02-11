@@ -12,17 +12,17 @@ import {
     useRef,
     useState
 } from "react";
-import { ObjectItem, Option } from "mendix";
 
 import { OpenNodeOnEnum, ShowIconEnum } from "../../typings/TreeNodeProps";
 
+import { TreeNodeFocusChangeHandler, useTreeNodeBranchKeyboardHandler } from "./hooks/TreeNodeAccessibility";
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
 import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
-import { TreeNodeFocusChangeHandler, useTreeNodeBranchKeyboardHandler } from "./hooks/TreeNodeAccessibility";
 
 import { TreeNodeHeaderIcon } from "./HeaderIcon";
 import { TreeNode as TreeNodeComponent, TreeNodeItem, TreeNodeProps, TreeNodeState } from "./TreeNode";
 import { TreeNodeBranchContext, TreeNodeBranchContextProps } from "./TreeNodeBranchContext";
+import { ItemType } from "./hooks/useInfiniteTreeNodes";
 
 export interface TreeNodeBranchProps {
     item: TreeNodeItem;
@@ -33,7 +33,7 @@ export interface TreeNodeBranchProps {
     startExpanded: boolean;
     changeFocus: TreeNodeFocusChangeHandler;
     renderHeaderIcon: TreeNodeHeaderIcon;
-    fetchChildren: (item?: Option<ObjectItem>) => Promise<TreeNodeItem[]>;
+    fetchChildren: (item?: ItemType) => Promise<TreeNodeItem[]>;
     appendChildren: (items: TreeNodeItem[], parent: TreeNodeItem) => void;
     treeNodeProps: TreeNodeProps;
     isInfiniteTreeNodesEnabled: boolean;
@@ -91,6 +91,19 @@ export function TreeNodeBranch({
         }
     };
 
+    const loadChildNodes = useCallback(() => {
+        if (isInfiniteTreeNodesEnabled && !isUserDefinedLeafNode) {
+            fetchChildren(item).then(result => {
+                if (Array.isArray(result) && result.length > 0) {
+                    // append children to the localized item
+                    appendChildren(result, item);
+                } else {
+                    setIsActualLeafNode(true);
+                }
+            });
+        }
+    }, [fetchChildren, item, appendChildren, isInfiniteTreeNodesEnabled, isUserDefinedLeafNode]);
+
     const eventTargetIsNotCurrentBranch = useCallback<(event: SyntheticEvent<HTMLElement>) => boolean>(event => {
         const target = event.target as Node;
         return (
@@ -123,32 +136,14 @@ export function TreeNodeBranch({
             }
 
             // load children for infinite tree nodes
-            if (isInfiniteTreeNodesEnabled) {
-                fetchChildren(item).then(result => {
-                    if (Array.isArray(result) && result.length > 0) {
-                        // append children to the localized item
-                        appendChildren(result, item);
-                    } else {
-                        setIsActualLeafNode(true);
-                    }
-                });
-            }
+            loadChildNodes();
 
             if (!isActualLeafNode) {
                 captureElementHeight();
                 updateTreeNodeState();
             }
         },
-        [
-            captureElementHeight,
-            eventTargetIsNotCurrentBranch,
-            isActualLeafNode,
-            updateTreeNodeState,
-            fetchChildren,
-            item,
-            isInfiniteTreeNodesEnabled,
-            appendChildren
-        ]
+        [captureElementHeight, eventTargetIsNotCurrentBranch, isActualLeafNode, updateTreeNodeState, loadChildNodes]
     );
 
     const onHeaderKeyDown = useTreeNodeBranchKeyboardHandler(
@@ -174,6 +169,11 @@ export function TreeNodeBranch({
             }
         }
     }, [animateTreeNodeContent, animateTreeNodeContentProp, treeNodeState]);
+
+    // useEffect(() => {
+    //     loadChildNodes();
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     useEffect(() => {
         setIsActualLeafNode(isUserDefinedLeafNode || (!children && !isInfiniteTreeNodesEnabled));
