@@ -1,6 +1,7 @@
 import { QRCodeSVG } from "qrcode.react";
-import { Fragment, ReactElement, useRef } from "react";
+import { ReactElement, useRef } from "react";
 import { downloadCode } from "../utils/download-code";
+import { DownloadIcon } from "./icons/DownloadIcon";
 import { QRCodeTypeConfig } from "../config/Barcode.config";
 
 interface QRCodeRendererProps {
@@ -10,10 +11,24 @@ interface QRCodeRendererProps {
 export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
     const ref = useRef<SVGSVGElement>(null);
 
-    const { codeValue, downloadButton, size, margin, title, level, image } = config;
+    const { codeValue, downloadButton, size, margin, title, level, image, buttonPosition } = config;
+
+    const button = downloadButton && (
+        <a
+            className="mx-link"
+            role="button"
+            aria-label={downloadButton.label}
+            tabIndex={0}
+            onClick={() => downloadCode(ref, config.type, downloadButton.fileName)}
+        >
+            <DownloadIcon /> {downloadButton.caption}
+        </a>
+    );
 
     return (
-        <Fragment>
+        <div className="qrcode-renderer">
+            {title && <h3 className="qrcode-renderer-title">{title}</h3>}
+            {buttonPosition === "top" && button}
             <QRCodeSVG
                 ref={ref}
                 value={codeValue}
@@ -23,16 +38,7 @@ export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
                 title={title}
                 imageSettings={image}
             />
-            {downloadButton && (
-                <button
-                    type="button"
-                    aria-label={downloadButton.label}
-                    onClick={() => downloadCode(ref, config.type, downloadButton.fileName)}
-                    className="btn btn-default"
-                >
-                    {downloadButton.caption}
-                </button>
-            )}
-        </Fragment>
+            {buttonPosition === "bottom" && button}
+        </div>
     );
 }

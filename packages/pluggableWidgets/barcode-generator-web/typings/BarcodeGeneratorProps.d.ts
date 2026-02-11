@@ -9,6 +9,8 @@ import { Big } from "big.js";
 
 export type CodeFormatEnum = "CODE128" | "QRCode" | "Custom";
 
+export type ButtonPositionEnum = "top" | "bottom";
+
 export type CustomCodeFormatEnum = "CODE128" | "EAN13" | "EAN8" | "UPC" | "CODE39" | "ITF14" | "MSI" | "pharmacode" | "codabar" | "CODE93";
 
 export type AddonFormatEnum = "None" | "EAN5" | "EAN2";
@@ -20,11 +22,12 @@ export interface BarcodeGeneratorContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    codeValue: EditableValue<string>;
+    codeValue: DynamicValue<string>;
     codeFormat: CodeFormatEnum;
     allowDownload: boolean;
     downloadButtonCaption?: DynamicValue<string>;
     downloadButtonAriaLabel?: DynamicValue<string>;
+    buttonPosition: ButtonPositionEnum;
     customCodeFormat: CustomCodeFormatEnum;
     enableEan128: boolean;
     enableFlat: boolean;
@@ -34,6 +37,7 @@ export interface BarcodeGeneratorContainerProps {
     addonValue: EditableValue<string>;
     addonSpacing: number;
     displayValue: boolean;
+    showAsCard: boolean;
     codeWidth: number;
     codeHeight: number;
     codeMargin: number;
@@ -68,6 +72,7 @@ export interface BarcodeGeneratorPreviewProps {
     allowDownload: boolean;
     downloadButtonCaption: string;
     downloadButtonAriaLabel: string;
+    buttonPosition: ButtonPositionEnum;
     customCodeFormat: CustomCodeFormatEnum;
     enableEan128: boolean;
     enableFlat: boolean;
@@ -77,6 +82,7 @@ export interface BarcodeGeneratorPreviewProps {
     addonValue: string;
     addonSpacing: number | null;
     displayValue: boolean;
+    showAsCard: boolean;
     codeWidth: number | null;
     codeHeight: number | null;
     codeMargin: number | null;
