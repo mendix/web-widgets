@@ -1,7 +1,7 @@
 {
     "name": "@mendix/signature-web",
     "widgetName": "Signature",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "A signature pad for capturing signatures",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
