@@ -24,10 +24,13 @@ export function PopupMenu(props: PopupMenuProps): ReactElement {
         clippingStrategy: props.clippingStrategy
     });
 
-    const handleOnClickItem = useCallback((itemAction?: ActionValue): void => {
-        setVisibility(false);
-        executeAction(itemAction);
-    }, []);
+    const handleOnClickItem = useCallback(
+        (itemAction?: ActionValue): void => {
+            if (props.clickCloseOn === "onClickAnywhere") setVisibility(false);
+            executeAction(itemAction);
+        },
+        [props.clickCloseOn]
+    );
 
     useEffect(() => {
         setVisibility(props.menuToggle);
