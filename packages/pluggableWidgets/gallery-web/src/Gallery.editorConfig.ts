@@ -42,6 +42,14 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
         if (values.showTotalCount === false) {
             hidePropertyIn(defaultProperties, values, "pagingPosition");
         }
+
+        hidePropertiesIn(defaultProperties, values, [
+            "dynamicPage",
+            "dynamicPageSize",
+            "useCustomPagination",
+            "customPagination",
+            "totalCountValue"
+        ]);
     }
 
     if (values.pagination !== "loadMore") {
