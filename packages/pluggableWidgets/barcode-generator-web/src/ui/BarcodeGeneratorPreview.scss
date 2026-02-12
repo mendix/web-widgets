@@ -1,0 +1,44 @@
+@use "BarcodeGenerator";
+
+.barcode-generator-widget-preview {
+    width: 100%;
+    display: inline-block;
+
+    .barcode-generator {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .barcode-preview-graphic {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: contain;
+    }
+
+    .barcode-preview-graphic--qr {
+        width: auto;
+    }
+
+    .barcode-preview-graphic--barcode {
+        width: 100%;
+    }
+
+    .barcode-preview-qr-container {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+    }
+
+    .barcode-preview-qr-image-excavate {
+        position: absolute;
+        background-color: #ffffff;
+        outline: 3px solid #ffffff;
+    }
+
+    .barcode-preview-qr-image {
+        position: absolute;
+        object-fit: contain;
+    }
+}

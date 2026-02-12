@@ -125,7 +125,7 @@
             </property>
             <property key="codeHeight" type="integer" required="true" defaultValue="200">
                 <caption>Code height</caption>
-                <description>Height of the barcode</description>
+                <description>Height of the barcode. Note: In preview, the max height is 400px. The barcode will render at full height in your application.</description>
             </property>
             <property key="codeMargin" type="integer" required="true" defaultValue="2">
                 <caption>Margin size</caption>
@@ -133,11 +133,11 @@
             </property>
             <property key="qrSize" type="integer" required="true" defaultValue="128">
                 <caption>QR Size</caption>
-                <description>The size of the QR box</description>
+                <description>The size of the QR box. Note: In preview, the max height is 400px. The QR code will render at full size in your application.</description>
             </property>
             <property key="qrMargin" type="integer" required="true" defaultValue="2">
                 <caption>Margin size</caption>
-                <description />
+                <description>Number of module units (QR grid cells) to use for margin. Increasing compresses the QR pattern within the fixed size. Note: not visible in preview.</description>
             </property>
             <property key="qrTitle" type="string" required="true">
                 <caption>Title</caption>
