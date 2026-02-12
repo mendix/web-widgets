@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { CalendarEvent, EventDropOrResize } from "../utils/typings";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
 import { CalendarProps, NavigateAction, View } from "react-big-calendar";
-import { getViewRange } from "../utils/calendar-utils";
 
 type CalendarEventHandlers = Pick<
     CalendarProps<CalendarEvent>,
@@ -122,21 +121,14 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
         [onDragDropResize]
     );
 
-    const handleNavigate = useCallback(
-        (date: Date, view: string, _action: NavigateAction) => {
-            const action = onViewRangeChange;
+    // Track the current view so we can pass it to onRangeChange.
+    // RBC calls onNavigate (with view) synchronously before onRangeChange (without view)
+    // during navigation, so the ref is always up-to-date when handleRangeChange reads it.
+    const currentViewRef = useRef<string | undefined>(undefined);
 
-            if (action?.canExecute) {
-                const { start, end } = getViewRange(view, date);
-                action.execute({
-                    rangeStart: start,
-                    rangeEnd: end,
-                    currentView: view
-                });
-            }
-        },
-        [onViewRangeChange]
-    );
+    const handleNavigate = useCallback((_date: Date, view: string, _action: NavigateAction) => {
+        currentViewRef.current = view;
+    }, []);
 
     const handleRangeChange = useCallback(
         (range: Date[] | { start: Date; end: Date }, view?: View) => {
@@ -145,11 +137,12 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
             if (action?.canExecute) {
                 const start = Array.isArray(range) ? range[0] : range.start;
                 const end = Array.isArray(range) ? range[range.length - 1] : range.end;
+                const resolvedView = view ?? currentViewRef.current;
 
                 action.execute({
                     rangeStart: start,
                     rangeEnd: end,
-                    currentView: view
+                    currentView: resolvedView
                 });
             }
         },

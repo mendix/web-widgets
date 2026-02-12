@@ -3,18 +3,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { CalendarEvent } from "./typings";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import {
-    addDays,
-    addWeeks,
-    differenceInCalendarDays,
-    endOfMonth,
-    endOfWeek,
-    format,
-    getDay,
-    parse,
-    startOfMonth,
-    startOfWeek
-} from "date-fns";
+import { addDays, addWeeks, differenceInCalendarDays, format, getDay, parse, startOfWeek } from "date-fns";
 import type { MXLocaleDates, MXLocaleNumbers, MXLocalePatterns, MXSessionData } from "../../typings/global";
 
 // Utility to lighten hex colors. Accepts #RGB or #RRGGBB.
@@ -41,18 +30,7 @@ function lightenColor(color: string, amount = 0.2): string {
     return color;
 }
 
-export {
-    format,
-    parse,
-    startOfWeek,
-    getDay,
-    addDays,
-    startOfMonth,
-    endOfMonth,
-    endOfWeek,
-    addWeeks,
-    differenceInCalendarDays
-};
+export { format, parse, startOfWeek, getDay, addDays, addWeeks, differenceInCalendarDays };
 
 export const DnDCalendar = withDragAndDrop(Calendar<CalendarEvent>);
 
@@ -88,23 +66,6 @@ export function getRange(date: Date, visibleDays: Set<number>): Date[] {
     return Array.from({ length: 7 }, (_, i) => addDays(startOfWeekDate, i)).flatMap(current =>
         visibleDays.has(current.getDay()) ? [current] : []
     );
-}
-
-export function getViewRange(view: string, date: Date): { start: Date; end: Date } {
-    switch (view) {
-        case "month":
-            return { start: startOfMonth(date), end: endOfMonth(date) };
-        case "week":
-            return { start: startOfWeek(date), end: endOfWeek(date) };
-        case "work_week": {
-            const start = startOfWeek(date);
-            return { start, end: addDays(start, 4) };
-        }
-        case "day":
-            return { start: date, end: date };
-        default:
-            return { start: date, end: date };
-    }
 }
 
 /**
