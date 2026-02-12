@@ -1,5 +1,5 @@
 import { PlainJs } from "@mendix/filter-commons/typings/settings";
-import { ObservableStorage } from "src/typings/storage";
+import { ObservableStorage } from "src/features/settings-storage/storage";
 
 export class BrowserStorage implements ObservableStorage {
     constructor(private readonly _storageKey: string) {}

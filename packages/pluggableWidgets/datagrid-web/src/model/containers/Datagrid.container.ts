@@ -79,7 +79,7 @@ const _01_coreBindings: BindingGroup = {
             DG.exportProgressService,
             SA_TOKENS.selectionDialogVM
         );
-        injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction.optional);
+        injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction);
     },
     define(container: Container) {
         container.bind(DG.basicDate).toInstance(GridBasicData).inSingletonScope();
