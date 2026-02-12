@@ -46,136 +46,277 @@ import { SelectionGate } from "../services/SelectionGate.service";
 import { GridSizeStore } from "../stores/GridSize.store";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
-// base
-injected(ColumnGroupStore, CORE.setupService, CORE.mainGate, CORE.config, DG.filterHost);
-injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFilter, CORE.columnsStore);
-injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
-injected(GridBasicData, CORE.mainGate);
-injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.selectionDialogVM);
-injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction.optional);
+interface InitDependencies {
+    props: MainGateProps;
+    mainGate: DerivedPropsGate<MainGateProps>;
+    config: DatagridConfig;
+    exportProgressService: TaskProgressService;
+    selectAllModule: SelectAllModule;
+}
 
-/** Pagination **/
-injected(createSetPageAction, DG.query, DG.paginationConfig, DG.currentPage, DG.pageSize);
-injected(createSetPageSizeAction, DG.query, DG.paginationConfig, DG.currentPage, CORE.pageSizeStore, DG.setPageAction);
-injected(currentPageAtom, DG.query, DG.pageSize, DG.paginationConfig);
-injected(dynamicPageAtom, CORE.mainGate, DG.paginationConfig);
-injected(dynamicPageSizeAtom, CORE.mainGate);
-injected(PageControlService, CORE.mainGate, DG.setPageSizeAction, DG.setPageAction);
-injected(pageSizeAtom, CORE.pageSizeStore);
-injected(PaginationViewModel, DG.paginationConfig, DG.query, DG.currentPage, DG.pageSize, DG.setPageAction);
-injected(
-    DynamicPaginationFeature,
-    CORE.setupService,
-    DG.paginationConfig,
-    DG.dynamicPage,
-    DG.dynamicPageSize,
-    CORE.atoms.totalCount,
-    DG.pageControl
-);
-injected(customPaginationAtom, CORE.mainGate);
+/** Just little utility object to group related bindings */
+interface BindingGroup {
+    /** Runs during container constructor. Use this hook to add new binding to the container. */
+    define?(container: Container): void;
+    /** Runs on container init with deps. Use this hook to bind constants, configs and values that depend on props. */
+    init?(container: Container, deps: InitDependencies): void;
+    /** This method runs after init phase. Use this hook to init instances and other "bootstrapping" work. */
+    postInit?(container: Container, deps: InitDependencies): void;
+    /** This method runs only once. Should be used to inject dependencies. */
+    inject?(): void;
+}
 
-// loader
-injected(DerivedLoaderController, DG.query, DG.exportProgressService, CORE.columnsStore, DG.loaderConfig);
+const _01_coreBindings: BindingGroup = {
+    inject() {
+        injected(ColumnGroupStore, CORE.setupService, CORE.mainGate, CORE.config, DG.filterHost);
+        injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFilter, CORE.columnsStore);
+        injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
+        injected(GridBasicData, CORE.mainGate);
+        injected(
+            WidgetRootViewModel,
+            CORE.mainGate,
+            CORE.config,
+            DG.exportProgressService,
+            SA_TOKENS.selectionDialogVM
+        );
+        injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction.optional);
+    },
+    define(container: Container) {
+        container.bind(DG.basicDate).toInstance(GridBasicData).inSingletonScope();
+        container.bind(CORE.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
+        container.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
+        container.bind(DG.gridSizeStore).toInstance(GridSizeStore).inSingletonScope();
+        container.bind(DG.paramsService).toInstance(DatasourceParamsController).inSingletonScope();
+        container.bind(DG.datagridRootVM).toInstance(WidgetRootViewModel).inTransientScope();
+    },
+    init(container, { mainGate, config, exportProgressService }) {
+        container.bind(CORE.mainGate).toConstant(mainGate);
+        container.bind(DG.queryGate).toConstant(mainGate);
+        container.bind(CORE.config).toConstant(config);
+        container.bind(DG.exportProgressService).toConstant(exportProgressService);
+        container.bind(DG.refreshInterval).toConstant(config.refreshIntervalMs);
+    },
+    postInit(container) {
+        // Make sure essential services are created upfront
+        container.get(DG.paramsService); // Enable sort & filtering
+        container.get(DG.gridSizeStore);
+    }
+};
 
-// filtering
-injected(CombinedFilter, CORE.setupService, DG.combinedFilterConfig);
-injected(WidgetFilterAPI, DG.parentChannelName, DG.filterHost);
+const _02_filterBindings: BindingGroup = {
+    inject() {
+        injected(CombinedFilter, CORE.setupService, DG.combinedFilterConfig);
+        injected(WidgetFilterAPI, DG.parentChannelName, DG.filterHost);
+    },
+    define(container: Container) {
+        container.bind(DG.filterAPI).toInstance(WidgetFilterAPI).inSingletonScope();
+        container.bind(DG.filterHost).toInstance(CustomFilterHost).inSingletonScope();
+        container.bind(DG.combinedFilter).toInstance(CombinedFilter).inSingletonScope();
+    },
+    init(container, { props, config }) {
+        container.bind(DG.parentChannelName).toConstant(config.filtersChannelName);
+        container.bind(DG.combinedFilterConfig).toConstant({
+            stableKey: props.name,
+            inputs: [container.get(DG.filterHost), container.get(CORE.columnsStore)]
+        });
+    },
+    postInit(container, { props }) {
+        // Hydrate filters from props
+        container.get(DG.combinedFilter).hydrate(props.datasource.filter);
+    }
+};
 
-// empty state
-injected(emptyStateWidgetsAtom, CORE.mainGate, CORE.atoms.itemCount);
-injected(EmptyPlaceholderViewModel, DG.emptyPlaceholderWidgets, CORE.atoms.visibleColumnsCount, CORE.config);
+const _03_loaderBindings: BindingGroup = {
+    inject() {
+        injected(DerivedLoaderController, DG.query, DG.exportProgressService, CORE.columnsStore, DG.loaderConfig);
+    },
+    define(container: Container) {
+        container.bind(DG.loaderVM).toInstance(DerivedLoaderController).inSingletonScope();
+    },
+    init(container, { props }) {
+        container.bind(DG.loaderConfig).toConstant({
+            showSilentRefresh: props.refreshInterval > 1,
+            refreshIndicator: props.refreshIndicator
+        });
+    }
+};
 
-// personalization
-injected(GridPersonalizationStore, CORE.setupService, CORE.mainGate, CORE.columnsStore, DG.filterHost);
+const _04_emptyStateBindings: BindingGroup = {
+    inject() {
+        injected(emptyStateWidgetsAtom, CORE.mainGate, CORE.atoms.itemCount);
+        injected(EmptyPlaceholderViewModel, DG.emptyPlaceholderWidgets, CORE.atoms.visibleColumnsCount, CORE.config);
+    },
+    define(container: Container) {
+        container.bind(DG.emptyPlaceholderVM).toInstance(EmptyPlaceholderViewModel).inTransientScope();
+        container.bind(DG.emptyPlaceholderWidgets).toInstance(emptyStateWidgetsAtom).inTransientScope();
+    }
+};
 
-// selection
-injected(SelectionGate, CORE.mainGate);
-injected(createSelectionHelper, CORE.setupService, DG.selectionGate, CORE.config.optional);
-injected(gridStyleAtom, CORE.columnsStore, CORE.config, DG.gridSizeStore);
-injected(rowClassProvider, CORE.mainGate);
+const _05_personalizationBindings: BindingGroup = {
+    inject() {
+        injected(GridPersonalizationStore, CORE.setupService, CORE.mainGate, CORE.columnsStore, DG.filterHost);
+    },
+    define(container: Container) {
+        container.bind(DG.personalizationService).toInstance(GridPersonalizationStore).inSingletonScope();
+    },
+    postInit(container, { config }) {
+        // Enable personalization if configured
+        if (config.settingsStorageEnabled) {
+            container.get(DG.personalizationService);
+        }
+    }
+};
 
-// row-interaction
-injected(SelectActionsProvider, DG.selectionType, DG.selectionHelper);
-injected(createFocusController, CORE.setupService, DG.virtualLayout);
-injected(creteCheckboxEventsController, CORE.config, DG.selectActions, DG.focusService, DG.pageSize);
-injected(layoutAtom, CORE.atoms.itemCount, CORE.atoms.columnCount, DG.pageSize);
-injected(createClickActionHelper, CORE.setupService, CORE.mainGate);
-injected(createCellEventsController, CORE.config, DG.selectActions, DG.focusService, DG.clickActionHelper, DG.pageSize);
+const _06_paginationBindings: BindingGroup = {
+    inject() {
+        injected(createSetPageAction, DG.query, DG.paginationConfig, DG.currentPage, DG.pageSize);
+        injected(
+            createSetPageSizeAction,
+            DG.query,
+            DG.paginationConfig,
+            DG.currentPage,
+            CORE.pageSizeStore,
+            DG.setPageAction
+        );
+        injected(currentPageAtom, DG.query, DG.pageSize, DG.paginationConfig);
+        injected(dynamicPageAtom, CORE.mainGate, DG.paginationConfig);
+        injected(dynamicPageSizeAtom, CORE.mainGate);
+        injected(PageControlService, CORE.mainGate, DG.setPageSizeAction, DG.setPageAction);
+        injected(pageSizeAtom, CORE.pageSizeStore);
+        injected(PaginationViewModel, DG.paginationConfig, DG.query, DG.currentPage, DG.pageSize, DG.setPageAction);
+        injected(
+            DynamicPaginationFeature,
+            CORE.setupService,
+            DG.paginationConfig,
+            DG.dynamicPage,
+            DG.dynamicPageSize,
+            CORE.atoms.totalCount,
+            DG.pageControl
+        );
+        injected(customPaginationAtom, CORE.mainGate);
+    },
+    define(container: Container) {
+        container.bind(DG.currentPage).toInstance(currentPageAtom).inTransientScope();
+        container.bind(DG.customPagination).toInstance(customPaginationAtom).inTransientScope();
+        container.bind(DG.dynamicPage).toInstance(dynamicPageAtom).inTransientScope();
+        container.bind(DG.dynamicPageSize).toInstance(dynamicPageSizeAtom).inTransientScope();
+        container.bind(DG.dynamicPagination).toInstance(DynamicPaginationFeature).inSingletonScope();
+        container.bind(DG.pageSize).toInstance(pageSizeAtom).inTransientScope();
+        container.bind(DG.pageControl).toInstance(PageControlService).inSingletonScope();
+        container.bind(DG.paginationVM).toInstance(PaginationViewModel).inSingletonScope();
+        container.bind(DG.setPageAction).toInstance(createSetPageAction).inSingletonScope();
+        container.bind(DG.setPageSizeAction).toInstance(createSetPageSizeAction).inSingletonScope();
+    },
+    init(container, { props }) {
+        const config = paginationConfig(props);
+        container.bind(DG.paginationConfig).toConstant(config);
+        container.bind(CORE.initPageSize).toConstant(config.constPageSize);
+    },
+    postInit(container) {
+        const config = container.get(DG.paginationConfig);
+        const query = container.get(DG.query);
+        query.requestTotalCount(config.requestTotalCount);
+        query.setBaseLimit(config.constPageSize);
+        container.get(DG.dynamicPagination); // Enable dynamic pagination feature
+    }
+};
 
-// selection counter
-injected(
-    SelectionCounterViewModel,
-    CORE.selection.selectedCount,
-    CORE.selection.selectedCounterTextsStore,
-    DG.selectionCounterCfg.optional
-);
+const _07_selectionBindings: BindingGroup = {
+    inject() {
+        injected(SelectionGate, CORE.mainGate);
+        injected(createSelectionHelper, CORE.setupService, DG.selectionGate, CORE.config.optional);
+        injected(gridStyleAtom, CORE.columnsStore, CORE.config, DG.gridSizeStore);
+        injected(rowClassProvider, CORE.mainGate);
+        injected(
+            SelectionCounterViewModel,
+            CORE.selection.selectedCount,
+            CORE.selection.selectedCounterTextsStore,
+            DG.selectionCounterCfg.optional
+        );
+    },
+    define(container: Container) {
+        container.bind(DG.selectionGate).toInstance(SelectionGate).inTransientScope();
+        container.bind(DG.selectionHelper).toInstance(createSelectionHelper).inSingletonScope();
+        container.bind(DG.gridColumnsStyle).toInstance(gridStyleAtom).inTransientScope();
+        container.bind(DG.rowClass).toInstance(rowClassProvider).inTransientScope();
+        container.bind(DG.selectionCounterVM).toInstance(SelectionCounterViewModel).inSingletonScope();
+    },
+    init(container, { config, props }) {
+        container.bind(DG.selectionType).toConstant(config.selectionType);
+        container.bind(DG.selectionCounterCfg).toConstant({ position: props.selectionCounterPosition });
+    },
+    postInit(container, { config }) {
+        // Create selection helper if selection is enabled
+        if (config.selectionEnabled) {
+            container.get(DG.selectionHelper);
+        } else {
+            // Override selection helper with null to disable selection features
+            container.bind(DG.selectionHelper).toConstant(null);
+        }
+    }
+};
+
+const _08_rowInteractionBindings: BindingGroup = {
+    inject() {
+        injected(SelectActionsProvider, DG.selectionType, DG.selectionHelper);
+        injected(createFocusController, CORE.setupService, DG.virtualLayout);
+        injected(creteCheckboxEventsController, CORE.config, DG.selectActions, DG.focusService, DG.pageSize);
+        injected(layoutAtom, CORE.atoms.itemCount, CORE.atoms.columnCount, DG.pageSize);
+        injected(createClickActionHelper, CORE.setupService, CORE.mainGate);
+        injected(
+            createCellEventsController,
+            CORE.config,
+            DG.selectActions,
+            DG.focusService,
+            DG.clickActionHelper,
+            DG.pageSize
+        );
+    },
+    define(container: Container) {
+        container.bind(DG.selectActions).toInstance(SelectActionsProvider).inSingletonScope();
+        container.bind(DG.focusService).toInstance(createFocusController).inSingletonScope();
+        container.bind(DG.checkboxEventsHandler).toInstance(creteCheckboxEventsController).inSingletonScope();
+        container.bind(DG.virtualLayout).toInstance(layoutAtom).inTransientScope();
+        container.bind(DG.clickActionHelper).toInstance(createClickActionHelper).inSingletonScope();
+        container.bind(DG.cellEventsHandler).toInstance(createCellEventsController).inSingletonScope();
+    }
+};
+
+const _09_selectAllBindings: BindingGroup = {
+    init(container, { selectAllModule }) {
+        container.bind(SA_TOKENS.progressService).toConstant(selectAllModule.get(SA_TOKENS.progressService));
+        container.bind(SA_TOKENS.selectionDialogVM).toConstant(selectAllModule.get(SA_TOKENS.selectionDialogVM));
+        container.bind(SA_TOKENS.selectAllBarVM).toConstant(selectAllModule.get(SA_TOKENS.selectAllBarVM));
+    }
+};
+
+const groups = [
+    _01_coreBindings,
+    _02_filterBindings,
+    _03_loaderBindings,
+    _04_emptyStateBindings,
+    _05_personalizationBindings,
+    _06_paginationBindings,
+    _07_selectionBindings,
+    _08_rowInteractionBindings,
+    _09_selectAllBindings
+];
+
+// Inject tokens from groups
+for (const grp of groups) {
+    grp.inject?.();
+}
 
 export class DatagridContainer extends Container {
     id = `DatagridContainer@${generateUUID()}`;
+
     constructor(root: Container) {
         super();
         this.extend(root);
 
-        // Basic data store
-        this.bind(DG.basicDate).toInstance(GridBasicData).inSingletonScope();
-        // Columns store
-        this.bind(CORE.columnsStore).toInstance(ColumnGroupStore).inSingletonScope();
-        // Query service
-        this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
-        // Grid sizing and scrolling store
-        this.bind(DG.gridSizeStore).toInstance(GridSizeStore).inSingletonScope();
-        // Datasource params service
-        this.bind(DG.paramsService).toInstance(DatasourceParamsController).inSingletonScope();
-        // FilterAPI
-        this.bind(DG.filterAPI).toInstance(WidgetFilterAPI).inSingletonScope();
-        // Filter host
-        this.bind(DG.filterHost).toInstance(CustomFilterHost).inSingletonScope();
-        // Combined filter
-        this.bind(DG.combinedFilter).toInstance(CombinedFilter).inSingletonScope();
-        // Personalization service
-        this.bind(DG.personalizationService).toInstance(GridPersonalizationStore).inSingletonScope();
-        // Loader view model
-        this.bind(DG.loaderVM).toInstance(DerivedLoaderController).inSingletonScope();
-        // Selection counter view model
-        this.bind(DG.selectionCounterVM).toInstance(SelectionCounterViewModel).inSingletonScope();
-        // Empty placeholder
-        this.bind(DG.emptyPlaceholderVM).toInstance(EmptyPlaceholderViewModel).inTransientScope();
-        this.bind(DG.emptyPlaceholderWidgets).toInstance(emptyStateWidgetsAtom).inTransientScope();
-        // Grid columns style
-        this.bind(DG.gridColumnsStyle).toInstance(gridStyleAtom).inTransientScope();
-
-        /** Pagination **/
-        this.bind(DG.currentPage).toInstance(currentPageAtom).inTransientScope();
-        this.bind(DG.customPagination).toInstance(customPaginationAtom).inTransientScope();
-        this.bind(DG.dynamicPage).toInstance(dynamicPageAtom).inTransientScope();
-        this.bind(DG.dynamicPageSize).toInstance(dynamicPageSizeAtom).inTransientScope();
-        this.bind(DG.dynamicPagination).toInstance(DynamicPaginationFeature).inSingletonScope();
-        this.bind(DG.pageSize).toInstance(pageSizeAtom).inTransientScope();
-        this.bind(DG.pageControl).toInstance(PageControlService).inSingletonScope();
-        this.bind(DG.paginationVM).toInstance(PaginationViewModel).inSingletonScope();
-        this.bind(DG.setPageAction).toInstance(createSetPageAction).inSingletonScope();
-        this.bind(DG.setPageSizeAction).toInstance(createSetPageSizeAction).inSingletonScope();
-
-        // Selection gate
-        this.bind(DG.selectionGate).toInstance(SelectionGate).inTransientScope();
-        // Selection helper
-        this.bind(DG.selectionHelper).toInstance(createSelectionHelper).inSingletonScope();
-        // Row class provider
-        this.bind(DG.rowClass).toInstance(rowClassProvider).inTransientScope();
-        // Widget root view model
-        this.bind(DG.datagridRootVM).toInstance(WidgetRootViewModel).inTransientScope();
-        // Select actions provider
-        this.bind(DG.selectActions).toInstance(SelectActionsProvider).inSingletonScope();
-        // Virtual layout
-        this.bind(DG.virtualLayout).toInstance(layoutAtom).inTransientScope();
-        // Focus service
-        this.bind(DG.focusService).toInstance(createFocusController).inSingletonScope();
-        // Checkbox events service
-        this.bind(DG.checkboxEventsHandler).toInstance(creteCheckboxEventsController).inSingletonScope();
-        // Cell events service
-        this.bind(DG.cellEventsHandler).toInstance(createCellEventsController).inSingletonScope();
-        // Click action helper
-        this.bind(DG.clickActionHelper).toInstance(createClickActionHelper).inSingletonScope();
+        for (const grp of groups) {
+            grp.define?.(this);
+        }
     }
 
     /**
@@ -191,84 +332,21 @@ export class DatagridContainer extends Container {
     }): DatagridContainer {
         const { props, config, mainGate, exportProgressService, selectAllModule } = dependencies;
 
-        // Main gate
-
-        this.bind(CORE.mainGate).toConstant(mainGate);
-        this.bind(DG.queryGate).toConstant(mainGate);
-
-        // Export progress service
-        this.bind(DG.exportProgressService).toConstant(exportProgressService);
-
-        // Config
-        this.bind(CORE.config).toConstant(config);
-
-        // Connect select all module
-        this.bind(SA_TOKENS.progressService).toConstant(selectAllModule.get(SA_TOKENS.progressService));
-        this.bind(SA_TOKENS.selectionDialogVM).toConstant(selectAllModule.get(SA_TOKENS.selectionDialogVM));
-        this.bind(SA_TOKENS.selectAllBarVM).toConstant(selectAllModule.get(SA_TOKENS.selectAllBarVM));
-
-        // Events channel for child widgets
-        this.bind(DG.parentChannelName).toConstant(config.filtersChannelName);
-
         // Bind refresh interval
-        this.bind(DG.refreshInterval).toConstant(config.refreshIntervalMs);
+        // Run binding groups init phase
+        for (const grp of groups) {
+            grp.init?.(this, { props, config, mainGate, exportProgressService, selectAllModule });
+        }
 
-        // Bind combined filter config
-        this.bind(DG.combinedFilterConfig).toConstant({
-            stableKey: props.name,
-            inputs: [this.get(DG.filterHost), this.get(CORE.columnsStore)]
-        });
+        // Run binding groups post init phase
+        for (const grp of groups) {
+            grp.postInit?.(this, { props, config, mainGate, exportProgressService, selectAllModule });
+        }
 
-        // Bind loader config
-        this.bind(DG.loaderConfig).toConstant({
-            showSilentRefresh: props.refreshInterval > 1,
-            refreshIndicator: props.refreshIndicator
-        });
-
-        // Bind pagination config
-
-        this.bind(DG.paginationConfig).toConstant(paginationConfig(props));
-
-        // Bind init page size
-        this.bind(CORE.initPageSize).toConstant(props.pageSize);
-
-        // Bind selection counter position
-        this.bind(DG.selectionCounterCfg).toConstant({ position: props.selectionCounterPosition });
-
-        // Bind selection type
-        this.bind(DG.selectionType).toConstant(config.selectionType);
-
-        this.postInit(props, config);
-
-        return this;
-    }
-
-    /** Post init hook for final configuration. */
-    private postInit(props: MainGateProps, config: DatagridConfig): void {
         // Make sure essential services are created upfront
         this.get(DG.paramsService); // Enable sort & filtering
-        this.get(DG.dynamicPagination); // Enable dynamic pagination feature
-
-        const query = this.get(DG.query);
-        const pgConfig = this.get(DG.paginationConfig);
-        query.requestTotalCount(pgConfig.requestTotalCount);
-        query.setBaseLimit(pgConfig.constPageSize);
-
-        if (config.settingsStorageEnabled) {
-            this.get(DG.personalizationService);
-        }
-
-        if (config.selectionEnabled) {
-            // Create selection helper singleton
-            this.get(DG.selectionHelper);
-        } else {
-            // Override selection helper with undefined to disable selection features
-            this.bind(DG.selectionHelper).toConstant(null);
-        }
-
-        // Hydrate filters from props
-        this.get(DG.combinedFilter).hydrate(props.datasource.filter);
-
         this.get(DG.gridSizeStore);
+
+        return this;
     }
 }
