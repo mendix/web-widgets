@@ -2,7 +2,7 @@ import { PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { action, comparer, computed, makeObservable, reaction } from "mobx";
-import { ObservableStorage } from "src/typings/storage";
+import { ObservableStorage } from "src/features/settings-storage/storage";
 import { GallerySettingsConfig } from "../../model/configs/GallerySettings.config";
 
 export class GallerySettingsSyncService implements SetupComponent {
