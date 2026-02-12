@@ -26,3 +26,5 @@ export const [useItemEventsVM] = createInjectionHooks(GY.itemEventsVM);
 export const [useLayoutService] = createInjectionHooks(GY.layoutService);
 
 export const [useLoaderViewModel] = createInjectionHooks(GY.loader);
+
+export const [useCustomPagination] = createInjectionHooks(GY.paging.customPagination);

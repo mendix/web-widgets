@@ -64,6 +64,10 @@ export class PaginationViewModel {
         }
     }
 
+    get loadMoreVisible(): boolean {
+        return this.pagination === "loadMore" && this.hasMoreItems;
+    }
+
     get hasMoreItems(): boolean {
         return this.query.hasMoreItems;
     }
