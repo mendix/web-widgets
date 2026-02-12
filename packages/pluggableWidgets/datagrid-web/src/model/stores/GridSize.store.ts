@@ -1,7 +1,7 @@
+import { SetPageAction } from "@mendix/widget-plugin-grid/pagination/main";
+import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { action, computed, makeAutoObservable, observable } from "mobx";
 import { createRef } from "react";
-import { SetPageAction } from "@mendix/widget-plugin-grid/main";
-import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { PaginationConfig } from "../../features/pagination/pagination.config";
 
 export const VIRTUAL_SCROLLING_OFFSET = 30;

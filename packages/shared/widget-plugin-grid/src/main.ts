@@ -9,8 +9,6 @@ export type { TaskProgressService } from "./interfaces/TaskProgressService";
 export { createFocusController } from "./keyboard-navigation/createFocusController";
 export { layoutAtom } from "./keyboard-navigation/layout.model";
 export { SelectAllService } from "./select-all/SelectAll.service";
-export { SelectionCounterViewModel } from "./selection-counter/SelectionCounter.viewModel";
 export * from "./selection/context";
 export { createSelectionHelper } from "./selection/createSelectionHelper";
 export { SelectActionsProvider } from "./selection/SelectActionsProvider.service";
-
