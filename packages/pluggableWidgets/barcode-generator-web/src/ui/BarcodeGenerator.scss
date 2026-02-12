@@ -2,7 +2,7 @@
 $widget-prefix: "barcode-generator";
 
 .#{$widget-prefix} {
-    display: inline-block;
+    display: block;
     border-radius: var(--card-border-radius);
 
     &--as-card {
