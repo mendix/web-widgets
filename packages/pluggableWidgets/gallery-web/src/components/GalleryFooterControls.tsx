@@ -3,13 +3,14 @@ import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
-import { usePaginationConfig } from "../model/hooks/injection-hooks";
+import { useCustomPagination, usePaginationConfig } from "../model/hooks/injection-hooks";
 import { LoadMore } from "./LoadMore";
 import { Pagination } from "./Pagination";
 
 export const GalleryFooterControls = observer(function GalleryFooterControls(): ReactElement {
     const counterVM = useSelectionCounterViewModel();
     const pgConfig = usePaginationConfig();
+    const customPagination = useCustomPagination();
     const loadMoreButtonCaption = "Load more";
 
     return (
@@ -28,6 +29,7 @@ export const GalleryFooterControls = observer(function GalleryFooterControls(): 
                 <If condition={pgConfig.pagingPosition !== "top"}>
                     <Pagination />
                 </If>
+                <If condition={pgConfig.customPaginationEnabled}>{customPagination.get()}</If>
             </div>
         </div>
     );
