@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We changed the structure of the gallery settings to align them with the data grid.
+
+### Added
+
+- We added new attributes and a drop zone for custom pagination.
+
+- We added support for the auto-select feature in multi-selection mode.
+
 ## [3.8.0] - 2026-01-16
 
 ### Fixed
