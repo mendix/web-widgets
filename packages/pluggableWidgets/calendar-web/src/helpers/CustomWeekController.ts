@@ -7,6 +7,7 @@ import { addWeeks, differenceInCalendarDays, getRange } from "../utils/calendar-
 type CustomWeekComponent = ((viewProps: CalendarProps) => ReactElement) & {
     navigate: (date: Date, action: NavigateAction) => Date;
     title: (date: Date, options: any) => string;
+    range: (date: Date, options?: { localizer?: any }) => Date[];
 };
 
 export class CustomWeekController {
@@ -76,6 +77,7 @@ export class CustomWeekController {
         Component.navigate = CustomWeekController.navigate;
         Component.title = (date: Date, options: any): string =>
             CustomWeekController.title(date, options, visibleDays, titlePattern);
+        Component.range = (date: Date): Date[] => getRange(date, visibleDays);
 
         return Component;
     }
