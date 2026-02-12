@@ -28,6 +28,7 @@
     &-item {
         display: flex;
         align-items: center;
+        margin-bottom: 5px;
         input {
             flex: 0 0 16px;
         }
@@ -36,6 +37,7 @@
             font-weight: inherit;
             text-overflow: ellipsis;
             overflow: hidden;
+            margin-bottom: 0;
         }
     }
 
