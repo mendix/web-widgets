@@ -10,8 +10,18 @@ interface BarcodeRendererProps {
 }
 
 export function BarcodeRenderer({ config }: BarcodeRendererProps): ReactElement {
-    const ref = useRenderBarcode(config);
+    const { ref, error } = useRenderBarcode(config);
     const { downloadButton, buttonPosition } = config;
+
+    if (error) {
+        return (
+            <div className="barcode-renderer">
+                <div className="alert alert-danger" role="alert">
+                    <strong>Barcode Error:</strong> {error}
+                </div>
+            </div>
+        );
+    }
 
     const button = downloadButton && (
         <a

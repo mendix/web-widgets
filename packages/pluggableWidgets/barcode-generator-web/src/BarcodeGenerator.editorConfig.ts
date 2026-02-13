@@ -128,28 +128,95 @@ function getActiveFormat(values: BarcodeGeneratorPreviewProps): string {
     return values.codeFormat;
 }
 
+function stripQuotes(value: string): string {
+    // Remove leading/trailing quotes and whitespace from expression values
+    let trimmed = value.trim();
+    // Match and remove surrounding quotes (single or double)
+    if ((trimmed.startsWith("'") && trimmed.endsWith("'")) || (trimmed.startsWith('"') && trimmed.endsWith('"'))) {
+        trimmed = trimmed.slice(1, -1);
+    }
+    return trimmed;
+}
+
+function isDynamicExpression(value: string): boolean {
+    // Check if the value is a dynamic expression (attribute binding, variable, etc.)
+    // Dynamic expressions start with $ or contain / paths or are empty
+    return !value || value.startsWith("$") || value.includes("/");
+}
+
+function getFormatHint(format: string): string {
+    const hints: Record<string, string> = {
+        EAN13: "EAN-13 requires 12 or 13 numeric digits",
+        EAN8: "EAN-8 requires 7 or 8 numeric digits",
+        UPC: "UPC requires 11 or 12 numeric digits",
+        ITF14: "ITF-14 requires exactly 14 numeric digits",
+        CODE39: "CODE39: uppercase A-Z, digits, space and - . $ / + % (max 43 chars)",
+        CODE128: "CODE128: alphanumeric, no control characters (max 80 chars)",
+        CODE93: "CODE93: alphanumeric, no control characters (max 47 chars)",
+        MSI: "MSI: numeric only (max 30 digits)",
+        pharmacode: "Pharmacode: numeric only (max 7 digits)",
+        codabar: "Codabar: digits, A-D start/stop, and - $ : / . + (max 20 chars)",
+        QRCode: "QR Code: any text (max 1200 chars recommended)"
+    };
+    return hints[format] || "";
+}
+
 function validateCodeValues(values: BarcodeGeneratorPreviewProps): Problem[] {
     const problems: Problem[] = [];
-    const val = values.codeValue ?? "";
-    const addon = values.addonValue ?? "";
+    const rawVal = values.codeValue ?? "";
+    const rawAddon = values.addonValue ?? "";
     const format = getActiveFormat(values);
 
-    // Only validate static (design-time) values — if empty, skip (user may bind dynamically)
-    if (!val) {
-        // still validate addon if present
-    } else {
-        const result = validateBarcodeValue(format, val);
-        if (!result.valid) {
-            const msg = result.message || "Invalid barcode value for selected format.";
-            problems.push({ property: "codeValue", severity: "warning", message: msg });
+    // Add informational hint for dynamic expressions
+    if (isDynamicExpression(rawVal) && rawVal) {
+        const hint = getFormatHint(format);
+        if (hint) {
+            problems.push({
+                property: "codeValue",
+                severity: "warning",
+                message: `Dynamic value provided. Ensure runtime value matches format: ${hint}`
+            });
         }
     }
 
-    // Validate addon value if visible
-    const addonResult = validateAddonValue(values.addonFormat, addon);
-    if (!addonResult.valid) {
-        const msg = addonResult.message || "Invalid addon value.";
-        problems.push({ property: "addonValue", severity: "warning", message: msg });
+    // Only validate static literal values, skip dynamic expressions (attribute bindings, variables, etc.)
+    if (!isDynamicExpression(rawVal)) {
+        const val = stripQuotes(rawVal);
+        if (val) {
+            const result = validateBarcodeValue(format, val);
+            if (!result.valid) {
+                const msg = result.message || "Invalid barcode value for selected format.";
+                problems.push({ property: "codeValue", severity: "error", message: msg });
+            }
+        }
+    }
+
+    // Validate addon value if visible and format is selected
+    if (values.addonFormat !== "None") {
+        // Add informational hint for dynamic addon expressions
+        if (isDynamicExpression(rawAddon) && rawAddon) {
+            const addonHint =
+                values.addonFormat === "EAN5"
+                    ? "EAN-5 addon requires exactly 5 numeric digits"
+                    : "EAN-2 addon requires exactly 2 numeric digits";
+            problems.push({
+                property: "addonValue",
+                severity: "warning",
+                message: `Dynamic addon value provided. Ensure runtime value matches format: ${addonHint}`
+            });
+        }
+
+        // Validate static addon values
+        if (!isDynamicExpression(rawAddon)) {
+            const addon = stripQuotes(rawAddon);
+            if (addon) {
+                const addonResult = validateAddonValue(values.addonFormat, addon);
+                if (!addonResult.valid) {
+                    const msg = addonResult.message || "Invalid addon value.";
+                    problems.push({ property: "addonValue", severity: "error", message: msg });
+                }
+            }
+        }
     }
 
     return problems;
