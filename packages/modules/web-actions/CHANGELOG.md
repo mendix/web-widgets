@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.11.2] - 2026-02-13
+
 ### Fixed
 
 - We fixed an issue where the take picture button dissapear when video is not ready.
