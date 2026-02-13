@@ -1,6 +1,6 @@
 import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
 import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
-import { computed, trace } from "mobx";
+import { computed } from "mobx";
 
 /** @injectable */
 export function layoutAtom(
@@ -10,10 +10,12 @@ export function layoutAtom(
     },
     pageSize: ComputedAtom<number>
 ): ComputedAtom<VirtualGridLayout> {
-    return computed(() => {
-        trace()
-        return new VirtualGridLayout(layoutStore.numberOfRows, layoutStore.numberOfColumns, pageSize.get())
-    }, { name: '[gallery]:@computed:layoutAtom' });
+    return computed(
+        () => {
+            return new VirtualGridLayout(layoutStore.numberOfRows, layoutStore.numberOfColumns, pageSize.get());
+        },
+        { name: "[gallery]:@computed:layoutAtom" }
+    );
 }
 
 /** @injectable */

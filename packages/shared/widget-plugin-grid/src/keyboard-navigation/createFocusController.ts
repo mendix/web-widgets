@@ -1,5 +1,5 @@
 import { ComputedAtom, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { reaction, trace } from "mobx";
+import { reaction } from "mobx";
 import { FocusTargetController } from "./FocusTargetController";
 import { PositionController } from "./PositionController";
 import { VirtualGridLayout } from "./VirtualGridLayout";
@@ -14,11 +14,10 @@ export function createFocusController(
     function setup(): void | (() => void) {
         return reaction(
             () => {
-                trace();
-                return layout.get()
+                return layout.get();
             },
             newLayout => {
-                controller.updateGridLayout(newLayout)
+                controller.updateGridLayout(newLayout);
             },
             { name: "[plugin]:@reaction:createFocusController:layoutUpdate" }
         );

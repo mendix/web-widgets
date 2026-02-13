@@ -1,7 +1,7 @@
 import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
-import { computed, trace } from "mobx";
+import { computed } from "mobx";
 import { observer } from "mobx-react-lite";
 import { ReactElement, RefObject, useMemo } from "react";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
@@ -23,7 +23,6 @@ export const ListItem = observer(function ListItem(props: ListItemProps): ReactE
 
     const isSelected = computed(
         () => {
-            trace();
             return selectActions.isSelected(item);
         },
         { name: "[gallery]:@computed:ListItem:isSelected" }
