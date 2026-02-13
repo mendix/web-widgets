@@ -76,11 +76,11 @@
                 </property>
                 <property key="enableFlat" type="boolean" defaultValue="false">
                     <caption>Flat</caption>
-                    <description>Enable flat barcode, skip guard bars</description>
+                    <description>Enable flat barcode, skip guard bars. Note: Doesn't work with EAN addons.</description>
                 </property>
                 <property key="lastChar" type="string" required="false">
                     <caption>Last character</caption>
-                    <description>Character after the barcode</description>
+                    <description>Character after the barcode. Note: Doesn't work when 'Flat' is enabled or with EAN addons.</description>
                 </property>
                 <property key="enableMod43" type="boolean" required="true" defaultValue="false">
                     <caption>Mod43</caption>
@@ -97,12 +97,10 @@
                         <enumerationValue key="EAN2">EAN-2</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="addonValue" type="attribute" required="true">
+                <property key="addonValue" type="expression" required="true">
                     <caption>Addon value</caption>
                     <description>Value for the addon barcode (5 digits for EAN-5, 2 digits for EAN-2)</description>
-                    <attributeTypes>
-                        <attributeType name="String" />
-                    </attributeTypes>
+                    <returnType type="String" />
                 </property>
                 <property key="addonSpacing" type="integer" required="true" defaultValue="20">
                     <caption>Addon spacing</caption>
