@@ -35,6 +35,30 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
         hidePropertyIn(defaultProperties, values, "enableEan128");
     }
 
+    // enableFlat is only supported for EAN-13 and EAN-8, and NOT when addons are enabled
+    if (
+        !(
+            values.codeFormat === "Custom" &&
+            (values.customCodeFormat === "EAN13" || values.customCodeFormat === "EAN8") &&
+            values.addonFormat === "None"
+        )
+    ) {
+        hidePropertyIn(defaultProperties, values, "enableFlat");
+    }
+
+    // lastChar is only supported for EAN-13, and NOT when flat is enabled or addons are present
+    if (
+        !(
+            values.codeFormat === "Custom" &&
+            values.customCodeFormat === "EAN13" &&
+            !values.enableFlat &&
+            values.addonFormat === "None"
+        )
+    ) {
+        hidePropertyIn(defaultProperties, values, "lastChar");
+    }
+
+    // EAN addons are only supported for EAN-13, EAN-8, and UPC
     if (
         values.codeFormat === "QRCode" ||
         values.codeFormat === "CODE128" ||
@@ -42,22 +66,6 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
             values.customCodeFormat !== "EAN13" &&
             values.customCodeFormat !== "EAN8" &&
             values.customCodeFormat !== "UPC")
-    ) {
-        hidePropertyIn(defaultProperties, values, "enableFlat");
-    }
-
-    if (
-        values.codeFormat === "QRCode" ||
-        values.codeFormat === "CODE128" ||
-        (values.codeFormat === "Custom" && values.customCodeFormat !== "EAN13")
-    ) {
-        hidePropertyIn(defaultProperties, values, "lastChar");
-    }
-
-    if (
-        values.codeFormat === "QRCode" ||
-        values.codeFormat === "CODE128" ||
-        (values.codeFormat === "Custom" && values.customCodeFormat !== "EAN13" && values.customCodeFormat !== "EAN8")
     ) {
         hidePropertiesIn(defaultProperties, values, ["addonFormat", "addonValue", "addonSpacing"]);
     }

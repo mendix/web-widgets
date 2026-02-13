@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { DynamicValue, EditableValue, WebImage } from "mendix";
+import { DynamicValue, WebImage } from "mendix";
 import { Big } from "big.js";
 
 export type CodeFormatEnum = "CODE128" | "QRCode" | "Custom";
@@ -34,7 +34,7 @@ export interface BarcodeGeneratorContainerProps {
     lastChar: string;
     enableMod43: boolean;
     addonFormat: AddonFormatEnum;
-    addonValue: EditableValue<string>;
+    addonValue: DynamicValue<string>;
     addonSpacing: number;
     displayValue: boolean;
     showAsCard: boolean;
