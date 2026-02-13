@@ -1,7 +1,7 @@
 {
     "name": "@mendix/web-actions",
     "moduleName": "Web Actions",
-    "version": "2.11.1",
+    "version": "2.11.2",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
     "repository": {
