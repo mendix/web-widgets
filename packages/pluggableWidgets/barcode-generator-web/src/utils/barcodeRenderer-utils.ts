@@ -72,8 +72,8 @@ export const createBarcodeWithAddon = (
         // Add spacing
         BarcodeService.blank(addonSpacing);
 
-        // Add addon dynamically
-        BarcodeService[addonFormat](addonValue, { width: 1 });
+        // Add addon dynamically with same displayValue setting
+        BarcodeService[addonFormat](addonValue, { width: 1, displayValue: options.displayValue });
 
         BarcodeService.render();
     }
