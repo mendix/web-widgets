@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added a license file and a readme documenting all open source dependencies used in this package.
+
 ## [1.4.0] - 2025-04-16
 
 ### Changed

@@ -1,7 +1,7 @@
 {
     "name": "@mendix/google-tag",
     "moduleName": "Google Tag module",
-    "version": "2.4.0",
+    "version": "2.4.1",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
     "private": true,
