@@ -2,10 +2,33 @@ import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
 import tarser from "@rollup/plugin-terser";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { OutputOptions, type Plugin, type RollupOptions } from "rollup";
 import copy from "rollup-plugin-copy";
+import license from "rollup-plugin-license";
+import type { Dependency } from "rollup-plugin-license";
 const { join, format } = path;
+
+// Accumulates dependencies from all shared bundles (plotly, reactPlotly, sharedCode).
+// Each bundle pushes its deps here; the last bundle writes the combined output.
+const accumulatedSharedDeps: Dependency[] = [];
+
+// Matches PWT's licenseCustomTemplate format (from pluggable-widgets-tools/configs/helpers/rollup-helper.mjs)
+const licenseCustomTemplate = (dependencies: Dependency[]): string =>
+    JSON.stringify(
+        dependencies.map(dep => ({
+            [dep.name!]: {
+                version: dep.version,
+                // PWT's rollup-helper.mjs checks isTransitive but rollup-plugin-license types don't expose it.
+                // Cast to any for format parity with PWT output.
+                ...(typeof (dep as any).isTransitive !== "undefined"
+                    ? { transitive: (dep as any).isTransitive }
+                    : null),
+                url: dep.homepage
+            }
+        }))
+    );
 
 // Based on packages/pluggable-widgets-tools/configs/rollup.config.js
 interface Args {
@@ -133,7 +156,7 @@ function sharedCode(bundle: BundleBuildConfig): RollupOptions {
 
     return {
         input: bundle.sharedCharts.input,
-        plugins: stdPlugins(bundle),
+        plugins: [...stdPlugins(bundle), sharedBundleLicensePlugin(bundle, true)],
         // Mark reactPlotly as external to not include react-plotly.js in bundle.
         // Mark plotly as external to not include plotly.js in bundle.
         external: [...bundle.external, bundle.reactPlotly.input, bundle.plotly.input],
@@ -157,7 +180,7 @@ function reactPlotly(bundle: BundleBuildConfig): RollupOptions {
         input: bundle.reactPlotly.input,
         // Mark plotly as external to not include plotly.js in bundle.
         external: [...bundle.external],
-        plugins: stdPlugins(bundle),
+        plugins: [...stdPlugins(bundle), sharedBundleLicensePlugin(bundle, false)],
         output: [esmOutput, amdOutput]
     };
 }
@@ -197,10 +220,62 @@ function plotly(bundle: BundleBuildConfig): RollupOptions {
                     { src: "node_modules/plotly.js-dist-min/LICENSE", dest: bundle.esmDir }
                 ],
                 verbose: true
-            })
+            }),
+            sharedBundleLicensePlugin(bundle, false)
         ],
         output: [esmOutput, amdOutput]
     };
+}
+
+/**
+ * Creates a license plugin instance for a shared bundle.
+ *
+ * Context:
+ * - Rollup processes configs sequentially: plotly → reactPlotly → sharedCode
+ * - Each bundle's license plugin collects that bundle's third-party deps
+ * - The last bundle (sharedCode) writes the combined dependencies files
+ * - In dev mode, returns null (rollup ignores null plugins)
+ *
+ * @param bundle - The build config (needs isProd and amdDir)
+ * @param isLastBundle - When true, write accumulated deps to disk
+ */
+function sharedBundleLicensePlugin(bundle: BundleBuildConfig, isLastBundle: boolean): Plugin | null {
+    if (!bundle.isProd) {
+        return null;
+    }
+
+    return license({
+        thirdParty: {
+            includePrivate: true,
+            output: (deps: Dependency[]) => {
+                accumulatedSharedDeps.push(...deps);
+
+                if (isLastBundle) {
+                    // Deduplicate by name+version since rollup fires the callback
+                    // once per output format (ESM + AMD), doubling every entry.
+                    const seen = new Set<string>();
+                    const uniqueDeps = accumulatedSharedDeps.filter(dep => {
+                        const key = `${dep.name}@${dep.version}`;
+                        if (seen.has(key)) {
+                            return false;
+                        }
+                        seen.add(key);
+                        return true;
+                    });
+
+                    mkdirSync(bundle.amdDir, { recursive: true });
+                    writeFileSync(
+                        join(bundle.amdDir, "dependencies.json"),
+                        licenseCustomTemplate(uniqueDeps)
+                    );
+                    writeFileSync(
+                        join(bundle.amdDir, "dependencies.txt"),
+                        uniqueDeps.map(dep => dep.text()).join("\n\n---\n\n")
+                    );
+                }
+            }
+        }
+    });
 }
 
 /** Utils */
