@@ -26,9 +26,6 @@ FILE_PATH=$(cat | node -e "
 # Skip if no file path or file doesn't exist
 [[ -z "$FILE_PATH" || ! -f "$FILE_PATH" ]] && exit 0
 
-# Auto-format with prettier using the project's installed version
-npx prettier --write "$FILE_PATH" 2>/dev/null
-
 # Find the nearest package directory with eslint config
 SEARCH_DIR=$(dirname "$FILE_PATH")
 PACKAGE_DIR=""
@@ -40,9 +37,16 @@ while [[ "$SEARCH_DIR" != "/" ]]; do
     SEARCH_DIR=$(dirname "$SEARCH_DIR")
 done
 
+# Auto-format with prettier from the package directory
+if [[ -n "$PACKAGE_DIR" ]]; then
+    (cd "$PACKAGE_DIR" && pnpm exec prettier --write "$FILE_PATH" 2>/dev/null)
+else
+    pnpm exec prettier --write "$FILE_PATH" 2>/dev/null
+fi
+
 # Run lint from the package directory using the project's lint setup
 if [[ -n "$PACKAGE_DIR" ]]; then
-    LINT_OUTPUT=$(cd "$PACKAGE_DIR" && npm run lint 2>&1)
+    LINT_OUTPUT=$(cd "$PACKAGE_DIR" && pnpm run lint 2>&1)
     if [[ $? -ne 0 ]]; then
         echo "$LINT_OUTPUT" >&2
         exit 2

@@ -7,8 +7,8 @@ Monorepo of official Mendix pluggable web widgets. pnpm workspaces + Turbo.
 - Install: `pnpm install`
 - Build all: `pnpm build`
 - Build one: `pnpm --filter @mendix/<name> run build`
-- Test one: cd into package dir, run `npm run test` (NOT from repo root)
-- Lint one: cd into package dir, run `npm run lint`
+- Test one: cd into package dir, run `pnpm run test` (NOT from repo root)
+- Lint one: cd into package dir, run `pnpm run lint`
 - Changelog: `pnpm -w changelog`
 
 ## Structure
@@ -25,7 +25,7 @@ docs/requirements/                -> Detailed technical requirements
 
 - **Auto-format**: Every file edit is auto-formatted by prettier via PostToolUse hook.
   Do NOT manually run `prettier --write` — it wastes tokens, the hook handles it.
-- **Auto-lint**: After each edit, eslint runs via `npm run lint` in the file's package.
+- **Auto-lint**: After each edit, eslint runs via `pnpm run lint` in the file's package.
   Lint errors are fed back automatically — fix them in the next edit, do NOT run lint commands manually.
 
 ## Conventions
@@ -33,7 +33,6 @@ docs/requirements/                -> Detailed technical requirements
 - TypeScript strict, React functional components + hooks
 - Mendix Pluggable Widgets API: EditableValue, ActionValue, ListValue, DynamicValue
 - Check ActionValue.canExecute before execute()
-- Use EditableValue.setValue() for two-way binding
 - Render loading/empty states until values are ready
 - SCSS for styling, prefer Atlas UI classes, BEM-like naming with widget prefix
 - Conventional commits enforced: `type(scope): description`
