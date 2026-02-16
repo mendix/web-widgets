@@ -58,27 +58,21 @@ async function main(): Promise<void> {
 
         // Step 4.1: Write versions to the files (if user chose to bump version)
         if (isVersionBumped) {
-            if (selectedPackage.type === "module") {
-                bumpPackageJson(selectedPackage.path, nextVersion);
-                console.log(chalk.green(`✅ Bumped ${chalk.bold(selectedPackage.info.name)} to ${nextVersion}`));
-                for (const widget of selectedPackage.widgets) {
-                    await bumpXml(widget.path, nextVersion);
-                    bumpPackageJson(widget.path, nextVersion);
-                    console.log(chalk.green(`✅ Bumped ${chalk.bold(widget.info.name)} to ${nextVersion}`));
-                }
-            } else {
-                bumpPackageJson(selectedPackage.path, nextVersion);
+            bumpPackageJson(selectedPackage.path, nextVersion);
+            if (selectedPackage.type === "widget") {
                 await bumpXml(selectedPackage.path, nextVersion);
-                console.log(chalk.green(`✅ Bumped ${chalk.bold(baseName)} to ${nextVersion}`));
+            }
+            console.log(chalk.green(`✅ Bumped ${chalk.bold(selectedPackage.info.name)} to ${nextVersion}`));
+            for (const widget of selectedPackage.widgets) {
+                bumpPackageJson(widget.path, nextVersion);
+                await bumpXml(widget.path, nextVersion);
+                console.log(chalk.green(` -> ${chalk.bold(widget.info.name)} to ${nextVersion}`));
             }
 
             await exec(`git reset`, { stdio: "pipe" }); // Unstage all files
             await exec(`git add ${selectedPackage.path}`, { stdio: "pipe" }); // Stage only the package
-            if (selectedPackage.type === "module") {
-                // stage widgets as well
-                for (const widget of selectedPackage.widgets) {
-                    await exec(`git add ${widget.path}`, { stdio: "pipe" }); // Stage only the package
-                }
+            for (const widget of selectedPackage.widgets) {
+                await exec(`git add ${widget.path}`, { stdio: "pipe" }); // Stage only the package
             }
 
             // Step 4.2: Commit changes
@@ -408,11 +402,7 @@ async function selectPackageAndVersion(): Promise<{
 }> {
     const selectedPackage = await selectPackageV2();
 
-    if (selectedPackage.type === "widget") {
-        console.log(`📦 Selected widget:`);
-    } else {
-        console.log(`📦 Selected module:`);
-    }
+    console.log(`📦 Selected package:`);
     printPkgInformation(selectedPackage);
 
     // Ask user if they want to bump the version before showing version selection dialog
