@@ -5,6 +5,7 @@
     "description": "Create customizable charts with Plotly.js for advanced visualization needs",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
+    "private": true,
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
@@ -21,7 +22,6 @@
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "10.16.0",
-        "appNumber": 1234,
         "appName": "Custom chart"
     },
     "testProject": {
