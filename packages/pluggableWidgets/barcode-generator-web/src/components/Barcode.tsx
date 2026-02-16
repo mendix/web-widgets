@@ -11,7 +11,8 @@ interface BarcodeRendererProps {
 
 export function BarcodeRenderer({ config }: BarcodeRendererProps): ReactElement {
     const { ref, error } = useRenderBarcode(config);
-    const { downloadButton, buttonPosition } = config;
+    const { downloadButton } = config;
+    const buttonPosition = downloadButton?.buttonPosition ?? "bottom";
 
     if (error) {
         return (
