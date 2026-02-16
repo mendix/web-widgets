@@ -56,6 +56,7 @@
         "copy-and-watch": "^0.1.6",
         "rimraf": "^4.4.1",
         "rollup": "*",
-        "rollup-plugin-copy": "^3.5.0"
+        "rollup-plugin-copy": "^3.5.0",
+        "rollup-plugin-license": "^3.6.0"
     }
 }
