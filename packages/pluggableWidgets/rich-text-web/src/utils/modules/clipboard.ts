@@ -22,6 +22,7 @@ export default class CustomClipboard extends Clipboard {
         this.matchers.unshift([Node.TEXT_NODE, customMatchText]);
         // add custom list matchers for ol and ul to allow custom list types (lower-alpha, lower-roman, etc.)
         this.addMatcher("ol, ul", matchList);
+        this.addMatcher("a", matchLink);
     }
 }
 
@@ -114,6 +115,15 @@ function customMatchText(node: HTMLElement, delta: Delta, scroll: ScrollBlot): D
         }
     }
     return delta.insert(text);
+}
+
+function matchLink(node: HTMLElement, _delta: Delta): Delta {
+    const href = node.getAttribute("href");
+    const text = node.textContent || href || "";
+    const title = node.getAttribute("title") || text;
+    const target = node.getAttribute("target") || "_blank";
+    const value = { href, text, title, target };
+    return new Delta().insert(text, { link: value });
 }
 
 function matchList(node: HTMLElement, delta: Delta): Delta {
