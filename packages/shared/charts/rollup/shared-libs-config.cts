@@ -156,7 +156,7 @@ function sharedCode(bundle: BundleBuildConfig): RollupOptions {
 
     return {
         input: bundle.sharedCharts.input,
-        plugins: [...stdPlugins(bundle), sharedBundleLicensePlugin(bundle, true)],
+        plugins: stdPlugins(bundle, true),
         // Mark reactPlotly as external to not include react-plotly.js in bundle.
         // Mark plotly as external to not include plotly.js in bundle.
         external: [...bundle.external, bundle.reactPlotly.input, bundle.plotly.input],
@@ -180,7 +180,7 @@ function reactPlotly(bundle: BundleBuildConfig): RollupOptions {
         input: bundle.reactPlotly.input,
         // Mark plotly as external to not include plotly.js in bundle.
         external: [...bundle.external],
-        plugins: [...stdPlugins(bundle), sharedBundleLicensePlugin(bundle, false)],
+        plugins: stdPlugins(bundle, false),
         output: [esmOutput, amdOutput]
     };
 }
@@ -221,7 +221,7 @@ function plotly(bundle: BundleBuildConfig): RollupOptions {
                 ],
                 verbose: true
             }),
-            sharedBundleLicensePlugin(bundle, false)
+            ...sharedBundleLicensePlugin(bundle, false)
         ],
         output: [esmOutput, amdOutput]
     };
@@ -239,12 +239,12 @@ function plotly(bundle: BundleBuildConfig): RollupOptions {
  * @param bundle - The build config (needs isProd and amdDir)
  * @param isLastBundle - When true, write accumulated deps to disk
  */
-function sharedBundleLicensePlugin(bundle: BundleBuildConfig, isLastBundle: boolean): Plugin | null {
+function sharedBundleLicensePlugin(bundle: BundleBuildConfig, isLastBundle: boolean): Plugin[] {
     if (!bundle.isProd) {
-        return null;
+        return [];
     }
 
-    return license({
+    return [license({
         thirdParty: {
             includePrivate: true,
             output: (deps: Dependency[]) => {
@@ -275,7 +275,7 @@ function sharedBundleLicensePlugin(bundle: BundleBuildConfig, isLastBundle: bool
                 }
             }
         }
-    });
+    })];
 }
 
 /** Utils */
@@ -286,11 +286,12 @@ const isProd = (args: Args): boolean => !!args.configProduction;
  * IMPORTANT: Please use this only for common plugins.
  * All bundle specific plugins should be defined in the bundle function.
  */
-const stdPlugins = (config: { isProd: boolean }): Plugin[] => [
+const stdPlugins = (bundle: BundleBuildConfig, isLastBundle: boolean): Plugin[] => [
     nodeResolve(),
     commonjs(),
     replace({
-        "process.env.NODE_ENV": JSON.stringify(config.isProd ? "production" : "development")
+        "process.env.NODE_ENV": JSON.stringify(bundle.isProd ? "production" : "development")
     }),
-    tarser()
+    tarser(),
+    ...sharedBundleLicensePlugin(bundle, isLastBundle)
 ];
