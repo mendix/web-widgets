@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.4.1] GoogleTagModule - 2026-02-16
+
+### [2.4.1] GoogleTag
+
+#### Added
+
+- We added a license file and a readme documenting all open source dependencies used in this package.
+
 ## [2.4.0] GoogleTagModule - 2025-04-16
 
 ### [1.4.0] GoogleTag
