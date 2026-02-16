@@ -4,6 +4,7 @@ interface DownloadButtonConfig {
     caption?: string;
     label?: string;
     fileName: string;
+    buttonPosition: "top" | "bottom";
 }
 
 /** Configuration for barcode (non-QR) rendering */
@@ -15,7 +16,6 @@ export interface BarcodeTypeConfig {
     format: string;
     margin: number;
     displayValue: boolean;
-    buttonPosition: "top" | "bottom";
     downloadButton?: DownloadButtonConfig;
 
     // Advanced barcode options
@@ -36,7 +36,6 @@ export interface QRCodeTypeConfig {
     margin: number;
     title: string;
     level: QrLevelEnum;
-    buttonPosition: "top" | "bottom";
     downloadButton?: DownloadButtonConfig;
     image?: {
         src: string;
@@ -59,7 +58,9 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         ? {
               caption: props.downloadButtonCaption?.value,
               label: props.downloadButtonAriaLabel?.value,
-              fileName: format === "QRCode" ? `qrcode_${hashCode(codeValue)}.png` : `barcode_${hashCode(codeValue)}.png`
+              fileName:
+                  format === "QRCode" ? `qrcode_${hashCode(codeValue)}.png` : `barcode_${hashCode(codeValue)}.png`,
+              buttonPosition: props.buttonPosition ?? "bottom"
           }
         : undefined;
 
@@ -71,7 +72,6 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
             margin: props.qrMargin ?? 2,
             title: props.qrTitle ?? "",
             level: props.qrLevel ?? "L",
-            buttonPosition: props.buttonPosition ?? "bottom",
             downloadButton: downloadButtonConfig,
             image:
                 props.qrImageSrc?.status === "available"
@@ -96,7 +96,6 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         format,
         margin: props.codeMargin ?? 2,
         displayValue: props.displayValue ?? false,
-        buttonPosition: props.buttonPosition ?? "bottom",
         downloadButton: downloadButtonConfig,
 
         // Advanced barcode options
