@@ -12,7 +12,6 @@
         "create-gh-release": "turbo run create-gh-release --concurrency 1",
         "create-translation": "turbo run create-translation",
         "include-oss-in-artifact": "pnpm --filter @mendix/automation-utils run include-oss-in-artifact",
-        "postinstall": "turbo run agent-rules",
         "lint": "turbo run lint --continue --concurrency 1",
         "oss-clearance": "pnpm --filter @mendix/automation-utils run oss-clearance",
         "prepare": "husky install",

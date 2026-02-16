@@ -5,7 +5,6 @@
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "private": true,
     "bin": {
-        "rui-agent-rules": "bin/rui-agent-rules.ts",
         "rui-create-gh-release": "bin/rui-create-gh-release.ts",
         "rui-create-translation": "bin/rui-create-translation.ts",
         "rui-generate-package-xml": "bin/rui-generate-package-xml.ts",
@@ -25,7 +24,6 @@
         "tsconfig.json"
     ],
     "scripts": {
-        "agent-rules": "ts-node bin/rui-agent-rules.ts",
         "changelog": "ts-node bin/rui-changelog-helper.ts",
         "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
         "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
