@@ -1,7 +1,7 @@
 {
     "name": "@mendix/calendar",
     "moduleName": "Calendar module",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
     "private": true,
