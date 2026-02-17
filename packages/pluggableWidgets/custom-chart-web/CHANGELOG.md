@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [6.3.0] - 2026-02-17
+
 ### Breaking changes
 
 - We changed how "Static" data and "Source attribute" data are merged. Previously, traces were appended as separate chart elements. Now, traces are merged by index, where source attribute values override static values for the same trace position. This enables proper customization of chart traces through dynamic data.
