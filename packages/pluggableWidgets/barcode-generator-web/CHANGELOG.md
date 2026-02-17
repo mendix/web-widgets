@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Error handling for incompatible barcode types
+- Enhanced preview for all barcode types
 - Comprehensive configuration and styling settings for various barcode types
 - Download functionality for barcodes
 
