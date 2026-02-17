@@ -57,14 +57,17 @@ export class Signature extends PureComponent<SignatureProps> {
         if (this.canvasNode) {
             this.signaturePad = new SignaturePad(this.canvasNode, {
                 penColor: this.props.penColor,
-                // @ts-expect-error // looks like this never worked, there is no onEnd in SignaturePad code
-                onEnd: this.handleSignEnd,
                 ...this.signaturePadOptions()
             });
+            this.signaturePad.addEventListener("endStroke", this.handleSignEnd);
             if (this.props.readOnly) {
                 this.signaturePad.off();
             }
         }
+    }
+
+    componentWillUnmount(): void {
+        this.signaturePad?.removeEventListener("endStroked", this.handleSignEnd);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps: SignatureProps): void {
