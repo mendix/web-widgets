@@ -299,11 +299,11 @@ const SelectionCounter = (): ReactNode => {
     const props = useProps();
     return (
         <div className="widget-datagrid-selection-counter">
-            <span className="widget-gallery-selection-counter-text" aria-live="polite" aria-atomic="true">
+            <span className="widget-datagrid-selection-text" aria-live="polite" aria-atomic="true">
                 {props.selectedCountTemplateSingular}
             </span>
             &nbsp;|&nbsp;
-            <button className="widget-gallery-btn-link">{props.clearSelectionButtonLabel}</button>
+            <button className="widget-datagrid-btn-link">{props.clearSelectionButtonLabel}</button>
         </div>
     );
 };

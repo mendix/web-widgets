@@ -147,7 +147,8 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
             "itemSelectionMethod",
             "itemSelectionMode",
             "onSelectionChange",
-            "keepSelection"
+            "keepSelection",
+            "totalCountValue"
         ]);
     }
 
