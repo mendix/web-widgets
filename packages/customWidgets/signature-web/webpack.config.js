@@ -73,12 +73,7 @@ const previewConfig = {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: "ts-loader",
-                options: {
-                    compilerOptions: {
-                        module: "CommonJS"
-                    }
-                }
+                loader: "ts-loader"
             },
             {
                 test: /\.(sa|sc|c)ss$/,
