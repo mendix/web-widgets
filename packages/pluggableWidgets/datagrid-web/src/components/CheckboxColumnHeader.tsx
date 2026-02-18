@@ -6,6 +6,8 @@ import { useDatagridConfig, useSelectActions, useSelectionHelper, useTexts } fro
 
 export function CheckboxColumnHeader(): ReactElement {
     const { selectAllCheckboxEnabled, checkboxColumnEnabled } = useDatagridConfig();
+    const { selectSingleRowLabel } = useTexts();
+    const selectionHelper = useSelectionHelper();
 
     if (checkboxColumnEnabled === false) {
         return <Fragment />;
@@ -15,6 +17,9 @@ export function CheckboxColumnHeader(): ReactElement {
         <div className="th widget-datagrid-col-select" role="columnheader">
             <If condition={selectAllCheckboxEnabled}>
                 <Checkbox />
+            </If>
+            <If condition={selectionHelper?.type === "Single"}>
+                <span className="sr-only">{selectSingleRowLabel || "Select single row"}</span>
             </If>
         </div>
     );
