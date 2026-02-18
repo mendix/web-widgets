@@ -16,6 +16,7 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
 
     if (values.itemSelection === "None") {
         hidePropertiesIn(defaultProperties, values, ["onSelectionChange", "itemSelectionMode"]);
+        hidePropertyIn(defaultProperties, values, "autoSelect");
     }
 
     if (values.itemSelection !== "Multi") {
