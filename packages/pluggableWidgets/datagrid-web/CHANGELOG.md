@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue that caused the UI export dialog to freeze.
+
 ## [3.8.0] - 2026-01-16
 
 ### Fixed
