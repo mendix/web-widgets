@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.afterEach("Cleanup session", async ({ page }) => {
     // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
@@ -63,15 +63,10 @@ test.describe("datagrid-web filtering single select", () => {
         await option("Yes").click({ delay: 20 });
         const rowCount = await rows();
         await expect(rowCount).toHaveCount(11);
-        await expect(await column(3).allTextContents()).toEqual(
-            expect.arrayContaining(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"])
-        );
+        await expect(column(3)).toHaveText(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"]);
         await booleanSelect().click({ delay: 20 });
         await page.getByRole("row", { name: "Pets (bool)" }).getByRole("option").first().click();
-        const columnText = await column(3).allTextContents();
-        expect(columnText).toEqual(
-            expect.arrayContaining(["Yes", "Yes", "Yes", "No", "Yes", "No", "No", "Yes", "No", "Yes"])
-        );
+        await expect(column(3)).toHaveText(["Yes", "Yes", "Yes", "No", "Yes", "No", "No", "Yes", "No", "Yes"]);
     });
 
     test("filter rows that have Cyan in Color column", async ({ page }) => {
