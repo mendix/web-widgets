@@ -59,7 +59,7 @@ const widgetConfig = {
 const previewConfig = {
     mode: "production",
     devtool: false,
-    externals: ["react", "react-dom", "react/jsx-runtime"],
+    externals: ["react", "react-dom"],
     entry: `./src/${widgetName}.webmodeler.ts`,
     output: {
         path: path.resolve(__dirname, "dist/tmp"),
