@@ -46,7 +46,9 @@ export function MockHeader(): ReactNode {
                     // as this mock header is aligned with CSS grid, so it is more reliable
                     // the real header is aligned programmatically based on this header
                     ref={ref => c.setHeaderElementRef(ref)}
-                ></div>
+                >
+                    <span>{c.header}</span>
+                </div>
             ))}
             {config.selectorColumnEnabled && <div data-column-id="selector" key={"selector"}></div>}
         </div>

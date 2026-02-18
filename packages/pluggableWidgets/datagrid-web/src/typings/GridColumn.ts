@@ -33,6 +33,7 @@ export interface GridColumn {
 
     // sizing
     canResize: boolean;
+    minWidthLimit: number;
     size: number | undefined;
     setSize(size: number): void;
     getCssWidth(): string;
