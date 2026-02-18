@@ -48,7 +48,7 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
         settingsStorageEnabled: isSettingsStorageEnabled(props),
         enableSelectAll: props.enableSelectAll,
         keepSelection: props.keepSelection,
-        autoSelect: isAutoSelectEnabled(props),
+        autoSelect: props.autoSelect,
         multiselectable: isMultiselectable(props),
         loadingType: props.loadingType,
         columnsHidable: props.columnsHidable,
@@ -65,10 +65,6 @@ export function datagridConfig(props: DatagridContainerProps): DatagridConfig {
 function isMultiselectable(props: DatagridContainerProps): true | undefined {
     const type = props.itemSelection?.type;
     return type === "Multi" ? true : undefined;
-}
-
-function isAutoSelectEnabled(props: DatagridContainerProps): boolean {
-    return props.itemSelection?.type === "Multi" && props.autoSelect;
 }
 
 function isSelectionEnabled(props: DatagridContainerProps): boolean {
