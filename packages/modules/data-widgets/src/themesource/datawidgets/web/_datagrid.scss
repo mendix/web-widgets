@@ -591,6 +591,13 @@ $root: ".widget-datagrid";
 
 .grid-mock-header {
     display: contents;
+
+    span {
+        visibility: hidden;
+        height: 0;
+        display: block;
+        overflow: hidden;
+    }
 }
 
 :where(#{$root}-paging-bottom, #{$root}-padding-top) {

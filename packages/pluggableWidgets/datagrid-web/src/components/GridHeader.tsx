@@ -24,23 +24,29 @@ export function GridHeader(): ReactElement {
         <div className="widget-datagrid-grid-head" role="rowgroup" ref={gridSizeStore.gridHeaderRef}>
             <div key="headers_row" className="tr" role="row">
                 <CheckboxColumnHeader key="headers_column_select_all" />
-                {columns.map(column => (
-                    <ColumnProvider column={column} key={`${column.columnId}`}>
-                        <Header
-                            dropTarget={dragOver}
-                            isDragging={isDragging}
-                            resizer={
-                                <ColumnResizer
-                                    onResizeStart={() => columnsStore.setIsResizing(true)}
-                                    onResizeEnds={() => columnsStore.setIsResizing(false)}
-                                    setColumnWidth={(width: number) => column.setSize(width)}
-                                />
-                            }
-                            setDropTarget={setDragOver}
-                            setIsDragging={setIsDragging}
-                        />
-                    </ColumnProvider>
-                ))}
+                {columns.map(column => {
+                    const filterMinWidth = columnsStore.columnFilters[column.columnIndex]?.suggestedMinWidth ?? 0;
+                    const minWidth = Math.max(50, column.minWidthLimit, filterMinWidth);
+
+                    return (
+                        <ColumnProvider column={column} key={`${column.columnId}`}>
+                            <Header
+                                dropTarget={dragOver}
+                                isDragging={isDragging}
+                                resizer={
+                                    <ColumnResizer
+                                        minWidth={minWidth}
+                                        onResizeStart={() => columnsStore.setIsResizing(true)}
+                                        onResizeEnds={() => columnsStore.setIsResizing(false)}
+                                        setColumnWidth={(width: number) => column.setSize(width)}
+                                    />
+                                }
+                                setDropTarget={setDragOver}
+                                setIsDragging={setIsDragging}
+                            />
+                        </ColumnProvider>
+                    );
+                })}
                 {columnsHidable && (
                     <ColumnSelector
                         key="headers_column_selector"
