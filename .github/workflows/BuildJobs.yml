@@ -63,6 +63,13 @@ jobs:
               run: pnpm run verify ${{ env.since_flag }}
             - name: Run unit tests
               run: pnpm run test ${{ env.since_flag }}
+            - name: Verify changelog entries
+              run: pnpm run -w check-changelogs
+              if: >-
+                ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == 'mendix/web-widgets' && github.event.pull_request.user.login != 'uicontent' }}
+              env:
+                BASE_SHA: ${{ github.event.pull_request.base.sha }}
+                HEAD_SHA: ${{ github.event.pull_request.head.sha }}
 
     mxversion:
         name: Read versions file
