@@ -18,7 +18,8 @@ export function BarcodeRenderer({ config }: BarcodeRendererProps): ReactElement 
         return (
             <div className="barcode-renderer">
                 <div className="alert alert-danger" role="alert">
-                    <strong>Barcode Error:</strong> {error}
+                    <strong>Unable to generate barcode.</strong> Please check the barcode value and format
+                    configuration.
                 </div>
             </div>
         );
