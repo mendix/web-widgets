@@ -3,8 +3,8 @@
 
    Override styles of Gallery widget
 ========================================================================== */
-$gallery-screen-lg: $screen-lg;
-$gallery-screen-md: $screen-md;
+$gallery-screen-lg: $screen-lg !default;
+$gallery-screen-md: $screen-md !default;
 
 @mixin grid-items($number, $suffix) {
     @for $i from 1 through $number {
@@ -27,7 +27,7 @@ $gallery-screen-md: $screen-md;
 
     .widget-gallery-items {
         display: grid;
-        grid-gap: var(--gallery-gap);
+        grid-gap: var(--gallery-gap, $gallery-gap);
 
         /*
          Desktop widths
@@ -66,7 +66,7 @@ $gallery-screen-md: $screen-md;
 
     &:not(.widget-gallery-disable-selected-items-highlight) {
         .widget-gallery-item.widget-gallery-clickable.widget-gallery-selected {
-            background: $brand-light;
+            background: var(--brand-primary-100, $brand-light);
         }
     }
 

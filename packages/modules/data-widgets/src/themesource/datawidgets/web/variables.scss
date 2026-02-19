@@ -1,21 +1,27 @@
 // Atlas UI compatible variable naming for data widgets
-// Background colors
+
+// Brand colors
+$brand-primary: #264ae5 !default;
+$brand-light: #e6eaff !default;
+$grid-selected-row-background: $brand-light !default;
+$color-contrast: #000 !default;
+
+// Background
 $bg-color: #fff !default;
 $bg-color-secondary: #f5f8fd !default;
 $grid-bg-striped: #fafafb !default;
 $grid-bg-hover: #f5f6f6 !default;
 $hover-color: #f8f8f8 !default;
 $selected-color: #dadcde !default;
-
-// Brand colors
-$brand-primary: #264ae5 !default;
-$brand-light: #e6eaff !default;
-$grid-selected-row-background: $brand-light !default;
+$label-info-color: $bg-color !default;
+$color-default-light: $grid-bg-hover !default;
+$color-primary-lighter: $brand-light !default;
 
 // Text and icon colors
 $gray-dark: #606671 !default;
 $gray-darker: #3b4251 !default;
-$pagination-caption-color: #0a1325 !default;
+$caption-color: #0a1325 !default;
+$form-input-placeholder-color: #757575 !default;
 
 // Border colors
 $border-color-default: #ced0d3 !default;

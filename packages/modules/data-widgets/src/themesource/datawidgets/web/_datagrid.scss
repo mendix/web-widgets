@@ -44,7 +44,7 @@ $root: ".widget-datagrid";
             top: 0;
             height: 100%;
             width: var(--spacing-smaller, $spacing-smaller);
-            background-color: $dragging-color-effect;
+            background-color: var(--dragging-color-effect, $dragging-color-effect);
 
             z-index: 1;
         }
@@ -313,7 +313,7 @@ $root: ".widget-datagrid";
     white-space: nowrap;
     align-items: baseline;
     margin: 16px;
-    color: $pagination-caption-color;
+    color: var(--caption-color, $caption-color);
 
     .paging-status {
         padding: 0 8px 0;
@@ -417,7 +417,7 @@ $root: ".widget-datagrid";
 
     &.widget-datagrid-selection-method-click {
         .tr.tr-selected .td {
-            background-color: $grid-selected-row-background;
+            background-color: var(--grid-selected-row-background, $grid-selected-row-background);
         }
     }
 
@@ -446,7 +446,7 @@ $root: ".widget-datagrid";
 
     &-loader-container {
         align-items: center;
-        background-color: rgba(255, 255, 255, 1);
+        background-color: var(--bg-color-secondary, $bg-color-secondary);
         display: flex;
         height: 400px;
         justify-content: center;
@@ -632,7 +632,7 @@ $root: ".widget-datagrid";
 
     &:hover,
     &:focus-visible {
-        background-color: var(--brand-primary-50, #e6e7f2);
+        background-color: var(--brand-primary-50, $bg-color-secondary);
     }
 }
 
@@ -645,7 +645,7 @@ $root: ".widget-datagrid";
 
 :where(#{$root}-select-all-bar) {
     grid-column: 1 / -1;
-    background-color: #f0f1f2;
+    background-color: var(--bg-color, $bg-color);
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
