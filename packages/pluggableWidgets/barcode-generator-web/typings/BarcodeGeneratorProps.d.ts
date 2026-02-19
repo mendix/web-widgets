@@ -45,15 +45,15 @@ export interface BarcodeGeneratorContainerProps {
     qrMargin: number;
     qrTitle: string;
     qrLevel: QrLevelEnum;
-    qrImage: boolean;
-    qrImageSrc: DynamicValue<WebImage>;
-    qrImageCenter: boolean;
-    qrImageX: number;
-    qrImageY: number;
-    qrImageHeight: number;
-    qrImageWidth: number;
-    qrImageOpacity: Big;
-    qrImageExcavate: boolean;
+    qrOverlay: boolean;
+    qrOverlaySrc: DynamicValue<WebImage>;
+    qrOverlayCenter: boolean;
+    qrOverlayX: number;
+    qrOverlayY: number;
+    qrOverlayHeight: number;
+    qrOverlayWidth: number;
+    qrOverlayOpacity: Big;
+    qrOverlayExcavate: boolean;
 }
 
 export interface BarcodeGeneratorPreviewProps {
@@ -90,13 +90,13 @@ export interface BarcodeGeneratorPreviewProps {
     qrMargin: number | null;
     qrTitle: string;
     qrLevel: QrLevelEnum;
-    qrImage: boolean;
-    qrImageSrc: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
-    qrImageCenter: boolean;
-    qrImageX: number | null;
-    qrImageY: number | null;
-    qrImageHeight: number | null;
-    qrImageWidth: number | null;
-    qrImageOpacity: number | null;
-    qrImageExcavate: boolean;
+    qrOverlay: boolean;
+    qrOverlaySrc: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
+    qrOverlayCenter: boolean;
+    qrOverlayX: number | null;
+    qrOverlayY: number | null;
+    qrOverlayHeight: number | null;
+    qrOverlayWidth: number | null;
+    qrOverlayOpacity: number | null;
+    qrOverlayExcavate: boolean;
 }
