@@ -12,7 +12,7 @@ export function useGalleryContainer(props: GalleryContainerProps): Container {
 
     // Run setup hooks on mount
     useSetup(() => container.get(CORE.setupService));
-    
+
     useEffect(() => mainProvider.setProps(props));
 
     return container;

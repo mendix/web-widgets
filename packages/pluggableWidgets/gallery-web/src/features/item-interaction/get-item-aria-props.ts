@@ -9,7 +9,7 @@ type ListItemAriaProps = {
     "aria-label": string | undefined;
 };
 
-export function getAriaProps(selectionType: SelectionType, isSelected: boolean,  label?: string): ListItemAriaProps {
+export function getAriaProps(selectionType: SelectionType, isSelected: boolean, label?: string): ListItemAriaProps {
     if (selectionType === "Single" || selectionType === "Multi") {
         return {
             role: "option",
