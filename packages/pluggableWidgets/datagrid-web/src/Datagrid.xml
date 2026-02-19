@@ -446,8 +446,8 @@
                         <translation lang="nl_NL">Selecteer alle rijen</translation>
                     </translations>
                 </property>
-                <property key="selectSingleRowLabel" type="textTemplate" required="false">
-                    <caption>Select single row label</caption>
+                <property key="singleSelectionColumnLabel" type="textTemplate" required="false">
+                    <caption>Single selection column label</caption>
                     <description>If single selection is enabled, assistive technology will read this for the selection column header.</description>
                     <translations>
                         <translation lang="en_US">Select single row</translation>

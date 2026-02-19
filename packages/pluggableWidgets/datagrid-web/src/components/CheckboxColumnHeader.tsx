@@ -6,7 +6,7 @@ import { useDatagridConfig, useSelectActions, useSelectionHelper, useTexts } fro
 
 export function CheckboxColumnHeader(): ReactElement {
     const { selectAllCheckboxEnabled, checkboxColumnEnabled } = useDatagridConfig();
-    const { selectSingleRowLabel } = useTexts();
+    const { singleSelectionColumnLabel } = useTexts();
     const selectionHelper = useSelectionHelper();
 
     if (checkboxColumnEnabled === false) {
@@ -19,7 +19,7 @@ export function CheckboxColumnHeader(): ReactElement {
                 <Checkbox />
             </If>
             <If condition={selectionHelper?.type === "Single"}>
-                <span className="sr-only">{selectSingleRowLabel || "Select single row"}</span>
+                <span className="sr-only">{singleSelectionColumnLabel || "Select single row"}</span>
             </If>
         </div>
     );

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added accessibility support for column headers when single selection is enabled, making sure the purpose of the column is announced.
+
 ## [3.8.1] - 2026-02-19
 
 ### Fixed
@@ -25,8 +29,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - We improved virtual scrolling behavior when horizontal scrolling is present due to grid size.
 
 ### Added
-
-- We added accessibility support for column headers when single selection is enabled, making sure the purpose of the column is announced.
 
 - We added missing Dutch translations for Datagrid 2.
 
