@@ -1,7 +1,7 @@
 {
     "name": "@mendix/slider-web",
     "widgetName": "Slider",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "description": "Change a number value using a slider",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
