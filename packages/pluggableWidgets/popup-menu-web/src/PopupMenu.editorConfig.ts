@@ -85,6 +85,10 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "hoverCloseOn");
     }
 
+    if (values.trigger !== "onclick") {
+        hidePropertyIn(defaultProperties, values, "clickCloseOn");
+    }
+
     return defaultProperties;
 }
 
