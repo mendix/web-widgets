@@ -5,9 +5,9 @@ import { validateAddonValue, validateBarcodeValue } from "../config/validation";
 
 export const useRenderBarcode = (
     config: BarcodeTypeConfig
-): { ref: RefObject<SVGSVGElement | null>; error: string | null } => {
+): { ref: RefObject<SVGSVGElement | null>; error: boolean } => {
     const ref = useRef<SVGSVGElement>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<boolean>(false);
 
     const {
         codeValue: value,
@@ -30,7 +30,14 @@ export const useRenderBarcode = (
             // Validate barcode value at runtime
             const validationResult = validateBarcodeValue(format, value);
             if (!validationResult.valid) {
-                setError(validationResult.message || "Invalid barcode value");
+                const errorMsg = validationResult.message || "Invalid barcode value";
+                // Log detailed error for developers
+                console.error(
+                    `[Barcode Generator] Validation failed for format "${format}":`,
+                    errorMsg,
+                    `\nProvided value: "${value}"`
+                );
+                setError(true);
                 return;
             }
 
@@ -38,7 +45,14 @@ export const useRenderBarcode = (
             if (addonValue && addonFormat && addonFormat !== "None") {
                 const addonResult = validateAddonValue(addonFormat, addonValue);
                 if (!addonResult.valid) {
-                    setError(addonResult.message || "Invalid addon value");
+                    const errorMsg = addonResult.message || "Invalid addon value";
+                    // Log detailed error for developers
+                    console.error(
+                        `[Barcode Generator] Addon validation failed for format "${addonFormat}":`,
+                        errorMsg,
+                        `\nProvided addon value: "${addonValue}"`
+                    );
+                    setError(true);
                     return;
                 }
             }
@@ -61,10 +75,18 @@ export const useRenderBarcode = (
                 };
 
                 renderBarcode(ref, renderOptions);
-                setError(null); // Clear any previous errors
+                setError(false); // Clear any previous errors
             } catch (error) {
                 const errorMsg = error instanceof Error ? error.message : "Error generating barcode";
-                setError(errorMsg);
+                // Log detailed error for developers
+                console.error(
+                    `[Barcode Generator] Rendering failed:`,
+                    errorMsg,
+                    `\nFormat: "${format}"`,
+                    `\nValue: "${value}"`,
+                    error
+                );
+                setError(true);
             }
         }
     }, [
