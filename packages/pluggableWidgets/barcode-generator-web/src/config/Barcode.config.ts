@@ -74,15 +74,15 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
             level: props.qrLevel ?? "L",
             downloadButton: downloadButtonConfig,
             image:
-                props.qrImageSrc?.status === "available"
+                props.qrOverlaySrc?.status === "available"
                     ? {
-                          src: props.qrImageSrc.value.uri,
-                          x: props.qrImageX === 0 ? undefined : props.qrImageX,
-                          y: props.qrImageY === 0 ? undefined : props.qrImageY,
-                          height: props.qrImageHeight ?? 24,
-                          width: props.qrImageWidth ?? 24,
-                          opacity: props.qrImageOpacity?.toNumber() ?? 1,
-                          excavate: props.qrImageExcavate ?? true
+                          src: props.qrOverlaySrc.value.uri,
+                          x: props.qrOverlayX === 0 ? undefined : props.qrOverlayX,
+                          y: props.qrOverlayY === 0 ? undefined : props.qrOverlayY,
+                          height: props.qrOverlayHeight ?? 24,
+                          width: props.qrOverlayWidth ?? 24,
+                          opacity: props.qrOverlayOpacity?.toNumber() ?? 1,
+                          excavate: props.qrOverlayExcavate ?? true
                       }
                     : undefined
         };

@@ -22,18 +22,18 @@ export function BarcodePreview(props: BarcodePreviewProps): ReactElement {
     return (
         <div className="barcode-renderer">
             {restProps.buttonPosition === "top" && downloadButton}
-            <div className="barcode-preview-barcode-container" style={{ height: displayHeight }}>
-                {imageUrl ? (
-                    <img
-                        className="barcode-preview-graphic barcode-preview-graphic--barcode"
-                        src={displayUrl ?? imageUrl}
-                        alt="Barcode preview"
-                        style={{ height: "100%", width: "auto" }}
-                    />
-                ) : (
-                    <div className="barcode-preview-error">Barcode format not supported</div>
-                )}
-            </div>
+            {imageUrl ? (
+                <img
+                    className="barcode-preview-image"
+                    src={displayUrl ?? imageUrl}
+                    alt="Barcode preview"
+                    style={{ height: displayHeight, width: "auto" }}
+                />
+            ) : (
+                <div className="alert alert-danger" role="alert">
+                    <strong>Barcode format not supported</strong>
+                </div>
+            )}
             {restProps.buttonPosition === "bottom" && downloadButton}
         </div>
     );

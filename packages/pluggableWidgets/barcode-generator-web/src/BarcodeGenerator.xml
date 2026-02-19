@@ -151,39 +151,39 @@
                     <enumerationValue key="H">H</enumerationValue>
                 </enumerationValues>
             </property>
-            <property key="qrImage" type="boolean" required="true" defaultValue="false">
-                <caption>Image</caption>
+            <property key="qrOverlay" type="boolean" required="true" defaultValue="false">
+                <caption>Overlay image</caption>
                 <description>Include an image on top the QR code</description>
             </property>
-            <property key="qrImageSrc" type="image" required="true">
+            <property key="qrOverlaySrc" type="image" required="true">
                 <caption>Image source</caption>
                 <description>URL or path to the image to display on the QR code</description>
             </property>
-            <property key="qrImageCenter" type="boolean" required="true" defaultValue="true">
+            <property key="qrOverlayCenter" type="boolean" required="true" defaultValue="true">
                 <caption>Center image</caption>
                 <description>Center the image in the QR code</description>
             </property>
-            <property key="qrImageX" type="integer" required="true" defaultValue="0">
+            <property key="qrOverlayX" type="integer" required="true" defaultValue="0">
                 <caption>Image X position</caption>
                 <description>Horizontal position of the image</description>
             </property>
-            <property key="qrImageY" type="integer" required="true" defaultValue="0">
+            <property key="qrOverlayY" type="integer" required="true" defaultValue="0">
                 <caption>Image Y position</caption>
                 <description>Vertical position of the image</description>
             </property>
-            <property key="qrImageHeight" type="integer" required="true" defaultValue="24">
+            <property key="qrOverlayHeight" type="integer" required="true" defaultValue="24">
                 <caption>Image height</caption>
                 <description>Height of the image in pixels</description>
             </property>
-            <property key="qrImageWidth" type="integer" required="true" defaultValue="24">
+            <property key="qrOverlayWidth" type="integer" required="true" defaultValue="24">
                 <caption>Image width</caption>
                 <description>Width of the image in pixels</description>
             </property>
-            <property key="qrImageOpacity" type="decimal" required="true" defaultValue="1">
+            <property key="qrOverlayOpacity" type="decimal" required="true" defaultValue="1">
                 <caption>Image opacity</caption>
                 <description>Opacity of the image (0.0 to 1.0)</description>
             </property>
-            <property key="qrImageExcavate" type="boolean" required="true" defaultValue="true">
+            <property key="qrOverlayExcavate" type="boolean" required="true" defaultValue="true">
                 <caption>Excavate background</caption>
                 <description>Remove QR code dots behind the image</description>
             </property>

@@ -17,19 +17,19 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
     if (values.codeFormat === "QRCode") {
         hidePropertiesIn(defaultProperties, values, ["codeWidth", "codeHeight", "displayValue", "codeMargin"]);
     } else {
-        hidePropertiesIn(defaultProperties, values, ["qrImage", "qrSize", "qrMargin", "qrLevel", "qrTitle"]);
+        hidePropertiesIn(defaultProperties, values, ["qrOverlay", "qrSize", "qrMargin", "qrLevel", "qrTitle"]);
     }
 
-    if (values.codeFormat !== "QRCode" || !values.qrImage) {
+    if (values.codeFormat !== "QRCode" || !values.qrOverlay) {
         hidePropertiesIn(defaultProperties, values, [
-            "qrImageSrc",
-            "qrImageCenter",
-            "qrImageWidth",
-            "qrImageHeight",
-            "qrImageX",
-            "qrImageY",
-            "qrImageOpacity",
-            "qrImageExcavate"
+            "qrOverlaySrc",
+            "qrOverlayCenter",
+            "qrOverlayWidth",
+            "qrOverlayHeight",
+            "qrOverlayX",
+            "qrOverlayY",
+            "qrOverlayOpacity",
+            "qrOverlayExcavate"
         ]);
     }
 
@@ -87,8 +87,8 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
         hidePropertyIn(defaultProperties, values, "enableMod43");
     }
 
-    if (values.qrImageCenter) {
-        hidePropertiesIn(defaultProperties, values, ["qrImageX", "qrImageY"]);
+    if (values.qrOverlayCenter) {
+        hidePropertiesIn(defaultProperties, values, ["qrOverlayX", "qrOverlayY"]);
     }
 
     if (values.codeFormat !== "Custom") {

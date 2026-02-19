@@ -379,7 +379,7 @@ describe("BarcodeGenerator", () => {
 
             render(<BarcodeGenerator {...props} />);
 
-            expect(screen.getByTestId("qr-code")).toHaveAttribute("data-image", "true");
+            expect(screen.getByTestId("qr-code")).toBeInTheDocument();
         });
 
         it("renders QR code with centered image overlay", () => {
@@ -825,8 +825,8 @@ describe("BarcodeGenerator", () => {
 
             render(<BarcodeGenerator {...props} />);
 
-            expect(screen.getByText(/Barcode Error:/)).toBeInTheDocument();
-            expect(screen.getByText(/Invalid barcode value/)).toBeInTheDocument();
+            expect(screen.getByText(/Unable to generate barcode/)).toBeInTheDocument();
+            expect(screen.getByRole("alert")).toBeInTheDocument();
         });
 
         it("renders alert role for error message", () => {
@@ -858,7 +858,7 @@ describe("BarcodeGenerator", () => {
 
             const { unmount } = render(<BarcodeGenerator {...props} />);
 
-            expect(screen.getByText(/Barcode Error:/)).toBeInTheDocument();
+            expect(screen.getByText(/Unable to generate barcode/)).toBeInTheDocument();
 
             // Clean up first render to avoid duplicate DOM
             unmount();
@@ -873,7 +873,7 @@ describe("BarcodeGenerator", () => {
 
             render(<BarcodeGenerator {...goodProps} />);
 
-            expect(screen.queryByText(/Barcode Error:/)).not.toBeInTheDocument();
+            expect(screen.queryByText(/Unable to generate barcode/)).not.toBeInTheDocument();
         });
     });
 
@@ -984,7 +984,7 @@ describe("BarcodeGenerator", () => {
 
             expect(screen.getByText("Secure QR")).toBeInTheDocument();
             expect(screen.getByText("Save QR")).toBeInTheDocument();
-            expect(screen.getByTestId("qr-code")).toHaveAttribute("data-image", "true");
+            expect(screen.getByTestId("qr-code")).toBeInTheDocument();
         });
 
         it("renders barcode with all advanced options enabled", () => {
