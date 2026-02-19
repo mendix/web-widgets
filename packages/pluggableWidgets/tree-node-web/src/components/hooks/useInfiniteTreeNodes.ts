@@ -72,7 +72,7 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
         },
         // ignore "datasource" update triggering fetchChildren again
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [filterContent, isInfiniteTreeNodesEnabled]
+        [filterContent, isInfiniteTreeNodesEnabled, datasource.setFilter]
     );
 
     // Update treeNodeItems when datasource changes
