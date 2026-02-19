@@ -142,7 +142,7 @@ export interface DatagridContainerProps {
     cancelExportLabel?: DynamicValue<string>;
     selectRowLabel?: DynamicValue<string>;
     selectAllRowsLabel?: DynamicValue<string>;
-    selectSingleRowLabel?: DynamicValue<string>;
+    singleSelectionColumnLabel?: DynamicValue<string>;
     selectingAllLabel?: DynamicValue<string>;
     cancelSelectionLabel?: DynamicValue<string>;
     selectedCountTemplateSingular?: DynamicValue<string>;
@@ -209,7 +209,7 @@ export interface DatagridPreviewProps {
     cancelExportLabel: string;
     selectRowLabel: string;
     selectAllRowsLabel: string;
-    selectSingleRowLabel: string;
+    singleSelectionColumnLabel: string;
     selectingAllLabel: string;
     cancelSelectionLabel: string;
     selectedCountTemplateSingular: string;

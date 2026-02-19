@@ -36,7 +36,7 @@ export type MainGateProps = Pick<
     | "selectAllText"
     | "selectionCounterPosition"
     | "selectRowLabel"
-    | "selectSingleRowLabel"
+    | "singleSelectionColumnLabel"
     | "showNumberOfRows"
     | "showPagingButtons"
     | "storeFiltersInPersonalization"
