@@ -5,14 +5,12 @@
     "description": "Calendar",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
+    "private": true,
     "repository": {
         "type": "git",
         "url": "https://github.com/mendix/web-widgets.git"
     },
-    "config": {
-        "developmentPort": 3000,
-        "mendixHost": "http://localhost:8080"
-    },
+    "config": {},
     "mxpackage": {
         "name": "Calendar",
         "type": "widget",
@@ -21,9 +19,7 @@
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "10.22.0",
-        "appNumber": 107954,
-        "appName": "Calendar",
-        "reactReady": true
+        "appName": "Calendar"
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",

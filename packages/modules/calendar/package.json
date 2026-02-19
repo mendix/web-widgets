@@ -21,7 +21,7 @@
     "marketplace": {
         "minimumMXVersion": "10.22.0.68245",
         "appName": "Calendar",
-        "appNumber": 107954
+        "appNumber": 245304
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
