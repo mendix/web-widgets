@@ -1,16 +1,17 @@
 /**
     Classes for React Date-Picker font-unit and color adjustments
 */
-$dg-day-color: #555;
-$dg-day-range-color: #000;
-$dg-day-range-background: #eaeaea;
-$dg-outside-month-color: #c8c8c8;
-$dg-text-color: #fff;
-$dg-border-color: #d7d7d7;
+$dg-day-color: #555 !default;
+$dg-day-range-color: #000 !default;
+$dg-day-range-background: #eaeaea !default;
+$dg-outside-month-color: #c8c8c8 !default;
+$dg-text-color: #fff !default;
+$dg-border-color: #d7d7d7 !default;
+$datepicker-border-color: #ccc !default;
 
 .react-datepicker {
     font-size: 1em;
-    border: 1px solid $border-color-default;
+    border: 1px solid var(--border-color-default, $border-color-default);
 }
 
 .react-datepicker-wrapper {
@@ -54,7 +55,7 @@ $dg-border-color: #d7d7d7;
 
 .react-datepicker__day,
 .react-datepicker__day--in-range {
-    color: $dg-day-color;
+    color: var(--dg-day-color, $dg-day-color);
     border-radius: 50%;
 
     &:hover {
@@ -70,7 +71,7 @@ $dg-border-color: #d7d7d7;
 }
 
 .react-datepicker__day--outside-month {
-    color: $dg-outside-month-color;
+    color: var(--dg-outside-month-color, $dg-outside-month-color);
 }
 
 .react-datepicker__day--today:not(.react-datepicker__day--in-range),
@@ -108,8 +109,8 @@ $dg-border-color: #d7d7d7;
         .react-datepicker__year-text--in-range,
         .react-datepicker__day--selecting-range-start
     ) {
-    background-color: $dg-day-range-background;
-    color: $dg-day-range-color;
+    background-color: var(--dg-day-range-background, $dg-day-range-background);
+    color: var(--dg-day-range-color, $dg-day-range-color);
 
     &:hover {
         background-color: var(--brand-primary, $brand-primary);
@@ -133,13 +134,13 @@ button.react-datepicker__close-icon::after {
 }
 
 .react-datepicker__navigation--previous {
-    border-right-color: #ccc;
+    border-right-color: var(--datepicker-border-color, $datepicker-border-color);
     left: 8px;
     border: none;
 }
 
 .react-datepicker__navigation--next {
-    border-left-color: #ccc;
+    border-left-color: var(--datepicker-border-color, $datepicker-border-color);
     right: 8px;
     border: none;
 }
