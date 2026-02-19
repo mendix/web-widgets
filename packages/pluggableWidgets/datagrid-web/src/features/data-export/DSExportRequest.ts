@@ -397,7 +397,7 @@ declare global {
 }
 
 function createScheduler(): { yield(): Promise<void> } {
-    if ("scheduler" in window) {
+    if (window.scheduler?.yield) {
         return {
             async yield() {
                 return window.scheduler.yield();

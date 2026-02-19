@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue with Data export crashing on some Android devices.
+
 ## [3.8.1] - 2026-02-19
 
 ### Fixed
