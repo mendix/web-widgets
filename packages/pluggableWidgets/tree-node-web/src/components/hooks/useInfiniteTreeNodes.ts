@@ -38,26 +38,17 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
         (item: ItemType) => {
             if (props.parentAssociation) {
                 if (Array.isArray(item)) {
-                    return filterContents(item);
+                    if (item.length > 1) {
+                        // retrieve new datasource for array of items
+                        // this is used for checking children's of children (grandchildren) when a branch is expanded
+                        return or(...item.map(item => equals(association(props.parentAssociation!.id), literal(item))));
+                    } else if (item.length === 1) {
+                        return equals(association(props.parentAssociation!.id), literal(item[0]));
+                    } else {
+                        return undefined;
+                    }
                 } else {
                     return equals(association(props.parentAssociation?.id), literal(item));
-                }
-            }
-        },
-        [props.parentAssociation]
-    );
-
-    // retrieve new datasource for array of items
-    // this is used for checking children's of children (grandchildren) when a branch is expanded
-    const filterContents = useCallback(
-        (items: Array<Option<ObjectItem>>) => {
-            if (props.parentAssociation) {
-                if (items.length > 1) {
-                    return or(...items.map(item => equals(association(props.parentAssociation!.id), literal(item))));
-                } else if (items.length === 1) {
-                    return equals(association(props.parentAssociation!.id), literal(items[0]));
-                } else {
-                    return undefined;
                 }
             }
         },
