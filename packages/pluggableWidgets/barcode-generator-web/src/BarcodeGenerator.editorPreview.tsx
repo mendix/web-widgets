@@ -27,13 +27,9 @@ export function preview(props: BarcodeGeneratorPreviewProps): ReactElement {
 
     return (
         <div
-            className={classNames(
-                props.class,
-                props.className,
-                "barcode-generator",
-                { "barcode-generator--as-card": props.showAsCard },
-                "barcode-generator-widget-preview"
-            )}
+            className={classNames(props.class, props.className, "barcode-generator", {
+                "barcode-generator--as-card": props.showAsCard
+            })}
             style={styles}
         >
             {isQrCode ? (
@@ -46,5 +42,5 @@ export function preview(props: BarcodeGeneratorPreviewProps): ReactElement {
 }
 
 export function getPreviewCss(): string {
-    return require("./ui/BarcodeGeneratorPreview.scss");
+    return require("./ui/BarcodeGenerator.scss");
 }
