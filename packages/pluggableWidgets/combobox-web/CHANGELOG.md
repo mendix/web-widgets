@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We introduced a new "On change" action in Database mode that fires only when the selection changes, unlike the previous behavior that fired on initialization.
+
+### Changed
+
+- We renamed the "On change" action in Database mode to "On selection" to better describe its actual behavior (fires on initialization and selection changes).
+
 ## [2.7.2] - 2026-01-28
 
 ### Fixed
