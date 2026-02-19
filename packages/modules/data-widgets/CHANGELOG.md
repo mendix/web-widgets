@@ -6,6 +6,42 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.8.1] DataWidgets - 2026-02-19
+
+### [3.8.1] DatagridDateFilter
+
+#### Changed
+
+- We improved the filter selector dropdown behavior so it now automatically selects the best placement based on the available space.
+
+### [3.8.1] DatagridDropdownFilter
+
+#### Changed
+
+- We improved the dropdown and filter selector behavior so that it now automatically selects the best placement based on the available space.
+
+#### Fixed
+
+- We fixed an issue where certain selecting conditions, like rapidly selecting/deselecting would cause the widget to crash.
+
+### [3.8.1] DatagridNumberFilter
+
+#### Changed
+
+- We improved the filter selector dropdown behavior so it now automatically selects the best placement based on the available space.
+
+### [3.8.1] DatagridTextFilter
+
+#### Changed
+
+- We improved the filter selector dropdown behavior so it now automatically selects the best placement based on the available space.
+
+### [3.8.1] Datagrid
+
+#### Fixed
+
+- We fixed an issue that caused the UI export dialog to freeze.
+
 ## [3.8.0] DataWidgets - 2026-01-16
 
 ### Fixed
