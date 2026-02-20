@@ -8,7 +8,7 @@ import "./ui/Calendar.scss";
 import { useCalendarEvents } from "./helpers/useCalendarEvents";
 import { useLocalizer } from "./helpers/useLocalizer";
 
-export default function MxCalendar(props: CalendarContainerProps): ReactElement {
+export default function MxCalendar(props: CalendarContainerProps): ReactElement | null {
     // useMemo with empty dependency array is used
     // because style and calendar controller needs to be created only once
     // and not on every re-render
@@ -26,6 +26,11 @@ export default function MxCalendar(props: CalendarContainerProps): ReactElement 
     }, [props, calendarController, localizer, culture]);
 
     const calendarEvents = useCalendarEvents(props);
+
+    if (props.startDateAttribute && props.startDateAttribute.status !== "available") {
+        return null;
+    }
+
     return (
         <div className={classNames("widget-calendar", props.class)} style={wrapperStyle}>
             <DnDCalendar {...calendarProps} {...calendarEvents} />

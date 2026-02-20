@@ -16,6 +16,7 @@ export class CalendarPropsBuilder {
     private toolbarItems?: ResolvedToolbarItem[];
     private step: number;
     private timeSlots: number;
+    private defaultDate?: Date;
 
     constructor(private props: CalendarContainerProps) {
         this.isCustomView = props.view === "custom";
@@ -36,6 +37,7 @@ export class CalendarPropsBuilder {
                 `[Calendar] timeslots value ${props.timeslots} was clamped to ${this.timeSlots}. Must be between 1 and 4.`
             );
         }
+        this.defaultDate = props.startDateAttribute?.value;
     }
 
     updateProps(props: CalendarContainerProps): void {
@@ -43,6 +45,7 @@ export class CalendarPropsBuilder {
         this.props = props;
         this.events = this.buildEvents(props.databaseDataSource?.items ?? []);
         this.toolbarItems = this.buildToolbarItems();
+        this.defaultDate = props.startDateAttribute?.value;
     }
 
     build(localizer: DateLocalizer, culture: string): DragAndDropCalendarProps<CalendarEvent> {
@@ -86,7 +89,8 @@ export class CalendarPropsBuilder {
             min: this.minTime,
             max: this.maxTime,
             step: this.step,
-            timeslots: this.timeSlots
+            timeslots: this.timeSlots,
+            ...(this.defaultDate ? { defaultDate: this.defaultDate } : {})
         };
     }
 
