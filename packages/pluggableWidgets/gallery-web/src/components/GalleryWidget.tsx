@@ -6,8 +6,8 @@ import { GalleryFooterControls as FooterControls } from "./GalleryFooterControls
 import { GalleryHeader as Header } from "./GalleryHeader";
 import { GalleryItems as Items } from "./GalleryItems";
 import { GalleryRoot as Root } from "./GalleryRoot";
-import { GalleryTobBarControls as TopBarControls } from "./GalleryTobBarControls";
 import { GalleryTopBar as TopBar } from "./GalleryTopBar";
+import { GalleryTopBarControls as TopBarControls } from "./GalleryTopBarControls";
 import { RefreshStatus } from "./RefreshStatus";
 
 export function GalleryWidget(): ReactElement {

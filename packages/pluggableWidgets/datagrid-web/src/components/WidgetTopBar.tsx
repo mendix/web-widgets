@@ -12,7 +12,7 @@ export const WidgetTopBar = observer(function WidgetTopBar(): ReactElement {
 
     return (
         <div className="widget-datagrid-top-bar table-header">
-            <div className="widget-datagrid-padding-top">
+            <div className="widget-datagrid-paging-top">
                 <div className="widget-datagrid-tb-start">
                     <If condition={selectionCounter.isTopCounterVisible}>
                         <SelectionCounter />

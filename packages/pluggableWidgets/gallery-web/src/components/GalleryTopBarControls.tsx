@@ -6,7 +6,7 @@ import { SelectionCounter } from "../features/selection-counter/SelectionCounter
 import { usePaginationConfig } from "../model/hooks/injection-hooks";
 import { Pagination } from "./Pagination";
 
-export const GalleryTobBarControls = observer(function GalleryTobBarControls(): ReactElement {
+export const GalleryTopBarControls = observer(function GalleryTopBarControls(): ReactElement {
     const counterVM = useSelectionCounterViewModel();
     const pgConfig = usePaginationConfig();
 

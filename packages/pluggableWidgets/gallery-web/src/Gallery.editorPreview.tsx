@@ -113,7 +113,7 @@ const Content = (): ReactNode => {
                     [`widget-gallery-lg-${lg}`]: lg
                 })}
             >
-                <Item key="selectable_DO_NOE_REMOVE!_ALWAYS_RENDER!" />
+                <Item key="selectable_DO_NOT_REMOVE!_ALWAYS_RENDER!" />
                 {Array.from({ length: lgCount }).map((_, index) => (
                     <Item key={index} className="visible-md visible-lg" />
                 ))}

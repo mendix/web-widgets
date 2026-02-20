@@ -551,7 +551,7 @@ $root: ".widget-datagrid";
     display: contents;
 }
 
-:where(#{$root}-paging-bottom, #{$root}-padding-top) {
+:where(#{$root}-paging-bottom, #{$root}-paging-top) {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;

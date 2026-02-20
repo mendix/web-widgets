@@ -36,7 +36,7 @@ export function offsetAtom(gate: DerivedPropsGate<{ datasource: { offset: number
  * @injectable
  */
 export function limitAtom(gate: DerivedPropsGate<{ datasource: { limit: number } }>): ComputedAtom<number> {
-    return computed(() => gate.props.datasource.limit, { name: 'plugin:@computed:limitAtom' });
+    return computed(() => gate.props.datasource.limit, { name: "plugin:@computed:limitAtom" });
 }
 
 /**

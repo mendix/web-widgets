@@ -52,7 +52,7 @@ const numberOfItems = 3;
 const cls = {
     root: "widget-datagrid",
     topBar: "widget-datagrid-top-bar table-header",
-    pagingTop: "widget-datagrid-padding-top",
+    pagingTop: "widget-datagrid-paging-top",
     ptStart: "widget-datagrid-tb-start",
     ptEnd: "widget-datagrid-tb-end",
     header: "widget-datagrid-header header-filters",
@@ -61,7 +61,7 @@ const cls = {
     gridHeader: "widget-datagrid-grid-head",
     gridBody: "widget-datagrid-grid-body table-content",
     footer: "widget-datagrid-footer table-footer",
-    pb: "widget-datagrid-padding-bottom",
+    pb: "widget-datagrid-paging-bottom",
     pbStart: "widget-datagrid-pb-start",
     pbMid: "widget-datagrid-pb-middle",
     pbEnd: "widget-datagrid-pb-end"
@@ -300,7 +300,7 @@ const SelectionCounter = (): ReactNode => {
     return (
         <div className="widget-datagrid-selection-counter">
             <span className="widget-datagrid-selection-text" aria-live="polite" aria-atomic="true">
-                {props.selectedCountTemplateSingular}
+                {props.selectedCountTemplateSingular || "[row count]"}
             </span>
             &nbsp;|&nbsp;
             <button className="widget-datagrid-btn-link">{props.clearSelectionButtonLabel}</button>
