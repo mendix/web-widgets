@@ -25,9 +25,13 @@ export default class CustomLink extends Link {
             const linkConfig = value as linkConfigType;
             // @ts-expect-error the constructor is generic function, ts will consider sanitize not exist
             this.domNode.setAttribute("href", getLink(this.constructor.sanitize(linkConfig.href)));
-            this.domNode.setAttribute("target", linkConfig.target ?? "_blank");
-            this.domNode.setAttribute("title", linkConfig.title ?? "");
             this.domNode.textContent = linkConfig.text ?? linkConfig.href;
+            if (linkConfig.target) {
+                this.domNode.setAttribute("target", linkConfig.target);
+            }
+            if (linkConfig.title) {
+                this.domNode.setAttribute("title", linkConfig.title);
+            }
         } else {
             // @ts-expect-error the constructor is generic function, ts will consider sanitize not exist
             this.domNode.setAttribute("href", getLink(this.constructor.sanitize(value)));
