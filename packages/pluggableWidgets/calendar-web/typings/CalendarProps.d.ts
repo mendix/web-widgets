@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, ListValue, Option, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, ListValue, Option, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 
 export type TitleTypeEnum = "attribute" | "expression";
 
@@ -79,7 +79,7 @@ export interface CalendarContainerProps {
     startAttribute?: ListAttributeValue<Date>;
     endAttribute?: ListAttributeValue<Date>;
     eventColor?: ListAttributeValue<string>;
-    startDateAttribute?: ListAttributeValue<Date>;
+    startDateAttribute?: EditableValue<Date>;
     editable: DynamicValue<boolean>;
     view: ViewEnum;
     defaultViewStandard: DefaultViewStandardEnum;
