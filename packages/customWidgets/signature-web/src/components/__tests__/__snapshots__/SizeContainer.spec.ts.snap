@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Grid renders structure correctly 1`] = `
+<div
+  className="widget-signature size-box"
+  style={
+    {
+      "height": "300px",
+      "position": "relative",
+      "width": "500px",
+    }
+  }
+>
+  <div
+    className="size-box-inner"
+    disabled={false}
+    readOnly={false}
+    style={
+      {
+        "bottom": "0",
+        "left": "0",
+        "position": "absolute",
+        "right": "0",
+        "top": "0",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Grid with percentage and pixel units renders the structure correctly 1`] = `
+<div
+  className="widget-signature size-box"
+  style={
+    {
+      "height": "40px",
+      "position": "relative",
+      "width": "80px",
+    }
+  }
+>
+  <div
+    className="size-box-inner"
+    disabled={false}
+    readOnly={false}
+    style={
+      {
+        "bottom": "0",
+        "left": "0",
+        "position": "absolute",
+        "right": "0",
+        "top": "0",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Grid with percentage of parent units renders the structure correctly 1`] = `
+<div
+  className="widget-signature size-box"
+  style={
+    {
+      "height": "50%",
+      "position": "relative",
+      "width": "80%",
+    }
+  }
+>
+  <div
+    className="size-box-inner"
+    disabled={false}
+    readOnly={false}
+    style={
+      {
+        "bottom": "0",
+        "left": "0",
+        "position": "absolute",
+        "right": "0",
+        "top": "0",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Grid with percentage units renders the structure correctly 1`] = `
+<div
+  className="widget-signature size-box"
+  style={
+    {
+      "height": "auto",
+      "paddingBottom": "40%",
+      "position": "relative",
+      "width": "80%",
+    }
+  }
+>
+  <div
+    className="size-box-inner"
+    disabled={false}
+    readOnly={false}
+    style={
+      {
+        "bottom": "0",
+        "left": "0",
+        "position": "absolute",
+        "right": "0",
+        "top": "0",
+      }
+    }
+  />
+</div>
+`;

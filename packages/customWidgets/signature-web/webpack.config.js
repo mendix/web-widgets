@@ -9,7 +9,7 @@ const widgetName = "Signature";
 const widgetConfig = {
     mode: "production",
     devtool: false,
-    externals: ["react", "react-dom"],
+    externals: ["react", "react-dom", "react/jsx-runtime"],
     entry: "./src/components/SignatureContainer.ts",
     output: {
         path: path.resolve(__dirname, "dist/tmp"),
@@ -73,12 +73,7 @@ const previewConfig = {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: "ts-loader",
-                options: {
-                    compilerOptions: {
-                        module: "CommonJS"
-                    }
-                }
+                loader: "ts-loader"
             },
             {
                 test: /\.(sa|sc|c)ss$/,
