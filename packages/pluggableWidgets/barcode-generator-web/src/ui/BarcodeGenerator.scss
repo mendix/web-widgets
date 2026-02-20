@@ -2,5 +2,59 @@
 $widget-prefix: "barcode-generator";
 
 .#{$widget-prefix} {
-    display: inline-block;
+    display: block;
+    width: 100%;
+    border-radius: var(--card-border-radius);
+
+    &--as-card {
+        background-color: var(--card-bg);
+        border: var(--card-border);
+        padding: var(--spacing-medium);
+    }
+}
+
+.qrcode-renderer,
+.barcode-renderer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    > svg {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+    }
+
+    .qrcode-renderer-title {
+        font-weight: var(--font-weight-normal);
+        font-size: var(--font-size-small);
+        color: var(--gray-darker);
+        margin: 0;
+    }
+}
+
+// Preview graphics for barcode and QR code
+.qrcode-preview-image {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.barcode-preview-image {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+// Overlay image for QR codes (positioned absolutely)
+.qrcode-preview-overlay {
+    position: absolute;
+    object-fit: contain;
 }

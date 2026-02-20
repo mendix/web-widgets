@@ -1,61 +1,45 @@
 import { QRCodeSVG } from "qrcode.react";
-import { Fragment, useRef } from "react";
-import { useDownloadQrCode } from "../hooks/useDownloadQRCode";
-import { useBarcodeConfig } from "../config/BarcodeContext";
+import { ReactElement, useRef } from "react";
+import { downloadCode } from "../utils/download-code";
+import { DownloadIcon } from "./icons/DownloadIcon";
+import { QRCodeTypeConfig } from "../config/Barcode.config";
 
-export const QRCodeRenderer = () => {
+interface QRCodeRendererProps {
+    config: QRCodeTypeConfig;
+}
+
+export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
     const ref = useRef<SVGSVGElement>(null);
-    const { downloadQrCode } = useDownloadQrCode({ ref });
 
-    const {
-        value,
-        allowDownload,
-        qrSize: size,
-        qrMargin: margin,
-        qrTitle: title,
-        qrLevel: level,
-        qrImageSrc: imageSrc,
-        qrImageX: imageX,
-        qrImageY: imageY,
-        qrImageHeight: imageHeight,
-        qrImageWidth: imageWidth,
-        qrImageOpacity: imageOpacity,
-        qrImageExcavate: imageExcavate,
-        downloadAriaLabel: downloadAriaLabel
-    } = useBarcodeConfig();
-    const imageSettings = imageSrc
-        ? {
-              src: imageSrc,
-              x: imageX,
-              y: imageY,
-              height: imageHeight,
-              width: imageWidth,
-              opacity: imageOpacity,
-              excavate: imageExcavate
-          }
-        : undefined;
+    const { codeValue, downloadButton, size, margin, title, level, image } = config;
+    const buttonPosition = downloadButton?.buttonPosition ?? "bottom";
+
+    const button = downloadButton && (
+        <a
+            className="mx-link"
+            role="button"
+            aria-label={downloadButton.label}
+            tabIndex={0}
+            onClick={() => downloadCode(ref, config.type, downloadButton.fileName)}
+        >
+            <DownloadIcon /> {downloadButton.caption}
+        </a>
+    );
 
     return (
-        <Fragment>
+        <div className="qrcode-renderer">
+            {title && <h3 className="qrcode-renderer-title">{title}</h3>}
+            {buttonPosition === "top" && button}
             <QRCodeSVG
                 ref={ref}
-                value={value}
+                value={codeValue}
                 size={size}
-                level={level.toUpperCase() as "L" | "M" | "Q" | "H"}
+                level={level}
                 marginSize={margin}
                 title={title}
-                imageSettings={imageSettings}
+                imageSettings={image}
             />
-            {allowDownload && (
-                <button
-                    type="button"
-                    aria-label={downloadAriaLabel}
-                    onClick={downloadQrCode}
-                    className="btn btn-default"
-                >
-                    Download QR Code
-                </button>
-            )}
-        </Fragment>
+            {buttonPosition === "bottom" && button}
+        </div>
     );
-};
+}

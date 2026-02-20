@@ -4,10 +4,12 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { DynamicValue, EditableValue, WebImage } from "mendix";
+import { DynamicValue, WebImage } from "mendix";
 import { Big } from "big.js";
 
 export type CodeFormatEnum = "CODE128" | "QRCode" | "Custom";
+
+export type ButtonPositionEnum = "top" | "bottom";
 
 export type CustomCodeFormatEnum = "CODE128" | "EAN13" | "EAN8" | "UPC" | "CODE39" | "ITF14" | "MSI" | "pharmacode" | "codabar" | "CODE93";
 
@@ -20,19 +22,22 @@ export interface BarcodeGeneratorContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    codeValue: EditableValue<string>;
+    codeValue: DynamicValue<string>;
     codeFormat: CodeFormatEnum;
     allowDownload: boolean;
-    downloadAriaLabel: string;
+    downloadButtonCaption?: DynamicValue<string>;
+    downloadButtonAriaLabel?: DynamicValue<string>;
+    buttonPosition: ButtonPositionEnum;
     customCodeFormat: CustomCodeFormatEnum;
     enableEan128: boolean;
     enableFlat: boolean;
     lastChar: string;
     enableMod43: boolean;
     addonFormat: AddonFormatEnum;
-    addonValue: EditableValue<string>;
+    addonValue: DynamicValue<string>;
     addonSpacing: number;
     displayValue: boolean;
+    showAsCard: boolean;
     codeWidth: number;
     codeHeight: number;
     codeMargin: number;
@@ -40,15 +45,15 @@ export interface BarcodeGeneratorContainerProps {
     qrMargin: number;
     qrTitle: string;
     qrLevel: QrLevelEnum;
-    qrImage: boolean;
-    qrImageSrc: DynamicValue<WebImage>;
-    qrImageCenter: boolean;
-    qrImageX: number;
-    qrImageY: number;
-    qrImageHeight: number;
-    qrImageWidth: number;
-    qrImageOpacity: Big;
-    qrImageExcavate: boolean;
+    qrOverlay: boolean;
+    qrOverlaySrc: DynamicValue<WebImage>;
+    qrOverlayCenter: boolean;
+    qrOverlayX: number;
+    qrOverlayY: number;
+    qrOverlayHeight: number;
+    qrOverlayWidth: number;
+    qrOverlayOpacity: Big;
+    qrOverlayExcavate: boolean;
 }
 
 export interface BarcodeGeneratorPreviewProps {
@@ -65,7 +70,9 @@ export interface BarcodeGeneratorPreviewProps {
     codeValue: string;
     codeFormat: CodeFormatEnum;
     allowDownload: boolean;
-    downloadAriaLabel: string;
+    downloadButtonCaption: string;
+    downloadButtonAriaLabel: string;
+    buttonPosition: ButtonPositionEnum;
     customCodeFormat: CustomCodeFormatEnum;
     enableEan128: boolean;
     enableFlat: boolean;
@@ -75,6 +82,7 @@ export interface BarcodeGeneratorPreviewProps {
     addonValue: string;
     addonSpacing: number | null;
     displayValue: boolean;
+    showAsCard: boolean;
     codeWidth: number | null;
     codeHeight: number | null;
     codeMargin: number | null;
@@ -82,13 +90,13 @@ export interface BarcodeGeneratorPreviewProps {
     qrMargin: number | null;
     qrTitle: string;
     qrLevel: QrLevelEnum;
-    qrImage: boolean;
-    qrImageSrc: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
-    qrImageCenter: boolean;
-    qrImageX: number | null;
-    qrImageY: number | null;
-    qrImageHeight: number | null;
-    qrImageWidth: number | null;
-    qrImageOpacity: number | null;
-    qrImageExcavate: boolean;
+    qrOverlay: boolean;
+    qrOverlaySrc: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
+    qrOverlayCenter: boolean;
+    qrOverlayX: number | null;
+    qrOverlayY: number | null;
+    qrOverlayHeight: number | null;
+    qrOverlayWidth: number | null;
+    qrOverlayOpacity: number | null;
+    qrOverlayExcavate: boolean;
 }
