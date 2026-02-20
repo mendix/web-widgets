@@ -27,10 +27,12 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _filterStore: FilterStore | null = null;
     private _context: FilterAPI;
     private _filterHost: ObservableFilterHost;
+    private _attributeType: ListAttributeValue["type"] | undefined;
 
     constructor(props: ColumnsType, info: StaticInfo, filterHost: ObservableFilterHost) {
         this._filterHost = filterHost;
         this._widget = props.filter;
+        this._attributeType = isListAttributeValue(props.attribute) ? props.attribute.type : undefined;
         const storeResult = this.createFilterStore(props, null);
         if (storeResult === null) {
             this._error = this._filterStore = null;
@@ -102,6 +104,28 @@ export class ColumnFilterStore implements IColumnFilterStore {
             this._filterStore?.reset();
         } else {
             this._filterStore?.fromJSON(data);
+        }
+    }
+
+    get suggestedMinWidth(): number {
+        if (this._attributeType === undefined) {
+            return 0;
+        }
+        switch (this._attributeType) {
+            case "DateTime":
+                return 150;
+            case "AutoNumber":
+            case "Decimal":
+            case "Integer":
+            case "Long":
+                return 120;
+            case "String":
+            case "HashString":
+            case "Boolean":
+            case "Enum":
+                return 100;
+            default:
+                return 0;
         }
     }
 }
