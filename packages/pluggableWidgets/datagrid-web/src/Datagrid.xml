@@ -446,6 +446,14 @@
                         <translation lang="nl_NL">Selecteer alle rijen</translation>
                     </translations>
                 </property>
+                <property key="singleSelectionColumnLabel" type="textTemplate" required="false">
+                    <caption>Single selection column label</caption>
+                    <description>If single selection is enabled, assistive technology will read this for the selection column header.</description>
+                    <translations>
+                        <translation lang="en_US">Select single row</translation>
+                        <translation lang="nl_NL">Selecteer enkele rij</translation>
+                    </translations>
+                </property>
                 <property key="selectingAllLabel" type="textTemplate" required="false">
                     <caption>Selecting all label</caption>
                     <description>ARIA label for the progress dialog when selecting all items</description>

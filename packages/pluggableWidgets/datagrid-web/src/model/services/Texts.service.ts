@@ -27,6 +27,10 @@ export class TextsService {
         return this.props.selectAllRowsLabel?.value;
     }
 
+    get singleSelectionColumnLabel(): string | undefined {
+        return this.props.singleSelectionColumnLabel?.value;
+    }
+
     get headerAriaLabel(): string | undefined {
         return this.props.filterSectionTitle?.value;
     }
