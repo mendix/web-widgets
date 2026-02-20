@@ -1,14 +1,18 @@
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import type { ActionValue, ListValue, ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
+import type { ObjectItem, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { action, computed, makeObservable, observable } from "mobx";
-import { useEffect, useRef, useState } from "react";
 import { MultiSelectionService } from "../interfaces/MultiSelectionService";
 import { SingleSelectionService } from "../interfaces/SingleSelectionService";
 import { Direction, MoveEvent1D, MoveEvent2D, MultiSelectionStatus, ScrollKeyCode, SelectionMode, Size } from "./types";
 
 export class SingleSelectionHelper implements SingleSelectionService {
     type = "Single" as const;
-    constructor(private selectionValue: SelectionSingleValue) {}
+    constructor(private selectionValue: SelectionSingleValue) {
+        type PrivateMembers = "selectionValue";
+        makeObservable<this, PrivateMembers>(this, {
+            selectionValue: observable.ref,
+            updateProps: action
+        });
+    }
 
     updateProps(value: SelectionSingleValue): void {
         this.selectionValue = value;
@@ -340,80 +344,6 @@ export class MultiSelectionHelper implements MultiSelectionService {
 }
 
 const clamp = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
-
-/** @deprecated use container and createSelectionHelper instead. */
-export function useSelectionHelper(
-    selection: SelectionSingleValue | SelectionMultiValue | undefined,
-    dataSource: ListValue,
-    onSelectionChange: ActionValue | undefined,
-    keepSelection: Parameters<typeof selectionStateHandler>[0]
-): SelectionHelper | undefined {
-    const prevObjectListRef = useRef<ObjectItem[]>([]);
-    const firstLoadDone = useRef(false);
-
-    useState(() => {
-        if (selection) {
-            selection.setKeepSelection(selectionStateHandler(keepSelection));
-        }
-    });
-    firstLoadDone.current ||= dataSource?.status !== "loading";
-
-    useEffect(() => {
-        const prevObjectList = prevObjectListRef.current;
-        const current = selection?.selection ?? [];
-        const currentObjectList = Array.isArray(current) ? current : [current];
-        if (objectListEqual(prevObjectList, currentObjectList)) {
-            return;
-        } else {
-            prevObjectListRef.current = currentObjectList;
-        }
-        if (firstLoadDone.current) {
-            executeAction(onSelectionChange);
-        }
-    }, [selection?.selection, onSelectionChange]);
-
-    const selectionHelper = useRef<SelectionHelper | undefined>(undefined);
-
-    if (selection !== undefined) {
-        if (selection.type === "Single") {
-            if (!selectionHelper.current) {
-                selectionHelper.current = new SingleSelectionHelper(selection);
-            } else {
-                (selectionHelper.current as SingleSelectionHelper).updateProps(selection);
-            }
-        } else {
-            if (!selectionHelper.current) {
-                selectionHelper.current = new MultiSelectionHelper(selection, dataSource.items ?? []);
-            } else {
-                (selectionHelper.current as MultiSelectionHelper).updateProps(selection, dataSource.items ?? []);
-            }
-        }
-    }
-
-    return selectionHelper.current;
-}
-
-type KeepSelectionHandler = (item: ObjectItem) => boolean;
-
-function selectionStateHandler(
-    keepSelection: "always keep" | "always clear" | KeepSelectionHandler
-): KeepSelectionHandler {
-    if (typeof keepSelection === "function") {
-        return keepSelection;
-    }
-    return keepSelection === "always keep" ? () => true : () => false;
-}
-
-export type SelectionHelper = SingleSelectionHelper | MultiSelectionHelper;
-
-function objectListEqual(a: ObjectItem[], b: ObjectItem[]): boolean {
-    if (a.length !== b.length) {
-        return false;
-    }
-
-    const setB = new Set(b.map(obj => obj.id));
-    return a.every(obj => setB.has(obj.id));
-}
 
 export type PositionInGrid = {
     columnIndex: number;

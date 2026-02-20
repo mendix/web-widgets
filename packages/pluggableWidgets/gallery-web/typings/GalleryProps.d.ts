@@ -5,10 +5,15 @@
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
 import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
+import { Big } from "big.js";
+
+export type OnClickTriggerEnum = "single" | "double";
 
 export type ItemSelectionModeEnum = "toggle" | "clear";
 
 export type SelectionCountPositionEnum = "top" | "bottom" | "off";
+
+export type LoadingTypeEnum = "spinner" | "skeleton";
 
 export type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 
@@ -18,8 +23,6 @@ export type PagingPositionEnum = "bottom" | "top" | "both";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
-export type OnClickTriggerEnum = "single" | "double";
-
 export type StateStorageTypeEnum = "attribute" | "localStorage";
 
 export interface GalleryContainerProps {
@@ -28,30 +31,36 @@ export interface GalleryContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     filtersPlaceholder?: ReactNode;
+    content?: ListWidgetValue;
     datasource: ListValue;
     refreshInterval: number;
-    itemSelection?: SelectionSingleValue | SelectionMultiValue;
-    itemSelectionMode: ItemSelectionModeEnum;
-    keepSelection: boolean;
-    selectionCountPosition: SelectionCountPositionEnum;
-    clearSelectionButtonLabel?: DynamicValue<string>;
-    content?: ListWidgetValue;
-    refreshIndicator: boolean;
     desktopItems: number;
     tabletItems: number;
     phoneItems: number;
-    pageSize: number;
-    pagination: PaginationEnum;
-    showTotalCount: boolean;
-    showPagingButtons: ShowPagingButtonsEnum;
-    pagingPosition: PagingPositionEnum;
-    loadMoreButtonCaption?: DynamicValue<string>;
-    showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
-    emptyPlaceholder?: ReactNode;
-    itemClass?: ListExpressionValue<string>;
     onClickTrigger: OnClickTriggerEnum;
     onClick?: ListActionValue;
     onSelectionChange?: ActionValue;
+    itemSelection?: SelectionSingleValue | SelectionMultiValue;
+    autoSelect: boolean;
+    itemSelectionMode: ItemSelectionModeEnum;
+    keepSelection: boolean;
+    selectionCountPosition: SelectionCountPositionEnum;
+    loadingType: LoadingTypeEnum;
+    refreshIndicator: boolean;
+    pageSize: number;
+    pagination: PaginationEnum;
+    useCustomPagination: boolean;
+    customPagination?: ReactNode;
+    showPagingButtons: ShowPagingButtonsEnum;
+    showTotalCount: boolean;
+    pagingPosition: PagingPositionEnum;
+    loadMoreButtonCaption?: DynamicValue<string>;
+    dynamicPageSize?: EditableValue<Big>;
+    dynamicPage?: EditableValue<Big>;
+    totalCountValue?: EditableValue<Big>;
+    showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
+    emptyPlaceholder?: ReactNode;
+    itemClass?: ListExpressionValue<string>;
     stateStorageType: StateStorageTypeEnum;
     stateStorageAttr?: EditableValue<string>;
     storeFilters: boolean;
@@ -62,6 +71,7 @@ export interface GalleryContainerProps {
     ariaLabelItem?: ListExpressionValue<string>;
     selectedCountTemplateSingular?: DynamicValue<string>;
     selectedCountTemplatePlural?: DynamicValue<string>;
+    clearSelectionButtonLabel?: DynamicValue<string>;
 }
 
 export interface GalleryPreviewProps {
@@ -76,30 +86,36 @@ export interface GalleryPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     datasource: {} | { caption: string } | { type: string } | null;
     refreshInterval: number | null;
-    itemSelection: "None" | "Single" | "Multi";
-    itemSelectionMode: ItemSelectionModeEnum;
-    keepSelection: boolean;
-    selectionCountPosition: SelectionCountPositionEnum;
-    clearSelectionButtonLabel: string;
-    content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
-    refreshIndicator: boolean;
     desktopItems: number | null;
     tabletItems: number | null;
     phoneItems: number | null;
-    pageSize: number | null;
-    pagination: PaginationEnum;
-    showTotalCount: boolean;
-    showPagingButtons: ShowPagingButtonsEnum;
-    pagingPosition: PagingPositionEnum;
-    loadMoreButtonCaption: string;
-    showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
-    emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
-    itemClass: string;
     onClickTrigger: OnClickTriggerEnum;
     onClick: {} | null;
     onSelectionChange: {} | null;
+    itemSelection: "None" | "Single" | "Multi";
+    autoSelect: boolean;
+    itemSelectionMode: ItemSelectionModeEnum;
+    keepSelection: boolean;
+    selectionCountPosition: SelectionCountPositionEnum;
+    loadingType: LoadingTypeEnum;
+    refreshIndicator: boolean;
+    pageSize: number | null;
+    pagination: PaginationEnum;
+    useCustomPagination: boolean;
+    customPagination: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    showPagingButtons: ShowPagingButtonsEnum;
+    showTotalCount: boolean;
+    pagingPosition: PagingPositionEnum;
+    loadMoreButtonCaption: string;
+    dynamicPageSize: string;
+    dynamicPage: string;
+    totalCountValue: string;
+    showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
+    emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
+    itemClass: string;
     stateStorageType: StateStorageTypeEnum;
     stateStorageAttr: string;
     onConfigurationChange: {} | null;
@@ -111,4 +127,5 @@ export interface GalleryPreviewProps {
     ariaLabelItem: string;
     selectedCountTemplateSingular: string;
     selectedCountTemplatePlural: string;
+    clearSelectionButtonLabel: string;
 }

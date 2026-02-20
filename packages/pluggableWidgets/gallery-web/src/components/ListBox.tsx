@@ -1,12 +1,14 @@
 import { SelectionType } from "@mendix/widget-plugin-grid/selection";
 import classNames from "classnames";
-import { JSX, ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
 
-type ListBoxProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
+type ListBoxProps = {
     lg: number;
     md: number;
     sm: number;
     selectionType: SelectionType;
+    children?: ReactNode;
+    className?: string;
 };
 
 export function ListBox({ children, className, selectionType, lg, md, sm, ...rest }: ListBoxProps): ReactElement {

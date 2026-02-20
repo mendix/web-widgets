@@ -1,116 +1,172 @@
-import { enableStaticRendering } from "mobx-react-lite";
-enableStaticRendering(true);
-
-import { useClickActionHelper } from "@mendix/widget-plugin-grid/helpers/ClickActionHelper";
-import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
-import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
-import { getGlobalSortContext } from "@mendix/widget-plugin-sorting/react/context";
-import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
-import { GUID, ObjectItem } from "mendix";
-import { createElement, ReactElement, ReactNode, RefObject, useCallback, useMemo } from "react";
+import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
+import classNames from "classnames";
+import { createContext, createElement, PropsWithChildren, ReactElement, ReactNode, useContext } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
-import { Gallery as GalleryComponent } from "./components/Gallery";
-import { useItemEventsController } from "./features/item-interaction/ItemEventsController";
-import { useGridPositionsPreview } from "./features/useGridPositionsPreview";
-import { useItemPreviewHelper } from "./helpers/ItemPreviewHelper";
-import { useItemSelectHelper } from "./helpers/useItemSelectHelper";
+import { LoadMoreButton } from "./components/LoadMore";
 import "./ui/GalleryPreview.scss";
 
-const SortAPI = getGlobalSortContext();
+const PropsCtx = createContext<GalleryPreviewProps>({} as GalleryPreviewProps);
+
+function useProps(): GalleryPreviewProps {
+    return useContext(PropsCtx);
+}
 
 function Preview(props: GalleryPreviewProps): ReactElement {
-    const { emptyPlaceholder } = props;
-    const { numberOfColumns, numberOfRows, containerRef, numberOfItems } = useGridPositionsPreview({
-        phoneItems: props.phoneItems ?? 1,
-        tabletItems: props.tabletItems ?? 1,
-        desktopItems: props.desktopItems ?? 1,
-        totalItems: props.pageSize ?? 3
-    });
-
-    const items: ObjectItem[] = Array.from({ length: numberOfItems }).map((_, index) => ({
-        id: String(index) as GUID
-    }));
-
-    const selectHelper = useItemSelectHelper(props.itemSelection, undefined);
-
-    const getPositionCallback = useCallback(
-        (index: number) => getColumnAndRowBasedOnIndex(numberOfColumns, items.length, index),
-        [numberOfColumns, items.length]
-    );
-
-    const focusController = useFocusTargetController({
-        rows: numberOfRows,
-        columns: numberOfColumns,
-        pageSize: props.pageSize ?? 0
-    });
-
-    const clickActionHelper = useClickActionHelper({ onClick: props.onClick, onClickTrigger: "none" });
-
-    const itemEventsController = useItemEventsController(
-        selectHelper,
-        clickActionHelper,
-        focusController,
-        numberOfColumns,
-        props.itemSelectionMode
-    );
-
-    const sortAPI = useMemo(
-        () =>
-            ({
-                version: 1,
-                host: new SortStoreHost()
-            }) as const,
-        []
-    );
-
     return (
-        <div ref={containerRef as RefObject<HTMLDivElement>}>
-            <GalleryComponent
-                className={props.class}
-                desktopItems={props.desktopItems!}
-                emptyPlaceholderRenderer={useCallback(
-                    (renderWrapper: (children: ReactNode) => ReactElement) => (
-                        <emptyPlaceholder.renderer caption="Empty list message: Place widgets here">
-                            {renderWrapper(null)}
-                        </emptyPlaceholder.renderer>
-                    ),
-                    [emptyPlaceholder]
-                )}
-                header={
-                    <SortAPI.Provider value={sortAPI}>
-                        <props.filtersPlaceholder.renderer caption="Place widgets like filter widget(s) and action button(s) here">
-                            <div />
-                        </props.filtersPlaceholder.renderer>
-                    </SortAPI.Provider>
-                }
-                showHeader
-                hasMoreItems={false}
-                items={items}
-                itemHelper={useItemPreviewHelper({
-                    contentValue: props.content,
-                    hasOnClick: props.onClick !== null
-                })}
-                numberOfItems={props.pageSize!}
-                page={0}
-                pageSize={props.pageSize!}
-                paging={props.pagination === "buttons"}
-                paginationPosition={props.pagingPosition}
-                paginationType={props.pagination}
-                showPagingButtons={props.showPagingButtons}
-                showEmptyStatePreview={props.showEmptyPlaceholder === "custom"}
-                phoneItems={props.phoneItems!}
-                tabletItems={props.tabletItems!}
-                selectHelper={selectHelper}
-                itemEventsController={itemEventsController}
-                focusController={focusController}
-                getPosition={getPositionCallback}
-                showRefreshIndicator={false}
-                preview
-            />
-        </div>
+        <PropsCtx.Provider value={props}>
+            <Root>
+                <div className="widget-gallery-top-bar">
+                    <TopControls />
+                    <Header />
+                    <Content />
+                    <Footer />
+                </div>
+            </Root>
+        </PropsCtx.Provider>
     );
 }
 
+const Pagination = (): ReactNode => {
+    const props = useProps();
+    return (
+        <PagingButtons
+            canNextPage
+            canPreviousPage
+            gotoPage={() => {}}
+            nextPage={() => {}}
+            numberOfItems={props.pageSize ?? 20}
+            page={0}
+            pageSize={props.pageSize ?? 10}
+            showPagingButtons={"always"}
+            previousPage={() => {}}
+            pagination={props.pagination}
+        />
+    );
+};
+
+const SelectionCounter = (): ReactNode => {
+    const props = useProps();
+    return (
+        <div className="widget-gallery-selection-counter">
+            <span className="widget-gallery-selection-counter-text" aria-live="polite" aria-atomic="true">
+                {props.selectedCountTemplateSingular}
+            </span>
+            &nbsp;|&nbsp;
+            <button className="widget-gallery-btn-link">{props.clearSelectionButtonLabel}</button>
+        </div>
+    );
+};
+
+const Root = ({ children }: PropsWithChildren): ReactNode => {
+    const props = useProps();
+    return (
+        <div className={classNames("widget-gallery", props.className)} style={props.styleObject}>
+            {children}
+        </div>
+    );
+};
+
+const TopControls = (): ReactNode => {
+    return (
+        <div className="widget-gallery-top-bar-controls">
+            <div className="widget-gallery-tb-start">{useTopCounter() ? <SelectionCounter /> : null}</div>
+            <div className="widget-gallery-tb-end">{usePagingTop() ? <Pagination /> : null}</div>
+        </div>
+    );
+};
+
+const Header = (): ReactNode => {
+    const props = useProps();
+
+    return (
+        <section className="widget-gallery-header widget-gallery-filter">
+            <props.filtersPlaceholder.renderer>
+                <div />
+            </props.filtersPlaceholder.renderer>
+        </section>
+    );
+};
+
+const Item = ({ className }: { className?: string }): ReactNode => {
+    const props = useProps();
+    return (
+        <props.content.renderer>
+            <div className={classNames("widget-gallery-item", className)} />
+        </props.content.renderer>
+    );
+};
+
+const Content = (): ReactNode => {
+    const props = useProps();
+    const { desktopItems: lg, tabletItems: md, phoneItems: sm } = props;
+    const rows = 3;
+    const lgCount = (lg ?? 0) * rows - 1;
+    const mdCount = (md ?? 0) * rows - 1;
+    const smCount = (sm ?? 0) * rows - 1;
+
+    return (
+        <div className="widget-gallery-content">
+            <div
+                className={classNames("widget-gallery-items", {
+                    [`widget-gallery-sm-${sm}`]: sm,
+                    [`widget-gallery-md-${md}`]: md,
+                    [`widget-gallery-lg-${lg}`]: lg
+                })}
+            >
+                <Item key="selectable_DO_NOT_REMOVE!_ALWAYS_RENDER!" />
+                {Array.from({ length: lgCount }).map((_, index) => (
+                    <Item key={index} className="visible-md visible-lg" />
+                ))}
+                {Array.from({ length: mdCount }).map((_, index) => (
+                    <Item key={index} className="visible-sm" />
+                ))}
+                {Array.from({ length: smCount }).map((_, index) => (
+                    <Item key={index} className="visible-xs" />
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const Footer = (): ReactNode => {
+    const props = useProps();
+    return (
+        <div className="widget-gallery-footer">
+            <div className="widget-gallery-footer-controls">
+                <div className="widget-gallery-fc-start">{useBottomCounter() ? <SelectionCounter /> : null}</div>
+                <div className="widget-gallery-fc-middle">
+                    {props.pagination === "loadMore" ? (
+                        <LoadMoreButton>{props.loadMoreButtonCaption}</LoadMoreButton>
+                    ) : null}
+                </div>
+                <div className="widget-gallery-fc-end">{usePagingBot() ? <Pagination /> : null}</div>
+            </div>
+        </div>
+    );
+};
+
 export function preview(props: GalleryPreviewProps): ReactElement {
     return createElement(Preview, props);
+}
+
+function useTopCounter(): boolean {
+    const { itemSelection, selectionCountPosition } = useProps();
+    return itemSelection === "Multi" && selectionCountPosition === "top";
+}
+
+function useBottomCounter(): boolean {
+    const { itemSelection, selectionCountPosition } = useProps();
+    return itemSelection === "Multi" && selectionCountPosition === "bottom";
+}
+
+function usePagingTop(): boolean {
+    const props = useProps();
+    const visible = props.showTotalCount || props.pagination === "buttons";
+    return visible && props.pagingPosition !== "bottom";
+}
+
+function usePagingBot(): boolean {
+    const props = useProps();
+    const visible = props.showTotalCount || props.pagination === "buttons";
+    return visible && props.pagingPosition !== "top";
 }

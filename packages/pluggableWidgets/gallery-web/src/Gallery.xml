@@ -12,6 +12,10 @@
                     <caption>Filters placeholder</caption>
                     <description />
                 </property>
+                <property key="content" type="widgets" dataSource="datasource" required="false">
+                    <caption>Content placeholder</caption>
+                    <description />
+                </property>
                 <property key="datasource" type="datasource" isList="true">
                     <caption>Data source</caption>
                     <description />
@@ -20,6 +24,42 @@
                     <caption>Refresh time (in seconds)</caption>
                     <description />
                 </property>
+            </propertyGroup>
+            <propertyGroup caption="Columns">
+                <property key="desktopItems" type="integer" defaultValue="1">
+                    <caption>Desktop columns</caption>
+                    <description />
+                </property>
+                <property key="tabletItems" type="integer" defaultValue="1">
+                    <caption>Tablet columns</caption>
+                    <description />
+                </property>
+                <property key="phoneItems" type="integer" defaultValue="1">
+                    <caption>Phone columns</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Events">
+                <property key="onClickTrigger" type="enumeration" defaultValue="single">
+                    <caption>On click trigger</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="single">Single click</enumerationValue>
+                        <enumerationValue key="double">Double click</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="onClick" type="action" required="false" dataSource="datasource">
+                    <caption>On click action</caption>
+                    <description />
+                </property>
+                <property key="onSelectionChange" type="action" required="false">
+                    <caption>On selection change</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Behavior">
+            <propertyGroup caption="Selection">
                 <property key="itemSelection" type="selection" dataSource="datasource">
                     <caption>Selection</caption>
                     <description />
@@ -29,8 +69,12 @@
                         <selectionType name="Multi" />
                     </selectionTypes>
                 </property>
+                <property key="autoSelect" type="boolean" defaultValue="false">
+                    <caption>Auto select first item</caption>
+                    <description>Automatically select the first item</description>
+                </property>
                 <property key="itemSelectionMode" type="enumeration" defaultValue="clear">
-                    <caption>Item click toggles selection</caption>
+                    <caption>Toggle on click</caption>
                     <description>Defines item selection behavior.</description>
                     <enumerationValues>
                         <enumerationValue key="toggle">Yes</enumerationValue>
@@ -50,35 +94,19 @@
                         <enumerationValue key="off">Off</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
-                    <caption>Clear selection label</caption>
-                    <description>Customize the label of the 'Clear section' button</description>
-                    <translations>
-                        <translation lang="en_US">Clear selection</translation>
-                        <translation lang="nl_NL">Selectie wissen</translation>
-                    </translations>
-                </property>
-                <property key="content" type="widgets" dataSource="datasource" required="false">
-                    <caption>Content placeholder</caption>
+            </propertyGroup>
+            <propertyGroup caption="Loading state">
+                <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
+                    <caption>Loading type</caption>
                     <description />
+                    <enumerationValues>
+                        <enumerationValue key="spinner">Spinner</enumerationValue>
+                        <enumerationValue key="skeleton">Skeleton</enumerationValue>
+                    </enumerationValues>
                 </property>
                 <property key="refreshIndicator" type="boolean" defaultValue="false">
                     <caption>Show refresh indicator</caption>
                     <description>Show a refresh indicator when the data is being loaded.</description>
-                </property>
-            </propertyGroup>
-            <propertyGroup caption="Columns">
-                <property key="desktopItems" type="integer" defaultValue="1">
-                    <caption>Desktop columns</caption>
-                    <description />
-                </property>
-                <property key="tabletItems" type="integer" defaultValue="1">
-                    <caption>Tablet columns</caption>
-                    <description />
-                </property>
-                <property key="phoneItems" type="integer" defaultValue="1">
-                    <caption>Phone columns</caption>
-                    <description />
                 </property>
             </propertyGroup>
             <propertyGroup caption="Pagination">
@@ -95,8 +123,12 @@
                         <enumerationValue key="loadMore">Load more</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="showTotalCount" type="boolean" defaultValue="false">
-                    <caption>Show total count</caption>
+                <property key="useCustomPagination" type="boolean" defaultValue="false">
+                    <caption>Custom pagination</caption>
+                    <description />
+                </property>
+                <property key="customPagination" type="widgets" required="false">
+                    <caption>Custom pagination</caption>
                     <description />
                 </property>
                 <property key="showPagingButtons" type="enumeration" defaultValue="always">
@@ -106,6 +138,10 @@
                         <enumerationValue key="always">Always</enumerationValue>
                         <enumerationValue key="auto">Auto</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="showTotalCount" type="boolean" defaultValue="false">
+                    <caption>Show total count</caption>
+                    <description />
                 </property>
                 <property key="pagingPosition" type="enumeration" defaultValue="bottom">
                     <caption>Position of pagination</caption>
@@ -124,8 +160,29 @@
                         <translation lang="nl_NL">Laad meer</translation>
                     </translations>
                 </property>
+                <property key="dynamicPageSize" type="attribute" required="false">
+                    <caption>Page size attribute</caption>
+                    <description>Attribute to set the page size dynamically.</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
+                <property key="dynamicPage" type="attribute" required="false">
+                    <caption>Page attribute</caption>
+                    <description>Attribute to set the page dynamically.</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
+                <property key="totalCountValue" type="attribute" required="false">
+                    <caption>Total count</caption>
+                    <description>Attribute to store current total count</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
             </propertyGroup>
-            <propertyGroup caption="Items">
+            <propertyGroup caption="Appearance">
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">
                     <caption>Empty message</caption>
                     <description />
@@ -142,24 +199,6 @@
                     <caption>Dynamic item class</caption>
                     <description />
                     <returnType type="String" />
-                </property>
-            </propertyGroup>
-            <propertyGroup caption="Events">
-                <property key="onClickTrigger" type="enumeration" defaultValue="single">
-                    <caption>On click trigger</caption>
-                    <description />
-                    <enumerationValues>
-                        <enumerationValue key="single">Single click</enumerationValue>
-                        <enumerationValue key="double">Double click</enumerationValue>
-                    </enumerationValues>
-                </property>
-                <property key="onClick" type="action" required="false" dataSource="datasource">
-                    <caption>On click action</caption>
-                    <description />
-                </property>
-                <property key="onSelectionChange" type="action" required="false">
-                    <caption>On selection change</caption>
-                    <description />
                 </property>
             </propertyGroup>
         </propertyGroup>
@@ -194,7 +233,7 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
-        <propertyGroup caption="Accessibility">
+        <propertyGroup caption="Texts">
             <propertyGroup caption="Aria labels">
                 <property key="filterSectionTitle" type="textTemplate" required="false">
                     <caption>Filter section</caption>
@@ -212,20 +251,30 @@
                     <caption>Item description</caption>
                     <description>Assistive technology will read this upon reaching each gallery item.</description>
                 </property>
+            </propertyGroup>
+            <propertyGroup caption="Captions">
                 <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
-                    <caption>Item count singular</caption>
+                    <caption>Row count singular</caption>
                     <description>Must include '%d' to denote number position</description>
                     <translations>
-                        <translation lang="en_US">%d item selected</translation>
-                        <translation lang="nl_NL">%d item geselecteerd</translation>
+                        <translation lang="en_US">%d row selected</translation>
+                        <translation lang="nl_NL">%d rij geselecteerd</translation>
                     </translations>
                 </property>
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
-                    <caption>Item count plural</caption>
+                    <caption>Row count plural</caption>
                     <description>Must include '%d' to denote number position</description>
                     <translations>
-                        <translation lang="en_US">%d items selected</translation>
-                        <translation lang="nl_NL">%d items geselecteerd</translation>
+                        <translation lang="en_US">%d rows selected</translation>
+                        <translation lang="nl_NL">%d rijen geselecteerd</translation>
+                    </translations>
+                </property>
+                <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
+                    <caption>Clear selection label</caption>
+                    <description>Customize the label of the 'Clear section' button</description>
+                    <translations>
+                        <translation lang="en_US">Clear selection</translation>
+                        <translation lang="nl_NL">Selectie wissen</translation>
                     </translations>
                 </property>
             </propertyGroup>
