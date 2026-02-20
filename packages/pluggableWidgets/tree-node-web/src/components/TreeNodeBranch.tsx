@@ -15,25 +15,28 @@ import {
 
 import { OpenNodeOnEnum, ShowIconEnum } from "../../typings/TreeNodeProps";
 
+import { TreeNodeFocusChangeHandler, useTreeNodeBranchKeyboardHandler } from "./hooks/TreeNodeAccessibility";
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
 import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
-import { TreeNodeFocusChangeHandler, useTreeNodeBranchKeyboardHandler } from "./hooks/TreeNodeAccessibility";
 
 import { TreeNodeHeaderIcon } from "./HeaderIcon";
-import { TreeNodeItem, TreeNodeState } from "./TreeNode";
+import { TreeNode as TreeNodeComponent, TreeNodeItem, TreeNodeProps, TreeNodeState } from "./TreeNode";
 import { TreeNodeBranchContext, TreeNodeBranchContextProps } from "./TreeNodeBranchContext";
+import { ItemType } from "./hooks/useInfiniteTreeNodes";
 
 export interface TreeNodeBranchProps {
+    item: TreeNodeItem;
     animateTreeNodeContent: boolean;
     children: ReactNode;
-    headerContent: ReactNode;
     iconPlacement: ShowIconEnum;
-    id: TreeNodeItem["id"];
-    isUserDefinedLeafNode: boolean;
     openNodeOn: OpenNodeOnEnum;
     startExpanded: boolean;
     changeFocus: TreeNodeFocusChangeHandler;
     renderHeaderIcon: TreeNodeHeaderIcon;
+    fetchChildren: (item?: ItemType) => Promise<TreeNodeItem[]>;
+    appendChildren: (items: TreeNodeItem[], parent: TreeNodeItem) => void;
+    treeNodeProps: TreeNodeProps;
+    isInfiniteTreeNodesEnabled: boolean;
 }
 
 export const treeNodeBranchUtils = {
@@ -43,23 +46,28 @@ export const treeNodeBranchUtils = {
 };
 
 export function TreeNodeBranch({
+    item,
     animateTreeNodeContent: animateTreeNodeContentProp,
     changeFocus,
     children,
-    headerContent,
     iconPlacement,
-    id,
-    isUserDefinedLeafNode,
     openNodeOn,
     renderHeaderIcon,
-    startExpanded
+    startExpanded,
+    fetchChildren,
+    appendChildren,
+    isInfiniteTreeNodesEnabled,
+    treeNodeProps
 }: TreeNodeBranchProps): ReactElement {
     const { level: currentContextLevel } = useContext(TreeNodeBranchContext);
+    const { id, headerContent, isUserDefinedLeafNode } = item;
 
     const treeNodeBranchRef = useRef<HTMLLIElement>(null);
     const treeNodeBranchBody = useRef<HTMLDivElement>(null);
 
-    const [isActualLeafNode, setIsActualLeafNode] = useState<boolean>(isUserDefinedLeafNode || !children);
+    const [isActualLeafNode, setIsActualLeafNode] = useState<boolean>(
+        isUserDefinedLeafNode || (!children && !isInfiniteTreeNodesEnabled)
+    );
     const [treeNodeState, setTreeNodeState] = useState<TreeNodeState>(
         startExpanded ? TreeNodeState.EXPANDED : TreeNodeState.COLLAPSED_WITH_JS
     );
@@ -83,6 +91,19 @@ export function TreeNodeBranch({
         }
     };
 
+    const loadChildNodes = useCallback(() => {
+        if (isInfiniteTreeNodesEnabled && !isUserDefinedLeafNode) {
+            fetchChildren(item).then(result => {
+                if (Array.isArray(result) && result.length > 0) {
+                    // append children to the localized item
+                    appendChildren(result, item);
+                } else {
+                    setIsActualLeafNode(true);
+                }
+            });
+        }
+    }, [fetchChildren, item, appendChildren, isInfiniteTreeNodesEnabled, isUserDefinedLeafNode]);
+
     const eventTargetIsNotCurrentBranch = useCallback<(event: SyntheticEvent<HTMLElement>) => boolean>(event => {
         const target = event.target as Node;
         return (
@@ -92,30 +113,37 @@ export function TreeNodeBranch({
         );
     }, []);
 
+    const updateTreeNodeState = useCallback(() => {
+        setTreeNodeState(treeNodeState => {
+            if (treeNodeState === TreeNodeState.LOADING) {
+                // TODO:
+                return treeNodeState;
+            }
+            if (treeNodeState === TreeNodeState.COLLAPSED_WITH_JS) {
+                return TreeNodeState.LOADING;
+            }
+            if (treeNodeState === TreeNodeState.COLLAPSED_WITH_CSS) {
+                return TreeNodeState.EXPANDED;
+            }
+            return TreeNodeState.COLLAPSED_WITH_CSS;
+        });
+    }, []);
+
     const toggleTreeNodeContent = useCallback<ReactEventHandler<HTMLElement>>(
         event => {
             if (eventTargetIsNotCurrentBranch(event)) {
                 return;
             }
 
+            // load children for infinite tree nodes
+            loadChildNodes();
+
             if (!isActualLeafNode) {
                 captureElementHeight();
-                setTreeNodeState(treeNodeState => {
-                    if (treeNodeState === TreeNodeState.LOADING) {
-                        // TODO:
-                        return treeNodeState;
-                    }
-                    if (treeNodeState === TreeNodeState.COLLAPSED_WITH_JS) {
-                        return TreeNodeState.LOADING;
-                    }
-                    if (treeNodeState === TreeNodeState.COLLAPSED_WITH_CSS) {
-                        return TreeNodeState.EXPANDED;
-                    }
-                    return TreeNodeState.COLLAPSED_WITH_CSS;
-                });
+                updateTreeNodeState();
             }
         },
-        [captureElementHeight, eventTargetIsNotCurrentBranch, isActualLeafNode]
+        [captureElementHeight, eventTargetIsNotCurrentBranch, isActualLeafNode, updateTreeNodeState, loadChildNodes]
     );
 
     const onHeaderKeyDown = useTreeNodeBranchKeyboardHandler(
@@ -143,8 +171,8 @@ export function TreeNodeBranch({
     }, [animateTreeNodeContent, animateTreeNodeContentProp, treeNodeState]);
 
     useEffect(() => {
-        setIsActualLeafNode(isUserDefinedLeafNode || !children);
-    }, [children, isUserDefinedLeafNode]);
+        setIsActualLeafNode(isUserDefinedLeafNode || (!children && !isInfiniteTreeNodesEnabled));
+    }, [children, isUserDefinedLeafNode, isInfiniteTreeNodesEnabled]);
 
     useEffect(() => {
         if (treeNodeState === TreeNodeState.LOADING) {
@@ -199,7 +227,11 @@ export function TreeNodeBranch({
                         ref={treeNodeBranchBody}
                         onTransitionEnd={cleanupAnimation}
                     >
-                        {children}
+                        {isInfiniteTreeNodesEnabled && item.children && item.children.length > 0 ? (
+                            <TreeNodeComponent {...treeNodeProps} items={item.children || []} />
+                        ) : (
+                            children
+                        )}
                     </div>
                 </TreeNodeBranchContext.Provider>
             )}

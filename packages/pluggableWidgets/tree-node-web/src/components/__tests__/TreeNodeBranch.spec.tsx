@@ -2,20 +2,44 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { createElement } from "react";
 import { TreeNodeBranch, TreeNodeBranchProps } from "../TreeNodeBranch";
+import { TreeNodeProps } from "../TreeNode";
 
 describe("TreeNodeBranch", () => {
     const mockGuid = { __guidTag: true } as any;
+
+    const defaultRootProps: TreeNodeProps = {
+        class: "",
+        items: [],
+        startExpanded: false,
+        showCustomIcon: false,
+        iconPlacement: "right",
+        expandedIcon: undefined,
+        collapsedIcon: undefined,
+        animateIcon: false,
+        animateTreeNodeContent: false,
+        openNodeOn: "headerClick",
+        fetchChildren: jest.fn().mockResolvedValue([]),
+        isInfiniteTreeNodesEnabled: false
+    };
+
     const defaultProps: TreeNodeBranchProps = {
         animateTreeNodeContent: false,
         children: createElement("div", null, "Branch content"),
-        headerContent: "Branch header",
+        item: {
+            id: mockGuid,
+            headerContent: "Branch header",
+            isUserDefinedLeafNode: false,
+            bodyContent: createElement("div", null, "Branch content")
+        },
         iconPlacement: "right",
-        id: mockGuid,
-        isUserDefinedLeafNode: false,
         openNodeOn: "headerClick",
         startExpanded: false,
         changeFocus: jest.fn(),
-        renderHeaderIcon: jest.fn(() => createElement("span", null, "icon"))
+        renderHeaderIcon: jest.fn(() => createElement("span", null, "icon")),
+        fetchChildren: jest.fn().mockResolvedValue([]),
+        appendChildren: jest.fn(),
+        isInfiniteTreeNodesEnabled: false,
+        treeNodeProps: defaultRootProps
     };
 
     it("renders header and content", () => {
