@@ -120,8 +120,8 @@ function customMatchText(node: HTMLElement, delta: Delta, scroll: ScrollBlot): D
 function matchLink(node: HTMLElement, _delta: Delta): Delta {
     const href = node.getAttribute("href");
     const text = node.textContent || href || "";
-    const title = node.getAttribute("title") || text;
-    const target = node.getAttribute("target") || "_blank";
+    const title = node.getAttribute("title");
+    const target = node.getAttribute("target");
     const value = { href, text, title, target };
     return new Delta().insert(text, { link: value });
 }
