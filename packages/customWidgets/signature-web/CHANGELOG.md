@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-02-20
+
 ### Fixed
 
 - We fixed and issue with the widget not working correctly in some newer version of Studio Pro.
