@@ -126,6 +126,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             className={`column-selectors`}
             data-focusindex={0}
             role="menu"
+            aria-multiselectable="true"
             style={{ ...correctedFloatingStyles, maxHeight }}
             {...getFloatingProps()}
         >
