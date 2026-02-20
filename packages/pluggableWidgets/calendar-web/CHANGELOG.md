@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-02-17
+
 ### Added
 
 - We added support for configuring calendar time grid density via timeslots and step properties to control the widget’s required space.
