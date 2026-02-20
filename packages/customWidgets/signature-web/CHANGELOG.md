@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed and issue with the widget not working correctly in some newer version of Studio Pro.
+
 ### Added
 
 - We added a license file and a readme documenting all open source dependencies used in this package.
