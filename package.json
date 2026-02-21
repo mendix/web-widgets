@@ -14,6 +14,7 @@
         "create-translation": "turbo run create-translation",
         "include-oss-in-artifact": "pnpm --filter @mendix/automation-utils run include-oss-in-artifact",
         "postinstall": "turbo run agent-rules",
+        "start:mcp": "pnpm --filter pluggable-widgets-mcp run start",
         "lint": "turbo run lint --continue --concurrency 1",
         "oss-clearance": "pnpm --filter @mendix/automation-utils run oss-clearance",
         "prepare": "husky install",

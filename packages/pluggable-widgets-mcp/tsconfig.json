@@ -1,0 +1,34 @@
+{
+    "include": ["./src", "config.ts"],
+    "compilerOptions": {
+        "lib": ["ES2022"],
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        },
+        "module": "esnext",
+        "moduleResolution": "node",
+        "target": "ES2022",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "types": ["node"],
+        "strict": true,
+        "noEmitOnError": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true,
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+        "declaration": true,
+        "sourceMap": true,
+        "declarationMap": true,
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "useUnknownInCatchVariables": false,
+        "exactOptionalPropertyTypes": false
+    },
+    "exclude": ["node_modules", "dist"]
+}
