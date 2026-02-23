@@ -10,7 +10,7 @@ A Model Context Protocol (MCP) server that enables AI assistants to scaffold Men
 pnpm install
 pnpm build          # Build the server
 pnpm start          # STDIO mode (default)
-pnpm start:stdio    # HTTP mode
+pnpm start:stdio    # STDIO mode
 ```
 
 ## Global Installation
@@ -120,17 +120,23 @@ Generated widgets are placed in `generations/` directory within this package.
 
 ### File Operation Tools
 
-| Tool                       | Description                                                  |
-| -------------------------- | ------------------------------------------------------------ |
-| `list-widget-files`        | Lists all files in a widget directory, grouped by type       |
-| `read-widget-file`         | Reads the contents of a file from a widget directory         |
-| `write-widget-file`        | Writes content to a file (creates parent dirs automatically) |
-| `batch-write-widget-files` | Writes multiple files atomically                             |
+| Tool                | Description                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------- |
+| `list-widget-files` | Lists all files in a widget directory, grouped by type                                |
+| `read-widget-file`  | Reads the contents of a file from a widget directory                                  |
+| `write-widget-file` | Writes content to a file (creates parent dirs). Supports single-file and batch modes. |
 
 **Security:** All file operations are protected by `src/security/guardrails.ts`:
 
 - Path traversal is blocked (no `..` escapes)
 - Extension whitelist: `.tsx`, `.ts`, `.xml`, `.scss`, `.css`, `.json`, `.md`
+
+### Code Generation Tools
+
+| Tool                       | Description                                                                                                         |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `generate-widget-code`     | Generates widget XML + TSX + SCSS from property definitions. Saves a `.widget-definition.json` snapshot.            |
+| `update-widget-properties` | Incrementally adds, removes, or modifies widget properties. Requires `generate-widget-code` to have been run first. |
 
 ### build-widget
 
@@ -193,7 +199,7 @@ npx @modelcontextprotocol/inspector
     }
     ```
 4. Click "Execute" and watch progress notifications as the widget is scaffolded
-5. Check `generations/testwidget/` for the created widget
+5. Check `generations/testWidget/` for the created widget
 
 This is useful for verifying tool behavior without needing a full AI client integration.
 
@@ -243,7 +249,7 @@ This means:
 **During widget scaffolding:**
 
 - Chat shows: "Starting scaffolding..." → (wait) → "Widget created at `/path`"
-- Inspector shows: Step-by-step progress notifications for all 14 prompts
+- Inspector shows: Progress notifications (start → installing dependencies → complete)
 
 **During widget building:**
 
@@ -256,10 +262,13 @@ This means:
 - [x] HTTP transport
 - [x] STDIO transport
 - [x] Progress notifications
-- [x] File operations (list, read, write, batch-write)
+- [x] File operations (list, read, write)
 - [x] Build tool (`build-widget`)
 - [x] Guideline resources (property-types, widget-patterns)
-- [ ] Widget property editing (XML manipulation)
+- [x] Code generation (`generate-widget-code`)
+- [x] Incremental property update tool (`update-widget-properties`)
+- [ ] Batch widget generation
+- [ ] Widget testing helpers
 - [ ] TypeScript error recovery suggestions
 
 ## License

@@ -50,7 +50,7 @@ const propertyDefinitionSchema = z.object({
             "attribute",
             "datasource",
             "association",
-            "entity",
+            "selection",
             "enumeration",
             "icon",
             "image",
@@ -90,6 +90,14 @@ const propertyDefinitionSchema = z.object({
 });
 
 /**
+ * Schema for property group definitions.
+ */
+const propertyGroupSchema = z.object({
+    caption: z.string().min(1).describe("Group caption displayed in Studio Pro"),
+    properties: z.array(z.string().min(1)).min(1).describe("Property keys in this group")
+});
+
+/**
  * Schema for the generate-widget-code tool input.
  */
 const generateWidgetCodeSchema = z.object({
@@ -102,7 +110,19 @@ const generateWidgetCodeSchema = z.object({
     widgetPattern: z
         .enum(["display", "button", "input", "container", "dataList"])
         .optional()
-        .describe("Optional hint for TSX generation pattern")
+        .describe("Optional hint for TSX generation pattern"),
+    systemProperties: z
+        .array(z.enum(["Name", "TabIndex", "Visibility"]))
+        .optional()
+        .describe(
+            'System properties to include. Defaults to ["Name", "TabIndex", "Visibility"]. Pass empty array to include none.'
+        ),
+    propertyGroups: z
+        .array(propertyGroupSchema)
+        .optional()
+        .describe(
+            "Optional property grouping. If not provided, non-action properties go in 'General' and action properties go in 'Events' automatically."
+        )
 });
 
 type GenerateWidgetCodeInput = z.infer<typeof generateWidgetCodeSchema>;
@@ -320,7 +340,8 @@ async function handleGenerateWidgetCode(args: GenerateWidgetCodeInput): Promise<
             name: widgetName,
             description,
             properties: properties as PropertyDefinition[],
-            systemProperties: ["Name", "TabIndex", "Visibility"]
+            systemProperties: args.systemProperties ?? ["Name", "TabIndex", "Visibility"],
+            propertyGroups: args.propertyGroups
         };
 
         // Validate widget definition
@@ -358,7 +379,9 @@ async function handleGenerateWidgetCode(args: GenerateWidgetCodeInput): Promise<
         // Prepare files to write
         const filesToWrite = [
             { path: `src/${widgetName}.xml`, content: xmlResult.xml },
-            { path: `src/${widgetName}.tsx`, content: tsxResult.mainComponent }
+            { path: `src/${widgetName}.tsx`, content: tsxResult.mainComponent },
+            { path: `src/ui/${widgetName}.scss`, content: `.widget-${widgetName.toLowerCase()} {\n}\n` },
+            { path: `src/.widget-definition.json`, content: JSON.stringify(widgetDefinition, null, 2) }
         ];
 
         // Validate and write files
@@ -389,14 +412,17 @@ async function handleGenerateWidgetCode(args: GenerateWidgetCodeInput): Promise<
             [
                 `✅ Widget code generated successfully!`,
                 "",
-                `📁 Files modified:`,
-                `  • src/${widgetName}.xml - Added ${properties.length} properties (${propSummary})`,
-                `  • src/${widgetName}.tsx - Implemented using ${pattern} pattern`,
+                `📁 Files written:`,
+                `  • src/${widgetName}.xml - Widget definition with ${properties.length} properties (${propSummary})`,
+                `  • src/${widgetName}.tsx - Component using ${pattern} pattern`,
+                `  • src/ui/${widgetName}.scss - Empty SCSS placeholder`,
+                `  • src/.widget-definition.json - Widget definition snapshot (used by update-widget-properties)`,
                 "",
                 `🔨 Next steps:`,
                 `  1. Run build-widget to compile and validate`,
-                `  2. Review generated code for customization`,
-                `  3. Test in Mendix Studio Pro`
+                `  2. Review and customize generated code`,
+                `  3. Update src/${widgetName}.editorPreview.tsx for Studio Pro design mode preview`,
+                `  4. Test in Mendix Studio Pro`
             ].join("\n")
         );
     } catch (error) {

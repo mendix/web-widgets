@@ -18,7 +18,7 @@ export type MendixPropertyType =
     | "attribute"
     | "datasource"
     | "association"
-    | "entity"
+    | "selection"
     | "enumeration"
     | "icon"
     | "image"

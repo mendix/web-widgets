@@ -144,36 +144,34 @@ export function generateWidgetXml(widget: WidgetDefinition): GeneratorResult {
         }
 
         lines.push(`    <properties>`);
-        lines.push(`        <propertyGroup caption="General">`);
 
         // Group properties if grouping is specified
         if (widget.propertyGroups && widget.propertyGroups.length > 0) {
             for (const group of widget.propertyGroups) {
-                lines.push(`            <propertyGroup caption="${escapeXml(group.caption)}">`);
+                lines.push(`        <propertyGroup caption="${escapeXml(group.caption)}">`);
                 for (const propKey of group.properties) {
                     const prop = widget.properties.find(p => p.key === propKey);
                     if (prop) {
-                        lines.push(generateProperty(prop, "                "));
+                        lines.push(generateProperty(prop, "            "));
                     }
                 }
-                lines.push(`            </propertyGroup>`);
+                lines.push(`        </propertyGroup>`);
             }
         } else {
-            // Default grouping: General for all properties
-            lines.push(`            <propertyGroup caption="General">`);
+            // Default grouping: General for non-action properties, Events for actions
+            lines.push(`        <propertyGroup caption="General">`);
             for (const prop of widget.properties.filter(p => p.type !== "action")) {
-                lines.push(generateProperty(prop, "                "));
+                lines.push(generateProperty(prop, "            "));
             }
-            lines.push(`            </propertyGroup>`);
+            lines.push(`        </propertyGroup>`);
 
-            // Events group for actions
             const actionProps = widget.properties.filter(p => p.type === "action");
             if (actionProps.length > 0) {
-                lines.push(`            <propertyGroup caption="Events">`);
+                lines.push(`        <propertyGroup caption="Events">`);
                 for (const prop of actionProps) {
-                    lines.push(generateProperty(prop, "                "));
+                    lines.push(generateProperty(prop, "            "));
                 }
-                lines.push(`            </propertyGroup>`);
+                lines.push(`        </propertyGroup>`);
             }
         }
 
@@ -183,23 +181,22 @@ export function generateWidgetXml(widget: WidgetDefinition): GeneratorResult {
             const commonProps = widget.systemProperties.filter(p => p !== "Visibility");
 
             if (visibilityProps.length > 0) {
-                lines.push(`            <propertyGroup caption="Visibility">`);
+                lines.push(`        <propertyGroup caption="Visibility">`);
                 for (const sysProp of visibilityProps) {
-                    lines.push(generateSystemProperty(sysProp, "                "));
+                    lines.push(generateSystemProperty(sysProp, "            "));
                 }
-                lines.push(`            </propertyGroup>`);
+                lines.push(`        </propertyGroup>`);
             }
 
             if (commonProps.length > 0) {
-                lines.push(`            <propertyGroup caption="Common">`);
+                lines.push(`        <propertyGroup caption="Common">`);
                 for (const sysProp of commonProps) {
-                    lines.push(generateSystemProperty(sysProp, "                "));
+                    lines.push(generateSystemProperty(sysProp, "            "));
                 }
-                lines.push(`            </propertyGroup>`);
+                lines.push(`        </propertyGroup>`);
             }
         }
 
-        lines.push(`        </propertyGroup>`);
         lines.push(`    </properties>`);
         lines.push(`</widget>`);
 
@@ -249,6 +246,17 @@ export function validateWidgetDefinition(widget: WidgetDefinition): string[] {
 
         if (prop.type === "attribute" && (!prop.attributeTypes || prop.attributeTypes.length === 0)) {
             errors.push(`Attribute property "${prop.key}" must have attributeTypes`);
+        }
+    }
+
+    if (widget.propertyGroups) {
+        const propertyKeys = new Set(widget.properties.map(p => p.key));
+        for (const group of widget.propertyGroups) {
+            for (const key of group.properties) {
+                if (!propertyKeys.has(key)) {
+                    errors.push(`Property group "${group.caption}" references unknown property key: "${key}"`);
+                }
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { GENERATIONS_DIR } from "@/config";
 import { DEFAULT_WIDGET_OPTIONS, type ToolContext, type ToolResponse, widgetOptionsSchema } from "@/tools/types";
-import { buildWidgetOptions, GENERATOR_PROMPTS, runWidgetGenerator, SCAFFOLD_PROGRESS } from "@/tools/utils/generator";
+import { buildWidgetOptions, runWidgetGenerator, SCAFFOLD_PROGRESS } from "@/tools/utils/generator";
 import { ProgressTracker } from "@/tools/utils/progress-tracker";
 import {
     createStructuredError,
@@ -10,7 +10,7 @@ import {
     type ErrorCode
 } from "@/tools/utils/response";
 import { access, mkdir } from "node:fs/promises";
-import { dirname } from "node:path";
+import { dirname, resolve } from "node:path";
 import { z } from "zod";
 
 /**
@@ -75,10 +75,37 @@ export function registerScaffoldingTools(server: McpServer): void {
 async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext): Promise<ToolResponse> {
     const options = buildWidgetOptions(args);
     const outputDir = args.outputPath ?? GENERATIONS_DIR;
+
+    // Validate user-provided outputPath is within allowed directories
+    if (args.outputPath) {
+        const resolvedOutputPath = resolve(args.outputPath);
+        const allowedOutputPaths = [
+            resolve(GENERATIONS_DIR),
+            ...(process.env.MCP_ALLOWED_OUTPUT_PATHS ?? "")
+                .split(":")
+                .filter(Boolean)
+                .map(p => resolve(p))
+        ];
+        const isAllowedPath = allowedOutputPaths.some(
+            allowed => resolvedOutputPath.startsWith(allowed + "/") || resolvedOutputPath === allowed
+        );
+        if (!isAllowedPath) {
+            return createStructuredErrorResponse(
+                createStructuredError(
+                    "ERR_OUTPUT_PATH_INVALID",
+                    `Output path is not within an allowed directory: ${args.outputPath}`,
+                    {
+                        suggestion: `Output must be within ${GENERATIONS_DIR} or set MCP_ALLOWED_OUTPUT_PATHS env var (colon-separated paths).`
+                    }
+                )
+            );
+        }
+    }
+
     const tracker = new ProgressTracker({
         context,
         logger: "scaffolding",
-        totalSteps: GENERATOR_PROMPTS.length
+        totalSteps: 3
     });
 
     try {
@@ -111,13 +138,12 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
         // Ensure output directory exists
         await mkdir(outputDir, { recursive: true });
 
-        // Create widget folder - we control the folder name (matches user's input)
-        const widgetFolder = options.name;
+        // The generator creates the widget folder itself (camelCase: first letter lowered)
+        const widgetFolder = options.name.charAt(0).toLowerCase() + options.name.slice(1);
         const widgetPath = `${outputDir}/${widgetFolder}`;
-        await mkdir(widgetPath, { recursive: true });
 
-        // Run generator inside the widget folder (it outputs files directly there)
-        await runWidgetGenerator(options, tracker, widgetPath);
+        // Run generator inside outputDir — it creates the widget subfolder
+        await runWidgetGenerator(options, tracker, outputDir);
 
         console.error(`[create-widget] Widget created successfully at ${widgetPath}`);
         await tracker.progress(SCAFFOLD_PROGRESS.COMPLETE, "Widget created successfully!");
@@ -135,9 +161,8 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
                 "=== TO IMPLEMENT WIDGET FUNCTIONALITY ===",
                 "",
                 "1. FETCH GUIDELINES (MCP Resources):",
-                "   - mendix://guidelines/frontend (CSS/SCSS, Atlas UI, naming conventions)",
-                "   - mendix://guidelines/implementation (step-by-step widget development)",
-                "   - mendix://guidelines/backend-structure (Mendix data API: EditableValue, ActionValue)",
+                "   - mendix://guidelines/property-types (all widget property types with JSON schema)",
+                "   - mendix://guidelines/widget-patterns (reusable TSX/SCSS patterns for common widget types)",
                 "",
                 "2. EXPLORE WIDGET STRUCTURE:",
                 `   Use list-widget-files tool with widgetPath: "${widgetPath}"`,
@@ -179,10 +204,6 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
             code = "ERR_SCAFFOLD_TIMEOUT";
             suggestion =
                 "The generator took too long. Check your network connection and npm registry access. Try running 'npx @mendix/generator-widget' manually.";
-        } else if (message.includes("prompt") || message.includes("expected")) {
-            code = "ERR_SCAFFOLD_PROMPT";
-            suggestion =
-                "The generator prompts may have changed. This could be a version mismatch. Please report this issue.";
         } else if (message.includes("ENOENT") || message.includes("not found")) {
             code = "ERR_NOT_FOUND";
             // Check if this is a path issue vs a command issue
@@ -190,7 +211,7 @@ async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext)
                 suggestion = `Cannot create directory "${outputDir}". Try a different 'outputPath' that you have write access to.`;
             } else {
                 suggestion =
-                    "Node.js, npm, or npx was not found. This tool requires a local development environment with npm installed. It cannot run in sandboxed environments like Claude Desktop's artifact sandbox.";
+                    "The generator-widget binary was not found. Run: cd /path/to/widgets-tools/packages/generator-widget && npm link. Then ensure the MCP server runs under the same Node.js version.";
             }
         }
 

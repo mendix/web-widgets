@@ -6,8 +6,9 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { spawn } from "node:child_process";
 import { existsSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { z } from "zod";
+import { GENERATIONS_DIR } from "@/config";
 import type { ToolContext, ToolResponse } from "./types";
 import { ProgressTracker } from "./utils/progress-tracker";
 import {
@@ -344,6 +345,26 @@ async function handleBuildWidget(args: BuildWidgetInput, context: ToolContext): 
         return createStructuredErrorResponse(
             createStructuredError("ERR_NOT_FOUND", `Widget directory not found: ${widgetPath}`, {
                 suggestion: "Verify the widget path is correct and the directory exists."
+            })
+        );
+    }
+
+    // Validate path is within allowed directories
+    const resolvedWidgetPath = resolve(widgetPath);
+    const allowedBuildPaths = [
+        resolve(GENERATIONS_DIR),
+        ...(process.env.MCP_ALLOWED_BUILD_PATHS ?? "")
+            .split(":")
+            .filter(Boolean)
+            .map(p => resolve(p))
+    ];
+    const isAllowedPath = allowedBuildPaths.some(
+        allowed => resolvedWidgetPath.startsWith(allowed + "/") || resolvedWidgetPath === allowed
+    );
+    if (!isAllowedPath) {
+        return createStructuredErrorResponse(
+            createStructuredError("ERR_NOT_FOUND", `Widget path is not within an allowed directory: ${widgetPath}`, {
+                suggestion: `Widget must be within ${GENERATIONS_DIR} or set MCP_ALLOWED_BUILD_PATHS env var (colon-separated paths).`
             })
         );
     }
