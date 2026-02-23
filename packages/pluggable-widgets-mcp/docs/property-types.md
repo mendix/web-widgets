@@ -2,6 +2,8 @@
 
 This document defines all available property types for Mendix pluggable widgets. Use this reference when defining properties in the JSON schema for XML generation.
 
+> **Note:** XML is generated automatically by the `generate-widget-code` tool. You only need to provide JSON property definitions — no XML knowledge required.
+
 ## Property Definition Schema
 
 When defining properties for the XML generator, use this JSON structure:
@@ -35,15 +37,6 @@ Simple text input.
 }
 ```
 
-**XML Output:**
-
-```xml
-<property key="label" type="string" defaultValue="Click me">
-    <caption>Label</caption>
-    <description>Text label for the widget</description>
-</property>
-```
-
 ---
 
 ### boolean
@@ -60,15 +53,6 @@ True/false toggle.
 }
 ```
 
-**XML Output:**
-
-```xml
-<property key="showIcon" type="boolean" defaultValue="true">
-    <caption>Show icon</caption>
-    <description>Display an icon next to the text</description>
-</property>
-```
-
 ---
 
 ### integer
@@ -83,15 +67,6 @@ Whole number input.
     "description": "Maximum number of items to display",
     "defaultValue": 10
 }
-```
-
-**XML Output:**
-
-```xml
-<property key="maxItems" type="integer" defaultValue="10">
-    <caption>Maximum items</caption>
-    <description>Maximum number of items to display</description>
-</property>
 ```
 
 ---
@@ -128,15 +103,6 @@ Text with parameter substitution. Allows dynamic text with placeholders.
 }
 ```
 
-**XML Output:**
-
-```xml
-<property key="legend" type="textTemplate" required="false">
-    <caption>Legend</caption>
-    <description>Text template with parameters</description>
-</property>
-```
-
 ---
 
 ### expression
@@ -164,15 +130,6 @@ Dynamic expression that can reference attributes and return computed values.
 }
 ```
 
-**XML Output (with returnType):**
-
-```xml
-<property key="valueExpression" type="expression">
-    <caption>Value</caption>
-    <returnType type="String" />
-</property>
-```
-
 ---
 
 ## Action Types
@@ -189,15 +146,6 @@ Event handler that triggers actions (microflows, nanoflows, etc.).
     "description": "Action to execute when clicked",
     "required": false
 }
-```
-
-**XML Output:**
-
-```xml
-<property key="onClick" type="action" required="false">
-    <caption>On click</caption>
-    <description>Action to execute when clicked</description>
-</property>
 ```
 
 ---
@@ -227,18 +175,6 @@ Links to an entity attribute. Must specify allowed attribute types.
     "type": "attribute",
     "attributeTypes": ["Integer", "Decimal", "Long"]
 }
-```
-
-**XML Output:**
-
-```xml
-<property key="value" type="attribute" required="true">
-    <caption>Value</caption>
-    <description>Attribute to store the value</description>
-    <attributeTypes>
-        <attributeType name="String" />
-    </attributeTypes>
-</property>
 ```
 
 **Valid attributeTypes:**
@@ -271,15 +207,6 @@ Data source for list-based widgets.
 }
 ```
 
-**XML Output:**
-
-```xml
-<property key="dataSource" type="datasource" isList="true" required="false">
-    <caption>Data source</caption>
-    <description>Source of items to display</description>
-</property>
-```
-
 ---
 
 ### association
@@ -297,15 +224,25 @@ Links to an entity association.
 
 ---
 
-### entity
+### selection
 
-Entity selector.
+Represents the selection mode for a widget (e.g., for data grids).
+
+| Field       | Type        | Required | Description                 |
+| ----------- | ----------- | -------- | --------------------------- |
+| key         | string      | ✅       | camelCase identifier        |
+| type        | "selection" | ✅       | Must be "selection"         |
+| caption     | string      | ✅       | Display label in Studio Pro |
+| description | string      |          | Help text                   |
+| required    | boolean     |          | Whether required            |
+
+**Example:**
 
 ```json
 {
-    "key": "targetEntity",
-    "type": "entity",
-    "caption": "Target entity"
+    "key": "selection",
+    "type": "selection",
+    "caption": "Selection"
 }
 ```
 
@@ -329,19 +266,6 @@ Dropdown with predefined options. Must include `enumValues` array.
         { "key": "right", "caption": "Right" }
     ]
 }
-```
-
-**XML Output:**
-
-```xml
-<property key="alignment" type="enumeration" defaultValue="left">
-    <caption>Alignment</caption>
-    <enumerationValues>
-        <enumerationValue key="left">Left</enumerationValue>
-        <enumerationValue key="center">Center</enumerationValue>
-        <enumerationValue key="right">Right</enumerationValue>
-    </enumerationValues>
-</property>
 ```
 
 ---
@@ -416,15 +340,6 @@ Container for child widgets. Used to create widget slots.
 }
 ```
 
-**XML Output:**
-
-```xml
-<property key="content" type="widgets">
-    <caption>Content</caption>
-    <description>Widgets to display inside</description>
-</property>
-```
-
 ---
 
 ### object
@@ -453,24 +368,6 @@ Complex nested property with sub-properties. Used for repeating structures.
 }
 ```
 
-**XML Output:**
-
-```xml
-<property key="columns" type="object" isList="true">
-    <caption>Columns</caption>
-    <properties>
-        <propertyGroup caption="Column">
-            <property key="header" type="textTemplate">
-                <caption>Header</caption>
-            </property>
-            <property key="width" type="integer" defaultValue="100">
-                <caption>Width</caption>
-            </property>
-        </propertyGroup>
-    </properties>
-</property>
-```
-
 ---
 
 ## System Properties
@@ -488,18 +385,6 @@ System properties are predefined by Mendix. Reference them by key only.
 - `Name` - Widget name in Studio Pro
 - `TabIndex` - Tab order for accessibility
 - `Visibility` - Conditional visibility settings
-
-**XML Output:**
-
-```xml
-<propertyGroup caption="Common">
-    <systemProperty key="Name" />
-    <systemProperty key="TabIndex" />
-</propertyGroup>
-<propertyGroup caption="Visibility">
-    <systemProperty key="Visibility" />
-</propertyGroup>
-```
 
 ---
 
@@ -521,6 +406,31 @@ Properties can be organized into groups for better Studio Pro UI.
     ]
 }
 ```
+
+---
+
+## Property Organization
+
+### Auto-Grouping Behavior
+
+If `propertyGroups` is omitted from the widget definition, the `generate-widget-code` tool applies automatic grouping:
+
+- Non-action properties (all types except `action`) are placed in a **"General"** group.
+- Action properties (`type: "action"`) are placed in an **"Events"** group.
+
+This means you rarely need to define `propertyGroups` explicitly for simple widgets. Only add it when you need custom group names or a specific ordering of groups.
+
+### Incrementally Updating Properties
+
+Once a widget has been generated with `generate-widget-code`, you do not need to regenerate all files to change the property list. Use the `update-widget-properties` tool to:
+
+- **Add** new properties to an existing widget
+- **Remove** properties that are no longer needed
+- **Modify** property attributes (e.g., change a caption or default value)
+
+The `update-widget-properties` tool reads the `.widget-definition.json` snapshot saved during `generate-widget-code` and applies only the requested delta, then regenerates the affected files.
+
+> **Requirement:** `generate-widget-code` must have been run at least once before `update-widget-properties` can be used, because it depends on the `.widget-definition.json` snapshot.
 
 ---
 
@@ -586,3 +496,4 @@ Properties can be organized into groups for better Studio Pro UI.
 | `icon`         | Icon picker      | -                       |
 | `image`        | Image picker     | -                       |
 | `association`  | Entity relation  | -                       |
+| `selection`    | Selection mode   | -                       |

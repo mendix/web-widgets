@@ -10,7 +10,6 @@ export type ErrorCode =
     | "ERR_BUILD_MISSING_DEP" // Missing dependency
     | "ERR_BUILD_UNKNOWN" // Unknown build error
     | "ERR_SCAFFOLD_TIMEOUT" // Scaffolding timed out
-    | "ERR_SCAFFOLD_PROMPT" // Generator prompt mismatch
     | "ERR_SCAFFOLD_FAILED" // Generic scaffold failure
     | "ERR_FILE_PATH" // Invalid file path
     | "ERR_FILE_WRITE" // File write failure
@@ -48,6 +47,7 @@ export function createToolResponse(text: string): ToolResponse {
  */
 export function createErrorResponse(message: string): ToolResponse {
     return {
+        isError: true,
         content: [{ type: "text", text: message }]
     };
 }
@@ -89,6 +89,7 @@ export function createStructuredErrorResponse(error: StructuredError): ToolRespo
     }
 
     return {
+        isError: true,
         content: [{ type: "text", text: lines.join("\n") }]
     };
 }

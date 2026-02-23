@@ -19,12 +19,17 @@ import { extname, resolve } from "node:path";
  * Allowed file extensions for write operations.
  * Only widget-related source files are permitted.
  */
-export const ALLOWED_EXTENSIONS = [".tsx", ".ts", ".xml", ".scss", ".css", ".json", ".md", ".editorConfig.ts"];
+export const ALLOWED_EXTENSIONS = [".tsx", ".ts", ".xml", ".scss", ".css", ".json", ".md"];
 
 /**
- * Config files allowed without extensions (e.g., .gitignore)
+ * Config files allowed without extensions (e.g., tsconfig, package)
  */
-const ALLOWED_EXTENSIONLESS_PATTERNS = ["package", "tsconfig", "eslintrc", ".gitignore", ".prettierrc"];
+const ALLOWED_EXTENSIONLESS_PATTERNS = ["package", "tsconfig", "eslintrc"];
+
+/**
+ * Specific dot-files allowed (explicit allowlist to prevent arbitrary dotfile access).
+ */
+const ALLOWED_DOT_FILES = [".gitignore", ".prettierrc", ".eslintrc", ".editorconfig"];
 
 // =============================================================================
 // Path Traversal Prevention
@@ -76,8 +81,10 @@ export function isExtensionAllowed(filePath: string): boolean {
     // and special config files
     if (ext === "") {
         const filename = filePath.split("/").pop() || "";
-        // Allow common config files without extensions
-        return ALLOWED_EXTENSIONLESS_PATTERNS.some(name => filename.includes(name) || filename.startsWith("."));
+        // Allow common config files without extensions, or specific dot-files
+        return (
+            ALLOWED_EXTENSIONLESS_PATTERNS.some(name => filename.includes(name)) || ALLOWED_DOT_FILES.includes(filename)
+        );
     }
     return ALLOWED_EXTENSIONS.includes(ext);
 }

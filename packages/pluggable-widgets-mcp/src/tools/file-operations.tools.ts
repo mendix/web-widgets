@@ -22,29 +22,36 @@ const readWidgetFileSchema = z.object({
         .describe("Relative path to the file within the widget directory (e.g., 'src/MyWidget.tsx')")
 });
 
-const writeWidgetFileSchema = z.object({
-    widgetPath: z.string().min(1).describe("Absolute path to the widget directory"),
-    filePath: z
-        .string()
-        .min(1)
-        .describe("Relative path to the file within the widget directory (e.g., 'src/components/MyComponent.tsx')"),
-    content: z.string().describe("The content to write to the file")
-});
-
-const fileEntrySchema = z.object({
-    relativePath: z.string().min(1).describe("Relative path within the widget directory"),
-    content: z.string().describe("File content to write")
-});
-
-const batchWriteWidgetFilesSchema = z.object({
-    widgetPath: z.string().min(1).describe("Absolute path to the widget directory"),
-    files: z.array(fileEntrySchema).min(1).describe("Array of files to write")
-});
+const writeWidgetFileSchema = z
+    .object({
+        widgetPath: z.string().min(1).describe("Absolute path to the widget directory"),
+        // Single file mode
+        filePath: z
+            .string()
+            .optional()
+            .describe("Relative path to the file (single file mode, e.g., 'src/components/MyComponent.tsx')"),
+        content: z.string().optional().describe("File content (single file mode)"),
+        // Batch mode
+        files: z
+            .array(
+                z.object({
+                    relativePath: z.string().min(1).describe("Relative path within the widget directory"),
+                    content: z.string().describe("File content to write")
+                })
+            )
+            .optional()
+            .describe("Array of files to write (batch mode)")
+    })
+    .refine(
+        data =>
+            (data.filePath !== undefined && data.content !== undefined) ||
+            (data.files !== undefined && data.files.length > 0),
+        { message: "Either provide (filePath + content) for single file mode, or files array for batch mode" }
+    );
 
 type ListWidgetFilesInput = z.infer<typeof listWidgetFilesSchema>;
 type ReadWidgetFileInput = z.infer<typeof readWidgetFileSchema>;
 type WriteWidgetFileInput = z.infer<typeof writeWidgetFileSchema>;
-type BatchWriteWidgetFilesInput = z.infer<typeof batchWriteWidgetFilesSchema>;
 
 // =============================================================================
 // Tool Handlers
@@ -136,38 +143,16 @@ async function handleReadWidgetFile(args: ReadWidgetFileInput): Promise<ToolResp
 }
 
 async function handleWriteWidgetFile(args: WriteWidgetFileInput): Promise<ToolResponse> {
-    try {
-        validateFilePath(args.widgetPath, args.filePath, true);
+    // Normalize to array: single file mode → wrap in array; batch mode → use directly
+    const filesToWrite =
+        args.filePath !== undefined && args.content !== undefined
+            ? [{ relativePath: args.filePath, content: args.content }]
+            : (args.files ?? []);
 
-        const fullPath = join(args.widgetPath, args.filePath);
-
-        // Ensure parent directory exists
-        const parentDir = dirname(fullPath);
-        await mkdir(parentDir, { recursive: true });
-
-        // Write the file
-        await writeFile(fullPath, args.content, "utf-8");
-
-        console.error(`[file-operations] Wrote file: ${fullPath}`);
-
-        return createToolResponse(
-            [
-                `Successfully wrote file: ${args.filePath}`,
-                `Full path: ${fullPath}`,
-                `Size: ${args.content.length} characters`
-            ].join("\n")
-        );
-    } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        return createErrorResponse(`Failed to write file: ${message}`);
-    }
-}
-
-async function handleBatchWriteWidgetFiles(args: BatchWriteWidgetFilesInput): Promise<ToolResponse> {
     const results: Array<{ path: string; success: boolean; error?: string }> = [];
 
     // Validate all paths first before writing anything
-    for (const file of args.files) {
+    for (const file of filesToWrite) {
         try {
             validateFilePath(args.widgetPath, file.relativePath, true);
         } catch (error) {
@@ -177,7 +162,7 @@ async function handleBatchWriteWidgetFiles(args: BatchWriteWidgetFilesInput): Pr
     }
 
     // Write all files
-    for (const file of args.files) {
+    for (const file of filesToWrite) {
         try {
             const fullPath = join(args.widgetPath, file.relativePath);
 
@@ -201,11 +186,11 @@ async function handleBatchWriteWidgetFiles(args: BatchWriteWidgetFilesInput): Pr
 
     if (failed.length === 0) {
         return createToolResponse(
-            [`Successfully wrote ${successful.length} files:`, "", ...successful.map(r => `  - ${r.path}`)].join("\n")
+            [`Successfully wrote ${successful.length} file(s):`, "", ...successful.map(r => `  - ${r.path}`)].join("\n")
         );
     } else if (successful.length === 0) {
         return createErrorResponse(
-            [`Failed to write all ${failed.length} files:`, "", ...failed.map(r => `  - ${r.path}: ${r.error}`)].join(
+            [`Failed to write all ${failed.length} file(s):`, "", ...failed.map(r => `  - ${r.path}: ${r.error}`)].join(
                 "\n"
             )
         );
@@ -245,27 +230,18 @@ Examples:
   - src/MyWidget.xml (properties definition)
   - src/components/Header.tsx (sub-component)`;
 
-const WRITE_WIDGET_FILE_DESCRIPTION = `Writes content to a file in a widget directory.
+const WRITE_WIDGET_FILE_DESCRIPTION = `Writes one or more files to a widget directory.
 
-Use this to implement widget functionality after scaffolding.
-Creates parent directories if they don't exist.
+**Single file mode:** provide filePath + content.
+**Batch mode:** provide files array (each with relativePath + content).
+
+Validates all paths before writing. Creates parent directories if needed.
 
 IMPORTANT: Follow Mendix widget development guidelines:
   - Use TypeScript and React
   - Follow Atlas UI styling conventions
   - Use proper Mendix API types (EditableValue, ActionValue, etc.)
   - Fetch mendix://guidelines/* resources for detailed instructions
-
-Allowed file types: ${ALLOWED_EXTENSIONS.join(", ")}`;
-
-const BATCH_WRITE_WIDGET_FILES_DESCRIPTION = `Writes multiple files to a widget directory in a single operation.
-
-Use this for atomic writes when updating XML, TSX, and SCSS together.
-Validates all paths before writing to ensure consistency.
-Creates parent directories if they don't exist.
-
-Example use case: After generating XML from a widget definition,
-write the XML, TSX component, and SCSS files together.
 
 Allowed file types: ${ALLOWED_EXTENSIONS.join(", ")}`;
 
@@ -304,15 +280,5 @@ export function registerFileOperationTools(server: McpServer): void {
             inputSchema: writeWidgetFileSchema
         },
         handleWriteWidgetFile
-    );
-
-    server.registerTool(
-        "batch-write-widget-files",
-        {
-            title: "Batch Write Widget Files",
-            description: BATCH_WRITE_WIDGET_FILES_DESCRIPTION,
-            inputSchema: batchWriteWidgetFilesSchema
-        },
-        handleBatchWriteWidgetFiles
     );
 }

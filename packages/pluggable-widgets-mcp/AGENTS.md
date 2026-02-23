@@ -34,10 +34,13 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
 export function registerMyTools(server: McpServer): void {
-    server.tool(
+    server.registerTool(
         "my-tool",
-        "Description shown to LLM",
-        z.object({ param: z.string().describe("Parameter description") }),
+        {
+            title: "My Tool",
+            description: "Description shown to LLM",
+            inputSchema: z.object({ param: z.string().describe("Parameter description") })
+        },
         async ({ param }) => ({
             content: [{ type: "text", text: "Success" }]
         })

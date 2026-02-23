@@ -122,7 +122,7 @@ function generateImports(widgetName: string, properties: PropertyDefinition[], p
     imports.push(`import { ${widgetName}ContainerProps } from "../typings/${widgetName}Props";`);
 
     // Styles import
-    imports.push(`import "./ui/${widgetName}.css";`);
+    imports.push(`import "./ui/${widgetName}.scss";`);
 
     return imports.join("\n");
 }

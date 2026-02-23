@@ -21,12 +21,6 @@ export interface ToolResponse {
 export type ToolContext = RequestHandlerExtra<ServerRequest, ServerNotification>;
 
 /**
- * Type for tool handler functions.
- * Used for typing handlers that are passed to McpServer.registerTool().
- */
-export type ToolHandler<T = unknown> = (args: T, context: ToolContext) => Promise<ToolResponse>;
-
-/**
  * Log levels supported by MCP logging notifications.
  */
 export type LogLevel = "debug" | "info" | "notice" | "warning" | "error";

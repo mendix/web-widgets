@@ -2,6 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { registerBuildTools } from "./build.tools";
 import { registerCodeGenerationTools } from "./code-generation.tools";
 import { registerFileOperationTools } from "./file-operations.tools";
+import { registerPropertyUpdateTools } from "./property-update.tools";
 import { registerScaffoldingTools } from "./scaffolding.tools";
 
 /**
@@ -9,9 +10,10 @@ import { registerScaffoldingTools } from "./scaffolding.tools";
  *
  * Tools are organized by category:
  * - Scaffolding: Widget creation (create-widget)
- * - File Operations: Read/write widget files (list-widget-files, read-widget-file, write-widget-file, batch-write-widget-files)
+ * - File Operations: Read/write widget files (list-widget-files, read-widget-file, write-widget-file)
  * - Build: Widget building and validation (build-widget)
  * - Code Generation: Generate widget XML and TSX (generate-widget-code)
+ * - Property Update: Incremental property updates (update-widget-properties)
  *
  * Each category registers its tools directly with the server, preserving
  * full type safety through the SDK's generic inference.
@@ -21,4 +23,5 @@ export function registerAllTools(server: McpServer): void {
     registerFileOperationTools(server);
     registerBuildTools(server);
     registerCodeGenerationTools(server);
+    registerPropertyUpdateTools(server);
 }

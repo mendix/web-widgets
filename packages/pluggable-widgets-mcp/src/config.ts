@@ -1,9 +1,9 @@
+import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 // Server configuration
 export const SERVER_NAME = "pluggable-widgets-mcp";
-export const SERVER_VERSION = "0.1.0";
 export const PORT = parseInt(process.env.PORT || "3100", 10);
 
 // Server metadata
@@ -20,6 +20,9 @@ export const SERVER_INSTRUCTIONS =
 const __dirname = import.meta.dirname ?? dirname(fileURLToPath(import.meta.url));
 export const PACKAGE_ROOT = join(__dirname, "../");
 export const GENERATIONS_DIR = join(process.cwd(), "generations");
+
+const _pkg = JSON.parse(readFileSync(join(PACKAGE_ROOT, "package.json"), "utf-8")) as { version: string };
+export const SERVER_VERSION = _pkg.version;
 
 // Path to local docs folder
 export const DOCS_DIR = join(PACKAGE_ROOT, "docs");
