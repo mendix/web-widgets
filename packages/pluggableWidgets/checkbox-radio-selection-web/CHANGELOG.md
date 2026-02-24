@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-02-24
+
 ### Fixed
 
 - Fixed an issue with Association selection happening when reference set contains objects not present in Selectable objects list.
+
 - Fixed an issue with long labels not displaying correctly.
 
 ## [1.1.0] - 2025-10-18
