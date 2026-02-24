@@ -58,7 +58,7 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
     // trigger fetch children via datasource.setFilter
     const fetchChildren = useCallback(
         (item?: ItemType) => {
-            return new Promise<TreeNodeItem[]>(resolve => {
+            return new Promise<TreeNodeItem[]>((resolve, reject) => {
                 if (isInfiniteTreeNodesEnabled && fetchingItem.current === undefined) {
                     resolvePromise.current = resolve;
                     if (Array.isArray(item)) {
@@ -67,6 +67,12 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
                         fetchingItem.current = item;
                     }
                     datasource.setFilter(filterContent(item));
+                } else {
+                    reject(
+                        new Error("Infinite Tree Nodes is not enabled or already fetching children", {
+                            cause: { code: 1 }
+                        })
+                    );
                 }
             });
         },
@@ -175,23 +181,29 @@ export function useLocalizedTreeNode(
     useEffect(() => {
         if (isInfiniteTreeNodesEnabled) {
             if (Array.isArray(items)) {
-                fetchChildren(items).then(childItems => {
-                    const newLocalizedItems = items.map(localItem => {
-                        const currentChildItems = childItems.filter(childItem => childItem.parentId === localItem.id);
-                        if (currentChildItems.length > 0) {
-                            return {
-                                ...localItem,
-                                children: currentChildItems
-                            };
-                        } else {
-                            return {
-                                ...localItem,
-                                isUserDefinedLeafNode: true
-                            };
-                        }
+                fetchChildren(items)
+                    .then(childItems => {
+                        const newLocalizedItems = items.map(localItem => {
+                            const currentChildItems = childItems.filter(
+                                childItem => childItem.parentId === localItem.id
+                            );
+                            if (currentChildItems.length > 0) {
+                                return {
+                                    ...localItem,
+                                    children: currentChildItems
+                                };
+                            } else {
+                                return {
+                                    ...localItem,
+                                    isUserDefinedLeafNode: true
+                                };
+                            }
+                        });
+                        setLocalizedItems(newLocalizedItems);
+                    })
+                    .catch(() => {
+                        // TODO: handle error state
                     });
-                    setLocalizedItems(newLocalizedItems);
-                });
             }
         }
     }, [items, isInfiniteTreeNodesEnabled]);

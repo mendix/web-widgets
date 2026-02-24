@@ -93,14 +93,18 @@ export function TreeNodeBranch({
 
     const loadChildNodes = useCallback(() => {
         if (isInfiniteTreeNodesEnabled && !isUserDefinedLeafNode) {
-            fetchChildren(item).then(result => {
-                if (Array.isArray(result) && result.length > 0) {
-                    // append children to the localized item
-                    appendChildren(result, item);
-                } else {
-                    setIsActualLeafNode(true);
-                }
-            });
+            fetchChildren(item)
+                .then(result => {
+                    if (Array.isArray(result) && result.length > 0) {
+                        // append children to the localized item
+                        appendChildren(result, item);
+                    } else {
+                        setIsActualLeafNode(true);
+                    }
+                })
+                .catch(() => {
+                    // TODO handle error state
+                });
         }
     }, [fetchChildren, item, appendChildren, isInfiniteTreeNodesEnabled, isUserDefinedLeafNode]);
 
