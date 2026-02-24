@@ -161,7 +161,7 @@ export class ColumnStore implements GridColumn {
             // there is no expression at all, treating as loaded and available
             return true;
         }
-        return this._visible.value ?? false;
+        return this._visible.value ?? true;
     }
 
     get loaded(): boolean {
