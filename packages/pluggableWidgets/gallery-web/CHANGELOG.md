@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added new attributes and a drop zone for custom pagination.
 
-- We added support for the auto-select feature in multi-selection mode.
+- We added support for the auto-select feature in multi-selection and single-selection mode.
 
 ## [3.8.0] - 2026-01-16
 
