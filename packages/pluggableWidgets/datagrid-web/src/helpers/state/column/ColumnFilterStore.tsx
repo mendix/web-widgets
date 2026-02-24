@@ -8,31 +8,28 @@ import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/Ob
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ListAttributeListValue, ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { computed, makeObservable } from "mobx";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { ReactNode } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
-
-export interface IColumnFilterStore {
-    renderFilterWidgets(): ReactNode;
-}
 
 type FilterStore = InputFilterStore | EnumFilterStore;
 
 const { Provider } = getGlobalFilterContextObject();
 
-export class ColumnFilterStore implements IColumnFilterStore {
+export class ColumnFilterStore {
     private _widget: ReactNode;
     private _error: APIError | null;
     private _filterStore: FilterStore | null = null;
     private _context: FilterAPI;
     private _filterHost: ObservableFilterHost;
-    private _attributeType: ListAttributeValue["type"] | undefined;
+    private _filterResizeObserver: ResizeObserver | null = null;
+
+    measuredFilterWidth: number = 0;
 
     constructor(props: ColumnsType, info: StaticInfo, filterHost: ObservableFilterHost) {
         this._filterHost = filterHost;
         this._widget = props.filter;
-        this._attributeType = isListAttributeValue(props.attribute) ? props.attribute.type : undefined;
         const storeResult = this.createFilterStore(props, null);
         if (storeResult === null) {
             this._error = this._filterStore = null;
@@ -46,6 +43,7 @@ export class ColumnFilterStore implements IColumnFilterStore {
         this._context = this.createContext(this._filterStore, info);
 
         makeObservable<this>(this, {
+            measuredFilterWidth: observable,
             condition: computed
         });
     }
@@ -55,6 +53,10 @@ export class ColumnFilterStore implements IColumnFilterStore {
         if (this._filterStore && "setup" in this._filterStore) {
             add(this._filterStore.setup());
         }
+        add(() => {
+            this._filterResizeObserver?.disconnect();
+            this._filterResizeObserver = null;
+        });
         return disposeAll;
     }
 
@@ -107,26 +109,23 @@ export class ColumnFilterStore implements IColumnFilterStore {
         }
     }
 
-    get suggestedMinWidth(): number {
-        if (this._attributeType === undefined) {
-            return 0;
+    setFilterElement(el: HTMLDivElement | null): void {
+        this._filterResizeObserver?.disconnect();
+        this._filterResizeObserver = null;
+
+        if (el === null) {
+            runInAction(() => {
+                this.measuredFilterWidth = 0;
+            });
+            return;
         }
-        switch (this._attributeType) {
-            case "DateTime":
-                return 150;
-            case "AutoNumber":
-            case "Decimal":
-            case "Integer":
-            case "Long":
-                return 120;
-            case "String":
-            case "HashString":
-            case "Boolean":
-            case "Enum":
-                return 100;
-            default:
-                return 0;
-        }
+
+        this._filterResizeObserver = new ResizeObserver(
+            action((entries: ResizeObserverEntry[]) => {
+                this.measuredFilterWidth = (entries[0].target as HTMLElement).scrollWidth;
+            })
+        );
+        this._filterResizeObserver.observe(el);
     }
 }
 

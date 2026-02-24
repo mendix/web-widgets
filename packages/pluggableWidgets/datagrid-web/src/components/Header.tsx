@@ -35,6 +35,8 @@ export function Header(props: HeaderProps): ReactElement {
     const canDrag = columnsDraggable && column.canDrag;
     const canSort = columnsSortable && column.canSort;
     const canResize = columnsResizable && column.canResize;
+    const filterStore = columnsStore.columnFilters[column.columnIndex];
+    const filterRef = useCallback((el: HTMLDivElement | null) => filterStore?.setFilterElement(el), [filterStore]);
 
     const draggableProps = useDraggable(
         canDrag,
@@ -82,8 +84,12 @@ export function Header(props: HeaderProps): ReactElement {
                     {sortIcon}
                 </div>
                 {columnsFilterable && (
-                    <div className="filter" style={{ pointerEvents: props.isDragging ? "none" : undefined }}>
-                        {columnsStore.columnFilters[column.columnIndex]?.renderFilterWidgets()}
+                    <div
+                        className="filter"
+                        style={{ pointerEvents: props.isDragging ? "none" : undefined }}
+                        ref={filterRef}
+                    >
+                        {filterStore?.renderFilterWidgets()}
                     </div>
                 )}
             </div>

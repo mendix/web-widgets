@@ -25,9 +25,6 @@ export function GridHeader(): ReactElement {
             <div key="headers_row" className="tr" role="row">
                 <CheckboxColumnHeader key="headers_column_select_all" />
                 {columns.map(column => {
-                    const filterMinWidth = columnsStore.columnFilters[column.columnIndex]?.suggestedMinWidth ?? 0;
-                    const minWidth = Math.max(50, column.minWidthLimit, filterMinWidth);
-
                     return (
                         <ColumnProvider column={column} key={`${column.columnId}`}>
                             <Header
@@ -35,7 +32,6 @@ export function GridHeader(): ReactElement {
                                 isDragging={isDragging}
                                 resizer={
                                     <ColumnResizer
-                                        minWidth={minWidth}
                                         onResizeStart={() => columnsStore.setIsResizing(true)}
                                         onResizeEnds={() => columnsStore.setIsResizing(false)}
                                         setColumnWidth={(width: number) => column.setSize(width)}

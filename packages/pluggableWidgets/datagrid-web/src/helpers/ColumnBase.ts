@@ -45,7 +45,7 @@ export class BaseColumn {
     }
 
     get minWidthLimit(): number {
-        return this.properties.minWidthLimit;
+        return this.properties.minWidth === "manual" ? this.properties.minWidthLimit : 0;
     }
 
     getCssWidth(): string {

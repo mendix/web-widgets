@@ -113,7 +113,7 @@ export class ColumnStore implements GridColumn {
     }
 
     get minWidthLimit(): number {
-        return this.baseInfo.minWidthLimit;
+        return this.baseInfo.minWidth === "manual" ? this.baseInfo.minWidthLimit : 0;
     }
 
     // hiding
