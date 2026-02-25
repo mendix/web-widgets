@@ -44,6 +44,15 @@ const Pagination = (): ReactNode => {
     );
 };
 
+const CustomPagination = (): ReactNode => {
+    const { customPagination } = useProps();
+    return (
+        <customPagination.renderer caption="Custom pagination: Place widgets here">
+            <div style={{ flexGrow: 1 }} />
+        </customPagination.renderer>
+    );
+};
+
 const SelectionCounter = (): ReactNode => {
     const props = useProps();
     return (
@@ -70,7 +79,10 @@ const TopControls = (): ReactNode => {
     return (
         <div className="widget-gallery-top-bar-controls">
             <div className="widget-gallery-tb-start">{useTopCounter() ? <SelectionCounter /> : null}</div>
-            <div className="widget-gallery-tb-end">{usePagingTop() ? <Pagination /> : null}</div>
+            <div className="widget-gallery-tb-end">
+                {usePagingTop() ? <Pagination /> : null}
+                {useCustomPagination("top") ? <CustomPagination /> : null}
+            </div>
         </div>
     );
 };
@@ -139,7 +151,10 @@ const Footer = (): ReactNode => {
                         <LoadMoreButton>{props.loadMoreButtonCaption}</LoadMoreButton>
                     ) : null}
                 </div>
-                <div className="widget-gallery-fc-end">{usePagingBot() ? <Pagination /> : null}</div>
+                <div className="widget-gallery-fc-end">
+                    {usePagingBot() ? <Pagination /> : null}
+                    {useCustomPagination("bottom") ? <CustomPagination /> : null}
+                </div>
             </div>
         </div>
     );
@@ -161,12 +176,17 @@ function useBottomCounter(): boolean {
 
 function usePagingTop(): boolean {
     const props = useProps();
-    const visible = props.showTotalCount || props.pagination === "buttons";
+    const visible = (props.showTotalCount || props.pagination === "buttons") && !props.useCustomPagination;
     return visible && props.pagingPosition !== "bottom";
 }
 
 function usePagingBot(): boolean {
     const props = useProps();
-    const visible = props.showTotalCount || props.pagination === "buttons";
+    const visible = (props.showTotalCount || props.pagination === "buttons") && !props.useCustomPagination;
     return visible && props.pagingPosition !== "top";
+}
+
+function useCustomPagination(location: "top" | "bottom"): boolean {
+    const props = useProps();
+    return props.useCustomPagination && (props.pagingPosition === location || props.pagingPosition === "both");
 }
