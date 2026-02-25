@@ -20,7 +20,12 @@ export async function fetch<T = unknown>(
         body
     };
 
-    console.log(`Fetching URL (${method}): ${url}`);
+    const isQuietMode = process.env.FETCH_QUIET === "true";
+
+    if (!isQuietMode) {
+        console.log(`Fetching URL (${method}): ${url}`);
+    }
+
     try {
         response = await nodefetch(url, httpsOptions);
     } catch (error) {
@@ -28,7 +33,11 @@ export async function fetch<T = unknown>(
             `An error occurred while retrieving data from ${url}. Technical error: ${(error as Error).message}`
         );
     }
-    console.log(`Response status Code ${response.status}`);
+
+    if (!isQuietMode) {
+        console.log(`Response status Code ${response.status}`);
+    }
+
     if (response.status === 409) {
         throw new Error(
             `Fetching Failed (Code ${response.status}). Possible solution: Check & delete drafts in Mendix Marketplace.`
