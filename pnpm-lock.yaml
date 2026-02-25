@@ -21,6 +21,8 @@ overrides:
   json5@1.x: '>=1.0.2'
   loader-utils@1: ^1.4.2
   loader-utils@3: ^3.2.1
+  lodash@4: ^4.17.23
+  lodash-es@4: ^4.17.23
   prettier: 3.5.3
   react: '>=18.0.0 <19.0.0'
   react-big-calendar@1>clsx: 2.1.1
@@ -8139,8 +8141,8 @@ packages:
     resolution: {integrity: sha512-gvVijfZvn7R+2qyPX8mAuKcFGDf6Nc61GdvGafQsHL0sBIxfKzA+usWn4GFC/bk+QdwPUD4kWFJLhElipq+0VA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  lodash-es@4.17.21:
-    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+  lodash-es@4.17.23:
+    resolution: {integrity: sha512-kVI48u3PZr38HdYz98UmfPnXl2DXrpdctLrFLCd3kOx1xUkOmpFPx7gCWWM5MPkL/fD8zb+Ph0QzjGFs4+hHWg==}
 
   lodash.camelcase@4.3.0:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
@@ -8206,8 +8208,8 @@ packages:
   lodash.upperfirst@4.3.1:
     resolution: {integrity: sha512-sReKOYJIJf74dhJONhU4e0/shzi1trVbSWDOhKYE5XV2O+H7Sb2Dihwuc7xWxVl+DgFPyTqIN3zMfT9cq5iWDg==}
 
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+  lodash@4.17.23:
+    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
 
   log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
@@ -13067,7 +13069,7 @@ snapshots:
       chalk: 3.0.0
       css.escape: 1.5.1
       dom-accessibility-api: 0.5.16
-      lodash: 4.17.21
+      lodash: 4.17.23
       redent: 3.0.0
 
   '@testing-library/react@16.3.0(@testing-library/dom@8.20.1)(@types/react-dom@18.3.7(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
@@ -13991,7 +13993,7 @@ snapshots:
 
   async@2.6.4:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
 
   asynckit@0.4.0: {}
 
@@ -14476,7 +14478,7 @@ snapshots:
     dependencies:
       chalk: 4.1.2
       date-fns: 2.30.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       rxjs: 6.6.7
       spawn-command: 0.0.2
       supports-color: 8.1.1
@@ -14931,14 +14933,14 @@ snapshots:
     dependencies:
       asap: 2.0.6
       invariant: 2.2.4
-      lodash: 4.17.21
+      lodash: 4.17.23
       redux: 3.7.2
 
   dnd-core@4.0.5:
     dependencies:
       asap: 2.0.6
       invariant: 2.2.4
-      lodash: 4.17.21
+      lodash: 4.17.23
       redux: 4.2.1
 
   doctrine@2.1.0:
@@ -15110,7 +15112,7 @@ snapshots:
     dependencies:
       '@types/cheerio': 0.22.35
       enzyme: 3.11.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       react-is: 16.13.1
 
   enzyme@3.11.0:
@@ -17223,7 +17225,7 @@ snapshots:
     dependencies:
       p-locate: 6.0.0
 
-  lodash-es@4.17.21: {}
+  lodash-es@4.17.23: {}
 
   lodash.camelcase@4.3.0: {}
 
@@ -17267,7 +17269,7 @@ snapshots:
 
   lodash.upperfirst@4.3.1: {}
 
-  lodash@4.17.21: {}
+  lodash@4.17.23: {}
 
   log-symbols@4.1.0:
     dependencies:
@@ -18589,7 +18591,7 @@ snapshots:
   quill@2.0.3:
     dependencies:
       eventemitter3: 5.0.1
-      lodash-es: 4.17.21
+      lodash-es: 4.17.23
       parchment: 3.0.0
       quill-delta: 5.1.0
 
@@ -18624,7 +18626,7 @@ snapshots:
       date-arithmetic: 3.1.0
       dom-helpers: 3.4.0
       invariant: 2.2.4
-      lodash: 4.17.21
+      lodash: 4.17.23
       prop-types: 15.8.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -18642,8 +18644,8 @@ snapshots:
       dom-helpers: 5.2.1
       globalize: 0.1.1
       invariant: 2.2.4
-      lodash: 4.17.21
-      lodash-es: 4.17.21
+      lodash: 4.17.23
+      lodash-es: 4.17.23
       luxon: 3.7.2
       memoize-one: 6.0.0
       moment: 2.30.1
@@ -18657,8 +18659,8 @@ snapshots:
   react-color@2.19.3(react@18.3.1):
     dependencies:
       '@icons/material': 0.2.4(react@18.3.1)
-      lodash: 4.17.21
-      lodash-es: 4.17.21
+      lodash: 4.17.23
+      lodash-es: 4.17.23
       material-colors: 1.2.6
       prop-types: 15.8.1
       react: 18.3.1
@@ -18687,7 +18689,7 @@ snapshots:
     dependencies:
       autobind-decorator: 2.4.0
       dnd-core: 4.0.5
-      lodash: 4.17.21
+      lodash: 4.17.23
       shallowequal: 1.1.0
 
   react-dnd@2.6.0(react@18.3.1):
@@ -18696,7 +18698,7 @@ snapshots:
       dnd-core: 2.6.0
       hoist-non-react-statics: 2.5.5
       invariant: 2.2.4
-      lodash: 4.17.21
+      lodash: 4.17.23
       prop-types: 15.8.1
       react: 18.3.1
 
@@ -18855,7 +18857,7 @@ snapshots:
 
   reactcss@1.2.3(react@18.3.1):
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
       react: 18.3.1
 
   read-cache@1.0.0:
@@ -18918,8 +18920,8 @@ snapshots:
 
   redux@3.7.2:
     dependencies:
-      lodash: 4.17.21
-      lodash-es: 4.17.21
+      lodash: 4.17.23
+      lodash-es: 4.17.23
       loose-envify: 1.4.0
       symbol-observable: 1.2.0
 
@@ -19106,7 +19108,7 @@ snapshots:
     dependencies:
       commenting: 1.1.0
       fdir: 6.5.0(picomatch@4.0.3)
-      lodash: 4.17.21
+      lodash: 4.17.23
       magic-string: 0.30.19
       moment: 2.30.1
       package-name-regex: 2.0.6
@@ -19120,7 +19122,7 @@ snapshots:
     dependencies:
       commenting: 1.1.0
       fdir: 6.5.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       magic-string: 0.30.19
       moment: 2.30.1
       package-name-regex: 2.0.6
