@@ -254,19 +254,19 @@
             </propertyGroup>
             <propertyGroup caption="Captions">
                 <property key="selectedCountTemplateSingular" type="textTemplate" required="false">
-                    <caption>Row count singular</caption>
+                    <caption>Item count singular</caption>
                     <description>Must include '%d' to denote number position</description>
                     <translations>
-                        <translation lang="en_US">%d row selected</translation>
-                        <translation lang="nl_NL">%d rij geselecteerd</translation>
+                        <translation lang="en_US">%d item selected</translation>
+                        <translation lang="nl_NL">%d item geselecteerd</translation>
                     </translations>
                 </property>
                 <property key="selectedCountTemplatePlural" type="textTemplate" required="false">
-                    <caption>Row count plural</caption>
+                    <caption>Item count plural</caption>
                     <description>Must include '%d' to denote number position</description>
                     <translations>
-                        <translation lang="en_US">%d rows selected</translation>
-                        <translation lang="nl_NL">%d rijen geselecteerd</translation>
+                        <translation lang="en_US">%d items selected</translation>
+                        <translation lang="nl_NL">%d items geselecteerd</translation>
                     </translations>
                 </property>
                 <property key="clearSelectionButtonLabel" type="textTemplate" required="false">
