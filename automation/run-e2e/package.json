@@ -22,8 +22,7 @@
         "cross-zip": "^4.0.1",
         "enquirer": "^2.4.1",
         "find-free-port": "^2.0.0",
-        "ip": "^1.1.9",
-        "mocha": "^10.4.0",
+        "ip": "^2.0.1",
         "node-fetch": "^2.7.0",
         "shelljs": "^0.8.5",
         "yargs-parser": "^21.1.1"
