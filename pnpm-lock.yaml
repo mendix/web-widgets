@@ -763,8 +763,8 @@ importers:
         specifier: ^2.5.1
         version: 2.5.1
       swiper:
-        specifier: ^12.1.0
-        version: 12.1.0
+        specifier: ^12.1.2
+        version: 12.1.2
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -10134,8 +10134,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  swiper@12.1.0:
-    resolution: {integrity: sha512-BD4CpAOOyEvZ2f0CDx362ea+vmOwukVcmbsQx+0BhRIaBUz8wvcCd//E7RFmvBZCrfyqXCHUVqmgUwts6ywlxw==}
+  swiper@12.1.2:
+    resolution: {integrity: sha512-4gILrI3vXZqoZh71I1PALqukCFgk+gpOwe1tOvz5uE9kHtl2gTDzmYflYCwWvR4LOvCrJi6UEEU+gnuW5BtkgQ==}
     engines: {node: '>= 4.7.0'}
 
   symbol-observable@1.2.0:
@@ -19678,7 +19678,7 @@ snapshots:
       picocolors: 1.1.1
       stable: 0.1.8
 
-  swiper@12.1.0: {}
+  swiper@12.1.2: {}
 
   symbol-observable@1.2.0: {}
 
