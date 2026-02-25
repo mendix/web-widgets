@@ -8,7 +8,7 @@ import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/Ob
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { ListAttributeListValue, ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
-import { action, computed, makeObservable, observable, runInAction } from "mobx";
+import { computed, makeObservable } from "mobx";
 import { ReactNode } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
@@ -23,13 +23,12 @@ export class ColumnFilterStore {
     private _filterStore: FilterStore | null = null;
     private _context: FilterAPI;
     private _filterHost: ObservableFilterHost;
-    private _filterResizeObserver: ResizeObserver | null = null;
-
-    measuredFilterWidth: number = 0;
+    readonly filterMinWidth: number;
 
     constructor(props: ColumnsType, info: StaticInfo, filterHost: ObservableFilterHost) {
         this._filterHost = filterHost;
         this._widget = props.filter;
+        this.filterMinWidth = props.filter ? (props.attribute?.type === "DateTime" ? 150 : 100) : 0;
         const storeResult = this.createFilterStore(props, null);
         if (storeResult === null) {
             this._error = this._filterStore = null;
@@ -43,7 +42,6 @@ export class ColumnFilterStore {
         this._context = this.createContext(this._filterStore, info);
 
         makeObservable<this>(this, {
-            measuredFilterWidth: observable,
             condition: computed
         });
     }
@@ -53,10 +51,6 @@ export class ColumnFilterStore {
         if (this._filterStore && "setup" in this._filterStore) {
             add(this._filterStore.setup());
         }
-        add(() => {
-            this._filterResizeObserver?.disconnect();
-            this._filterResizeObserver = null;
-        });
         return disposeAll;
     }
 
@@ -107,25 +101,6 @@ export class ColumnFilterStore {
         } else {
             this._filterStore?.fromJSON(data);
         }
-    }
-
-    setFilterElement(el: HTMLDivElement | null): void {
-        this._filterResizeObserver?.disconnect();
-        this._filterResizeObserver = null;
-
-        if (el === null) {
-            runInAction(() => {
-                this.measuredFilterWidth = 0;
-            });
-            return;
-        }
-
-        this._filterResizeObserver = new ResizeObserver(
-            action((entries: ResizeObserverEntry[]) => {
-                this.measuredFilterWidth = (entries[0].target as HTMLElement).scrollWidth;
-            })
-        );
-        this._filterResizeObserver.observe(el);
     }
 }
 

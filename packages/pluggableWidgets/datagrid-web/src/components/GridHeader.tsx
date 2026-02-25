@@ -32,6 +32,10 @@ export function GridHeader(): ReactElement {
                                 isDragging={isDragging}
                                 resizer={
                                     <ColumnResizer
+                                        minWidth={Math.max(
+                                            column.minWidthLimit || 50,
+                                            columnsStore.columnFilters[column.columnIndex]?.filterMinWidth ?? 0
+                                        )}
                                         onResizeStart={() => columnsStore.setIsResizing(true)}
                                         onResizeEnds={() => columnsStore.setIsResizing(false)}
                                         setColumnWidth={(width: number) => column.setSize(width)}

@@ -143,6 +143,7 @@ $root: ".widget-datagrid";
         /* Header filter */
         .filter {
             display: flex;
+            overflow: hidden;
             margin-top: 4px;
             > .form-group {
                 margin-bottom: 0;
@@ -304,6 +305,7 @@ $root: ".widget-datagrid";
 :where(.table .th .filter input:not([type="checkbox"])) {
     font-weight: normal;
     flex-grow: 1;
+    min-width: 0;
     width: 100%;
 }
 
@@ -597,6 +599,29 @@ $root: ".widget-datagrid";
         height: 0;
         display: block;
         overflow: hidden;
+    }
+}
+
+// Filter-aware min-content sizing for MockHeader cells.
+// Uses :has() to detect non-empty filters in each header column and applies
+// an invisible ::after element of matching width to the corresponding MockHeader cell.
+// Only affects flexible tracks (initial render); fixed tracks (after user resize) are unaffected.
+@for $i from 1 through 20 {
+    $hcol: ".widget-datagrid-grid-head .tr > :nth-child(#{$i})";
+    $mcol: ".grid-mock-header > :nth-child(#{$i})";
+
+    // Any non-empty filter → 100px minimum
+    .widget-datagrid-grid:has(#{$hcol} .filter:not(:empty)) #{$mcol}::after {
+        content: "";
+        display: block;
+        visibility: hidden;
+        height: 0;
+        width: 100px;
+    }
+
+    // Date filter (has calendar button) → 150px override
+    .widget-datagrid-grid:has(#{$hcol} .filter .btn-calendar) #{$mcol}::after {
+        width: 150px;
     }
 }
 

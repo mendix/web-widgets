@@ -40,12 +40,10 @@ export const MockHeader = observer(function MockHeader(): ReactNode {
         <div className={"grid-mock-header"} aria-hidden>
             {config.checkboxColumnEnabled && <div data-column-id="checkboxes" key={"checkboxes"}></div>}
             {columnsStore.visibleColumns.map(c => {
-                const filterMinWidth = columnsStore.columnFilters[c.columnIndex]?.measuredFilterWidth;
                 return (
                     <div
                         data-column-id={c.columnId}
                         key={c.columnId}
-                        style={filterMinWidth ? { minWidth: filterMinWidth } : undefined}
                         // we set header ref here instead of the real header
                         // as this mock header is aligned with CSS grid, so it is more reliable
                         // the real header is aligned programmatically based on this header
