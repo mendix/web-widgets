@@ -63,6 +63,8 @@
             "jest-environment-jsdom": "^29.7.0",
             "json5@0.x": ">=1.0.2",
             "json5@1.x": ">=1.0.2",
+            "js-yaml@3": "^3.14.2",
+            "js-yaml@4": "^4.1.1",
             "loader-utils@1": "^1.4.2",
             "loader-utils@3": "^3.2.1",
             "lodash@4": "^4.17.23",
