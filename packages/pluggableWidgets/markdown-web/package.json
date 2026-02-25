@@ -46,7 +46,7 @@
     "dependencies": {
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "classnames": "^2.5.1",
-        "markdown-it": "^14.1.0"
+        "markdown-it": "^14.1.1"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
