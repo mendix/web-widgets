@@ -23,6 +23,7 @@
         "start:stdio": "pnpm run build && node dist/index.js stdio"
     },
     "dependencies": {
+        "@mendix/generator-widget": "github:rahmanunver/widgets-tools#generator-widget-noninteractive-defaults&path:packages/generator-widget",
         "@modelcontextprotocol/sdk": "^1.24.2",
         "cors": "^2.8.5",
         "express": "^5.1.0",
