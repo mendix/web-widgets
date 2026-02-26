@@ -13,7 +13,7 @@ export function QRCodePreview(props: QRCodePreviewProps): ReactElement {
     const qrSize = restProps.qrSize ?? 128;
     // Note: qrMargin is in module units (QR grid cells), not pixels
     // The QRCodeSVG component handles margin internally within the specified size
-    const displaySize = Math.min(qrSize, 400); // Clamped to 400px for preview
+    const displaySize = Math.min(qrSize, 200); // Clamped to 200px for preview
     const qrOverlayWidth = restProps.qrOverlayWidth ?? 32;
     const qrOverlayHeight = restProps.qrOverlayHeight ?? 32;
     const qrOverlayOpacity = restProps.qrOverlayOpacity ?? 1;

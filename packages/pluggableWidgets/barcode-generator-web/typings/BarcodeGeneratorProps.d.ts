@@ -27,6 +27,7 @@ export interface BarcodeGeneratorContainerProps {
     allowDownload: boolean;
     downloadButtonCaption?: DynamicValue<string>;
     downloadButtonAriaLabel?: DynamicValue<string>;
+    downloadFileName?: DynamicValue<string>;
     buttonPosition: ButtonPositionEnum;
     customCodeFormat: CustomCodeFormatEnum;
     enableEan128: boolean;
@@ -72,6 +73,7 @@ export interface BarcodeGeneratorPreviewProps {
     allowDownload: boolean;
     downloadButtonCaption: string;
     downloadButtonAriaLabel: string;
+    downloadFileName: string;
     buttonPosition: ButtonPositionEnum;
     customCodeFormat: CustomCodeFormatEnum;
     enableEan128: boolean;

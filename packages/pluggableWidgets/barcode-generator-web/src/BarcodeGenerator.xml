@@ -10,7 +10,7 @@
             <propertyGroup caption="Data source">
                 <property key="codeValue" type="expression" required="true">
                     <caption>Dynamic value</caption>
-                    <description>String to encode in the QR code</description>
+                    <description>String to encode as a barcode or QR code</description>
                     <returnType type="String" />
                 </property>
                 <property key="codeFormat" type="enumeration" required="true" defaultValue="CODE128">
@@ -27,7 +27,7 @@
                     <description>Adds a download button</description>
                 </property>
                 <property key="downloadButtonCaption" type="textTemplate" required="false">
-                    <caption>Download button text</caption>
+                    <caption>Button text</caption>
                     <description />
                     <translations>
                         <translation lang="en_US">Download</translation>
@@ -35,12 +35,16 @@
                     </translations>
                 </property>
                 <property key="downloadButtonAriaLabel" type="textTemplate" required="false">
-                    <caption>Download button aria-label</caption>
+                    <caption>Button aria-label</caption>
                     <description />
                     <translations>
                         <translation lang="en_US">Download code as file</translation>
                         <translation lang="nl_NL">Sla code op als bestand</translation>
                     </translations>
+                </property>
+                <property key="downloadFileName" type="textTemplate" required="false">
+                    <caption>File name</caption>
+                    <description>Custom filename for the downloaded file (without extension). If empty, generates automatically based on format and value.</description>
                 </property>
                 <property key="buttonPosition" type="enumeration" required="true" defaultValue="bottom">
                     <caption>Button position</caption>
@@ -123,7 +127,7 @@
             </property>
             <property key="codeHeight" type="integer" required="true" defaultValue="200">
                 <caption>Code height</caption>
-                <description>Height of the barcode. Note: In preview, the max height is 400px. The barcode will render at full height in your application.</description>
+                <description>Height of the barcode. Note: In preview, the max height is 200px. The barcode will render at full height in your application.</description>
             </property>
             <property key="codeMargin" type="integer" required="true" defaultValue="2">
                 <caption>Margin size</caption>
@@ -131,7 +135,7 @@
             </property>
             <property key="qrSize" type="integer" required="true" defaultValue="128">
                 <caption>QR Size</caption>
-                <description>The size of the QR box. Note: In preview, the max height is 400px. The QR code will render at full size in your application.</description>
+                <description>The size of the QR box. Note: In preview, the max height is 200px. The QR code will render at full size in your application.</description>
             </property>
             <property key="qrMargin" type="integer" required="true" defaultValue="2">
                 <caption>Margin size</caption>

@@ -27,6 +27,9 @@ export const useRenderBarcode = (
 
     useEffect(() => {
         if (ref && typeof ref !== "function" && ref.current && value) {
+            // Reset error state at the start of each render attempt
+            setError(false);
+
             // Validate barcode value at runtime
             const validationResult = validateBarcodeValue(format, value);
             if (!validationResult.valid) {
@@ -88,6 +91,9 @@ export const useRenderBarcode = (
                 );
                 setError(true);
             }
+        } else if (!value) {
+            // Clear error if value becomes empty
+            setError(false);
         }
     }, [
         value,

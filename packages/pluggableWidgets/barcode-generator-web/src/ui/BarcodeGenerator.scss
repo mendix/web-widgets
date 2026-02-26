@@ -36,6 +36,46 @@ $widget-prefix: "barcode-generator";
     }
 }
 
+// Download button styled like mx-link
+.barcode-generator-download-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--brand-primary, #0595db);
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+        color 0.15s ease-in-out,
+        text-decoration 0.15s ease-in-out;
+
+    &:hover {
+        color: var(--brand-primary-darker, #0470a6);
+        text-decoration: underline;
+    }
+
+    &:focus {
+        outline: 2px solid var(--brand-primary, #0595db);
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+
+    &:active {
+        color: var(--brand-primary-darkest, #03405a);
+    }
+
+    &:disabled {
+        color: var(--gray-light, #ced0d3);
+        cursor: not-allowed;
+        text-decoration: none;
+    }
+}
+
 // Preview graphics for barcode and QR code
 .qrcode-preview-image {
     max-width: 100%;

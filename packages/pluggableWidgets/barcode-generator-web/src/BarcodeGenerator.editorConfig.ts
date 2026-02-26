@@ -2,7 +2,6 @@ import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/st
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import { BarcodeGeneratorPreviewProps } from "../typings/BarcodeGeneratorProps";
 import { validateAddonValue, validateBarcodeValue } from "./config/validation";
-import structurePreviewSvg from "./assets/structurePreview.svg";
 
 export type Problem = {
     property?: string; // key of the property, at which the problem exists
@@ -98,13 +97,10 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
     return defaultProperties;
 }
 
-export function getPreview(_: StructurePreviewProps): StructurePreviewProps | null {
-    return {
-        type: "Image",
-        document: decodeURIComponent(structurePreviewSvg.replace("data:image/svg+xml,", "")),
-        height: 275,
-        width: 275
-    };
+export function getPreview(_: StructurePreviewProps, _isDarkMode: boolean): StructurePreviewProps | null {
+    // Return null to use the widget icon (BarcodeGenerator.icon.png or BarcodeGenerator.icon.dark.png)
+    // based on the user's theme settings
+    return null;
 }
 
 export function check(_values: BarcodeGeneratorPreviewProps): Problem[] {
