@@ -20,12 +20,16 @@ export interface BaseControllerProps<S extends FilterStore> {
     multiselect: boolean;
     onChange?: ActionValue;
     valueAttribute?: EditableValue<string>;
-    emptyCaption?: string;
+    emptySelectionCaption: string;
+    emptyOptionCaption: string;
+    ariaLabel: string;
+    placeholder: string;
 }
 
 type Gate<S extends FilterStore> = DerivedPropsGate<BaseControllerProps<S>>;
 
 export class BaseController<S extends FilterStore> implements IJSActionsControlled {
+    protected readonly gate: Gate<S>;
     protected actionHelper: JSActionsHelper;
     protected changeHelper: ValueChangeHelper;
     protected defaultValue?: Iterable<string>;
@@ -35,6 +39,7 @@ export class BaseController<S extends FilterStore> implements IJSActionsControll
 
     constructor({ gate, multiselect }: { gate: Gate<S>; multiselect: boolean }) {
         const props = gate.props;
+        this.gate = gate;
         this.filterStore = props.filterStore;
         this.multiselect = multiselect;
         this.serializer = new OptionsSerializer({ store: this.filterStore });
@@ -45,6 +50,22 @@ export class BaseController<S extends FilterStore> implements IJSActionsControll
             multiselect: props.multiselect
         });
         this.changeHelper = new ValueChangeHelper(gate, () => this.serializer.value);
+    }
+
+    get emptyCaption(): string {
+        return this.gate.props.emptySelectionCaption;
+    }
+
+    get ariaLabel(): string {
+        return this.gate.props.ariaLabel;
+    }
+
+    get emptyOptionCaption(): string {
+        return this.gate.props.emptyOptionCaption;
+    }
+
+    get inputPlaceholder(): string {
+        return this.gate.props.placeholder;
     }
 
     parseDefaultValue = (value: string | undefined): Iterable<string> | undefined => {
