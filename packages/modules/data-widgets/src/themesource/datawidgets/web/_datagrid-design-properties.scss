@@ -35,8 +35,15 @@
 }
 
 .table-striped {
-    .tr:nth-child(odd) > .td {
-        background-color: var(--grid-bg-striped, $grid-bg-striped);
+    &:not(:has(.grid-mock-header)) {
+        .tr:nth-child(odd) > .td {
+            background-color: var(--grid-bg-striped, $grid-bg-striped);
+        }
+    }
+    &:has(.grid-mock-header) {
+        .tr:nth-child(even) > .td {
+            background-color: var(--grid-bg-striped, $grid-bg-striped);
+        }
     }
 }
 
