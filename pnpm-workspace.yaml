@@ -1,5 +1,6 @@
 packages:
-  - "packages/*/*"
-  - "automation/*"
+    - "packages/*/*"
+    - "packages/pluggable-widgets-mcp/"
+    - "automation/*"
 catalog:
-  rollup: "3.29"
+    rollup: "3.29"
