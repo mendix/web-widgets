@@ -58,8 +58,7 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         ? {
               caption: props.downloadButtonCaption?.value,
               label: props.downloadButtonAriaLabel?.value,
-              fileName:
-                  format === "QRCode" ? `qrcode_${hashCode(codeValue)}.png` : `barcode_${hashCode(codeValue)}.png`,
+              fileName: generateFileName(props.downloadFileName?.value, format, codeValue),
               buttonPosition: props.buttonPosition ?? "bottom"
           }
         : undefined;
@@ -107,6 +106,20 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         addonFormat: props.addonFormat,
         addonSpacing: props.addonSpacing ?? 20
     };
+}
+
+function generateFileName(customFileName: string | undefined, format: string, codeValue: string): string {
+    // Use custom filename if provided
+    if (customFileName && customFileName.trim()) {
+        return customFileName.trim().endsWith(".png") ? customFileName.trim() : `${customFileName.trim()}.png`;
+    }
+
+    // Auto-generate filename with format and hash
+    const hash = hashCode(codeValue);
+    if (format === "QRCode") {
+        return `qrcode_${hash}.png`;
+    }
+    return `barcode_${format}_${hash}.png`;
 }
 
 function hashCode(s: string): string {

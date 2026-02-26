@@ -518,7 +518,7 @@ describe("BarcodeGenerator", () => {
             const children = Array.from((renderer as HTMLElement).children);
             // Download button should be first child
             const firstChild = children[0] as HTMLElement;
-            expect(firstChild).toHaveClass("mx-link");
+            expect(firstChild).toHaveClass("barcode-generator-download-button");
         });
 
         it("renders download button at bottom position", () => {

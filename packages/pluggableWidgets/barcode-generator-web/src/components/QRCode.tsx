@@ -1,7 +1,7 @@
 import { QRCodeSVG } from "qrcode.react";
 import { ReactElement, useRef } from "react";
 import { downloadCode } from "../utils/download-code";
-import { DownloadIcon } from "./icons/DownloadIcon";
+import { DownloadButton } from "./DownloadButton";
 import { QRCodeTypeConfig } from "../config/Barcode.config";
 
 interface QRCodeRendererProps {
@@ -15,15 +15,11 @@ export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
     const buttonPosition = downloadButton?.buttonPosition ?? "bottom";
 
     const button = downloadButton && (
-        <a
-            className="mx-link"
-            role="button"
-            aria-label={downloadButton.label}
-            tabIndex={0}
+        <DownloadButton
             onClick={() => downloadCode(ref, config.type, downloadButton.fileName)}
-        >
-            <DownloadIcon /> {downloadButton.caption}
-        </a>
+            ariaLabel={downloadButton.label}
+            caption={downloadButton.caption}
+        />
     );
 
     return (

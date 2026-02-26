@@ -9,7 +9,7 @@ interface BarcodePreviewProps extends BarcodeGeneratorPreviewProps {
 export function BarcodePreview(props: BarcodePreviewProps): ReactElement {
     const { downloadButton, ...restProps } = props;
     const codeHeight = restProps.codeHeight ?? 200;
-    const displayHeight = Math.min(codeHeight, 400); // Clamped to 400px for preview
+    const displayHeight = Math.min(codeHeight, 200); // Clamped to 200px for preview
 
     const { imageUrl, displayUrl } = useBarcodePreviewSvg({
         codeFormat: restProps.codeFormat,
