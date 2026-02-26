@@ -4,7 +4,9 @@ import { observer } from "mobx-react-lite";
 import { createElement, FC, ReactElement } from "react";
 import { SortAPI, useLockSortAPI, useSortAPI } from "../context";
 
-export function withSortAPI<P extends object>(Component: FC<P & { sortAPI: SortAPI }>): FC<P> {
+export function withSortAPI<P extends object>(
+    Component: FC<P & { sortAPI: SortAPI }>
+): FC<P & { isPreview?: boolean }> {
     const SortAPIGuard = observer(function SortAPIGuard(props: P & { sortAPI: SortAPI }): ReactElement {
         const sortAPI = useLockSortAPI(props.sortAPI);
 
@@ -15,8 +17,8 @@ export function withSortAPI<P extends object>(Component: FC<P & { sortAPI: SortA
         return <Component {...props} sortAPI={sortAPI.value} />;
     });
 
-    function SortAPIInjector(props: P): ReactElement {
-        const sortAPI = useSortAPI();
+    function SortAPIInjector(props: P & { isPreview?: boolean }): ReactElement {
+        const sortAPI = useSortAPI({ isPreview: props.isPreview ?? false });
 
         if (sortAPI.hasError) {
             return <Alert bootstrapStyle="danger">{sortAPI.error.message}</Alert>;
