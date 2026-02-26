@@ -1,4 +1,4 @@
-import { ReactElement, useMemo } from "react";
+import { Fragment, ReactElement, useMemo } from "react";
 import classNames from "classnames";
 import { CalendarContainerProps } from "../typings/CalendarProps";
 import { CalendarPropsBuilder } from "./helpers/CalendarPropsBuilder";
@@ -8,7 +8,7 @@ import "./ui/Calendar.scss";
 import { useCalendarEvents } from "./helpers/useCalendarEvents";
 import { useLocalizer } from "./helpers/useLocalizer";
 
-export default function MxCalendar(props: CalendarContainerProps): ReactElement | null {
+export default function MxCalendar(props: CalendarContainerProps): ReactElement {
     // useMemo with empty dependency array is used
     // because style and calendar controller needs to be created only once
     // and not on every re-render
@@ -27,13 +27,15 @@ export default function MxCalendar(props: CalendarContainerProps): ReactElement 
 
     const calendarEvents = useCalendarEvents(props);
 
-    if (props.startDateAttribute && props.startDateAttribute.status !== "available") {
-        return null;
-    }
-
     return (
-        <div className={classNames("widget-calendar", props.class)} style={wrapperStyle}>
-            <DnDCalendar {...calendarProps} {...calendarEvents} />
-        </div>
+        <Fragment>
+            {props.startDateAttribute && props.startDateAttribute.status !== "available" ? (
+                <div className="mx-progress"></div>
+            ) : (
+                <div className={classNames("widget-calendar", props.class)} style={wrapperStyle}>
+                    <DnDCalendar {...calendarProps} {...calendarEvents} />
+                </div>
+            )}
+        </Fragment>
     );
 }
