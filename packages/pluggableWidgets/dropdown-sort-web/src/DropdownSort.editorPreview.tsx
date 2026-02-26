@@ -17,6 +17,7 @@ export function preview(props: DropdownSortPreviewProps): ReactElement {
             screenReaderButtonCaption={props.screenReaderButtonCaption}
             screenReaderInputCaption={props.screenReaderInputCaption}
             styles={parseStyle(props.style)}
+            isPreview
         />
     );
 }

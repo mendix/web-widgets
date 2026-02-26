@@ -11,16 +11,15 @@ export interface SortAPI {
 
 const SORT_PATH = "com.mendix.widgets.web.sortable.sortContext";
 
-// this is a magical way to check if we are running in design preview
-const isDesignPreview = window.navigator.appVersion?.startsWith("Mendix Modeler");
-
-export function getGlobalSortContext(): Context<SortAPI | null> {
-    const scope = isDesignPreview ? window.top : window;
+export function getGlobalSortContext(
+    { isPreview }: { isPreview: boolean } = { isPreview: false }
+): Context<SortAPI | null> {
+    const scope = isPreview ? window.top : window;
     return ((scope as any)[SORT_PATH] ??= createContext<SortAPI | null>(null));
 }
 
-export function useSortAPI(): Result<SortAPI, Error> {
-    const api = useContext(getGlobalSortContext());
+export function useSortAPI(options: { isPreview: boolean } = { isPreview: false }): Result<SortAPI, Error> {
+    const api = useContext(getGlobalSortContext(options));
     if (api === null) {
         return error(new Error("Error: widget is out of context. Please place the widget inside the Gallery header."));
     }

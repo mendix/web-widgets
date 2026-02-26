@@ -1,11 +1,13 @@
 import { Pagination as PagingButtons } from "@mendix/widget-plugin-grid/components/Pagination";
+import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/react/context";
 import classNames from "classnames";
-import { createContext, createElement, PropsWithChildren, ReactElement, ReactNode, useContext } from "react";
+import { createContext, createElement, PropsWithChildren, ReactElement, ReactNode, useContext, useState } from "react";
 import { GalleryPreviewProps } from "../typings/GalleryProps";
 import { LoadMoreButton } from "./components/LoadMore";
 import "./ui/GalleryPreview.scss";
 
 const PropsCtx = createContext<GalleryPreviewProps>({} as GalleryPreviewProps);
+const SortAPI = getGlobalSortContext({ isPreview: true });
 
 function useProps(): GalleryPreviewProps {
     return useContext(PropsCtx);
@@ -89,13 +91,16 @@ const TopControls = (): ReactNode => {
 
 const Header = (): ReactNode => {
     const props = useProps();
+    const sortAPI = useProvideSortAPI();
 
     return (
-        <section className="widget-gallery-header widget-gallery-filter">
-            <props.filtersPlaceholder.renderer>
-                <div />
-            </props.filtersPlaceholder.renderer>
-        </section>
+        <SortAPI.Provider value={sortAPI}>
+            <section className="widget-gallery-header widget-gallery-filter">
+                <props.filtersPlaceholder.renderer>
+                    <div />
+                </props.filtersPlaceholder.renderer>
+            </section>
+        </SortAPI.Provider>
     );
 };
 
@@ -189,4 +194,29 @@ function usePagingBot(): boolean {
 function useCustomPagination(location: "top" | "bottom"): boolean {
     const props = useProps();
     return props.useCustomPagination && (props.pagingPosition === location || props.pagingPosition === "both");
+}
+function useProvideSortAPI(): SortAPI {
+    const [sortAPI] = useState({
+        version: 1,
+        host: new SortStoreHost()
+    } as SortAPI);
+
+    return sortAPI;
+}
+
+class SortStoreHost {
+    usedBy: string | null = null;
+
+    get sortOrder(): any[] {
+        return [];
+    }
+
+    observe(_: any): void {}
+
+    unobserve(): void {}
+
+    lock(id: string): () => void {
+        this.usedBy = id;
+        return () => (this.usedBy = null);
+    }
 }
