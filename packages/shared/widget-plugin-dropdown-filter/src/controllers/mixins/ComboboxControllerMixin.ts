@@ -19,6 +19,9 @@ type BaseController = GConstructor<{
     filterStore: FilterStore;
     multiselect: boolean;
     setup(): () => void;
+    inputPlaceholder: string;
+    emptyCaption: string;
+    ariaLabel: string;
 }>;
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -26,9 +29,6 @@ export function ComboboxControllerMixin<TBase extends BaseController>(Base: TBas
     return class ComboboxControllerMixin extends Base {
         touched = false;
         inputValue = "";
-        inputPlaceholder = "";
-        emptyCaption = "";
-        ariaLabel = "";
 
         constructor(...args: any[]) {
             super(...args);
