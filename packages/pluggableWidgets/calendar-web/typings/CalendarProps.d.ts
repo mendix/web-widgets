@@ -79,7 +79,6 @@ export interface CalendarContainerProps {
     startAttribute?: ListAttributeValue<Date>;
     endAttribute?: ListAttributeValue<Date>;
     eventColor?: ListAttributeValue<string>;
-    startDateAttribute?: EditableValue<Date>;
     editable: DynamicValue<boolean>;
     view: ViewEnum;
     defaultViewStandard: DefaultViewStandardEnum;
@@ -92,6 +91,7 @@ export interface CalendarContainerProps {
     showAllEvents: boolean;
     step: number;
     timeslots: number;
+    startDateAttribute?: EditableValue<Date>;
     toolbarItems: ToolbarItemsType[];
     customViewShowMonday: boolean;
     customViewShowTuesday: boolean;
@@ -134,7 +134,6 @@ export interface CalendarPreviewProps {
     startAttribute: string;
     endAttribute: string;
     eventColor: string;
-    startDateAttribute: string;
     editable: string;
     view: ViewEnum;
     defaultViewStandard: DefaultViewStandardEnum;
@@ -147,6 +146,7 @@ export interface CalendarPreviewProps {
     showAllEvents: boolean;
     step: number | null;
     timeslots: number | null;
+    startDateAttribute: string;
     toolbarItems: ToolbarItemsPreviewType[];
     customViewShowMonday: boolean;
     customViewShowTuesday: boolean;
