@@ -1,6 +1,6 @@
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import type { Express, Request, Response } from "express";
-import { SERVER_NAME, SERVER_VERSION } from "@/config";
+import { MENDIX_PROJECT_DIR, SERVER_NAME, SERVER_VERSION } from "@/config";
 import { createMcpServer } from "./server";
 import { sessionManager } from "./session";
 
@@ -17,11 +17,14 @@ export function setupRoutes(app: Express): void {
  */
 function setupHealthRoute(app: Express): void {
     app.get("/health", (_req: Request, res: Response) => {
+        const projectDir = MENDIX_PROJECT_DIR ?? null;
         res.json({
             status: "ok",
             server: SERVER_NAME,
             version: SERVER_VERSION,
-            sessions: sessionManager.sessionCount
+            sessions: sessionManager.sessionCount,
+            projectDir,
+            widgetsDir: projectDir ? `${projectDir}/widgets` : null
         });
     });
 }

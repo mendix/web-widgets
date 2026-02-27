@@ -5,8 +5,8 @@
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { spawn } from "node:child_process";
-import { existsSync, readdirSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { z } from "zod";
 import { GENERATIONS_DIR } from "@/config";
 import type { ToolContext, ToolResponse } from "./types";
@@ -17,6 +17,9 @@ import {
     createToolResponse,
     type StructuredError
 } from "./utils/response";
+import { findMpkFile } from "./utils/mpk";
+import { isPathAllowed } from "./utils/sandbox";
+import type { SessionState } from "./session-state";
 
 /**
  * Input schema for build-widget tool.
@@ -307,37 +310,13 @@ function toStructuredError(error: ParsedError): StructuredError {
 }
 
 /**
- * Finds the most recently created MPK file in the widget's dist directory.
- */
-function findMpkFile(widgetPath: string): string | undefined {
-    const distPath = join(widgetPath, "dist");
-    if (!existsSync(distPath)) return undefined;
-
-    try {
-        // Search for .mpk files recursively (usually in dist/x.x.x/)
-        const searchDir = (dir: string): string | undefined => {
-            const entries = readdirSync(dir, { withFileTypes: true });
-            for (const entry of entries) {
-                const fullPath = join(dir, entry.name);
-                if (entry.isDirectory()) {
-                    const found = searchDir(fullPath);
-                    if (found) return found;
-                } else if (entry.name.endsWith(".mpk")) {
-                    return fullPath;
-                }
-            }
-            return undefined;
-        };
-        return searchDir(distPath);
-    } catch {
-        return undefined;
-    }
-}
-
-/**
  * Handler for the build-widget tool.
  */
-async function handleBuildWidget(args: BuildWidgetInput, context: ToolContext): Promise<ToolResponse> {
+async function handleBuildWidget(
+    args: BuildWidgetInput,
+    context: ToolContext,
+    state: SessionState
+): Promise<ToolResponse> {
     const { widgetPath } = args;
 
     // Validate path exists
@@ -350,18 +329,7 @@ async function handleBuildWidget(args: BuildWidgetInput, context: ToolContext): 
     }
 
     // Validate path is within allowed directories
-    const resolvedWidgetPath = resolve(widgetPath);
-    const allowedBuildPaths = [
-        resolve(GENERATIONS_DIR),
-        ...(process.env.MCP_ALLOWED_BUILD_PATHS ?? "")
-            .split(":")
-            .filter(Boolean)
-            .map(p => resolve(p))
-    ];
-    const isAllowedPath = allowedBuildPaths.some(
-        allowed => resolvedWidgetPath.startsWith(allowed + "/") || resolvedWidgetPath === allowed
-    );
-    if (!isAllowedPath) {
+    if (!isPathAllowed(widgetPath, state, "MCP_ALLOWED_BUILD_PATHS")) {
         return createStructuredErrorResponse(
             createStructuredError("ERR_NOT_FOUND", `Widget path is not within an allowed directory: ${widgetPath}`, {
                 suggestion: `Widget must be within ${GENERATIONS_DIR} or set MCP_ALLOWED_BUILD_PATHS env var (colon-separated paths).`
@@ -447,7 +415,7 @@ async function handleBuildWidget(args: BuildWidgetInput, context: ToolContext): 
 /**
  * Registers the build tools with the MCP server.
  */
-export function registerBuildTools(server: McpServer): void {
+export function registerBuildTools(server: McpServer, state: SessionState): void {
     server.registerTool(
         "build-widget",
         {
@@ -458,6 +426,6 @@ export function registerBuildTools(server: McpServer): void {
                 "Returns build errors if any, which can be used to fix issues.",
             inputSchema: buildWidgetSchema
         },
-        handleBuildWidget
+        (args, context) => handleBuildWidget(args, context, state)
     );
 }

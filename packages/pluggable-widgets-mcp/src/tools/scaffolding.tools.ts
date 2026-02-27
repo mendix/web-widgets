@@ -10,8 +10,10 @@ import {
     type ErrorCode
 } from "@/tools/utils/response";
 import { access, mkdir } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { dirname } from "node:path";
 import { z } from "zod";
+import { isPathAllowed } from "./utils/sandbox";
+import type { SessionState } from "./session-state";
 
 /**
  * Schema for create-widget tool input.
@@ -22,7 +24,7 @@ const createWidgetSchema = widgetOptionsSchema.extend({
         .string()
         .optional()
         .describe(
-            "[OPTIONAL] Directory where widget will be created. Defaults to ./generations/ in the current working directory. For desktop clients without a clear working directory, ask the user for their preferred location."
+            "[OPTIONAL] Directory where widget will be created. Defaults to ./generations/ in the current working directory. Leave unset in most cases — the server manages the output location."
         )
 });
 
@@ -45,9 +47,11 @@ OPTIONAL (with defaults):
   • programmingLanguage: "typescript" or "javascript" (default: "${DEFAULT_WIDGET_OPTIONS.programmingLanguage}")
   • unitTests: Include Jest test setup (default: ${DEFAULT_WIDGET_OPTIONS.unitTests})
   • e2eTests: Include Playwright E2E tests (default: ${DEFAULT_WIDGET_OPTIONS.e2eTests})
-  • outputPath: Directory where widget will be created (default: ./generations/)
+  • outputPath: Directory where widget will be created (default: ./generations/). Leave unset in most cases.
 
-Ask the user if they want to customize any options before proceeding.`;
+Ask the user if they want to customize any options before proceeding.
+
+After scaffolding, use build-widget to compile, then deploy-widget to copy the .mpk to the Mendix project.`;
 
 /**
  * Registers scaffolding-related tools for widget creation and management.
@@ -60,7 +64,7 @@ Ask the user if they want to customize any options before proceeding.`;
  *
  * @see AGENTS.md Roadmap Context section for planned additions
  */
-export function registerScaffoldingTools(server: McpServer): void {
+export function registerScaffoldingTools(server: McpServer, state: SessionState): void {
     server.registerTool(
         "create-widget",
         {
@@ -68,28 +72,21 @@ export function registerScaffoldingTools(server: McpServer): void {
             description: CREATE_WIDGET_DESCRIPTION,
             inputSchema: createWidgetSchema
         },
-        handleCreateWidget
+        (args, context) => handleCreateWidget(args, context, state)
     );
 }
 
-async function handleCreateWidget(args: CreateWidgetInput, context: ToolContext): Promise<ToolResponse> {
+async function handleCreateWidget(
+    args: CreateWidgetInput,
+    context: ToolContext,
+    state: SessionState
+): Promise<ToolResponse> {
     const options = buildWidgetOptions(args);
     const outputDir = args.outputPath ?? GENERATIONS_DIR;
 
     // Validate user-provided outputPath is within allowed directories
     if (args.outputPath) {
-        const resolvedOutputPath = resolve(args.outputPath);
-        const allowedOutputPaths = [
-            resolve(GENERATIONS_DIR),
-            ...(process.env.MCP_ALLOWED_OUTPUT_PATHS ?? "")
-                .split(":")
-                .filter(Boolean)
-                .map(p => resolve(p))
-        ];
-        const isAllowedPath = allowedOutputPaths.some(
-            allowed => resolvedOutputPath.startsWith(allowed + "/") || resolvedOutputPath === allowed
-        );
-        if (!isAllowedPath) {
+        if (!isPathAllowed(args.outputPath, state, "MCP_ALLOWED_OUTPUT_PATHS")) {
             return createStructuredErrorResponse(
                 createStructuredError(
                     "ERR_OUTPUT_PATH_INVALID",
