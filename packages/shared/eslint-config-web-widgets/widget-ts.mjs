@@ -6,8 +6,9 @@ import reactHooksPlugin from "eslint-plugin-react-hooks";
 import jestPlugin from "eslint-plugin-jest";
 import packageJson from "eslint-plugin-package-json";
 import packageJsonFieldsOrder from "@mendix/prettier-config-web-widgets/package-json-fields-order.js";
+import { defineConfig } from "eslint/config";
 
-export default tseslint.config(
+export default defineConfig(
     {
         name: "generic eslint",
         extends: [eslint.configs.recommended],
@@ -111,11 +112,13 @@ export default tseslint.config(
     },
     {
         name: "react hooks",
-        extends: [reactHooksPlugin.configs["recommended-latest"]],
+        extends: [reactHooksPlugin.configs.flat["recommended"]],
         files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
         rules: {
             "react-hooks/rules-of-hooks": "error",
-            "react-hooks/exhaustive-deps": "warn"
+            "react-hooks/exhaustive-deps": "warn",
+            "react-hooks/refs": "off",
+            "react-hooks/immutability": "off"
         }
     },
     {
