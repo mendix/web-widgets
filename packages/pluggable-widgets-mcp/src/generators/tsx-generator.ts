@@ -105,8 +105,22 @@ function generateImports(widgetName: string, properties: PropertyDefinition[], p
 
     imports.push(`import { ${Array.from(reactImports).sort().join(", ")} } from "react";`);
 
-    // Mendix imports
+    // Mendix imports — only import executeAction when the pattern actually uses it
+    let needsExecuteAction = false;
     if (hasAction) {
+        if (pattern === "display" || pattern === "button") {
+            // These patterns use generateActionHandler for all action props
+            needsExecuteAction = true;
+        } else if (pattern === "input") {
+            // Input pattern only uses executeAction if there's a "change" action
+            needsExecuteAction = properties.some(p => p.type === "action" && p.key.toLowerCase().includes("change"));
+        } else if (pattern === "dataList") {
+            // DataList pattern uses executeAction for item click actions
+            needsExecuteAction = properties.some(p => p.type === "action" && p.key.toLowerCase().includes("item"));
+        }
+        // container pattern doesn't use executeAction (uses useState for toggle)
+    }
+    if (needsExecuteAction) {
         imports.push('import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";');
     }
     if (hasDatasource) {

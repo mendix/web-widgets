@@ -65,6 +65,18 @@ const TS_ERROR_PATTERN = /^(.+?)[:(](\d+)[,:](\d+)[):]?\s*[-:]?\s*error\s+(TS\d+
 const TS_ERROR_SIMPLE_PATTERN = /^error\s+(TS\d+):\s*(.+)$/;
 
 /**
+ * Rollup TS error pattern from pluggable-widgets-tools build:
+ * (plugin typescript) RollupError: @rollup/plugin-typescript TS6133: 'executeAction' is declared but its value is never read.
+ */
+const ROLLUP_TS_ERROR_PATTERN = /RollupError:.*?(TS\d+):\s*(.+)/;
+
+/**
+ * File location pattern that follows Rollup errors on the next line:
+ * src/CounterTwo.tsx (2:1)
+ */
+const ROLLUP_FILE_LOCATION_PATTERN = /^(.+?\.\w+)\s+\((\d+):(\d+)\)$/;
+
+/**
  * XML error patterns
  */
 const XML_ERROR_PATTERNS = [/XML.*error/i, /invalid.*xml/i, /schema.*validation.*failed/i, /widget\.xml.*error/i];
@@ -101,6 +113,16 @@ function parseTypeScriptError(line: string): ParsedError | null {
         };
     }
 
+    // Try Rollup TS error pattern
+    const rollupMatch = line.match(ROLLUP_TS_ERROR_PATTERN);
+    if (rollupMatch) {
+        return {
+            tsCode: rollupMatch[1],
+            message: rollupMatch[2],
+            category: "typescript"
+        };
+    }
+
     return null;
 }
 
@@ -115,17 +137,31 @@ function parseBuildOutput(stdout: string, stderr: string): BuildResult {
 
     const lines = output.split("\n");
 
-    for (const line of lines) {
-        const trimmed = line.trim();
+    for (let i = 0; i < lines.length; i++) {
+        const trimmed = lines[i].trim();
         if (!trimmed) continue;
 
         // TypeScript errors (try to parse with location)
-        if (trimmed.includes("error TS") || trimmed.match(/:\s*error\s+TS/)) {
+        // Matches standard TS errors, simple TS errors, and Rollup TS errors
+        if (trimmed.includes("error TS") || trimmed.match(/:\s*error\s+TS/) || trimmed.includes("RollupError:")) {
             const parsed = parseTypeScriptError(trimmed);
             if (parsed) {
                 errors.push(parsed);
                 continue;
             }
+        }
+
+        // Check for Rollup file location pattern on a line following a Rollup error
+        // Format: "src/Widget.tsx (2:1)"
+        const fileLocMatch = trimmed.match(ROLLUP_FILE_LOCATION_PATTERN);
+        if (fileLocMatch && errors.length > 0) {
+            const lastError = errors[errors.length - 1];
+            if (!lastError.file) {
+                lastError.file = fileLocMatch[1];
+                lastError.line = parseInt(fileLocMatch[2], 10);
+                lastError.column = parseInt(fileLocMatch[3], 10);
+            }
+            continue;
         }
 
         // XML validation errors
