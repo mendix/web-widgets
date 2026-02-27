@@ -34,6 +34,7 @@ describe("Menu", () => {
         menuTrigger: createElement("button", null, "Trigger"),
         advancedMode: false,
         hoverCloseOn: "onClickOutside",
+        clickCloseOn: "onClickAnywhere",
         position: "bottom",
         basicItems: [
             basicItemProps,
