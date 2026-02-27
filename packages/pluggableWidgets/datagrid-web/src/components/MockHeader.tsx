@@ -38,16 +38,22 @@ export function MockHeader(): ReactNode {
     return (
         <div className={"grid-mock-header"} aria-hidden>
             {config.checkboxColumnEnabled && <div data-column-id="checkboxes" key={"checkboxes"}></div>}
-            {columnsStore.visibleColumns.map(c => (
-                <div
-                    data-column-id={c.columnId}
-                    key={c.columnId}
-                    // we set header ref here instead of the real header
-                    // as this mock header is aligned with CSS grid, so it is more reliable
-                    // the real header is aligned programmatically based on this header
-                    ref={ref => c.setHeaderElementRef(ref)}
-                ></div>
-            ))}
+            {columnsStore.visibleColumns.map(c => {
+                const filterType = columnsStore.columnFilters[c.columnIndex]?.filterType;
+                return (
+                    <div
+                        data-column-id={c.columnId}
+                        key={c.columnId}
+                        // we set header ref here instead of the real header
+                        // as this mock header is aligned with CSS grid, so it is more reliable
+                        // the real header is aligned programmatically based on this header
+                        ref={ref => c.setHeaderElementRef(ref)}
+                        data-filter={filterType}
+                    >
+                        <span>{c.header}</span>
+                    </div>
+                );
+            })}
             {config.selectorColumnEnabled && <div data-column-id="selector" key={"selector"}></div>}
         </div>
     );

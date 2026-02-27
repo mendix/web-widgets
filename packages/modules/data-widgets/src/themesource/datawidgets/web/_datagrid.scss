@@ -591,6 +591,29 @@ $root: ".widget-datagrid";
 
 .grid-mock-header {
     display: contents;
+
+    span {
+        visibility: hidden;
+        height: 0;
+        display: block;
+        overflow: hidden;
+    }
+}
+
+// Filter-aware min-content sizing for MockHeader cells.
+// The data-filter attribute is set by React based on the column's filter type.
+// The ::after pseudo-element establishes an invisible minimum intrinsic width
+// that CSS Grid's minmax(auto, 1fr) respects as a floor.
+.grid-mock-header > [data-filter]::after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    height: 0;
+    width: 100px;
+}
+
+.grid-mock-header > [data-filter="date"]::after {
+    width: 175px;
 }
 
 :where(#{$root}-paging-bottom, #{$root}-padding-top) {

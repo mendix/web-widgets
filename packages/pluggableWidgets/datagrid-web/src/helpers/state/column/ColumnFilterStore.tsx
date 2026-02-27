@@ -27,8 +27,10 @@ export class ColumnFilterStore implements IColumnFilterStore {
     private _filterStore: FilterStore | null = null;
     private _context: FilterAPI;
     private _filterHost: ObservableFilterHost;
+    readonly filterType: string | undefined;
 
     constructor(props: ColumnsType, info: StaticInfo, filterHost: ObservableFilterHost) {
+        this.filterType = ColumnFilterStore.resolveFilterType(props);
         this._filterHost = filterHost;
         this._widget = props.filter;
         const storeResult = this.createFilterStore(props, null);
@@ -102,6 +104,27 @@ export class ColumnFilterStore implements IColumnFilterStore {
             this._filterStore?.reset();
         } else {
             this._filterStore?.fromJSON(data);
+        }
+    }
+
+    private static resolveFilterType(props: ColumnsType): string | undefined {
+        if (!props.filter) {
+            return undefined;
+        }
+        switch (props.attribute?.type) {
+            case "DateTime":
+                return "date";
+            case "Integer":
+            case "Long":
+            case "Decimal":
+            case "AutoNumber":
+                return "number";
+            case "Enum":
+            case "EnumSet":
+            case "Boolean":
+                return "enum";
+            default:
+                return "text";
         }
     }
 }
