@@ -1,8 +1,21 @@
 import { createMcpExpressApp } from "@modelcontextprotocol/sdk/server/express.js";
 import cors from "cors";
-import { PORT } from "@/config";
+import { MENDIX_PROJECT_DIR, PORT, validateProjectDir } from "@/config";
 import { setupRoutes } from "./routes";
 import { sessionManager } from "./session";
+
+async function logProjectConfig(): Promise<void> {
+    if (MENDIX_PROJECT_DIR) {
+        const validation = await validateProjectDir(MENDIX_PROJECT_DIR);
+        if (validation.valid) {
+            console.log(`[HTTP] Project: ${validation.projectName} (${MENDIX_PROJECT_DIR})`);
+        } else {
+            console.warn(`[HTTP] Warning: MENDIX_PROJECT_DIR is set but invalid: ${validation.error}`);
+        }
+    } else {
+        console.log(`[HTTP] No project configured (set MENDIX_PROJECT_DIR to enable deploy support)`);
+    }
+}
 
 /**
  * Starts the MCP server with HTTP/Streamable transport.
@@ -26,6 +39,7 @@ export function startHttpServer(): void {
         console.log(`[HTTP] MCP Server started on port ${PORT}`);
         console.log(`[HTTP] Health check: http://localhost:${PORT}/health`);
         console.log(`[HTTP] MCP endpoint: http://localhost:${PORT}/mcp`);
+        logProjectConfig();
     });
 
     const shutdown = async (): Promise<void> => {
