@@ -20,10 +20,12 @@
         "lint": "eslint src/ package.json",
         "start": "pnpm run build && node dist/index.js",
         "start:http": "pnpm run build && node dist/index.js http",
-        "start:stdio": "pnpm run build && node dist/index.js stdio"
+        "start:stdio": "pnpm run build && node dist/index.js stdio",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "dependencies": {
-        "@mendix/generator-widget": "github:rahmanunver/widgets-tools#generator-widget-noninteractive-defaults&path:packages/generator-widget",
+        "@mendix/generator-widget": "file:../../../widgets-tools/packages/generator-widget",
         "@modelcontextprotocol/sdk": "^1.24.2",
         "cors": "^2.8.5",
         "express": "^5.1.0",
@@ -35,7 +37,10 @@
         "@types/node": "^22.0.0",
         "tsc-alias": "^1.8.16",
         "tsx": "^4.21.0",
-        "typescript": "^5.9.3"
+        "typescript": "^5.9.3",
+        "vite": "^4.5.14",
+        "vite-tsconfig-paths": "^4.3.2",
+        "vitest": "^0.34.6"
     },
     "keywords": [],
     "packageManager": "pnpm@10.17.0",

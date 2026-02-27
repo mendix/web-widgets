@@ -6,7 +6,7 @@
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { mkdir, stat, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { z } from "zod";
 import { generateWidgetXml, validateWidgetDefinition } from "@/generators/xml-generator";
@@ -132,12 +132,120 @@ type GenerateWidgetCodeInput = z.infer<typeof generateWidgetCodeSchema>;
 // =============================================================================
 
 /**
- * Extracts widget name from path (e.g., /path/to/MyWidget -> MyWidget)
+ * Extracts widget name from the widget directory.
+ * Reads from package.json widgetName (authoritative source), falls back to basename.
  */
-function extractWidgetName(widgetPath: string): string {
+async function extractWidgetName(widgetPath: string): Promise<string> {
+    // Try reading from package.json (authoritative source)
+    try {
+        const pkgPath = join(widgetPath, "package.json");
+        const pkgJson = JSON.parse(await readFile(pkgPath, "utf-8"));
+        if (pkgJson.widgetName && /^[A-Z][a-zA-Z0-9]*$/.test(pkgJson.widgetName)) {
+            return pkgJson.widgetName;
+        }
+    } catch {
+        // Fall through to basename approach
+    }
+    // Fallback: derive from directory name
     const base = basename(widgetPath);
-    // Convert to PascalCase if needed
     return base.charAt(0).toUpperCase() + base.slice(1);
+}
+
+/**
+ * Cleans up stale scaffold files that don't match the current widget name.
+ * The generator creates files named after the widget (e.g., CounterTwo.xml, CounterTwo.tsx).
+ * When generate-widget-code writes new files, old scaffold artifacts must be removed
+ * to prevent build conflicts (wrong typings, duplicate XML definitions).
+ */
+async function cleanupScaffoldFiles(widgetPath: string, widgetName: string): Promise<void> {
+    const srcDir = join(widgetPath, "src");
+    const typingsDir = join(widgetPath, "typings");
+
+    let srcFiles: string[];
+    try {
+        srcFiles = await readdir(srcDir);
+    } catch {
+        return; // src dir doesn't exist yet, nothing to clean
+    }
+
+    // 1. Remove old .xml files in src/ (except package.xml and the one we're about to write)
+    for (const file of srcFiles) {
+        if (file === "package.xml" || file === `${widgetName}.xml`) continue;
+        if (file.endsWith(".xml")) {
+            await unlink(join(srcDir, file));
+            console.error(`[code-generation] Cleaned up stale file: src/${file}`);
+        }
+    }
+
+    // 2. Remove old .tsx, .editorConfig.ts, .editorPreview.tsx that don't match our widget name
+    for (const file of srcFiles) {
+        // Only clean top-level src/ files, not files in subdirectories
+        const isOldTsx =
+            file.endsWith(".tsx") && file !== `${widgetName}.tsx` && file !== `${widgetName}.editorPreview.tsx`;
+        const isOldEditorConfig = file.endsWith(".editorConfig.ts") && file !== `${widgetName}.editorConfig.ts`;
+        const isOldEditorPreview = file.endsWith(".editorPreview.tsx") && file !== `${widgetName}.editorPreview.tsx`;
+        if (isOldTsx || isOldEditorConfig || isOldEditorPreview) {
+            await unlink(join(srcDir, file));
+            console.error(`[code-generation] Cleaned up stale file: src/${file}`);
+        }
+    }
+
+    // 3. Remove old .css/.scss files in src/ui/ that don't match
+    const uiDir = join(srcDir, "ui");
+    try {
+        const uiFiles = await readdir(uiDir);
+        for (const file of uiFiles) {
+            if (
+                (file.endsWith(".css") || file.endsWith(".scss")) &&
+                file !== `${widgetName}.css` &&
+                file !== `${widgetName}.scss`
+            ) {
+                await unlink(join(uiDir, file));
+                console.error(`[code-generation] Cleaned up stale file: src/ui/${file}`);
+            }
+        }
+    } catch {
+        /* ui dir might not exist yet */
+    }
+
+    // 4. Clear old typings that don't match
+    try {
+        const typingsFiles = await readdir(typingsDir);
+        for (const file of typingsFiles) {
+            if (file.endsWith(".d.ts") && file !== `${widgetName}Props.d.ts`) {
+                await unlink(join(typingsDir, file));
+                console.error(`[code-generation] Cleaned up stale file: typings/${file}`);
+            }
+        }
+    } catch {
+        /* typings dir might not exist yet */
+    }
+
+    // 5. Regenerate package.xml with correct widget name + version
+    const packageXmlPath = join(srcDir, "package.xml");
+    const widgetNameLower = widgetName.toLowerCase();
+    let version = "1.0.0";
+    try {
+        const pkgJson = JSON.parse(await readFile(join(widgetPath, "package.json"), "utf-8"));
+        if (pkgJson.version) version = pkgJson.version;
+    } catch {
+        /* use default */
+    }
+    const packageXml = [
+        '<?xml version="1.0" encoding="utf-8" ?>',
+        '<package xmlns="http://www.mendix.com/package/1.0/">',
+        `    <clientModule name="${widgetName}" version="${version}" xmlns="http://www.mendix.com/clientModule/1.0/">`,
+        "        <widgetFiles>",
+        `            <widgetFile path="${widgetName}.xml"/>`,
+        "        </widgetFiles>",
+        "        <files>",
+        `            <file path="mendix/${widgetNameLower}"/>`,
+        "        </files>",
+        "    </clientModule>",
+        "</package>"
+    ].join("\n");
+    await writeFile(packageXmlPath, packageXml, "utf-8");
+    console.error(`[code-generation] Regenerated package.xml for ${widgetName}`);
 }
 
 /**
@@ -331,7 +439,7 @@ async function handleGenerateWidgetCode(args: GenerateWidgetCodeInput): Promise<
         }
 
         // Extract widget name from path
-        const widgetName = extractWidgetName(widgetPath);
+        const widgetName = await extractWidgetName(widgetPath);
 
         console.error(`[code-generation] Generating code for ${widgetName} with ${properties.length} properties`);
 
@@ -357,6 +465,9 @@ async function handleGenerateWidgetCode(args: GenerateWidgetCodeInput): Promise<
                 ].join("\n")
             );
         }
+
+        // Clean up stale scaffold files before writing new ones
+        await cleanupScaffoldFiles(widgetPath, widgetName);
 
         // Generate XML
         console.error(`[code-generation] Generating XML...`);

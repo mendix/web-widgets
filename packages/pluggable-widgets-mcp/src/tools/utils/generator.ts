@@ -52,6 +52,8 @@ function getGeneratorBinPath(): string {
 function buildWidgetFlags(options: WidgetOptions): string[] {
     return [
         "--default",
+        "--name",
+        options.name,
         "--description",
         options.description,
         "--organization",
@@ -102,7 +104,7 @@ export async function runWidgetGenerator(
         let stderr = "";
         let installingNotified = false;
 
-        const child = spawn(generatorBin, [options.name, ...flags], {
+        const child = spawn(generatorBin, flags, {
             cwd: outputDir,
             env: { ...process.env, FORCE_COLOR: "0", NO_COLOR: "1", DO_NOT_TRACK: "1" },
             stdio: ["ignore", "pipe", "pipe"]
