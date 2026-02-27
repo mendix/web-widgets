@@ -15,7 +15,10 @@ export type ErrorCode =
     | "ERR_FILE_WRITE" // File write failure
     | "ERR_NOT_FOUND" // Resource not found
     | "ERR_OUTPUT_PATH_REQUIRED" // Output path required (e.g., in Claude Desktop)
-    | "ERR_OUTPUT_PATH_INVALID"; // Output path is not accessible
+    | "ERR_OUTPUT_PATH_INVALID" // Output path is not accessible
+    | "ERR_PROJECT_NOT_CONFIGURED" // Project directory not configured or invalid
+    | "ERR_MPK_NOT_FOUND" // Built .mpk file not found in dist/
+    | "ERR_DEPLOY_FAILED"; // Failed to deploy .mpk to project widgets dir
 
 /**
  * Structured error with code, message, and optional details.
