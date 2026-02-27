@@ -118,7 +118,10 @@ export default defineConfig(
             "react-hooks/rules-of-hooks": "error",
             "react-hooks/exhaustive-deps": "warn",
             "react-hooks/refs": "off",
-            "react-hooks/immutability": "off"
+            "react-hooks/immutability": "off",
+            "react-hooks/preserve-manual-memoization": "off",
+            "react-hooks/set-state-in-effect": "warn",
+            "react-hooks/use-memo": "warn"
         }
     },
     {
@@ -225,6 +228,11 @@ export default defineConfig(
             "package-json/no-empty-fields": "off",
             "package-json/require-type": "off",
             "package-json/valid-exports": "off",
+            "package-json/require-exports": "off",
+            "package-json/require-files": "off",
+            "package-json/require-sideEffects": "off",
+            "package-json/require-attribution": "off",
+            "package-json/specify-peers-locally": "off",
             "package-json/order-properties": [
                 "error",
                 {

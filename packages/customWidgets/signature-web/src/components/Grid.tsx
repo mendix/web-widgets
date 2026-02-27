@@ -14,6 +14,7 @@ export const Grid: FC<GridBackgroundProps> = ({
     gridBorderWidth,
     showGrid = true
 }) => {
+    // eslint-disable-next-line react-hooks/purity
     const id = `grid${Math.floor(Math.random() * 1000000)}`;
     return showGrid ? (
         <svg className="widget-signature-grid" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
