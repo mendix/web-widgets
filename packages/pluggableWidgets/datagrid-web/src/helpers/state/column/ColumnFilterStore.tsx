@@ -13,22 +13,26 @@ import { ReactNode } from "react";
 import { ColumnsType } from "../../../../typings/DatagridProps";
 import { StaticInfo } from "../../../typings/static-info";
 
+export interface IColumnFilterStore {
+    renderFilterWidgets(): ReactNode;
+}
+
 type FilterStore = InputFilterStore | EnumFilterStore;
 
 const { Provider } = getGlobalFilterContextObject();
 
-export class ColumnFilterStore {
+export class ColumnFilterStore implements IColumnFilterStore {
     private _widget: ReactNode;
     private _error: APIError | null;
     private _filterStore: FilterStore | null = null;
     private _context: FilterAPI;
     private _filterHost: ObservableFilterHost;
-    readonly filterMinWidth: number;
+    readonly filterType: string | undefined;
 
     constructor(props: ColumnsType, info: StaticInfo, filterHost: ObservableFilterHost) {
+        this.filterType = ColumnFilterStore.resolveFilterType(props);
         this._filterHost = filterHost;
         this._widget = props.filter;
-        this.filterMinWidth = props.filter ? (props.attribute?.type === "DateTime" ? 150 : 100) : 0;
         const storeResult = this.createFilterStore(props, null);
         if (storeResult === null) {
             this._error = this._filterStore = null;
@@ -100,6 +104,27 @@ export class ColumnFilterStore {
             this._filterStore?.reset();
         } else {
             this._filterStore?.fromJSON(data);
+        }
+    }
+
+    private static resolveFilterType(props: ColumnsType): string | undefined {
+        if (!props.filter) {
+            return undefined;
+        }
+        switch (props.attribute?.type) {
+            case "DateTime":
+                return "date";
+            case "Integer":
+            case "Long":
+            case "Decimal":
+            case "AutoNumber":
+                return "number";
+            case "Enum":
+            case "EnumSet":
+            case "Boolean":
+                return "enum";
+            default:
+                return "text";
         }
     }
 }

@@ -1,8 +1,7 @@
-import { observer } from "mobx-react-lite";
 import { ReactNode, useCallback, useEffect } from "react";
 import { useColumnsStore, useDatagridConfig, useGridSizeStore } from "../model/hooks/injection-hooks";
 
-export const MockHeader = observer(function MockHeader(): ReactNode {
+export function MockHeader(): ReactNode {
     const columnsStore = useColumnsStore();
     const config = useDatagridConfig();
     const gridSizeStore = useGridSizeStore();
@@ -40,6 +39,7 @@ export const MockHeader = observer(function MockHeader(): ReactNode {
         <div className={"grid-mock-header"} aria-hidden>
             {config.checkboxColumnEnabled && <div data-column-id="checkboxes" key={"checkboxes"}></div>}
             {columnsStore.visibleColumns.map(c => {
+                const filterType = columnsStore.columnFilters[c.columnIndex]?.filterType;
                 return (
                     <div
                         data-column-id={c.columnId}
@@ -48,6 +48,7 @@ export const MockHeader = observer(function MockHeader(): ReactNode {
                         // as this mock header is aligned with CSS grid, so it is more reliable
                         // the real header is aligned programmatically based on this header
                         ref={ref => c.setHeaderElementRef(ref)}
+                        data-filter={filterType}
                     >
                         <span>{c.header}</span>
                     </div>
@@ -56,4 +57,4 @@ export const MockHeader = observer(function MockHeader(): ReactNode {
             {config.selectorColumnEnabled && <div data-column-id="selector" key={"selector"}></div>}
         </div>
     );
-});
+}

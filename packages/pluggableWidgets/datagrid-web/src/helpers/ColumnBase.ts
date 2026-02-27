@@ -8,6 +8,7 @@ interface BaseColumnProps {
     width: WidthEnum;
     size: number | null;
     alignment: AlignmentEnum;
+
     wrapText: boolean;
     minWidth: MinWidthEnum;
     minWidthLimit: number;
@@ -42,10 +43,6 @@ export class BaseColumn {
 
     get wrapText(): boolean {
         return this.properties.wrapText;
-    }
-
-    get minWidthLimit(): number {
-        return this.properties.minWidth === "manual" ? this.properties.minWidthLimit : 0;
     }
 
     getCssWidth(): string {

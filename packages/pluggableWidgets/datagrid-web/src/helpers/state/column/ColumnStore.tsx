@@ -112,10 +112,6 @@ export class ColumnStore implements GridColumn {
         return this.baseInfo.draggable;
     }
 
-    get minWidthLimit(): number {
-        return this.baseInfo.minWidth === "manual" ? this.baseInfo.minWidthLimit : 0;
-    }
-
     // hiding
     get canHide(): boolean {
         return this.baseInfo.hidable;

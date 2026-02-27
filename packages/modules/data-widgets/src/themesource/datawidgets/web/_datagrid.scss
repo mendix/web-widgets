@@ -143,7 +143,6 @@ $root: ".widget-datagrid";
         /* Header filter */
         .filter {
             display: flex;
-            overflow: hidden;
             margin-top: 4px;
             > .form-group {
                 margin-bottom: 0;
@@ -305,7 +304,6 @@ $root: ".widget-datagrid";
 :where(.table .th .filter input:not([type="checkbox"])) {
     font-weight: normal;
     flex-grow: 1;
-    min-width: 0;
     width: 100%;
 }
 
@@ -603,26 +601,19 @@ $root: ".widget-datagrid";
 }
 
 // Filter-aware min-content sizing for MockHeader cells.
-// Uses :has() to detect non-empty filters in each header column and applies
-// an invisible ::after element of matching width to the corresponding MockHeader cell.
-// Only affects flexible tracks (initial render); fixed tracks (after user resize) are unaffected.
-@for $i from 1 through 20 {
-    $hcol: ".widget-datagrid-grid-head .tr > :nth-child(#{$i})";
-    $mcol: ".grid-mock-header > :nth-child(#{$i})";
+// The data-filter attribute is set by React based on the column's filter type.
+// The ::after pseudo-element establishes an invisible minimum intrinsic width
+// that CSS Grid's minmax(auto, 1fr) respects as a floor.
+.grid-mock-header > [data-filter]::after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    height: 0;
+    width: 100px;
+}
 
-    // Any non-empty filter → 100px minimum
-    .widget-datagrid-grid:has(#{$hcol} .filter:not(:empty)) #{$mcol}::after {
-        content: "";
-        display: block;
-        visibility: hidden;
-        height: 0;
-        width: 100px;
-    }
-
-    // Date filter (has calendar button) → 150px override
-    .widget-datagrid-grid:has(#{$hcol} .filter .btn-calendar) #{$mcol}::after {
-        width: 150px;
-    }
+.grid-mock-header > [data-filter="date"]::after {
+    width: 175px;
 }
 
 :where(#{$root}-paging-bottom, #{$root}-padding-top) {
