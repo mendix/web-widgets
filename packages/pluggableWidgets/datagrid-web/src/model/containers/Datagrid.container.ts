@@ -48,7 +48,7 @@ injected(DatasourceParamsController, CORE.setupService, DG.query, DG.combinedFil
 injected(DatasourceService, CORE.setupService, DG.queryGate, DG.refreshInterval.optional);
 injected(GridBasicData, CORE.mainGate);
 injected(WidgetRootViewModel, CORE.mainGate, CORE.config, DG.exportProgressService, SA_TOKENS.selectionDialogVM);
-injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction);
+injected(GridSizeStore, CORE.atoms.hasMoreItems, CORE.atoms.itemCount, DG.paginationConfig, DG.setPageAction);
 
 /** Pagination **/
 injected(createSetPageAction, DG.query, DG.paginationConfig, DG.currentPage, DG.pageSize);

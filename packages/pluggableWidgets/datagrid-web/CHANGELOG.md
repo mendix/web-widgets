@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where clearing a grid would cause wrong column grid calculation, causing unwanted scroll bars.
+
 ## [3.8.1] - 2026-02-19
 
 ### Fixed

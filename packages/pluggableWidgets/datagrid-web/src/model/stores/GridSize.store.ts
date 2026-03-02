@@ -18,6 +18,7 @@ export class GridSizeStore {
 
     constructor(
         private readonly hasMoreItemsAtom: ComputedAtom<boolean | undefined>,
+        private readonly itemCountAtom: ComputedAtom<number>,
         private readonly paginationConfig: PaginationConfig,
         private readonly setPageAction: SetPageAction
     ) {
@@ -75,6 +76,15 @@ export class GridSizeStore {
     }
 
     updateColumnSizes(sizes: number[]): void {
+        const itemCount = this.itemCountAtom.get();
+
+        // If grid is empty, always clear columnSizes to use natural CSS grid layout
+        // This ensures empty grids behave consistently whether freshly rendered or emptied
+        if (itemCount === 0) {
+            this.columnSizes = undefined;
+            return;
+        }
+
         this.columnSizes = sizes;
     }
 
