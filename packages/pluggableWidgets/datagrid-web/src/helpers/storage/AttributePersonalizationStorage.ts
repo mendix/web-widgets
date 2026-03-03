@@ -1,4 +1,4 @@
-import { EditableValue, ValueStatus } from "mendix";
+import { EditableValue } from "mendix";
 import { action, computed, makeObservable, observable } from "mobx";
 import { DatagridContainerProps } from "../../../typings/DatagridProps";
 import { PersonalizationStorage } from "./PersonalizationStorage";
@@ -28,7 +28,7 @@ export class AttributePersonalizationStorage implements PersonalizationStorage {
     }
 
     get _value(): string | undefined {
-        if (this._storageAttr && this._storageAttr.status === ValueStatus.Available) {
+        if (this._storageAttr && this._storageAttr.status === "available") {
             return this._storageAttr.value;
         }
     }
