@@ -90,6 +90,7 @@ export interface CalendarContainerProps {
     minHour: number;
     maxHour: number;
     showAllEvents: boolean;
+    showMultiDayTimes: boolean;
     step: number;
     timeslots: number;
     toolbarItems: ToolbarItemsType[];
@@ -145,6 +146,7 @@ export interface CalendarPreviewProps {
     minHour: number | null;
     maxHour: number | null;
     showAllEvents: boolean;
+    showMultiDayTimes: boolean;
     step: number | null;
     timeslots: number | null;
     toolbarItems: ToolbarItemsPreviewType[];
