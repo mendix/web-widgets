@@ -18,6 +18,7 @@ export function MultiSelection({
     ariaRequired,
     ...options
 }: SelectionBaseProps<MultiSelector>): ReactElement {
+    const inputRef = useRef<HTMLInputElement>(null);
     const {
         isOpen,
         getToggleButtonProps,
@@ -33,8 +34,7 @@ export function MultiSelection({
         items,
         setSelectedItems,
         toggleSelectedItem
-    } = useDownshiftMultiSelectProps(selector, options, a11yConfig.a11yStatusMessage);
-    const inputRef = useRef<HTMLInputElement>(null);
+    } = useDownshiftMultiSelectProps(selector, options, inputRef, a11yConfig.a11yStatusMessage);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
     const inputLabel = getInputLabel(options.inputId);

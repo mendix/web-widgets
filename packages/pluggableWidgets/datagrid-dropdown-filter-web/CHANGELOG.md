@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.8.1] - 2026-02-19
+
+### Changed
+
+- We improved the dropdown and filter selector behavior so that it now automatically selects the best placement based on the available space.
+
+### Fixed
+
+- We fixed an issue where certain selecting conditions, like rapidly selecting/deselecting would cause the widget to crash.
+
 ## [3.6.0] - 2025-10-01
 
 ### Changed

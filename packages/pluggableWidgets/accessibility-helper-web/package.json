@@ -1,7 +1,7 @@
 {
     "name": "@mendix/accessibility-helper-web",
     "widgetName": "AccessibilityHelper",
-    "version": "2.2.1",
+    "version": "2.2.2",
     "description": "Set an attribute to a DOM element",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",

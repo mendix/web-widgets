@@ -56,7 +56,6 @@
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "cross-env": "^7.0.3",
-        "eslint": "^9.37.0"
+        "cross-env": "^7.0.3"
     }
 }

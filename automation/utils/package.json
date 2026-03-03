@@ -27,6 +27,7 @@
     "scripts": {
         "agent-rules": "ts-node bin/rui-agent-rules.ts",
         "changelog": "ts-node bin/rui-changelog-helper.ts",
+        "check-changelogs": "ts-node bin/rui-check-changelogs.ts",
         "compile:parser:module": "peggy -o ./src/changelog-parser/parser/widget/widget.js ./src/changelog-parser/parser/widget/widget.pegjs",
         "compile:parser:widget": "peggy -o ./src/changelog-parser/parser/module/module.js ./src/changelog-parser/parser/module/module.pegjs",
         "format": "prettier --write .",
@@ -35,8 +36,7 @@
         "oss-clearance": "ts-node bin/rui-oss-clearance.ts",
         "prepare": "pnpm run compile:parser:widget && pnpm run compile:parser:module && tsc",
         "prepare-release": "ts-node bin/rui-prepare-release.ts",
-        "start": "tsc --watch",
-        "version": "ts-node bin/rui-bump-version.ts"
+        "start": "tsc --watch"
     },
     "devDependencies": {
         "@mendix/eslint-config-web-widgets": "workspace:*",
@@ -48,7 +48,7 @@
         "enquirer": "^2.4.1",
         "execa": "^5.1.1",
         "fast-xml-parser": "^4.1.3",
-        "glob": "^11.0.3",
+        "glob": "^11.1.0",
         "node-fetch": "^2.7.0",
         "ora": "^5.4.1",
         "peggy": "^1.2.0",

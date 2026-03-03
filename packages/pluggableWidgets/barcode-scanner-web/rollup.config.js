@@ -1,7 +1,8 @@
+import copyFiles from "@mendix/rollup-web-widgets/copyFiles.mjs";
 import replace from "@rollup/plugin-replace";
 
 export default args => {
-    const result = args.configDefaultConfig;
+    const result = copyFiles(args);
     result.forEach(config => {
         const onwarn = config.onwarn;
         config.onwarn = (warning, defaultHandler) => {

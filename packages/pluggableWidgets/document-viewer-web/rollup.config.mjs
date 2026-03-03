@@ -1,10 +1,10 @@
+import copyFiles from "@mendix/rollup-web-widgets/copyFiles.mjs";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import copy from "rollup-plugin-copy";
-import { copyDefaultFilesPlugin } from "@mendix/rollup-web-widgets/copyFiles.mjs";
 
 export default args => {
-    const result = args.configDefaultConfig;
+    const result = copyFiles(args);
     return result.map((config, _index) => {
         config.output.inlineDynamicImports = true;
         if (config.output.format !== "es") {
@@ -44,7 +44,6 @@ export default args => {
                         "!PDFWorkerUtil.isWorkerDisabled && !PDFWorker.#mainThreadWorkerMessageHandler": "false"
                     }
                 }),
-                copyDefaultFilesPlugin(),
                 copy({
                     targets: [
                         {

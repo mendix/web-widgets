@@ -3,7 +3,7 @@
 import { gh } from "../src/github";
 import { includeReadmeOssIntoMpk } from "../src/oss-clearance";
 import { rm } from "../src/shell";
-import { mkdtemp } from "node:fs/promises";
+import { mkdtemp, stat } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import chalk from "chalk";
@@ -48,7 +48,7 @@ async function main(): Promise<void> {
         throw new Error(`No MPK file found in release '${releaseTag}'`);
     }
 
-    console.log(chalk.green(`✅ Found MPK: ${mpkAsset.name}`));
+    console.log(chalk.green(`✅ Found MPK: ${mpkAsset.name} (${mpkAsset.size} bytes)`));
 
     // Step 2: Check if HTML file exists
     if (!htmlAsset) {
@@ -57,7 +57,7 @@ async function main(): Promise<void> {
         return;
     }
 
-    console.log(chalk.green(`✅ Found HTML: ${htmlAsset.name}`));
+    console.log(chalk.green(`✅ Found HTML: ${htmlAsset.name} (${htmlAsset.size} bytes)`));
 
     // Step 3: Download both files to temp directory
     console.log(chalk.blue("\n📥 Downloading artifacts..."));
@@ -80,6 +80,11 @@ async function main(): Promise<void> {
         await includeReadmeOssIntoMpk(htmlPath, mpkPath);
         console.log(chalk.green("✅ Merge completed"));
 
+        // Get modified MPK size
+        const modifiedMpkStats = await stat(mpkPath);
+        const sizeDiff = modifiedMpkStats.size - mpkAsset.size;
+        console.log(chalk.cyan(`ℹ️  Modified MPK size: ${modifiedMpkStats.size} bytes (+${sizeDiff} bytes)`));
+
         // Step 5: Remove old assets and upload patched MPK
         console.log(chalk.blue("\n🔄 Replacing assets in release..."));
 
@@ -93,6 +98,7 @@ async function main(): Promise<void> {
         const newAsset = await gh.uploadReleaseAsset(releaseId, mpkPath, mpkAsset.name);
 
         console.log(chalk.green(`✅ Successfully replaced MPK asset (ID: ${newAsset.id})`));
+        console.log(chalk.cyan(`ℹ️  New MPK size: ${newAsset.size} bytes`));
 
         // Summary
         console.log(chalk.bold.green(`\n🎉 Process completed successfully!`));

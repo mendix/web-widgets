@@ -13,18 +13,15 @@ CHECKLIST:
 - Do you have a JIRA story for your pull request?
     - If yes, please format the PR title to match the `[XX-000]: description` pattern.
     - If no, please write your PR title using conventional commit rules.
-- Does your change require a new version of the widget/module?
-    - If yes, run `pnpm -w changelog` or update the `CHANGELOG.md` and bump the version manually.
-    - If no, ignore.
-- Do you have related PRs in other Mendix repositories?
-    - If yes, please link all related pull requests in the description.
+- Does your change require mentioning in changelogs?
+    - If yes, run `pnpm -w changelog` or update the `CHANGELOG.md` manually.
     - If no, ignore.
 - Does your change touch XML, or is it a new feature or behavior?
     - If yes, if necessary, please create a PR with updates in the documentation (https://github.com/mendix/docs).
     - If no, ignore.
  - Is your change a bug fix or a new feature?
-      - If yes, please add a description (last section in the template) of what should be tested and what steps are needed to test it.
-     - If no, ignore.
+    - If yes, please add a description (last section in the template) of what should be tested and what steps are needed to test it.
+    - If no, ignore.
 -->
 
 <!--

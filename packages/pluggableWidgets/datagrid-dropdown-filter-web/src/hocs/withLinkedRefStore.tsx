@@ -92,6 +92,7 @@ function useGate(props: WidgetProps): DerivedPropsGate<RequiredProps> {
     useEffect(() => {
         gp.setProps(mapProps(props));
     });
+
     return gp.gate;
 }
 

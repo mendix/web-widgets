@@ -14,6 +14,8 @@ export class CalendarPropsBuilder {
     private minTime: Date;
     private maxTime: Date;
     private toolbarItems?: ResolvedToolbarItem[];
+    private step: number;
+    private timeSlots: number;
 
     constructor(private props: CalendarContainerProps) {
         this.isCustomView = props.view === "custom";
@@ -23,6 +25,17 @@ export class CalendarPropsBuilder {
         this.minTime = this.buildTime(props.minHour ?? 0);
         this.maxTime = this.buildTime(props.maxHour ?? 24);
         this.toolbarItems = this.buildToolbarItems();
+        this.step = Math.max(1, Math.min(props.step, 60));
+        this.timeSlots = Math.max(1, Math.min(props.timeslots, 4));
+
+        if (props.step !== this.step) {
+            console.warn(`[Calendar] step value ${props.step} was clamped to ${this.step}. Must be between 1 and 60.`);
+        }
+        if (props.timeslots !== this.timeSlots) {
+            console.warn(
+                `[Calendar] timeslots value ${props.timeslots} was clamped to ${this.timeSlots}. Must be between 1 and 4.`
+            );
+        }
     }
 
     updateProps(props: CalendarContainerProps): void {
@@ -71,7 +84,9 @@ export class CalendarPropsBuilder {
             titleAccessor: (event: CalendarEvent) => event.title,
             showAllEvents: this.props.showAllEvents,
             min: this.minTime,
-            max: this.maxTime
+            max: this.maxTime,
+            step: this.step,
+            timeslots: this.timeSlots
         };
     }
 

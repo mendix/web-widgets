@@ -12,6 +12,7 @@ exports[`Signature renders the structure correctly 1`] = `
   gridCellWidth={50}
   height={50}
   heightUnit="percentageOfWidth"
+  onResize={[Function]}
   penColor="#000"
   penType="fountain"
   readOnly={false}
@@ -44,11 +45,6 @@ exports[`Signature renders the structure correctly 1`] = `
   />
   <canvas
     className="widget-signature-canvas"
-  />
-  <ResizeDetector
-    handleHeight={true}
-    handleWidth={true}
-    onResize={[Function]}
   />
 </SizeContainer>
 `;

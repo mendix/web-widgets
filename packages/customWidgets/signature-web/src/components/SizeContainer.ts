@@ -1,5 +1,6 @@
 import { createElement, CSSProperties, FC, PropsWithChildren } from "react";
 import classNames from "classnames";
+import { useResizeObserver } from "../utils/useResizeObserver";
 
 export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels";
 
@@ -17,6 +18,7 @@ export interface SizeProps extends Dimensions, PropsWithChildren {
     classNameInner?: string;
     readOnly?: boolean;
     style?: CSSProperties;
+    onResize?: () => void;
 }
 
 export const SizeContainer: FC<SizeProps> = ({
@@ -28,12 +30,16 @@ export const SizeContainer: FC<SizeProps> = ({
     height,
     children,
     style,
-    readOnly = false
+    readOnly = false,
+    onResize
 }) => {
+    const ref = useResizeObserver(() => onResize?.());
+
     const styleWidth = widthUnit === "percentage" ? `${width}%` : `${width}px`;
     return createElement(
         "div",
         {
+            ref,
             className: classNames(className, "size-box"),
             style: {
                 position: "relative",

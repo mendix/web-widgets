@@ -22,8 +22,7 @@
         "cross-zip": "^4.0.1",
         "enquirer": "^2.4.1",
         "find-free-port": "^2.0.0",
-        "ip": "^1.1.9",
-        "mocha": "^10.4.0",
+        "ip": "^2.0.1",
         "node-fetch": "^2.7.0",
         "shelljs": "^0.8.5",
         "yargs-parser": "^21.1.1"
@@ -35,7 +34,7 @@
         "@playwright/test": "^1.51.1",
         "@types/node": "*",
         "eslint-plugin-playwright": "^2.2.0",
-        "globals": "^16.0.0",
+        "globals": "^17.3.0",
         "playwright-ctrf-json-reporter": "^0.0.20"
     }
 }

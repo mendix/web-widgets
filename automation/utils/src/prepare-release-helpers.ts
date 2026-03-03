@@ -1,4 +1,4 @@
-import { getModuleInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
+import { getModuleInfo, getPackageInfo, getWidgetInfo, ModuleInfo, WidgetInfo } from "./package-info";
 import {
     getModuleChangelog,
     getWidgetChangelog,
@@ -14,7 +14,8 @@ type WidgetPkg = {
     type: "widget";
     info: WidgetInfo;
     path: string;
-    changelog: WidgetChangelogFileWrapper;
+    changelog: WidgetChangelogFileWrapper | ModuleChangelogFileWrapper;
+    widgets: WidgetPkg[];
 };
 
 type ModulePkg = {
@@ -36,22 +37,31 @@ async function loadPackagesFullInfo(packages: PackageListing[]): Promise<Package
     const results: PackagesFullInfoList = [];
     for (const pkg of packages) {
         const normalizedPath = pkg.path.replace(/\\/g, "/");
+        if (normalizedPath.includes("/pluggableWidgets/") || normalizedPath.includes("/modules/")) {
+            const basicInfo = await getPackageInfo(pkg.path);
 
-        if (normalizedPath.includes("/pluggableWidgets/")) {
-            try {
-                const widgetInfo = await getWidgetInfo(pkg.path);
-                const changelog = await getWidgetChangelog(pkg.path);
-                results.push([pkg, widgetInfo, changelog]);
-            } catch (_e) {
-                // ignore or log error
-            }
-        } else if (normalizedPath.includes("/modules/")) {
-            try {
-                const moduleInfo = await getModuleInfo(pkg.path);
-                const changelog = await getModuleChangelog(pkg.path, moduleInfo.mxpackage.name);
-                results.push([pkg, moduleInfo, changelog]);
-            } catch (_e) {
-                // ignore or log error
+            if (basicInfo.mxpackage.type === "widget") {
+                try {
+                    const widgetInfo = await getWidgetInfo(pkg.path);
+                    let changelog: WidgetChangelogFileWrapper | ModuleChangelogFileWrapper;
+                    if (basicInfo.mxpackage.changelogType === "widget") {
+                        changelog = await getWidgetChangelog(pkg.path);
+                    } else {
+                        changelog = await getModuleChangelog(pkg.path, basicInfo.mxpackage.name);
+                    }
+
+                    results.push([pkg, widgetInfo, changelog]);
+                } catch (_e) {
+                    // ignore or log error
+                }
+            } else if (basicInfo.mxpackage.type === "module") {
+                try {
+                    const moduleInfo = await getModuleInfo(pkg.path);
+                    const changelog = await getModuleChangelog(pkg.path, moduleInfo.mxpackage.name);
+                    results.push([pkg, moduleInfo, changelog]);
+                } catch (_e) {
+                    // ignore or log error
+                }
             }
         }
     }
@@ -76,12 +86,28 @@ function createPackagesTree(map: PackagesFullInfoMap, list: PackagesFullInfoList
             return;
         }
 
+        const dependencies = info.mxpackage.dependencies.length
+            ? info.mxpackage.dependencies.map(d => {
+                  const r = map.get(d);
+                  if (!r) {
+                      throw new Error("dep not found");
+                  }
+                  return {
+                      type: "widget",
+                      info: r[1] as WidgetInfo,
+                      path: r[0].path,
+                      changelog: r[2] as WidgetChangelogFileWrapper
+                  } as WidgetPkg;
+              })
+            : [];
+
         if (info.mxpackage.type === "widget") {
             tree.push({
                 type: "widget",
                 info: info as WidgetInfo,
                 path: pkg.path,
-                changelog: changelog as WidgetChangelogFileWrapper
+                changelog,
+                widgets: dependencies
             });
         } else {
             tree.push({
@@ -89,18 +115,7 @@ function createPackagesTree(map: PackagesFullInfoMap, list: PackagesFullInfoList
                 info: info as ModuleInfo,
                 path: pkg.path,
                 changelog: changelog as ModuleChangelogFileWrapper,
-                widgets: (info as ModuleInfo).mxpackage.dependencies.map(d => {
-                    const r = map.get(d);
-                    if (!r) {
-                        throw new Error("dep not found");
-                    }
-                    return {
-                        type: "widget",
-                        info: r[1] as WidgetInfo,
-                        path: r[0].path,
-                        changelog: r[2] as WidgetChangelogFileWrapper
-                    };
-                })
+                widgets: dependencies
             });
         }
     });
@@ -120,8 +135,7 @@ export async function selectPackageV2(): Promise<WidgetPkg | ModulePkg> {
 
         const categoryInfo = `[${category}]`;
         const hasChangelogs =
-            pkg.changelog.hasUnreleasedLogs() ||
-            (pkg.type === "module" && pkg.widgets.some(w => w.changelog.hasUnreleasedLogs()));
+            pkg.changelog.hasUnreleasedLogs() || pkg.widgets.some(w => w.changelog.hasUnreleasedLogs());
 
         return {
             displayName,
@@ -155,7 +169,7 @@ export function printPkgInformation(pkg: WidgetPkg | ModulePkg): void {
     console.log(
         `${shortName(pkg.info.name).padEnd(PADDING + 3, " ")} ${chalk.bold(pkg.info.version.format())} ${pkg.changelog.hasUnreleasedLogs() ? "🆕" : " "}`
     );
-    if (pkg.type === "module") {
+    if (pkg.widgets.length) {
         pkg.widgets.forEach((widget, i) => {
             const isLast = i === pkg.widgets.length - 1;
             console.log(

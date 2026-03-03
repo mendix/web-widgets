@@ -2,6 +2,7 @@
 .widget-checkbox-radio-selection {
     display: block;
     position: relative;
+    min-width: 0;
 
     &-readonly {
         &.widget-checkbox-radio-selection-readonly-text {
@@ -25,13 +26,19 @@
     }
 
     &-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
         input {
-            vertical-align: middle;
+            flex: 0 0 16px;
         }
-    }
 
-    label {
-        font-weight: inherit;
+        label {
+            font-weight: inherit;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
     }
 
     input[type="radio"],
