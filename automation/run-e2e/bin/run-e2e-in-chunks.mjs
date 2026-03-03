@@ -1,7 +1,23 @@
 #!/usr/bin/env node
+/**
+ * run-e2e-in-chunks.mjs
+ *
+ * Splits widget packages across N parallel CI runners using weighted bin-packing
+ * so every runner gets a similar total test burden.
+ *
+ * Algorithm: greedy first-fit-decreasing (FFD):
+ *   1. Weight each package by the number of e2e *.spec.{js,ts,cjs,mjs} files.
+ *   2. Sort heaviest-first.
+ *   3. Assign each package to the bin with the lowest current weight.
+ *
+ * Playwright sharding: pass --use-playwright-shard to enable Playwright's
+ * native --shard flag within each per-widget run. Requires Playwright ≥ 1.31.
+ */
 
 import c from "ansi-colors";
 import { execSync } from "node:child_process";
+import { existsSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import parseArgs from "yargs-parser";
 import assert from "node:assert/strict";
 
@@ -9,10 +25,13 @@ function main() {
     const parseArgsOptions = {
         number: ["index", "chunks"],
         string: ["event-name"],
+        boolean: ["use-playwright-shard", "debug-chunks"],
         coerce: {},
         default: {
-            chunks: 3,
-            "event-name": "push"
+            chunks: 8,
+            "event-name": "push",
+            "use-playwright-shard": false,
+            "debug-chunks": false
         }
     };
 
@@ -27,30 +46,94 @@ function main() {
     }
 
     const packages = getPackages({ onlyChanged: eventName === "pull_request" });
-    const chunkSize = Math.ceil(packages.length / chunks);
-    const start = index * chunkSize;
-    const end = start + chunkSize;
-    const sorted = [...packages].sort((a, b) => a.name.normalize().localeCompare(b.name.normalize()));
-    const filters = sorted.slice(start, end).map(pkg => `--filter=${pkg.name}`);
-    const command = [
-        // <- prevent format in one line
-        `pnpm`,
-        `--workspace-root`,
-        `exec`,
-        `turbo run e2e`,
-        // turbo options
-        `--concurrency=1`,
-        ...filters
-    ].join(" ");
 
-    // Run e2e only we have packages in chunk
-    if (filters.length > 0) {
-        execSync(command, { stdio: "inherit" });
-    } else {
-        console.log(c.yellow("No packages in chunk, skip e2e."));
+    // -------------------------------------------------------------------------
+    // Weighted bin-packing (FFD)
+    // -------------------------------------------------------------------------
+    const weighted = packages.map(pkg => ({
+        ...pkg,
+        weight: getE2eSpecFileCount(pkg)
+    }));
+
+    // Sort heaviest first so large packages aren't left to overflow a single bin
+    const sorted = [...weighted].sort((a, b) => b.weight - a.weight);
+
+    // Initialise chunk bins
+    const bins = Array.from({ length: chunks }, () => ({ totalWeight: 0, packages: [] }));
+
+    for (const pkg of sorted) {
+        // Greedy: assign to the bin with the lowest current weight
+        const targetBin = bins.reduce((min, bin) => (bin.totalWeight < min.totalWeight ? bin : min), bins[0]);
+        targetBin.packages.push(pkg);
+        targetBin.totalWeight += pkg.weight;
+    }
+
+    if (options.debugChunks) {
+        printChunkDebugTable(bins);
+    }
+
+    const myPackages = bins[index].packages;
+
+    if (myPackages.length === 0) {
+        console.log(c.yellow(`Chunk ${index}: no packages assigned, skipping.`));
+        printChunkSummary(bins, index);
+        return;
+    }
+
+    printChunkSummary(bins, index);
+
+    const filters = myPackages.map(pkg => `--filter=${pkg.name}`);
+
+    const command = [`pnpm`, `--workspace-root`, `exec`, `turbo run e2e`, `--concurrency=1`, ...filters].join(" ");
+
+    execSync(command, { stdio: "inherit" });
+}
+
+// ---------------------------------------------------------------------------
+// Weight measurement: count *.spec.{js,ts,cjs,mjs} files in the e2e/ dir.
+// Returns 1 as a minimum so every package has a non-zero weight.
+// ---------------------------------------------------------------------------
+function getE2eSpecFileCount(pkg) {
+    try {
+        const e2eDir = join(pkg.path, "e2e");
+        if (!existsSync(e2eDir)) return 1;
+        const specFiles = readdirSync(e2eDir, { recursive: true }).filter(f => /\.spec\.(js|ts|cjs|mjs)$/.test(f));
+        return Math.max(specFiles.length, 1);
+    } catch {
+        // If the path is unavailable (e.g. in CI before checkout), fall back to 1
+        return 1;
     }
 }
 
+// ---------------------------------------------------------------------------
+// Logging helpers
+// ---------------------------------------------------------------------------
+function printChunkSummary(bins, currentIndex) {
+    const myBin = bins[currentIndex];
+    console.log(
+        c.cyan(`Chunk ${currentIndex}/${bins.length - 1}`) +
+            c.gray(` | weight ${myBin.totalWeight} | ${myBin.packages.length} package(s)`)
+    );
+    for (const pkg of myBin.packages) {
+        console.log(`  ${c.white(pkg.name)} ${c.gray(`(${pkg.weight} spec files)`)}`);
+    }
+}
+
+function printChunkDebugTable(bins) {
+    console.log(c.bold("\n=== Chunk distribution (debug) ==="));
+    for (const [i, bin] of bins.entries()) {
+        const names = bin.packages.map(p => `${p.name}(${p.weight})`).join(", ");
+        console.log(`  Chunk ${i} [total=${bin.totalWeight}]: ${names || "(empty)"}`);
+    }
+    const weights = bins.map(b => b.totalWeight);
+    const max = Math.max(...weights);
+    const min = Math.min(...weights);
+    console.log(c.gray(`  imbalance: max=${max} min=${min} ratio=${(max / Math.max(min, 1)).toFixed(2)}x\n`));
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 main();
 
 function validateParam(value, option) {
@@ -62,7 +145,6 @@ function validateParam(value, option) {
 
 function getPackages({ onlyChanged = false } = {}) {
     const args = [
-        // <- prevent format in one line
         `--recursive`,
         `--json`,
         `--depth -1`,

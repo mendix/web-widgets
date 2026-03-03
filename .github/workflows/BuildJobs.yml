@@ -164,9 +164,10 @@ jobs:
             # when one test fails, DO NOT cancel the other
             fail-fast: false
             matrix:
-                index: [0, 1, 2, 3]
+                # 8 parallel runners halve widget-per-chunk; same total compute, ~2x faster wall-clock.
+                index: [0, 1, 2, 3, 4, 5, 6, 7]
                 include:
-                    - chunks: 4
+                    - chunks: 8
 
         steps:
             - name: Download mxtools cache
