@@ -92,6 +92,7 @@ export class CalendarPropsBuilder {
             startAccessor: (event: CalendarEvent) => event.start,
             titleAccessor: (event: CalendarEvent) => event.title,
             showAllEvents: this.props.showAllEvents,
+            showMultiDayTimes: this.props.showMultiDayTimes,
             min: this.minTime,
             max: this.maxTime,
             step: this.step,
@@ -174,6 +175,16 @@ export class CalendarPropsBuilder {
                 culture: string,
                 loc: DateLocalizer
             ) => `${formatWith(start, culture, loc)} – ${formatWith(end, culture, loc)}`;
+            formats.eventTimeRangeStartFormat = (
+                { start }: { start: Date; end: Date },
+                culture: string,
+                loc: DateLocalizer
+            ) => `${formatWith(start, culture, loc)} – `;
+            formats.eventTimeRangeEndFormat = (
+                { end }: { start: Date; end: Date },
+                culture: string,
+                loc: DateLocalizer
+            ) => ` – ${formatWith(end, culture, loc)}`;
             formats.agendaTimeRangeFormat = (
                 { start, end }: { start: Date; end: Date },
                 culture: string,
@@ -306,6 +317,8 @@ export class CalendarPropsBuilder {
         // Ensure showEventDate=false always hides event time ranges
         if (this.props.showEventDate?.value === false) {
             formats.eventTimeRangeFormat = () => "";
+            formats.eventTimeRangeStartFormat = () => "";
+            formats.eventTimeRangeEndFormat = () => "";
         }
 
         return formats;
