@@ -10,6 +10,10 @@
  *   2. Sort heaviest-first.
  *   3. Assign each package to the bin with the lowest current weight.
  *
+ * --print-matrix: instead of running tests, prints the GitHub Actions matrix JSON
+ *   to stdout and exits. Used by the e2e-plan CI job to build a dynamic matrix
+ *   sized to the number of packages in scope (PR: changed only; push: all).
+ *
  * Playwright sharding: pass --use-playwright-shard to enable Playwright's
  * native --shard flag within each per-widget run. Requires Playwright ≥ 1.31.
  */
@@ -21,24 +25,41 @@ import { join } from "node:path";
 import parseArgs from "yargs-parser";
 import assert from "node:assert/strict";
 
+const MAX_CHUNKS = 8;
+
 function main() {
     const parseArgsOptions = {
         number: ["index", "chunks"],
         string: ["event-name"],
-        boolean: ["use-playwright-shard", "debug-chunks"],
+        boolean: ["use-playwright-shard", "debug-chunks", "print-matrix"],
         coerce: {},
         default: {
-            chunks: 8,
+            chunks: MAX_CHUNKS,
             "event-name": "push",
             "use-playwright-shard": false,
-            "debug-chunks": false
+            "debug-chunks": false,
+            "print-matrix": false
         }
     };
 
     const options = parseArgs(process.argv.slice(2), parseArgsOptions);
+    const eventName = options.eventName;
+
+    // --print-matrix: output the GitHub Actions matrix JSON and exit.
+    // Called by the e2e-plan CI job to size the matrix to packages in scope.
+    if (options.printMatrix) {
+        const packages = getPackages({ onlyChanged: eventName === "pull_request" });
+        const needed = Math.min(Math.max(packages.length, 1), MAX_CHUNKS);
+        const matrix = {
+            index: Array.from({ length: needed }, (_, i) => i),
+            include: [{ chunks: needed }]
+        };
+        process.stdout.write(JSON.stringify(matrix) + "\n");
+        return;
+    }
+
     const index = validateParam(options.index, "index");
     const chunks = validateParam(options.chunks, "chunks");
-    const eventName = options.eventName;
 
     if (index < 0 || index >= chunks) {
         const message = `Out of range. Received: index - ${index}, chunks - ${chunks}`;
