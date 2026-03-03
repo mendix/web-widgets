@@ -493,6 +493,14 @@ $root: ".widget-datagrid";
         width: calc(var(--widgets-grid-width) - var(--widgets-grid-scrollbar-size));
         overflow-x: hidden;
     }
+
+    .widget-datagrid-grid-head {
+        &[data-scrolled-x="true"],
+        &[data-scrolled-y="true"] {
+            z-index: 1;
+        }
+    }
+
     .widget-datagrid-grid-head[data-scrolled-y="true"] {
         // add shadow under the header
         // implying that grid is scrolled vertically (there are rows hidden under header)
