@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 export interface Session {
     transport: StreamableHTTPServerTransport;
     createdAt: Date;
+    toolCallCount: number;
 }
 
 /**
@@ -20,15 +21,23 @@ export class SessionManager {
         const transport = new StreamableHTTPServerTransport({
             sessionIdGenerator: () => randomUUID(),
             onsessioninitialized: sessionId => {
+                const createdAt = new Date();
                 this.sessions.set(sessionId, {
                     transport,
-                    createdAt: new Date()
+                    createdAt,
+                    toolCallCount: 0
                 });
-                console.log(`[MCP] Session initialized: ${sessionId}`);
+                console.error(`[MCP] Session initialized: ${sessionId} at=${createdAt.toISOString()}`);
             },
             onsessionclosed: sessionId => {
+                const session = this.sessions.get(sessionId);
+                if (session) {
+                    const durationMs = Date.now() - session.createdAt.getTime();
+                    console.error(
+                        `[MCP] Session closed: ${sessionId} duration=${durationMs}ms toolCalls=${session.toolCallCount}`
+                    );
+                }
                 this.sessions.delete(sessionId);
-                console.log(`[MCP] Session closed: ${sessionId}`);
             }
         });
 
