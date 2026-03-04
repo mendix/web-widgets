@@ -1,10 +1,10 @@
 import { ReactElement } from "react";
-import { DocumentViewerPreviewProps } from "typings/DocumentViewerProps";
-import "../ui/documentViewer.scss";
-import "../ui/documentViewerIcons.scss";
+import { DocumentViewerPreviewProps } from "../typings/DocumentViewerProps";
+import "./ui/documentViewer.scss";
+import "./ui/documentViewerIcons.scss";
 import classNames from "classnames";
-import { constructWrapperStyle } from "../utils/dimension";
-import { BaseControlViewer } from "components/BaseViewer";
+import { constructWrapperStyle } from "./utils/dimension";
+import { BaseControlViewer } from "./components/BaseViewer";
 
 export const preview = (props: DocumentViewerPreviewProps): ReactElement => {
     const { file } = props;
