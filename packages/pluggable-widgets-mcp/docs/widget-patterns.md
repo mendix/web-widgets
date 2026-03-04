@@ -515,6 +515,78 @@ if (props.value?.status === "available" && !props.value.readOnly) {
 }
 ```
 
+### Numeric Attribute Types (Integer, Long, Decimal) — CRITICAL
+
+**Integer, Long, and Decimal attributes use `Big` from `big.js`, NOT JavaScript's native `number` or `BigInt`.**
+
+```tsx
+import Big from "big.js"; // REQUIRED for numeric attributes
+
+// Reading — .value is a Big object, call .toNumber() to get a JS number
+const count = props.counterValue?.value?.toNumber() ?? 0;
+
+// Writing — pass new Big(value), NEVER BigInt(value) or a plain number
+if (props.counterValue?.status === "available" && !props.counterValue.readOnly) {
+    props.counterValue.setValue(new Big(newCount));
+}
+```
+
+**Common mistakes:**
+
+| Wrong                                        | Correct                            |
+| -------------------------------------------- | ---------------------------------- |
+| `BigInt(value)`                              | `new Big(value)`                   |
+| `Number(props.attr.value)`                   | `props.attr.value.toNumber()`      |
+| `props.attr.setValue(42)`                    | `props.attr.setValue(new Big(42))` |
+| `props.attr.value` (used as number directly) | `props.attr.value.toNumber()`      |
+
+**Counter widget pattern (Integer/Long attribute):**
+
+```tsx
+import { ReactElement, createElement, useState, useEffect, useCallback } from "react";
+import Big from "big.js";
+import { CounterContainerProps } from "../typings/CounterProps";
+import "./ui/Counter.scss";
+
+export default function Counter(props: CounterContainerProps): ReactElement {
+    const { counterValue, class: className, style, tabIndex } = props;
+    const [count, setCount] = useState<number>(counterValue?.value?.toNumber() ?? 0);
+
+    useEffect(() => {
+        if (counterValue?.status === "available" && counterValue.value !== undefined) {
+            setCount(counterValue.value.toNumber());
+        }
+    }, [counterValue]);
+
+    const handleChange = useCallback(
+        (delta: number) => {
+            const newCount = count + delta;
+            setCount(newCount);
+            if (counterValue?.status === "available" && !counterValue.readOnly) {
+                counterValue.setValue(new Big(newCount));
+            }
+        },
+        [count, counterValue]
+    );
+
+    const isReadOnly = counterValue?.readOnly ?? false;
+
+    return (
+        <div className={`widget-counter ${className}`} style={style}>
+            <button onClick={() => handleChange(-1)} disabled={isReadOnly} tabIndex={tabIndex} type="button">
+                -
+            </button>
+            <span>{count}</span>
+            <button onClick={() => handleChange(1)} disabled={isReadOnly} tabIndex={tabIndex} type="button">
+                +
+            </button>
+        </div>
+    );
+}
+```
+
+**String attributes** use plain strings — `setValue("text")` is correct for those. Only Integer, Long, and Decimal require `Big`.
+
 ### Loading States
 
 Handle datasource loading:
