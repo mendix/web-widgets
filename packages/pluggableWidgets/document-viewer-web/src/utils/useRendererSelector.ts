@@ -8,7 +8,7 @@ import {
     DocumentStatusEvent
 } from "../components/documentRenderer";
 import ErrorViewer from "../components/ErrorViewer";
-import { DocumentViewerContainerProps } from "../typings/DocumentViewerProps";
+import { DocumentViewerContainerProps } from "../../typings/DocumentViewerProps";
 interface DocumentRenderer {
     CurrentRenderer: DocRendererElement;
     props: DocumentRendererProps;
