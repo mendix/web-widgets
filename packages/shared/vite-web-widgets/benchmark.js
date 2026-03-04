@@ -121,6 +121,11 @@ function patchViteRollup() {
     }
 }
 
+function cleanBuildOutput(outDir) {
+    rmSync(outDir, { recursive: true, force: true });
+    mkdirSync(outDir, { recursive: true });
+}
+
 function main() {
     const pkg = process.argv[2];
     if (!pkg) {
@@ -138,6 +143,7 @@ function main() {
     mkdirSync(benchDir, { recursive: true });
 
     console.log("=> running legacy rollup build");
+    cleanBuildOutput(outDir);
     const t1 = runCommand(`pnpm --filter ${pkg} run build`, { cwd: repoRoot });
     const size1 = getFolderSize(outDir);
     const mpk1 = getMpkSizes(outDir);
@@ -147,6 +153,7 @@ function main() {
     patchViteRollup();
 
     console.log("=> running vite build");
+    cleanBuildOutput(outDir);
     const t2 = runCommand(`pnpm --filter ${pkg} run build:vite`, { cwd: repoRoot });
     const size2 = getFolderSize(outDir);
     const mpk2 = getMpkSizes(outDir);
