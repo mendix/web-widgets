@@ -27,7 +27,11 @@
         "branchName": "range-slider-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/range-slider-web",
         "build": "cross-env MPKOUTPUT=RangeSlider.mpk pluggable-widgets-tools build:web",
+        "build:vite": "pnpm run build:vite:rollup",
+        "build:vite:rolldown": "VITE_RUNTIME_FORMAT=cjs pnpm --package=esbuild --package=rolldown-vite dlx vite build --config vite.config.js",
+        "build:vite:rollup": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=RangeSlider.mpk pluggable-widgets-tools start:web",
@@ -58,6 +62,7 @@
         "@mendix/widget-plugin-platform": "workspace:*",
         "@types/rc-slider": "^8.6.6",
         "@types/rc-tooltip": "^3.7.7",
-        "cross-env": "^7.0.3"
+        "cross-env": "^7.0.3",
+        "vite": "^7.3.1"
     }
 }

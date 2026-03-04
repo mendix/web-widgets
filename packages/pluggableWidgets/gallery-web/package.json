@@ -26,7 +26,11 @@
         "branchName": "gallery-web/dw3.0-dropdown-rework"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/gallery-web",
         "build": "pluggable-widgets-tools build:web",
+        "build:vite": "pnpm run build:vite:rollup",
+        "build:vite:rolldown": "VITE_RUNTIME_FORMAT=cjs pnpm --package=esbuild --package=rolldown-vite dlx vite build --config vite.config.js",
+        "build:vite:rollup": "vite build --config vite.config.js",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "run-e2e ci",
@@ -61,6 +65,7 @@
         "@mendix/widget-plugin-grid": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "cross-env": "^7.0.3"
+        "cross-env": "^7.0.3",
+        "vite": "^7.3.1"
     }
 }

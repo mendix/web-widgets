@@ -30,7 +30,11 @@
         "branchName": "google-tag-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/google-tag-web",
         "build": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV2.mpk pluggable-widgets-tools build:web",
+        "build:vite": "pnpm run build:vite:rollup",
+        "build:vite:rolldown": "VITE_RUNTIME_FORMAT=cjs pnpm --package=esbuild --package=rolldown-vite dlx vite build --config vite.config.js",
+        "build:vite:rollup": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV2.mpk pluggable-widgets-tools start:web",
@@ -50,6 +54,7 @@
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/pluggable-widgets-tools": "*",
-        "@mendix/prettier-config-web-widgets": "workspace:*"
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "vite": "^7.3.1"
     }
 }
