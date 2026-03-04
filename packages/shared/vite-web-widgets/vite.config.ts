@@ -32,7 +32,21 @@ type WidgetPackageJson = {
 
 type WidgetViteConfigOptions = {
     widgetName: string;
+    runtimeDirectoryName?: string;
 };
+
+function getResolveAlias(): { find: RegExp; replacement: string }[] {
+    return [
+        {
+            find: /^~(.+)/,
+            replacement: "$1"
+        },
+        {
+            find: /^src\//,
+            replacement: `${resolve(process.cwd(), "src")}/`
+        }
+    ];
+}
 
 async function copyDir(src: string, dest: string): Promise<void> {
     mkdirSync(dest, { recursive: true });
@@ -43,10 +57,14 @@ async function copyDir(src: string, dest: string): Promise<void> {
 
 async function buildEditorArtifacts(editorBuilds: EditorBuild[]): Promise<void> {
     const editorOutDir = "dist/tmp/widgets";
+    const alias = getResolveAlias();
 
     for (const editorBuild of editorBuilds) {
         await viteBuild({
             configFile: false,
+            resolve: {
+                alias
+            },
             build: {
                 target: "es2019",
                 minify: "esbuild",
@@ -100,36 +118,51 @@ function inferMetadataFiles(widgetName: string): FileCopy[] {
     ];
 }
 
-function inferRequiredArtifacts(widgetName: string, packagePath: string): string[] {
+function inferRequiredArtifacts(
+    widgetName: string,
+    packagePath: string,
+    runtimeDirectoryName: string,
+    editorBuilds: EditorBuild[]
+): string[] {
     const packagePathDir = toPackagePathDir(packagePath);
-    const widgetDir = widgetName.toLowerCase();
+    const widgetDir = runtimeDirectoryName;
+
+    const editorArtifacts = editorBuilds.map(editorBuild => editorBuild.outputFile);
 
     return [
-        `${widgetName}.editorConfig.js`,
-        `${widgetName}.editorPreview.js`,
+        ...editorArtifacts,
         `${packagePathDir}/${widgetDir}/${widgetName}.js`,
         `${packagePathDir}/${widgetDir}/${widgetName}.mjs`
     ];
 }
 
-function inferRuntimeOutDir(widgetName: string, packagePath: string): string {
+function inferRuntimeOutDir(packagePath: string, runtimeDirectoryName: string): string {
     const packagePathDir = toPackagePathDir(packagePath);
-    return `dist/tmp/widgets/${packagePathDir}/${widgetName.toLowerCase()}`;
+    return `dist/tmp/widgets/${packagePathDir}/${runtimeDirectoryName}`;
 }
 
 function inferEditorBuilds(widgetName: string): EditorBuild[] {
-    return [
-        {
-            entry: `src/${widgetName}.editorPreview.tsx`,
+    const editorBuilds: EditorBuild[] = [];
+
+    const editorPreviewEntry = `src/${widgetName}.editorPreview.tsx`;
+    if (existsSync(editorPreviewEntry)) {
+        editorBuilds.push({
+            entry: editorPreviewEntry,
             outputFile: `${widgetName}.editorPreview.js`,
             externals: [/^mendix($|\/)/, /^react$/, /^react-dom$/]
-        },
-        {
-            entry: `src/${widgetName}.editorConfig.ts`,
+        });
+    }
+
+    const editorConfigEntry = `src/${widgetName}.editorConfig.ts`;
+    if (existsSync(editorConfigEntry)) {
+        editorBuilds.push({
+            entry: editorConfigEntry,
             outputFile: `${widgetName}.editorConfig.js`,
             externals: [/^mendix($|\/)/, /^react$/, /^react-dom$/]
-        }
-    ];
+        });
+    }
+
+    return editorBuilds;
 }
 
 function inferRemoveBeforeCopy(packageName: string): string[] {
@@ -155,13 +188,15 @@ type ResolvedConfig = {
 function resolveConfig(options: WidgetViteConfigOptions): ResolvedConfig {
     const widgetPackageJson = readWidgetPackageJson();
     const primaryRuntimeFormat = inferPrimaryRuntimeFormat();
+    const editorBuilds = inferEditorBuilds(options.widgetName);
+    const runtimeDirectoryName = options.runtimeDirectoryName ?? options.widgetName.toLowerCase();
 
     return {
         widgetName: options.widgetName,
         widgetVersion: widgetPackageJson.version,
         mpkName: widgetPackageJson.mxpackage?.mpkName ?? `${options.widgetName}.mpk`,
         runtimeEntry: `src/${options.widgetName}.tsx`,
-        runtimeOutDir: inferRuntimeOutDir(options.widgetName, widgetPackageJson.packagePath),
+        runtimeOutDir: inferRuntimeOutDir(widgetPackageJson.packagePath, runtimeDirectoryName),
         runtimeOutputs: [
             {
                 format: primaryRuntimeFormat,
@@ -174,8 +209,13 @@ function resolveConfig(options: WidgetViteConfigOptions): ResolvedConfig {
         ],
         runtimeExternals: ["react", "react-dom", "@mendix/widget-plugin-component-kit", "big.js", /^mendix($|\/)/],
         metadataFiles: inferMetadataFiles(options.widgetName),
-        editorBuilds: inferEditorBuilds(options.widgetName),
-        requiredArtifacts: inferRequiredArtifacts(options.widgetName, widgetPackageJson.packagePath),
+        editorBuilds,
+        requiredArtifacts: inferRequiredArtifacts(
+            options.widgetName,
+            widgetPackageJson.packagePath,
+            runtimeDirectoryName,
+            editorBuilds
+        ),
         removeBeforeCopy: inferRemoveBeforeCopy(widgetPackageJson.name),
         define: {
             "process.env.NODE_ENV": JSON.stringify("production")
@@ -243,9 +283,13 @@ async function createMPK(options: ResolvedConfig): Promise<void> {
 
 export default function createWidgetViteConfig(options: WidgetViteConfigOptions): UserConfig {
     const resolvedConfig = resolveConfig(options);
+    const alias = getResolveAlias();
 
     return defineConfig({
         define: resolvedConfig.define,
+        resolve: {
+            alias
+        },
         build: {
             target: "es2019",
             minify: "esbuild",
