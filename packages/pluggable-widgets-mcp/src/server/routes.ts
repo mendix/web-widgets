@@ -1,6 +1,7 @@
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import type { Express, Request, Response } from "express";
 import { MENDIX_PROJECT_DIR, SERVER_NAME, SERVER_VERSION } from "@/config";
+import { buildIncomingLogEntry, logProtocolMessage } from "./protocol-logger";
 import { createMcpServer } from "./server";
 import { sessionManager } from "./session";
 
@@ -40,27 +41,41 @@ function setupMcpRoute(app: Express): void {
 
     app.all("/mcp", async (req: Request, res: Response) => {
         const sessionId = req.headers["mcp-session-id"] as string | undefined;
+        const requestStart = Date.now();
 
         try {
             // Case 1: Existing session - reuse transport
             if (sessionId && sessionManager.hasSession(sessionId)) {
+                const body = req.body as Record<string, unknown>;
+                logProtocolMessage(sessionId, buildIncomingLogEntry(sessionId, body));
+                console.error(
+                    `[MCP] ${body.method ?? "request"} session=${sessionId} elapsed=${Date.now() - requestStart}ms`
+                );
                 const transport = sessionManager.getTransport(sessionId)!;
-                await transport.handleRequest(req, res, req.body);
+                await transport.handleRequest(req, res, body);
                 return;
             }
 
             // Case 2: New session via POST with initialize request
             if (req.method === "POST" && !sessionId && isInitializeRequest(req.body)) {
+                const body = req.body as Record<string, unknown>;
+                const pendingSessionId = "pending-" + Date.now();
+                const logEntry = buildIncomingLogEntry(pendingSessionId, body);
+                console.error(
+                    `[MCP] initialize (new session) protocolVersion=${logEntry.protocolVersion} clientInfo=${JSON.stringify(logEntry.clientInfo)}`
+                );
+                logProtocolMessage(pendingSessionId, logEntry);
                 const transport = sessionManager.createTransport();
                 const server = createMcpServer();
                 await server.connect(transport);
-                await transport.handleRequest(req, res, req.body);
+                await transport.handleRequest(req, res, body);
                 return;
             }
 
             // Case 3: GET request for SSE - create new session
             // StreamableHTTP uses GET for server-to-client event streams
             if (req.method === "GET") {
+                console.error(`[MCP] SSE GET — creating new session`);
                 const transport = sessionManager.createTransport();
                 const server = createMcpServer();
                 await server.connect(transport);
