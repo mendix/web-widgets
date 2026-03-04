@@ -6,17 +6,13 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { readFile } from "node:fs/promises";
+import { join, normalize, sep } from "node:path";
 import { z } from "zod";
 import { GENERATIONS_DIR } from "@/config";
 import type { ToolContext, ToolResponse } from "./types";
 import { ProgressTracker } from "./utils/progress-tracker";
-import {
-    createStructuredError,
-    createStructuredErrorResponse,
-    createToolResponse,
-    type StructuredError
-} from "./utils/response";
+import { createStructuredError, createStructuredErrorResponse, createToolResponse } from "./utils/response";
 import { findMpkFile } from "./utils/mpk";
 import { isPathAllowed } from "./utils/sandbox";
 import type { SessionState } from "./session-state";
@@ -33,7 +29,7 @@ type BuildWidgetInput = z.infer<typeof buildWidgetSchema>;
 /**
  * Parsed error with location information.
  */
-interface ParsedError {
+export interface ParsedError {
     message: string;
     file?: string;
     line?: number;
@@ -137,8 +133,8 @@ function parseBuildOutput(stdout: string, stderr: string): BuildResult {
 
     const lines = output.split("\n");
 
-    for (let i = 0; i < lines.length; i++) {
-        const trimmed = lines[i].trim();
+    for (const line of lines) {
+        const trimmed = line.trim();
         if (!trimmed) continue;
 
         // TypeScript errors (try to parse with location)
@@ -219,6 +215,80 @@ function parseBuildOutput(stdout: string, stderr: string): BuildResult {
         warnings,
         output
     };
+}
+
+/**
+ * Formats a build failure response for Maia, including:
+ * - All errors with file/line/column/code
+ * - Content of every source file that appears in the error list
+ *
+ * Embedding file content lets Maia fix errors without an extra read-widget-file
+ * round-trip. Output format is designed to be read by an AI agent.
+ */
+export async function formatBuildFailureResponse(errors: ParsedError[], widgetPath: string): Promise<string> {
+    // Format error list — each error gets code, location (file line N col N), and message
+    const errorLines = errors.map(e => {
+        const loc = e.file
+            ? `${e.file}${e.line != null ? ` line ${e.line}` : ""}${e.column != null ? ` col ${e.column}` : ""}`
+            : null;
+        const code = e.tsCode ? `[${e.tsCode}]` : `[${e.category}]`;
+        const locStr = loc ? ` ${loc} —` : "";
+        return `  ${code}${locStr} ${e.message}`;
+    });
+
+    // Collect unique source files that appear in errors
+    const uniqueFiles = [...new Set(errors.map(e => e.file).filter((f): f is string => !!f))];
+
+    // Read each failing file (skip if not found — don't throw)
+    const fileSections: string[] = [];
+    for (const relPath of uniqueFiles) {
+        // Block path traversal: only allow files under widgetPath
+        const normalizedBase = normalize(widgetPath);
+        const fullPath = normalize(join(widgetPath, relPath));
+        if (!fullPath.startsWith(normalizedBase + sep) && fullPath !== normalizedBase) continue;
+        if (!existsSync(fullPath)) continue;
+
+        try {
+            const content = await readFile(fullPath, "utf-8");
+            fileSections.push(`--- ${relPath} ---\n${content}`);
+        } catch {
+            // Skip unreadable files silently
+        }
+    }
+
+    const lines = [
+        `❌ Build failed — ${errors.length} error(s). Fix the errors below, write with write-widget-file, then retry build-widget (max 3 attempts total).`,
+        "",
+        "Errors:",
+        ...errorLines
+    ];
+
+    if (fileSections.length > 0) {
+        lines.push("", "Failing file contents:", "");
+        lines.push(...fileSections);
+    }
+
+    return lines.join("\n");
+}
+
+/**
+ * Formats a successful build response, including MPK path, warnings, and a
+ * chaining instruction to call deploy-widget next.
+ */
+export function formatBuildSuccessResponse(
+    mpkPath: string | undefined,
+    widgetPath: string,
+    warnings: string[]
+): string {
+    let message = "✅ Build successful!";
+    if (mpkPath) {
+        message += `\n\n📦 MPK output: ${mpkPath}`;
+    }
+    if (warnings.length > 0) {
+        message += `\n\n⚠️ Warnings:\n${warnings.map(w => `  - ${w}`).join("\n")}`;
+    }
+    message += `\n\n🚀 Next step: Call deploy-widget with widgetPath: "${widgetPath}" to copy the .mpk to your Mendix project's widgets/ directory.`;
+    return message;
 }
 
 /**
@@ -318,34 +388,6 @@ async function runBuild(widgetPath: string, tracker?: ProgressTracker): Promise<
 }
 
 /**
- * Converts a parsed error to a structured error with suggestions.
- */
-function toStructuredError(error: ParsedError): StructuredError {
-    const suggestions: Record<ParsedError["category"], string> = {
-        typescript:
-            "Check the TypeScript code at the specified location. Ensure props match the generated types from widget XML.",
-        xml: "Verify your widget.xml follows the Mendix schema. Check property types and required attributes.",
-        dependency:
-            "Run 'npm install' in the widget directory. If the issue persists, check that all dependencies are listed in package.json.",
-        unknown: "Review the build output for more details. Try running 'npx pluggable-widget-tools build' manually."
-    };
-
-    const codeMap: Record<ParsedError["category"], StructuredError["code"]> = {
-        typescript: "ERR_BUILD_TS",
-        xml: "ERR_BUILD_XML",
-        dependency: "ERR_BUILD_MISSING_DEP",
-        unknown: "ERR_BUILD_UNKNOWN"
-    };
-
-    return createStructuredError(codeMap[error.category], error.message, {
-        suggestion: suggestions[error.category],
-        file: error.file,
-        line: error.line,
-        column: error.column
-    });
-}
-
-/**
  * Handler for the build-widget tool.
  */
 async function handleBuildWidget(
@@ -400,42 +442,14 @@ async function handleBuildWidget(
         const mpkPath = result.mpkPath || findMpkFile(widgetPath);
 
         if (result.success) {
-            let message = `✅ Build successful!`;
-
-            if (mpkPath) {
-                message += `\n\n📦 MPK output: ${mpkPath}`;
-            }
-
-            if (result.warnings.length > 0) {
-                message += `\n\n⚠️ Warnings:\n${result.warnings.map(w => `  - ${w}`).join("\n")}`;
-            }
-
-            return createToolResponse(message);
+            return createToolResponse(formatBuildSuccessResponse(mpkPath, widgetPath, result.warnings));
         } else {
-            // Return first error as structured error (most relevant)
             if (result.errors.length > 0) {
-                const primaryError = toStructuredError(result.errors[0]);
-
-                // Add additional errors to raw output if multiple
-                if (result.errors.length > 1) {
-                    const additionalErrors = result.errors
-                        .slice(1)
-                        .map(e => {
-                            const loc = e.file ? `${e.file}${e.line ? `:${e.line}` : ""}` : "";
-                            return loc ? `[${loc}] ${e.message}` : e.message;
-                        })
-                        .join("\n");
-
-                    primaryError.details = {
-                        ...primaryError.details,
-                        rawOutput: `Additional errors (${result.errors.length - 1}):\n${additionalErrors}`
-                    };
-                }
-
-                return createStructuredErrorResponse(primaryError);
+                const message = await formatBuildFailureResponse(result.errors, widgetPath);
+                return { content: [{ type: "text", text: message }], isError: true };
             }
 
-            // Fallback for unknown failures
+            // Fallback for unknown failures (no structured errors detected)
             return createStructuredErrorResponse(
                 createStructuredError("ERR_BUILD_UNKNOWN", "Build failed with unknown error", {
                     suggestion: "Check the raw build output for details.",
@@ -459,7 +473,15 @@ export function registerBuildTools(server: McpServer, state: SessionState): void
             description:
                 "Builds a Mendix pluggable widget using pluggable-widget-tools. " +
                 "Validates XML, compiles TypeScript, generates types, and produces an .mpk file. " +
-                "Returns build errors if any, which can be used to fix issues.",
+                "If the build fails with TypeScript errors, the response includes ALL errors with " +
+                "file locations AND the content of every failing source file. " +
+                "RETRY LOOP: On failure, (1) read the errors and embedded file content, " +
+                "(2) fix the TypeScript errors, (3) write the fixed files using write-widget-file, " +
+                "(4) call build-widget again. Repeat until the build passes. " +
+                "Maximum 3 total attempts — if still failing after 3 attempts, " +
+                "report the errors and file contents to the user. " +
+                "SUCCESS: When the build succeeds, you MUST call deploy-widget next with the same widgetPath " +
+                "to copy the .mpk to the Mendix project. Do not stop after a successful build.",
             inputSchema: buildWidgetSchema
         },
         (args, context) => handleBuildWidget(args, context, state)
