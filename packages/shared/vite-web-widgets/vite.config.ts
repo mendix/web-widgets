@@ -80,12 +80,12 @@ function toPackagePathDir(packagePath: string): string {
     return packagePath.replace(/\./g, "/");
 }
 
-function inferPrimaryRuntimeFormat(packagePath: string): "cjs" | "amd" {
+function inferPrimaryRuntimeFormat(): "cjs" | "amd" {
     if (process.env.VITE_RUNTIME_FORMAT === "cjs") {
         return "cjs";
     }
 
-    return packagePath.endsWith(".web") ? "amd" : "cjs";
+    return "amd";
 }
 
 function inferMetadataFiles(widgetName: string): FileCopy[] {
@@ -154,7 +154,7 @@ type ResolvedConfig = {
 
 function resolveConfig(options: WidgetViteConfigOptions): ResolvedConfig {
     const widgetPackageJson = readWidgetPackageJson();
-    const primaryRuntimeFormat = inferPrimaryRuntimeFormat(widgetPackageJson.packagePath);
+    const primaryRuntimeFormat = inferPrimaryRuntimeFormat();
 
     return {
         widgetName: options.widgetName,
