@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isPathWithinDirectory, isExtensionAllowed, validateFilePath } from "@/security/guardrails";
+import { isExtensionAllowed, isPathWithinDirectory, validateFilePath } from "@/security/guardrails";
 
 describe("isPathWithinDirectory", () => {
     it("returns true for a path within the base directory", () => {
