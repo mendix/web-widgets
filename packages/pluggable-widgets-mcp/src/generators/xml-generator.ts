@@ -44,8 +44,12 @@ function generateProperty(prop: PropertyDefinition, indent: string): string {
     const attrs: string[] = [`key="${escapeXml(prop.key)}"`, `type="${prop.type}"`];
 
     // Add optional attributes
-    if (prop.required !== undefined) {
-        attrs.push(`required="${prop.required}"`);
+    // Primitive types (integer, boolean, decimal) have no null representation in Mendix —
+    // Studio Pro rejects required="false" on them. Force required="true" for these types.
+    const PRIMITIVE_TYPES = ["integer", "boolean", "decimal"];
+    const effectiveRequired = PRIMITIVE_TYPES.includes(prop.type) ? true : prop.required;
+    if (effectiveRequired !== undefined) {
+        attrs.push(`required="${effectiveRequired}"`);
     }
     if (prop.defaultValue !== undefined) {
         attrs.push(`defaultValue="${escapeXml(String(prop.defaultValue))}"`);
@@ -113,7 +117,7 @@ export function generateWidgetXml(widget: WidgetDefinition): GeneratorResult {
         // Derive defaults
         const organization = widget.organization ?? "mendix";
         const widgetNameLower = widget.name.toLowerCase();
-        const widgetId = widget.id ?? `com.${organization}.widget.custom.${widgetNameLower}.${widget.name}`;
+        const widgetId = widget.id ?? `${organization}.${widgetNameLower}.${widget.name}`;
         const studioCategory = widget.studioCategory ?? "Display";
         const needsEntityContext = widget.needsEntityContext ?? false;
         const offlineCapable = widget.offlineCapable ?? true;
