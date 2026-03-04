@@ -7,7 +7,10 @@ import { SetPageAction, SetPageSizeAction } from "./pagination.model";
 export class PageControlService implements GridPageControl {
     constructor(
         private gate: DerivedPropsGate<{
+            dynamicPage?: EditableValue<Big>;
+            dynamicPageSize?: EditableValue<Big>;
             totalCountValue?: EditableValue<Big>;
+            loadedRowsValue?: EditableValue<Big>;
         }>,
         private setPageSizeAction: SetPageSizeAction,
         private setPageAction: SetPageAction
@@ -15,10 +18,23 @@ export class PageControlService implements GridPageControl {
 
     setPageSize(pageSize: number): void {
         this.setPageSizeAction(pageSize);
+
+        // mirror to editable attribute if mapped
+        const attr = this.gate.props.dynamicPageSize;
+        if (attr && !attr.readOnly) {
+            attr.setValue(new Big(pageSize));
+        }
     }
 
     setPage(page: number): void {
         this.setPageAction(page);
+
+        // mirror to editable attribute if mapped (offset-based pages are 1-based)
+        const attr = this.gate.props.dynamicPage;
+        if (attr && !attr.readOnly) {
+            // the grid itself uses 0-based page internally for buttons
+            attr.setValue(new Big(page + 1));
+        }
     }
 
     setTotalCount(count: number): void {
