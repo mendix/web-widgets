@@ -29,9 +29,7 @@
     "scripts": {
         "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/maps-web",
         "build": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools build:ts",
-        "build:vite": "pnpm run build:vite:rollup",
-        "build:vite:rolldown": "VITE_RUNTIME_FORMAT=cjs pnpm --package=esbuild --package=rolldown-vite dlx vite build --config vite.config.js",
-        "build:vite:rollup": "vite build --config vite.config.js",
+        "build:vite": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=Maps.mpk pluggable-widgets-tools start:web",
@@ -66,7 +64,6 @@
         "@types/deep-equal": "^1.0.1",
         "@types/leaflet": "^1.9.3",
         "@types/react-leaflet": "^2.8.3",
-        "cross-env": "^7.0.3",
-        "vite": "^7.3.1"
+        "cross-env": "^7.0.3"
     }
 }

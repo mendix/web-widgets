@@ -28,9 +28,7 @@
     "scripts": {
         "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/datagrid-text-filter-web",
         "build": "pluggable-widgets-tools build:ts",
-        "build:vite": "pnpm run build:vite:rollup",
-        "build:vite:rolldown": "VITE_RUNTIME_FORMAT=cjs pnpm --package=esbuild --package=rolldown-vite dlx vite build --config vite.config.js",
-        "build:vite:rollup": "vite build --config vite.config.js",
+        "build:vite": "vite build --config vite.config.js",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:ts",
         "e2e": "run-e2e ci",
@@ -61,7 +59,6 @@
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
-        "@mendix/widget-plugin-test-utils": "workspace:*",
-        "vite": "^7.3.1"
+        "@mendix/widget-plugin-test-utils": "workspace:*"
     }
 }

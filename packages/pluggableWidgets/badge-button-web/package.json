@@ -28,9 +28,7 @@
     "scripts": {
         "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/badge-button-web",
         "build": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools build:ts",
-        "build:vite": "pnpm run build:vite:rollup",
-        "build:vite:rolldown": "VITE_RUNTIME_FORMAT=cjs pnpm --package=esbuild --package=rolldown-vite dlx vite build --config vite.config.js",
-        "build:vite:rollup": "vite build --config vite.config.js",
+        "build:vite": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=BadgeButton.mpk pluggable-widgets-tools start:ts",
@@ -56,7 +54,6 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
-        "cross-env": "^7.0.3",
-        "vite": "^7.3.1"
+        "cross-env": "^7.0.3"
     }
 }
