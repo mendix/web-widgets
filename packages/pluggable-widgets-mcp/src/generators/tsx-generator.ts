@@ -22,6 +22,9 @@ export interface TsxGeneratorResult {
     /** Generated main component content (src/[Widget].tsx) */
     mainComponent?: string;
 
+    /** Generated editor preview content (src/[Widget].editorPreview.tsx) */
+    editorPreview?: string;
+
     /** Detected or specified widget pattern */
     pattern?: WidgetPattern;
 
@@ -96,7 +99,9 @@ function generateImports(widgetName: string, properties: PropertyDefinition[], p
         p => p.type === "attribute" && p.attributeTypes?.some(t => ["Integer", "Long", "Decimal"].includes(t))
     );
 
-    if (hasAction || hasAttribute) {
+    // useCallback is needed for action handlers (all patterns) and attribute setValue
+    // callbacks (only input/dataList patterns — button/display/container don't call setValue)
+    if (hasAction || (hasAttribute && (pattern === "input" || pattern === "dataList"))) {
         reactImports.add("useCallback");
     }
     if (pattern === "container") {
@@ -127,8 +132,9 @@ function generateImports(widgetName: string, properties: PropertyDefinition[], p
         imports.push('import { ValueStatus } from "mendix";');
     }
 
-    // Big.js for numeric attributes (Integer, Long, Decimal use Big internally)
-    if (hasIntegerAttribute) {
+    // Big.js is only needed by the input pattern — it's the only pattern that calls
+    // attribute.setValue() with a Big value. Other patterns don't write back to attributes.
+    if (hasIntegerAttribute && pattern === "input") {
         imports.push('import Big from "big.js";');
     }
 
@@ -306,10 +312,10 @@ function generateInputPattern(widgetName: string, properties: PropertyDefinition
     const attributeProps = properties.filter(p => p.type === "attribute");
     const mainAttribute = attributeProps[0];
     const actionProps = properties.filter(p => p.type === "action");
-    const textProps = properties.filter(p => p.type === "textTemplate" || p.type === "string");
 
-    // Generate destructuring
-    const allProps = [...attributeProps, ...actionProps, ...textProps];
+    // Generate destructuring — only include props that are actually used in the rendered input.
+    // Text/string props are not rendered by the input element, so omit them to avoid unused-var errors.
+    const allProps = [...attributeProps, ...actionProps];
     const propsToDestructure = ["class: className", "style", "tabIndex", ...allProps.map(p => p.key)];
 
     // Determine input type based on attribute type
@@ -325,7 +331,7 @@ function generateInputPattern(widgetName: string, properties: PropertyDefinition
 
     // Find change action
     const changeAction = actionProps.find(p => p.key.toLowerCase().includes("change"));
-    const changeHandler = changeAction ? true : false;
+    const changeHandler = !!changeAction;
 
     // Determine if we need Big conversion for numeric attributes
     const usesBig = inputType === "number";
@@ -496,6 +502,59 @@ export default function ${widgetName}(props: ${widgetName}ContainerProps): React
 }
 
 /**
+ * Generates a Studio Pro design-mode preview component (src/[Widget].editorPreview.tsx).
+ *
+ * In preview mode Mendix simplifies all property types to primitives. The generated
+ * stub picks the first "displayable" property and renders its value, so `props` is
+ * always read and TS6133 never fires. Displayable types:
+ *   string / textTemplate / attribute → rendered as-is  (falsy-safe with ||)
+ *   integer / decimal / boolean       → rendered via String() with explicit null check
+ *
+ * Non-displayable types (action, enumeration, datasource, …) are skipped. If no
+ * displayable property exists, _props is used as the TypeScript convention for an
+ * intentionally unused parameter.
+ */
+export function generateEditorPreview(widgetName: string, properties: PropertyDefinition[]): string {
+    const widgetClass = `widget-${widgetName.toLowerCase()}`;
+
+    const STRING_TYPES = new Set(["string", "textTemplate", "attribute"]);
+    const NUMERIC_BOOL_TYPES = new Set(["integer", "decimal", "boolean"]);
+
+    // Find the first property that can produce a meaningful display value in PreviewProps
+    const displayProp = properties.find(p => STRING_TYPES.has(p.type) || NUMERIC_BOOL_TYPES.has(p.type));
+
+    // Generate a type-appropriate expression so props is always read when displayProp exists
+    let previewContent: string;
+    if (!displayProp) {
+        previewContent = `"[${widgetName}]"`;
+    } else if (STRING_TYPES.has(displayProp.type)) {
+        previewContent = `props.${displayProp.key} || "[${widgetName}]"`;
+    } else {
+        // integer, decimal, boolean: explicit null check because 0 and false are falsy
+        previewContent = `props.${displayProp.key} != null ? String(props.${displayProp.key}) : "[${widgetName}]"`;
+    }
+
+    // _props only when no property is displayed (TS6133: declared but never read)
+    const previewParam = displayProp ? "props" : "_props";
+
+    return `import { ReactElement, createElement } from "react";
+import { ${widgetName}PreviewProps } from "../typings/${widgetName}Props";
+
+export function preview(${previewParam}: ${widgetName}PreviewProps): ReactElement {
+    return (
+        <div className="${widgetClass}">
+            {${previewContent}}
+        </div>
+    );
+}
+
+export function getPreviewCss(): string {
+    return "";
+}
+`;
+}
+
+/**
  * Generates the complete widget TSX from a widget definition.
  */
 export function generateWidgetTsx(
@@ -532,6 +591,7 @@ export function generateWidgetTsx(
         return {
             success: true,
             mainComponent,
+            editorPreview: generateEditorPreview(widgetName, properties),
             pattern: detectedPattern
         };
     } catch (error) {
