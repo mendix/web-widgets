@@ -108,6 +108,7 @@ export function registerProjectTools(server: McpServer, state: SessionState): vo
             title: "Deploy Widget",
             description:
                 "Copies a built widget .mpk file to the configured Mendix project's widgets/ directory. " +
+                "Call this after build-widget succeeds. " +
                 "Requires a project directory to be configured (via MENDIX_PROJECT_DIR env var or set-project-directory). " +
                 "Looks for the .mpk file in the widget's dist/ directory. " +
                 "After deploying, synchronize the app directory in Studio Pro to pick up the new widget.",
