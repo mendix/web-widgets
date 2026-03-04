@@ -104,8 +104,18 @@ const generateWidgetCodeSchema = z.object({
     widgetPath: z.string().min(1).describe("Absolute path to the scaffolded widget directory"),
     description: z.string().min(1).describe("Description of what the widget should do"),
     properties: z
-        .array(propertyDefinitionSchema)
-        .optional()
+        .preprocess(v => {
+            // MCP clients (e.g. Maia) sometimes send JSON arrays as a stringified string.
+            // Parse it transparently so validation still runs on the actual array contents.
+            if (typeof v === "string") {
+                try {
+                    return JSON.parse(v);
+                } catch {
+                    return v; // let Zod report the type error
+                }
+            }
+            return v;
+        }, z.array(propertyDefinitionSchema).optional())
         .describe("Array of property definitions. If not provided, returns suggestions."),
     widgetPattern: z
         .enum(["display", "button", "input", "container", "dataList"])
@@ -225,12 +235,15 @@ async function cleanupScaffoldFiles(widgetPath: string, widgetName: string): Pro
     const packageXmlPath = join(srcDir, "package.xml");
     const widgetNameLower = widgetName.toLowerCase();
     let version = "1.0.0";
+    let packagePath = "mendix";
     try {
         const pkgJson = JSON.parse(await readFile(join(widgetPath, "package.json"), "utf-8"));
         if (pkgJson.version) version = pkgJson.version;
+        if (pkgJson.packagePath) packagePath = pkgJson.packagePath;
     } catch {
         /* use default */
     }
+    const filePath = `${packagePath.replace(/\./g, "/")}/${widgetNameLower}`;
     const packageXml = [
         '<?xml version="1.0" encoding="utf-8" ?>',
         '<package xmlns="http://www.mendix.com/package/1.0/">',
@@ -239,7 +252,7 @@ async function cleanupScaffoldFiles(widgetPath: string, widgetName: string): Pro
         `            <widgetFile path="${widgetName}.xml"/>`,
         "        </widgetFiles>",
         "        <files>",
-        `            <file path="mendix/${widgetNameLower}"/>`,
+        `            <file path="${filePath}"/>`,
         "        </files>",
         "    </clientModule>",
         "</package>"
@@ -418,6 +431,55 @@ function getPatternDescription(pattern: WidgetPattern): string {
     }
 }
 
+/**
+ * Detects a mismatch between the selected widget pattern and the provided properties.
+ *
+ * Returns a warning string when the pattern's key property types are absent,
+ * or null when the properties satisfy the pattern's requirements.
+ */
+export function detectTemplateMismatch(pattern: WidgetPattern, properties: PropertyDefinition[]): string | null {
+    const types = properties.map(p => p.type);
+
+    switch (pattern) {
+        case "button": {
+            const warnings: string[] = [];
+            if (!types.includes("action")) {
+                warnings.push("button will be permanently disabled (no action property)");
+            }
+            if (!types.includes("textTemplate") && !types.includes("string")) {
+                warnings.push("button will render empty text (no textTemplate or string property for caption)");
+            }
+            return warnings.length > 0 ? warnings.join("; ") : null;
+        }
+        case "input":
+            if (!types.includes("attribute")) {
+                return "no attribute property for data binding — input pattern needs an attribute to read/write values";
+            }
+            return null;
+        case "display":
+            if (!types.includes("textTemplate") && !types.includes("expression") && !types.includes("string")) {
+                return "read-only display component with no dynamic text source — only primitive types found; customize the generated code or add a textTemplate/expression property";
+            }
+            return null;
+        case "container":
+            if (!types.includes("widgets")) {
+                return "no child content slot — container pattern needs a widgets property for nested widget content";
+            }
+            return null;
+        case "dataList": {
+            const missing: string[] = [];
+            if (!types.includes("datasource")) missing.push("datasource");
+            if (!types.includes("widgets")) missing.push("widgets");
+            if (missing.length > 0) {
+                return `dataList pattern is missing required properties: ${missing.join(", ")}`;
+            }
+            return null;
+        }
+        default:
+            return null;
+    }
+}
+
 // =============================================================================
 // Tool Handler
 // =============================================================================
@@ -491,6 +553,7 @@ async function handleGenerateWidgetCode(args: GenerateWidgetCodeInput): Promise<
         const filesToWrite = [
             { path: `src/${widgetName}.xml`, content: xmlResult.xml },
             { path: `src/${widgetName}.tsx`, content: tsxResult.mainComponent },
+            { path: `src/${widgetName}.editorPreview.tsx`, content: tsxResult.editorPreview! },
             { path: `src/ui/${widgetName}.scss`, content: `.widget-${widgetName.toLowerCase()} {\n}\n` },
             { path: `src/.widget-definition.json`, content: JSON.stringify(widgetDefinition, null, 2) }
         ];
@@ -518,24 +581,40 @@ async function handleGenerateWidgetCode(args: GenerateWidgetCodeInput): Promise<
 
         // Build success response
         const propSummary = properties.map(p => p.key).join(", ");
+        const mismatch = detectTemplateMismatch(pattern, properties as PropertyDefinition[]);
 
-        return createToolResponse(
-            [
-                `✅ Widget code generated successfully!`,
+        const lines = [
+            `✅ Widget code generated successfully!`,
+            "",
+            `📁 Files written:`,
+            `  • src/${widgetName}.xml - Widget definition with ${properties.length} properties (${propSummary})`,
+            `  • src/${widgetName}.tsx - Component using ${pattern} pattern`,
+            `  • src/ui/${widgetName}.scss - Empty SCSS placeholder`,
+            `  • src/.widget-definition.json - Widget definition snapshot (used by update-widget-properties)`
+        ];
+
+        if (mismatch) {
+            lines.push("", `⚠️ Template notice: ${mismatch}`);
+            lines.push(
                 "",
-                `📁 Files written:`,
-                `  • src/${widgetName}.xml - Widget definition with ${properties.length} properties (${propSummary})`,
-                `  • src/${widgetName}.tsx - Component using ${pattern} pattern`,
-                `  • src/ui/${widgetName}.scss - Empty SCSS placeholder`,
-                `  • src/.widget-definition.json - Widget definition snapshot (used by update-widget-properties)`,
+                `🔨 Next steps:`,
+                `  1. Review and customize the generated code (use write-widget-file to update src/${widgetName}.tsx)`,
+                `  2. Run build-widget to compile and validate`,
+                `  3. Update src/${widgetName}.editorPreview.tsx for Studio Pro design mode preview`,
+                `  4. Test in Mendix Studio Pro`
+            );
+        } else {
+            lines.push(
                 "",
                 `🔨 Next steps:`,
                 `  1. Run build-widget to compile and validate`,
                 `  2. Review and customize generated code`,
                 `  3. Update src/${widgetName}.editorPreview.tsx for Studio Pro design mode preview`,
                 `  4. Test in Mendix Studio Pro`
-            ].join("\n")
-        );
+            );
+        }
+
+        return createToolResponse(lines.join("\n"));
     } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         console.error(`[code-generation] Error: ${message}`);
