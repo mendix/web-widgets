@@ -16,7 +16,7 @@
 
 | Suite | Test | Error |
 | --- | --- | --- |
-{{#each ctrf.tests}}{{#if (eq status "failed")}}| {{#if suite}}`{{suite}}`{{else}}—{{/if}} | {{name}} | <details><summary>Show</summary>{{#if message}}{{message}}{{else}}No message{{/if}}</details> |
+{{#each ctrf.tests}}{{#if (eq status "failed")}}| {{#if suite}}`{{{suite}}}`{{else}}—{{/if}} | {{name}} | <details><summary>Show</summary>{{#if message}}{{message}}{{else}}No message{{/if}}</details> |
 {{/if}}{{/each}}
 
 <details>
@@ -24,7 +24,7 @@
 
 | Suite | Test | Retries |
 | --- | --- | --- |
-{{#each ctrf.tests}}{{#if flaky}}| {{#if suite}}`{{suite}}`{{else}}—{{/if}} | {{name}} | {{retries}} |
+{{#each ctrf.tests}}{{#if flaky}}| {{#if suite}}`{{{suite}}}`{{else}}—{{/if}} | {{name}} | {{retries}} |
 {{/if}}{{/each}}
 
 </details>
@@ -34,7 +34,7 @@
 
 | | Suite | Test | Duration |
 | --- | --- | --- | --- |
-{{#each ctrf.tests}}| {{#if (eq status "passed")}}✅{{else}}❌{{/if}} | {{#if suite}}`{{suite}}`{{else}}—{{/if}} | {{name}} | {{formatDuration 0 duration}} |
+{{#each ctrf.tests}}| {{#if (eq status "passed")}}✅{{else}}❌{{/if}} | {{#if suite}}`{{{suite}}}`{{else}}—{{/if}} | {{name}} | {{formatDuration 0 duration}} |
 {{/each}}
 
 </details>
