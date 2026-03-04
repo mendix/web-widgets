@@ -44,13 +44,10 @@ export function paginationKind(props: MainGateProps): PaginationKind {
 }
 
 export function dynamicPageSizeEnabled(props: MainGateProps): boolean {
-    // previously disabled for limit-based modes, but we now want the
-    // attribute available everywhere (buttons, virtual scroll, load more)
     return props.dynamicPageSize !== undefined;
 }
 
 export function dynamicPageEnabled(props: MainGateProps): boolean {
-    // always allow dynamic page attribute regardless of pagination kind
     return props.dynamicPage !== undefined;
 }
 
@@ -59,8 +56,6 @@ export function isLimitBased(props: MainGateProps): boolean {
 }
 
 export function requestTotalCount(props: MainGateProps): boolean {
-    // always ask for total count when user mapped an attribute, even in
-    // virtual or load-more modes.
     if (props.totalCountValue !== undefined) {
         return true;
     }
