@@ -49,7 +49,7 @@ export async function ci() {
     try {
         execSync("docker info");
     } catch (e) {
-        throw new Error("To run e2e test locally, make sure docker is running. Exiting now...");
+        throw new Error("To run e2e test locally, make sure docker is running. Exiting now...", { cause: e });
     }
 
     if (options.setupProject) {
