@@ -9,7 +9,7 @@ import {
     createToolResponse,
     type ErrorCode
 } from "@/tools/utils/response";
-import { access, mkdir } from "node:fs/promises";
+import { access, mkdir, stat } from "node:fs/promises";
 import { dirname } from "node:path";
 import { z } from "zod";
 import { isPathAllowed } from "./utils/sandbox";
@@ -139,8 +139,24 @@ async function handleCreateWidget(
         const widgetFolder = options.name.charAt(0).toLowerCase() + options.name.slice(1);
         const widgetPath = `${outputDir}/${widgetFolder}`;
 
-        // Run generator inside outputDir — it creates the widget subfolder
-        await runWidgetGenerator(options, tracker, outputDir);
+        // If the widget directory already exists, skip the Yeoman scaffold — the generator
+        // refuses to run in non-empty directories. The existing scaffold is still valid;
+        // generate-widget-code will overwrite the source files anyway.
+        let alreadyExists = false;
+        try {
+            await stat(widgetPath);
+            alreadyExists = true;
+        } catch {
+            /* directory doesn't exist yet — proceed with scaffold */
+        }
+
+        if (alreadyExists) {
+            console.error(`[create-widget] Widget directory already exists at ${widgetPath} — skipping scaffold`);
+            await tracker.progress(SCAFFOLD_PROGRESS.COMPLETE, "Widget directory already exists — skipping scaffold.");
+        } else {
+            // Run generator inside outputDir — it creates the widget subfolder
+            await runWidgetGenerator(options, tracker, outputDir);
+        }
 
         console.error(`[create-widget] Widget created successfully at ${widgetPath}`);
         await tracker.progress(SCAFFOLD_PROGRESS.COMPLETE, "Widget created successfully!");
