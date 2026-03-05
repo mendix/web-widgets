@@ -29,8 +29,8 @@ export default function MxCalendar(props: CalendarContainerProps): ReactElement 
 
     return (
         <Fragment>
-            {props.startDateAttribute && props.startDateAttribute.status !== "available" ? (
-                <div className="widget-calendar-loading-bar" />
+            {props.startDateAttribute?.status === "loading" ? (
+                <progress className="widget-calendar-loading-bar" />
             ) : (
                 <div className={classNames("widget-calendar", props.class)} style={wrapperStyle}>
                     <DnDCalendar {...calendarProps} {...calendarEvents} />
