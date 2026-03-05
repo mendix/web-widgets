@@ -57,6 +57,6 @@ export function dynamicPageEnabled(props: GalleryGateProps): boolean {
     return props.dynamicPage !== undefined && !isLimitBased(props);
 }
 
-function requestTotalCount(props: GalleryGateProps): boolean {
+export function requestTotalCount(props: GalleryGateProps): boolean {
     return props.pagination === "buttons" || props.showTotalCount;
 }
