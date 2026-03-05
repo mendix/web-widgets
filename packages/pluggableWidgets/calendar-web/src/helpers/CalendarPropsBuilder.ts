@@ -45,7 +45,6 @@ export class CalendarPropsBuilder {
         this.props = props;
         this.events = this.buildEvents(props.databaseDataSource?.items ?? []);
         this.toolbarItems = this.buildToolbarItems();
-        this.defaultDate = props.startDateAttribute?.value;
     }
 
     build(localizer: DateLocalizer, culture: string): DragAndDropCalendarProps<CalendarEvent> {
