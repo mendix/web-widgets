@@ -5,15 +5,16 @@ $brand-primary: #264ae5 !default;
 $brand-light: #e6eaff !default;
 $grid-selected-row-background: $brand-light !default;
 $color-contrast: #000 !default;
+$color-base: #fff !default;
 
 // Background
-$bg-color: #fff !default;
+$bg-color: $color-base !default;
 $bg-color-secondary: #f5f8fd !default;
 $grid-bg-striped: #fafafb !default;
 $grid-bg-hover: #f5f6f6 !default;
 $hover-color: #f8f8f8 !default;
 $selected-color: #dadcde !default;
-$label-info-color: $bg-color !default;
+$label-info-color: $color-base !default;
 $color-default-light: $grid-bg-hover !default;
 $color-primary-lighter: $brand-light !default;
 
@@ -22,6 +23,8 @@ $gray-dark: #606671 !default;
 $gray-darker: #3b4251 !default;
 $caption-color: #0a1325 !default;
 $form-input-placeholder-color: #757575 !default;
+$form-input-border-color: $brand-primary !default;
+$btn-primary-color: $color-base !default;
 
 // Border colors
 $border-color-default: #ced0d3 !default;
