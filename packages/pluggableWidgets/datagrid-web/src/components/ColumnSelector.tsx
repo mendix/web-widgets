@@ -126,7 +126,6 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             className={`column-selectors`}
             data-focusindex={0}
             role="menu"
-            aria-multiselectable="true"
             style={{ ...correctedFloatingStyles, maxHeight }}
             {...getFloatingProps()}
         >
@@ -161,8 +160,9 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                                 setShow(false);
                             }
                         }}
-                        role="menuitem"
-                        aria-selected={isVisible}
+                        role="menuitemcheckbox"
+                        aria-checked={isVisible}
+                        aria-disabled={isLastVisibleColumn}
                         tabIndex={0}
                     >
                         <input
@@ -172,6 +172,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                             style={{ pointerEvents: "none" }}
                             type="checkbox"
                             tabIndex={-1}
+                            aria-hidden="true"
                             onChange={onChangeStub}
                         />
                         <label htmlFor={`${props.id}_checkbox_toggle_${index}`} style={{ pointerEvents: "none" }}>
