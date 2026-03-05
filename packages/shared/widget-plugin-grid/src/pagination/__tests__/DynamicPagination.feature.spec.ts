@@ -140,4 +140,49 @@ describe("DynamicPaginationFeature", () => {
         runInAction(() => atoms.loadedRows.set(-1));
         expect(loadedRowsAttr.setValue).not.toHaveBeenCalledWith(new Big(-1));
     });
+
+    it("skips dynamic page/pageSize sync when disabled but still mirrors total count", () => {
+        dispose();
+        jest.clearAllMocks();
+
+        const feature = new DynamicPaginationFeature(
+            {
+                add: (_component: SetupComponent) => {},
+                remove: (_component: SetupComponent) => {},
+                setup: () => () => {}
+            } as SetupComponentHost,
+            {
+                isLimitBased: true,
+                dynamicPageEnabled: false,
+                dynamicPageSizeEnabled: false
+            },
+            atoms.dynamicPage.atom,
+            atoms.dynamicPageSize.atom,
+            atoms.totalCount.atom,
+            atoms.currentPage.atom,
+            atoms.pageSize.atom,
+            atoms.loadedRows.atom,
+            gate,
+            service
+        );
+
+        dispose = feature.setup();
+        jest.clearAllMocks();
+
+        runInAction(() => {
+            atoms.dynamicPage.set(2);
+            atoms.dynamicPageSize.set(25);
+            atoms.currentPage.set(4);
+            atoms.pageSize.set(40);
+            atoms.totalCount.set(300);
+        });
+
+        jest.advanceTimersByTime(250);
+
+        expect(service.setPage).not.toHaveBeenCalled();
+        expect(service.setPageSize).not.toHaveBeenCalled();
+        expect(pageAttr.setValue).not.toHaveBeenCalled();
+        expect(pageSizeAttr.setValue).not.toHaveBeenCalled();
+        expect(service.setTotalCount).toHaveBeenCalledWith(300);
+    });
 });

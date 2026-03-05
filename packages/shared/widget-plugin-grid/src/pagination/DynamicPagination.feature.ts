@@ -68,31 +68,36 @@ export class DynamicPaginationFeature implements SetupComponent {
                     { delay: 250 }
                 )
             );
+        }
+
+        add(
+            autorun(() => {
+                this.service.setTotalCount(this.totalCount.get());
+            })
+        );
+
+        // outbound autoruns (service/query state -> props)
+        if (this.config.dynamicPageEnabled) {
             add(
                 autorun(() => {
-                    this.service.setTotalCount(this.totalCount.get());
+                    const attr = this.gate.props.dynamicPage;
+                    if (!attr || attr.readOnly) return;
+                    const val = this.currentPage.get();
+                    const pageValue = this.config.isLimitBased ? val : val + 1;
+                    attr.setValue(new Big(pageValue));
                 })
             );
         }
 
-        // outbound autoruns (service/query state -> props)
-        add(
-            autorun(() => {
-                const attr = this.gate.props.dynamicPage;
-                if (!attr || attr.readOnly) return;
-                const val = this.currentPage.get();
-                const pageValue = this.config.isLimitBased ? val : val + 1;
-                attr.setValue(new Big(pageValue));
-            })
-        );
-
-        add(
-            autorun(() => {
-                const attr = this.gate.props.dynamicPageSize;
-                if (!attr || attr.readOnly) return;
-                attr.setValue(new Big(this.pageSize.get()));
-            })
-        );
+        if (this.config.dynamicPageSizeEnabled) {
+            add(
+                autorun(() => {
+                    const attr = this.gate.props.dynamicPageSize;
+                    if (!attr || attr.readOnly) return;
+                    attr.setValue(new Big(this.pageSize.get()));
+                })
+            );
+        }
 
         add(
             autorun(() => {
