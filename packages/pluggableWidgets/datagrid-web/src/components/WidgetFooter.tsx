@@ -13,11 +13,7 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
     const selectionCounterVM = useSelectionCounterViewModel();
     const customPagination = useCustomPagination();
 
-    const showFooter =
-        selectionCounterVM.isBottomCounterVisible ||
-        paging.paginationVisible ||
-        paging.showVirtualScrollingWithRowCount ||
-        paging.showLoadMore;
+    const showFooter = selectionCounterVM.isBottomCounterVisible || paging.paginationVisible || paging.loadMoreVisible;
 
     if (!showFooter) {
         return null;
@@ -31,7 +27,7 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
                         <SelectionCounter />
                     </If>
                 </div>
-                <If condition={paging.hasMoreItems && paging.pagination === "loadMore"}>
+                <If condition={paging.loadMoreVisible}>
                     <div className="widget-datagrid-pb-middle">
                         <button
                             className="btn btn-primary widget-datagrid-load-more"

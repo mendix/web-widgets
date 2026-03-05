@@ -50,6 +50,16 @@ const widgetConfig = {
                     from: `src/${widgetName}.@(tile|icon)@(.dark|).png`,
                     to: "./[name][ext]",
                     toType: "template"
+                },
+                {
+                    from: `dependencies.(json|txt)`,
+                    to: "./[name][ext]",
+                    toType: "template"
+                },
+                {
+                    from: `../../../LICENSE`,
+                    to: "./License.txt",
+                    toType: "template"
                 }
             ]
         })

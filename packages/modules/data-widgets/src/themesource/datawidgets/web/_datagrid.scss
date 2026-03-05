@@ -307,52 +307,6 @@ $root: ".widget-datagrid";
     width: 100%;
 }
 
-.pagination-bar {
-    display: flex;
-    justify-content: flex-end;
-    white-space: nowrap;
-    align-items: baseline;
-    margin: 16px;
-    color: $pagination-caption-color;
-
-    .paging-status {
-        padding: 0 8px 0;
-    }
-
-    .pagination-button {
-        padding: 6px;
-        color: var(--gray-darker, $gray-darker);
-        border-color: transparent;
-        background-color: transparent;
-
-        &:hover {
-            color: var(--brand-primary, $brand-primary);
-            border-color: transparent;
-            background-color: transparent;
-        }
-
-        &:disabled {
-            border-color: transparent;
-            background-color: transparent;
-        }
-
-        &:focus:not(:focus-visible) {
-            outline: none;
-        }
-
-        &:focus-visible {
-            outline: 1px solid var(--brand-primary, $brand-primary);
-        }
-    }
-    .pagination-icon {
-        position: relative;
-        top: 4px;
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-    }
-}
-
 /* Column selector for hidable columns outside DG context */
 /* List of columns to select */
 .column-selectors {
@@ -522,6 +476,10 @@ $root: ".widget-datagrid";
     }
 }
 
+.widget-datagrid .progress-bar {
+    margin: var(--spacing-medium, 16px);
+}
+
 .widget-datagrid .widget-datagrid-load-more {
     display: block !important;
     margin: var(--spacing-small, 8px) 0;
@@ -593,7 +551,7 @@ $root: ".widget-datagrid";
     display: contents;
 }
 
-:where(#{$root}-paging-bottom, #{$root}-padding-top) {
+:where(#{$root}-paging-bottom, #{$root}-paging-top) {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;

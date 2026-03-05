@@ -89,7 +89,8 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
             "dynamicPage",
             "dynamicPageSize",
             "useCustomPagination",
-            "customPagination"
+            "customPagination",
+            "totalCountValue"
         ]);
     }
 
