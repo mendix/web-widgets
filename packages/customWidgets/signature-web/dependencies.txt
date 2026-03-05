@@ -34,7 +34,7 @@ SOFTWARE.
 ---
 
 Name: signature_pad
-Version: 4.0.0
+Version: 5.1.3
 License: MIT
 Private: false
 Description: Library for drawing smooth signatures.

@@ -30,7 +30,7 @@
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
-        "release": "ts-node --project scripts/tsconfig.json scripts/build.ts production",
+        "release": "node scripts/generate-dependencies.js && ts-node --project scripts/tsconfig.json scripts/build.ts production",
         "test": "pluggable-widgets-tools test:unit:web",
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
