@@ -129,6 +129,7 @@ $root: ".widget-datagrid";
                 color: var(--gray-dark, $gray-dark);
                 height: var(--btn-font-size, $btn-font-size);
                 align-self: center;
+                z-index: 1;
             }
 
             &:focus:not(:focus-visible) {
