@@ -129,6 +129,7 @@ $root: ".widget-datagrid";
                 color: var(--gray-dark, $gray-dark);
                 height: var(--btn-font-size, $btn-font-size);
                 align-self: center;
+                z-index: 1;
             }
 
             &:focus:not(:focus-visible) {
@@ -493,6 +494,14 @@ $root: ".widget-datagrid";
         width: calc(var(--widgets-grid-width) - var(--widgets-grid-scrollbar-size));
         overflow-x: hidden;
     }
+
+    .widget-datagrid-grid-head {
+        &[data-scrolled-x="true"],
+        &[data-scrolled-y="true"] {
+            z-index: 1;
+        }
+    }
+
     .widget-datagrid-grid-head[data-scrolled-y="true"] {
         // add shadow under the header
         // implying that grid is scrolled vertically (there are rows hidden under header)
@@ -524,27 +533,54 @@ $root: ".widget-datagrid";
     }
 }
 
+// styles for browsers that don't support subgrid
+// if the browser doesn't support subgrid
+// fall back header an body the contents and apply grid template to the table
+.widget-datagrid-grid.table {
+    grid-template-columns: var(--widgets-grid-template-columns);
+}
+.widget-datagrid-grid-body,
 .widget-datagrid-grid-head {
-    display: grid;
-    min-width: 0;
-
-    // this head is not part of the grid, so it has dedicated column template  --widgets-grid-template-columns-head
-    // but it might not be available at the initial render, so we use template from the grid --widgets-grid-template-columns
-    // using template from the grid might to misalignment from the grid itself,
-    // but in practice:
-    //   - grid has no data at that moment, so misalignment is not visible.
-    //   - as soon as the grid itself gets rendered --widgets-grid-template-columns-head gets calculated
-    //     and everything looks like it should.
-    grid-template-columns: var(--widgets-grid-template-columns-head, var(--widgets-grid-template-columns));
+    display: contents;
 }
 
-.widget-datagrid-grid-body {
-    // this element has to position their children (columns or headers)
-    // as grid and have those aligned with the parent grid
-    display: grid;
-    // this property makes sure we align our own grid columns
-    // to the columns defined in the global grid
-    grid-template-columns: var(--widgets-grid-template-columns);
+// styles for modern browsers
+@supports (grid-template-rows: subgrid) {
+    .widget-datagrid-grid.table:not([data-has-scroll-x="true"]) {
+        grid-template-columns: var(--widgets-grid-template-columns);
+        .widget-datagrid-grid-body,
+        .widget-datagrid-grid-head {
+            display: grid;
+            min-width: 0;
+
+            // this property makes sure we align our own grid columns
+            // to the columns defined in the global grid
+            grid-template-columns: subgrid;
+
+            // ensure that we cover all columns of original top level grid
+            // so our own columns get aligned with the parent
+            grid-column: 1 / -1;
+        }
+    }
+
+    .widget-datagrid-grid.table[data-has-scroll-x="true"] {
+        // reset the columns defined on table level
+        // header and body will define their own instead
+        // this is needed to make body horizontally scrollable
+        grid-template-columns: initial;
+        .widget-datagrid-grid-head {
+            display: grid;
+            min-width: 0;
+
+            grid-template-columns: var(--widgets-grid-template-columns-head, var(--widgets-grid-template-columns));
+        }
+
+        .widget-datagrid-grid-body {
+            display: grid;
+
+            grid-template-columns: var(--widgets-grid-template-columns);
+        }
+    }
 }
 
 .grid-mock-header {
