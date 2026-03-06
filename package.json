@@ -20,7 +20,8 @@
         "publish-marketplace": "turbo run publish-marketplace",
         "release": "turbo run release",
         "test": "turbo run test --continue --concurrency 1",
-        "verify": "turbo run verify --continue --concurrency 1"
+        "verify": "turbo run verify --continue --concurrency 1",
+        "update-screenshots-local": "node automation/scripts/update-screenshots-local.mjs"
     },
     "devDependencies": {
         "husky": "^8.0.3",
