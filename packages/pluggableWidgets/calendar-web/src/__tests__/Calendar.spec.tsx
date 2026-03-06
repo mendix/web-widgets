@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { dynamic, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 
 import MxCalendar from "../Calendar";
@@ -10,37 +10,43 @@ jest.mock("react-big-calendar", () => {
     const originalModule = jest.requireActual("react-big-calendar");
     return {
         ...originalModule,
-        Calendar: ({
-            children,
-            defaultView,
-            culture,
-            resizable,
-            selectable,
-            showAllEvents,
-            min,
-            max,
-            events,
-            step,
-            timeslots,
-            ...domProps
-        }: any) => (
-            <div
-                data-testid="mock-calendar"
-                data-default-view={defaultView}
-                data-culture={culture}
-                data-resizable={resizable}
-                data-selectable={selectable}
-                data-show-all-events={showAllEvents}
-                data-min={min?.toISOString()}
-                data-max={max?.toISOString()}
-                data-events-count={events?.length ?? 0}
-                data-step={step}
-                data-timeslots={timeslots}
-                {...domProps}
-            >
-                {children}
-            </div>
-        ),
+        Calendar: (mockProps: any) => {
+            const {
+                children,
+                defaultView,
+                defaultDate,
+                culture,
+                resizable,
+                selectable,
+                showAllEvents,
+                min,
+                max,
+                events,
+                step,
+                timeslots,
+                ...domProps
+            } = mockProps;
+
+            return (
+                <div
+                    data-testid="mock-calendar"
+                    data-default-view={defaultView}
+                    data-default-date={defaultDate?.toISOString()}
+                    data-culture={culture}
+                    data-resizable={resizable}
+                    data-selectable={selectable}
+                    data-show-all-events={showAllEvents}
+                    data-min={min?.toISOString()}
+                    data-max={max?.toISOString()}
+                    data-events-count={events?.length ?? 0}
+                    data-step={step}
+                    data-timeslots={timeslots}
+                    {...domProps}
+                >
+                    {children}
+                </div>
+            );
+        },
         dateFnsLocalizer: () => ({
             format: jest.fn(),
             parse: jest.fn(),
@@ -58,7 +64,7 @@ jest.mock("react-big-calendar", () => {
 });
 
 jest.mock("react-big-calendar/lib/addons/dragAndDrop", () => {
-    return jest.fn((Component: any) => Component);
+    return jest.fn(Component => Component);
 });
 
 const customViewProps: CalendarContainerProps = {
@@ -136,6 +142,72 @@ describe("Calendar", () => {
         expect(calendar.getAttribute("data-step")).toBe("60");
         expect(calendar.getAttribute("data-timeslots")).toBe("2");
     });
+
+    it("renders loading bar when startDateAttribute is loading", () => {
+        const props = {
+            ...customViewProps,
+            startDateAttribute: {
+                status: "loading"
+            } as any
+        };
+
+        const { container } = render(<MxCalendar {...props} />);
+
+        expect(container.querySelector(".widget-calendar-loading-bar")).toBeTruthy();
+        expect(container.querySelector("progress.widget-calendar-loading-bar")).toBeTruthy();
+        expect(screen.queryByTestId("mock-calendar")).toBeFalsy();
+    });
+
+    it("renders calendar when startDateAttribute is available", () => {
+        const props = {
+            ...customViewProps,
+            startDateAttribute: {
+                status: "available",
+                value: new Date("2025-05-01T00:00:00.000Z")
+            } as any
+        };
+
+        render(<MxCalendar {...props} />);
+
+        expect(screen.getByTestId("mock-calendar")).toBeTruthy();
+        expect(screen.queryByRole("progressbar")).toBeFalsy();
+    });
+
+    it("renders calendar when startDateAttribute is unavailable", () => {
+        const props = {
+            ...customViewProps,
+            startDateAttribute: {
+                status: "unavailable"
+            } as any
+        };
+
+        render(<MxCalendar {...props} />);
+
+        expect(screen.getByTestId("mock-calendar")).toBeTruthy();
+        expect(screen.queryByRole("progressbar")).toBeFalsy();
+    });
+
+    it("renders calendar when startDateAttribute is undefined", () => {
+        render(<MxCalendar {...customViewProps} startDateAttribute={undefined} />);
+
+        expect(screen.getByTestId("mock-calendar")).toBeTruthy();
+        expect(screen.queryByRole("progressbar")).toBeFalsy();
+    });
+
+    it("passes defaultDate from startDateAttribute value", () => {
+        const defaultDate = new Date("2025-06-10T08:30:00.000Z");
+        const props = {
+            ...customViewProps,
+            startDateAttribute: {
+                status: "available",
+                value: defaultDate
+            } as any
+        };
+
+        render(<MxCalendar {...props} />);
+
+        expect(screen.getByTestId("mock-calendar").getAttribute("data-default-date")).toBe("2025-06-10T08:30:00.000Z");
+    });
 });
 
 describe("CalendarPropsBuilder validation", () => {
@@ -195,5 +267,29 @@ describe("CalendarPropsBuilder validation", () => {
         const result = buildWithStepTimeslots(30, 2);
         expect(result.step).toBe(30);
         expect(result.timeslots).toBe(2);
+    });
+
+    it("keeps initial defaultDate after updateProps", () => {
+        const initialDate = new Date("2025-06-10T08:30:00.000Z");
+        const nextDate = new Date("2025-07-11T09:45:00.000Z");
+
+        const builder = new CalendarPropsBuilder({
+            ...customViewProps,
+            startDateAttribute: {
+                status: "available",
+                value: initialDate
+            } as any
+        });
+
+        builder.updateProps({
+            ...customViewProps,
+            startDateAttribute: {
+                status: "available",
+                value: nextDate
+            } as any
+        });
+
+        const result = builder.build(mockLocalizer, "en");
+        expect(result.defaultDate).toEqual(initialDate);
     });
 });
