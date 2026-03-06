@@ -53,16 +53,19 @@ export const ColorPicker = (props: ColorPickerProps): ReactElement => {
         rgb: "rgb(255,255,255)",
         rgba: "rgb(255,255,255,1)"
     };
-    const { type, mode, disabled, defaultColors, color, format, invalidFormatMessage } = props;
+    const { type, mode, disabled, defaultColors, color, format, invalidFormatMessage, onColorChange } = props;
     const ColorElement = getColorPicker(type);
     const [hidden, setHidden] = useState(mode !== "inline");
     const [currentColor, setCurrentColor] = useState<string | undefined>(color);
     const [alertMessage, setAlertMessage] = useState<string | undefined>();
 
-    const submitColor = (color: string): void => {
-        setCurrentColor(color);
-        props.onColorChange(color);
-    };
+    const submitColor = useCallback(
+        (color: string): void => {
+            setCurrentColor(color);
+            onColorChange(color);
+        },
+        [onColorChange]
+    );
 
     const validateColor = (colorValue: string): void => {
         const message = validateColorFormat(colorValue, format);
@@ -86,7 +89,7 @@ export const ColorPicker = (props: ColorPickerProps): ReactElement => {
                 submitColor(finalColor);
             }
         },
-        [disabled, format]
+        [disabled, format, submitColor]
     );
 
     const renderInput = (): ReactElement => {
