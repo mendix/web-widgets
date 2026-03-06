@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We changed some stylings hardcoded values to have a better support for css variables
+
 ## [3.8.1] DataWidgets - 2026-02-19
 
 ### [3.8.1] DatagridDateFilter
