@@ -29,7 +29,9 @@
         "branchName": "custom-chart-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/custom-chart-web",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools build:web",
+        "build:vite": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "echo 'FIXME: Finish custom-chart-web e2e test migration'",

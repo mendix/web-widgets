@@ -30,7 +30,9 @@
         "branchName": "google-tag-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/google-tag-web",
         "build": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV2.mpk pluggable-widgets-tools build:web",
+        "build:vite": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=com.mendix.widget.web.GoogleTagV2.mpk pluggable-widgets-tools start:web",

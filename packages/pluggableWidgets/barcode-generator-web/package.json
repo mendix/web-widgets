@@ -27,7 +27,9 @@
         "branchName": "barcode-generator-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/barcode-generator-web",
         "build": "pluggable-widgets-tools build:web",
+        "build:vite": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",

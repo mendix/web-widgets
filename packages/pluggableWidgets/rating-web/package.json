@@ -27,7 +27,9 @@
         "branchName": "star-rating-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/rating-web",
         "build": "cross-env MPKOUTPUT=StarRating.mpk pluggable-widgets-tools build:ts",
+        "build:vite": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=StarRating.mpk pluggable-widgets-tools start:web",

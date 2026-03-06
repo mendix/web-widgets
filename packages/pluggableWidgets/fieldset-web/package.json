@@ -26,7 +26,9 @@
         "branchName": "fieldset-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/fieldset-web",
         "build": "pluggable-widgets-tools build:web",
+        "build:vite": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",

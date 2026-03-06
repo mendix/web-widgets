@@ -26,7 +26,9 @@
         "branchName": "badge-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/badge-web",
         "build": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools build:web",
+        "build:vite": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=Badge.mpk pluggable-widgets-tools start:web",
@@ -52,6 +54,7 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:^*",
         "@mendix/widget-plugin-platform": "workspace:*",
+        "archiver": "^6.0.0",
         "cross-env": "^7.0.3"
     }
 }

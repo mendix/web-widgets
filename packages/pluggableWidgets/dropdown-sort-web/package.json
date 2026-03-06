@@ -26,7 +26,9 @@
         "branchName": "dropdown-sort-web/data-widgets-3.0"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/dropdown-sort-web",
         "build": "pluggable-widgets-tools build:ts",
+        "build:vite": "vite build --config vite.config.js",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:ts",
         "e2e": "run-e2e ci",

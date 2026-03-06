@@ -26,7 +26,9 @@
         "branchName": "pie-chart-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/pie-doughnut-chart-web",
         "build": "pluggable-widgets-tools build:ts",
+        "build:vite": "vite build --config vite.config.js",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "run-e2e ci",

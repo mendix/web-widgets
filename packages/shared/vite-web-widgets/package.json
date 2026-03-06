@@ -1,0 +1,16 @@
+{
+    "name": "@mendix/vite-web-widgets",
+    "version": "0.0.0",
+    "description": "Shared Vite configurations for web widgets (prototype)",
+    "private": true,
+    "main": "vite.config.ts",
+    "exports": {
+        "./vite.config": "./vite.config.ts"
+    },
+    "dependencies": {
+        "archiver": "^7.0.1"
+    },
+    "devDependencies": {
+        "vite": "^7.3.1"
+    }
+}

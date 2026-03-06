@@ -27,7 +27,9 @@
         "branchName": "rich-text-v4-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/rich-text-web",
         "build": "cross-env MPKOUTPUT=RichText.mpk pluggable-widgets-tools build:web",
+        "build:vite": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=RichText.mpk pluggable-widgets-tools start:web",
@@ -70,10 +72,6 @@
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
-        "@rollup/plugin-alias": "^5.1.1",
-        "@rollup/plugin-image": "^3.0.3",
-        "@rollup/plugin-json": "^6.1.0",
-        "@rollup/plugin-replace": "^6.0.2",
         "@types/js-beautify": "^1.14.3",
         "@types/katex": "^0.16.7",
         "@types/sanitize-html": "^1.27.2",
@@ -81,7 +79,6 @@
         "postcss": "^8.5.6",
         "postcss-import": "^16.1.1",
         "postcss-url": "^10.1.3",
-        "rollup-plugin-postcss": "^4.0.2",
-        "rollup-preserve-directives": "^1.1.3"
+        "rollup-plugin-postcss": "^4.0.2"
     }
 }

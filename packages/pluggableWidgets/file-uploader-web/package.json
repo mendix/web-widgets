@@ -27,7 +27,9 @@
     },
     "scripts": {
         "add-nf-defaults": "node nf-defaults.mjs add",
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/file-uploader-web",
         "build": "pluggable-widgets-tools build:web",
+        "build:vite": "vite build --config vite.config.js",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "echo \"Skipping this e2e test\"",

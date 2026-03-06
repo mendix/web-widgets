@@ -26,7 +26,9 @@
         "branchName": "carousel-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/carousel-web",
         "build": "cross-env MPKOUTPUT=Carousel.mpk pluggable-widgets-tools build:web",
+        "build:vite": "vite build --config vite.config.js",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=Carousel.mpk pluggable-widgets-tools start:web",
