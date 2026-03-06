@@ -17,6 +17,7 @@ jest.mock("react-big-calendar", () => {
             resizable,
             selectable,
             showAllEvents,
+            showMultiDayTimes,
             min,
             max,
             events,
@@ -31,6 +32,7 @@ jest.mock("react-big-calendar", () => {
                 data-resizable={resizable}
                 data-selectable={selectable}
                 data-show-all-events={showAllEvents}
+                data-show-multi-day-times={showMultiDayTimes}
                 data-min={min?.toISOString()}
                 data-max={max?.toISOString()}
                 data-events-count={events?.length ?? 0}
@@ -91,6 +93,7 @@ const customViewProps: CalendarContainerProps = {
     customViewShowFriday: true,
     customViewShowSaturday: false,
     showAllEvents: true,
+    showMultiDayTimes: true,
     step: 60,
     timeslots: 2,
     toolbarItems: [],
@@ -195,5 +198,181 @@ describe("CalendarPropsBuilder validation", () => {
         const result = buildWithStepTimeslots(30, 2);
         expect(result.step).toBe(30);
         expect(result.timeslots).toBe(2);
+    });
+});
+
+describe("CalendarPropsBuilder showMultiDayTimes", () => {
+    const mockLocalizer = {
+        format: jest.fn(),
+        parse: jest.fn(),
+        startOfWeek: jest.fn(),
+        getDay: jest.fn(),
+        messages: {}
+    } as any;
+
+    it("passes showMultiDayTimes=true to calendar props", () => {
+        const props = { ...customViewProps, showMultiDayTimes: true };
+        const builder = new CalendarPropsBuilder(props);
+        const result = builder.build(mockLocalizer, "en");
+        expect(result.showMultiDayTimes).toBe(true);
+    });
+
+    it("passes showMultiDayTimes=false to calendar props", () => {
+        const props = { ...customViewProps, showMultiDayTimes: false };
+        const builder = new CalendarPropsBuilder(props);
+        const result = builder.build(mockLocalizer, "en");
+        expect(result.showMultiDayTimes).toBe(false);
+    });
+});
+
+describe("CalendarPropsBuilder multi-day time formats", () => {
+    const mockLocalizer = {
+        format: jest.fn((date: Date, pattern: string, _culture: string) => {
+            // Simulate locale-aware formatting using the pattern
+            const hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, "0");
+            return `${hours}:${minutes} (${pattern})`;
+        }),
+        parse: jest.fn(),
+        startOfWeek: jest.fn(),
+        getDay: jest.fn(),
+        messages: {}
+    } as any;
+
+    const buildWithTimeFormat = (timeFormatValue: string) => {
+        const props = {
+            ...customViewProps,
+            timeFormat: dynamic(timeFormatValue)
+        };
+        const builder = new CalendarPropsBuilder(props);
+        return builder.build(mockLocalizer, "en");
+    };
+
+    it("sets eventTimeRangeStartFormat using the configured time pattern", () => {
+        const result = buildWithTimeFormat("HH:mm");
+        const start = new Date("2025-04-28T22:00:00Z");
+        const end = new Date("2025-04-29T02:00:00Z");
+
+        expect(result.formats!.eventTimeRangeStartFormat).toBeDefined();
+        const label = (result.formats!.eventTimeRangeStartFormat as Function)({ start, end }, "en", mockLocalizer);
+        expect(label).toContain("HH:mm");
+        expect(label).toMatch(/– $/);
+    });
+
+    it("sets eventTimeRangeEndFormat using the configured time pattern", () => {
+        const result = buildWithTimeFormat("HH:mm");
+        const start = new Date("2025-04-28T22:00:00Z");
+        const end = new Date("2025-04-29T02:00:00Z");
+
+        expect(result.formats!.eventTimeRangeEndFormat).toBeDefined();
+        const label = (result.formats!.eventTimeRangeEndFormat as Function)({ start, end }, "en", mockLocalizer);
+        expect(label).toContain("HH:mm");
+        expect(label).toMatch(/^ – /);
+    });
+
+    it("uses the same pattern for eventTimeRangeFormat, start, and end formats", () => {
+        const result = buildWithTimeFormat("h:mm a");
+        const start = new Date("2025-04-28T22:00:00Z");
+        const end = new Date("2025-04-29T02:00:00Z");
+
+        const rangeLabel = (result.formats!.eventTimeRangeFormat as Function)({ start, end }, "en", mockLocalizer);
+        const startLabel = (result.formats!.eventTimeRangeStartFormat as Function)({ start, end }, "en", mockLocalizer);
+        const endLabel = (result.formats!.eventTimeRangeEndFormat as Function)({ start, end }, "en", mockLocalizer);
+
+        // All three should use the same "h:mm a" pattern passed to localizer.format
+        expect(rangeLabel).toContain("h:mm a");
+        expect(startLabel).toContain("h:mm a");
+        expect(endLabel).toContain("h:mm a");
+    });
+
+    it("does not set start/end formats when no timeFormat is configured", () => {
+        const props = { ...customViewProps, timeFormat: undefined };
+        const builder = new CalendarPropsBuilder(props);
+        const result = builder.build(mockLocalizer, "en");
+
+        expect(result.formats!.eventTimeRangeStartFormat).toBeUndefined();
+        expect(result.formats!.eventTimeRangeEndFormat).toBeUndefined();
+    });
+});
+
+describe("CalendarPropsBuilder showEventDate hides multi-day formats", () => {
+    const mockLocalizer = {
+        format: jest.fn((_date: Date, pattern: string) => `formatted(${pattern})`),
+        parse: jest.fn(),
+        startOfWeek: jest.fn(),
+        getDay: jest.fn(),
+        messages: {}
+    } as any;
+
+    it("blanks eventTimeRangeStartFormat when showEventDate=false", () => {
+        const props = {
+            ...customViewProps,
+            showEventDate: dynamic(false),
+            timeFormat: dynamic("HH:mm")
+        };
+        const builder = new CalendarPropsBuilder(props);
+        const result = builder.build(mockLocalizer, "en");
+
+        const label = (result.formats!.eventTimeRangeStartFormat as Function)(
+            { start: new Date(), end: new Date() },
+            "en",
+            mockLocalizer
+        );
+        expect(label).toBe("");
+    });
+
+    it("blanks eventTimeRangeEndFormat when showEventDate=false", () => {
+        const props = {
+            ...customViewProps,
+            showEventDate: dynamic(false),
+            timeFormat: dynamic("HH:mm")
+        };
+        const builder = new CalendarPropsBuilder(props);
+        const result = builder.build(mockLocalizer, "en");
+
+        const label = (result.formats!.eventTimeRangeEndFormat as Function)(
+            { start: new Date(), end: new Date() },
+            "en",
+            mockLocalizer
+        );
+        expect(label).toBe("");
+    });
+
+    it("blanks eventTimeRangeFormat when showEventDate=false", () => {
+        const props = {
+            ...customViewProps,
+            showEventDate: dynamic(false),
+            timeFormat: dynamic("HH:mm")
+        };
+        const builder = new CalendarPropsBuilder(props);
+        const result = builder.build(mockLocalizer, "en");
+
+        const label = (result.formats!.eventTimeRangeFormat as Function)(
+            { start: new Date(), end: new Date() },
+            "en",
+            mockLocalizer
+        );
+        expect(label).toBe("");
+    });
+
+    it("preserves all time range formats when showEventDate=true", () => {
+        const props = {
+            ...customViewProps,
+            showEventDate: dynamic(true),
+            timeFormat: dynamic("p")
+        };
+        const builder = new CalendarPropsBuilder(props);
+        const result = builder.build(mockLocalizer, "en");
+
+        const start = new Date("2025-04-28T22:00:00Z");
+        const end = new Date("2025-04-29T02:00:00Z");
+
+        const rangeLabel = (result.formats!.eventTimeRangeFormat as Function)({ start, end }, "en", mockLocalizer);
+        const startLabel = (result.formats!.eventTimeRangeStartFormat as Function)({ start, end }, "en", mockLocalizer);
+        const endLabel = (result.formats!.eventTimeRangeEndFormat as Function)({ start, end }, "en", mockLocalizer);
+
+        expect(rangeLabel).not.toBe("");
+        expect(startLabel).not.toBe("");
+        expect(endLabel).not.toBe("");
     });
 });

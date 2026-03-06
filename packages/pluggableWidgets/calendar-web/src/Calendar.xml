@@ -131,6 +131,10 @@
                     <caption>Show all events</caption>
                     <description>Auto-adjust calendar height to display all events without "more" links</description>
                 </property>
+                <property key="showMultiDayTimes" type="boolean" defaultValue="false">
+                    <caption>Show multi-day times</caption>
+                    <description>Show start and end times for events that span multiple days in the week and day views instead of placing them in the all-day row</description>
+                </property>
                 <property key="step" type="integer" defaultValue="30">
                     <caption>Step</caption>
                     <description>Determines the selectable time increments in week and day views</description>
