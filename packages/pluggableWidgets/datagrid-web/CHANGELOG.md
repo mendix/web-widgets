@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added accessibility support for column headers when single selection is enabled, making sure the purpose of the column is announced.
 
+### Fixed
+
+- Pagination attributes (`Page`, `Page Size`, `Total Count`) now sync correctly in all pagination modes and are exposed even when not using custom pagination.
+- Added read-only `Loaded Rows` attribute for virtual scrolling and ensured the total count is requested whenever a `totalCountValue` attribute is mapped.
+- Updated editor configuration to show/hide attributes appropriately across modes and cleaned up pagination config logic.
+
 ## [3.8.1] - 2026-02-19
 
 ### Fixed

@@ -15,7 +15,7 @@ module.exports = {
         ]
     },
     moduleNameMapper: {
-        "(.+)\\.js": "$1"
+        "^(\\.{1,2}/.*)\\.js$": "$1"
     },
     extensionsToTreatAsEsm: [".ts"]
 };

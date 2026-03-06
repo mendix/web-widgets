@@ -75,4 +75,27 @@ describe("consistency check", () => {
             expect(check(props as unknown as DatagridPreviewProps)).toEqual([]);
         });
     });
+
+    describe("editor config exposes pagination attributes correctly", () => {
+        const base: any = {
+            columns: [],
+            groupList: [],
+            groupAttrs: []
+        };
+
+        test("buttons mode keeps pagination attribute mapping valid", () => {
+            const props = { ...base, pagination: "buttons" };
+            expect(check(props as DatagridPreviewProps)).toEqual([]);
+        });
+
+        test("virtualScrolling mode keeps pagination attribute mapping valid", () => {
+            const props = { ...base, pagination: "virtualScrolling" };
+            expect(check(props as DatagridPreviewProps)).toEqual([]);
+        });
+
+        test("loadMore mode keeps pagination attribute mapping valid", () => {
+            const props = { ...base, pagination: "loadMore" };
+            expect(check(props as DatagridPreviewProps)).toEqual([]);
+        });
+    });
 });
