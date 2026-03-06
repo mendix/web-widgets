@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added the new property "Parent association". This property allows tree node to have infinite levels of children by setting up the property to a self reference association.
+
 ## [3.8.0] - 2026-01-16
 
 ### Changed

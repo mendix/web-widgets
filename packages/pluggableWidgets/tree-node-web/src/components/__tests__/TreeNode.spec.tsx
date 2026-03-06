@@ -47,7 +47,9 @@ const defaultProps: TreeNodeProps = {
     collapsedIcon: undefined,
     animateIcon: false,
     animateTreeNodeContent: false,
-    openNodeOn: "headerClick"
+    openNodeOn: "headerClick",
+    fetchChildren: jest.fn().mockResolvedValue([]),
+    isInfiniteTreeNodesEnabled: false
 };
 
 jest.useFakeTimers();
