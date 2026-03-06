@@ -24,7 +24,7 @@ async function downloadAndExtract(url, downloadPath, extractPath) {
         await streamPipe((await fetchWithReport(url)).body, createWriteStream(downloadPath));
         crossZip.unzipSync(downloadPath, extractPath);
     } catch (e) {
-        throw new Error(`Unable to download and extract from ${url}`);
+        throw new Error(`Unable to download and extract from ${url}`, { cause: e });
     } finally {
         rm("-f", downloadPath);
     }

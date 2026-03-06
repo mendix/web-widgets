@@ -1,5 +1,10 @@
 import { test, expect } from "@playwright/test";
 
+async function waitForMendixReady(page) {
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForFunction(() => !!window.mx?.session);
+}
+
 test.afterEach("Cleanup session", async ({ page }) => {
     // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
     await page.evaluate(() => window.mx.session.logout());
@@ -8,7 +13,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 test.describe("Video Player", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/grid");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixReady(page);
     });
 
     test("renders youtube video", async ({ page }) => {
@@ -42,7 +47,7 @@ test.describe("Video Player", () => {
 test.describe("Tab page", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/tabs");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixReady(page);
     });
 
     test("renders youtube video", async ({ page }) => {
@@ -97,7 +102,7 @@ test.describe("Tab page", () => {
 test.describe("Error page", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/errors");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixReady(page);
     });
 
     test("renders no content div", async ({ page }) => {
@@ -111,7 +116,7 @@ test.describe("Error page", () => {
 test.describe("External video", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/external");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixReady(page);
     });
 
     test("renders a poster", async ({ page }) => {
@@ -121,6 +126,7 @@ test.describe("External video", () => {
     test.describe("Video aspect ratio", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/p/aspectRatio");
+            await waitForMendixReady(page);
         });
 
         test("renders video aspect ratio correctly", async ({ page }) => {
