@@ -15,6 +15,9 @@ export interface FilterStore {
 type BaseController = GConstructor<{
     filterStore: FilterStore;
     multiselect: boolean;
+    ariaLabel: string;
+    emptyCaption: string;
+    emptyOptionCaption: string;
 }>;
 
 const none = "[[__none__]]" as const;
@@ -22,9 +25,6 @@ const none = "[[__none__]]" as const;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function SelectControllerMixin<TBase extends BaseController>(Base: TBase) {
     return class SelectControllerMixin extends Base {
-        emptyCaption = "";
-        ariaLabel = "";
-
         readonly emptyOption = {
             value: none,
             caption: "",
@@ -45,7 +45,7 @@ export function SelectControllerMixin<TBase extends BaseController>(Base: TBase)
             if (this.multiselect) {
                 return this.filterStore.options;
             }
-            return [this.emptyOption, ...this.filterStore.options];
+            return [{ ...this.emptyOption, caption: this.emptyOptionCaption }, ...this.filterStore.options];
         }
 
         get isEmpty(): boolean {
