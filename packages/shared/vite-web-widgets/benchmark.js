@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { execSync } = require("child_process");
+const { execSync, execFileSync } = require("child_process");
 const { statSync, readdirSync, mkdirSync, rmSync, copyFileSync } = require("fs");
 const path = require("path");
 const repoRoot = path.resolve(__dirname, "../../..");
@@ -52,14 +52,70 @@ function formatDelta(oldSize, newSize) {
 }
 
 function formatSpeed(oldTimeMs, newTimeMs) {
-    if (newTimeMs <= 0) {
+    if (oldTimeMs <= 0 || newTimeMs <= 0) {
         return "n/a";
     }
-    const ratio = oldTimeMs / newTimeMs;
-    const pctLessTime = oldTimeMs <= 0 ? null : ((oldTimeMs - newTimeMs) / oldTimeMs) * 100;
-    const ratioText = `${ratio.toFixed(2)}x faster`;
-    const pctText = pctLessTime === null ? "n/a" : `${pctLessTime.toFixed(2)}% less time`;
+
+    let ratioText;
+    let pctText;
+    if (newTimeMs < oldTimeMs) {
+        const ratio = oldTimeMs / newTimeMs;
+        const pctLessTime = ((oldTimeMs - newTimeMs) / oldTimeMs) * 100;
+        ratioText = `${ratio.toFixed(2)}x faster`;
+        pctText = `${Math.abs(pctLessTime).toFixed(2)}% less time`;
+    } else if (newTimeMs > oldTimeMs) {
+        const ratio = newTimeMs / oldTimeMs;
+        const pctMoreTime = ((newTimeMs - oldTimeMs) / oldTimeMs) * 100;
+        ratioText = `${ratio.toFixed(2)}x slower`;
+        pctText = `${Math.abs(pctMoreTime).toFixed(2)}% more time`;
+    } else {
+        ratioText = "1.00x same speed";
+        pctText = "0.00% time change";
+    }
+
     return `${ratioText} (${pctText})`;
+}
+
+function findPackageRoot(node, pkg) {
+    if (!node || typeof node !== "object") {
+        return null;
+    }
+    if (node.name === pkg && typeof node.path === "string") {
+        return node.path;
+    }
+    if (Array.isArray(node)) {
+        for (const item of node) {
+            const found = findPackageRoot(item, pkg);
+            if (found) {
+                return found;
+            }
+        }
+        return null;
+    }
+    if (node.dependencies) {
+        const found = findPackageRoot(node.dependencies, pkg);
+        if (found) {
+            return found;
+        }
+    }
+    return null;
+}
+
+function resolvePackageRoot(pkg, fallbackDir) {
+    try {
+        const output = execFileSync("pnpm", ["ls", "--json", "--depth", "-1", "--filter", pkg], {
+            cwd: repoRoot,
+            encoding: "utf8"
+        });
+        const parsed = JSON.parse(output);
+        const root = findPackageRoot(parsed, pkg);
+        if (root) {
+            return root;
+        }
+    } catch {
+        // Fall back to legacy location pattern if pnpm resolution fails.
+    }
+    return fallbackDir;
 }
 
 function sumMapValues(map) {
@@ -134,7 +190,8 @@ function main() {
     }
     console.log(`benchmarking ${pkg}`);
     const simpleName = pkg.replace(/^@mendix\//, "");
-    const pkgDir = path.join(repoRoot, "packages/pluggableWidgets", simpleName);
+    const fallbackPkgDir = path.join(repoRoot, "packages/pluggableWidgets", simpleName);
+    const pkgDir = resolvePackageRoot(pkg, fallbackPkgDir);
     const outDir = path.join(pkgDir, "dist");
     const benchDir = path.join(repoRoot, ".benchmark", simpleName);
 
