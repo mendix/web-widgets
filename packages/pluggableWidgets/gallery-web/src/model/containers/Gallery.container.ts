@@ -226,6 +226,10 @@ const _08_paginationBindings: BindingGroup = {
             GY.paging.dynamicPage,
             GY.paging.dynamicPageSize,
             CORE.data.totalCount,
+            GY.paging.currentPage,
+            GY.paging.pageSize,
+            CORE.data.itemCount,
+            CORE.mainGate,
             GY.paging.pageControl
         );
         injected(customPaginationAtom, CORE.mainGate);
