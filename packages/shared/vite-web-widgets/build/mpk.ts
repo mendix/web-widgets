@@ -1,7 +1,7 @@
 import Archiver from "archiver";
 import { copyFileSync, createWriteStream, existsSync, mkdirSync, rmSync } from "fs";
 import { cp } from "fs/promises";
-import { join, resolve } from "path";
+import { basename, dirname, join, resolve } from "path";
 import type { ResolvedConfig } from "../types";
 
 async function copyDir(src: string, dest: string): Promise<void> {
@@ -27,7 +27,7 @@ export async function createMPK(options: ResolvedConfig): Promise<string> {
     for (const file of options.metadataFiles) {
         const srcPath = resolve(process.cwd(), file.src);
         const destPath = join(stagingDir, file.dest);
-        mkdirSync(join(stagingDir, file.dest.split("/").slice(0, -1).join("/")), { recursive: true });
+        mkdirSync(join(stagingDir, dirname(file.dest)), { recursive: true });
         if (existsSync(srcPath)) {
             copyFileSync(srcPath, destPath);
         }
@@ -43,7 +43,7 @@ export async function createMPK(options: ResolvedConfig): Promise<string> {
     for (const removePath of options.removeBeforeCopy ?? []) {
         const absolutePath = join(tmpWidgetsPath, removePath);
         if (existsSync(absolutePath)) {
-            rmSync(absolutePath);
+            rmSync(absolutePath, { recursive: true, force: true });
         }
     }
 
@@ -56,6 +56,8 @@ export async function createMPK(options: ResolvedConfig): Promise<string> {
         const archive = (Archiver as unknown as (format: string, options: { zlib: { level: number } }) => any)("zip", {
             zlib: { level: 9 }
         });
+
+        output.on("error", reject);
 
         output.on("close", () => {
             console.log(`Created ${mpkPath} (${archive.pointer()} bytes)`);
@@ -79,7 +81,7 @@ export async function deployMPKToMxProject(mpkPath: string): Promise<void> {
     }
 
     const widgetsDir = resolve(mxProjectPath, "widgets");
-    const fileName = mpkPath.split("/").pop();
+    const fileName = basename(mpkPath);
 
     if (!fileName) {
         throw new Error(`Invalid MPK path: ${mpkPath}`);
