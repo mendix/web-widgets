@@ -11,7 +11,7 @@ async function copyDir(src: string, dest: string): Promise<void> {
     }
 }
 
-export async function createMPK(options: ResolvedConfig): Promise<void> {
+export async function createMPK(options: ResolvedConfig): Promise<string> {
     const distPath = resolve(process.cwd(), "dist");
     const tmpWidgetsPath = join(distPath, "tmp", "widgets");
     const stagingDir = join(distPath, "widgets");
@@ -67,4 +67,26 @@ export async function createMPK(options: ResolvedConfig): Promise<void> {
         archive.directory(stagingDir, false);
         archive.finalize();
     });
+
+    return mpkPath;
+}
+
+export async function deployMPKToMxProject(mpkPath: string): Promise<void> {
+    const mxProjectPath = process.env.MX_PROJECT_PATH;
+
+    if (!mxProjectPath) {
+        return;
+    }
+
+    const widgetsDir = resolve(mxProjectPath, "widgets");
+    const fileName = mpkPath.split("/").pop();
+
+    if (!fileName) {
+        throw new Error(`Invalid MPK path: ${mpkPath}`);
+    }
+
+    mkdirSync(widgetsDir, { recursive: true });
+    const targetPath = join(widgetsDir, fileName);
+    copyFileSync(mpkPath, targetPath);
+    console.log(`Deployed ${fileName} to ${widgetsDir}`);
 }

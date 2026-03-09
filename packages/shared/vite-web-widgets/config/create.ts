@@ -1,7 +1,7 @@
 import type { ConfigEnv, UserConfig } from "vite";
 import type { WidgetViteConfigOptions } from "../types";
 import { buildEditorArtifacts } from "../build/editor-artifacts";
-import { createMPK } from "../build/mpk";
+import { createMPK, deployMPKToMxProject } from "../build/mpk";
 import { getResolveAlias, isBuildDev, resolveConfig } from "./resolve";
 
 export function createConfig(options: WidgetViteConfigOptions, env: ConfigEnv): UserConfig {
@@ -48,7 +48,8 @@ export function createConfig(options: WidgetViteConfigOptions, env: ConfigEnv): 
                     }
 
                     console.log("Building MPK...");
-                    await createMPK(resolvedConfig);
+                    const mpkPath = await createMPK(resolvedConfig);
+                    await deployMPKToMxProject(mpkPath);
                 }
             }
         ]
