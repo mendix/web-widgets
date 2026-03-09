@@ -1,6 +1,6 @@
 import { isAvailable } from "@mendix/widget-plugin-platform/framework/is-available";
 import Big from "big.js";
-import { DynamicValue, ListValue, ObjectItem, ValueStatus } from "mendix";
+import { DynamicValue, ListValue, ObjectItem } from "mendix";
 import { createNanoEvents, Emitter, Unsubscribe } from "nanoevents";
 import { ColumnsType, ShowContentAsEnum } from "../../../typings/DatagridProps";
 
@@ -30,6 +30,8 @@ type ReadersByType = Record<ShowContentAsEnum, ValueReader>;
 type RowReader = (item: ObjectItem) => RowData;
 
 type ColumnReader = (props: ColumnsType) => HeaderDefinition;
+type GetterStatus = { status: string };
+type ValueGetter = { get: (item: unknown) => GetterStatus };
 
 interface ExportRequestEvents {
     /** Emitted once when request is started. */
@@ -67,7 +69,7 @@ export class DSExportRequest {
     private totalCount: number | undefined = undefined;
     private shouldSendHeaders = false;
     private emitter: Emitter<ExportRequestEvents>;
-    private getters: Array<{ get: (item: unknown) => { status: ValueStatus } }> = [];
+    private getters: ValueGetter[] = [];
     private readController: AbortController | undefined;
 
     constructor(params: RequestParams) {
@@ -248,15 +250,14 @@ export class DSExportRequest {
         this.emitter.events = {};
     }
 
-    private getGetters(columns: ColumnsType[]): Array<{ get: (item: unknown) => { status: ValueStatus } }> {
+    private getGetters(columns: ColumnsType[]): ValueGetter[] {
         return columns.map(col => {
-            let prop =
-                col.showContentAs === "attribute"
-                    ? col.attribute
-                    : col.showContentAs === "dynamicText"
-                      ? col.dynamicText
-                      : col.exportValue;
-            prop ??= { get: () => ({ status: ValueStatus.Available, value: "n/a" }) };
+            const prop = (col.showContentAs === "attribute"
+                ? col.attribute
+                : col.showContentAs === "dynamicText"
+                  ? col.dynamicText
+                  : col.exportValue) ?? { get: () => ({ status: "available", value: "n/a" }) };
+
             return prop;
         });
     }

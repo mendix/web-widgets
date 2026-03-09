@@ -30,14 +30,18 @@
         "branchName": "document-viewer-web"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/document-viewer-web",
         "build": "pluggable-widgets-tools build:web",
+        "build:vite": "vite build --mode dev --config ../../shared/vite-web-widgets/vite.config.ts",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
+        "dev:vite": "vite build --watch --mode dev --config ../../shared/vite-web-widgets/vite.config.ts",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "pluggable-widgets-tools release:web",
+        "release:vite": "vite build --mode prod --config ../../shared/vite-web-widgets/vite.config.ts",
         "start": "pluggable-widgets-tools start:server",
         "test": "echo 'FIXME: Add unit tests'",
         "update-changelog": "rui-update-changelog-widget",

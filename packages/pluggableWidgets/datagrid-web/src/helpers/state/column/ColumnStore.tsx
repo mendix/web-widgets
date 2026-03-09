@@ -4,8 +4,7 @@ import {
     ListAttributeValue,
     ListExpressionValue,
     ListWidgetValue,
-    ObjectItem,
-    ValueStatus
+    ObjectItem
 } from "mendix";
 import { ComponentPropsWithoutRef, KeyboardEvent, ReactElement, ReactNode } from "react";
 import { AlignmentEnum, ColumnsType } from "../../../../typings/DatagridProps";
@@ -170,7 +169,7 @@ export class ColumnStore implements GridColumn {
             return true;
         }
 
-        if (this._visible.status === ValueStatus.Loading && this._visible.value === undefined) {
+        if (this._visible.status === "loading" && this._visible.value === undefined) {
             // if status is Loading and no previous value is available it means initial loading
             return false;
         }

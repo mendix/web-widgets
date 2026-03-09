@@ -26,15 +26,19 @@
         "branchName": "datagrid-web/data-widgets-3.0"
     },
     "scripts": {
+        "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/datagrid-web",
         "build": "pluggable-widgets-tools build:ts",
+        "build:vite": "vite build --mode dev --config ../../shared/vite-web-widgets/vite.config.ts",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:ts",
+        "dev:vite": "vite build --watch --mode dev --config ../../shared/vite-web-widgets/vite.config.ts",
         "e2e": "run-e2e ci",
         "e2e-update-project": "pnpm --filter @mendix/data-widgets run build:include-deps",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:ts",
+        "release:vite": "vite build --mode prod --config ../../shared/vite-web-widgets/vite.config.ts",
         "start": "pluggable-widgets-tools start:server",
         "test": "jest",
         "update-changelog": "rui-update-changelog-widget",
@@ -63,6 +67,7 @@
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
-        "@mendix/widget-plugin-test-utils": "workspace:*"
+        "@mendix/widget-plugin-test-utils": "workspace:*",
+        "archiver": "^6.0.0"
     }
 }
