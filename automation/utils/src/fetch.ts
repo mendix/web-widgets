@@ -45,10 +45,12 @@ export async function fetch<T = unknown>(
     } else if (response.status === 503) {
         throw new Error(`Fetching Failed. "${url}" is unreachable (Code ${response.status}).`);
     } else if (response.status !== 200 && response.status !== 201) {
+        console.log(`Response content: ${await response.text()}`);
         throw new Error(`Fetching Failed (Code ${response.status}). ${response.statusText}`);
     } else if (response.ok) {
         return response.json();
     } else {
+        console.log(`Response content: ${await response.text()}`);
         throw new Error(`Fetching Failed (Code ${response.status}). ${response.statusText}`);
     }
 }
