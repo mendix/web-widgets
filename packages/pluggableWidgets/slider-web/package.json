@@ -33,6 +33,7 @@
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=Slider.mpk pluggable-widgets-tools start:web",
+        "dev:vite": "vite build --watch --mode dev --config ../../shared/vite-web-widgets/vite.config.ts",
         "e2e": "run-e2e ci",
         "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",

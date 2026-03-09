@@ -34,6 +34,7 @@
         "build:vite": "vite build --mode dev --config ../../shared/vite-web-widgets/vite.config.ts",
         "create-gh-release": "rui-create-gh-release",
         "dev": "pluggable-widgets-tools start:web",
+        "dev:vite": "vite build --watch --mode dev --config ../../shared/vite-web-widgets/vite.config.ts",
         "e2e": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
         "e2edev": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",

@@ -36,6 +36,7 @@
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
+        "dev:vite": "vite build --watch --mode dev --config ../../shared/vite-web-widgets/vite.config.ts",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
