@@ -31,7 +31,7 @@
     "scripts": {
         "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/custom-chart-web",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools build:web",
-        "build:vite": "vite build --config vite.config.js",
+        "build:vite": "vite build --mode dev --config ../../shared/vite-web-widgets/vite.config.ts",
         "create-gh-release": "rui-create-gh-release",
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "echo 'FIXME: Finish custom-chart-web e2e test migration'",
@@ -40,6 +40,7 @@
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools release:web",
+        "release:vite": "vite build --mode prod --config ../../shared/vite-web-widgets/vite.config.ts",
         "start": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pluggable-widgets-tools start:server",
         "test": "pluggable-widgets-tools test:unit:web:enzyme-free",
         "update-changelog": "rui-update-changelog-widget",

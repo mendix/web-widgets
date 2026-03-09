@@ -29,7 +29,7 @@
     "scripts": {
         "benchmark:vite": "node ../../shared/vite-web-widgets/benchmark.js @mendix/switch-web",
         "build": "cross-env MPKOUTPUT=Switch.mpk pluggable-widgets-tools build:web",
-        "build:vite": "vite build --config vite.config.js",
+        "build:vite": "vite build --mode dev --config ../../shared/vite-web-widgets/vite.config.ts",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=Switch.mpk pluggable-widgets-tools start:web",
@@ -39,6 +39,7 @@
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "cross-env MPKOUTPUT=Switch.mpk pluggable-widgets-tools release:web",
+        "release:vite": "vite build --mode prod --config ../../shared/vite-web-widgets/vite.config.ts",
         "start": "cross-env MPKOUTPUT=Switch.mpk pluggable-widgets-tools start:server",
         "test": "pluggable-widgets-tools test:unit:web:enzyme-free",
         "update-changelog": "rui-update-changelog-widget",
