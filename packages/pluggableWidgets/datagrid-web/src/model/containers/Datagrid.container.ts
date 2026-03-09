@@ -24,9 +24,10 @@ import {
     PaginationViewModel
 } from "@mendix/widget-plugin-grid/pagination/main";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected } from "brandi";
+import { computed } from "mobx";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
@@ -46,6 +47,10 @@ import { SelectionGate } from "../services/SelectionGate.service";
 import { GridSizeStore } from "../stores/GridSize.store";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
+/** Atom that reflects the number of rows currently loaded in the datasource. */
+function loadedRowsAtom(itemCount: ComputedAtom<number>): ComputedAtom<number> {
+    return computed(() => itemCount.get()) as ComputedAtom<number>;
+}
 interface InitDependencies {
     props: MainGateProps;
     mainGate: DerivedPropsGate<MainGateProps>;
@@ -191,9 +196,14 @@ const _06_paginationBindings: BindingGroup = {
             DG.dynamicPage,
             DG.dynamicPageSize,
             CORE.atoms.totalCount,
+            DG.currentPage,
+            DG.pageSize,
+            DG.loadedRows,
+            CORE.mainGate,
             DG.pageControl
         );
         injected(customPaginationAtom, CORE.mainGate);
+        injected(loadedRowsAtom, CORE.atoms.itemCount);
     },
     define(container: Container) {
         container.bind(DG.currentPage).toInstance(currentPageAtom).inTransientScope();
@@ -201,6 +211,7 @@ const _06_paginationBindings: BindingGroup = {
         container.bind(DG.dynamicPage).toInstance(dynamicPageAtom).inTransientScope();
         container.bind(DG.dynamicPageSize).toInstance(dynamicPageSizeAtom).inTransientScope();
         container.bind(DG.dynamicPagination).toInstance(DynamicPaginationFeature).inSingletonScope();
+        container.bind(DG.loadedRows).toInstance(loadedRowsAtom).inTransientScope();
         container.bind(DG.pageSize).toInstance(pageSizeAtom).inTransientScope();
         container.bind(DG.pageControl).toInstance(PageControlService).inSingletonScope();
         container.bind(DG.paginationVM).toInstance(PaginationViewModel).inSingletonScope();

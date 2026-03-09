@@ -44,17 +44,17 @@ export function paginationKind(props: MainGateProps): PaginationKind {
 }
 
 export function dynamicPageSizeEnabled(props: MainGateProps): boolean {
-    return props.dynamicPageSize !== undefined && !isLimitBased(props);
+    return props.dynamicPageSize !== undefined;
 }
 
 export function dynamicPageEnabled(props: MainGateProps): boolean {
-    return props.dynamicPage !== undefined && !isLimitBased(props);
+    return props.dynamicPage !== undefined;
 }
 
 function isLimitBased(props: MainGateProps): boolean {
     return props.pagination === "virtualScrolling" || props.pagination === "loadMore";
 }
 
-function requestTotalCount(props: MainGateProps): boolean {
-    return props.pagination === "buttons" || props.showNumberOfRows;
+export function requestTotalCount(props: MainGateProps): boolean {
+    return props.pagination === "buttons" || props.showNumberOfRows || props.totalCountValue !== undefined;
 }
