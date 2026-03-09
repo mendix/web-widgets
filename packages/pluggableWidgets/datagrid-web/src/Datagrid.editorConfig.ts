@@ -72,6 +72,7 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
 
     if (values.pagination === "buttons") {
         hidePropertyIn(defaultProperties, values, "showNumberOfRows");
+        hidePropertyIn(defaultProperties, values, "loadedRowsValue");
 
         if (values.useCustomPagination === false) {
             hidePropertyIn(defaultProperties, values, "customPagination");
@@ -85,13 +86,7 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
             hidePropertyIn(defaultProperties, values, "pagingPosition");
         }
 
-        hidePropertiesIn(defaultProperties, values, [
-            "dynamicPage",
-            "dynamicPageSize",
-            "useCustomPagination",
-            "customPagination",
-            "totalCountValue"
-        ]);
+        hidePropertiesIn(defaultProperties, values, ["useCustomPagination", "customPagination"]);
     }
 
     if (values.pagination !== "loadMore") {
