@@ -10,9 +10,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added accessibility support for column headers when single selection is enabled, making sure the purpose of the column is announced.
 
+- We added a new `Loaded rows` attribute that reflects the number of rows currently loaded for virtual scrolling and load-more pagination modes.
+
+- We exposed the `Page`, `Page size`, and `Total count` attributes for virtual scrolling and load-more pagination modes so they are kept in sync at all times.
+
 ### Fixed
 
 - We fixed an issue with Data export crashing on some Android devices.
+
+- We fixed an issue where the `Page` attribute was not updated when navigating pages using the default (buttons) paging controls.
+
+- We fixed an issue where configuring the `Total count` attribute had no effect for virtual scrolling and load-more pagination modes.
 
 ## [3.8.1] - 2026-02-19
 
