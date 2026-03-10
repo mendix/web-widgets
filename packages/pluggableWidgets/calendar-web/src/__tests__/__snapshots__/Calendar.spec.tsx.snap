@@ -15,6 +15,7 @@ exports[`Calendar renders correctly with basic props 1`] = `
     data-resizable="true"
     data-selectable="true"
     data-show-all-events="true"
+    data-show-multi-day-times="true"
     data-step="60"
     data-testid="mock-calendar"
     data-timeslots="2"
