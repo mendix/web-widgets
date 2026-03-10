@@ -333,6 +333,19 @@ export const getPreview = (
                   )
               ]
             : [];
+    const customPaginationWidgets = values.useCustomPagination
+        ? [
+              rowLayout({
+                  columnSize: "fixed",
+                  borders: true
+              })(
+                  dropzone(
+                      dropzone.placeholder("Custom pagination: Place widgets here"),
+                      dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader)
+                  )(values.customPagination)
+              )
+          ]
+        : [];
 
     return container()(
         gridTitle,
@@ -340,6 +353,7 @@ export const getPreview = (
         gridHeaderWidgets,
         columnHeaders,
         ...Array.from({ length: 5 }).map(() => columns),
+        ...customPaginationWidgets,
         ...customEmptyMessageWidgets
     );
 };
