@@ -13,7 +13,7 @@ export const BadgeButton = (props: BadgeButtonProps): ReactElement => (
     <button
         className={classNames(
             "widget-badge-button btn",
-            { "btn-primary": !props.className?.match(/btn-{primary|secondary|success|warning|danger}/) },
+            { "btn-primary": !props.className?.match(/btn-(primary|secondary|success|warning|danger)/) },
             props.className
         )}
         onClick={props.onClick}
