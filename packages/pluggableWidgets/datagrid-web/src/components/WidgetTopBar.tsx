@@ -19,7 +19,7 @@ export const WidgetTopBar = observer(function WidgetTopBar(): ReactElement {
                     </If>
                 </div>
                 <div className="widget-datagrid-tb-end">
-                    <If condition={pgConfig.pagingPosition !== "bottom"}>
+                    <If condition={!pgConfig.customPaginationEnabled && pgConfig.pagingPosition !== "bottom"}>
                         <Pagination />
                     </If>
                 </div>
