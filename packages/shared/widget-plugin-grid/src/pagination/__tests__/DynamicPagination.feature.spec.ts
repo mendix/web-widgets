@@ -6,7 +6,7 @@ import {
 } from "@mendix/widget-plugin-mobx-kit/main";
 import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { Big } from "big.js";
-import { computed, observable, runInAction } from "mobx";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { EditableValue } from "mendix";
 import { GridPageControl } from "../../interfaces/GridPageControl";
 import { DynamicPaginationFeature } from "../DynamicPagination.feature";
@@ -44,9 +44,20 @@ function makeHost(): SetupComponentHost {
     } as SetupComponentHost;
 }
 
+class ObservableGate<T extends object> implements DerivedPropsGate<T> {
+    props: T;
+    constructor(initialProps: T) {
+        this.props = initialProps;
+        makeObservable(this, { props: observable.ref, setProps: action });
+    }
+    setProps(props: T): void {
+        this.props = props;
+    }
+}
+
 describe("DynamicPaginationFeature", () => {
     let service: jest.Mocked<GridPageControl>;
-    let gate: DerivedPropsGate<GateProps>;
+    let gate: ObservableGate<GateProps>;
     let atoms: {
         dynamicPage: NumberAtomBox;
         dynamicPageSize: NumberAtomBox;
@@ -76,14 +87,12 @@ describe("DynamicPaginationFeature", () => {
         totalCountAttr = new EditableValueBuilder<Big>().build();
         loadedRowsAttr = new EditableValueBuilder<Big>().build();
 
-        gate = {
-            props: {
-                dynamicPage: pageAttr,
-                dynamicPageSize: pageSizeAttr,
-                totalCountValue: totalCountAttr,
-                loadedRowsValue: loadedRowsAttr
-            }
-        } as unknown as DerivedPropsGate<GateProps>;
+        gate = new ObservableGate({
+            dynamicPage: pageAttr,
+            dynamicPageSize: pageSizeAttr,
+            totalCountValue: totalCountAttr,
+            loadedRowsValue: loadedRowsAttr
+        });
 
         atoms = {
             dynamicPage: boxAtom(-1),
@@ -125,6 +134,16 @@ describe("DynamicPaginationFeature", () => {
         expect(service.setPage).toHaveBeenCalledWith(2);
     });
 
+    it("ignores non-positive inbound dynamic page size", () => {
+        runInAction(() => atoms.dynamicPageSize.set(0));
+        jest.advanceTimersByTime(250);
+        expect(service.setPageSize).not.toHaveBeenCalledWith(0);
+
+        runInAction(() => atoms.dynamicPageSize.set(-1));
+        jest.advanceTimersByTime(250);
+        expect(service.setPageSize).not.toHaveBeenCalledWith(-1);
+    });
+
     it("syncs total count to service regardless of pagination mode", () => {
         runInAction(() => atoms.totalCount.set(123));
         expect(service.setTotalCount).toHaveBeenCalledWith(123);
@@ -153,6 +172,28 @@ describe("DynamicPaginationFeature", () => {
     it("does not call setLoadedRows for negative loaded rows", () => {
         runInAction(() => atoms.loadedRows.set(-1));
         expect(service.setLoadedRows).not.toHaveBeenCalledWith(-1);
+    });
+
+    it("does not overwrite dynamicPage attribute when gate.props reference changes but currentPage is unchanged", () => {
+        // Regression: when setProps() fires (new observable.ref reference) but currentPage
+        // hasn't changed yet, the outbound autorun must NOT re-run and reset the attribute.
+        // This simulates: user writes dynamicPage=2, setProps fires immediately (React effect),
+        // but DatasourceService.offset hasn't updated yet so currentPage is still 0.
+        (pageAttr.setValue as jest.MockedFunction<any>).mockClear();
+
+        // Simulate setProps creating a new props object (same attr instances, new wrapper)
+        runInAction(() =>
+            gate.setProps({
+                dynamicPage: pageAttr,
+                dynamicPageSize: pageSizeAttr,
+                totalCountValue: totalCountAttr,
+                loadedRowsValue: loadedRowsAttr
+            })
+        );
+
+        // currentPage atom is still 0 — the autorun must NOT re-fire from a gate.props
+        // reference change alone (untracked() guards against this)
+        expect(pageAttr.setValue).not.toHaveBeenCalled();
     });
 
     it("skips inbound page/pageSize sync when disabled but still syncs totalCount and loadedRows", () => {

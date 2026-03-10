@@ -7,7 +7,7 @@ import {
 } from "@mendix/widget-plugin-mobx-kit/main";
 import { Big } from "big.js";
 import { EditableValue } from "mendix";
-import { autorun, reaction } from "mobx";
+import { autorun, reaction, untracked } from "mobx";
 import { GridPageControl } from "../interfaces/GridPageControl";
 
 type FeatureGateProps = {
@@ -43,7 +43,7 @@ export class DynamicPaginationFeature implements SetupComponent {
                 reaction(
                     () => this.dynamicPageSize.get(),
                     pageSize => {
-                        if (pageSize < 0) return;
+                        if (pageSize <= 0) return;
                         this.service.setPageSize(pageSize);
                     },
                     { delay: 250 }
@@ -72,12 +72,16 @@ export class DynamicPaginationFeature implements SetupComponent {
             })
         );
 
-        // Sync current page and page size to attributes when enabled (all pagination modes)
+        // Sync current page and page size to attributes when enabled (all pagination modes).
+        // Use untracked() to read the gate for the attr reference so the autorun only
+        // re-runs when the computed page/size value changes — not on every setProps() call.
+        // Without untracked, a new props reference from setProps() would re-trigger the
+        // autorun and write the stale page value back, clobbering user-initiated attr writes.
         if (this.config.dynamicPageEnabled) {
             add(
                 autorun(() => {
                     const page = this.currentPage.get();
-                    const attr = this.gate.props.dynamicPage;
+                    const attr = untracked(() => this.gate.props.dynamicPage);
                     if (!attr || attr.readOnly) return;
                     // currentPage is 0-based internally; store 1-based in attribute
                     attr.setValue(new Big(page + 1));
@@ -89,7 +93,7 @@ export class DynamicPaginationFeature implements SetupComponent {
             add(
                 autorun(() => {
                     const size = this.pageSize.get();
-                    const attr = this.gate.props.dynamicPageSize;
+                    const attr = untracked(() => this.gate.props.dynamicPageSize);
                     if (!attr || attr.readOnly) return;
                     attr.setValue(new Big(size));
                 })
