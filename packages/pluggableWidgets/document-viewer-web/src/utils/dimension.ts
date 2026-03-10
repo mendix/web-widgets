@@ -1,11 +1,11 @@
 import { CSSProperties } from "react";
 import {
-    WidthUnitEnum,
     HeightUnitEnum,
-    MinHeightUnitEnum,
     MaxHeightUnitEnum,
-    OverflowYEnum
-} from "../typings/DocumentViewerProps";
+    MinHeightUnitEnum,
+    OverflowYEnum,
+    WidthUnitEnum
+} from "../../typings/DocumentViewerProps";
 
 export interface DimensionContainerProps {
     widthUnit: WidthUnitEnum;
