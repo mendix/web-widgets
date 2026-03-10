@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.5] - 2026-03-06
+
 ### Fixed
 
 - We fixed an issue where the widget would still change values in the previous Data View context after a context switch in the "listen to widget" setup.
