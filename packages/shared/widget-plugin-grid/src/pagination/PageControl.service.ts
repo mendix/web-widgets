@@ -25,10 +25,6 @@ export class PageControlService implements GridPageControl {
 
     setPage(page: number): void {
         this.setPageAction(page);
-        const value = this.gate.props.dynamicPage;
-        if (!value || value.readOnly) return;
-        // page is 0-based internally; store as 1-based in the attribute
-        value.setValue(new Big(page + 1));
     }
 
     setTotalCount(count: number): void {

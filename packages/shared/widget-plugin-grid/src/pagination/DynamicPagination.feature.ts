@@ -21,7 +21,7 @@ export class DynamicPaginationFeature implements SetupComponent {
     id = "DynamicPaginationFeature";
     constructor(
         host: SetupComponentHost,
-        private config: { dynamicPageSizeEnabled: boolean; dynamicPageEnabled: boolean },
+        private config: { dynamicPageSizeEnabled: boolean; dynamicPageEnabled: boolean; isLimitBased: boolean },
         private dynamicPage: ComputedAtom<number>,
         private dynamicPageSize: ComputedAtom<number>,
         private totalCount: ComputedAtom<number>,
@@ -83,8 +83,10 @@ export class DynamicPaginationFeature implements SetupComponent {
                     const page = this.currentPage.get();
                     const attr = untracked(() => this.gate.props.dynamicPage);
                     if (!attr || attr.readOnly) return;
-                    // currentPage is 0-based internally; store 1-based in attribute
-                    attr.setValue(new Big(page + 1));
+                    // For offset-based pagination, currentPage is 0-based internally; store as 1-based in the attribute.
+                    // For limit-based pagination (virtual scroll / loadMore), currentPage is already a loaded-page
+                    // count starting at 1, so no adjustment is needed.
+                    attr.setValue(new Big(this.config.isLimitBased ? page : page + 1));
                 })
             );
         }
