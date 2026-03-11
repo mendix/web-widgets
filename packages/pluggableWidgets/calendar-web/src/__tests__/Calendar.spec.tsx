@@ -19,8 +19,6 @@ jest.mock("react-big-calendar", () => {
                 resizable,
                 selectable,
                 showAllEvents,
-                min,
-                max,
                 events,
                 step,
                 timeslots,
