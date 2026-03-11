@@ -22,6 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- We fixed an issue where rows incorrectly showed a pointer cursor when using checkbox selection. Now the clickable cursor only appears when selection method is set to row click or when a row has an onClick action.
+
 - We fixed an issue with Data export crashing on some Android devices.
 
 - We fixed an issue where the `Page` attribute was not updated when navigating pages using the default (buttons) paging controls.
