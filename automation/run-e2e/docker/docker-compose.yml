@@ -1,0 +1,56 @@
+# Docker Compose orchestration for Mendix E2E test infrastructure.
+#
+# Usage (ci.mjs):
+#   docker compose -f .../docker-compose.yml up --wait mxruntime
+#   <run Playwright here>
+#   docker compose -f .../docker-compose.yml down
+#
+# Required env vars (set by ci.mjs):
+#   MENDIX_VERSION   – e.g. 10.24.0.73019
+#   WORKSPACE        – absolute path to the widget package directory (mounted as /source)
+#   MPR_PATH         – path to .mpr file relative to /source (e.g. tests/testProject/Datagrid2.mpr)
+#   RUNTIME_PORT     – host port to publish mxruntime on (default: 8080)
+
+services:
+    # mxbuild: compile the .mpr to a deployment bundle; runs once and exits.
+    # mxruntime waits for this to complete before starting.
+    mxbuild:
+        image: mxbuild:${MENDIX_VERSION:?MENDIX_VERSION is required}
+        volumes:
+            - ${WORKSPACE:?WORKSPACE is required}:/source
+        # Two-step build: sync widget mpks, then compile to deployment directory.
+        command: >
+            bash -c "
+              mx update-widgets --loose-version-check /source/${MPR_PATH:?MPR_PATH is required} &&
+              mxbuild ${MODERN_CLIENT:+${MODERN_CLIENT}} --output=/tmp/automation.mda /source/${MPR_PATH}
+            "
+
+    # mxruntime: serve the compiled app on RUNTIME_PORT.
+    # Starts after mxbuild completes; "docker compose up --wait" blocks until healthy.
+    mxruntime:
+        image: mxruntime:${MENDIX_VERSION:?MENDIX_VERSION is required}
+        depends_on:
+            mxbuild:
+                condition: service_completed_successfully
+        # m2ee is interactive and requires a TTY (mirrors `docker run --tty`).
+        tty: true
+        ports:
+            - "${RUNTIME_PORT:-8080}:8080"
+        environment:
+            MENDIX_VERSION: ${MENDIX_VERSION}
+        volumes:
+            # Widget package dir with compiled deployment/ sub-dir
+            - ${WORKSPACE:?WORKSPACE is required}:/source
+            # Shared scripts (runtime.sh, m2ee.yml) – read-only
+            - ./:/shared:ro
+        working_dir: /source
+        # Shell-execute runtime.sh so it doesn't need the execute bit on the host.
+        entrypoint: ["/bin/sh", "/shared/runtime.sh"]
+        # TCP connect: any response on port 8080 means the server is ready.
+        # interval=5s × retries=36 = up to 3 min total grace time.
+        healthcheck:
+            test: ["CMD", "python3", "-c", "import socket,sys; s=socket.socket(); s.settimeout(4); sys.exit(0) if not s.connect_ex(('127.0.0.1', 8080)) else sys.exit(1)"]
+            interval: 5s
+            timeout: 5s
+            retries: 36
+            start_period: 20s
