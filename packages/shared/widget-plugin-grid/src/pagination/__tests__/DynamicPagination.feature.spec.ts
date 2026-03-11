@@ -105,7 +105,7 @@ describe("DynamicPaginationFeature", () => {
 
         const feature = new DynamicPaginationFeature(
             makeHost(),
-            { dynamicPageEnabled: true, dynamicPageSizeEnabled: true },
+            { dynamicPageEnabled: true, dynamicPageSizeEnabled: true, isLimitBased: false },
             atoms.dynamicPage.atom,
             atoms.dynamicPageSize.atom,
             atoms.totalCount.atom,
@@ -202,7 +202,7 @@ describe("DynamicPaginationFeature", () => {
 
         const feature = new DynamicPaginationFeature(
             makeHost(),
-            { dynamicPageEnabled: false, dynamicPageSizeEnabled: false },
+            { dynamicPageEnabled: false, dynamicPageSizeEnabled: false, isLimitBased: false },
             atoms.dynamicPage.atom,
             atoms.dynamicPageSize.atom,
             atoms.totalCount.atom,
@@ -231,5 +231,66 @@ describe("DynamicPaginationFeature", () => {
         expect(pageSizeAttr.setValue).not.toHaveBeenCalled();
         expect(service.setTotalCount).toHaveBeenCalledWith(300);
         expect(service.setLoadedRows).toHaveBeenCalledWith(40);
+    });
+
+    describe("limit-based (virtual scroll / loadMore)", () => {
+        let limitDispose: () => void;
+        let limitAtoms: typeof atoms;
+        let limitPageAttr: EditableValue<Big>;
+
+        beforeEach(() => {
+            limitPageAttr = new EditableValueBuilder<Big>().build();
+            const limitGate = new ObservableGate<GateProps>({
+                dynamicPage: limitPageAttr
+            });
+
+            limitAtoms = {
+                dynamicPage: boxAtom(-1),
+                dynamicPageSize: boxAtom(-1),
+                totalCount: boxAtom(0),
+                currentPage: boxAtom(1),
+                pageSize: boxAtom(10),
+                loadedRows: boxAtom(0)
+            };
+
+            const feature = new DynamicPaginationFeature(
+                makeHost(),
+                { dynamicPageEnabled: true, dynamicPageSizeEnabled: false, isLimitBased: true },
+                limitAtoms.dynamicPage.atom,
+                limitAtoms.dynamicPageSize.atom,
+                limitAtoms.totalCount.atom,
+                limitAtoms.currentPage.atom,
+                limitAtoms.pageSize.atom,
+                limitAtoms.loadedRows.atom,
+                limitGate,
+                service
+            );
+
+            limitDispose = feature.setup();
+        });
+
+        afterEach(() => {
+            limitDispose();
+        });
+
+        it("writes currentPage as-is to dynamicPage attribute (no +1 for limit-based)", () => {
+            jest.clearAllMocks();
+            runInAction(() => limitAtoms.currentPage.set(2));
+            expect(lastArgToNumber(limitPageAttr.setValue as jest.MockedFunction<any>)).toBe(2);
+        });
+
+        it("does not re-trigger inbound reaction after outbound sync (no infinite loop)", () => {
+            // Regression: if outbound wrote page+1, the inbound reaction would see a new
+            // attribute value and call setPage again, creating an infinite load loop.
+            jest.clearAllMocks();
+
+            // Simulate virtual scroll bumping page 1 → 2
+            runInAction(() => limitAtoms.dynamicPage.set(2));
+            jest.advanceTimersByTime(250);
+
+            // Only one setPage call expected — no feedback loop
+            expect(service.setPage).toHaveBeenCalledTimes(1);
+            expect(service.setPage).toHaveBeenCalledWith(2);
+        });
     });
 });
