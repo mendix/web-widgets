@@ -35,11 +35,11 @@ Implement basic rendering and add error/loading states.
 Import SCSS for styling and use Atlas UI classes.
 
 6. Build and Run in Studio Pro
-   Set the MX_PROJECT_PATH environment variable to your test project's directory, you can ask what the project name running in Studio Pro is so that we can se the MX_PROJECT_PATH. The path is: /Users/rahman.unver/Mendix/ProjectName, this path is always same for the macOS version of Studio Pro. For Windows version, our path is /Volumes/[C] Windows11/Users/Rahman.Unver/Documents/ProjectName. example setting:
+   Set the MX_PROJECT_PATH environment variable to your test project's directory, you can ask what the project name running in Studio Pro is so that we can set the MX_PROJECT_PATH. The path is: /Users/<your-username>/Mendix/ProjectName, this path is always same for the macOS version of Studio Pro. For Windows version, the path is /Volumes/[C] Windows11/Users/<your-username>/Documents/ProjectName. example setting:
    Windows:
 
-- export MX_PROJECT_PATH=/Volumes/[C] Windows11/Users/Rahman.Unver/Documents/DocumentViewerWidget
-- export MX_PROJECT_PATH=/Users/rahman.unver/Mendix/RichTextTest
+- export MX_PROJECT_PATH=/Volumes/[C] Windows11/Users/<your-username>/Documents/MyTestProject
+- export MX_PROJECT_PATH=/Users/<your-username>/Mendix/MyTestProject
 
 Run pnpm start (or npm start) to build and watch for changes.
 

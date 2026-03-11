@@ -13,6 +13,7 @@ interface Props {
 export function SelectionHelperComponent(props: Props): ReactElement {
     // TODO: replace with useId
     const id = useMemo(() => {
+        // eslint-disable-next-line react-hooks/purity
         return Date.now().toString();
     }, []);
 

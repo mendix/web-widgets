@@ -89,7 +89,8 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
             "dynamicPage",
             "dynamicPageSize",
             "useCustomPagination",
-            "customPagination"
+            "customPagination",
+            "totalCountValue"
         ]);
     }
 
@@ -169,6 +170,10 @@ function hideSelectionProperties(defaultProperties: Properties, values: Datagrid
             "clearSelectionButtonLabel",
             "enableSelectAll"
         ]);
+    }
+
+    if (itemSelection !== "Single") {
+        hidePropertyIn(defaultProperties, values, "singleSelectionColumnLabel");
     }
 }
 

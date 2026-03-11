@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test.afterEach("Cleanup session", async ({ page }) => {
@@ -53,6 +53,37 @@ test.describe("datagrid-web selection", async () => {
             .nth(4)
             .click({ modifiers: ["Shift"] });
         await expect(page).toHaveScreenshot(`datagridMultiSelectionRowClick.png`);
+    });
+
+    test("checks single selection accessibility with sr-only text", async ({ page }) => {
+        await page.goto("/p/single-selection");
+        await page.waitForLoadState("networkidle");
+
+        const singleSelectionCheckbox = page.locator(".mx-name-dgSingleSelectionCheckbox");
+        await singleSelectionCheckbox.waitFor();
+
+        // Verify sr-only text is present in the selection column header
+        const srOnlyText = singleSelectionCheckbox.locator(".widget-datagrid-col-select .sr-only");
+        await expect(srOnlyText).toHaveText(/Select single row/i);
+
+        // Verify sr-only text is not visible but accessible
+        await expect(srOnlyText).toBeAttached();
+        const isHidden = await srOnlyText.evaluate(el => {
+            const style = window.getComputedStyle(el);
+            return (
+                style.position === "absolute" && (style.width === "1px" || style.clip === "rect(0px, 0px, 0px, 0px)")
+            );
+        });
+        expect(isHidden).toBe(true);
+
+        // Run accessibility scan
+        const accessibilityScanResults = await new AxeBuilder({ page })
+            .withTags(["wcag21aa"])
+            .include(".mx-name-dgSingleSelectionCheckbox")
+            .exclude(".mx-name-navigationTree3")
+            .analyze();
+
+        expect(accessibilityScanResults.violations).toEqual([]);
     });
 
     test("checks accessibility violations", async ({ page }) => {

@@ -22,20 +22,19 @@
         "cross-zip": "^4.0.1",
         "enquirer": "^2.4.1",
         "find-free-port": "^2.0.0",
-        "ip": "^1.1.9",
-        "mocha": "^10.4.0",
-        "node-fetch": "^2.7.0",
-        "shelljs": "^0.8.5",
-        "yargs-parser": "^21.1.1"
+        "ip": "^2.0.1",
+        "node-fetch": "^3.3.2",
+        "shelljs": "^0.10.0",
+        "yargs-parser": "^22.0.0"
     },
     "devDependencies": {
-        "@axe-core/playwright": "^4.10.1",
-        "@eslint/js": "^9.32.0",
+        "@axe-core/playwright": "^4.11.1",
+        "@eslint/js": "^10.0.1",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@playwright/test": "^1.51.1",
+        "@playwright/test": "^1.58.2",
         "@types/node": "*",
-        "eslint-plugin-playwright": "^2.2.0",
-        "globals": "^16.0.0",
-        "playwright-ctrf-json-reporter": "^0.0.20"
+        "eslint-plugin-playwright": "^2.9.0",
+        "globals": "^17.4.0",
+        "playwright-ctrf-json-reporter": "^0.0.27"
     }
 }

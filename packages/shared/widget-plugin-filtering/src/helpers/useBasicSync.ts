@@ -31,7 +31,8 @@ export function useBasicSync<T extends string | Big>(props: Props<T>, store: Inp
 function createPusher<T extends string | Big>(pbox: PropBox<T>): Pusher<T> {
     return ([value1, _value2, _value3]) => {
         const props = pbox.current;
-        props.valueAttribute?.setValue(value1 ?? undefined);
+
+        props.valueAttribute?.setValue(((value1 instanceof Big ? new Big(value1) : value1) as T) ?? undefined);
 
         if (props.onChange?.canExecute) {
             props.onChange?.execute();

@@ -6,7 +6,7 @@ import { EditorStore, EditorStoreState } from "./EditorStore";
 export type EditorStoreInitializer = () => EditorStoreState;
 
 type Params = {
-    dataLength: number;
+    dataSourceKey?: Data[];
     initState?: EditorStoreInitializer;
 };
 
@@ -23,12 +23,14 @@ export function useEditorStore(params: Params): EditorStore {
         return store;
     });
 
-    useEffect(
-        () => () => {
-            store.resetData(params.dataLength);
-        },
-        [store, params.dataLength]
-    );
+    useEffect(() => {
+        if (params.initState) {
+            // Reset only data, preserving layout/config customizations
+            const freshState = params.initState();
+            store.resetData(freshState.data);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [store, params.dataSourceKey]);
 
     return store;
 }

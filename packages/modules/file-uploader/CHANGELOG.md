@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.4.1] FileUploader - 2026-02-12
+
+### Fixed
+
+- We fixed an issue with entity security completeness check in File Uploader module.
+
+### [2.4.1] FileUploader
+
+#### Fixed
+
+- We added missing dutch translations for File Uploader.
+
 ## [2.4.0] FileUploader - 2025-12-10
 
 ### [2.4.0] FileUploader

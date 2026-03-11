@@ -1,5 +1,8 @@
 #!/usr/bin/env ts-node-script
 
+// Enable quiet mode for fetch calls to reduce logging noise
+process.env.FETCH_QUIET = "true";
+
 import { gh, GitHubDraftRelease, GitHubReleaseAsset } from "../src/github";
 import { basename, join } from "path";
 import { prompt } from "enquirer";
@@ -91,60 +94,66 @@ async function selectRelease(): Promise<GitHubDraftRelease> {
     printStep(2, 5, "Fetching draft releases...");
 
     while (true) {
+        const currentRepo = gh.getRepo();
+        printInfo(`Current repository: ${chalk.bold(currentRepo)}`);
+
         const releases = await gh.getDraftReleases();
         printSuccess(`Found ${releases.length} draft release${releases.length !== 1 ? "s" : ""}`);
 
         if (releases.length === 0) {
             printWarning("No draft releases found. Please create a draft release before trying again.");
-
-            console.log(); // spacing
-            const { action } = await prompt<{ action: string }>({
-                type: "select",
-                name: "action",
-                message: "What would you like to do?",
-                choices: [
-                    { name: "refresh", message: "--- Refresh the list ---" },
-                    { name: "exit", message: "❌ Exit" }
-                ]
-            });
-
-            if (action === "exit") {
-                throw new Error("No draft releases found");
-            }
-            // If "refresh", continue the loop
-            continue;
         }
 
         console.log(); // spacing
-        const { tag_name } = await prompt<{ tag_name: string }>({
+        const { selection } = await prompt<{ selection: string }>({
             type: "select",
-            name: "tag_name",
-            message: "Select a release to process:",
+            name: "selection",
+            message: releases.length === 0 ? "What would you like to do?" : "Select a release to process:",
             choices: [
-                ...releases.map(r => {
-                    const assetNames = r.assets.map(a => a.name);
-                    const hasReadmeOss = hasReadmeOssInAssets(assetNames);
-                    const indicator = hasReadmeOss ? "✅" : "";
-                    return {
-                        name: r.tag_name,
-                        message: `${r.name} ${chalk.gray(`(${r.tag_name})`)} ${indicator} `
-                    };
-                }),
+                ...(releases.length > 0
+                    ? releases.map(r => {
+                          const assetNames = r.assets.map(a => a.name);
+                          const hasReadmeOss = hasReadmeOssInAssets(assetNames);
+                          const indicator = hasReadmeOss ? "✅" : "";
+                          return {
+                              name: r.tag_name,
+                              message: `${r.name} ${chalk.gray(`(${r.tag_name})`)} ${indicator} `
+                          };
+                      })
+                    : []),
                 {
                     name: "__refresh__",
-                    message: chalk.cyan("--- Refresh the list ---")
-                }
+                    message: chalk.dim("--- Refresh the list ---")
+                },
+                {
+                    name: "__switch_repo__",
+                    message: chalk.dim("--- Switch repository ---")
+                },
+                { name: "__exit__", message: chalk.dim("--- Exit ---") }
             ]
         });
 
-        if (tag_name === "__refresh__") {
+        // Handle common actions
+        if (selection === "__refresh__") {
             printInfo("Refreshing draft releases list...");
-            continue; // Loop again to fetch fresh data
+            continue;
         }
 
-        const release = releases.find(r => r.tag_name === tag_name);
+        if (selection === "__switch_repo__") {
+            const newRepo = currentRepo === "web-widgets" ? "atlas" : "web-widgets";
+            gh.setRepo(newRepo);
+            printInfo(`Switched to repository: ${chalk.bold(newRepo)}`);
+            continue;
+        }
+
+        if (selection === "__exit__") {
+            throw new Error("No releases selected.");
+        }
+
+        // If we get here, it's a release tag_name
+        const release = releases.find(r => r.tag_name === selection);
         if (!release) {
-            throw new Error(`Release not found: ${tag_name}`);
+            throw new Error(`Release not found: ${selection}`);
         }
 
         printInfo(`Selected release: ${chalk.bold(release.name)}`);

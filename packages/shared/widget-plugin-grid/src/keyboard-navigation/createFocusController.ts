@@ -13,8 +13,13 @@ export function createFocusController(
 
     function setup(): void | (() => void) {
         return reaction(
-            () => layout.get(),
-            newLayout => controller.updateGridLayout(newLayout)
+            () => {
+                return layout.get();
+            },
+            newLayout => {
+                controller.updateGridLayout(newLayout);
+            },
+            { name: "[plugin]:@reaction:createFocusController:layoutUpdate" }
         );
     }
 

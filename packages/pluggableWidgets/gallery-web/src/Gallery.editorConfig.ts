@@ -16,14 +16,11 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
 
     if (values.itemSelection === "None") {
         hidePropertiesIn(defaultProperties, values, ["onSelectionChange", "itemSelectionMode"]);
+        hidePropertyIn(defaultProperties, values, "autoSelect");
     }
 
     if (values.itemSelection !== "Multi") {
-        hidePropertiesIn(defaultProperties, values, [
-            "keepSelection",
-            "selectionCountPosition",
-            "clearSelectionButtonLabel"
-        ]);
+        hidePropertiesIn(defaultProperties, values, ["keepSelection", "selectionCountPosition"]);
     }
 
     const usePersonalization = values.storeFilters || values.storeSort;
@@ -42,6 +39,14 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
         if (values.showTotalCount === false) {
             hidePropertyIn(defaultProperties, values, "pagingPosition");
         }
+
+        hidePropertiesIn(defaultProperties, values, [
+            "dynamicPage",
+            "dynamicPageSize",
+            "useCustomPagination",
+            "customPagination",
+            "totalCountValue"
+        ]);
     }
 
     if (values.pagination !== "loadMore") {

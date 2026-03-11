@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CalendarEvent, EventDropOrResize } from "../utils/typings";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
-import { CalendarProps, NavigateAction } from "react-big-calendar";
-import { getViewRange } from "../utils/calendar-utils";
+import { CalendarProps, NavigateAction, View } from "react-big-calendar";
 
 type CalendarEventHandlers = Pick<
     CalendarProps<CalendarEvent>,
-    "onSelectEvent" | "onDoubleClickEvent" | "onKeyPressEvent" | "onSelectSlot" | "onNavigate" | "selected"
+    | "onSelectEvent"
+    | "onDoubleClickEvent"
+    | "onKeyPressEvent"
+    | "onSelectSlot"
+    | "onNavigate"
+    | "selected"
+    | "onRangeChange"
 > & {
     onEventDrop: (event: EventDropOrResize) => void;
     onEventResize: (event: EventDropOrResize) => void;
@@ -116,16 +121,28 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
         [onDragDropResize]
     );
 
+    // Track the current view so we can pass it to onRangeChange.
+    // RBC calls onNavigate (with view) synchronously before onRangeChange (without view)
+    // during navigation, so the ref is always up-to-date when handleRangeChange reads it.
+    const currentViewRef = useRef<string | undefined>(undefined);
+
+    const handleNavigate = useCallback((_date: Date, view: string, _action: NavigateAction) => {
+        currentViewRef.current = view;
+    }, []);
+
     const handleRangeChange = useCallback(
-        (date: Date, view: string, _action: NavigateAction) => {
+        (range: Date[] | { start: Date; end: Date }, view?: View) => {
             const action = onViewRangeChange;
 
             if (action?.canExecute) {
-                const { start, end } = getViewRange(view, date);
+                const start = Array.isArray(range) ? range[0] : range.start;
+                const end = Array.isArray(range) ? range[range.length - 1] : range.end;
+                const resolvedView = view ?? currentViewRef.current;
+
                 action.execute({
                     rangeStart: start,
                     rangeEnd: end,
-                    currentView: view
+                    currentView: resolvedView
                 });
             }
         },
@@ -152,7 +169,8 @@ export function useCalendarEvents(props: CalendarContainerProps): CalendarEventH
         onSelectSlot: handleCreateEvent,
         onEventDrop: handleEventDropOrResize,
         onEventResize: handleEventDropOrResize,
-        onNavigate: handleRangeChange,
+        onNavigate: handleNavigate,
+        onRangeChange: handleRangeChange,
         selected
     };
 }

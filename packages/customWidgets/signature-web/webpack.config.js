@@ -9,7 +9,7 @@ const widgetName = "Signature";
 const widgetConfig = {
     mode: "production",
     devtool: false,
-    externals: ["react", "react-dom"],
+    externals: ["react", "react-dom", "react/jsx-runtime"],
     entry: "./src/components/SignatureContainer.ts",
     output: {
         path: path.resolve(__dirname, "dist/tmp"),
@@ -50,6 +50,16 @@ const widgetConfig = {
                     from: `src/${widgetName}.@(tile|icon)@(.dark|).png`,
                     to: "./[name][ext]",
                     toType: "template"
+                },
+                {
+                    from: `dependencies.(json|txt)`,
+                    to: "./[name][ext]",
+                    toType: "template"
+                },
+                {
+                    from: `../../../LICENSE`,
+                    to: "./License.txt",
+                    toType: "template"
                 }
             ]
         })
@@ -73,12 +83,7 @@ const previewConfig = {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: "ts-loader",
-                options: {
-                    compilerOptions: {
-                        module: "CommonJS"
-                    }
-                }
+                loader: "ts-loader"
             },
             {
                 test: /\.(sa|sc|c)ss$/,

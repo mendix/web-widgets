@@ -55,6 +55,14 @@ export class GitHub {
     owner = "mendix";
     repo = "web-widgets";
 
+    setRepo(repo: string): void {
+        this.repo = repo;
+    }
+
+    getRepo(): string {
+        return this.repo;
+    }
+
     async ensureAuth(): Promise<void> {
         if (!this.authSet) {
             if (process.env.GH_PAT) {

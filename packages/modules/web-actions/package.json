@@ -1,7 +1,7 @@
 {
     "name": "@mendix/web-actions",
     "moduleName": "Web Actions",
-    "version": "2.11.1",
+    "version": "2.11.2",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
     "repository": {
@@ -38,6 +38,6 @@
         "@eslint/js": "^9.32.0",
         "@mendix/automation-utils": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:^",
-        "globals": "^16.0.0"
+        "globals": "^17.3.0"
     }
 }
