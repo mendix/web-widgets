@@ -49,7 +49,7 @@
         "overrides": {
             "@codemirror/state": "^6.5.2",
             "@codemirror/view": "^6.38.1",
-            "@mendix/pluggable-widgets-tools": "10.21.2",
+            "@mendix/pluggable-widgets-tools": "11.8.0",
             "@prettier/plugin-xml": ">=3.4.1",
             "@testing-library/react": ">=15.0.6",
             "@types/big.js": "^6.2.2",
