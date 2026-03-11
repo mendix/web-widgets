@@ -2,6 +2,13 @@ import { BarcodeTypeConfig } from "../config/Barcode.config";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { type BarcodeRenderOptions, renderBarcode } from "../utils/barcodeRenderer-utils";
 import { validateAddonValue, validateBarcodeValue } from "../config/validation";
+import { LogLevelEnum } from "../../typings/BarcodeGeneratorProps";
+
+function printError(message: string, logLevel: LogLevelEnum) {
+    if (logLevel === "Debug") {
+        console.error(`[Barcode Generator] ${message}`);
+    }
+}
 
 export const useRenderBarcode = (
     config: BarcodeTypeConfig
@@ -35,10 +42,10 @@ export const useRenderBarcode = (
             if (!validationResult.valid) {
                 const errorMsg = validationResult.message || "Invalid barcode value";
                 // Log detailed error for developers
-                console.error(
-                    `[Barcode Generator] Validation failed for format "${format}":`,
-                    errorMsg,
-                    `\nProvided value: "${value}"`
+
+                printError(
+                    `Validation failed for format "${format}": ${errorMsg} \nProvided value: "${value}"`,
+                    config.logLevel
                 );
                 setError(true);
                 return;
@@ -50,10 +57,9 @@ export const useRenderBarcode = (
                 if (!addonResult.valid) {
                     const errorMsg = addonResult.message || "Invalid addon value";
                     // Log detailed error for developers
-                    console.error(
-                        `[Barcode Generator] Addon validation failed for format "${addonFormat}":`,
-                        errorMsg,
-                        `\nProvided addon value: "${addonValue}"`
+                    printError(
+                        `Addon validation failed for format "${addonFormat}": ${errorMsg} \nProvided addon value: "${addonValue}"`,
+                        config.logLevel
                     );
                     setError(true);
                     return;
@@ -82,13 +88,7 @@ export const useRenderBarcode = (
             } catch (error) {
                 const errorMsg = error instanceof Error ? error.message : "Error generating barcode";
                 // Log detailed error for developers
-                console.error(
-                    `[Barcode Generator] Rendering failed:`,
-                    errorMsg,
-                    `\nFormat: "${format}"`,
-                    `\nValue: "${value}"`,
-                    error
-                );
+                printError(`Rendering failed: ${errorMsg} \nFormat: "${format}" \nValue: "${value}"`, config.logLevel);
                 setError(true);
             }
         } else if (!value) {

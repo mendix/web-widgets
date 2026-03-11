@@ -11,7 +11,7 @@ export default function BarcodeGenerator(props: BarcodeGeneratorContainerProps):
     const config = barcodeConfig(props);
 
     if (!config.codeValue) {
-        return <span>No barcode value provided</span>;
+        return <span>{props.emptyMessage?.value || "No barcode value provided"}</span>;
     }
 
     return (

@@ -17,10 +17,12 @@ export function BarcodeRenderer({ config }: BarcodeRendererProps): ReactElement 
     if (error) {
         return (
             <div className="barcode-renderer">
-                <div className="alert alert-danger" role="alert">
-                    <strong>Unable to generate barcode.</strong> Please check the barcode value and format
-                    configuration.
-                </div>
+                {config.logLevel !== "None" && (
+                    <div className="alert alert-danger" role="alert">
+                        <strong>Unable to generate barcode.</strong> Please check the barcode value and format
+                        configuration.
+                    </div>
+                )}
             </div>
         );
     }

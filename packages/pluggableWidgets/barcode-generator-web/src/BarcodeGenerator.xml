@@ -22,6 +22,14 @@
                         <enumerationValue key="Custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="emptyMessage" type="textTemplate" required="false">
+                    <caption>Empty message</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">No barcode value provided</translation>
+                        <translation lang="nl_NL">Geen barcodewaarde opgegeven</translation>
+                    </translations>
+                </property>
                 <property key="allowDownload" type="boolean" defaultValue="false">
                     <caption>Allow download</caption>
                     <description>Adds a download button</description>
@@ -109,6 +117,17 @@
                 <property key="addonSpacing" type="integer" required="true" defaultValue="20">
                     <caption>Addon spacing</caption>
                     <description>Space between main barcode and addon (in pixels)</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Development">
+                <property key="logLevel" type="enumeration" required="true" defaultValue="None">
+                    <caption>Log Level</caption>
+                    <description>Choose the log level for in the case of failure for generating the barcode. Info will display generic error message on the UI and Debug will gives detailed information on the developer console.</description>
+                    <enumerationValues>
+                        <enumerationValue key="None">None</enumerationValue>
+                        <enumerationValue key="Info">Info</enumerationValue>
+                        <enumerationValue key="Debug">Debug</enumerationValue>
+                    </enumerationValues>
                 </property>
             </propertyGroup>
         </propertyGroup>

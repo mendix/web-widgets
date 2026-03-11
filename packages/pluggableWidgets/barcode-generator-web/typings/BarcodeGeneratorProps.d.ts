@@ -15,6 +15,8 @@ export type CustomCodeFormatEnum = "CODE128" | "EAN13" | "EAN8" | "UPC" | "CODE3
 
 export type AddonFormatEnum = "None" | "EAN5" | "EAN2";
 
+export type LogLevelEnum = "None" | "Info" | "Debug";
+
 export type QrLevelEnum = "L" | "M" | "Q" | "H";
 
 export interface BarcodeGeneratorContainerProps {
@@ -24,6 +26,7 @@ export interface BarcodeGeneratorContainerProps {
     tabIndex?: number;
     codeValue: DynamicValue<string>;
     codeFormat: CodeFormatEnum;
+    emptyMessage?: DynamicValue<string>;
     allowDownload: boolean;
     downloadButtonCaption?: DynamicValue<string>;
     downloadButtonAriaLabel?: DynamicValue<string>;
@@ -37,6 +40,7 @@ export interface BarcodeGeneratorContainerProps {
     addonFormat: AddonFormatEnum;
     addonValue: DynamicValue<string>;
     addonSpacing: number;
+    logLevel: LogLevelEnum;
     displayValue: boolean;
     showAsCard: boolean;
     codeWidth: number;
@@ -70,6 +74,7 @@ export interface BarcodeGeneratorPreviewProps {
     translate: (text: string) => string;
     codeValue: string;
     codeFormat: CodeFormatEnum;
+    emptyMessage: string;
     allowDownload: boolean;
     downloadButtonCaption: string;
     downloadButtonAriaLabel: string;
@@ -83,6 +88,7 @@ export interface BarcodeGeneratorPreviewProps {
     addonFormat: AddonFormatEnum;
     addonValue: string;
     addonSpacing: number | null;
+    logLevel: LogLevelEnum;
     displayValue: boolean;
     showAsCard: boolean;
     codeWidth: number | null;

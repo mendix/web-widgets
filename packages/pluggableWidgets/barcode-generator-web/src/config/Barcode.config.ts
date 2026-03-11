@@ -7,16 +7,21 @@ interface DownloadButtonConfig {
     buttonPosition: "top" | "bottom";
 }
 
-/** Configuration for barcode (non-QR) rendering */
-export interface BarcodeTypeConfig {
-    type: "barcode";
+type codeType = "barcode" | "qrcode";
+
+export interface CodeBaseTypeConfig<T = codeType> extends Pick<BarcodeGeneratorContainerProps, "logLevel"> {
+    type: T;
     codeValue: string;
+    margin: number;
+    downloadButton?: DownloadButtonConfig;
+}
+
+/** Configuration for barcode (non-QR) rendering */
+export interface BarcodeTypeConfig extends CodeBaseTypeConfig<"barcode"> {
     width: number;
     height: number;
     format: string;
-    margin: number;
     displayValue: boolean;
-    downloadButton?: DownloadButtonConfig;
 
     // Advanced barcode options
     enableEan128: boolean;
@@ -29,14 +34,10 @@ export interface BarcodeTypeConfig {
 }
 
 /** Configuration for QR code rendering */
-export interface QRCodeTypeConfig {
-    type: "qrcode";
-    codeValue: string;
+export interface QRCodeTypeConfig extends CodeBaseTypeConfig<"qrcode"> {
     size: number;
-    margin: number;
     title: string;
     level: QrLevelEnum;
-    downloadButton?: DownloadButtonConfig;
     image?: {
         src: string;
         x: number | undefined;
@@ -63,15 +64,21 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
           }
         : undefined;
 
+    const baseConfig: CodeBaseTypeConfig = {
+        type: format === "QRCode" ? "qrcode" : "barcode",
+        codeValue,
+        margin: props.codeMargin ?? 2,
+        logLevel: props.logLevel,
+        downloadButton: downloadButtonConfig
+    };
+
     if (format === "QRCode") {
         return {
+            ...baseConfig,
             type: "qrcode",
-            codeValue,
             size: props.qrSize ?? 128,
-            margin: props.qrMargin ?? 2,
             title: props.qrTitle ?? "",
             level: props.qrLevel ?? "L",
-            downloadButton: downloadButtonConfig,
             image:
                 props.qrOverlaySrc?.status === "available"
                     ? {
@@ -88,14 +95,12 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
     }
 
     return {
+        ...baseConfig,
         type: "barcode",
-        codeValue,
         width: props.codeWidth ?? 128,
         height: props.codeHeight ?? 128,
         format,
-        margin: props.codeMargin ?? 2,
         displayValue: props.displayValue ?? false,
-        downloadButton: downloadButtonConfig,
 
         // Advanced barcode options
         enableEan128: props.enableEan128 ?? false,

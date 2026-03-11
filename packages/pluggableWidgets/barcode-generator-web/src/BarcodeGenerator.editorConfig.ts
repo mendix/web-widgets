@@ -94,6 +94,15 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
         hidePropertiesIn(defaultProperties, values, ["customCodeFormat"]);
     }
 
+    if (!values.allowDownload) {
+        hidePropertiesIn(defaultProperties, values, [
+            "downloadButtonCaption",
+            "downloadButtonAriaLabel",
+            "downloadFileName",
+            "buttonPosition"
+        ]);
+    }
+
     return defaultProperties;
 }
 
