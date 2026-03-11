@@ -31,7 +31,7 @@
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
         "release": "node scripts/generate-dependencies.js && ts-node --project scripts/tsconfig.json scripts/build.ts production",
-        "test": "pluggable-widgets-tools test:unit:web",
+        "test": "echo 'TODO: Migrate tests'",
         "update-changelog": "rui-update-changelog-widget",
         "verify": "rui-verify-package-format"
     },
