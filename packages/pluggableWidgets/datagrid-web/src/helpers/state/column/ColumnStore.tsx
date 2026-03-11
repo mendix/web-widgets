@@ -225,7 +225,7 @@ export class ColumnStore implements GridColumn {
     getCssWidth(): string {
         if (this.size) {
             if (this.parentStore.isLastVisible(this)) {
-                return "minmax(min-content, auto)";
+                return `minmax(${this.baseInfo.minColumnWidth}, auto)`;
             }
             return `${this.size}px`;
         }

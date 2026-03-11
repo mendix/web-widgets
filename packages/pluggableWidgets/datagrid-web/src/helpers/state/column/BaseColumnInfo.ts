@@ -56,7 +56,7 @@ export class BaseColumnInfo {
         this.allowEventPropagation = props.allowEventPropagation;
     }
 
-    private get minColumnWidth(): "auto" | "min-content" | `${number}px` {
+    get minColumnWidth(): "auto" | "min-content" | `${number}px` {
         switch (this.minWidth) {
             case "auto": {
                 return "auto";
