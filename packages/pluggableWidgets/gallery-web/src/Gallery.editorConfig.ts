@@ -37,6 +37,7 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
 
     if (values.pagination === "buttons") {
         hidePropertyIn(defaultProperties, values, "showTotalCount");
+        hidePropertyIn(defaultProperties, values, "loadedRowsValue");
     } else {
         hidePropertyIn(defaultProperties, values, "showPagingButtons");
 
