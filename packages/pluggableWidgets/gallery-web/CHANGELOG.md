@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed the pagination properties `Page attribute`, `Page size attribute`, and `Total count` not being shown in Studio Pro for Virtual Scrolling and Load More pagination modes.
+
 ### Changed
 
 - We changed the structure of the gallery settings to align them with the data grid.
