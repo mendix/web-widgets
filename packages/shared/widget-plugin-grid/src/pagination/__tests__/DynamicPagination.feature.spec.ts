@@ -149,6 +149,13 @@ describe("DynamicPaginationFeature", () => {
         expect(service.setTotalCount).toHaveBeenCalledWith(123);
     });
 
+    it("does not call setTotalCount with sentinel -1 when totalCount is unavailable", () => {
+        jest.clearAllMocks();
+        // -1 is the sentinel value emitted before datasource.totalCount is available
+        runInAction(() => atoms.totalCount.set(-1));
+        expect(service.setTotalCount).not.toHaveBeenCalled();
+    });
+
     it("syncs current page outbound to dynamicPage attribute (1-based)", () => {
         runInAction(() => atoms.currentPage.set(3));
         expect(lastArgToNumber(pageAttr.setValue as jest.MockedFunction<any>)).toBe(4);
