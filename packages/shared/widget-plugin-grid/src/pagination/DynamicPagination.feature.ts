@@ -68,7 +68,11 @@ export class DynamicPaginationFeature implements SetupComponent {
         // Always sync totalCount when attribute is configured
         add(
             autorun(() => {
-                this.service.setTotalCount(this.totalCount.get());
+                const count = this.totalCount.get();
+                // totalCount is -1 when the datasource has not yet computed it (sentinel value).
+                // Avoid writing the sentinel to the attribute.
+                if (count < 0) return;
+                this.service.setTotalCount(count);
             })
         );
 
