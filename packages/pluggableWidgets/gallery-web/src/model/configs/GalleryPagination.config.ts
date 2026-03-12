@@ -50,13 +50,13 @@ function isLimitBased(props: GalleryGateProps): boolean {
 }
 
 export function dynamicPageSizeEnabled(props: GalleryGateProps): boolean {
-    return props.dynamicPageSize !== undefined && !isLimitBased(props);
+    return props.dynamicPageSize !== undefined;
 }
 
 export function dynamicPageEnabled(props: GalleryGateProps): boolean {
-    return props.dynamicPage !== undefined && !isLimitBased(props);
+    return props.dynamicPage !== undefined;
 }
 
 function requestTotalCount(props: GalleryGateProps): boolean {
-    return props.pagination === "buttons" || props.showTotalCount;
+    return props.pagination === "buttons" || props.showTotalCount || props.totalCountValue !== undefined;
 }
