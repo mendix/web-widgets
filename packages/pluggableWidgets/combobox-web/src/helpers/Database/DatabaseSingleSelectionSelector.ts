@@ -13,9 +13,10 @@ import { DatabaseValuesProvider } from "./DatabaseValuesProvider";
 import { extractDatabaseProps, getReadonly } from "./utils";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
-export class DatabaseSingleSelectionSelector<T extends string | Big, R extends EditableValue<T>>
-    implements SingleSelector
-{
+export class DatabaseSingleSelectionSelector<
+    T extends string | Big,
+    R extends EditableValue<T>
+> implements SingleSelector {
     caption: DatabaseCaptionsProvider;
     clearable = false;
     currentId: string | null = null;
