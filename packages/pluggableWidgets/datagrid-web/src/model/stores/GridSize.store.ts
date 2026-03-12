@@ -87,6 +87,11 @@ export class GridSizeStore {
             return;
         }
 
-        this.gridBodyHeight = gridBody.clientHeight - VIRTUAL_SCROLLING_OFFSET;
+        // If content already overflows the container (fixed-height grid), do not subtract the
+        // pre-fetch offset — that would hide the last rows and trigger the next page too early.
+        // Only subtract the offset when the grid does not yet overflow (auto-height grid) so
+        // that we create a small synthetic overflow that makes the body scrollable.
+        const overflows = gridBody.scrollHeight > gridBody.clientHeight;
+        this.gridBodyHeight = gridBody.clientHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
     }
 }
