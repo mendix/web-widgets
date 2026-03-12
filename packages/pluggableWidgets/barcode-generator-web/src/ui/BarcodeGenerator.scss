@@ -2,5 +2,99 @@
 $widget-prefix: "barcode-generator";
 
 .#{$widget-prefix} {
-    display: inline-block;
+    display: block;
+    width: 100%;
+    border-radius: var(--card-border-radius);
+
+    &--as-card {
+        background-color: var(--card-bg);
+        border: var(--card-border);
+        padding: var(--spacing-medium);
+    }
+}
+
+.qrcode-renderer,
+.barcode-renderer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    > svg {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+    }
+
+    .qrcode-renderer-title {
+        font-weight: var(--font-weight-normal);
+        font-size: var(--font-size-small);
+        color: var(--gray-darker);
+        margin: 0;
+    }
+}
+
+// Download button styled like mx-link
+.barcode-generator-download-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--brand-primary, #0595db);
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+        color 0.15s ease-in-out,
+        text-decoration 0.15s ease-in-out;
+
+    &:hover {
+        color: var(--brand-primary-darker, #0470a6);
+        text-decoration: underline;
+    }
+
+    &:focus {
+        outline: 2px solid var(--brand-primary, #0595db);
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+
+    &:active {
+        color: var(--brand-primary-darkest, #03405a);
+    }
+
+    &:disabled {
+        color: var(--gray-light, #ced0d3);
+        cursor: not-allowed;
+        text-decoration: none;
+    }
+}
+
+// Preview graphics for barcode and QR code
+.qrcode-preview-image {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.barcode-preview-image {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+// Overlay image for QR codes (positioned absolutely)
+.qrcode-preview-overlay {
+    position: absolute;
+    object-fit: contain;
 }

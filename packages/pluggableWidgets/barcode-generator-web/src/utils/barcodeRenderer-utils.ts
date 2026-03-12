@@ -1,5 +1,6 @@
 import JsBarcode from "jsbarcode";
 import { type ForwardedRef } from "react";
+import { AddonFormatEnum } from "typings/BarcodeGeneratorProps";
 
 interface BarcodeMethodOptions {
     width?: number;
@@ -42,7 +43,7 @@ export interface BarcodeRenderOptions {
     lastChar?: string;
     mod43?: boolean;
     addonValue?: string;
-    addonFormat?: string;
+    addonFormat?: AddonFormatEnum | null | undefined;
     addonSpacing?: number;
 }
 
@@ -54,7 +55,7 @@ export const createBarcodeWithAddon = (
     value: string,
     mainFormat: string,
     addonValue: string,
-    addonFormat: string,
+    addonFormat: AddonFormatEnum,
     options: BarcodeOptions,
     addonSpacing: number
 ): void => {
@@ -72,8 +73,8 @@ export const createBarcodeWithAddon = (
         // Add spacing
         BarcodeService.blank(addonSpacing);
 
-        // Add addon dynamically
-        BarcodeService[addonFormat](addonValue, { width: 1 });
+        // Add addon dynamically with same displayValue setting
+        BarcodeService[addonFormat](addonValue, { width: 1, displayValue: options.displayValue });
 
         BarcodeService.render();
     }
