@@ -176,7 +176,7 @@
             </property>
             <property key="qrOverlay" type="boolean" required="true" defaultValue="false">
                 <caption>Overlay image</caption>
-                <description>Include an image on top the QR code</description>
+                <description>Include an image overlay on the QR code</description>
             </property>
             <property key="qrOverlaySrc" type="image" required="true">
                 <caption>Image source</caption>

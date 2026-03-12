@@ -1,4 +1,10 @@
-import { BarcodeGeneratorContainerProps, QrLevelEnum } from "../../typings/BarcodeGeneratorProps";
+import {
+    AddonFormatEnum,
+    BarcodeGeneratorContainerProps,
+    CodeFormatEnum,
+    CustomCodeFormatEnum,
+    QrLevelEnum
+} from "../../typings/BarcodeGeneratorProps";
 
 interface DownloadButtonConfig {
     caption?: string;
@@ -7,9 +13,9 @@ interface DownloadButtonConfig {
     buttonPosition: "top" | "bottom";
 }
 
-type codeType = "barcode" | "qrcode";
+type CodeType = "barcode" | "qrcode";
 
-export interface CodeBaseTypeConfig<T = codeType> extends Pick<BarcodeGeneratorContainerProps, "logLevel"> {
+export interface CodeBaseTypeConfig<T = CodeType> extends Pick<BarcodeGeneratorContainerProps, "logLevel"> {
     type: T;
     codeValue: string;
     margin: number;
@@ -20,7 +26,7 @@ export interface CodeBaseTypeConfig<T = codeType> extends Pick<BarcodeGeneratorC
 export interface BarcodeTypeConfig extends CodeBaseTypeConfig<"barcode"> {
     width: number;
     height: number;
-    format: string;
+    format: CodeFormatEnum | CustomCodeFormatEnum;
     displayValue: boolean;
 
     // Advanced barcode options
@@ -29,7 +35,7 @@ export interface BarcodeTypeConfig extends CodeBaseTypeConfig<"barcode"> {
     lastChar: string;
     enableMod43: boolean;
     addonValue: string;
-    addonFormat: string;
+    addonFormat: AddonFormatEnum | null | undefined;
     addonSpacing: number;
 }
 
@@ -38,7 +44,7 @@ export interface QRCodeTypeConfig extends CodeBaseTypeConfig<"qrcode"> {
     size: number;
     title: string;
     level: QrLevelEnum;
-    image?: {
+    overlay?: {
         src: string;
         x: number | undefined;
         y: number | undefined;
@@ -79,7 +85,7 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
             size: props.qrSize ?? 128,
             title: props.qrTitle ?? "",
             level: props.qrLevel ?? "L",
-            image:
+            overlay:
                 props.qrOverlaySrc?.status === "available"
                     ? {
                           src: props.qrOverlaySrc.value.uri,

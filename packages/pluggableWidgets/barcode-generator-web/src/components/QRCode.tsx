@@ -11,7 +11,7 @@ interface QRCodeRendererProps {
 export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
     const ref = useRef<SVGSVGElement>(null);
 
-    const { codeValue, downloadButton, size, margin, title, level, image } = config;
+    const { codeValue, downloadButton, size, margin, title, level, overlay } = config;
     const buttonPosition = downloadButton?.buttonPosition ?? "bottom";
 
     const button = downloadButton && (
@@ -33,7 +33,7 @@ export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
                 level={level}
                 marginSize={margin}
                 title={title}
-                imageSettings={image}
+                imageSettings={overlay}
             />
             {buttonPosition === "bottom" && button}
         </div>

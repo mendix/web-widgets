@@ -1,6 +1,6 @@
 import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
-import { BarcodeGeneratorPreviewProps } from "../typings/BarcodeGeneratorProps";
+import { BarcodeGeneratorPreviewProps, CodeFormatEnum, CustomCodeFormatEnum } from "../typings/BarcodeGeneratorProps";
 import { validateAddonValue, validateBarcodeValue } from "./config/validation";
 
 export type Problem = {
@@ -144,7 +144,7 @@ export function check(_values: BarcodeGeneratorPreviewProps): Problem[] {
     return errors.concat(valueProblems);
 }
 
-function getActiveFormat(values: BarcodeGeneratorPreviewProps): string {
+function getActiveFormat(values: BarcodeGeneratorPreviewProps): CodeFormatEnum | CustomCodeFormatEnum {
     if (values.codeFormat === "Custom") {
         return values.customCodeFormat || "CODE128";
     }

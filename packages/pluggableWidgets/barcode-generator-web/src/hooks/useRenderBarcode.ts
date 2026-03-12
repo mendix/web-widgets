@@ -2,13 +2,7 @@ import { BarcodeTypeConfig } from "../config/Barcode.config";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { type BarcodeRenderOptions, renderBarcode } from "../utils/barcodeRenderer-utils";
 import { validateAddonValue, validateBarcodeValue } from "../config/validation";
-import { LogLevelEnum } from "../../typings/BarcodeGeneratorProps";
-
-function printError(message: string, logLevel: LogLevelEnum) {
-    if (logLevel === "Debug") {
-        console.error(`[Barcode Generator] ${message}`);
-    }
-}
+import { printError } from "../utils/helpers";
 
 export const useRenderBarcode = (
     config: BarcodeTypeConfig
@@ -40,7 +34,7 @@ export const useRenderBarcode = (
             // Validate barcode value at runtime
             const validationResult = validateBarcodeValue(format, value);
             if (!validationResult.valid) {
-                const errorMsg = validationResult.message || "Invalid barcode value";
+                const errorMsg = validationResult.message;
                 // Log detailed error for developers
 
                 printError(
@@ -55,7 +49,7 @@ export const useRenderBarcode = (
             if (addonValue && addonFormat && addonFormat !== "None") {
                 const addonResult = validateAddonValue(addonFormat, addonValue);
                 if (!addonResult.valid) {
-                    const errorMsg = addonResult.message || "Invalid addon value";
+                    const errorMsg = addonResult.message;
                     // Log detailed error for developers
                     printError(
                         `Addon validation failed for format "${addonFormat}": ${errorMsg} \nProvided addon value: "${addonValue}"`,
@@ -108,7 +102,8 @@ export const useRenderBarcode = (
         enableMod43,
         addonValue,
         addonFormat,
-        addonSpacing
+        addonSpacing,
+        config.logLevel
     ]);
 
     return { ref, error };
