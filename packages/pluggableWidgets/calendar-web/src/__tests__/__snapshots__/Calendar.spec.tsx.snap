@@ -18,7 +18,9 @@ exports[`Calendar renders correctly with basic props 1`] = `
     data-timeslots="2"
     formats="[object Object]"
     localizer="[object Object]"
+    max="Mon Apr 28 2025 23:59:59 GMT+0000 (Coordinated Universal Time)"
     messages="[object Object]"
+    min="Mon Apr 28 2025 00:00:00 GMT+0000 (Coordinated Universal Time)"
     views="[object Object]"
   />
 </div>
