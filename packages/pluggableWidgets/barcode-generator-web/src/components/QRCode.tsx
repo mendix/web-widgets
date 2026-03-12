@@ -24,7 +24,7 @@ export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
 
     return (
         <div className="qrcode-renderer">
-            {title && <h3 className="qrcode-renderer-title">{title}</h3>}
+            {config.showTitle && <h3 className="qrcode-renderer-title">{title}</h3>}
             {buttonPosition === "top" && button}
             <QRCodeSVG
                 ref={ref}

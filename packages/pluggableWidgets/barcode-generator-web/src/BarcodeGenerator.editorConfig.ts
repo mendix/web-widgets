@@ -16,7 +16,14 @@ export function getProperties(values: BarcodeGeneratorPreviewProps, defaultPrope
     if (values.codeFormat === "QRCode") {
         hidePropertiesIn(defaultProperties, values, ["codeWidth", "codeHeight", "displayValue", "codeMargin"]);
     } else {
-        hidePropertiesIn(defaultProperties, values, ["qrOverlay", "qrSize", "qrMargin", "qrLevel", "qrTitle"]);
+        hidePropertiesIn(defaultProperties, values, [
+            "qrOverlay",
+            "qrSize",
+            "qrMargin",
+            "qrLevel",
+            "qrTitle",
+            "showTitle"
+        ]);
     }
 
     if (values.codeFormat !== "QRCode" || !values.qrOverlay) {

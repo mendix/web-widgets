@@ -119,6 +119,22 @@
                     <description>Space between main barcode and addon (in pixels)</description>
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Advanced QR Code Settings">
+                <property key="qrLevel" type="enumeration" required="true" defaultValue="L">
+                    <caption>Level</caption>
+                    <description>The Error Correction Level to use</description>
+                    <enumerationValues>
+                        <enumerationValue key="L">L</enumerationValue>
+                        <enumerationValue key="M">M</enumerationValue>
+                        <enumerationValue key="Q">Q</enumerationValue>
+                        <enumerationValue key="H">H</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="qrSize" type="integer" required="true" defaultValue="128">
+                    <caption>QR Size</caption>
+                    <description>The size of the QR box. Note: In preview, the max height is 200px. The QR code will render at full size in your application.</description>
+                </property>
+            </propertyGroup>
             <propertyGroup caption="Development">
                 <property key="logLevel" type="enumeration" required="true" defaultValue="None">
                     <caption>Log Level</caption>
@@ -132,84 +148,82 @@
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Display">
-            <property key="displayValue" type="boolean" defaultValue="false">
-                <caption>Display value</caption>
-                <description>Display the value below the code</description>
-            </property>
-            <property key="showAsCard" type="boolean" defaultValue="false">
-                <caption>Show as card</caption>
-                <description>Display the widget with a border, background and padding</description>
-            </property>
-            <property key="codeWidth" type="integer" required="true" defaultValue="2">
-                <caption>Bar width</caption>
-                <description>Width of a single bar</description>
-            </property>
-            <property key="codeHeight" type="integer" required="true" defaultValue="200">
-                <caption>Code height</caption>
-                <description>Height of the barcode. Note: In preview, the max height is 200px. The barcode will render at full height in your application.</description>
-            </property>
-            <property key="codeMargin" type="integer" required="true" defaultValue="2">
-                <caption>Margin size</caption>
-                <description>In pixels</description>
-            </property>
-            <property key="qrSize" type="integer" required="true" defaultValue="128">
-                <caption>QR Size</caption>
-                <description>The size of the QR box. Note: In preview, the max height is 200px. The QR code will render at full size in your application.</description>
-            </property>
-            <property key="qrMargin" type="integer" required="true" defaultValue="2">
-                <caption>Margin size</caption>
-                <description>Number of module units (QR grid cells) to use for margin. Increasing compresses the QR pattern within the fixed size. Note: not visible in preview.</description>
-            </property>
-            <property key="qrTitle" type="string" required="true">
-                <caption>Title</caption>
-                <description>Used for accessibility reasons</description>
-            </property>
-            <property key="qrLevel" type="enumeration" required="true" defaultValue="L">
-                <caption>Level</caption>
-                <description>The Error Correction Level to use</description>
-                <enumerationValues>
-                    <enumerationValue key="L">L</enumerationValue>
-                    <enumerationValue key="M">M</enumerationValue>
-                    <enumerationValue key="Q">Q</enumerationValue>
-                    <enumerationValue key="H">H</enumerationValue>
-                </enumerationValues>
-            </property>
-            <property key="qrOverlay" type="boolean" required="true" defaultValue="false">
-                <caption>Overlay image</caption>
-                <description>Include an image overlay on the QR code</description>
-            </property>
-            <property key="qrOverlaySrc" type="image" required="true">
-                <caption>Image source</caption>
-                <description>URL or path to the image to display on the QR code</description>
-            </property>
-            <property key="qrOverlayCenter" type="boolean" required="true" defaultValue="true">
-                <caption>Center image</caption>
-                <description>Center the image in the QR code</description>
-            </property>
-            <property key="qrOverlayX" type="integer" required="true" defaultValue="0">
-                <caption>Image X position</caption>
-                <description>Horizontal position of the image</description>
-            </property>
-            <property key="qrOverlayY" type="integer" required="true" defaultValue="0">
-                <caption>Image Y position</caption>
-                <description>Vertical position of the image</description>
-            </property>
-            <property key="qrOverlayHeight" type="integer" required="true" defaultValue="24">
-                <caption>Image height</caption>
-                <description>Height of the image in pixels</description>
-            </property>
-            <property key="qrOverlayWidth" type="integer" required="true" defaultValue="24">
-                <caption>Image width</caption>
-                <description>Width of the image in pixels</description>
-            </property>
-            <property key="qrOverlayOpacity" type="decimal" required="true" defaultValue="1">
-                <caption>Image opacity</caption>
-                <description>Opacity of the image (0.0 to 1.0)</description>
-            </property>
-            <property key="qrOverlayExcavate" type="boolean" required="true" defaultValue="true">
-                <caption>Excavate background</caption>
-                <description>Remove QR code dots behind the image</description>
-            </property>
+            <propertyGroup caption="Display">
+                <property key="displayValue" type="boolean" defaultValue="false">
+                    <caption>Display value</caption>
+                    <description>Display the value below the code</description>
+                </property>
+                <property key="showAsCard" type="boolean" defaultValue="false">
+                    <caption>Show as card</caption>
+                    <description>Display the widget with a border, background and padding</description>
+                </property>
+                <property key="codeWidth" type="integer" required="true" defaultValue="2">
+                    <caption>Bar width</caption>
+                    <description>Width of a single bar</description>
+                </property>
+                <property key="codeHeight" type="integer" required="true" defaultValue="200">
+                    <caption>Code height</caption>
+                    <description>Height of the barcode. Note: In preview, the max height is 200px. The barcode will render at full height in your application.</description>
+                </property>
+                <property key="codeMargin" type="integer" required="true" defaultValue="2">
+                    <caption>Margin size</caption>
+                    <description>In pixels</description>
+                </property>
+                <property key="qrMargin" type="integer" required="true" defaultValue="2">
+                    <caption>Margin size</caption>
+                    <description>Number of module units (QR grid cells) to use for margin. Increasing compresses the QR pattern within the fixed size. Note: not visible in preview.</description>
+                </property>
+                <property key="qrTitle" type="textTemplate" required="true">
+                    <caption>Title</caption>
+                    <description>Used for accessibility</description>
+                    <translations>
+                        <translation lang="en_US">QR Code</translation>
+                        <translation lang="nl_NL">QR-Code</translation>
+                    </translations>
+                </property>
+                <property key="showTitle" type="boolean" defaultValue="false">
+                    <caption>Show title</caption>
+                    <description>Display title on top of QR Code</description>
+                </property>
+                <property key="qrOverlay" type="boolean" required="true" defaultValue="false">
+                    <caption>Overlay image</caption>
+                    <description>Include an image overlay on the QR code</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="QR Overlay Settings">
+                <property key="qrOverlaySrc" type="image" required="true">
+                    <caption>Image source</caption>
+                    <description>URL or path to the image to display on the QR code</description>
+                </property>
+                <property key="qrOverlayCenter" type="boolean" required="true" defaultValue="true">
+                    <caption>Center image</caption>
+                    <description>Center the image in the QR code</description>
+                </property>
+                <property key="qrOverlayX" type="integer" required="true" defaultValue="0">
+                    <caption>Image X position</caption>
+                    <description>Horizontal position of the image</description>
+                </property>
+                <property key="qrOverlayY" type="integer" required="true" defaultValue="0">
+                    <caption>Image Y position</caption>
+                    <description>Vertical position of the image</description>
+                </property>
+                <property key="qrOverlayHeight" type="integer" required="true" defaultValue="24">
+                    <caption>Image height</caption>
+                    <description>Height of the image in pixels</description>
+                </property>
+                <property key="qrOverlayWidth" type="integer" required="true" defaultValue="24">
+                    <caption>Image width</caption>
+                    <description>Width of the image in pixels</description>
+                </property>
+                <property key="qrOverlayOpacity" type="decimal" required="true" defaultValue="1">
+                    <caption>Image opacity</caption>
+                    <description>Opacity of the image (0.0 to 1.0)</description>
+                </property>
+                <property key="qrOverlayExcavate" type="boolean" required="true" defaultValue="true">
+                    <caption>Excavate background</caption>
+                    <description>Remove QR code dots behind the image</description>
+                </property>
+            </propertyGroup>
         </propertyGroup>
     </properties>
 </widget>

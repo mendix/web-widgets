@@ -43,6 +43,7 @@ export interface BarcodeTypeConfig extends CodeBaseTypeConfig<"barcode"> {
 export interface QRCodeTypeConfig extends CodeBaseTypeConfig<"qrcode"> {
     size: number;
     title: string;
+    showTitle: boolean;
     level: QrLevelEnum;
     overlay?: {
         src: string;
@@ -83,7 +84,8 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
             ...baseConfig,
             type: "qrcode",
             size: props.qrSize ?? 128,
-            title: props.qrTitle ?? "",
+            showTitle: props.showTitle,
+            title: props.qrTitle.status === "available" ? props.qrTitle.value : "QR Code",
             level: props.qrLevel ?? "L",
             overlay:
                 props.qrOverlaySrc?.status === "available"

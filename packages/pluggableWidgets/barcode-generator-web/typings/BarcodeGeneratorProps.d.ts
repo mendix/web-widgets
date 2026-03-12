@@ -15,9 +15,9 @@ export type CustomCodeFormatEnum = "CODE128" | "EAN13" | "EAN8" | "UPC" | "CODE3
 
 export type AddonFormatEnum = "None" | "EAN5" | "EAN2";
 
-export type LogLevelEnum = "None" | "Info" | "Debug";
-
 export type QrLevelEnum = "L" | "M" | "Q" | "H";
+
+export type LogLevelEnum = "None" | "Info" | "Debug";
 
 export interface BarcodeGeneratorContainerProps {
     name: string;
@@ -40,16 +40,17 @@ export interface BarcodeGeneratorContainerProps {
     addonFormat: AddonFormatEnum;
     addonValue: DynamicValue<string>;
     addonSpacing: number;
+    qrLevel: QrLevelEnum;
+    qrSize: number;
     logLevel: LogLevelEnum;
     displayValue: boolean;
     showAsCard: boolean;
     codeWidth: number;
     codeHeight: number;
     codeMargin: number;
-    qrSize: number;
     qrMargin: number;
-    qrTitle: string;
-    qrLevel: QrLevelEnum;
+    qrTitle: DynamicValue<string>;
+    showTitle: boolean;
     qrOverlay: boolean;
     qrOverlaySrc: DynamicValue<WebImage>;
     qrOverlayCenter: boolean;
@@ -88,16 +89,17 @@ export interface BarcodeGeneratorPreviewProps {
     addonFormat: AddonFormatEnum;
     addonValue: string;
     addonSpacing: number | null;
+    qrLevel: QrLevelEnum;
+    qrSize: number | null;
     logLevel: LogLevelEnum;
     displayValue: boolean;
     showAsCard: boolean;
     codeWidth: number | null;
     codeHeight: number | null;
     codeMargin: number | null;
-    qrSize: number | null;
     qrMargin: number | null;
     qrTitle: string;
-    qrLevel: QrLevelEnum;
+    showTitle: boolean;
     qrOverlay: boolean;
     qrOverlaySrc: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
     qrOverlayCenter: boolean;
