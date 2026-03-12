@@ -20,8 +20,10 @@ interface CustomEvent<T = any> extends Event {
     initCustomEvent(typeArg: string, canBubbleArg: boolean, cancelableArg: boolean, detailArg: T): void;
 }
 
-export interface ImageDialogProps
-    extends Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "formOrientation"> {
+export interface ImageDialogProps extends Pick<
+    RichTextContainerProps,
+    "imageSource" | "imageSourceContent" | "formOrientation"
+> {
     onSubmit(value: imageConfigType): void;
     onClose(): void;
     defaultValue?: imageConfigType;

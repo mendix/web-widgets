@@ -3,8 +3,10 @@ import classNames from "classnames";
 
 export type ThreeStateCheckBoxEnum = "all" | "some" | "none";
 
-export interface ThreeStateCheckBoxProps
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, "checked" | "value" | "type"> {
+export interface ThreeStateCheckBoxProps extends Omit<
+    InputHTMLAttributes<HTMLInputElement>,
+    "checked" | "value" | "type"
+> {
     value: ThreeStateCheckBoxEnum;
 }
 
