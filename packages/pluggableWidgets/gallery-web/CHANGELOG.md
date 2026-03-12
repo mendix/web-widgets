@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- We added the `Loaded rows` attribute to reflect the number of rows currently loaded. Available for Virtual Scrolling and Load More pagination modes.
+
 - We added new attributes and a drop zone for custom pagination.
 
 - We added support for the auto-select feature in multi-selection and single-selection mode.
