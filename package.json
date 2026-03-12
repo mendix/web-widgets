@@ -47,11 +47,13 @@
             "canvas"
         ],
         "overrides": {
+            "@babel/core@7": "7.29.0",
             "@codemirror/state": "^6.5.2",
             "@codemirror/view": "^6.38.1",
             "@mendix/pluggable-widgets-tools": "11.8.0",
             "@prettier/plugin-xml": ">=3.4.1",
-            "@testing-library/react": ">=15.0.6",
+            "@testing-library/dom": "^10.4.1",
+            "@testing-library/react": "^16.3.2",
             "@types/big.js": "^6.2.2",
             "@types/node": "~22.14.0",
             "@types/react": ">=18.2.36",
