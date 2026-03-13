@@ -240,6 +240,104 @@ describe("DynamicPaginationFeature", () => {
         expect(service.setLoadedRows).toHaveBeenCalledWith(40);
     });
 
+    describe("initialization — applies externally-provided values immediately without delay", () => {
+        function createFeature(
+            dynamicPageInitial: number,
+            dynamicPageSizeInitial: number,
+            pageSizeInitial = 10,
+            isLimitBased = false
+        ): { svc: jest.Mocked<GridPageControl>; dispose: () => void } {
+            const svc: jest.Mocked<GridPageControl> = {
+                setPage: jest.fn(),
+                setPageSize: jest.fn(),
+                setTotalCount: jest.fn(),
+                setLoadedRows: jest.fn()
+            };
+            const initAtoms = {
+                dynamicPage: boxAtom(dynamicPageInitial),
+                dynamicPageSize: boxAtom(dynamicPageSizeInitial),
+                totalCount: boxAtom(0),
+                currentPage: boxAtom(0),
+                pageSize: boxAtom(pageSizeInitial),
+                loadedRows: boxAtom(0)
+            };
+            const initGate = new ObservableGate<GateProps>({
+                dynamicPage: new EditableValueBuilder<Big>().build(),
+                dynamicPageSize: new EditableValueBuilder<Big>().build()
+            });
+            const feature = new DynamicPaginationFeature(
+                makeHost(),
+                { dynamicPageEnabled: true, dynamicPageSizeEnabled: true, isLimitBased },
+                initAtoms.dynamicPage.atom,
+                initAtoms.dynamicPageSize.atom,
+                initAtoms.totalCount.atom,
+                initAtoms.currentPage.atom,
+                initAtoms.pageSize.atom,
+                initAtoms.loadedRows.atom,
+                initGate,
+                svc
+            );
+            return { svc, dispose: feature.setup() };
+        }
+
+        it("applies externally-provided pageSize immediately on setup without advancing timers", () => {
+            const { svc, dispose } = createFeature(-1, 5);
+            try {
+                expect(svc.setPageSize).toHaveBeenCalledWith(5);
+                expect(svc.setPageSize).toHaveBeenCalledTimes(1);
+            } finally {
+                dispose();
+            }
+        });
+
+        it("applies externally-provided page immediately on setup without advancing timers", () => {
+            const { svc, dispose } = createFeature(4, -1);
+            try {
+                expect(svc.setPage).toHaveBeenCalledWith(4);
+                expect(svc.setPage).toHaveBeenCalledTimes(1);
+            } finally {
+                dispose();
+            }
+        });
+
+        it("applies both page and pageSize immediately when both are provided", () => {
+            const { svc, dispose } = createFeature(4, 5);
+            try {
+                expect(svc.setPageSize).toHaveBeenCalledWith(5);
+                expect(svc.setPage).toHaveBeenCalledWith(4);
+            } finally {
+                dispose();
+            }
+        });
+
+        it("does not call setPageSize when initial dynamicPageSize is the sentinel -1", () => {
+            const { svc, dispose } = createFeature(-1, -1);
+            try {
+                expect(svc.setPageSize).not.toHaveBeenCalled();
+            } finally {
+                dispose();
+            }
+        });
+
+        it("does not call setPage when initial dynamicPage is the sentinel -1", () => {
+            const { svc, dispose } = createFeature(-1, -1);
+            try {
+                expect(svc.setPage).not.toHaveBeenCalled();
+            } finally {
+                dispose();
+            }
+        });
+
+        it("does not call setPageSize for a zero initial dynamicPageSize", () => {
+            const { svc, dispose } = createFeature(-1, 0);
+            try {
+                expect(svc.setPageSize).not.toHaveBeenCalled();
+            } finally {
+                dispose();
+            }
+        });
+    });
+
     describe("limit-based (virtual scroll / loadMore)", () => {
         let limitDispose: () => void;
         let limitAtoms: typeof atoms;

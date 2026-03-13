@@ -38,6 +38,11 @@ export class DynamicPaginationFeature implements SetupComponent {
         const [add, disposeAll] = disposeBatch();
 
         // Inbound: attribute value → page control
+        // fireImmediately: true ensures externally-provided values are applied synchronously
+        // during setup(), before the outbound autoruns below run. Without it the outbound
+        // autoruns fire first (with constPageSize / currentPage=0) and overwrite the attr,
+        // so the 250ms-delayed reaction would then read back the wrong (default) value.
+        // The guards (pageSize <= 0 / page < 0) correctly no-op when no value is provided.
         if (this.config.dynamicPageSizeEnabled) {
             add(
                 reaction(
@@ -46,7 +51,7 @@ export class DynamicPaginationFeature implements SetupComponent {
                         if (pageSize <= 0) return;
                         this.service.setPageSize(pageSize);
                     },
-                    { delay: 250 }
+                    { delay: 250, fireImmediately: true }
                 )
             );
         }
@@ -59,7 +64,7 @@ export class DynamicPaginationFeature implements SetupComponent {
                         if (page < 0) return;
                         this.service.setPage(page);
                     },
-                    { delay: 250 }
+                    { delay: 250, fireImmediately: true }
                 )
             );
         }
