@@ -160,7 +160,9 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                                 setShow(false);
                             }
                         }}
-                        role="menuitem"
+                        role="menuitemcheckbox"
+                        aria-checked={isVisible}
+                        aria-disabled={isLastVisibleColumn}
                         tabIndex={0}
                     >
                         <input
@@ -170,6 +172,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
                             style={{ pointerEvents: "none" }}
                             type="checkbox"
                             tabIndex={-1}
+                            aria-hidden="true"
                             onChange={onChangeStub}
                         />
                         <label htmlFor={`${props.id}_checkbox_toggle_${index}`} style={{ pointerEvents: "none" }}>
