@@ -90,7 +90,7 @@ export type SetPageSizeAction = (newSize: number) => void;
 /** Main action to change page size. */
 export function createSetPageSizeAction(
     query: QueryService,
-    config: { isLimitBased: boolean },
+    _config: { isLimitBased: boolean },
     currentPage: ComputedAtom<number>,
     pageSizeStore: { setPageSize: (n: number) => void },
     setPageAction: SetPageAction
