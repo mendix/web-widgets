@@ -62,9 +62,20 @@ export class DynamicPaginationFeature implements SetupComponent {
                     () => this.dynamicPage.get(),
                     page => {
                         if (page < 0) return;
+                        // For limit-based pagination (virtual scroll / loadMore), page represents
+                        // the number of loaded pages. Page 0 would mean setLimit(0) which is invalid.
+                        if (this.config.isLimitBased && page < 1) return;
                         this.service.setPage(page);
                     },
-                    { delay: 250, fireImmediately: true }
+                    {
+                        delay: 250,
+                        // For limit-based pagination, don't apply the initial attribute value
+                        // immediately — the widget's setBaseLimit(initPageSize) already sets
+                        // the correct first-page limit in postInit. Applying a stale/default
+                        // dynamicPage value on first load would inflate the limit to
+                        // dynamicPage * pageSize, loading more items than expected.
+                        fireImmediately: !this.config.isLimitBased
+                    }
                 )
             );
         }

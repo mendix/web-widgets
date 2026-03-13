@@ -397,5 +397,157 @@ describe("DynamicPaginationFeature", () => {
             expect(service.setPage).toHaveBeenCalledTimes(1);
             expect(service.setPage).toHaveBeenCalledWith(2);
         });
+
+        it("rejects dynamicPage = 0 (setLimit(0) is invalid for virtual scroll)", () => {
+            jest.clearAllMocks();
+
+            runInAction(() => limitAtoms.dynamicPage.set(0));
+            jest.advanceTimersByTime(250);
+
+            expect(service.setPage).not.toHaveBeenCalled();
+        });
+
+        it("accepts dynamicPage changes > 0 after initialization", () => {
+            jest.clearAllMocks();
+
+            runInAction(() => limitAtoms.dynamicPage.set(3));
+            jest.advanceTimersByTime(250);
+
+            expect(service.setPage).toHaveBeenCalledWith(3);
+            expect(service.setPage).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe("limit-based initialization — does not apply stale dynamicPage on first load", () => {
+        function createLimitFeature(
+            dynamicPageInitial: number,
+            dynamicPageSizeInitial: number,
+            pageSizeInitial = 10
+        ): { svc: jest.Mocked<GridPageControl>; atoms: ReturnType<typeof createAtoms>; dispose: () => void } {
+            const svc: jest.Mocked<GridPageControl> = {
+                setPage: jest.fn(),
+                setPageSize: jest.fn(),
+                setTotalCount: jest.fn(),
+                setLoadedRows: jest.fn()
+            };
+            const initAtoms = createAtoms(dynamicPageInitial, dynamicPageSizeInitial, pageSizeInitial);
+            const initGate = new ObservableGate<GateProps>({
+                dynamicPage: new EditableValueBuilder<Big>().build(),
+                dynamicPageSize: new EditableValueBuilder<Big>().build()
+            });
+            const feature = new DynamicPaginationFeature(
+                makeHost(),
+                { dynamicPageEnabled: true, dynamicPageSizeEnabled: true, isLimitBased: true },
+                initAtoms.dynamicPage.atom,
+                initAtoms.dynamicPageSize.atom,
+                initAtoms.totalCount.atom,
+                initAtoms.currentPage.atom,
+                initAtoms.pageSize.atom,
+                initAtoms.loadedRows.atom,
+                initGate,
+                svc
+            );
+            return { svc, atoms: initAtoms, dispose: feature.setup() };
+        }
+
+        function createAtoms(dynamicPage: number, dynamicPageSize: number, pageSize: number) {
+            return {
+                dynamicPage: boxAtom(dynamicPage),
+                dynamicPageSize: boxAtom(dynamicPageSize),
+                totalCount: boxAtom(0),
+                currentPage: boxAtom(0),
+                pageSize: boxAtom(pageSize),
+                loadedRows: boxAtom(0)
+            };
+        }
+
+        it("does NOT apply stale dynamicPage=5 on first load (would inflate limit to 5*pageSize)", () => {
+            // Regression: a persisted/default dynamicPage=5 with pageSize=5 would cause
+            // setLimit(5*5)=25, loading 25 items instead of the expected 5.
+            const { svc, dispose } = createLimitFeature(5, -1, 5);
+            try {
+                // fireImmediately is false for limit-based, so setPage must NOT be called
+                expect(svc.setPage).not.toHaveBeenCalled();
+            } finally {
+                dispose();
+            }
+        });
+
+        it("does NOT apply dynamicPage=0 on first load for limit-based pagination", () => {
+            const { svc, dispose } = createLimitFeature(0, -1, 5);
+            try {
+                expect(svc.setPage).not.toHaveBeenCalled();
+            } finally {
+                dispose();
+            }
+        });
+
+        it("still applies dynamicPageSize immediately for limit-based pagination", () => {
+            // dynamicPageSize fireImmediately remains true for all modes
+            const { svc, dispose } = createLimitFeature(-1, 15, 10);
+            try {
+                expect(svc.setPageSize).toHaveBeenCalledWith(15);
+                expect(svc.setPageSize).toHaveBeenCalledTimes(1);
+            } finally {
+                dispose();
+            }
+        });
+
+        it("picks up subsequent dynamicPage changes after init", () => {
+            const { svc, atoms: a, dispose } = createLimitFeature(5, -1, 5);
+            try {
+                // Stale initial value NOT applied (fireImmediately: false)
+                expect(svc.setPage).not.toHaveBeenCalled();
+
+                // Simulate user scroll bumping page
+                runInAction(() => a.dynamicPage.set(2));
+                jest.advanceTimersByTime(250);
+
+                expect(svc.setPage).toHaveBeenCalledWith(2);
+                expect(svc.setPage).toHaveBeenCalledTimes(1);
+            } finally {
+                dispose();
+            }
+        });
+
+        it("offset-based pagination still applies dynamicPage immediately on setup", () => {
+            // Ensure we didn't break offset-based (buttons) behavior
+            const svc: jest.Mocked<GridPageControl> = {
+                setPage: jest.fn(),
+                setPageSize: jest.fn(),
+                setTotalCount: jest.fn(),
+                setLoadedRows: jest.fn()
+            };
+            const initAtoms = {
+                dynamicPage: boxAtom(4),
+                dynamicPageSize: boxAtom(-1),
+                totalCount: boxAtom(0),
+                currentPage: boxAtom(0),
+                pageSize: boxAtom(10),
+                loadedRows: boxAtom(0)
+            };
+            const initGate = new ObservableGate<GateProps>({
+                dynamicPage: new EditableValueBuilder<Big>().build()
+            });
+            const feature = new DynamicPaginationFeature(
+                makeHost(),
+                { dynamicPageEnabled: true, dynamicPageSizeEnabled: false, isLimitBased: false },
+                initAtoms.dynamicPage.atom,
+                initAtoms.dynamicPageSize.atom,
+                initAtoms.totalCount.atom,
+                initAtoms.currentPage.atom,
+                initAtoms.pageSize.atom,
+                initAtoms.loadedRows.atom,
+                initGate,
+                svc
+            );
+            const d = feature.setup();
+            try {
+                expect(svc.setPage).toHaveBeenCalledWith(4);
+                expect(svc.setPage).toHaveBeenCalledTimes(1);
+            } finally {
+                d();
+            }
+        });
     });
 });
