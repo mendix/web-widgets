@@ -98,10 +98,11 @@ export function createSetPageSizeAction(
     return action(function setPageSizeAction(newSize: number): void {
         const currentPageIndex = currentPage.get();
 
-        // Update limit in case of offset-based pagination
-        if (!config.isLimitBased) {
-            query.setBaseLimit(newSize);
-        }
+        // Always sync baseLimit with the new page size so that sort/filter resets
+        // (which call resetLimit → datasource.setLimit(baseLimit)) use the correct value.
+        // Previously this was guarded to offset-based only, leaving virtual scroll's
+        // baseLimit stuck at constPageSize after a dynamic page size change.
+        query.setBaseLimit(newSize);
         pageSizeStore.setPageSize(newSize);
         setPageAction(currentPageIndex);
     });
