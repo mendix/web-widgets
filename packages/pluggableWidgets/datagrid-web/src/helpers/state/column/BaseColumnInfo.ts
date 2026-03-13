@@ -56,21 +56,30 @@ export class BaseColumnInfo {
         this.allowEventPropagation = props.allowEventPropagation;
     }
 
+    get minColumnWidth(): "auto" | "min-content" | `${number}px` {
+        switch (this.minWidth) {
+            case "auto": {
+                return "auto";
+            }
+            case "minContent": {
+                return "min-content";
+            }
+            case "manual": {
+                return `${this.minWidthLimit}px`;
+            }
+        }
+    }
+
     get columnWidth(): string {
         switch (this.width) {
+            case "autoFill": {
+                return `minmax(${this.minColumnWidth}, 1fr)`;
+            }
             case "autoFit": {
-                const min =
-                    this.minWidth === "manual"
-                        ? `${this.minWidthLimit}px`
-                        : this.minWidth === "minContent"
-                          ? "min-content"
-                          : "auto";
-                return `minmax(${min}, auto)`;
+                return `minmax(${this.minColumnWidth}, auto)`;
             }
             case "manual":
-                return `${this.weight}fr`;
-            default:
-                return "1fr";
+                return `minmax(${this.minColumnWidth}, ${this.weight}fr)`;
         }
     }
 }

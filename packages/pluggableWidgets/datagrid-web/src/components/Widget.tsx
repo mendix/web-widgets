@@ -26,8 +26,8 @@ export function Widget(props: { onExportCancel?: () => void }): ReactElement {
                     <SelectAllBar />
                     <RefreshStatus />
                     <GridBody>
-                        <MockHeader />
                         <RowsRenderer />
+                        <MockHeader />
                         <EmptyPlaceholder />
                     </GridBody>
                 </Grid>
