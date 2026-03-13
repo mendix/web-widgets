@@ -83,7 +83,9 @@ function isSettingsStorageEnabled(props: DatagridContainerProps): boolean {
 }
 
 function isInteractive(props: DatagridContainerProps): boolean {
-    return props.itemSelection !== undefined || props.onClick !== undefined;
+    const hasRowClickSelection = props.itemSelection && props.itemSelectionMethod === "rowClick";
+    const hasOnClickAction = props.onClick !== undefined;
+    return hasRowClickSelection || hasOnClickAction;
 }
 
 function selectionType(props: DatagridContainerProps): SelectionType {

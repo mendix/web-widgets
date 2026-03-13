@@ -29,3 +29,5 @@ automation/run-e2e/ctrf/*.json
 .cursor
 .windsurf
 .claude/settings.local.json
+.claude/audit.log
+.eslintcache
