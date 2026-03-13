@@ -450,7 +450,18 @@ describe("DynamicPaginationFeature", () => {
             return { svc, atoms: initAtoms, dispose: feature.setup() };
         }
 
-        function createAtoms(dynamicPage: number, dynamicPageSize: number, pageSize: number) {
+        function createAtoms(
+            dynamicPage: number,
+            dynamicPageSize: number,
+            pageSize: number
+        ): {
+            dynamicPage: NumberAtomBox;
+            dynamicPageSize: NumberAtomBox;
+            totalCount: NumberAtomBox;
+            currentPage: NumberAtomBox;
+            pageSize: NumberAtomBox;
+            loadedRows: NumberAtomBox;
+        } {
             return {
                 dynamicPage: boxAtom(dynamicPage),
                 dynamicPageSize: boxAtom(dynamicPageSize),
