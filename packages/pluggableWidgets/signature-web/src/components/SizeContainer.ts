@@ -1,17 +1,7 @@
 import { createElement, CSSProperties, FC, PropsWithChildren } from "react";
 import classNames from "classnames";
 import { useResizeObserver } from "../utils/useResizeObserver";
-
-export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels";
-
-export type WidthUnitType = "percentage" | "pixels";
-
-export interface Dimensions {
-    widthUnit: WidthUnitType;
-    width: number;
-    heightUnit: HeightUnitType;
-    height: number;
-}
+import { Dimensions, HeightUnitType, WidthUnitType } from "../utils/customTypes";
 
 export interface SizeProps extends Dimensions, PropsWithChildren {
     className: string;
