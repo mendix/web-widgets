@@ -44,4 +44,27 @@ describe("BadgeButton", () => {
 
         expect(badge.getByRole("button")).toHaveClass("btn btn-secondary");
     });
+
+    describe("button style class detection", () => {
+        it("does not add duplicate btn-primary when btn-success is present", () => {
+            const badge = renderBadgeButton({ className: "btn-success" });
+            const button = badge.getByRole("button");
+
+            expect(button.className).toEqual("widget-badge-button btn btn-success");
+        });
+
+        it("adds btn-primary as default when no button style is present", () => {
+            const badge = renderBadgeButton({ className: "custom-class" });
+            const button = badge.getByRole("button");
+
+            expect(button.className).toEqual("widget-badge-button btn btn-primary custom-class");
+        });
+
+        it("adds btn-primary when className is undefined", () => {
+            const badge = renderBadgeButton({});
+            const button = badge.getByRole("button");
+
+            expect(button.className).toEqual("widget-badge-button btn btn-primary");
+        });
+    });
 });
