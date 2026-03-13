@@ -94,7 +94,7 @@ export function getFilterTypeOptions(filter: FilterTypeEnum): MatchSorterOptions
             };
         case "startsWith":
             return {
-                threshold: matchSorter.rankings.WORD_STARTS_WITH
+                threshold: matchSorter.rankings.STARTS_WITH
             };
         case "none":
             return {
