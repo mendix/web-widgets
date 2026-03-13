@@ -13,7 +13,11 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
     const selectionCounterVM = useSelectionCounterViewModel();
     const customPagination = useCustomPagination();
 
-    const showFooter = selectionCounterVM.isBottomCounterVisible || paging.paginationVisible || paging.loadMoreVisible;
+    const showFooter =
+        selectionCounterVM.isBottomCounterVisible ||
+        paging.paginationVisible ||
+        paging.loadMoreVisible ||
+        pgConfig.customPaginationEnabled;
 
     if (!showFooter) {
         return null;
@@ -39,7 +43,7 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
                     </div>
                 </If>
                 <div className="widget-datagrid-pb-end">
-                    <If condition={pgConfig.pagingPosition !== "top"}>
+                    <If condition={!pgConfig.customPaginationEnabled && pgConfig.pagingPosition !== "top"}>
                         <Pagination />
                     </If>
                     <If condition={pgConfig.customPaginationEnabled}>{customPagination.get()}</If>

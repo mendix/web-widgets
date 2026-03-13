@@ -226,6 +226,10 @@ const _08_paginationBindings: BindingGroup = {
             GY.paging.dynamicPage,
             GY.paging.dynamicPageSize,
             CORE.data.totalCount,
+            GY.paging.currentPage,
+            GY.paging.pageSize,
+            CORE.data.itemCount,
+            CORE.mainGate,
             GY.paging.pageControl
         );
         injected(customPaginationAtom, CORE.mainGate);
@@ -245,13 +249,21 @@ const _08_paginationBindings: BindingGroup = {
     init(container, { props }) {
         const config = galleryPaginationConfig(props);
         container.bind(GY.paging.paginationConfig).toConstant(config);
-        container.bind(CORE.initPageSize).toConstant(config.constPageSize);
+        // Prefer the external dynamicPageSize value (if valid) so that PageSizeStore
+        // and the initial setBaseLimit call both start with the correct page size.
+        // Without this, the first XAS request uses constPageSize (from XML config)
+        // and the dynamic value is only applied after mount via useEffect → setup().
+        const externalPageSize = props.dynamicPageSize?.value?.toNumber() ?? 0;
+        const initPageSize = externalPageSize > 0 ? externalPageSize : config.constPageSize;
+        container.bind(CORE.initPageSize).toConstant(initPageSize);
     },
     postInit(container) {
         const config = container.get(GY.paging.paginationConfig);
         const query = container.get(GY.query);
         query.requestTotalCount(config.requestTotalCount);
-        query.setBaseLimit(config.constPageSize);
+        // Use the resolved initPageSize (dynamic value if provided, else constPageSize)
+        // so the very first datasource fetch uses the correct limit.
+        query.setBaseLimit(container.get(CORE.initPageSize));
         container.get(GY.paging.dynamicPagination); // Enable dynamic pagination feature
     }
 };

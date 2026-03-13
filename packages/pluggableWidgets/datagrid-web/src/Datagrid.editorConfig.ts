@@ -72,6 +72,7 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
 
     if (values.pagination === "buttons") {
         hidePropertyIn(defaultProperties, values, "showNumberOfRows");
+        hidePropertyIn(defaultProperties, values, "loadedRowsValue");
 
         if (values.useCustomPagination === false) {
             hidePropertyIn(defaultProperties, values, "customPagination");
@@ -85,13 +86,7 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
             hidePropertyIn(defaultProperties, values, "pagingPosition");
         }
 
-        hidePropertiesIn(defaultProperties, values, [
-            "dynamicPage",
-            "dynamicPageSize",
-            "useCustomPagination",
-            "customPagination",
-            "totalCountValue"
-        ]);
+        hidePropertiesIn(defaultProperties, values, ["useCustomPagination", "customPagination"]);
     }
 
     if (values.pagination !== "loadMore") {
@@ -338,6 +333,19 @@ export const getPreview = (
                   )
               ]
             : [];
+    const customPaginationWidgets = values.useCustomPagination
+        ? [
+              rowLayout({
+                  columnSize: "fixed",
+                  borders: true
+              })(
+                  dropzone(
+                      dropzone.placeholder("Custom pagination: Place widgets here"),
+                      dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader)
+                  )(values.customPagination)
+              )
+          ]
+        : [];
 
     return container()(
         gridTitle,
@@ -345,6 +353,7 @@ export const getPreview = (
         gridHeaderWidgets,
         columnHeaders,
         ...Array.from({ length: 5 }).map(() => columns),
+        ...customPaginationWidgets,
         ...customEmptyMessageWidgets
     );
 };
