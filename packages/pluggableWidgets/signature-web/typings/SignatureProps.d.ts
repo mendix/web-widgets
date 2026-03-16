@@ -8,9 +8,15 @@ import { EditableValue, EditableImageValue, WebImage } from "mendix";
 
 export type PenTypeEnum = "fountain" | "ballpoint" | "marker";
 
-export type WidthUnitEnum = "percentage" | "pixels";
+export type WidthUnitEnum = "pixels" | "percentage";
 
-export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent";
+export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type MinHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type MaxHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "percentageOfView";
+
+export type OverflowYEnum = "auto" | "scroll" | "hidden";
 
 export interface SignatureContainerProps {
     name: string;
@@ -25,6 +31,11 @@ export interface SignatureContainerProps {
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
+    minHeightUnit: MinHeightUnitEnum;
+    minHeight: number;
+    maxHeightUnit: MaxHeightUnitEnum;
+    maxHeight: number;
+    OverflowY: OverflowYEnum;
     showGrid: boolean;
     gridBorderColor: string;
     gridCellHeight: number;
@@ -51,6 +62,11 @@ export interface SignaturePreviewProps {
     width: number | null;
     heightUnit: HeightUnitEnum;
     height: number | null;
+    minHeightUnit: MinHeightUnitEnum;
+    minHeight: number | null;
+    maxHeightUnit: MaxHeightUnitEnum;
+    maxHeight: number | null;
+    OverflowY: OverflowYEnum;
     showGrid: boolean;
     gridBorderColor: string;
     gridCellHeight: number | null;

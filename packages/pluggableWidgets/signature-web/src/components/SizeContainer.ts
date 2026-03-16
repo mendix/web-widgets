@@ -1,9 +1,10 @@
 import { createElement, CSSProperties, FC, PropsWithChildren } from "react";
 import classNames from "classnames";
 import { useResizeObserver } from "../utils/useResizeObserver";
-import { Dimensions, HeightUnitType, WidthUnitType } from "../utils/customTypes";
+// import { Dimensions, HeightUnitType, WidthUnitType } from "../utils/customTypes";
+import { constructWrapperStyle, DimensionsProps } from "../utils/dimensions";
 
-export interface SizeProps extends Dimensions, PropsWithChildren {
+export interface SizeProps extends DimensionsProps, PropsWithChildren {
     className: string;
     classNameInner?: string;
     readOnly?: boolean;
@@ -11,21 +12,12 @@ export interface SizeProps extends Dimensions, PropsWithChildren {
     onResize?: () => void;
 }
 
-export const SizeContainer: FC<SizeProps> = ({
-    className,
-    classNameInner,
-    widthUnit,
-    width,
-    heightUnit,
-    height,
-    children,
-    style,
-    readOnly = false,
-    onResize
-}) => {
+export const SizeContainer: FC<SizeProps> = (props: SizeProps) => {
+    const { className, children, classNameInner, readOnly = false, style, onResize } = props;
     const ref = useResizeObserver(() => onResize?.());
 
-    const styleWidth = widthUnit === "percentage" ? `${width}%` : `${width}px`;
+    // const styleWidth = widthUnit === "percentage" ? `${width}%` : `${width}px`;
+    const wrapperStyle = constructWrapperStyle(props);
     return createElement(
         "div",
         {
@@ -33,8 +25,7 @@ export const SizeContainer: FC<SizeProps> = ({
             className: classNames(className, "size-box"),
             style: {
                 position: "relative",
-                width: styleWidth,
-                ...getHeight(heightUnit, height, widthUnit, width),
+                ...wrapperStyle,
                 ...style
             }
         },
@@ -59,26 +50,26 @@ export const SizeContainer: FC<SizeProps> = ({
 
 SizeContainer.displayName = "SizeContainer";
 
-const getHeight = (
-    heightUnit: HeightUnitType,
-    height: number,
-    widthUnit: WidthUnitType,
-    width: number
-): CSSProperties => {
-    const style: CSSProperties = {};
-    if (heightUnit === "percentageOfWidth") {
-        const ratio = (height / 100) * width;
-        if (widthUnit === "percentage") {
-            style.height = "auto";
-            style.paddingBottom = `${ratio}%`;
-        } else {
-            style.height = `${ratio}px`;
-        }
-    } else if (heightUnit === "pixels") {
-        style.height = `${height}px`;
-    } else if (heightUnit === "percentageOfParent") {
-        style.height = `${height}%`;
-    }
+// const getHeight = (
+//     heightUnit: HeightUnitType,
+//     height: number,
+//     widthUnit: WidthUnitType,
+//     width: number
+// ): CSSProperties => {
+//     const style: CSSProperties = {};
+//     if (heightUnit === "percentageOfWidth") {
+//         const ratio = (height / 100) * width;
+//         if (widthUnit === "percentage") {
+//             style.height = "auto";
+//             style.paddingBottom = `${ratio}%`;
+//         } else {
+//             style.height = `${ratio}px`;
+//         }
+//     } else if (heightUnit === "pixels") {
+//         style.height = `${height}px`;
+//     } else if (heightUnit === "percentageOfParent") {
+//         style.height = `${height}%`;
+//     }
 
-    return style;
-};
+//     return style;
+// };
