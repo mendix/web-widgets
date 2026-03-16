@@ -1,12 +1,7 @@
-import {
-    ComputedAtom,
-    DerivedPropsGate,
-    SetupComponent,
-    SetupComponentHost
-} from "@mendix/widget-plugin-mobx-kit/main";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 import { editable } from "@mendix/widget-plugin-test-utils";
 import { Big } from "big.js";
-import { action, makeObservable, observable, runInAction } from "mobx";
+import { action, IObservableValue, makeObservable, observable, runInAction } from "mobx";
 import { EditableValue } from "mendix";
 import { GridPageControl } from "../../interfaces/GridPageControl";
 import { DynamicPaginationFeature } from "../DynamicPagination.feature";
@@ -18,18 +13,13 @@ type GateProps = {
     loadedRowsValue?: EditableValue<Big>;
 };
 
-type NumberAtomBox = {
-    atom: ComputedAtom<number>;
-    set: (value: number) => void;
-};
-
 type AtomsFixture = {
-    dynamicPage: NumberAtomBox;
-    dynamicPageSize: NumberAtomBox;
-    totalCount: NumberAtomBox;
-    currentPage: NumberAtomBox;
-    pageSize: NumberAtomBox;
-    loadedRows: NumberAtomBox;
+    dynamicPage: IObservableValue<number>;
+    dynamicPageSize: IObservableValue<number>;
+    totalCount: IObservableValue<number>;
+    currentPage: IObservableValue<number>;
+    pageSize: IObservableValue<number>;
+    loadedRows: IObservableValue<number>;
 };
 
 type AttributesFixture = {
@@ -48,14 +38,6 @@ type FeatureConfig = {
 function lastArgToNumber(mockFn: jest.MockedFunction<any>): number {
     const calls = mockFn.mock.calls;
     return calls[calls.length - 1][0].toNumber();
-}
-
-function boxAtom(initial: number): NumberAtomBox {
-    const box = observable.box(initial);
-    return {
-        atom: box as unknown as ComputedAtom<number>,
-        set: value => box.set(value)
-    };
 }
 
 function makeHost(): SetupComponentHost {
@@ -77,12 +59,12 @@ function createMockService(): jest.Mocked<GridPageControl> {
 
 function createAtoms(overrides?: Partial<Record<keyof AtomsFixture, number>>): AtomsFixture {
     return {
-        dynamicPage: boxAtom(overrides?.dynamicPage ?? -1),
-        dynamicPageSize: boxAtom(overrides?.dynamicPageSize ?? -1),
-        totalCount: boxAtom(overrides?.totalCount ?? 0),
-        currentPage: boxAtom(overrides?.currentPage ?? 0),
-        pageSize: boxAtom(overrides?.pageSize ?? 10),
-        loadedRows: boxAtom(overrides?.loadedRows ?? 0)
+        dynamicPage: observable.box(overrides?.dynamicPage ?? -1),
+        dynamicPageSize: observable.box(overrides?.dynamicPageSize ?? -1),
+        totalCount: observable.box(overrides?.totalCount ?? 0),
+        currentPage: observable.box(overrides?.currentPage ?? 0),
+        pageSize: observable.box(overrides?.pageSize ?? 10),
+        loadedRows: observable.box(overrides?.loadedRows ?? 0)
     };
 }
 
@@ -111,11 +93,11 @@ function createFeature(
     const feature = new DynamicPaginationFeature(
         makeHost(),
         config,
-        atoms.dynamicPage.atom,
-        atoms.dynamicPageSize.atom,
-        atoms.totalCount.atom,
-        atoms.currentPage.atom,
-        atoms.loadedRows.atom,
+        atoms.dynamicPage,
+        atoms.dynamicPageSize,
+        atoms.totalCount,
+        atoms.currentPage,
+        atoms.loadedRows,
         gate,
         service
     );
