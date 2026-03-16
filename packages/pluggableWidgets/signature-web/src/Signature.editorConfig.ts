@@ -1,4 +1,4 @@
-import { Properties } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     container,
     rowLayout,
@@ -13,9 +13,29 @@ import SignaturePreviewSVG from "./assets/Signature.icon.svg";
 import SignaturePreviewDarkSVG from "./assets/Signature.icon.dark.svg";
 
 export function getProperties(
-    _values: SignaturePreviewProps,
+    values: SignaturePreviewProps,
     defaultProperties: Properties /* , target: Platform*/
 ): Properties {
+    if (values.heightUnit === "percentageOfWidth") {
+        hidePropertyIn(defaultProperties, values, "height");
+    } else {
+        hidePropertiesIn(defaultProperties, values, [
+            "minHeight",
+            "minHeightUnit",
+            "maxHeight",
+            "maxHeightUnit",
+            "OverflowY"
+        ]);
+    }
+
+    if (values.minHeightUnit === "none") {
+        hidePropertyIn(defaultProperties, values, "minHeight");
+    }
+
+    if (values.maxHeightUnit === "none") {
+        hidePropertiesIn(defaultProperties, values, ["maxHeight", "OverflowY"]);
+    }
+
     return defaultProperties;
 }
 

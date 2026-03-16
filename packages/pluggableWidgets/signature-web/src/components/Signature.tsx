@@ -9,15 +9,11 @@ import { Grid } from "./Grid";
 import { SizeContainer } from "./SizeContainer";
 
 export function SignatureComponent(props: SignatureProps): ReactElement {
-    const { className, alertMessage, wrapperStyle, imageSource, hasSignatureAttribute, onSignEndAction } = props;
+    const { className, alertMessage, wrapperStyle, imageSource, onSignEndAction } = props;
 
     const handleSignEnd = (imageDataUrl?: string): void => {
         if (imageDataUrl) {
             imageSource.setValue(Utils.convertUrlToBlob(imageDataUrl));
-        }
-
-        if (hasSignatureAttribute) {
-            hasSignatureAttribute.setValue(true);
         }
 
         // Trigger microflow to update signature attribute
@@ -26,17 +22,7 @@ export function SignatureComponent(props: SignatureProps): ReactElement {
         }
     };
 
-    const { canvasRef, signaturePadRef } = useSignaturePad(props, handleSignEnd);
-
-    const onResize = (): void => {
-        if (canvasRef.current) {
-            canvasRef.current.width =
-                canvasRef.current && canvasRef.current.parentElement ? canvasRef.current.parentElement.offsetWidth : 0;
-            canvasRef.current.height =
-                canvasRef.current && canvasRef.current.parentElement ? canvasRef.current.parentElement.offsetHeight : 0;
-            signaturePadRef.current?.redraw();
-        }
-    };
+    const { canvasRef, onResize } = useSignaturePad(props, handleSignEnd);
 
     return (
         <SizeContainer
