@@ -18,9 +18,6 @@ export class PageControlService implements GridPageControl {
 
     setPageSize(pageSize: number): void {
         this.setPageSizeAction(pageSize);
-        const value = this.gate.props.dynamicPageSize;
-        if (!value || value.readOnly) return;
-        value.setValue(new Big(pageSize));
     }
 
     setPage(page: number): void {

@@ -26,7 +26,6 @@ export class DynamicPaginationFeature implements SetupComponent {
         private dynamicPageSize: ComputedAtom<number>,
         private totalCount: ComputedAtom<number>,
         private currentPage: ComputedAtom<number>,
-        private pageSize: ComputedAtom<number>,
         private loadedRows: ComputedAtom<number>,
         private gate: DerivedPropsGate<FeatureGateProps>,
         private service: GridPageControl
@@ -37,100 +36,90 @@ export class DynamicPaginationFeature implements SetupComponent {
     setup(): () => void {
         const [add, disposeAll] = disposeBatch();
 
-        // Inbound: attribute value → page control
-        // fireImmediately: true ensures externally-provided values are applied synchronously
-        // during setup(), before the outbound autoruns below run. Without it the outbound
-        // autoruns fire first (with constPageSize / currentPage=0) and overwrite the attr,
-        // so the 250ms-delayed reaction would then read back the wrong (default) value.
-        // The guards (pageSize <= 0 / page < 0) correctly no-op when no value is provided.
         if (this.config.dynamicPageSizeEnabled) {
-            add(
-                reaction(
-                    () => this.dynamicPageSize.get(),
-                    pageSize => {
-                        if (pageSize <= 0) return;
-                        this.service.setPageSize(pageSize);
-                    },
-                    { delay: 250, fireImmediately: true }
-                )
-            );
+            add(this.syncPageSizeFromAttribute());
         }
 
         if (this.config.dynamicPageEnabled) {
-            add(
-                reaction(
-                    () => this.dynamicPage.get(),
-                    page => {
-                        if (page < 0) return;
-                        // For limit-based pagination (virtual scroll / loadMore), page represents
-                        // the number of loaded pages. Page 0 would mean setLimit(0) which is invalid.
-                        if (this.config.isLimitBased && page < 1) return;
-                        this.service.setPage(page);
-                    },
-                    {
-                        delay: 250,
-                        // For limit-based pagination, don't apply the initial attribute value
-                        // immediately — the widget's setBaseLimit(initPageSize) already sets
-                        // the correct first-page limit in postInit. Applying a stale/default
-                        // dynamicPage value on first load would inflate the limit to
-                        // dynamicPage * pageSize, loading more items than expected.
-                        fireImmediately: !this.config.isLimitBased
-                    }
-                )
-            );
+            add(this.syncPageFromAttribute());
+            add(this.syncCurrentPageToAttribute());
         }
 
-        // Outbound: page control → attribute value
-        // Always sync totalCount when attribute is configured
-        add(
-            autorun(() => {
-                const count = this.totalCount.get();
-                // totalCount is -1 when the datasource has not yet computed it (sentinel value).
-                // Avoid writing the sentinel to the attribute.
-                if (count < 0) return;
-                this.service.setTotalCount(count);
-            })
-        );
-
-        // Sync current page and page size to attributes when enabled (all pagination modes).
-        // Use untracked() to read the gate for the attr reference so the autorun only
-        // re-runs when the computed page/size value changes — not on every setProps() call.
-        // Without untracked, a new props reference from setProps() would re-trigger the
-        // autorun and write the stale page value back, clobbering user-initiated attr writes.
-        if (this.config.dynamicPageEnabled) {
-            add(
-                autorun(() => {
-                    const page = this.currentPage.get();
-                    const attr = untracked(() => this.gate.props.dynamicPage);
-                    if (!attr || attr.readOnly) return;
-                    // For offset-based pagination, currentPage is 0-based internally; store as 1-based in the attribute.
-                    // For limit-based pagination (virtual scroll / loadMore), currentPage is already a loaded-page
-                    // count starting at 1, so no adjustment is needed.
-                    attr.setValue(new Big(this.config.isLimitBased ? page : page + 1));
-                })
-            );
-        }
-
-        if (this.config.dynamicPageSizeEnabled) {
-            add(
-                autorun(() => {
-                    const size = this.pageSize.get();
-                    const attr = untracked(() => this.gate.props.dynamicPageSize);
-                    if (!attr || attr.readOnly) return;
-                    attr.setValue(new Big(size));
-                })
-            );
-        }
-
-        // Sync loaded rows when attribute is configured (virtual/loadMore)
-        add(
-            autorun(() => {
-                const count = this.loadedRows.get();
-                if (count < 0) return;
-                this.service.setLoadedRows?.(count);
-            })
-        );
+        add(this.syncTotalCountToAttribute());
+        add(this.syncLoadedRowsToAttribute());
 
         return disposeAll;
+    }
+
+    /**
+     * Syncs dynamicPageSize attribute changes to internal pagination state.
+     * Debounces rapid changes and applies initial value immediately during setup.
+     */
+    private syncPageSizeFromAttribute(): () => void {
+        return reaction(
+            () => this.dynamicPageSize.get(),
+            pageSize => {
+                if (pageSize <= 0) return;
+                this.service.setPageSize(pageSize);
+            },
+            { delay: 250, fireImmediately: true }
+        );
+    }
+
+    /**
+     * Syncs dynamicPage attribute changes to internal pagination state.
+     * For limit-based pagination, skips initial sync to avoid conflicting with widget's base limit setup.
+     */
+    private syncPageFromAttribute(): () => void {
+        return reaction(
+            () => this.dynamicPage.get(),
+            page => {
+                if (page < 0) return;
+                if (this.config.isLimitBased && page < 1) return;
+                this.service.setPage(page);
+            },
+            {
+                delay: 250,
+                fireImmediately: !this.config.isLimitBased
+            }
+        );
+    }
+
+    /**
+     * Syncs internal totalCount state to the totalCountValue attribute.
+     * Skips sentinel value (-1) when datasource hasn't computed count yet.
+     */
+    private syncTotalCountToAttribute(): () => void {
+        return autorun(() => {
+            const count = this.totalCount.get();
+            if (count < 0) return;
+            this.service.setTotalCount(count);
+        });
+    }
+
+    /**
+     * Syncs internal currentPage state to the dynamicPage attribute.
+     * Uses untracked() for attribute reference to prevent re-running on every setProps() call.
+     * Converts 0-based internal page to 1-based attribute value for offset pagination.
+     */
+    private syncCurrentPageToAttribute(): () => void {
+        return autorun(() => {
+            const page = this.currentPage.get();
+            const dynamicPage = untracked(() => this.gate.props.dynamicPage);
+            if (!dynamicPage || dynamicPage.readOnly) return;
+            dynamicPage.setValue(new Big(this.config.isLimitBased ? page : page + 1));
+        });
+    }
+
+    /**
+     * Syncs internal loadedRows state to the loadedRowsValue attribute.
+     * Skips sentinel value (-1) when count isn't yet available.
+     */
+    private syncLoadedRowsToAttribute(): () => void {
+        return autorun(() => {
+            const count = this.loadedRows.get();
+            if (count < 0) return;
+            this.service.setLoadedRows?.(count);
+        });
     }
 }

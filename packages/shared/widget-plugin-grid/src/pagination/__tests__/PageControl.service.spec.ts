@@ -49,25 +49,9 @@ describe("PageControlService", () => {
             expect(setPageSize).toHaveBeenCalledWith(25);
         });
 
-        it("writes page size to dynamicPageSize attribute", () => {
-            const attr = new EditableValueBuilder<Big>().build();
-            const service = new PageControlService(makeGate({ dynamicPageSize: attr }), setPageSize, setPage);
-
-            service.setPageSize(42);
-            expect(argToNumber(attr.setValue as jest.MockedFunction<any>)).toBe(42);
-        });
-
         it("does not throw when dynamicPageSize attribute is not mapped", () => {
             const service = new PageControlService(makeGate(), setPageSize, setPage);
             expect(() => service.setPageSize(10)).not.toThrow();
-        });
-
-        it("skips write when dynamicPageSize attribute is readOnly", () => {
-            const attr = new EditableValueBuilder<Big>().isReadOnly().build();
-            const service = new PageControlService(makeGate({ dynamicPageSize: attr }), setPageSize, setPage);
-
-            service.setPageSize(10);
-            expect(attr.setValue).not.toHaveBeenCalled();
         });
     });
 

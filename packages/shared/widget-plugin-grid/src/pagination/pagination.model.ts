@@ -66,6 +66,11 @@ export function pageSizeAtom(store: { pageSize: number }): ComputedAtom<number> 
     return computed(() => store.pageSize);
 }
 
+/** Atom that reflects the number of rows currently loaded in the datasource. */
+export function loadedRowsAtom(itemCount: ComputedAtom<number>): ComputedAtom<number> {
+    return computed(() => itemCount.get()) as ComputedAtom<number>;
+}
+
 export type SetPageAction = (value: ((prevPage: number) => number) | number) => void;
 
 /** Main action to change page. */
