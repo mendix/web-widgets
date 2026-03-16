@@ -227,7 +227,6 @@ const _08_paginationBindings: BindingGroup = {
             GY.paging.dynamicPageSize,
             CORE.data.totalCount,
             GY.paging.currentPage,
-            GY.paging.pageSize,
             CORE.data.itemCount,
             CORE.mainGate,
             GY.paging.pageControl
@@ -253,8 +252,8 @@ const _08_paginationBindings: BindingGroup = {
         // and the initial setBaseLimit call both start with the correct page size.
         // Without this, the first XAS request uses constPageSize (from XML config)
         // and the dynamic value is only applied after mount via useEffect → setup().
-        const externalPageSize = props.dynamicPageSize?.value?.toNumber() ?? 0;
-        const initPageSize = externalPageSize > 0 ? externalPageSize : config.constPageSize;
+        const externalPageSize = props.dynamicPageSize?.value?.toNumber();
+        const initPageSize = externalPageSize ?? config.constPageSize;
         container.bind(CORE.initPageSize).toConstant(initPageSize);
     },
     postInit(container) {
