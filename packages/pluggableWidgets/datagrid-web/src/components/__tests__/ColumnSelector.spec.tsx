@@ -37,7 +37,7 @@ describe("Column Selector", () => {
 
             jest.advanceTimersByTime(100);
 
-            const items = screen.getAllByRole("menuitem");
+            const items = screen.getAllByRole("menuitemcheckbox");
             expect(items[0]).toHaveFocus();
         });
 
@@ -52,7 +52,7 @@ describe("Column Selector", () => {
 
             jest.advanceTimersByTime(100);
 
-            const items = screen.getAllByRole("menuitem");
+            const items = screen.getAllByRole("menuitemcheckbox");
             expect(items[0]).toHaveFocus();
 
             await act(async () => {
@@ -92,7 +92,7 @@ describe("Column Selector", () => {
             });
             jest.advanceTimersByTime(100);
 
-            const items = screen.getAllByRole("menuitem");
+            const items = screen.getAllByRole("menuitemcheckbox");
             expect(items[0]).toHaveFocus();
 
             await act(async () => {
@@ -149,7 +149,7 @@ describe("Column Selector", () => {
             });
             jest.advanceTimersByTime(100);
 
-            const items = screen.getAllByRole("menuitem");
+            const items = screen.getAllByRole("menuitemcheckbox");
             expect(items).toHaveLength(3);
             expect(items[0]).toHaveFocus();
 

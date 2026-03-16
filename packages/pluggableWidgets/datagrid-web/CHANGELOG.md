@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We improved accessibility on column selector, added aria-attributes and changed the role to 'menuitemcheckbox'.
+
 ### Added
 
 - We added accessibility support for column headers when single selection is enabled, making sure the purpose of the column is announced.
