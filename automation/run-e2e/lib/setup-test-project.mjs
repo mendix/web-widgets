@@ -36,7 +36,7 @@ export async function setupTestProject() {
         }
     } catch (e) {
         console.error(e);
-        throw new Error(`Failed to unzip the test project into ${config.testProjectDir}`);
+        throw new Error(`Failed to unzip the test project into ${config.testProjectDir}`, { cause: e });
     }
 }
 
@@ -56,6 +56,6 @@ async function downloadTestProject(repository, branch) {
         return downloadedArchivePath;
     } catch (e) {
         rm("-f", downloadedArchivePath);
-        throw new Error("Cannot find test project in GitHub repository. Try again later.");
+        throw new Error("Cannot find test project in GitHub repository. Try again later.", { cause: e });
     }
 }

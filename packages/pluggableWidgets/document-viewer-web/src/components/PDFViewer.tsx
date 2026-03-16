@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, Fragment, KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -42,7 +42,7 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
         downloadFile(file.value?.uri);
     }, [file]);
 
-    const handlePageInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePageInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         // Allow only numbers and empty string
         if (value === "" || /^\d+$/.test(value)) {
@@ -61,7 +61,7 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
     }, [pageInputValue, numberOfPages, currentPage]);
 
     const handlePageInputSubmit = useCallback(
-        (event: React.FormEvent) => {
+        (event: FormEvent) => {
             event.preventDefault();
             validateAndSetPage();
         },
@@ -73,7 +73,7 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
     }, [validateAndSetPage]);
 
     const handlePageInputKeyDown = useCallback(
-        (event: React.KeyboardEvent<HTMLInputElement>) => {
+        (event: KeyboardEvent<HTMLInputElement>) => {
             if (event.key === "Enter") {
                 event.preventDefault();
                 validateAndSetPage();

@@ -15,6 +15,7 @@
         "@prettier/plugin-xml": "^3.4.2",
         "eslint": "^9.39.3",
         "globals": "^17.3.0",
+        "prettier": "^3.8.1",
         "prettier-plugin-packagejson": "^2.5.19"
     }
 }

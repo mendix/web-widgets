@@ -8,6 +8,12 @@ ENV RUNTIME_PORT=8080 \
 
 EXPOSE $RUNTIME_PORT $ADMIN_PORT
 
+# Health check for "docker compose up --wait" and "docker run --health-*".
+# TCP connect on port 8080; any response means ready.
+# interval=5s × retries=36 = up to 3 min grace time.
+HEALTHCHECK --interval=5s --timeout=5s --retries=36 --start-period=15s \
+    CMD python3 -c "import socket,sys; s=socket.socket(); s.settimeout(4); sys.exit(0) if not s.connect_ex(('127.0.0.1', 8080)) else sys.exit(1)"
+
 #install dependency -> git
 RUN apt-get update -qqy && \
     apt-get install -qqy git wget && \

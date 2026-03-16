@@ -8,8 +8,10 @@ type UseActionEventsReturnValue = {
     onBlur: (e: FocusEvent) => void;
 };
 
-interface useActionEventsProps
-    extends Pick<RichTextContainerProps, "onFocus" | "onBlur" | "onChange" | "onChangeType"> {
+interface useActionEventsProps extends Pick<
+    RichTextContainerProps,
+    "onFocus" | "onBlur" | "onChange" | "onChangeType"
+> {
     quill?: Quill | null;
 }
 

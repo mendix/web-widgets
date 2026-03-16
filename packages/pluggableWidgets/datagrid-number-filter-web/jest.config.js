@@ -1,5 +1,5 @@
 module.exports = {
-    ...require("@mendix/pluggable-widgets-tools/test-config/jest.enzyme-free.config.js"),
+    ...require("@mendix/pluggable-widgets-tools/test-config/jest.config.js"),
     /** Prevent usage of "jest-react-hooks-shallow" as it breaks useResetEvent hook. */
     setupFilesAfterEnv: undefined,
     /**

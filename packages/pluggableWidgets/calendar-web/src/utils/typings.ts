@@ -18,5 +18,4 @@ export type EventDropOrResize = {
 };
 
 export interface DragAndDropCalendarProps<TEvent extends object = Event, TResource extends object = object>
-    extends ReactCalendarProps<TEvent, TResource>,
-        withDragAndDropProps<TEvent, TResource> {}
+    extends ReactCalendarProps<TEvent, TResource>, withDragAndDropProps<TEvent, TResource> {}
