@@ -1,19 +1,19 @@
 import { SignatureContainerProps } from "typings/SignatureProps";
 
-export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels";
+// export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels";
 
-export type WidthUnitType = "percentage" | "pixels";
+// export type WidthUnitType = "percentage" | "pixels";
 
-export interface Dimensions {
-    widthUnit: WidthUnitType;
-    width: number;
-    heightUnit: HeightUnitType;
-    height: number;
-}
+// export interface Dimensions {
+//     widthUnit: WidthUnitType;
+//     width: number;
+//     heightUnit: HeightUnitType;
+//     height: number;
+// }
 
 export type penOptions = "fountain" | "ballpoint" | "marker";
 
-export interface SignatureProps extends Dimensions, SignatureContainerProps {
+export interface SignatureProps extends SignatureContainerProps {
     className: string;
     alertMessage?: string;
     clearSignature: boolean;
