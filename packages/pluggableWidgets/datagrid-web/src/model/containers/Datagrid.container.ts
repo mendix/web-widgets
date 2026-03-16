@@ -19,15 +19,15 @@ import {
     dynamicPageAtom,
     dynamicPageSizeAtom,
     DynamicPaginationFeature,
+    loadedRowsAtom,
     PageControlService,
     pageSizeAtom,
     PaginationViewModel
 } from "@mendix/widget-plugin-grid/pagination/main";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
-import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container, injected } from "brandi";
-import { computed } from "mobx";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
@@ -47,10 +47,6 @@ import { SelectionGate } from "../services/SelectionGate.service";
 import { GridSizeStore } from "../stores/GridSize.store";
 import { CORE_TOKENS as CORE, DG_TOKENS as DG, SA_TOKENS } from "../tokens";
 
-/** Atom that reflects the number of rows currently loaded in the datasource. */
-function loadedRowsAtom(itemCount: ComputedAtom<number>): ComputedAtom<number> {
-    return computed(() => itemCount.get()) as ComputedAtom<number>;
-}
 interface InitDependencies {
     props: MainGateProps;
     mainGate: DerivedPropsGate<MainGateProps>;
@@ -197,7 +193,6 @@ const _06_paginationBindings: BindingGroup = {
             DG.dynamicPageSize,
             CORE.atoms.totalCount,
             DG.currentPage,
-            DG.pageSize,
             DG.loadedRows,
             CORE.mainGate,
             DG.pageControl
