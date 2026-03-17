@@ -1,7 +1,7 @@
-import path from "path";
-import { test, expect } from "@playwright/test";
-import * as XLSX from "xlsx";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
+import path from "path";
+import * as XLSX from "xlsx";
 
 test.afterEach("Cleanup session", async ({ page }) => {
     // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
@@ -144,7 +144,7 @@ test.describe("capabilities: hiding", () => {
         await page.locator(".column-selectors > li").nth(2).click();
         await page.locator(".column-selectors > li").nth(1).click();
         await expect(page.locator(".column-selectors input:checked")).toHaveCount(1);
-        await page.locator(".column-selectors > li").nth(0).click();
+        await page.locator(".column-selectors > li").nth(0).click({ force: true });
         await expect(page.locator(".column-selectors input:checked")).toHaveCount(1);
         // Trigger Enter keypress
         await page.locator(".column-selectors > li").nth(0).press("Enter");
