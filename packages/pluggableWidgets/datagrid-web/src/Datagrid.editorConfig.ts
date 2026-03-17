@@ -54,9 +54,6 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
         if (column.width !== "manual") {
             hidePropertyIn(defaultProperties, values, "columns", index, "size");
         }
-        if (column.width !== "autoFit") {
-            hidePropertyIn(defaultProperties, values, "columns", index, "minWidth");
-        }
         if (column.minWidth !== "manual") {
             hidePropertyIn(defaultProperties, values, "columns", index, "minWidthLimit");
         }
