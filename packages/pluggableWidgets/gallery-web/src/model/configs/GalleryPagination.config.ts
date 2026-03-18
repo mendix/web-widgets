@@ -40,10 +40,10 @@ export function galleryPaginationConfig(props: GalleryGateProps): GalleryPaginat
 }
 
 export function resolveInitPageSize(props: GalleryGateProps): number {
-    if (props.dynamicPage !== undefined) {
+    if (props.dynamicPageSize !== undefined) {
         return 0;
     }
-    return props.dynamicPageSize?.value?.toNumber() ?? props.pageSize;
+    return props.pageSize;
 }
 
 export function paginationKind(props: GalleryGateProps): PaginationKind {

@@ -91,27 +91,9 @@ describe("pagination.config helpers", () => {
     });
 
     describe("resolveInitPageSize", () => {
-        it("returns 0 when dynamicPage attribute is set", () => {
-            const props = makeProps({ dynamicPage: {} });
+        it("returns 0 when dynamicPageSize attribute is set", () => {
+            const props = makeProps({ dynamicPageSize: {} });
             expect(resolveInitPageSize(props as MainGateProps)).toBe(0);
-        });
-
-        it("returns 0 when both dynamicPage and dynamicPageSize are set", () => {
-            const props = makeProps({
-                dynamicPage: {},
-                dynamicPageSize: { value: { toNumber: () => 25 } }
-            });
-            expect(resolveInitPageSize(props as MainGateProps)).toBe(0);
-        });
-
-        it("returns dynamicPageSize value when dynamicPage is not set and value is valid", () => {
-            const props = makeProps({ dynamicPageSize: { value: { toNumber: () => 25 } } });
-            expect(resolveInitPageSize(props as MainGateProps)).toBe(25);
-        });
-
-        it("falls back to constPageSize when dynamicPageSize value is 0", () => {
-            const props = makeProps({ pageSize: 10, dynamicPageSize: { value: { toNumber: () => 0 } } });
-            expect(resolveInitPageSize(props as MainGateProps)).toBe(10);
         });
 
         it("falls back to constPageSize when dynamicPageSize is not set", () => {

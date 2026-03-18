@@ -38,11 +38,10 @@ export function paginationConfig(props: MainGateProps): PaginationConfig {
 }
 
 export function resolveInitPageSize(props: MainGateProps): number {
-    if (props.dynamicPage !== undefined) {
+    if (props.dynamicPageSize !== undefined) {
         return 0;
     }
-    const externalPageSize = props.dynamicPageSize?.value?.toNumber() ?? 0;
-    return externalPageSize > 0 ? externalPageSize : props.pageSize;
+    return props.pageSize;
 }
 
 export function paginationKind(props: MainGateProps): PaginationKind {

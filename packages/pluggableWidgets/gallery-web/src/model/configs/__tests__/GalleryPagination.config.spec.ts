@@ -17,32 +17,9 @@ describe("resolveInitPageSize", () => {
         return { ...mockContainerProps(), ...overrides };
     }
 
-    it("returns 0 when dynamicPage attribute is set", () => {
-        const props = makeProps({ dynamicPage: {} as GalleryContainerProps["dynamicPage"] });
+    it("returns 0 when dynamicPageSize attribute is set", () => {
+        const props = makeProps({ dynamicPageSize: {} as GalleryContainerProps["dynamicPageSize"] });
         expect(resolveInitPageSize(props)).toBe(0);
-    });
-
-    it("returns 0 when both dynamicPage and dynamicPageSize are set", () => {
-        const props = makeProps({
-            dynamicPage: {} as GalleryContainerProps["dynamicPage"],
-            dynamicPageSize: { value: { toNumber: () => 25 } } as GalleryContainerProps["dynamicPageSize"]
-        });
-        expect(resolveInitPageSize(props)).toBe(0);
-    });
-
-    it("returns dynamicPageSize value when dynamicPage is not set and value is available", () => {
-        const props = makeProps({
-            dynamicPageSize: { value: { toNumber: () => 25 } } as GalleryContainerProps["dynamicPageSize"]
-        });
-        expect(resolveInitPageSize(props)).toBe(25);
-    });
-
-    it("falls back to pageSize when dynamicPageSize has no value", () => {
-        const props = makeProps({
-            pageSize: 10,
-            dynamicPageSize: { value: undefined } as GalleryContainerProps["dynamicPageSize"]
-        });
-        expect(resolveInitPageSize(props)).toBe(10);
     });
 
     it("falls back to pageSize when dynamicPageSize is not set", () => {
