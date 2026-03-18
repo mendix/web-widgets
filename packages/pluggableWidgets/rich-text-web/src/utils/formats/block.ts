@@ -1,6 +1,14 @@
+import { Blot } from "parchment";
 import Block from "quill/blots/block";
 
 class MxBlock extends Block {
+    isEmptyTailBlock(): boolean {
+        const hasNoValidChildren =
+            this.children.length === 0 ||
+            (this.children.length === 1 && this.children.head?.statics.tagName.toString().toUpperCase() === "BR");
+        return this.prev !== null && hasNoValidChildren;
+    }
+
     html(): string {
         // quill return empty paragraph when there is no content (just empty line)
         // to preserve the line breaks, we add empty space
@@ -13,5 +21,11 @@ class MxBlock extends Block {
             return this.domNode.outerHTML;
         }
     }
+
+    static IsMxBlock(blot: Blot | null): blot is MxBlock {
+        return blot?.statics.blotName === "mx-block";
+    }
 }
+
+MxBlock.blotName = "mx-block";
 export default MxBlock;
