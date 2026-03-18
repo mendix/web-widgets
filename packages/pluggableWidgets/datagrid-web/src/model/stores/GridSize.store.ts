@@ -82,6 +82,25 @@ export class GridSizeStore {
         this.columnSizes = sizes;
     }
 
+    /**
+     * Computes the total viewport height of visible rows based on the current page size.
+     * @returns {number} Total height in pixels of visible rows, or 0 if no rows present.
+     */
+    computeBodyViewport(): number {
+        const rows = Array.from(this.gridBodyRef.current?.children ?? []);
+        if (rows.length === 0) {
+            return 0;
+        }
+
+        const pageSize = this.pageSizeAtom.get();
+        const visibleRows = rows.slice(0, pageSize);
+        const totalHeight = visibleRows.reduce((sum, row) => {
+            const rowHeight = row.children[0]?.clientHeight ?? 0;
+            return sum + rowHeight;
+        }, 0);
+        return totalHeight;
+    }
+
     lockGridBodyHeight(): void {
         if (!this.hasVirtualScrolling || !this.hasMoreItems) {
             return;
@@ -100,10 +119,12 @@ export class GridSizeStore {
             return;
         }
 
+        const viewportHeight = this.computeBodyViewport();
+
         // Don't lock height before the grid body has rendered content.
         // clientHeight is 0 when the element has no layout yet, which would
         // produce a negative height and break scrolling.
-        if (gridBody.clientHeight <= 0) {
+        if (viewportHeight <= 0) {
             return;
         }
 
@@ -111,8 +132,8 @@ export class GridSizeStore {
         // pre-fetch offset — that would hide the last rows and trigger the next page too early.
         // Only subtract the offset when the grid does not yet overflow (auto-height grid) so
         // that we create a small synthetic overflow that makes the body scrollable.
-        const overflows = gridBody.scrollHeight > gridBody.clientHeight;
-        this.gridBodyHeight = gridBody.clientHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
+        const overflows = gridBody.scrollHeight > viewportHeight;
+        this.gridBodyHeight = viewportHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
         this.lockedAtPageSize = currentPageSize;
     }
 }
