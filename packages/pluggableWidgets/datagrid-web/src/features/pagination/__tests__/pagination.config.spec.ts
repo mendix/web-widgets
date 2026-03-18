@@ -1,5 +1,10 @@
 import { MainGateProps } from "typings/MainGateProps";
-import { dynamicPageEnabled, dynamicPageSizeEnabled, requestTotalCount } from "../pagination.config";
+import {
+    dynamicPageEnabled,
+    dynamicPageSizeEnabled,
+    requestTotalCount,
+    resolveInitPageSize
+} from "../pagination.config";
 
 function makeProps(overrides = {}): Partial<MainGateProps> {
     return {
@@ -82,6 +87,36 @@ describe("pagination.config helpers", () => {
         it("is false when no dynamicPageSize attribute is provided", () => {
             const props = makeProps({ pagination: "loadMore" });
             expect(dynamicPageSizeEnabled(props as MainGateProps)).toBe(false);
+        });
+    });
+
+    describe("resolveInitPageSize", () => {
+        it("returns 0 when dynamicPage attribute is set", () => {
+            const props = makeProps({ dynamicPage: {} });
+            expect(resolveInitPageSize(props as MainGateProps)).toBe(0);
+        });
+
+        it("returns 0 when both dynamicPage and dynamicPageSize are set", () => {
+            const props = makeProps({
+                dynamicPage: {},
+                dynamicPageSize: { value: { toNumber: () => 25 } }
+            });
+            expect(resolveInitPageSize(props as MainGateProps)).toBe(0);
+        });
+
+        it("returns dynamicPageSize value when dynamicPage is not set and value is valid", () => {
+            const props = makeProps({ dynamicPageSize: { value: { toNumber: () => 25 } } });
+            expect(resolveInitPageSize(props as MainGateProps)).toBe(25);
+        });
+
+        it("falls back to constPageSize when dynamicPageSize value is 0", () => {
+            const props = makeProps({ pageSize: 10, dynamicPageSize: { value: { toNumber: () => 0 } } });
+            expect(resolveInitPageSize(props as MainGateProps)).toBe(10);
+        });
+
+        it("falls back to constPageSize when dynamicPageSize is not set", () => {
+            const props = makeProps({ pageSize: 10 });
+            expect(resolveInitPageSize(props as MainGateProps)).toBe(10);
         });
     });
 });

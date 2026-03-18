@@ -8,6 +8,7 @@ export interface PaginationConfig {
     showPagingButtons: ShowPagingButtonsEnum;
     showNumberOfRows: boolean;
     constPageSize: number;
+    initPageSize: number;
     isLimitBased: boolean;
     dynamicPageSizeEnabled: boolean;
     dynamicPageEnabled: boolean;
@@ -23,6 +24,7 @@ export function paginationConfig(props: MainGateProps): PaginationConfig {
         showPagingButtons: props.showPagingButtons,
         showNumberOfRows: props.showNumberOfRows,
         constPageSize: props.pageSize,
+        initPageSize: resolveInitPageSize(props),
         isLimitBased: isLimitBased(props),
         paginationKind: paginationKind(props),
         dynamicPageSizeEnabled: dynamicPageSizeEnabled(props),
@@ -33,6 +35,14 @@ export function paginationConfig(props: MainGateProps): PaginationConfig {
     };
 
     return Object.freeze(config);
+}
+
+export function resolveInitPageSize(props: MainGateProps): number {
+    if (props.dynamicPage !== undefined) {
+        return 0;
+    }
+    const externalPageSize = props.dynamicPageSize?.value?.toNumber() ?? 0;
+    return externalPageSize > 0 ? externalPageSize : props.pageSize;
 }
 
 export function paginationKind(props: MainGateProps): PaginationKind {

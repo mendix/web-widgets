@@ -3,6 +3,7 @@ import { GalleryGateProps } from "../../typings/GalleryGateProps";
 
 export interface GalleryPaginationConfig {
     constPageSize: number;
+    initPageSize: number;
     customPaginationEnabled: boolean;
     dynamicPageEnabled: boolean;
     dynamicPageSizeEnabled: boolean;
@@ -21,6 +22,7 @@ export type PaginationKind = `${PaginationEnum}.${ShowPagingButtonsEnum}` | "cus
 export function galleryPaginationConfig(props: GalleryGateProps): GalleryPaginationConfig {
     const config: GalleryPaginationConfig = {
         constPageSize: props.pageSize,
+        initPageSize: resolveInitPageSize(props),
         customPaginationEnabled: paginationKind(props) === "custom",
         dynamicPageEnabled: dynamicPageEnabled(props),
         dynamicPageSizeEnabled: dynamicPageSizeEnabled(props),
@@ -35,6 +37,13 @@ export function galleryPaginationConfig(props: GalleryGateProps): GalleryPaginat
     };
 
     return Object.freeze(config);
+}
+
+export function resolveInitPageSize(props: GalleryGateProps): number {
+    if (props.dynamicPage !== undefined) {
+        return 0;
+    }
+    return props.dynamicPageSize?.value?.toNumber() ?? props.pageSize;
 }
 
 export function paginationKind(props: GalleryGateProps): PaginationKind {
