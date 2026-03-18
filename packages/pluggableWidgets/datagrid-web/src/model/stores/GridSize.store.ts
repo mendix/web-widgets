@@ -16,15 +16,19 @@ export class GridSizeStore {
     gridBodyHeight?: number;
     columnSizes?: number[];
 
+    private lockedAtPageSize?: number;
+
     constructor(
         private readonly hasMoreItemsAtom: ComputedAtom<boolean | undefined>,
         private readonly paginationConfig: PaginationConfig,
-        private readonly setPageAction: SetPageAction
+        private readonly setPageAction: SetPageAction,
+        private readonly pageSizeAtom: ComputedAtom<number>
     ) {
-        makeAutoObservable(this, {
+        makeAutoObservable<GridSizeStore, "lockedAtPageSize">(this, {
             gridContainerRef: false,
             gridBodyRef: false,
             gridHeaderRef: false,
+            lockedAtPageSize: false,
 
             scrollBarSize: observable,
             setScrollBarSize: action,
@@ -82,6 +86,15 @@ export class GridSizeStore {
         if (!this.hasVirtualScrolling || !this.hasMoreItems) {
             return;
         }
+
+        // Reset the locked height when page size changes so layout is recomputed
+        // for the new number of rows (e.g. switching from 10 → 5 rows).
+        const currentPageSize = this.pageSizeAtom.get();
+        if (this.gridBodyHeight !== undefined && this.lockedAtPageSize !== currentPageSize) {
+            this.gridBodyHeight = undefined;
+            this.lockedAtPageSize = undefined;
+        }
+
         const gridBody = this.gridBodyRef.current;
         if (!gridBody || this.gridBodyHeight !== undefined) {
             return;
@@ -100,5 +113,6 @@ export class GridSizeStore {
         // that we create a small synthetic overflow that makes the body scrollable.
         const overflows = gridBody.scrollHeight > gridBody.clientHeight;
         this.gridBodyHeight = gridBody.clientHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
+        this.lockedAtPageSize = currentPageSize;
     }
 }
