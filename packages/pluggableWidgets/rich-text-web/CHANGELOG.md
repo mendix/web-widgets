@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the editor kept adding infinite empty lines at the end by limiting it to only 1 empty line.
+
 ## [4.11.2] - 2026-03-05
 
 ### Fixed
