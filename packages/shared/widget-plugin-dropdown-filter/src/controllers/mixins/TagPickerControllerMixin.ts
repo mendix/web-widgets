@@ -19,6 +19,9 @@ type BaseController = GConstructor<{
     filterStore: FilterStore;
     multiselect: boolean;
     setup(): () => void;
+    inputPlaceholder: string;
+    emptyCaption: string;
+    ariaLabel: string;
 }>;
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -26,9 +29,6 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
     return class TagPickerControllerMixin extends Base {
         touched = false;
         inputValue = "";
-        inputPlaceholder = "";
-        emptyCaption = "";
-        ariaLabel = "";
         filterSelectedOptions = false;
 
         constructor(...args: any[]) {

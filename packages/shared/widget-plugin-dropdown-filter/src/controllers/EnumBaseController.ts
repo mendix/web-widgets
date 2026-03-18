@@ -6,7 +6,7 @@ import { EnumFilterStore } from "../stores/EnumFilterStore";
 import { BaseController } from "./BaseController";
 
 export class EnumBaseController extends BaseController<EnumFilterStore> {
-    private readonly gate: DerivedPropsGate<EnumBaseControllerProps>;
+    protected readonly gate: DerivedPropsGate<EnumBaseControllerProps>;
 
     constructor({ gate, multiselect }: { gate: DerivedPropsGate<EnumBaseControllerProps>; multiselect: boolean }) {
         super({ gate, multiselect });
