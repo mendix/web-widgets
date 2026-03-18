@@ -42,7 +42,8 @@ export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | 
     );
 
     useEffect(() => {
-        setTimeout(() => isVisible && gridSizeStore.lockGridBodyHeight(), 100);
+        const timer = setTimeout(() => isVisible && gridSizeStore.lockGridBodyHeight(), 100);
+        return () => clearTimeout(timer);
     });
 
     useEffect(() => {

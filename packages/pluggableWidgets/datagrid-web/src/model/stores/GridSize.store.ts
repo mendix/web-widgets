@@ -87,6 +87,13 @@ export class GridSizeStore {
             return;
         }
 
+        // Don't lock height before the grid body has rendered content.
+        // clientHeight is 0 when the element has no layout yet, which would
+        // produce a negative height and break scrolling.
+        if (gridBody.clientHeight <= 0) {
+            return;
+        }
+
         // If content already overflows the container (fixed-height grid), do not subtract the
         // pre-fetch offset — that would hide the last rows and trigger the next page too early.
         // Only subtract the offset when the grid does not yet overflow (auto-height grid) so
