@@ -37,6 +37,12 @@ export function paginationConfig(props: MainGateProps): PaginationConfig {
     return Object.freeze(config);
 }
 
+/**
+ * Resolves the initial page size for the first datasource fetch.
+ * Returns 0 when `dynamicPageSize` is configured so that no rows are fetched
+ * before the attribute value is available — the real limit is applied once
+ * `DynamicPaginationFeature` syncs the attribute on setup.
+ */
 export function resolveInitPageSize(props: MainGateProps): number {
     if (props.dynamicPageSize !== undefined) {
         return 0;
