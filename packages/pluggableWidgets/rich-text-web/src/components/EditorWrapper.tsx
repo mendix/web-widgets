@@ -11,6 +11,7 @@ import { EditorContext, EditorProvider } from "../store/EditorProvider";
 import { useActionEvents } from "../store/useActionEvents";
 import { updateLegacyQuillFormats } from "../utils/helpers";
 import MendixTheme from "../utils/themes/mxTheme";
+import { MxQuillModulesOptions } from "../utils/MxQuill";
 import { createPreset } from "./CustomToolbars/presets";
 import Editor from "./Editor";
 import { StickySentinel } from "./StickySentinel";
@@ -195,7 +196,14 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     className={"widget-rich-text-container"}
                     readOnly={stringAttribute.readOnly}
                     key={`${toolbarId}_${stringAttribute.readOnly}`}
-                    customFonts={props.customFonts}
+                    options={
+                        {
+                            fonts: props.customFonts,
+                            links: {
+                                validate: props.linkValidation
+                            }
+                        } as MxQuillModulesOptions
+                    }
                     imageSource={imageSource}
                     imageSourceContent={imageSourceContent}
                     enableDefaultUpload={enableDefaultUpload}
