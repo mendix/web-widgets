@@ -3,6 +3,17 @@ import userEvent from "@testing-library/user-event";
 import { ColumnSelector, ColumnSelectorProps } from "../ColumnSelector";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 
+beforeAll(() => {
+    Object.defineProperty(global, "ResizeObserver", {
+        writable: true,
+        value: jest.fn().mockImplementation(() => ({
+            observe: jest.fn(),
+            unobserve: jest.fn(),
+            disconnect: jest.fn()
+        }))
+    });
+});
+
 jest.useFakeTimers();
 
 describe("Column Selector", () => {

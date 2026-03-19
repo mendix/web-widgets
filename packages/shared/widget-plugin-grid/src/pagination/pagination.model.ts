@@ -66,6 +66,11 @@ export function pageSizeAtom(store: { pageSize: number }): ComputedAtom<number> 
     return computed(() => store.pageSize);
 }
 
+/** Atom that reflects the number of rows currently loaded in the datasource. */
+export function loadedRowsAtom(itemCount: ComputedAtom<number>): ComputedAtom<number> {
+    return computed(() => itemCount.get()) as ComputedAtom<number>;
+}
+
 export type SetPageAction = (value: ((prevPage: number) => number) | number) => void;
 
 /** Main action to change page. */
@@ -90,7 +95,7 @@ export type SetPageSizeAction = (newSize: number) => void;
 /** Main action to change page size. */
 export function createSetPageSizeAction(
     query: QueryService,
-    config: { isLimitBased: boolean },
+    _config: { isLimitBased: boolean },
     currentPage: ComputedAtom<number>,
     pageSizeStore: { setPageSize: (n: number) => void },
     setPageAction: SetPageAction
@@ -98,10 +103,11 @@ export function createSetPageSizeAction(
     return action(function setPageSizeAction(newSize: number): void {
         const currentPageIndex = currentPage.get();
 
-        // Update limit in case of offset-based pagination
-        if (!config.isLimitBased) {
-            query.setBaseLimit(newSize);
-        }
+        // Always sync baseLimit with the new page size so that sort/filter resets
+        // (which call resetLimit → datasource.setLimit(baseLimit)) use the correct value.
+        // Previously this was guarded to offset-based only, leaving virtual scroll's
+        // baseLimit stuck at constPageSize after a dynamic page size change.
+        query.setBaseLimit(newSize);
         pageSizeStore.setPageSize(newSize);
         setPageAction(currentPageIndex);
     });

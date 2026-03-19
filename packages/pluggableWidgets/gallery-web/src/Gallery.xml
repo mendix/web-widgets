@@ -181,6 +181,13 @@
                         <attributeType name="Integer" />
                     </attributeTypes>
                 </property>
+                <property key="loadedRowsValue" type="attribute" required="false">
+                    <caption>Loaded rows</caption>
+                    <description>Read-only attribute reflecting the number of rows currently loaded.</description>
+                    <attributeTypes>
+                        <attributeType name="Integer" />
+                    </attributeTypes>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Appearance">
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">

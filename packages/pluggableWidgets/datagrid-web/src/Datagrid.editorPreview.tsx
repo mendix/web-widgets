@@ -105,10 +105,7 @@ function WidgetTopBar(): ReactElement {
         <div className={cls.topBar}>
             <div className={cls.pagingTop}>
                 <div className={cls.ptStart}>{useTopCounter() ? <SelectionCounter /> : null}</div>
-                <div className={cls.ptEnd}>
-                    {usePagingTop() ? <Pagination /> : null}
-                    {useCustomPagination("top") ? <CustomPagination /> : null}
-                </div>
+                <div className={cls.ptEnd}>{usePagingTop() ? <Pagination /> : null}</div>
             </div>
         </div>
     );
@@ -142,7 +139,7 @@ function WidgetFooter(): ReactElement {
                 </div>
                 <div className={cls.pbEnd}>
                     {usePagingBot() ? <Pagination /> : null}
-                    {useCustomPagination("bottom") ? <CustomPagination /> : null}
+                    {useCustomPagination() ? <CustomPagination /> : null}
                 </div>
             </div>
         </div>
@@ -406,7 +403,7 @@ function usePagingBot(): boolean {
     return visible && props.pagingPosition !== "top";
 }
 
-function useCustomPagination(location: "top" | "bottom"): boolean {
+function useCustomPagination(): boolean {
     const props = useProps();
-    return props.useCustomPagination && (props.pagingPosition === location || props.pagingPosition === "both");
+    return props.useCustomPagination;
 }

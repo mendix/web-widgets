@@ -30,6 +30,7 @@ export type GalleryGateProps = Pick<
     | "content"
     | "ariaLabelItem"
     | "totalCountValue"
+    | "loadedRowsValue"
     | "clearSelectionButtonLabel"
     | "selectedCountTemplateSingular"
     | "selectedCountTemplatePlural"

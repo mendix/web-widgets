@@ -8,6 +8,7 @@ export interface PaginationConfig {
     showPagingButtons: ShowPagingButtonsEnum;
     showNumberOfRows: boolean;
     constPageSize: number;
+    initPageSize: number;
     isLimitBased: boolean;
     dynamicPageSizeEnabled: boolean;
     dynamicPageEnabled: boolean;
@@ -23,6 +24,7 @@ export function paginationConfig(props: MainGateProps): PaginationConfig {
         showPagingButtons: props.showPagingButtons,
         showNumberOfRows: props.showNumberOfRows,
         constPageSize: props.pageSize,
+        initPageSize: resolveInitPageSize(props),
         isLimitBased: isLimitBased(props),
         paginationKind: paginationKind(props),
         dynamicPageSizeEnabled: dynamicPageSizeEnabled(props),
@@ -35,6 +37,19 @@ export function paginationConfig(props: MainGateProps): PaginationConfig {
     return Object.freeze(config);
 }
 
+/**
+ * Resolves the initial page size for the first datasource fetch.
+ * Returns 0 when `dynamicPageSize` is configured so that no rows are fetched
+ * before the attribute value is available — the real limit is applied once
+ * `DynamicPaginationFeature` syncs the attribute on setup.
+ */
+export function resolveInitPageSize(props: MainGateProps): number {
+    if (props.dynamicPageSize !== undefined) {
+        return 0;
+    }
+    return props.pageSize;
+}
+
 export function paginationKind(props: MainGateProps): PaginationKind {
     if (props.useCustomPagination) {
         return "custom";
@@ -44,17 +59,17 @@ export function paginationKind(props: MainGateProps): PaginationKind {
 }
 
 export function dynamicPageSizeEnabled(props: MainGateProps): boolean {
-    return props.dynamicPageSize !== undefined && !isLimitBased(props);
+    return props.dynamicPageSize !== undefined;
 }
 
 export function dynamicPageEnabled(props: MainGateProps): boolean {
-    return props.dynamicPage !== undefined && !isLimitBased(props);
+    return props.dynamicPage !== undefined;
 }
 
 function isLimitBased(props: MainGateProps): boolean {
     return props.pagination === "virtualScrolling" || props.pagination === "loadMore";
 }
 
-function requestTotalCount(props: MainGateProps): boolean {
-    return props.pagination === "buttons" || props.showNumberOfRows;
+export function requestTotalCount(props: MainGateProps): boolean {
+    return props.pagination === "buttons" || props.showNumberOfRows || props.totalCountValue !== undefined;
 }
