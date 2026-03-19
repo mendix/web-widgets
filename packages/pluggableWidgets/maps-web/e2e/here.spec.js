@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.afterEach("Cleanup session", async ({ page }) => {
     // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
@@ -9,7 +9,7 @@ test.describe("Here Maps", () => {
     test.describe("rendering", () => {
         test("compares with a screenshot baseline and checks if basemap is correct", async ({ page }) => {
             await page.goto("p/here-static");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
             const mapElement = await page.locator(".widget-maps");
             await expect(mapElement).toBeVisible();
             await expect(mapElement).toHaveScreenshot("hereMaps.png", { maxDiffPixels: 4000 });
@@ -19,7 +19,7 @@ test.describe("Here Maps", () => {
     test.describe("mixed rendering", () => {
         test("checks the rendering", async ({ page }) => {
             await page.goto("p/here");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
             const mapElement = await page.locator(".widget-leaflet-maps");
             await expect(mapElement).toBeVisible();
         });
@@ -36,7 +36,7 @@ test.describe("Here Maps", () => {
     test.describe("static locations", () => {
         test("checks the rendering", async ({ page }) => {
             await page.goto("p/here-static");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
             const mapElement = await page.locator(".widget-leaflet-maps");
             await expect(mapElement).toBeVisible();
         });
@@ -54,7 +54,7 @@ test.describe("Here Maps", () => {
     test.describe("datasource locations", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/here-datasource");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
         });
 
         test("checks the rendering", async ({ page }) => {
@@ -74,7 +74,7 @@ test.describe("Here Maps", () => {
     test.describe("on click", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/here-onclick");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
         });
 
         test("should click on first marker", async ({ page }) => {

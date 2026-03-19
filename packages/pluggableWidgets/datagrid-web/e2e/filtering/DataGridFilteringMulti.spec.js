@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.afterEach("Cleanup session", async ({ page }) => {
     // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
@@ -15,7 +15,7 @@ test.describe("datagrid-web filtering multi select", () => {
         const enumSelect = () => page.locator(".mx-name-drop_downFilter1[role=combobox]");
         const rowCount = await rows();
         await page.goto("/p/filtering-multi");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-name-dataGrid21").waitFor();
         await expect(rowCount).toHaveCount(11);
         await expect(await column(2).first()).toHaveText("Black");
         await expect(await column(2).last()).toHaveText("Blue");
@@ -50,7 +50,7 @@ test.describe("datagrid-web filtering multi select", () => {
             "Environmental scientistPublic librarianMaterials specialist"
         ];
         await page.goto("/p/filtering-multi");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-name-dataGrid21").waitFor();
         await expect(await column(3).first()).toHaveText(expectedColumnText[0]);
         await roleSelect().click();
         await option("Economist").click({ delay: 20 });
@@ -75,7 +75,7 @@ test.describe("datagrid-web filtering multi select", () => {
 
         const rowCount = await rows();
         await page.goto("/p/filtering-multi");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-name-dataGrid21").waitFor();
         await expect(rowCount).toHaveCount(11);
         await expect(await column(4).first()).toHaveText("W.R. Berkley Corporation");
         await expect(await column(4).last()).toHaveText("PETsMART Inc");

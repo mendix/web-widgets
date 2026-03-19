@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test.afterEach("Cleanup session", async ({ page }) => {
@@ -9,7 +9,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 test.describe("gallery-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-page").waitFor();
     });
 
     test.describe("capabilities: sorting", () => {
@@ -90,7 +90,7 @@ test.describe("gallery-web", () => {
     test.describe("a11y testing:", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
         });
 
         test("checks accessibility violations", async ({ page }) => {

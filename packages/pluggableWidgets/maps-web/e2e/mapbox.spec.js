@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.afterEach("Cleanup session", async ({ page }) => {
     // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
@@ -9,7 +9,7 @@ test.describe("Mapbox Maps", () => {
     test.describe("rendering", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/mapbox-static");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
         });
 
         test("compares with a screenshot baseline and checks if basemap is correct", async ({ page }) => {
@@ -22,7 +22,7 @@ test.describe("Mapbox Maps", () => {
     test.describe("mixed rendering", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/mapbox");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
         });
 
         test("checks the rendering", async ({ page }) => {
@@ -41,7 +41,7 @@ test.describe("Mapbox Maps", () => {
     test.describe("static locations", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/mapbox-static");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
         });
 
         test("checks the rendering", async ({ page }) => {
@@ -61,7 +61,7 @@ test.describe("Mapbox Maps", () => {
     test.describe("datasource locations", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/mapbox-datasource");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
         });
 
         test("checks the rendering", async ({ page }) => {
@@ -81,7 +81,7 @@ test.describe("Mapbox Maps", () => {
     test.describe("on click", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/p/mapbox-onclick");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
         });
 
         test("should click on first marker", async ({ page }) => {

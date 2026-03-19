@@ -55,8 +55,13 @@ module.exports = defineConfig({
                 "--disable-default-apps",
                 "--disable-hang-monitor",
                 "--metrics-recording-only",
-                "--no-first-run"
+                "--no-first-run",
+                "--font-render-hinting=none"
             ]
+        },
+
+        contextOptions: {
+            reducedMotion: "reduce"
         }
     },
 
