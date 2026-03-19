@@ -5,8 +5,8 @@ class MxBlock extends Block {
     isEmptyTailBlock(): boolean {
         const hasNoValidChildren =
             this.children.length === 0 ||
-            (this.children.length === 1 && this.children.head?.statics.tagName.toString().toUpperCase() === "BR");
-        return this.prev !== null && hasNoValidChildren;
+            (this.children.length === 1 && this.children.head?.statics.tagName?.toString().toUpperCase() === "BR");
+        return hasNoValidChildren;
     }
 
     html(): string {

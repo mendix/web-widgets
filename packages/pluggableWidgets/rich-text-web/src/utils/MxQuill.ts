@@ -41,8 +41,11 @@ import Quill, { EmitterSource, QuillOptions } from "quill";
 import TextBlot, { escapeText } from "quill/blots/text";
 import { Delta, Op } from "quill/core";
 import Editor from "quill/core/editor";
-import { STANDARD_LIST_TYPES } from "./formats/customList";
+import { CustomFontsType } from "../../typings/RichTextProps";
 import MxBlock from "./formats/block";
+import { STANDARD_LIST_TYPES } from "./formats/customList";
+import { FontStyleAttributor, formatCustomFonts } from "./formats/fonts";
+import CustomLink, { CustomLinkNoValidation } from "./formats/link";
 
 interface ListItem {
     child: Blot;
@@ -62,6 +65,9 @@ class MxEditor extends Editor {
      * https://github.com/slab/quill/blob/main/packages/quill/src/core/editor.ts
      */
     getHTML(index: number, length: number): string {
+        if (this.isBlank()) {
+            return "";
+        }
         const [line, lineOffset] = this.scroll.line(index);
         if (line) {
             const lineLength = line.length();
@@ -75,8 +81,15 @@ class MxEditor extends Editor {
     }
 }
 
+export interface MxQuillModulesOptions {
+    fonts: CustomFontsType[];
+    links: {
+        validate: boolean;
+    };
+}
+
 /**
- * Extension's of quill to allow us replacing the editor instance.
+ * Extension's of quill to allow us to replace the editor instance.
  */
 export default class MxQuill extends Quill {
     constructor(container: HTMLElement | string, options: QuillOptions = {}) {
@@ -87,6 +100,18 @@ export default class MxQuill extends Quill {
     setContents(dlta: Delta | Op[], source?: EmitterSource): Delta {
         super.setContents(new Delta(), Quill.sources.SILENT);
         return this.updateContents(this.getContents().transform(dlta as Delta, false), source);
+    }
+
+    registerCustomModules(props: MxQuillModulesOptions): void {
+        const { fonts, links } = props;
+        const customFonts = formatCustomFonts(fonts);
+        const FontStyle = new FontStyleAttributor(customFonts);
+        Quill.register(FontStyle, true);
+        if (links.validate) {
+            Quill.register(CustomLink, true);
+        } else {
+            Quill.register(CustomLinkNoValidation, true);
+        }
     }
 }
 
@@ -136,7 +161,14 @@ function findEmptyTailBlock(blot: Blot): Blot | null {
 
     if (blot instanceof ScrollBlot && blot.statics.blotName === "scroll" && !blot.parent) {
         if (MxBlock.IsMxBlock(blot.children.tail) && (blot.children.tail as MxBlock).isEmptyTailBlock()) {
-            if (MxBlock.IsMxBlock(blot.children.tail.prev) && (blot.children.tail.prev as MxBlock).isEmptyTailBlock()) {
+            if (blot.children.tail.prev) {
+                if (
+                    MxBlock.IsMxBlock(blot.children.tail.prev) &&
+                    (blot.children.tail.prev as MxBlock).isEmptyTailBlock()
+                ) {
+                    skippedBlots = blot.children.tail;
+                }
+            } else {
                 skippedBlots = blot.children.tail;
             }
         }

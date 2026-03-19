@@ -75,6 +75,7 @@ export interface RichTextContainerProps {
     onLoad?: ActionValue;
     onChangeType: OnChangeTypeEnum;
     spellCheck: boolean;
+    linkValidation: boolean;
     defaultFontFamily?: DynamicValue<string>;
     defaultFontSize?: DynamicValue<string>;
     customFonts: CustomFontsType[];
@@ -124,6 +125,7 @@ export interface RichTextPreviewProps {
     onLoad: {} | null;
     onChangeType: OnChangeTypeEnum;
     spellCheck: boolean;
+    linkValidation: boolean;
     defaultFontFamily: string;
     defaultFontSize: string;
     customFonts: CustomFontsPreviewType[];
