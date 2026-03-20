@@ -24,8 +24,10 @@ import MxQuill, { MxQuillModulesOptions } from "../utils/MxQuill";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
 
-export interface EditorProps
-    extends Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "enableDefaultUpload"> {
+export interface EditorProps extends Pick<
+    RichTextContainerProps,
+    "imageSource" | "imageSourceContent" | "enableDefaultUpload"
+> {
     options: MxQuillModulesOptions;
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;

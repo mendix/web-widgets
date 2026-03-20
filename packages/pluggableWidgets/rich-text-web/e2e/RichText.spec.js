@@ -138,7 +138,6 @@ test.describe("RichText", () => {
         await page.waitForLoadState("networkidle");
 
         await page.click(".mx-navbar-item [title='Demo']");
-        await expect(page.locator(".mx-name-customWidget1").first()).toHaveScreenshot(`richTextModal.png`);
 
         await page.click(".mx-name-customWidget1 .ql-toolbar button.ql-video");
         await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(

@@ -29,6 +29,7 @@ export default function RichText(props: RichTextContainerProps): ReactElement {
                 childList: true
             });
         } else {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setIsIncubator(false);
         }
 
