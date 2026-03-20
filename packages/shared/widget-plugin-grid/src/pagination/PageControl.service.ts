@@ -1,6 +1,7 @@
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { Big } from "big.js";
 import { EditableValue } from "mendix";
+import { action, makeObservable } from "mobx";
 import { GridPageControl } from "../interfaces/GridPageControl";
 import { SetPageAction, SetPageSizeAction } from "./pagination.model";
 
@@ -14,7 +15,15 @@ export class PageControlService implements GridPageControl {
         }>,
         private setPageSizeAction: SetPageSizeAction,
         private setPageAction: SetPageAction
-    ) {}
+    ) {
+        // Annotate actions to prevent accidental subscribe in autorun or reactions.
+        makeObservable(this, {
+            setPageSize: action,
+            setPage: action,
+            setTotalCount: action,
+            setLoadedRows: action
+        });
+    }
 
     setPageSize(pageSize: number): void {
         this.setPageSizeAction(pageSize);
@@ -27,12 +36,14 @@ export class PageControlService implements GridPageControl {
     setTotalCount(count: number): void {
         const value = this.gate.props.totalCountValue;
         if (!value || value.readOnly) return;
+        if (value.value?.eq(count)) return;
         value.setValue(new Big(count));
     }
 
     setLoadedRows(count: number): void {
         const value = this.gate.props.loadedRowsValue;
         if (!value || value.readOnly) return;
+        if (value.value?.eq(count)) return;
         value.setValue(new Big(count));
     }
 }

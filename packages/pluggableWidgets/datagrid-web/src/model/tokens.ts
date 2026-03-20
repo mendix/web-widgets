@@ -112,7 +112,6 @@ export const DG_TOKENS = {
     dynamicPage: token<ComputedAtom<number>>("@computed:dynamicPage"),
     dynamicPageSize: token<ComputedAtom<number>>("@computed:dynamicPageSize"),
     dynamicPagination: token<DynamicPaginationFeature>("@feature:DynamicPaginationFeature"),
-    loadedRows: token<ComputedAtom<number>>("@computed:loadedRows"),
     pageControl: token<GridPageControl>("@service:GridPageControl"),
     pageSize: token<ComputedAtom<number>>("@computed:pageSize"),
     paginationConfig: token<PaginationConfig>("@config:PaginationConfig"),
