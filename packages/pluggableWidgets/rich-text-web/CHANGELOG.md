@@ -6,9 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added new configuration to make link Url validation optional. This will allow user to put non-standard Url into the link format.
+
 ### Fixed
 
 - We fixed an issue where the editor kept adding infinite empty lines at the end by limiting it to only 1 empty line.
+
+### Changed
+
+- We added `trimEnd` functionality to make character count on status bar correctly count characters without including new line and empty character.
 
 ## [4.11.2] - 2026-03-05
 

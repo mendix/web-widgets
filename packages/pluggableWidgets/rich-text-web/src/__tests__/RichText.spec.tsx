@@ -46,7 +46,8 @@ describe("Rich Text", () => {
             OverflowY: "auto",
             customFonts: [],
             enableDefaultUpload: true,
-            formOrientation: "vertical"
+            formOrientation: "vertical",
+            linkValidation: true
         };
     });
 
