@@ -10,26 +10,23 @@ import {
     useLayoutEffect,
     useRef
 } from "react";
-import { CustomFontsType, RichTextContainerProps } from "../../typings/RichTextProps";
+import { RichTextContainerProps } from "../../typings/RichTextProps";
 import { EditorDispatchContext } from "../store/EditorProvider";
 import { SET_FULLSCREEN_ACTION } from "../store/store";
 import "../utils/customPluginRegisters";
-import { FontStyleAttributor, formatCustomFonts } from "../utils/formats/fonts";
 import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
 import { getResizeModuleConfig } from "../utils/formats/resizeModuleConfig";
 import { ACTION_DISPATCHER } from "../utils/helpers";
 import { getKeyboardBindings } from "../utils/modules/keyboard";
 import { getIndentHandler } from "../utils/modules/toolbarHandlers";
 import MxUploader from "../utils/modules/uploader";
-import MxQuill from "../utils/MxQuill";
+import MxQuill, { MxQuillModulesOptions } from "../utils/MxQuill";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
 
-export interface EditorProps extends Pick<
-    RichTextContainerProps,
-    "imageSource" | "imageSourceContent" | "enableDefaultUpload"
-> {
-    customFonts: CustomFontsType[];
+export interface EditorProps
+    extends Pick<RichTextContainerProps, "imageSource" | "imageSourceContent" | "enableDefaultUpload"> {
+    options: MxQuillModulesOptions;
     defaultValue?: string;
     onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
     onSelectionChange?: (...args: [range: Range, oldRange: Range, source: EmitterSource]) => void;
@@ -43,10 +40,17 @@ export interface EditorProps extends Pick<
 
 // Editor is an uncontrolled React component
 const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | null>) => {
-    const fonts = formatCustomFonts(props.customFonts);
-    const FontStyle = new FontStyleAttributor(fonts);
-    Quill.register(FontStyle, true);
-    const { theme, defaultValue, style, className, toolbarId, onTextChange, onSelectionChange, readOnly } = props;
+    const {
+        theme,
+        defaultValue,
+        style,
+        className,
+        toolbarId,
+        onTextChange,
+        onSelectionChange,
+        readOnly,
+        options: mxOptions
+    } = props;
     const containerRef = useRef<HTMLDivElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
     const onTextChangeRef = useRef(onTextChange);
@@ -127,6 +131,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
 
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
+                quill.registerCustomModules(mxOptions);
 
                 const delta = quill.clipboard.convert({ html: defaultValue ?? "" });
                 quill.updateContents(delta, Quill.sources.SILENT);
