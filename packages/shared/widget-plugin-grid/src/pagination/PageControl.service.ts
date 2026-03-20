@@ -11,7 +11,7 @@ export class PageControlService implements GridPageControl {
             dynamicPage?: EditableValue<Big>;
             dynamicPageSize?: EditableValue<Big>;
             totalCountValue?: EditableValue<Big>;
-            loadedRowsValue?: EditableValue<Big>;
+            dynamicItemCount?: EditableValue<Big>;
         }>,
         private setPageSizeAction: SetPageSizeAction,
         private setPageAction: SetPageAction
@@ -21,7 +21,7 @@ export class PageControlService implements GridPageControl {
             setPageSize: action,
             setPage: action,
             setTotalCount: action,
-            setLoadedRows: action
+            setItemCount: action
         });
     }
 
@@ -40,8 +40,8 @@ export class PageControlService implements GridPageControl {
         value.setValue(new Big(count));
     }
 
-    setLoadedRows(count: number): void {
-        const value = this.gate.props.loadedRowsValue;
+    setItemCount(count: number): void {
+        const value = this.gate.props.dynamicItemCount;
         if (!value || value.readOnly) return;
         if (value.value?.eq(count)) return;
         value.setValue(new Big(count));

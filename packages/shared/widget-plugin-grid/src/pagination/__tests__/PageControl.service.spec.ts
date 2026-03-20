@@ -9,7 +9,7 @@ type GateProps = {
     dynamicPage?: EditableValue<Big>;
     dynamicPageSize?: EditableValue<Big>;
     totalCountValue?: EditableValue<Big>;
-    loadedRowsValue?: EditableValue<Big>;
+    dynamicItemCount?: EditableValue<Big>;
 };
 
 function makeGate(props: Partial<GateProps> = {}): DerivedPropsGate<any> {
@@ -70,25 +70,25 @@ describe("PageControlService", () => {
         });
     });
 
-    describe("setLoadedRows", () => {
-        it("writes loadedRowsValue when attribute is mapped", () => {
+    describe("setItemCount", () => {
+        it("writes dynamicItemCount when attribute is mapped", () => {
             const attr = new EditableValueBuilder<Big>().build();
-            const service = new PageControlService(makeGate({ loadedRowsValue: attr }), setPageSize, setPage);
+            const service = new PageControlService(makeGate({ dynamicItemCount: attr }), setPageSize, setPage);
 
-            service.setLoadedRows(77);
+            service.setItemCount(77);
             expect(argToNumber(attr.setValue as jest.MockedFunction<any>)).toBe(77);
         });
 
-        it("does not throw when loadedRowsValue attribute is not mapped", () => {
+        it("does not throw when dynamicItemCount attribute is not mapped", () => {
             const service = new PageControlService(makeGate(), setPageSize, setPage);
-            expect(() => service.setLoadedRows(10)).not.toThrow();
+            expect(() => service.setItemCount(10)).not.toThrow();
         });
 
-        it("skips write when loadedRowsValue attribute is readOnly", () => {
+        it("skips write when dynamicItemCount attribute is readOnly", () => {
             const attr = new EditableValueBuilder<Big>().isReadOnly().build();
-            const service = new PageControlService(makeGate({ loadedRowsValue: attr }), setPageSize, setPage);
+            const service = new PageControlService(makeGate({ dynamicItemCount: attr }), setPageSize, setPage);
 
-            service.setLoadedRows(10);
+            service.setItemCount(10);
             expect(attr.setValue).not.toHaveBeenCalled();
         });
     });
