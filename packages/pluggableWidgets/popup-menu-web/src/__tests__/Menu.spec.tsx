@@ -1,10 +1,10 @@
 import { fireEvent, render, RenderResult } from "@testing-library/react";
 import { ValueStatus } from "mendix";
 import { createElement } from "react";
+import { MenuWithContext as Menu } from "./MenuWithContext";
 import { BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
 import { MenuProps } from "../components/Menu";
 import { actionValue, dynamicValue } from "../utils/attrValue";
-import { MenuWithContext as Menu } from "./MenuWithContext";
 
 import "@testing-library/jest-dom";
 
