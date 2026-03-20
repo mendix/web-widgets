@@ -69,7 +69,7 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
 
     if (values.pagination === "buttons") {
         hidePropertyIn(defaultProperties, values, "showNumberOfRows");
-        hidePropertyIn(defaultProperties, values, "loadedRowsValue");
+        hidePropertyIn(defaultProperties, values, "dynamicItemCount");
 
         if (values.useCustomPagination === false) {
             hidePropertyIn(defaultProperties, values, "customPagination");

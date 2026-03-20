@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.web.gallery.Gallery" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="com.mendix.widget.web.gallery.Gallery" pluginWidget="true" offlineCapable="true"
+    xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
     <name>Gallery</name>
     <description />
     <studioProCategory>Data containers</studioProCategory>
@@ -85,7 +87,8 @@
                     <caption>Keep selection</caption>
                     <description>If enabled, selected items will stay selected unless cleared by the user or a Nanoflow.</description>
                 </property>
-                <property key="selectionCountPosition" type="enumeration" defaultValue="bottom" required="true">
+                <property key="selectionCountPosition" type="enumeration" defaultValue="bottom"
+                    required="true">
                     <caption>Show selection count</caption>
                     <description />
                     <enumerationValues>
@@ -96,7 +99,8 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Loading state">
-                <property key="loadingType" type="enumeration" defaultValue="spinner" required="true">
+                <property key="loadingType" type="enumeration" defaultValue="spinner"
+                    required="true">
                     <caption>Loading type</caption>
                     <description />
                     <enumerationValues>
@@ -181,9 +185,9 @@
                         <attributeType name="Integer" />
                     </attributeTypes>
                 </property>
-                <property key="loadedRowsValue" type="attribute" required="false">
-                    <caption>Loaded rows</caption>
-                    <description>Read-only attribute reflecting the number of rows currently loaded.</description>
+                <property key="dynamicItemCount" type="attribute" required="false">
+                    <caption>Loaded items</caption>
+                    <description>Read-only attribute reflecting the number of items currently loaded.</description>
                     <attributeTypes>
                         <attributeType name="Integer" />
                     </attributeTypes>
@@ -219,7 +223,8 @@
                         <enumerationValue key="localStorage">Browser local storage</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="stateStorageAttr" type="attribute" required="false" onChange="onConfigurationChange">
+                <property key="stateStorageAttr" type="attribute" required="false"
+                    onChange="onConfigurationChange">
                     <caption>Attribute</caption>
                     <description>Attribute containing the personalized configuration of the capabilities. This configuration is automatically stored and loaded. The attribute requires Unlimited String.</description>
                     <attributeTypes>
@@ -254,7 +259,8 @@
                     <caption>Content description</caption>
                     <description>Assistive technology will read this upon reaching gallery.</description>
                 </property>
-                <property key="ariaLabelItem" type="textTemplate" dataSource="datasource" required="false">
+                <property key="ariaLabelItem" type="textTemplate" dataSource="datasource"
+                    required="false">
                     <caption>Item description</caption>
                     <description>Assistive technology will read this upon reaching each gallery item.</description>
                 </property>

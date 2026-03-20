@@ -19,7 +19,6 @@ import {
     dynamicPageAtom,
     dynamicPageSizeAtom,
     DynamicPaginationFeature,
-    loadedRowsAtom,
     PageControlService,
     pageSizeAtom,
     PaginationViewModel
@@ -193,12 +192,11 @@ const _06_paginationBindings: BindingGroup = {
             DG.dynamicPageSize,
             CORE.atoms.totalCount,
             DG.currentPage,
-            DG.loadedRows,
+            CORE.atoms.itemCount,
             CORE.mainGate,
             DG.pageControl
         );
         injected(customPaginationAtom, CORE.mainGate);
-        injected(loadedRowsAtom, CORE.atoms.itemCount);
     },
     define(container: Container) {
         container.bind(DG.currentPage).toInstance(currentPageAtom).inTransientScope();
@@ -206,7 +204,6 @@ const _06_paginationBindings: BindingGroup = {
         container.bind(DG.dynamicPage).toInstance(dynamicPageAtom).inTransientScope();
         container.bind(DG.dynamicPageSize).toInstance(dynamicPageSizeAtom).inTransientScope();
         container.bind(DG.dynamicPagination).toInstance(DynamicPaginationFeature).inSingletonScope();
-        container.bind(DG.loadedRows).toInstance(loadedRowsAtom).inTransientScope();
         container.bind(DG.pageSize).toInstance(pageSizeAtom).inTransientScope();
         container.bind(DG.pageControl).toInstance(PageControlService).inSingletonScope();
         container.bind(DG.paginationVM).toInstance(PaginationViewModel).inSingletonScope();

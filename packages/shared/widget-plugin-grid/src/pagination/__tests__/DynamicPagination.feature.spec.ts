@@ -10,7 +10,7 @@ type GateProps = {
     dynamicPage?: EditableValue<Big>;
     dynamicPageSize?: EditableValue<Big>;
     totalCountValue?: EditableValue<Big>;
-    loadedRowsValue?: EditableValue<Big>;
+    dynamicItemCount?: EditableValue<Big>;
 };
 
 type AtomsFixture = {
@@ -19,14 +19,14 @@ type AtomsFixture = {
     totalCount: IObservableValue<number>;
     currentPage: IObservableValue<number>;
     pageSize: IObservableValue<number>;
-    loadedRows: IObservableValue<number>;
+    itemCount: IObservableValue<number>;
 };
 
 type AttributesFixture = {
     page: EditableValue<Big>;
     pageSize: EditableValue<Big>;
     totalCount: EditableValue<Big>;
-    loadedRows: EditableValue<Big>;
+    itemCount: EditableValue<Big>;
 };
 
 type FeatureConfig = {
@@ -53,7 +53,7 @@ function createMockService(): jest.Mocked<GridPageControl> {
         setPage: jest.fn(),
         setPageSize: jest.fn(),
         setTotalCount: jest.fn(),
-        setLoadedRows: jest.fn()
+        setItemCount: jest.fn()
     };
 }
 
@@ -64,7 +64,7 @@ function createAtoms(overrides?: Partial<Record<keyof AtomsFixture, number>>): A
         totalCount: observable.box(overrides?.totalCount ?? 0),
         currentPage: observable.box(overrides?.currentPage ?? 0),
         pageSize: observable.box(overrides?.pageSize ?? 10),
-        loadedRows: observable.box(overrides?.loadedRows ?? 0)
+        itemCount: observable.box(overrides?.itemCount ?? 0)
     };
 }
 
@@ -73,7 +73,7 @@ function createAttributes(overrides?: Partial<AttributesFixture>): AttributesFix
         page: overrides?.page ?? editable<Big>(),
         pageSize: overrides?.pageSize ?? editable<Big>(),
         totalCount: overrides?.totalCount ?? editable<Big>(),
-        loadedRows: overrides?.loadedRows ?? editable<Big>()
+        itemCount: overrides?.itemCount ?? editable<Big>()
     };
 }
 
@@ -87,7 +87,7 @@ function createFeature(
         dynamicPage: attributes.page,
         dynamicPageSize: attributes.pageSize,
         totalCountValue: attributes.totalCount,
-        loadedRowsValue: attributes.loadedRows
+        dynamicItemCount: attributes.itemCount
     });
 
     const feature = new DynamicPaginationFeature(
@@ -97,7 +97,7 @@ function createFeature(
         atoms.dynamicPageSize,
         atoms.totalCount,
         atoms.currentPage,
-        atoms.loadedRows,
+        atoms.itemCount,
         gate,
         service
     );
@@ -171,9 +171,9 @@ describe("DynamicPaginationFeature", () => {
             expect(lastArgToNumber(attributes.page.setValue as jest.MockedFunction<any>)).toBe(4);
         });
 
-        it("syncs loadedRows to service immediately", () => {
-            runInAction(() => atoms.loadedRows.set(77));
-            expect(service.setLoadedRows).toHaveBeenCalledWith(77);
+        it("syncs itemCount to service immediately", () => {
+            runInAction(() => atoms.itemCount.set(77));
+            expect(service.setItemCount).toHaveBeenCalledWith(77);
         });
     });
 
@@ -210,14 +210,14 @@ describe("DynamicPaginationFeature", () => {
             expect(service.setTotalCount).not.toHaveBeenCalled();
         });
 
-        it("ignores negative loadedRows", () => {
-            runInAction(() => atoms.loadedRows.set(-1));
-            expect(service.setLoadedRows).not.toHaveBeenCalledWith(-1);
+        it("ignores negative itemCount", () => {
+            runInAction(() => atoms.itemCount.set(-1));
+            expect(service.setItemCount).not.toHaveBeenCalledWith(-1);
         });
     });
 
     describe("Configuration", () => {
-        it("skips page/pageSize sync when disabled, but still syncs totalCount/loadedRows", () => {
+        it("skips page/pageSize sync when disabled, but still syncs totalCount/itemCount", () => {
             service = createMockService();
             atoms = createAtoms();
             attributes = createAttributes();
@@ -236,7 +236,7 @@ describe("DynamicPaginationFeature", () => {
                 atoms.dynamicPage.set(2);
                 atoms.dynamicPageSize.set(25);
                 atoms.totalCount.set(300);
-                atoms.loadedRows.set(40);
+                atoms.itemCount.set(40);
             });
 
             jest.advanceTimersByTime(250);
@@ -246,7 +246,7 @@ describe("DynamicPaginationFeature", () => {
             expect(attributes.page.setValue).not.toHaveBeenCalled();
             expect(attributes.pageSize.setValue).not.toHaveBeenCalled();
             expect(service.setTotalCount).toHaveBeenCalledWith(300);
-            expect(service.setLoadedRows).toHaveBeenCalledWith(40);
+            expect(service.setItemCount).toHaveBeenCalledWith(40);
         });
     });
 
@@ -273,7 +273,7 @@ describe("DynamicPaginationFeature", () => {
                 dynamicPage: attributes.page,
                 dynamicPageSize: attributes.pageSize,
                 totalCountValue: attributes.totalCount,
-                loadedRowsValue: attributes.loadedRows
+                dynamicItemCount: attributes.itemCount
             });
 
             runInAction(() =>
@@ -281,7 +281,7 @@ describe("DynamicPaginationFeature", () => {
                     dynamicPage: attributes.page,
                     dynamicPageSize: attributes.pageSize,
                     totalCountValue: attributes.totalCount,
-                    loadedRowsValue: attributes.loadedRows
+                    dynamicItemCount: attributes.itemCount
                 })
             );
 
@@ -627,10 +627,10 @@ describe("DynamicPaginationFeature", () => {
             expect(service.setTotalCount).toHaveBeenCalledWith(100);
         });
 
-        it("does not debounce loadedRows (immediate sync)", () => {
-            runInAction(() => atoms.loadedRows.set(50));
+        it("does not debounce itemCount (immediate sync)", () => {
+            runInAction(() => atoms.itemCount.set(50));
             // No timer advancement needed
-            expect(service.setLoadedRows).toHaveBeenCalledWith(50);
+            expect(service.setItemCount).toHaveBeenCalledWith(50);
         });
     });
 });
