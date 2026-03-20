@@ -42,7 +42,6 @@ export type MainGateProps = Pick<
     | "storeFiltersInPersonalization"
     | "style"
     | "totalCountValue"
-    | "loadedRowsValue"
     | "useCustomPagination"
     | "customPagination"
 >;

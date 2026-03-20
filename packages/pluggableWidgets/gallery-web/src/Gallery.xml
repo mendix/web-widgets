@@ -185,7 +185,7 @@
                         <attributeType name="Integer" />
                     </attributeTypes>
                 </property>
-                <property key="loadedRowsValue" type="attribute" required="false">
+                <property key="dynamicItemCount" type="attribute" required="false">
                     <caption>Loaded items</caption>
                     <description>Read-only attribute reflecting the number of items currently loaded.</description>
                     <attributeTypes>

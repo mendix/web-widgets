@@ -14,7 +14,7 @@ type FeatureGateProps = {
     dynamicPage?: EditableValue<Big>;
     dynamicPageSize?: EditableValue<Big>;
     totalCountValue?: EditableValue<Big>;
-    loadedRowsValue?: EditableValue<Big>;
+    dynamicItemCount?: EditableValue<Big>;
 };
 
 export class DynamicPaginationFeature implements SetupComponent {
@@ -118,7 +118,7 @@ export class DynamicPaginationFeature implements SetupComponent {
     }
 
     /**
-     * Syncs internal itemCount state to the loadedRowsValue attribute.
+     * Syncs internal itemCount state to the dynamicItemCount attribute.
      * Skips sentinel value (-1) when count isn't yet available.
      */
     private syncItemCountToAttribute(): () => void {
@@ -126,7 +126,7 @@ export class DynamicPaginationFeature implements SetupComponent {
             () => this.itemCount.get(),
             count => {
                 if (count < 0) return;
-                this.service.setLoadedRows?.(count);
+                this.service.setItemCount?.(count);
             },
             { name: "[@reaction] syncItemCountToAttribute", fireImmediately: true }
         );
