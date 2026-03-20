@@ -74,7 +74,7 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
     const baseConfig: CodeBaseTypeConfig = {
         type: format === "QRCode" ? "qrcode" : "barcode",
         codeValue,
-        margin: props.codeMargin ?? 2,
+        margin: (format === "QRCode" ? props.qrMargin : props.codeMargin) ?? 2,
         logLevel: props.logLevel,
         downloadButton: downloadButtonConfig
     };

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { dynamic } from "@mendix/widget-plugin-test-utils";
 
 // Mock JsBarcode
 const mockJsBarcode = jest.fn();
@@ -29,8 +29,12 @@ jest.mock("../utils/download-code", () => ({
     downloadCode: jest.fn()
 }));
 
+import {
+    BarcodeGeneratorContainerProps,
+    CodeFormatEnum,
+    CustomCodeFormatEnum
+} from "../../typings/BarcodeGeneratorProps";
 import BarcodeGenerator from "../BarcodeGenerator";
-import { CodeFormatEnum, CustomCodeFormatEnum } from "typings/BarcodeGeneratorProps";
 import { downloadCode } from "../utils/download-code";
 
 // Test utilities
@@ -44,7 +48,9 @@ const createMockWebImage = (status: "available" | "loading" | "unavailable" = "u
     return { status } as any;
 };
 
-const createBarcodeProps = (overrides: any = {}): any => ({
+const createBarcodeProps = (
+    overrides: Partial<BarcodeGeneratorContainerProps> = {}
+): BarcodeGeneratorContainerProps => ({
     name: "barcodeGenerator1",
     class: "mx-barcode-generator",
     tabIndex: -1,
@@ -64,22 +70,24 @@ const createBarcodeProps = (overrides: any = {}): any => ({
     codeMargin: 4,
     qrSize: 128,
     qrMargin: 2,
-    qrTitle: "",
+    qrTitle: dynamic(""),
     qrLevel: "L" as any,
-    qrImage: false,
-    qrImageSrc: createMockWebImage(),
-    qrImageCenter: true,
-    qrImageX: 0,
-    qrImageY: 0,
-    qrImageHeight: 24,
-    qrImageWidth: 24,
-    qrImageOpacity: { toNumber: () => 1 } as any,
-    qrImageExcavate: true,
+    qrOverlay: false,
+    qrOverlaySrc: createMockWebImage(),
+    qrOverlayCenter: true,
+    qrOverlayX: 0,
+    qrOverlayY: 0,
+    qrOverlayHeight: 24,
+    qrOverlayWidth: 24,
+    qrOverlayOpacity: { toNumber: () => 1 } as any,
+    qrOverlayExcavate: true,
     addonFormat: "None" as any,
     addonValue: { status: "unavailable" as const } as any,
     addonSpacing: 20,
     buttonPosition: "bottom" as const,
-    codeValue: new EditableValueBuilder<string>().withValue("test-barcode-value").build(),
+    codeValue: dynamic("test-barcode-value"),
+    logLevel: "Info",
+    showTitle: true,
     ...overrides
 });
 
@@ -331,13 +339,13 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with custom margin", () => {
             const props = createBarcodeProps({
-                qrMargin: 5,
+                qrMargin: 15,
                 codeValue: { value: "test", status: "available" } as any
             });
 
             render(<BarcodeGenerator {...props} />);
 
-            expect(screen.getByTestId("qr-code")).toHaveAttribute("data-margin", "5");
+            expect(screen.getByTestId("qr-code")).toHaveAttribute("data-margin", "15");
         });
 
         it("renders QR code with all error correction levels", () => {
@@ -358,7 +366,7 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with title", () => {
             const props = createBarcodeProps({
-                qrTitle: "QR Code Title",
+                qrTitle: dynamic("QR Code Title"),
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -370,10 +378,10 @@ describe("BarcodeGenerator", () => {
 
     // ============= QR Image Overlay Tests =============
     describe("QR image overlay functionality", () => {
-        it("renders QR code with image overlay when qrImage is true", () => {
+        it("renders QR code with image overlay when qrOverlay is true", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
+                qrOverlay: true,
+                qrOverlaySrc: createMockWebImage("available"),
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -384,9 +392,9 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with centered image overlay", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                qrImageCenter: true,
+                qrOverlay: true,
+                qrOverlaySrc: createMockWebImage("available"),
+                qrOverlayCenter: true,
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -397,11 +405,11 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with positioned image overlay", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                qrImageCenter: false,
-                qrImageX: 10,
-                qrImageY: 20,
+                qrOverlay: true,
+                qrOverlaySrc: createMockWebImage("available"),
+                qrOverlayCenter: false,
+                qrOverlayX: 10,
+                qrOverlayY: 20,
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -412,10 +420,10 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with image overlay custom dimensions", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                qrImageWidth: 50,
-                qrImageHeight: 50,
+                qrOverlay: true,
+                qrOverlaySrc: createMockWebImage("available"),
+                qrOverlayWidth: 50,
+                qrOverlayHeight: 50,
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -426,9 +434,9 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with image overlay opacity", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                qrImageOpacity: { toNumber: () => 0.75 } as any,
+                qrOverlay: true,
+                qrOverlaySrc: createMockWebImage("available"),
+                qrOverlayOpacity: { toNumber: () => 0.75 } as any,
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -439,9 +447,9 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with image excavation enabled", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                qrImageExcavate: true,
+                qrOverlay: true,
+                qrOverlaySrc: createMockWebImage("available"),
+                qrOverlayExcavate: true,
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -450,10 +458,10 @@ describe("BarcodeGenerator", () => {
             expect(screen.getByTestId("qr-code")).toBeInTheDocument();
         });
 
-        it("does not render image overlay when qrImageSrc is unavailable", () => {
+        it("does not render image overlay when qrOverlaySrc is unavailable", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("unavailable"),
+                qrOverlay: true,
+                qrOverlaySrc: createMockWebImage("unavailable"),
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -516,8 +524,8 @@ describe("BarcodeGenerator", () => {
             expect(renderer).toBeInTheDocument();
             // Get all children
             const children = Array.from((renderer as HTMLElement).children);
-            // Download button should be first child
-            const firstChild = children[0] as HTMLElement;
+            // Download button should be second child, after title
+            const firstChild = children[1] as HTMLElement;
             expect(firstChild).toHaveClass("barcode-generator-download-button");
         });
 
@@ -881,7 +889,7 @@ describe("BarcodeGenerator", () => {
     describe("accessibility", () => {
         it("renders QR code title as semantic element when provided", () => {
             const props = createBarcodeProps({
-                qrTitle: "Invoice QR Code",
+                qrTitle: dynamic("Invoice QR Code"),
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -892,9 +900,10 @@ describe("BarcodeGenerator", () => {
             expect(title.tagName).toBe("H3");
         });
 
-        it("does not render title when qrTitle is empty", () => {
+        it("does not render title when showTitle is false", () => {
             const props = createBarcodeProps({
-                qrTitle: "",
+                qrTitle: dynamic("title"),
+                showTitle: false,
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -973,9 +982,9 @@ describe("BarcodeGenerator", () => {
         it("renders QR code with download, title, and image overlay", () => {
             const props = createBarcodeProps({
                 allowDownload: true,
-                qrTitle: "Secure QR",
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
+                qrTitle: dynamic("Secure QR"),
+                qrOverlay: true,
+                qrOverlaySrc: createMockWebImage("available"),
                 downloadButtonCaption: { status: "available" as const, value: "Save QR" } as any,
                 codeValue: { value: "secure-data", status: "available" } as any
             });

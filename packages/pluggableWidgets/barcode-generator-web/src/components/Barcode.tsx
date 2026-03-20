@@ -1,9 +1,8 @@
+import { ReactElement } from "react";
+import { DownloadButton } from "./DownloadButton";
+import { BarcodeTypeConfig } from "../config/Barcode.config";
 import { useRenderBarcode } from "../hooks/useRenderBarcode";
 import { downloadCode } from "../utils/download-code";
-import { BarcodeTypeConfig } from "../config/Barcode.config";
-import { DownloadButton } from "./DownloadButton";
-
-import { ReactElement } from "react";
 
 interface BarcodeRendererProps {
     config: BarcodeTypeConfig;
