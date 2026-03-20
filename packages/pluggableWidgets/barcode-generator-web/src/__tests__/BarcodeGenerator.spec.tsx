@@ -29,8 +29,12 @@ jest.mock("../utils/download-code", () => ({
     downloadCode: jest.fn()
 }));
 
+import {
+    BarcodeGeneratorContainerProps,
+    CodeFormatEnum,
+    CustomCodeFormatEnum
+} from "../../typings/BarcodeGeneratorProps";
 import BarcodeGenerator from "../BarcodeGenerator";
-import { BarcodeGeneratorContainerProps, CodeFormatEnum, CustomCodeFormatEnum } from "typings/BarcodeGeneratorProps";
 import { downloadCode } from "../utils/download-code";
 
 // Test utilities

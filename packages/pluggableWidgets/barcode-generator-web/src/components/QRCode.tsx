@@ -1,8 +1,8 @@
 import { QRCodeSVG } from "qrcode.react";
 import { ReactElement, useRef } from "react";
-import { downloadCode } from "../utils/download-code";
 import { DownloadButton } from "./DownloadButton";
 import { QRCodeTypeConfig } from "../config/Barcode.config";
+import { downloadCode } from "../utils/download-code";
 
 interface QRCodeRendererProps {
     config: QRCodeTypeConfig;
