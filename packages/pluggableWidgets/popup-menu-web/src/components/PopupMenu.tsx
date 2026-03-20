@@ -8,13 +8,8 @@ import { Menu } from "./Menu";
 import { PopupContext } from "./PopupContext";
 import { PopupTrigger } from "./PopupTrigger";
 
-export interface PopupMenuProps extends PopupMenuContainerProps {
-    preview?: boolean;
-}
-
-export function PopupMenu(props: PopupMenuProps): ReactElement {
-    const preview = !!props.preview;
-    const [visibility, setVisibility] = useState(preview && props.menuToggle);
+export function PopupMenu(props: PopupMenuContainerProps): ReactElement {
+    const [visibility, setVisibility] = useState(props.menuToggle);
     const open = visibility;
     const popup = usePopup({
         open,
