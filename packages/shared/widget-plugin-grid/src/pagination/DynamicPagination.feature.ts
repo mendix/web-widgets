@@ -7,7 +7,7 @@ import {
 } from "@mendix/widget-plugin-mobx-kit/main";
 import { Big } from "big.js";
 import { EditableValue } from "mendix";
-import { autorun, reaction, untracked } from "mobx";
+import { reaction } from "mobx";
 import { GridPageControl } from "../interfaces/GridPageControl";
 
 type FeatureGateProps = {
@@ -26,7 +26,7 @@ export class DynamicPaginationFeature implements SetupComponent {
         private dynamicPageSize: ComputedAtom<number>,
         private totalCount: ComputedAtom<number>,
         private currentPage: ComputedAtom<number>,
-        private loadedRows: ComputedAtom<number>,
+        private itemCount: ComputedAtom<number>,
         private gate: DerivedPropsGate<FeatureGateProps>,
         private service: GridPageControl
     ) {
@@ -46,7 +46,7 @@ export class DynamicPaginationFeature implements SetupComponent {
         }
 
         add(this.syncTotalCountToAttribute());
-        add(this.syncLoadedRowsToAttribute());
+        add(this.syncItemCountToAttribute());
 
         return disposeAll;
     }
@@ -62,7 +62,7 @@ export class DynamicPaginationFeature implements SetupComponent {
                 if (pageSize <= 0) return;
                 this.service.setPageSize(pageSize);
             },
-            { delay: 250, fireImmediately: true }
+            { name: "[@reaction] syncPageSizeFromAttribute", delay: 250, fireImmediately: true }
         );
     }
 
@@ -79,6 +79,7 @@ export class DynamicPaginationFeature implements SetupComponent {
                 this.service.setPage(page);
             },
             {
+                name: "[@reaction] syncPageFromAttribute",
                 delay: 250,
                 fireImmediately: !this.config.isLimitBased
             }
@@ -90,36 +91,44 @@ export class DynamicPaginationFeature implements SetupComponent {
      * Skips sentinel value (-1) when datasource hasn't computed count yet.
      */
     private syncTotalCountToAttribute(): () => void {
-        return autorun(() => {
-            const count = this.totalCount.get();
-            if (count < 0) return;
-            this.service.setTotalCount(count);
-        });
+        return reaction(
+            () => this.totalCount.get(),
+            count => {
+                if (count < 0) return;
+                this.service.setTotalCount(count);
+            },
+            { name: "[@reaction] syncTotalCountToAttribute", fireImmediately: true }
+        );
     }
 
     /**
      * Syncs internal currentPage state to the dynamicPage attribute.
-     * Uses untracked() for attribute reference to prevent re-running on every setProps() call.
      * Converts 0-based internal page to 1-based attribute value for offset pagination.
      */
     private syncCurrentPageToAttribute(): () => void {
-        return autorun(() => {
-            const page = this.currentPage.get();
-            const dynamicPage = untracked(() => this.gate.props.dynamicPage);
-            if (!dynamicPage || dynamicPage.readOnly) return;
-            dynamicPage.setValue(new Big(this.config.isLimitBased ? page : page + 1));
-        });
+        return reaction(
+            () => this.currentPage.get(),
+            page => {
+                const dynamicPage = this.gate.props.dynamicPage;
+                if (!dynamicPage || dynamicPage.readOnly) return;
+                dynamicPage.setValue(new Big(this.config.isLimitBased ? page : page + 1));
+            },
+            { name: "[@reaction] syncCurrentPageToAttribute", fireImmediately: true }
+        );
     }
 
     /**
-     * Syncs internal loadedRows state to the loadedRowsValue attribute.
+     * Syncs internal itemCount state to the loadedRowsValue attribute.
      * Skips sentinel value (-1) when count isn't yet available.
      */
-    private syncLoadedRowsToAttribute(): () => void {
-        return autorun(() => {
-            const count = this.loadedRows.get();
-            if (count < 0) return;
-            this.service.setLoadedRows?.(count);
-        });
+    private syncItemCountToAttribute(): () => void {
+        return reaction(
+            () => this.itemCount.get(),
+            count => {
+                if (count < 0) return;
+                this.service.setLoadedRows?.(count);
+            },
+            { name: "[@reaction] syncItemCountToAttribute", fireImmediately: true }
+        );
     }
 }
