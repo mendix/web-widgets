@@ -1,5 +1,4 @@
 import { ReactElement } from "react";
-import "./ui/SignaturePreview.css";
 import { SignaturePreviewProps } from "typings/SignatureProps";
 import classNames from "classnames";
 

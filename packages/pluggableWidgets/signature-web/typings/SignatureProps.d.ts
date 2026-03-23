@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { EditableValue, EditableImageValue, WebImage } from "mendix";
+import { ActionValue, EditableValue, EditableImageValue, Option, WebImage } from "mendix";
 
 export type PenTypeEnum = "fountain" | "ballpoint" | "marker";
 
@@ -36,6 +36,7 @@ export interface SignatureContainerProps {
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number;
     OverflowY: OverflowYEnum;
+    onSignEndAction?: ActionValue<{ signatureImage: Option<string> }>;
     showGrid: boolean;
     gridBorderColor: string;
     gridCellHeight: number;
@@ -67,6 +68,7 @@ export interface SignaturePreviewProps {
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number | null;
     OverflowY: OverflowYEnum;
+    onSignEndAction: {} | null;
     showGrid: boolean;
     gridBorderColor: string;
     gridCellHeight: number | null;

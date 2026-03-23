@@ -1,7 +1,7 @@
 {
     "name": "@mendix/signature-web",
     "widgetName": "Signature",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Signature widget for Mendix Web",
     "copyright": "© Mendix Technology BV 2026. All rights reserved.",
     "license": "Apache-2.0",
@@ -46,17 +46,15 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
-        "@uiw/react-signature": "^1.3.4",
         "classnames": "^2.5.1",
-        "react-resize-detector": "^12.3.0",
         "signature_pad": "^5.1.3"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
         "@mendix/eslint-config-web-widgets": "workspace:*",
-        "@mendix/pluggable-widgets-tools": "file:mendix-pluggable-widgets-tools.tgz",
+        "@mendix/pluggable-widgets-tools": "workspace:*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
-        "@mendix/run-e2e": "workspace:^*",
+        "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",

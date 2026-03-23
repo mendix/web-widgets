@@ -1,19 +1,6 @@
-import { SignatureContainerProps } from "typings/SignatureProps";
+import { PenTypeEnum, SignatureContainerProps } from "../../typings/SignatureProps";
 
-// export type HeightUnitType = "percentageOfWidth" | "percentageOfParent" | "pixels";
-
-// export type WidthUnitType = "percentage" | "pixels";
-
-// export interface Dimensions {
-//     widthUnit: WidthUnitType;
-//     width: number;
-//     heightUnit: HeightUnitType;
-//     height: number;
-// }
-
-export type penOptions = "fountain" | "ballpoint" | "marker";
-
-export interface SignatureProps extends SignatureContainerProps {
+export interface SignatureProps extends Omit<SignatureContainerProps, "onSignEndAction"> {
     className: string;
     alertMessage?: string;
     clearSignature: boolean;
@@ -22,7 +9,7 @@ export interface SignatureProps extends SignatureContainerProps {
     gridCellHeight: number;
     gridBorderColor: string;
     gridBorderWidth: number;
-    penType: penOptions;
+    penType: PenTypeEnum;
     penColor: string;
     onSignEndAction?: (imageUrl?: string) => void;
     wrapperStyle?: object;
