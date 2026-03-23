@@ -4,7 +4,7 @@ import { ReactElement } from "react";
 import { useSignaturePad } from "src/utils/useSignaturePad";
 import Utils from "../utils/Utils";
 import { SignatureProps } from "../utils/customTypes";
-import { Alert } from "./Alert";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { Grid } from "./Grid";
 import { SizeContainer } from "./SizeContainer";
 

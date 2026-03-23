@@ -101,6 +101,15 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
+        <propertyGroup caption="Events">
+            <property key="onSignEndAction" type="action" required="false">
+                <caption>On sign end</caption>
+                <description>Action that is executed when the user finishes signing. The action will receive the signature image as a parameter.</description>
+                <actionVariables>
+                    <actionVariable key="signatureImage" caption="Signature Image Uri" type="String" />
+                </actionVariables>
+            </property>
+        </propertyGroup>
         <propertyGroup caption="Advanced">
             <property key="showGrid" type="boolean" defaultValue="false">
                 <caption>Show background grid</caption>
