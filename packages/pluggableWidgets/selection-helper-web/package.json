@@ -1,7 +1,7 @@
 {
     "name": "@mendix/selection-helper-web",
     "widgetName": "SelectionHelper",
-    "version": "3.8.1",
+    "version": "3.9.0",
     "description": "Makes it easier for users to select multiple items in Gallery widget.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
