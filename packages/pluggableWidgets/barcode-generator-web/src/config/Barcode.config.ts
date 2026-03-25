@@ -72,7 +72,7 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         : undefined;
 
     const baseConfig: CodeBaseTypeConfig = {
-        type: format === "QRCode" ? "qrcode" : "barcode",
+        type: "barcode",
         codeValue,
         margin: props.codeMargin ?? 2,
         logLevel: props.logLevel,
@@ -80,11 +80,12 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
     };
 
     if (format === "QRCode") {
-        return {
+        const qrConfig: QRCodeTypeConfig = {
             ...baseConfig,
+            margin: props.qrMargin ?? 2,
             type: "qrcode",
             size: props.qrSize ?? 128,
-            showTitle: props.showTitle,
+            showTitle: props.showTitle ?? false,
             title: props.qrTitle.status === "available" ? props.qrTitle.value : "QR Code",
             level: props.qrLevel ?? "L",
             overlay:
@@ -100,9 +101,10 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
                       }
                     : undefined
         };
+        return qrConfig;
     }
 
-    return {
+    const barcodeConfig: BarcodeTypeConfig = {
         ...baseConfig,
         type: "barcode",
         width: props.codeWidth ?? 128,
@@ -119,6 +121,8 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         addonFormat: props.addonFormat,
         addonSpacing: props.addonSpacing ?? 20
     };
+
+    return barcodeConfig;
 }
 
 function generateFileName(customFileName: string | undefined, format: string, codeValue: string): string {

@@ -1,12 +1,35 @@
 import { QRCodeSVG } from "qrcode.react";
-import { ReactElement, useRef } from "react";
+import { forwardRef, ReactElement, useRef } from "react";
+import { QRCodeTypeConfig } from "../config/Barcode.config";
 import { downloadCode } from "../utils/download-code";
 import { DownloadButton } from "./DownloadButton";
-import { QRCodeTypeConfig } from "../config/Barcode.config";
 
 interface QRCodeRendererProps {
     config: QRCodeTypeConfig;
 }
+interface QRCodeSVGWrapperProps {
+    value: string;
+    size?: number;
+    level?: string;
+    marginSize?: number;
+    title?: string;
+    imageSettings?: any;
+}
+
+const QRCodeSVGWrapper = forwardRef<SVGSVGElement, QRCodeSVGWrapperProps>(
+    ({ value, size, level, marginSize, title, imageSettings }, ref) => (
+        <QRCodeSVG
+            ref={ref as any}
+            value={value}
+            size={size}
+            level={level as any}
+            marginSize={marginSize}
+            title={title}
+            imageSettings={imageSettings}
+        />
+    )
+);
+QRCodeSVGWrapper.displayName = "QRCodeSVGWrapper";
 
 export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
     const ref = useRef<SVGSVGElement>(null);
@@ -26,7 +49,7 @@ export function QRCodeRenderer({ config }: QRCodeRendererProps): ReactElement {
         <div className="qrcode-renderer">
             {config.showTitle && <h3 className="qrcode-renderer-title">{title}</h3>}
             {buttonPosition === "top" && button}
-            <QRCodeSVG
+            <QRCodeSVGWrapper
                 ref={ref}
                 value={codeValue}
                 size={size}

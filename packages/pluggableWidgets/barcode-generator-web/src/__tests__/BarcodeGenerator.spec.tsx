@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { forwardRef } from "react";
 
 // Mock JsBarcode
 const mockJsBarcode = jest.fn();
@@ -9,8 +10,9 @@ jest.mock("jsbarcode", () => mockJsBarcode);
 
 // Mock the QRCodeSVG component
 jest.mock("qrcode.react", () => ({
-    QRCodeSVG: ({ value, size, level, marginSize, title, imageSettings }: any) => (
+    QRCodeSVG: forwardRef<SVGSVGElement, any>(({ value, size, level, marginSize, title, imageSettings }, ref) => (
         <div
+            ref={ref as any}
             data-testid="qr-code"
             data-value={value}
             data-size={size}
@@ -21,7 +23,7 @@ jest.mock("qrcode.react", () => ({
         >
             QR Code: {value}
         </div>
-    )
+    ))
 }));
 
 // Mock download functionality
@@ -66,6 +68,7 @@ const createBarcodeProps = (overrides: any = {}): any => ({
     qrMargin: 2,
     qrTitle: "",
     qrLevel: "L" as any,
+    showTitle: false,
     qrImage: false,
     qrImageSrc: createMockWebImage(),
     qrImageCenter: true,
@@ -358,7 +361,8 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with title", () => {
             const props = createBarcodeProps({
-                qrTitle: "QR Code Title",
+                qrTitle: { value: "QR Code Title", status: "available" } as any,
+                showTitle: true,
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -881,7 +885,8 @@ describe("BarcodeGenerator", () => {
     describe("accessibility", () => {
         it("renders QR code title as semantic element when provided", () => {
             const props = createBarcodeProps({
-                qrTitle: "Invoice QR Code",
+                qrTitle: { value: "Invoice QR Code", status: "available" } as any,
+                showTitle: true,
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -894,7 +899,8 @@ describe("BarcodeGenerator", () => {
 
         it("does not render title when qrTitle is empty", () => {
             const props = createBarcodeProps({
-                qrTitle: "",
+                qrTitle: { value: "", status: "available" } as any,
+                showTitle: false,
                 codeValue: { value: "test", status: "available" } as any
             });
 
@@ -973,7 +979,8 @@ describe("BarcodeGenerator", () => {
         it("renders QR code with download, title, and image overlay", () => {
             const props = createBarcodeProps({
                 allowDownload: true,
-                qrTitle: "Secure QR",
+                qrTitle: { value: "Secure QR", status: "available" } as any,
+                showTitle: true,
                 qrImage: true,
                 qrImageSrc: createMockWebImage("available"),
                 downloadButtonCaption: { status: "available" as const, value: "Save QR" } as any,
