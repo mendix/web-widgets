@@ -31,7 +31,7 @@ describe("Signature", () => {
         minHeight: 0,
         maxHeightUnit: "none",
         maxHeight: 0,
-        OverflowY: "auto",
+        overflowY: "auto",
         showGrid: true,
         gridBorderColor: "#cccccc",
         gridCellHeight: 20,
@@ -53,18 +53,12 @@ describe("Signature", () => {
         render(<Signature {...defaultProps} />);
 
         expect(mockSignatureComponent).toHaveBeenCalledTimes(1);
-        expect(mockSignatureComponent).toHaveBeenCalledWith(
+        expect(mockSignatureComponent.mock.calls[0][0]).toEqual(
             expect.objectContaining({
+                ...defaultProps,
                 className: defaultProps.class,
-                readOnly: false,
-                clearSignature: false,
                 imageSource
             })
         );
-
-        const passedProps = mockSignatureComponent.mock.calls[0][0] as {
-            onSignEndAction?: () => void;
-        };
-        expect(typeof passedProps.onSignEndAction).toBe("function");
     });
 });

@@ -1,6 +1,6 @@
 import { createElement, CSSProperties, FC, PropsWithChildren } from "react";
 import classNames from "classnames";
-import { useResizeObserver } from "../utils/useResizeObserver";
+import { useResizeObserver } from "@mendix/widget-plugin-hooks/useResizeObserver";
 import { constructWrapperStyle, DimensionsProps } from "../utils/dimensions";
 
 export interface SizeProps extends DimensionsProps, PropsWithChildren {
