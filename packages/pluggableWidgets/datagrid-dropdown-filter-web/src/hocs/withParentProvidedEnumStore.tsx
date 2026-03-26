@@ -1,5 +1,5 @@
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { ReactElement, useRef } from "react";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "@mendix/widget-plugin-filtering/errors";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";

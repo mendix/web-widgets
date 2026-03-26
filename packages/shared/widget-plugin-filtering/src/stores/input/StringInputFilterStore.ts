@@ -1,3 +1,6 @@
+import { AttributeMetaData, ListAttributeValue, SimpleFormatter } from "mendix";
+import { FilterCondition } from "mendix/filters";
+import { action, comparer, makeObservable } from "mobx";
 import { inputStateFromCond } from "@mendix/filter-commons/condition-utils";
 import {
     FilterFunctionBinary,
@@ -6,13 +9,10 @@ import {
     FilterFunctionString
 } from "@mendix/filter-commons/typings/FilterFunctions";
 import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
-import { AttributeMetaData, ListAttributeValue, SimpleFormatter } from "mendix";
-import { FilterCondition } from "mendix/filters";
-import { action, comparer, makeObservable } from "mobx";
-import { String_InputFilterInterface } from "../../typings/InputFilterInterface";
 import { StringArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
+import { String_InputFilterInterface } from "../../typings/InputFilterInterface";
 
 type StrFns = FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type AttrMeta = AttributeMetaData<string> & { formatter?: SimpleFormatter<string> };

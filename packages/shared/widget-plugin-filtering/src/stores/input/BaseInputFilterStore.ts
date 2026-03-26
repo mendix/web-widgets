@@ -1,5 +1,3 @@
-import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
-import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
 import { Big } from "big.js";
 import { AttributeMetaData } from "mendix";
 import { FilterCondition } from "mendix/filters";
@@ -19,6 +17,8 @@ import {
     startsWith
 } from "mendix/filters/builders";
 import { action, computed, makeObservable, observable } from "mobx";
+import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
+import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
 import { Argument } from "./Argument";
 
 type StateTuple<Fn, V> = [Fn] | [Fn, V] | [Fn, V, V];

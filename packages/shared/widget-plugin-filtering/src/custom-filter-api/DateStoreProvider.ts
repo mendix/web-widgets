@@ -1,8 +1,8 @@
 import { FilterAPI } from "../context";
-import { DateInputFilterStore } from "../stores/input/DateInputFilterStore";
-import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 import { BaseStoreProvider } from "./BaseStoreProvider";
 import { FilterSpec } from "./typings";
+import { DateInputFilterStore } from "../stores/input/DateInputFilterStore";
+import { Date_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export class DateStoreProvider extends BaseStoreProvider<DateInputFilterStore> {
     protected _store: DateInputFilterStore;

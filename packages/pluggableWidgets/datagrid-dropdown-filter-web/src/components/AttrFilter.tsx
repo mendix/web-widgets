@@ -1,11 +1,11 @@
+import { ReactElement } from "react";
 import { EnumFilterContainer } from "@mendix/widget-plugin-dropdown-filter/containers/EnumFilterContainer";
 import { withFilterAPI } from "@mendix/widget-plugin-filtering/helpers/withFilterAPI";
-import { ReactElement } from "react";
+import { EnumFilterProps } from "./typings";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 import { withAttrGuard } from "../hocs/withAttrGuard";
 import { withLinkedEnumStore } from "../hocs/withLinkedEnumStore";
 import { withParentProvidedEnumStore } from "../hocs/withParentProvidedEnumStore";
-import { EnumFilterProps } from "./typings";
 
 export function AttrFilter(props: DatagridDropdownFilterContainerProps): ReactElement {
     if (props.attrChoice === "auto") {

@@ -1,9 +1,9 @@
+import { ReactElement, useRef } from "react";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { useFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { APIError, EMISSINGSTORE, EStoreTypeMisMatch } from "@mendix/widget-plugin-filtering/errors";
 import { error, Result, value } from "@mendix/widget-plugin-filtering/result-meta";
 import { isDateFilter } from "@mendix/widget-plugin-filtering/stores/input/store-utils";
-import { ReactElement, useRef } from "react";
 import { DateFilterProps } from "../components/typings";
 
 export function withParentProvidedDateStore<P>(

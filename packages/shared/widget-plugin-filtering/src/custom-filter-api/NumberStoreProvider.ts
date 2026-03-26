@@ -1,8 +1,8 @@
 import { FilterAPI } from "../context";
-import { NumberInputFilterStore } from "../stores/input/NumberInputFilterStore";
-import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
 import { BaseStoreProvider } from "./BaseStoreProvider";
 import { FilterSpec } from "./typings";
+import { NumberInputFilterStore } from "../stores/input/NumberInputFilterStore";
+import { Number_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export class NumberStoreProvider extends BaseStoreProvider<NumberInputFilterStore> {
     protected _store: NumberInputFilterStore;

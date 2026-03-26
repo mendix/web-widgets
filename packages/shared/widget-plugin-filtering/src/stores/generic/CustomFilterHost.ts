@@ -1,7 +1,7 @@
-import { reduceMap, restoreMap } from "@mendix/filter-commons/condition-utils";
-import { FilterData, FiltersSettingsMap, PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
 import { FilterCondition } from "mendix/filters";
 import { action, autorun, makeAutoObservable } from "mobx";
+import { reduceMap, restoreMap } from "@mendix/filter-commons/condition-utils";
+import { FilterData, FiltersSettingsMap, PlainJs, Serializable } from "@mendix/filter-commons/typings/settings";
 import { ConditionWithMeta } from "../../typings/ConditionWithMeta";
 import { Filter, ObservableFilterHost } from "../../typings/ObservableFilterHost";
 
