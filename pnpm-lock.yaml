@@ -2271,9 +2271,6 @@ importers:
       '@mendix/widget-plugin-test-utils':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-test-utils
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
 
   packages/pluggableWidgets/skiplink-web:
     dependencies:
@@ -6843,10 +6840,6 @@ packages:
   flat-cache@4.0.1:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
     engines: {node: '>=16'}
-
-  flat@5.0.2:
-    resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
-    hasBin: true
 
   flatted@3.4.2:
     resolution: {integrity: sha512-PjDse7RzhcPkIJwy5t7KPWQSZ9cAbzQXcafsetQoD7sOJRQlGikNbx7yZp2OotDnJyrDcbyRq3Ttb18iYOqkxA==}
@@ -15372,8 +15365,6 @@ snapshots:
       flatted: 3.4.2
       keyv: 4.5.4
 
-  flat@5.0.2: {}
-
   flatted@3.4.2: {}
 
   flatten-vertex-data@1.0.2:
@@ -18434,10 +18425,6 @@ snapshots:
   rechoir@0.6.2:
     dependencies:
       resolve: 1.22.10
-
-  rechoir@0.8.0:
-    dependencies:
-      resolve: 1.22.11
 
   recursive-copy@2.0.14:
     dependencies:

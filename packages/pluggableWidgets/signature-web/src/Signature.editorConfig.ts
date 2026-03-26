@@ -16,7 +16,7 @@ export function getProperties(
     values: SignaturePreviewProps,
     defaultProperties: Properties /* , target: Platform*/
 ): Properties {
-    if (values.heightUnit === "percentageOfWidth") {
+    if (values.heightUnit === "auto") {
         hidePropertyIn(defaultProperties, values, "height");
     } else {
         hidePropertiesIn(defaultProperties, values, [
@@ -24,7 +24,7 @@ export function getProperties(
             "minHeightUnit",
             "maxHeight",
             "maxHeightUnit",
-            "OverflowY"
+            "overflowY"
         ]);
     }
 
@@ -33,7 +33,7 @@ export function getProperties(
     }
 
     if (values.maxHeightUnit === "none") {
-        hidePropertiesIn(defaultProperties, values, ["maxHeight", "OverflowY"]);
+        hidePropertiesIn(defaultProperties, values, ["maxHeight", "overflowY"]);
     }
 
     return defaultProperties;

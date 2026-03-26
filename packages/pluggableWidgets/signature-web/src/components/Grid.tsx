@@ -5,17 +5,10 @@ export interface GridBackgroundProps {
     gridCellHeight: number;
     gridBorderColor: string;
     gridBorderWidth: number;
-    showGrid?: boolean;
 }
-export const Grid: FC<GridBackgroundProps> = ({
-    gridCellWidth,
-    gridCellHeight,
-    gridBorderColor,
-    gridBorderWidth,
-    showGrid = true
-}) => {
+export const Grid: FC<GridBackgroundProps> = ({ gridCellWidth, gridCellHeight, gridBorderColor, gridBorderWidth }) => {
     const id = useId();
-    return showGrid ? (
+    return (
         <svg className="widget-signature-grid" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <pattern id={id} width={gridCellWidth} height={gridCellHeight} patternUnits="userSpaceOnUse">
@@ -39,7 +32,7 @@ export const Grid: FC<GridBackgroundProps> = ({
             </defs>
             <rect width="100%" height="100%" fill={`url(#${id})`} />
         </svg>
-    ) : null;
+    );
 };
 
 Grid.displayName = "Grid";

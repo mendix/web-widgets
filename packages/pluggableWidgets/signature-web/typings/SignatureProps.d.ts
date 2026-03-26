@@ -10,7 +10,7 @@ export type PenTypeEnum = "fountain" | "ballpoint" | "marker";
 
 export type WidthUnitEnum = "pixels" | "percentage";
 
-export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent" | "percentageOfView";
+export type HeightUnitEnum = "auto" | "pixels" | "percentageOfParent" | "percentageOfView";
 
 export type MinHeightUnitEnum = "none" | "pixels" | "percentageOfParent" | "percentageOfView";
 
@@ -35,7 +35,7 @@ export interface SignatureContainerProps {
     minHeight: number;
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number;
-    OverflowY: OverflowYEnum;
+    overflowY: OverflowYEnum;
     onSignEndAction?: ActionValue<{ signatureImage: Option<string> }>;
     showGrid: boolean;
     gridBorderColor: string;
@@ -67,7 +67,7 @@ export interface SignaturePreviewProps {
     minHeight: number | null;
     maxHeightUnit: MaxHeightUnitEnum;
     maxHeight: number | null;
-    OverflowY: OverflowYEnum;
+    overflowY: OverflowYEnum;
     onSignEndAction: {} | null;
     showGrid: boolean;
     gridBorderColor: string;

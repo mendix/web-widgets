@@ -11,14 +11,15 @@ function usePrevious<T>(value: T): T | null {
 }
 
 export function useSignaturePad(
-    props: Pick<SignatureProps, "readOnly" | "imageSource" | "hasSignatureAttribute" | "penType" | "penColor">,
+    props: Pick<SignatureProps, "imageSource" | "hasSignatureAttribute" | "penType" | "penColor">,
     onSignEnd?: (imageDataURL?: string) => void
 ): {
     signaturePadRef: RefObject<SignaturePad | null>;
     canvasRef: RefObject<HTMLCanvasElement | null>;
     onResize?: () => void;
 } {
-    const { readOnly, imageSource, hasSignatureAttribute, penType, penColor } = props;
+    const { imageSource, hasSignatureAttribute, penType, penColor } = props;
+    const readOnly = imageSource.readOnly;
     const signaturePadRef = useRef<SignaturePad | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const isSignatureInitialized = useRef(false);
@@ -47,6 +48,7 @@ export function useSignaturePad(
         }
     }, [hasSignatureAttribute, onSignEnd]);
 
+    // Toggle readonly condition on signature pad when imageSource.readOnly changes
     useEffect(() => {
         if (readOnly) {
             signaturePadRef.current?.off();
@@ -67,6 +69,7 @@ export function useSignaturePad(
         }
     };
 
+    // Clear signature pad when hasSignature value changes from true to false
     useEffect(() => {
         if (hasSignatureAttribute?.status === "available") {
             if (hasSignatureAttribute?.value !== hasSignature) {
@@ -77,17 +80,10 @@ export function useSignaturePad(
         }
     }, [hasSignature, hasSignatureAttribute?.status, hasSignatureAttribute?.value]);
 
+    // Initialize signature pad
     useEffect(() => {
-        console.log(
-            "Try Initializing signature pad",
-            penColor,
-            signaturePadOptions,
-            canvasRef.current,
-            signaturePadRef.current,
-            imageSource,
-            hasSignatureAttribute
-        );
         if (canvasRef.current) {
+            // only instantiate when all data is loaded properly to avoid unnecessary re-instantiations
             const canInstantiateSignaturePad =
                 signaturePadRef.current === null &&
                 (imageSource?.status === "available" ? imageSource.value?.uri : imageSource.status === "unavailable");

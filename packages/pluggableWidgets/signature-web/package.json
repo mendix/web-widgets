@@ -20,7 +20,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "10.8.0",
+        "minimumMXVersion": "11.8.0",
         "appNumber": 107984,
         "appName": "Signature",
         "reactReady": true
@@ -58,7 +58,6 @@
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
-        "@mendix/widget-plugin-test-utils": "workspace:*",
-        "cross-env": "^7.0.3"
+        "@mendix/widget-plugin-test-utils": "workspace:*"
     }
 }

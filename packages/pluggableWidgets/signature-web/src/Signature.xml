@@ -17,6 +17,7 @@
                         <attributeType name="Boolean" />
                     </attributeTypes>
                 </property>
+                <systemProperty key="Editability" />
             </propertyGroup>
             <propertyGroup caption="Appearance">
                 <property key="penType" type="enumeration" defaultValue="fountain">
@@ -52,7 +53,7 @@
                     <caption>Height unit</caption>
                     <description />
                     <enumerationValues>
-                        <enumerationValue key="percentageOfWidth">Auto</enumerationValue>
+                        <enumerationValue key="auto">Auto</enumerationValue>
                         <enumerationValue key="pixels">Pixels</enumerationValue>
                         <enumerationValue key="percentageOfParent">Percentage</enumerationValue>
                         <enumerationValue key="percentageOfView">Viewport</enumerationValue>
@@ -90,7 +91,7 @@
                     <caption>Maximum height</caption>
                     <description />
                 </property>
-                <property key="OverflowY" type="enumeration" defaultValue="auto">
+                <property key="overflowY" type="enumeration" defaultValue="auto">
                     <caption>Vertical Overflow</caption>
                     <description />
                     <enumerationValues>
