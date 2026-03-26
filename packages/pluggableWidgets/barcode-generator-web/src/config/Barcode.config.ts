@@ -13,17 +13,15 @@ interface DownloadButtonConfig {
     buttonPosition: "top" | "bottom";
 }
 
-type CodeType = "barcode" | "qrcode";
-
-export interface CodeBaseTypeConfig<T = CodeType> extends Pick<BarcodeGeneratorContainerProps, "logLevel"> {
-    type: T;
+export interface CodeBaseTypeConfig extends Pick<BarcodeGeneratorContainerProps, "logLevel"> {
     codeValue: string;
     margin: number;
     downloadButton?: DownloadButtonConfig;
 }
 
 /** Configuration for barcode (non-QR) rendering */
-export interface BarcodeTypeConfig extends CodeBaseTypeConfig<"barcode"> {
+export interface BarcodeTypeConfig extends CodeBaseTypeConfig {
+    type: "barcode";
     width: number;
     height: number;
     format: CodeFormatEnum | CustomCodeFormatEnum;
@@ -40,7 +38,8 @@ export interface BarcodeTypeConfig extends CodeBaseTypeConfig<"barcode"> {
 }
 
 /** Configuration for QR code rendering */
-export interface QRCodeTypeConfig extends CodeBaseTypeConfig<"qrcode"> {
+export interface QRCodeTypeConfig extends CodeBaseTypeConfig {
+    type: "qrcode";
     size: number;
     title: string;
     showTitle: boolean;
@@ -72,20 +71,18 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         : undefined;
 
     const baseConfig: CodeBaseTypeConfig = {
-        type: "barcode",
         codeValue,
-        margin: props.codeMargin ?? 2,
+        margin: (format === "QRCode" ? props.qrMargin : props.codeMargin) ?? 2,
         logLevel: props.logLevel,
         downloadButton: downloadButtonConfig
     };
 
     if (format === "QRCode") {
-        const qrConfig: QRCodeTypeConfig = {
-            ...baseConfig,
-            margin: props.qrMargin ?? 2,
+        return {
             type: "qrcode",
+            ...baseConfig,
             size: props.qrSize ?? 128,
-            showTitle: props.showTitle ?? false,
+            showTitle: props.showTitle,
             title: props.qrTitle.status === "available" ? props.qrTitle.value : "QR Code",
             level: props.qrLevel ?? "L",
             overlay:
@@ -101,12 +98,11 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
                       }
                     : undefined
         };
-        return qrConfig;
     }
 
-    const barcodeConfig: BarcodeTypeConfig = {
-        ...baseConfig,
+    return {
         type: "barcode",
+        ...baseConfig,
         width: props.codeWidth ?? 128,
         height: props.codeHeight ?? 128,
         format,
@@ -121,8 +117,6 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         addonFormat: props.addonFormat,
         addonSpacing: props.addonSpacing ?? 20
     };
-
-    return barcodeConfig;
 }
 
 function generateFileName(customFileName: string | undefined, format: string, codeValue: string): string {

@@ -1,7 +1,7 @@
-import { BarcodeTypeConfig } from "../config/Barcode.config";
 import { RefObject, useEffect, useRef, useState } from "react";
-import { type BarcodeRenderOptions, renderBarcode } from "../utils/barcodeRenderer-utils";
+import { BarcodeTypeConfig } from "../config/Barcode.config";
 import { validateAddonValue, validateBarcodeValue } from "../config/validation";
+import { type BarcodeRenderOptions, renderBarcode } from "../utils/barcodeRenderer-utils";
 import { printError } from "../utils/helpers";
 
 export const useRenderBarcode = (

@@ -1,5 +1,5 @@
-import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
+import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { BarcodeGeneratorPreviewProps, CodeFormatEnum, CustomCodeFormatEnum } from "../typings/BarcodeGeneratorProps";
 import { validateAddonValue, validateBarcodeValue } from "./config/validation";
 

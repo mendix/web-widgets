@@ -7,11 +7,21 @@ import jestPlugin from "eslint-plugin-jest";
 import packageJson from "eslint-plugin-package-json";
 import packageJsonFieldsOrder from "@mendix/prettier-config-web-widgets/package-json-fields-order.js";
 import { defineConfig } from "eslint/config";
+import importPlugin from "eslint-plugin-import";
 
 export default defineConfig(
     {
         name: "generic eslint",
-        extends: [eslint.configs.recommended],
+        extends: [eslint.configs.recommended, importPlugin.flatConfigs.recommended],
+        settings: {
+            "import/internal-regex": "^@mendix/",
+            "import/parsers": {
+                "@typescript-eslint/parser": [".ts", ".tsx"]
+            }
+        },
+        languageOptions: {
+            ecmaVersion: "latest"
+        },
         rules: {
             "no-undef": "warn",
             "no-unused-vars": "warn",
@@ -63,11 +73,24 @@ export default defineConfig(
             "prefer-spread": "error",
             radix: "error",
             "spaced-comment": "error",
-            "sort-imports": [
-                "error",
+            "sort-imports": "off",
+            "import/no-unresolved": "off",
+            "import/namespace": "off",
+            "import/named": "off",
+            "import/order": [
+                "warn",
                 {
-                    ignoreDeclarationSort: true,
-                    ignoreCase: true
+                    alphabetize: {
+                        order: "asc",
+                        caseInsensitive: true
+                    },
+                    groups: [
+                        // Imports of builtins are first
+                        "builtin",
+                        "external",
+                        // Then index file imports
+                        "internal"
+                    ]
                 }
             ]
         }
