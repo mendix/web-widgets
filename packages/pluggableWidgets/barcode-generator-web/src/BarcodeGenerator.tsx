@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { ReactElement } from "react";
 import { BarcodeGeneratorContainerProps } from "../typings/BarcodeGeneratorProps";
-import { barcodeConfig } from "./config/Barcode.config";
-import { QRCodeRenderer } from "./components/QRCode";
 import { BarcodeRenderer } from "./components/Barcode";
+import { QRCodeRenderer } from "./components/QRCode";
+import { barcodeConfig } from "./config/Barcode.config";
 
 import "./ui/BarcodeGenerator.scss";
 

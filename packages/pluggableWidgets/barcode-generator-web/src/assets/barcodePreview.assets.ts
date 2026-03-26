@@ -1,22 +1,22 @@
 // Import all barcode SVG files
+import codabarSvg from "./barcodes/codabar.svg";
 import code128Svg from "./barcodes/code128.svg";
-import ean13Svg from "./barcodes/ean13.svg";
+import code39Svg from "./barcodes/code39.svg";
+import code93Svg from "./barcodes/code93.svg";
 import ean13Ean2Svg from "./barcodes/ean13-ean2.svg";
 import ean13Ean5Svg from "./barcodes/ean13-ean5.svg";
 import ean13FlatSvg from "./barcodes/ean13-flat.svg";
-import ean8Svg from "./barcodes/ean8.svg";
+import ean13Svg from "./barcodes/ean13.svg";
 import ean8Ean2Svg from "./barcodes/ean8-ean2.svg";
 import ean8Ean5Svg from "./barcodes/ean8-ean5.svg";
 import ean8FlatSvg from "./barcodes/ean8-flat.svg";
-import upcSvg from "./barcodes/upc.svg";
-import upcEan2Svg from "./barcodes/upc-ean2.svg";
-import upcEan5Svg from "./barcodes/upc-ean5.svg";
-import code39Svg from "./barcodes/code39.svg";
+import ean8Svg from "./barcodes/ean8.svg";
 import itf14Svg from "./barcodes/itf14.svg";
 import msiSvg from "./barcodes/msi.svg";
 import pharmacodeSvg from "./barcodes/pharmacode.svg";
-import codabarSvg from "./barcodes/codabar.svg";
-import code93Svg from "./barcodes/code93.svg";
+import upcEan2Svg from "./barcodes/upc-ean2.svg";
+import upcEan5Svg from "./barcodes/upc-ean5.svg";
+import upcSvg from "./barcodes/upc.svg";
 
 type BarcodeImageVariants = {
     default: string;

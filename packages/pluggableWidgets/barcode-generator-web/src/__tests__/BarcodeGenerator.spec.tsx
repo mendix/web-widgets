@@ -1,8 +1,10 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { EditableValueBuilder } from "@mendix/widget-plugin-test-utils";
+import { Big } from "big.js";
+import { WebImage } from "mendix";
 import { forwardRef } from "react";
+import { dynamic } from "@mendix/widget-plugin-test-utils";
 
 // Mock JsBarcode
 const mockJsBarcode = jest.fn();
@@ -31,22 +33,23 @@ jest.mock("../utils/download-code", () => ({
     downloadCode: jest.fn()
 }));
 
+import {
+    BarcodeGeneratorContainerProps,
+    CodeFormatEnum,
+    CustomCodeFormatEnum,
+    QrLevelEnum
+} from "../../typings/BarcodeGeneratorProps";
 import BarcodeGenerator from "../BarcodeGenerator";
-import { CodeFormatEnum, CustomCodeFormatEnum } from "typings/BarcodeGeneratorProps";
 import { downloadCode } from "../utils/download-code";
 
 // Test utilities
-const createMockWebImage = (status: "available" | "loading" | "unavailable" = "unavailable"): any => {
-    if (status === "available") {
-        return {
-            status: "available" as const,
-            value: { uri: "data:image/png;base64,test123" }
-        } as any;
-    }
-    return { status } as any;
-};
+function createMockWebImage(): WebImage {
+    return { uri: "data:image/png;base64,test123" };
+}
 
-const createBarcodeProps = (overrides: any = {}): any => ({
+const createBarcodeProps = (
+    overrides: Partial<BarcodeGeneratorContainerProps> = {}
+): BarcodeGeneratorContainerProps => ({
     name: "barcodeGenerator1",
     class: "mx-barcode-generator",
     tabIndex: -1,
@@ -57,8 +60,8 @@ const createBarcodeProps = (overrides: any = {}): any => ({
     lastChar: "",
     enableMod43: false,
     allowDownload: false,
-    downloadButtonCaption: { status: "available" as const, value: "Download" } as any,
-    downloadButtonAriaLabel: { status: "available" as const, value: "Download barcode" } as any,
+    downloadButtonCaption: dynamic("Download"),
+    downloadButtonAriaLabel: dynamic("Download barcode"),
     displayValue: false,
     showAsCard: false,
     codeWidth: 2,
@@ -66,23 +69,24 @@ const createBarcodeProps = (overrides: any = {}): any => ({
     codeMargin: 4,
     qrSize: 128,
     qrMargin: 2,
-    qrTitle: "",
-    qrLevel: "L" as any,
-    showTitle: false,
-    qrImage: false,
-    qrImageSrc: createMockWebImage(),
-    qrImageCenter: true,
-    qrImageX: 0,
-    qrImageY: 0,
-    qrImageHeight: 24,
-    qrImageWidth: 24,
-    qrImageOpacity: { toNumber: () => 1 } as any,
-    qrImageExcavate: true,
-    addonFormat: "None" as any,
-    addonValue: { status: "unavailable" as const } as any,
+    qrTitle: dynamic(""),
+    qrLevel: "L",
+    qrOverlay: false,
+    qrOverlaySrc: dynamic(createMockWebImage()),
+    qrOverlayCenter: true,
+    qrOverlayX: 0,
+    qrOverlayY: 0,
+    qrOverlayHeight: 24,
+    qrOverlayWidth: 24,
+    qrOverlayOpacity: new Big(1),
+    qrOverlayExcavate: true,
+    addonFormat: "None",
+    addonValue: dynamic(),
     addonSpacing: 20,
-    buttonPosition: "bottom" as const,
-    codeValue: new EditableValueBuilder<string>().withValue("test-barcode-value").build(),
+    buttonPosition: "bottom",
+    codeValue: dynamic("test-barcode-value"),
+    logLevel: "Info",
+    showTitle: false,
     ...overrides
 });
 
@@ -95,10 +99,7 @@ describe("BarcodeGenerator", () => {
     describe("core rendering", () => {
         it("renders QR code when codeValue is available", () => {
             const props = createBarcodeProps({
-                codeValue: {
-                    value: "Hello World",
-                    status: "available"
-                } as any
+                codeValue: dynamic("Hello World")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -110,7 +111,7 @@ describe("BarcodeGenerator", () => {
 
         it("shows fallback message when codeValue is loading", () => {
             const props = createBarcodeProps({
-                codeValue: { value: "", status: "loading" } as any
+                codeValue: dynamic("", true)
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -121,7 +122,7 @@ describe("BarcodeGenerator", () => {
 
         it("shows fallback message when codeValue is unavailable", () => {
             const props = createBarcodeProps({
-                codeValue: { value: "", status: "unavailable" } as any
+                codeValue: dynamic<string>()
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -134,7 +135,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 class: "custom-class",
                 tabIndex: 2,
-                codeValue: { value: "test", status: "available" } as any
+                codeValue: dynamic("test")
             });
 
             const { container } = render(<BarcodeGenerator {...props} />);
@@ -147,7 +148,7 @@ describe("BarcodeGenerator", () => {
         it("applies card styling when showAsCard is true", () => {
             const props = createBarcodeProps({
                 showAsCard: true,
-                codeValue: { value: "test", status: "available" } as any
+                codeValue: dynamic("test")
             });
 
             const { container } = render(<BarcodeGenerator {...props} />);
@@ -162,7 +163,7 @@ describe("BarcodeGenerator", () => {
         it("renders CODE128 barcode correctly", () => {
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
-                codeValue: { value: "123456789", status: "available" } as any
+                codeValue: dynamic("123456789")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -178,7 +179,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "CODE39" as CustomCodeFormatEnum,
-                codeValue: { value: "ABC-123", status: "available" } as any
+                codeValue: dynamic("ABC-123")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -194,7 +195,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "CODE93" as CustomCodeFormatEnum,
-                codeValue: { value: "CODE93VALUE", status: "available" } as any
+                codeValue: dynamic("CODE93VALUE")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -210,7 +211,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "EAN13" as CustomCodeFormatEnum,
-                codeValue: { value: "1234567890128", status: "available" } as any
+                codeValue: dynamic("1234567890128")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -226,7 +227,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "EAN8" as CustomCodeFormatEnum,
-                codeValue: { value: "12345678", status: "available" } as any
+                codeValue: dynamic("12345678")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -242,7 +243,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "UPC" as CustomCodeFormatEnum,
-                codeValue: { value: "123456789012", status: "available" } as any
+                codeValue: dynamic("123456789012")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -258,7 +259,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "ITF14" as CustomCodeFormatEnum,
-                codeValue: { value: "12345678901234", status: "available" } as any
+                codeValue: dynamic("12345678901234")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -274,7 +275,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "MSI" as CustomCodeFormatEnum,
-                codeValue: { value: "123456", status: "available" } as any
+                codeValue: dynamic("123456")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -290,7 +291,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "pharmacode" as CustomCodeFormatEnum,
-                codeValue: { value: "1234567", status: "available" } as any
+                codeValue: dynamic("1234567")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -306,7 +307,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "codabar" as CustomCodeFormatEnum,
-                codeValue: { value: "123-456", status: "available" } as any
+                codeValue: dynamic("123-456")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -324,7 +325,7 @@ describe("BarcodeGenerator", () => {
         it("renders QR code with custom size", () => {
             const props = createBarcodeProps({
                 qrSize: 256,
-                codeValue: { value: "Custom Size QR", status: "available" } as any
+                codeValue: dynamic("Custom Size QR")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -335,7 +336,7 @@ describe("BarcodeGenerator", () => {
         it("renders QR code with custom margin", () => {
             const props = createBarcodeProps({
                 qrMargin: 5,
-                codeValue: { value: "test", status: "available" } as any
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -344,12 +345,12 @@ describe("BarcodeGenerator", () => {
         });
 
         it("renders QR code with all error correction levels", () => {
-            const levels: any[] = ["L", "M", "Q", "H"];
+            const levels: QrLevelEnum[] = ["L", "M", "Q", "H"];
 
             levels.forEach(level => {
                 const props = createBarcodeProps({
                     qrLevel: level,
-                    codeValue: { value: "test", status: "available" } as any
+                    codeValue: dynamic("test")
                 });
 
                 const { unmount } = render(<BarcodeGenerator {...props} />);
@@ -361,9 +362,9 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with title", () => {
             const props = createBarcodeProps({
-                qrTitle: { value: "QR Code Title", status: "available" } as any,
+                qrTitle: dynamic("QR Code Title"),
                 showTitle: true,
-                codeValue: { value: "test", status: "available" } as any
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -374,11 +375,12 @@ describe("BarcodeGenerator", () => {
 
     // ============= QR Image Overlay Tests =============
     describe("QR image overlay functionality", () => {
-        it("renders QR code with image overlay when qrImage is true", () => {
+        it("renders QR code with image overlay when qrOverlay is true", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                codeValue: { value: "test", status: "available" } as any
+                qrOverlay: true,
+                qrOverlaySrc: dynamic(createMockWebImage()),
+                qrOverlayCenter: true,
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -388,10 +390,12 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with centered image overlay", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                qrImageCenter: true,
-                codeValue: { value: "test", status: "available" } as any
+                qrOverlay: true,
+                qrOverlaySrc: dynamic(createMockWebImage()),
+                qrOverlayCenter: true,
+                qrOverlayX: 10,
+                qrOverlayY: 20,
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -401,12 +405,12 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with positioned image overlay", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                qrImageCenter: false,
-                qrImageX: 10,
-                qrImageY: 20,
-                codeValue: { value: "test", status: "available" } as any
+                qrOverlay: true,
+                qrOverlaySrc: dynamic(createMockWebImage()),
+                qrOverlayCenter: false,
+                qrOverlayX: 10,
+                qrOverlayY: 20,
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -416,11 +420,11 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with image overlay custom dimensions", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                qrImageWidth: 50,
-                qrImageHeight: 50,
-                codeValue: { value: "test", status: "available" } as any
+                qrOverlay: true,
+                qrOverlaySrc: dynamic(createMockWebImage()),
+                qrOverlayWidth: 50,
+                qrOverlayHeight: 50,
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -430,10 +434,10 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with image overlay opacity", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                qrImageOpacity: { toNumber: () => 0.75 } as any,
-                codeValue: { value: "test", status: "available" } as any
+                qrOverlay: true,
+                qrOverlaySrc: dynamic(createMockWebImage()),
+                qrOverlayOpacity: Big(0.75),
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -443,10 +447,10 @@ describe("BarcodeGenerator", () => {
 
         it("renders QR code with image excavation enabled", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                qrImageExcavate: true,
-                codeValue: { value: "test", status: "available" } as any
+                qrOverlay: true,
+                qrOverlaySrc: dynamic(createMockWebImage()),
+                qrOverlayExcavate: true,
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -454,11 +458,11 @@ describe("BarcodeGenerator", () => {
             expect(screen.getByTestId("qr-code")).toBeInTheDocument();
         });
 
-        it("does not render image overlay when qrImageSrc is unavailable", () => {
+        it("does not render image overlay when qrOverlaySrc is unavailable", () => {
             const props = createBarcodeProps({
-                qrImage: true,
-                qrImageSrc: createMockWebImage("unavailable"),
-                codeValue: { value: "test", status: "available" } as any
+                qrOverlay: true,
+                qrOverlaySrc: dynamic<WebImage>(),
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -473,7 +477,7 @@ describe("BarcodeGenerator", () => {
         it("does not render download button when allowDownload is false", () => {
             const props = createBarcodeProps({
                 allowDownload: false,
-                codeValue: { value: "test", status: "available" } as any
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -484,8 +488,8 @@ describe("BarcodeGenerator", () => {
         it("renders download button with custom caption", () => {
             const props = createBarcodeProps({
                 allowDownload: true,
-                downloadButtonCaption: { status: "available" as const, value: "Export Code" } as any,
-                codeValue: { value: "test", status: "available" } as any
+                downloadButtonCaption: dynamic("Export Code"),
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -496,9 +500,9 @@ describe("BarcodeGenerator", () => {
         it("renders download button with correct aria-label for QR code", () => {
             const props = createBarcodeProps({
                 allowDownload: true,
-                downloadButtonAriaLabel: { status: "available" as const, value: "Download QR code" } as any,
+                downloadButtonAriaLabel: dynamic("Download QR code"),
                 codeFormat: "QRCode" as CodeFormatEnum,
-                codeValue: { value: "test", status: "available" } as any
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -510,8 +514,8 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 allowDownload: true,
                 buttonPosition: "top" as const,
-                downloadButtonCaption: { status: "available" as const, value: "Download" } as any,
-                codeValue: { value: "test", status: "available" } as any
+                downloadButtonCaption: dynamic("Download"),
+                codeValue: dynamic("test")
             });
 
             const { container } = render(<BarcodeGenerator {...props} />);
@@ -529,8 +533,8 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 allowDownload: true,
                 buttonPosition: "bottom" as const,
-                downloadButtonCaption: { status: "available" as const, value: "Download" } as any,
-                codeValue: { value: "test", status: "available" } as any
+                downloadButtonCaption: dynamic("Download"),
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -544,9 +548,9 @@ describe("BarcodeGenerator", () => {
 
             const props = createBarcodeProps({
                 allowDownload: true,
-                downloadButtonCaption: { status: "available" as const, value: "Download" } as any,
+                downloadButtonCaption: dynamic("Download"),
                 codeFormat: "QRCode" as CodeFormatEnum,
-                codeValue: { value: "test", status: "available" } as any
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -560,8 +564,8 @@ describe("BarcodeGenerator", () => {
         it("renders download button with icon and caption", () => {
             const props = createBarcodeProps({
                 allowDownload: true,
-                downloadButtonCaption: { status: "available" as const, value: "Save" } as any,
-                codeValue: { value: "test", status: "available" } as any
+                downloadButtonCaption: dynamic("Save"),
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -577,7 +581,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
                 displayValue: true,
-                codeValue: { value: "DISPLAY123", status: "available" } as any
+                codeValue: dynamic("DISPLAY123")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -593,7 +597,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
                 displayValue: false,
-                codeValue: { value: "NODISPLAY", status: "available" } as any
+                codeValue: dynamic("NODISPLAY")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -609,7 +613,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
                 codeWidth: 3,
-                codeValue: { value: "WIDTH_TEST", status: "available" } as any
+                codeValue: dynamic("WIDTH_TEST")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -625,7 +629,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
                 codeHeight: 300,
-                codeValue: { value: "HEIGHT_TEST", status: "available" } as any
+                codeValue: dynamic("HEIGHT_TEST")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -641,7 +645,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
                 codeMargin: 8,
-                codeValue: { value: "MARGIN_TEST", status: "available" } as any
+                codeValue: dynamic("MARGIN_TEST")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -660,7 +664,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
                 enableEan128: true,
-                codeValue: { value: "EAN128TEST", status: "available" } as any
+                codeValue: dynamic("EAN128TEST")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -676,7 +680,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
                 enableFlat: true,
-                codeValue: { value: "FLATTEST", status: "available" } as any
+                codeValue: dynamic("FLATTEST")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -692,7 +696,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
                 enableMod43: true,
-                codeValue: { value: "MOD43TEST", status: "available" } as any
+                codeValue: dynamic("MOD43TEST")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -708,7 +712,7 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
                 lastChar: "X",
-                codeValue: { value: "LASTCHARTEST", status: "available" } as any
+                codeValue: dynamic("LASTCHARTEST")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -736,10 +740,10 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "EAN13" as CustomCodeFormatEnum,
-                addonValue: { value: "12345", status: "available" } as any,
-                addonFormat: "EAN5" as any,
+                addonValue: dynamic("12345"),
+                addonFormat: "EAN5",
                 addonSpacing: 25,
-                codeValue: { value: "1234567890128", status: "available" } as any
+                codeValue: dynamic("1234567890128")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -764,9 +768,9 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "EAN13" as CustomCodeFormatEnum,
-                addonValue: { value: "12", status: "available" } as any,
-                addonFormat: "EAN2" as any,
-                codeValue: { value: "1234567890128", status: "available" } as any
+                addonValue: dynamic("12"),
+                addonFormat: "EAN2",
+                codeValue: dynamic("1234567890128")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -780,9 +784,9 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "EAN13" as CustomCodeFormatEnum,
-                addonValue: { value: "12345", status: "available" } as any,
-                addonFormat: "None" as any,
-                codeValue: { value: "1234567890128", status: "available" } as any
+                addonValue: dynamic("12345"),
+                addonFormat: "None",
+                codeValue: dynamic("1234567890128")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -803,10 +807,10 @@ describe("BarcodeGenerator", () => {
             const props = createBarcodeProps({
                 codeFormat: "Custom" as CodeFormatEnum,
                 customCodeFormat: "EAN13" as CustomCodeFormatEnum,
-                addonValue: { value: "12345", status: "available" } as any,
-                addonFormat: "EAN5" as any,
+                addonValue: dynamic("12345"),
+                addonFormat: "EAN5",
                 addonSpacing: 40,
-                codeValue: { value: "1234567890128", status: "available" } as any
+                codeValue: dynamic("1234567890128")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -824,7 +828,7 @@ describe("BarcodeGenerator", () => {
 
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
-                codeValue: { value: "INVALID", status: "available" } as any
+                codeValue: dynamic("INVALID")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -840,7 +844,7 @@ describe("BarcodeGenerator", () => {
 
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
-                codeValue: { value: "TEST", status: "available" } as any
+                codeValue: dynamic("TEST")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -857,7 +861,7 @@ describe("BarcodeGenerator", () => {
 
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
-                codeValue: { value: "BAD", status: "available" } as any
+                codeValue: dynamic("BAD")
             });
 
             const { unmount } = render(<BarcodeGenerator {...props} />);
@@ -872,7 +876,7 @@ describe("BarcodeGenerator", () => {
 
             const goodProps = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
-                codeValue: { value: "GOOD", status: "available" } as any
+                codeValue: dynamic("GOOD")
             });
 
             render(<BarcodeGenerator {...goodProps} />);
@@ -885,9 +889,9 @@ describe("BarcodeGenerator", () => {
     describe("accessibility", () => {
         it("renders QR code title as semantic element when provided", () => {
             const props = createBarcodeProps({
-                qrTitle: { value: "Invoice QR Code", status: "available" } as any,
+                qrTitle: dynamic("Invoice QR Code"),
                 showTitle: true,
-                codeValue: { value: "test", status: "available" } as any
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -897,11 +901,11 @@ describe("BarcodeGenerator", () => {
             expect(title.tagName).toBe("H3");
         });
 
-        it("does not render title when qrTitle is empty", () => {
+        it("does not render title when showTitle is false", () => {
             const props = createBarcodeProps({
-                qrTitle: { value: "", status: "available" } as any,
+                qrTitle: dynamic("title"),
                 showTitle: false,
-                codeValue: { value: "test", status: "available" } as any
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -912,12 +916,9 @@ describe("BarcodeGenerator", () => {
         it("download button has proper semantics", () => {
             const props = createBarcodeProps({
                 allowDownload: true,
-                downloadButtonCaption: { status: "available" as const, value: "Download Barcode" } as any,
-                downloadButtonAriaLabel: {
-                    status: "available" as const,
-                    value: "Download current barcode as PNG"
-                } as any,
-                codeValue: { value: "test", status: "available" } as any
+                downloadButtonCaption: dynamic("Download Barcode"),
+                downloadButtonAriaLabel: dynamic("Download current barcode as PNG"),
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -932,8 +933,8 @@ describe("BarcodeGenerator", () => {
 
             const props = createBarcodeProps({
                 allowDownload: true,
-                downloadButtonCaption: { status: "available" as const, value: "Download" } as any,
-                codeValue: { value: "test", status: "available" } as any
+                downloadButtonCaption: dynamic("Download"),
+                codeValue: dynamic("test")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -953,7 +954,7 @@ describe("BarcodeGenerator", () => {
 
             const props = createBarcodeProps({
                 codeFormat: "CODE128" as CodeFormatEnum,
-                codeValue: { value: "TEST", status: "available" } as any
+                codeValue: dynamic("TEST")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -964,7 +965,7 @@ describe("BarcodeGenerator", () => {
         it("barcode widget container is focusable when tabIndex is set", () => {
             const props = createBarcodeProps({
                 tabIndex: 0,
-                codeValue: { value: "test", status: "available" } as any
+                codeValue: dynamic("test")
             });
 
             const { container } = render(<BarcodeGenerator {...props} />);
@@ -979,12 +980,12 @@ describe("BarcodeGenerator", () => {
         it("renders QR code with download, title, and image overlay", () => {
             const props = createBarcodeProps({
                 allowDownload: true,
-                qrTitle: { value: "Secure QR", status: "available" } as any,
+                qrTitle: dynamic("Secure QR"),
                 showTitle: true,
-                qrImage: true,
-                qrImageSrc: createMockWebImage("available"),
-                downloadButtonCaption: { status: "available" as const, value: "Save QR" } as any,
-                codeValue: { value: "secure-data", status: "available" } as any
+                qrOverlay: true,
+                qrOverlaySrc: dynamic(createMockWebImage()),
+                downloadButtonCaption: dynamic("Save QR"),
+                codeValue: dynamic("secure-data")
             });
 
             render(<BarcodeGenerator {...props} />);
@@ -1008,12 +1009,12 @@ describe("BarcodeGenerator", () => {
                 enableFlat: true,
                 enableMod43: true,
                 allowDownload: true,
-                downloadButtonCaption: { status: "available" as const, value: "Export" } as any,
+                downloadButtonCaption: dynamic("Export"),
                 codeWidth: 3,
                 codeHeight: 250,
                 codeMargin: 5,
                 lastChar: "Z",
-                codeValue: { value: "FULL_TEST", status: "available" } as any
+                codeValue: dynamic("FULL_TEST")
             });
 
             render(<BarcodeGenerator {...props} />);
