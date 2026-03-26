@@ -81,8 +81,7 @@
             "react-dom": ">=18.0.0 <19.0.0",
             "rollup": "catalog:",
             "ts-node": "10.9.2",
-            "typescript": ">5.8.0",
-            "flatted": ">=3.4.2"
+            "typescript": ">5.8.0"
         },
         "patchedDependencies": {
             "mime-types": "patches/mime-types.patch",
