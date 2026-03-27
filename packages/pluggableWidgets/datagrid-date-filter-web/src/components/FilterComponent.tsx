@@ -1,8 +1,8 @@
-import { FilterSelector } from "@mendix/widget-plugin-filtering/controls";
 import classNames from "classnames";
 import { CSSProperties, ReactElement } from "react";
-import { FilterTypeEnum } from "../helpers/base-types";
+import { FilterSelector } from "@mendix/widget-plugin-filtering/controls";
 import { DatePicker, DatePickerProps } from "./DatePicker";
+import { FilterTypeEnum } from "../helpers/base-types";
 
 export interface FilterComponentProps extends DatePickerProps {
     id?: string;

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue with filter selector dropdown not choosing the best placement on small viewports.
+
 ## [3.8.1] - 2026-02-19
 
 ### Changed

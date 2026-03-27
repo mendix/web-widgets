@@ -42,7 +42,7 @@ export function useSelect(props: useSelectProps): ViewProps {
     const floatingMiddleware = useMemo(
         () => [
             flip({
-                fallbackStrategy: "initialPlacement"
+                fallbackStrategy: "bestFit"
             })
         ],
         []

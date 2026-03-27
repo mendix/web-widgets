@@ -1,3 +1,7 @@
+import { Big } from "big.js";
+import { AttributeMetaData, ListAttributeValue, SimpleFormatter } from "mendix";
+import { FilterCondition } from "mendix/filters";
+import { action, comparer, makeObservable } from "mobx";
 import { inputStateFromCond } from "@mendix/filter-commons/condition-utils";
 import {
     FilterFunctionBinary,
@@ -5,14 +9,10 @@ import {
     FilterFunctionNonValue
 } from "@mendix/filter-commons/typings/FilterFunctions";
 import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
-import { Big } from "big.js";
-import { AttributeMetaData, ListAttributeValue, SimpleFormatter } from "mendix";
-import { FilterCondition } from "mendix/filters";
-import { action, comparer, makeObservable } from "mobx";
-import { Number_InputFilterInterface } from "../../typings/InputFilterInterface";
 import { NumberArgument } from "./Argument";
 import { BaseInputFilterStore } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
+import { Number_InputFilterInterface } from "../../typings/InputFilterInterface";
 
 type NumFns = FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type Formatter = SimpleFormatter<Big>;

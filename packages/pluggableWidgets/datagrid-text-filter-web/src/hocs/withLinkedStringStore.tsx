@@ -1,8 +1,8 @@
+import { AttributeMetaData } from "mendix";
+import { FC } from "react";
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { StringStoreProvider } from "@mendix/widget-plugin-filtering/custom-filter-api/StringStoreProvider";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-import { AttributeMetaData } from "mendix";
-import { FC } from "react";
 import { StringFilterProps } from "../components/typings";
 
 interface RequiredProps {

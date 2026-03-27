@@ -1,8 +1,8 @@
 import { FilterAPI } from "../context";
-import { StringInputFilterStore } from "../stores/input/StringInputFilterStore";
-import { String_InputFilterInterface } from "../typings/InputFilterInterface";
 import { BaseStoreProvider } from "./BaseStoreProvider";
 import { FilterSpec } from "./typings";
+import { StringInputFilterStore } from "../stores/input/StringInputFilterStore";
+import { String_InputFilterInterface } from "../typings/InputFilterInterface";
 
 export class StringStoreProvider extends BaseStoreProvider<StringInputFilterStore> {
     protected _store: StringInputFilterStore;

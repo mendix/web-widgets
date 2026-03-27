@@ -1,11 +1,11 @@
-import { useDateSync } from "@mendix/widget-plugin-filtering/helpers/useDateSync";
-import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
+import { useDateSync } from "@mendix/widget-plugin-filtering/helpers/useDateSync";
+import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
+import { FilterComponent } from "./FilterComponent";
 import { DatagridDateFilterContainerProps } from "../../typings/DatagridDateFilterProps";
 import { useActionEvents } from "../helpers/useActionEvents";
 import { useSetup } from "../helpers/useSetup";
-import { FilterComponent } from "./FilterComponent";
 
 interface ContainerProps extends DatagridDateFilterContainerProps {
     filterStore: Date_InputFilterInterface;

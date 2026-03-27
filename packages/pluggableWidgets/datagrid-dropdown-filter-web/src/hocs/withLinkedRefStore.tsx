@@ -1,3 +1,5 @@
+import { AssociationMetaData, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
+import { ReactElement, useEffect } from "react";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { RefFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/RefFilterStore";
 import { FilterAPI, useFilterAPI } from "@mendix/widget-plugin-filtering/context";
@@ -6,8 +8,6 @@ import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
-import { AssociationMetaData, ListAttributeValue, ListExpressionValue, ListValue } from "mendix";
-import { ReactElement, useEffect } from "react";
 import { DatagridDropdownFilterContainerProps } from "../../typings/DatagridDropdownFilterProps";
 import { RefFilterProps } from "../components/typings";
 

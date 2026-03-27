@@ -1,10 +1,10 @@
+import { Locale } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { Date_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
-import { DatePickerController } from "../helpers/DatePickerController";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { Locale } from "date-fns";
-import { getLocale, pickerDateFormat, setupLocales } from "../utils/date-utils";
 import { FilterTypeEnum } from "./base-types";
+import { DatePickerController } from "../helpers/DatePickerController";
+import { getLocale, pickerDateFormat, setupLocales } from "../utils/date-utils";
 
 interface SetupProps {
     filterStore: Date_InputFilterInterface;

@@ -1,3 +1,5 @@
+import { observer } from "mobx-react-lite";
+import { ReactElement, useRef } from "react";
 import { useOnResetValueEvent, useOnSetValueEvent } from "@mendix/widget-plugin-external-events/hooks";
 import { StringFilterController } from "@mendix/widget-plugin-filtering/controllers/input/StringInputController";
 import { FilterFnList, InputWithFilters } from "@mendix/widget-plugin-filtering/controls";
@@ -5,8 +7,6 @@ import { useBasicSync } from "@mendix/widget-plugin-filtering/helpers/useBasicSy
 import { String_InputFilterInterface } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { observer } from "mobx-react-lite";
-import { ReactElement, useRef } from "react";
 import { DatagridTextFilterContainerProps, DefaultFilterEnum } from "../../typings/DatagridTextFilterProps";
 
 const filterDefs: Record<DefaultFilterEnum, string> = {
