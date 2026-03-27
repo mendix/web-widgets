@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added new options for readonly style: "Selected content only". This options will display text of only the selected items when widget is in readonly mode. This is also alters the previous readonly mode: "Content only", to now display text of all available items.
+
 ## [1.1.1] - 2026-02-24
 
 ### Fixed

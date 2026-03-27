@@ -57,7 +57,7 @@ export function RadioSelection({
             {options.map((optionId, index) => {
                 const isSelected = currentId === optionId;
                 const controlId = `${inputId}-${selector.controlType}-${index}`;
-                if (isReadOnly && !isSelected && readOnlyStyle === "text") {
+                if (isReadOnly && !isSelected && readOnlyStyle === "selectedText") {
                     return null;
                 }
 
@@ -68,7 +68,7 @@ export function RadioSelection({
                             "widget-checkbox-radio-selection-item-selected": isSelected
                         })}
                     >
-                        <If condition={!isReadOnly || readOnlyStyle !== "text"}>
+                        <If condition={!isReadOnly || readOnlyStyle !== "selectedText"}>
                             <input
                                 type={selector.controlType}
                                 id={controlId}

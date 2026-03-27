@@ -48,7 +48,9 @@ export function CheckboxSelection({
             {options.map((optionId, index) => {
                 const isSelected = currentIds.includes(optionId);
                 const checkboxId = `${inputId}-checkbox-${index}`;
-
+                if (isReadOnly && !isSelected && readOnlyStyle === "selectedText") {
+                    return null;
+                }
                 return (
                     <div
                         key={optionId}
