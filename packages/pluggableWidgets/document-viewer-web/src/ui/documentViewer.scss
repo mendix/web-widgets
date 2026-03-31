@@ -100,3 +100,58 @@ div.widget-document-viewer {
     margin-right: 5px;
     width: 5ch;
 }
+
+.widget-document-viewer-search-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small, 4px);
+    margin: 0 calc(-1 * var(--form-input-padding-x));
+    padding: var(--spacing-small, 4px) var(--spacing-large, 16px);
+    background-color: var(--gray-lighter);
+    border-bottom: 1px solid var(--border-color-default, #ced0d3);
+
+    .widget-document-viewer-search-input {
+        max-width: 200px;
+        padding: 3px 6px !important;
+    }
+
+    .widget-document-viewer-search-count {
+        min-width: 80px;
+        font-size: var(--font-size-small, 12px);
+        color: var(--text-color-secondary, #6c757d);
+        white-space: nowrap;
+    }
+}
+
+.react-pdf__Page__textContent {
+    .widget-document-viewer-search-match {
+        background-color: rgba(255, 210, 0, 0.45);
+        border-radius: 2px;
+        color: inherit;
+
+        &--current {
+            background-color: rgba(255, 140, 0, 0.75);
+            outline: 1px solid rgba(200, 100, 0, 0.8);
+        }
+    }
+}
+
+.widget-document-viewer-highlight-layer {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+
+    .widget-document-viewer-highlight {
+        position: absolute;
+        background-color: rgba(255, 210, 0, 0.4);
+        mix-blend-mode: multiply;
+        border-radius: 2px;
+        pointer-events: none;
+
+        &.current {
+            background-color: rgba(255, 140, 0, 0.6);
+            mix-blend-mode: multiply;
+            box-shadow: 0 0 0 1.5px rgba(200, 100, 0, 0.9);
+        }
+    }
+}
