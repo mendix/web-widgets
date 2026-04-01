@@ -91,6 +91,14 @@
                         <enumerationValue key="onhover">Hover</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="clickCloseOn" type="enumeration" defaultValue="onClickAnywhere">
+                    <caption>Close on</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="onClickAnywhere">Click anywhere</enumerationValue>
+                        <enumerationValue key="onClickOutside">Click outside</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="hoverCloseOn" type="enumeration" defaultValue="onHoverLeave">
                     <caption>Close on</caption>
                     <description />
