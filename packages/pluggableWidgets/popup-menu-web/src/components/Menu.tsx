@@ -26,6 +26,7 @@ export const Menu = forwardRef((props: MenuProps, propRef: RefObject<HTMLDivElem
                     ref={ref}
                     style={{ ...floatingStyles, ...props.style }}
                     {...getFloatingProps?.({ className: "popupmenu-menu" })}
+                    data-overlay-content
                 >
                     {menuOptions}
                 </ul>

@@ -19,6 +19,7 @@ exports[`Tooltip render DOM structure 1`] = `
     <div
       class="widget-tooltip-content"
       data-floating-ui-focusable=""
+      data-overlay-content="true"
       id=":r0:"
       role="tooltip"
       style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 0px);"
