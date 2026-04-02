@@ -48,6 +48,7 @@ export const Tooltip = (props: TooltipProps): ReactElement => {
                     ref={refs?.setFloating}
                     style={floatingStyles}
                     {...getFloatingProps?.()}
+                    data-overlay-content
                 >
                     {renderMethod === "text" ? textMessage : htmlMessage}
                     <div className={`widget-tooltip-arrow-${staticSide}`} ref={setArrowElement} style={arrowStyles} />
