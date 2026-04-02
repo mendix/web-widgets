@@ -33,6 +33,7 @@ exports[`Popup Menu renders popup menu 1`] = `
       <ul
         class="popupmenu-menu"
         data-floating-ui-focusable=""
+        data-overlay-content="true"
         id=":r0:"
         role="dialog"
         style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"

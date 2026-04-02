@@ -43,6 +43,7 @@ export function DatePicker(props: DatePickerProps): ReactElement {
             </span>
             <ReactDatePicker
                 {...staticProps}
+                popperContainer={({ children }) => (props.expanded ? <div data-overlay-content>{children}</div> : null)}
                 allowSameDay={false}
                 ariaLabelledBy={`${props.id}-label`}
                 autoFocus={false}
