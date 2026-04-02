@@ -253,6 +253,7 @@
                     <enumerationValues>
                         <enumerationValue key="bordered">Control</enumerationValue>
                         <enumerationValue key="text">Content only</enumerationValue>
+                        <enumerationValue key="selectedText">Selected content only</enumerationValue>
                     </enumerationValues>
                 </property>
             </propertyGroup>
