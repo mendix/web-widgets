@@ -7,7 +7,7 @@ import { isValidElement, ReactElement, ReactNode } from "react";
 import { renderTreeNodeHeaderIcon } from "../HeaderIcon";
 import { TreeNode, TreeNodeProps, TreeNodeState } from "../TreeNode";
 
-jest.mock("../../assets/loading-circle.svg", () => "loading-logo.svg");
+jest.mock("../../../assets/loading-circle.svg", () => "loading-logo.svg");
 
 interface TreeNodeItem {
     id: GUID;
