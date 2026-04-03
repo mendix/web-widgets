@@ -1,9 +1,14 @@
+import "@testing-library/jest-dom";
+import { act, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { Big } from "big.js";
+import { resetIdCounter } from "downshift";
+import { AttributeMetaData } from "mendix";
+import { createContext } from "react";
 import { requirePlugin } from "@mendix/widget-plugin-external-events/plugin";
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
+import { NumberInputFilterStore } from "@mendix/widget-plugin-filtering/stores/input/NumberInputFilterStore";
 import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
-import "@testing-library/jest-dom";
-import { AttributeMetaData } from "mendix";
-
 import {
     actionValue,
     dynamic,
@@ -11,13 +16,6 @@ import {
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { act, render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { createContext } from "react";
-
-import { NumberInputFilterStore } from "@mendix/widget-plugin-filtering/stores/input/NumberInputFilterStore";
-import { Big } from "big.js";
-import { resetIdCounter } from "downshift";
 import { DatagridNumberFilterContainerProps } from "../../../typings/DatagridNumberFilterProps";
 import DatagridNumberFilter from "../../DatagridNumberFilter";
 
