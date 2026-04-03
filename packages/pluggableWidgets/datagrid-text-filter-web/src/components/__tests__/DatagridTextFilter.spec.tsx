@@ -237,6 +237,19 @@ describe("Text Filter", () => {
                 expect(attribute.setValue).toHaveBeenLastCalledWith(undefined);
             });
 
+            it("keeps focus in filter controls when empty operator is selected", async () => {
+                render(<DatagridTextFilter {...commonProps} />);
+
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                const triggerButton = screen.getByRole("combobox", { name: "Equal" });
+
+                await user.click(triggerButton);
+                await user.click(screen.getByRole("option", { name: "Empty" }));
+
+                expect(screen.getByRole("textbox")).toBeDisabled();
+                expect(document.body).not.toHaveFocus();
+            });
+
             afterAll(() => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext.v2"] = undefined;
             });
