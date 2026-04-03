@@ -346,8 +346,13 @@ $root: ".widget-datagrid";
     position: relative;
 
     &-grid {
+        &-head,
+        &-body {
+            display: contents;
+        }
         &.table {
             display: grid !important;
+            grid-template-columns: var(--widgets-grid-template-columns);
             min-width: fit-content;
             margin-bottom: 0;
             &.infinite-loading {
@@ -487,104 +492,51 @@ $root: ".widget-datagrid";
 }
 
 .infinite-loading {
-    .widget-datagrid-grid-head {
-        // lock header width
-        // and prevent it from having own scrolling
-        // as scrolling is synchronized in JS
-        width: calc(var(--widgets-grid-width) - var(--widgets-grid-scrollbar-size));
-        overflow-x: hidden;
-    }
+    // infinite loading grid limits height to initiate scrolling
+    max-height: var(--widgets-grid-table-height);
+    overflow: auto;
 
     .widget-datagrid-grid-head {
-        &[data-scrolled-x="true"],
-        &[data-scrolled-y="true"] {
-            z-index: 1;
+        .th {
+            // make header sticky when grid is scrolled.
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            &:has([data-overlay-content]) {
+                // when there is popup open inside of the header cell, it should
+                // overlay other header elements, including ones from other grids.
+                z-index: 20;
+            }
         }
     }
 
-    .widget-datagrid-grid-head[data-scrolled-y="true"] {
+    &[data-scrolled-y] .widget-datagrid-grid-head .th:after {
         // add shadow under the header
         // implying that grid is scrolled vertically (there are rows hidden under header)
-        // the data attribute added in JS
-        box-shadow: 0 5px 5px -5px gray;
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
     }
+}
 
-    .widget-datagrid-grid-body {
-        // lock the size of the body
-        // and enable it to have own scrolling
-        // body is the leading element
-        // header scroll will be synced to match it
-        width: var(--widgets-grid-width);
-        overflow-y: auto;
-        max-height: var(--widgets-grid-body-height);
-    }
-
-    .widget-datagrid-grid-head[data-scrolled-x="true"]:after {
-        // add inner shadow to the left side of the grid
-        // implying that the grid is scrolled horizontally (there are rows hidden on the left)
-        // the data attribute added in JS
+// add shadows at the left to imply that grid is scrolled horizontally
+.widget-datagrid-content:has(.widget-datagrid-grid[data-scrolled-x]) {
+    position: relative; // needed to keep :after element positioned inside
+    &:after {
         content: "";
         position: absolute;
         left: 0;
-        width: 10px;
-        box-shadow: inset 5px 0 5px -5px gray;
-        top: 0;
+        z-index: 10;
         bottom: 0;
+        top: 0;
+        width: 5px;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.1), transparent);
+        pointer-events: none;
     }
-}
-
-// styles for browsers that don't support subgrid
-// if the browser doesn't support subgrid
-// fall back header an body the contents and apply grid template to the table
-.widget-datagrid-grid.table {
-    grid-template-columns: var(--widgets-grid-template-columns);
-}
-.widget-datagrid-grid-body,
-.widget-datagrid-grid-head {
-    display: contents;
-}
-
-// styles for modern browsers
-@supports (grid-template-rows: subgrid) {
-    .widget-datagrid-grid.table:not([data-has-scroll-x="true"]) {
-        grid-template-columns: var(--widgets-grid-template-columns);
-        .widget-datagrid-grid-body,
-        .widget-datagrid-grid-head {
-            display: grid;
-            min-width: 0;
-
-            // this property makes sure we align our own grid columns
-            // to the columns defined in the global grid
-            grid-template-columns: subgrid;
-
-            // ensure that we cover all columns of original top level grid
-            // so our own columns get aligned with the parent
-            grid-column: 1 / -1;
-        }
-    }
-
-    .widget-datagrid-grid.table[data-has-scroll-x="true"] {
-        // reset the columns defined on table level
-        // header and body will define their own instead
-        // this is needed to make body horizontally scrollable
-        grid-template-columns: initial;
-        .widget-datagrid-grid-head {
-            display: grid;
-            min-width: 0;
-
-            grid-template-columns: var(--widgets-grid-template-columns-head, var(--widgets-grid-template-columns));
-        }
-
-        .widget-datagrid-grid-body {
-            display: grid;
-
-            grid-template-columns: var(--widgets-grid-template-columns);
-        }
-    }
-}
-
-.grid-mock-header {
-    display: contents;
 }
 
 :where(#{$root}-paging-bottom, #{$root}-paging-top) {
@@ -680,4 +632,8 @@ $root: ".widget-datagrid";
             justify-content: center;
         }
     }
+}
+
+[data-overlay-content] {
+    z-index: 15;
 }
