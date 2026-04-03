@@ -8,9 +8,9 @@ test.afterEach("Cleanup session", async ({ page }) => {
 test.describe("combobox-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/combobox");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-page").waitFor();
         await page.click(".mx-name-actionButton1");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-page").waitFor();
     });
 
     test.describe("data source types", () => {

@@ -8,7 +8,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 test.describe("datagrid-web filtering single select", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/filtering-single");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-name-dataGrid21").waitFor();
     });
 
     test("compares with a screenshot baseline and checks if all datagrid and filter elements are rendered as expected", async ({

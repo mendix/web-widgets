@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test.afterEach("Cleanup session", async ({ page }) => {
@@ -9,7 +9,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 test.describe("language-selector-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-page").waitFor();
     });
 
     test("checks if all elements are rendered as expected", async ({ page }) => {
@@ -33,7 +33,7 @@ test.describe("language-selector-web", () => {
 
     test("checks accessibility violations", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-page").waitFor();
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag21aa"])
             .disableRules([

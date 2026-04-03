@@ -11,7 +11,6 @@ test.describe("datagrid-web selection", async () => {
         const singleSelectionCheckbox = page.locator(".mx-name-dgSingleSelectionCheckbox");
 
         await page.goto("/p/single-selection");
-        await page.waitForLoadState("networkidle");
         await expect(singleSelectionCheckbox).toBeVisible();
         await singleSelectionCheckbox.locator("input").first().click();
         await expect(page).toHaveScreenshot(`datagridSingleSelectionCheckbox.png`);
@@ -21,7 +20,6 @@ test.describe("datagrid-web selection", async () => {
         const singleSelectionRowClick = page.locator(".mx-name-dgSingleSelectionRowClick");
 
         await page.goto("/p/single-selection");
-        await page.waitForLoadState("networkidle");
         await expect(singleSelectionRowClick).toBeVisible();
         await singleSelectionRowClick
             .locator(".td")
@@ -34,7 +32,6 @@ test.describe("datagrid-web selection", async () => {
         const multiSelectionCheckbox = page.locator(".mx-name-dgMultiSelectionCheckbox");
 
         await page.goto("/p/multi-selection");
-        await page.waitForLoadState("networkidle");
         await expect(multiSelectionCheckbox).toBeVisible();
         await multiSelectionCheckbox.locator("input").first().click();
         await multiSelectionCheckbox.locator("input").nth(1).click();
@@ -45,7 +42,6 @@ test.describe("datagrid-web selection", async () => {
         const multiSelectionRowClick = page.locator(".mx-name-dgMultiSelectionRowClick");
 
         await page.goto("/p/multi-selection");
-        await page.waitForLoadState("networkidle");
         await expect(multiSelectionRowClick).toBeVisible();
         await multiSelectionRowClick.locator(".td").first().click({ force: true });
         await multiSelectionRowClick
@@ -57,8 +53,6 @@ test.describe("datagrid-web selection", async () => {
 
     test("checks single selection accessibility with sr-only text", async ({ page }) => {
         await page.goto("/p/single-selection");
-        await page.waitForLoadState("networkidle");
-
         const singleSelectionCheckbox = page.locator(".mx-name-dgSingleSelectionCheckbox");
         await singleSelectionCheckbox.waitFor();
 
@@ -88,8 +82,6 @@ test.describe("datagrid-web selection", async () => {
 
     test("checks accessibility violations", async ({ page }) => {
         await page.goto("/p/multi-selection");
-        await page.waitForLoadState("networkidle");
-
         await page.locator(".mx-name-dgMultiSelectionCheckbox").waitFor();
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag21aa"])
