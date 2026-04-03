@@ -2,10 +2,12 @@ import classNames from "classnames";
 import { observer } from "mobx-react-lite";
 import { PropsWithChildren, ReactElement } from "react";
 import { useDatagridConfig, useGridSizeStore, useGridStyle } from "../model/hooks/injection-hooks";
+import { useInfiniteControl } from "../model/hooks/useInfiniteControl";
 
 export const Grid = observer(function Grid(props: PropsWithChildren): ReactElement {
     const config = useDatagridConfig();
     const gridSizeStore = useGridSizeStore();
+    const [handleScroll] = useInfiniteControl();
 
     const style = useGridStyle().get();
     return (
@@ -17,6 +19,7 @@ export const Grid = observer(function Grid(props: PropsWithChildren): ReactEleme
             role="grid"
             style={style}
             ref={gridSizeStore.gridContainerRef}
+            onScroll={handleScroll}
         >
             {props.children}
         </div>
