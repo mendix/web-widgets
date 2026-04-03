@@ -13,7 +13,7 @@ import {
     useState
 } from "react";
 
-import { OpenNodeOnEnum, ShowIconEnum } from "../../typings/TreeNodeProps";
+import { OpenNodeOnEnum, ShowIconEnum } from "../../../typings/TreeNodeProps";
 
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
 import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
