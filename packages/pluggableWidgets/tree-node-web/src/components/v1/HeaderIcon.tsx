@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { ReactNode } from "react";
 
-import { ShowIconEnum } from "../../typings/TreeNodeProps";
-import loadingCircleSvg from "../assets/loading-circle.svg";
+import { ShowIconEnum } from "../../../typings/TreeNodeProps";
+import loadingCircleSvg from "../../assets/loading-circle.svg";
 
 import { ChevronIcon, CustomHeaderIcon } from "./Icons";
 import { TreeNodeProps, TreeNodeState } from "./TreeNode";
