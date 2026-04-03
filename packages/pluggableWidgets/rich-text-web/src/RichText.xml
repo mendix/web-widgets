@@ -171,6 +171,10 @@
                     <caption>Enable spell checking</caption>
                     <description />
                 </property>
+                <property key="linkValidation" type="boolean" defaultValue="true">
+                    <caption>Enable link URL validation</caption>
+                    <description>If enabled, only valid URLs will be accepted in links.</description>
+                </property>
                 <property key="defaultFontFamily" type="textTemplate" required="false">
                     <caption>Default font family</caption>
                     <description />

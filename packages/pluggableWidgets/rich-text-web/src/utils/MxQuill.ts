@@ -36,12 +36,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * this file overrides Quill instance.
  * allowing us to override certain function that is not easy to extend.
  */
-import { type Blot, ParentBlot } from "parchment";
+import { type Blot, ParentBlot, ScrollBlot } from "parchment";
 import Quill, { EmitterSource, QuillOptions } from "quill";
 import TextBlot, { escapeText } from "quill/blots/text";
 import { Delta, Op } from "quill/core";
 import Editor from "quill/core/editor";
+import { CustomFontsType } from "../../typings/RichTextProps";
+import MxBlock from "./formats/block";
 import { STANDARD_LIST_TYPES } from "./formats/customList";
+import { FontStyleAttributor, formatCustomFonts } from "./formats/fonts";
+import CustomLink, { CustomLinkNoValidation } from "./formats/link";
 
 interface ListItem {
     child: Blot;
@@ -61,6 +65,9 @@ class MxEditor extends Editor {
      * https://github.com/slab/quill/blob/main/packages/quill/src/core/editor.ts
      */
     getHTML(index: number, length: number): string {
+        if (this.isBlank()) {
+            return "";
+        }
         const [line, lineOffset] = this.scroll.line(index);
         if (line) {
             const lineLength = line.length();
@@ -74,8 +81,15 @@ class MxEditor extends Editor {
     }
 }
 
+export interface MxQuillModulesOptions {
+    fonts: CustomFontsType[];
+    links: {
+        validate: boolean;
+    };
+}
+
 /**
- * Extension's of quill to allow us replacing the editor instance.
+ * Extension's of quill to allow us to replace the editor instance.
  */
 export default class MxQuill extends Quill {
     constructor(container: HTMLElement | string, options: QuillOptions = {}) {
@@ -86,6 +100,18 @@ export default class MxQuill extends Quill {
     setContents(dlta: Delta | Op[], source?: EmitterSource): Delta {
         super.setContents(new Delta(), Quill.sources.SILENT);
         return this.updateContents(this.getContents().transform(dlta as Delta, false), source);
+    }
+
+    registerCustomModules(props: MxQuillModulesOptions): void {
+        const { fonts, links } = props;
+        const customFonts = formatCustomFonts(fonts);
+        const FontStyle = new FontStyleAttributor(customFonts);
+        Quill.register(FontStyle, true);
+        if (links.validate) {
+            Quill.register(CustomLink, true);
+        } else {
+            Quill.register(CustomLinkNoValidation, true);
+        }
     }
 }
 
@@ -126,6 +152,28 @@ function getExpectedType(type: string | undefined, indent: number): string {
     const expectedIndex = (currentIndex + indent) % 3;
     const expectedType = ListSequence[expectedIndex] ?? type;
     return expectedType === "ordered" ? "decimal" : expectedType === "bullet" ? "disc" : expectedType;
+}
+
+// removes empty tail block that quill adds at the end of document
+// which causes extra newline when copying content with trailing newline
+function findEmptyTailBlock(blot: Blot): Blot | null {
+    let skippedBlots = null;
+
+    if (blot instanceof ScrollBlot && blot.statics.blotName === "scroll" && !blot.parent) {
+        if (MxBlock.IsMxBlock(blot.children.tail) && (blot.children.tail as MxBlock).isEmptyTailBlock()) {
+            if (blot.children.tail.prev) {
+                if (
+                    MxBlock.IsMxBlock(blot.children.tail.prev) &&
+                    (blot.children.tail.prev as MxBlock).isEmptyTailBlock()
+                ) {
+                    skippedBlots = blot.children.tail;
+                }
+            } else {
+                skippedBlots = blot.children.tail;
+            }
+        }
+    }
+    return skippedBlots;
 }
 
 /**
@@ -193,7 +241,11 @@ function convertHTML(blot: Blot, index: number, length: number, isRoot = false):
             return convertListHTML(items, -1, []);
         }
         const parts: string[] = [];
+        const skippedBlots = findEmptyTailBlock(blot);
         blot.children.forEachAt(index, length, (child, offset, childLength) => {
+            if (child === skippedBlots) {
+                return;
+            }
             parts.push(convertHTML(child, offset, childLength));
         });
         if (isRoot || blot.statics.blotName === "list") {
