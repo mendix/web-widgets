@@ -6,25 +6,25 @@ import { VIRTUAL_SCROLLING_OFFSET } from "../stores/GridSize.store";
 export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | undefined] {
     const gridSizeStore = useGridSizeStore();
 
-    const isVisible = useOnScreen(gridSizeStore.gridBodyRef as RefObject<HTMLElement>);
+    const isVisible = useOnScreen(gridSizeStore.gridContainerRef as RefObject<HTMLElement>);
 
-    const trackBodyScrolling = useCallback(
+    const trackTableScrolling = useCallback(
         (e: UIEvent<HTMLDivElement>) => {
             const target = e.target as HTMLElement;
-            const head = gridSizeStore.gridHeaderRef.current;
-            if (head) {
-                // synchronize header position to the body as they are decoupled
-                // we don't use state to optimize speed as we
-                // don't want a re-render.
-                head.scrollTo({ left: target.scrollLeft });
-
+            const container = gridSizeStore.gridContainerRef.current;
+            if (container) {
                 // this is cosmetic, needed to provide nice shadows when body is scrolled
-                head.dataset.scrolledY = target.scrollTop > 0 ? "true" : "false";
-                head.dataset.scrolledX = target.scrollLeft > 0 ? "true" : "false";
+                if (target.scrollTop > 0) {
+                    container.dataset.scrolledY = "true";
+                } else {
+                    delete container.dataset.scrolledY;
+                }
+                if (target.scrollLeft > 0) {
+                    container.dataset.scrolledX = "true";
+                } else {
+                    delete container.dataset.scrolledX;
+                }
             }
-
-            // we need to determine scrollbar width to calculate header size correctly in css
-            gridSizeStore.setScrollBarSize(target.offsetWidth - target.clientWidth);
 
             /**
              * In Windows OS the result of first expression returns a non integer and result in never loading more, require floor to solve.
@@ -42,26 +42,9 @@ export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | 
     );
 
     useEffect(() => {
-        const timer = setTimeout(() => isVisible && gridSizeStore.lockGridBodyHeight(), 100);
+        const timer = setTimeout(() => isVisible && gridSizeStore.lockGridContainerHeight(), 100);
         return () => clearTimeout(timer);
     });
 
-    useEffect(() => {
-        const observeTarget = gridSizeStore.gridContainerRef.current;
-        if (!gridSizeStore.hasVirtualScrolling || !observeTarget) return;
-
-        const resizeObserver = new ResizeObserver(entries => {
-            for (const entry of entries) {
-                gridSizeStore.setGridWidth(entry.contentRect.width);
-            }
-        });
-
-        resizeObserver.observe(observeTarget);
-
-        return () => {
-            resizeObserver.unobserve(observeTarget);
-        };
-    }, [gridSizeStore]);
-
-    return [gridSizeStore.hasVirtualScrolling ? trackBodyScrolling : undefined];
+    return [gridSizeStore.hasVirtualScrolling ? trackTableScrolling : undefined];
 }
