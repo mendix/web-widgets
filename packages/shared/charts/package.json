@@ -34,8 +34,10 @@
         "test": "jest"
     },
     "dependencies": {
+        "@types/jest": "^30.0.0",
         "classnames": "^2.5.1",
         "deepmerge": "^4.3.1",
+        "mobx": "6.12.3",
         "plotly.js-dist-min": "^3.0.0",
         "react-plotly.js": "^2.6.0"
     },
@@ -45,6 +47,7 @@
         "@mendix/tsconfig-web-widgets": "workspace:^",
         "@mendix/widget-plugin-component-kit": "workspace:*",
         "@mendix/widget-plugin-hooks": "workspace:*",
+        "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*",
         "@rollup/plugin-commonjs": "^28.0.3",
