@@ -35,7 +35,7 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
                     <div className="widget-datagrid-pb-middle">
                         <button
                             className="btn btn-primary widget-datagrid-load-more"
-                            onClick={() => paging.setPage(n => n + 1)}
+                            onClick={() => paging.setPage((n: number) => n + 1)}
                             tabIndex={0}
                         >
                             {loadMoreButtonCaption}
