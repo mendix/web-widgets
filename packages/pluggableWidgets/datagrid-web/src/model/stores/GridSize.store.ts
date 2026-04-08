@@ -17,18 +17,21 @@ export class GridSizeStore {
     columnSizes?: number[];
 
     private lockedAtPageSize?: number;
+    private lockedAtColumnCount?: number;
 
     constructor(
         private readonly hasMoreItemsAtom: ComputedAtom<boolean | undefined>,
         private readonly paginationConfig: PaginationConfig,
         private readonly setPageAction: SetPageAction,
-        private readonly pageSizeAtom: ComputedAtom<number>
+        private readonly pageSizeAtom: ComputedAtom<number>,
+        private readonly visibleColumnsCountAtom: ComputedAtom<number>
     ) {
-        makeAutoObservable<GridSizeStore, "lockedAtPageSize">(this, {
+        makeAutoObservable<GridSizeStore, "lockedAtPageSize" | "lockedAtColumnCount">(this, {
             gridContainerRef: false,
             gridBodyRef: false,
             gridHeaderRef: false,
             lockedAtPageSize: false,
+            lockedAtColumnCount: false,
 
             scrollBarSize: observable,
             setScrollBarSize: action,
@@ -114,6 +117,14 @@ export class GridSizeStore {
             this.lockedAtPageSize = undefined;
         }
 
+        // Reset the locked height when visible column count changes so layout
+        // is recomputed for the new column widths (rows may reflow).
+        const currentColumnCount = this.visibleColumnsCountAtom.get();
+        if (this.gridBodyHeight !== undefined && this.lockedAtColumnCount !== currentColumnCount) {
+            this.gridBodyHeight = undefined;
+            this.lockedAtColumnCount = undefined;
+        }
+
         const gridBody = this.gridBodyRef.current;
         if (!gridBody || this.gridBodyHeight !== undefined) {
             return;
@@ -135,5 +146,6 @@ export class GridSizeStore {
         const overflows = gridBody.scrollHeight > viewportHeight;
         this.gridBodyHeight = viewportHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
         this.lockedAtPageSize = currentPageSize;
+        this.lockedAtColumnCount = this.visibleColumnsCountAtom.get();
     }
 }
