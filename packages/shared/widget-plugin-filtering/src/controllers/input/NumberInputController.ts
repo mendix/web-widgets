@@ -63,6 +63,7 @@ export class NumberFilterController {
         this.filter.filterFunction = fn;
         if (fn === "empty" || fn === "notEmpty") {
             this.input1.setValue("");
+            return;
         }
         this.inputRef.current?.focus();
     };

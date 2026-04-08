@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - We fixed an issue with filter selector dropdown not choosing the best placement on small viewports.
+- We fixed an issue where selecting Empty or Not empty could cause keyboard focus to jump away from the filter controls.
 
 ## [3.9.0] - 2026-03-23
 
