@@ -1,37 +1,34 @@
 import { useCallback, useMemo, useState } from "react";
-import { fallback, PlaygroundDataV1 } from "@mendix/shared-charts/main";
+import { PlaygroundDataV2 } from "@mendix/shared-charts/main";
 import { ComposedEditorProps } from "../components/ComposedEditor";
 import { SelectOption } from "../components/Sidebar";
 
-type Config = object;
-
-type Data = object;
-
-type Layout = object;
+type ConfigKey = "layout" | "config" | number;
 
 const irrelevantSeriesKeys = ["x", "y", "z", "customSeriesOptions", "dataSourceItems"];
 
-type ConfigKey = "layout" | "config" | number;
-
-function getEditorCode({ store }: PlaygroundDataV1, key: ConfigKey): string {
-    let value = typeof key === "number" ? store.state.data.at(key) : store.state[key];
-    value = value ?? '{ "error": "value is unavailable" }';
-    return value;
+function getEditorCode({ store }: PlaygroundDataV2, key: ConfigKey): string {
+    if (key === "layout") {
+        return store.layoutJson ?? '{ "error": "value is unavailable" }';
+    }
+    if (key === "config") {
+        return store.configJson ?? '{ "error": "value is unavailable" }';
+    }
+    return store.dataJson.at(key) ?? '{ "error": "value is unavailable" }';
 }
 
-function getModelerCode(data: PlaygroundDataV1, key: ConfigKey): Partial<Data> | Partial<Layout> | Partial<Config> {
+function getModelerCode(data: PlaygroundDataV2, key: ConfigKey): object {
     if (key === "layout") {
         return data.layoutOptions;
     }
     if (key === "config") {
         return data.configOptions;
     }
-
-    const entries = Object.entries(data.plotData.at(key) ?? {}).filter(([key]) => !irrelevantSeriesKeys.includes(key));
-    return Object.fromEntries(entries) as Partial<Data>;
+    const entries = Object.entries(data.plotData.at(key) ?? {}).filter(([k]) => !irrelevantSeriesKeys.includes(k));
+    return Object.fromEntries(entries);
 }
 
-export function useComposedEditorController(data: PlaygroundDataV1): ComposedEditorProps {
+export function useV2EditorController(data: PlaygroundDataV2): ComposedEditorProps {
     const [key, setKey] = useState<ConfigKey>("layout");
 
     const onViewSelectChange = (value: string): void => {
@@ -59,9 +56,13 @@ export function useComposedEditorController(data: PlaygroundDataV1): ComposedEdi
     const onEditorChange = useCallback(
         (value: string): void => {
             try {
-                const json = fallback(value);
-                JSON.parse(value);
-                store.set(key, json);
+                if (key === "layout") {
+                    store.setLayout(JSON.parse(value));
+                } else if (key === "config") {
+                    store.setConfig(JSON.parse(value));
+                } else {
+                    store.setDataAt(key, value);
+                }
                 // eslint-disable-next-line no-empty
             } catch {}
         },
