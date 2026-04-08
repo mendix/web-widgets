@@ -1,4 +1,4 @@
-import { autorun, makeAutoObservable, observable } from "mobx";
+import { action, autorun, makeAutoObservable, observable } from "mobx";
 import { SetupComponentHost, SetupComponent, disposeBatch, ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 
 export type JSONString = string;
@@ -38,7 +38,12 @@ export class EditableChartStore implements SetupComponent {
         makeAutoObservable(this, {
             layout: observable.ref,
             config: observable.ref,
-            data: observable.ref
+            data: observable.ref,
+            setup: false,
+            setLayout: action,
+            setConfig: action,
+            setDataAt: action,
+            reset: action
         });
     }
 
