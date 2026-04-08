@@ -1,25 +1,20 @@
 import { autorun, makeAutoObservable, observable } from "mobx";
-import {
-    SetupComponentHost,
-    SetupComponent,
-    DerivedPropsGate,
-    disposeBatch
-} from "@mendix/widget-plugin-mobx-kit/main";
+import { SetupComponentHost, SetupComponent, disposeBatch, ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 
 export type JSONString = string;
 
-interface ChartDataStoreProps {
+export interface EditableChartStoreProps {
     layout: Record<string, unknown>;
     config: Record<string, unknown>;
     data: Array<Record<string, unknown>>;
 }
 
 /**
- * ChartDataStore holds the current layout, configuration, and data for a chart.
+ * EditableChartStore holds the current layout, configuration, and data for a chart.
  * These fields are made observable by MobX so any component relying on them
  * will automatically react to changes.
  */
-export class ChartDataStore implements SetupComponent {
+export class EditableChartStore implements SetupComponent {
     /**
      * Current layout configuration.
      */
@@ -37,7 +32,7 @@ export class ChartDataStore implements SetupComponent {
 
     constructor(
         host: SetupComponentHost,
-        private gate: DerivedPropsGate<ChartDataStoreProps>
+        private props: ComputedAtom<EditableChartStoreProps>
     ) {
         host.add(this);
         makeAutoObservable(this, {
@@ -48,18 +43,16 @@ export class ChartDataStore implements SetupComponent {
     }
 
     setup(): (() => void) | void {
-        const [add, dispose] = disposeBatch();
+        const [add, disposeAll] = disposeBatch();
 
-        autorun(() => {
-            const props = this.props;
-            this.setLayout(props.layout);
-            this.setConfig(props.config);
-            this.setData(props.data);
-        });
-    }
+        add(
+            autorun(() => {
+                const props = this.props.get();
+                this.reset(props.layout, props.config, props.data);
+            })
+        );
 
-    get props(): ChartDataStoreProps {
-        return this.gate.props;
+        return disposeAll;
     }
 
     /**
@@ -103,8 +96,8 @@ export class ChartDataStore implements SetupComponent {
      * JSON string representation of the current data array.
      * @returns Stringified data array.
      */
-    get dataJson(): JSONString {
-        return JSON.stringify(this.data);
+    get dataJson(): JSONString[] {
+        return this.data.map(item => JSON.stringify(item));
     }
 
     /**
@@ -112,7 +105,7 @@ export class ChartDataStore implements SetupComponent {
      * Throws if the input is not an array.
      * @param data - New data array to set
      */
-    setData(data: Array<Record<string, unknown>>): void {
+    private setData(data: Array<Record<string, unknown>>): void {
         if (!Array.isArray(data)) {
             throw new Error(`setData expects an array, got ${typeof data}`);
         }

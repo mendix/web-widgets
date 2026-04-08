@@ -1,7 +1,5 @@
-import { EditorStoreState } from "@mendix/shared-charts/main";
 import deepmerge from "deepmerge";
 import { Config, Data, Layout } from "plotly.js-dist-min";
-import { ChartProps } from "../components/PlotlyChart";
 
 // Plotly-specific deep merge: arrays are replaced (not concatenated) to match Plotly expectations
 const deepmergePlotly = <T extends object>(target: T, source: T): T =>
@@ -87,29 +85,4 @@ export function parseConfig(configOptions?: string): Partial<Config> {
         console.error("Error parsing chart config:", error);
         return {};
     }
-}
-
-export function mergeChartProps(chartProps: ChartProps, editorState: EditorStoreState): ChartProps {
-    return {
-        ...chartProps,
-        config: deepmergePlotly(chartProps.config, parseConfig(editorState.config)),
-        layout: deepmergePlotly(chartProps.layout, parseLayout(editorState.layout)),
-        data: chartProps.data.map((trace, index) => {
-            let stateTrace: Data | null = null;
-            try {
-                if (!editorState.data || !editorState.data[index]) {
-                    return trace;
-                }
-                stateTrace = JSON.parse(editorState.data[index]);
-            } catch {
-                console.warn(`Editor props for trace(${index}) is not a valid JSON:${editorState.data[index]}`);
-                console.warn("Please make sure the props is a valid JSON string.");
-            }
-            // deepmerge can't handle null, so return trace unchanged if stateTrace is null/undefined
-            if (stateTrace == null || typeof stateTrace !== "object") {
-                return trace;
-            }
-            return deepmergePlotly(trace, stateTrace);
-        })
-    };
 }

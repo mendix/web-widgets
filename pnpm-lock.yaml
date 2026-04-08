@@ -1094,6 +1094,9 @@ importers:
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.3.1(react@18.3.1))(react-native@0.82.0(@babel/core@7.29.0)(@types/react@19.2.2)(react@18.3.1))(react@18.3.1)
       plotly.js-dist-min:
         specifier: ^3.0.0
         version: 3.1.1
