@@ -1,12 +1,10 @@
 import Plotly, { Config, Data, Layout, PlotlyHTMLElement } from "plotly.js-dist-min";
 const { newPlot, purge, react } = Plotly;
 
-export interface ChartProps {
+export interface PlotlyChartProps {
     data: Data[];
     layout: Partial<Layout>;
     config: Partial<Config>;
-    width: number;
-    height: number;
     onClick?: (data: any) => void;
 }
 
@@ -17,7 +15,7 @@ export class PlotlyChart {
     private layout: Partial<Layout>;
     private config: Partial<Config>;
 
-    constructor(element: HTMLElement, props: ChartProps) {
+    constructor(element: HTMLElement, props: PlotlyChartProps) {
         this.element = element;
         this.data = props.data;
         this.layout = props.layout;
@@ -25,7 +23,7 @@ export class PlotlyChart {
         this.init(props);
     }
 
-    private init(props: ChartProps): void {
+    private init(props: PlotlyChartProps): void {
         newPlot(this.element, this.data, this.layout, this.config)
             .then(plotlyElement => {
                 this.plotlyElement = plotlyElement;
@@ -38,7 +36,7 @@ export class PlotlyChart {
             });
     }
 
-    update(props: Partial<ChartProps>): void {
+    update(props: Partial<PlotlyChartProps>): void {
         if (props.data) {
             this.data = props.data;
         }

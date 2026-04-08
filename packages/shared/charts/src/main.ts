@@ -12,6 +12,8 @@ export { setupBasicSeries } from "./utils/setupBasicSeries";
 export { getPlaygroundContext, usePlaygroundContext };
 import { getPlaygroundContext, usePlaygroundContext } from "./helpers/playground-context";
 export * from "./helpers/useEditorStore";
+export { EditableChartStore } from "./model/stores/EditableChart.store";
+export type { EditableChartStoreProps } from "./model/stores/EditableChart.store";
 
 // Rollup does "tree shaking" too well. This results
 // in situation in which some exported members gets removed
