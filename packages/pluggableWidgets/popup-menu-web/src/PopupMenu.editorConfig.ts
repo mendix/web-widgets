@@ -1,4 +1,11 @@
 import {
+    changePropertyIn,
+    hidePropertyIn,
+    Problem,
+    Properties,
+    transformGroupsIntoTabs
+} from "@mendix/pluggable-widgets-tools";
+import {
     ContainerProps,
     DropZoneProps,
     RowLayoutProps,
@@ -7,13 +14,6 @@ import {
     StructurePreviewProps,
     TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import {
-    changePropertyIn,
-    hidePropertyIn,
-    Problem,
-    Properties,
-    transformGroupsIntoTabs
-} from "@mendix/pluggable-widgets-tools";
 
 import { BasicItemsPreviewType, PopupMenuPreviewProps } from "../typings/PopupMenuProps";
 
