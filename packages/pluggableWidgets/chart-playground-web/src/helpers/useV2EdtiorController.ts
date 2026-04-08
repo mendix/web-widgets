@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState } from "react";
+import { observable, reaction, runInAction } from "mobx";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { PlaygroundDataV2 } from "@mendix/shared-charts/main";
 import { ComposedEditorProps } from "../components/ComposedEditor";
 import { SelectOption } from "../components/Sidebar";
@@ -7,7 +8,7 @@ type ConfigKey = "layout" | "config" | number;
 
 const irrelevantSeriesKeys = ["x", "y", "z", "customSeriesOptions", "dataSourceItems"];
 
-function getEditorCode({ store }: PlaygroundDataV2, key: ConfigKey): string {
+function getEditorCode(store: PlaygroundDataV2["store"], key: ConfigKey): string {
     if (key === "layout") {
         return store.layoutJson ?? '{ "error": "value is unavailable" }';
     }
@@ -28,38 +29,56 @@ function getModelerCode(data: PlaygroundDataV2, key: ConfigKey): object {
     return Object.fromEntries(entries);
 }
 
-export function useV2EditorController(data: PlaygroundDataV2): ComposedEditorProps {
+function prettifyJson(json: string): string {
+    try {
+        return JSON.stringify(JSON.parse(json), null, 2);
+    } catch {
+        return '{ "error": "invalid JSON" }';
+    }
+}
+
+export function useV2EditorController(context: PlaygroundDataV2): ComposedEditorProps {
     const [key, setKey] = useState<ConfigKey>("layout");
+    const keyBox = useState(() => observable.box<ConfigKey>(key))[0];
 
     const onViewSelectChange = (value: string): void => {
+        let newKey: ConfigKey;
         if (value === "layout" || value === "config") {
-            setKey(value);
+            newKey = value;
         } else {
             const n = parseInt(value, 10);
-            setKey(isNaN(n) ? "layout" : n);
+            newKey = isNaN(n) ? "layout" : n;
         }
+        setKey(newKey);
+        runInAction(() => keyBox.set(newKey));
     };
+
+    const store = context.store;
 
     const options: SelectOption[] = useMemo(() => {
         return [
             { name: "Layout", value: "layout", isDefaultSelected: true },
-            ...data.plotData.map((trace, index) => ({
-                name: trace.name || `trace ${index}`,
+            ...store.data.map((trace, index) => ({
+                name: (trace.name as string) || `trace ${index}`,
                 value: index,
                 isDefaultSelected: false
             })),
             { name: "Configuration", value: "config", isDefaultSelected: false }
         ];
-    }, [data.plotData]);
+    }, [store.data]);
 
-    const store = data.store;
+    const code = prettifyJson(getEditorCode(store, key));
+    const [input, setInput] = useState(() => code);
     const onEditorChange = useCallback(
         (value: string): void => {
+            setInput(value);
             try {
+                // Parse string before sending to store
+                const obj = JSON.parse(value);
                 if (key === "layout") {
-                    store.setLayout(JSON.parse(value));
+                    store.setLayout(obj);
                 } else if (key === "config") {
-                    store.setConfig(JSON.parse(value));
+                    store.setConfig(obj);
                 } else {
                     store.setDataAt(key, value);
                 }
@@ -69,12 +88,21 @@ export function useV2EditorController(data: PlaygroundDataV2): ComposedEditorPro
         [store, key]
     );
 
+    useEffect(
+        () =>
+            reaction(
+                () => getEditorCode(store, keyBox.get()),
+                code => setInput(prettifyJson(code))
+            ),
+        [store, keyBox]
+    );
+
     return {
         viewSelectValue: key.toString(),
         viewSelectOptions: options,
         onViewSelectChange,
-        value: getEditorCode(data, key),
-        modelerCode: useMemo(() => JSON.stringify(getModelerCode(data, key), null, 2), [data, key]),
+        value: input,
+        modelerCode: useMemo(() => JSON.stringify(getModelerCode(context, key), null, 2), [context, key]),
         onEditorChange
     };
 }

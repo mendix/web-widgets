@@ -56,8 +56,8 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
             type: "editor.data.v2",
             store,
             plotData: store.data,
-            layoutOptions: store.layout,
-            configOptions: store.config
+            layoutOptions: {},
+            configOptions: {}
         })
     ).get();
 
