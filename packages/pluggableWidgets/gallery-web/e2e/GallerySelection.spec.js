@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test.afterEach("Cleanup session", async ({ page }) => {
@@ -10,7 +10,7 @@ test.describe("gallery-web", () => {
     test.describe("capabilities: selection", () => {
         test("applies single select", async ({ page }) => {
             await page.goto("/p/single-selection");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
             await expect(page.locator(".mx-name-gallery1")).toBeVisible();
             await page.locator(".mx-name-image1").first().click();
             await page.locator(".mx-name-feedback1").isHidden();
@@ -19,7 +19,7 @@ test.describe("gallery-web", () => {
 
         test("applies multi select", async ({ page }) => {
             await page.goto("/p/multi-selection");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
             await expect(page.locator(".mx-name-gallery1")).toBeVisible();
             await page.keyboard.down("Shift");
             await page.locator(".mx-name-image1").nth(0).click();
@@ -33,7 +33,7 @@ test.describe("gallery-web", () => {
     test.describe("a11y testing:", () => {
         test("checks accessibility violations", async ({ page }) => {
             await page.goto("/p/multi-selection");
-            await page.waitForLoadState("networkidle");
+            await page.locator(".mx-page").waitFor();
 
             await page.locator(".mx-name-gallery1").waitFor();
             const accessibilityScanResults = await new AxeBuilder({ page })

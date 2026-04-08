@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test.afterEach("Cleanup session", async ({ page }) => {
@@ -13,7 +13,7 @@ function getTreeNodeHeaders(page) {
 test.describe("capabilities: expand", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-page").waitFor();
     });
 
     test("expands a node", async ({ page }) => {
@@ -33,7 +33,7 @@ test.describe("capabilities: expand", () => {
 test.describe("capabilities: collapse", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-page").waitFor();
     });
 
     test("collapses a node", async ({ page }) => {
@@ -59,7 +59,7 @@ test.describe("capabilities: collapse", () => {
 test.describe("a11y testing:", () => {
     test("checks accessibility violations", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await page.locator(".mx-page").waitFor();
 
         await page.locator(".mx-name-treeNode1").waitFor();
         const accessibilityScanResults = await new AxeBuilder({ page })
