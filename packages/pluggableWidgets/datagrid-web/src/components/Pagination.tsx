@@ -13,12 +13,12 @@ export const Pagination = observer(function Pagination(): ReactNode {
             canNextPage={paging.hasMoreItems}
             canPreviousPage={paging.currentPage !== 0}
             gotoPage={page => paging.setPage(page)}
-            nextPage={() => paging.setPage(n => n + 1)}
+            nextPage={() => paging.setPage((n: number) => n + 1)}
             numberOfItems={paging.totalCount}
             page={paging.currentPage}
             pageSize={paging.pageSize}
             showPagingButtons={paging.showPagingButtons}
-            previousPage={() => paging.setPage(n => n - 1)}
+            previousPage={() => paging.setPage((n: number) => n - 1)}
             pagination={paging.pagination}
         />
     );

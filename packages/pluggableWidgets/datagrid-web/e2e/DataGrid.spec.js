@@ -195,6 +195,32 @@ test.describe("visual testing:", () => {
     });
 });
 
+test.describe("virtual scrolling + column hiding", () => {
+    test("scrollbar remains after hiding a column", async ({ page }) => {
+        await page.goto("/p/filtering-multi");
+        await page.waitForLoadState("networkidle");
+
+        const grid = page.locator(".mx-name-dataGrid21");
+        await grid.waitFor({ state: "visible", timeout: 15000 });
+
+        const gridBody = grid.locator(".widget-datagrid-grid-body");
+
+        const before = await gridBody.evaluate(el => ({
+            hasScrollbar: el.scrollHeight > el.clientHeight
+        }));
+        expect(before.hasScrollbar).toBe(true);
+
+        await grid.locator(".column-selector-button").click();
+        await page.locator(".column-selectors > li").first().click();
+        await page.waitForTimeout(300);
+
+        const after = await gridBody.evaluate(el => ({
+            hasScrollbar: el.scrollHeight > el.clientHeight
+        }));
+        expect(after.hasScrollbar).toBe(true);
+    });
+});
+
 test.describe("a11y testing:", () => {
     test("checks accessibility violations", async ({ page }) => {
         await page.goto("/");

@@ -14,18 +14,21 @@ export class GridSizeStore {
     gridContainerHeight?: number;
 
     private lockedAtPageSize?: number;
+    private lockedAtColumnCount?: number;
 
     constructor(
         private readonly hasMoreItemsAtom: ComputedAtom<boolean | undefined>,
         private readonly paginationConfig: PaginationConfig,
         private readonly setPageAction: SetPageAction,
-        private readonly pageSizeAtom: ComputedAtom<number>
+        private readonly pageSizeAtom: ComputedAtom<number>,
+        private readonly visibleColumnsCountAtom: ComputedAtom<number>
     ) {
-        makeAutoObservable<GridSizeStore, "lockedAtPageSize">(this, {
+        makeAutoObservable<GridSizeStore, "lockedAtPageSize" | "lockedAtColumnCount">(this, {
             gridContainerRef: false,
             gridBodyRef: false,
             gridHeaderRef: false,
             lockedAtPageSize: false,
+            lockedAtColumnCount: false,
 
             gridContainerHeight: observable,
             lockGridContainerHeight: action
@@ -88,6 +91,14 @@ export class GridSizeStore {
             this.lockedAtPageSize = undefined;
         }
 
+        // Reset the locked height when visible column count changes so layout
+        // is recomputed for the new column widths (rows may reflow).
+        const currentColumnCount = this.visibleColumnsCountAtom.get();
+        if (this.gridContainerHeight !== undefined && this.lockedAtColumnCount !== currentColumnCount) {
+            this.gridContainerHeight = undefined;
+            this.lockedAtColumnCount = undefined;
+        }
+
         const gridContainer = this.gridContainerRef.current;
         if (!gridContainer || this.gridContainerHeight !== undefined) {
             return;
@@ -112,5 +123,6 @@ export class GridSizeStore {
         const overflows = gridContainer.scrollHeight > fullHeight;
         this.gridContainerHeight = fullHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
         this.lockedAtPageSize = currentPageSize;
+        this.lockedAtColumnCount = this.visibleColumnsCountAtom.get();
     }
 }
