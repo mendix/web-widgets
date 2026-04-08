@@ -1,12 +1,35 @@
-import { EditorStoreState, initStateFromProps, PlaygroundData, useEditorStore } from "@mendix/shared-charts/main";
-import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
-import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
-import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
+import { computed } from "mobx";
 import { CSSProperties, Ref, RefCallback, useEffect } from "react";
 import { CustomChartControllerHost } from "src/controllers/CustomChartControllerHost";
 import { mergeRefs } from "src/utils/mergeRefs";
+import { PlaygroundData } from "@mendix/shared-charts/main";
+import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { CustomChartContainerProps } from "../../typings/CustomChartProps";
 import { ControllerProps } from "../controllers/typings";
+
+// TODO: replace with get-dimensions from widget-plugin-platform
+function getContainerStyle(
+    width: number,
+    widthUnit: CustomChartContainerProps["widthUnit"],
+    height: number,
+    heightUnit: CustomChartContainerProps["heightUnit"]
+): CSSProperties {
+    const style: CSSProperties = {
+        width: widthUnit === "percentage" ? `${width}%` : `${width}px`
+    };
+
+    if (heightUnit === "percentageOfWidth") {
+        style.paddingBottom = widthUnit === "percentage" ? `${height}%` : `${width / 2}px`;
+    } else if (heightUnit === "pixels") {
+        style.height = `${height}px`;
+    } else if (heightUnit === "percentageOfParent") {
+        style.height = `${height}%`;
+    }
+
+    return style;
+}
 
 interface UseCustomChartReturn {
     containerStyle: CSSProperties;
@@ -15,55 +38,32 @@ interface UseCustomChartReturn {
 }
 
 export function useCustomChart(props: CustomChartContainerProps): UseCustomChartReturn {
-    const propsGateProvider = useConst(() => new GateProvider<ControllerProps>(props));
-    const editorStateGateProvider = useConst(
-        () => new GateProvider<EditorStoreState>({ layout: "{}", config: "{}", data: [] })
-    );
+    const gateProvider = useConst(() => new GateProvider<ControllerProps>(props));
+
     const {
-        chartPropsController,
-        plotlyController,
+        store,
+        chartViewModel,
         resizeCtrl: resizeController
-    } = useSetup(
-        () =>
-            new CustomChartControllerHost({
-                propsGate: propsGateProvider.gate,
-                editorStateGate: editorStateGateProvider.gate
-            })
-    );
-
-    const editorStore = useEditorStore({
-        initState: initStateFromProps(chartPropsController.data),
-        dataSourceKey: chartPropsController.data
-    });
+    } = useSetup(() => new CustomChartControllerHost(gateProvider.gate));
 
     useEffect(() => {
-        propsGateProvider.setProps(props);
+        gateProvider.setProps(props);
     });
 
-    useEffect(() => {
-        editorStateGateProvider.setProps(editorStore.state);
-    });
-
-    const containerStyle: CSSProperties = {
-        width: props.widthUnit === "percentage" ? `${props.width}%` : `${props.width}px`
-    };
-
-    if (props.heightUnit === "percentageOfWidth") {
-        containerStyle.paddingBottom = props.widthUnit === "percentage" ? `${props.height}%` : `${props.width / 2}px`;
-    } else if (props.heightUnit === "pixels") {
-        containerStyle.height = `${props.height}px`;
-    } else if (props.heightUnit === "percentageOfParent") {
-        containerStyle.height = `${props.height}%`;
-    }
+    const containerStyle = getContainerStyle(props.width, props.widthUnit, props.height, props.heightUnit);
+    const playgroundData = computed(
+        (): PlaygroundData => ({
+            type: "editor.data.v2",
+            store,
+            plotData: store.data,
+            layoutOptions: store.layout,
+            configOptions: store.config
+        })
+    ).get();
 
     return {
         containerStyle,
-        playgroundData: {
-            store: editorStore,
-            plotData: chartPropsController.data,
-            layoutOptions: chartPropsController.layout,
-            configOptions: chartPropsController.config
-        },
-        ref: mergeRefs<HTMLDivElement>(resizeController.setTarget, plotlyController.setChart)
+        playgroundData,
+        ref: mergeRefs<HTMLDivElement>(resizeController.setTarget, chartViewModel.setChart)
     };
 }
