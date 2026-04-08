@@ -27,7 +27,7 @@ export type ControlTypeEnum = "checkbox" | "radio";
 
 export type CustomEditabilityEnum = "default" | "never" | "conditionally";
 
-export type ReadOnlyStyleEnum = "bordered" | "text";
+export type ReadOnlyStyleEnum = "bordered" | "text" | "selectedText";
 
 export interface OptionsSourceStaticDataSourcePreviewType {
     staticDataSourceValue: string;
