@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { fallback, PlaygroundDataV1 } from "@mendix/shared-charts/main";
 import { ComposedEditorProps } from "../components/ComposedEditor";
 import { SelectOption } from "../components/Sidebar";
@@ -30,6 +30,13 @@ function getModelerCode(data: PlaygroundDataV1, key: ConfigKey): Partial<Data> |
     const entries = Object.entries(data.plotData.at(key) ?? {}).filter(([key]) => !irrelevantSeriesKeys.includes(key));
     return Object.fromEntries(entries) as Partial<Data>;
 }
+function prettifyJson(json: string): string {
+    try {
+        return JSON.stringify(JSON.parse(json), null, 2);
+    } catch {
+        return '{ "error": "invalid JSON" }';
+    }
+}
 
 export function useComposedEditorController(data: PlaygroundDataV1): ComposedEditorProps {
     const [key, setKey] = useState<ConfigKey>("layout");
@@ -56,8 +63,11 @@ export function useComposedEditorController(data: PlaygroundDataV1): ComposedEdi
     }, [data.plotData]);
 
     const store = data.store;
+    const code = prettifyJson(getEditorCode(data, key));
+    const [input, setInput] = useState(() => code);
     const onEditorChange = useCallback(
         (value: string): void => {
+            setInput(value);
             try {
                 const json = fallback(value);
                 JSON.parse(value);
@@ -68,11 +78,18 @@ export function useComposedEditorController(data: PlaygroundDataV1): ComposedEdi
         [store, key]
     );
 
+    useEffect(
+        () =>
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setInput(code),
+        [code]
+    );
+
     return {
         viewSelectValue: key.toString(),
         viewSelectOptions: options,
         onViewSelectChange,
-        value: getEditorCode(data, key),
+        value: input,
         modelerCode: useMemo(() => JSON.stringify(getModelerCode(data, key), null, 2), [data, key]),
         onEditorChange
     };
