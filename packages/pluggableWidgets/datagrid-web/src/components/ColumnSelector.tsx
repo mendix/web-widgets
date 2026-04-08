@@ -125,6 +125,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             id={`${props.id}-column-selectors`}
             className={`column-selectors`}
             data-focusindex={0}
+            data-overlay-content
             role="menu"
             style={{ ...correctedFloatingStyles, maxHeight }}
             {...getFloatingProps()}
