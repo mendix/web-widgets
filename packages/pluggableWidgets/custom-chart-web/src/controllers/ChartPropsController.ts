@@ -1,41 +1,31 @@
-import { EditorStoreState } from "@mendix/shared-charts/main";
-import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { makeAutoObservable } from "mobx";
 import { Config, Data, Layout } from "plotly.js-dist-min";
-import { ChartProps } from "../components/PlotlyChart";
-import { mergeChartProps, parseConfig, parseData, parseLayout } from "../utils/utils";
+import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { ControllerProps } from "./typings";
+import { PlotlyChartProps } from "../components/PlotlyChart";
+import { parseConfig, parseData, parseLayout } from "../utils/utils";
 
 interface SizeProvider {
     width: number;
     height: number;
 }
 
-interface ChartPropsControllerSpec {
-    propsGate: DerivedPropsGate<ControllerProps>;
-    sizeProvider: SizeProvider;
-    editorStateGate: DerivedPropsGate<EditorStoreState>;
-}
-
 export class ChartPropsController implements SetupComponent {
     private cleanup: undefined | (() => void) = undefined;
-    private editorStateGate: DerivedPropsGate<EditorStoreState>;
-    private propsGate: DerivedPropsGate<ControllerProps>;
-    private sizeProvider: SizeProvider;
 
-    constructor(host: SetupComponentHost, spec: ChartPropsControllerSpec) {
+    constructor(
+        host: SetupComponentHost,
+        private gate: DerivedPropsGate<ControllerProps>,
+        private sizeProvider: SizeProvider
+    ) {
         host.add(this);
-
-        this.editorStateGate = spec.editorStateGate;
-        this.propsGate = spec.propsGate;
-        this.sizeProvider = spec.sizeProvider;
 
         makeAutoObservable<ChartPropsController>(this, { setup: false });
     }
 
     private get props(): ControllerProps {
-        return this.propsGate.props;
+        return this.gate.props;
     }
 
     private get configurationOptions(): string {
@@ -70,59 +60,7 @@ export class ChartPropsController implements SetupComponent {
         return () => this.cleanup?.();
     }
 
-    private get chartConfig(): ChartProps["config"] {
-        return {
-            displayModeBar: false,
-            ...this.config
-        };
-    }
-
-    private get chartLayout(): ChartProps["layout"] {
-        return {
-            ...this.layout,
-            width: this.sizeProvider.width,
-            height: this.sizeProvider.height,
-            autosize: true,
-            font: {
-                family: "Open Sans, sans-serif",
-                size: Math.max(12 * (this.sizeProvider.width / 1000), 8),
-                ...this.layout.font
-            },
-            legend: {
-                font: {
-                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7),
-                    ...this.layout.legend?.font
-                },
-                itemwidth: Math.max(10 * (this.sizeProvider.width / 1000), 3),
-                itemsizing: "constant",
-                ...this.layout.legend
-            },
-            xaxis: {
-                tickfont: {
-                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7),
-                    ...this.layout.xaxis?.tickfont
-                },
-                ...this.layout.xaxis
-            },
-            yaxis: {
-                tickfont: {
-                    size: Math.max(10 * (this.sizeProvider.width / 1000), 7),
-                    ...this.layout.yaxis?.tickfont
-                },
-                ...this.layout.yaxis
-            },
-            margin: {
-                l: 60,
-                r: 60,
-                t: 60,
-                b: 60,
-                pad: 10,
-                ...this.layout.margin
-            }
-        };
-    }
-
-    private get chartOnClick(): (data: any) => void {
+    get chartOnClick(): (data: any) => void {
         return (data: any): void => {
             if (this.props.eventDataAttribute && data.points && data.points.length > 0) {
                 const point = data.points[0];
@@ -156,19 +94,17 @@ export class ChartPropsController implements SetupComponent {
         };
     }
 
-    get chartProps(): ChartProps {
+    get chartProps(): PlotlyChartProps {
         return {
-            config: this.chartConfig,
+            config: this.config,
             data: this.data,
-            layout: this.chartLayout,
-            onClick: this.chartOnClick,
-            width: this.sizeProvider.width,
-            height: this.sizeProvider.height
+            layout: this.layout,
+            onClick: this.chartOnClick
         };
     }
 
     get config(): Partial<Config> {
-        return parseConfig(this.configurationOptions);
+        return { displayModeBar: false, ...parseConfig(this.configurationOptions) };
     }
 
     get data(): Data[] {
@@ -176,12 +112,35 @@ export class ChartPropsController implements SetupComponent {
     }
 
     get layout(): Partial<Layout> {
-        return parseLayout(this.layoutStatic, this.layoutAttribute, this.sampleLayout);
-    }
+        const { width, height } = this.sizeProvider;
+        const parsed = parseLayout(this.layoutStatic, this.layoutAttribute, this.sampleLayout);
+        const scale = (base: number, min: number): number => Math.max(base * (width / 1000), min);
 
-    get mergedProps(): ChartProps {
-        const props = this.chartProps;
-        const state = this.editorStateGate.props;
-        return mergeChartProps(props, state);
+        return {
+            ...parsed,
+            width,
+            height,
+            autosize: true,
+            font: {
+                family: "Open Sans, sans-serif",
+                size: scale(12, 8),
+                ...parsed.font
+            },
+            legend: {
+                font: { size: scale(10, 7), ...parsed.legend?.font },
+                itemwidth: scale(10, 3),
+                itemsizing: "constant",
+                ...parsed.legend
+            },
+            xaxis: {
+                tickfont: { size: scale(10, 7), ...parsed.xaxis?.tickfont },
+                ...parsed.xaxis
+            },
+            yaxis: {
+                tickfont: { size: scale(10, 7), ...parsed.yaxis?.tickfont },
+                ...parsed.yaxis
+            },
+            margin: { l: 60, r: 60, t: 60, b: 60, pad: 10, ...parsed.margin }
+        };
     }
 }
