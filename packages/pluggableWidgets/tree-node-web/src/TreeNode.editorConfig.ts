@@ -1,4 +1,11 @@
 import {
+    hidePropertiesIn,
+    hidePropertyIn,
+    Problem,
+    Properties,
+    transformGroupsIntoTabs
+} from "@mendix/pluggable-widgets-tools";
+import {
     ContainerProps,
     DropZoneProps,
     RowLayoutProps,
@@ -6,13 +13,6 @@ import {
     StructurePreviewProps,
     TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import {
-    hidePropertiesIn,
-    hidePropertyIn,
-    Problem,
-    Properties,
-    transformGroupsIntoTabs
-} from "@mendix/pluggable-widgets-tools";
 
 import { HeaderTypeEnum, TreeNodePreviewProps } from "../typings/TreeNodeProps";
 
@@ -35,8 +35,12 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "headerCaption");
     }
 
-    if (!values.hasChildren) {
-        hidePropertiesIn(defaultProperties, values, ["startExpanded", "children"]);
+    if (values.parentAssociation) {
+        hidePropertyIn(defaultProperties, values, "hasChildren");
+    } else {
+        if (!values.hasChildren) {
+            hidePropertiesIn(defaultProperties, values, ["startExpanded", "children"]);
+        }
     }
 
     if (platform === "web") {
@@ -59,6 +63,7 @@ export function getProperties(
 
 export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
+    const showChildren = values.hasChildren || values.parentAssociation !== null;
 
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",
@@ -91,7 +96,7 @@ export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): S
                 columnSize: "grow",
                 padding: 4,
                 children: [
-                    ...(values.showIcon === "left" && values.hasChildren
+                    ...(values.showIcon === "left" && showChildren
                         ? [getChevronIconPreview(values.headerType, isDarkMode)]
                         : []),
                     values.headerType === "text"
@@ -115,7 +120,7 @@ export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): S
                               ]
                           } as RowLayoutProps),
 
-                    ...(values.showIcon === "right" && values.hasChildren
+                    ...(values.showIcon === "right" && showChildren
                         ? [getChevronIconPreview(values.headerType, isDarkMode)]
                         : [])
                 ]
@@ -124,7 +129,7 @@ export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): S
     };
 
     const getTreeNodeContent: () => StructurePreviewProps[] = () =>
-        values.hasChildren
+        showChildren
             ? [
                   {
                       type: "RowLayout",

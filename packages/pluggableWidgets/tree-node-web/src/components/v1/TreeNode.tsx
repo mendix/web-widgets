@@ -3,11 +3,11 @@ import { ObjectItem, WebIcon } from "mendix";
 import { CSSProperties, ReactElement, ReactNode, useCallback, useContext } from "react";
 
 import { OpenNodeOnEnum, TreeNodeContainerProps } from "../../../typings/TreeNodeProps";
+import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "../common/HeaderIcon";
 import { TreeNodeState } from "../common/TreeNodeState";
 
 import { useTreeNodeFocusChangeHandler } from "./hooks/TreeNodeAccessibility";
 import { useTreeNodeRef } from "./hooks/useTreeNodeRef";
-import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "./HeaderIcon";
 import { TreeNodeBranch, TreeNodeBranchProps, treeNodeBranchUtils } from "./TreeNodeBranch";
 import { TreeNodeBranchContext, useInformParentContextOfChildNodes } from "./TreeNodeBranchContext";
 
