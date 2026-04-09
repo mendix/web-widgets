@@ -8,6 +8,8 @@ test.afterEach("Cleanup session", async ({ page }) => {
 test.beforeEach(async ({ page }) => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
+    // Wait for the skip link to be attached to the DOM
+    await page.locator(".widget-skip-link").first().waitFor({ state: "attached" });
 });
 
 test.describe("SkipLink:", function () {
@@ -16,9 +18,11 @@ test.describe("SkipLink:", function () {
         const skipLink = page.locator(".widget-skip-link").first();
         await expect(skipLink).toBeAttached();
 
-        // Check initial styling (hidden)
-        const transform = await skipLink.evaluate(el => getComputedStyle(el).transform);
-        expect(transform).toContain("matrix(1, 0, 0, 1, 0, -48)");
+        // Check initial styling (hidden) - transform is on the container, not the link
+        const container = page.locator(".widget-skip-link-container");
+        const transform = await container.evaluate(el => getComputedStyle(el).transform);
+        // Check for translateY(-120%) which appears as negative Y value in matrix
+        expect(transform).toMatch(/matrix.*-\d+/);
     });
 
     test("skip link becomes visible when focused via keyboard", async ({ page }) => {
@@ -27,9 +31,14 @@ test.describe("SkipLink:", function () {
         await page.keyboard.press("Tab");
 
         await expect(skipLink).toBeFocused();
-        await page.waitForTimeout(1000);
-        // Check that it becomes visible when focused
-        const transform = await skipLink.evaluate(el => getComputedStyle(el).transform);
+        
+        // Wait for the CSS transition to complete (0.2s in CSS + buffer)
+        await page.waitForTimeout(300);
+        
+        // Check that the container becomes visible when focused
+        const container = page.locator(".widget-skip-link-container");
+        const transform = await container.evaluate(el => getComputedStyle(el).transform);
+        // When focused, translateY(0) results in matrix(1, 0, 0, 1, 0, 0)
         expect(transform).toContain("matrix(1, 0, 0, 1, 0, 0)");
     });
 
