@@ -2,7 +2,6 @@ import { ObjectItem } from "mendix";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 import { TreeNodeState } from "../../common/TreeNodeState";
-import { TreeNodeV2DataItem } from "../treeBuilder";
 
 type NodePlacement = string | null;
 
@@ -11,6 +10,16 @@ interface TreeConfigRef {
     headerContent: TreeNodeContainerProps["headerContent"];
     headerType: TreeNodeContainerProps["headerType"];
     parentAssociation: TreeNodeContainerProps["parentAssociation"];
+    startExpanded: TreeNodeContainerProps["startExpanded"];
+}
+
+export interface TreeNodeV2DataItem {
+    children: TreeNodeV2DataItem[];
+    id: string;
+    item: ObjectItem;
+    parentId?: string;
+    treeNodeState: TreeNodeState;
+    title: ReactNode;
 }
 
 function getItemId(item: ObjectItem): string {
@@ -139,7 +148,7 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
                 id: nodeId,
                 item,
                 parentId: nextParentId,
-                treeNodeState: TreeNodeState.COLLAPSED_WITH_JS,
+                treeNodeState: config.startExpanded ? TreeNodeState.EXPANDED : TreeNodeState.COLLAPSED_WITH_JS,
                 title: nextTitle
             };
 
