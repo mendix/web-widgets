@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, fireEvent, waitFor } from "@testing-library/react";
-import { DynamicValue } from "mendix";
-import { ValueStatus } from "mendix";
+import { DynamicValue, ValueStatus } from "mendix";
 import { SkipLinkContainerProps, ListContentIdType } from "../../typings/SkipLinkProps";
 import SkipLink from "../SkipLink";
 
@@ -205,7 +204,6 @@ describe("SkipLink", () => {
             const container = rootElement.querySelector(".widget-skip-link-container") as HTMLElement;
             expect(container).toBeInTheDocument();
             expect(container).toHaveClass("widget-skip-link-container");
-            
             // The CSS transform is applied via the class in SkipLink.scss
             // Actual visual hiding is tested in E2E tests
         });
