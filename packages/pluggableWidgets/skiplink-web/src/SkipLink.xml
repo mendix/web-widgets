@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="com.mendix.widget.web.skiplink.SkipLink" pluginWidget="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
-    <name>SkipLink</name>
+    <name>Skip link</name>
     <description>A skip link for accessibility, allowing users to jump directly to the main content.</description>
     <studioProCategory>Accessibility</studioProCategory>
     <studioCategory>Accessibility</studioCategory>
     <helpUrl />
     <properties>
         <propertyGroup caption="General">
-            <property key="linkText" type="string" defaultValue="Skip to main content">
-                <caption>Link text</caption>
-                <description>The text displayed in the skip link.</description>
-            </property>
-            <property key="mainContentId" type="string" required="false">
-                <caption>Main content ID</caption>
-                <description>The id of the main content element to jump to, if left empty the skip link widget will search for a main tag on the page.</description>
-            </property>
+            <propertyGroup caption="Main skip link">
+                <property key="linkText" type="string" defaultValue="main content">
+                    <caption>Link text</caption>
+                    <description>The text displayed in the main skip link (e.g., "main content" will result in "Skip to main content")</description>
+                </property>
+                <property key="mainContentId" type="string" required="false">
+                    <caption>Target element ID</caption>
+                    <description>The ID of the element to move focus to (e.g, main). This should match the element's 'id' on the page. If empty, the widget will use the 'main' element if available.</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Additional skip links">
+                <property key="listContentId" type="object" isList="true" required="false">
+                    <caption>Skip links</caption>
+                    <description>Additional skip link targets for navigation</description>
+                    <properties>
+                        <property key="LinkTextInList" type="string" required="true">
+                            <caption>Link text</caption>
+                            <category>General</category>
+                            <description>The text displayed in the skip link (e.g., "navigation" will result in "Skip to navigation")</description>
+                        </property>
+                        <property key="contentIdInList" type="expression" required="true">
+                            <caption>Target element ID</caption>
+                            <category>General</category>
+                            <description>The id of the content element to jump to</description>
+                            <returnType type="String" />
+                        </property>
+                    </properties>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Customization">
+                <property key="skipToPrefix" type="string" defaultValue="Skip to">
+                    <caption>Skip to prefix</caption>
+                    <description>The prefix text used for all skip links (e.g., "Skip to" results in "Skip to main content", "Skip to navigation")</description>
+                </property>
+            </propertyGroup>
         </propertyGroup>
     </properties>
 </widget>
