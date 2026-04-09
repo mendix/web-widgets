@@ -2,18 +2,18 @@ import classNames from "classnames";
 import { ValueStatus } from "mendix";
 import { ReactElement, useCallback, useMemo, useState } from "react";
 import "./ui/TreeNodeV2.scss";
+import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "../common/HeaderIcon";
 import { TreeNodeState } from "../common/TreeNodeState";
-import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "../v1/HeaderIcon";
-import { useIncrementalTreeData } from "./hooks/useIncrementalTreeData";
+import { useIncrementalTreeData, TreeNodeV2DataItem } from "./hooks/useIncrementalTreeData";
 import { useInfiniteTreeNodes } from "./hooks/useInfiniteTreeNode";
-import { TreeNodeV2DataItem } from "./treeBuilder";
 import { TreeNodeContainerProps } from "../../../typings/TreeNodeProps";
 
 function renderRecursiveNode(
     node: TreeNodeV2DataItem,
     renderHeaderIcon: TreeNodeHeaderIcon,
     iconPlacement: TreeNodeContainerProps["showIcon"],
-    onNodeClick: (node: TreeNodeV2DataItem) => void
+    onNodeClick: (node: TreeNodeV2DataItem) => void,
+    children?: TreeNodeContainerProps["children"]
 ): ReactElement {
     const hasChildren = node.children.length > 0;
     const isExpanded = node.treeNodeState === TreeNodeState.EXPANDED;
@@ -22,7 +22,8 @@ function renderRecursiveNode(
         <li key={node.id} className="widget-tree-node-branch" role="treeitem" tabIndex={0} aria-expanded={isExpanded}>
             <span
                 className={classNames("widget-tree-node-branch-header", {
-                    "widget-tree-node-branch-header-reversed": iconPlacement === "left"
+                    "widget-tree-node-branch-header-reversed": iconPlacement === "left",
+                    "widget-tree-node-branch-header-clickable": hasChildren
                 })}
                 id={`${node.id}TreeNodeBranchHeader`}
                 onClick={() => onNodeClick(node)}
@@ -41,9 +42,10 @@ function renderRecursiveNode(
                     })}
                     id={`${node.id}TreeNodeBranchBody`}
                 >
+                    <div>{children?.get(node.item)}</div>
                     <ul role="group">
                         {node.children.map(child =>
-                            renderRecursiveNode(child, renderHeaderIcon, iconPlacement, onNodeClick)
+                            renderRecursiveNode(child, renderHeaderIcon, iconPlacement, onNodeClick, children)
                         )}
                     </ul>
                 </div>
@@ -78,9 +80,10 @@ export function TreeNodeV2(props: TreeNodeContainerProps): ReactElement {
             headerCaption: props.headerCaption,
             headerContent: props.headerContent,
             headerType: props.headerType,
-            parentAssociation: props.parentAssociation
+            parentAssociation: props.parentAssociation,
+            startExpanded: props.startExpanded
         }),
-        [props.parentAssociation, props.headerType, props.headerCaption, props.headerContent]
+        [props.headerCaption, props.headerContent, props.headerType, props.parentAssociation, props.startExpanded]
     );
 
     const treeData = useIncrementalTreeData(items, treeConfig);
@@ -109,7 +112,9 @@ export function TreeNodeV2(props: TreeNodeContainerProps): ReactElement {
             data-focusindex={props.tabIndex || 0}
             role="tree"
         >
-            {treeData.map(node => renderRecursiveNode(node, renderHeaderIcon, iconPlacement, onNodeClick))}
+            {treeData.map(node =>
+                renderRecursiveNode(node, renderHeaderIcon, iconPlacement, onNodeClick, props.children)
+            )}
         </ul>
     );
 }

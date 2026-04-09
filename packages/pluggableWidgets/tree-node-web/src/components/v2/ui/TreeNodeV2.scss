@@ -2,21 +2,22 @@
     &.widget-tree-node-v2 {
         .widget-tree-node-v2-body {
             display: grid;
-            grid-template-rows: 1fr;
+            grid-template-rows: auto 1fr;
             opacity: 1;
             transition:
                 grid-template-rows 220ms ease,
                 opacity 180ms ease;
             will-change: grid-template-rows, opacity;
 
-            > ul {
+            > ul,
+            > div {
                 min-height: 0;
                 overflow: hidden;
             }
         }
 
         .widget-tree-node-v2-body.widget-tree-node-v2-body-collapsed {
-            grid-template-rows: 0fr;
+            grid-template-rows: 0fr 0fr;
             opacity: 0;
         }
     }
