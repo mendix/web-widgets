@@ -5,8 +5,11 @@ import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 
 export type ItemType = Array<Option<ObjectItem>>;
 
-export function useInfiniteTreeNodes(props: TreeNodeContainerProps) {
-    const { datasource, parentAssociation } = props;
+export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
+    items: ObjectItem[] | undefined;
+    appendItems: (newItem: ObjectItem, children?: ObjectItem[]) => void;
+} {
+    const { datasource, parentAssociation, startExpanded } = props;
     const loadedParentsByIdRef = useRef<Map<string, ObjectItem>>(new Map());
     const loadedChildsByIdRef = useRef<Map<string, ObjectItem>>(new Map());
     const initializedRef = useRef(false);
@@ -62,17 +65,19 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps) {
                     const parentId = String(item.id);
                     loadedParentsByIdRef.current.set(parentId, item);
                 });
-            }
 
-            datasource.setFilter(getDatasourceFilter(getExpandedFilterItems()));
+                datasource.setFilter(getDatasourceFilter(getExpandedFilterItems()));
+            }
 
             return;
         }
 
         initializedRef.current = true;
         loadedParentsByIdRef.current.clear();
-        datasource.setFilter(getDatasourceFilter([undefined]));
-    }, [datasource, getDatasourceFilter, getExpandedFilterItems]);
+        if (!startExpanded) {
+            datasource.setFilter(getDatasourceFilter([undefined]));
+        }
+    }, [datasource, getDatasourceFilter, getExpandedFilterItems, startExpanded]);
 
     return {
         items: datasource.items,
