@@ -1,11 +1,17 @@
 import { RefObject } from "react";
-import { convertSvgToPng, downloadBlob, prepareSvgForDownload, processQRImages } from "./download-utils";
+import {
+    convertSvgToPng,
+    downloadBlob,
+    prepareSvgForDownload,
+    processQRImages,
+    generateFileName
+} from "./download-utils";
 import { BarcodeConfig } from "../config/Barcode.config";
 
 export async function downloadCode(
     ref: RefObject<SVGSVGElement | null>,
-    type: BarcodeConfig["type"],
-    fileName: string
+    config: BarcodeConfig,
+    fileName?: string
 ): Promise<void> {
     try {
         const svgElement = ref.current;
@@ -15,18 +21,22 @@ export async function downloadCode(
         }
 
         const clonedSvg = prepareSvgForDownload(svgElement);
-
+        let fileNamePrefix: string = config.type;
         // Process overlay images for QR codes
-        if (type === "qrcode") {
+        if (config.type === "qrcode") {
             await processQRImages(clonedSvg);
+        } else {
+            fileNamePrefix = `${config.type}_${config.format}`;
         }
 
         // Convert SVG to PNG with 2x scale for better quality
         const pngBlob = await convertSvgToPng(clonedSvg, 2);
 
+        // Generate filename if not provided
+        const finalFileName = fileName || generateFileName(fileNamePrefix, config.codeValue);
         // Trigger download
-        downloadBlob(pngBlob, fileName);
+        downloadBlob(pngBlob, finalFileName, ref.current?.ownerDocument || document);
     } catch (error) {
-        console.error(`Error downloading ${type}:`, error);
+        console.error(`Error downloading ${config.type}:`, error);
     }
 }
