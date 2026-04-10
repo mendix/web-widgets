@@ -28,7 +28,7 @@ export function BarcodeRenderer({ config }: BarcodeRendererProps): ReactElement 
 
     const button = downloadButton && (
         <DownloadButton
-            onClick={() => downloadCode(ref, config.type, downloadButton.fileName)}
+            onClick={() => downloadCode(ref, config, downloadButton.fileName)}
             ariaLabel={downloadButton.label}
             caption={downloadButton.caption}
         />

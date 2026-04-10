@@ -9,7 +9,7 @@ import {
 interface DownloadButtonConfig {
     caption?: string;
     label?: string;
-    fileName: string;
+    fileName?: string;
     buttonPosition: "top" | "bottom";
 }
 
@@ -65,7 +65,7 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         ? {
               caption: props.downloadButtonCaption?.value,
               label: props.downloadButtonAriaLabel?.value,
-              fileName: generateFileName(props.downloadFileName?.value, format, codeValue),
+              fileName: getFileName(props.downloadFileName?.value),
               buttonPosition: props.buttonPosition ?? "bottom"
           }
         : undefined;
@@ -119,34 +119,11 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
     };
 }
 
-function generateFileName(customFileName: string | undefined, format: string, codeValue: string): string {
+function getFileName(customFileName: string | undefined): string | undefined {
     // Use custom filename if provided
     if (customFileName && customFileName.trim()) {
         return customFileName.trim().endsWith(".png") ? customFileName.trim() : `${customFileName.trim()}.png`;
     }
 
-    // Auto-generate filename with format and hash
-    const hash = hashCode(codeValue);
-    if (format === "QRCode") {
-        return `qrcode_${hash}.png`;
-    }
-    return `barcode_${format}_${hash}.png`;
-}
-
-function hashCode(s: string): string {
-    if (!s) {
-        return "empty";
-    }
-
-    let hash = 0;
-    for (let i = 0; i < s.length; i++) {
-        const char = s.charCodeAt(i);
-        // eslint-disable-next-line no-bitwise
-        hash = (hash << 5) - hash + char;
-        // eslint-disable-next-line no-bitwise
-        hash = hash & hash; // Convert to 32-bit integer
-    }
-
-    // Convert to base36 and take first 10 characters
-    return Math.abs(hash).toString(36).substring(0, 10);
+    return undefined; // Let the download function generate a default filename based on content and timestamp
 }
