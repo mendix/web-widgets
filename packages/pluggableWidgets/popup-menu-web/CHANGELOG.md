@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.1.0] - 2026-04-13
+
 ### Fixed
 
 - We fixed an issue with Advanced options mode not showing options content in Design mode.
