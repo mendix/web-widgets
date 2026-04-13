@@ -177,6 +177,6 @@ $root: ".widget-gallery" !default;
 
     &:hover,
     &:focus-visible {
-        background-color: var(--brand-primary-50, #e6e7f2);
+        background-color: var(--brand-primary-50, $color-default-lighter);
     }
 }

@@ -6,9 +6,12 @@ $brand-light: #e6eaff !default;
 $grid-selected-row-background: $brand-light !default;
 $color-contrast: #000 !default;
 $color-base: #fff !default;
+$gray-primary: #ced0d3 !default;
+$brand-default: $gray-primary !default;
+$color-default-lighter: mix($brand-default, $color-base, 10%) !default;
 
 // Background
-$bg-color: $color-base !default;
+$bg-color: $color-default-lighter !default;
 $bg-color-secondary: #f5f8fd !default;
 $grid-bg-striped: #fafafb !default;
 $grid-bg-hover: #f5f6f6 !default;

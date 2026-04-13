@@ -626,7 +626,7 @@ $root: ".widget-datagrid";
 
     &:hover,
     &:focus-visible {
-        background-color: var(--brand-primary-50, $bg-color-secondary);
+        background-color: var(--brand-primary-50, $color-default-lighter);
     }
 }
 
