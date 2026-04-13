@@ -80,7 +80,7 @@ input[type="checkbox"].three-state-checkbox {
     &:indeterminate:disabled:before,
     &:checked:disabled:before {
         border-color: transparent;
-        background-color: var(--brand-primary-200, $brand-light);
+        background-color: var(--brand-primary-200, rgba($brand-primary, 0.4));
     }
 
     &:disabled:after {
