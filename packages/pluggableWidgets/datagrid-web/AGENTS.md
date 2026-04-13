@@ -7,17 +7,12 @@ pagination (buttons/virtual scroll/load more), column resize/reorder/hide, row s
 ## Commands
 
 - Test: `cd packages/pluggableWidgets/datagrid-web && pnpm run test`
-- Build: `pnpm --filter @mendix/datagrid-web run build`
+- Build: `pnpm turbo build` (from widget directory — builds upstream deps automatically)
 - Lint: `cd packages/pluggableWidgets/datagrid-web && pnpm run lint`
 - E2E: `cd packages/pluggableWidgets/datagrid-web && pnpm run e2e`
 - Dev: set `MX_PROJECT_PATH`, then `pnpm run start` inside package dir
 
-**Shared package changes:** When modifying a workspace dependency (e.g., `widget-plugin-grid`,
-`widget-plugin-mobx-kit`), you must build the shared package first, then rebuild datagrid-web:
-
-```sh
-pnpm --filter @mendix/widget-plugin-grid run build && pnpm --filter @mendix/datagrid-web run build
-```
+**Shared package changes:** `pnpm turbo build` handles workspace dependency ordering automatically — no need to manually build shared packages first.
 
 ## Key Concepts
 
