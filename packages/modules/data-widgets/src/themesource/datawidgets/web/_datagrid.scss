@@ -634,6 +634,6 @@ $root: ".widget-datagrid";
     }
 }
 
-[data-overlay-content] {
+#{$root} [data-overlay-content] {
     z-index: 15;
 }
