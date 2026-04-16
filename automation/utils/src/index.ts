@@ -6,3 +6,5 @@ export * from "./mpk";
 export * from "./changelog-parser";
 export * from "./monorepo";
 export * from "./build-config";
+export * from "./release-candidates";
+export * from "./io/filesystem";

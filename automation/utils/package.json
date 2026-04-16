@@ -11,6 +11,7 @@
         "rui-include-oss-in-artifact": "bin/rui-include-oss-in-artifact.ts",
         "rui-prepare-release": "bin/rui-prepare-release.ts",
         "rui-publish-marketplace": "bin/rui-publish-marketplace.ts",
+        "rui-release-info": "bin/rui-release-info.ts",
         "rui-update-changelog-module": "bin/rui-update-changelog-module.ts",
         "rui-update-changelog-widget": "bin/rui-update-changelog-widget.ts",
         "rui-verify-package-format": "bin/rui-verify-package-format.ts"
