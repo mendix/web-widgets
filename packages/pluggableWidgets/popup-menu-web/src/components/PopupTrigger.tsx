@@ -13,6 +13,8 @@ export const PopupTrigger = forwardRef(
                 className={"popupmenu-trigger"}
                 ref={ref}
                 data-state={open ? "open" : "closed"}
+                aria-haspopup="menu"
+                aria-expanded={open}
                 {...getReferenceProps?.({
                     onClick: e => {
                         e.stopPropagation();
