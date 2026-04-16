@@ -25,6 +25,10 @@ class MxBlock extends Block {
     static IsMxBlock(blot: Blot | null): blot is MxBlock {
         return blot?.statics.blotName === "mx-block";
     }
+
+    static IsEmptyBlock(blot: Blot | null): boolean {
+        return blot != null && MxBlock.IsMxBlock(blot) && blot.isEmptyTailBlock();
+    }
 }
 
 MxBlock.blotName = "mx-block";
