@@ -4,6 +4,17 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
+import { DynamicValue } from "mendix";
+
+export interface ListContentIdType {
+    LinkTextInList: string;
+    contentIdInList: DynamicValue<string>;
+}
+
+export interface ListContentIdPreviewType {
+    LinkTextInList: string;
+    contentIdInList: string;
+}
 
 export interface SkipLinkContainerProps {
     name: string;
@@ -12,6 +23,8 @@ export interface SkipLinkContainerProps {
     tabIndex?: number;
     linkText: string;
     mainContentId: string;
+    listContentId: ListContentIdType[];
+    skipToPrefix: string;
 }
 
 export interface SkipLinkPreviewProps {
@@ -27,4 +40,6 @@ export interface SkipLinkPreviewProps {
     translate: (text: string) => string;
     linkText: string;
     mainContentId: string;
+    listContentId: ListContentIdPreviewType[];
+    skipToPrefix: string;
 }
