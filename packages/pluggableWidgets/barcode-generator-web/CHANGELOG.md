@@ -8,15 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Error handling for incompatible barcode types
-- Enhanced preview for all barcode types
-- Comprehensive configuration and styling settings for various barcode types
-- Download functionality for barcodes
-
-## [1.0.0] - 2025-10-09
-
-### Added
-
 - Initial release of QR Code Generator widget
 - Generate QR codes from string input
 - Configurable QR code properties
+- Download functionality for barcodes
+- Comprehensive configuration and styling settings for various barcode types
