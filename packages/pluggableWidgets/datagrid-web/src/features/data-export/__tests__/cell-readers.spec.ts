@@ -46,14 +46,24 @@ describe("cell-readers", () => {
             expect(cell.z).toBe("#,##0.00");
         });
 
-        it("exports boolean attribute as boolean cell", () => {
+        it("exports boolean attribute as Yes/No string cell", () => {
             const col = column("Active", c => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => true);
             });
             const cell = readSingleCell(col);
-            expect(cell.t).toBe("b");
-            expect(cell.v).toBe(true);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("Yes");
+        });
+
+        it("exports false boolean attribute as No", () => {
+            const col = column("Active", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => false);
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("No");
         });
 
         it("exports date attribute with format as date cell", () => {
