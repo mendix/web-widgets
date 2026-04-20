@@ -239,6 +239,50 @@ describe("cell-readers", () => {
         });
     });
 
+    describe("long number precision", () => {
+        it("exports Big with >15 significant digits as string to preserve precision", () => {
+            const col = column("LongId", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => new Big("1234567890123456789"));
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("1234567890123456789");
+        });
+
+        it("exports Big with <=15 significant digits as number", () => {
+            const col = column("NormalNum", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => new Big("123456789012345"));
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(123456789012345);
+        });
+
+        it("exports Big with >15 digits and format as string with format", () => {
+            const col = column("LongFormatted", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => new Big("9999999999999999999"));
+                c.exportType = "number";
+                c.exportNumberFormat = dynamic("0");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("9999999999999999999");
+        });
+
+        it("handles Big decimal with many significant digits", () => {
+            const col = column("Precise", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => new Big("1234567890.1234567890"));
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("1234567890.123456789");
+        });
+    });
+
     describe("date time stripping", () => {
         it("strips time from attribute date when format has no time components", () => {
             const testDate = new Date("2024-06-15T10:30:00Z");
