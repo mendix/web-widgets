@@ -2,10 +2,11 @@ import { ObjectItem } from "mendix";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 import { TreeNodeState } from "../../common/TreeNodeState";
+import { getItemId, getItemTitle, getParentId, isConfigChanged } from "./helpers";
 
 type NodePlacement = string | null;
 
-interface TreeConfigRef {
+export interface TreeConfigRef {
     headerCaption: TreeNodeContainerProps["headerCaption"];
     headerContent: TreeNodeContainerProps["headerContent"];
     headerType: TreeNodeContainerProps["headerType"];
@@ -20,38 +21,6 @@ export interface TreeNodeV2DataItem {
     parentId?: string;
     treeNodeState: TreeNodeState;
     title: ReactNode;
-}
-
-function getItemId(item: ObjectItem): string {
-    return String(item.id);
-}
-
-function getParentId(
-    item: ObjectItem,
-    parentAssociation: TreeNodeContainerProps["parentAssociation"]
-): string | undefined {
-    const parentObject = parentAssociation?.get(item).value;
-    return parentObject?.id ? String(parentObject.id) : undefined;
-}
-
-function getItemTitle(item: ObjectItem, config: TreeConfigRef): ReactNode {
-    if (config.headerType === "text") {
-        return config.headerCaption?.get(item).value ?? String(item.id);
-    }
-    return config.headerContent?.get(item) ?? String(item.id);
-}
-
-function isConfigChanged(previous: TreeConfigRef | null, next: TreeConfigRef): boolean {
-    if (!previous) {
-        return true;
-    }
-
-    return (
-        previous.headerType !== next.headerType ||
-        previous.headerCaption !== next.headerCaption ||
-        previous.headerContent !== next.headerContent ||
-        previous.parentAssociation !== next.parentAssociation
-    );
 }
 
 export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: TreeConfigRef): TreeNodeV2DataItem[] {
@@ -131,6 +100,7 @@ export function useIncrementalTreeData(items: ObjectItem[] | undefined, config: 
             const nextTitle = getItemTitle(item, config);
 
             const existingNode = nodesByIdRef.current.get(nodeId);
+            // if already exists, update the item
             if (existingNode) {
                 const parentChanged = existingNode.parentId !== nextParentId;
                 existingNode.item = item;
