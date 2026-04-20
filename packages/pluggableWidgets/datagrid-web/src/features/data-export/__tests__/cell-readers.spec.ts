@@ -66,7 +66,7 @@ describe("cell-readers", () => {
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
-            expect(cell.v).toEqual(testDate);
+            expect(cell.v).toEqual(new Date(Date.UTC(2024, 5, 15)));
             expect(cell.z).toBe("yyyy-mm-dd");
         });
 
@@ -226,6 +226,59 @@ describe("cell-readers", () => {
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
             expect(cell.v).toBe("");
+        });
+    });
+
+    describe("date time stripping", () => {
+        it("strips time from attribute date when format has no time components", () => {
+            const testDate = new Date("2024-06-15T10:30:00Z");
+            const col = column("DateOnly", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => testDate);
+                c.exportType = "date";
+                c.exportDateFormat = dynamic("dd-mmm-yyyy");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(new Date(Date.UTC(2024, 5, 15)));
+            expect(cell.z).toBe("dd-mmm-yyyy");
+        });
+
+        it("preserves time in attribute date when format has time components", () => {
+            const testDate = new Date("2024-06-15T10:30:00Z");
+            const col = column("DateTime", c => {
+                c.showContentAs = "attribute";
+                c.attribute = listAttribute(() => testDate);
+                c.exportType = "date";
+                c.exportDateFormat = dynamic("yyyy-mm-dd hh:mm:ss");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(testDate);
+        });
+
+        it("strips time from customContent date when format has no time components", () => {
+            const col = column("DateOnly", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "2024-06-15T10:30:00Z");
+                c.exportType = "date";
+                c.exportDateFormat = dynamic("dd-mmm-yyyy");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(new Date(Date.UTC(2024, 5, 15)));
+        });
+
+        it("preserves time in customContent date when format has time components", () => {
+            const col = column("DateTime", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "2024-06-15T10:30:00Z");
+                c.exportType = "date";
+                c.exportDateFormat = dynamic("yyyy-mm-dd hh:mm:ss");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(new Date("2024-06-15T10:30:00Z"));
         });
     });
 });
