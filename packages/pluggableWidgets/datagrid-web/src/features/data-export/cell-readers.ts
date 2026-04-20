@@ -84,6 +84,14 @@ export function excelBoolean(value: boolean): ExcelCell {
     };
 }
 
+function hasTimeComponent(format: string): boolean {
+    return /[hs]/i.test(format);
+}
+
+function stripTime(date: Date): Date {
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+}
+
 const readers: ReadersByType = {
     attribute(item, props) {
         const data = props.attribute?.get(item);
@@ -100,7 +108,11 @@ const readers: ReadersByType = {
         });
 
         if (value instanceof Date) {
-            return excelDate(format === undefined ? data.displayValue : value, format);
+            if (format === undefined) {
+                return excelDate(data.displayValue, format);
+            }
+            const dateValue = hasTimeComponent(format) ? value : stripTime(value);
+            return excelDate(dateValue, format);
         }
 
         if (typeof value === "boolean") {
@@ -152,7 +164,11 @@ const readers: ReadersByType = {
         if (props.exportType === "date" && value !== "") {
             const parsed = new Date(value);
             if (!isNaN(parsed.getTime())) {
-                return excelDate(format === undefined ? value : parsed, format);
+                if (format === undefined) {
+                    return excelDate(value, format);
+                }
+                const dateValue = hasTimeComponent(format) ? parsed : stripTime(parsed);
+                return excelDate(dateValue, format);
             }
         }
 
