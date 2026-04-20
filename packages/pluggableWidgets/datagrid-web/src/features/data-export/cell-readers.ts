@@ -142,6 +142,13 @@ const readers: ReadersByType = {
             exportNumberFormat: props.exportNumberFormat
         });
 
+        if (props.exportType === "number" && value !== "") {
+            const parsed = Number(value);
+            if (!Number.isNaN(parsed)) {
+                return excelNumber(parsed, format);
+            }
+        }
+
         return excelString(value, format);
     }
 };

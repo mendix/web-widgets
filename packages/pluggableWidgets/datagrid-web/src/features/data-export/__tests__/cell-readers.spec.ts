@@ -133,5 +133,51 @@ describe("cell-readers", () => {
             expect(cell.t).toBe("s");
             expect(cell.v).toBe("");
         });
+
+        it("exports as number cell when exportType is number", () => {
+            const col = column("Price", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "1234.56");
+                c.exportType = "number";
+                c.exportNumberFormat = dynamic("#,##0.00");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(1234.56);
+            expect(cell.z).toBe("#,##0.00");
+        });
+
+        it("exports as number cell without format", () => {
+            const col = column("Count", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "99");
+                c.exportType = "number";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(99);
+        });
+
+        it("falls back to string when number parse fails", () => {
+            const col = column("Bad", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "not-a-number");
+                c.exportType = "number";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("not-a-number");
+        });
+
+        it("falls back to string for empty value with number exportType", () => {
+            const col = column("Empty", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "");
+                c.exportType = "number";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("");
+        });
     });
 });
