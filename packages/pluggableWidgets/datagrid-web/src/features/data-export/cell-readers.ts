@@ -4,10 +4,10 @@ import { ColumnsType, ShowContentAsEnum } from "../../../typings/DatagridProps";
 
 /** Represents a single Excel cell (SheetJS compatible) */
 export interface ExcelCell {
-    /** Cell type: 's' = string, 'n' = number, 'b' = boolean, 'd' = date */
-    t: "s" | "n" | "b" | "d";
+    /** Cell type: 's' = string, 'n' = number, 'd' = date */
+    t: "s" | "n" | "d";
     /** Underlying value */
-    v: string | number | boolean | Date;
+    v: string | number | Date;
     /** Optional Excel number/date format, e.g. "yyyy-mm-dd" or "$0.00" */
     z?: string;
     /** Optional pre-formatted display text */

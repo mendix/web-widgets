@@ -111,7 +111,7 @@ describe("cell-readers", () => {
             expect(cell.v).toBe("formatted text");
         });
 
-        it("exports n/a when unavailable", () => {
+        it("returns empty cell when dynamicText is undefined", () => {
             const col = column("Label", c => {
                 c.showContentAs = "dynamicText";
                 c.dynamicText = undefined;
