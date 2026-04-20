@@ -7,7 +7,7 @@
  *
  * Required environment variable:
  *   MX_PAT  – Personal Access Token with the mx:marketplace-content:read scope
- *             Generate one at: https://sprintr.home.mendix.com/link/myprofile → API Keys
+ *             Generate one at: https://user-settings.mendix.com/link/developersettings → Personal Access Tokens section
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
