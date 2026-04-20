@@ -91,6 +91,16 @@ function stripTime(date: Date): Date {
     return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
 }
 
+const MAX_SAFE_SIGNIFICANT_DIGITS = 15;
+
+function countSignificantDigits(value: Big): number {
+    const str = value.toFixed();
+    const unsigned = str.replace("-", "");
+    const noDecimal = unsigned.replace(".", "");
+    const stripped = noDecimal.replace(/^0+/, "");
+    return stripped.length || 1;
+}
+
 const readers: ReadersByType = {
     attribute(item, props) {
         const data = props.attribute?.get(item);
@@ -119,6 +129,9 @@ const readers: ReadersByType = {
         }
 
         if (value instanceof Big || typeof value === "number") {
+            if (value instanceof Big && countSignificantDigits(value) > MAX_SAFE_SIGNIFICANT_DIGITS) {
+                return excelString(value.toFixed(), format);
+            }
             const num = value instanceof Big ? value.toNumber() : value;
             return excelNumber(num, format);
         }
