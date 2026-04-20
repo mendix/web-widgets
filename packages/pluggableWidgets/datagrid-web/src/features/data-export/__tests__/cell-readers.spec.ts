@@ -179,5 +179,53 @@ describe("cell-readers", () => {
             expect(cell.t).toBe("s");
             expect(cell.v).toBe("");
         });
+
+        it("exports as date cell when exportType is date", () => {
+            const col = column("Created", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "2024-06-15T00:00:00.000Z");
+                c.exportType = "date";
+                c.exportDateFormat = dynamic("yyyy-mm-dd");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(new Date("2024-06-15T00:00:00.000Z"));
+            expect(cell.z).toBe("yyyy-mm-dd");
+        });
+
+        it("exports date as string when no format provided", () => {
+            const col = column("Created", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "2024-06-15T10:30:00Z");
+                c.exportType = "date";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("2024-06-15T10:30:00Z");
+        });
+
+        it("falls back to string when date parse fails", () => {
+            const col = column("Bad", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "not-a-date");
+                c.exportType = "date";
+                c.exportDateFormat = dynamic("yyyy-mm-dd");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("not-a-date");
+        });
+
+        it("falls back to string for empty value with date exportType", () => {
+            const col = column("Empty", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "");
+                c.exportType = "date";
+                c.exportDateFormat = dynamic("yyyy-mm-dd");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("");
+        });
     });
 });
