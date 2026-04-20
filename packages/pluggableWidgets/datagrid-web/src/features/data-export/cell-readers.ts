@@ -78,9 +78,8 @@ export function excelDate(value: string | Date, format?: string): ExcelCell {
 
 export function excelBoolean(value: boolean): ExcelCell {
     return {
-        t: "b",
-        v: value,
-        w: value ? "TRUE" : "FALSE"
+        t: "s",
+        v: value ? "Yes" : "No"
     };
 }
 
