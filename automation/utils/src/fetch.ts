@@ -8,7 +8,7 @@ export async function fetch<T = unknown>(
     body?: BodyInit,
     additionalHeaders?: object
 ): Promise<T> {
-    let response;
+    let response: nodefetch.Response;
     const httpsOptions: RequestInit = {
         method,
         redirect: "follow",
@@ -44,6 +44,9 @@ export async function fetch<T = unknown>(
         );
     } else if (response.status === 503) {
         throw new Error(`Fetching Failed. "${url}" is unreachable (Code ${response.status}).`);
+    } else if (response.status === 400) {
+        console.error(await response.text());
+        throw new Error(`Fetching Failed (Code ${response.status}). ${response.statusText}`);
     } else if (response.status !== 200 && response.status !== 201) {
         throw new Error(`Fetching Failed (Code ${response.status}). ${response.statusText}`);
     } else if (response.ok) {
