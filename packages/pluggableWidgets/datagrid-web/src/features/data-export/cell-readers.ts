@@ -149,6 +149,13 @@ const readers: ReadersByType = {
             }
         }
 
+        if (props.exportType === "date" && value !== "") {
+            const parsed = new Date(value);
+            if (!isNaN(parsed.getTime())) {
+                return excelDate(format === undefined ? value : parsed, format);
+            }
+        }
+
         return excelString(value, format);
     }
 };
