@@ -1,12 +1,15 @@
-import { RefObject, UIEvent, useCallback, useEffect } from "react";
+import { RefObject, UIEvent, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
-import { useGridSizeStore } from "@mendix/datagrid-web/src/model/hooks/injection-hooks";
+import { useGridSizeStore, useQueryService } from "@mendix/datagrid-web/src/model/hooks/injection-hooks";
 import { VIRTUAL_SCROLLING_OFFSET } from "../stores/GridSize.store";
 
 export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | undefined] {
     const gridSizeStore = useGridSizeStore();
+    const query = useQueryService();
 
     const isVisible = useOnScreen(gridSizeStore.gridBodyRef as RefObject<HTMLElement>);
+    const savedScrollTop = useRef(0);
+    const prevIsRefreshing = useRef(false);
 
     const trackBodyScrolling = useCallback(
         (e: UIEvent<HTMLDivElement>) => {
@@ -62,6 +65,20 @@ export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | 
             resizeObserver.unobserve(observeTarget);
         };
     }, [gridSizeStore]);
+
+    useLayoutEffect(() => {
+        const body = gridSizeStore.gridBodyRef.current;
+        if (!body || !gridSizeStore.hasVirtualScrolling) {
+            prevIsRefreshing.current = query.isRefreshing;
+            return;
+        }
+        if (query.isRefreshing && !prevIsRefreshing.current) {
+            savedScrollTop.current = body.scrollTop;
+        } else if (!query.isRefreshing && prevIsRefreshing.current && savedScrollTop.current > 0) {
+            body.scrollTop = savedScrollTop.current;
+        }
+        prevIsRefreshing.current = query.isRefreshing;
+    });
 
     return [gridSizeStore.hasVirtualScrolling ? trackBodyScrolling : undefined];
 }

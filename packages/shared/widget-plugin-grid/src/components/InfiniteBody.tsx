@@ -1,4 +1,3 @@
-import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 import classNames from "classnames";
 import {
     CSSProperties,
@@ -10,11 +9,13 @@ import {
     useRef,
     useState
 } from "react";
+import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 
 export interface InfiniteBodyProps {
     className?: string;
     hasMoreItems: boolean;
     isInfinite: boolean;
+    isRefreshing?: boolean;
     role?: string;
     setPage?: (computePage: (prevPage: number) => number) => void;
     style?: CSSProperties;
@@ -24,10 +25,12 @@ const offsetBottom = 30;
 export function useInfiniteControl(
     props: PropsWithChildren<InfiniteBodyProps>
 ): [trackScrolling: (e: any) => void, bodySize: number, containerRef: RefObject<HTMLDivElement | null>] {
-    const { setPage, hasMoreItems, isInfinite } = props;
+    const { setPage, hasMoreItems, isInfinite, isRefreshing } = props;
     const [bodySize, setBodySize] = useState<number>(0);
     const containerRef = useRef<HTMLDivElement>(null);
     const isVisible = useOnScreen(containerRef as RefObject<HTMLElement>);
+    const savedScrollTop = useRef(0);
+    const prevIsRefreshing = useRef(false);
 
     const trackScrolling = useCallback(
         (e: any) => {
@@ -58,6 +61,21 @@ export function useInfiniteControl(
         if (bodySize <= 0) {
             calculateBodyHeight();
         }
+    });
+
+    useLayoutEffect(() => {
+        const container = containerRef.current;
+        if (!container || !isInfinite) {
+            prevIsRefreshing.current = isRefreshing ?? false;
+            return;
+        }
+        const refreshing = isRefreshing ?? false;
+        if (refreshing && !prevIsRefreshing.current) {
+            savedScrollTop.current = container.scrollTop;
+        } else if (!refreshing && prevIsRefreshing.current && savedScrollTop.current > 0) {
+            container.scrollTop = savedScrollTop.current;
+        }
+        prevIsRefreshing.current = refreshing;
     });
 
     return [trackScrolling, bodySize, containerRef];

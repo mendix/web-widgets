@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the scroll position was lost after saving changes in a popup opened from the widget when using non-persistent entities with virtual scrolling or load-more pagination.
+
 ## [3.9.0] - 2026-03-23
 
 ### Changed
