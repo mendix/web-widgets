@@ -9,7 +9,6 @@ import { CSSProperties, ReactElement, useCallback, useContext, useEffect, useRef
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { EditorContext, EditorProvider } from "../store/EditorProvider";
 import { useActionEvents } from "../store/useActionEvents";
-import { updateLegacyQuillFormats } from "../utils/helpers";
 import MendixTheme from "../utils/themes/mxTheme";
 import { MxQuillModulesOptions } from "../utils/MxQuill";
 import { createPreset } from "./CustomToolbars/presets";
@@ -108,10 +107,6 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
 
     useEffect(() => {
         if (quillRef.current) {
-            const isTransformed = updateLegacyQuillFormats(quillRef.current);
-            if (isTransformed) {
-                setAttributeValueDebounce(quillRef.current.getSemanticHTML());
-            }
             if (!isFirstLoad.current) {
                 executeAction(onLoad);
                 isFirstLoad.current = true;
