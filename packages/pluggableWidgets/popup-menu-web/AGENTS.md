@@ -19,29 +19,30 @@ PopupMenu → PopupContext.Provider
 
 ### Why `cloneElement` in PopupTrigger
 
-ARIA attributes (`aria-haspopup`, `aria-expanded`) must be on the **actual trigger element**, not a wrapper div.
+ARIA attributes (`aria-haspopup`, `aria-expanded`) should be on the **actual trigger element** for best screen reader compatibility.
 
 ```tsx
-// ✅ cloneElement applies props directly to child
-return cloneElement(childElement, {
-    ref,
+// ✅ cloneElement applies ARIA to child, wrapper preserved for backwards compatibility
+const enhancedChild = cloneElement(childElement, {
     "aria-haspopup": "menu",
-    "aria-expanded": open,
-    ...getReferenceProps?.({ onClick: ... })
+    "aria-expanded": open
 } as any);
+
+return <div className="popupmenu-trigger" ...>{enhancedChild}</div>;
 ```
 
-**Why `as any`**: React 19 types don't recognize `ref` in cloneElement props object, even though it's supported. TypeScript also can't verify props for unknown child components.
+**Why keep wrapper**: Backwards compatibility - `.popupmenu-trigger` class preserved for custom styling.  
+**Why `as any`**: React 19 types don't allow ARIA props on unknown child components in cloneElement.
 
 ### Roving Tabindex Pattern
 
 Only **one** menu item has `tabindex="0"` (the active one), others have `tabindex="-1"`. This enables Arrow Up/Down navigation via `useListNavigation`.
 
-## Breaking Change Alert (AT-174)
+## Implementation Notes (AT-174)
 
-**Removed**: `.popupmenu-trigger` wrapper div  
-**Impact**: Tests using `container.querySelector(".popupmenu-trigger")` will fail  
-**Fix**: Use `getByText("Trigger")` or query the actual trigger element
+**Wrapper preserved**: `.popupmenu-trigger` class still exists for backwards compatibility  
+**ARIA placement**: ARIA attributes added to both wrapper (Floating UI) and child button (screen readers)  
+**No breaking changes**: Custom styles targeting `.popupmenu-trigger` continue to work
 
 ## Key Files
 
