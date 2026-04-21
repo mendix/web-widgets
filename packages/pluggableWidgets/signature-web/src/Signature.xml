@@ -10,6 +10,10 @@
                     <caption>Image value</caption>
                     <description />
                 </property>
+                <property key="fileName" type="textTemplate" required="false">
+                    <caption>File name</caption>
+                    <description>Custom filename for the file (without extension). If empty, generates automatically based on format and value.</description>
+                </property>
                 <property key="hasSignatureAttribute" type="attribute" required="false">
                     <caption>Has signature</caption>
                     <description>Optional boolean attribute, which will be set to true after the canvas is signed. When the attribute is set to false, the signature is cleared, but will not clear the stored image</description>

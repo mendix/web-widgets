@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, EditableValue, EditableImageValue, Option, WebImage } from "mendix";
+import { ActionValue, DynamicValue, EditableValue, EditableImageValue, Option, WebImage } from "mendix";
 
 export type PenTypeEnum = "fountain" | "ballpoint" | "marker";
 
@@ -24,6 +24,7 @@ export interface SignatureContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     imageSource: EditableImageValue<WebImage>;
+    fileName?: DynamicValue<string>;
     hasSignatureAttribute?: EditableValue<boolean>;
     penType: PenTypeEnum;
     penColor: string;
@@ -56,6 +57,7 @@ export interface SignaturePreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     imageSource: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
+    fileName: string;
     hasSignatureAttribute: string;
     penType: PenTypeEnum;
     penColor: string;

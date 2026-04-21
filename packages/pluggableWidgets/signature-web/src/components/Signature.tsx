@@ -10,13 +10,14 @@ import { SignatureProps } from "../utils/customTypes";
 import Utils from "../utils/Utils";
 
 export function SignatureComponent(props: SignatureProps): ReactElement {
-    const { className, alertMessage, wrapperStyle, imageSource, onSignEndAction } = props;
+    const { className, alertMessage, wrapperStyle, imageSource, fileName, onSignEndAction } = props;
     const readOnly = imageSource.readOnly;
     const showGrid = props.showGrid && !readOnly;
 
     const handleSignEnd = (imageDataUrl?: string): void => {
         if (imageDataUrl) {
-            imageSource.setValue(Utils.convertUrlToBlob(imageDataUrl));
+            const customFileName = fileName?.value || Utils.generateFileName("signature");
+            imageSource.setValue(Utils.convertUrlToBlob(imageDataUrl, customFileName));
         }
 
         // Trigger microflow to update signature attribute
