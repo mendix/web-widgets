@@ -1,7 +1,7 @@
 {
     "name": "@mendix/popup-menu-web",
     "widgetName": "PopupMenu",
-    "version": "4.1.0",
+    "version": "4.1.1",
     "description": "Popup Menu widget for displaying a list of actions in a popup.",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
