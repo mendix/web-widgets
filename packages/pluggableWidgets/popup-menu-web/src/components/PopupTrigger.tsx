@@ -7,20 +7,30 @@ export const PopupTrigger = forwardRef(
         const { getReferenceProps, open, refs } = usePopupContext();
         const childElement = children as ReactElement;
         const childrenRef = (childElement as any).ref;
-        const ref = useMergeRefs([refs.setReference, propRef, childrenRef]);
+        const ref = useMergeRefs([refs.setReference, propRef]);
 
-        // Clone the child element and apply ARIA attributes and ref directly to it
+        // Clone the child element and apply ARIA attributes directly to it
         // This ensures screen readers see the attributes on the actual button element
-        return cloneElement(childElement, {
-            ref,
+        // while keeping the wrapper for backwards compatibility
+        const enhancedChild = cloneElement(childElement, {
+            ref: childrenRef,
             "aria-haspopup": "menu",
-            "aria-expanded": open,
-            "data-state": open ? "open" : "closed",
-            ...getReferenceProps?.({
-                onClick: e => {
-                    e.stopPropagation();
-                }
-            })
+            "aria-expanded": open
         } as any);
+
+        return (
+            <div
+                className="popupmenu-trigger"
+                ref={ref}
+                data-state={open ? "open" : "closed"}
+                {...getReferenceProps?.({
+                    onClick: e => {
+                        e.stopPropagation();
+                    }
+                })}
+            >
+                {enhancedChild}
+            </div>
+        );
     }
 );
