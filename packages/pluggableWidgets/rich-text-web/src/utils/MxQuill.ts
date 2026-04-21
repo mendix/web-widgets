@@ -64,6 +64,9 @@ class MxEditor extends Editor {
      * https://github.com/slab/quill/blob/main/packages/quill/src/core/editor.ts
      */
     getHTML(index: number, length: number): string {
+        if (this.isBlank()) {
+            return "";
+        }
         const [line, lineOffset] = this.scroll.line(index);
         if (line) {
             const lineLength = line.length();
