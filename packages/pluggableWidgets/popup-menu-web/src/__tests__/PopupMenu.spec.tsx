@@ -62,4 +62,27 @@ describe("Popup Menu", () => {
             expect(container.querySelectorAll(".popupmenu-custom-item")).toHaveLength(0);
         });
     });
+
+    describe("keyboard accessibility", () => {
+        it("renders trigger with aria-haspopup menu", () => {
+            const { getByText } = createPopupMenu(defaultProps);
+            const trigger = getByText("Trigger");
+
+            expect(trigger).toHaveAttribute("aria-haspopup", "menu");
+        });
+
+        it("renders trigger with aria-expanded true when menu is open", () => {
+            const { getByText } = createPopupMenu({ ...defaultProps, menuToggle: true });
+            const trigger = getByText("Trigger");
+
+            expect(trigger).toHaveAttribute("aria-expanded", "true");
+        });
+
+        it("renders trigger with aria-expanded false when menu is closed", () => {
+            const { getByText } = createPopupMenu({ ...defaultProps, menuToggle: false });
+            const trigger = getByText("Trigger");
+
+            expect(trigger).toHaveAttribute("aria-expanded", "false");
+        });
+    });
 });

@@ -5,19 +5,17 @@ exports[`Popup Menu renders popup menu 1`] = `
   <div
     class="popupmenu mx-popup-menu"
   >
-    <div
+    <button
       aria-controls=":r0:"
       aria-expanded="true"
-      aria-haspopup="dialog"
+      aria-haspopup="menu"
       aria-hidden="true"
-      class="popupmenu-trigger"
       data-floating-ui-inert=""
       data-state="open"
+      id=":r1:"
     >
-      <button>
-        Trigger
-      </button>
-    </div>
+      Trigger
+    </button>
     <span
       aria-hidden="true"
       data-floating-ui-focus-guard=""
@@ -31,20 +29,25 @@ exports[`Popup Menu renders popup menu 1`] = `
       class="widget-popupmenu-root"
     >
       <ul
+        aria-labelledby=":r1:"
+        aria-orientation="vertical"
         class="popupmenu-menu"
         data-floating-ui-focusable=""
         id=":r0:"
-        role="dialog"
+        role="menu"
         style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
         tabindex="0"
       >
         <li
           class="popupmenu-basic-item"
+          role="menuitem"
+          tabindex="0"
         >
           Caption
         </li>
         <li
           class="popupmenu-basic-divider"
+          role="separator"
         />
       </ul>
     </div>

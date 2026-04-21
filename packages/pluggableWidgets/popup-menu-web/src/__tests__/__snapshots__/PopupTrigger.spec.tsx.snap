@@ -2,16 +2,14 @@
 
 exports[`Popup Trigger renders popup trigger 1`] = `
 <DocumentFragment>
-  <div
+  <button
     aria-controls=":r0:"
     aria-expanded="true"
-    aria-haspopup="dialog"
-    class="popupmenu-trigger"
+    aria-haspopup="menu"
     data-state="open"
+    id=":r1:"
   >
-    <button>
-      Trigger
-    </button>
-  </div>
+    Trigger
+  </button>
 </DocumentFragment>
 `;
