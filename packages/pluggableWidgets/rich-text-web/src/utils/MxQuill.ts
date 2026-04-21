@@ -119,7 +119,7 @@ export default class MxQuill extends Quill {
  * https://github.com/slab/quill/blob/main/packages/quill/src/core/editor.ts
  */
 function getListType(type: string | undefined): [tag: string, attr: string] {
-    const tag = type === "ordered" ? "ol" : "ul";
+    const tag = type === "ordered" || type === "lower-alpha" || type === "lower-roman" ? "ol" : "ul";
     switch (type) {
         case "checked":
             return [tag, ' data-list="checked"'];
