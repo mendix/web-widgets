@@ -12,10 +12,10 @@ export interface MenuProps extends PopupMenuContainerProps {
 }
 
 export const Menu = forwardRef((props: MenuProps, propRef: RefObject<HTMLDivElement>): ReactElement | null => {
-    const { context: floatingContext, floatingStyles, getFloatingProps, modal, refs } = usePopupContext();
+    const { context: floatingContext, floatingStyles, getFloatingProps, modal, refs, open } = usePopupContext();
     const ref = useMergeRefs([refs.setFloating, propRef]);
 
-    if (!floatingContext.open) {
+    if (!open) {
         return null;
     }
 
