@@ -1,7 +1,7 @@
 {
     "name": "@mendix/html-element-web",
     "widgetName": "HTMLElement",
-    "version": "1.2.6",
+    "version": "1.2.7",
     "description": "Displays custom HTML",
     "copyright": "© Mendix Technology BV 2025. All rights reserved.",
     "license": "Apache-2.0",
