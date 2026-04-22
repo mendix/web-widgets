@@ -48,9 +48,9 @@ function DefaultActionsBar(props: ButtonsBarProps): ReactElement {
         props.store.remove();
     }, [props.store]);
 
-    const onViewClick = useCallback(() => {
-        onDownloadClick(props.store.downloadUrl);
-    }, [props.store.downloadUrl]);
+    const onViewClick = useCallback(async () => {
+        onDownloadClick(await props.store.getDownloadUrl());
+    }, [props.store]);
 
     return (
         <div className={"entry-details-actions"}>
