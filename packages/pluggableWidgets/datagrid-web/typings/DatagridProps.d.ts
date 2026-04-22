@@ -131,6 +131,7 @@ export interface DatagridContainerProps {
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
+    customRowKey?: ListExpressionValue<string>;
     columnsSortable: boolean;
     columnsResizable: boolean;
     columnsDraggable: boolean;
@@ -198,6 +199,7 @@ export interface DatagridPreviewProps {
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     rowClass: string;
+    customRowKey: string;
     columnsSortable: boolean;
     columnsResizable: boolean;
     columnsDraggable: boolean;
