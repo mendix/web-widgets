@@ -9,8 +9,8 @@ import { CSSProperties, ReactElement, useCallback, useContext, useEffect, useRef
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { EditorContext, EditorProvider } from "../store/EditorProvider";
 import { useActionEvents } from "../store/useActionEvents";
-import { updateLegacyQuillFormats } from "../utils/helpers";
 import MendixTheme from "../utils/themes/mxTheme";
+import { MxQuillModulesOptions } from "../utils/MxQuill";
 import { createPreset } from "./CustomToolbars/presets";
 import Editor from "./Editor";
 import { StickySentinel } from "./StickySentinel";
@@ -74,12 +74,12 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
 
     const calculateCounts = useCallback(
         (quill: Quill | null): void => {
-            if (enableStatusBar) {
+            if (enableStatusBar && quill) {
                 if (statusBarContent === "wordCount") {
                     const text = quill?.getText().trim();
                     setWordCount(text && text.length > 0 ? text.split(/\s+/).length : 0);
                 } else if (statusBarContent === "characterCount") {
-                    const text = quill?.getText() || "";
+                    const text = quill?.getText().trimEnd() || "";
                     setWordCount(text.length);
                 } else if (statusBarContent === "characterCountHtml") {
                     const html = quill?.getSemanticHTML() || "";
@@ -95,7 +95,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
             calculateCounts(quillRef.current);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [stringAttribute.value, calculateCounts, quillRef.current]);
+    }, [stringAttribute.value]);
 
     useEffect(() => {
         if (quillRef.current) {
@@ -107,25 +107,21 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
 
     useEffect(() => {
         if (quillRef.current) {
-            const isTransformed = updateLegacyQuillFormats(quillRef.current);
-            if (isTransformed) {
-                setAttributeValueDebounce(quillRef.current.getSemanticHTML());
-            }
             if (!isFirstLoad.current) {
                 executeAction(onLoad);
                 isFirstLoad.current = true;
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [quillRef.current, onChange?.isExecuting]);
+    }, [quillRef.current]);
 
     const onTextChange = useCallback(() => {
-        if (stringAttribute.value !== quillRef?.current?.getSemanticHTML()) {
-            setAttributeValueDebounce(quillRef?.current?.getSemanticHTML());
+        const semanticHTML = quillRef.current?.getSemanticHTML() || "";
+        if (stringAttribute.value !== semanticHTML) {
+            setAttributeValueDebounce(semanticHTML);
         }
-        calculateCounts(quillRef.current);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [quillRef.current, stringAttribute, calculateCounts, onChange?.isExecuting]);
+    }, [quillRef.current, stringAttribute, calculateCounts]);
 
     const toolbarId = `widget_${id.replaceAll(".", "_")}_toolbar`;
     const shouldHideToolbar = (stringAttribute.readOnly && readOnlyStyle !== "text") || toolbarLocation === "hide";
@@ -195,7 +191,14 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     className={"widget-rich-text-container"}
                     readOnly={stringAttribute.readOnly}
                     key={`${toolbarId}_${stringAttribute.readOnly}`}
-                    customFonts={props.customFonts}
+                    options={
+                        {
+                            fonts: props.customFonts,
+                            links: {
+                                validate: props.linkValidation
+                            }
+                        } as MxQuillModulesOptions
+                    }
                     imageSource={imageSource}
                     imageSourceContent={imageSourceContent}
                     enableDefaultUpload={enableDefaultUpload}

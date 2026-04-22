@@ -1,4 +1,4 @@
-import { ReactElement, useMemo } from "react";
+import { Fragment, ReactElement, useMemo } from "react";
 import classNames from "classnames";
 import { CalendarContainerProps } from "../typings/CalendarProps";
 import { CalendarPropsBuilder } from "./helpers/CalendarPropsBuilder";
@@ -26,9 +26,16 @@ export default function MxCalendar(props: CalendarContainerProps): ReactElement 
     }, [props, calendarController, localizer, culture]);
 
     const calendarEvents = useCalendarEvents(props);
+
     return (
-        <div className={classNames("widget-calendar", props.class)} style={wrapperStyle}>
-            <DnDCalendar {...calendarProps} {...calendarEvents} />
-        </div>
+        <Fragment>
+            {props.startDateAttribute?.status === "loading" ? (
+                <progress className="widget-calendar-loading-bar" />
+            ) : (
+                <div className={classNames("widget-calendar", props.class)} style={wrapperStyle}>
+                    <DnDCalendar {...calendarProps} {...calendarEvents} />
+                </div>
+            )}
+        </Fragment>
     );
 }

@@ -226,6 +226,9 @@ const _08_paginationBindings: BindingGroup = {
             GY.paging.dynamicPage,
             GY.paging.dynamicPageSize,
             CORE.data.totalCount,
+            GY.paging.currentPage,
+            CORE.data.itemCount,
+            CORE.mainGate,
             GY.paging.pageControl
         );
         injected(customPaginationAtom, CORE.mainGate);
@@ -245,13 +248,15 @@ const _08_paginationBindings: BindingGroup = {
     init(container, { props }) {
         const config = galleryPaginationConfig(props);
         container.bind(GY.paging.paginationConfig).toConstant(config);
-        container.bind(CORE.initPageSize).toConstant(config.constPageSize);
+        container.bind(CORE.initPageSize).toConstant(config.initPageSize);
     },
     postInit(container) {
         const config = container.get(GY.paging.paginationConfig);
         const query = container.get(GY.query);
         query.requestTotalCount(config.requestTotalCount);
-        query.setBaseLimit(config.constPageSize);
+        // Use the resolved initPageSize (dynamic value if provided, else constPageSize)
+        // so the very first datasource fetch uses the correct limit.
+        query.setBaseLimit(container.get(CORE.initPageSize));
         container.get(GY.paging.dynamicPagination); // Enable dynamic pagination feature
     }
 };

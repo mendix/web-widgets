@@ -1,11 +1,17 @@
-export type ValidationResult = {
-    valid: boolean;
-    // `message` is a plain, non-localized message shown in Studio if validation fails.
-    message?: string;
-};
+import { AddonFormatEnum, CodeFormatEnum, CustomCodeFormatEnum } from "../../typings/BarcodeGeneratorProps";
+
+export type ValidationResult =
+    | {
+          valid: true;
+      }
+    | {
+          valid: false;
+          // `message` is a plain, non-localized message shown in Studio if validation fails.
+          message: string;
+      };
 
 /** Validate barcode value for a given format. */
-export function validateBarcodeValue(format: string, value: string): ValidationResult {
+export function validateBarcodeValue(format: CustomCodeFormatEnum | CodeFormatEnum, value: string): ValidationResult {
     // If no value is present at design time, assume dynamic binding will provide it at runtime.
     if (!value) {
         return { valid: true };
@@ -135,7 +141,7 @@ export function validateBarcodeValue(format: string, value: string): ValidationR
 }
 
 /** Validate addon (EAN-5 / EAN-2) values. */
-export function validateAddonValue(addonFormat: string | null | undefined, value: string): ValidationResult {
+export function validateAddonValue(addonFormat: AddonFormatEnum | null | undefined, value: string): ValidationResult {
     if (!addonFormat || addonFormat === "None") {
         return { valid: true };
     }

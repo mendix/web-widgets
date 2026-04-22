@@ -6,11 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [4.1.0] - 2024-02-11
+## [4.1.0] - 2026-04-13
 
-### Added
+### Fixed
 
-- We added a new 'Close on' setting to customize the popup's closing behavior on click, allowing it to close when clicked anywhere or only outside the popup.
+- We fixed an issue with Advanced options mode not showing options content in Design mode.
 
 ## [4.0.3] - 2026-02-10
 

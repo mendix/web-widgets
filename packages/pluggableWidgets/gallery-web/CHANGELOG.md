@@ -6,11 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.9.0] - 2026-03-23
+
+### Fixed
+
+- We fixed the pagination properties `Page attribute`, `Page size attribute`, and `Total count` not being shown in Studio Pro for Virtual Scrolling and Load More pagination modes.
+
 ### Changed
 
 - We changed the structure of the gallery settings to align them with the data grid.
 
 ### Added
+
+- We added the `Loaded rows` attribute to reflect the number of rows currently loaded. Available for Virtual Scrolling and Load More pagination modes.
 
 - We added new attributes and a drop zone for custom pagination.
 

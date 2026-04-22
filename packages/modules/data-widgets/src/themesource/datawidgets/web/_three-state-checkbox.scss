@@ -28,7 +28,7 @@ input[type="checkbox"].three-state-checkbox {
         width: 100%;
         height: 100%;
         content: "";
-        border: 1px solid #e7e7e9;
+        border: 1px solid var(--form-input-border-color, $form-input-border-color);
         border-radius: 4px;
         background-color: transparent;
     }
@@ -40,7 +40,7 @@ input[type="checkbox"].three-state-checkbox {
         margin: 5px 4px;
         transform: rotate(-45deg);
         pointer-events: none;
-        border: 2px solid #ffffff;
+        border: 2px solid var(--btn-primary-color, $btn-primary-color);
         border-top: 0;
         border-right: 0;
     }
@@ -59,13 +59,13 @@ input[type="checkbox"].three-state-checkbox {
 
     &:not(:disabled):not(:checked):hover:after {
         content: "";
-        border-color: #e7e7e9; // color of checkmark on hover
+        border-color: var(--form-input-border-color, $form-input-border-color); // color of checkmark on hover
     }
 
     &:indeterminate:before,
     &:checked:before {
-        border-color: #264ae5;
-        background-color: #264ae5;
+        border-color: var(--brand-primary, $brand-primary);
+        background-color: var(--brand-primary, $brand-primary);
     }
 
     &:indeterminate:after,
@@ -74,17 +74,17 @@ input[type="checkbox"].three-state-checkbox {
     }
 
     &:disabled:before {
-        background-color: #f8f8f8;
+        background-color: var(--gray-50, #f8f8f8);
     }
 
     &:indeterminate:disabled:before,
     &:checked:disabled:before {
         border-color: transparent;
-        background-color: rgba(#264ae5, 0.4);
+        background-color: var(--brand-primary-200, rgba($brand-primary, 0.4));
     }
 
     &:disabled:after {
-        border-color: #f8f8f8;
+        border-color: var(--gray-50, #f8f8f8);
     }
 
     & + .control-label {

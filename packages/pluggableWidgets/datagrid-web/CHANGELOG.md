@@ -6,13 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.9.0] - 2026-03-23
+
+### Changed
+
+- We improved accessibility on column selector, added aria-attributes and changed the role to 'menuitemcheckbox'.
+
 ### Added
 
 - We added accessibility support for column headers when single selection is enabled, making sure the purpose of the column is announced.
 
+- We added a new `Loaded rows` attribute that reflects the number of rows currently loaded for virtual scrolling and load-more pagination modes.
+
+- We exposed the `Page`, `Page size`, and `Total count` attributes for virtual scrolling and load-more pagination modes so they are kept in sync at all times.
+
 ### Fixed
 
+- We fixed an issue where rows incorrectly showed a pointer cursor when using checkbox selection. Now the clickable cursor only appears when selection method is set to row click or when a row has an onClick action.
+
 - We fixed an issue with Data export crashing on some Android devices.
+
+- We fixed an issue where the `Page` attribute was not updated when navigating pages using the default (buttons) paging controls.
+
+- We fixed an issue where configuring the `Total count` attribute had no effect for virtual scrolling and load-more pagination modes.
 
 ## [3.8.1] - 2026-02-19
 

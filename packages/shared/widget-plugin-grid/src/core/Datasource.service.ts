@@ -149,6 +149,10 @@ export class DatasourceService implements SetupComponent, QueryService {
     }
 
     setLimit(limit: number): void {
+        const currentLimit = this.datasource.limit;
+        if (limit === currentLimit) {
+            return;
+        }
         this.setFetching(true);
         this.datasource.setLimit(limit);
     }

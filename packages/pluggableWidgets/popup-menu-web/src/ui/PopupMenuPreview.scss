@@ -1,5 +1,9 @@
 .popupmenu {
     width: 100%;
+    flex-direction: column;
+    .popupmenu-menu {
+        position: static;
+    }
 }
 
 .popupmenu-trigger {

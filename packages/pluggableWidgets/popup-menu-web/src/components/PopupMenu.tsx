@@ -1,20 +1,15 @@
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import classNames from "classnames";
 import { ActionValue } from "mendix";
 import { ReactElement, useCallback, useEffect, useState } from "react";
-import { PopupMenuContainerProps } from "../../typings/PopupMenuProps";
-import { usePopup } from "../hooks/usePopup";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { Menu } from "./Menu";
 import { PopupContext } from "./PopupContext";
 import { PopupTrigger } from "./PopupTrigger";
+import { PopupMenuContainerProps } from "../../typings/PopupMenuProps";
+import { usePopup } from "../hooks/usePopup";
 
-export interface PopupMenuProps extends PopupMenuContainerProps {
-    preview?: boolean;
-}
-
-export function PopupMenu(props: PopupMenuProps): ReactElement {
-    const preview = !!props.preview;
-    const [visibility, setVisibility] = useState(preview && props.menuToggle);
+export function PopupMenu(props: PopupMenuContainerProps): ReactElement {
+    const [visibility, setVisibility] = useState(props.menuToggle);
     const open = visibility;
     const popup = usePopup({
         open,

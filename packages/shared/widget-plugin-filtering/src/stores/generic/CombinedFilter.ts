@@ -1,8 +1,8 @@
+import { FilterCondition } from "mendix/filters";
+import { action, computed, makeObservable, reaction } from "mobx";
 import { reduceArray, restoreArray } from "@mendix/filter-commons/condition-utils";
 import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { FilterCondition } from "mendix/filters";
-import { action, computed, makeObservable, reaction } from "mobx";
 import { ConditionWithMeta } from "../../typings/ConditionWithMeta";
 import { fnv1aHash } from "../../utils/fnv-1a-hash";
 

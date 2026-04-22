@@ -3,6 +3,17 @@ import userEvent from "@testing-library/user-event";
 import { ColumnSelector, ColumnSelectorProps } from "../ColumnSelector";
 import { ColumnId, GridColumn } from "../../typings/GridColumn";
 
+beforeAll(() => {
+    Object.defineProperty(global, "ResizeObserver", {
+        writable: true,
+        value: jest.fn().mockImplementation(() => ({
+            observe: jest.fn(),
+            unobserve: jest.fn(),
+            disconnect: jest.fn()
+        }))
+    });
+});
+
 jest.useFakeTimers();
 
 describe("Column Selector", () => {
@@ -37,7 +48,7 @@ describe("Column Selector", () => {
 
             jest.advanceTimersByTime(100);
 
-            const items = screen.getAllByRole("menuitem");
+            const items = screen.getAllByRole("menuitemcheckbox");
             expect(items[0]).toHaveFocus();
         });
 
@@ -52,7 +63,7 @@ describe("Column Selector", () => {
 
             jest.advanceTimersByTime(100);
 
-            const items = screen.getAllByRole("menuitem");
+            const items = screen.getAllByRole("menuitemcheckbox");
             expect(items[0]).toHaveFocus();
 
             await act(async () => {
@@ -92,7 +103,7 @@ describe("Column Selector", () => {
             });
             jest.advanceTimersByTime(100);
 
-            const items = screen.getAllByRole("menuitem");
+            const items = screen.getAllByRole("menuitemcheckbox");
             expect(items[0]).toHaveFocus();
 
             await act(async () => {
@@ -149,7 +160,7 @@ describe("Column Selector", () => {
             });
             jest.advanceTimersByTime(100);
 
-            const items = screen.getAllByRole("menuitem");
+            const items = screen.getAllByRole("menuitemcheckbox");
             expect(items).toHaveLength(3);
             expect(items[0]).toHaveFocus();
 

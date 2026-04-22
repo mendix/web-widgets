@@ -1,9 +1,9 @@
+import { isDate } from "date-fns/isDate";
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import { BaseSyntheticEvent, ClassAttributes, createRef, KeyboardEventHandler, MouseEventHandler } from "react";
-import { isDate } from "date-fns/isDate";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
-import { Date_InputFilterInterface, FilterFn } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 import { SetFilterValueArgs } from "@mendix/widget-plugin-external-events/typings";
+import { Date_InputFilterInterface, FilterFn } from "@mendix/widget-plugin-filtering/typings/InputFilterInterface";
 
 interface DatePickerBackendProps extends ReactDatePickerProps, ClassAttributes<ReactDatePicker> {}
 

@@ -42,6 +42,9 @@ import TextBlot, { escapeText } from "quill/blots/text";
 import { Delta, Op } from "quill/core";
 import Editor from "quill/core/editor";
 import { STANDARD_LIST_TYPES } from "./formats/customList";
+import { FontStyleAttributor, formatCustomFonts } from "./formats/fonts";
+import CustomLink, { CustomLinkNoValidation } from "./formats/link";
+import { CustomFontsType } from "../../typings/RichTextProps";
 
 interface ListItem {
     child: Blot;
@@ -61,6 +64,9 @@ class MxEditor extends Editor {
      * https://github.com/slab/quill/blob/main/packages/quill/src/core/editor.ts
      */
     getHTML(index: number, length: number): string {
+        if (this.isBlank()) {
+            return "";
+        }
         const [line, lineOffset] = this.scroll.line(index);
         if (line) {
             const lineLength = line.length();
@@ -74,8 +80,15 @@ class MxEditor extends Editor {
     }
 }
 
+export interface MxQuillModulesOptions {
+    fonts: CustomFontsType[];
+    links: {
+        validate: boolean;
+    };
+}
+
 /**
- * Extension's of quill to allow us replacing the editor instance.
+ * Extension's of quill to allow us to replace the editor instance.
  */
 export default class MxQuill extends Quill {
     constructor(container: HTMLElement | string, options: QuillOptions = {}) {
@@ -87,6 +100,18 @@ export default class MxQuill extends Quill {
         super.setContents(new Delta(), Quill.sources.SILENT);
         return this.updateContents(this.getContents().transform(dlta as Delta, false), source);
     }
+
+    registerCustomModules(props: MxQuillModulesOptions): void {
+        const { fonts, links } = props;
+        const customFonts = formatCustomFonts(fonts);
+        const FontStyle = new FontStyleAttributor(customFonts);
+        Quill.register(FontStyle, true);
+        if (links.validate) {
+            Quill.register(CustomLink, true);
+        } else {
+            Quill.register(CustomLinkNoValidation, true);
+        }
+    }
 }
 
 /**
@@ -94,7 +119,7 @@ export default class MxQuill extends Quill {
  * https://github.com/slab/quill/blob/main/packages/quill/src/core/editor.ts
  */
 function getListType(type: string | undefined): [tag: string, attr: string] {
-    const tag = type === "ordered" ? "ol" : "ul";
+    const tag = type === "ordered" || type === "lower-alpha" || type === "lower-roman" ? "ol" : "ul";
     switch (type) {
         case "checked":
             return [tag, ' data-list="checked"'];

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.3.0] - 2026-03-13
+
+### Fixed
+
+- We fixed an issue where custom button styles were not being applied correctly.
+
 ## [3.2.2] - 2026-02-09
 
 ### Added

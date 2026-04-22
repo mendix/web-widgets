@@ -1,5 +1,9 @@
 import Quill, { Range } from "quill";
+import { Delta } from "quill/core";
+import Emitter from "quill/core/emitter";
 import { Dispatch, MutableRefObject, SetStateAction, useState } from "react";
+import { RichTextContainerProps } from "typings/RichTextProps";
+import { IMG_MIME_TYPES } from "./constants";
 import {
     imageConfigType,
     type linkConfigType,
@@ -9,10 +13,6 @@ import {
 } from "../../utils/formats";
 import { type ChildDialogProps } from "../ModalDialog/Dialog";
 import { type VideoFormType } from "../ModalDialog/VideoDialog";
-import { Delta } from "quill/core";
-import { IMG_MIME_TYPES } from "./constants";
-import Emitter from "quill/core/emitter";
-import { RichTextContainerProps } from "typings/RichTextProps";
 
 type ModalReturnType = {
     showDialog: boolean;
@@ -48,8 +48,8 @@ export function useEmbedModal(
                         const index = selection?.index ?? 0;
                         const length = selection?.length ?? 0;
                         const textToDisplay = value.text ?? value.href;
-                        const linkDelta = new Delta().retain(index).insert(textToDisplay).delete(length);
-                        ref.current?.updateContents(linkDelta);
+                        const linkDelta = new Delta().retain(index).delete(length).insert(textToDisplay);
+                        ref.current?.updateContents(linkDelta, Emitter.sources.SILENT);
                         ref.current?.setSelection(index, textToDisplay.length);
                         ref.current?.format("link", value);
                         closeDialog();

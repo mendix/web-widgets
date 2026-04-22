@@ -58,6 +58,7 @@ export interface GalleryContainerProps {
     dynamicPageSize?: EditableValue<Big>;
     dynamicPage?: EditableValue<Big>;
     totalCountValue?: EditableValue<Big>;
+    dynamicItemCount?: EditableValue<Big>;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     itemClass?: ListExpressionValue<string>;
@@ -113,6 +114,7 @@ export interface GalleryPreviewProps {
     dynamicPageSize: string;
     dynamicPage: string;
     totalCountValue: string;
+    dynamicItemCount: string;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemClass: string;

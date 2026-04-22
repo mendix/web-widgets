@@ -1,9 +1,9 @@
-import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
 import classNames from "classnames";
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
-import { FilterSelector } from "../filter-selector/FilterSelector";
+import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
 import { InputComponentProps } from "./typings";
+import { FilterSelector } from "../filter-selector/FilterSelector";
 
 export function InputWithFiltersComponent<Fn extends AllFunctions>(props: InputComponentProps<Fn>): ReactElement {
     const {

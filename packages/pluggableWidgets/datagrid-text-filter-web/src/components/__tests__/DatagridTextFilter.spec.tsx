@@ -1,20 +1,20 @@
-import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
-import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import "@testing-library/jest-dom";
-import { AttributeMetaData } from "mendix";
 
+import { act, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { resetIdCounter } from "downshift";
+import { AttributeMetaData } from "mendix";
+import { createContext } from "react";
 import { requirePlugin } from "@mendix/widget-plugin-external-events/plugin";
+import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { StringInputFilterStore } from "@mendix/widget-plugin-filtering/stores/input/StringInputFilterStore";
+import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/ObservableFilterHost";
 import {
     actionValue,
     dynamicValue,
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
-import { act, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { resetIdCounter } from "downshift";
-import { createContext } from "react";
 import { DatagridTextFilterContainerProps } from "../../../typings/DatagridTextFilterProps";
 import DatagridTextFilter from "../../DatagridTextFilter";
 
@@ -235,6 +235,19 @@ describe("Text Filter", () => {
 
                 expect(input).toHaveValue("");
                 expect(attribute.setValue).toHaveBeenLastCalledWith(undefined);
+            });
+
+            it("keeps focus in filter controls when empty operator is selected", async () => {
+                render(<DatagridTextFilter {...commonProps} />);
+
+                const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+                const triggerButton = screen.getByRole("combobox", { name: "Equal" });
+
+                await user.click(triggerButton);
+                await user.click(screen.getByRole("option", { name: "Empty" }));
+
+                expect(screen.getByRole("textbox")).toBeDisabled();
+                expect(document.body).not.toHaveFocus();
             });
 
             afterAll(() => {

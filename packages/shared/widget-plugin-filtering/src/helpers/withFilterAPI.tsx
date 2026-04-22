@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { FilterAPI, useFilterAPI } from "../context";
 import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { FilterAPI, useFilterAPI } from "../context";
 
 export function withFilterAPI<P>(Component: FC<P & { filterAPI: FilterAPI }>): FC<P> {
     return function FilterAPIProvider(props) {

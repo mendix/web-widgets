@@ -1,6 +1,6 @@
-import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { ListAttributeValue } from "mendix";
 import { FilterCondition } from "mendix/filters";
+import { EnumFilterStore } from "@mendix/widget-plugin-dropdown-filter/stores/EnumFilterStore";
 import { APIError, NOT_FILTERABLE, UNSUPPORTED_ATTRIBUTE_TYPE } from "../../errors";
 import { error, Result, value } from "../../result-meta";
 import {

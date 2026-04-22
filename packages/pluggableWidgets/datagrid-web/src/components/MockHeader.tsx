@@ -8,6 +8,21 @@ export function MockHeader(): ReactNode {
     const resizeCallback = useCallback<ResizeObserverCallback>(
         entries => {
             const container = entries[0].target.parentElement!;
+
+            const gridContainer = container.closest<HTMLDivElement>(".table");
+            const gridBody = container.closest<HTMLDivElement>(".table-content");
+            if (gridContainer && gridBody) {
+                if (gridContainer.dataset.hasScrollX === "true") {
+                    if (gridBody.scrollWidth <= gridBody.clientWidth) {
+                        delete gridContainer.dataset.hasScrollX;
+                    }
+                } else {
+                    if (gridContainer.scrollWidth > gridContainer.clientWidth) {
+                        gridContainer.dataset.hasScrollX = "true";
+                    }
+                }
+            }
+
             const sizes = new Map<string, number>();
             container.querySelectorAll<HTMLDivElement>("[data-column-id]").forEach(c => {
                 const columnId = c.dataset.columnId;

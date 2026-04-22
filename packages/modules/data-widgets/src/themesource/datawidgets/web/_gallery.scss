@@ -3,9 +3,9 @@
 
    Override styles of Gallery widget
 ========================================================================== */
-$gallery-screen-lg: $screen-lg;
-$gallery-screen-md: $screen-md;
-$root: ".widget-gallery";
+$gallery-screen-lg: $screen-lg !default;
+$gallery-screen-md: $screen-md !default;
+$root: ".widget-gallery" !default;
 
 @mixin grid-items($number, $suffix) {
     @for $i from 1 through $number {
@@ -28,7 +28,7 @@ $root: ".widget-gallery";
 
     .widget-gallery-items {
         display: grid;
-        grid-gap: var(--gallery-gap);
+        grid-gap: var(--gallery-gap, $gallery-gap);
 
         /*
          Desktop widths
@@ -67,7 +67,7 @@ $root: ".widget-gallery";
 
     &:not(.widget-gallery-disable-selected-items-highlight) {
         .widget-gallery-item.widget-gallery-clickable.widget-gallery-selected {
-            background: $brand-light;
+            background: var(--brand-primary-100, $brand-light);
         }
     }
 
@@ -177,6 +177,6 @@ $root: ".widget-gallery";
 
     &:hover,
     &:focus-visible {
-        background-color: var(--brand-primary-50, #e6e7f2);
+        background-color: var(--brand-primary-50, $color-default-lighter);
     }
 }

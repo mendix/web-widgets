@@ -1,3 +1,5 @@
+import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
+import classNames from "classnames";
 import {
     CSSProperties,
     PropsWithChildren,
@@ -8,8 +10,6 @@ import {
     useRef,
     useState
 } from "react";
-import classNames from "classnames";
-import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 
 export interface InfiniteBodyProps {
     className?: string;
@@ -55,8 +55,10 @@ export function useInfiniteControl(
     }, [isInfinite, hasMoreItems, bodySize, isVisible]);
 
     useLayoutEffect(() => {
-        setTimeout(() => calculateBodyHeight(), 100);
-    }, [calculateBodyHeight]);
+        if (bodySize <= 0) {
+            calculateBodyHeight();
+        }
+    });
 
     return [trackScrolling, bodySize, containerRef];
 }

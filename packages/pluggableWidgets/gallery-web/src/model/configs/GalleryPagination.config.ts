@@ -3,6 +3,7 @@ import { GalleryGateProps } from "../../typings/GalleryGateProps";
 
 export interface GalleryPaginationConfig {
     constPageSize: number;
+    initPageSize: number;
     customPaginationEnabled: boolean;
     dynamicPageEnabled: boolean;
     dynamicPageSizeEnabled: boolean;
@@ -21,6 +22,7 @@ export type PaginationKind = `${PaginationEnum}.${ShowPagingButtonsEnum}` | "cus
 export function galleryPaginationConfig(props: GalleryGateProps): GalleryPaginationConfig {
     const config: GalleryPaginationConfig = {
         constPageSize: props.pageSize,
+        initPageSize: resolveInitPageSize(props),
         customPaginationEnabled: paginationKind(props) === "custom",
         dynamicPageEnabled: dynamicPageEnabled(props),
         dynamicPageSizeEnabled: dynamicPageSizeEnabled(props),
@@ -37,6 +39,19 @@ export function galleryPaginationConfig(props: GalleryGateProps): GalleryPaginat
     return Object.freeze(config);
 }
 
+/**
+ * Resolves the initial page size for the first datasource fetch.
+ * Returns 0 when `dynamicPageSize` is configured so that no rows are fetched
+ * before the attribute value is available — the real limit is applied once
+ * `DynamicPaginationFeature` syncs the attribute on setup.
+ */
+export function resolveInitPageSize(props: GalleryGateProps): number {
+    if (props.dynamicPageSize !== undefined) {
+        return 0;
+    }
+    return props.pageSize;
+}
+
 export function paginationKind(props: GalleryGateProps): PaginationKind {
     if (props.useCustomPagination) {
         return "custom";
@@ -50,13 +65,13 @@ function isLimitBased(props: GalleryGateProps): boolean {
 }
 
 export function dynamicPageSizeEnabled(props: GalleryGateProps): boolean {
-    return props.dynamicPageSize !== undefined && !isLimitBased(props);
+    return props.dynamicPageSize !== undefined;
 }
 
 export function dynamicPageEnabled(props: GalleryGateProps): boolean {
-    return props.dynamicPage !== undefined && !isLimitBased(props);
+    return props.dynamicPage !== undefined;
 }
 
 function requestTotalCount(props: GalleryGateProps): boolean {
-    return props.pagination === "buttons" || props.showTotalCount;
+    return props.pagination === "buttons" || props.showTotalCount || props.totalCountValue !== undefined;
 }

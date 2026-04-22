@@ -1,5 +1,4 @@
 jest.mock("mendix/filters/builders");
-import { attrId, listAttribute } from "@mendix/widget-plugin-test-utils";
 import { ListAttributeValue } from "mendix";
 import {
     and,
@@ -16,6 +15,7 @@ import {
     or
 } from "mendix/filters/builders";
 import { configure } from "mobx";
+import { attrId, listAttribute } from "@mendix/widget-plugin-test-utils";
 import { DateInputFilterStore } from "../stores/input/DateInputFilterStore";
 
 configure({

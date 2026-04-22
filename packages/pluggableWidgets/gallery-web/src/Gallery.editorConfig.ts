@@ -20,7 +20,11 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
     }
 
     if (values.itemSelection !== "Multi") {
-        hidePropertiesIn(defaultProperties, values, ["keepSelection", "selectionCountPosition"]);
+        hidePropertiesIn(defaultProperties, values, [
+            "keepSelection",
+            "selectionCountPosition",
+            "clearSelectionButtonLabel"
+        ]);
     }
 
     const usePersonalization = values.storeFilters || values.storeSort;
@@ -33,6 +37,7 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
 
     if (values.pagination === "buttons") {
         hidePropertyIn(defaultProperties, values, "showTotalCount");
+        hidePropertyIn(defaultProperties, values, "dynamicItemCount");
     } else {
         hidePropertyIn(defaultProperties, values, "showPagingButtons");
 
@@ -40,13 +45,7 @@ export function getProperties(values: GalleryPreviewProps, defaultProperties: Pr
             hidePropertyIn(defaultProperties, values, "pagingPosition");
         }
 
-        hidePropertiesIn(defaultProperties, values, [
-            "dynamicPage",
-            "dynamicPageSize",
-            "useCustomPagination",
-            "customPagination",
-            "totalCountValue"
-        ]);
+        hidePropertiesIn(defaultProperties, values, ["useCustomPagination", "customPagination"]);
     }
 
     if (values.pagination !== "loadMore") {

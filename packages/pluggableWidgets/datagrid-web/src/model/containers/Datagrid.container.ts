@@ -79,7 +79,7 @@ const _01_coreBindings: BindingGroup = {
             DG.exportProgressService,
             SA_TOKENS.selectionDialogVM
         );
-        injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction);
+        injected(GridSizeStore, CORE.atoms.hasMoreItems, DG.paginationConfig, DG.setPageAction, DG.pageSize);
     },
     define(container: Container) {
         container.bind(DG.basicDate).toInstance(GridBasicData).inSingletonScope();
@@ -191,6 +191,9 @@ const _06_paginationBindings: BindingGroup = {
             DG.dynamicPage,
             DG.dynamicPageSize,
             CORE.atoms.totalCount,
+            DG.currentPage,
+            CORE.atoms.itemCount,
+            CORE.mainGate,
             DG.pageControl
         );
         injected(customPaginationAtom, CORE.mainGate);
@@ -210,13 +213,15 @@ const _06_paginationBindings: BindingGroup = {
     init(container, { props }) {
         const config = paginationConfig(props);
         container.bind(DG.paginationConfig).toConstant(config);
-        container.bind(CORE.initPageSize).toConstant(config.constPageSize);
+        container.bind(CORE.initPageSize).toConstant(config.initPageSize);
     },
     postInit(container) {
         const config = container.get(DG.paginationConfig);
         const query = container.get(DG.query);
         query.requestTotalCount(config.requestTotalCount);
-        query.setBaseLimit(config.constPageSize);
+        // Use the resolved initPageSize (dynamic value if provided, else constPageSize)
+        // so the very first datasource fetch uses the correct limit.
+        query.setBaseLimit(container.get(CORE.initPageSize));
         container.get(DG.dynamicPagination); // Enable dynamic pagination feature
     }
 };

@@ -1,5 +1,5 @@
-import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
 import { CSSProperties, RefAttributes } from "react";
+import { AllFunctions } from "@mendix/filter-commons/typings/FilterFunctions";
 import { InputStore } from "../../stores/input/InputStore";
 import { InputFilterInterface } from "../../typings/InputFilterInterface";
 
