@@ -205,7 +205,7 @@ export class FileStore {
         }
     }
 
-    get downloadUrl(): string | undefined {
+    async getDownloadUrl(): Promise<string | undefined> {
         if (this._mxObject) {
             return fetchDocumentUrl(this._mxObject);
         }
