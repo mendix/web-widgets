@@ -1,2 +1,2 @@
-# native-components
+# OSS Artifacts storage branch
 
