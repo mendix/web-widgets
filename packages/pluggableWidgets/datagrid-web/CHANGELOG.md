@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the scrollbar disappeared in virtual scrolling mode after hiding a column.
+
 ## [3.9.0] - 2026-03-23
 
 ### Changed
