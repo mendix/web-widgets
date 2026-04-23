@@ -1,9 +1,11 @@
-import { FloatingFocusManager, useMergeRefs } from "@floating-ui/react";
+import { FloatingFocusManager, useMergeRefs, useInteractions } from "@floating-ui/react";
 import classNames from "classnames";
 import { ActionValue } from "mendix";
 import { forwardRef, ReactElement, RefObject, MutableRefObject } from "react";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps } from "../../typings/PopupMenuProps";
 import { usePopupContext } from "../hooks/usePopupContext";
+
+type GetItemProps = ReturnType<typeof useInteractions>["getItemProps"];
 
 export interface MenuProps extends PopupMenuContainerProps {
     onItemClick: (itemAction: ActionValue) => void;
@@ -12,14 +14,15 @@ export interface MenuProps extends PopupMenuContainerProps {
 }
 
 export const Menu = forwardRef((props: MenuProps, propRef: RefObject<HTMLDivElement>): ReactElement | null => {
-    const { context: floatingContext, floatingStyles, getFloatingProps, modal, refs, open } = usePopupContext();
+    const { context: floatingContext, floatingStyles, getFloatingProps, getItemProps, modal, refs, open } =
+        usePopupContext();
     const ref = useMergeRefs([refs.setFloating, propRef]);
 
     if (!open) {
         return null;
     }
 
-    const menuOptions = createMenuOptions(props, props.onItemClick, props.listRef, props.activeIndex);
+    const menuOptions = createMenuOptions(props, props.onItemClick, props.listRef, props.activeIndex, getItemProps);
 
     return (
         <FloatingFocusManager context={floatingContext} modal={modal}>
@@ -48,7 +51,8 @@ function createMenuOptions(
     props: MenuProps,
     handleOnClickItem: (itemAction?: ActionValue) => void,
     listRef: MutableRefObject<Array<HTMLElement | null>>,
-    activeIndex: number | null
+    activeIndex: number | null,
+    getItemProps?: GetItemProps
 ): ReactElement[] {
     let itemIndex = 0;
 
@@ -74,18 +78,20 @@ function createMenuOptions(
                             role="menuitem"
                             tabIndex={isActive ? 0 : -1}
                             className={classNames("popupmenu-basic-item", pickedStyle)}
-                            onClick={e => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                handleOnClickItem(item.action);
-                            }}
-                            onKeyDown={e => {
-                                if (e.key === "Enter" || e.key === " ") {
+                            {...getItemProps?.({
+                                onClick(e) {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     handleOnClickItem(item.action);
+                                },
+                                onKeyDown(e) {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        handleOnClickItem(item.action);
+                                    }
                                 }
-                            }}
+                            })}
                         >
                             {item.caption?.value ?? ""}
                         </li>
@@ -107,18 +113,20 @@ function createMenuOptions(
                         role="menuitem"
                         tabIndex={isActive ? 0 : -1}
                         className={"popupmenu-custom-item"}
-                        onClick={e => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleOnClickItem(item.action);
-                        }}
-                        onKeyDown={e => {
-                            if (e.key === "Enter" || e.key === " ") {
+                        {...getItemProps?.({
+                            onClick(e) {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 handleOnClickItem(item.action);
+                            },
+                            onKeyDown(e) {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleOnClickItem(item.action);
+                                }
                             }
-                        }}
+                        })}
                     >
                         {item.content}
                     </li>

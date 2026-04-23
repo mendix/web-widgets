@@ -31,7 +31,7 @@ interface PopupOptions {
 }
 
 type FloatingReturn = Pick<UseFloatingReturn, "context" | "floatingStyles" | "refs">;
-type InteractionReturn = Pick<UseInteractionsReturn, "getFloatingProps" | "getReferenceProps">;
+type InteractionReturn = Pick<UseInteractionsReturn, "getFloatingProps" | "getReferenceProps" | "getItemProps">;
 
 export type UsePopupReturn = FloatingReturn &
     InteractionReturn & {
@@ -72,13 +72,20 @@ export function usePopup({
         loop: true
     });
 
-    const { getFloatingProps, getReferenceProps } = useInteractions([dismiss, role, click, hover, listNav]);
+    const { getFloatingProps, getReferenceProps, getItemProps } = useInteractions([
+        dismiss,
+        role,
+        click,
+        hover,
+        listNav
+    ]);
 
     return {
         context,
         floatingStyles,
         getFloatingProps,
         getReferenceProps,
+        getItemProps,
         modal,
         open,
         refs
