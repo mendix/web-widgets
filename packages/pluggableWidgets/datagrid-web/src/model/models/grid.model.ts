@@ -18,10 +18,7 @@ export function gridStyleAtom(
                     checkboxColumn: config.checkboxColumnEnabled,
                     selectorColumn: config.selectorColumnEnabled
                 }),
-                "--widgets-grid-template-columns-head": gridSizeStore.templateColumnsHead,
-                "--widgets-grid-body-height": asPx(gridSizeStore.gridBodyHeight),
-                "--widgets-grid-width": asPx(gridSizeStore.gridWidth),
-                "--widgets-grid-scrollbar-size": asPx(gridSizeStore.scrollBarSize)
+                "--widgets-grid-table-height": asPx(gridSizeStore.gridContainerHeight)
             }) as CSSProperties
     );
 }

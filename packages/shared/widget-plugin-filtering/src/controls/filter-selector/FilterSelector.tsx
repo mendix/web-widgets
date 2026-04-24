@@ -42,6 +42,7 @@ export function FilterSelector(props: FilterSelectorProps): ReactElement {
                     className={classNames("filter-selectors", { hidden: !open, visible: open })}
                     {...listboxProps}
                     style={floatingStyles}
+                    data-overlay-content={open || undefined}
                 >
                     {open &&
                         options.map((item, index) => (

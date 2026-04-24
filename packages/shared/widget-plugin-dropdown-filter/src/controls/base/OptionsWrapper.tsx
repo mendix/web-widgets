@@ -33,7 +33,13 @@ export const OptionsWrapper = forwardRef((props: OptionsWrapperProps, ref: RefOb
         options
     } = props;
     return (
-        <div className={cls.popover} hidden={!isOpen} ref={ref} style={style}>
+        <div
+            className={cls.popover}
+            hidden={!isOpen}
+            ref={ref}
+            style={style}
+            data-overlay-content={isOpen || undefined}
+        >
             <div className={cls.menuSlot}>
                 <ul {...getMenuProps({ className: cls.menu, "aria-label": label })} onScroll={onMenuScroll}>
                     {isOpen &&

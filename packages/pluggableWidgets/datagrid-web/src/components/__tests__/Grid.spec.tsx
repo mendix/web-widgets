@@ -1,8 +1,11 @@
 import { render } from "@testing-library/react";
 import { ContainerProvider } from "brandi-react";
+import { setupIntersectionObserverStub } from "@mendix/widget-plugin-test-utils";
 import { createDatagridContainer } from "../../model/containers/createDatagridContainer";
 import { mockContainerProps } from "../../utils/test-utils";
 import { Grid } from "../Grid";
+
+setupIntersectionObserverStub();
 
 describe("Grid", () => {
     it("renders without crashing", () => {

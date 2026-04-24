@@ -61,6 +61,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                       }
                     : style
             }
+            data-overlay-content={isOpen || undefined}
         >
             {menuHeaderContent && (
                 <div
