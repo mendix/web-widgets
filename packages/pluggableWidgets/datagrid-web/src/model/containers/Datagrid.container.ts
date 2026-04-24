@@ -1,3 +1,4 @@
+import { Container, injected } from "brandi";
 import { WidgetFilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
@@ -26,7 +27,6 @@ import {
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { Container, injected } from "brandi";
 import { MainGateProps } from "../../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../../features/empty-message/EmptyPlaceholder.viewModel";
@@ -39,7 +39,7 @@ import { GridBasicData } from "../../helpers/state/GridBasicData";
 import { GridPersonalizationStore } from "../../helpers/state/GridPersonalizationStore";
 import { DatagridConfig } from "../configs/Datagrid.config";
 import { gridStyleAtom } from "../models/grid.model";
-import { rowClassProvider } from "../models/rows.model";
+import { rowClassProvider, rowKeyProvider } from "../models/rows.model";
 import { DatasourceParamsController } from "../services/DatasourceParamsController";
 import { DerivedLoaderController } from "../services/DerivedLoaderController";
 import { SelectionGate } from "../services/SelectionGate.service";
@@ -232,6 +232,7 @@ const _07_selectionBindings: BindingGroup = {
         injected(createSelectionHelper, CORE.setupService, DG.selectionGate, CORE.config.optional);
         injected(gridStyleAtom, CORE.columnsStore, CORE.config, DG.gridSizeStore);
         injected(rowClassProvider, CORE.mainGate);
+        injected(rowKeyProvider, CORE.mainGate);
         injected(
             SelectionCounterViewModel,
             CORE.selection.selectedCount,
@@ -244,6 +245,7 @@ const _07_selectionBindings: BindingGroup = {
         container.bind(DG.selectionHelper).toInstance(createSelectionHelper).inSingletonScope();
         container.bind(DG.gridColumnsStyle).toInstance(gridStyleAtom).inTransientScope();
         container.bind(DG.rowClass).toInstance(rowClassProvider).inTransientScope();
+        container.bind(DG.rowKey).toInstance(rowKeyProvider).inTransientScope();
         container.bind(DG.selectionCounterVM).toInstance(SelectionCounterViewModel).inSingletonScope();
     },
     init(container, { config, props }) {

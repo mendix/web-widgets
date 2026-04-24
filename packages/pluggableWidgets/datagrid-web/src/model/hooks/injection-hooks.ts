@@ -18,6 +18,7 @@ export const [useItemCount] = createInjectionHooks(CORE.atoms.itemCount);
 export const [useColumn] = createInjectionHooks(CORE.column);
 export const [useTexts] = createInjectionHooks(CORE.texts);
 export const [useRowClass] = createInjectionHooks(DG.rowClass);
+export const [useRowKey] = createInjectionHooks(DG.rowKey);
 export const [useDatagridRootVM] = createInjectionHooks(DG.datagridRootVM);
 export const [useRows] = createInjectionHooks(CORE.rows);
 export const [useSelectActions] = createInjectionHooks(DG.selectActions);

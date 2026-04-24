@@ -1,3 +1,6 @@
+import { token } from "brandi";
+import { ListValue, ObjectItem } from "mendix";
+import { CSSProperties, ReactNode } from "react";
 import { FilterAPI } from "@mendix/widget-plugin-filtering/context";
 import { CombinedFilter, CombinedFilterConfig } from "@mendix/widget-plugin-filtering/stores/generic/CombinedFilter";
 import { CustomFilterHost } from "@mendix/widget-plugin-filtering/stores/generic/CustomFilterHost";
@@ -27,9 +30,6 @@ import {
 } from "@mendix/widget-plugin-grid/select-all/select-all.model";
 import { SelectionCounterViewModel } from "@mendix/widget-plugin-grid/selection-counter/SelectionCounter.viewModel-atoms";
 import { ComputedAtom, DerivedPropsGate, Emitter } from "@mendix/widget-plugin-mobx-kit/main";
-import { token } from "brandi";
-import { ListValue, ObjectItem } from "mendix";
-import { CSSProperties, ReactNode } from "react";
 import { MainGateProps } from "../../typings/MainGateProps";
 import { WidgetRootViewModel } from "../features/base/WidgetRoot.viewModel";
 import { EmptyPlaceholderViewModel } from "../features/empty-message/EmptyPlaceholder.viewModel";
@@ -44,7 +44,7 @@ import { GridPersonalizationStore } from "../helpers/state/GridPersonalizationSt
 import { DatasourceParamsController } from "../model/services/DatasourceParamsController";
 import { GridColumn } from "../typings/GridColumn";
 import { DatagridConfig } from "./configs/Datagrid.config";
-import { RowClassProvider } from "./models/rows.model";
+import { RowClassProvider, RowKeyProvider } from "./models/rows.model";
 import { DatagridSetupService } from "./services/DatagridSetup.service";
 import { DerivedLoaderController, DerivedLoaderControllerConfig } from "./services/DerivedLoaderController";
 import { TextsService } from "./services/Texts.service";
@@ -141,6 +141,7 @@ export const DG_TOKENS = {
     gridColumnsStyle: token<ComputedAtom<CSSProperties>>("@computed:GridColumnsStyle"),
 
     rowClass: token<RowClassProvider>("@store:RowClassProvider"),
+    rowKey: token<RowKeyProvider>("@store:RowKeyProvider"),
 
     datagridRootVM: token<WidgetRootViewModel>("WidgetRootViewModel"),
 

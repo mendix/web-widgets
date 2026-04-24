@@ -1,3 +1,4 @@
+import { action, autorun, comparer, computed, makeObservable, observable } from "mobx";
 import { reduceArray, restoreArray } from "@mendix/filter-commons/condition-utils";
 import { FiltersSettingsMap } from "@mendix/filter-commons/typings/settings";
 import { ConditionWithMeta } from "@mendix/widget-plugin-filtering/typings/ConditionWithMeta";
@@ -6,20 +7,19 @@ import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 
 import { DerivedPropsGate, SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
 
-import { action, autorun, computed, makeObservable, observable } from "mobx";
-import { DatagridContainerProps } from "../../../typings/DatagridProps";
-import { ColumnId, GridColumn } from "../../typings/GridColumn";
-import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
-import { SortInstruction } from "../../typings/sorting";
-import { StaticInfo } from "../../typings/static-info";
+import { ColumnFilterStore } from "./column/ColumnFilterStore";
+import { ColumnStore } from "./column/ColumnStore";
 import {
     ColumnsSortingStore,
     IColumnSortingStore,
     sortInstructionsToSortRules,
     sortRulesToSortInstructions
 } from "./ColumnsSortingStore";
-import { ColumnFilterStore } from "./column/ColumnFilterStore";
-import { ColumnStore } from "./column/ColumnStore";
+import { DatagridContainerProps } from "../../../typings/DatagridProps";
+import { ColumnId, GridColumn } from "../../typings/GridColumn";
+import { ColumnFilterSettings, ColumnPersonalizationSettings } from "../../typings/personalization-settings";
+import { SortInstruction } from "../../typings/sorting";
+import { StaticInfo } from "../../typings/static-info";
 
 export interface IColumnGroupStore {
     loaded: boolean;
@@ -93,7 +93,7 @@ export class ColumnGroupStore implements IColumnGroupStore, IColumnParentStore, 
             swapColumns: action,
             setColumnSettings: action,
             hydrate: action,
-            sortInstructions: computed({ keepAlive: true })
+            sortInstructions: computed({ keepAlive: true, equals: comparer.structural })
         });
     }
 

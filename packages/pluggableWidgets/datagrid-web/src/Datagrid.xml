@@ -369,6 +369,13 @@
                     <returnType type="String" />
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Advanced">
+                <property key="customRowKey" type="expression" required="false" dataSource="datasource">
+                    <caption>Custom row key</caption>
+                    <description>Stable identifier for rows to maintain scroll position when using view entities.</description>
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Personalization">
             <propertyGroup caption="Column capabilities">
