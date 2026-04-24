@@ -42,7 +42,7 @@ import TextBlot, { escapeText } from "quill/blots/text";
 import { Delta, Op } from "quill/core";
 import Editor from "quill/core/editor";
 import { STANDARD_LIST_TYPES } from "./formats/customList";
-import { FontStyleAttributor, formatCustomFonts } from "./formats/fonts";
+import { FontClassAttributor, formatCustomFonts } from "./formats/fonts";
 import CustomLink, { CustomLinkNoValidation } from "./formats/link";
 import { CustomFontsType } from "../../typings/RichTextProps";
 
@@ -85,12 +85,15 @@ export interface MxQuillModulesOptions {
     links: {
         validate: boolean;
     };
+    dataFormat?: "html" | "quillDelta";
 }
 
 /**
  * Extension's of quill to allow us to replace the editor instance.
  */
 export default class MxQuill extends Quill {
+    private dataFormat: "html" | "quillDelta" = "html";
+
     constructor(container: HTMLElement | string, options: QuillOptions = {}) {
         super(container, options);
         this.editor = new MxEditor(this.scroll);
@@ -102,14 +105,78 @@ export default class MxQuill extends Quill {
     }
 
     registerCustomModules(props: MxQuillModulesOptions): void {
-        const { fonts, links } = props;
+        const { fonts, links, dataFormat } = props;
+        if (dataFormat) {
+            this.dataFormat = dataFormat;
+        }
         const customFonts = formatCustomFonts(fonts);
-        const FontStyle = new FontStyleAttributor(customFonts);
-        Quill.register(FontStyle, true);
+        const FontClass = new FontClassAttributor(customFonts);
+        Quill.register(FontClass, true);
         if (links.validate) {
             Quill.register(CustomLink, true);
         } else {
             Quill.register(CustomLinkNoValidation, true);
+        }
+    }
+
+    /**
+     * Get data in the configured format (HTML or Quill Delta JSON)
+     */
+    getData(): string {
+        if (this.dataFormat === "quillDelta") {
+            return JSON.stringify(this.getContents());
+        }
+        return this.getSemanticHTML() || "";
+    }
+
+    /**
+     * Set data from string, automatically detecting and converting format if needed
+     */
+    setData(value: string | undefined): void {
+        const trimmedValue = value?.trim() || "";
+
+        if (this.dataFormat === "quillDelta") {
+            // Expected format is Quill Delta JSON
+            const isHtml = trimmedValue.startsWith("<") || trimmedValue.startsWith("&");
+
+            if (isHtml) {
+                // Migrate from HTML to Delta
+                console.warn("Detected HTML format data while dataFormat is set to quillDelta. Converting...");
+                const delta = this.clipboard.convert({ html: value });
+                this.setContents(delta);
+            } else {
+                // Parse Quill Delta JSON
+                try {
+                    const delta = value ? new Delta(JSON.parse(value)) : new Delta();
+                    this.setContents(delta);
+                } catch (e) {
+                    console.error("Failed to parse Quill Delta, falling back to HTML conversion:", e);
+                    // Fallback: treat as HTML if JSON parsing fails
+                    const delta = this.clipboard.convert({ html: value });
+                    this.setContents(delta);
+                }
+            }
+        } else {
+            // Expected format is HTML
+            const isJson =
+                (trimmedValue.startsWith("{") || trimmedValue.startsWith("[")) && trimmedValue.includes("ops");
+
+            if (isJson) {
+                // Migrate from Delta to HTML
+                console.warn("Detected Quill Delta format data while dataFormat is set to html. Converting...");
+                try {
+                    const delta = new Delta(JSON.parse(value || ""));
+                    this.setContents(delta);
+                } catch (e) {
+                    console.error("Failed to parse stored Delta, treating as HTML:", e);
+                    const delta = this.clipboard.convert({ html: value });
+                    this.setContents(delta);
+                }
+            } else {
+                // Convert HTML to Delta
+                const delta = this.clipboard.convert({ html: value });
+                this.setContents(delta);
+            }
         }
     }
 }
@@ -168,11 +235,12 @@ function convertListHTML(items: ListItem[], lastIndent: number, types: string[])
     const [tag, attribute] = getListType(type);
 
     if (indent > lastIndent) {
-        // modified by web-content: get proper list-style-type
+        // modified by web-content: use CSS class instead of inline style for CSP compliance
         const expectedType = getExpectedType(type, indent);
+        const listStyleClass = `ql-list-style-${expectedType}`;
         types.push(type);
         if (indent === lastIndent + 1) {
-            return `<${tag} style="list-style-type: ${expectedType}"><li${attribute}>${convertHTML(
+            return `<${tag} class="${listStyleClass}"><li${attribute}>${convertHTML(
                 child,
                 offset,
                 length
@@ -226,9 +294,9 @@ function convertHTML(blot: Blot, index: number, length: number, isRoot = false):
         }
         const { outerHTML, innerHTML } = blot.domNode as Element;
         const [start, end] = outerHTML.split(`>${innerHTML}<`);
-        // TODO cleanup
+        // Use CSS class instead of inline style for CSP compliance
         if (start === "<table") {
-            return `<table style="border: 1px solid #000;">${parts.join("")}<${end}`;
+            return `<table class="ql-table-bordered">${parts.join("")}<${end}`;
         }
         return `${start}>${parts.join("")}<${end}`;
     }

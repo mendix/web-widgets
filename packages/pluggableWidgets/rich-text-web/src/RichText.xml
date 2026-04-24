@@ -220,6 +220,14 @@
                         <enumerationValue key="characterCountHtml">Character count (including HTML)</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="dataFormat" type="enumeration" defaultValue="html">
+                    <caption>Data format</caption>
+                    <description>Choose the format for the data</description>
+                    <enumerationValues>
+                        <enumerationValue key="html">HTML</enumerationValue>
+                        <enumerationValue key="quillDelta">Quill Delta</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Custom toolbar">

@@ -26,7 +26,7 @@ import Dialog from "./ModalDialog/Dialog";
 
 export interface EditorProps extends Pick<
     RichTextContainerProps,
-    "imageSource" | "imageSourceContent" | "enableDefaultUpload"
+    "imageSource" | "imageSourceContent" | "enableDefaultUpload" | "dataFormat"
 > {
     options: MxQuillModulesOptions;
     defaultValue?: string;
@@ -41,7 +41,7 @@ export interface EditorProps extends Pick<
 }
 
 // Editor is an uncontrolled React component
-const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | null>) => {
+const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<MxQuill | null>) => {
     const {
         theme,
         defaultValue,
@@ -79,13 +79,8 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
     // update quills content on value change.
     useEffect(() => {
         // if there is an update comes from external element
-        if (!ref.current?.hasFocus() && defaultValue !== ref.current?.getSemanticHTML()) {
-            const newContent = ref.current?.clipboard.convert({
-                html: defaultValue
-            });
-            if (newContent && newContent !== ref.current?.getContents()) {
-                ref.current?.setContents(newContent);
-            }
+        if (!ref.current?.hasFocus() && defaultValue !== ref.current?.getData()) {
+            ref.current?.setData(defaultValue);
         }
     }, [ref, defaultValue]);
 
@@ -133,10 +128,10 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
 
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
-                quill.registerCustomModules(mxOptions);
+                quill.registerCustomModules({ ...mxOptions, dataFormat: props.dataFormat });
 
-                const delta = quill.clipboard.convert({ html: defaultValue ?? "" });
-                quill.updateContents(delta, Quill.sources.SILENT);
+                // Initialize content using the new setData method
+                quill.setData(defaultValue);
 
                 quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
                     onTextChangeRef.current?.(...arg);

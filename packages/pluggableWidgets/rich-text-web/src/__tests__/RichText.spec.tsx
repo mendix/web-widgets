@@ -47,7 +47,8 @@ describe("Rich Text", () => {
             customFonts: [],
             enableDefaultUpload: true,
             formOrientation: "vertical",
-            linkValidation: true
+            linkValidation: true,
+            dataFormat: "html"
         };
     });
 
@@ -91,6 +92,20 @@ describe("Rich Text", () => {
 
     it("renders with both word and character count", () => {
         const component = render(<RichText {...defaultProps} statusBarContent={"both" as StatusBarContentEnum} />);
+        expect(component.container).toMatchSnapshot();
+    });
+
+    it("renders with quillDelta data format", () => {
+        const deltaValue = JSON.stringify({
+            ops: [{ insert: "Hello " }, { insert: "World", attributes: { bold: true } }, { insert: "\n" }]
+        });
+        const component = render(
+            <RichText
+                {...defaultProps}
+                dataFormat="quillDelta"
+                stringAttribute={new EditableValueBuilder<string>().withValue(deltaValue).build()}
+            />
+        );
         expect(component.container).toMatchSnapshot();
     });
 });

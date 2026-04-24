@@ -1,6 +1,8 @@
 import { Attributor } from "parchment";
 import Quill from "quill";
-const Size = Quill.import("attributors/style/size") as Attributor;
+import { ColorClass, BackgroundClass } from "./color";
+
+const SizeClass = Quill.import("attributors/class/size") as Attributor;
 
 import "./fonts.scss";
 
@@ -21,5 +23,7 @@ export const FONT_SIZE_LIST = [
     "98px"
 ];
 
-Size.whitelist = FONT_SIZE_LIST;
-Quill.register(Size, true);
+SizeClass.whitelist = FONT_SIZE_LIST;
+Quill.register(SizeClass, true);
+Quill.register(ColorClass, true);
+Quill.register(BackgroundClass, true);

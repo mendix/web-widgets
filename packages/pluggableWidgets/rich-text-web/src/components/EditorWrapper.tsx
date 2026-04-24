@@ -1,20 +1,20 @@
+import classNames from "classnames";
+import { CSSProperties, ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { useDebounceWithStatus } from "@mendix/widget-plugin-hooks/useDebounceWithStatus";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import classNames from "classnames";
-import Quill from "quill";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
-import { CSSProperties, ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { RichTextContainerProps } from "typings/RichTextProps";
-import { EditorContext, EditorProvider } from "../store/EditorProvider";
-import { useActionEvents } from "../store/useActionEvents";
-import MendixTheme from "../utils/themes/mxTheme";
-import { MxQuillModulesOptions } from "../utils/MxQuill";
-import { createPreset } from "./CustomToolbars/presets";
+
 import Editor from "./Editor";
 import { StickySentinel } from "./StickySentinel";
 import Toolbar from "./Toolbar";
+import { RichTextContainerProps } from "../../typings/RichTextProps";
+import { EditorContext, EditorProvider } from "../store/EditorProvider";
+import { useActionEvents } from "../store/useActionEvents";
+import MxQuill, { MxQuillModulesOptions } from "../utils/MxQuill";
+import { createPreset } from "./CustomToolbars/presets";
+import MendixTheme from "../utils/themes/mxTheme";
 
 export interface EditorWrapperProps extends RichTextContainerProps {
     editorHeight?: string | number;
@@ -47,12 +47,13 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
         enableDefaultUpload,
         formOrientation,
         defaultFontFamily,
-        defaultFontSize
+        defaultFontSize,
+        dataFormat
     } = props;
 
     const globalState = useContext(EditorContext);
     const isFirstLoad = useRef<boolean>(false);
-    const quillRef = useRef<Quill>(null);
+    const quillRef = useRef<MxQuill>(null);
     const actionEvents = useActionEvents({ onBlur, onFocus, onChange, onChangeType, quill: quillRef?.current });
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
@@ -73,7 +74,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     );
 
     const calculateCounts = useCallback(
-        (quill: Quill | null): void => {
+        (quill: MxQuill | null): void => {
             if (enableStatusBar && quill) {
                 if (statusBarContent === "wordCount") {
                     const text = quill?.getText().trim();
@@ -116,9 +117,10 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     }, [quillRef.current]);
 
     const onTextChange = useCallback(() => {
-        const semanticHTML = quillRef.current?.getSemanticHTML() || "";
-        if (stringAttribute.value !== semanticHTML) {
-            setAttributeValueDebounce(semanticHTML);
+        const value = quillRef.current?.getData() || "";
+
+        if (stringAttribute.value !== value) {
+            setAttributeValueDebounce(value);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [quillRef.current, stringAttribute, calculateCounts]);
@@ -203,6 +205,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     imageSourceContent={imageSourceContent}
                     enableDefaultUpload={enableDefaultUpload}
                     formOrientation={formOrientation}
+                    dataFormat={dataFormat}
                 />
             </div>
 

@@ -1,4 +1,4 @@
-import { Scope, StyleAttributor } from "parchment";
+import { ClassAttributor, Scope } from "parchment";
 import { CustomFontsType } from "../../../typings/RichTextProps";
 import "./fonts.scss";
 
@@ -22,35 +22,30 @@ const config = {
     scope: Scope.INLINE
 };
 
-export class FontStyleAttributor extends StyleAttributor {
-    private fontList: typeof FONT_LIST = [];
-
+export class FontClassAttributor extends ClassAttributor {
     constructor(fontList: typeof FONT_LIST) {
-        super("font", "font-family", config);
-        this.fontList = fontList;
+        super("font", "ql-font", config);
+        // Dynamically inject CSS for custom fonts
+        this.injectCustomFontStyles(fontList);
     }
 
-    add(node: HTMLElement, value: any): boolean {
-        if (!this.canAdd(node, value)) {
-            return false;
-        }
-        node.dataset.value = value;
-        const allFonts = [...FONT_LIST, ...this.fontList];
-        const style = allFonts.find(x => x.value === value)?.style;
-        if (style) {
-            super.add(node, style);
-        } else {
-            return false;
-        }
-        return true;
-    }
+    private injectCustomFontStyles(fontList: typeof FONT_LIST): void {
+        if (fontList.length === 0) return;
 
-    value(node: HTMLElement): any {
-        const value = node.dataset.value;
-        if (this.canAdd(node, value) && value) {
-            return value;
-        }
-        return "";
+        // Check if style already exists
+        const styleId = "rich-text-custom-fonts";
+        if (document.getElementById(styleId)) return;
+
+        // Create CSS rules for custom fonts
+        const cssRules = fontList
+            .map(font => `.widget-rich-text .ql-font-${font.value} { font-family: ${font.style}; }`)
+            .join("\n");
+
+        // Inject style element
+        const style = document.createElement("style");
+        style.id = styleId;
+        style.textContent = cssRules;
+        document.head.appendChild(style);
     }
 }
 

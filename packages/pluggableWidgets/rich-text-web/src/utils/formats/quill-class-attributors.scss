@@ -1,0 +1,250 @@
+/**
+ * CSS classes for Quill ClassAttributors
+ *
+ * This file contains CSS rules required for Quill's ClassAttributor-based formatting
+ * to work properly. These classes replace inline styles for CSP compliance.
+ *
+ * IMPORTANT: When using the Rich Text widget in external applications with strict CSP,
+ * include this CSS file in your application's stylesheets.
+ *
+ * Usage:
+ * 1. Import in your application: @import '@mendix/rich-text-web/dist/quill-class-attributors.css';
+ * 2. Or copy the compiled CSS to your project's stylesheet
+ */
+
+/* Font sizes - matches FONT_SIZE_LIST in fontsize.ts */
+.ql-size-8px {
+    font-size: 8px;
+}
+.ql-size-9px {
+    font-size: 9px;
+}
+.ql-size-10px {
+    font-size: 10px;
+}
+.ql-size-12px {
+    font-size: 12px;
+}
+.ql-size-14px {
+    font-size: 14px;
+}
+.ql-size-16px {
+    font-size: 16px;
+}
+.ql-size-20px {
+    font-size: 20px;
+}
+.ql-size-24px {
+    font-size: 24px;
+}
+.ql-size-32px {
+    font-size: 32px;
+}
+.ql-size-42px {
+    font-size: 42px;
+}
+.ql-size-54px {
+    font-size: 54px;
+}
+.ql-size-68px {
+    font-size: 68px;
+}
+.ql-size-84px {
+    font-size: 84px;
+}
+.ql-size-98px {
+    font-size: 98px;
+}
+
+/* Font colors - Quill's default color palette */
+.ql-color-white {
+    color: #ffffff;
+}
+.ql-color-red {
+    color: #e60000;
+}
+.ql-color-orange {
+    color: #f90;
+}
+.ql-color-yellow {
+    color: #ff0;
+}
+.ql-color-green {
+    color: #008a00;
+}
+.ql-color-blue {
+    color: #06c;
+}
+.ql-color-purple {
+    color: #93f;
+}
+.ql-color-black {
+    color: #000000;
+}
+
+/* Background colors - Quill's default color palette */
+.ql-bg-white {
+    background-color: #ffffff;
+}
+.ql-bg-red {
+    background-color: #e60000;
+}
+.ql-bg-orange {
+    background-color: #f90;
+}
+.ql-bg-yellow {
+    background-color: #ff0;
+}
+.ql-bg-green {
+    background-color: #008a00;
+}
+.ql-bg-blue {
+    background-color: #06c;
+}
+.ql-bg-purple {
+    background-color: #93f;
+}
+.ql-bg-black {
+    background-color: #000000;
+}
+
+/* Indent classes */
+.ql-indent-left-3 {
+    padding-left: 3em;
+}
+.ql-indent-left-6 {
+    padding-left: 6em;
+}
+.ql-indent-left-9 {
+    padding-left: 9em;
+}
+.ql-indent-left-12 {
+    padding-left: 12em;
+}
+.ql-indent-left-15 {
+    padding-left: 15em;
+}
+.ql-indent-left-18 {
+    padding-left: 18em;
+}
+.ql-indent-left-21 {
+    padding-left: 21em;
+}
+.ql-indent-left-24 {
+    padding-left: 24em;
+}
+.ql-indent-left-27 {
+    padding-left: 27em;
+}
+
+.ql-indent-right-3 {
+    padding-right: 3em;
+}
+.ql-indent-right-6 {
+    padding-right: 6em;
+}
+.ql-indent-right-9 {
+    padding-right: 9em;
+}
+.ql-indent-right-12 {
+    padding-right: 12em;
+}
+.ql-indent-right-15 {
+    padding-right: 15em;
+}
+.ql-indent-right-18 {
+    padding-right: 18em;
+}
+.ql-indent-right-21 {
+    padding-right: 21em;
+}
+.ql-indent-right-24 {
+    padding-right: 24em;
+}
+.ql-indent-right-27 {
+    padding-right: 27em;
+}
+
+/* White-space classes */
+.ql-whitespace-normal {
+    white-space: normal;
+}
+.ql-whitespace-pre {
+    white-space: pre;
+}
+.ql-whitespace-pre-wrap {
+    white-space: pre-wrap;
+}
+.ql-whitespace-pre-line {
+    white-space: pre-line;
+}
+.ql-whitespace-nowrap {
+    white-space: nowrap;
+}
+.ql-whitespace-wrap {
+    white-space: wrap;
+}
+.ql-whitespace-break-spaces {
+    white-space: break-spaces;
+}
+.ql-whitespace-collapse {
+    white-space: collapse;
+}
+.ql-whitespace-inherit {
+    white-space: inherit;
+}
+.ql-whitespace-initial {
+    white-space: initial;
+}
+.ql-whitespace-revert {
+    white-space: revert;
+}
+.ql-whitespace-unset {
+    white-space: unset;
+}
+
+/* List style type classes */
+.ql-list-style-disc {
+    list-style-type: disc;
+}
+.ql-list-style-circle {
+    list-style-type: circle;
+}
+.ql-list-style-square {
+    list-style-type: square;
+}
+.ql-list-style-decimal {
+    list-style-type: decimal;
+}
+.ql-list-style-lower-alpha {
+    list-style-type: lower-alpha;
+}
+.ql-list-style-upper-alpha {
+    list-style-type: upper-alpha;
+}
+.ql-list-style-lower-roman {
+    list-style-type: lower-roman;
+}
+.ql-list-style-upper-roman {
+    list-style-type: upper-roman;
+}
+.ql-list-style-lower-greek {
+    list-style-type: lower-greek;
+}
+.ql-list-style-checked,
+.ql-list-style-unchecked {
+    list-style-type: none;
+}
+
+/* Table border class */
+.ql-table-bordered {
+    border: 1px solid #000;
+}
+
+/* Quill Resize Module - Embed pointer-events override */
+/* Used by MxQuillResize to prevent pointer events on resizable embeds */
+.ql-resize-embed img,
+.ql-resize-embed video,
+.ql-resize-embed iframe {
+    pointer-events: none;
+}

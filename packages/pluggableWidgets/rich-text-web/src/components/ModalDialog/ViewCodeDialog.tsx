@@ -1,11 +1,11 @@
-import { ReactElement, useCallback, useState } from "react";
-import { type viewCodeConfigType } from "../../utils/formats";
-import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
-import CodeMirror, { ViewUpdate } from "@uiw/react-codemirror";
-import { html } from "@codemirror/lang-html";
-import { githubLight } from "@uiw/codemirror-theme-github";
-import { EditorView } from "codemirror";
+// import { html } from "@codemirror/lang-html";
+// import { githubLight } from "@uiw/codemirror-theme-github";
+// import CodeMirror, { ViewUpdate } from "@uiw/react-codemirror";
+// import { EditorView } from "codemirror";
 import beautify from "js-beautify";
+import { ReactElement, useCallback, useState } from "react";
+import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
+import { type viewCodeConfigType } from "../../utils/formats";
 
 export interface ViewCodeDialogProps {
     currentCode?: string;
@@ -33,7 +33,7 @@ export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement
         src:
             beautify.html(currentCode?.replace(/\t/g, "&emsp;") ?? "", BEAUTIFY_OPTIONS)?.replace(/&emsp;/g, "\t") || ""
     });
-    const onCodeChange = useCallback((value: string, _viewUpdate: ViewUpdate) => {
+    const onCodeChange = useCallback((value: string) => {
         setFormState({ ...formState, src: value });
     }, []);
 
@@ -45,7 +45,7 @@ export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement
                     <label>Source Code</label>
                 </div>
                 <FormControl label="Code input" formOrientation={props.formOrientation} inputId="rich-text-code-input">
-                    <CodeMirror
+                    {/* <CodeMirror
                         className="form-control mx-textarea-input mx-textarea-noresize code-input"
                         value={formState.src}
                         extensions={[EditorView.lineWrapping, html()]}
@@ -53,6 +53,12 @@ export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement
                         basicSetup
                         theme={githubLight}
                         maxHeight="70vh"
+                    /> */}
+                    <textarea
+                        value={formState.src}
+                        onChange={e => onCodeChange(e.target.value)}
+                        className="form-control mx-textarea-input mx-textarea-noresize code-input"
+                        id="rich-text-code-input"
                     />
                 </FormControl>
                 <DialogFooter onSubmit={() => onSubmit(formState)} onClose={onClose}></DialogFooter>

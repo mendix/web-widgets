@@ -1,4 +1,4 @@
-import { Scope, StyleAttributor } from "parchment";
+import { ClassAttributor, Scope } from "parchment";
 
 const config = {
     scope: Scope.INLINE,
@@ -18,5 +18,5 @@ const config = {
     ]
 };
 
-export class WhiteSpaceStyleAttributor extends StyleAttributor {}
-export const WhiteSpaceStyle = new WhiteSpaceStyleAttributor("whitespace", "white-space", config);
+export class WhiteSpaceClassAttributor extends ClassAttributor {}
+export const WhiteSpaceClass = new WhiteSpaceClassAttributor("whitespace", "ql-whitespace", config);

@@ -1,14 +1,14 @@
-import { Scope, StyleAttributor } from "parchment";
+import { ClassAttributor, Scope } from "parchment";
 import "./fonts.scss";
 
 const INDENT_MAGIC_NUMBER = 3;
-const indentLists = ["3em", "6em", "9em", "12em", "15em", "18em", "21em", "24em", "27em"];
+const indentLists = ["3", "6", "9", "12", "15", "18", "21", "24", "27"];
 
 /**
- *  overriding current quill's indent format by using inline style instead of classname
+ *  overriding current quill's indent format by using CSS classes instead of inline styles
  *  toolbar's indent button also have to be overriden using getIndentHandler
  */
-class IndentAttributor extends StyleAttributor {
+class IndentAttributor extends ClassAttributor {
     add(node: HTMLElement, value: string | number): boolean {
         let normalizedValue = 0;
         if (value === "+1" || value === "-1") {
@@ -29,7 +29,7 @@ class IndentAttributor extends StyleAttributor {
             this.remove(node);
             return true;
         }
-        return super.add(node, `${normalizedValue}em`);
+        return super.add(node, `${normalizedValue}`);
     }
 
     canAdd(node: HTMLElement, value: string): boolean {
@@ -37,16 +37,17 @@ class IndentAttributor extends StyleAttributor {
     }
 
     value(node: HTMLElement): number | undefined {
-        return parseInt(super.value(node).replace("em", ""), 10) || undefined; // Don't return NaN
+        const val = super.value(node);
+        return val ? parseInt(val, 10) : undefined;
     }
 }
 
-export const IndentLeftStyle = new IndentAttributor("indent-left", "padding-left", {
+export const IndentLeftClass = new IndentAttributor("indent-left", "ql-indent-left", {
     scope: Scope.BLOCK,
     whitelist: indentLists
 });
 
-export const IndentRightStyle = new IndentAttributor("indent-right", "padding-right", {
+export const IndentRightClass = new IndentAttributor("indent-right", "ql-indent-right", {
     scope: Scope.BLOCK,
     whitelist: indentLists
 });

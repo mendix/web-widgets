@@ -1,3 +1,6 @@
+// Import CSP-compliant class attributor styles
+@import "./quill-class-attributors.scss";
+
 $font-andale-mono: "andale mono", monospace;
 $font-arial: arial, helvetica, sans-serif;
 $font-arial-black: "arial black", sans-serif;
@@ -54,6 +57,7 @@ $fonts: (
         }
     }
 
+    // Font classes for predefined fonts
     .ql-font {
         @each $name, $font in $fonts {
             &-#{$name} {
