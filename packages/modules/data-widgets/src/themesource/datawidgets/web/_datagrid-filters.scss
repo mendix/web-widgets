@@ -1,5 +1,9 @@
 @import "date-picker";
 
+$filter-shadow-color:
+    0 2px 20px 1px rgba(5, 15, 129, 0.05),
+    0 2px 16px 0 rgba(33, 43, 54, 0.08) !default;
+
 @font-face {
     font-family: "datagrid-filters";
     src: url("./fonts/datagrid-filters.eot");
@@ -70,9 +74,7 @@
     z-index: 51;
     border-radius: 8px;
     list-style-type: none;
-    box-shadow:
-        0 2px 20px 1px rgba(5, 15, 129, 0.05),
-        0 2px 16px 0 rgba(33, 43, 54, 0.08);
+    box-shadow: var(--filter-shadow-color, $filter-shadow-color);
     overflow: hidden;
 
     .filter-listitem,
@@ -142,9 +144,7 @@
 :not(.dropdown-content) > .dropdown-list {
     background: var(--bg-color-secondary, $bg-color-secondary);
     border-radius: 8px;
-    box-shadow:
-        0 2px 20px 1px rgba(5, 15, 129, 0.05),
-        0 2px 16px 0 rgba(33, 43, 54, 0.08);
+    box-shadow: var(--filter-shadow-color, $filter-shadow-color);
     max-height: 40vh;
     z-index: 102;
 }
@@ -152,9 +152,7 @@
 .dropdown-content {
     background: var(--bg-color-secondary, $bg-color-secondary);
     border-radius: 8px;
-    box-shadow:
-        0 2px 20px 1px rgba(5, 15, 129, 0.05),
-        0 2px 16px 0 rgba(33, 43, 54, 0.08);
+    box-shadow: var(--filter-shadow-color, $filter-shadow-color);
     max-height: 40vh;
     z-index: 140;
 }
@@ -205,9 +203,7 @@
         z-index: 102;
         border-radius: 8px;
         list-style-type: none;
-        box-shadow:
-            0 2px 20px 1px rgba(5, 15, 129, 0.05),
-            0 2px 16px 0 rgba(33, 43, 54, 0.08);
+        box-shadow: var(--filter-shadow-color, $filter-shadow-color);
         overflow-x: hidden;
         max-height: 40vh;
 

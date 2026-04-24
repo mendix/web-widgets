@@ -63,7 +63,7 @@
         background-color: var(--grid-bg-striped, $grid-bg-striped);
     }
     .widget-gallery-item:nth-child(even) {
-        background-color: #fff;
+        background-color: var(--bg-color-secondary, $bg-color-secondary);
     }
 }
 
