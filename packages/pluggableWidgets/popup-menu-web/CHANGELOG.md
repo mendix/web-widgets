@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We improved keyboard navigation by implementing roving tabindex pattern for menu items, allowing arrow key navigation through items.
+- We fixed accessibility by applying ARIA attributes directly to the trigger element instead of a wrapper div, improving screen reader compatibility.
+
 ## [4.1.0] - 2026-04-13
 
 ### Fixed

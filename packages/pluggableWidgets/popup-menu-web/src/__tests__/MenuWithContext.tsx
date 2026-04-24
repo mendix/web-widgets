@@ -9,7 +9,10 @@ export function MenuWithContext(props: MenuProps): ReactElement {
         onOpenChange: jest.fn(),
         placement: props.position,
         trigger: props.trigger,
-        clippingStrategy: props.clippingStrategy
+        clippingStrategy: props.clippingStrategy,
+        listRef: props.listRef,
+        activeIndex: props.activeIndex,
+        onNavigate: jest.fn()
     });
 
     return (
