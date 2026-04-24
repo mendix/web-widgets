@@ -3,7 +3,7 @@ import { useOnScreen } from "@mendix/widget-plugin-hooks/useOnScreen";
 import { useGridSizeStore } from "@mendix/datagrid-web/src/model/hooks/injection-hooks";
 import { VIRTUAL_SCROLLING_OFFSET } from "../stores/GridSize.store";
 
-export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | undefined] {
+export function useInfiniteControl(): [trackTableScrolling: ((e: any) => void) | undefined] {
     const gridSizeStore = useGridSizeStore();
 
     const isVisible = useOnScreen(gridSizeStore.gridContainerRef as RefObject<HTMLElement>);
