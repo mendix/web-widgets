@@ -28,6 +28,7 @@ describe("Popup Menu", () => {
         advancedMode: false,
         position: "bottom",
         hoverCloseOn: "onHoverLeave",
+        clickCloseOn: "onClickAnywhere",
         basicItems: [
             basicItemProps,
             { itemType: "divider", caption: dynamicValue("Caption"), styleClass: "defaultStyle" }
