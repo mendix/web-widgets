@@ -25,12 +25,58 @@
             width: fit-content;
             min-width: 50vw;
 
-            .code-input {
-                min-height: 50vh;
+            .code-editor-container {
+                width: 100%;
+            }
 
-                .cm-editor {
-                    width: 100%;
+            .code-editor {
+                min-height: 50vh;
+                margin: 10px;
+                padding: 10px;
+                border: 0;
+                width: calc(100% - 32px);
+                font-family: monospace;
+                line-height: var(--form-input-line-height, 1.2em);
+                font-size: var(--font-size-default, 14px);
+                overflow: auto;
+                white-space: pre;
+                &-container {
+                    max-height: 70vh;
+                    overflow: hidden;
                 }
+            }
+
+            .code-input,
+            .code-preview {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+            }
+            .code-input {
+                z-index: 1;
+                color: transparent;
+                background: transparent;
+                caret-color: var(--brand-primary, #264ae5);
+                white-space: pre-wrap;
+                overflow-wrap: break-word;
+                word-break: break-all;
+                resize: none;
+            }
+            .code-preview {
+                z-index: 0;
+                pointer-events: none;
+
+                code {
+                    padding: unset;
+                    overflow: unset;
+                    background-color: transparent;
+                }
+            }
+            .code-buffer {
+                opacity: 0;
+                background-color: transparent;
             }
         }
 

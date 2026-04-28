@@ -7,6 +7,8 @@
 import { EmbedBlot, type ScrollBlot } from "parchment";
 import Quill, { Delta } from "quill";
 import Clipboard, { matchNewline } from "quill/modules/clipboard";
+import { normalizeStyleAndClassAttribute } from "../helpers";
+import MxQuill from "../MxQuill";
 
 export default class CustomClipboard extends Clipboard {
     constructor(quill: Quill, options: any) {
@@ -23,6 +25,11 @@ export default class CustomClipboard extends Clipboard {
         // add custom list matchers for ol and ul to allow custom list types (lower-alpha, lower-roman, etc.)
         this.addMatcher("ol, ul", matchList);
         this.addMatcher("a", matchLink);
+    }
+
+    protected normalizeHTML(doc: Document): void {
+        super.normalizeHTML(doc);
+        normalizeStyleAndClassAttribute(doc, (this.quill as MxQuill)?.getStyleDataFormat() || "inline");
     }
 }
 

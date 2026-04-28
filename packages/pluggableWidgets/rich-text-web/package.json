@@ -43,21 +43,19 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
-        "@codemirror/lang-html": "^6.4.9",
-        "@codemirror/state": "^6.5.2",
         "@floating-ui/dom": "^1.7.4",
         "@floating-ui/react": "^0.26.27",
         "@melloware/coloris": "^0.25.0",
-        "@uiw/codemirror-theme-github": "^4.23.13",
-        "@uiw/react-codemirror": "^4.23.13",
         "classnames": "^2.5.1",
+        "highlight.js": "^11.11.1",
         "js-beautify": "^1.15.4",
         "katex": "^0.16.22",
         "linkifyjs": "^4.3.2",
         "lodash.merge": "^4.6.2",
         "parchment": "^3.0.0",
         "quill": "^2.0.3",
-        "quill-resize-module": "^2.0.4"
+        "quill-resize-module": "^2.0.4",
+        "react-scroll-sync": "^1.0.2"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
