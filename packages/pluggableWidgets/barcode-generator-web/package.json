@@ -17,7 +17,7 @@
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
-        "minimumMXVersion": "9.6.0",
+        "minimumMXVersion": "10.24.0",
         "appNumber": -1,
         "appName": "Barcode Generator",
         "reactReady": true
