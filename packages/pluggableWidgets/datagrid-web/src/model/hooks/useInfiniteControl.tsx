@@ -42,7 +42,17 @@ export function useInfiniteControl(): [trackTableScrolling: ((e: any) => void) |
     );
 
     useEffect(() => {
-        const timer = setTimeout(() => isVisible && gridSizeStore.lockGridContainerHeight(), 100);
+        const timer = setTimeout(() => {
+            if (!isVisible) {
+                return;
+            }
+            gridSizeStore.lockGridContainerHeight();
+
+            const gridBody = gridSizeStore.gridBodyRef.current;
+            if (gridBody && gridSizeStore.hasMoreItems && gridBody.scrollHeight <= gridBody.clientHeight) {
+                gridSizeStore.bumpPage();
+            }
+        }, 100);
         return () => clearTimeout(timer);
     });
 
