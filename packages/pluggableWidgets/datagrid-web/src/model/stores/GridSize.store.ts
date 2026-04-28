@@ -122,17 +122,19 @@ export class GridSizeStore {
         const viewportHeight = this.computeBodyViewport();
 
         // Don't lock height before the grid body has rendered content.
-        // clientHeight is 0 when the element has no layout yet, which would
+        // viewportHeight is 0 when cells have no layout yet, which would
         // produce a negative height and break scrolling.
         if (viewportHeight <= 0) {
             return;
         }
 
-        // If content already overflows the container (fixed-height grid), do not subtract the
-        // pre-fetch offset — that would hide the last rows and trigger the next page too early.
-        // Only subtract the offset when the grid does not yet overflow (auto-height grid) so
-        // that we create a small synthetic overflow that makes the body scrollable.
-        const overflows = gridBody.scrollHeight > viewportHeight;
+        // Compare scrollHeight and clientHeight from the same element to correctly
+        // detect whether content already overflows a fixed-height container.
+        // If it does, do not subtract the pre-fetch offset — that would hide the
+        // last rows and trigger the next page too early. Only subtract when the
+        // grid does not yet overflow (auto-height grid) to create a small synthetic
+        // overflow that makes the body scrollable.
+        const overflows = gridBody.scrollHeight > gridBody.clientHeight;
         this.gridBodyHeight = viewportHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
         this.lockedAtPageSize = currentPageSize;
     }
