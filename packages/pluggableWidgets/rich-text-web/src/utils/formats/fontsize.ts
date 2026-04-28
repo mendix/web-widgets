@@ -1,7 +1,3 @@
-import { Attributor } from "parchment";
-import Quill from "quill";
-const Size = Quill.import("attributors/style/size") as Attributor;
-
 import "./fonts.scss";
 
 export const FONT_SIZE_LIST = [
@@ -20,6 +16,3 @@ export const FONT_SIZE_LIST = [
     "84px",
     "98px"
 ];
-
-Size.whitelist = FONT_SIZE_LIST;
-Quill.register(Size, true);

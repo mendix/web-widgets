@@ -1,0 +1,24 @@
+@import "variables";
+
+$color: #3d1466;
+.widget-rich-text {
+    @each $name, $font in $fonts {
+        .font-family-#{$name} {
+            @include font($font);
+        }
+    }
+    @each $size in $font-sizes {
+        .ql-size-#{$size} {
+            font-size: $size;
+        }
+    }
+
+    @each $color in $colors {
+        .ql-color-#{"\\" + $color} {
+            color: $color;
+        }
+        .ql-bg-#{"\\" + $color} {
+            background-color: $color;
+        }
+    }
+}

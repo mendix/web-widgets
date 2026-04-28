@@ -1,12 +1,12 @@
 import ListItem from "quill/formats/list";
 import "./customList.scss";
+import Scroll from "quill/blots/scroll";
 /**
  * adding custom list item, alowing extra list style
  */
 
 export const STANDARD_LIST_TYPES = ["ordered", "checked", "unchecked", "bullet"];
-
-export default class CustomListItem extends ListItem {
+export class CustomListItem extends ListItem {
     format(name: string, value: string): void {
         if (name === this.statics.blotName && value) {
             if (!STANDARD_LIST_TYPES.find(x => x === value)) {
@@ -36,5 +36,12 @@ export default class CustomListItem extends ListItem {
 
     static formats(domNode: HTMLElement): string | undefined {
         return domNode.dataset.customList || domNode.dataset.list || undefined;
+    }
+}
+
+export class CustomListItemClass extends CustomListItem {
+    constructor(scroll: Scroll, domNode: HTMLElement) {
+        super(scroll, domNode);
+        domNode.dataset.styleFormat = "class";
     }
 }

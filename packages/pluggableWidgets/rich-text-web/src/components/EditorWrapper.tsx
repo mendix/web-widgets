@@ -9,8 +9,8 @@ import { CSSProperties, ReactElement, useCallback, useContext, useEffect, useRef
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { EditorContext, EditorProvider } from "../store/EditorProvider";
 import { useActionEvents } from "../store/useActionEvents";
+import { type MxQuillModulesOptions } from "../utils/formats";
 import MendixTheme from "../utils/themes/mxTheme";
-import { MxQuillModulesOptions } from "../utils/MxQuill";
 import { createPreset } from "./CustomToolbars/presets";
 import Editor from "./Editor";
 import { StickySentinel } from "./StickySentinel";
@@ -193,6 +193,7 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
                     key={`${toolbarId}_${stringAttribute.readOnly}`}
                     options={
                         {
+                            styleDataFormat: props.styleDataFormat,
                             fonts: props.customFonts,
                             links: {
                                 validate: props.linkValidation

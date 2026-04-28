@@ -220,6 +220,14 @@
                         <enumerationValue key="characterCountHtml">Character count (including HTML)</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="styleDataFormat" type="enumeration" defaultValue="inline">
+                    <caption>Style data format</caption>
+                    <description>Choose how to render styling attribute in HTML</description>
+                    <enumerationValues>
+                        <enumerationValue key="inline">inline</enumerationValue>
+                        <enumerationValue key="class">class</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Custom toolbar">
