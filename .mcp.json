@@ -1,0 +1,13 @@
+{
+    "mcpServers": {
+        "marketplace-mcp": {
+            "type": "stdio",
+            "command": "node",
+            "args": ["./automation/marketplace-mcp/dist/index.js"],
+            "env": {
+                "MX_PAT": "${MARKETPLACE_API_TOKEN}"
+            }
+        }
+    }
+}
+
