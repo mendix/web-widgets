@@ -41,6 +41,7 @@ import { LayoutService } from "./services/Layout.service";
 import { LoaderService } from "./services/Loader.service";
 import { QueryParamsService } from "./services/QueryParams.service";
 import { TextsService } from "./services/Texts.service";
+import { ItemKeyProvider } from "./models/items.model";
 
 const label = (name: string): string => `Gallery[${name}]`;
 
@@ -117,6 +118,7 @@ export const GY_TOKENS = {
     // keyboard navigation, layout and click
     clickActionHelper: token<ClickActionHelper>(label("@service:clickActionHelper")),
     itemEventsVM: token<ComputedAtom<ItemEventsViewModel>>(label("@service:itemEventsVM")),
+    itemKey: token<ItemKeyProvider>(label("@store:itemKeyProvider")),
     keyNavFocusService: token<FocusTargetController>(label("@service:keyNavFocusService")),
     layoutService: token<LayoutService>(label("@service:layoutService")),
     numberOfColumns: token<ComputedAtom<number>>(label("@computed:numberOfColumns")),

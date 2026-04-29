@@ -11,6 +11,7 @@ export type MainGateProps = Pick<
     | "columns"
     | "configurationAttribute"
     | "configurationStorageType"
+    | "customRowKey"
     | "datasource"
     | "dynamicPage"
     | "dynamicPageSize"

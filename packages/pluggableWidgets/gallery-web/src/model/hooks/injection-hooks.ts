@@ -23,6 +23,7 @@ export const [useTextsService] = createInjectionHooks(CORE.texts);
 
 export const [useKeyNavFocus] = createInjectionHooks(GY.keyNavFocusService);
 export const [useItemEventsVM] = createInjectionHooks(GY.itemEventsVM);
+export const [useItemKey] = createInjectionHooks(GY.itemKey);
 export const [useLayoutService] = createInjectionHooks(GY.layoutService);
 
 export const [useLoaderViewModel] = createInjectionHooks(GY.loader);
