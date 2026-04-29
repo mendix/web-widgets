@@ -41,3 +41,21 @@ This guide provides best practices for front-end development in Mendix pluggable
 - **Layout and Sizing:** Use flexible layouts (e.g., percentage widths, flexbox) that adapt to container sizes.
 - **No Overriding Atlas Core Classes:** Do not override core Atlas classes; wrap widget elements if custom styling is needed.
 - **Example – Consistent Button:** Use `<button class="btn btn-secondary" type="button">Click</button>` instead of custom-styled divs.
+
+## Accessibility Requirements
+
+- Follow WCAG 2.2 AA standards
+- **Prefer semantic HTML over ARIA** - use native elements (`<button>`, `<nav>`, `<dialog>`) before adding ARIA attributes
+    - First rule of ARIA: don't use ARIA if semantic HTML achieves the same result
+    - Only add ARIA when the native element doesn't convey the right semantics (e.g., `role="menu"` for dropdown menus vs navigation links)
+- Implement full keyboard navigation for interactive elements:
+    - Arrow keys for menu/list navigation
+    - Enter/Space for activation
+    - Escape for dismissal
+    - Tab for focus management
+- Use roving tabindex pattern for lists/menus (active item: tabIndex=0, others: tabIndex=-1)
+- For floating elements (menus, tooltips, popovers): use Floating UI's accessibility hooks
+    - `useRole`, `useDismiss`, `useListNavigation`, `FloatingFocusManager`
+- Test accessibility changes with unit tests (ARIA attributes, keyboard handlers) and E2E tests (navigation flows)
+- **Contrast checking** - Minimum ratios: 4.5:1 for normal text, 3:1 for large text (AA standard) and GUI elements
+- **Less is more** - avoid over-engineering accessibility; focus on what actually improves screen reader and keyboard user experience
