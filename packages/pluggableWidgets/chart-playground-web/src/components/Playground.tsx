@@ -4,7 +4,7 @@ import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
 import { ComposedEditor } from "./ComposedEditor";
 import { useComposedEditorController } from "../helpers/useComposedEditorController";
 import "../ui/Playground.scss";
-import { useV2EditorController } from "../helpers/useV2EdtiorController";
+import { useV2EditorController } from "../helpers/useV2EditorController";
 
 function EditorGen1({ data }: { data: PlaygroundDataV1 }): ReactElement {
     const props = useComposedEditorController(data);
