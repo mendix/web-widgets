@@ -46,11 +46,16 @@ export function useInfiniteControl(): [trackBodyScrolling: ((e: any) => void) | 
             if (!isVisible) {
                 return;
             }
-            gridSizeStore.lockGridBodyHeight();
 
-            const gridBody = gridSizeStore.gridBodyRef.current;
-            if (gridBody && gridSizeStore.hasMoreItems && gridBody.scrollHeight <= gridBody.clientHeight) {
-                gridSizeStore.bumpPage();
+            const wasLocked = gridSizeStore.gridBodyHeight !== undefined;
+            gridSizeStore.lockGridBodyHeight();
+            const justLocked = !wasLocked && gridSizeStore.gridBodyHeight !== undefined;
+
+            if (justLocked) {
+                const gridBody = gridSizeStore.gridBodyRef.current;
+                if (gridBody && gridSizeStore.hasMoreItems && gridBody.scrollHeight <= gridBody.clientHeight) {
+                    gridSizeStore.bumpPage();
+                }
             }
         }, 100);
         return () => clearTimeout(timer);
