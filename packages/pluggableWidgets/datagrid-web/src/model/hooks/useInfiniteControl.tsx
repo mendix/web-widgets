@@ -46,11 +46,15 @@ export function useInfiniteControl(): [trackTableScrolling: ((e: any) => void) |
             if (!isVisible) {
                 return;
             }
+            const wasLocked = gridSizeStore.gridContainerHeight !== undefined;
             gridSizeStore.lockGridContainerHeight();
+            const justLocked = !wasLocked && gridSizeStore.gridContainerHeight !== undefined;
 
-            const gridBody = gridSizeStore.gridBodyRef.current;
-            if (gridBody && gridSizeStore.hasMoreItems && gridBody.scrollHeight <= gridBody.clientHeight) {
-                gridSizeStore.bumpPage();
+            if (justLocked) {
+                const gridBody = gridSizeStore.gridBodyRef.current;
+                if (gridBody && gridSizeStore.hasMoreItems && gridBody.scrollHeight <= gridBody.clientHeight) {
+                    gridSizeStore.bumpPage();
+                }
             }
         }, 100);
         return () => clearTimeout(timer);
