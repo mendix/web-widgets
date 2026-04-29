@@ -25,6 +25,7 @@ export type GalleryGateProps = Pick<
     | "phoneItems"
     | "ariaLabelListBox"
     | "itemClass"
+    | "customItemKey"
     | "onClick"
     | "onClickTrigger"
     | "content"

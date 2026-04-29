@@ -62,6 +62,7 @@ export interface GalleryContainerProps {
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     itemClass?: ListExpressionValue<string>;
+    customItemKey?: ListExpressionValue<string>;
     stateStorageType: StateStorageTypeEnum;
     stateStorageAttr?: EditableValue<string>;
     storeFilters: boolean;
@@ -118,6 +119,7 @@ export interface GalleryPreviewProps {
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     itemClass: string;
+    customItemKey: string;
     stateStorageType: StateStorageTypeEnum;
     stateStorageAttr: string;
     onConfigurationChange: {} | null;
