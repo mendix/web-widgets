@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added a "Custom item key" property in the Advanced section to provide stable item identifiers when using view entities, preventing scroll position loss during data refresh.
+
 ## [3.9.0] - 2026-03-23
 
 ### Fixed
