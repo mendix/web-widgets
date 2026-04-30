@@ -6,7 +6,8 @@
 
     &-readonly {
         &.widget-checkbox-radio-selection-readonly-text {
-            .radio-item {
+            .radio-item,
+            .checkbox-item {
                 display: none;
 
                 &.widget-checkbox-radio-selection-item-selected {
