@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.8.1] - 2026-04-30
+
 ### Fixed
 
 - We fixed an issue where the combobox in database mode did not update its displayed value when the attribute was changed externally (e.g., via a popup combobox).
