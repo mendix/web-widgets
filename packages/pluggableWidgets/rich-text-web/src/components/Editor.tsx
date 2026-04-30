@@ -13,14 +13,15 @@ import {
 import { RichTextContainerProps } from "../../typings/RichTextProps";
 import { EditorDispatchContext } from "../store/EditorProvider";
 import { SET_FULLSCREEN_ACTION } from "../store/store";
-import "../utils/customPluginRegisters";
+import { registerCustomFormats } from "../utils/customPluginRegisters";
 import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
+import { MxQuillModulesOptions } from "../utils/formats";
 import { getResizeModuleConfig } from "../utils/formats/resizeModuleConfig";
 import { ACTION_DISPATCHER } from "../utils/helpers";
 import { getKeyboardBindings } from "../utils/modules/keyboard";
 import { getIndentHandler } from "../utils/modules/toolbarHandlers";
 import MxUploader from "../utils/modules/uploader";
-import MxQuill, { MxQuillModulesOptions } from "../utils/MxQuill";
+import MxQuill from "../utils/MxQuill";
 import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
 import Dialog from "./ModalDialog/Dialog";
 
@@ -68,7 +69,7 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
         customViewCodeHandler,
         customImageUploadHandler
     } = useEmbedModal(ref, props);
-    const customIndentHandler = getIndentHandler(ref);
+    const customIndentHandler = mxOptions.styleDataFormat === "inline" ? getIndentHandler(ref) : undefined;
 
     // quill instance is not changing, thus, the function reference has to stays.
     useLayoutEffect(() => {
@@ -133,7 +134,8 @@ const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | nul
 
                 const quill = new MxQuill(editorContainer, options);
                 ref.current = quill;
-                quill.registerCustomModules(mxOptions);
+                quill.setStyleDataFormat(mxOptions.styleDataFormat);
+                registerCustomFormats(mxOptions);
 
                 const delta = quill.clipboard.convert({ html: defaultValue ?? "" });
                 quill.updateContents(delta, Quill.sources.SILENT);

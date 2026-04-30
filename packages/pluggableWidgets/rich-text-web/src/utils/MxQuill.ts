@@ -42,9 +42,6 @@ import TextBlot, { escapeText } from "quill/blots/text";
 import { Delta, Op } from "quill/core";
 import Editor from "quill/core/editor";
 import { STANDARD_LIST_TYPES } from "./formats/customList";
-import { FontStyleAttributor, formatCustomFonts } from "./formats/fonts";
-import CustomLink, { CustomLinkNoValidation } from "./formats/link";
-import { CustomFontsType } from "../../typings/RichTextProps";
 
 interface ListItem {
     child: Blot;
@@ -80,17 +77,11 @@ class MxEditor extends Editor {
     }
 }
 
-export interface MxQuillModulesOptions {
-    fonts: CustomFontsType[];
-    links: {
-        validate: boolean;
-    };
-}
-
 /**
  * Extension's of quill to allow us to replace the editor instance.
  */
 export default class MxQuill extends Quill {
+    private styleDataFormat: "inline" | "class" = "inline";
     constructor(container: HTMLElement | string, options: QuillOptions = {}) {
         super(container, options);
         this.editor = new MxEditor(this.scroll);
@@ -101,16 +92,12 @@ export default class MxQuill extends Quill {
         return this.updateContents(this.getContents().transform(dlta as Delta, false), source);
     }
 
-    registerCustomModules(props: MxQuillModulesOptions): void {
-        const { fonts, links } = props;
-        const customFonts = formatCustomFonts(fonts);
-        const FontStyle = new FontStyleAttributor(customFonts);
-        Quill.register(FontStyle, true);
-        if (links.validate) {
-            Quill.register(CustomLink, true);
-        } else {
-            Quill.register(CustomLinkNoValidation, true);
-        }
+    setStyleDataFormat(format: "inline" | "class"): void {
+        this.styleDataFormat = format;
+    }
+
+    getStyleDataFormat(): "inline" | "class" {
+        return this.styleDataFormat;
     }
 }
 
@@ -164,15 +151,22 @@ function convertListHTML(items: ListItem[], lastIndent: number, types: string[])
         }
         return `</li></${endTag}>${convertListHTML([], lastIndent - 1, types)}`;
     }
+    console.log("converting list HTML ", items);
     const [{ child, offset, length, indent, type }, ...rest] = items;
     const [tag, attribute] = getListType(type);
 
     if (indent > lastIndent) {
         // modified by web-content: get proper list-style-type
         const expectedType = getExpectedType(type, indent);
+
+        let listStyleTypeAttribute = `style="list-style-type: ${expectedType}"`;
+        if ((child.domNode as HTMLElement)?.dataset?.styleFormat === "class") {
+            const listStyleClass = `ql-list-style-${expectedType}`;
+            listStyleTypeAttribute = `class="${listStyleClass}"`;
+        }
         types.push(type);
         if (indent === lastIndent + 1) {
-            return `<${tag} style="list-style-type: ${expectedType}"><li${attribute}>${convertHTML(
+            return `<${tag} ${listStyleTypeAttribute}><li${attribute}>${convertHTML(
                 child,
                 offset,
                 length
@@ -197,6 +191,7 @@ function convertHTML(blot: Blot, index: number, length: number, isRoot = false):
     if ("html" in blot && typeof blot.html === "function") {
         return blot.html(index, length);
     }
+
     if (blot instanceof TextBlot) {
         const escapedText = escapeText(blot.value().slice(index, index + length));
         return escapedText;

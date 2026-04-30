@@ -23,6 +23,12 @@ type LimitConfig = {
 
 type CalculateSizeEvent = { clientX: number; clientY: number };
 
+export class MxResizeModule extends QuillResize {
+    initializeEmbed(): void {
+        // override parents, do nothing
+    }
+}
+
 export default class MxResize extends QuillResize.Modules.Resize {
     // modified from https://github.com/mudoo/quill-resize-module/blob/master/src/modules/Resize.js
     calcSize(evt: CalculateSizeEvent, limit: LimitConfig = {}): ImageSizes {

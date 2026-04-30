@@ -28,3 +28,10 @@ export type imageConfigType = {
     entityGuid?: string;
     keepAspectRatio?: boolean;
 };
+export interface MxQuillModulesOptions {
+    styleDataFormat: "inline" | "class";
+    fonts: CustomFontsType[];
+    links: {
+        validate: boolean;
+    };
+}
