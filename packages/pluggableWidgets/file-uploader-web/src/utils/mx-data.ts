@@ -39,12 +39,12 @@ export function fetchMxObject(objectItem: ObjectItem): Promise<MxObject> {
     });
 }
 
-export function fetchDocumentUrl(mxObject: MxObject): string {
+export async function fetchDocumentUrl(mxObject: MxObject): Promise<string> {
     return (window as any).mx.data.getDocumentUrl(mxObject.getGuid(), mxObject.get("changedDate"), false);
 }
 
-export function fetchImageThumbnail(mxObject: MxObject): Promise<string> {
-    const docUrl = (window as any).mx.data.getDocumentUrl(mxObject.getGuid(), mxObject.get("changedDate"), true);
+export async function fetchImageThumbnail(mxObject: MxObject): Promise<string> {
+    const docUrl = await (window as any).mx.data.getDocumentUrl(mxObject.getGuid(), mxObject.get("changedDate"), true);
     return new Promise<string>((resolve, reject) => {
         (window as any).mx.data.getImageUrl(docUrl, resolve, reject);
     });

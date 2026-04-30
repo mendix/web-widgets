@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.4.2] FileUploader - 2026-04-23
+
+### [2.4.2] FileUploader
+
+#### Fixed
+
+- We fixed an issue with Download button not working on Mendix 11.8.
+
 ## [2.4.1] FileUploader - 2026-02-12
 
 ### Fixed

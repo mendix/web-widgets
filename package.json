@@ -20,6 +20,7 @@
         "publish-marketplace": "turbo run publish-marketplace",
         "release": "turbo run release",
         "test": "turbo run test --continue --concurrency 1",
+        "update-screenshots": "node automation/scripts/update-screenshots.mjs",
         "verify": "turbo run verify --continue --concurrency 1"
     },
     "devDependencies": {

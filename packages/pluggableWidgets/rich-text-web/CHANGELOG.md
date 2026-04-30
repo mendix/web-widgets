@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.12.0] - 2026-04-22
+
 ### Added
 
 - We added new configuration to make link Url validation optional. This will allow user to put non-standard Url into the link format.
@@ -13,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 - We fixed an issue where the editor kept adding infinite empty lines at the end by limiting it to only 1 empty line.
+
 - We fixed an issue where lower alpha and lower roman list style converted into unordered list.
 
 ### Changed

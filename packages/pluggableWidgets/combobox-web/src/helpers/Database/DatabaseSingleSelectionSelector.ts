@@ -98,7 +98,10 @@ export class DatabaseSingleSelectionSelector<
             return;
         }
         if (targetAttribute?.status === "available") {
-            if (targetAttribute.value && !this.currentId) {
+            if (
+                targetAttribute.value &&
+                (!this.currentId || !_valuesIsEqual(targetAttribute.value, this.values.get(this.currentId)))
+            ) {
                 const allOptions = this.options.getAll();
                 if (allOptions.length > 0) {
                     const obj = this.options.getAll().find(option => {

@@ -30,8 +30,8 @@ docs/requirements/                -> Detailed technical requirements
 - SCSS for styling, prefer Atlas UI classes, BEM-like naming with widget prefix
 - Conventional commits enforced: `type(scope): description`
 - Semver + CHANGELOG.md per package for runtime/XML/behavior changes
-- Jest + RTL for unit tests (src/**/__tests__/*.spec.ts)
-- Playwright for E2E (e2e/*.spec.js)
+- Jest + RTL for unit tests (src/\*_/**tests**/_.spec.ts)
+- Playwright for E2E (e2e/\*.spec.js)
 
 ## Development Setup
 
