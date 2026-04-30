@@ -1,8 +1,21 @@
-import { ChangeEvent, FormEvent, Fragment, KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
+import {
+    ChangeEvent,
+    FormEvent,
+    Fragment,
+    KeyboardEvent,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import type { PDFDocumentProxy } from "pdfjs-dist";
 import { downloadFile } from "../utils/helpers";
+import { usePDFHighlightPositions } from "../utils/usePDFHighlightPositions";
+import { usePDFSearch } from "../utils/usePDFSearch";
 import { useZoomScale } from "../utils/useZoomScale";
 import BaseViewer from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
@@ -37,10 +50,39 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [pageInputValue, setPageInputValue] = useState<string>("1");
     const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+    const [pdfDoc, setPdfDoc] = useState<PDFDocumentProxy | null>(null);
+    const [showSearch, setShowSearch] = useState<boolean>(false);
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [debouncedQuery, setDebouncedQuery] = useState<string>("");
+    const searchInputRef = useRef<HTMLInputElement>(null);
 
     const onDownloadClick = useCallback(() => {
         downloadFile(file.value?.uri);
     }, [file]);
+
+    const toggleSearch = useCallback(() => {
+        setShowSearch(prev => {
+            if (prev) {
+                setSearchQuery("");
+                setDebouncedQuery("");
+            }
+            return !prev;
+        });
+    }, []);
+
+    const handleSearchInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(event.target.value);
+    }, []);
+
+    const handleSearchKeyDown = useCallback(
+        (event: KeyboardEvent<HTMLInputElement>) => {
+            if (event.key === "Escape") {
+                event.preventDefault();
+                toggleSearch();
+            }
+        },
+        [toggleSearch]
+    );
 
     const handlePageInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -102,17 +144,50 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
         if (file.value?.uri) {
             setCurrentPage(1);
             setPageInputValue("1");
+            setPdfDoc(null);
+            setSearchQuery("");
+            setDebouncedQuery("");
         }
     }, [file.value]);
+
+    // Debounce search query to avoid triggering search on every keystroke
+    useEffect(() => {
+        const timer = setTimeout(() => setDebouncedQuery(searchQuery), 300);
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
+
+    // Auto-focus search input when search bar opens
+    useEffect(() => {
+        if (showSearch) {
+            searchInputRef.current?.focus();
+        }
+    }, [showSearch]);
 
     // Sync page input value with current page
     useEffect(() => {
         setPageInputValue(currentPage.toString());
     }, [currentPage]);
 
-    function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
-        setNumberOfPages(numPages);
+    function onDocumentLoadSuccess(pdf: PDFDocumentProxy): void {
+        setNumberOfPages(pdf.numPages);
+        setPdfDoc(pdf);
     }
+
+    const { matches, currentMatchIndex, goToNextMatch, goToPrevMatch, isSearching } = usePDFSearch(
+        pdfDoc,
+        debouncedQuery,
+        setCurrentPage
+    );
+
+    const highlightRects = usePDFHighlightPositions(pdfDoc, currentPage, zoomLevel, matches, currentMatchIndex);
+
+    const searchMatchLabel = debouncedQuery.trim()
+        ? isSearching
+            ? "Searching…"
+            : matches.length === 0
+              ? "No results"
+              : `${currentMatchIndex + 1} of ${matches.length}`
+        : "";
 
     if (!file.value?.uri) {
         return <div>No document selected</div>;
@@ -122,6 +197,39 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
         <BaseViewer
             {...props}
             fileName={file.value?.name || ""}
+            SecondaryControl={
+                showSearch ? (
+                    <div className="widget-document-viewer-search-bar">
+                        <input
+                            ref={searchInputRef}
+                            type="search"
+                            value={searchQuery}
+                            onChange={handleSearchInputChange}
+                            onKeyDown={handleSearchKeyDown}
+                            className="form-control widget-document-viewer-search-input"
+                            aria-label="Search in document"
+                            placeholder="Search…"
+                        />
+                        <span className="widget-document-viewer-search-count" aria-live="polite">
+                            {searchMatchLabel}
+                        </span>
+                        <button
+                            onClick={goToPrevMatch}
+                            disabled={matches.length === 0}
+                            className="icons icon-Left btn btn-icon-only"
+                            aria-label="Previous match"
+                            title="Previous match"
+                        ></button>
+                        <button
+                            onClick={goToNextMatch}
+                            disabled={matches.length === 0}
+                            className="icons icon-Right btn btn-icon-only"
+                            aria-label="Next match"
+                            title="Next match"
+                        ></button>
+                    </div>
+                ) : null
+            }
             CustomControl={
                 <Fragment>
                     <div className="widget-document-viewer-pagination">
@@ -158,6 +266,13 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                             title={"Go to next page"}
                         ></button>
                     </div>
+                    <button
+                        onClick={toggleSearch}
+                        className="icons icon-Search btn btn-icon-only widget-document-viewer-search-toggle"
+                        aria-label={showSearch ? "Close search" : "Search in document"}
+                        aria-pressed={showSearch}
+                        title={showSearch ? "Close search" : "Search in document"}
+                    ></button>
                     <button
                         onClick={onDownloadClick}
                         className="icons icon-Download btn btn-icon-only"
@@ -202,7 +317,21 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                         })
                     }
                 >
-                    <Page pageNumber={currentPage} scale={zoomLevel} />
+                    <div className="widget-document-viewer-highlight-layer">
+                        <Page pageNumber={currentPage} scale={zoomLevel} />
+                        {highlightRects.map((rect, i) => (
+                            <div
+                                key={i}
+                                className={`widget-document-viewer-highlight${rect.isCurrent ? " current" : ""}`}
+                                style={{
+                                    left: rect.x,
+                                    top: rect.y,
+                                    width: rect.width,
+                                    height: rect.height
+                                }}
+                            />
+                        ))}
+                    </div>
                 </Document>
             </If>
         </BaseViewer>
