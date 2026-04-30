@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where checkboxes remained visible in read-only "Content only" mode. Now only selected items are displayed as text, consistent with radio button behavior.
+
 ## [1.1.1] - 2026-02-24
 
 ### Fixed
