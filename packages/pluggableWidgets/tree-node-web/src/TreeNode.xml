@@ -16,6 +16,13 @@
                     <caption>Data source</caption>
                     <description />
                 </property>
+                <property key="parentAssociation" type="association" dataSource="datasource" selectableObjects="datasource" required="false">
+                    <caption>Parent association</caption>
+                    <description>Select the self-referencing association that connects each item to its parent, enabling infinite depth hierarchies.</description>
+                    <associationTypes>
+                        <associationType name="Reference" />
+                    </associationTypes>
+                </property>
                 <property key="headerType" type="enumeration" defaultValue="text">
                     <caption>Header type</caption>
                     <description />

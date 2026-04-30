@@ -13,13 +13,13 @@ import {
     useState
 } from "react";
 
-import { OpenNodeOnEnum, ShowIconEnum } from "../../typings/TreeNodeProps";
+import { OpenNodeOnEnum, ShowIconEnum } from "../../../typings/TreeNodeProps";
+import { TreeNodeHeaderIcon } from "../common/HeaderIcon";
 
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
-import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
 import { TreeNodeFocusChangeHandler, useTreeNodeBranchKeyboardHandler } from "./hooks/TreeNodeAccessibility";
+import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
 
-import { TreeNodeHeaderIcon } from "./HeaderIcon";
 import { TreeNodeItem, TreeNodeState } from "./TreeNode";
 import { TreeNodeBranchContext, TreeNodeBranchContextProps } from "./TreeNodeBranchContext";
 
