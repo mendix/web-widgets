@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where virtual scrolling prevented data loading when the grid had many columns, showing only the initial page of rows until the user performed a horizontal scroll or zoom.
+
 ## [3.9.0] - 2026-03-23
 
 ### Changed
