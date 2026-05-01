@@ -8,9 +8,7 @@ export const SelectionCounter = observer(function SelectionCounter() {
 
     return (
         <div className="widget-datagrid-selection-counter">
-            <span className="widget-datagrid-selection-text" aria-live="polite" aria-atomic="true">
-                {selectionCountStore.selectedCountText}
-            </span>
+            <span className="widget-datagrid-selection-text">{selectionCountStore.selectedCountText}</span>
             &nbsp;|&nbsp;
             <button className="widget-datagrid-btn-link" onClick={() => selectActions.clearSelection()}>
                 {selectionCountStore.clearButtonLabel}

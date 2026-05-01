@@ -4,7 +4,7 @@ import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-
 import { Container, injected } from "brandi";
 
 import { SelectAllFeature } from "@mendix/widget-plugin-grid/select-all/select-all.feature";
-import { selectAllEmitter, selectAllTextsStore } from "@mendix/widget-plugin-grid/select-all/select-all.model";
+import { selectAllEmitter } from "@mendix/widget-plugin-grid/select-all/select-all.model";
 import { SelectAllBarStore } from "@mendix/widget-plugin-grid/select-all/SelectAllBar.store";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { MainGateProps } from "../../../typings/MainGateProps";
@@ -14,20 +14,11 @@ import { SelectAllBarViewModel } from "./SelectAllBar.viewModel";
 import { SelectionProgressDialogViewModel } from "./SelectionProgressDialog.viewModel";
 
 injected(
-    selectAllTextsStore,
-    SA_TOKENS.gate,
-    CORE.selection.selectedCount,
-    CORE.selection.selectedCounterTextsStore,
-    CORE.atoms.totalCount,
-    CORE.selection.isAllItemsSelected
-);
-
-injected(
     SelectAllBarViewModel,
     SA_TOKENS.emitter,
     SA_TOKENS.barStore,
     CORE.selection.selectedCounterTextsStore,
-    SA_TOKENS.selectAllTextsStore,
+    CORE.selection.selectAllTexts,
     SA_TOKENS.enableSelectAll
 );
 
@@ -62,7 +53,6 @@ export class SelectAllModule extends Container {
         this.bind(SA_TOKENS.emitter).toInstance(selectAllEmitter).inSingletonScope();
         this.bind(DG.query).toInstance(DatasourceService).inSingletonScope();
         this.bind(SA_TOKENS.selectAllService).toInstance(SelectAllService).inSingletonScope();
-        this.bind(SA_TOKENS.selectAllTextsStore).toInstance(selectAllTextsStore).inSingletonScope();
         this.bind(SA_TOKENS.selectAllBarVM).toInstance(SelectAllBarViewModel).inSingletonScope();
         this.bind(SA_TOKENS.selectionDialogVM).toInstance(SelectionProgressDialogViewModel).inSingletonScope();
         this.bind(SA_TOKENS.feature).toInstance(SelectAllFeature).inSingletonScope();
