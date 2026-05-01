@@ -1,6 +1,6 @@
 @import "date-picker";
 
-$filter-shadow-color:
+$filter-box-shadow:
     0 2px 20px 1px rgba(5, 15, 129, 0.05),
     0 2px 16px 0 rgba(33, 43, 54, 0.08) !default;
 
@@ -74,7 +74,7 @@ $filter-shadow-color:
     z-index: 51;
     border-radius: 8px;
     list-style-type: none;
-    box-shadow: var(--filter-shadow-color, $filter-shadow-color);
+    box-shadow: var(--wdf-filter-box-shadow, $filter-box-shadow);
     overflow: hidden;
 
     .filter-listitem,
@@ -144,7 +144,7 @@ $filter-shadow-color:
 :not(.dropdown-content) > .dropdown-list {
     background: var(--bg-color-secondary, $bg-color-secondary);
     border-radius: 8px;
-    box-shadow: var(--filter-shadow-color, $filter-shadow-color);
+    box-shadow: var(--wdf-filter-box-shadow, $filter-box-shadow);
     max-height: 40vh;
     z-index: 102;
 }
@@ -152,7 +152,7 @@ $filter-shadow-color:
 .dropdown-content {
     background: var(--bg-color-secondary, $bg-color-secondary);
     border-radius: 8px;
-    box-shadow: var(--filter-shadow-color, $filter-shadow-color);
+    box-shadow: var(--wdf-filter-box-shadow, $filter-box-shadow);
     max-height: 40vh;
     z-index: 140;
 }
@@ -203,7 +203,7 @@ $filter-shadow-color:
         z-index: 102;
         border-radius: 8px;
         list-style-type: none;
-        box-shadow: var(--filter-shadow-color, $filter-shadow-color);
+        box-shadow: var(--wdf-filter-box-shadow, $filter-box-shadow);
         overflow-x: hidden;
         max-height: 40vh;
 
