@@ -328,12 +328,12 @@ Place your custom CSS here
             }
 
             &.invalid {
-                opacity: 0.7;
+                .entry-details-preview,
+                .entry-details-main {
+                    opacity: 0.5;
+                }
                 .download-icon {
                     visibility: hidden;
-                }
-                .entry-details-actions {
-                    display: none;
                 }
             }
         }
