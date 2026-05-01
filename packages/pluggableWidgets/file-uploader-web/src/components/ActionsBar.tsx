@@ -11,6 +11,10 @@ interface ButtonsBarProps {
 }
 
 export const ActionsBar = ({ actions, store }: ButtonsBarProps): ReactElement | null => {
+    if (store.fileStatus === "validationError") {
+        return <DismissActionsBar store={store} />;
+    }
+
     if (!actions) {
         return <DefaultActionsBar store={store} />;
     }
@@ -65,6 +69,25 @@ function DefaultActionsBar(props: ButtonsBarProps): ReactElement {
                 title={translations.get("removeButtonTextMessage")}
                 action={onRemove}
                 isDisabled={!props.store.canRemove}
+            />
+        </div>
+    );
+}
+
+function DismissActionsBar({ store }: ButtonsBarProps): ReactElement {
+    const translations = useTranslationsStore();
+
+    const onDismiss = useCallback(() => {
+        store.dismiss();
+    }, [store]);
+
+    return (
+        <div className={"entry-details-actions"}>
+            <ActionButton
+                icon={<span className={"remove-icon"} aria-hidden />}
+                title={translations.get("removeButtonTextMessage")}
+                action={onDismiss}
+                isDisabled={false}
             />
         </div>
     );

@@ -74,6 +74,7 @@ export class FileUploaderStore {
         makeObservable(this, {
             updateProps: action,
             processDrop: action,
+            dismissValidationErrors: action,
             setMessage: action,
             processExistingFileItem: action,
             files: observable,
@@ -142,6 +143,10 @@ export class FileUploaderStore {
         this.errorMessage = msg;
     }
 
+    dismissValidationErrors(): void {
+        this.files = this.files.filter(file => file.fileStatus !== "validationError");
+    }
+
     processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
         if (!this.objectCreationHelper.canCreateFiles) {
             console.error(
@@ -158,6 +163,7 @@ export class FileUploaderStore {
             return;
         }
 
+        this.dismissValidationErrors();
         this.setMessage();
 
         for (const file of fileRejections) {
