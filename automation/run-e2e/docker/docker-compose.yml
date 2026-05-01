@@ -29,6 +29,7 @@ services:
     # Starts after mxbuild completes; "docker compose up --wait" blocks until healthy.
     mxruntime:
         image: mxruntime:${MENDIX_VERSION:?MENDIX_VERSION is required}
+        shm_size: "2gb"
         depends_on:
             mxbuild:
                 condition: service_completed_successfully
