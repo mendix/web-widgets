@@ -1,14 +1,25 @@
-import type { Data } from "plotly.js-dist-min";
+import type { Data, Config, Layout } from "plotly.js-dist-min";
 import { Context, createContext, useContext, useMemo } from "react";
-import { ChartProps } from "../components/types";
 import { EditorStore } from "./EditorStore";
-/** As of charts v4, this props are not changing over the widget lifetime. */
-type StaticProps = Pick<ChartProps, "layoutOptions" | "configOptions">;
+import { ChartProps } from "../components/types";
+import { EditableChartStore } from "../main";
 
-export type PlaygroundData = StaticProps & {
+export type PlaygroundDataV1 = {
     plotData: Array<Partial<Data>>;
     store: EditorStore;
+    configOptions: Partial<Config>;
+    layoutOptions: Partial<Layout>;
 };
+
+export type PlaygroundDataV2 = {
+    type: "editor.data.v2";
+    store: EditableChartStore;
+    plotData: Array<Partial<Data>>;
+    configOptions: Partial<Config>;
+    layoutOptions: Partial<Layout>;
+};
+
+export type PlaygroundData = PlaygroundDataV1 | PlaygroundDataV2;
 
 // We use Symbol.for to make this symbol accessible through whole runtime.
 const contextSymbol = Symbol.for("ChartsPlaygroundContext");

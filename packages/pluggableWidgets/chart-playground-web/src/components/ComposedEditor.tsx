@@ -1,10 +1,10 @@
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import classNames from "classnames";
 import { Fragment, ReactElement, ReactNode, RefObject, useCallback, useRef, useState } from "react";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import "../ui/Playground.scss";
+import { CodeEditor } from "./CodeEditor";
 import { Select, SelectOption, Sidebar, SidebarHeader, SidebarHeaderTools, SidebarPanel } from "./Sidebar";
-import { CodeEditor, EditorChangeHandler } from "./CodeEditor";
 
 interface WrapperProps {
     renderPanels: ReactNode;
@@ -71,8 +71,8 @@ const SidebarContentTooltip = (): ReactElement => {
 };
 
 export interface ComposedEditorProps {
-    defaultEditorValue: string;
-    onEditorChange: EditorChangeHandler;
+    value: string;
+    onEditorChange: (value: string) => void;
     modelerCode: string;
     onViewSelectChange: (value: string) => void;
     viewSelectValue: string;
@@ -138,11 +138,7 @@ export function ComposedEditor(props: ComposedEditorProps): ReactElement {
                 heading={topPanelHeader}
             >
                 <TabGuard>
-                    <CodeEditor
-                        defaultValue={props.defaultEditorValue}
-                        onChange={props.onEditorChange}
-                        height="var(--editor-h)"
-                    />
+                    <CodeEditor value={props.value} onChange={props.onEditorChange} height="var(--editor-h)" />
                 </TabGuard>
             </SidebarPanel>
             <SidebarPanel
@@ -154,7 +150,7 @@ export function ComposedEditor(props: ComposedEditorProps): ReactElement {
                 <CodeEditor
                     key={props.modelerCode}
                     readOnly
-                    defaultValue={props.modelerCode}
+                    value={props.modelerCode}
                     height="var(--static-settings-h)"
                 />
             </SidebarPanel>
