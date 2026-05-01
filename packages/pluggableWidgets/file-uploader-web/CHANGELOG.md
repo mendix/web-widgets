@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the "Invalid file format" validation error could not be dismissed and persisted after uploading a valid file.
+
 ## [2.4.2] - 2026-04-23
 
 ### Fixed

@@ -60,7 +60,8 @@ export class FileStore {
             imagePreviewUrl: computed,
             upload: action,
             fetchMxObject: action,
-            markMissing: action
+            markMissing: action,
+            dismiss: action
         });
     }
 
@@ -74,6 +75,10 @@ export class FileStore {
     markError(errorMessage: string): void {
         this.fileStatus = "validationError";
         this.errorDescription = errorMessage;
+    }
+
+    dismiss(): void {
+        this._rootStore.files = this._rootStore.files.filter(f => f !== this);
     }
 
     canExecute(listAction: ListActionValue): boolean {
@@ -123,6 +128,7 @@ export class FileStore {
             runInAction(() => {
                 this.fileStatus = "done";
                 this._rootStore.objectCreationHelper.reportUploadSuccess(this._objectItem!);
+                this._rootStore.dismissValidationErrors();
             });
         } catch (_e: unknown) {
             runInAction(() => {
