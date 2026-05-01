@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue with On change action not triggering in some cases.
+
 ## [2.1.5] - 2026-03-06
 
 ### Fixed

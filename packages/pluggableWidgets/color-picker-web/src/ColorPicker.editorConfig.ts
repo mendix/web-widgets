@@ -1,3 +1,4 @@
+import { hidePropertiesIn, hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 import {
     ContainerProps,
     ImageProps,
@@ -5,11 +6,10 @@ import {
     StructurePreviewProps,
     TextProps
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { hidePropertiesIn, hidePropertyIn, Properties, transformGroupsIntoTabs } from "@mendix/pluggable-widgets-tools";
 
 import { ColorPickerPreviewProps } from "../typings/ColorPickerProps";
-import StructurePreviewSvg from "./assets/structure-preview.svg";
 import StructurePreviewSvgDark from "./assets/structure-preview-dark.svg";
+import StructurePreviewSvg from "./assets/structure-preview.svg";
 
 const defaultColorTypes = ["block", "sketch", "circle", "compact", "twitter"];
 
