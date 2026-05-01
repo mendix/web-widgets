@@ -81,13 +81,15 @@ describe("cell-readers", () => {
         });
 
         it("exports date attribute without format as string cell (displayValue)", () => {
+            const testDate = new Date("2024-06-15T10:30:00Z");
             const col = column("Created", c => {
                 c.showContentAs = "attribute";
-                c.attribute = listAttribute(() => new Date("2024-06-15T10:30:00Z"));
+                c.attribute = listAttribute(() => testDate);
                 c.exportType = "default";
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
+            expect(cell.v).toBe(`Formatted ${testDate}`);
         });
 
         it("returns empty cell when attribute is not available", () => {
