@@ -135,5 +135,10 @@ export class GridSizeStore {
         const overflows = gridBody.scrollHeight > viewportHeight;
         this.gridBodyHeight = viewportHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
         this.lockedAtPageSize = currentPageSize;
+
+        // Fallback: if locking didn't produce a scrollbar, load more rows
+        if (this.hasMoreItems && gridBody.scrollHeight <= gridBody.clientHeight) {
+            this.bumpPage();
+        }
     }
 }
