@@ -63,7 +63,7 @@ const SelectionCounter = (): ReactNode => {
                 {props.selectedCountTemplateSingular}
             </span>
             &nbsp;|&nbsp;
-            <button className="widget-gallery-btn-link">{props.clearSelectionButtonLabel}</button>
+            <button className="widget-gallery-clear-selection">{props.clearSelectionButtonLabel}</button>
         </div>
     );
 };

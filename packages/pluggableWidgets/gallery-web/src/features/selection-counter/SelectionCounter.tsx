@@ -12,7 +12,7 @@ export const SelectionCounter = observer(function SelectionCounter() {
                 {selectionCounterVM.selectedCountText}
             </span>
             &nbsp;|&nbsp;
-            <button className="widget-gallery-btn-link" onClick={() => selectActions.clearSelection()}>
+            <button className="widget-gallery-clear-selection" onClick={() => selectActions.clearSelection()}>
                 {selectionCounterVM.clearButtonLabel}
             </button>
         </div>
