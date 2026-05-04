@@ -112,5 +112,10 @@ export class GridSizeStore {
         const overflows = gridContainer.scrollHeight > fullHeight;
         this.gridContainerHeight = fullHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
         this.lockedAtPageSize = currentPageSize;
+
+        const gridBody = this.gridBodyRef.current;
+        if (this.hasMoreItems && gridBody && gridBody.scrollHeight <= gridBody.clientHeight) {
+            this.bumpPage();
+        }
     }
 }
