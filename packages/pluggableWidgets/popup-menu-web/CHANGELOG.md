@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.2.0] - 2026-05-04
+
 ### Added
 
 - We added a "Close on" option for the Click trigger, letting you choose whether the menu closes when you click anywhere on the page or only when you click outside the menu.
