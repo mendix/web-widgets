@@ -1,15 +1,11 @@
 import { expect, test } from "@playwright/test";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 import AxeBuilder from "@axe-core/playwright";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
 
 test.describe("datagrid-dropdown-filter-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test.describe("visual testing:", () => {
@@ -77,7 +73,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
 test.describe("with Default value", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/filter_init_condition");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test("in single mode, set init condition for boolean", async ({ page }) => {
@@ -194,7 +190,7 @@ test.describe("with Default value", () => {
 test.describe("a11y testing:", () => {
     test("checks accessibility violations", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
 
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag21aa"])

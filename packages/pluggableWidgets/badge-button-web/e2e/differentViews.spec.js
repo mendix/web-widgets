@@ -1,9 +1,5 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 // Conditional flag added to skip these tests when running on react client, because those widgets aren't supported in the react client
 test.skip(process.env.MODERN_CLIENT === true, () => {
@@ -11,7 +7,7 @@ test.skip(process.env.MODERN_CLIENT === true, () => {
         test.describe("listen to grid", () => {
             test.beforeEach(async ({ page }) => {
                 await page.goto("p/listenToGrid");
-                await page.waitForLoadState("networkidle");
+                await waitForMendixApp(page);
             });
 
             test("displays correctly when listening a data grid", async ({ page }) => {
@@ -26,7 +22,7 @@ test.skip(process.env.MODERN_CLIENT === true, () => {
         test.describe("listview", () => {
             test.beforeEach(async ({ page }) => {
                 await page.goto("p/listView");
-                await page.waitForLoadState("networkidle");
+                await waitForMendixApp(page);
             });
 
             test("displays correctly in a list view", async ({ page }) => {
@@ -46,7 +42,7 @@ test.skip(process.env.MODERN_CLIENT === true, () => {
         test.describe("template grid", () => {
             test.beforeEach(async ({ page }) => {
                 await page.goto("p/templateGrid");
-                await page.waitForLoadState("networkidle");
+                await waitForMendixApp(page);
             });
 
             test("displays correctly in a template grid", async ({ page }) => {
@@ -67,7 +63,7 @@ test.skip(process.env.MODERN_CLIENT === true, () => {
         test.describe("tab container", () => {
             test.beforeEach(async ({ page }) => {
                 await page.goto("p/tabContainer");
-                await page.waitForLoadState("networkidle");
+                await waitForMendixApp(page);
             });
 
             test("displays correctly in default tab", async ({ page }) => {

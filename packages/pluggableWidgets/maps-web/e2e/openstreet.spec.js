@@ -1,15 +1,11 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("OpenStreet Maps", () => {
     test.describe("rendering", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/osm-static");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("compares with a screenshot baseline and checks if basemap is correct", async ({ page }) => {
@@ -22,7 +18,7 @@ test.describe("OpenStreet Maps", () => {
     test.describe("mixed rendering", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/osm");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("checks the rendering", async ({ page }) => {
@@ -41,7 +37,7 @@ test.describe("OpenStreet Maps", () => {
     test.describe("static locations", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/osm-static");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("checks the rendering", async ({ page }) => {
@@ -60,7 +56,7 @@ test.describe("OpenStreet Maps", () => {
     test.describe("datasource locations", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/osm-datasource");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("checks the rendering", async ({ page }) => {
@@ -79,7 +75,7 @@ test.describe("OpenStreet Maps", () => {
     test.describe("on click", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/osm-onclick");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("should click on first marker", async ({ page }) => {

@@ -1,15 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 import AxeBuilder from "@axe-core/playwright";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
 
 test.describe("datagrid-date-filter-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test.describe("visual testing:", () => {
@@ -22,15 +18,14 @@ test.describe("datagrid-date-filter-web", () => {
         });
     });
 
-    test.fixme(
-        "compares with a screenshot baseline and checks if date picker element is rendered as expected",
-        async ({ page }) => {
-            const datagrid = page.locator(".mx-name-datagrid1");
-            const datePickerButton = datagrid.locator(".btn-calendar").first();
-            await datePickerButton.click();
-            await expect(datagrid).toHaveScreenshot(`dataGridDateFilterDatePicker.png`);
-        }
-    );
+    test.fixme("compares with a screenshot baseline and checks if date picker element is rendered as expected", async ({
+        page
+    }) => {
+        const datagrid = page.locator(".mx-name-datagrid1");
+        const datePickerButton = datagrid.locator(".btn-calendar").first();
+        await datePickerButton.click();
+        await expect(datagrid).toHaveScreenshot(`dataGridDateFilterDatePicker.png`);
+    });
 
     test("filters a typed date", async ({ page }) => {
         const datagrid = page.locator(".mx-name-datagrid1");
@@ -90,7 +85,7 @@ test.describe("datagrid-date-filter-web", () => {
     test.describe("a11y testing:", () => {
         test("checks accessibility violations", async ({ page }) => {
             await page.goto("/");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
 
             const accessibilityScanResults = await new AxeBuilder({ page })
                 .withTags(["wcag21aa"])

@@ -1,19 +1,15 @@
 import { expect, test } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("RichText", () => {
     test("compares with a screenshot baseline and checks if inline basic mode are rendered as expected", async ({
         page
     }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.click("text=Generate Data");
         await page.goto("/p/basic");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-richText1").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-richText1")).toBeVisible();
         await expect(page.locator(".mx-name-richText1")).toHaveScreenshot(`inlineBasicMode.png`, { threshold: 0.4 });
@@ -23,7 +19,7 @@ test.describe("RichText", () => {
         page
     }) => {
         await page.goto("/p/basic");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-richText4")).toBeVisible();
         await expect(page.locator(".mx-name-richText4")).toHaveScreenshot(`toolbarBasicMode.png`, { threshold: 0.4 });
     });
@@ -32,7 +28,7 @@ test.describe("RichText", () => {
         page
     }) => {
         await page.goto("/p/advanced");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-richText1")).toBeVisible();
         await expect(page.locator(".mx-name-richText1")).toHaveScreenshot(`bottomToolbarAdvancedMode.png`, {
             threshold: 0.4
@@ -48,7 +44,7 @@ test.describe("RichText", () => {
         page
     }) => {
         await page.goto("/p/advanced");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-richText4").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-richText4")).toBeVisible();
         await expect(page.locator(".mx-name-richText4")).toHaveScreenshot(`toolbarAdvancedMode.png`, {
@@ -65,7 +61,7 @@ test.describe("RichText", () => {
         page
     }) => {
         await page.goto("/p/custom");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-richText1")).toBeVisible();
         await expect(page.locator(".mx-name-richText1")).toHaveScreenshot(`inlineCustomMode.png`, { threshold: 0.4 });
     });
@@ -74,7 +70,7 @@ test.describe("RichText", () => {
         page
     }) => {
         await page.goto("/p/custom");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-richText2")).toBeVisible();
         await expect(page.locator(".mx-name-richText2")).toHaveScreenshot(`toolbarCustomMode.png`, { threshold: 0.4 });
     });
@@ -83,7 +79,7 @@ test.describe("RichText", () => {
         page
     }) => {
         await page.goto("/p/custom");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-richText3").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-richText3")).toBeVisible();
         await expect(page.locator(".mx-name-richText3")).toHaveScreenshot(`customModeAllOptions.png`, {
@@ -95,7 +91,7 @@ test.describe("RichText", () => {
         page
     }) => {
         await page.goto("/p/custom");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-richText4").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-richText4")).toBeVisible();
         await expect(page.locator(".mx-name-richText4")).toHaveScreenshot(`customModeNoneOptions.png`, {
@@ -105,7 +101,7 @@ test.describe("RichText", () => {
 
     test("compares with a screenshot baseline and checks for readonly mode basic styling", async ({ page }) => {
         await page.goto("/p/read-only");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-richText3").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-richText3")).toBeVisible();
         await expect(page.locator(".mx-name-richText3")).toHaveScreenshot(`readOnlyModeBasic.png`, {
@@ -115,7 +111,7 @@ test.describe("RichText", () => {
 
     test("compares with a screenshot baseline and checks for readonly mode bordered styling", async ({ page }) => {
         await page.goto("/p/read-only");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-richText2").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-richText2")).toBeVisible();
         await expect(page.locator(".mx-name-richText2")).toHaveScreenshot(`readOnlyModeBordered.png`, {
@@ -125,7 +121,7 @@ test.describe("RichText", () => {
 
     test("compares with a screenshot baseline and checks for readonly mode read panel styling", async ({ page }) => {
         await page.goto("/p/read-only");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-richText6").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-richText6")).toBeVisible();
         await expect(page.locator(".mx-name-richText6")).toHaveScreenshot(`readOnlyModeReadPanel.png`, {
@@ -135,7 +131,7 @@ test.describe("RichText", () => {
 
     test("compares with a screenshot for rich text inside modal popup layout", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
 
         await page.click(".mx-navbar-item [title='Demo']");
 

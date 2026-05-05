@@ -1,14 +1,9 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "@mendix/run-e2e/fixtures";
 
 async function waitForMendixReady(page) {
     await page.waitForLoadState("domcontentloaded");
     await page.waitForFunction(() => !!window.mx?.session);
 }
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
 
 test.describe("Video Player", () => {
     test.beforeEach(async ({ page }) => {
