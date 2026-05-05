@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { test as base, expect } from "@playwright/test";
 
 /**
@@ -5,11 +6,15 @@ import { test as base, expect } from "@playwright/test";
  * Checks for mx.session existence and absence of progress indicators.
  */
 async function waitForMendixApp(page, timeout = 30_000) {
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForFunction(
-        // eslint-disable-next-line no-undef
-        () => Boolean(window.mx?.session) && !document.querySelector(".mx-progress-indicator"),
+        () =>
+            Boolean(window.mx?.session) &&
+            !document.querySelector(".mx-progress-indicator") &&
+            document.querySelector(".mx-page") !== null,
         { timeout }
     );
+    await page.waitForLoadState("networkidle");
 }
 
 export { expect };
@@ -26,7 +31,6 @@ export const test = base.extend({
         try {
             await use(page);
         } finally {
-            // eslint-disable-next-line no-undef
             await page.evaluate(() => window.mx?.session?.logout?.()).catch(() => {});
         }
     }
