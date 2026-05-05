@@ -1,13 +1,14 @@
 /* eslint-disable no-undef */
 import { expect } from "@playwright/test";
 
-export async function waitForMendixApp(page, timeout = 30_000) {
+export async function waitForMendixApp(page, timeout = 60_000) {
     await page.waitForLoadState("domcontentloaded");
     await page.waitForFunction(
         () =>
             Boolean(window.mx?.session) &&
             !document.querySelector(".mx-progress-indicator") &&
             document.querySelector(".mx-page") !== null,
+        undefined,
         { timeout }
     );
     await page.waitForLoadState("networkidle");
