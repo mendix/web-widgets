@@ -18,8 +18,7 @@ test.describe("column-chart-web", () => {
             const defaultColorContainer = page.locator(".mx-name-containerDefaultColor .widget-chart");
             await defaultColorContainer.scrollIntoViewIfNeeded();
             await expect(defaultColorContainer).toBeVisible({ timeout: 10000 });
-            // Ensure the chart is fully rendered before taking a screenshot
-            await page.waitForTimeout(1000); // Wait for 1 second
+            await expect(defaultColorContainer.locator(".plot-container")).toBeVisible();
             await expect(defaultColorContainer).toHaveScreenshot(`columnChartDefaultColor.png`);
         });
 
@@ -27,8 +26,7 @@ test.describe("column-chart-web", () => {
             const customColorContainer = page.locator(".mx-name-containerCustomColor .widget-chart");
             await customColorContainer.scrollIntoViewIfNeeded();
             await expect(customColorContainer).toBeVisible({ timeout: 10000 });
-            // Ensure the chart is fully rendered before taking a screenshot
-            await page.waitForTimeout(1000); // Wait for 1 second
+            await expect(customColorContainer.locator(".plot-container")).toBeVisible();
             await expect(customColorContainer).toHaveScreenshot(`columnChartCustomColor.png`);
         });
     });
@@ -38,8 +36,7 @@ test.describe("column-chart-web", () => {
             const groupContainer = page.locator(".mx-name-containerGroup .widget-chart");
             await groupContainer.scrollIntoViewIfNeeded();
             await expect(groupContainer).toBeVisible({ timeout: 10000 });
-            // Ensure the chart is fully rendered before taking a screenshot
-            await page.waitForTimeout(1000); // Wait for 1 second
+            await expect(groupContainer.locator(".plot-container")).toBeVisible();
             await expect(groupContainer).toHaveScreenshot(`columnChartGrouped.png`);
         });
 
@@ -47,8 +44,7 @@ test.describe("column-chart-web", () => {
             const stackContainer = page.locator(".mx-name-containerStack .widget-chart");
             await stackContainer.scrollIntoViewIfNeeded();
             await expect(stackContainer).toBeVisible({ timeout: 10000 });
-            // Ensure the chart is fully rendered before taking a screenshot
-            await page.waitForTimeout(1000); // Wait for 1 second
+            await expect(stackContainer.locator(".plot-container")).toBeVisible();
             await expect(stackContainer).toHaveScreenshot(`columnChartStacked.png`);
         });
     });
