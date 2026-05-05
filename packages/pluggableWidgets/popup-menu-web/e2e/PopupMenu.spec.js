@@ -1,15 +1,11 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("Popup-menu-web", () => {
     test.describe("using basic option", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("compares with a screenshot baseline and checks if popupmenu is rendered in the top left position", async ({
@@ -78,7 +74,7 @@ test.describe("Popup-menu-web", () => {
 
         test("shows a new menu list when on hover is triggered", async ({ page }) => {
             await page.click(".mx-name-actionButton1");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
             const button25 = page.getByRole("button", { name: "Trigger On Hover" });
             await expect(button25).toBeVisible();
             await button25.hover();
@@ -102,7 +98,7 @@ test.describe("Popup-menu-web", () => {
     test.describe("using custom option", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("compares with a screenshot baseline and checks if custom popupmenu is rendered in the top left position", async ({

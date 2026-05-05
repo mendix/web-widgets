@@ -1,16 +1,12 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("column-chart-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-actionButton1").click();
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test.describe("column color", () => {

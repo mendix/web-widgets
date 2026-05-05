@@ -1,9 +1,5 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("color-picker-web", () => {
     test.describe("render a picker of mode", () => {
@@ -11,7 +7,7 @@ test.describe("color-picker-web", () => {
             const isFirefox = browserName === "firefox";
 
             await page.goto("/p/modePage");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
 
             if (!isFirefox) {
                 const colorPicker = await page.locator(".mx-name-colorPicker3 .widget-color-picker-inner");
@@ -28,7 +24,7 @@ test.describe("color-picker-web", () => {
 
         test("input box", async ({ page }) => {
             await page.goto("/p/modePage");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
             await page.click(".mx-name-tabPage2");
             const inputBox = await page.locator(".mx-name-colorPicker17 input");
             await expect(inputBox).toHaveValue("#4caf50");
@@ -36,7 +32,7 @@ test.describe("color-picker-web", () => {
 
         test("inline", async ({ page }) => {
             await page.goto("/p/modePage");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
             await page.click(".mx-name-tabPage3");
             const inlinePicker = await page.locator(".mx-name-colorPicker27 .sketch-picker");
             await expect(inlinePicker).toBeVisible();
@@ -46,7 +42,7 @@ test.describe("color-picker-web", () => {
     test.describe("renders a picker of type", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/p/modePage");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
             await page.click(".mx-name-tabPage3");
         });
 
@@ -109,14 +105,14 @@ test.describe("color-picker-web", () => {
     test.describe("renders with color format as", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/p/colorFormat");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test.fixme("hex", async ({ page }) => {
             const hexInput = await page.locator(".mx-name-colorPicker24 input");
             await expect(hexInput).toBeVisible();
             await page.reload();
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
             await expect(hexInput).toBeVisible({ timeout: 10000 });
             await expect(hexInput).toBeEnabled({ timeout: 10000 });
             await expect(hexInput).toBeEditable({ timeout: 10000 });
