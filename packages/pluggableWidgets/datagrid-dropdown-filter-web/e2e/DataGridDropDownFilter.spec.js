@@ -29,7 +29,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
             await page.locator(".mx-name-datagrid1 .mx-name-dataGridDrop_downFilter1").click({ delay: 100 });
             await page.waitForSelector(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)");
             await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)").click({ delay: 100 });
-            await page.waitForTimeout(300); // wait for filter to apply
+            await expect(page.locator(".mx-name-datagrid1 .tr")).toHaveCount(1);
             await page.locator('.mx-name-datagrid1 .th[title="Age"]').click({ delay: 100 });
             const cells = await page.$$eval(".mx-name-datagrid1 .td", elements =>
                 elements.map(element => element.textContent)
@@ -43,7 +43,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
             await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)").click({ delay: 100 });
             await page.waitForSelector(".widget-dropdown-filter-menu-slot > ul > li:nth-child(2)");
             await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(2)").click({ delay: 100 });
-            await page.waitForTimeout(300); // wait for filter to apply
+            await expect(page.locator(".mx-name-datagrid1 .tr")).toHaveCount(2);
             await page.locator('.mx-name-datagrid1 .th[title="Age"]').click({ delay: 100 });
             const cells = await page.$$eval(".mx-name-datagrid1 .td", elements =>
                 elements.map(element => element.textContent)

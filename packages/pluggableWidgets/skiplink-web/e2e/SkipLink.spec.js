@@ -25,9 +25,7 @@ test.describe("SkipLink:", function () {
         await page.keyboard.press("Tab");
 
         await expect(skipLink).toBeFocused();
-        // Element should now be within the viewport
-        const rect = await skipLink.evaluate(el => el.getBoundingClientRect().toJSON());
-        expect(rect.top).toBeGreaterThanOrEqual(0);
+        await expect(skipLink).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
     });
 
     test("skip link navigates to main content when activated", async ({ page }) => {

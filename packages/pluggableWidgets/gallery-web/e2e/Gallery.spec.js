@@ -34,7 +34,7 @@ test.describe("gallery-web", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
             await page.locator(textFilter).first().fill("Leo");
-            await page.waitForTimeout(1000); // wait for filter to apply
+            await expect(page.locator(".widget-gallery-item")).toHaveCount(1);
             await expect(page.locator(gallery)).toHaveScreenshot(`galleryTextFilter.png`);
         });
 
@@ -61,7 +61,7 @@ test.describe("gallery-web", () => {
 
             await dropdown.click({ delay: 1 });
             await dropdown.getByRole("listbox").getByRole("option", { name: "QA Engineer" }).click({ delay: 1 });
-            await page.waitForTimeout(1000); // wait for filter to apply
+            await expect(page.locator(".widget-gallery-item")).toHaveCount(1);
             await expect(gallery).toHaveScreenshot(`galleryDropdownFilter.png`);
         });
     });
