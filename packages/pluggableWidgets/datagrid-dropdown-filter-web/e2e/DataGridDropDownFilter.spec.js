@@ -14,9 +14,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
         }) => {
             const dataGrid = await page.locator(".mx-name-datagrid1");
             await expect(dataGrid).toBeVisible();
-            await expect(page).toHaveScreenshot(`dataGridDropDownFilter-${process.env.BROWSER_NAME}.png`, {
-                threshold: 0.1
-            });
+            await expect(page).toHaveScreenshot(`dataGridDropDownFilter-${process.env.BROWSER_NAME}.png`);
         });
     });
 

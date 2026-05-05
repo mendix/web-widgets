@@ -11,8 +11,7 @@ test.describe("time-series-chart-web", () => {
         await expect(page.locator(".mx-name-containerMultipleSeries", { timeout: 10000 })).toBeVisible();
         await page.locator(".mx-name-containerMultipleSeries").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-containerMultipleSeries")).toHaveScreenshot(
-            `timeSeriesChartMultipleSeries.png`,
-            { threshold: 0.5 }
+            `timeSeriesChartMultipleSeries.png`
         );
     });
 
@@ -20,8 +19,7 @@ test.describe("time-series-chart-web", () => {
         await expect(page.locator(".mx-name-containerWithoutRangeSlider", { timeout: 10000 })).toBeVisible();
         await page.locator(".mx-name-containerWithoutRangeSlider").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-containerWithoutRangeSlider")).toHaveScreenshot(
-            `timeSeriesChartWithoutRangeSlider.png`,
-            { threshold: 0.5 }
+            `timeSeriesChartWithoutRangeSlider.png`
         );
     });
 
@@ -32,8 +30,7 @@ test.describe("time-series-chart-web", () => {
             await expect(page.locator(".mx-name-containerWithoutFillArea", { timeout: 10000 })).toBeVisible();
             await page.locator(".mx-name-containerWithoutFillArea").scrollIntoViewIfNeeded();
             await expect(page.locator(".mx-name-containerWithoutFillArea")).toHaveScreenshot(
-                `timeSeriesChartWithoutFillArea.png`,
-                { threshold: 0.5 }
+                `timeSeriesChartWithoutFillArea.png`
             );
         });
 
@@ -43,8 +40,7 @@ test.describe("time-series-chart-web", () => {
             await expect(page.locator(".mx-name-containerCustomFillAreaColor", { timeout: 10000 })).toBeVisible();
             await page.locator(".mx-name-containerCustomFillAreaColor").scrollIntoViewIfNeeded();
             await expect(page.locator(".mx-name-containerCustomFillAreaColor")).toHaveScreenshot(
-                `timeSeriesChartCustomFillAreaColor.png`,
-                { threshold: 0.5 }
+                `timeSeriesChartCustomFillAreaColor.png`
             );
         });
     });
@@ -60,8 +56,7 @@ test.describe("time-series-chart-web", () => {
             await expect(page.locator(".mx-name-containerYRangeNonNegative", { timeout: 10000 })).toBeVisible();
             await page.locator(".mx-name-containerYRangeNonNegative").scrollIntoViewIfNeeded();
             await expect(page.locator(".mx-name-containerYRangeNonNegative")).toHaveScreenshot(
-                `timeSeriesChartYRangeNonNegative.png`,
-                { threshold: 0.5 }
+                `timeSeriesChartYRangeNonNegative.png`
             );
         });
 
@@ -69,10 +64,7 @@ test.describe("time-series-chart-web", () => {
             await expect(page.locator(".mx-name-containerYRangeAuto")).toBeVisible();
             await page.locator(".mx-name-containerYRangeAuto").scrollIntoViewIfNeeded();
             await expect(page.locator(".mx-name-containerYRangeAuto")).toHaveScreenshot(
-                `timeSeriesChartYRangeAuto.png`,
-                {
-                    threshold: 0.5
-                }
+                `timeSeriesChartYRangeAuto.png`
             );
         });
     });

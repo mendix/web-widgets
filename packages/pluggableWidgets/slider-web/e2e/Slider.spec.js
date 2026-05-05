@@ -204,9 +204,7 @@ test.describe("Slider", () => {
             page
         }) => {
             await expect(page.locator(".mx-name-sliderPrimary")).toBeVisible();
-            await expect(page.locator(".mx-name-sliderPrimary")).toHaveScreenshot(`sliderStyles.png`, {
-                threshold: 0.4
-            });
+            await expect(page.locator(".mx-name-sliderPrimary")).toHaveScreenshot(`sliderStyles.png`);
         });
     });
 

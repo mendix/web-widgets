@@ -14,9 +14,7 @@ test.describe("datagrid-number-filter-web", () => {
         }) => {
             const dataGrid = await page.locator(".mx-name-datagrid1");
             await expect(dataGrid).toBeVisible();
-            await expect(page).toHaveScreenshot(`dataGridNumberFilter.png`, {
-                threshold: 0.1
-            });
+            await expect(page).toHaveScreenshot(`dataGridNumberFilter.png`);
         });
     });
 

@@ -15,7 +15,7 @@ test.describe("pie-doughnut-chart-web", () => {
                 await containerSliceColor.scrollIntoViewIfNeeded();
                 await expect(containerSliceColor).toBeVisible({ timeout: 15000 });
                 await containerSliceColor.scrollIntoViewIfNeeded();
-                await expect(containerSliceColor).toHaveScreenshot("pieChartDefaultColor.png", { threshold: 0.5 });
+                await expect(containerSliceColor).toHaveScreenshot("pieChartDefaultColor.png");
             },
             { retry: 3 }
         );
@@ -32,7 +32,7 @@ test.describe("pie-doughnut-chart-web", () => {
             async ({ page }) => {
                 const containerPieFormat = await page.locator(".mx-name-containerPieFormat");
                 await containerPieFormat.scrollIntoViewIfNeeded();
-                await expect(containerPieFormat).toHaveScreenshot("pieChartPieFormat.png", { threshold: 0.5 });
+                await expect(containerPieFormat).toHaveScreenshot("pieChartPieFormat.png");
             },
             { retry: 3 }
         );
@@ -40,7 +40,7 @@ test.describe("pie-doughnut-chart-web", () => {
         test("renders pie chart with doughnut format and compares with a screenshot baseline", async ({ page }) => {
             const containerDoughnutFormat = await page.locator(".mx-name-containerDoughnutFormat");
             await containerDoughnutFormat.scrollIntoViewIfNeeded();
-            await expect(containerDoughnutFormat).toHaveScreenshot("pieChartDoughnutFormat.png", { threshold: 0.5 });
+            await expect(containerDoughnutFormat).toHaveScreenshot("pieChartDoughnutFormat.png");
         });
     });
 });
