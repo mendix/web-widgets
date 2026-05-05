@@ -58,7 +58,7 @@ jobs:
 
                       Follow the skill guidelines precisely. Focus only on changed files in the diff; ignore dist/, lockfiles, and generated files.
                   claude_args: >-
-                      --model ${{ env.CLAUDE_MODEL }} --allowedTools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api:*),mcp__github_inline_comment__create_inline_comment,Read,Grep,Glob"
+                      --model ${{ env.CLAUDE_MODEL }} --allowedTools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api:*),Bash(git log:*),Bash(git diff:*),Bash(ls:*),Bash(find:*),mcp__github_inline_comment__create_inline_comment,Read,Grep,Glob"
 
     interactive:
         name: Claude Interactive
@@ -106,4 +106,4 @@ jobs:
                       - `AGENTS.md` — repo conventions, commands, and constraints
                       - `.claude/skills/code-review/SKILL.md` — review checklist and heuristics
                   claude_args: >-
-                      --model ${{ env.CLAUDE_MODEL }} --allowedTools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api:*),mcp__github_inline_comment__create_inline_comment,Read,Grep,Glob"
+                      --model ${{ env.CLAUDE_MODEL }} --allowedTools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api:*),Bash(git log:*),Bash(git diff:*),Bash(ls:*),Bash(find:*),mcp__github_inline_comment__create_inline_comment,Read,Grep,Glob"

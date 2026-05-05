@@ -28,38 +28,47 @@ If refactor/docs/tests-only: changelog entry not required — confirm with autho
 
 ### Mendix-specific
 
-- **XML ↔ TSX alignment**: lowerCamelCase keys, TS props updated with XML changes, unique widget ID
-- **Data API**: check `ActionValue.canExecute` before `execute()`, use `EditableValue.setValue()` for two-way binding, render loading/empty states until values are ready
+`AGENTS.md` covers the core rules (canExecute, loading states, lowerCamelCase XML keys). Flag these additional review issues:
+
+- XML changed but TS props not updated, or widget ID is not unique
+- `EditableValue` read without checking `.status` — can render stale/undefined data
+- `ActionValue.execute()` called without checking `.canExecute` first
 
 ### React
 
-- **Hooks**: correct `useEffect`/`useMemo`/`useCallback` deps; no stale closures; guard async effects:
+Flag these patterns — general React conventions are assumed known:
+
+- Missing or wrong `useEffect`/`useMemo`/`useCallback` deps; stale closures
+- Async effect sets state without a cleanup guard:
     ```ts
     useEffect(() => {
         let active = true;
-        (async () => {
-            const data = await load();
-            if (active) setData(data);
-        })();
+        fetchData().then(data => {
+            if (active) setState(data);
+        });
         return () => {
             active = false;
         };
-    }, [load]);
+    }, [fetchData]);
     ```
-- **State**: functional updates (`setX(x => x + 1)`); no mirroring props in state without sync logic; stable `key`s in lists (not array index)
-- **Props**: don't spread unknown props onto DOM nodes; prefer composition over prop drilling
+- Array index used as list `key` — requires a stable unique key
+- Props spread onto DOM nodes (`<div {...props}>`) — strips unknown HTML attributes
 
 ### MobX
 
-- `makeAutoObservable` or `makeObservable` in every store constructor
-- State mutations only inside `action`; `computed` must be pure (no side effects)
-- React integration via `observer` HOC or `useSubscribe()` from `@mendix/widget-plugin-mobx-kit`
+- `makeAutoObservable` or `makeObservable` missing from store constructor
+- State mutation outside `action` — suggest `runInAction` or `action` wrapper
+- `computed` with side effects — must be pure
+- Missing `observer` HOC or `useSubscribe()` from `@mendix/widget-plugin-mobx-kit` on React components that read MobX state
 
 ### Styling
 
-- SCSS only — no inline styles for static design
-- Atlas UI classes preferred (`btn`, `badge`); never override core Atlas classes
-- BEM-like naming prefixed with widget name; no `!important`
+Conventions are in `docs/requirements/frontend-guidelines.md`. Flag only deviations:
+
+- Inline styles used for static design
+- Core Atlas UI classes overridden
+- `!important` used
+- CSS class not prefixed with widget name
 
 ### Unit tests
 
@@ -168,37 +177,23 @@ expect(results.violations).toEqual([]);
 
 ### Accessibility
 
-Follow WCAG 2.2 AA. Prefer semantic HTML over ARIA — only add ARIA when native elements don't convey the right semantics.
+Full requirements are in `docs/requirements/frontend-guidelines.md`. Flag only deviations:
 
-- **Semantic elements**: use `<button>` for actions, `<a>` for navigation, `<dialog>` for modals — not `<div onClick>`
-- **Keyboard navigation**: all interactive elements reachable and operable by keyboard; focus order is logical
-    - Arrow keys for menu/list navigation
-    - Enter/Space to activate
-    - Escape to dismiss floating elements
-    - Roving `tabIndex` pattern for lists/menus (`tabIndex=0` on active item, `-1` on others)
-- **ARIA labels**: interactive elements without visible text need `aria-label` or `aria-labelledby`; dynamic regions need `aria-live` where appropriate
-- **Focus management**: dialogs/modals must trap focus on open and restore it on close; use `FloatingFocusManager` from Floating UI for popovers/menus
-- **Images**: decorative images use `alt=""`; informative images have descriptive `alt` text
-- **Colour contrast**: minimum 4.5:1 for normal text, 3:1 for large text and UI components (AA)
-- **No content conveyed by colour alone**: pair colour cues with text or icons
+- Interactive element is a `<div>` or `<span>` with `onClick` — replace with `<button>` or `<a>`
+- Icon-only button missing `aria-label`
+- `<img>` missing `alt` attribute (use `alt=""` for decorative)
+- Dialog/modal does not trap focus or restore it on close — use `FloatingFocusManager`
+- Colour used as the sole differentiator — pair with text or icon
 
 ## Heuristics
 
-| Situation                                      | Comment                                                                                      |
-| ---------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| Code/XML changed, no CHANGELOG entry           | "Please add a changelog entry (`pnpm -w changelog`). Version bumps happen in a separate PR." |
-| Feature/fix without tests                      | "Please add unit tests in `src/components/__tests__/` and consider E2E tests."               |
-| XML changed, TS props not updated              | "XML props changed but TS types/usage aren't aligned."                                       |
-| Async effect sets state without guard          | Suggest the `active` flag pattern above                                                      |
-| `index` used as list `key`                     | Request a stable unique key                                                                  |
-| MobX mutation outside `action`                 | Suggest `runInAction` or `action` wrapper                                                    |
-| `dangerouslySetInnerHTML` without sanitization | Flag as high severity; require DOMPurify or equivalent                                       |
-| Hardcoded secret, token, or credential         | Flag as critical; must be removed and rotated                                                |
-| `javascript:` or `data:` URI from user input   | Flag as XSS risk; require validation before use                                              |
-| Interactive element is a `<div>` with onClick  | Replace with `<button>` or `<a>`; add keyboard handler if div must be kept                   |
-| Missing `alt` on `<img>`                       | Add descriptive `alt` or `alt=""` for decorative images                                      |
-| No `aria-label` on icon-only button            | Add `aria-label` describing the action                                                       |
-| Colour used as sole differentiator             | Pair with text or icon; check contrast ratio meets 4.5:1 (3:1 for large text)                |
+| Situation                                      | Severity | Comment                                                |
+| ---------------------------------------------- | -------- | ------------------------------------------------------ |
+| Code/XML changed, no CHANGELOG entry           | Medium   | `pnpm -w changelog` — version bumps are a separate PR  |
+| Feature/fix without tests                      | Medium   | Add unit tests; consider E2E for interactive behaviour |
+| `dangerouslySetInnerHTML` without sanitization | High     | Require DOMPurify or equivalent before merge           |
+| Hardcoded secret, token, or credential         | Critical | Must be removed and rotated immediately                |
+| `javascript:` or `data:` URI from user input   | High     | Validate before use — XSS risk                         |
 
 ## Scope
 
