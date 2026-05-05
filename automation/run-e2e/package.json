@@ -12,6 +12,11 @@
         "run-e2e": "bin/run-e2e.mjs"
     },
     "type": "module",
+    "exports": {
+        "./fixtures": "./lib/fixtures.mjs",
+        "./mendix-helpers": "./lib/mendix-helpers.mjs",
+        "./playwright.config.cjs": "./playwright.config.cjs"
+    },
     "scripts": {
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint .",
