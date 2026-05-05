@@ -11,10 +11,6 @@ on:
 env:
     CLAUDE_MODEL: eu.anthropic.claude-sonnet-4-6
 
-concurrency:
-    group: claude-review-${{ github.event.pull_request.number || github.event.issue.number }}
-    cancel-in-progress: true
-
 jobs:
     auto-review:
         name: AI Code Review
@@ -22,10 +18,14 @@ jobs:
             github.event_name == 'pull_request' &&
             github.event.pull_request.head.repo.full_name == 'mendix/web-widgets' &&
             github.event.pull_request.user.login != 'uicontent' &&
+            github.event.pull_request.user.login != 'uicontent[bot]' &&
             github.event.pull_request.user.login != 'renovate[bot]' &&
             github.event.pull_request.draft == false
         runs-on: ubuntu-latest
         timeout-minutes: 15
+        concurrency:
+            group: claude-auto-review-${{ github.event.pull_request.number }}
+            cancel-in-progress: true
         permissions:
             contents: read
             pull-requests: write
@@ -48,6 +48,7 @@ jobs:
               uses: anthropics/claude-code-action@fefa07e9c665b7320f08c3b525980457f22f58aa # v1
               with:
                   use_bedrock: "true"
+                  model: ${{ env.CLAUDE_MODEL }}
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   prompt: |
                       You are reviewing PR #${{ github.event.pull_request.number }} in the mendix/web-widgets monorepo.
@@ -72,8 +73,7 @@ jobs:
                       - Include short code snippets when suggesting fixes
                       - Be specific and reference files/lines
                       - Post a brief summary comment with overall assessment
-                  claude_args: |
-                      --model ${{ env.CLAUDE_MODEL }}
+                  claude_args: >-
                       --allowedTools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api:*),mcp__github_inline_comment__create_inline_comment,Read,Grep,Glob"
 
     interactive:
@@ -89,6 +89,9 @@ jobs:
               contains(fromJSON('["MEMBER","COLLABORATOR","OWNER"]'), github.event.comment.author_association)))
         runs-on: ubuntu-latest
         timeout-minutes: 15
+        concurrency:
+            group: claude-interactive-${{ github.event.issue.number }}
+            cancel-in-progress: false
         permissions:
             contents: read
             pull-requests: write
@@ -111,8 +114,8 @@ jobs:
               uses: anthropics/claude-code-action@fefa07e9c665b7320f08c3b525980457f22f58aa # v1
               with:
                   use_bedrock: "true"
+                  model: ${{ env.CLAUDE_MODEL }}
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   trigger_phrase: "@claude"
-                  claude_args: |
-                      --model ${{ env.CLAUDE_MODEL }}
+                  claude_args: >-
                       --allowedTools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api:*),mcp__github_inline_comment__create_inline_comment,Read,Grep,Glob"
