@@ -1,0 +1,31 @@
+/* eslint-disable no-undef */
+import { expect } from "@playwright/test";
+
+export async function waitForMendixApp(page, timeout = 30_000) {
+    await page.waitForFunction(() => Boolean(window.mx?.session) && !document.querySelector(".mx-progress-indicator"), {
+        timeout
+    });
+}
+
+export async function waitForWidget(page, mxName, timeout = 15_000) {
+    const locator = page.locator(`.mx-name-${mxName}`);
+    await expect(locator).toBeVisible({ timeout });
+    return locator;
+}
+
+export async function waitForListData(page, mxName, minRows = 1, timeout = 15_000) {
+    const container = page.locator(`.mx-name-${mxName}`);
+    await expect(container).toBeVisible({ timeout });
+    const rows = container.locator("[class*='item'], tr[class*='row'], [class*='gallery-item']");
+    await expect(rows).toHaveCount(minRows, { timeout });
+    return rows;
+}
+
+export async function safeLogout(page) {
+    await page.evaluate(() => window.mx?.session?.logout?.()).catch(() => {});
+}
+
+export async function navigateToPage(page, path, timeout = 30_000) {
+    await page.goto(path);
+    await waitForMendixApp(page, timeout);
+}
