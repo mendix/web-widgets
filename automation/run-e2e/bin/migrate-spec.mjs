@@ -28,10 +28,11 @@ let content = readFileSync(absPath, "utf-8");
 const original = content;
 const changes = [];
 
-// 1. Replace import from @playwright/test with shared fixtures
-const importPattern = /import\s*\{\s*test\s*,\s*expect\s*\}\s*from\s*["']@playwright\/test["'];?/g;
+// 1. Replace import from @playwright/test with shared fixtures (handles both orderings)
+const importPattern =
+    /import\s*\{\s*(?:test\s*,\s*expect|expect\s*,\s*test)\s*\}\s*from\s*["']@playwright\/test["'];?/g;
 if (importPattern.test(content)) {
-    content = content.replace(importPattern, 'import { test, expect } from "@mendix/run-e2e/fixtures";');
+    content = content.replace(importPattern, 'import { expect, test } from "@mendix/run-e2e/fixtures";');
     changes.push("Replaced @playwright/test import with shared fixtures");
 }
 

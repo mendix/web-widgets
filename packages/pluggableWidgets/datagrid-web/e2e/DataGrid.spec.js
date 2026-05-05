@@ -1,6 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
-import { expect, test } from "@playwright/test";
+import { expect, test } from "@mendix/run-e2e/fixtures";
 import path from "path";
 import * as XLSX from "xlsx";
 
