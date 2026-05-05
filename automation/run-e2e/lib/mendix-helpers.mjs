@@ -2,9 +2,15 @@
 import { expect } from "@playwright/test";
 
 export async function waitForMendixApp(page, timeout = 30_000) {
-    await page.waitForFunction(() => Boolean(window.mx?.session) && !document.querySelector(".mx-progress-indicator"), {
-        timeout
-    });
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForFunction(
+        () =>
+            Boolean(window.mx?.session) &&
+            !document.querySelector(".mx-progress-indicator") &&
+            document.querySelector(".mx-page") !== null,
+        { timeout }
+    );
+    await page.waitForLoadState("networkidle");
 }
 
 export async function waitForWidget(page, mxName, timeout = 15_000) {
