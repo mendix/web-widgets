@@ -15,15 +15,16 @@ Review the PR diff against the standards in this repository. Read `AGENTS.md` fo
 - **Template adherence**: lint/test run locally, new tests added, related PRs linked
 - **Multi-package PRs**: validate each changed package separately
 
-### Versioning and changelog (per changed package)
+### Changelog (per changed package)
+
+Version bumps happen in a separate dedicated PR — do not require or flag missing semver bumps.
 
 If runtime code, public API, XML schema, or behavior changed:
 
-- Require semver bump in `package.json`
 - Require `CHANGELOG.md` entry (Keep a Changelog format)
 - Suggest: `pnpm -w changelog`
 
-If refactor/docs/tests-only: bump not required — confirm with author.
+If refactor/docs/tests-only: changelog entry not required — confirm with author.
 
 ### Mendix-specific
 
@@ -183,21 +184,21 @@ Follow WCAG 2.2 AA. Prefer semantic HTML over ARIA — only add ARIA when native
 
 ## Heuristics
 
-| Situation                                      | Comment                                                                        |
-| ---------------------------------------------- | ------------------------------------------------------------------------------ |
-| Code/XML changed, no version bump or CHANGELOG | "Please bump semver and add changelog (`pnpm -w changelog`)."                  |
-| Feature/fix without tests                      | "Please add unit tests in `src/components/__tests__/` and consider E2E tests." |
-| XML changed, TS props not updated              | "XML props changed but TS types/usage aren't aligned."                         |
-| Async effect sets state without guard          | Suggest the `active` flag pattern above                                        |
-| `index` used as list `key`                     | Request a stable unique key                                                    |
-| MobX mutation outside `action`                 | Suggest `runInAction` or `action` wrapper                                      |
-| `dangerouslySetInnerHTML` without sanitization | Flag as high severity; require DOMPurify or equivalent                         |
-| Hardcoded secret, token, or credential         | Flag as critical; must be removed and rotated                                  |
-| `javascript:` or `data:` URI from user input   | Flag as XSS risk; require validation before use                                |
-| Interactive element is a `<div>` with onClick  | Replace with `<button>` or `<a>`; add keyboard handler if div must be kept     |
-| Missing `alt` on `<img>`                       | Add descriptive `alt` or `alt=""` for decorative images                        |
-| No `aria-label` on icon-only button            | Add `aria-label` describing the action                                         |
-| Colour used as sole differentiator             | Pair with text or icon; check contrast ratio meets 4.5:1 (3:1 for large text)  |
+| Situation                                      | Comment                                                                                      |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Code/XML changed, no CHANGELOG entry           | "Please add a changelog entry (`pnpm -w changelog`). Version bumps happen in a separate PR." |
+| Feature/fix without tests                      | "Please add unit tests in `src/components/__tests__/` and consider E2E tests."               |
+| XML changed, TS props not updated              | "XML props changed but TS types/usage aren't aligned."                                       |
+| Async effect sets state without guard          | Suggest the `active` flag pattern above                                                      |
+| `index` used as list `key`                     | Request a stable unique key                                                                  |
+| MobX mutation outside `action`                 | Suggest `runInAction` or `action` wrapper                                                    |
+| `dangerouslySetInnerHTML` without sanitization | Flag as high severity; require DOMPurify or equivalent                                       |
+| Hardcoded secret, token, or credential         | Flag as critical; must be removed and rotated                                                |
+| `javascript:` or `data:` URI from user input   | Flag as XSS risk; require validation before use                                              |
+| Interactive element is a `<div>` with onClick  | Replace with `<button>` or `<a>`; add keyboard handler if div must be kept                   |
+| Missing `alt` on `<img>`                       | Add descriptive `alt` or `alt=""` for decorative images                                      |
+| No `aria-label` on icon-only button            | Add `aria-label` describing the action                                                       |
+| Colour used as sole differentiator             | Pair with text or icon; check contrast ratio meets 4.5:1 (3:1 for large text)                |
 
 ## Scope
 
@@ -210,8 +211,8 @@ Follow WCAG 2.2 AA. Prefer semantic HTML over ARIA — only add ARIA when native
 | `packages/pluggableWidgets/*/**/*.scss`                        | Styling: BEM naming, Atlas UI classes, no `!important`, no inline styles           |
 | `packages/pluggableWidgets/*/src/**/__tests__/*.spec.{ts,tsx}` | Unit test coverage, builder usage, RTL patterns                                    |
 | `packages/pluggableWidgets/*/e2e/*.spec.js`                    | E2E structure, selectors, afterEach logout, no hardcoded waits                     |
-| `packages/pluggableWidgets/*/package.json`                     | Semver bump present when runtime/XML/behavior changed                              |
-| `packages/pluggableWidgets/*/CHANGELOG.md`                     | Keep a Changelog entry present when version bumped                                 |
+| `packages/pluggableWidgets/*/package.json`                     | Version bumps happen in a separate PR — do not flag missing bumps                  |
+| `packages/pluggableWidgets/*/CHANGELOG.md`                     | Keep a Changelog entry present when runtime/XML/behavior changed                   |
 | `packages/pluggableWidgets/*/*.editorConfig.ts`                | Studio Pro design-time config aligns with XML properties                           |
 | `packages/pluggableWidgets/*/*.editorPreview.tsx`              | Preview component renders without crashing; no production-only imports             |
 | `packages/shared/*/src/**/*.{ts,tsx}`                          | Shared utility changes — check for breaking API changes affecting widget consumers |
@@ -234,7 +235,7 @@ Follow WCAG 2.2 AA. Prefer semantic HTML over ARIA — only add ARIA when native
 
 When a PR touches multiple packages, validate each changed package separately:
 
-- Versioning and CHANGELOG per package
+- CHANGELOG entry per package (version bumps are out of scope)
 - XML ↔ TS alignment per widget
 - Test coverage per changed component
 
@@ -269,39 +270,48 @@ Always post one summary comment. Use inline comments for issues that reference a
 - `🔶 Changes requested — one or more medium-severity items must be addressed`
 - `🚨 Blocked — high-severity issue (security, data loss, broken API) must be fixed`
 
-**Full template:**
+**Post the comment using exactly this structure** (GitHub Markdown — render as-is, do not wrap in a code fence):
 
-````markdown
+The comment must start with:
+
+```
 ## AI Code Review
+```
 
-> ✅ / ⚠️ / 🔶 / 🚨 **<verdict line>**
+Then a blockquote verdict on the next line:
 
----
+```
+> ✅ Approved — no issues found
+```
 
+(replace with the appropriate verdict emoji and text)
+
+Then a horizontal rule `---`, then a `### What was reviewed` section with a Markdown table:
+
+```
 ### What was reviewed
 
-| File                | Change                            |
-| ------------------- | --------------------------------- |
-| `path/to/file.ts`   | Brief description of what changed |
-| `path/to/other.yml` | Brief description                 |
+| File | Change |
+| --- | --- |
+| `path/to/file.ts` | Brief description of what changed |
+| `path/to/other.yml` | Brief description |
 
 Skipped (out of scope): `dist/`, `pnpm-lock.yaml`
+```
 
----
+Then `---`, then a `### Findings` section (omit entirely on a clean PR) where each finding is a level-4 heading:
 
+```
 ### Findings
-
-<!-- Omit this section entirely on a clean PR -->
 
 #### 🚨 High — <short title>
 
 **File:** `path/to/file.ts` line 42
 **Problem:** What is wrong and why it matters.
 **Fix:**
-
-```ts
+\`\`\`ts
 // suggested fix snippet
-```
+\`\`\`
 
 ---
 
@@ -317,14 +327,16 @@ Skipped (out of scope): `dist/`, `pnpm-lock.yaml`
 
 **File:** `path/to/file.ts` line 5
 **Note:** What to consider, not blocking.
+```
 
----
+Then `---`, then a `### Positives` section as a bullet list:
 
+```
 ### Positives
 
 - Specific thing done well (not generic praise)
 - Another concrete positive
-````
+```
 
 ### Rules
 
