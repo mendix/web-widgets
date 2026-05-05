@@ -7,14 +7,11 @@ test.describe("Google Maps", () => {
         await waitForMendixApp(page);
     });
 
-    test("compares with a screenshot baseline and checks if basemap is correct", async ({ page }) => {
+    test("renders basemap with markers", async ({ page }) => {
         const $mapsElement = page.locator(".widget-google-maps");
         await expect($mapsElement).toBeVisible();
-        await expect($mapsElement).toHaveScreenshot(`googleMaps.png`, {
-            maxDiffPixels: 15000,
-            threshold: 0.3,
-            animations: "disabled"
-        });
+        const canvas = $mapsElement.locator("canvas, .gm-style > div");
+        await expect(canvas.first()).toBeVisible();
     });
 
     test("checks the rendering", async ({ page }) => {

@@ -3,12 +3,12 @@ import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("Here Maps", () => {
     test.describe("rendering", () => {
-        test("compares with a screenshot baseline and checks if basemap is correct", async ({ page }) => {
+        test("renders basemap correctly", async ({ page }) => {
             await page.goto("p/here-static");
             await waitForMendixApp(page);
             const mapElement = await page.locator(".widget-maps");
             await expect(mapElement).toBeVisible();
-            await expect(mapElement).toHaveScreenshot("hereMaps.png", { maxDiffPixels: 4000 });
+            await expect(mapElement).toHaveScreenshot("hereMaps.png");
         });
     });
 

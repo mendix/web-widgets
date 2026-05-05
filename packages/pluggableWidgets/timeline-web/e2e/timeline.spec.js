@@ -13,9 +13,7 @@ test.describe("timeline-web", () => {
         }) => {
             await page.locator(".mx-name-basicTimelinePage").click();
             await expect(page.locator(".mx-name-timelineGrids")).toBeVisible();
-            await expect(page.locator(".mx-name-timelineGrids")).toHaveScreenshot(`timelineBasic.png`, {
-                threshold: 0.2
-            });
+            await expect(page.locator(".mx-name-timelineGrids")).toHaveScreenshot(`timelineBasic.png`);
         });
 
         test("shows a message when event onclick is called", async ({ page }) => {
@@ -31,9 +29,7 @@ test.describe("timeline-web", () => {
             page
         }) => {
             await expect(page.locator(".mx-name-customTimelineLayoutGrid")).toBeVisible();
-            await expect(page.locator(".mx-name-customTimelineLayoutGrid")).toHaveScreenshot(`timelineCusto.png`, {
-                threshold: 0.2
-            });
+            await expect(page.locator(".mx-name-customTimelineLayoutGrid")).toHaveScreenshot(`timelineCusto.png`);
         });
 
         test("shows a message when event onclick is called", async ({ page }) => {
