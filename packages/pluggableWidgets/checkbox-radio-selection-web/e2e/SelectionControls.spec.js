@@ -30,7 +30,7 @@ test.describe("checkbox-radio-selection-web", () => {
         test("renders checkbox radio selection using static values", async ({ page }) => {
             await page.reload();
             await page.click(".mx-name-actionButton1", { timeout: 10000 });
-            await page.waitForLoadState("networkidle", { timeout: 10000 });
+            await waitForMendixApp(page);
             const tabPage2 = page.getByRole("tab", { name: "Page 2" });
             await expect(tabPage2).toBeVisible({ timeout: 10000 });
             await tabPage2.click();
@@ -42,7 +42,7 @@ test.describe("checkbox-radio-selection-web", () => {
         test("renders checkbox radio selection using database", async ({ page }) => {
             await page.reload();
             await page.click(".mx-name-actionButton1", { timeout: 10000 });
-            await page.waitForLoadState("networkidle", { timeout: 10000 });
+            await waitForMendixApp(page);
             const tabPage2 = page.getByRole("tab", { name: "Page 2" });
             await expect(tabPage2).toBeVisible({ timeout: 10000 });
             await tabPage2.click();
@@ -55,7 +55,7 @@ test.describe("checkbox-radio-selection-web", () => {
             test("handles radio button selection", async ({ page }) => {
                 await page.reload();
                 await page.click(".mx-name-actionButton1", { timeout: 10000 });
-                await page.waitForLoadState("networkidle", { timeout: 10000 });
+                await waitForMendixApp(page);
                 const tabPage2 = page.getByRole("tab", { name: "Page 2" });
                 await expect(tabPage2).toBeVisible({ timeout: 10000 });
                 await tabPage2.click();
