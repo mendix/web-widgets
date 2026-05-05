@@ -13,9 +13,9 @@ module.exports = defineConfig({
     grep: process.env.E2E_SUITE === "smoke" ? /@smoke/ : undefined,
     /* Retry on CI only */
     retries: process.env.CI ? 2 : 0,
-    /* Use 4 workers on CI – the runner has multiple cores and each widget's tests
-     * are independent, so parallel execution cuts per-widget runtime significantly. */
-    workers: process.env.CI ? 4 : undefined,
+    /* Worker-scoped session: each worker holds 1 Mendix session. Safe up to 4 workers
+     * against the 5-session developer license (leaves 1 headroom). */
+    workers: process.env.CI ? 4 : 4,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
         ["list"],
