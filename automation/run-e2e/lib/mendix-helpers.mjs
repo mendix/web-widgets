@@ -11,6 +11,10 @@ export async function waitForMendixApp(page, timeout = 60_000) {
         undefined,
         { timeout }
     );
+}
+
+export async function waitForDataReady(page, timeout = 60_000) {
+    await waitForMendixApp(page, timeout);
     await page.waitForLoadState("networkidle");
 }
 
