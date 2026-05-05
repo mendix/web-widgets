@@ -9,6 +9,8 @@ module.exports = defineConfig({
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
+    /* Filter tests by tag: E2E_SUITE=smoke runs only @smoke-tagged tests */
+    grep: process.env.E2E_SUITE === "smoke" ? /@smoke/ : undefined,
     /* Retry on CI only */
     retries: process.env.CI ? 2 : 0,
     /* Use 4 workers on CI – the runner has multiple cores and each widget's tests
