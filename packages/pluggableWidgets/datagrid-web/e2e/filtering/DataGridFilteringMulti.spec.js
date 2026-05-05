@@ -21,10 +21,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await option("Blush").click({ delay: 20 });
         await expect(await rows()).toHaveCount(8);
         await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click({ delay: 20 });
-        const columnText = await column(2).allTextContents();
-        await expect(columnText).toEqual(
-            expect.arrayContaining(["Pink", "Pink", "Pink", "Blush", "Blush", "Pink", "Pink"])
-        );
+        await expect(column(2)).toContainText(["Pink", "Pink", "Pink", "Blush", "Blush", "Pink", "Pink"]);
     });
 
     test("filter rows where ReferenceSet contains at least one of selected objects", async ({ page }) => {
@@ -54,11 +51,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await option("Public librarian").click({ delay: 20 });
         await expect(await rows()).toHaveCount(10);
         await roleSelect().click({ delay: 20 });
-        await page.waitForTimeout(300);
-        const columnTexts = await column(3).allTextContents();
-        expectedColumnText.forEach((text, index) => {
-            expect(columnTexts[index]).toBe(text);
-        });
+        await expect(column(3)).toHaveText(expectedColumnText);
     });
 
     test("filter rows where Reference equal to one of selected objects", async ({ page }) => {
@@ -81,10 +74,12 @@ test.describe("datagrid-web filtering multi select", () => {
         await option("ALLETE, Inc.").click({ delay: 20 });
         await expect(await rows()).toHaveCount(6);
         await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click({ delay: 20 });
-        await page.waitForTimeout(300);
-        const columnText = await column(4).allTextContents();
-        expect(columnText).toEqual(
-            expect.arrayContaining(["ALLETE, Inc.", "FMC Corp", "ALLETE, Inc.", "ALLETE, Inc.", "ALLETE, Inc."])
-        );
+        await expect(column(4)).toContainText([
+            "ALLETE, Inc.",
+            "FMC Corp",
+            "ALLETE, Inc.",
+            "ALLETE, Inc.",
+            "ALLETE, Inc."
+        ]);
     });
 });

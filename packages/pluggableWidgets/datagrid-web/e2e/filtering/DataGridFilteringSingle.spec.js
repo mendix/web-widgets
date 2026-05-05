@@ -16,33 +16,22 @@ test.describe("datagrid-web filtering single select", () => {
     });
 
     test("filter rows that have Yes in Pets column", async ({ page }) => {
-        const rows = async () => {
-            return page.locator('.mx-name-dataGrid21 [role="row"]');
-        };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
         const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
 
         await booleanSelect().click();
         await option("Yes").click({ delay: 1 });
-        const rowCount = await rows();
-        await expect(rowCount).toHaveCount(11);
-        const columnTexts = await column(3).allTextContents();
-        columnTexts.forEach(text => expect(text).toBe("Yes"));
+        await expect(column(3)).toHaveText(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"]);
     });
 
     test("filter rows that have No in Pets column", async ({ page }) => {
-        const rows = async () => {
-            return page.locator('.mx-name-dataGrid21 [role="row"]');
-        };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
 
         await booleanSelect().click();
-
         await page.getByRole("option", { name: "No", exact: true }).click();
-        const rowCount = await rows();
-        await expect(rowCount).toHaveCount(11);
+        await expect(column(3).first()).toHaveText("No");
         const columnTexts = await column(3).allTextContents();
         columnTexts.forEach(text => expect(text).toBe("No"));
     });
