@@ -41,7 +41,28 @@ module.exports = defineConfig({
         baseURL: process.env.URL ? process.env.URL : "http://127.0.0.1:8080",
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-        trace: "on-first-retry"
+        trace: "on-first-retry",
+
+        launchOptions: {
+            args: [
+                "--disable-dev-shm-usage",
+                "--disable-extensions",
+                "--disable-background-networking",
+                "--disable-background-timer-throttling",
+                "--disable-renderer-backgrounding",
+                "--disable-sync",
+                "--disable-translate",
+                "--disable-default-apps",
+                "--disable-hang-monitor",
+                "--metrics-recording-only",
+                "--no-first-run",
+                "--font-render-hinting=none"
+            ]
+        },
+
+        contextOptions: {
+            reducedMotion: "reduce"
+        }
     },
 
     /* Configure projects for major browsers */
