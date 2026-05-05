@@ -2,56 +2,66 @@ name: Run E2E test nightly
 # This workflow is used to test our widgets nightly.
 
 on:
-  schedule:
-    # At 02:00 on every day-of-week.
-    - cron: "0 02 * * 1-5"
+    schedule:
+        # At 02:00 on every day-of-week.
+        - cron: "0 02 * * 1-5"
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
-  e2e:
-    name: Run automated end-to-end tests nightly
-    runs-on: ubuntu-latest
+    e2e:
+        name: Run automated end-to-end tests nightly
+        runs-on: ubuntu-latest
 
-    permissions:
-      packages: read
-      contents: read
+        permissions:
+            packages: read
+            contents: read
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          fetch-depth: 0
-      - name: Setup pnpm
-        uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
+        strategy:
+            fail-fast: false
+            matrix:
+                index: [0, 1, 2, 3]
 
-      - name: Setup node
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
-        with:
-          node-version-file: ".nvmrc"
-          cache: "pnpm"
+        steps:
+            - name: Checkout
+              uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+              with:
+                  fetch-depth: 0
+            - name: Setup pnpm
+              uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
 
-      - name: Install dependencies
-        run: pnpm install
+            - name: Setup node
+              uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+              with:
+                  node-version-file: ".nvmrc"
+                  cache: "pnpm"
 
-      - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps chromium
+            - name: Install dependencies
+              run: pnpm install
 
-      - name: Executing E2E tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm -r --workspace-concurrency=1 --no-bail run e2e
+            - name: Install Playwright Browsers
+              run: pnpm exec playwright install --with-deps chromium
 
-      - name: Fixing files permissions
-        if: failure()
-        run: |
-          sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
-          sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
+            - name: Executing E2E tests
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: >-
+                  node ./automation/run-e2e/bin/run-e2e-in-chunks.mjs --chunks 4 --index ${{ matrix.index }} --event-name ${{ github.event_name }}
 
-      - name: Archive test screenshot diff results
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
-        if: failure()
-        with:
-          name: test-screenshot-results
-          path: |
-            ${{ github.workspace }}/packages/**/**/test-results/**/*.png
-            ${{ github.workspace }}/packages/**/**/test-results/**/*.zip
-          if-no-files-found: error
+            - name: Fixing files permissions
+              if: failure()
+              run: |
+                  sudo find ${{ github.workspace }}/packages/* -type d -exec chmod 755 {} \;
+                  sudo find ${{ github.workspace }}/packages/* -type f -exec chmod 644 {} \;
+
+            - name: Archive test screenshot diff results
+              uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+              if: failure()
+              with:
+                  name: test-screenshot-results-${{ matrix.index }}
+                  path: |
+                      ${{ github.workspace }}/packages/**/**/test-results/**/*.png
+                      ${{ github.workspace }}/packages/**/**/test-results/**/*.zip
+                  if-no-files-found: error
