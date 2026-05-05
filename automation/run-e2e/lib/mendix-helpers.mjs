@@ -29,3 +29,18 @@ export async function navigateToPage(page, path, timeout = 30_000) {
     await page.goto(path);
     await waitForMendixApp(page, timeout);
 }
+
+export async function checkAccessibility(page, selector, options = {}) {
+    const AxeBuilder = (await import("@axe-core/playwright")).default;
+    let builder = new AxeBuilder({ page }).withTags(options.tags || ["wcag21aa"]);
+    if (selector) {
+        builder = builder.include(selector);
+    }
+    if (options.exclude) {
+        for (const sel of [].concat(options.exclude)) {
+            builder = builder.exclude(sel);
+        }
+    }
+    const results = await builder.analyze();
+    expect(results.violations).toEqual([]);
+}
