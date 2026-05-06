@@ -39,25 +39,29 @@ test.describe("Accordion", () => {
         await expect(page.locator(`${accordionGroup} ${accordionGroupContent}`)).toBeVisible();
     });
 
-    test("shows single accordion expanded at a time", async ({ page }) => {
-        const firstAccordionGroup = ".mx-name-accordion1 > section";
-        const firstAccordionGroupContent = ".mx-name-text5";
-        const secondAccordionGroup = ".mx-name-accordion1 > section:nth-child(2)";
-        const secondAccordionGroupContent = ".mx-name-image1";
-        const thirdAccordionGroup = ".mx-name-accordion1 > section:nth-child(3)";
-        const thirdAccordionGroupContent = ".mx-name-image2";
+    test.describe("animation-dependent", () => {
+        test.use({ reducedMotion: "no-preference" });
 
-        await expect(page.locator(`${firstAccordionGroup} ${firstAccordionGroupContent}`)).not.toBeVisible();
-        await expect(page.locator(`${secondAccordionGroup} ${secondAccordionGroupContent}`)).not.toBeVisible();
-        await expect(page.locator(`${thirdAccordionGroup} ${thirdAccordionGroupContent}`)).not.toBeVisible();
-        await page.locator(firstAccordionGroup).first().click();
-        await expect(page.locator(`${firstAccordionGroup} ${firstAccordionGroupContent}`)).toBeVisible();
-        await expect(page.locator(`${secondAccordionGroup} ${secondAccordionGroupContent}`)).not.toBeVisible();
-        await expect(page.locator(`${thirdAccordionGroup} ${thirdAccordionGroupContent}`)).not.toBeVisible();
-        await page.locator(thirdAccordionGroup).first().click();
-        await expect(page.locator(`${firstAccordionGroup} ${firstAccordionGroupContent}`)).not.toBeVisible();
-        await expect(page.locator(`${secondAccordionGroup} ${secondAccordionGroupContent}`)).not.toBeVisible();
-        await expect(page.locator(`${thirdAccordionGroup} ${thirdAccordionGroupContent}`)).toBeVisible();
+        test("shows single accordion expanded at a time", async ({ page }) => {
+            const firstAccordionGroup = ".mx-name-accordion1 > section";
+            const firstAccordionGroupContent = ".mx-name-text5";
+            const secondAccordionGroup = ".mx-name-accordion1 > section:nth-child(2)";
+            const secondAccordionGroupContent = ".mx-name-image1";
+            const thirdAccordionGroup = ".mx-name-accordion1 > section:nth-child(3)";
+            const thirdAccordionGroupContent = ".mx-name-image2";
+
+            await expect(page.locator(`${firstAccordionGroup} ${firstAccordionGroupContent}`)).not.toBeVisible();
+            await expect(page.locator(`${secondAccordionGroup} ${secondAccordionGroupContent}`)).not.toBeVisible();
+            await expect(page.locator(`${thirdAccordionGroup} ${thirdAccordionGroupContent}`)).not.toBeVisible();
+            await page.locator(firstAccordionGroup).first().click();
+            await expect(page.locator(`${firstAccordionGroup} ${firstAccordionGroupContent}`)).toBeVisible();
+            await expect(page.locator(`${secondAccordionGroup} ${secondAccordionGroupContent}`)).not.toBeVisible();
+            await expect(page.locator(`${thirdAccordionGroup} ${thirdAccordionGroupContent}`)).not.toBeVisible();
+            await page.locator(thirdAccordionGroup).first().click();
+            await expect(page.locator(`${firstAccordionGroup} ${firstAccordionGroupContent}`)).not.toBeVisible();
+            await expect(page.locator(`${secondAccordionGroup} ${secondAccordionGroupContent}`)).not.toBeVisible();
+            await expect(page.locator(`${thirdAccordionGroup} ${thirdAccordionGroupContent}`)).toBeVisible();
+        });
     });
 
     test("shows multiple accordions expanded", async ({ page }) => {
