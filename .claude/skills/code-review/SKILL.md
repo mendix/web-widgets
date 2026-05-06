@@ -254,7 +254,12 @@ When a PR touches multiple packages, validate each changed package separately:
 
 ## Output format
 
-Always post one summary comment. Use inline comments for issues that reference a specific line; use the summary comment for file-level or cross-cutting issues.
+**Determine the execution context first** by checking whether the `CI` environment variable is set (`echo $CI`):
+
+- **CI environment** (`CI=true`): post the review as a PR comment using `gh`, following the template below.
+- **Local environment** (`CI` unset or empty): print the review directly to the terminal in the same format. Do NOT post any `gh` comment.
+
+Use inline comments for issues that reference a specific line; use the summary comment/output for file-level or cross-cutting issues.
 
 ### Summary comment template
 
