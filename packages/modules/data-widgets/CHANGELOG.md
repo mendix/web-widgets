@@ -6,9 +6,39 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.10.0] DataWidgets - 2026-05-06
+
 ### Changed
 
 - We changed some stylings hardcoded values to have a better support for css variables.
+
+### [3.10.0] DatagridDateFilter
+
+#### Fixed
+
+- We fixed an issue with filter selector dropdown not choosing the best placement on small viewports.
+
+### [3.10.0] DatagridDropdownFilter
+
+#### Fixed
+
+- We fixed an issue with filter selector dropdown not choosing the best placement on small viewports.
+
+### [3.10.0] DatagridNumberFilter
+
+#### Fixed
+
+- We fixed an issue with filter selector dropdown not choosing the best placement on small viewports.
+
+- We fixed an issue where selecting Empty or Not empty could cause keyboard focus to jump away from the filter controls.
+
+### [3.10.0] DatagridTextFilter
+
+#### Fixed
+
+- We fixed an issue with filter selector dropdown not choosing the best placement on small viewports.
+
+- We fixed an issue where selecting Empty or Not empty could cause keyboard focus to jump away from the filter controls.
 
 ## [3.9.0] DataWidgets - 2026-03-23
 
