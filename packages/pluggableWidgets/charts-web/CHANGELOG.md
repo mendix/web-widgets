@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We disabled code-mirror from playground widget for compatibility. Only basic editor is available now. Charts widget not affected. This might impact developer experience when using playground.
+
 ## [6.3.0] Charts - 2026-02-17
 
 ### [6.3.0] CustomChart
