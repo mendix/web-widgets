@@ -1,52 +1,19 @@
-import { json, jsonParseLinter } from "@codemirror/lang-json";
-import { linter, lintGutter } from "@codemirror/lint";
-import { githubLight } from "@uiw/codemirror-theme-github";
-import CodeMirror, { type Extension } from "@uiw/react-codemirror";
-import { ReactElement, useEffect, useMemo, useRef, useState } from "react";
-
-export type EditorChangeHandler = (value: string) => void;
+import { ReactElement } from "react";
 
 export interface CodeEditorProps {
-    defaultValue: string;
-    onChange?: EditorChangeHandler;
+    value: string;
+    onChange?: (value: string) => void;
     readOnly?: boolean;
     height?: string;
 }
 
 export function CodeEditor(props: CodeEditorProps): ReactElement {
-    const [value, onChange] = useEditorState({ initState: props.defaultValue, onChange: props.onChange });
-    const extensions = useMemo<Extension[]>(
-        () => [
-            json(),
-            linter(jsonParseLinter(), {
-                // default is 750ms
-                delay: 300
-            }),
-            lintGutter()
-        ],
-        []
-    );
     return (
-        <CodeMirror
-            height={props.height}
-            value={value}
-            onChange={onChange}
-            theme={githubLight}
+        <textarea
+            value={props.value}
+            onChange={e => props.onChange?.(e.target.value)}
+            style={{ height: props.height ?? "200px", width: "100%", fontFamily: "monospace" }}
             readOnly={props.readOnly}
-            extensions={extensions}
         />
     );
-}
-
-function useEditorState(params: { initState: string; onChange?: EditorChangeHandler }): [string, EditorChangeHandler] {
-    const listener = useRef(params.onChange);
-    const [value, setValue] = useState(params.initState);
-    const { current: onValueChange } = useRef<EditorChangeHandler>(value => {
-        setValue(value);
-        listener.current?.(value);
-    });
-    useEffect(() => {
-        listener.current = params.onChange;
-    });
-    return [value, onValueChange];
 }
