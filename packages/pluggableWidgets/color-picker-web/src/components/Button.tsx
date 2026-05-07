@@ -1,5 +1,5 @@
-import { ReactElement } from "react";
 import classNames from "classnames";
+import { ReactElement } from "react";
 import { ModeEnum } from "../../typings/ColorPickerProps";
 
 export interface ButtonProps {

@@ -1,8 +1,8 @@
+import { FunctionComponent } from "react";
+import { ColorState } from "react-color";
 import * as Picker from "react-color/lib";
 import { FormatEnum, TypeEnum } from "../../typings/ColorPickerProps";
-import { ColorState } from "react-color";
 import { ColorPickerConfigProps, ColorPickerProps } from "../components/ColorPicker";
-import { FunctionComponent } from "react";
 
 export function getColorPicker(type: TypeEnum): FunctionComponent<ColorPickerConfigProps> {
     switch (type) {

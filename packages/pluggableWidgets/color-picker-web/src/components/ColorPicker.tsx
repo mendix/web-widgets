@@ -1,6 +1,5 @@
-import { ReactElement, useCallback, useEffect, useState } from "react";
-import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
-import { DefaultColorsType, FormatEnum, ModeEnum, TypeEnum } from "../../typings/ColorPickerProps";
+import classNames from "classnames";
+import { ReactElement, useCallback, useEffect, useMemo, useState, useRef } from "react";
 import {
     BlockPickerProps,
     ChromePickerProps,
@@ -15,10 +14,12 @@ import {
     SwatchesPickerProps,
     TwitterPickerProps
 } from "react-color";
-import classNames from "classnames";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { debounce } from "@mendix/widget-plugin-platform/utils/debounce";
+import { DefaultColorsType, FormatEnum, ModeEnum, TypeEnum } from "../../typings/ColorPickerProps";
 import { getColorPicker, parseColor, validateColorFormat, validateProps } from "../utils";
-import { Input } from "./Input";
 import { Button } from "./Button";
+import { Input } from "./Input";
 
 export interface ColorPickerProps {
     id: string;
@@ -53,18 +54,33 @@ export const ColorPicker = (props: ColorPickerProps): ReactElement => {
         rgb: "rgb(255,255,255)",
         rgba: "rgb(255,255,255,1)"
     };
-    const { type, mode, disabled, defaultColors, color, format, invalidFormatMessage, onColorChange } = props;
+    const {
+        type,
+        mode,
+        disabled,
+        defaultColors,
+        color,
+        format,
+        invalidFormatMessage,
+        onColorChange,
+        onChange: onColorChangeComplete
+    } = props;
     const ColorElement = getColorPicker(type);
     const [hidden, setHidden] = useState(mode !== "inline");
-    const [currentColor, setCurrentColor] = useState<string | undefined>(color);
+    const currentColor = useRef<string>(color);
     const [alertMessage, setAlertMessage] = useState<string | undefined>();
+
+    const [completeColorChange, abortCompleteColorChange] = useMemo(() => {
+        return debounce(onColorChangeComplete, 500);
+    }, [onColorChangeComplete]);
 
     const submitColor = useCallback(
         (color: string): void => {
-            setCurrentColor(color);
+            currentColor.current = color;
             onColorChange(color);
+            abortCompleteColorChange();
         },
-        [onColorChange]
+        [onColorChange, abortCompleteColorChange]
     );
 
     const validateColor = (colorValue: string): void => {
@@ -93,7 +109,7 @@ export const ColorPicker = (props: ColorPickerProps): ReactElement => {
     );
 
     const renderInput = (): ReactElement => {
-        const colorValue = currentColor || color;
+        const colorValue = currentColor.current || color;
         return (
             <Input
                 color={colorValue}
@@ -108,11 +124,15 @@ export const ColorPicker = (props: ColorPickerProps): ReactElement => {
             </Input>
         );
     };
-    const onChangeComplete = (color: ColorState): void => {
-        if (currentColor !== parseColor(color, format)) {
-            props.onChange();
-        }
-    };
+    const onChangeComplete = useCallback(
+        (color: ColorState): void => {
+            if (currentColor.current === parseColor(color, format)) {
+                completeColorChange();
+            }
+        },
+        [format, completeColorChange]
+    );
+
     const renderButton = (): ReactElement => {
         return <Button mode={mode} disabled={disabled} onClick={() => setColorPickerHidden(!hidden)} color={color} />;
     };
