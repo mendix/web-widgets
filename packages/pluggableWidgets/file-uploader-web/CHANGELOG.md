@@ -15,10 +15,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - We added a new "File limit reached" text property to customize the message shown when the upload limit is reached.
+- We added a new "Maximum files per upload batch" property to limit how many files are committed to the server per drop or selection. Files exceeding the batch limit appear in the list with an error message explaining why they were not uploaded.
 
 ### Changed
 
-- The "Maximum number of files" property is now optional. Leaving it empty or setting it to 0 means unlimited files are allowed.
+- The "Maximum number of files" property is now optional. Leaving it empty or setting it to 0 means unlimited files are allowed. The default behavior is now unlimited (no cap).
 
 ## [2.4.2] - 2026-04-23
 

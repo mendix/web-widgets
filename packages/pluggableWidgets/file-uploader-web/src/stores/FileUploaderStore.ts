@@ -27,6 +27,7 @@ export class FileUploaderStore {
     _maxFileSizeMiB = 0;
     _maxFileSize = 0;
     _maxFilesPerUpload: DynamicValue<Big> | undefined;
+    _maxFilesPerBatch: DynamicValue<Big> | undefined;
 
     errorMessage?: string = undefined;
 
@@ -37,6 +38,7 @@ export class FileUploaderStore {
         this._maxFileSizeMiB = props.maxFileSize;
         this._maxFileSize = this._maxFileSizeMiB * 1024 * 1024;
         this._maxFilesPerUpload = props.maxFilesPerUpload;
+        this._maxFilesPerBatch = props.maxFilesPerBatch;
         this._uploadMode = props.uploadMode;
 
         this.objectCreationHelper = new ObjectCreationHelper(this._widgetName, props.objectCreationTimeout);
@@ -82,7 +84,9 @@ export class FileUploaderStore {
             errorMessage: observable,
             allowedFormatsDescription: computed,
             maxFilesPerUpload: computed,
+            maxFilesPerBatch: computed,
             _maxFilesPerUpload: observable,
+            _maxFilesPerBatch: observable,
             isFileUploadLimitReached: computed,
             warningMessage: computed
         });
@@ -93,8 +97,8 @@ export class FileUploaderStore {
     updateProps(props: FileUploaderContainerProps): void {
         this.objectCreationHelper.updateProps(props);
 
-        // Update max files properties
         this._maxFilesPerUpload = props.maxFilesPerUpload;
+        this._maxFilesPerBatch = props.maxFilesPerBatch;
 
         this.translations.updateProps(props);
         this.updateProcessor.processUpdate(
@@ -122,7 +126,14 @@ export class FileUploaderStore {
         if (expressionValue) {
             return expressionValue.toNumber();
         }
-        // Fallback to unlimited
+        return 0;
+    }
+
+    get maxFilesPerBatch(): number {
+        const expressionValue = this._maxFilesPerBatch?.value;
+        if (expressionValue) {
+            return expressionValue.toNumber();
+        }
         return 0;
     }
 
@@ -182,6 +193,11 @@ export class FileUploaderStore {
         this.dismissValidationErrors();
         this.setMessage(fileRejections.length ? this.translations.get("dropzoneRejectedMessage") : undefined);
 
+        const batchLimit = this.maxFilesPerBatch;
+        const filesToProcess =
+            batchLimit > 0 && acceptedFiles.length > batchLimit ? acceptedFiles.slice(0, batchLimit) : acceptedFiles;
+        const batchExcess = batchLimit > 0 && acceptedFiles.length > batchLimit ? acceptedFiles.slice(batchLimit) : [];
+
         for (const file of fileRejections) {
             const newFileStore = FileStore.newFileWithError(
                 file.file,
@@ -208,7 +224,16 @@ export class FileUploaderStore {
             this.files.unshift(newFileStore);
         }
 
-        for (const file of acceptedFiles) {
+        for (const file of batchExcess) {
+            const newFileStore = FileStore.newFileWithError(
+                file,
+                this.translations.get("uploadBatchLimitExceededMessage", batchLimit.toString()),
+                this
+            );
+            this.files.unshift(newFileStore);
+        }
+
+        for (const file of filesToProcess) {
             const newFileStore = FileStore.newFile(file, this);
 
             if (this.isFileUploadLimitReached) {
