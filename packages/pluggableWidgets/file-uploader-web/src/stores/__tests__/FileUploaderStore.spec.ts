@@ -44,6 +44,7 @@ function buildProps(overrides: Partial<FileUploaderContainerProps> = {}): FileUp
         uploadFailureInvalidFileFormatMessage: dynamic("File format is not supported, supported formats are ###."),
         uploadFailureFileIsTooBigMessage: dynamic("File size exceeds the maximum limit of ### megabytes."),
         uploadFailureTooManyFilesMessage: dynamic("Too many files added. Only ### files per upload are allowed."),
+        uploadLimitReachedMessage: dynamic("Maximum file count of ### reached."),
         unavailableCreateActionMessage: dynamic(
             "Can't upload files at this time. Please contact your system administrator."
         ),
@@ -196,7 +197,7 @@ describe("FileUploaderStore.warningMessage", () => {
         );
 
         expect(store.isFileUploadLimitReached).toBe(true);
-        expect(store.warningMessage).toBe("Too many files added. Only 2 files per upload are allowed.");
+        expect(store.warningMessage).toBe("Maximum file count of 2 reached.");
     });
 
     test("returns errorMessage when limit not reached but error set", () => {
@@ -213,7 +214,7 @@ describe("FileUploaderStore.warningMessage", () => {
         const fileB = { fileStatus: "existingFile", _objectItem: obj("b") } as any;
         store.files.push(fileA, fileB);
 
-        expect(store.warningMessage).toBe("Too many files added. Only 2 files per upload are allowed.");
+        expect(store.warningMessage).toBe("Maximum file count of 2 reached.");
 
         store.files.splice(store.files.indexOf(fileA), 1);
 

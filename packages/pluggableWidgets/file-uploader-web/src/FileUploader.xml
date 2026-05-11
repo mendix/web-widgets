@@ -163,6 +163,14 @@
                     <translation lang="nl_NL">Te veel bestanden toegevoegd. Slechts ### bestanden per upload zijn toegestaan.</translation>
                 </translations>
             </property>
+            <property key="uploadLimitReachedMessage" type="textTemplate">
+                <caption>File limit reached</caption>
+                <description>Shown below the dropzone when the maximum number of files is already reached.</description>
+                <translations>
+                    <translation lang="en_US">Maximum file count of ### reached.</translation>
+                    <translation lang="nl_NL">Maximum aantal bestanden van ### bereikt.</translation>
+                </translations>
+            </property>
             <property key="unavailableCreateActionMessage" type="textTemplate">
                 <caption>Action to create new files is not available or failed</caption>
                 <description />
