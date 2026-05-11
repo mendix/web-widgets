@@ -8,7 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- We fixed an issue where the dropzone turned grey without explanation when the file limit was reached. A message now appears below the dropzone informing users how many files are allowed.
+- We fixed an issue where the dropzone turned grey without explanation when the file limit was reached. A message now appears below the dropzone stating "Maximum file count of X reached."
+
+### Added
+
+- We added a new "File limit reached" text property to customize the message shown when the upload limit is reached.
 
 ### Changed
 

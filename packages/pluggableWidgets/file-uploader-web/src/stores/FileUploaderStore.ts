@@ -141,7 +141,7 @@ export class FileUploaderStore {
 
     get warningMessage(): string | undefined {
         if (this.isFileUploadLimitReached) {
-            return this.translations.get("uploadFailureTooManyFilesMessage", this.maxFilesPerUpload.toString());
+            return this.translations.get("uploadLimitReachedMessage", this.maxFilesPerUpload.toString());
         }
         return this.errorMessage;
     }

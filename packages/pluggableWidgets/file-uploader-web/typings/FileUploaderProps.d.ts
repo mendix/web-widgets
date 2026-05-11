@@ -70,6 +70,7 @@ export interface FileUploaderContainerProps {
     uploadFailureInvalidFileFormatMessage: DynamicValue<string>;
     uploadFailureFileIsTooBigMessage: DynamicValue<string>;
     uploadFailureTooManyFilesMessage: DynamicValue<string>;
+    uploadLimitReachedMessage: DynamicValue<string>;
     unavailableCreateActionMessage: DynamicValue<string>;
     downloadButtonTextMessage: DynamicValue<string>;
     removeButtonTextMessage: DynamicValue<string>;
@@ -113,6 +114,7 @@ export interface FileUploaderPreviewProps {
     uploadFailureInvalidFileFormatMessage: string;
     uploadFailureFileIsTooBigMessage: string;
     uploadFailureTooManyFilesMessage: string;
+    uploadLimitReachedMessage: string;
     unavailableCreateActionMessage: string;
     downloadButtonTextMessage: string;
     removeButtonTextMessage: string;
