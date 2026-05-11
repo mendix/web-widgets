@@ -1,5 +1,5 @@
-import { FileCheckFormat } from "./predefinedFormats";
 import { MimeCheckFormat } from "./parseAllowedFormats";
+import { FileCheckFormat } from "./predefinedFormats";
 
 export function prepareAcceptForDropzone(formats: FileCheckFormat[]): MimeCheckFormat {
     const acc = {} as MimeCheckFormat;

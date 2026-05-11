@@ -1,6 +1,6 @@
-import { MouseEvent, ReactElement, useCallback } from "react";
 import classNames from "classnames";
 import { ListActionValue } from "mendix";
+import { MouseEvent, ReactElement, useCallback } from "react";
 import { FileStore } from "../stores/FileStore";
 
 interface ActionButtonProps {

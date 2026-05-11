@@ -1,8 +1,9 @@
 import { Big } from "big.js";
 import { ListActionValue, ObjectItem } from "mendix";
-import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import mimeTypes from "mime-types";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
 
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { FileUploaderStore } from "./FileUploaderStore";
 import {
     fetchDocumentUrl,
@@ -12,7 +13,6 @@ import {
     removeObject,
     saveFile
 } from "../utils/mx-data";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 export type FileStatus =
     | "existingFile"
