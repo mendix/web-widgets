@@ -1,14 +1,15 @@
+import "@testing-library/jest-dom";
+import { act, fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
+import { resetIdCounter } from "downshift";
 import {
     dynamic,
     EditableValueBuilder,
     list,
     ListAttributeValueBuilder,
-    listExp,
+    listExpression,
     ReferenceValueBuilder,
     setupIntersectionObserverStub
 } from "@mendix/widget-plugin-test-utils";
-import "@testing-library/jest-dom";
-import { act, fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
 
@@ -34,6 +35,7 @@ describe("Combo box (Static values)", () => {
     });
     let defaultProps: ComboboxContainerProps;
     beforeEach(() => {
+        resetIdCounter();
         defaultProps = {
             name: "comboBox",
             id: "comboBox1",
@@ -45,7 +47,7 @@ describe("Combo box (Static values)", () => {
             optionsSourceAssociationDataSource: list(1),
             optionsSourceAssociationCaptionType: "expression",
             optionsSourceAssociationCaptionAttribute: new ListAttributeValueBuilder<string>().build(),
-            optionsSourceAssociationCaptionExpression: listExp(() => "$currentObject/CountryName"),
+            optionsSourceAssociationCaptionExpression: listExpression(() => "$currentObject/CountryName"),
             optionsSourceAssociationCustomContentType: "no",
             optionsSourceAssociationCustomContent: undefined,
             emptyOptionText: dynamic("Select an option 111"),

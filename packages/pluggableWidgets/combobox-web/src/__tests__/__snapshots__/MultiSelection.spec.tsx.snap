@@ -117,7 +117,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
   >
     <div
       class="widget-combobox-input-container form-control widget-combobox-multiselect"
-      id="downshift-2-toggle-button"
+      id="downshift-0-toggle-button"
       tabindex="-1"
     >
       <div
@@ -126,7 +126,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
         <input
           aria-activedescendant=""
           aria-autocomplete="list"
-          aria-controls="downshift-2-menu"
+          aria-controls="downshift-0-menu"
           aria-expanded="false"
           aria-required="true"
           autocomplete="off"
@@ -212,7 +212,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
       <ul
         aria-labelledby="comboBox1-label"
         class="widget-combobox-menu-list"
-        id="downshift-2-menu"
+        id="downshift-0-menu"
         role="listbox"
       />
     </div>
@@ -227,7 +227,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
   >
     <div
       class="widget-combobox-input-container form-control widget-combobox-multiselect"
-      id="downshift-6-toggle-button"
+      id="downshift-0-toggle-button"
       tabindex="-1"
     >
       <div
@@ -236,7 +236,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
         <input
           aria-activedescendant=""
           aria-autocomplete="list"
-          aria-controls="downshift-6-menu"
+          aria-controls="downshift-0-menu"
           aria-expanded="false"
           aria-required="true"
           autocomplete="off"
@@ -322,7 +322,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
       <ul
         aria-labelledby="comboBox1-label"
         class="widget-combobox-menu-list"
-        id="downshift-6-menu"
+        id="downshift-0-menu"
         role="listbox"
       />
     </div>
