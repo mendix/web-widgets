@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where validation errors could not be dismissed and persisted after uploading a valid file.
 
+- We fixed an issue where the dropzone turned grey without explanation when the file limit was reached. A message now appears below the dropzone informing users how many files are allowed.
+
+### Changed
+
+- The "Maximum number of files" property is now optional. Leaving it empty or setting it to 0 means unlimited files are allowed.
+
 ## [2.4.2] - 2026-04-23
 
 ### Fixed
