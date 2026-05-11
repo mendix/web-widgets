@@ -4,118 +4,11 @@
 
 This document describes the release process for Mendix web widgets and modules in the monorepo.
 
-**Package types**:
-
-- **Widgets** - UI components
-- **Modules** - Bundles of widgets, JavaScript actions, and Mendix documents like Nanoflows, Pages as well as Entities in domain model.
-- **Dependent widgets** - Widgets without Marketplace app numbers, bundled by other modules or widgets
-
-**Dependency structure**:
-
-- Every module or widget can contain other widgets (dependent widgets). Most of the modules do, most of the widgets don't.
-- There is maximum one nesting level (widget → widget or module → widget).
-
-## Package Types
-
-### Widgets
-
-**Location**: `packages/pluggableWidgets/*/`
-
-**Characteristics**:
-
-- Has `marketplace.appNumber` field in `package.json`
-- Released independently
-- Own version tracking (semantic versioning)
-- Own changelog lifecycle
-
-**Example**: `@mendix/carousel-web`
-
-```json
-{
-    "name": "@mendix/carousel-web",
-    "version": "2.3.2",
-    "mxpackage": {
-        "type": "widget"
-    },
-    "marketplace": {
-        "appNumber": 47784,
-        "appName": "Carousel"
-    }
-}
-```
-
-**Special case**
-
-- Widget `@mendix/charts-web` contains other widgets as if it is a module.
-- Referencing dependencies, versioning and changelog structure works the same way as for module → widget dependency
-- Should be still be referred as normal widget, no extra treatment (dependencies is only an extra step in build process)
-
-### Modules
-
-**Location**: `packages/modules/*/`
-
-**Characteristics**:
-
-- Has `mxpackage.type: "module"` in `package.json`
-- Has `marketplace.appNumber` (published to marketplace)
-- Lists dependent widgets in `mxpackage.dependencies` array, might be empty
-- Has own CHANGELOG.md entries and additionally aggregates widget changelogs
-- Contain other Mendix elements in addition to widgets: JS actions, nanoflows, pages, entities, etc. Those are not referenced in package.json
-
-**Example**: `@mendix/data-widgets`
-
-```json
-{
-    "name": "@mendix/data-widgets",
-    "version": "3.9.0",
-    "mxpackage": {
-        "type": "module",
-        "dependencies": [
-            "@mendix/datagrid-web",
-            "@mendix/datagrid-date-filter-web",
-            "@mendix/gallery-web"
-            // ... more widgets
-        ]
-    },
-    "marketplace": {
-        "appNumber": 116540,
-        "appName": "Data Widgets"
-    }
-}
-```
-
-### Dependent Widgets
-
-**Location**: `packages/pluggableWidgets/*/`  
-**Not returned as top-level release candidates** - appear in `dependentWidgets` array
-
-**Characteristics**:
-
-- Does NOT have `marketplace.appNumber` in `package.json`
-- Listed in parent's `mxpackage.dependencies` array
-- Released only as part of their parent
-- Version is set to match the parent version on each release cycle
-- Has own CHANGELOG.md (aggregated into parent changelog on release)
-
-**Example**: `@mendix/datagrid-web`
-
-```json
-{
-    "name": "@mendix/datagrid-web",
-    "version": "3.9.0",
-    "mxpackage": {
-        "type": "widget"
-    },
-    "marketplace": {
-        "appName": "Data Grid 2"
-        // Note: no appNumber
-    }
-}
-```
+For an overview of package types (widgets, modules, dependent widgets) see [package-types.md](./package-types.md).
 
 ## Version Management
 
-### Packages without dependencies
+### Standalone package w/o dependencies
 
 - **Version tracking**: Each package has its own independent version
 - **Semantic versioning rules**:
@@ -123,7 +16,7 @@ This document describes the release process for Mendix web widgets and modules i
     - **Minor**: New features, backward-compatible changes
     - **Major**: Breaking changes, major rewrites
 
-### Packages with dependencies
+### Standalone packages with dependencies
 
 - **Version tracking**: Parent package and all dependent widgets share the same version
 - When parent releases version `3.8.0`, ALL dependent widgets become `3.8.0`
