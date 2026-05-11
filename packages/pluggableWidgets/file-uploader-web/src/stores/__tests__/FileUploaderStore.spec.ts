@@ -23,6 +23,7 @@ function buildProps(overrides: Partial<FileUploaderContainerProps> = {}): FileUp
         createImageAction: actionValue(true, false),
         allowedFileFormats: [],
         maxFilesPerUpload: dynamic(new Big(2)),
+        maxFilesPerBatch: unavailableDynamic(),
         maxFileSize: 25,
         objectCreationTimeout: 10,
         dropzoneIdleMessage: dynamic("Drag and drop files here"),
@@ -35,6 +36,7 @@ function buildProps(overrides: Partial<FileUploaderContainerProps> = {}): FileUp
         uploadFailureFileIsTooBigMessage: dynamic("File size exceeds the maximum limit of ### megabytes."),
         uploadFailureTooManyFilesMessage: dynamic("Too many files added. Only ### files per upload are allowed."),
         uploadLimitReachedMessage: dynamic("Maximum file count of ### reached."),
+        uploadBatchLimitExceededMessage: dynamic("File not uploaded. Batch limit of ### files per drop was reached."),
         unavailableCreateActionMessage: dynamic(
             "Can't upload files at this time. Please contact your system administrator."
         ),
