@@ -59,7 +59,7 @@ export interface FileUploaderContainerProps {
     createFileAction?: ActionValue;
     createImageAction?: ActionValue;
     allowedFileFormats: AllowedFileFormatsType[];
-    maxFilesPerUpload: DynamicValue<Big>;
+    maxFilesPerUpload?: DynamicValue<Big>;
     maxFileSize: number;
     dropzoneIdleMessage: DynamicValue<string>;
     dropzoneAcceptedMessage: DynamicValue<string>;
