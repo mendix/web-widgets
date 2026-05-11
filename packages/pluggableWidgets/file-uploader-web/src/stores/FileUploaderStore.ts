@@ -1,14 +1,14 @@
-import { DynamicValue, ObjectItem } from "mendix";
-import { FileUploaderContainerProps, UploadModeEnum } from "../../typings/FileUploaderProps";
-import { action, computed, makeObservable, observable } from "mobx";
 import { Big } from "big.js";
-import { getImageUploaderFormats, parseAllowedFormats } from "../utils/parseAllowedFormats";
-import { FileStore } from "./FileStore";
+import { DynamicValue, ObjectItem } from "mendix";
+import { action, computed, makeObservable, observable } from "mobx";
 import { FileRejection } from "react-dropzone";
-import { FileCheckFormat } from "../utils/predefinedFormats";
+import { FileStore } from "./FileStore";
 import { TranslationsStore } from "./TranslationsStore";
-import { ObjectCreationHelper } from "../utils/ObjectCreationHelper";
+import { FileUploaderContainerProps, UploadModeEnum } from "../../typings/FileUploaderProps";
 import { DatasourceUpdateProcessor } from "../utils/DatasourceUpdateProcessor";
+import { ObjectCreationHelper } from "../utils/ObjectCreationHelper";
+import { getImageUploaderFormats, parseAllowedFormats } from "../utils/parseAllowedFormats";
+import { FileCheckFormat } from "../utils/predefinedFormats";
 
 export class FileUploaderStore {
     files: FileStore[] = [];
@@ -82,7 +82,8 @@ export class FileUploaderStore {
             allowedFormatsDescription: computed,
             maxFilesPerUpload: computed,
             _maxFilesPerUpload: observable,
-            isFileUploadLimitReached: computed
+            isFileUploadLimitReached: computed,
+            warningMessage: computed
         });
 
         this.updateProps(props);
@@ -136,6 +137,13 @@ export class FileUploaderStore {
         }
 
         return activeFiles.length >= this.maxFilesPerUpload;
+    }
+
+    get warningMessage(): string | undefined {
+        if (this.isFileUploadLimitReached) {
+            return this.translations.get("uploadFailureTooManyFilesMessage", this.maxFilesPerUpload.toString());
+        }
+        return this.errorMessage;
     }
 
     setMessage(msg?: string): void {
