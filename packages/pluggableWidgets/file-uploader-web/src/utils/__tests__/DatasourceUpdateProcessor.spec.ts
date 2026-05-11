@@ -1,6 +1,6 @@
-import { DatasourceUpdateProcessor, DatasourceUpdateProcessorCallbacks } from "../DatasourceUpdateProcessor";
-import { ListValueBuilder, obj } from "@mendix/widget-plugin-test-utils";
 import { ObjectItem } from "mendix";
+import { ListValueBuilder, obj } from "@mendix/widget-plugin-test-utils";
+import { DatasourceUpdateProcessor, DatasourceUpdateProcessorCallbacks } from "../DatasourceUpdateProcessor";
 
 const fileHasContentsMock = jest.fn();
 jest.mock("../mx-data", () => ({

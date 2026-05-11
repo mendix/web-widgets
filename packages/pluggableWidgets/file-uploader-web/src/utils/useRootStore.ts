@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { FileUploaderStore } from "../stores/FileUploaderStore";
-import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { useTranslationsStore } from "./useTranslationsStore";
+import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
+import { FileUploaderStore } from "../stores/FileUploaderStore";
 
 export function useRootStore(props: FileUploaderContainerProps): FileUploaderStore {
     const translations = useTranslationsStore();

@@ -1,6 +1,6 @@
+import classNames from "classnames";
 import { ReactElement } from "react";
 import { FileUploaderPreviewProps } from "../typings/FileUploaderProps";
-import classNames from "classnames";
 
 export function preview(props: FileUploaderPreviewProps): ReactElement {
     return (
