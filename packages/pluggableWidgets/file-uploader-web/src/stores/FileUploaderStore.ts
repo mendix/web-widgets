@@ -26,7 +26,7 @@ export class FileUploaderStore {
     _uploadMode: UploadModeEnum;
     _maxFileSizeMiB = 0;
     _maxFileSize = 0;
-    _maxFilesPerUpload: DynamicValue<Big>;
+    _maxFilesPerUpload: DynamicValue<Big> | undefined;
 
     errorMessage?: string = undefined;
 
@@ -118,7 +118,7 @@ export class FileUploaderStore {
     }
 
     get maxFilesPerUpload(): number {
-        const expressionValue = this._maxFilesPerUpload.value;
+        const expressionValue = this._maxFilesPerUpload?.value;
         if (expressionValue) {
             return expressionValue.toNumber();
         }
