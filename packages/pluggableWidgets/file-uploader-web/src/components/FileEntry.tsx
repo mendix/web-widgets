@@ -1,13 +1,13 @@
 import classNames from "classnames";
+import { observer } from "mobx-react-lite";
+import { KeyboardEvent, MouseEvent, ReactElement, ReactNode, useCallback } from "react";
+import { ActionsBar } from "./ActionsBar";
+import { FileIcon } from "./FileIcon";
 import { ProgressBar } from "./ProgressBar";
 import { UploadInfo } from "./UploadInfo";
-import { KeyboardEvent, MouseEvent, ReactElement, ReactNode, useCallback } from "react";
-import { FileStatus, FileStore } from "../stores/FileStore";
-import { observer } from "mobx-react-lite";
-import { FileIcon } from "./FileIcon";
-import { fileSize } from "../utils/fileSize";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
-import { ActionsBar } from "./ActionsBar";
+import { FileStatus, FileStore } from "../stores/FileStore";
+import { fileSize } from "../utils/fileSize";
 
 interface FileEntryContainerProps {
     store: FileStore;

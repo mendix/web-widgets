@@ -1,6 +1,6 @@
-import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { DynamicValue } from "mendix";
 import { action, makeObservable, observable } from "mobx";
+import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 
 export class TranslationsStore {
     translationsMap: Map<keyof FileUploaderContainerProps, string> = new Map();

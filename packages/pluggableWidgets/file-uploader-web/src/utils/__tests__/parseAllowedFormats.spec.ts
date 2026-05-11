@@ -1,6 +1,6 @@
+import { dynamicValue } from "@mendix/widget-plugin-test-utils";
 import { AllowedFileFormatsType } from "../../../typings/FileUploaderProps";
 import { parseAllowedFormats } from "../parseAllowedFormats";
-import { dynamicValue } from "@mendix/widget-plugin-test-utils";
 
 describe("parseAllowedFormats", () => {
     test("returns parsed results for correct advanced formats", () => {

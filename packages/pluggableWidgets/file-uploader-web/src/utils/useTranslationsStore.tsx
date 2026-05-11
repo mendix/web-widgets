@@ -1,6 +1,6 @@
 import { createContext, ReactElement, ReactNode, useContext, useEffect, useState } from "react";
-import { TranslationsStore } from "../stores/TranslationsStore";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
+import { TranslationsStore } from "../stores/TranslationsStore";
 
 function useInitTranslationsStore(props: FileUploaderContainerProps): TranslationsStore {
     const [store] = useState(() => {

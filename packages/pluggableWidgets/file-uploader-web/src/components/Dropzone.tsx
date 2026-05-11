@@ -1,9 +1,9 @@
-import { observer } from "mobx-react-lite";
 import classNames from "classnames";
+import { observer } from "mobx-react-lite";
 import { Fragment, ReactElement } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
-import { MimeCheckFormat } from "../utils/parseAllowedFormats";
 import { TranslationsStore } from "../stores/TranslationsStore";
+import { MimeCheckFormat } from "../utils/parseAllowedFormats";
 import { useTranslationsStore } from "../utils/useTranslationsStore";
 
 interface DropzoneProps {
