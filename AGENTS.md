@@ -49,6 +49,7 @@ docs/requirements/                -> Detailed technical requirements
 ## Documentation
 
 Essential reading (consult for any widget work):
+- docs/repo-layout.md — To understand the repository
 - docs/requirements/tech-stack.md — Full technology stack
 - docs/requirements/frontend-guidelines.md — CSS/SCSS/Atlas UI guidelines
 - docs/requirements/app-flow.md — Widget lifecycle and Studio Pro integration
