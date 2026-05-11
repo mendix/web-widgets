@@ -1,9 +1,9 @@
 {
-    "name": "@mendix/e2e-mcp",
+    "name": "@mendix/marketplace-mcp",
     "version": "0.1.0",
-    "description": "MCP server for Mendix E2E test triage – surfaces flaky, slow and failing tests from CTRF reports to GitHub Copilot.",
+    "description": "MCP server for the Mendix Marketplace Content API – browse and query Marketplace content from your Agent.",
     "bin": {
-        "e2e-mcp": "dist/index.js"
+        "marketplace-mcp": "dist/index.js"
     },
     "type": "module",
     "main": "dist/index.js",
