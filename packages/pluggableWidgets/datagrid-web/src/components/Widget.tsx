@@ -13,7 +13,6 @@ import { WidgetFooter } from "./WidgetFooter";
 import { WidgetHeader } from "./WidgetHeader";
 import { WidgetRoot } from "./WidgetRoot";
 import { WidgetTopBar } from "./WidgetTopBar";
-import { MockHeader } from "./MockHeader";
 
 export function Widget(props: { onExportCancel?: () => void }): ReactElement {
     return (
@@ -27,7 +26,6 @@ export function Widget(props: { onExportCancel?: () => void }): ReactElement {
                     <RefreshStatus />
                     <GridBody>
                         <RowsRenderer />
-                        <MockHeader />
                         <EmptyPlaceholder />
                     </GridBody>
                 </Grid>

@@ -8,22 +8,15 @@ import {
     usePaginationVM,
     useVisibleColumnsCount
 } from "../model/hooks/injection-hooks";
-import { useBodyScroll } from "../model/hooks/useBodyScroll";
 import { RowSkeletonLoader } from "./loader/RowSkeletonLoader";
 import { SpinnerLoader } from "./loader/SpinnerLoader";
 
 export const GridBody = observer(function GridBody(props: PropsWithChildren): ReactElement {
     const { children } = props;
     const gridSizeStore = useGridSizeStore();
-    const { handleScroll } = useBodyScroll();
 
     return (
-        <div
-            className={"widget-datagrid-grid-body table-content"}
-            role="rowgroup"
-            ref={gridSizeStore.gridBodyRef}
-            onScroll={handleScroll}
-        >
+        <div className={"widget-datagrid-grid-body table-content"} role="rowgroup" ref={gridSizeStore.gridBodyRef}>
             <ContentGuard>{children}</ContentGuard>
         </div>
     );

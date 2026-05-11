@@ -64,6 +64,7 @@ export function Header(props: HeaderProps): ReactElement {
             onDrop={draggableProps.onDrop}
             onDragEnter={draggableProps.onDragEnter}
             onDragOver={draggableProps.onDragOver}
+            ref={ref => column.setHeaderElementRef(ref)}
         >
             <div
                 className={classNames("column-container")}

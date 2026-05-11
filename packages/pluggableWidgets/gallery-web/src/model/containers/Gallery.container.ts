@@ -35,7 +35,7 @@ import { GalleryRootViewModel } from "../../view-models/GalleryRoot.viewModel";
 import { GalleryConfig } from "../configs/Gallery.config";
 import { galleryPaginationConfig } from "../configs/GalleryPagination.config";
 import { settingsConfig } from "../configs/GallerySettings.config";
-import { itemsAtom } from "../models/items.model";
+import { itemsAtom, itemKeyProvider } from "../models/items.model";
 import { layoutAtom, numberOfColumnsAtom } from "../models/layout.model";
 import { LayoutService } from "../services/Layout.service";
 import { LoaderService } from "../services/Loader.service";
@@ -65,12 +65,14 @@ interface BindingGroup {
 const _01_coreBindings: BindingGroup = {
     inject() {
         injected(itemsAtom, CORE.mainGate);
+        injected(itemKeyProvider, CORE.mainGate);
         injected(TextsService, CORE.mainGate);
     },
     init(container, { mainGate, config }) {
         container.bind(CORE.mainGate).toConstant(mainGate);
         container.bind(CORE.config).toConstant(config);
         container.bind(CORE.items).toInstance(itemsAtom).inTransientScope();
+        container.bind(GY.itemKey).toInstance(itemKeyProvider).inTransientScope();
         container.bind(CORE.texts).toInstance(TextsService).inTransientScope();
     }
 };
