@@ -6,6 +6,7 @@ test.afterEach("Cleanup session", async ({ page }) => {
 });
 
 test.describe("RichText", () => {
+    test.describe.configure({ mode: "serial" });
     test("compares with a screenshot baseline and checks if inline basic mode are rendered as expected", async ({
         page
     }) => {
@@ -131,6 +132,37 @@ test.describe("RichText", () => {
         await expect(page.locator(".mx-name-richText6")).toHaveScreenshot(`readOnlyModeReadPanel.png`, {
             threshold: 0.4
         });
+    });
+
+    test("compares with a screenshot baseline and checks if class mode editor is rendered as expected", async ({
+        page
+    }) => {
+        await page.goto("/p/classmode");
+        await page.waitForLoadState("networkidle");
+        await expect(page.locator(".mx-name-richText1")).toBeVisible();
+        await expect(page.locator(".mx-name-richText1")).toHaveScreenshot(`classModeEditor.png`, { threshold: 0.4 });
+    });
+
+    test("checks that class mode editor output uses CSS classes instead of inline styles", async ({ page }) => {
+        await page.goto("/p/classmode");
+        await page.waitForLoadState("networkidle");
+        const html = await page.locator(".mx-name-richText1 .ql-editor").innerHTML();
+        expect(html).toMatch(/class="ql-color-/);
+        expect(html).toMatch(/class="ql-bg-/);
+        expect(html).toMatch(/class="ql-indent-/);
+        expect(html).toMatch(/data-style-format="class"/);
+        expect(html).not.toMatch(/style="color:/);
+        expect(html).not.toMatch(/style="background-color:/);
+        expect(html).not.toMatch(/style="padding-left:/);
+    });
+
+    test("compares with a screenshot baseline of the View/Edit Code dialog in class mode", async ({ page }) => {
+        await page.goto("/p/classmode");
+        await page.waitForLoadState("networkidle");
+        await page.click(".mx-name-richText1 .ql-toolbar button.ql-view-code");
+        await expect(page.locator(".widget-rich-text .widget-rich-text-modal-body").first()).toHaveScreenshot(
+            `classModeViewCodeDialog.png`
+        );
     });
 
     test("compares with a screenshot for rich text inside modal popup layout", async ({ page }) => {
