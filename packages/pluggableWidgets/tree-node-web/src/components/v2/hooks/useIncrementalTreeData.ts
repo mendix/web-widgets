@@ -1,8 +1,8 @@
 import { ObjectItem } from "mendix";
 import { ReactNode, useEffect, useRef, useState } from "react";
+import { getItemId, getItemTitle, getParentId, isConfigChanged } from "./helpers";
 import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 import { TreeNodeState } from "../../common/TreeNodeState";
-import { getItemId, getItemTitle, getParentId, isConfigChanged } from "./helpers";
 
 type NodePlacement = string | null;
 

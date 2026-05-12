@@ -63,7 +63,7 @@ export function getProperties(
 
 export function getPreview(values: TreeNodePreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
-    const showChildren = values.hasChildren || values.parentAssociation !== null;
+    const showChildren = values.hasChildren || !!values.parentAssociation;
 
     const titleHeader: RowLayoutProps = {
         type: "RowLayout",

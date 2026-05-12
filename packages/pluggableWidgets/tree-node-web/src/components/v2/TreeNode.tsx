@@ -12,25 +12,41 @@ function renderRecursiveNode(
     node: TreeNodeV2DataItem,
     renderHeaderIcon: TreeNodeHeaderIcon,
     iconPlacement: TreeNodeContainerProps["showIcon"],
+    openNodeOn: TreeNodeContainerProps["openNodeOn"],
     onNodeClick: (node: TreeNodeV2DataItem) => void,
     children?: TreeNodeContainerProps["children"]
 ): ReactElement {
     const hasChildren = node.children.length > 0;
     const isExpanded = node.treeNodeState === TreeNodeState.EXPANDED;
+    const isIconClickable = openNodeOn === "iconClick";
+    const isHeaderClickable = openNodeOn === "headerClick";
+    const onIconClick = isIconClickable ? () => onNodeClick(node) : undefined;
+    const onHeaderClick = isHeaderClickable ? () => onNodeClick(node) : undefined;
 
     return (
-        <li key={node.id} className="widget-tree-node-branch" role="treeitem" tabIndex={0} aria-expanded={isExpanded}>
+        <li
+            key={node.id}
+            className="widget-tree-node-branch"
+            role="treeitem"
+            tabIndex={0}
+            aria-expanded={hasChildren ? isExpanded : undefined}
+        >
             <span
                 className={classNames("widget-tree-node-branch-header", {
                     "widget-tree-node-branch-header-reversed": iconPlacement === "left",
-                    "widget-tree-node-branch-header-clickable": hasChildren
+                    "widget-tree-node-branch-header-clickable": hasChildren && isHeaderClickable
                 })}
                 id={`${node.id}TreeNodeBranchHeader`}
-                onClick={() => onNodeClick(node)}
+                onClick={onHeaderClick}
             >
                 <span className="widget-tree-node-branch-header-value">{node.title}</span>
                 {hasChildren && iconPlacement !== "no" ? (
-                    <span className="widget-tree-node-branch-header-icon-container">
+                    <span
+                        className={classNames("widget-tree-node-branch-header-icon-container", {
+                            "widget-tree-node-branch-header-clickable": hasChildren && isIconClickable
+                        })}
+                        onClick={onIconClick}
+                    >
                         {renderHeaderIcon(node.treeNodeState, iconPlacement)}
                     </span>
                 ) : null}
@@ -45,7 +61,14 @@ function renderRecursiveNode(
                     <div>{children?.get(node.item)}</div>
                     <ul role="group">
                         {node.children.map(child =>
-                            renderRecursiveNode(child, renderHeaderIcon, iconPlacement, onNodeClick, children)
+                            renderRecursiveNode(
+                                child,
+                                renderHeaderIcon,
+                                iconPlacement,
+                                openNodeOn,
+                                onNodeClick,
+                                children
+                            )
                         )}
                     </ul>
                 </div>
@@ -113,7 +136,14 @@ export function TreeNodeV2(props: TreeNodeContainerProps): ReactElement {
             role="tree"
         >
             {treeData.map(node =>
-                renderRecursiveNode(node, renderHeaderIcon, iconPlacement, onNodeClick, props.children)
+                renderRecursiveNode(
+                    node,
+                    renderHeaderIcon,
+                    iconPlacement,
+                    props.openNodeOn,
+                    onNodeClick,
+                    props.children
+                )
             )}
         </ul>
     );
