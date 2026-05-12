@@ -244,13 +244,6 @@ export class FileUploaderStore {
             return;
         }
 
-        if (fileRejections.length && fileRejections[0].errors[0].code === "too-many-files") {
-            this.setMessage(
-                this.translations.get("uploadFailureTooManyFilesMessage", this.maxFilesPerUpload.toString())
-            );
-            return;
-        }
-
         this.dismissValidationErrors();
         this.setMessage(fileRejections.length ? this.translations.get("dropzoneRejectedMessage") : undefined);
 

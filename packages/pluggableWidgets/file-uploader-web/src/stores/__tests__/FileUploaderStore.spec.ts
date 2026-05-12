@@ -303,6 +303,7 @@ describe("FileUploaderStore.processDrop — capacity split", () => {
             fileStatus: "validationError",
             errorType: "limitExceeded",
             _file: makeFile("new.txt"),
+            reset: jest.fn(),
             validate: () => true,
             upload: jest.fn()
         } as any;
@@ -310,6 +311,7 @@ describe("FileUploaderStore.processDrop — capacity split", () => {
             fileStatus: "validationError",
             errorType: "limitExceeded",
             _file: makeFile("old.txt"),
+            reset: jest.fn(),
             validate: () => true,
             upload: jest.fn()
         } as any;
@@ -317,7 +319,6 @@ describe("FileUploaderStore.processDrop — capacity split", () => {
         store.files.push(waitingNew, waitingOld, activeA, activeB);
 
         store.files.splice(store.files.indexOf(activeA), 1);
-        store.retryLimitExceededFiles();
 
         expect(waitingNew.upload).toHaveBeenCalledTimes(1);
         expect(waitingOld.upload).not.toHaveBeenCalled();
@@ -344,6 +345,7 @@ describe("FileUploaderStore.processDrop — capacity split", () => {
         const waiting = {
             fileStatus: "validationError",
             errorType: "batchExceeded",
+            reset: jest.fn(),
             validate: () => true,
             upload: jest.fn()
         } as any;
@@ -351,7 +353,6 @@ describe("FileUploaderStore.processDrop — capacity split", () => {
         store.files.push(waiting, active, { fileStatus: "existingFile" } as any);
 
         store.files.splice(store.files.indexOf(active), 1);
-        store.retryLimitExceededFiles();
 
         expect(waiting.upload).toHaveBeenCalledTimes(1);
     });
