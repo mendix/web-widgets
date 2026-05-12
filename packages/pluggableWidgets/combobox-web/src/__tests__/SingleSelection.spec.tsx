@@ -1,16 +1,17 @@
+import "@testing-library/jest-dom";
+import { act, fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
+import { resetIdCounter } from "downshift";
+import { ListValue } from "mendix";
 import {
     dynamic,
     EditableValueBuilder,
     list,
     ListAttributeValueBuilder,
-    listExp,
+    listExpression,
     obj,
     ReferenceValueBuilder,
     setupIntersectionObserverStub
 } from "@mendix/widget-plugin-test-utils";
-import "@testing-library/jest-dom";
-import { act, fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
-import { ListValue } from "mendix";
 import { ComboboxContainerProps, OptionsSourceAssociationCaptionTypeEnum } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
 
@@ -34,6 +35,7 @@ describe("Combo box (Association)", () => {
     });
     let defaultProps: ComboboxContainerProps;
     beforeEach(() => {
+        resetIdCounter();
         defaultProps = {
             name: "comboBox",
             id: "comboBox1",
@@ -45,7 +47,7 @@ describe("Combo box (Association)", () => {
             optionsSourceAssociationDataSource: list([obj("111"), obj("222"), obj("333"), obj("444")]),
             optionsSourceAssociationCaptionType: "expression",
             optionsSourceAssociationCaptionAttribute: new ListAttributeValueBuilder<string>().build(),
-            optionsSourceAssociationCaptionExpression: listExp(() => "$currentObject/CountryName"),
+            optionsSourceAssociationCaptionExpression: listExpression(() => "$currentObject/CountryName"),
             optionsSourceAssociationCustomContentType: "no",
             optionsSourceAssociationCustomContent: undefined,
             emptyOptionText: dynamic("Select an option 111"),

@@ -11,6 +11,7 @@
 
 ## Auto-loaded Documentation
 
+@docs/repo-layout.md
 @docs/requirements/tech-stack.md
 @docs/requirements/frontend-guidelines.md
 @docs/requirements/app-flow.md
