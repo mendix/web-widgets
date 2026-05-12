@@ -75,6 +75,7 @@ export class FileUploaderStore {
             updateProps: action,
             processDrop: action,
             dismissValidationErrors: action,
+            dismissFile: action,
             setMessage: action,
             processExistingFileItem: action,
             files: observable,
@@ -145,6 +146,10 @@ export class FileUploaderStore {
 
     dismissValidationErrors(): void {
         this.files = this.files.filter(file => file.fileStatus !== "validationError");
+    }
+
+    dismissFile(file: FileStore): void {
+        this.files = this.files.filter(f => f !== file);
     }
 
     processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
