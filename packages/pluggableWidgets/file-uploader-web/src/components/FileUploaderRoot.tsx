@@ -29,21 +29,26 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
                     warningMessage={rootStore.warningMessage}
                     maxSize={rootStore._maxFileSize}
                     acceptFileTypes={prepareAcceptForDropzone(rootStore.acceptedFileTypes)}
-                    maxFilesPerUpload={rootStore.maxFilesPerUpload ?? 0}
                     disabled={rootStore.isFileUploadLimitReached}
                 />
             )}
 
             <div className={"files-list"}>
-                {(rootStore.files ?? []).map(fileStore => {
-                    return (
-                        <FileEntryContainer
-                            store={fileStore}
-                            key={fileStore.key}
-                            actions={props.enableCustomButtons ? props.customButtons : undefined}
-                        />
-                    );
-                })}
+                {[...(rootStore.files ?? [])]
+                    .sort((a, b) => {
+                        const isErrorA = a.fileStatus === "validationError" ? 1 : 0;
+                        const isErrorB = b.fileStatus === "validationError" ? 1 : 0;
+                        return isErrorA - isErrorB;
+                    })
+                    .map(fileStore => {
+                        return (
+                            <FileEntryContainer
+                                store={fileStore}
+                                key={fileStore.key}
+                                actions={props.enableCustomButtons ? props.customButtons : undefined}
+                            />
+                        );
+                    })}
             </div>
         </div>
     );

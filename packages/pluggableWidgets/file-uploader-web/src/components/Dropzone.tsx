@@ -10,24 +10,15 @@ interface DropzoneProps {
     warningMessage?: string;
     onDrop: (files: File[], fileRejections: FileRejection[]) => void;
     maxSize: number;
-    maxFilesPerUpload: number;
     acceptFileTypes: MimeCheckFormat;
     disabled: boolean;
 }
 
 export const Dropzone = observer(
-    ({
-        warningMessage,
-        onDrop,
-        maxSize,
-        maxFilesPerUpload,
-        acceptFileTypes,
-        disabled
-    }: DropzoneProps): ReactElement => {
+    ({ warningMessage, onDrop, maxSize, acceptFileTypes, disabled }: DropzoneProps): ReactElement => {
         const { getRootProps, getInputProps, isDragAccept, isDragReject } = useDropzone({
             onDrop,
             maxSize: maxSize || undefined,
-            maxFiles: maxFilesPerUpload,
             accept: acceptFileTypes,
             disabled
         });
