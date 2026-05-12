@@ -8,13 +8,15 @@ For an overview of package types (widgets, modules, dependent widgets) see [pack
 
 ## Version Management
 
+### Semantic versioning rules
+
+- **Patch**: Bug fixes, small improvements
+- **Minor**: New features, backward-compatible changes
+- **Major**: Breaking changes, major rewrites, happens rarely
+
 ### Standalone package w/o dependencies
 
-- **Version tracking**: Each package has its own independent version
-- **Semantic versioning rules**:
-    - **Patch**: Bug fixes, small improvements
-    - **Minor**: New features, backward-compatible changes
-    - **Major**: Breaking changes, major rewrites
+- **Version tracking**: Each package has its own independent version, follows Semantic versioning rules.
 
 ### Standalone packages with dependencies
 
@@ -30,114 +32,19 @@ For an overview of package types (widgets, modules, dependent widgets) see [pack
 - `@mendix/dropdown-sort-web` → `3.9.0`
 - ... all widgets in the module → `3.9.0`
 
+Same Semantic versioning rules but based on all widgets.
+
 ## Changelog Management
-
-### Format
-
-All changelogs follow the [Keep a Changelog](https://keepachangelog.com/) format with Mendix-specific extensions.
-
-**Standard sections**:
-
-- `## [Unreleased]` - Unreleased changes
-- `## [X.Y.Z] - YYYY-MM-DD` - Released versions
-
-**Change categories**:
-
-- `### Fixed` - Bug fixes
-- `### Added` - New features
-- `### Changed` - Changes to existing functionality
-- `### Removed` - Removed features
 
 ### Workflow
 
-1. **During development**: Developer adds entries under `## [Unreleased]` section
+1. **During development**: Developer adds entries under `[Unreleased]` changelog section
 2. **On merge to main**: Changes merged with unreleased changelog entries (no version bump yet)
 3. **Release decision**: Team decides to release based on:
     - Unreleased changes exist
     - Jira story is complete
     - Team decision (may wait to bundle multiple stories)
-4. **On release**: GitHub workflow moves unreleased entries to new version section
-
-### Widget Changelogs
-
-**Location**: `packages/pluggableWidgets/*/CHANGELOG.md`
-
-**Format** (for widget `@mendix/datagrid-web`):
-
-```markdown
-# Changelog
-
-All notable changes to this widget will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## [Unreleased]
-
-## [3.9.0] - 2026-03-23
-
-### Changed
-
-- We improved accessibility on column selector, added aria-attributes and changed the role to 'menuitemcheckbox'.
-
-### Added
-
-- We added a new `Loaded rows` attribute that reflects the number of rows currently loaded for virtual scrolling and load-more pagination modes.
-
-### Fixed
-
-- We fixed an issue with Data export crashing on some Android devices.
-```
-
-### Module Changelogs
-
-**Location**: `packages/modules/*/CHANGELOG.md`
-
-**Format** (for module `@mendix/data-widgets`):
-
-```markdown
-# Changelog
-
-All notable changes to this widget will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## [Unreleased]
-
-## [3.9.0] DataWidgets - 2026-03-23
-
-### [3.9.0] DatagridDropdownFilter
-
-#### Fixed
-
-- We fixed an issue with Dropdown filter captions not updating properly when their template parameters change.
-
-### [3.9.0] Datagrid
-
-#### Changed
-
-- We improved accessibility on column selector, added aria-attributes and changed the role to 'menuitemcheckbox'.
-
-#### Added
-
-- We added a new `Loaded rows` attribute that reflects the number of rows currently loaded for virtual scrolling and load-more pagination modes.
-
-#### Fixed
-
-- We fixed an issue with Data export crashing on some Android devices.
-
-### [3.9.0] Gallery
-
-#### Fixed
-
-- We fixed the pagination properties `Page attribute`, `Page size attribute`, and `Total count` not being shown in Studio Pro for Virtual Scrolling and Load More pagination modes.
-```
-
-**Key differences**:
-
-- Module name in version header: `[3.9.0] DataWidgets - 2026-03-23`
-- Subcomponent sections for each widget: `### [3.9.0] Datagrid`
-- Aggregates all widget changelogs into single module changelog
-- Generated automatically by GitHub workflow during release — the workflow reads each dependent widget's flat `## [Unreleased]` entries and transforms them into the nested `### [X.Y.Z] WidgetName` format shown above
+4. **On release**: GitHub workflow moves unreleased entries to new version section, `[Unreleased]` is cleared.
 
 ## Release Preparation Process
 
