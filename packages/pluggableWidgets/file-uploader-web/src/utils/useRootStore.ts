@@ -13,5 +13,9 @@ export function useRootStore(props: FileUploaderContainerProps): FileUploaderSto
         rootStore.updateProps(props);
     }, [rootStore, props]);
 
+    useEffect(() => {
+        return () => rootStore.dispose();
+    }, [rootStore]);
+
     return rootStore;
 }

@@ -1,13 +1,13 @@
 import { Big } from "big.js";
 import { DynamicValue } from "mendix";
 import { actionValue, dynamic, ListValueBuilder, obj } from "@mendix/widget-plugin-test-utils";
+import { FileUploaderContainerProps } from "../../../typings/FileUploaderProps";
+import { FileUploaderStore } from "../FileUploaderStore";
+import { TranslationsStore } from "../TranslationsStore";
 
 function unavailableDynamic(): DynamicValue<Big> {
     return { status: "unavailable", value: undefined } as unknown as DynamicValue<Big>;
 }
-import { FileUploaderContainerProps } from "../../../typings/FileUploaderProps";
-import { FileUploaderStore } from "../FileUploaderStore";
-import { TranslationsStore } from "../TranslationsStore";
 
 function buildProps(overrides: Partial<FileUploaderContainerProps> = {}): FileUploaderContainerProps {
     return {

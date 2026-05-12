@@ -28,6 +28,7 @@ export class FileUploaderStore {
     _maxFileSize = 0;
     _maxFilesPerUpload: DynamicValue<Big> | undefined;
     _maxFilesPerBatch: DynamicValue<Big> | undefined;
+    _disposeRetryReaction: (() => void) | undefined;
 
     errorMessage?: string = undefined;
 
@@ -89,12 +90,13 @@ export class FileUploaderStore {
             _maxFilesPerUpload: observable,
             _maxFilesPerBatch: observable,
             isFileUploadLimitReached: computed,
-            warningMessage: computed
+            warningMessage: computed,
+            sortedFiles: computed
         });
 
         this.updateProps(props);
 
-        reaction(
+        this._disposeRetryReaction = reaction(
             () =>
                 this.files.filter(
                     f =>
@@ -167,6 +169,14 @@ export class FileUploaderStore {
         return activeFiles.length >= this.maxFilesPerUpload;
     }
 
+    get sortedFiles(): FileStore[] {
+        return [...this.files].sort((a, b) => {
+            const isErrorA = a.fileStatus === "validationError" ? 1 : 0;
+            const isErrorB = b.fileStatus === "validationError" ? 1 : 0;
+            return isErrorA - isErrorB;
+        });
+    }
+
     get warningMessage(): string | undefined {
         if (this.isFileUploadLimitReached) {
             return this.translations.get("uploadLimitReachedMessage", this.maxFilesPerUpload.toString());
@@ -205,13 +215,15 @@ export class FileUploaderStore {
 
         for (let i = 0; i < Math.min(slots, waiting.length); i++) {
             const file = waiting[i];
-            file.errorType = undefined;
-            file.errorDescription = undefined;
-            file.fileStatus = "new";
+            file.reset();
             if (file.validate()) {
                 file.upload();
             }
         }
+    }
+
+    dispose(): void {
+        this._disposeRetryReaction?.();
     }
 
     processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
