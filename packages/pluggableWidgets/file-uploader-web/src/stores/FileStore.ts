@@ -64,6 +64,8 @@ export class FileStore {
             fetchMxObject: action,
             markMissing: action,
             markError: action,
+            markError: action,
+            reset: action,
             dismiss: action
         });
     }
@@ -79,6 +81,12 @@ export class FileStore {
         this.fileStatus = "validationError";
         this.errorDescription = errorMessage;
         this.errorType = errorType;
+    }
+
+    reset(): void {
+        this.errorType = undefined;
+        this.errorDescription = undefined;
+        this.fileStatus = "new";
     }
 
     dismiss(): void {
