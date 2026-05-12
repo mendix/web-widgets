@@ -78,7 +78,7 @@ export class FileStore {
     }
 
     dismiss(): void {
-        this._rootStore.files = this._rootStore.files.filter(f => f !== this);
+        this._rootStore.dismissFile(this);
     }
 
     canExecute(listAction: ListActionValue): boolean {
