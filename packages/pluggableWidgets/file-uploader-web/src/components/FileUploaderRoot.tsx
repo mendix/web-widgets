@@ -34,21 +34,15 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
             )}
 
             <div className={"files-list"}>
-                {[...(rootStore.files ?? [])]
-                    .sort((a, b) => {
-                        const isErrorA = a.fileStatus === "validationError" ? 1 : 0;
-                        const isErrorB = b.fileStatus === "validationError" ? 1 : 0;
-                        return isErrorA - isErrorB;
-                    })
-                    .map(fileStore => {
-                        return (
-                            <FileEntryContainer
-                                store={fileStore}
-                                key={fileStore.key}
-                                actions={props.enableCustomButtons ? props.customButtons : undefined}
-                            />
-                        );
-                    })}
+                {rootStore.sortedFiles.map(fileStore => {
+                    return (
+                        <FileEntryContainer
+                            store={fileStore}
+                            key={fileStore.key}
+                            actions={props.enableCustomButtons ? props.customButtons : undefined}
+                        />
+                    );
+                })}
             </div>
         </div>
     );
