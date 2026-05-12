@@ -43,6 +43,7 @@ export class FileStore {
     key: number;
 
     errorDescription?: string = undefined;
+    errorType?: "limitExceeded" | "batchExceeded" | "validation" = undefined;
 
     constructor(type: FileStatus, rootStore: FileUploaderStore, file?: File, objectItem?: ObjectItem) {
         this.key = getFileKey();
@@ -55,12 +56,14 @@ export class FileStore {
             fileStatus: observable,
             _mxObject: observable,
             errorDescription: observable,
+            errorType: observable,
             _thumbnailUrl: observable,
             canRemove: computed,
             imagePreviewUrl: computed,
             upload: action,
             fetchMxObject: action,
             markMissing: action,
+            markError: action,
             dismiss: action
         });
     }
@@ -72,9 +75,10 @@ export class FileStore {
         this._objectItem = undefined;
     }
 
-    markError(errorMessage: string): void {
+    markError(errorMessage: string, errorType: "limitExceeded" | "batchExceeded" | "validation" = "validation"): void {
         this.fileStatus = "validationError";
         this.errorDescription = errorMessage;
+        this.errorType = errorType;
     }
 
     dismiss(): void {
@@ -242,10 +246,16 @@ export class FileStore {
         return new FileStore("new", rootStore, file, undefined);
     }
 
-    static newFileWithError(file: File, errorMessage: string, rootStore: FileUploaderStore): FileStore {
+    static newFileWithError(
+        file: File,
+        errorMessage: string,
+        rootStore: FileUploaderStore,
+        errorType: "limitExceeded" | "batchExceeded" | "validation" = "validation"
+    ): FileStore {
         const store = new FileStore("validationError", rootStore, file, undefined);
         runInAction(() => {
             store.errorDescription = errorMessage;
+            store.errorType = errorType;
         });
 
         return store;
