@@ -1,7 +1,7 @@
 import { ObjectItem } from "mendix";
 import { ReactNode } from "react";
-import { TreeNodeContainerProps } from "typings/TreeNodeProps";
 import { TreeConfigRef } from "./useIncrementalTreeData";
+import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 
 export function getItemId(item: ObjectItem): string {
     return String(item.id);
