@@ -259,3 +259,113 @@ describe("FileUploaderStore.isFileUploadLimitReached", () => {
         expect(store.isFileUploadLimitReached).toBe(false);
     });
 });
+
+describe("FileUploaderStore.processDrop — capacity split", () => {
+    function makeFile(name: string): File {
+        return new File([""], name, { type: "text/plain" });
+    }
+
+    test("dismissValidationErrors preserves batchExceeded files", () => {
+        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(5)) });
+
+        store.files.push(
+            { fileStatus: "validationError", errorType: "validation" } as any,
+            { fileStatus: "validationError", errorType: "batchExceeded" } as any
+        );
+
+        store.dismissValidationErrors();
+
+        expect(store.files).toHaveLength(1);
+        expect(store.files[0].errorType).toBe("batchExceeded");
+    });
+
+    test("dismissValidationErrors clears format errors but preserves limitExceeded files", () => {
+        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(5)) });
+
+        store.files.push(
+            { fileStatus: "validationError", errorType: "validation" } as any,
+            { fileStatus: "validationError", errorType: "limitExceeded" } as any
+        );
+
+        store.dismissValidationErrors();
+
+        expect(store.files).toHaveLength(1);
+        expect(store.files[0].errorType).toBe("limitExceeded");
+    });
+
+    test("removing an active file promotes newest limitExceeded file to upload", () => {
+        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(2)) });
+
+        const activeA = { fileStatus: "existingFile", errorType: undefined } as any;
+        const activeB = { fileStatus: "existingFile", errorType: undefined } as any;
+        // waitingNew is first in array (unshifted last = newest at top)
+        const waitingNew = {
+            fileStatus: "validationError",
+            errorType: "limitExceeded",
+            _file: makeFile("new.txt"),
+            validate: () => true,
+            upload: jest.fn()
+        } as any;
+        const waitingOld = {
+            fileStatus: "validationError",
+            errorType: "limitExceeded",
+            _file: makeFile("old.txt"),
+            validate: () => true,
+            upload: jest.fn()
+        } as any;
+
+        store.files.push(waitingNew, waitingOld, activeA, activeB);
+
+        store.files.splice(store.files.indexOf(activeA), 1);
+        store.retryLimitExceededFiles();
+
+        expect(waitingNew.upload).toHaveBeenCalledTimes(1);
+        expect(waitingOld.upload).not.toHaveBeenCalled();
+    });
+
+    test("accepts files up to remaining capacity and marks overflow as limitExceeded", () => {
+        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(5)) });
+
+        const files = [1, 2, 3, 4, 5, 6].map(n => makeFile(`file${n}.txt`));
+        store.processDrop(files, []);
+
+        const errorFiles = store.files.filter(f => f.fileStatus === "validationError");
+        const acceptedFiles = store.files.filter(f => f.fileStatus !== "validationError");
+
+        expect(errorFiles).toHaveLength(1);
+        expect(errorFiles[0].errorType).toBe("limitExceeded");
+        expect(acceptedFiles).toHaveLength(5);
+    });
+
+    test("retryLimitExceededFiles promotes batchExceeded files when slots open", () => {
+        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(2)) });
+
+        const active = { fileStatus: "existingFile", errorType: undefined } as any;
+        const waiting = {
+            fileStatus: "validationError",
+            errorType: "batchExceeded",
+            validate: () => true,
+            upload: jest.fn()
+        } as any;
+
+        store.files.push(waiting, active, { fileStatus: "existingFile" } as any);
+
+        store.files.splice(store.files.indexOf(active), 1);
+        store.retryLimitExceededFiles();
+
+        expect(waiting.upload).toHaveBeenCalledTimes(1);
+    });
+
+    test("marks batch-excess files with errorType batchExceeded", () => {
+        const store = buildStore({
+            maxFilesPerUpload: unavailableDynamic(),
+            maxFilesPerBatch: dynamic(new Big(2))
+        });
+
+        const files = [1, 2, 3, 4].map(n => makeFile(`file${n}.txt`));
+        store.processDrop(files, []);
+
+        const batchErrorFiles = store.files.filter(f => f.errorType === "batchExceeded");
+        expect(batchErrorFiles).toHaveLength(2);
+    });
+});
