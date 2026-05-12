@@ -64,13 +64,15 @@ export function excelString(value: string, format?: string): ExcelCell {
     return {
         t: "s",
         v: value,
-        z: format ?? undefined
+        z: format
     };
 }
 
+export function excelDate(value: string): ExcelCell;
+export function excelDate(value: Date, format: string): ExcelCell;
 export function excelDate(value: string | Date, format?: string): ExcelCell {
     return {
-        t: format === undefined ? "s" : "d",
+        t: value instanceof Date && format !== undefined ? "d" : "s",
         v: value,
         z: format
     };
@@ -118,7 +120,7 @@ const readers: ReadersByType = {
 
         if (value instanceof Date) {
             if (format === undefined) {
-                return excelDate(data.displayValue, format);
+                return excelDate(data.displayValue);
             }
             const dateValue = hasTimeComponent(format) ? value : stripTime(value);
             return excelDate(dateValue, format);
@@ -128,12 +130,11 @@ const readers: ReadersByType = {
             return excelBoolean(value);
         }
 
-        if (value instanceof Big || typeof value === "number") {
-            if (value instanceof Big && countSignificantDigits(value) > MAX_SAFE_SIGNIFICANT_DIGITS) {
+        if (value instanceof Big) {
+            if (countSignificantDigits(value) > MAX_SAFE_SIGNIFICANT_DIGITS) {
                 return excelString(value.toFixed(), format);
             }
-            const num = value instanceof Big ? value.toNumber() : value;
-            return excelNumber(num, format);
+            return excelNumber(value.toNumber(), format);
         }
 
         return excelString(data.displayValue ?? "");
@@ -144,13 +145,7 @@ const readers: ReadersByType = {
 
         switch (data?.status) {
             case "available":
-                const format = getCellFormat({
-                    exportType: props.exportType,
-                    exportDateFormat: props.exportDateFormat,
-                    exportNumberFormat: props.exportNumberFormat
-                });
-
-                return excelString(data.value ?? "", format);
+                return excelString(data.value ?? "");
             case "unavailable":
                 return excelString("n/a");
             default:
@@ -177,7 +172,7 @@ const readers: ReadersByType = {
             const parsed = new Date(value);
             if (!isNaN(parsed.getTime())) {
                 if (format === undefined) {
-                    return excelDate(value, format);
+                    return excelDate(value);
                 }
                 const dateValue = hasTimeComponent(format) ? parsed : stripTime(parsed);
                 return excelDate(dateValue, format);
