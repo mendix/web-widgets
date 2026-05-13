@@ -1,11 +1,11 @@
 // @ts-nocheck
 import Quill from "quill";
 import type { QuillTableBetter, TableCell, TableColgroup } from "../types";
-import { setElementAttribute, setElementProperty, updateTableWidth } from "../utils";
+import { getCorrectWidth, setElementProperty, setElementAttribute, updateTableWidth } from "../utils";
 
 interface Options {
     tableNode: HTMLElement;
-    cellNode: HTMLElement;
+    cellNode: Element;
     mousePosition: {
         clientX: number;
         clientY: number;
@@ -35,13 +35,11 @@ class OperateLine {
         this.dragTable = null;
         this.direction = null; // 1.level 2.vertical
         this.tableBetter = tableBetter;
-        if (!this.quill.options.readOnly) {
-            this.quill.root.addEventListener("mousemove", this.handleMouseMove.bind(this));
-        }
+        this.quill.root.addEventListener("mousemove", this.handleMouseMove.bind(this));
     }
 
     createDragBlock() {
-        const dragBlock = this.quill.root.ownerDocument.createElement("div");
+        const dragBlock = document.createElement("div");
         dragBlock.classList.add("ql-operate-block");
         const { dragBlockProps } = this.getProperty(this.options);
         setElementProperty(dragBlock, dragBlockProps);
@@ -51,7 +49,7 @@ class OperateLine {
     }
 
     createDragTable(table: Element) {
-        const dragTable = this.quill.root.ownerDocument.createElement("div");
+        const dragTable = document.createElement("div");
         const properties = this.getDragTableProperty(table);
         dragTable.classList.add("ql-operate-drag-table");
         setElementProperty(dragTable, properties);
@@ -60,8 +58,8 @@ class OperateLine {
     }
 
     createOperateLine() {
-        const container = this.quill.root.ownerDocument.createElement("div");
-        const line = this.quill.root.ownerDocument.createElement("div");
+        const container = document.createElement("div");
+        const line = document.createElement("div");
         container.classList.add("ql-operate-line-container");
         const { containerProps, lineProps } = this.getProperty(this.options);
         setElementProperty(container, containerProps);
@@ -180,9 +178,10 @@ class OperateLine {
     }
 
     handleMouseMove(e: MouseEvent) {
-        const tableNode = (e.target as Element).closest("table.ql-table-better");
-        if (!tableNode) return;
-        const cellNode = (e.target as Element).closest("td");
+        if (!this.quill.isEnabled()) return;
+        const tableNode = (e.target as Element).closest("table");
+        if (tableNode && !this.quill.root.contains(tableNode)) return;
+        const cellNode = (e.target as Element).closest("td,th");
         const mousePosition = {
             clientX: e.clientX,
             clientY: e.clientY
@@ -225,18 +224,18 @@ class OperateLine {
         const { right } = cell.getBoundingClientRect();
         const change = ~~(clientX - right);
         const colSum = this.getLevelColSum(cell);
-        const quillCell = Quill.find(cell) as TableCell;
-        const tableBlot = quillCell?.table();
+        const tableBlot = (Quill.find(cell) as TableCell).table();
+        const isPercent = tableBlot.isPercent();
         const colgroup = tableBlot.colgroup() as TableColgroup;
         const bounds = tableBlot.domNode.getBoundingClientRect();
         if (colgroup) {
             const col = this.getCorrectCol(colgroup, colSum);
             const nextCol = col.next;
-            const formats = col.formats()[col.statics.blotName];
-            col.domNode.setAttribute("width", `${parseFloat(formats["width"]) + change}`);
+            const { width } = col.domNode.getBoundingClientRect();
+            this.setColWidth(col.domNode, `${width + change}`, isPercent);
             if (nextCol) {
-                const nextFormats = nextCol.formats()[nextCol.statics.blotName];
-                nextCol.domNode.setAttribute("width", `${parseFloat(nextFormats["width"]) - change}`);
+                const { width } = nextCol.domNode.getBoundingClientRect();
+                this.setColWidth(nextCol.domNode, `${width - change}`, isPercent);
             }
         } else {
             const isLastCell = cell.nextElementSibling == null;
@@ -265,8 +264,9 @@ class OperateLine {
                 }
             }
             for (const [node, width] of preNodes) {
-                setElementAttribute(node, { width });
-                setElementProperty(node as HTMLElement, { width: `${width}px` });
+                const correctWidth = getCorrectWidth(~~width, isPercent);
+                setElementAttribute(node, { width: correctWidth });
+                setElementProperty(node as HTMLElement, { width: correctWidth });
             }
         }
         if (cell.nextElementSibling == null) {
@@ -289,6 +289,7 @@ class OperateLine {
         const averageY = changeY / rows.length;
         const preNodes: [Element, string, string][] = [];
         const tableBlot = (Quill.find(cell) as TableCell).table();
+        const isPercent = tableBlot.isPercent();
         const colgroup = tableBlot.colgroup() as TableColgroup;
         const bounds = tableBlot.domNode.getBoundingClientRect();
         for (const row of rows) {
@@ -307,19 +308,26 @@ class OperateLine {
             }
             while (col) {
                 const { width } = col.domNode.getBoundingClientRect();
-                setElementAttribute(col.domNode, { width: `${Math.ceil(width + averageX)}` });
+                this.setColWidth(col.domNode, `${Math.ceil(width + averageX)}`, isPercent);
                 col = col.next;
             }
         } else {
             for (const [node, width, height] of preNodes) {
-                setElementAttribute(node, { width, height });
-                setElementProperty(node as HTMLElement, {
-                    width: `${width}px`,
-                    height: `${height}px`
-                });
+                const correctWidth = getCorrectWidth(~~width, isPercent);
+                setElementAttribute(node, { height, width: correctWidth });
+                setElementProperty(node as HTMLElement, { height, width: correctWidth });
             }
         }
         updateTableWidth(tableBlot.domNode, bounds, changeX);
+    }
+
+    setColWidth(domNode: HTMLElement, width: string, isPercent: boolean) {
+        if (isPercent) {
+            width = getCorrectWidth(parseFloat(width), isPercent);
+            domNode.style.setProperty("width", width);
+        } else {
+            setElementAttribute(domNode, { width });
+        }
     }
 
     setCellVerticalRect(cell: Element, clientY: number) {
@@ -374,8 +382,8 @@ class OperateLine {
                 this.hideDragTable();
             }
             this.drag = false;
-            window.document.removeEventListener("mousemove", handleDrag, false);
-            window.document.removeEventListener("mouseup", handleMouseup, false);
+            document.removeEventListener("mousemove", handleDrag, false);
+            document.removeEventListener("mouseup", handleMouseup, false);
             this.tableBetter.tableMenus.updateMenus(tableNode);
         };
 
@@ -393,8 +401,8 @@ class OperateLine {
                 }
             }
             this.drag = true;
-            window.document.addEventListener("mousemove", handleDrag);
-            window.document.addEventListener("mouseup", handleMouseup);
+            document.addEventListener("mousemove", handleDrag);
+            document.addEventListener("mouseup", handleMouseup);
         };
         node.addEventListener("mousedown", handleMousedown);
     }
@@ -412,13 +420,9 @@ class OperateLine {
     updateDragLine(clientX: number, clientY: number) {
         const containerRect = this.quill.container.getBoundingClientRect();
         if (this.direction === "level") {
-            setElementProperty(this.line, {
-                left: `${~~(clientX - containerRect.left - LINE_CONTAINER_WIDTH / 2)}px`
-            });
+            setElementProperty(this.line, { left: `${~~(clientX - containerRect.left - LINE_CONTAINER_WIDTH / 2)}px` });
         } else if (this.direction === "vertical") {
-            setElementProperty(this.line, {
-                top: `${~~clientY - containerRect.top - LINE_CONTAINER_HEIGHT / 2}px`
-            });
+            setElementProperty(this.line, { top: `${~~clientY - containerRect.top - LINE_CONTAINER_HEIGHT / 2}px` });
         }
     }
 

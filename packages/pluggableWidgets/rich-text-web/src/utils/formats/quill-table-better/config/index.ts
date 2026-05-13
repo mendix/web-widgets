@@ -1,4 +1,14 @@
+// @ts-nocheck
 import type { Props, UseLanguageHandler } from "../types";
+import {
+    align_bottomIcon as alignBottomIcon,
+    align_centerIcon as alignCenterIcon,
+    align_leftIcon as alignLeftIcon,
+    align_middleIcon as alignMiddleIcon,
+    align_justifyIcon as alignJustifyIcon,
+    align_rightIcon as alignRightIcon,
+    align_topIcon as alignTopIcon
+} from "../assets/icons";
 import { convertUnitToInteger, isValidColor, isValidDimensions } from "../utils";
 
 interface Options {
@@ -55,7 +65,6 @@ const COLORS = [
     "cornflowerblue",
     "cornsilk",
     "crimson",
-    "currentcolor",
     "currentcolor",
     "cyan",
     "darkblue",
@@ -299,26 +308,10 @@ function getCellProperties(attribute: Props, useLanguage: UseLanguageHandler) {
                         propertyName: "text-align",
                         value: attribute["text-align"],
                         menus: [
-                            {
-                                icon: "icons icon-Text-align-left",
-                                describe: useLanguage("alCellTxtL"),
-                                align: "left"
-                            },
-                            {
-                                icon: "icons icon-Text-align-center",
-                                describe: useLanguage("alCellTxtC"),
-                                align: "center"
-                            },
-                            {
-                                icon: "icons icon-Text-align-right",
-                                describe: useLanguage("alCellTxtR"),
-                                align: "right"
-                            },
-                            {
-                                icon: "icons icon-Text-align-justify",
-                                describe: useLanguage("jusfCellTxt"),
-                                align: "justify"
-                            }
+                            { icon: alignLeftIcon, describe: useLanguage("alCellTxtL"), align: "left" },
+                            { icon: alignCenterIcon, describe: useLanguage("alCellTxtC"), align: "center" },
+                            { icon: alignRightIcon, describe: useLanguage("alCellTxtR"), align: "right" },
+                            { icon: alignJustifyIcon, describe: useLanguage("jusfCellTxt"), align: "justify" }
                         ]
                     },
                     {
@@ -326,9 +319,9 @@ function getCellProperties(attribute: Props, useLanguage: UseLanguageHandler) {
                         propertyName: "vertical-align",
                         value: attribute["vertical-align"],
                         menus: [
-                            { icon: "icons icon-Align-top", describe: useLanguage("alCellTxtT"), align: "top" },
-                            { icon: "icons icon-Align-middle", describe: useLanguage("alCellTxtM"), align: "middle" },
-                            { icon: "icons icon-Align-bottom", describe: useLanguage("alCellTxtB"), align: "bottom" }
+                            { icon: alignTopIcon, describe: useLanguage("alCellTxtT"), align: "top" },
+                            { icon: alignMiddleIcon, describe: useLanguage("alCellTxtM"), align: "middle" },
+                            { icon: alignBottomIcon, describe: useLanguage("alCellTxtB"), align: "bottom" }
                         ]
                     }
                 ]
@@ -420,9 +413,9 @@ function getTableProperties(attribute: Props, useLanguage: UseLanguageHandler) {
                         propertyName: "align",
                         value: attribute["align"],
                         menus: [
-                            { icon: "icons icon-Text-align-left", describe: useLanguage("alTblL"), align: "left" },
-                            { icon: "icons icon-Text-align-center", describe: useLanguage("tblC"), align: "center" },
-                            { icon: "icons icon-Text-align-right", describe: useLanguage("alTblR"), align: "right" }
+                            { icon: alignLeftIcon, describe: useLanguage("alTblL"), align: "left" },
+                            { icon: alignCenterIcon, describe: useLanguage("tblC"), align: "center" },
+                            { icon: alignRightIcon, describe: useLanguage("alTblR"), align: "right" }
                         ]
                     }
                 ]
@@ -443,6 +436,6 @@ export {
     CELL_PROPERTIES,
     COLORS,
     DEVIATION,
-    getProperties,
-    TABLE_PROPERTIES
+    TABLE_PROPERTIES,
+    getProperties
 };

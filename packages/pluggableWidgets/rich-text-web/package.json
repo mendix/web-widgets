@@ -45,6 +45,7 @@
     "dependencies": {
         "@floating-ui/dom": "^1.7.4",
         "@floating-ui/react": "^0.26.27",
+        "@jaames/iro": "^5.5.2",
         "@melloware/coloris": "^0.25.0",
         "classnames": "^2.5.1",
         "highlight.js": "^11.11.1",
@@ -80,6 +81,7 @@
         "postcss-import": "^16.1.1",
         "postcss-url": "^10.1.3",
         "rollup-plugin-postcss": "^4.0.2",
+        "rollup-plugin-string": "^3.0.0",
         "rollup-preserve-directives": "^1.1.3"
     }
 }
