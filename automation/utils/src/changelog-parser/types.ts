@@ -41,7 +41,7 @@ export interface ModuleUnreleasedVersionEntry extends UnreleasedVersionEntry {
 }
 
 export interface LogSection {
-    type: "Fixed" | "Added" | "Changed" | "Removed";
+    type: "Fixed" | "Added" | "Changed" | "Removed" | "Deprecated" | "Security" | "Breaking changes" | "Documentation";
     logs: string[];
 }
 
