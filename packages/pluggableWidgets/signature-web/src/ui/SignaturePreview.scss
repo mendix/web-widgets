@@ -1,0 +1,23 @@
+.widget-signature-preview {
+    &-wrapper {
+        overflow: hidden;
+        padding: 0 !important;
+    }
+
+    .alert {
+        position: absolute;
+    }
+
+    .size-box-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+
+        & > .size-box-inner {
+            align-content: center;
+            text-align: center;
+        }
+    }
+}
