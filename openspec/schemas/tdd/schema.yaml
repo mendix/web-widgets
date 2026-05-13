@@ -1,0 +1,111 @@
+name: tdd
+version: 1
+description: Test-driven development workflow - proposal → tests → implementation → docs
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: Initial proposal outlining the bug or feature
+    template: proposal.md
+    instruction: |
+      Create the proposal document that establishes WHY this change is needed.
+
+      For bugs, focus on:
+      - **Why**: What's broken? What's the observed vs. expected behavior?
+      - **What Changes**: What will be fixed? Be specific about behavior changes.
+      - **Impact**: Affected code, APIs, users, or systems.
+      - **Root Cause** (if known): Technical reason for the bug.
+
+      For features, focus on:
+      - **Why**: What problem does this solve? Why now?
+      - **What Changes**: What new capability will exist?
+      - **Impact**: Affected code, APIs, dependencies, or systems.
+
+      Keep it concise (1 page max). This is test-first, so focus on
+      observable behavior that tests will verify.
+    requires: []
+
+  - id: tests
+    generates: tests.md
+    description: Test specifications written before implementation
+    template: tests.md
+    instruction: |
+      Define the tests that will verify the fix or feature BEFORE implementing.
+
+      Structure:
+      - **Test Cases**: List each test case with:
+        - Name/Description
+        - Setup/Given conditions
+        - Action/When trigger
+        - Expected/Then outcome
+        - Test type (unit/integration/e2e)
+        - Status (pending/failing/passing)
+
+      Write tests at appropriate levels:
+      - Unit tests for isolated logic
+      - Integration tests for component interactions
+      - E2E tests for user-facing behavior
+
+      Each test should be implementable and should FAIL initially.
+      Tests define the contract - implementation must make them pass.
+
+      Use checkboxes to track test status:
+      - [ ] Test name - pending (not written yet)
+      - [x] Test name - written and status noted
+    requires:
+      - proposal
+
+  - id: implementation
+    generates: implementation.md
+    description: Implementation plan and code changes
+    template: implementation.md
+    instruction: |
+      Document the implementation approach and track code changes.
+
+      Sections:
+      - **Approach**: High-level technical strategy
+      - **Changes**: File-by-file breakdown of modifications
+      - **Decisions**: Key technical choices and rationale
+      - **Test Status**: Track which tests pass/fail as you implement
+
+      Implementation follows TDD cycle:
+      1. Write failing test
+      2. Write minimal code to pass
+      3. Refactor while keeping tests green
+      4. Repeat
+
+      Implementation is DONE when all tests pass.
+      Do not add features beyond what tests require.
+    requires:
+      - tests
+
+  - id: docs
+    generates: docs.md
+    description: Documentation updates for the change
+    template: docs.md
+    instruction: |
+      Update relevant documentation after implementation is complete.
+
+      Include:
+      - **API Changes**: Updated signatures, parameters, return values
+      - **Behavior Changes**: How user-facing behavior differs
+      - **Migration**: If breaking, how to migrate existing code
+      - **Examples**: Updated code examples reflecting new behavior
+
+      Only document what changed - don't rewrite existing docs.
+      Mark as "No documentation changes" if none are needed.
+    requires:
+      - implementation
+
+apply:
+  requires: [tests, implementation]
+  tracks: tests.md
+  instruction: |
+    Follow TDD workflow:
+    1. Review tests.md to understand what needs to pass
+    2. Write failing tests first (mark status in tests.md)
+    3. Implement minimal code to make tests pass
+    4. Refactor while keeping tests green
+    5. Update test status as tests pass
+
+    Mark test checkboxes as complete when tests are written and passing.
+    Pause if blocked or need clarification.
