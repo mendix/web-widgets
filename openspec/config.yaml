@@ -1,0 +1,65 @@
+schema: mendix-widget
+
+context: |
+  Mendix pluggable widgets monorepo (TypeScript, React, SCSS, Rollup).
+  52 widget packages under packages/pluggableWidgets/*-web.
+
+  ## Mendix API
+  - EditableValue: read/write bound attribute values (setValue(), status, readOnly)
+  - ActionValue: executable actions — ALWAYS check canExecute before execute()
+  - ListValue: paginated data source with items and setLimit()
+  - DynamicValue: dynamic expressions evaluated at runtime
+  - Render loading/empty states until values are available (status === "loading")
+
+  ## Tech stack
+  - TypeScript strict mode, React functional components + hooks
+  - SCSS for styling, Atlas UI classes preferred (btn, badge, etc.)
+  - BEM-like class naming with widget prefix (e.g., .widget-datagrid-column)
+  - Rollup via @mendix/pluggable-widgets-tools
+  - Jest + React Testing Library for unit tests (src/**/__tests__/*.spec.ts)
+  - Playwright for E2E (e2e/*.spec.js)
+  - pnpm workspaces + Turbo
+
+  ## Widget anatomy
+  - <WidgetName>.tsx          — entry point with Mendix ContainerProps
+  - <WidgetName>.xml          — property schema (lowerCamelCase keys, must match TS types)
+  - <WidgetName>.editorConfig.ts — Studio Pro design-mode config
+  - components/               — React components
+  - ui/                       — SCSS files
+  - src/**/__tests__/         — unit tests
+  - e2e/                      — Playwright E2E tests
+
+  ## Conventions
+  - Check ActionValue.canExecute before execute()
+  - XML keys: lowerCamelCase, must match TypeScript props exactly
+  - Semver bump + CHANGELOG.md update required for runtime/XML/behavior changes
+  - Conventional commits: type(scope): description
+  - Atlas UI classes preferred over custom styles
+  - Never override core Atlas UI classes
+
+  ## Testing
+  - Unit tests: pnpm run test (from widget dir, NOT root)
+  - E2E: pnpm e2e (headless) or pnpm e2edev (with GUI debugger)
+  - Builders from @mendix/widget-plugin-test-utils for mocking Mendix APIs
+
+rules:
+  proposal:
+    - Explicitly state whether XML properties change (new/modified/removed)
+    - Identify if changes require a CHANGELOG.md entry and semver bump
+    - Note if Studio Pro UI (editorConfig/editorPreview) needs updating
+    - Call out any Atlas UI class usage or design-system implications
+  specs:
+    - Use Given/When/Then format for all scenarios
+    - Reference existing Mendix API behavior (canExecute, status checks) where applicable
+    - Cover: happy path, loading state, empty state, error state, accessibility
+    - Do not include implementation details (component names, class names)
+  design:
+    - Describe Mendix API usage (which EditableValue/ActionValue/ListValue props are involved)
+    - List files to add/modify (src/, ui/, *.xml)
+    - Include component hierarchy if new components are introduced
+    - Note MobX store usage if applicable
+  tasks:
+    - Group under headings: 1. XML & TypeScript types, 2. Implementation, 3. Tests, 4. Versioning
+    - Include unit test tasks for every new behavior
+    - Include E2E task if user-visible behavior changes
+    - Final task must be "Update CHANGELOG.md and bump semver" (if applicable)

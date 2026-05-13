@@ -1,0 +1,29 @@
+schema: mendix-widget
+
+context: |
+  Widget: gallery-web (Gallery)
+  Version: 3.10.0 | Min Mendix: 10.0.0
+  Package: @mendix/widget-gallery-web
+
+  ## Domain
+  Grid-based data display widget. Renders items from a ListValue datasource as
+  a configurable grid with pagination, sorting, filtering (via child filter widgets),
+  and item click/selection actions.
+
+  ## Key XML Properties
+  - datasource (ListValue) — the data source providing items
+  - content (widget slot per item) — item template rendered per row
+  - itemClass (DynamicValue<string>) — dynamic CSS class per item
+  - pagination (enum: "buttons" | "virtualScrolling" | "loadMore" | "off")
+  - pageSize (int) — items per page
+  - numberOfColumns (int) — grid column count
+  - selectionMode (enum: "None" | "Single" | "Multi")
+  - onClickItem (ActionValue) — item click action
+  - emptyMessageWidget (widget slot) — content when datasource returns no items
+  - sortingType (enum: "server" | "client")
+  - filtering (bool) — whether filter bar is shown
+
+  ## Architecture
+  - Entry: src/Gallery.tsx (functional component with ContainerProps)
+  - Uses similar data plugin pattern as datagrid (filtering, pagination, selection via shared packages)
+  - Components under src/components/

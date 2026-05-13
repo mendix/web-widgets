@@ -35,6 +35,17 @@ Use this guide to review both code and workflow. Focus on Mendix pluggable widge
 - If refactor/docs/tests-only: bump not required (ask author to confirm).
 - Multiple changed packages: each needs its own bump and changelog entry.
 
+### OpenSpec change proposals
+
+- If the PR introduces a new feature, behavior change, or XML property change in a widget that has `openspec/` initialized:
+    - Check if `openspec/changes/<change-name>/` exists with a `proposal.md`.
+    - If no proposal exists: "No OpenSpec proposal found. For behavior/XML changes, consider `/opsx:propose` to document intent. This is optional for small changes."
+    - If a proposal **does** exist, verify:
+        - `proposal.md` clearly states the why and lists XML property impact.
+        - Delta specs in `specs/` use Given/When/Then scenarios and cover loading/empty/error states.
+        - `tasks.md` has a **Versioning** group with CHANGELOG and semver tasks.
+- Generally ignore `openspec/changes/archive/` — that's completed history.
+
 ## Code quality – Mendix pluggable widgets and React
 
 ### Mendix-specific
@@ -48,7 +59,6 @@ Use this guide to review both code and workflow. Focus on Mendix pluggable widge
 ### React code-logic best practices
 
 - **Hooks and effects**
-
     - Correct `useEffect`/`useMemo`/`useCallback` dependencies; avoid stale closures.
     - No side effects in render. Cleanup subscriptions/timers on unmount.
     - Guard async effects to avoid setting state after unmount:
@@ -67,7 +77,6 @@ Use this guide to review both code and workflow. Focus on Mendix pluggable widge
     - Avoid deriving state directly from props unless necessary; prefer computing from props or synchronize carefully (watch for loops).
 
 - **State management**
-
     - Use functional updates when reading previous state:
         ```ts
         setCount(c => c + 1);
@@ -76,27 +85,22 @@ Use this guide to review both code and workflow. Focus on Mendix pluggable widge
     - **MobX stores** for complex cross-component state; **React state** for simple UI state; **Mendix props** as source of truth for persistent data.
 
 - **Rendering and lists**
-
     - Use stable, unique `key`s (avoid array index unless list is static).
     - Avoid heavy computations in render; memoize when there's proven benefit.
     - For large lists/tables, consider virtualization.
 
 - **Performance hygiene**
-
     - Limit `useCallback`/`useMemo` to cases with measurable re-render cost; ensure dependency arrays are correct.
     - Avoid creating new objects/arrays/styles inline when passed to children repeatedly; memoize where needed.
 
 - **Composition and props**
-
     - Prefer composition over prop drilling; consider Context when appropriate.
     - Don't spread unknown props onto DOM nodes (avoid React unknown prop warnings). Validate/filter props before spreading.
 
 - **Accessibility**
-
     - Semantic elements, proper ARIA, focus management, and keyboard navigation.
 
 - **Error handling and robustness**
-
     - Handle null/undefined from Mendix props; safe optional chaining; avoid non-null assertions unless justified.
     - Guard external data parsing; provide graceful fallbacks.
     - Avoid `dangerouslySetInnerHTML`; if unavoidable, sanitize input.
@@ -320,6 +324,9 @@ This repository uses a comprehensive three-tier testing strategy:
 - E2E (dev): `pnpm e2edev` (with GUI debugger)
 - E2E (CI): `pnpm e2e` (headless)
 - Prepare changelog/version (workspace): `pnpm -w changelog`, `pnpm -w version`
+- OpenSpec propose (in widget dir): `/opsx:propose "<change-name>"`
+- OpenSpec apply: `/opsx:apply`
+- OpenSpec archive: `/opsx:archive`
 
 ## Tone and format for comments
 
