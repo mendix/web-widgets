@@ -7,6 +7,15 @@ description: Review a pull request in the mendix/web-widgets monorepo. Checks Me
 
 Review the PR diff against the standards in this repository. Read `AGENTS.md` for full repo context.
 
+**Before reviewing anything, run:**
+
+```sh
+gh pr diff --name-only   # build the exact list of changed files — only read these
+gh pr checks             # surface any failing CI checks before reading code
+```
+
+Only read files that appear in the diff output.
+
 ## What to check on every PR
 
 ### PR metadata
@@ -14,6 +23,15 @@ Review the PR diff against the standards in this repository. Read `AGENTS.md` fo
 - **Title**: JIRA format `[XX-000]: description` or conventional commits (`feat:`, `fix:`, etc.)
 - **Template adherence**: lint/test run locally, new tests added, related PRs linked
 - **Multi-package PRs**: validate each changed package separately
+
+### CI checks
+
+Review the `gh pr checks` output before reading any files:
+
+- **Lint failing** → Medium finding — paste the relevant error lines in the finding
+- **Unit tests failing** → Medium finding — note the package and failing test file
+- **E2E tests failing** → Medium finding — note the test name and failure reason
+- **All checks passing** → add "All CI checks passed ✅" to the summary comment
 
 ### Changelog (per changed package)
 
@@ -43,9 +61,10 @@ Flag these patterns — general React conventions are assumed known:
     ```ts
     useEffect(() => {
         let active = true;
-        fetchData().then(data => {
+        (async () => {
+            const data = await fetchData();
             if (active) setState(data);
-        });
+        })();
         return () => {
             active = false;
         };
@@ -187,13 +206,14 @@ Full requirements are in `docs/requirements/frontend-guidelines.md`. Flag only d
 
 ## Heuristics
 
-| Situation                                      | Severity | Comment                                                |
-| ---------------------------------------------- | -------- | ------------------------------------------------------ |
-| Code/XML changed, no CHANGELOG entry           | Medium   | `pnpm -w changelog` — version bumps are a separate PR  |
-| Feature/fix without tests                      | Medium   | Add unit tests; consider E2E for interactive behaviour |
-| `dangerouslySetInnerHTML` without sanitization | High     | Require DOMPurify or equivalent before merge           |
-| Hardcoded secret, token, or credential         | Critical | Must be removed and rotated immediately                |
-| `javascript:` or `data:` URI from user input   | High     | Validate before use — XSS risk                         |
+| Situation                                      | Severity | Comment                                                  |
+| ---------------------------------------------- | -------- | -------------------------------------------------------- |
+| Code/XML changed, no CHANGELOG entry           | Medium   | `pnpm -w changelog` — version bumps are a separate PR    |
+| CI check failing (lint / unit / E2E)           | Medium   | Paste the error; do not approve until green or explained |
+| Feature/fix without tests                      | Medium   | Add unit tests; consider E2E for interactive behaviour   |
+| `dangerouslySetInnerHTML` without sanitization | High     | Require DOMPurify or equivalent before merge             |
+| Hardcoded secret, token, or credential         | Critical | Must be removed and rotated immediately                  |
+| `javascript:` or `data:` URI from user input   | High     | Validate before use — XSS risk                           |
 
 ## Scope
 
@@ -254,7 +274,7 @@ When a PR touches multiple packages, validate each changed package separately:
 
 ## Output format
 
-**Determine the execution context first** by checking whether the `CI` environment variable is set (`echo $CI`):
+**Determine the execution context first** by checking whether the `CI` environment variable is set:
 
 - **CI environment** (`CI=true`): post the review as a PR comment using `gh`, following the template below.
 - **Local environment** (`CI` unset or empty): print the review directly to the terminal in the same format. Do NOT post any `gh` comment.
