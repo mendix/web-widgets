@@ -1,4 +1,4 @@
-import { Scope, StyleAttributor } from "parchment";
+import { ClassAttributor, Scope, StyleAttributor } from "parchment";
 import { CustomFontsType } from "../../../typings/RichTextProps";
 import "./fonts.scss";
 
@@ -37,6 +37,38 @@ export class FontStyleAttributor extends StyleAttributor {
         node.dataset.value = value;
         const allFonts = [...FONT_LIST, ...this.fontList];
         const style = allFonts.find(x => x.value === value)?.style;
+        if (style) {
+            super.add(node, style);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    value(node: HTMLElement): any {
+        const value = node.dataset.value;
+        if (this.canAdd(node, value) && value) {
+            return value;
+        }
+        return "";
+    }
+}
+
+export class FontClassAttributor extends ClassAttributor {
+    private fontList: typeof FONT_LIST = [];
+
+    constructor(fontList: typeof FONT_LIST) {
+        super("font", "font-family", config);
+        this.fontList = fontList;
+    }
+
+    add(node: HTMLElement, value: any): boolean {
+        if (!this.canAdd(node, value)) {
+            return false;
+        }
+        node.dataset.value = value;
+        const allFonts = [...FONT_LIST, ...this.fontList];
+        const style = allFonts.find(x => x.value === value)?.value;
         if (style) {
             super.add(node, style);
         } else {

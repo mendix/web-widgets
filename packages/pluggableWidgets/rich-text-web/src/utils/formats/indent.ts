@@ -1,7 +1,7 @@
 import { Scope, StyleAttributor } from "parchment";
+import { INDENT_MAGIC_NUMBER } from "../helpers";
 import "./fonts.scss";
 
-const INDENT_MAGIC_NUMBER = 3;
 const indentLists = ["3em", "6em", "9em", "12em", "15em", "18em", "21em", "24em", "27em"];
 
 /**
