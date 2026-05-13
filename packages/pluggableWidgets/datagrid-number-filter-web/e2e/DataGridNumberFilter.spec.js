@@ -1,15 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 import AxeBuilder from "@axe-core/playwright";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
 
 test.describe("datagrid-number-filter-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test.describe("visual testing:", () => {
@@ -18,9 +14,7 @@ test.describe("datagrid-number-filter-web", () => {
         }) => {
             const dataGrid = await page.locator(".mx-name-datagrid1");
             await expect(dataGrid).toBeVisible();
-            await expect(page).toHaveScreenshot(`dataGridNumberFilter.png`, {
-                threshold: 0.1
-            });
+            await expect(page).toHaveScreenshot(`dataGridNumberFilter.png`);
         });
     });
 
@@ -42,7 +36,7 @@ test.describe("datagrid-number-filter-web", () => {
             const expected = [`First nameYear${NBSP}`, "Delia1987", "Lizzie1987"];
 
             await page.goto("/p/filter_init_condition");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
 
             const rows = await page.locator(".mx-name-dataGrid21 [role=row]");
             for (let i = 0; i < rows.length; i++) {
@@ -57,7 +51,7 @@ test.describe("datagrid-number-filter-web", () => {
     test.describe("a11y testing:", () => {
         test("checks accessibility violations", async ({ page }) => {
             await page.goto("/");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
 
             const accessibilityScanResults = await new AxeBuilder({ page })
                 .withTags(["wcag21aa"])

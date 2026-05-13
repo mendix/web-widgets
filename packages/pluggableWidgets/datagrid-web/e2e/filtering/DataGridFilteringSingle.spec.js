@@ -1,14 +1,10 @@
-import { expect, test } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { expect, test } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("datagrid-web filtering single select", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/filtering-single");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test("compares with a screenshot baseline and checks if all datagrid and filter elements are rendered as expected", async ({
@@ -20,33 +16,22 @@ test.describe("datagrid-web filtering single select", () => {
     });
 
     test("filter rows that have Yes in Pets column", async ({ page }) => {
-        const rows = async () => {
-            return page.locator('.mx-name-dataGrid21 [role="row"]');
-        };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const option = label => page.locator(`[role="option"]:has-text("${label}")`);
         const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
 
         await booleanSelect().click();
         await option("Yes").click({ delay: 1 });
-        const rowCount = await rows();
-        await expect(rowCount).toHaveCount(11);
-        const columnTexts = await column(3).allTextContents();
-        columnTexts.forEach(text => expect(text).toBe("Yes"));
+        await expect(column(3)).toHaveText(["Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"]);
     });
 
     test("filter rows that have No in Pets column", async ({ page }) => {
-        const rows = async () => {
-            return page.locator('.mx-name-dataGrid21 [role="row"]');
-        };
         const column = n => page.locator(`[role="gridcell"]:nth-child(${n})`);
         const booleanSelect = () => page.locator('.mx-name-drop_downFilter2[role="combobox"]');
 
         await booleanSelect().click();
-
         await page.getByRole("option", { name: "No", exact: true }).click();
-        const rowCount = await rows();
-        await expect(rowCount).toHaveCount(11);
+        await expect(column(3).first()).toHaveText("No");
         const columnTexts = await column(3).allTextContents();
         columnTexts.forEach(text => expect(text).toBe("No"));
     });

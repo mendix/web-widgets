@@ -1,14 +1,10 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("heatmap-chart-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test.describe("heatmap color", { viewport: { height: 720, width: 1280 } }, async () => {
@@ -18,10 +14,7 @@ test.describe("heatmap-chart-web", () => {
             await customColorContainer.scrollIntoViewIfNeeded();
             await expect(customColorContainer.locator(".mx-react-plotly-chart")).toBeVisible({ timeout: 5000 });
             await expect(customColorContainer.locator("g.colorbar")).toBeVisible({ timeout: 5000 });
-            await page.waitForTimeout(500);
-            await expect(customColorContainer).toHaveScreenshot(`heatmapChartCustomColor.png`, {
-                threshold: 0.5
-            });
+            await expect(customColorContainer).toHaveScreenshot(`heatmapChartCustomColor.png`);
         });
     });
 
@@ -32,10 +25,7 @@ test.describe("heatmap-chart-web", () => {
             await ascendingContainer.scrollIntoViewIfNeeded();
             await expect(ascendingContainer.locator(".mx-react-plotly-chart")).toBeVisible({ timeout: 5000 });
             await expect(ascendingContainer.locator("g.colorbar")).toBeVisible({ timeout: 5000 });
-            await page.waitForTimeout(500);
-            await expect(ascendingContainer).toHaveScreenshot(`heatmapChartAscending.png`, {
-                threshold: 0.5
-            });
+            await expect(ascendingContainer).toHaveScreenshot(`heatmapChartAscending.png`);
         });
 
         test("renders heatmap chart with descending order and compares with a screenshot baseline", async ({
@@ -46,10 +36,7 @@ test.describe("heatmap-chart-web", () => {
             await descendingContainer.scrollIntoViewIfNeeded();
             await expect(descendingContainer.locator(".mx-react-plotly-chart")).toBeVisible({ timeout: 5000 });
             await expect(descendingContainer.locator("g.colorbar")).toBeVisible({ timeout: 5000 });
-            await page.waitForTimeout(500);
-            await expect(descendingContainer).toHaveScreenshot(`heatmapChartDescending.png`, {
-                threshold: 0.5
-            });
+            await expect(descendingContainer).toHaveScreenshot(`heatmapChartDescending.png`);
         });
     });
 });

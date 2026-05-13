@@ -9,11 +9,13 @@ module.exports = defineConfig({
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
+    /* Filter tests by tag: E2E_SUITE=smoke runs only @smoke-tagged tests */
+    grep: process.env.E2E_SUITE === "smoke" ? /@smoke/ : undefined,
     /* Retry on CI only */
     retries: process.env.CI ? 2 : 0,
-    /* Use 4 workers on CI – the runner has multiple cores and each widget's tests
-     * are independent, so parallel execution cuts per-widget runtime significantly. */
-    workers: process.env.CI ? 4 : undefined,
+    /* Worker-scoped session: each worker holds 1 Mendix session. Safe up to 4 workers
+     * against the 5-session developer license (leaves 1 headroom). */
+    workers: process.env.CI ? 4 : 4,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
         ["list"],
@@ -35,10 +37,19 @@ module.exports = defineConfig({
             reuseExistingServer: !process.env.CI
         }
     ], */
+    expect: {
+        toHaveScreenshot: {
+            animations: "disabled",
+            threshold: 0.1
+        }
+    },
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
         baseURL: process.env.URL ? process.env.URL : "http://127.0.0.1:8080",
+
+        actionTimeout: 10_000,
+        navigationTimeout: 30_000,
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: "on-first-retry",

@@ -1,14 +1,10 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("render method: text", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/arrow");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test("compares with a screenshot baseline and checks if tooltip arrow start is rendered as expected", async ({
@@ -34,14 +30,14 @@ test.describe("render method: text", () => {
 
     test("compares with a screenshot baseline and checks if tooltip position is rendered on top", async ({ page }) => {
         await page.goto("/p/position");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-actionButtonTop").focus();
         await expect(page.locator(".mx-scrollcontainer-center")).toHaveScreenshot(`tooltipPositionTop.png`, 0.1);
     });
 
     test("compares with a screenshot baseline and checks if tooltip position is rendered on left", async ({ page }) => {
         await page.goto("/p/position");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-actionButtonLeft").focus();
         await expect(page.locator(".mx-scrollcontainer-center")).toHaveScreenshot(`tooltipPositionLeft.png`, 0.1);
     });
@@ -50,7 +46,7 @@ test.describe("render method: text", () => {
         page
     }) => {
         await page.goto("/p/position");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-actionButtonRight").focus();
         await expect(page.locator(".mx-scrollcontainer-center")).toHaveScreenshot(`tooltipPositionRight.png`, 0.1);
     });
@@ -59,7 +55,7 @@ test.describe("render method: text", () => {
         page
     }) => {
         await page.goto("/p/position");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-actionButtonBottom").focus();
         await expect(page.locator(".mx-scrollcontainer-center")).toHaveScreenshot(`tooltipPositionBottom.png`, 0.1);
     });
@@ -68,7 +64,7 @@ test.describe("render method: text", () => {
         page
     }) => {
         await page.goto("/p/position");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-actionButtonFlip").focus();
         await expect(page.locator(".mx-scrollcontainer-center")).toHaveScreenshot(`tooltipPositionFlipped.png`, 0.1);
     });
@@ -76,7 +72,7 @@ test.describe("render method: text", () => {
     test.describe("render method: custom", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/p/arrow");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("verifies tooltip shown custom content and compares with a screenshot baseline", async ({ page }) => {
@@ -87,7 +83,7 @@ test.describe("render method: text", () => {
 
         test("verifies if tooltip is opened on click", async ({ page }) => {
             await page.goto("/p/click");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
             await page.locator(".mx-name-actionButtonClick").click();
             await expect(page.locator(".mx-scrollcontainer-center")).toHaveScreenshot(`tooltipClick.png`, 0.1);
         });

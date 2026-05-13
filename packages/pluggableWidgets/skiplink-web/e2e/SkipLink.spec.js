@@ -1,13 +1,9 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await waitForMendixApp(page);
 });
 
 test.describe("SkipLink:", function () {
@@ -25,9 +21,7 @@ test.describe("SkipLink:", function () {
         await page.keyboard.press("Tab");
 
         await expect(skipLink).toBeFocused();
-        // Element should now be within the viewport
-        const rect = await skipLink.evaluate(el => el.getBoundingClientRect().toJSON());
-        expect(rect.top).toBeGreaterThanOrEqual(0);
+        await expect(skipLink).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
     });
 
     test("skip link navigates to main content when activated", async ({ page }) => {

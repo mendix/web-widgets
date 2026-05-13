@@ -1,6 +1,7 @@
 import { defineConfig } from "eslint/config";
 import globals from "globals";
 import js from "@eslint/js";
+import playwright from "eslint-plugin-playwright";
 
 export default defineConfig([
     {
@@ -20,6 +21,15 @@ export default defineConfig([
         extends: ["js/recommended"],
         rules: {
             "no-unused-vars": "warn"
+        }
+    },
+    {
+        files: ["**/e2e/**/*.spec.{,m,c}js"],
+        plugins: { playwright },
+        rules: {
+            "playwright/no-wait-for-timeout": "error",
+            "playwright/no-networkidle": "warn",
+            "playwright/prefer-web-first-assertions": "warn"
         }
     }
 ]);
