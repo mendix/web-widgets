@@ -59,3 +59,7 @@ jobs:
                   CPAPI_USER_OPENID: ${{ secrets.SRV_WIDGETS_OPENID }}
                   CPAPI_PASS: ${{ secrets.CPAPI_PASS }}
                   GH_PAT: ${{ secrets.GITHUB_TOKEN }}
+            - name: Merge changelogs PR
+              run: pnpm run merge-changelogs-pr ${{ env.TAG }}
+              env:
+                  GH_PAT: ${{ secrets.GITHUB_TOKEN }}
