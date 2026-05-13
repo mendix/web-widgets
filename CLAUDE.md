@@ -17,3 +17,18 @@
 @docs/requirements/app-flow.md
 @docs/requirements/backend-structure.md
 @docs/requirements/project-requirements-document.md
+@openspec/specs/
+
+## Agent skills
+
+### Issue tracker
+
+Issues tracked in Jira project `WC` via the Jira MCP server. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five-role vocabulary (needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Multi-context layout — `CONTEXT-MAP.md` at root, per-package `CONTEXT.md` + `docs/adr/` files. See `docs/agents/domain.md`.
