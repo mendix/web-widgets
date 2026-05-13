@@ -60,6 +60,43 @@ Reference (consult on demand for specific tasks):
 - docs/requirements/implementation-plan.md — New widget guide + PR template
 - docs/requirements/widget-to-module.md — Widget-to-module conversion guide
 
+## OpenSpec Workflow
+
+We use [OpenSpec](https://github.com/Fission-AI/OpenSpec) for spec-driven development. Install globally: `npm install -g @fission-ai/openspec@latest`.
+
+**When to use:** Before implementing new widget features, behavior changes, or XML property changes. Not required for bug fixes, refactors, or test-only changes.
+
+**Per-widget structure (opt-in):** Each widget that has been initialized has:
+```
+packages/pluggableWidgets/<name>-web/
+└── openspec/
+    ├── specs/spec.md   ← current behavior spec (source of truth)
+    ├── changes/        ← active change proposals
+    └── config.yaml     ← widget-specific context
+```
+
+**Starting a change:**
+```
+cd packages/pluggableWidgets/<widget>-web
+/opsx:propose "<what-you-want-to-build>"
+```
+This creates `openspec/changes/<change-name>/` with `proposal.md`, `specs/`, `design.md`, `tasks.md`.
+
+**The workflow:** `/opsx:propose` → `/opsx:apply` → `/opsx:archive`
+
+**Schema:** `mendix-widget` (default in `openspec/config.yaml`). Provides Mendix-aware templates with XML impact tracking, Mendix API guidance, and versioning tasks.
+
+**Monorepo conventions spec:** `openspec/specs/conventions/spec.md` — source of truth for shared widget development requirements.
+
+**Initializing a new widget:**
+```
+cd packages/pluggableWidgets/<new-widget>-web
+openspec init
+# Then edit openspec/config.yaml with widget-specific context
+```
+
+**Agent rules:** `.agents/rules/mendix-widget.md` and `.agents/rules/react-patterns.md` contain concise, tool-agnostic coding rules for this repo.
+
 ## Agent-Specific Instructions
 
 - **Claude Code** — See `CLAUDE.md` for hooks and auto-imported documentation

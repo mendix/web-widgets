@@ -1,0 +1,31 @@
+schema: mendix-widget
+
+context: |
+  Widget: combobox-web (Combo Box)
+  Version: 2.8.0 | Min Mendix: 10.22.0
+  Package: @mendix/widget-combobox-web
+
+  ## Domain
+  Configurable dropdown widget supporting single and multi-selection across
+  3 data source modes: context (association, enum, boolean), database, and static.
+  Uses Downshift for accessible combobox behavior. No MobX — pure React state
+  + class-based Selector/Provider pattern.
+
+  ## Key XML Properties
+  - dataSourceType (enum: "context" | "database" | "static") — selection mode
+  - optionsSourceAssociation / optionsSourceDatabaseAssociation — association value
+  - optionsSourceDatabaseItemCaption (DynamicValue<string>) — item display text
+  - selectedItemsStyle (enum: "text" | "boxes") — multi-select display mode
+  - filterType (enum: "contains" | "startsWith" | "none") — search behavior
+  - clearable (bool) — show clear button
+  - lazyLoading (bool) — defer option loading until dropdown opens
+  - multiSelect (bool) — enable multi-selection
+  - onChangeAction (ActionValue) — triggered on selection change
+  - readOnly (bool) — read-only mode
+
+  ## Architecture
+  - Entry: src/Combobox.tsx — calls useGetSelector(props) → SingleSelection or MultiSelection
+  - No MobX; uses React state + class hierarchy (Selector, Provider)
+  - Key abstractions: Selector (data access), Provider (data source adapter)
+  - Accessibility via Downshift hooks (useCombobox, useMultipleSelection)
+  - Key deps: downshift, match-sorter, classnames

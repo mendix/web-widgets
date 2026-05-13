@@ -1,5 +1,21 @@
 # Combobox-Web Widget — Agent Context
 
+## OpenSpec
+
+This widget has OpenSpec initialized. Before implementing any new feature,
+behavior change, or XML property change, run:
+
+```
+cd packages/pluggableWidgets/combobox-web
+/opsx:propose "<what-you-want-to-build>"
+```
+
+- **Current behavior spec:** `openspec/specs/spec.md`
+- **Active changes:** `openspec/changes/` (check here first before starting work)
+- **Schema:** `mendix-widget` (see `openspec/config.yaml` for widget-specific context)
+
+---
+
 ## Overview
 
 Configurable dropdown widget supporting single/multi-selection across 3 data source modes: **context** (association, enum, boolean), **database**, and **static**. Uses React + TypeScript with Downshift for accessible combobox behavior. No MobX — pure React state + class-based selectors/providers.

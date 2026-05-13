@@ -1,0 +1,36 @@
+schema: mendix-widget
+
+context: |
+  Widget: datagrid-web (Data Grid 2)
+  Version: 3.10.0 | Min Mendix: 10.0.0
+  Package: @mendix/widget-datagrid-web
+
+  ## Domain
+  Tabular data display widget. Renders rows from a ListValue datasource with
+  configurable columns, sorting, filtering (via child filter widgets), pagination,
+  row selection, column resizing/reordering, and data export.
+
+  ## Key XML Properties
+  - datasource (ListValue) — the data source providing rows
+  - columns (list) — column definitions: attribute, caption, width, sortable, resizable, visible
+  - pagination (enum: "buttons" | "virtualScrolling" | "loadMore" | "off")
+  - pageSize (int) — rows per page
+  - selectionMode (enum: "None" | "Single" | "Multi") — row selection behavior
+  - sortingType (enum: "server" | "client")
+  - filtering (bool) — whether filter bar is shown
+  - exportEnabled (bool) — whether data export button is shown
+  - emptyMessageWidget (widget slot) — content when datasource returns no rows
+  - onClickRow (ActionValue) — row click action
+
+  ## Architecture
+  - Entry: src/Datagrid.tsx (ContainerProvider with brandi-react DI container)
+  - State: MobX stores (not pure React state)
+  - Key stores: pagination, selection, column configuration, data export
+  - Features split under src/features/ (pagination, selection, data-export, etc.)
+  - Components under src/components/ (pure React presentational)
+
+  ## Dependencies
+  - brandi-react (DI container)
+  - MobX + mobx-react-lite
+  - @mendix/widget-plugin-platform
+  - @mendix/widget-plugin-filtering (filter integration)
