@@ -7,6 +7,11 @@ $color: #3d1466;
             @include font($font);
         }
     }
+    @each $name, $font in $quill-fonts {
+        .font-family-#{$name} {
+            @include font($font);
+        }
+    }
     @each $size in $font-sizes {
         .ql-size-#{$size} {
             font-size: $size;

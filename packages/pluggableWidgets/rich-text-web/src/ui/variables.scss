@@ -10,6 +10,7 @@ $font-symbol: symbol;
 $font-terminal: terminal, monaco, monospace;
 $font-times-new-roman: "times new roman", times, serif;
 $font-trebuchet: "trebuchet ms", geneva, sans-serif;
+$font-serif: Georgia, "times New roman", serif;
 
 $fonts: (
     andale-mono: $font-andale-mono,
@@ -24,6 +25,10 @@ $fonts: (
     terminal: $font-terminal,
     times-new-roman: $font-times-new-roman,
     trebuchet: $font-trebuchet
+);
+
+$quill-fonts: (
+    serif: $font-serif
 );
 
 @mixin font($font) {
