@@ -1,10 +1,28 @@
-import { mkdtemp, readFile, writeFile } from "fs/promises";
 import { createWriteStream } from "fs";
+import { mkdtemp, readFile, writeFile } from "fs/promises";
 import { join } from "path";
 import { pipeline } from "stream/promises";
 import nodefetch from "node-fetch";
 import { fetch } from "./fetch";
 import { exec } from "./shell";
+
+export interface GitHubPR {
+    number: number;
+    id: number;
+    title: string;
+    state: string;
+    html_url: string;
+    head: { ref: string; sha: string };
+    base: { ref: string };
+}
+
+export interface GitHubPRFile {
+    filename: string;
+    status: string;
+    additions: number;
+    deletions: number;
+    changes: number;
+}
 
 export interface GitHubReleaseAsset {
     id: string;
@@ -348,6 +366,84 @@ export class GitHub {
         }
 
         return (await response.json()) as GitHubReleaseAsset;
+    }
+
+    /**
+     * Find a PR associated with a release tag.
+     * Resolves the tag to its commit SHA, then looks up PRs for that commit.
+     */
+    async getPRByReleaseTag(releaseTag: string): Promise<GitHubPR | undefined> {
+        await this.ensureAuth();
+
+        // Resolve the tag ref to a commit SHA (handles both lightweight and annotated tags)
+        const ref = await fetch<{ object: { type: string; sha: string; url: string } }>(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/git/ref/tags/${encodeURIComponent(releaseTag)}`,
+            undefined,
+            this.ghAPIHeaders
+        );
+
+        let sha = ref.object.sha;
+
+        // Annotated tags point to a tag object, not a commit — resolve one level further
+        if (ref.object.type === "tag") {
+            const tagObject = await fetch<{ object: { sha: string } }>(
+                "GET",
+                ref.object.url,
+                undefined,
+                this.ghAPIHeaders
+            );
+            sha = tagObject.object.sha;
+        }
+
+        const prs = await fetch<GitHubPR[]>(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/commits/${sha}/pulls`,
+            undefined,
+            this.ghAPIHeaders
+        );
+
+        return prs[0];
+    }
+
+    /**
+     * List filenames changed in a PR.
+     */
+    async listPRChangedFiles(prNumber: number): Promise<GitHubPRFile[]> {
+        await this.ensureAuth();
+
+        return fetch<GitHubPRFile[]>(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/pulls/${prNumber}/files`,
+            undefined,
+            this.ghAPIHeaders
+        );
+    }
+
+    /**
+     * Merge a PR.
+     */
+    async mergePR(prNumber: number, mergeMethod: "merge" | "squash" | "rebase" = "squash"): Promise<void> {
+        await this.ensureAuth();
+
+        const response = await nodefetch(
+            `https://api.github.com/repos/${this.owner}/${this.repo}/pulls/${prNumber}/merge`,
+            {
+                method: "PUT",
+                headers: {
+                    ...this.ghAPIHeaders,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ merge_method: mergeMethod })
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(
+                `Failed to merge PR #${prNumber}: ${response.status} ${response.statusText} - ${errorText}`
+            );
+        }
     }
 
     /**

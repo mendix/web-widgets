@@ -14,6 +14,7 @@
         "create-translation": "turbo run create-translation",
         "include-oss-in-artifact": "pnpm --filter @mendix/automation-utils run include-oss-in-artifact",
         "lint": "turbo run lint --continue --concurrency 1",
+        "merge-changelogs-pr": "pnpm --filter @mendix/automation-utils run merge-changelogs-pr",
         "oss-clearance": "pnpm --filter @mendix/automation-utils run oss-clearance",
         "prepare": "husky install",
         "prepare-release": "pnpm --filter @mendix/automation-utils run prepare-release",
