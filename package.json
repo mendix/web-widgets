@@ -24,6 +24,7 @@
         "verify": "turbo run verify --continue --concurrency 1"
     },
     "devDependencies": {
+        "@fission-ai/openspec": "latest",
         "husky": "^8.0.3",
         "turbo": "^2.5.4"
     },

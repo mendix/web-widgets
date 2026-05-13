@@ -17,3 +17,13 @@
 @docs/requirements/app-flow.md
 @docs/requirements/backend-structure.md
 @docs/requirements/project-requirements-document.md
+@openspec/specs/conventions/spec.md
+@openspec/schemas/mendix-widget/schema.yaml
+
+## OpenSpec
+
+Per-widget `openspec/` directories exist inside widget packages that have been initialized
+(e.g., `packages/pluggableWidgets/datagrid-web/openspec/`). When working inside a widget
+directory, check for `openspec/specs/spec.md` as the source of truth for current behavior,
+and `openspec/changes/` for any active change proposals. Use `/opsx:propose` before
+implementing non-trivial behavior changes.
