@@ -24,6 +24,7 @@ import {
     getElementStyle,
     updateTableWidth
 } from "../utils";
+import { getCellStyleFromClasses } from "../utils/cellClassUtils";
 import {
     columnIcon,
     rowIcon,
@@ -38,6 +39,7 @@ import {
 import { TableCell, tableId, TableTh, TableRow, TableThRow, TableThead, TableBody } from "../formats/table";
 import TablePropertiesForm from "./table-properties-form";
 import { CELL_DEFAULT_VALUES, CELL_DEFAULT_WIDTH, CELL_PROPERTIES, DEVIATION, TABLE_PROPERTIES } from "../config";
+import MxQuill from "src/utils/MxQuill";
 
 interface Children {
     [propName: string]: {
@@ -198,6 +200,10 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
             icon: cellIcon,
             handler(list: HTMLUListElement, tooltip: HTMLDivElement) {
                 const { selectedTds } = this.tableBetter.cellSelection;
+                const isGridShown = this.isGridShown();
+                if (isGridShown) {
+                    this.showGrid(false);
+                }
                 const attribute =
                     selectedTds.length > 1
                         ? this.getSelectedTdsAttrs(selectedTds)
@@ -205,6 +211,9 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
                 this.toggleAttribute(list, tooltip);
                 this.tablePropertiesForm = new TablePropertiesForm(this, { attribute, type: "cell" });
                 this.hideMenus();
+                if (isGridShown) {
+                    this.showGrid(true);
+                }
             }
         },
         wrap: {
@@ -242,6 +251,13 @@ function getMenusConfig(useLanguage: UseLanguageHandler, menus?: string[]): Menu
             icon: copyIcon,
             handler() {
                 this.copyTable();
+            }
+        },
+        grid: {
+            content: useLanguage("showGrid"),
+            icon: "icons icon-Table grid-toggle",
+            handler() {
+                this.showGrid();
             }
         }
     };
@@ -652,9 +668,21 @@ class TableMenus {
     getSelectedTdAttrs(td: HTMLElement) {
         const cellBlot = Quill.find(td) as TableCell;
         const align = getAlign(cellBlot);
-        const attr: Props = align
-            ? { ...getElementStyle(td, CELL_PROPERTIES), "text-align": align }
-            : getElementStyle(td, CELL_PROPERTIES);
+        const styleDataFormat = (this.quill as MxQuill).getStyleDataFormat();
+        const useClasses = styleDataFormat === "class";
+
+        // Get style properties from CSS classes/data attributes or inline styles
+        const cellStyles = getCellStyleFromClasses(td, useClasses);
+
+        // Get other properties (width, height, vertical-align) from inline styles
+        const otherStyles = getElementStyle(td, ["width", "height", "vertical-align"]);
+
+        const attr: Props = {
+            ...cellStyles,
+            ...otherStyles,
+            "text-align": align || "left"
+        };
+
         return attr;
     }
 
@@ -751,6 +779,24 @@ class TableMenus {
 
     hideMenus() {
         this.root.classList.add("ql-hidden");
+    }
+
+    isGridShown() {
+        return this.table?.classList.contains("ql-table-grid");
+    }
+
+    showGrid(isShow?: boolean) {
+        const tableGridHelperClass = "ql-table-grid";
+        if (isShow === undefined) {
+            this.table?.classList.toggle(tableGridHelperClass);
+            this.root.classList.toggle(tableGridHelperClass);
+        } else if (isShow) {
+            this.table?.classList.add(tableGridHelperClass);
+            this.root.classList.add(tableGridHelperClass);
+        } else {
+            this.table?.classList.remove(tableGridHelperClass);
+            this.root.classList.remove(tableGridHelperClass);
+        }
     }
 
     insertColumn(td: HTMLTableColElement, offset: number) {
@@ -869,6 +915,11 @@ class TableMenus {
     }
 
     showMenus() {
+        if (this.table?.classList.contains("ql-table-grid")) {
+            this.root.classList.add("ql-table-grid");
+        } else {
+            this.root.classList.remove("ql-table-grid");
+        }
         this.root.classList.remove("ql-hidden");
     }
 

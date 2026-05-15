@@ -20,6 +20,7 @@ export default {
     insAft: "Вставить абзац после",
     copyTable: "Копировать таблицу",
     delTable: "Удалить таблицу",
+    showGrid: "Показать сетку",
     border: "Обводка",
     color: "Цвет",
     width: "Ширина",

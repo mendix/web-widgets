@@ -20,6 +20,7 @@ export default {
     insAft: "Wstaw po",
     copyTable: "Kopiuj tabelę",
     delTable: "Usuń tabelę",
+    showGrid: "Pokaż siatkę",
     border: "Obramowanie",
     color: "Kolor",
     width: "Szerokość",

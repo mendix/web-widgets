@@ -20,6 +20,7 @@ export default {
     insAft: "Danach einfügen",
     copyTable: "Tabelle kopieren",
     delTable: "Tabelle löschen",
+    showGrid: "Gitter anzeigen",
     border: "Rahmen",
     color: "Farbe",
     width: "Breite",

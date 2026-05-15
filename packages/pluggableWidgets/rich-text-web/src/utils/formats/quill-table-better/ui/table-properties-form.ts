@@ -25,8 +25,10 @@ import {
     setElementProperty,
     setElementAttribute
 } from "../utils";
+import { setCellStyleClasses } from "../utils/cellClassUtils";
 import { ListContainer } from "../formats/list";
 import iro from "@jaames/iro";
+import MxQuill from "src/utils/MxQuill";
 
 interface Child {
     category: string;
@@ -551,9 +553,15 @@ class TablePropertiesForm {
         }
         for (const td of selectedTds) {
             const tdBlot = Quill.find(td) as TableCell;
-            const blotName = tdBlot.statics.blotName;
-            const formats = tdBlot.formats()[blotName];
-            const style = this.getCellStyle(td, attrs);
+
+            // Check if we should use class-based styling or inline styles
+            const styleDataFormat = (this.tableMenus.quill as MxQuill).getStyleDataFormat();
+            const useClasses = styleDataFormat === "class";
+
+            // Apply cell styling (classes or inline styles based on setting)
+            setCellStyleClasses(td, attrs, useClasses);
+
+            // Handle text alignment
             if (align) {
                 const _align = align === "left" ? "" : align;
                 tdBlot.children.forEach((child: TableCellBlock | ListContainer | TableHeader) => {
@@ -566,8 +574,8 @@ class TablePropertiesForm {
                     }
                 });
             }
-            const parent = tdBlot.replaceWith(blotName, { ...formats, style }) as TableCell;
-            newSelectedTds.push(parent.domNode);
+
+            newSelectedTds.push(td);
         }
         this.tableMenus.tableBetter.cellSelection.setSelectedTds(newSelectedTds);
         if (!isPercent) this.updateTableWidth(table, tableBlot, isPercent);

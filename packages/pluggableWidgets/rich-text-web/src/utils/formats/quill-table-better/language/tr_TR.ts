@@ -20,6 +20,7 @@ export default {
     insAft: "Sonrasına ekle",
     copyTable: "Tabloyu kopyala",
     delTable: "Tabloyu sil",
+    showGrid: "Izgarayı göster",
     border: "Kenarlık",
     color: "Renk",
     width: "Genişlik",
