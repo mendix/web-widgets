@@ -1,5 +1,6 @@
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container } from "brandi";
+import { convertAddressToLatLng } from "../../utils/geodecode";
 import { MapsSetupService } from "../services/MapsSetup.service";
 import { CORE_TOKENS as CORE } from "../tokens";
 
@@ -14,5 +15,8 @@ export class RootContainer extends Container {
 
         // Setup service
         this.bind(CORE.setupService).toInstance(MapsSetupService).inSingletonScope();
+
+        // Geocode function
+        this.bind(CORE.geocodeFunction).toConstant(convertAddressToLatLng);
     }
 }
