@@ -1,11 +1,11 @@
+import deepEqual from "deep-equal";
+import { action, computed, makeObservable, observable, reaction } from "mobx";
 import {
     DerivedPropsGate,
     disposeBatch,
     SetupComponent,
     SetupComponentHost
 } from "@mendix/widget-plugin-mobx-kit/main";
-import { action, computed, makeObservable, observable, reaction } from "mobx";
-import deepEqual from "deep-equal";
 import { MapsContainerProps } from "../../../typings/MapsProps";
 import { Marker, ModeledMarker } from "../../../typings/shared";
 import { convertDynamicModeledMarker, convertStaticModeledMarker } from "../../utils/data";
