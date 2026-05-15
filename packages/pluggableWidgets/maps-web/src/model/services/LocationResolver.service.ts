@@ -28,6 +28,7 @@ export class LocationResolverService implements SetupComponent {
         makeObservable(this, {
             locations: observable.ref,
             markers: computed,
+            apiKey: computed,
             updateLocations: action
         });
         host.add(this);
@@ -44,6 +45,14 @@ export class LocationResolverService implements SetupComponent {
         const dynamicMarkers = props.dynamicMarkers.map(marker => convertDynamicModeledMarker(marker)).flat();
 
         return [...staticMarkers, ...dynamicMarkers];
+    }
+
+    /**
+     * Computed property for geocoding API key.
+     * Prefers expression value over static configuration.
+     */
+    get apiKey(): string | undefined {
+        return this.mainGate.props.geodecodeApiKeyExp?.value ?? this.mainGate.props.geodecodeApiKey;
     }
 
     /**
@@ -64,9 +73,8 @@ export class LocationResolverService implements SetupComponent {
                 () => this.markers,
                 currentMarkers => {
                     this.requestedMarkers = currentMarkers;
-                    const apiKey = this.mainGate.props.geodecodeApiKeyExp?.value ?? this.mainGate.props.geodecodeApiKey;
 
-                    convertAddressToLatLng(currentMarkers, apiKey)
+                    convertAddressToLatLng(currentMarkers, this.apiKey)
                         .then(resolvedLocations => {
                             // Only update if markers haven't changed again
                             if (this.requestedMarkers === currentMarkers) {
