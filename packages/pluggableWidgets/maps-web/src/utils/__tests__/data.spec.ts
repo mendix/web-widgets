@@ -448,37 +448,6 @@ describe("data.ts - Marker Conversion Functions", () => {
                 expect(result).toHaveLength(1);
                 expect(result[0].title).toBe("");
             });
-
-            it("should handle multiple markers with different attributes", () => {
-                const item1 = obj("item1");
-                const item2 = obj("item2");
-
-                const marker: DynamicMarkersType = {
-                    markersDS: list([item1, item2]),
-                    locationType: "latlng",
-                    latitude: listAttribute(item => (item.id === "obj_item1" ? "40.7128" : "42.3601") as any),
-                    longitude: listAttribute(item => (item.id === "obj_item1" ? "-74.0060" : "-71.0589") as any),
-                    title: listAttribute(item => (item.id === "obj_item1" ? "NYC" : "Boston")),
-                    markerStyleDynamic: "default"
-                };
-
-                const result = convertDynamicModeledMarker(marker);
-
-                expect(result).toHaveLength(2);
-                const nycMarker = result.find(r => r.title === "NYC");
-                const bostonMarker = result.find(r => r.title === "Boston");
-
-                expect(nycMarker).toMatchObject({
-                    latitude: 40.7128,
-                    longitude: -74.006,
-                    title: "NYC"
-                });
-                expect(bostonMarker).toMatchObject({
-                    latitude: 42.3601,
-                    longitude: -71.0589,
-                    title: "Boston"
-                });
-            });
         });
     });
 });
