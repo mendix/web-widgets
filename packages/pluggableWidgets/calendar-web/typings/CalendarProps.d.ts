@@ -89,6 +89,7 @@ export interface CalendarContainerProps {
     minHour: number;
     maxHour: number;
     showAllEvents: boolean;
+    showMultiDayTimes: boolean;
     step: number;
     timeslots: number;
     startDateAttribute?: EditableValue<Date>;
@@ -144,6 +145,7 @@ export interface CalendarPreviewProps {
     minHour: number | null;
     maxHour: number | null;
     showAllEvents: boolean;
+    showMultiDayTimes: boolean;
     step: number | null;
     timeslots: number | null;
     startDateAttribute: string;
