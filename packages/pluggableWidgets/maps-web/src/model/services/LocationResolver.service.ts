@@ -5,13 +5,12 @@ import {
     SetupComponentHost
 } from "@mendix/widget-plugin-mobx-kit/main";
 import { injected } from "brandi";
-import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
+import { action, computed, makeObservable, observable, reaction } from "mobx";
 import deepEqual from "deep-equal";
 import { MapsContainerProps } from "../../../typings/MapsProps";
 import { Marker, ModeledMarker } from "../../../typings/shared";
-import { convertAddressToLatLng } from "../../utils/geodecode";
 import { convertDynamicModeledMarker, convertStaticModeledMarker } from "../../utils/data";
-import { CORE_TOKENS as CORE } from "../tokens";
+import { CORE_TOKENS as CORE, GeocodeFunction } from "../tokens";
 
 /**
  * Service responsible for resolving marker locations.
@@ -19,11 +18,12 @@ import { CORE_TOKENS as CORE } from "../tokens";
  */
 export class LocationResolverService implements SetupComponent {
     locations: Marker[] = [];
-    private requestedMarkers: ModeledMarker[] = [];
+    private geocodeVersion = 0;
 
     constructor(
         host: SetupComponentHost,
-        private readonly mainGate: DerivedPropsGate<MapsContainerProps>
+        private readonly mainGate: DerivedPropsGate<MapsContainerProps>,
+        private readonly geocode: GeocodeFunction
     ) {
         makeObservable(this, {
             locations: observable.ref,
@@ -72,15 +72,13 @@ export class LocationResolverService implements SetupComponent {
             reaction(
                 () => this.markers,
                 currentMarkers => {
-                    this.requestedMarkers = currentMarkers;
+                    const version = ++this.geocodeVersion;
 
-                    convertAddressToLatLng(currentMarkers, this.apiKey)
+                    this.geocode(currentMarkers, this.apiKey)
                         .then(resolvedLocations => {
-                            // Only update if markers haven't changed again
-                            if (this.requestedMarkers === currentMarkers) {
-                                runInAction(() => {
-                                    this.updateLocations(resolvedLocations);
-                                });
+                            // Only update if this is still the latest request
+                            if (this.geocodeVersion === version) {
+                                this.updateLocations(resolvedLocations);
                             }
                         })
                         .catch(e => {
@@ -103,4 +101,4 @@ export class LocationResolverService implements SetupComponent {
 }
 
 // Inject dependencies
-injected(LocationResolverService, CORE.setupService, CORE.mainGate);
+injected(LocationResolverService, CORE.setupService, CORE.mainGate, CORE.geocodeFunction);
