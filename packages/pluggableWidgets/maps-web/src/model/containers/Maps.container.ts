@@ -1,6 +1,6 @@
+import { Container, injected } from "brandi";
 import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
-import { Container, injected } from "brandi";
 import { MapsContainerProps } from "../../../typings/MapsProps";
 import { MapsConfig } from "../configs/Maps.config";
 import { LocationResolverService } from "../services/LocationResolver.service";
