@@ -39,20 +39,11 @@ export class LocationResolverService implements SetupComponent {
      */
     get markers(): ModeledMarker[] {
         const props = this.mainGate.props;
-        const markers: ModeledMarker[] = [];
 
-        // Convert static markers
-        markers.push(...props.markers.map(marker => convertStaticModeledMarker(marker)));
+        const staticMarkers = props.markers.map(marker => convertStaticModeledMarker(marker));
+        const dynamicMarkers = props.dynamicMarkers.map(marker => convertDynamicModeledMarker(marker)).flat();
 
-        // Convert dynamic markers and flatten
-        const dynamicMarkerArrays = props.dynamicMarkers.map(marker => convertDynamicModeledMarker(marker));
-        const flattenedDynamic = dynamicMarkerArrays.reduce(
-            (prev: ModeledMarker[], current: ModeledMarker[]) => [...prev, ...current],
-            [] as ModeledMarker[]
-        );
-        markers.push(...flattenedDynamic);
-
-        return markers;
+        return [...staticMarkers, ...dynamicMarkers];
     }
 
     /**
