@@ -1,8 +1,9 @@
 import { Big } from "big.js";
 import { ListActionValue, ObjectItem } from "mendix";
-import { action, computed, makeObservable, observable, runInAction } from "mobx";
 import mimeTypes from "mime-types";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
 
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { FileUploaderStore } from "./FileUploaderStore";
 import {
     fetchDocumentUrl,
@@ -12,7 +13,6 @@ import {
     removeObject,
     saveFile
 } from "../utils/mx-data";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 
 export type FileStatus =
     | "existingFile"
@@ -43,6 +43,7 @@ export class FileStore {
     key: number;
 
     errorDescription?: string = undefined;
+    errorType?: "limitExceeded" | "batchExceeded" | "validation" = undefined;
 
     constructor(type: FileStatus, rootStore: FileUploaderStore, file?: File, objectItem?: ObjectItem) {
         this.key = getFileKey();
@@ -55,12 +56,15 @@ export class FileStore {
             fileStatus: observable,
             _mxObject: observable,
             errorDescription: observable,
+            errorType: observable,
             _thumbnailUrl: observable,
             canRemove: computed,
             imagePreviewUrl: computed,
             upload: action,
             fetchMxObject: action,
-            markMissing: action
+            markMissing: action,
+            markError: action,
+            reset: action
         });
     }
 
@@ -71,9 +75,16 @@ export class FileStore {
         this._objectItem = undefined;
     }
 
-    markError(errorMessage: string): void {
+    markError(errorMessage: string, errorType: "limitExceeded" | "batchExceeded" | "validation" = "validation"): void {
         this.fileStatus = "validationError";
         this.errorDescription = errorMessage;
+        this.errorType = errorType;
+    }
+
+    reset(): void {
+        this.errorType = undefined;
+        this.errorDescription = undefined;
+        this.fileStatus = "new";
     }
 
     canExecute(listAction: ListActionValue): boolean {
@@ -237,10 +248,16 @@ export class FileStore {
         return new FileStore("new", rootStore, file, undefined);
     }
 
-    static newFileWithError(file: File, errorMessage: string, rootStore: FileUploaderStore): FileStore {
+    static newFileWithError(
+        file: File,
+        errorMessage: string,
+        rootStore: FileUploaderStore,
+        errorType: "limitExceeded" | "batchExceeded" | "validation" = "validation"
+    ): FileStore {
         const store = new FileStore("validationError", rootStore, file, undefined);
         runInAction(() => {
             store.errorDescription = errorMessage;
+            store.errorType = errorType;
         });
 
         return store;

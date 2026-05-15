@@ -80,9 +80,14 @@
                     </propertyGroup>
                 </properties>
             </property>
-            <property key="maxFilesPerUpload" type="expression" defaultValue="10">
+            <property key="maxFilesPerUpload" type="expression" defaultValue="10" required="false">
                 <caption>Maximum number of files</caption>
-                <description>Limit the number of files per upload.</description>
+                <description>Maximum total number of files that can be associated at once. Leave empty or set to 0 for unlimited. Use this to cap the total number of attachments.</description>
+                <returnType type="Integer" />
+            </property>
+            <property key="maxFilesPerBatch" type="expression" required="false">
+                <caption>Maximum files per upload batch</caption>
+                <description>Limits how many files are committed to the server in a single drop or selection. Leave empty or set to 0 for unlimited. Smaller batch sizes reduce peak server load.</description>
                 <returnType type="Integer" />
             </property>
             <property key="maxFileSize" type="integer" defaultValue="25">
@@ -161,6 +166,22 @@
                 <translations>
                     <translation lang="en_US">Too many files added. Only ### files per upload are allowed.</translation>
                     <translation lang="nl_NL">Te veel bestanden toegevoegd. Slechts ### bestanden per upload zijn toegestaan.</translation>
+                </translations>
+            </property>
+            <property key="uploadLimitReachedMessage" type="textTemplate">
+                <caption>File limit reached</caption>
+                <description>Shown below the dropzone when the maximum number of files is already reached.</description>
+                <translations>
+                    <translation lang="en_US">Maximum file count of ### reached.</translation>
+                    <translation lang="nl_NL">Maximum aantal bestanden van ### bereikt.</translation>
+                </translations>
+            </property>
+            <property key="uploadBatchLimitExceededMessage" type="textTemplate">
+                <caption>Batch limit exceeded</caption>
+                <description>Shown on files that were dropped but not uploaded because the batch limit was already reached.</description>
+                <translations>
+                    <translation lang="en_US">File not uploaded. Batch limit of ### files per drop was reached.</translation>
+                    <translation lang="nl_NL">Bestand niet geüpload. Batchlimiet van ### bestanden per upload is bereikt.</translation>
                 </translations>
             </property>
             <property key="unavailableCreateActionMessage" type="textTemplate">

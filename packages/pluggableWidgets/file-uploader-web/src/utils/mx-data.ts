@@ -1,5 +1,5 @@
-import { ObjectItem } from "mendix";
 import { Big } from "big.js";
+import { ObjectItem } from "mendix";
 
 export type MxObject = {
     getGuid(): string;

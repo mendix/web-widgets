@@ -1,6 +1,6 @@
+import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import { FileUploaderPreviewProps } from "../typings/FileUploaderProps";
 import { parseAllowedFormats } from "./utils/parseAllowedFormats";
-import { hideNestedPropertiesIn, hidePropertiesIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import { predefinedFormats } from "./utils/predefinedFormats";
 
 export function getProperties(

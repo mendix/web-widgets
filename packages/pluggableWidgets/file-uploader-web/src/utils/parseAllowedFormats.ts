@@ -1,5 +1,5 @@
-import { AllowedFileFormatsPreviewType, AllowedFileFormatsType } from "../../typings/FileUploaderProps";
 import { FileCheckFormat, predefinedFormats } from "./predefinedFormats";
+import { AllowedFileFormatsPreviewType, AllowedFileFormatsType } from "../../typings/FileUploaderProps";
 
 export type MimeCheckFormat = {
     [key: string]: string[];

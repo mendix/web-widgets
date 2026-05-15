@@ -59,7 +59,8 @@ export interface FileUploaderContainerProps {
     createFileAction?: ActionValue;
     createImageAction?: ActionValue;
     allowedFileFormats: AllowedFileFormatsType[];
-    maxFilesPerUpload: DynamicValue<Big>;
+    maxFilesPerUpload?: DynamicValue<Big>;
+    maxFilesPerBatch?: DynamicValue<Big>;
     maxFileSize: number;
     dropzoneIdleMessage: DynamicValue<string>;
     dropzoneAcceptedMessage: DynamicValue<string>;
@@ -70,6 +71,8 @@ export interface FileUploaderContainerProps {
     uploadFailureInvalidFileFormatMessage: DynamicValue<string>;
     uploadFailureFileIsTooBigMessage: DynamicValue<string>;
     uploadFailureTooManyFilesMessage: DynamicValue<string>;
+    uploadLimitReachedMessage: DynamicValue<string>;
+    uploadBatchLimitExceededMessage: DynamicValue<string>;
     unavailableCreateActionMessage: DynamicValue<string>;
     downloadButtonTextMessage: DynamicValue<string>;
     removeButtonTextMessage: DynamicValue<string>;
@@ -103,6 +106,7 @@ export interface FileUploaderPreviewProps {
     createImageAction: {} | null;
     allowedFileFormats: AllowedFileFormatsPreviewType[];
     maxFilesPerUpload: string;
+    maxFilesPerBatch: string;
     maxFileSize: number | null;
     dropzoneIdleMessage: string;
     dropzoneAcceptedMessage: string;
@@ -113,6 +117,8 @@ export interface FileUploaderPreviewProps {
     uploadFailureInvalidFileFormatMessage: string;
     uploadFailureFileIsTooBigMessage: string;
     uploadFailureTooManyFilesMessage: string;
+    uploadLimitReachedMessage: string;
+    uploadBatchLimitExceededMessage: string;
     unavailableCreateActionMessage: string;
     downloadButtonTextMessage: string;
     removeButtonTextMessage: string;

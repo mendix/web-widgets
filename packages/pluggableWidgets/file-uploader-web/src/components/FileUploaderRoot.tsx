@@ -3,11 +3,11 @@ import { observer } from "mobx-react-lite";
 import { ReactElement, useCallback } from "react";
 import { FileRejection } from "react-dropzone";
 
+import { Dropzone } from "./Dropzone";
+import { FileEntryContainer } from "./FileEntry";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { prepareAcceptForDropzone } from "../utils/prepareAcceptForDropzone";
 import { useRootStore } from "../utils/useRootStore";
-import { FileEntryContainer } from "./FileEntry";
-import { Dropzone } from "./Dropzone";
 
 import "../ui/FileUploader.scss";
 
@@ -26,16 +26,15 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
             {!rootStore.isReadOnly && (
                 <Dropzone
                     onDrop={onDrop}
-                    warningMessage={rootStore.errorMessage}
+                    warningMessage={rootStore.warningMessage}
                     maxSize={rootStore._maxFileSize}
                     acceptFileTypes={prepareAcceptForDropzone(rootStore.acceptedFileTypes)}
-                    maxFilesPerUpload={rootStore.maxFilesPerUpload ?? 0}
                     disabled={rootStore.isFileUploadLimitReached}
                 />
             )}
 
             <div className={"files-list"}>
-                {(rootStore.files ?? []).map(fileStore => {
+                {rootStore.sortedFiles.map(fileStore => {
                     return (
                         <FileEntryContainer
                             store={fileStore}
