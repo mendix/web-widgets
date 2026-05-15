@@ -63,11 +63,6 @@ export class LocationResolverService implements SetupComponent {
             reaction(
                 () => this.markers,
                 currentMarkers => {
-                    // Skip if markers haven't actually changed
-                    if (this.isIdenticalMarkers(this.requestedMarkers, currentMarkers)) {
-                        return;
-                    }
-
                     this.requestedMarkers = currentMarkers;
                     const apiKey = this.mainGate.props.geodecodeApiKeyExp?.value ?? this.mainGate.props.geodecodeApiKey;
 
@@ -84,20 +79,18 @@ export class LocationResolverService implements SetupComponent {
                             console.error("Failed to resolve marker locations:", e);
                         });
                 },
-                { fireImmediately: true }
+                {
+                    fireImmediately: true,
+                    equals: (prev, next) => {
+                        const prevProps = prev.map(({ action, ...marker }) => marker);
+                        const nextProps = next.map(({ action, ...marker }) => marker);
+                        return deepEqual(prevProps, nextProps, { strict: true });
+                    }
+                }
             )
         );
 
         return disposeAll;
-    }
-
-    /**
-     * Compare markers for equality (excluding action callbacks).
-     */
-    private isIdenticalMarkers(previousMarkers: ModeledMarker[], newMarkers: ModeledMarker[]): boolean {
-        const previousProps = previousMarkers.map(({ action, ...marker }) => marker);
-        const newProps = newMarkers.map(({ action, ...marker }) => marker);
-        return deepEqual(previousProps, newProps, { strict: true });
     }
 }
 
