@@ -4,13 +4,12 @@ import {
     SetupComponent,
     SetupComponentHost
 } from "@mendix/widget-plugin-mobx-kit/main";
-import { injected } from "brandi";
 import { action, computed, makeObservable, observable, reaction } from "mobx";
 import deepEqual from "deep-equal";
 import { MapsContainerProps } from "../../../typings/MapsProps";
 import { Marker, ModeledMarker } from "../../../typings/shared";
 import { convertDynamicModeledMarker, convertStaticModeledMarker } from "../../utils/data";
-import { CORE_TOKENS as CORE, GeocodeFunction } from "../tokens";
+import { GeocodeFunction } from "../tokens";
 
 /**
  * Service responsible for resolving marker locations.
@@ -99,6 +98,3 @@ export class LocationResolverService implements SetupComponent {
         return disposeAll;
     }
 }
-
-// Inject dependencies
-injected(LocationResolverService, CORE.setupService, CORE.mainGate, CORE.geocodeFunction);
