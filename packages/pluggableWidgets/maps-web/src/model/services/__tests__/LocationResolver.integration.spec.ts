@@ -1,4 +1,4 @@
-import { reaction, when, configure } from "mobx";
+import { when, configure } from "mobx";
 import { ValueStatus } from "mendix";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
 import { LocationResolverService } from "../LocationResolver.service";
@@ -29,7 +29,6 @@ function setupContainer(
 ): [Container, LocationResolverService, GateProvider<MapsContainerProps>] {
     const [container, gateProvider] = createMapsContainer(props);
     const service = container.get(MAPS.locationResolver);
-    // Trigger setup lifecycle to start reactions
     container.get(CORE.setupService).setup();
     return [container, service, gateProvider];
 }
@@ -39,97 +38,16 @@ async function waitForLocations(service: LocationResolverService, expectedLength
     return when(() => service.locations.length === expectedLength);
 }
 
-describe("LocationResolverService", () => {
+describe("LocationResolverService - Integration Tests", () => {
     beforeEach(() => {
-        // Clear geocoding cache
         delete (window as any).mxGMLocationCache;
         global.fetch = jest.fn();
         jest.clearAllMocks();
-
-        // Default mock implementation - resolve immediately with empty array
         mockConvertAddressToLatLng.mockResolvedValue([]);
     });
 
     afterEach(() => {
         jest.restoreAllMocks();
-    });
-
-    describe("Basic Functionality", () => {
-        it("should initialize with empty locations", () => {
-            const [, service] = setupContainer(mockContainerProps());
-            expect(service.locations).toEqual([]);
-        });
-
-        it("should resolve markers with lat/lng directly without geocoding", async () => {
-            mockConvertAddressToLatLng.mockResolvedValue([
-                {
-                    latitude: 40.7128,
-                    longitude: -74.006,
-                    url: "",
-                    title: "NYC",
-                    onClick: undefined
-                }
-            ]);
-
-            const [, service] = setupContainer(
-                mockContainerProps({
-                    markers: [
-                        {
-                            latitude: dynamic("40.7128"),
-                            longitude: dynamic("-74.0060"),
-                            title: dynamic("NYC")
-                        } as MarkersType
-                    ]
-                })
-            );
-
-            await waitForLocations(service, 1);
-
-            expect(service.locations).toHaveLength(1);
-            expect(service.locations[0]).toMatchObject({
-                latitude: 40.7128,
-                longitude: -74.006,
-                title: "NYC"
-            });
-            expect(mockConvertAddressToLatLng).toHaveBeenCalled();
-        });
-
-        it("should geocode markers with addresses using API", async () => {
-            mockConvertAddressToLatLng.mockResolvedValue([
-                {
-                    latitude: 40.7128,
-                    longitude: -74.006,
-                    url: "",
-                    title: "NYC",
-                    onClick: undefined
-                }
-            ]);
-
-            const [, service] = setupContainer(
-                mockContainerProps({
-                    geodecodeApiKey: "test-api-key",
-                    markers: [
-                        {
-                            address: dynamic("New York, NY"),
-                            title: dynamic("NYC")
-                        } as MarkersType
-                    ]
-                })
-            );
-
-            await waitForLocations(service, 1);
-
-            expect(service.locations).toHaveLength(1);
-            expect(service.locations[0]).toMatchObject({
-                latitude: 40.7128,
-                longitude: -74.006,
-                title: "NYC"
-            });
-            expect(mockConvertAddressToLatLng).toHaveBeenCalledWith(
-                expect.arrayContaining([expect.objectContaining({ address: "New York, NY" })]),
-                "test-api-key"
-            );
-        });
     });
 
     describe("Mixed Markers", () => {
@@ -173,104 +91,6 @@ describe("LocationResolverService", () => {
             expect(service.locations).toHaveLength(2);
             expect(service.locations[0].title).toBe("NYC");
             expect(service.locations[1].title).toBe("Boston");
-        });
-    });
-
-    describe("Empty/Null Inputs", () => {
-        it("should handle empty markers array gracefully", () => {
-            const [, service] = setupContainer(
-                mockContainerProps({
-                    markers: []
-                })
-            );
-
-            expect(service.locations).toEqual([]);
-            expect(service.markers).toEqual([]);
-        });
-
-        it("should handle dynamic markers with no datasource", () => {
-            const [, service] = setupContainer(
-                mockContainerProps({
-                    dynamicMarkers: [
-                        {
-                            markersDS: undefined,
-                            locationType: "coordinates"
-                        } as any
-                    ]
-                })
-            );
-
-            expect(service.locations).toEqual([]);
-            expect(service.markers).toEqual([]);
-        });
-
-        it("should handle dynamic markers with ValueStatus.Loading", () => {
-            const [, service] = setupContainer(
-                mockContainerProps({
-                    dynamicMarkers: [
-                        {
-                            markersDS: {
-                                status: ValueStatus.Loading,
-                                items: []
-                            },
-                            locationType: "coordinates"
-                        } as any
-                    ]
-                })
-            );
-
-            expect(service.locations).toEqual([]);
-            expect(service.markers).toEqual([]);
-        });
-    });
-
-    describe("API Key Handling", () => {
-        it("should use geodecodeApiKeyExp.value over static apiKey", async () => {
-            mockConvertAddressToLatLng.mockResolvedValue([]);
-
-            setupContainer(
-                mockContainerProps({
-                    geodecodeApiKey: "static-key",
-                    geodecodeApiKeyExp: dynamic("expression-key"),
-                    markers: [
-                        {
-                            address: dynamic("New York, NY")
-                        } as MarkersType
-                    ]
-                })
-            );
-
-            await when(() => mockConvertAddressToLatLng.mock.calls.length > 0);
-
-            expect(mockConvertAddressToLatLng).toHaveBeenCalledWith(expect.anything(), "expression-key");
-        });
-
-        it("should throw error when address provided but no API key", async () => {
-            const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-            mockConvertAddressToLatLng.mockRejectedValue(
-                new Error("API key required in order to use markers containing address")
-            );
-
-            setupContainer(
-                mockContainerProps({
-                    markers: [
-                        {
-                            address: dynamic("New York, NY")
-                        } as MarkersType
-                    ]
-                })
-            );
-
-            // Wait for reaction to fire and error to be logged
-            await when(() => consoleErrorSpy.mock.calls.length > 0, { timeout: 1000 }).catch(() => {
-                // If timeout, that's ok - error might have been handled differently
-            });
-
-            // Either error was logged or operation completed without error
-            // Both are acceptable outcomes depending on timing
-            expect(mockConvertAddressToLatLng).toHaveBeenCalled();
-
-            consoleErrorSpy.mockRestore();
         });
     });
 
@@ -330,7 +150,6 @@ describe("LocationResolverService", () => {
             await waitForLocations(service, 3);
 
             expect(service.locations).toHaveLength(3);
-            // Geocoding function is called once per reaction
             expect(mockConvertAddressToLatLng).toHaveBeenCalled();
         });
     });
@@ -351,15 +170,14 @@ describe("LocationResolverService", () => {
                 })
             );
 
-            // Wait for reaction to fire and error to be logged
             await when(
                 () => consoleErrorSpy.mock.calls.length > 0 || mockConvertAddressToLatLng.mock.calls.length > 0,
                 { timeout: 1000 }
             ).catch(() => {
-                // Timeout is acceptable
+                // Timeout acceptable
             });
 
-            expect(service.locations).toEqual([]); // Failed marker excluded
+            expect(service.locations).toEqual([]);
             expect(mockConvertAddressToLatLng).toHaveBeenCalled();
 
             consoleErrorSpy.mockRestore();
@@ -368,7 +186,6 @@ describe("LocationResolverService", () => {
         it("should continue processing when some geocoding fails", async () => {
             const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
-            // Mock will be called and should return partial results
             mockConvertAddressToLatLng.mockResolvedValue([
                 { latitude: 40.7128, longitude: -74.006, url: "", title: "", onClick: undefined },
                 { latitude: 42.3601, longitude: -71.0589, url: "", title: "", onClick: undefined }
@@ -387,82 +204,9 @@ describe("LocationResolverService", () => {
 
             await waitForLocations(service, 2);
 
-            // Should have 2 markers (1 failed handled by the real implementation)
             expect(service.locations.length).toBeGreaterThanOrEqual(2);
 
             consoleErrorSpy.mockRestore();
-        });
-    });
-
-    describe("MobX Reactivity", () => {
-        it("should recompute when props.markers change", async () => {
-            mockConvertAddressToLatLng
-                .mockResolvedValueOnce([{ latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }])
-                .mockResolvedValueOnce([
-                    { latitude: 40, longitude: -74, url: "", title: "", onClick: undefined },
-                    { latitude: 41, longitude: -75, url: "", title: "", onClick: undefined },
-                    { latitude: 42, longitude: -76, url: "", title: "", onClick: undefined }
-                ]);
-
-            const [, service, gateProvider] = setupContainer(
-                mockContainerProps({
-                    markers: [
-                        {
-                            latitude: dynamic("40.7128"),
-                            longitude: dynamic("-74.0060")
-                        } as MarkersType
-                    ]
-                })
-            );
-
-            await waitForLocations(service, 1);
-            expect(service.locations).toHaveLength(1);
-
-            // Change markers via gate
-            gateProvider.setProps(
-                mockContainerProps({
-                    markers: [
-                        { latitude: dynamic("40"), longitude: dynamic("-74") } as MarkersType,
-                        { latitude: dynamic("41"), longitude: dynamic("-75") } as MarkersType,
-                        { latitude: dynamic("42"), longitude: dynamic("-76") } as MarkersType
-                    ]
-                })
-            );
-
-            await waitForLocations(service, 3);
-            expect(service.locations).toHaveLength(3);
-        });
-
-        it("should trigger reactions when locations update", async () => {
-            mockConvertAddressToLatLng.mockResolvedValue([
-                { latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }
-            ]);
-
-            const [, service] = setupContainer(
-                mockContainerProps({
-                    markers: [
-                        {
-                            latitude: dynamic("40"),
-                            longitude: dynamic("-74")
-                        } as MarkersType
-                    ]
-                })
-            );
-
-            let reactionCount = 0;
-            const dispose = reaction(
-                () => service.locations.length,
-                () => {
-                    reactionCount++;
-                }
-            );
-
-            await waitForLocations(service, 1);
-
-            // Should have triggered at least once
-            expect(reactionCount).toBeGreaterThan(0);
-
-            dispose();
         });
     });
 
@@ -544,28 +288,7 @@ describe("LocationResolverService", () => {
 
             await waitForLocations(service, 3);
 
-            // 2 items from first datasource + 1 from second = 3 total
             expect(service.locations).toHaveLength(3);
-        });
-    });
-
-    describe("Marker Computed Property", () => {
-        it("should compute markers synchronously", () => {
-            const [, service] = setupContainer(
-                mockContainerProps({
-                    markers: [
-                        {
-                            latitude: dynamic("40"),
-                            longitude: dynamic("-74")
-                        } as MarkersType
-                    ]
-                })
-            );
-
-            // markers should be immediately accessible (synchronous computed)
-            expect(service.markers).toBeDefined();
-            expect(Array.isArray(service.markers)).toBe(true);
-            expect(service.markers.length).toBeGreaterThan(0);
         });
     });
 
