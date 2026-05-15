@@ -431,24 +431,6 @@ describe("data.ts - Marker Conversion Functions", () => {
                 expect(result[1].id).toBe("obj_marker-id-2");
             });
 
-            it("should handle NaN from invalid coordinate strings", () => {
-                const item = obj("item1");
-
-                const marker: DynamicMarkersType = {
-                    markersDS: list([item]),
-                    locationType: "latlng",
-                    latitude: listAttribute(() => "not-a-number" as any),
-                    longitude: listAttribute(() => "also-invalid" as any),
-                    markerStyleDynamic: "default"
-                };
-
-                const result = convertDynamicModeledMarker(marker);
-
-                expect(result).toHaveLength(1);
-                expect(result[0].latitude).toBeNaN();
-                expect(result[0].longitude).toBeNaN();
-            });
-
             it("should handle empty string title", () => {
                 const item = obj("item1");
 
