@@ -1,57 +1,24 @@
 import { reaction, when, configure } from "mobx";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
-import { LocationResolverService } from "../LocationResolver.service";
-import { createMapsContainer } from "../../containers/createMapsContainer";
 import { mockContainerProps } from "../../../utils/mock-container-props";
-import { MAPS_TOKENS as MAPS, CORE_TOKENS as CORE } from "../../tokens";
-import { MarkersType, MapsContainerProps } from "../../../../typings/MapsProps";
-import { GateProvider } from "@mendix/widget-plugin-mobx-kit/main";
-import { Container } from "brandi";
-import * as geodecode from "../../../utils/geodecode";
+import { MarkersType } from "../../../../typings/MapsProps";
+import { createTestContainer, createMockGeocodeFunction, waitForLocations } from "./test-utils";
 
 // Configure MobX for testing
 configure({ enforceActions: "never" });
 
-// Mock the geocoding module
-jest.mock("../../../utils/geodecode", () => ({
-    ...jest.requireActual("../../../utils/geodecode"),
-    convertAddressToLatLng: jest.fn()
-}));
-
-const mockConvertAddressToLatLng = geodecode.convertAddressToLatLng as jest.MockedFunction<
-    typeof geodecode.convertAddressToLatLng
->;
-
-// Helper to create and setup container
-function setupContainer(
-    props: MapsContainerProps
-): [Container, LocationResolverService, GateProvider<MapsContainerProps>] {
-    const [container, gateProvider] = createMapsContainer(props);
-    const service = container.get(MAPS.locationResolver);
-    container.get(CORE.setupService).setup();
-    return [container, service, gateProvider];
-}
-
-// Helper to wait for locations to be populated
-async function waitForLocations(service: LocationResolverService, expectedLength: number): Promise<void> {
-    return when(() => service.locations.length === expectedLength);
-}
-
 describe("LocationResolverService - Reactivity Tests", () => {
+    let mockGeocode: ReturnType<typeof createMockGeocodeFunction>;
+
     beforeEach(() => {
         delete (window as any).mxGMLocationCache;
         global.fetch = jest.fn();
-        jest.clearAllMocks();
-        mockConvertAddressToLatLng.mockResolvedValue([]);
-    });
-
-    afterEach(() => {
-        jest.restoreAllMocks();
+        mockGeocode = createMockGeocodeFunction();
     });
 
     describe("MobX Reactivity", () => {
         it("should recompute when props.markers change", async () => {
-            mockConvertAddressToLatLng
+            mockGeocode
                 .mockResolvedValueOnce([{ latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }])
                 .mockResolvedValueOnce([
                     { latitude: 40, longitude: -74, url: "", title: "", onClick: undefined },
@@ -59,16 +26,17 @@ describe("LocationResolverService - Reactivity Tests", () => {
                     { latitude: 42, longitude: -76, url: "", title: "", onClick: undefined }
                 ]);
 
-            const [, service, gateProvider] = setupContainer(
-                mockContainerProps({
+            const [, service, gateProvider] = createTestContainer({
+                props: mockContainerProps({
                     markers: [
                         {
                             latitude: dynamic("40.7128"),
                             longitude: dynamic("-74.0060")
                         } as MarkersType
                     ]
-                })
-            );
+                }),
+                geocodeFunction: mockGeocode
+            });
 
             await waitForLocations(service, 1);
             expect(service.locations).toHaveLength(1);
@@ -89,20 +57,19 @@ describe("LocationResolverService - Reactivity Tests", () => {
         });
 
         it("should trigger reactions when locations update", async () => {
-            mockConvertAddressToLatLng.mockResolvedValue([
-                { latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }
-            ]);
+            mockGeocode.mockResolvedValue([{ latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }]);
 
-            const [, service] = setupContainer(
-                mockContainerProps({
+            const [, service] = createTestContainer({
+                props: mockContainerProps({
                     markers: [
                         {
                             latitude: dynamic("40"),
                             longitude: dynamic("-74")
                         } as MarkersType
                     ]
-                })
-            );
+                }),
+                geocodeFunction: mockGeocode
+            });
 
             let reactionCount = 0;
             const dispose = reaction(
@@ -121,20 +88,19 @@ describe("LocationResolverService - Reactivity Tests", () => {
         });
 
         it("should track mainGate.props as MobX dependency", async () => {
-            mockConvertAddressToLatLng.mockResolvedValue([
-                { latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }
-            ]);
+            mockGeocode.mockResolvedValue([{ latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }]);
 
-            const [, service, gateProvider] = setupContainer(
-                mockContainerProps({
+            const [, service, gateProvider] = createTestContainer({
+                props: mockContainerProps({
                     markers: [
                         {
                             latitude: dynamic("40"),
                             longitude: dynamic("-74")
                         } as MarkersType
                     ]
-                })
-            );
+                }),
+                geocodeFunction: mockGeocode
+            });
 
             await waitForLocations(service, 1);
 
@@ -166,9 +132,7 @@ describe("LocationResolverService - Reactivity Tests", () => {
         });
 
         it("should not update locations if markers haven't changed", async () => {
-            mockConvertAddressToLatLng.mockResolvedValue([
-                { latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }
-            ]);
+            mockGeocode.mockResolvedValue([{ latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }]);
 
             const markers = [
                 {
@@ -178,11 +142,14 @@ describe("LocationResolverService - Reactivity Tests", () => {
                 } as MarkersType
             ];
 
-            const [, service, gateProvider] = setupContainer(mockContainerProps({ markers }));
+            const [, service, gateProvider] = createTestContainer({
+                props: mockContainerProps({ markers }),
+                geocodeFunction: mockGeocode
+            });
 
             await waitForLocations(service, 1);
 
-            const callCountAfterInit = mockConvertAddressToLatLng.mock.calls.length;
+            const callCountAfterInit = mockGeocode.mock.calls.length;
 
             // Set props with identical markers
             gateProvider.setProps(mockContainerProps({ markers }));
@@ -191,15 +158,16 @@ describe("LocationResolverService - Reactivity Tests", () => {
             await new Promise(resolve => setTimeout(resolve, 50));
 
             // Should not have called geocoding again
-            expect(mockConvertAddressToLatLng.mock.calls.length).toBe(callCountAfterInit);
+            expect(mockGeocode.mock.calls.length).toBe(callCountAfterInit);
         });
 
         it("should handle rapid props changes gracefully", async () => {
-            mockConvertAddressToLatLng.mockResolvedValue([
-                { latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }
-            ]);
+            mockGeocode.mockResolvedValue([{ latitude: 40, longitude: -74, url: "", title: "", onClick: undefined }]);
 
-            const [, service, gateProvider] = setupContainer(mockContainerProps({ markers: [] }));
+            const [, service, gateProvider] = createTestContainer({
+                props: mockContainerProps({ markers: [] }),
+                geocodeFunction: mockGeocode
+            });
 
             // Rapid fire props changes
             for (let i = 0; i < 5; i++) {
@@ -220,7 +188,7 @@ describe("LocationResolverService - Reactivity Tests", () => {
 
             // Should have processed all changes
             expect(service.locations).toHaveLength(1);
-            expect(mockConvertAddressToLatLng).toHaveBeenCalled();
+            expect(mockGeocode).toHaveBeenCalled();
         });
     });
 });
