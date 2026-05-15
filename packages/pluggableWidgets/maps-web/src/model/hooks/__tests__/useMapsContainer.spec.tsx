@@ -26,8 +26,10 @@ describe("useMapsContainer", () => {
         });
 
         const container = result.current;
-        const initialConfig = container.get(CORE.config);
-        expect(initialConfig.name).toBe("map1");
+        const mainGate = container.get(CORE.mainGate);
+
+        // Initial props should be set
+        expect(mainGate.props.name).toBe("map1");
 
         // Update props
         const newProps = mockContainerProps({ name: "map2" });
@@ -35,5 +37,8 @@ describe("useMapsContainer", () => {
 
         // Container should still be the same instance
         expect(result.current).toBe(container);
+
+        // MainGate should provide updated props
+        expect(mainGate.props.name).toBe("map2");
     });
 });
