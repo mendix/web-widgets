@@ -1,3 +1,4 @@
+import { ContainerProvider } from "brandi-react";
 import { ReactNode, useEffect, useState } from "react";
 import { MapSwitcher } from "./components/MapSwitcher";
 
@@ -6,10 +7,13 @@ import { useLocationResolver } from "./utils/geodecode";
 import { getCurrentUserLocation } from "./utils/location";
 import { Marker } from "../typings/shared";
 import { translateZoom } from "./utils/zoom";
+import { useMapsContainer } from "./model/hooks/useMapsContainer";
 import "leaflet/dist/leaflet.css";
 import "./ui/Maps.scss";
 
 export default function Maps(props: MapsContainerProps): ReactNode {
+    const container = useMapsContainer(props);
+
     const [locations] = useLocationResolver(
         props.markers,
         props.dynamicMarkers,
@@ -26,29 +30,31 @@ export default function Maps(props: MapsContainerProps): ReactNode {
     }, [props.showCurrentLocation]);
 
     return (
-        <MapSwitcher
-            attributionControl={props.attributionControl}
-            autoZoom={props.zoom === "automatic"}
-            className={props.class}
-            currentLocation={currentLocation}
-            fullscreenControl={props.fullScreenControl}
-            height={props.height}
-            heightUnit={props.heightUnit}
-            locations={locations}
-            mapsToken={props.apiKeyExp?.value ?? props.apiKey}
-            mapId={props.googleMapId}
-            mapProvider={props.mapProvider}
-            mapTypeControl={props.mapTypeControl}
-            optionDrag={props.optionDrag}
-            optionScroll={props.optionScroll}
-            optionZoomControl={props.optionZoomControl}
-            rotateControl={props.rotateControl}
-            showCurrentLocation={props.showCurrentLocation}
-            streetViewControl={props.optionStreetView}
-            style={props.style}
-            width={props.width}
-            widthUnit={props.widthUnit}
-            zoomLevel={translateZoom(props.zoom)}
-        />
+        <ContainerProvider container={container} isolated>
+            <MapSwitcher
+                attributionControl={props.attributionControl}
+                autoZoom={props.zoom === "automatic"}
+                className={props.class}
+                currentLocation={currentLocation}
+                fullscreenControl={props.fullScreenControl}
+                height={props.height}
+                heightUnit={props.heightUnit}
+                locations={locations}
+                mapsToken={props.apiKeyExp?.value ?? props.apiKey}
+                mapId={props.googleMapId}
+                mapProvider={props.mapProvider}
+                mapTypeControl={props.mapTypeControl}
+                optionDrag={props.optionDrag}
+                optionScroll={props.optionScroll}
+                optionZoomControl={props.optionZoomControl}
+                rotateControl={props.rotateControl}
+                showCurrentLocation={props.showCurrentLocation}
+                streetViewControl={props.optionStreetView}
+                style={props.style}
+                width={props.width}
+                widthUnit={props.widthUnit}
+                zoomLevel={translateZoom(props.zoom)}
+            />
+        </ContainerProvider>
     );
 }

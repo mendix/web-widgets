@@ -101,11 +101,12 @@ apply:
   tracks: tests.md
   instruction: |
     Follow TDD workflow:
-    1. Review tests.md to understand what needs to pass
-    2. Write failing tests first (mark status in tests.md)
-    3. Implement minimal code to make tests pass
-    4. Refactor while keeping tests green
-    5. Update test status as tests pass
+    1. Review implementation.md to understand the technical approach and strategy
+    2. Review tests.md to understand what needs to pass
+    3. Write failing tests first (mark status in tests.md)
+    4. Implement minimal code to make tests pass (following approach from implementation.md)
+    5. Refactor while keeping tests green
+    6. Update test status as tests pass
 
     Mark test checkboxes as complete when tests are written and passing.
     Pause if blocked or need clarification.
