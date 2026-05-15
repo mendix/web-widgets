@@ -1,9 +1,13 @@
 // @ts-nocheck
+import Quill from "quill";
 import type { InlineBlot } from "parchment";
-import QuillInline from "quill/blots/inline";
 import type { InsertTableHandler } from "../types";
+import { tableIcon } from "../assets/icons";
 
-const Inline = QuillInline as typeof InlineBlot;
+const Inline = Quill.import("blots/inline") as typeof InlineBlot;
+const icons = Quill.import("ui/icons");
+// @ts-expect-error
+icons["table-better"] = tableIcon;
 const SUM = 10;
 
 class ToolbarTable extends Inline {}
@@ -37,7 +41,7 @@ class TableSelect {
                 fragment.appendChild(child);
             }
         }
-        label.innerHTML = "0 × 0";
+        label.innerHTML = "0 x 0";
         container.classList.add("ql-table-select-container", "ql-hidden");
         list.classList.add("ql-table-select-list");
         label.classList.add("ql-table-select-label");
@@ -46,6 +50,14 @@ class TableSelect {
         container.appendChild(label);
         container.addEventListener("mousemove", e => this.handleMouseMove(e, container));
         return container;
+    }
+
+    getClickInfo(e: MouseEvent): [boolean, Element] {
+        const target = e.target as Element;
+        const container = target.closest("div.ql-table-select-container");
+        const span = target.closest("span[row]");
+        if (container && !span) return [true, span];
+        return [false, span];
     }
 
     getComputeChildren(children: HTMLCollection, e: MouseEvent): Element[] {
@@ -67,8 +79,8 @@ class TableSelect {
     }
 
     handleClick(e: MouseEvent, insertTable: InsertTableHandler) {
-        this.toggle(this.root);
-        const span = (e.target as Element).closest("span[row]");
+        const [isBetweenSpans, span] = this.getClickInfo(e);
+        this.toggle(this.root, isBetweenSpans);
         if (!span) {
             // Click between two spans
             const child = this.computeChildren[this.computeChildren.length - 1];
@@ -102,10 +114,10 @@ class TableSelect {
 
     setLabelContent(label: Element, child: Element) {
         if (!child) {
-            label.innerHTML = "0 × 0";
+            label.innerHTML = "0 x 0";
         } else {
             const [row, column] = this.getSelectAttrs(child);
-            label.innerHTML = `${row} × ${column}`;
+            label.innerHTML = `${row} x ${column}`;
         }
     }
 
@@ -114,10 +126,10 @@ class TableSelect {
         element && element.classList.remove("ql-hidden");
     }
 
-    toggle(element: Element) {
-        this.clearSelected(this.computeChildren);
+    toggle(element: Element, isBetweenSpans: boolean) {
+        if (!isBetweenSpans) this.clearSelected(this.computeChildren);
         element && element.classList.toggle("ql-hidden");
     }
 }
 
-export { ToolbarTable as default, TableSelect };
+export { TableSelect, ToolbarTable as default };

@@ -1,19 +1,17 @@
 // @ts-nocheck
-import merge from "lodash.merge";
-import type { ContainerBlot } from "parchment";
-import { EmbedBlot } from "parchment";
-import type { Range } from "quill";
 import Quill from "quill";
 import Delta from "quill-delta";
-import QuillContainer from "quill/blots/container";
-import Module from "quill/core/module";
-import QuillToolbar from "quill/modules/toolbar";
-import TableHeader from "../formats/header";
+import merge from "lodash.merge";
+import { EmbedBlot } from "parchment";
+import type { ContainerBlot } from "parchment";
+import type { Range } from "quill";
 import type { CellSelection, QuillTableBetter, TableCell, TableCellAllowedChildren, TableCellChildren } from "../types";
 import { getCorrectCellBlot } from "../utils";
+import TableHeader from "../formats/header";
 
-const Container = QuillContainer as typeof ContainerBlot;
-const Toolbar = QuillToolbar as typeof Module;
+const Module = Quill.import("core/module");
+const Container = Quill.import("blots/container") as typeof ContainerBlot;
+const Toolbar = Quill.import("modules/toolbar") as typeof Module;
 
 type Handler = (this: TableToolbar, value: any) => void;
 

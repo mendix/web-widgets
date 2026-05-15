@@ -1,20 +1,18 @@
-import type { BlockBlot } from "parchment";
+// @ts-nocheck
 import Quill from "quill";
-import QuillHeader from "quill/formats/header";
+import type { BlockBlot } from "parchment";
 import type { Props, TableCellChildren } from "../types";
-import { getCellFormats, getCorrectCellBlot } from "../utils";
+import { TableCellBlock, TableCell, TableTh } from "./table";
 import { ListContainer } from "./list";
-import { TableCell, TableCellBlock } from "./table";
+import { getCellFormats, getCorrectCellBlot } from "../utils";
 
-const Header = QuillHeader as typeof BlockBlot;
+const Header = Quill.import("formats/header") as typeof BlockBlot;
 
 class TableHeader extends Header {
     static blotName = "table-header";
     static className = "ql-table-header";
 
-    // @ts-ignore
     next: this | null;
-    // @ts-ignore
     parent: TableCell;
 
     static create(formats: Props) {
@@ -24,7 +22,7 @@ class TableHeader extends Header {
         return node;
     }
 
-    format(name: string, value: string | Props, isReplace?: boolean) {
+    format(name: string, value: string, isReplace?: boolean) {
         if (name === "header") {
             const _value = this.statics.formats(this.domNode).value;
             const cellId = this.domNode.getAttribute("data-cell");
@@ -34,14 +32,14 @@ class TableHeader extends Header {
                 super.format("table-header", { cellId, value });
             }
         } else if (name === "list") {
-            const [formats, cellId] = this.getCellFormats(this.parent);
+            const [formats, cellId, blotName] = this.getCellFormats(this.parent);
             if (isReplace) {
                 this.wrap(ListContainer.blotName, { ...formats, cellId });
             } else {
-                this.wrap(TableCell.blotName, formats);
+                this.wrap(blotName, formats);
             }
             return this.replaceWith("table-list", value);
-        } else if (name === TableCell.blotName) {
+        } else if (value && (name === TableCell.blotName || name === TableTh.blotName)) {
             return this.wrap(name, value);
         } else if (name === this.statics.blotName && !value) {
             const cellId = this.domNode.getAttribute("data-cell");
@@ -68,7 +66,7 @@ class TableHeader extends Header {
 
     getCellFormats(parent: TableCell | TableCellChildren) {
         const cellBlot = getCorrectCellBlot(parent);
-        return getCellFormats(cellBlot!);
+        return [...getCellFormats(cellBlot), cellBlot.statics.blotName];
     }
 }
 

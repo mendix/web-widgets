@@ -1,15 +1,13 @@
 // @ts-nocheck
-import type { BlockBlot, ContainerBlot } from "parchment";
 import Quill from "quill";
-import QuillList from "quill/formats/list";
-import QuillContainer from "quill/blots/container";
-import { CELL_ATTRIBUTE } from "../config";
+import type { BlockBlot, ContainerBlot } from "parchment";
 import type { Props, TableCellChildren } from "../types";
+import { TableCellBlock, TableCell, TableTh } from "./table";
 import { getCellFormats, getCorrectCellBlot } from "../utils";
-import { TableCell, TableCellBlock } from "./table";
+import { CELL_ATTRIBUTE } from "../config";
 
-const List = QuillList as typeof BlockBlot;
-const Container = QuillContainer as typeof ContainerBlot;
+const List = Quill.import("formats/list") as typeof BlockBlot;
+const Container = Quill.import("blots/container") as typeof ContainerBlot;
 const DEFAULT_ATTRIBUTE = ["colspan", "rowspan"];
 
 class ListContainer extends Container {
@@ -42,11 +40,11 @@ class ListContainer extends Container {
         const formats = CELL_ATTRIBUTE.reduce((formats: Props, attr) => {
             const name = attr.includes("data") ? attr : `data-${attr}`;
             if (domNode.hasAttribute(name)) {
-                formats[attr] = domNode.getAttribute(name) ?? "";
+                formats[attr] = domNode.getAttribute(name);
             }
             return formats;
         }, {});
-        formats["cellId"] = domNode.getAttribute("data-cell") ?? "";
+        formats["cellId"] = domNode.getAttribute("data-cell");
         for (const key of DEFAULT_ATTRIBUTE) {
             if (!formats[key]) formats[key] = "1";
         }
@@ -70,7 +68,7 @@ class TableList extends List {
         if (name === "list") {
             const [formats, cellId] = this.getCellFormats(this.parent);
             if (!value || value === list) {
-                this.setReplace(!!isReplace, formats);
+                this.setReplace(isReplace, formats);
                 return this.replaceWith(TableCellBlock.blotName, cellId);
             } else if (value !== list) {
                 return this.replaceWith(this.statics.blotName, value);
@@ -79,14 +77,14 @@ class TableList extends List {
             if (typeof value === "string") {
                 value = { cellId: value };
             }
-            const [formats, cellId] = this.getCorrectCellFormats(value);
-            this.wrap(TableCell.blotName, formats);
+            const [formats, cellId, blotName] = this.getCorrectCellFormats(value);
+            this.wrap(blotName, formats);
             this.wrap(name, { ...formats, cellId });
         } else if (name === "header") {
             const [formats, cellId] = this.getCellFormats(this.parent);
-            this.setReplace(!!isReplace, formats);
+            this.setReplace(isReplace, formats);
             return this.replaceWith("table-header", { cellId, value });
-        } else if (name === TableCell.blotName) {
+        } else if (value && (name === TableCell.blotName || name === TableTh.blotName)) {
             const listContainer = this.getListContainer(this.parent);
             if (!listContainer) return;
             const formats = listContainer.formats()[listContainer.statics.blotName];
@@ -103,22 +101,23 @@ class TableList extends List {
 
     getCellFormats(parent: TableCell | TableCellChildren) {
         const cellBlot = getCorrectCellBlot(parent);
-        return getCellFormats(cellBlot!);
+        return getCellFormats(cellBlot);
     }
 
-    getCorrectCellFormats(value: Props): [Props, string] {
+    getCorrectCellFormats(value: Props): [Props, string, string] {
         const cellBlot = getCorrectCellBlot(this.parent);
         if (!cellBlot) {
             const cellId = value["cellId"];
             const formats = { ...value };
             delete formats["cellId"];
-            return [formats, cellId];
+            return [formats, cellId, TableCell.blotName];
         } else {
+            const blotName = cellBlot.statics.blotName;
             const [formats, cellId] = getCellFormats(cellBlot);
             const _formats = { ...formats, ...value };
             const _cellId = _formats["cellId"] || cellId;
             delete _formats["cellId"];
-            return [_formats, _cellId];
+            return [_formats, _cellId, blotName];
         }
     }
 

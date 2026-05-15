@@ -1,0 +1,47 @@
+@import "../../../../../ui/variables";
+
+// Border widths (common values)
+$border-widths: (0px, 1px, 2px, 3px, 4px, 5px);
+
+// Border styles
+$border-styles: (none, dashed, dotted, double, groove, inset, outset, ridge, solid);
+
+// Padding values (common values)
+$paddings: (0px, 2px, 4px, 6px, 8px, 10px, 12px, 14px, 16px, 18px, 20px);
+
+.widget-rich-text {
+    // Background colors for table cells
+    @each $color in $colors {
+        .ql-cell-bg-#{str-slice(inspect($color), 2)} {
+            background-color: $color !important;
+        }
+    }
+
+    // Border colors for table cells
+    @each $color in $colors {
+        .ql-cell-border-color-#{str-slice(inspect($color), 2)} {
+            border-color: $color !important;
+        }
+    }
+
+    // Border widths
+    @each $width in $border-widths {
+        .ql-cell-border-width-#{$width} {
+            border-width: $width !important;
+        }
+    }
+
+    // Border styles
+    @each $style in $border-styles {
+        .ql-cell-border-style-#{$style} {
+            border-style: $style !important;
+        }
+    }
+
+    // Padding
+    @each $padding in $paddings {
+        .ql-cell-padding-#{$padding} {
+            padding: $padding !important;
+        }
+    }
+}
