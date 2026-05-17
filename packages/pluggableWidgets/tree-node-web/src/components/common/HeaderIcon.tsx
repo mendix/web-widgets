@@ -1,13 +1,19 @@
 import classNames from "classnames";
+import { WebIcon } from "mendix";
 import { ReactNode } from "react";
 
-import { ShowIconEnum } from "../../typings/TreeNodeProps";
-import loadingCircleSvg from "../assets/loading-circle.svg";
+import { ShowIconEnum } from "../../../typings/TreeNodeProps";
+import loadingCircleSvg from "../../assets/loading-circle.svg";
 
-import { ChevronIcon, CustomHeaderIcon } from "./Icons";
-import { TreeNodeProps, TreeNodeState } from "./TreeNode";
+import { ChevronIcon, CustomHeaderIcon } from "../v1/Icons";
+import { TreeNodeState } from "./TreeNodeState";
 
-export type IconOptions = Pick<TreeNodeProps, "animateIcon" | "collapsedIcon" | "expandedIcon" | "showCustomIcon">;
+export interface IconOptions {
+    animateIcon: boolean;
+    collapsedIcon?: WebIcon;
+    expandedIcon?: WebIcon;
+    showCustomIcon: boolean;
+}
 
 export type TreeNodeHeaderIcon = (
     treeNodeState: TreeNodeState,

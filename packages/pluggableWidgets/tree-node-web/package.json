@@ -23,15 +23,15 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "tree-node-web/main"
+        "branchName": "tree-node-web/tree-node-v2"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:web",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
-        "e2e": "run-e2e ci",
+        "e2e": "MENDIX_VERSION=11.9.1 run-e2e ci",
         "e2e-update-project": "pnpm --filter @mendix/data-widgets run build:include-deps",
-        "e2edev": "run-e2e dev --with-preps",
+        "e2edev": "MENDIX_VERSION=11.9.1 run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
