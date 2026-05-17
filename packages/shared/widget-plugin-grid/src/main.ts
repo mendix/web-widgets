@@ -1,4 +1,5 @@
 export { DatasourceService } from "./core/Datasource.service";
+export * from "./core/models/selection.model";
 export { ProgressService } from "./core/Progress.service";
 export { createClickActionHelper } from "./helpers/createClickActionHelper";
 export type { QueryService } from "./interfaces/QueryService";
