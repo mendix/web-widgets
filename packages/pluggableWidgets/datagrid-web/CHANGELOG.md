@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.0] - 2026-05-18
+
 ### Added
 
 - We added a "Custom row key" property in the Advanced section to provide stable row identifiers when using view entities, preventing scroll position loss during data refresh.
