@@ -55,7 +55,7 @@ test.describe("BadgeButton on click", () => {
             await page.locator(".mx-name-openClosePage").click();
             await expect(page.locator(".mx-name-badgeButtonClosePage")).toBeVisible();
             await page.locator(".mx-name-badgeButtonClosePage").click();
-            await expect(page.locator(".mx-name-pageTitle1").nth(1)).toBeVisible();
+            await waitForMendixApp(page);
             await expect(page.locator(".mx-name-pageTitle1")).toContainText("Events");
         });
     });
