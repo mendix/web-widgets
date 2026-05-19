@@ -31,6 +31,9 @@ test.describe("line-chart-web", () => {
             const coloredLineChartElement = await page.locator(".mx-name-containerColoredMarkerLine");
             await coloredLineChartElement.scrollIntoViewIfNeeded();
             await expect(coloredLineChartElement).toBeVisible();
+            await expect(
+                page.locator(".mx-name-containerColoredMarkerLine > .widget-chart > .mx-react-plotly-chart")
+            ).toBeVisible();
             await expect(coloredLineChartElement).toHaveScreenshot(`lineChartColoredLineMarkers.png`);
         });
     });
@@ -40,6 +43,9 @@ test.describe("line-chart-web", () => {
             const linearLineChartElement = await page.locator(".mx-name-containerLinear");
             await linearLineChartElement.scrollIntoViewIfNeeded();
             await expect(linearLineChartElement).toBeVisible();
+            await expect(
+                page.locator(".mx-name-containerLinear > .widget-chart > .mx-react-plotly-chart")
+            ).toBeVisible();
             await expect(linearLineChartElement).toHaveScreenshot(`lineChartLinear.png`);
         });
 
