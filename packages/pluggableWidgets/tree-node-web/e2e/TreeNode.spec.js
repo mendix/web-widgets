@@ -146,14 +146,17 @@ test.describe("v2: startExpanded", () => {
         const widget = page.locator(".mx-name-treeNodeV2_2");
         // All levels should be present with aria-expanded="true"
         await expect(widget.getByRole("treeitem", { name: "Electronics" }).first()).toBeVisible();
-        await expect(widget.getByRole("treeitem", { name: "Phones" }).first()).toBeVisible();
-        // Deep nodes load via network — allow extra time
-        await expect(widget.getByRole("treeitem", { name: "Android" })).toHaveAttribute("aria-expanded", "true", {
-            timeout: 8000
-        });
-        await expect(widget.getByRole("treeitem", { name: "iOS" })).toHaveAttribute("aria-expanded", "true", {
-            timeout: 8000
-        });
+        // Phones has children — assert it is expanded
+        await expect(widget.getByRole("treeitem", { name: "Phones" }).first()).toHaveAttribute(
+            "aria-expanded",
+            "true",
+            {
+                timeout: 8000
+            }
+        );
+        // Android and iOS are leaf nodes — aria-expanded is not set on them; just verify they are visible
+        await expect(widget.getByRole("treeitem", { name: "Android" })).toBeVisible({ timeout: 8000 });
+        await expect(widget.getByRole("treeitem", { name: "iOS" })).toBeVisible({ timeout: 8000 });
         await expect(widget.getByRole("treeitem", { name: "Men", exact: true })).toBeVisible();
     });
 
