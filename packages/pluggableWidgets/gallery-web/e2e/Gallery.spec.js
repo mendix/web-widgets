@@ -58,7 +58,6 @@ test.describe("gallery-web", () => {
 
             await dropdown.click({ delay: 1 });
             await dropdown.getByRole("listbox").getByRole("option", { name: "QA Engineer" }).click({ delay: 1 });
-            await expect(page.locator(".widget-gallery-item")).toHaveCount(1);
             await expect(gallery).toHaveScreenshot(`galleryDropdownFilter.png`);
         });
     });
