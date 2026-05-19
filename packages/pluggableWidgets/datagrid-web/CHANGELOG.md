@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added a "Custom row key" property in the Advanced section to provide stable row identifiers when using view entities, preventing scroll position loss during data refresh.
+
 ### Fixed
 
 - We fixed an issue where custom content columns ignored the export type setting, causing numbers and dates to always export as text in Excel.
@@ -15,12 +19,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - We fixed an issue where boolean values exported as TRUE/FALSE instead of Yes/No to match the display in the grid.
 
 - We fixed an issue where numbers with more than 15 significant digits lost precision during Excel export. Such values are now exported as text to preserve all digits.
-
-### Added
-
-- We added a "Custom row key" property in the Advanced section to provide stable row identifiers when using view entities, preventing scroll position loss during data refresh.
-
-### Fixed
 
 - We fixed an issue where the vertical scrollbar disappeared after hiding a wide column while virtual scrolling was enabled.
 - We fixed an issue where only the first page loaded when the grid had enough columns to require horizontal scrolling.
