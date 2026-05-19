@@ -1,5 +1,5 @@
 import { ObjectItem } from "mendix";
-import { ReactNode } from "react";
+import { ReactNode, KeyboardEvent } from "react";
 import { TreeConfigRef } from "./useIncrementalTreeData";
 import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 
@@ -33,4 +33,44 @@ export function isConfigChanged(previous: TreeConfigRef | null, next: TreeConfig
         previous.headerContent !== next.headerContent ||
         previous.parentAssociation !== next.parentAssociation
     );
+}
+
+export function onKeyDownHandler<T>(
+    event: KeyboardEvent<HTMLLIElement>,
+    hasChildren: boolean,
+    isExpanded: boolean,
+    onNodeClick: (node: T) => void,
+    node: T
+): void {
+    // Only handle key events on the tree item itself, not bubbled from children
+    if (event.currentTarget !== event.target) {
+        return;
+    }
+
+    switch (event.key) {
+        case "Enter":
+        case " ": // Space key
+            if (hasChildren) {
+                event.preventDefault();
+                event.stopPropagation();
+                onNodeClick(node);
+            }
+            break;
+        case "ArrowRight":
+            if (hasChildren) {
+                if (!isExpanded) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    onNodeClick(node);
+                }
+            }
+            break;
+        case "ArrowLeft":
+            if (hasChildren && isExpanded) {
+                event.preventDefault();
+                event.stopPropagation();
+                onNodeClick(node);
+            }
+            break;
+    }
 }

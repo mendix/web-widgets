@@ -90,6 +90,16 @@
                     <description>Animate the icon when the group is collapsing or expanding.</description>
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Texts">
+                <property key="noDataMessage" type="textTemplate" required="false">
+                    <caption>No data message</caption>
+                    <description>Message to show when there are no items to display.</description>
+                    <translations>
+                        <translation lang="en_US">No data available</translation>
+                        <translation lang="nl_NL">Geen gegevens beschikbaar</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
         </propertyGroup>
     </properties>
 </widget>

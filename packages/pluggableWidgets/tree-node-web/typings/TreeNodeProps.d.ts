@@ -32,6 +32,7 @@ export interface TreeNodeContainerProps {
     expandedIcon?: DynamicValue<WebIcon>;
     collapsedIcon?: DynamicValue<WebIcon>;
     animateIcon: boolean;
+    noDataMessage?: DynamicValue<string>;
 }
 
 export interface TreeNodePreviewProps {
@@ -60,4 +61,5 @@ export interface TreeNodePreviewProps {
     expandedIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
     collapsedIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
     animateIcon: boolean;
+    noDataMessage: string;
 }

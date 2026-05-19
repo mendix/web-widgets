@@ -1,9 +1,10 @@
 import classNames from "classnames";
 import { ValueStatus } from "mendix";
-import { ReactElement, useCallback, useMemo, useState } from "react";
+import { ReactElement, useCallback, useMemo, useState, KeyboardEvent } from "react";
 import "./ui/TreeNodeV2.scss";
 import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "../common/HeaderIcon";
 import { TreeNodeState } from "../common/TreeNodeState";
+import { onKeyDownHandler } from "./hooks/helpers";
 import { useIncrementalTreeData, TreeNodeV2DataItem } from "./hooks/useIncrementalTreeData";
 import { useInfiniteTreeNodes } from "./hooks/useInfiniteTreeNode";
 import { TreeNodeContainerProps } from "../../../typings/TreeNodeProps";
@@ -23,6 +24,10 @@ function renderRecursiveNode(
     const onIconClick = isIconClickable ? () => onNodeClick(node) : undefined;
     const onHeaderClick = isHeaderClickable ? () => onNodeClick(node) : undefined;
 
+    const onKeyDown = (event: KeyboardEvent<HTMLLIElement>): void => {
+        onKeyDownHandler<TreeNodeV2DataItem>(event, hasChildren, isExpanded, onNodeClick, node);
+    };
+
     return (
         <li
             key={node.id}
@@ -30,6 +35,7 @@ function renderRecursiveNode(
             role="treeitem"
             tabIndex={0}
             aria-expanded={hasChildren ? isExpanded : undefined}
+            onKeyDown={onKeyDown}
         >
             <span
                 className={classNames("widget-tree-node-branch-header", {
@@ -40,7 +46,7 @@ function renderRecursiveNode(
                 onClick={onHeaderClick}
             >
                 <span className="widget-tree-node-branch-header-value">{node.title}</span>
-                {hasChildren && iconPlacement !== "no" ? (
+                {(hasChildren || node.treeNodeState === TreeNodeState.LOADING) && iconPlacement !== "no" && (
                     <span
                         className={classNames("widget-tree-node-branch-header-icon-container", {
                             "widget-tree-node-branch-header-clickable": hasChildren && isIconClickable
@@ -49,7 +55,7 @@ function renderRecursiveNode(
                     >
                         {renderHeaderIcon(node.treeNodeState, iconPlacement)}
                     </span>
-                ) : null}
+                )}
             </span>
             {hasChildren ? (
                 <div
@@ -127,6 +133,14 @@ export function TreeNodeV2(props: TreeNodeContainerProps): ReactElement {
         },
         [appendItems]
     );
+
+    if (treeData.length === 0) {
+        return (
+            <div className={classNames("widget-tree-node", "widget-tree-node-v2", props.class)} style={props.style}>
+                <div className="widget-tree-node-no-data">{props.noDataMessage?.value ?? "No data available"}</div>
+            </div>
+        );
+    }
 
     return (
         <ul

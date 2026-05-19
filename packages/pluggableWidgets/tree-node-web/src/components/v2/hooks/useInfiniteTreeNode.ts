@@ -75,7 +75,6 @@ export function useInfiniteTreeNodes(props: TreeNodeContainerProps): {
                     const parentId = getItemId(item);
                     loadedParentsByIdRef.current.set(parentId, item);
                 });
-
                 datasource.setFilter(getDatasourceFilter(getExpandedFilterItems()));
             }
 

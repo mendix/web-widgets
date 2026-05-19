@@ -2,11 +2,10 @@ import classNames from "classnames";
 import { WebIcon } from "mendix";
 import { ReactNode } from "react";
 
+import { ChevronIcon, CustomHeaderIcon } from "./Icons";
+import { TreeNodeState } from "./TreeNodeState";
 import { ShowIconEnum } from "../../../typings/TreeNodeProps";
 import loadingCircleSvg from "../../assets/loading-circle.svg";
-
-import { ChevronIcon, CustomHeaderIcon } from "../v1/Icons";
-import { TreeNodeState } from "./TreeNodeState";
 
 export interface IconOptions {
     animateIcon: boolean;

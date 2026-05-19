@@ -15,12 +15,13 @@ import {
 
 import { OpenNodeOnEnum, ShowIconEnum } from "../../../typings/TreeNodeProps";
 import { TreeNodeHeaderIcon } from "../common/HeaderIcon";
+import { TreeNodeState } from "../common/TreeNodeState";
 
 import { useTreeNodeLazyLoading } from "./hooks/lazyLoading";
 import { TreeNodeFocusChangeHandler, useTreeNodeBranchKeyboardHandler } from "./hooks/TreeNodeAccessibility";
 import { useAnimatedTreeNodeContentHeight } from "./hooks/useAnimatedHeight";
+import { TreeNodeItem } from "./TreeNode";
 
-import { TreeNodeItem, TreeNodeState } from "./TreeNode";
 import { TreeNodeBranchContext, TreeNodeBranchContextProps } from "./TreeNodeBranchContext";
 
 export interface TreeNodeBranchProps {

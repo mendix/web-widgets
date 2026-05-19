@@ -38,6 +38,7 @@ export function getProperties(
     if (values.parentAssociation) {
         hidePropertyIn(defaultProperties, values, "hasChildren");
     } else {
+        hidePropertyIn(defaultProperties, values, "noDataMessage");
         if (!values.hasChildren) {
             hidePropertiesIn(defaultProperties, values, ["startExpanded", "children"]);
         }
