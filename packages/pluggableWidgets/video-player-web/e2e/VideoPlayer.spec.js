@@ -106,7 +106,21 @@ test.describe("External video", () => {
     });
 
     test("renders a poster", async ({ page }) => {
-        await expect(page.locator(".widget-video-player")).toHaveScreenshot(`videoPlayerExternalPoster.png`, 1);
+        const widget = page.locator(".widget-video-player");
+        const videoLocator = page.locator(".widget-video-player video");
+        await expect(widget).toBeVisible();
+        await expect(videoLocator).toHaveAttribute("poster", /.+/);
+        const posterUrl = await videoLocator.getAttribute("poster");
+        await page.evaluate(url => {
+            return new Promise(resolve => {
+                const img = new Image();
+                img.onload = () => resolve(undefined);
+                img.onerror = () => resolve(undefined);
+                img.src = url;
+                if (img.complete && img.naturalWidth !== 0) resolve(undefined);
+            });
+        }, posterUrl);
+        await expect(widget).toHaveScreenshot("videoPlayerExternalPoster.png");
     });
 
     test.describe("Video aspect ratio", () => {
