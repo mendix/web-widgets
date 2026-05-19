@@ -18,7 +18,6 @@ import { ClippingStrategyEnum, TriggerEnum } from "../../typings/PopupMenuProps"
 
 interface PopupOptions {
     placement?: Placement;
-    modal?: boolean;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
     clippingStrategy?: ClippingStrategyEnum;
@@ -30,13 +29,11 @@ type InteractionReturn = Pick<UseInteractionsReturn, "getFloatingProps" | "getRe
 
 export type UsePopupReturn = FloatingReturn &
     InteractionReturn & {
-        modal?: boolean;
         open?: boolean;
     };
 
 export function usePopup({
     placement = "bottom",
-    modal,
     open,
     onOpenChange: setOpen,
     trigger,
@@ -63,7 +60,6 @@ export function usePopup({
         floatingStyles,
         getFloatingProps,
         getReferenceProps,
-        modal,
         open,
         refs
     };
