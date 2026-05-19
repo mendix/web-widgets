@@ -121,6 +121,16 @@ describe("cell-readers", () => {
             const cell = readSingleCell(col);
             expect(cell).toEqual({ t: "s", v: "" });
         });
+
+        it("returns n/a cell when dynamicText is unavailable", () => {
+            const col = column("Label", c => {
+                c.showContentAs = "dynamicText";
+                c.dynamicText = listExpression(() => "text", "unavailable");
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("n/a");
+        });
     });
 
     describe("customContent reader", () => {
@@ -190,6 +200,17 @@ describe("cell-readers", () => {
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
             expect(cell.v).toBe("");
+        });
+
+        it("falls back to string for whitespace-only value with number exportType", () => {
+            const col = column("Ws", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "   ");
+                c.exportType = "number";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("   ");
         });
 
         it("exports as date cell when exportType is date", () => {
