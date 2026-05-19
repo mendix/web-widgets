@@ -14,6 +14,8 @@ test.describe("heatmap-chart-web", () => {
             await customColorContainer.scrollIntoViewIfNeeded();
             await expect(customColorContainer.locator(".mx-react-plotly-chart")).toBeVisible({ timeout: 5000 });
             await expect(customColorContainer.locator("g.colorbar")).toBeVisible({ timeout: 5000 });
+            await expect(customColorContainer.locator("g.cbaxis")).toBeVisible({ timeout: 5000 });
+            await expect(customColorContainer.locator("g.g-xtitle")).toBeVisible({ timeout: 5000 });
             await expect(customColorContainer).toHaveScreenshot(`heatmapChartCustomColor.png`);
         });
     });
@@ -25,6 +27,8 @@ test.describe("heatmap-chart-web", () => {
             await ascendingContainer.scrollIntoViewIfNeeded();
             await expect(ascendingContainer.locator(".mx-react-plotly-chart")).toBeVisible({ timeout: 5000 });
             await expect(ascendingContainer.locator("g.colorbar")).toBeVisible({ timeout: 5000 });
+            await expect(ascendingContainer.locator("g.cbaxis")).toBeVisible({ timeout: 5000 });
+            await expect(ascendingContainer.locator("g.g-xtitle")).toBeVisible({ timeout: 5000 });
             await expect(ascendingContainer).toHaveScreenshot(`heatmapChartAscending.png`);
         });
 
@@ -36,6 +40,8 @@ test.describe("heatmap-chart-web", () => {
             await descendingContainer.scrollIntoViewIfNeeded();
             await expect(descendingContainer.locator(".mx-react-plotly-chart")).toBeVisible({ timeout: 5000 });
             await expect(descendingContainer.locator("g.colorbar")).toBeVisible({ timeout: 5000 });
+            await expect(descendingContainer.locator("g.cbaxis")).toBeVisible({ timeout: 5000 });
+            await expect(descendingContainer.locator("g.g-xtitle")).toBeVisible({ timeout: 5000 });
             await expect(descendingContainer).toHaveScreenshot(`heatmapChartDescending.png`);
         });
     });
