@@ -17,11 +17,11 @@ import {
 import { ClippingStrategyEnum, TriggerEnum } from "../../typings/PopupMenuProps";
 
 interface PopupOptions {
-    placement?: Placement;
-    open?: boolean;
+    placement: Placement;
+    open: boolean;
     onOpenChange?: (open: boolean) => void;
-    clippingStrategy?: ClippingStrategyEnum;
-    trigger?: TriggerEnum;
+    clippingStrategy: ClippingStrategyEnum;
+    trigger: TriggerEnum;
 }
 
 type FloatingReturn = Pick<UseFloatingReturn, "context" | "floatingStyles" | "refs">;
@@ -29,7 +29,7 @@ type InteractionReturn = Pick<UseInteractionsReturn, "getFloatingProps" | "getRe
 
 export type UsePopupReturn = FloatingReturn &
     InteractionReturn & {
-        open?: boolean;
+        open: boolean;
     };
 
 export function usePopup({
@@ -38,7 +38,7 @@ export function usePopup({
     onOpenChange: setOpen,
     trigger,
     clippingStrategy
-}: PopupOptions = {}): UsePopupReturn {
+}: PopupOptions): UsePopupReturn {
     const { context, floatingStyles, refs } = useFloating({
         middleware: [offset(5), flip(), shift()],
         onOpenChange: setOpen,
