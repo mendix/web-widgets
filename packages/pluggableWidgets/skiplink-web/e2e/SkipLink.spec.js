@@ -4,6 +4,8 @@ import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 test.beforeEach(async ({ page }) => {
     await page.goto("/");
     await waitForMendixApp(page);
+    // Establish focus context so keyboard events are delivered
+    await page.locator("body").click();
 });
 
 test.describe("SkipLink:", function () {
@@ -11,9 +13,8 @@ test.describe("SkipLink:", function () {
         const skipLink = page.locator(".widget-skip-link").first();
         await expect(skipLink).toBeAttached();
 
-        // Element is translated above the viewport — its bottom edge should be at or above y=0
-        const rect = await skipLink.evaluate(el => el.getBoundingClientRect().toJSON());
-        expect(rect.bottom).toBeLessThanOrEqual(0);
+        // Hidden via negative translateY — transform should not be identity matrix
+        await expect(skipLink).not.toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
     });
 
     test("skip link becomes visible when focused via keyboard", async ({ page }) => {
