@@ -33,6 +33,17 @@ docs/requirements/                -> Detailed technical requirements
 - Jest + RTL for unit tests (src/\*_/**tests**/_.spec.ts)
 - Playwright for E2E (e2e/\*.spec.js)
 
+## E2E Test Rules (Playwright)
+
+- Import from `@mendix/run-e2e/fixtures` (not `@playwright/test`)
+- Wait with `waitForMendixApp(page)`, never `waitForTimeout` or `networkidle`
+- Use web-first assertions: `toBeVisible`, `toHaveCount`, `toContainText`, `toHaveCSS`
+- Locators: prefer `.mx-name-*` attributes over nth() or text selectors
+- Screenshots: no per-test threshold overrides, ensure element visible first
+- No manual afterEach logout — fixture handles session lifecycle
+- Tag critical-path tests with `@smoke`
+- See `docs/requirements/e2e-test-guidelines.md` for full rules + template
+
 ## Development Setup
 
 - Node >=22, pnpm 10.x
@@ -49,6 +60,7 @@ docs/requirements/                -> Detailed technical requirements
 ## Documentation
 
 Essential reading (consult for any widget work):
+
 - docs/repo-layout.md — To understand the repository
 - docs/requirements/tech-stack.md — Full technology stack
 - docs/requirements/frontend-guidelines.md — CSS/SCSS/Atlas UI guidelines
@@ -57,8 +69,10 @@ Essential reading (consult for any widget work):
 - docs/requirements/project-requirements-document.md — Goals and scope
 
 Reference (consult on demand for specific tasks):
+
 - docs/requirements/implementation-plan.md — New widget guide + PR template
 - docs/requirements/widget-to-module.md — Widget-to-module conversion guide
+- docs/requirements/e2e-test-guidelines.md — E2E test reliability rules + template
 
 ## Agent-Specific Instructions
 
