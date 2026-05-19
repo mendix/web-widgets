@@ -86,7 +86,9 @@ export function excelBoolean(value: boolean): ExcelCell {
 }
 
 function hasTimeComponent(format: string): boolean {
-    return /[hs]/i.test(format);
+    // Strip locale tags like [$-en-US] before checking — "S" in locale codes would otherwise match.
+    const stripped = format.replace(/\[.*?\]/g, "");
+    return /[hs]/i.test(stripped);
 }
 
 function stripTime(date: Date): Date {
@@ -130,6 +132,7 @@ const readers: ReadersByType = {
             return excelBoolean(value);
         }
 
+        // Mendix numeric attributes always surface as Big; plain JS number is not expected here.
         if (value instanceof Big) {
             if (countSignificantDigits(value) > MAX_SAFE_SIGNIFICANT_DIGITS) {
                 return excelString(value.toFixed(), format);
@@ -161,7 +164,7 @@ const readers: ReadersByType = {
             exportNumberFormat: props.exportNumberFormat
         });
 
-        if (props.exportType === "number" && value !== "") {
+        if (props.exportType === "number" && value.trim() !== "") {
             const parsed = Number(value);
             if (!Number.isNaN(parsed)) {
                 return excelNumber(parsed, format);
