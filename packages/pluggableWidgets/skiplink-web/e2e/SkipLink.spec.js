@@ -13,8 +13,9 @@ test.describe("SkipLink:", function () {
         const skipLink = page.locator(".widget-skip-link").first();
         await expect(skipLink).toBeAttached();
 
-        // Hidden via negative translateY — transform should not be identity matrix
-        await expect(skipLink).not.toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
+        // Element is translated above the viewport — its bottom edge should be at or above y=0
+        const rect = await skipLink.evaluate(el => el.getBoundingClientRect().toJSON());
+        expect(rect.bottom).toBeLessThanOrEqual(0);
     });
 
     test("skip link becomes visible when focused via keyboard", async ({ page }) => {
@@ -22,7 +23,9 @@ test.describe("SkipLink:", function () {
         await page.keyboard.press("Tab");
 
         await expect(skipLink).toBeFocused();
-        await expect(skipLink).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, 0)");
+        // Element should now be within the viewport
+        const rect = await skipLink.evaluate(el => el.getBoundingClientRect().toJSON());
+        expect(rect.top).toBeGreaterThanOrEqual(0);
     });
 
     test("skip link navigates to main content when activated", async ({ page }) => {
