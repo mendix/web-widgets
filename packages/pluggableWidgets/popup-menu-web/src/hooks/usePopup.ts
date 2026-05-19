@@ -8,6 +8,7 @@ import {
     useClick,
     useDismiss,
     useFloating,
+    useFloatingNodeId,
     UseFloatingReturn,
     useHover,
     useInteractions,
@@ -31,6 +32,7 @@ type InteractionReturn = Pick<UseInteractionsReturn, "getFloatingProps" | "getRe
 export type UsePopupReturn = FloatingReturn &
     InteractionReturn & {
         open: boolean;
+        nodeId: string;
     };
 
 export function usePopup({
@@ -41,7 +43,10 @@ export function usePopup({
     clippingStrategy,
     hoverCloseOn
 }: PopupOptions): UsePopupReturn {
+    const nodeId = useFloatingNodeId();
+
     const { context, floatingStyles, refs } = useFloating({
+        nodeId,
         middleware: [offset(5), flip(), shift()],
         onOpenChange: setOpen,
         strategy: clippingStrategy,
@@ -67,7 +72,8 @@ export function usePopup({
         getFloatingProps,
         getReferenceProps,
         open,
-        refs
+        refs,
+        nodeId
     };
 }
 
