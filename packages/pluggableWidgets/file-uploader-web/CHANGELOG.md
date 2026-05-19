@@ -11,18 +11,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - We fixed an issue where validation errors could not be dismissed and persisted after uploading a valid file.
 
 - We fixed an issue where the dropzone turned grey without explanation when the file limit was reached. A message now appears below the dropzone stating "Maximum file count of X reached."
-- We fixed an issue where dropping more files than allowed rejected the entire batch. Only the excess are shown as errors.
-- We fixed an issue where files rejected due to the upload or batch limit could not recover. They now automatically retry when capacity becomes available.
+- We fixed an issue where dropping more files than allowed rejected the entire batch. Only the excess files are now rejected; the rest upload normally.
+- We fixed an issue where files rejected due to the total file limit had no way to recover. They are now automatically queued for upload when capacity becomes available (e.g. after a file is removed or an upload fails).
 
 ### Added
 
+- We added a new "Maximum concurrent uploads" property to control how many files upload simultaneously. Files beyond this limit wait in a queue and upload automatically as slots free up.
 - We added a new "File limit reached" text property to customize the message shown when the upload limit is reached.
-- We added a new "Maximum files per upload batch" property to limit how many files are committed to the server per drop event. Files exceeding the batch limit appear in the list with an error message and retry automatically when capacity is freed.
-- We added a new "Batch limit exceeded" text property to customize the message shown on files that exceeded the batch limit.
+- We added a new "Upload queued" text property to customize the message shown on files that are waiting to upload.
 
 ### Changed
 
 - The "Maximum number of files" property is now optional. Leaving it empty or setting it to 0 means unlimited files are allowed. The default behavior is now unlimited (no cap).
+- Files now upload in a queue rather than being marked as errors when too many are dropped at once. Queued files show a "Waiting..." state while they wait for a concurrent slot.
 - Files in the list are now ordered with successful uploads above rejected files.
 
 ## [2.4.2] - 2026-04-23

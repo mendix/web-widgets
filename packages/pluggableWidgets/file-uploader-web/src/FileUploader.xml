@@ -86,8 +86,8 @@
                 <returnType type="Integer" />
             </property>
             <property key="maxFilesPerBatch" type="expression" required="false">
-                <caption>Maximum files per upload batch</caption>
-                <description>Limits how many files are committed to the server in a single drop or selection. Leave empty or set to 0 for unlimited. Smaller batch sizes reduce peak server load.</description>
+                <caption>Maximum concurrent uploads</caption>
+                <description>Maximum number of files uploading simultaneously. Remaining files wait in a queue and upload automatically as slots free up. Leave empty or set to 0 for unlimited.</description>
                 <returnType type="Integer" />
             </property>
             <property key="maxFileSize" type="integer" defaultValue="25">
@@ -126,6 +126,14 @@
                 <translations>
                     <translation lang="en_US">Uploading...</translation>
                     <translation lang="nl_NL">Uploaden...</translation>
+                </translations>
+            </property>
+            <property key="uploadQueuedMessage" type="textTemplate">
+                <caption>Upload queued</caption>
+                <description />
+                <translations>
+                    <translation lang="en_US">Waiting...</translation>
+                    <translation lang="nl_NL">Wachten...</translation>
                 </translations>
             </property>
             <property key="uploadSuccessMessage" type="textTemplate">
@@ -176,14 +184,7 @@
                     <translation lang="nl_NL">Maximum aantal bestanden van ### bereikt.</translation>
                 </translations>
             </property>
-            <property key="uploadBatchLimitExceededMessage" type="textTemplate">
-                <caption>Batch limit exceeded</caption>
-                <description>Shown on files that were dropped but not uploaded because the batch limit was already reached.</description>
-                <translations>
-                    <translation lang="en_US">File not uploaded. Batch limit of ### files per drop was reached.</translation>
-                    <translation lang="nl_NL">Bestand niet geüpload. Batchlimiet van ### bestanden per upload is bereikt.</translation>
-                </translations>
-            </property>
+
             <property key="unavailableCreateActionMessage" type="textTemplate">
                 <caption>Action to create new files is not available or failed</caption>
                 <description />

@@ -15,13 +15,14 @@ export function UploadInfo({ status, error }: UploadInfoProps): ReactElement {
         case "done":
             return <span className={"upload-status success"}>{translations.get("uploadSuccessMessage")}</span>;
         case "uploadingError":
-        case "removedAfterError":
             return <span className={"upload-status error"}>{translations.get("uploadFailureGenericMessage")}</span>;
         case "validationError":
+        case "rejected":
             return <span className={"upload-status error"}>{error}</span>;
         case "removedFile":
             return <span className={"upload-status error"}>{translations.get("removeSuccessMessage")}</span>;
-        case "new":
+        case "queued":
+            return <span className={"upload-status"}>{translations.get("uploadQueuedMessage")}</span>;
         case "existingFile":
         default:
             return <span className={"upload-status"}></span>;
