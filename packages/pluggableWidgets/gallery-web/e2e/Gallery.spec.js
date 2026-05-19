@@ -31,6 +31,7 @@ test.describe("gallery-web", () => {
 
             await page.locator(textFilter).first().fill("Leo");
             await expect(page.locator(".widget-gallery-item")).toHaveCount(1);
+            await page.locator(textFilter).first().focus();
             await expect(page.locator(gallery)).toHaveScreenshot(`galleryTextFilter.png`);
         });
 
