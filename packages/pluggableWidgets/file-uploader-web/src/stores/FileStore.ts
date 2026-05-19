@@ -17,13 +17,13 @@ import {
 export type FileStatus =
     | "existingFile"
     | "missing"
-    | "new"
+    | "queued"
     | "uploading"
     | "done"
     | "uploadingError"
-    | "removedAfterError"
     | "removedFile"
-    | "validationError";
+    | "validationError"
+    | "rejected";
 
 let fileKey = 0;
 
@@ -43,7 +43,6 @@ export class FileStore {
     key: number;
 
     errorDescription?: string = undefined;
-    errorType?: "limitExceeded" | "batchExceeded" | "validation" = undefined;
 
     constructor(type: FileStatus, rootStore: FileUploaderStore, file?: File, objectItem?: ObjectItem) {
         this.key = getFileKey();
@@ -56,37 +55,27 @@ export class FileStore {
             fileStatus: observable,
             _mxObject: observable,
             errorDescription: observable,
-            errorType: observable,
             _thumbnailUrl: observable,
             canRemove: computed,
             imagePreviewUrl: computed,
             upload: action,
             fetchMxObject: action,
             markMissing: action,
-            markError: action,
-            markError: action,
-            reset: action,
+            setQueued: action,
             dismiss: action
         });
     }
 
     markMissing(): void {
-        this.fileStatus = this.fileStatus === "uploadingError" ? "removedAfterError" : "missing";
+        this.fileStatus = this.fileStatus === "uploadingError" ? "removedFile" : "missing";
 
         this._mxObject = undefined;
         this._objectItem = undefined;
     }
 
-    markError(errorMessage: string, errorType: "limitExceeded" | "batchExceeded" | "validation" = "validation"): void {
-        this.fileStatus = "validationError";
-        this.errorDescription = errorMessage;
-        this.errorType = errorType;
-    }
-
-    reset(): void {
-        this.errorType = undefined;
+    setQueued(): void {
         this.errorDescription = undefined;
-        this.fileStatus = "new";
+        this.fileStatus = "queued";
     }
 
     dismiss(): void {
@@ -108,12 +97,12 @@ export class FileStore {
     }
 
     validate(): boolean {
-        return !(this.fileStatus !== "new" || !this._file);
+        return !(this.fileStatus !== "queued" || !this._file);
     }
 
     async upload(): Promise<void> {
-        if (this.fileStatus === "existingFile") {
-            throw new Error("Calling upload on already uploaded files is not supported");
+        if (this.fileStatus !== "queued") {
+            return;
         }
 
         // set status
@@ -251,19 +240,22 @@ export class FileStore {
     }
 
     static newFile(file: File, rootStore: FileUploaderStore): FileStore {
-        return new FileStore("new", rootStore, file, undefined);
+        return new FileStore("queued", rootStore, file, undefined);
     }
 
-    static newFileWithError(
-        file: File,
-        errorMessage: string,
-        rootStore: FileUploaderStore,
-        errorType: "limitExceeded" | "batchExceeded" | "validation" = "validation"
-    ): FileStore {
+    static newRejectedFile(file: File, errorMessage: string, rootStore: FileUploaderStore): FileStore {
+        const store = new FileStore("rejected", rootStore, file, undefined);
+        runInAction(() => {
+            store.errorDescription = errorMessage;
+        });
+
+        return store;
+    }
+
+    static newFileWithValidationError(file: File, errorMessage: string, rootStore: FileUploaderStore): FileStore {
         const store = new FileStore("validationError", rootStore, file, undefined);
         runInAction(() => {
             store.errorDescription = errorMessage;
-            store.errorType = errorType;
         });
 
         return store;

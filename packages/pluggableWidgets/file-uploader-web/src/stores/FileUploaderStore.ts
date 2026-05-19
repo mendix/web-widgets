@@ -26,9 +26,10 @@ export class FileUploaderStore {
     _uploadMode: UploadModeEnum;
     _maxFileSizeMiB = 0;
     _maxFileSize = 0;
-    _maxFilesPerUpload: DynamicValue<Big> | undefined;
-    _maxFilesPerBatch: DynamicValue<Big> | undefined;
-    _disposeRetryReaction: (() => void) | undefined;
+    _maxTotalFiles: DynamicValue<Big> | undefined;
+    _maxConcurrentUploads: DynamicValue<Big> | undefined;
+    _disposePromoteRejectedReaction: (() => void) | undefined;
+    _disposePromoteQueuedReaction: (() => void) | undefined;
 
     errorMessage?: string = undefined;
 
@@ -38,8 +39,8 @@ export class FileUploaderStore {
         this._widgetName = props.name;
         this._maxFileSizeMiB = props.maxFileSize;
         this._maxFileSize = this._maxFileSizeMiB * 1024 * 1024;
-        this._maxFilesPerUpload = props.maxFilesPerUpload;
-        this._maxFilesPerBatch = props.maxFilesPerBatch;
+        this._maxTotalFiles = props.maxFilesPerUpload;
+        this._maxConcurrentUploads = props.maxFilesPerBatch;
         this._uploadMode = props.uploadMode;
 
         this.objectCreationHelper = new ObjectCreationHelper(this._widgetName, props.objectCreationTimeout);
@@ -79,35 +80,42 @@ export class FileUploaderStore {
             processDrop: action,
             dismissFile: action,
             setMessage: action,
-            dismissValidationErrors: action,
-            retryLimitExceededFiles: action,
+            promoteRejectedFiles: action,
+            promoteQueuedFiles: action,
             processExistingFileItem: action,
             files: observable,
             existingItemsLoaded: observable,
             errorMessage: observable,
             allowedFormatsDescription: computed,
-            maxFilesPerUpload: computed,
-            maxFilesPerBatch: computed,
-            _maxFilesPerUpload: observable,
-            _maxFilesPerBatch: observable,
+            maxTotalFiles: computed,
+            maxConcurrentUploads: computed,
+            _maxTotalFiles: observable,
+            _maxConcurrentUploads: observable,
             isFileUploadLimitReached: computed,
             warningMessage: computed,
-            sortedFiles: computed
+            sortedFiles: computed,
+            activeCount: computed,
+            uploadingCount: computed
         });
 
         this.updateProps(props);
 
-        this._disposeRetryReaction = reaction(
-            () =>
-                this.files.filter(
-                    f =>
-                        f.fileStatus !== "missing" &&
-                        f.fileStatus !== "removedFile" &&
-                        f.fileStatus !== "validationError"
-                ).length,
+        // Reaction 1: active count drops → promote rejected files into queue
+        this._disposePromoteRejectedReaction = reaction(
+            () => this.activeCount,
             (count, prevCount) => {
                 if (count < prevCount) {
-                    this.retryLimitExceededFiles();
+                    this.promoteRejectedFiles();
+                }
+            }
+        );
+
+        // Reaction 2: uploading count drops → promote queued files to uploading
+        this._disposePromoteQueuedReaction = reaction(
+            () => this.uploadingCount,
+            (count, prevCount) => {
+                if (count < prevCount) {
+                    this.promoteQueuedFiles();
                 }
             }
         );
@@ -116,8 +124,8 @@ export class FileUploaderStore {
     updateProps(props: FileUploaderContainerProps): void {
         this.objectCreationHelper.updateProps(props);
 
-        this._maxFilesPerUpload = props.maxFilesPerUpload;
-        this._maxFilesPerBatch = props.maxFilesPerBatch;
+        this._maxTotalFiles = props.maxFilesPerUpload;
+        this._maxConcurrentUploads = props.maxFilesPerBatch;
 
         this.translations.updateProps(props);
         this.updateProcessor.processUpdate(
@@ -140,34 +148,43 @@ export class FileUploaderStore {
             .join(", ");
     }
 
-    get maxFilesPerUpload(): number {
-        const expressionValue = this._maxFilesPerUpload?.value;
+    get maxTotalFiles(): number {
+        const expressionValue = this._maxTotalFiles?.value;
         if (expressionValue) {
             return expressionValue.toNumber();
         }
         return 0;
     }
 
-    get maxFilesPerBatch(): number {
-        const expressionValue = this._maxFilesPerBatch?.value;
+    get maxConcurrentUploads(): number {
+        const expressionValue = this._maxConcurrentUploads?.value;
         if (expressionValue) {
             return expressionValue.toNumber();
         }
         return 0;
+    }
+
+    get activeCount(): number {
+        return this.files.filter(
+            f =>
+                f.fileStatus !== "missing" &&
+                f.fileStatus !== "removedFile" &&
+                f.fileStatus !== "validationError" &&
+                f.fileStatus !== "rejected" &&
+                f.fileStatus !== "uploadingError"
+        ).length;
+    }
+
+    get uploadingCount(): number {
+        return this.files.filter(f => f.fileStatus === "uploading").length;
     }
 
     get isFileUploadLimitReached(): boolean {
-        const activeFiles = this.files.filter(
-            file =>
-                file.fileStatus !== "missing" &&
-                file.fileStatus !== "removedFile" &&
-                file.fileStatus !== "validationError"
-        );
-        if (this.maxFilesPerUpload === 0) {
+        if (this.maxTotalFiles === 0) {
             return false;
         }
 
-        return activeFiles.length >= this.maxFilesPerUpload;
+        return this.activeCount >= this.maxTotalFiles;
     }
 
     get sortedFiles(): FileStore[] {
@@ -180,7 +197,7 @@ export class FileUploaderStore {
 
     get warningMessage(): string | undefined {
         if (this.isFileUploadLimitReached) {
-            return this.translations.get("uploadLimitReachedMessage", this.maxFilesPerUpload.toString());
+            return this.translations.get("uploadLimitReachedMessage", this.maxTotalFiles.toString());
         }
         return this.errorMessage;
     }
@@ -190,10 +207,7 @@ export class FileUploaderStore {
     }
 
     private dismissValidationErrors(): void {
-        this.files = this.files.filter(
-            f =>
-                f.fileStatus !== "validationError" || f.errorType === "limitExceeded" || f.errorType === "batchExceeded"
-        );
+        this.files = this.files.filter(f => f.fileStatus !== "validationError");
         this.setMessage();
     }
 
@@ -204,35 +218,46 @@ export class FileUploaderStore {
         }
     }
 
-    retryLimitExceededFiles(): void {
-        const activeCount = this.files.filter(
-            f => f.fileStatus !== "missing" && f.fileStatus !== "removedFile" && f.fileStatus !== "validationError"
-        ).length;
-        const capacitySlots =
-            this.maxFilesPerUpload > 0 ? Math.max(0, this.maxFilesPerUpload - activeCount) : Number.MAX_SAFE_INTEGER;
-        const slots = this.maxFilesPerBatch > 0 ? Math.min(capacitySlots, this.maxFilesPerBatch) : capacitySlots;
+    promoteRejectedFiles(): void {
+        if (this.maxTotalFiles === 0) {
+            return;
+        }
 
+        const slots = Math.max(0, this.maxTotalFiles - this.activeCount);
         if (slots === 0) {
             return;
         }
 
-        const waiting = [...this.files].filter(
-            f =>
-                f.fileStatus === "validationError" &&
-                (f.errorType === "limitExceeded" || f.errorType === "batchExceeded")
-        );
+        // oldest first: files are unshifted (prepended), so last in array = oldest
+        const rejected = [...this.files].filter(f => f.fileStatus === "rejected").reverse();
 
-        for (let i = 0; i < Math.min(slots, waiting.length); i++) {
-            const file = waiting[i];
-            file.reset();
-            if (file.validate()) {
-                file.upload();
-            }
+        for (let i = 0; i < Math.min(slots, rejected.length); i++) {
+            rejected[i].setQueued();
+        }
+
+        this.promoteQueuedFiles();
+    }
+
+    promoteQueuedFiles(): void {
+        const concurrentLimit = this.maxConcurrentUploads;
+        const availableSlots =
+            concurrentLimit > 0 ? Math.max(0, concurrentLimit - this.uploadingCount) : Number.MAX_SAFE_INTEGER;
+
+        if (availableSlots === 0) {
+            return;
+        }
+
+        // oldest first: last in array = oldest
+        const queued = [...this.files].filter(f => f.fileStatus === "queued").reverse();
+
+        for (let i = 0; i < Math.min(availableSlots, queued.length); i++) {
+            queued[i].upload();
         }
     }
 
     dispose(): void {
-        this._disposeRetryReaction?.();
+        this._disposePromoteRejectedReaction?.();
+        this._disposePromoteQueuedReaction?.();
     }
 
     processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
@@ -247,22 +272,13 @@ export class FileUploaderStore {
         this.dismissValidationErrors();
         this.setMessage(fileRejections.length ? this.translations.get("dropzoneRejectedMessage") : undefined);
 
-        // Split accepted files by batch limit first, then by remaining total capacity
-        const batchLimit = this.maxFilesPerBatch;
-        const afterBatchSplit =
-            batchLimit > 0 && acceptedFiles.length > batchLimit ? acceptedFiles.slice(0, batchLimit) : acceptedFiles;
-        const batchExcess = batchLimit > 0 && acceptedFiles.length > batchLimit ? acceptedFiles.slice(batchLimit) : [];
-
-        const activeCount = this.files.filter(
-            f => f.fileStatus !== "missing" && f.fileStatus !== "removedFile" && f.fileStatus !== "validationError"
-        ).length;
-        const remaining =
-            this.maxFilesPerUpload > 0 ? Math.max(0, this.maxFilesPerUpload - activeCount) : afterBatchSplit.length;
-        const capacityFiles = afterBatchSplit.slice(0, remaining);
-        const capacityExcess = afterBatchSplit.slice(remaining);
+        const activeCount = this.activeCount;
+        const remaining = this.maxTotalFiles > 0 ? Math.max(0, this.maxTotalFiles - activeCount) : acceptedFiles.length;
+        const capacityFiles = acceptedFiles.slice(0, remaining);
+        const capacityExcess = acceptedFiles.slice(remaining);
 
         for (const file of fileRejections) {
-            const newFileStore = FileStore.newFileWithError(
+            const newFileStore = FileStore.newFileWithValidationError(
                 file.file,
                 file.errors
                     .map(e => {
@@ -286,21 +302,11 @@ export class FileUploaderStore {
             this.files.unshift(newFileStore);
         }
 
-        for (const file of batchExcess) {
-            const newFileStore = FileStore.newFileWithError(
-                file,
-                this.translations.get("uploadBatchLimitExceededMessage", batchLimit.toString()),
-                this,
-                "batchExceeded"
-            );
-            this.files.unshift(newFileStore);
-        }
-
         for (const file of capacityExcess) {
-            const newFileStore = FileStore.newFile(file, this);
-            newFileStore.markError(
-                this.translations.get("uploadLimitReachedMessage", this.maxFilesPerUpload.toString()),
-                "limitExceeded"
+            const newFileStore = FileStore.newRejectedFile(
+                file,
+                this.translations.get("uploadLimitReachedMessage", this.maxTotalFiles.toString()),
+                this
             );
             this.files.unshift(newFileStore);
         }
@@ -308,9 +314,8 @@ export class FileUploaderStore {
         for (const file of capacityFiles) {
             const newFileStore = FileStore.newFile(file, this);
             this.files.unshift(newFileStore);
-            if (newFileStore.validate()) {
-                newFileStore.upload();
-            }
         }
+
+        this.promoteQueuedFiles();
     }
 }

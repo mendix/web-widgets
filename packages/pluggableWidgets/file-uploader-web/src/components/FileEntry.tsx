@@ -83,7 +83,7 @@ function FileEntry(props: FileEntryProps): ReactElement {
     return (
         <div
             className={classNames("file-entry", {
-                removed: props.fileStatus === "removedFile" || props.fileStatus === "removedAfterError",
+                removed: props.fileStatus === "removedFile",
                 invalid: props.fileStatus === "validationError"
             })}
             title={props.title}
