@@ -14,7 +14,7 @@ import {
     UseInteractionsReturn,
     useRole
 } from "@floating-ui/react";
-import { ClippingStrategyEnum, TriggerEnum } from "../../typings/PopupMenuProps";
+import { ClippingStrategyEnum, HoverCloseOnEnum, TriggerEnum } from "../../typings/PopupMenuProps";
 
 interface PopupOptions {
     placement: Placement;
@@ -22,6 +22,7 @@ interface PopupOptions {
     onOpenChange?: (open: boolean) => void;
     clippingStrategy: ClippingStrategyEnum;
     trigger: TriggerEnum;
+    hoverCloseOn: HoverCloseOnEnum;
 }
 
 type FloatingReturn = Pick<UseFloatingReturn, "context" | "floatingStyles" | "refs">;
@@ -37,7 +38,8 @@ export function usePopup({
     open,
     onOpenChange: setOpen,
     trigger,
-    clippingStrategy
+    clippingStrategy,
+    hoverCloseOn
 }: PopupOptions): UsePopupReturn {
     const { context, floatingStyles, refs } = useFloating({
         middleware: [offset(5), flip(), shift()],
@@ -51,7 +53,11 @@ export function usePopup({
     const dismiss = useDismiss(context);
     const role = useRole(context);
     const click = useClick(context, { enabled: trigger === "onclick" });
-    const hover = useHover(context, { enabled: trigger === "onhover", handleClose: safePolygon() });
+
+    const hover = useHover(context, {
+        enabled: trigger === "onhover",
+        handleClose: hoverCloseOn === "onHoverLeave" ? safePolygon() : neverClose
+    });
 
     const { getFloatingProps, getReferenceProps } = useInteractions([dismiss, role, click, hover]);
 
@@ -64,3 +70,10 @@ export function usePopup({
         refs
     };
 }
+
+const neverClose = Object.assign(
+    (): (() => void) => {
+        return (): void => {};
+    },
+    { __options: { blockPointerEvents: false } }
+);

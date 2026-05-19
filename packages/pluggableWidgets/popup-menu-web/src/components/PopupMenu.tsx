@@ -16,7 +16,8 @@ export function PopupMenu(props: PopupMenuContainerProps): ReactElement {
         onOpenChange: setVisibility,
         placement: props.position,
         trigger: props.trigger,
-        clippingStrategy: props.clippingStrategy
+        clippingStrategy: props.clippingStrategy,
+        hoverCloseOn: props.hoverCloseOn
     });
 
     const handleOnClickItem = useCallback(

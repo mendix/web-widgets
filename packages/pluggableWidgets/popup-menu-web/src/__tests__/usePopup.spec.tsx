@@ -10,7 +10,8 @@ describe("usePopup", () => {
                 onOpenChange: jest.fn(),
                 trigger: "onclick",
                 clippingStrategy: "absolute",
-                placement: "top"
+                placement: "top",
+                hoverCloseOn: "onClickOutside"
             });
         });
 

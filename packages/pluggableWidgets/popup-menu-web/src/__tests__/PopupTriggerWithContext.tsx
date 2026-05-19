@@ -9,7 +9,8 @@ export function PopupTriggerWithContext(props: PropsWithChildren): ReactElement 
         onOpenChange: jest.fn(),
         trigger: "onclick",
         clippingStrategy: "absolute",
-        placement: "top"
+        placement: "top",
+        hoverCloseOn: "onClickOutside"
     });
 
     return (
