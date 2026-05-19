@@ -38,13 +38,14 @@ test.describe("datagrid-number-filter-web", () => {
             await page.goto("/p/filter_init_condition");
             await waitForMendixApp(page);
 
-            const rows = await page.locator(".mx-name-dataGrid21 [role=row]");
-            for (let i = 0; i < rows.length; i++) {
-                await expect(rows[i]).toHaveText(expected[i]);
-            }
+            const pagingStatus = page.locator(".mx-name-dataGrid21 .paging-status");
+            await expect(pagingStatus).toHaveText("1 to 2 of 2");
 
-            const pagingStatus = await page.textContent(".mx-name-dataGrid21 .paging-status");
-            await expect(pagingStatus).toBe("1 to 2 of 2");
+            const rows = page.locator(".mx-name-dataGrid21 [role=row]");
+            await expect(rows).toHaveCount(expected.length);
+            for (let i = 0; i < expected.length; i++) {
+                await expect(rows.nth(i)).toHaveText(expected[i]);
+            }
         });
     });
 
