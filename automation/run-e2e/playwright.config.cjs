@@ -15,7 +15,7 @@ module.exports = defineConfig({
     retries: process.env.CI ? 2 : 0,
     /* Worker-scoped session: each worker holds 1 Mendix session. Safe up to 4 workers
      * against the 5-session developer license (leaves 1 headroom). */
-    workers: process.env.CI ? 4 : 4,
+    workers: process.env.CI ? 4 : 2,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
         ["list"],
