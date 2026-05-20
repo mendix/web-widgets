@@ -13,23 +13,28 @@ export class GridSizeStore {
 
     gridContainerHeight?: number;
 
-    private lockedAtPageSize?: number;
+    private lockedAtLayoutKey?: string;
 
     constructor(
         private readonly hasMoreItemsAtom: ComputedAtom<boolean | undefined>,
         private readonly paginationConfig: PaginationConfig,
         private readonly setPageAction: SetPageAction,
-        private readonly pageSizeAtom: ComputedAtom<number>
+        private readonly pageSizeAtom: ComputedAtom<number>,
+        private readonly visibleColumnsCountAtom: ComputedAtom<number>
     ) {
-        makeAutoObservable<GridSizeStore, "lockedAtPageSize">(this, {
+        makeAutoObservable<GridSizeStore, "lockedAtLayoutKey">(this, {
             gridContainerRef: false,
             gridBodyRef: false,
             gridHeaderRef: false,
-            lockedAtPageSize: false,
+            lockedAtLayoutKey: false,
 
             gridContainerHeight: observable,
             lockGridContainerHeight: action
         });
+    }
+
+    private get layoutKey(): string {
+        return `${this.pageSizeAtom.get()}-${this.visibleColumnsCountAtom.get()}`;
     }
 
     get hasMoreItems(): boolean {
@@ -80,37 +85,33 @@ export class GridSizeStore {
             return;
         }
 
-        // Reset the locked height when page size changes so layout is recomputed
-        // for the new number of rows (e.g. switching from 10 → 5 rows).
-        const currentPageSize = this.pageSizeAtom.get();
-        if (this.gridContainerHeight !== undefined && this.lockedAtPageSize !== currentPageSize) {
-            this.gridContainerHeight = undefined;
-            this.lockedAtPageSize = undefined;
+        // Single cache key encodes all layout inputs. Any change (page size, column count,
+        // or future inputs) invalidates the lock in one place.
+        const currentKey = this.layoutKey;
+        if (this.lockedAtLayoutKey !== currentKey) {
+            this.lockedAtLayoutKey = undefined;
         }
 
         const gridContainer = this.gridContainerRef.current;
-        if (!gridContainer || this.gridContainerHeight !== undefined) {
+        if (!gridContainer || this.lockedAtLayoutKey !== undefined) {
             return;
         }
 
         const bodyViewportHeight = this.computeBodyViewport();
         const headerViewportHeight = this.computeHeaderViewport();
 
-        // Don't lock height before the grid body has rendered content.
-        // clientHeight is 0 when the element has no layout yet, which would
-        // produce a negative height and break scrolling.
+        // Don't lock before the grid body has rendered content — clientHeight is 0
+        // before layout, which would produce a negative height and break scrolling.
         if (bodyViewportHeight <= 0) {
             return;
         }
 
         const fullHeight = bodyViewportHeight + headerViewportHeight;
 
-        // If content already overflows the container (fixed-height grid), do not subtract the
-        // pre-fetch offset — that would hide the last rows and trigger the next page too early.
-        // Only subtract the offset when the grid does not yet overflow (auto-height grid) so
-        // that we create a small synthetic overflow that makes the body scrollable.
-        const overflows = gridContainer.scrollHeight > fullHeight;
+        // clientHeight is vertical-only (excludes horizontal scrollbar overflow).
+        // scrollHeight would be inflated by many-column grids and produce false positives.
+        const overflows = gridContainer.clientHeight < fullHeight;
         this.gridContainerHeight = fullHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
-        this.lockedAtPageSize = currentPageSize;
+        this.lockedAtLayoutKey = currentKey;
     }
 }

@@ -32,8 +32,9 @@ export function useInfiniteControl(): [trackTableScrolling: ((e: any) => void) |
              * causing mismatch by 1 pixel point, thus, add magic number 2 as buffer.
              */
             const bottom =
+                target.scrollTop > 0 &&
                 Math.floor(target.scrollHeight - VIRTUAL_SCROLLING_OFFSET - target.scrollTop) <=
-                Math.floor(target.clientHeight) + 2;
+                    Math.floor(target.clientHeight) + 2;
             if (bottom) {
                 gridSizeStore.bumpPage();
             }
