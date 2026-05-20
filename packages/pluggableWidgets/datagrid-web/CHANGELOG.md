@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We added a "Custom row key" property in the Advanced section to provide stable row identifiers when using view entities, preventing scroll position loss during data refresh.
 
+### Fixed
+
+- We fixed an issue where the vertical scrollbar disappeared after hiding a wide column while virtual scrolling was enabled.
+- We fixed an issue where only the first page loaded when the grid had enough columns to require horizontal scrolling.
+
 ## [3.9.0] - 2026-03-23
 
 ### Changed

@@ -173,6 +173,16 @@ describe("GridSizeStore.lockGridContainerHeight()", () => {
         expect(store.gridContainerHeight).not.toBe(heightWithPageSize3);
     });
 
+    it("does not subtract offset when container height is smaller than full content height (overflow case)", () => {
+        const { store } = buildStore({ pageSize: 3, columnCount: 2 });
+        // fullHeight = 3×40 + 50 = 170px; container is only 100px → overflows
+        setupRefs(store, { rowHeight: 40, rowCount: 3, headerHeight: 50, containerClientHeight: 100 });
+
+        store.lockGridContainerHeight();
+
+        expect(store.gridContainerHeight).toBe(170); // no offset subtracted
+    });
+
     it("clears and recomputes height when visible column count changes", () => {
         const { store, columnCountBox } = buildStore({ pageSize: 3, columnCount: 2 });
         setupRefs(store, { rowHeight: 40, rowCount: 3, headerHeight: 50, containerClientHeight: 1000 });
