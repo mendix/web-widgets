@@ -165,13 +165,14 @@ function validateParam(value, option) {
 }
 
 function getPackages({ onlyChanged = false } = {}) {
-    const args = [
-        `--recursive`,
-        `--json`,
-        `--depth -1`,
-        `--filter !web-widgets`,
-        onlyChanged ? '--filter "...[origin/main]"' : ""
-    ].filter(v => !!v);
+    const sinceFilter = (() => {
+        if (!onlyChanged) {
+            return "";
+        }
+        const base = execSync("git merge-base origin/main HEAD", { encoding: "utf-8" }).trim();
+        return `--filter "...[${base}]"`;
+    })();
+    const args = [`--recursive`, `--json`, `--depth -1`, `--filter !web-widgets`, sinceFilter].filter(v => !!v);
     const command = [`pnpm ls`, ...args].join(" ");
 
     const listing = execSync(command, { encoding: "utf-8" });
