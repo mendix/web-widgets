@@ -8,11 +8,13 @@ import { FileEntryContainer } from "./FileEntry";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { prepareAcceptForDropzone } from "../utils/prepareAcceptForDropzone";
 import { useRootStore } from "../utils/useRootStore";
+import { useTranslationsStore } from "../utils/useTranslationsStore";
 
 import "../ui/FileUploader.scss";
 
 export const FileUploaderRoot = observer((props: FileUploaderContainerProps): ReactElement => {
     const rootStore = useRootStore(props);
+    const translations = useTranslationsStore();
 
     const onDrop = useCallback(
         (acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -21,12 +23,19 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
         [rootStore]
     );
 
+    let warningMessage: string | undefined;
+    if (rootStore.isFileUploadLimitReached) {
+        warningMessage = translations.get("uploadLimitReachedMessage", rootStore.maxTotalFiles.toString());
+    } else if (rootStore.createActionFailed) {
+        warningMessage = translations.get("unavailableCreateActionMessage");
+    }
+
     return (
         <div className={classNames(props.class, "widget-file-uploader")} style={props.style}>
             {!rootStore.isReadOnly && (
                 <Dropzone
                     onDrop={onDrop}
-                    warningMessage={rootStore.warningMessage}
+                    warningMessage={warningMessage}
                     maxSize={rootStore._maxFileSize}
                     acceptFileTypes={prepareAcceptForDropzone(rootStore.acceptedFileTypes)}
                     disabled={rootStore.isFileUploadLimitReached}

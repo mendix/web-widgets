@@ -21,6 +21,7 @@ export function getProperties(
             "createFileAction",
             "allowedFileFormats",
             "maxFilesPerUpload",
+            "maxFilesPerBatch",
             "maxFileSize",
             "objectCreationTimeout"
         ]);

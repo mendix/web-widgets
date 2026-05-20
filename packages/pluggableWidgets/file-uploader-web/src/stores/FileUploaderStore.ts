@@ -31,7 +31,7 @@ export class FileUploaderStore {
     _disposePromoteRejectedReaction: (() => void) | undefined;
     _disposePromoteQueuedReaction: (() => void) | undefined;
 
-    errorMessage?: string = undefined;
+    createActionFailed = false;
 
     translations: TranslationsStore;
 
@@ -80,19 +80,19 @@ export class FileUploaderStore {
             processDrop: action,
             dismissFile: action,
             setMessage: action,
+            setCreateActionFailed: action,
             promoteRejectedFiles: action,
             promoteQueuedFiles: action,
             processExistingFileItem: action,
             files: observable,
             existingItemsLoaded: observable,
-            errorMessage: observable,
+            createActionFailed: observable,
             allowedFormatsDescription: computed,
             maxTotalFiles: computed,
             maxConcurrentUploads: computed,
             _maxTotalFiles: observable,
             _maxConcurrentUploads: observable,
             isFileUploadLimitReached: computed,
-            warningMessage: computed,
             sortedFiles: computed,
             activeCount: computed,
             uploadingCount: computed
@@ -195,15 +195,8 @@ export class FileUploaderStore {
         });
     }
 
-    get warningMessage(): string | undefined {
-        if (this.isFileUploadLimitReached) {
-            return this.translations.get("uploadLimitReachedMessage", this.maxTotalFiles.toString());
-        }
-        return this.errorMessage;
-    }
-
-    setMessage(msg?: string): void {
-        this.errorMessage = msg;
+    setCreateActionFailed(failed: boolean): void {
+        this.createActionFailed = failed;
     }
 
     private dismissValidationErrors(): void {
@@ -265,10 +258,11 @@ export class FileUploaderStore {
             console.error(
                 `'Action to create new files/images' is not available or can't be executed. Please check if '${this._widgetName}' widget is configured correctly.`
             );
-            this.setMessage(this.translations.get("unavailableCreateActionMessage"));
+            this.setCreateActionFailed(true);
             return;
         }
 
+        this.setCreateActionFailed(false);
         this.dismissValidationErrors();
         this.setMessage(fileRejections.length ? this.translations.get("dropzoneRejectedMessage") : undefined);
 
