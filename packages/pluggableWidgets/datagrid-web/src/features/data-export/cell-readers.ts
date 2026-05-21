@@ -1,13 +1,13 @@
-import Big from "big.js";
+import { Big } from "big.js";
 import { DynamicValue, ObjectItem } from "mendix";
 import { ColumnsType, ShowContentAsEnum } from "../../../typings/DatagridProps";
 
 /** Represents a single Excel cell (SheetJS compatible) */
 export interface ExcelCell {
-    /** Cell type: 's' = string, 'n' = number, 'd' = date */
-    t: "s" | "n" | "d";
+    /** Cell type: 's' = string, 'n' = number, 'b' = boolean, 'd' = date */
+    t: "s" | "n" | "b" | "d";
     /** Underlying value */
-    v: string | number | Date;
+    v: string | number | boolean | Date;
     /** Optional Excel number/date format, e.g. "yyyy-mm-dd" or "$0.00" */
     z?: string;
     /** Optional pre-formatted display text */
@@ -68,20 +68,28 @@ export function excelString(value: string, format?: string): ExcelCell {
     };
 }
 
-export function excelDate(value: string): ExcelCell;
-export function excelDate(value: Date, format: string): ExcelCell;
-export function excelDate(value: string | Date, format?: string): ExcelCell {
+const FALLBACK_DATE_FORMAT = "dd-mm-yyyy";
+
+function getDefaultDateFormat(): string {
+    const pattern = window.mx?.session.getConfig().locale.patterns.date;
+    if (!pattern) {
+        return FALLBACK_DATE_FORMAT;
+    }
+    return pattern.replace(/M/g, "m");
+}
+
+export function excelDate(value: Date, format?: string): ExcelCell {
     return {
-        t: value instanceof Date && format !== undefined ? "d" : "s",
+        t: "d",
         v: value,
-        z: format
+        z: format ?? getDefaultDateFormat()
     };
 }
 
 export function excelBoolean(value: boolean): ExcelCell {
     return {
-        t: "s",
-        v: value ? "Yes" : "No"
+        t: "b",
+        v: value
     };
 }
 
@@ -121,10 +129,7 @@ const readers: ReadersByType = {
         });
 
         if (value instanceof Date) {
-            if (format === undefined) {
-                return excelDate(data.displayValue);
-            }
-            const dateValue = hasTimeComponent(format) ? value : stripTime(value);
+            const dateValue = format && hasTimeComponent(format) ? value : stripTime(value);
             return excelDate(dateValue, format);
         }
 
@@ -158,27 +163,35 @@ const readers: ReadersByType = {
 
     customContent(item, props) {
         const value = props.exportValue?.get(item).value ?? "";
+        const { exportType } = props;
         const format = getCellFormat({
-            exportType: props.exportType,
+            exportType,
             exportDateFormat: props.exportDateFormat,
             exportNumberFormat: props.exportNumberFormat
         });
 
-        if (props.exportType === "number" && value.trim() !== "") {
+        if (exportType === "number" && value.trim() !== "") {
             const parsed = Number(value);
             if (!Number.isNaN(parsed)) {
                 return excelNumber(parsed, format);
             }
         }
 
-        if (props.exportType === "date" && value !== "") {
+        if (exportType === "date" && value !== "") {
             const parsed = new Date(value);
             if (!isNaN(parsed.getTime())) {
-                if (format === undefined) {
-                    return excelDate(value);
-                }
-                const dateValue = hasTimeComponent(format) ? parsed : stripTime(parsed);
+                const dateValue = format && hasTimeComponent(format) ? parsed : stripTime(parsed);
                 return excelDate(dateValue, format);
+            }
+        }
+
+        if (exportType === "boolean") {
+            const lower = value.trim().toLowerCase();
+            if (lower === "true" || lower === "yes" || lower === "1") {
+                return excelBoolean(true);
+            }
+            if (lower === "false" || lower === "no" || lower === "0") {
+                return excelBoolean(false);
             }
         }
 

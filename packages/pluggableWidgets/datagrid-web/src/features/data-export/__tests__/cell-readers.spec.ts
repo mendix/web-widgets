@@ -1,6 +1,8 @@
-import Big from "big.js";
-import { listAttribute, listExpression, dynamic, obj } from "@mendix/widget-plugin-test-utils";
+jest.mock("mendix", () => ({}), { virtual: true });
+
+import { Big } from "big.js";
 import { ObjectItem } from "mendix";
+import { listAttribute, listExpression, dynamic, obj } from "@mendix/widget-plugin-test-utils";
 import { column } from "../../../utils/test-utils";
 import { readChunk, ExcelCell } from "../cell-readers";
 
@@ -46,24 +48,24 @@ describe("cell-readers", () => {
             expect(cell.z).toBe("#,##0.00");
         });
 
-        it("exports boolean attribute as Yes/No string cell", () => {
+        it("exports boolean attribute as boolean cell", () => {
             const col = column("Active", c => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => true);
             });
             const cell = readSingleCell(col);
-            expect(cell.t).toBe("s");
-            expect(cell.v).toBe("Yes");
+            expect(cell.t).toBe("b");
+            expect(cell.v).toBe(true);
         });
 
-        it("exports false boolean attribute as No", () => {
+        it("exports false boolean attribute as boolean cell", () => {
             const col = column("Active", c => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => false);
             });
             const cell = readSingleCell(col);
-            expect(cell.t).toBe("s");
-            expect(cell.v).toBe("No");
+            expect(cell.t).toBe("b");
+            expect(cell.v).toBe(false);
         });
 
         it("exports date attribute with format as date cell", () => {
@@ -80,7 +82,7 @@ describe("cell-readers", () => {
             expect(cell.z).toBe("yyyy-mm-dd");
         });
 
-        it("exports date attribute without format as string cell (displayValue)", () => {
+        it("exports date attribute without format using default date format", () => {
             const testDate = new Date("2024-06-15T10:30:00Z");
             const col = column("Created", c => {
                 c.showContentAs = "attribute";
@@ -88,8 +90,9 @@ describe("cell-readers", () => {
                 c.exportType = "default";
             });
             const cell = readSingleCell(col);
-            expect(cell.t).toBe("s");
-            expect(cell.v).toBe(`Formatted ${testDate}`);
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(new Date(Date.UTC(2024, 5, 15)));
+            expect(cell.z).toBe("dd-mm-yyyy");
         });
 
         it("returns empty cell when attribute is not available", () => {
@@ -125,7 +128,7 @@ describe("cell-readers", () => {
         it("returns n/a cell when dynamicText is unavailable", () => {
             const col = column("Label", c => {
                 c.showContentAs = "dynamicText";
-                c.dynamicText = listExpression(() => "text", "unavailable");
+                c.dynamicText = { get: () => ({ status: "unavailable", value: undefined }) } as any;
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
@@ -226,15 +229,16 @@ describe("cell-readers", () => {
             expect(cell.z).toBe("yyyy-mm-dd");
         });
 
-        it("exports date as string when no format provided", () => {
+        it("exports date with default format when no format provided", () => {
             const col = column("Created", c => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "2024-06-15T10:30:00Z");
                 c.exportType = "date";
             });
             const cell = readSingleCell(col);
-            expect(cell.t).toBe("s");
-            expect(cell.v).toBe("2024-06-15T10:30:00Z");
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(new Date(Date.UTC(2024, 5, 15)));
+            expect(cell.z).toBe("dd-mm-yyyy");
         });
 
         it("falls back to string when date parse fails", () => {
@@ -259,6 +263,65 @@ describe("cell-readers", () => {
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
             expect(cell.v).toBe("");
+        });
+
+        it("exports as boolean true when exportType is boolean and value is 'true'", () => {
+            const col = column("Active", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "true");
+                c.exportType = "boolean";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("b");
+            expect(cell.v).toBe(true);
+        });
+
+        it("exports as boolean false when exportType is boolean and value is 'false'", () => {
+            const col = column("Active", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "false");
+                c.exportType = "boolean";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("b");
+            expect(cell.v).toBe(false);
+        });
+
+        it("exports boolean true for case-insensitive values", () => {
+            for (const val of ["True", "YES", "1"]) {
+                const col = column("Active", c => {
+                    c.showContentAs = "customContent";
+                    c.exportValue = listExpression(() => val);
+                    c.exportType = "boolean";
+                });
+                const cell = readSingleCell(col);
+                expect(cell.t).toBe("b");
+                expect(cell.v).toBe(true);
+            }
+        });
+
+        it("exports boolean false for case-insensitive values", () => {
+            for (const val of ["False", "NO", "0"]) {
+                const col = column("Active", c => {
+                    c.showContentAs = "customContent";
+                    c.exportValue = listExpression(() => val);
+                    c.exportType = "boolean";
+                });
+                const cell = readSingleCell(col);
+                expect(cell.t).toBe("b");
+                expect(cell.v).toBe(false);
+            }
+        });
+
+        it("falls back to string for unrecognized boolean value", () => {
+            const col = column("Active", c => {
+                c.showContentAs = "customContent";
+                c.exportValue = listExpression(() => "maybe");
+                c.exportType = "boolean";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("s");
+            expect(cell.v).toBe("maybe");
         });
     });
 

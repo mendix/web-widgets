@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where exported date values included a hidden time component even when the format specified date-only parts.
 
-- We fixed an issue where boolean values exported as TRUE/FALSE instead of Yes/No to match the display in the grid.
+- We fixed an issue where boolean values were not exported as proper Excel boolean cells. Both attribute and custom content columns now export as native booleans (TRUE/FALSE) recognized by Excel.
 
 - We fixed an issue where numbers with more than 15 significant digits lost precision during Excel export. Such values are now exported as text to preserve all digits.
 
