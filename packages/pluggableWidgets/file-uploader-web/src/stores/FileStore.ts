@@ -128,7 +128,6 @@ export class FileStore {
             runInAction(() => {
                 this.fileStatus = "done";
                 this._rootStore.objectCreationHelper.reportUploadSuccess(this._objectItem!);
-                this._rootStore.dismissValidationErrors();
             });
         } catch (_e: unknown) {
             runInAction(() => {

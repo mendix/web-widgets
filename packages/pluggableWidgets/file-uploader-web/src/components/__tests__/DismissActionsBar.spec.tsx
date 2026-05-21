@@ -53,7 +53,7 @@ describe("DismissActionsBar", () => {
     it("renders dismiss button for validationError file", () => {
         const { store } = makeValidationErrorStore();
         renderWithTranslations(store);
-        expect(screen.getByRole("button")).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Remove" })).toBeInTheDocument();
     });
 
     it("calls store.dismiss() when button clicked", () => {

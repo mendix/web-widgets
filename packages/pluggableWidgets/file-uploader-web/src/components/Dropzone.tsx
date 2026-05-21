@@ -24,7 +24,7 @@ export const Dropzone = observer(
         acceptFileTypes,
         disabled
     }: DropzoneProps): ReactElement => {
-        const { getRootProps, getInputProps, isDragAccept, isDragReject } = useDropzone({
+        const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
             onDrop,
             maxSize: maxSize || undefined,
             maxFiles: maxFilesPerUpload,
@@ -33,7 +33,7 @@ export const Dropzone = observer(
         });
 
         const translations = useTranslationsStore();
-        const [type, msg] = getMessage(translations, isDragAccept, isDragReject);
+        const [type, msg] = getMessage(translations, isDragAccept, isDragActive && isDragReject);
 
         return (
             <Fragment>
