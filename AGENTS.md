@@ -35,14 +35,7 @@ docs/requirements/                -> Detailed technical requirements
 
 ## E2E Test Rules (Playwright)
 
-- Import from `@mendix/run-e2e/fixtures` (not `@playwright/test`)
-- Wait with `waitForMendixApp(page)`, never `waitForTimeout` or `networkidle`
-- Use web-first assertions: `toBeVisible`, `toHaveCount`, `toContainText`, `toHaveCSS`
-- Locators: prefer `.mx-name-*` attributes over nth() or text selectors
-- Screenshots: no per-test threshold overrides, ensure element visible first
-- No manual afterEach logout — fixture handles session lifecycle
-- Tag critical-path tests with `@smoke`
-- See `docs/requirements/e2e-test-guidelines.md` for full rules + template
+- docs/requirements/e2e-test-guidelines.md — Full rules + template
 
 ## Development Setup
 
