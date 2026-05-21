@@ -1758,6 +1758,37 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
 
+  packages/pluggableWidgets/image-crop-web:
+    dependencies:
+      classnames:
+        specifier: ^2.5.1
+        version: 2.5.1
+      react-image-crop:
+        specifier: ^11.0.10
+        version: 11.0.10(react@18.3.1)
+    devDependencies:
+      '@mendix/automation-utils':
+        specifier: workspace:*
+        version: link:../../../automation/utils
+      '@mendix/eslint-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/eslint-config-web-widgets
+      '@mendix/pluggable-widgets-tools':
+        specifier: 11.8.0
+        version: 11.8.0(@jest/transform@29.7.0)(@jest/types@30.2.0)(@swc/core@1.13.5)(@types/babel__core@7.20.5)(@types/node@22.14.1)(eslint@9.39.3(jiti@2.6.1))(jest-util@30.2.0)(prettier@3.8.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.82.0(@babel/core@7.29.0)(@types/react@19.2.2)(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+      '@mendix/prettier-config-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/prettier-config-web-widgets
+      '@mendix/rollup-web-widgets':
+        specifier: workspace:*
+        version: link:../../shared/rollup-web-widgets
+      '@mendix/widget-plugin-platform':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-platform
+      jest-canvas-mock:
+        specifier: ^2.5.2
+        version: 2.5.2
+
   packages/pluggableWidgets/image-web:
     dependencies:
       '@mendix/widget-plugin-component-kit':
@@ -10262,6 +10293,11 @@ packages:
   react-dropzone@14.3.8:
     resolution: {integrity: sha512-sBgODnq+lcA4P296DY4wacOZz3JFpD99fp+hb//iBO2HHnyeZU3FwWyXJ6salNpqQdsZrgMrotuko/BdJMV8Ug==}
     engines: {node: '>= 10.13'}
+    peerDependencies:
+      react: '>=18.0.0 <19.0.0'
+
+  react-image-crop@11.0.10:
+    resolution: {integrity: sha512-+5FfDXUgYLLqBh1Y/uQhIycpHCbXkI50a+nbfkB1C0xXXUTwkisHDo2QCB1SQJyHCqIuia4FeyReqXuMDKWQTQ==}
     peerDependencies:
       react: '>=18.0.0 <19.0.0'
 
@@ -21014,6 +21050,10 @@ snapshots:
       attr-accept: 2.2.5
       file-selector: 2.1.2
       prop-types: 15.8.1
+      react: 18.3.1
+
+  react-image-crop@11.0.10(react@18.3.1):
+    dependencies:
       react: 18.3.1
 
   react-is@16.13.1: {}
