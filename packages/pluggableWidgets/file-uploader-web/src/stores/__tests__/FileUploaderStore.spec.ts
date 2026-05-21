@@ -38,49 +38,6 @@ function makeDoneFile(store: FileUploaderStore): FileStore {
     return f;
 }
 
-describe("FileUploaderStore.dismissValidationErrors()", () => {
-    it("removes only validationError files", () => {
-        const store = makeStore();
-        const validationFile = makeValidationErrorFile(store);
-        const doneFile = makeDoneFile(store);
-        store.files = [validationFile, doneFile];
-
-        store.dismissValidationErrors();
-
-        expect(store.files).toHaveLength(1);
-        expect(store.files[0]).toBe(doneFile);
-    });
-
-    it("leaves files untouched when none have validationError status", () => {
-        const store = makeStore();
-        const doneFile = makeDoneFile(store);
-        store.files = [doneFile];
-
-        store.dismissValidationErrors();
-
-        expect(store.files).toHaveLength(1);
-    });
-
-    it("empties files when all have validationError status", () => {
-        const store = makeStore();
-        store.files = [makeValidationErrorFile(store), makeValidationErrorFile(store)];
-
-        store.dismissValidationErrors();
-
-        expect(store.files).toHaveLength(0);
-    });
-
-    it("clears errorMessage", () => {
-        const store = makeStore();
-        store.errorMessage = "Some files may not be uploadable.";
-        store.files = [makeValidationErrorFile(store)];
-
-        store.dismissValidationErrors();
-
-        expect(store.errorMessage).toBeUndefined();
-    });
-});
-
 describe("FileUploaderStore.dismissFile()", () => {
     it("removes the specific file from the list", () => {
         const store = makeStore();

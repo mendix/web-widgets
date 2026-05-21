@@ -74,7 +74,6 @@ export class FileUploaderStore {
         makeObservable(this, {
             updateProps: action,
             processDrop: action,
-            dismissValidationErrors: action,
             dismissFile: action,
             setMessage: action,
             processExistingFileItem: action,
@@ -144,7 +143,7 @@ export class FileUploaderStore {
         this.errorMessage = msg;
     }
 
-    dismissValidationErrors(): void {
+    private dismissValidationErrors(): void {
         this.files = this.files.filter(file => file.fileStatus !== "validationError");
         this.setMessage();
     }
