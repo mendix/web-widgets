@@ -1,0 +1,56 @@
+{
+    "name": "@mendix/image-crop-web",
+    "widgetName": "ImageCrop",
+    "version": "1.0.0",
+    "description": "Crop images bound to a Mendix image attribute",
+    "copyright": "© Mendix Technology BV 2026. All rights reserved.",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "config": {},
+    "mxpackage": {
+        "name": "ImageCrop",
+        "type": "widget",
+        "mpkName": "com.mendix.widget.web.ImageCrop.mpk"
+    },
+    "packagePath": "com.mendix.widget.web",
+    "marketplace": {
+        "minimumMXVersion": "10.21.0",
+        "appName": "Image Crop",
+        "appNumber": 0,
+        "reactReady": true
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "image-crop-web"
+    },
+    "scripts": {
+        "build": "pluggable-widgets-tools build:web",
+        "create-gh-release": "rui-create-gh-release",
+        "create-translation": "rui-create-translation",
+        "dev": "pluggable-widgets-tools start:web",
+        "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
+        "lint": "eslint src/ package.json",
+        "publish-marketplace": "rui-publish-marketplace",
+        "release": "pluggable-widgets-tools release:web",
+        "start": "pluggable-widgets-tools start:server",
+        "test": "pluggable-widgets-tools test:unit:web",
+        "update-changelog": "rui-update-changelog-widget",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "classnames": "^2.5.1",
+        "react-image-crop": "^11.0.10"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/eslint-config-web-widgets": "workspace:*",
+        "@mendix/pluggable-widgets-tools": "*",
+        "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/rollup-web-widgets": "workspace:*",
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "jest-canvas-mock": "^2.5.2"
+    }
+}
