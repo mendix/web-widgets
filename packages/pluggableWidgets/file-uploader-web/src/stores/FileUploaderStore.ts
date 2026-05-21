@@ -146,10 +146,14 @@ export class FileUploaderStore {
 
     dismissValidationErrors(): void {
         this.files = this.files.filter(file => file.fileStatus !== "validationError");
+        this.setMessage();
     }
 
     dismissFile(file: FileStore): void {
         this.files = this.files.filter(f => f !== file);
+        if (!this.files.some(f => f.fileStatus === "validationError")) {
+            this.setMessage();
+        }
     }
 
     processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
@@ -169,7 +173,7 @@ export class FileUploaderStore {
         }
 
         this.dismissValidationErrors();
-        this.setMessage();
+        this.setMessage(fileRejections.length ? this.translations.get("dropzoneRejectedMessage") : undefined);
 
         for (const file of fileRejections) {
             const newFileStore = FileStore.newFileWithError(
