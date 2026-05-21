@@ -108,9 +108,11 @@ export class GridSizeStore {
 
         const fullHeight = bodyViewportHeight + headerViewportHeight;
 
-        // clientHeight is vertical-only (excludes horizontal scrollbar overflow).
-        // scrollHeight would be inflated by many-column grids and produce false positives.
-        const overflows = gridContainer.clientHeight < fullHeight;
+        // If content already overflows the container (fixed-height grid), do not subtract the
+        // pre-fetch offset — that would hide the last rows and trigger the next page too early.
+        // Only subtract the offset when the grid does not yet overflow (auto-height grid) so
+        // that we create a small synthetic overflow that makes the body scrollable.
+        const overflows = gridContainer.scrollHeight > fullHeight;
         this.gridContainerHeight = fullHeight - (overflows ? 0 : VIRTUAL_SCROLLING_OFFSET);
         this.lockedAtLayoutKey = currentKey;
     }

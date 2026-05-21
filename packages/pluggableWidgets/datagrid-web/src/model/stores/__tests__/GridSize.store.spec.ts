@@ -76,6 +76,7 @@ interface RefsOptions {
     rowCount?: number;
     headerHeight?: number;
     containerClientHeight?: number;
+    containerScrollHeight?: number;
     bodyScrollHeight?: number;
     bodyClientHeight?: number;
 }
@@ -86,12 +87,19 @@ function setupRefs(store: GridSizeStore, options: RefsOptions = {}): void {
         rowCount = 10,
         headerHeight = 50,
         containerClientHeight = 1000,
+        containerScrollHeight,
         bodyScrollHeight,
         bodyClientHeight
     } = options;
 
     const container = document.createElement("div");
     Object.defineProperty(container, "clientHeight", { value: containerClientHeight, configurable: true });
+    // Default scrollHeight to rowHeight * rowCount + headerHeight (= fullHeight at first lock,
+    // before the container is constrained).
+    Object.defineProperty(container, "scrollHeight", {
+        value: containerScrollHeight ?? rowHeight * rowCount + headerHeight,
+        configurable: true
+    });
     (store.gridContainerRef as MutableRefObject<HTMLDivElement>).current = container;
 
     const body = document.createElement("div");
@@ -173,10 +181,10 @@ describe("GridSizeStore.lockGridContainerHeight()", () => {
         expect(store.gridContainerHeight).not.toBe(heightWithPageSize3);
     });
 
-    it("does not subtract offset when container height is smaller than full content height (overflow case)", () => {
+    it("does not subtract offset when container scrollHeight exceeds full content height (fixed-height grid)", () => {
         const { store } = buildStore({ pageSize: 3, columnCount: 2 });
-        // fullHeight = 3×40 + 50 = 170px; container is only 100px → overflows
-        setupRefs(store, { rowHeight: 40, rowCount: 3, headerHeight: 50, containerClientHeight: 100 });
+        // fullHeight = 3×40 + 50 = 170px; scrollHeight 200 > fullHeight → overflows → no offset
+        setupRefs(store, { rowHeight: 40, rowCount: 3, headerHeight: 50, containerScrollHeight: 200 });
 
         store.lockGridContainerHeight();
 
