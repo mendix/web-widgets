@@ -1,0 +1,331 @@
+.toolbar-dialog,
+.link-dialog {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 16px;
+    min-width: 320px;
+    max-width: 400px;
+
+    h3 {
+        margin: 0 0 16px 0;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .dialog-mode-selector {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #eee;
+
+        .mode-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            input[type="radio"] {
+                margin-right: 6px;
+                cursor: pointer;
+            }
+
+            label {
+                cursor: pointer;
+                font-size: 13px;
+                font-weight: 500;
+                margin-bottom: 0;
+                user-select: none;
+                color: #333;
+            }
+        }
+    }
+
+    .dialog-dropzone {
+        border: 1.5px dashed #ddd;
+        border-radius: 4px;
+        padding: 24px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: #fafafa;
+        margin-bottom: 12px;
+
+        &:hover {
+            border-color: #0078d4;
+            background: #f5f9ff;
+        }
+
+        &.drag-active {
+            border-color: #0078d4;
+            background-color: #e6f2ff;
+            border-style: solid;
+        }
+
+        &.drag-reject {
+            border-color: #d13438;
+            background-color: #fff5f5;
+        }
+
+        .dropzone-icon {
+            font-size: 32px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .dropzone-text {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .dropzone-error {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #d13438;
+        }
+    }
+
+    .dialog-preview {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: white;
+        margin-bottom: 12px;
+
+        .preview-thumbnail {
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .preview-info {
+            flex: 1;
+            min-width: 0;
+
+            .preview-name {
+                font-size: 13px;
+                font-weight: 500;
+                color: #333;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-bottom: 2px;
+            }
+
+            .preview-size {
+                font-size: 11px;
+                color: #999;
+            }
+        }
+
+        .preview-clear {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 20px;
+            color: #999;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3px;
+
+            &:hover {
+                color: #d13438;
+                background: #f5f5f5;
+            }
+        }
+    }
+
+    .image-dialog-entity {
+        margin-bottom: 12px;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #fafafa;
+        min-height: 100px;
+    }
+
+    .dialog-field {
+        margin-bottom: 12px;
+
+        label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="url"] {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: #0078d4;
+            }
+        }
+
+        input[type="file"] {
+            font-size: 13px;
+        }
+    }
+
+    .dialog-field-row {
+        display: flex;
+        gap: 12px;
+
+        .dialog-field {
+            flex: 1;
+        }
+    }
+
+    .dialog-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 16px;
+
+        button {
+            padding: 6px 16px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+            cursor: pointer;
+            background: white;
+
+            &[type="submit"] {
+                background: #0078d4;
+                color: white;
+                border-color: #0078d4;
+
+                &:hover:not(:disabled) {
+                    background: #106ebe;
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+            }
+
+            &[type="button"] {
+                &:hover {
+                    background: #f3f3f3;
+                }
+            }
+        }
+    }
+
+    .confirm-message {
+        margin: 0 0 16px 0;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .btn-primary {
+        background: #0078d4 !important;
+        color: white !important;
+        border-color: #0078d4 !important;
+
+        &:hover {
+            background: #106ebe !important;
+        }
+    }
+
+    // Form styles for link dialog
+    .form-group {
+        margin-bottom: 16px;
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #333;
+
+            .required {
+                color: #d13438;
+                margin-left: 2px;
+            }
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: #0078d4;
+                box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+            }
+        }
+
+        .form-hint {
+            display: block;
+            font-size: 11px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+
+            .radio-label {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                font-size: 13px;
+                color: #333;
+
+                input[type="radio"] {
+                    margin-right: 6px;
+                    cursor: pointer;
+                }
+
+                span {
+                    user-select: none;
+                }
+            }
+        }
+    }
+}
+
+.confirm-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+
+    .confirm-dialog {
+        max-width: 400px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+}

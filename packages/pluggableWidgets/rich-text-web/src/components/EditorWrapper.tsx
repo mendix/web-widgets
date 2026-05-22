@@ -1,231 +1,47 @@
-import { If } from "@mendix/widget-plugin-component-kit/If";
-import { useDebounceWithStatus } from "@mendix/widget-plugin-hooks/useDebounceWithStatus";
-import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
-import classNames from "classnames";
-import Quill from "quill";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import { CSSProperties, ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { ReactElement, useRef } from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
-import { EditorContext, EditorProvider } from "../store/EditorProvider";
-import { useActionEvents } from "../store/useActionEvents";
-import MendixTheme from "../utils/themes/mxTheme";
-import { MxQuillModulesOptions } from "../utils/MxQuill";
-import { createPreset } from "./CustomToolbars/presets";
-import Editor from "./Editor";
-import { StickySentinel } from "./StickySentinel";
-import Toolbar from "./Toolbar";
+import { useDebounceWithStatus } from "@mendix/widget-plugin-hooks/useDebounceWithStatus";
+import Editor, { EditorHandle } from "./Editor";
 
 export interface EditorWrapperProps extends RichTextContainerProps {
-    editorHeight?: string | number;
-    editorWidth?: string | number;
-    style?: CSSProperties;
     className?: string;
-    toolbarOptions?: Array<string | string[] | { [k: string]: any }>;
 }
 
-function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
-    const {
-        id,
-        stringAttribute,
-        style,
-        className,
-        preset,
-        toolbarLocation,
-        onChange,
-        onChangeType,
-        onBlur,
-        onFocus,
-        onLoad,
-        readOnlyStyle,
-        toolbarOptions,
-        enableStatusBar,
-        statusBarContent,
-        tabIndex,
-        imageSource,
-        imageSourceContent,
-        enableDefaultUpload,
-        formOrientation,
-        defaultFontFamily,
-        defaultFontSize
-    } = props;
-
-    const globalState = useContext(EditorContext);
-    const isFirstLoad = useRef<boolean>(false);
-    const quillRef = useRef<Quill>(null);
-    const actionEvents = useActionEvents({ onBlur, onFocus, onChange, onChangeType, quill: quillRef?.current });
-    const toolbarRef = useRef<HTMLDivElement>(null);
-    const [wordCount, setWordCount] = useState(0);
-
-    const { isFullscreen } = globalState;
+function EditorWrapper(props: EditorWrapperProps): ReactElement {
+    const { stringAttribute, className, styleDataFormat, imageSourceContent } = props;
+    const editorRef = useRef<EditorHandle>(null);
 
     const [setAttributeValueDebounce] = useDebounceWithStatus(
-        (string?: string) => {
-            if (stringAttribute.value !== string) {
-                stringAttribute.setValue(string);
-                if (onChangeType === "onDataChange") {
-                    executeAction(onChange);
-                }
+        (html?: string) => {
+            if (stringAttribute.value !== html) {
+                stringAttribute.setValue(html);
             }
         },
         200,
-        onChange?.isExecuting ?? false
+        false
     );
 
-    const calculateCounts = useCallback(
-        (quill: Quill | null): void => {
-            if (enableStatusBar && quill) {
-                if (statusBarContent === "wordCount") {
-                    const text = quill?.getText().trim();
-                    setWordCount(text && text.length > 0 ? text.split(/\s+/).length : 0);
-                } else if (statusBarContent === "characterCount") {
-                    const text = quill?.getText().trimEnd() || "";
-                    setWordCount(text.length);
-                } else if (statusBarContent === "characterCountHtml") {
-                    const html = quill?.getSemanticHTML() || "";
-                    setWordCount(html.length);
-                }
-            }
-        },
-        [enableStatusBar, statusBarContent]
-    );
-
-    useEffect(() => {
-        if (quillRef.current) {
-            calculateCounts(quillRef.current);
+    const handleUpdate = (html: string): void => {
+        if (stringAttribute.value !== html) {
+            setAttributeValueDebounce(html);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [stringAttribute.value]);
-
-    useEffect(() => {
-        if (quillRef.current) {
-            (quillRef.current?.theme as MendixTheme).updateDefaultFontFamily(defaultFontFamily?.value);
-            (quillRef.current?.theme as MendixTheme).updateDefaultFontSize(defaultFontSize?.value);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [defaultFontFamily?.value, quillRef.current, defaultFontSize?.value]);
-
-    useEffect(() => {
-        if (quillRef.current) {
-            if (!isFirstLoad.current) {
-                executeAction(onLoad);
-                isFirstLoad.current = true;
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [quillRef.current]);
-
-    const onTextChange = useCallback(() => {
-        const semanticHTML = quillRef.current?.getSemanticHTML() || "";
-        if (stringAttribute.value !== semanticHTML) {
-            setAttributeValueDebounce(semanticHTML);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [quillRef.current, stringAttribute, calculateCounts]);
-
-    const toolbarId = `widget_${id.replaceAll(".", "_")}_toolbar`;
-    const shouldHideToolbar = (stringAttribute.readOnly && readOnlyStyle !== "text") || toolbarLocation === "hide";
-    const toolbarPreset = shouldHideToolbar ? [] : createPreset(props);
+    };
 
     return (
-        <div
-            className={classNames(
-                className,
-                "flex-column",
-                `${stringAttribute?.readOnly ? `editor-${readOnlyStyle}` : ""}`,
-                { fullscreen: isFullscreen }
-            )}
-            style={{ width: style?.width }}
-            onClick={e => {
-                // click on other parts of editor, such as the toolbar, should also set focus
-                if (!quillRef?.current?.hasFocus()) {
-                    if (
-                        toolbarRef.current === (e.target as HTMLDivElement) ||
-                        toolbarRef.current?.contains(e.target as Node) ||
-                        e.target === quillRef?.current?.container.parentElement
-                    ) {
-                        quillRef?.current?.focus();
-                    }
-                }
-            }}
-            spellCheck={props.spellCheck}
-            tabIndex={tabIndex ?? -1}
-            {...actionEvents}
-        >
-            <If condition={toolbarLocation === "auto"}>
-                <StickySentinel />
-            </If>
-            <div
-                className={classNames(
-                    "flexcontainer",
-                    toolbarLocation === "bottom" ? "flex-column-reverse" : "flex-column",
-                    { "hide-toolbar": shouldHideToolbar }
-                )}
-            >
-                <If condition={!shouldHideToolbar && toolbarOptions === undefined}>
-                    <Toolbar
-                        ref={toolbarRef}
-                        id={toolbarId}
-                        preset={preset}
-                        quill={quillRef.current}
-                        toolbarContent={toolbarPreset}
-                        customFonts={props.customFonts}
-                    />
-                </If>
+        <div className={className}>
+            {stringAttribute.status === "available" && (
                 <Editor
-                    theme={"snow"}
-                    ref={quillRef}
+                    ref={editorRef}
                     defaultValue={stringAttribute.value}
-                    style={
-                        isFullscreen
-                            ? { height: "100%" }
-                            : {
-                                  height: style?.height,
-                                  minHeight: style?.minHeight,
-                                  maxHeight: style?.maxHeight,
-                                  overflowY: style?.overflowY
-                              }
-                    }
-                    toolbarId={shouldHideToolbar ? undefined : toolbarOptions ? toolbarOptions : toolbarId}
-                    onTextChange={onTextChange}
-                    className={"widget-rich-text-container"}
+                    onUpdate={handleUpdate}
                     readOnly={stringAttribute.readOnly}
-                    key={`${toolbarId}_${stringAttribute.readOnly}`}
-                    options={
-                        {
-                            fonts: props.customFonts,
-                            links: {
-                                validate: props.linkValidation
-                            }
-                        } as MxQuillModulesOptions
-                    }
-                    imageSource={imageSource}
+                    className="tiptap-editor"
+                    styleDataFormat={styleDataFormat}
                     imageSourceContent={imageSourceContent}
-                    enableDefaultUpload={enableDefaultUpload}
-                    formOrientation={formOrientation}
                 />
-            </div>
-
-            <div
-                className={classNames("widget-rich-text-footer", { "hide-status-bar": !enableStatusBar })}
-                tabIndex={-1}
-            >
-                <If condition={enableStatusBar}>
-                    <span>
-                        <span>{wordCount}</span>
-                        <span>{` ${statusBarContent === "wordCount" ? "word" : "character"}`}</span>
-                        <span>{wordCount === 1 ? "" : "s"}</span>
-                    </span>
-                </If>
-            </div>
+            )}
         </div>
     );
 }
 
-export default function EditorWrapper(props: EditorWrapperProps): ReactElement {
-    return (
-        <EditorProvider>
-            <EditorWrapperInner {...props} />
-        </EditorProvider>
-    );
-}
+export default EditorWrapper;

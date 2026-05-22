@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added new configuration to allow users to use class names instead of inline styling in generated HTML to support strict CSP.
+
+### Fixed
+
+- We fixed an issue where the editor pasting back the whole sentence instead of the single copied word
+
+### Changed
+
+- We removed codemirror from code dialog viewer due to unsupported strict CSP policy. A simple internally built code editor using highlightjs is now replacing it.
+
 ## [4.12.0] - 2026-04-22
 
 ### Added
