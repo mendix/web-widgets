@@ -109,13 +109,15 @@ describe("TreeNodeV2 - Keyboard Navigation", () => {
     });
 
     it("collapses expanded node when Enter key is pressed", () => {
-        render(createElement(TreeNodeV2, makeDefaultProps(true)));
+        render(createElement(TreeNodeV2, makeDefaultProps(false)));
         const treeItem = screen.getAllByRole("treeitem")[0];
 
+        // Expand first
+        fireEvent.keyDown(treeItem, { key: "Enter" });
         expect(treeItem).toHaveAttribute("aria-expanded", "true");
 
+        // Then collapse
         fireEvent.keyDown(treeItem, { key: "Enter" });
-
         expect(treeItem).toHaveAttribute("aria-expanded", "false");
     });
 
@@ -131,13 +133,15 @@ describe("TreeNodeV2 - Keyboard Navigation", () => {
     });
 
     it("collapses node when ArrowLeft is pressed on expanded node", () => {
-        render(createElement(TreeNodeV2, makeDefaultProps(true)));
+        render(createElement(TreeNodeV2, makeDefaultProps(false)));
         const treeItem = screen.getAllByRole("treeitem")[0];
 
+        // Expand first via ArrowRight
+        fireEvent.keyDown(treeItem, { key: "ArrowRight" });
         expect(treeItem).toHaveAttribute("aria-expanded", "true");
 
+        // Then collapse
         fireEvent.keyDown(treeItem, { key: "ArrowLeft" });
-
         expect(treeItem).toHaveAttribute("aria-expanded", "false");
     });
 
