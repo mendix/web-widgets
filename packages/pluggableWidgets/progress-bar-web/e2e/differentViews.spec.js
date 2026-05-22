@@ -37,12 +37,11 @@ test.describe("Progress Bar", () => {
     test("renders in a template grid", async ({ page }) => {
         await page.goto("p/templateGrid");
 
-        const textBox = await page.locator(".mx-name-textBox1 .form-control-static");
+        const textBox = page.locator(".mx-name-textBox1 .form-control-static");
+        await expect(textBox).toHaveText(/\d/);
         const textBoxContent = await textBox.textContent();
 
-        const progressBar = await page.locator(".widget-progress-bar.mx-name-progressBar1 .progress-bar", {
-            timeout: 10000
-        });
+        const progressBar = page.locator(".widget-progress-bar.mx-name-progressBar1 .progress-bar");
         await expect(progressBar).toHaveText(textBoxContent);
     });
 
