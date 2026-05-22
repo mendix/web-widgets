@@ -1,68 +1,94 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { ListValue, ObjectItem, ListAttributeValue } from "mendix";
+import {
+    DynamicValue,
+    GUID,
+    ListExpressionValue,
+    ListReferenceValue,
+    ListValue,
+    ObjectItem,
+    ValueStatus
+} from "mendix";
 import { createElement } from "react";
 import { TreeNodeContainerProps } from "../../../../typings/TreeNodeProps";
 import { TreeNodeV2 } from "../TreeNode";
 
+jest.mock("mendix/filters/builders", () => ({
+    association: jest.fn(() => "assocExpr"),
+    equals: jest.fn((a: unknown, b: unknown) => ({ type: "equals", a, b })),
+    literal: jest.fn((v: unknown) => ({ type: "literal", v })),
+    or: jest.fn((...args: unknown[]) => ({ type: "or", args }))
+}));
+
 describe("TreeNodeV2 - Keyboard Navigation", () => {
-    const mockItem = (id: string, name: string): ObjectItem => ({
-        id
+    const makeItem = (id: string): ObjectItem => ({ id: id as GUID });
+
+    const makeListValue = (items: ObjectItem[]): ListValue =>
+        ({
+            status: ValueStatus.Available,
+            items,
+            limit: 100,
+            offset: 0,
+            hasMoreItems: false,
+            sortOrder: [],
+            filter: undefined,
+            setLimit: jest.fn(),
+            setOffset: jest.fn(),
+            setSortOrder: jest.fn(),
+            requestTotalCount: jest.fn(),
+            setFilter: jest.fn(),
+            reload: jest.fn(),
+            totalCount: undefined
+        }) as unknown as ListValue;
+
+    const makeExpression = (value: string): ListExpressionValue<string> => ({
+        get: (): DynamicValue<string> => ({ status: ValueStatus.Available, value })
     });
 
-    const createMockListValue = (items: ObjectItem[]): ListValue => ({
-        status: "available" as const,
-        items,
-        limit: 10,
-        offset: 0,
-        hasMoreItems: false,
-        sortOrder: [],
-        setLimit: jest.fn(),
-        setOffset: jest.fn(),
-        requestTotalCount: jest.fn(),
-        totalCount: undefined
+    const makeBoolExpression = (value: boolean): ListExpressionValue<boolean> => ({
+        get: (): DynamicValue<boolean> => ({ status: ValueStatus.Available, value })
     });
 
-    const createMockAttribute = (value: string): ListAttributeValue<string> => ({
-        get: () => ({
-            status: "available" as const,
-            value,
-            displayValue: value,
-            readOnly: false,
-            formatter: {
-                format: (val: string) => val,
-                withConfig: jest.fn().mockReturnThis()
-            },
-            setValue: jest.fn(),
-            setTextInputValue: jest.fn(),
-            setValidator: jest.fn()
-        })
-    });
+    /**
+     * Creates a ListReferenceValue mock where childId → parentId, all others → undefined.
+     */
+    const makeParentAssociation = (childId: string, parentId: string): ListReferenceValue =>
+        ({
+            id: "parentAssoc",
+            type: "Reference",
+            get: (item: ObjectItem): DynamicValue<ObjectItem> => {
+                if (String(item.id) === childId) {
+                    return { status: ValueStatus.Available, value: makeItem(parentId) };
+                }
+                return { status: ValueStatus.Available, value: undefined as unknown as ObjectItem };
+            }
+        }) as unknown as ListReferenceValue;
 
-    const defaultProps: TreeNodeContainerProps = {
+    /**
+     * Default props for tests that need a node with children.
+     * Datasource contains parent + child; parentAssociation links child → parent.
+     * This makes node.children.length > 0 so aria-expanded is rendered.
+     */
+    const makeDefaultProps = (startExpanded = false): TreeNodeContainerProps => ({
         name: "treeNode",
         class: "",
         tabIndex: 0,
-        headerType: "attribute",
-        headerCaption: createMockAttribute("Root"),
-        items: createMockListValue([mockItem("1", "Root")]),
+        advancedMode: false,
+        datasource: makeListValue([makeItem("1"), makeItem("2")]),
+        parentAssociation: makeParentAssociation("2", "1"),
+        headerType: "text",
+        headerCaption: makeExpression("Node"),
+        hasChildren: makeBoolExpression(true),
         showIcon: "right",
         openNodeOn: "headerClick",
         animate: false,
         animateIcon: false,
-        startExpanded: false
-    };
+        startExpanded
+    });
 
     it("expands node when Enter key is pressed", () => {
-        const items = [mockItem("1", "Parent")];
-        const props: TreeNodeContainerProps = {
-            ...defaultProps,
-            items: createMockListValue(items),
-            headerCaption: createMockAttribute("Parent")
-        };
-
-        render(createElement(TreeNodeV2, props));
-        const treeItem = screen.getByRole("treeitem");
+        render(createElement(TreeNodeV2, makeDefaultProps(false)));
+        const treeItem = screen.getAllByRole("treeitem")[0];
 
         expect(treeItem).toHaveAttribute("aria-expanded", "false");
 
@@ -72,15 +98,8 @@ describe("TreeNodeV2 - Keyboard Navigation", () => {
     });
 
     it("expands node when Space key is pressed", () => {
-        const items = [mockItem("1", "Parent")];
-        const props: TreeNodeContainerProps = {
-            ...defaultProps,
-            items: createMockListValue(items),
-            headerCaption: createMockAttribute("Parent")
-        };
-
-        render(createElement(TreeNodeV2, props));
-        const treeItem = screen.getByRole("treeitem");
+        render(createElement(TreeNodeV2, makeDefaultProps(false)));
+        const treeItem = screen.getAllByRole("treeitem")[0];
 
         expect(treeItem).toHaveAttribute("aria-expanded", "false");
 
@@ -90,16 +109,8 @@ describe("TreeNodeV2 - Keyboard Navigation", () => {
     });
 
     it("collapses expanded node when Enter key is pressed", () => {
-        const items = [mockItem("1", "Parent")];
-        const props: TreeNodeContainerProps = {
-            ...defaultProps,
-            items: createMockListValue(items),
-            headerCaption: createMockAttribute("Parent"),
-            startExpanded: true
-        };
-
-        render(createElement(TreeNodeV2, props));
-        const treeItem = screen.getByRole("treeitem");
+        render(createElement(TreeNodeV2, makeDefaultProps(true)));
+        const treeItem = screen.getAllByRole("treeitem")[0];
 
         expect(treeItem).toHaveAttribute("aria-expanded", "true");
 
@@ -109,15 +120,8 @@ describe("TreeNodeV2 - Keyboard Navigation", () => {
     });
 
     it("expands node when ArrowRight is pressed on collapsed node", () => {
-        const items = [mockItem("1", "Parent")];
-        const props: TreeNodeContainerProps = {
-            ...defaultProps,
-            items: createMockListValue(items),
-            headerCaption: createMockAttribute("Parent")
-        };
-
-        render(createElement(TreeNodeV2, props));
-        const treeItem = screen.getByRole("treeitem");
+        render(createElement(TreeNodeV2, makeDefaultProps(false)));
+        const treeItem = screen.getAllByRole("treeitem")[0];
 
         expect(treeItem).toHaveAttribute("aria-expanded", "false");
 
@@ -127,16 +131,8 @@ describe("TreeNodeV2 - Keyboard Navigation", () => {
     });
 
     it("collapses node when ArrowLeft is pressed on expanded node", () => {
-        const items = [mockItem("1", "Parent")];
-        const props: TreeNodeContainerProps = {
-            ...defaultProps,
-            items: createMockListValue(items),
-            headerCaption: createMockAttribute("Parent"),
-            startExpanded: true
-        };
-
-        render(createElement(TreeNodeV2, props));
-        const treeItem = screen.getByRole("treeitem");
+        render(createElement(TreeNodeV2, makeDefaultProps(true)));
+        const treeItem = screen.getAllByRole("treeitem")[0];
 
         expect(treeItem).toHaveAttribute("aria-expanded", "true");
 
@@ -146,67 +142,46 @@ describe("TreeNodeV2 - Keyboard Navigation", () => {
     });
 
     it("does not respond to keyboard when node has no children", () => {
-        const items = [mockItem("1", "Leaf")];
         const props: TreeNodeContainerProps = {
-            ...defaultProps,
-            items: createMockListValue(items),
-            headerCaption: createMockAttribute("Leaf")
+            ...makeDefaultProps(false),
+            datasource: makeListValue([makeItem("1")]),
+            parentAssociation: makeParentAssociation("__none__", "__none__"),
+            hasChildren: makeBoolExpression(false)
         };
 
         render(createElement(TreeNodeV2, props));
         const treeItem = screen.getByRole("treeitem");
 
-        // Leaf nodes should not have aria-expanded attribute
         expect(treeItem).not.toHaveAttribute("aria-expanded");
 
-        // Pressing keys should not cause errors
         fireEvent.keyDown(treeItem, { key: "Enter" });
         fireEvent.keyDown(treeItem, { key: " " });
         fireEvent.keyDown(treeItem, { key: "ArrowRight" });
 
-        // Should still not have aria-expanded
         expect(treeItem).not.toHaveAttribute("aria-expanded");
     });
 
     it("prevents default behavior and stops propagation for handled keys", () => {
-        const items = [mockItem("1", "Parent")];
-        const props: TreeNodeContainerProps = {
-            ...defaultProps,
-            items: createMockListValue(items),
-            headerCaption: createMockAttribute("Parent")
-        };
+        render(createElement(TreeNodeV2, makeDefaultProps(false)));
+        const treeItem = screen.getAllByRole("treeitem")[0];
 
-        render(createElement(TreeNodeV2, props));
-        const treeItem = screen.getByRole("treeitem");
+        const preventDefaultSpy = jest.spyOn(Event.prototype, "preventDefault");
+        const stopPropagationSpy = jest.spyOn(Event.prototype, "stopPropagation");
 
-        const event = {
-            key: "Enter",
-            currentTarget: treeItem,
-            target: treeItem,
-            preventDefault: jest.fn(),
-            stopPropagation: jest.fn()
-        };
+        fireEvent.keyDown(treeItem, { key: "Enter" });
 
-        fireEvent.keyDown(treeItem, event);
+        expect(preventDefaultSpy).toHaveBeenCalled();
+        expect(stopPropagationSpy).toHaveBeenCalled();
 
-        expect(event.preventDefault).toHaveBeenCalled();
-        expect(event.stopPropagation).toHaveBeenCalled();
+        preventDefaultSpy.mockRestore();
+        stopPropagationSpy.mockRestore();
     });
 
     it("ignores keyboard events that bubble from child elements", () => {
-        const items = [mockItem("1", "Parent")];
-        const props: TreeNodeContainerProps = {
-            ...defaultProps,
-            items: createMockListValue(items),
-            headerCaption: createMockAttribute("Parent"),
-            startExpanded: true
-        };
-
-        render(createElement(TreeNodeV2, props));
+        render(createElement(TreeNodeV2, makeDefaultProps(true)));
         const treeItems = screen.getAllByRole("treeitem");
         const parentItem = treeItems[0];
 
-        // Simulate a bubbled event from a child element
         const childElement = document.createElement("div");
         parentItem.appendChild(childElement);
 
@@ -216,19 +191,12 @@ describe("TreeNodeV2 - Keyboard Navigation", () => {
             cancelable: true
         });
 
-        Object.defineProperty(event, "currentTarget", {
-            writable: false,
-            value: parentItem
-        });
-        Object.defineProperty(event, "target", {
-            writable: false,
-            value: childElement
-        });
+        Object.defineProperty(event, "currentTarget", { writable: false, value: parentItem });
+        Object.defineProperty(event, "target", { writable: false, value: childElement });
 
         const initialState = parentItem.getAttribute("aria-expanded");
         fireEvent(childElement, event);
 
-        // State should not change because event came from child
         expect(parentItem.getAttribute("aria-expanded")).toBe(initialState);
     });
 });

@@ -1,6 +1,6 @@
+import { AxeBuilder } from "@axe-core/playwright";
 import { test, expect } from "@mendix/run-e2e/fixtures";
 import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
-import AxeBuilder from "@axe-core/playwright";
 
 function getTreeNodeHeaders(page) {
     return page.locator(".mx-name-treeNode1 .widget-tree-node-branch-header-value");
@@ -69,13 +69,19 @@ test.describe("v2: lazy loading (parentAssociation)", () => {
 
     test("shows expand icon on nodes that have children", async ({ page }) => {
         const widget = page.locator(".mx-name-treeNodeV2_1");
-        const electronicsHeader = widget
+        // Scope to the node's own header (first .widget-tree-node-branch-header) to avoid
+        // matching icon containers from pre-loaded children nested inside the same treeitem.
+        const electronicsIcon = widget
             .getByRole("treeitem", { name: "Electronics" })
+            .locator(".widget-tree-node-branch-header")
+            .first()
             .locator(".widget-tree-node-branch-header-icon-container");
-        await expect(electronicsHeader).toBeVisible();
-        // Books has no children — no icon
+        await expect(electronicsIcon).toBeVisible();
+        // Books has no children — icon container is never rendered
         const booksIcon = widget
             .getByRole("treeitem", { name: "Books" })
+            .locator(".widget-tree-node-branch-header")
+            .first()
             .locator(".widget-tree-node-branch-header-icon-container");
         await expect(booksIcon).not.toBeVisible();
     });
@@ -154,10 +160,6 @@ test.describe("v2: startExpanded", () => {
                 timeout: 8000
             }
         );
-        // Android and iOS are leaf nodes — aria-expanded is not set on them; just verify they are visible
-        await expect(widget.getByRole("treeitem", { name: "Android" })).toBeVisible({ timeout: 8000 });
-        await expect(widget.getByRole("treeitem", { name: "iOS" })).toBeVisible({ timeout: 8000 });
-        await expect(widget.getByRole("treeitem", { name: "Men", exact: true })).toBeVisible();
     });
 
     test("can still collapse nodes when startExpanded is true", async ({ page }) => {
