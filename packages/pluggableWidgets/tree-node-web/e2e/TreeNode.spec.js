@@ -2,6 +2,13 @@ import { AxeBuilder } from "@axe-core/playwright";
 import { test, expect } from "@mendix/run-e2e/fixtures";
 import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
+async function navigateToV2Page(page) {
+    await page.goto("/");
+    await waitForMendixApp(page);
+    await page.getByRole("menuitem", { name: "Tree Node V2" }).click();
+    await waitForMendixApp(page);
+}
+
 function getTreeNodeHeaders(page) {
     return page.locator(".mx-name-treeNode1 .widget-tree-node-branch-header-value");
 }
