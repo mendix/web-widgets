@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ValueStatus } from "mendix";
-import { ReactElement, useCallback, useMemo, useState, KeyboardEvent } from "react";
+import { ReactElement, useCallback, useMemo, useState, KeyboardEvent, Fragment } from "react";
 import "./ui/TreeNodeV2.scss";
 import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "../common/HeaderIcon";
 import { TreeNodeState } from "../common/TreeNodeState";
@@ -66,16 +66,20 @@ function renderRecursiveNode(
                 >
                     <div>{children?.get(node.item)}</div>
                     <ul role="group">
-                        {node.children.map(child =>
-                            renderRecursiveNode(
-                                child,
-                                renderHeaderIcon,
-                                iconPlacement,
-                                openNodeOn,
-                                onNodeClick,
-                                children
-                            )
-                        )}
+                        {node.children.map(child => {
+                            return (
+                                <Fragment key={child.id}>
+                                    {renderRecursiveNode(
+                                        child,
+                                        renderHeaderIcon,
+                                        iconPlacement,
+                                        openNodeOn,
+                                        onNodeClick,
+                                        children
+                                    )}
+                                </Fragment>
+                            );
+                        })}
                     </ul>
                 </div>
             ) : null}

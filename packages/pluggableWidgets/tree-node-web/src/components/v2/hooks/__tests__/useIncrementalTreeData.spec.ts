@@ -72,17 +72,31 @@ describe("useIncrementalTreeData", () => {
             expect(result.current[0].children[0].id).toBe("child");
         });
 
-        it("assigns COLLAPSED_WITH_JS when startExpanded is false", () => {
+        it("assigns LOADING on first render, then COLLAPSED_WITH_JS when startExpanded is false", () => {
             const items = [makeItem("a")];
             const config = makeConfig({ startExpanded: false });
-            const { result } = renderHook(() => useIncrementalTreeData(items, config));
+            const { result, rerender } = renderHook(
+                ({ items, config }: { items: ObjectItem[]; config: TreeConfigRef }) =>
+                    useIncrementalTreeData(items, config),
+                { initialProps: { items, config } }
+            );
+            expect(result.current[0].treeNodeState).toBe(TreeNodeState.LOADING);
+            // Simulate Mendix re-providing items (new array reference)
+            rerender({ items: [...items], config });
             expect(result.current[0].treeNodeState).toBe(TreeNodeState.COLLAPSED_WITH_JS);
         });
 
-        it("assigns EXPANDED when startExpanded is true", () => {
+        it("assigns LOADING on first render, then EXPANDED when startExpanded is true", () => {
             const items = [makeItem("a")];
             const config = makeConfig({ startExpanded: true });
-            const { result } = renderHook(() => useIncrementalTreeData(items, config));
+            const { result, rerender } = renderHook(
+                ({ items, config }: { items: ObjectItem[]; config: TreeConfigRef }) =>
+                    useIncrementalTreeData(items, config),
+                { initialProps: { items, config } }
+            );
+            expect(result.current[0].treeNodeState).toBe(TreeNodeState.LOADING);
+            // Simulate Mendix re-providing items (new array reference)
+            rerender({ items: [...items], config });
             expect(result.current[0].treeNodeState).toBe(TreeNodeState.EXPANDED);
         });
     });
