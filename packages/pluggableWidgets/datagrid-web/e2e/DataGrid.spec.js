@@ -20,20 +20,20 @@ test.describe("datagrid-web export to Excel", () => {
         // Read file and convert to JSON.
         const workbook = XLSX.readFile("./e2e/downloads/testFilename.xlsx");
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
 
         expect(jsonData).toHaveLength(50);
 
         expect(jsonData[0]).toEqual({
             "Birth date": "2/15/1983",
-            "Birth year": 1983,
+            "Birth year": "1983",
             "Color (enum)": "Black",
             "First name": "Loretta"
         });
 
         expect(jsonData[1]).toEqual({
             "Birth date": "9/30/1970",
-            "Birth year": 1970,
+            "Birth year": "1970",
             "Color (enum)": "Red",
             "First name": "Chad"
         });
