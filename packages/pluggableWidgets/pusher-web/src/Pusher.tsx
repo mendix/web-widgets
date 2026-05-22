@@ -2,7 +2,7 @@ import classnames from "classnames";
 import { ReactElement, useCallback, useMemo } from "react";
 import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { PusherContainerProps } from "../typings/PusherProps";
-import { usePusherListener } from "./hooks/usePusherListener";
+import { usePusherSubscribe } from "./hooks/usePusherSubscribe";
 import "./ui/Pusher.scss";
 import { useMxObjectInfo } from "./utils/useMxObjectInfo";
 
@@ -44,7 +44,7 @@ export default function Pusher(props: PusherContainerProps): ReactElement {
     }, [mxObjectInfo, handleEvent, handleError, notifyActionName]);
 
     // Initialize Pusher listener
-    usePusherListener(subscription);
+    usePusherSubscribe(subscription);
 
     return <div className={classnames("widget-pusher", className)} />;
 }

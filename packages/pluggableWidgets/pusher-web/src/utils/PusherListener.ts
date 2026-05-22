@@ -27,7 +27,7 @@ export class PusherListener {
      * Initialize Pusher connection
      * Should be called once on widget mount
      */
-    async initialize(): Promise<void> {
+    initialize(): void {
         if (this.pusher) {
             return; // Already initialized
         }

@@ -1,51 +1,35 @@
-import { useEffect, useRef } from "react";
-import { usePusherConfig } from "./usePusherConfig";
-import { PusherListener, SubscriptionConfig } from "../utils/PusherListener";
+import { useEffect, useRef, useState } from "react";
+import { useFetchPusherConfig } from "./useFetchPusherConfig";
+import { PusherListener } from "../utils/PusherListener";
 
 /**
- * React hook to manage Pusher listener lifecycle
- * Automatically handles initialization, subscription changes, and cleanup
+ * Creates and initializes a PusherListener
  */
-export function usePusherListener(subscription?: SubscriptionConfig): void {
-    const listenerRef = useRef<PusherListener | null>(null);
+export function usePusherListener(): PusherListener | null {
+    const instanceRef = useRef<PusherListener>(null);
+    const [ready, setReady] = useState(false);
 
-    // Fetch Pusher config from backend
-    const pusherConfig = usePusherConfig();
+    const pusherConfig = useFetchPusherConfig();
 
-    const enabled = !!pusherConfig && !!subscription;
-
-    // Initialize PusherListener once when config is available
     useEffect(() => {
-        if (!enabled) {
+        if (!pusherConfig) {
             return;
         }
-
-        const listener = new PusherListener(pusherConfig);
-        listenerRef.current = listener;
-
-        listener.initialize().catch(error => {
-            console.error("[usePusherListener] Failed to initialize:", error);
-        });
-
-        // Cleanup on unmount or when config changes
-        return () => {
-            listener.destroy();
-            listenerRef.current = null;
-        };
-    }, [pusherConfig, enabled]);
-
-    // Subscribe/unsubscribe based on subscription config changes
-    useEffect(() => {
-        const listener = listenerRef.current;
-        if (!enabled || !listener) {
+        try {
+            const instance = new PusherListener(pusherConfig);
+            instance.initialize();
+            instanceRef.current = instance;
+            setReady(true);
+        } catch (error) {
+            console.error("[usePusherListenerInstance] Failed to initialize:", error);
             return;
         }
-
-        listener.subscribe(subscription);
-
-        // Unsubscribe on cleanup or when subscription changes
         return () => {
-            listener.unsubscribe();
+            instanceRef.current?.destroy();
+            instanceRef.current = null;
+            setReady(false);
         };
-    }, [enabled, subscription]);
+    }, [pusherConfig]);
+
+    return ready ? instanceRef.current : null;
 }
