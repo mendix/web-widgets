@@ -162,7 +162,11 @@ const readers: ReadersByType = {
     },
 
     customContent(item, props) {
-        const value = props.exportValue?.get(item).value ?? "";
+        const raw = props.exportValue?.get(item);
+        if (!raw || raw.status !== "available") {
+            return makeEmptyCell();
+        }
+        const value = raw.value ?? "";
         const { exportType } = props;
         const format = getCellFormat({
             exportType,
@@ -195,7 +199,7 @@ const readers: ReadersByType = {
             }
         }
 
-        return excelString(value, format);
+        return excelString(value);
     }
 };
 
