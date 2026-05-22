@@ -7,7 +7,7 @@ import "./ui/Pusher.scss";
 import { useMxObjectInfo } from "./utils/useMxObjectInfo";
 
 export default function Pusher(props: PusherContainerProps): ReactElement {
-    const { class: className, objectSource, notifyChannelName, notifyAction } = props;
+    const { class: className, objectSource, notifyActionName, notifyEventAction } = props;
 
     // Extract object GUID and entity name from data source
     const mxObjectInfo = useMxObjectInfo(objectSource as any); // TODO: fix typings when PWT updated.
@@ -18,9 +18,9 @@ export default function Pusher(props: PusherContainerProps): ReactElement {
             console.debug("[Pusher] Event received:", data);
 
             // Execute configured action
-            executeAction(notifyAction);
+            executeAction(notifyEventAction);
         },
-        [notifyAction]
+        [notifyEventAction]
     );
 
     // Error callback
@@ -37,11 +37,11 @@ export default function Pusher(props: PusherContainerProps): ReactElement {
         return {
             entityName: mxObjectInfo.entityName,
             guid: mxObjectInfo.guid,
-            eventName: notifyChannelName,
+            eventName: notifyActionName,
             onEvent: handleEvent,
             onError: handleError
         };
-    }, [mxObjectInfo, handleEvent, handleError, notifyChannelName]);
+    }, [mxObjectInfo, handleEvent, handleError, notifyActionName]);
 
     // Initialize Pusher listener
     usePusherListener(subscription);

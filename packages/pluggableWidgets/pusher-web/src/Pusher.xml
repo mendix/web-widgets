@@ -10,12 +10,12 @@
                 <description />
             </property>
 
-            <property key="notifyChannelName" type="string" required="true" defaultValue="change">
-                <caption>Notify event name</caption>
-                <description>The name should match the with the 'Notify' parameter `EventName`</description>
+            <property key="notifyActionName" type="string" required="true" defaultValue="change">
+                <caption>Notify action name</caption>
+                <description>The name should match the with the 'Notify' parameter `ActionName`</description>
             </property>
 
-            <property key="notifyAction" type="action" required="false">
+            <property key="notifyEventAction" type="action" required="false">
                 <caption>Action</caption>
                 <description />
             </property>

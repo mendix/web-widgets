@@ -12,8 +12,8 @@ export interface PusherContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     objectSource: ListValue;
-    notifyChannelName: string;
-    notifyAction?: ActionValue;
+    notifyActionName: string;
+    notifyEventAction?: ActionValue;
 }
 
 export interface PusherPreviewProps {
@@ -28,6 +28,6 @@ export interface PusherPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     objectSource: {} | { caption: string } | { type: string } | null;
-    notifyChannelName: string;
-    notifyAction: {} | null;
+    notifyActionName: string;
+    notifyEventAction: {} | null;
 }

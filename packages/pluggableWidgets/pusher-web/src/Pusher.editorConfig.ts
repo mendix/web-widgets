@@ -27,5 +27,5 @@ export function getCustomCaption(values: PusherPreviewProps): string {
 }
 
 export function getCaption(values: PusherPreviewProps): string {
-    return `Pusher widget [${values.notifyChannelName}]`;
+    return `Pusher widget [${values.notifyActionName}]`;
 }
