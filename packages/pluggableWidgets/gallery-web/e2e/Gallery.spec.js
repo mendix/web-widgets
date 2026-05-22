@@ -1,15 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 import AxeBuilder from "@axe-core/playwright";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
 
 test.describe("gallery-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test.describe("capabilities: sorting", () => {
@@ -34,7 +30,8 @@ test.describe("gallery-web", () => {
             const textFilter = ".mx-name-gallery1 .form-control";
 
             await page.locator(textFilter).first().fill("Leo");
-            await page.waitForTimeout(1000); // wait for filter to apply
+            await expect(page.locator(".widget-gallery-item")).toHaveCount(1);
+            await page.locator(textFilter).first().focus();
             await expect(page.locator(gallery)).toHaveScreenshot(`galleryTextFilter.png`);
         });
 
@@ -61,7 +58,6 @@ test.describe("gallery-web", () => {
 
             await dropdown.click({ delay: 1 });
             await dropdown.getByRole("listbox").getByRole("option", { name: "QA Engineer" }).click({ delay: 1 });
-            await page.waitForTimeout(1000); // wait for filter to apply
             await expect(gallery).toHaveScreenshot(`galleryDropdownFilter.png`);
         });
     });
@@ -90,7 +86,7 @@ test.describe("gallery-web", () => {
     test.describe("a11y testing:", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("checks accessibility violations", async ({ page }) => {

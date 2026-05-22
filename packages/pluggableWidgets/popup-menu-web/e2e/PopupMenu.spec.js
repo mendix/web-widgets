@@ -1,15 +1,11 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("Popup-menu-web", () => {
     test.describe("using basic option", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("compares with a screenshot baseline and checks if popupmenu is rendered in the top left position", async ({
@@ -17,7 +13,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton10");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`popUpMenuTopLeft.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`popUpMenuTopLeft.png`);
         });
 
         test("compares with a screenshot baseline and checks if popupmenu is rendered in the left position", async ({
@@ -25,7 +21,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton12");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`popUpMenuLeft.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`popUpMenuLeft.png`);
         });
 
         test("compares with a screenshot baseline and checks if popupmenu is rendered in the top position", async ({
@@ -33,7 +29,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton15");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`popUpMenuTop.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`popUpMenuTop.png`);
         });
 
         test("compares with a screenshot baseline and checks if popupmenu is rendered in the top right position", async ({
@@ -41,7 +37,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton13");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`popUpMenuTopRight.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`popUpMenuTopRight.png`);
         });
 
         test("compares with a screenshot baseline and checks if popupmenu is rendered in the right position", async ({
@@ -49,7 +45,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton14");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`popUpMenuRight.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`popUpMenuRight.png`);
         });
 
         test("compares with a screenshot baseline and checks if popupmenu is rendered in the bottom right position", async ({
@@ -57,7 +53,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton20");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`popUpMenuBottomRight.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`popUpMenuBottomRight.png`);
         });
 
         test("compares with a screenshot baseline and checks if popupmenu is rendered in the bottom left position", async ({
@@ -65,7 +61,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton18");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`popUpMenuBottomLeft.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`popUpMenuBottomLeft.png`);
         });
 
         test("compares with a screenshot baseline and checks if popupmenu is rendered in the bottom position", async ({
@@ -73,12 +69,12 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton19");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`popUpMenuBottom.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`popUpMenuBottom.png`);
         });
 
         test("shows a new menu list when on hover is triggered", async ({ page }) => {
             await page.click(".mx-name-actionButton1");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
             const button25 = page.getByRole("button", { name: "Trigger On Hover" });
             await expect(button25).toBeVisible();
             await button25.hover();
@@ -102,7 +98,7 @@ test.describe("Popup-menu-web", () => {
     test.describe("using custom option", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("/");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("compares with a screenshot baseline and checks if custom popupmenu is rendered in the top left position", async ({
@@ -110,7 +106,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton11");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`customPopUpMenuTopLeft.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`customPopUpMenuTopLeft.png`);
         });
 
         test("compares with a screenshot baseline and checks if custom popupmenu is rendered in the left position", async ({
@@ -118,7 +114,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton17");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`CustomPopUpMenuLeft.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`CustomPopUpMenuLeft.png`);
         });
 
         test("compares with a screenshot baseline and checks if custom popupmenu is rendered in the top position", async ({
@@ -126,7 +122,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton24");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`customPopUpMenuTop.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`customPopUpMenuTop.png`);
         });
 
         test("compares with a screenshot baseline and checks if custom popupmenu is rendered in the top right position", async ({
@@ -134,7 +130,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton23");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`customPopUpMenuTopRight.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`customPopUpMenuTopRight.png`);
         });
 
         test("compares with a screenshot baseline and checks if custom popupmenu is rendered in the right position", async ({
@@ -142,7 +138,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton26");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`customPopUpMenuRight.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`customPopUpMenuRight.png`);
         });
 
         test("compares with a screenshot baseline and checks if custom popupmenu is rendered in the bottom position", async ({
@@ -150,7 +146,7 @@ test.describe("Popup-menu-web", () => {
         }) => {
             await page.click(".mx-name-actionButton29");
             const container = await page.locator(".mx-name-container15");
-            await expect(container).toHaveScreenshot(`customPopUpMenuBottom.png`, { threshold: 0.1 });
+            await expect(container).toHaveScreenshot(`customPopUpMenuBottom.png`);
         });
 
         test("shows a message when one item is clicked", async ({ page }) => {

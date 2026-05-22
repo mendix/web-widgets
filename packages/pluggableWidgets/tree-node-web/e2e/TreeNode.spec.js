@@ -1,10 +1,6 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 import AxeBuilder from "@axe-core/playwright";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
 
 function getTreeNodeHeaders(page) {
     return page.locator(".mx-name-treeNode1 .widget-tree-node-branch-header-value");
@@ -13,7 +9,7 @@ function getTreeNodeHeaders(page) {
 test.describe("capabilities: expand", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test("expands a node", async ({ page }) => {
@@ -33,7 +29,7 @@ test.describe("capabilities: expand", () => {
 test.describe("capabilities: collapse", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test("collapses a node", async ({ page }) => {
@@ -59,7 +55,7 @@ test.describe("capabilities: collapse", () => {
 test.describe("a11y testing:", () => {
     test("checks accessibility violations", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
 
         await page.locator(".mx-name-treeNode1").waitFor();
         const accessibilityScanResults = await new AxeBuilder({ page })

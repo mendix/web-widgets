@@ -1,9 +1,4 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
 
 test.describe("Progress Bar", () => {
     test("renders in a group box", async ({ page }) => {
@@ -42,12 +37,11 @@ test.describe("Progress Bar", () => {
     test("renders in a template grid", async ({ page }) => {
         await page.goto("p/templateGrid");
 
-        const textBox = await page.locator(".mx-name-textBox1 .form-control-static");
+        const textBox = page.locator(".mx-name-textBox1 .form-control-static");
+        await expect(textBox).toHaveText(/\d/);
         const textBoxContent = await textBox.textContent();
 
-        const progressBar = await page.locator(".widget-progress-bar.mx-name-progressBar1 .progress-bar", {
-            timeout: 10000
-        });
+        const progressBar = page.locator(".widget-progress-bar.mx-name-progressBar1 .progress-bar");
         await expect(progressBar).toHaveText(textBoxContent);
     });
 

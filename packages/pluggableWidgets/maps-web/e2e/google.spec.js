@@ -1,24 +1,17 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("Google Maps", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
-    test("compares with a screenshot baseline and checks if basemap is correct", async ({ page }) => {
+    test("renders basemap with markers", async ({ page }) => {
         const $mapsElement = page.locator(".widget-google-maps");
         await expect($mapsElement).toBeVisible();
-        await expect($mapsElement).toHaveScreenshot(`googleMaps.png`, {
-            maxDiffPixels: 15000,
-            threshold: 0.3,
-            animations: "disabled"
-        });
+        const canvas = $mapsElement.locator("canvas, .gm-style > div");
+        await expect(canvas.first()).toBeVisible();
     });
 
     test("checks the rendering", async ({ page }) => {

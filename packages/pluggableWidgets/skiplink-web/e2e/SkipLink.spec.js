@@ -1,13 +1,11 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await waitForMendixApp(page);
+    // Establish focus context so keyboard events are delivered
+    await page.locator("body").click();
 });
 
 test.describe("SkipLink:", function () {
@@ -15,9 +13,7 @@ test.describe("SkipLink:", function () {
         const skipLink = page.locator(".widget-skip-link").first();
         await expect(skipLink).toBeAttached();
 
-        // Element is translated above the viewport — its bottom edge should be at or above y=0
-        const rect = await skipLink.evaluate(el => el.getBoundingClientRect().toJSON());
-        expect(rect.bottom).toBeLessThanOrEqual(0);
+        await expect(skipLink).not.toBeInViewport();
     });
 
     test("skip link becomes visible when focused via keyboard", async ({ page }) => {
@@ -25,9 +21,7 @@ test.describe("SkipLink:", function () {
         await page.keyboard.press("Tab");
 
         await expect(skipLink).toBeFocused();
-        // Element should now be within the viewport
-        const rect = await skipLink.evaluate(el => el.getBoundingClientRect().toJSON());
-        expect(rect.top).toBeGreaterThanOrEqual(0);
+        await expect(skipLink).toBeInViewport();
     });
 
     test("skip link navigates to main content when activated", async ({ page }) => {

@@ -1,19 +1,15 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
+import { expect, test } from "@mendix/run-e2e/fixtures";
 import path from "path";
 import * as XLSX from "xlsx";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
 
 test.describe("datagrid-web export to Excel", () => {
     test("check if export to Excel generates correct output", async ({ page }) => {
         const downloadedFilename = path.join("./e2e/downloads/", "testFilename.xlsx");
 
         await page.goto("/p/export-excel");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-dataGridExportExcel").waitFor({ state: "visible", timeout: 15000 });
         // Start waiting for download before clicking.
         const downloadPromise = page.waitForEvent("download");
@@ -47,7 +43,7 @@ test.describe("datagrid-web export to Excel", () => {
 test.describe("capabilities: sorting", () => {
     test("applies the default sort order from the data source option", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1)).toHaveText("First Name");
         await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg")).toHaveAttribute(
             "data-icon",
@@ -58,7 +54,7 @@ test.describe("capabilities: sorting", () => {
 
     test("changes order of data to ASC when clicking sort option", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1)).toHaveText("First Name");
         await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg")).toHaveAttribute(
             "data-icon",
@@ -74,7 +70,7 @@ test.describe("capabilities: sorting", () => {
 
     test("changes order of data to DESC when clicking sort option", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1)).toHaveText("First Name");
         await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
         await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
@@ -89,7 +85,7 @@ test.describe("capabilities: sorting", () => {
 test.describe("capabilities: hiding", () => {
     test("hides a selected column", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-datagrid1 .column-header").first()).toHaveText("Age");
         await page.locator(".mx-name-datagrid1 .column-selector-button").click();
         await page.locator(".column-selectors > li").first().click();
@@ -98,7 +94,7 @@ test.describe("capabilities: hiding", () => {
 
     test("hide column saved on configuration attribute capability", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
 
         // hide first column
         await page.locator(".mx-name-datagrid5 .column-selector-button").click();
@@ -127,7 +123,7 @@ test.describe("capabilities: hiding", () => {
     });
     test("hide column by default enabled", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-datagrid6 .column-header").first()).toHaveText("First Name");
         await page.locator(".mx-name-datagrid6 .column-selector-button").click();
         await page.locator(".column-selectors > li").first().click();
@@ -136,7 +132,7 @@ test.describe("capabilities: hiding", () => {
 
     test("do not allow to hide last visible column", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-datagrid1 .column-header").first()).toBeVisible();
         await page.locator(".mx-name-datagrid1 .column-selector-button").click();
         await expect(page.locator(".column-selectors input:checked")).toHaveCount(4);
@@ -158,7 +154,7 @@ test.describe("capabilities: hiding", () => {
 test.describe("capabilities: onClick action", () => {
     test("check the context", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-datagrid1 .td").first()).toHaveText("12");
         await page.locator(".mx-name-datagrid1 .td").first().click();
         await expect(page.locator(".mx-name-AgeTextBox input")).toHaveValue("12");
@@ -168,7 +164,7 @@ test.describe("capabilities: onClick action", () => {
 test.describe("manual column width", () => {
     test("compares with a screenshot baseline and checks the column width is with correct size", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await page.locator(".mx-name-datagrid7").scrollIntoViewIfNeeded();
         await expect(page.locator(".mx-name-datagrid7")).toHaveScreenshot(`dataGridColumnContent.png`);
     });
@@ -179,7 +175,7 @@ test.describe("visual testing:", () => {
         page
     }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-datagrid1")).toBeVisible();
         await expect(page.locator(".mx-name-datagrid1")).toHaveScreenshot(`datagrid.png`);
     });
@@ -188,7 +184,7 @@ test.describe("visual testing:", () => {
         page
     }) => {
         await page.goto("/p/virtual-scrolling");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(page.locator(".mx-name-dataGrid21")).toBeVisible();
         await page.locator(".mx-name-dataGrid21 .mx-name-textFilter1 .filter-selector-content .btn").click();
         await expect(page.locator(".mx-page")).toHaveScreenshot(`datagrid-virtual-scrolling.png`);
@@ -198,7 +194,7 @@ test.describe("visual testing:", () => {
 test.describe("a11y testing:", () => {
     test("checks accessibility violations", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag21aa"])
             .exclude(".mx-name-navigationTree3")

@@ -65,11 +65,10 @@
         },
         "e2e": {
             "inputs": [
-                "assets/**",
+                "e2e/**",
+                "playwright.config.*",
                 "src/**",
-                "cypress/**",
-                "cypress-visual-screenshots/**",
-                "cypress.config.*",
+                "assets/**",
                 "package.json",
                 "!src/*.{editorConfig,editorPreview,icon,tile,xml}*",
                 "!*/**/__tests__/**"

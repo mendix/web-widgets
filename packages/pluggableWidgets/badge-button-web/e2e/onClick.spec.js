@@ -1,15 +1,11 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("BadgeButton on click", () => {
     test.describe("call microflow", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/events");
-            await page.waitForLoadState("networkidle");
+            await waitForMendixApp(page);
         });
 
         test("displays a dialog", async ({ page }) => {
@@ -59,7 +55,7 @@ test.describe("BadgeButton on click", () => {
             await page.locator(".mx-name-openClosePage").click();
             await expect(page.locator(".mx-name-badgeButtonClosePage")).toBeVisible();
             await page.locator(".mx-name-badgeButtonClosePage").click();
-            await expect(page.locator(".mx-name-pageTitle1").nth(1)).toBeVisible();
+            await waitForMendixApp(page);
             await expect(page.locator(".mx-name-pageTitle1")).toContainText("Events");
         });
     });

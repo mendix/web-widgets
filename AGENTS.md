@@ -33,6 +33,10 @@ docs/requirements/                -> Detailed technical requirements
 - Jest + RTL for unit tests (src/\*_/**tests**/_.spec.ts)
 - Playwright for E2E (e2e/\*.spec.js)
 
+## E2E Test Rules (Playwright)
+
+- docs/requirements/e2e-test-guidelines.md — Full rules + template
+
 ## Development Setup
 
 - Node >=22, pnpm 10.x
@@ -49,6 +53,7 @@ docs/requirements/                -> Detailed technical requirements
 ## Documentation
 
 Essential reading (consult for any widget work):
+
 - docs/repo-layout.md — To understand the repository
 - docs/requirements/tech-stack.md — Full technology stack
 - docs/requirements/frontend-guidelines.md — CSS/SCSS/Atlas UI guidelines
@@ -57,8 +62,10 @@ Essential reading (consult for any widget work):
 - docs/requirements/project-requirements-document.md — Goals and scope
 
 Reference (consult on demand for specific tasks):
+
 - docs/requirements/implementation-plan.md — New widget guide + PR template
 - docs/requirements/widget-to-module.md — Widget-to-module conversion guide
+- docs/requirements/e2e-test-guidelines.md — E2E test reliability rules + template
 
 ## Agent-Specific Instructions
 

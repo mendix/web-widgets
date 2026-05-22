@@ -1,9 +1,5 @@
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("datagrid-web filtering multi select", () => {
     test("filter rows where enum attribute equal to one of selected values", async ({ page }) => {
@@ -15,7 +11,7 @@ test.describe("datagrid-web filtering multi select", () => {
         const enumSelect = () => page.locator(".mx-name-drop_downFilter1[role=combobox]");
         const rowCount = await rows();
         await page.goto("/p/filtering-multi");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(rowCount).toHaveCount(11);
         await expect(await column(2).first()).toHaveText("Black");
         await expect(await column(2).last()).toHaveText("Blue");
@@ -25,10 +21,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await option("Blush").click({ delay: 20 });
         await expect(await rows()).toHaveCount(8);
         await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click({ delay: 20 });
-        const columnText = await column(2).allTextContents();
-        await expect(columnText).toEqual(
-            expect.arrayContaining(["Pink", "Pink", "Pink", "Blush", "Blush", "Pink", "Pink"])
-        );
+        await expect(column(2)).toContainText(["Pink", "Pink", "Pink", "Blush", "Blush", "Pink", "Pink"]);
     });
 
     test("filter rows where ReferenceSet contains at least one of selected objects", async ({ page }) => {
@@ -50,7 +43,7 @@ test.describe("datagrid-web filtering multi select", () => {
             "Environmental scientistPublic librarianMaterials specialist"
         ];
         await page.goto("/p/filtering-multi");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(await column(3).first()).toHaveText(expectedColumnText[0]);
         await roleSelect().click();
         await option("Economist").click({ delay: 20 });
@@ -58,11 +51,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await option("Public librarian").click({ delay: 20 });
         await expect(await rows()).toHaveCount(10);
         await roleSelect().click({ delay: 20 });
-        await page.waitForTimeout(300);
-        const columnTexts = await column(3).allTextContents();
-        expectedColumnText.forEach((text, index) => {
-            expect(columnTexts[index]).toBe(text);
-        });
+        await expect(column(3)).toHaveText(expectedColumnText);
     });
 
     test("filter rows where Reference equal to one of selected objects", async ({ page }) => {
@@ -75,7 +64,7 @@ test.describe("datagrid-web filtering multi select", () => {
 
         const rowCount = await rows();
         await page.goto("/p/filtering-multi");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
         await expect(rowCount).toHaveCount(11);
         await expect(await column(4).first()).toHaveText("W.R. Berkley Corporation");
         await expect(await column(4).last()).toHaveText("PETsMART Inc");
@@ -85,10 +74,12 @@ test.describe("datagrid-web filtering multi select", () => {
         await option("ALLETE, Inc.").click({ delay: 20 });
         await expect(await rows()).toHaveCount(6);
         await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click({ delay: 20 });
-        await page.waitForTimeout(300);
-        const columnText = await column(4).allTextContents();
-        expect(columnText).toEqual(
-            expect.arrayContaining(["ALLETE, Inc.", "FMC Corp", "ALLETE, Inc.", "ALLETE, Inc.", "ALLETE, Inc."])
-        );
+        await expect(column(4)).toContainText([
+            "ALLETE, Inc.",
+            "FMC Corp",
+            "ALLETE, Inc.",
+            "ALLETE, Inc.",
+            "ALLETE, Inc."
+        ]);
     });
 });

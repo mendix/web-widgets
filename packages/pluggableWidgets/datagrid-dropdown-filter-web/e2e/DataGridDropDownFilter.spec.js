@@ -1,15 +1,11 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "@mendix/run-e2e/fixtures";
+import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 import AxeBuilder from "@axe-core/playwright";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    // Because the test isolation that will open a new session for every test executed, and that exceeds Mendix's license limit of 5 sessions, so we need to force logout after each test.
-    await page.evaluate(() => window.mx.session.logout());
-});
 
 test.describe("datagrid-dropdown-filter-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test.describe("visual testing:", () => {
@@ -18,9 +14,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
         }) => {
             const dataGrid = await page.locator(".mx-name-datagrid1");
             await expect(dataGrid).toBeVisible();
-            await expect(page).toHaveScreenshot(`dataGridDropDownFilter-${process.env.BROWSER_NAME}.png`, {
-                threshold: 0.1
-            });
+            await expect(page).toHaveScreenshot(`dataGridDropDownFilter-${process.env.BROWSER_NAME}.png`);
         });
     });
 
@@ -29,7 +23,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
             await page.locator(".mx-name-datagrid1 .mx-name-dataGridDrop_downFilter1").click({ delay: 100 });
             await page.waitForSelector(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)");
             await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)").click({ delay: 100 });
-            await page.waitForTimeout(300); // wait for filter to apply
+            await expect(page.locator(".mx-name-datagrid1 .widget-datagrid-grid-body .tr")).toHaveCount(1);
             await page.locator('.mx-name-datagrid1 .th[title="Age"]').click({ delay: 100 });
             const cells = await page.$$eval(".mx-name-datagrid1 .td", elements =>
                 elements.map(element => element.textContent)
@@ -43,7 +37,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
             await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(1)").click({ delay: 100 });
             await page.waitForSelector(".widget-dropdown-filter-menu-slot > ul > li:nth-child(2)");
             await page.locator(".widget-dropdown-filter-menu-slot > ul > li:nth-child(2)").click({ delay: 100 });
-            await page.waitForTimeout(300); // wait for filter to apply
+            await expect(page.locator(".mx-name-datagrid1 .widget-datagrid-grid-body .tr")).toHaveCount(2);
             await page.locator('.mx-name-datagrid1 .th[title="Age"]').click({ delay: 100 });
             const cells = await page.$$eval(".mx-name-datagrid1 .td", elements =>
                 elements.map(element => element.textContent)
@@ -77,7 +71,7 @@ test.describe("datagrid-dropdown-filter-web", () => {
 test.describe("with Default value", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/p/filter_init_condition");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
     });
 
     test("in single mode, set init condition for boolean", async ({ page }) => {
@@ -194,7 +188,7 @@ test.describe("with Default value", () => {
 test.describe("a11y testing:", () => {
     test("checks accessibility violations", async ({ page }) => {
         await page.goto("/");
-        await page.waitForLoadState("networkidle");
+        await waitForMendixApp(page);
 
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag21aa"])
