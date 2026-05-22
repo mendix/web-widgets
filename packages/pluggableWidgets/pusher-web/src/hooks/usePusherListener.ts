@@ -37,7 +37,7 @@ export function usePusherListener(subscription?: SubscriptionConfig): void {
     // Subscribe/unsubscribe based on subscription config changes
     useEffect(() => {
         const listener = listenerRef.current;
-        if (!listener || !subscription) {
+        if (!enabled || !listener) {
             return;
         }
 
@@ -47,5 +47,5 @@ export function usePusherListener(subscription?: SubscriptionConfig): void {
         return () => {
             listener.unsubscribe();
         };
-    }, [subscription]);
+    }, [enabled, subscription]);
 }
