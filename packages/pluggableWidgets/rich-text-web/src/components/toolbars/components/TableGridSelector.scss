@@ -1,0 +1,51 @@
+.table-grid-selector {
+    --cell-size: 10px;
+    --grid-gap: 2px;
+    --max-cols: 10;
+    --max-rows: 10;
+
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    background: white;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 12px;
+    z-index: 1000;
+    user-select: none;
+
+    .table-grid-label {
+        text-align: center;
+        font-size: 13px;
+        color: #333;
+        margin-bottom: 8px;
+        font-weight: 500;
+        min-height: 18px;
+    }
+
+    .table-grid {
+        display: grid;
+        grid-template-columns: repeat(var(--max-cols), var(--cell-size));
+        grid-template-rows: repeat(var(--max-rows), var(--cell-size));
+        gap: var(--grid-gap);
+        cursor: pointer;
+    }
+
+    .table-grid-cell {
+        width: var(--cell-size);
+        height: var(--cell-size);
+        border: 1px solid #d0d0d0;
+        background-color: white;
+        transition: all 0.1s ease;
+
+        &:hover {
+            border-color: #264ae5;
+        }
+
+        &.selected {
+            background-color: #264ae5;
+            border-color: #1a3bb3;
+        }
+    }
+}

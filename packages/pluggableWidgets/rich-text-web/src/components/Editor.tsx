@@ -1,206 +1,219 @@
-import Quill, { EmitterSource, QuillOptions, Range } from "quill";
-import Delta from "quill-delta";
-import {
-    CSSProperties,
-    forwardRef,
-    Fragment,
-    MutableRefObject,
-    useContext,
-    useEffect,
-    useLayoutEffect,
-    useRef
-} from "react";
-import { RichTextContainerProps } from "../../typings/RichTextProps";
-import { EditorDispatchContext } from "../store/EditorProvider";
-import { SET_FULLSCREEN_ACTION } from "../store/store";
-import "../utils/customPluginRegisters";
-import "../utils/formats/quill-table-better/assets/css/quill-table-better.scss";
-import { getResizeModuleConfig } from "../utils/formats/resizeModuleConfig";
-import { ACTION_DISPATCHER } from "../utils/helpers";
-import { getKeyboardBindings } from "../utils/modules/keyboard";
-import { getIndentHandler } from "../utils/modules/toolbarHandlers";
-import MxUploader from "../utils/modules/uploader";
-import MxQuill, { MxQuillModulesOptions } from "../utils/MxQuill";
-import { useEmbedModal } from "./CustomToolbars/useEmbedModal";
-import Dialog from "./ModalDialog/Dialog";
+import type { Editor as TipTapEditor } from "@tiptap/core";
+// import { Color } from "@tiptap/extension-color";
+// import { Highlight } from "@tiptap/extension-highlight";
+// import { ListItem } from "@tiptap/extension-list-item";
+import { Link } from "@tiptap/extension-link";
+import { Subscript } from "@tiptap/extension-subscript";
+import { Superscript } from "@tiptap/extension-superscript";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TaskItem } from "@tiptap/extension-task-item";
+import { TaskList } from "@tiptap/extension-task-list";
+import { TextAlign } from "@tiptap/extension-text-align";
+import { TextStyle } from "@tiptap/extension-text-style";
+import { Underline } from "@tiptap/extension-underline";
+import { Youtube } from "@tiptap/extension-youtube";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { StarterKit } from "@tiptap/starter-kit";
 
-export interface EditorProps extends Pick<
-    RichTextContainerProps,
-    "imageSource" | "imageSourceContent" | "enableDefaultUpload"
-> {
-    options: MxQuillModulesOptions;
+import { ChangeEvent, forwardRef, ReactElement, ReactNode, useImperativeHandle, useRef } from "react";
+import { EditorContextProvider, useCurrentEditor } from "./EditorContext";
+// import { DynamicTableStyles } from "./DynamicTableStyles";
+// import { DynamicTextColorStyles } from "./DynamicTextColorStyles";
+import { Toolbar } from "./toolbars";
+import { FontFamilyClass } from "../extensions/FontFamilyClass";
+import { FontSize } from "../extensions/FontSize";
+import { ImageResize } from "../extensions/ImageResize";
+import { Indent } from "../extensions/Indent";
+import { TableBackgroundColor } from "../extensions/TableBackgroundColor";
+import { TableCellBackgroundColor } from "../extensions/TableCellBackgroundColor";
+import { TextColorClass } from "../extensions/TextColorClass";
+import { TextDirection } from "../extensions/TextDirection";
+import { TextHighlightClass } from "../extensions/TextHighlightClass";
+import { ConfirmDialog } from "./toolbars/components/ConfirmDialog";
+
+export interface EditorProps {
     defaultValue?: string;
-    onTextChange?: (...args: [delta: Delta, oldContent: Delta, source: EmitterSource]) => void;
-    onSelectionChange?: (...args: [range: Range, oldRange: Range, source: EmitterSource]) => void;
-    formOrientation: "horizontal" | "vertical";
-    theme: string;
-    style?: CSSProperties;
-    className?: string;
-    toolbarId?: string | Array<string | string[] | { [k: string]: any }>;
+    onUpdate?: (html: string) => void;
     readOnly?: boolean;
+    className?: string;
+    showToolbar?: boolean;
+    styleDataFormat?: "inline" | "class";
+    imageSourceContent?: ReactNode;
 }
 
-// Editor is an uncontrolled React component
-const Editor = forwardRef((props: EditorProps, ref: MutableRefObject<Quill | null>) => {
-    const {
-        theme,
-        defaultValue,
-        style,
-        className,
-        toolbarId,
-        onTextChange,
-        onSelectionChange,
-        readOnly,
-        options: mxOptions
-    } = props;
-    const containerRef = useRef<HTMLDivElement>(null);
-    const modalRef = useRef<HTMLDivElement>(null);
-    const onTextChangeRef = useRef(onTextChange);
-    const onSelectionChangeRef = useRef(onSelectionChange);
-    const contextDispatch = useContext(EditorDispatchContext);
+export interface EditorHandle {
+    getHTML: () => string;
+    getText: () => string;
+    focus: () => void;
+    blur: () => void;
+    getEditor: () => TipTapEditor | null;
+}
 
-    const {
-        showDialog,
-        setShowDialog,
-        dialogConfig,
-        customLinkHandler,
-        customVideoHandler,
-        customViewCodeHandler,
-        customImageUploadHandler
-    } = useEmbedModal(ref, props);
-    const customIndentHandler = getIndentHandler(ref);
+interface EditorInnerProps {
+    showToolbar: boolean;
+    readOnly: boolean;
+    className?: string;
+    imageSourceContent?: ReactNode;
+}
 
-    // quill instance is not changing, thus, the function reference has to stays.
-    useLayoutEffect(() => {
-        onTextChangeRef.current = onTextChange;
-        onSelectionChangeRef.current = onSelectionChange;
-    }, [onTextChange, onSelectionChange]);
+function EditorInner({ showToolbar, readOnly, className, imageSourceContent }: EditorInnerProps): ReactElement {
+    const { editor, codeViewState, codeViewDispatch } = useCurrentEditor();
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    // update quills content on value change.
-    useEffect(() => {
-        // if there is an update comes from external element
-        if (!ref.current?.hasFocus() && defaultValue !== ref.current?.getSemanticHTML()) {
-            const newContent = ref.current?.clipboard.convert({
-                html: defaultValue
-            });
-            if (newContent && newContent !== ref.current?.getContents()) {
-                ref.current?.setContents(newContent);
-            }
-        }
-    }, [ref, defaultValue]);
+    const handleSaveCode = (): void => {
+        if (!editor) return;
 
-    // use effect for constructing Quill instance
-    useEffect(
-        () => {
-            const container = containerRef.current;
-            if (container) {
-                const editorDiv = container.ownerDocument.createElement<"div">("div");
-                const editorContainer = container.appendChild(editorDiv);
+        // Update editor content with modified HTML
+        editor.commands.setContent(codeViewState.htmlCode);
+        codeViewDispatch({ type: "SAVE_CODE_CHANGES" });
+    };
 
-                const toolbar = toolbarId
-                    ? {
-                          container: Array.isArray(toolbarId) ? toolbarId : `#${toolbarId}`,
-                          handlers: {
-                              link: customLinkHandler,
-                              video: customVideoHandler,
-                              indent: customIndentHandler,
-                              "view-code": customViewCodeHandler,
-                              image: customImageUploadHandler
-                          }
-                      }
-                    : // we cannot set toolbar to false, because "table-better" needs toolbar module
-                      // hidden toolbar will be set with display: none
-                      [];
+    const handleCancelCode = (): void => {
+        codeViewDispatch({ type: "CANCEL_CODE_CHANGES" });
+    };
 
-                // Quill instance configurations.
-                const options: QuillOptions = {
-                    theme,
-                    modules: {
-                        keyboard: {
-                            bindings: getKeyboardBindings()
-                        },
-                        table: false,
-                        "table-better": {
-                            language: "en_US",
-                            menus: ["column", "row", "merge", "table", "cell", "wrap", "copy", "delete", "grid"],
-                            toolbarTable: !readOnly
-                        },
-                        toolbar,
-                        ...getResizeModuleConfig(readOnly)
-                    },
-                    readOnly
-                };
-
-                const quill = new MxQuill(editorContainer, options);
-                ref.current = quill;
-                quill.registerCustomModules(mxOptions);
-
-                const delta = quill.clipboard.convert({ html: defaultValue ?? "" });
-                quill.updateContents(delta, Quill.sources.SILENT);
-
-                quill.on(Quill.events.TEXT_CHANGE, (...arg) => {
-                    onTextChangeRef.current?.(...arg);
-                });
-                quill.on(Quill.events.SELECTION_CHANGE, (...arg) => {
-                    onSelectionChangeRef.current?.(...arg);
-                });
-                quill.on(ACTION_DISPATCHER, (...arg: any[]) => {
-                    if (arg[0]) {
-                        if (arg[0].href) {
-                            customLinkHandler(arg[0]);
-                        } else if (arg[0].src) {
-                            // open dialog editor for updating image or video
-                            if (arg[0].type === "video") {
-                                customVideoHandler(arg[0]);
-                            } else {
-                                customImageUploadHandler(arg[0]);
-                            }
-                        } else if (arg[0].type) {
-                            if (arg[0].type === SET_FULLSCREEN_ACTION) {
-                                if (contextDispatch) {
-                                    contextDispatch(arg[0]);
-                                }
-                            } else if (arg[0].type === "image") {
-                                // open dialog editor for updating image (triggered by module uploader)
-                                customImageUploadHandler(arg[0]);
-                            }
-                        }
-                    }
-                });
-            }
-
-            return () => {
-                ref.current = null;
-                if (container) {
-                    container.innerHTML = "";
-                }
-            };
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [ref, toolbarId]
-    );
-
-    useEffect(() => {
-        // if image source is set from entity, handle upload differently
-        if (props.imageSource && props.imageSource.status === "available") {
-            (ref.current?.getModule("uploader") as MxUploader)?.setEntityUpload?.(true);
-        }
-    }, [props.imageSource, props.imageSource?.status, ref]);
+    const handleHtmlChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+        codeViewDispatch({ type: "UPDATE_HTML_CODE", html: e.target.value });
+    };
 
     return (
-        <Fragment>
-            <div ref={containerRef} style={style} className={className}></div>
-            <div ref={modalRef}></div>
-            <Dialog
-                isOpen={showDialog}
-                onOpenChange={open => setShowDialog(open)}
-                parentNode={modalRef.current?.ownerDocument.body}
-                imageSource={props.imageSource}
-                imageSourceContent={props.imageSourceContent}
-                enableDefaultUpload={props.enableDefaultUpload}
-                {...dialogConfig}
-            ></Dialog>
-        </Fragment>
+        <>
+            <div className="tiptap-wrapper">
+                {showToolbar && !readOnly && <Toolbar imageSourceContent={imageSourceContent} />}
+                {codeViewState.isCodeView ? (
+                    <textarea
+                        ref={textareaRef}
+                        className="code-editor"
+                        value={codeViewState.htmlCode}
+                        onChange={handleHtmlChange}
+                        spellCheck={false}
+                    />
+                ) : (
+                    <EditorContent editor={editor} className={className} />
+                )}
+                {/* <DynamicTableStyles /> */}
+                {/* {styleDataFormat === "class" && <DynamicTextColorStyles />} */}
+            </div>
+            {codeViewState.showConfirm && (
+                <ConfirmDialog
+                    title="Save Code Changes?"
+                    message="Do you want to save the HTML code changes and apply them to the editor?"
+                    confirmLabel="Save"
+                    cancelLabel="Cancel"
+                    onConfirm={handleSaveCode}
+                    onCancel={handleCancelCode}
+                />
+            )}
+        </>
+    );
+}
+
+const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
+    const {
+        defaultValue,
+        onUpdate,
+        readOnly,
+        className,
+        showToolbar = true,
+        styleDataFormat = "inline",
+        imageSourceContent
+    } = props;
+
+    const extensions = [
+        StarterKit,
+        TextStyle,
+        Underline,
+        Superscript,
+        Subscript,
+        TaskList,
+        TaskItem.configure({
+            nested: true
+        }),
+        Link.configure({
+            openOnClick: false,
+            HTMLAttributes: {
+                class: "tiptap-link"
+            }
+        }),
+        FontFamilyClass.configure({
+            types: ["textStyle"],
+            styleDataFormat
+        }),
+        FontSize.configure({
+            types: ["textStyle"],
+            styleDataFormat
+        }),
+        TextAlign.configure({
+            types: ["heading", "paragraph"],
+            alignments: ["left", "center", "right", "justify"]
+        }),
+        Indent.configure({
+            types: ["paragraph", "heading", "blockquote"],
+            minIndent: 0,
+            maxIndent: 10,
+            indentStep: 1,
+            styleDataFormat
+        }),
+        TextDirection.configure({
+            types: ["paragraph", "heading"],
+            directions: ["ltr", "rtl"],
+            defaultDirection: "ltr"
+        }),
+        TextColorClass.configure({ types: ["textStyle"], styleDataFormat }),
+        TextHighlightClass.configure({ multicolor: true, styleDataFormat }),
+        TableBackgroundColor.configure({ resizable: true, styleDataFormat }),
+        TableRow,
+        TableHeader,
+        TableCellBackgroundColor.configure({ styleDataFormat }),
+        ImageResize.configure({
+            inline: true,
+            allowBase64: true,
+            HTMLAttributes: {
+                class: "tiptap-image"
+            }
+        }),
+        Youtube.configure({
+            inline: false,
+            width: 640,
+            height: 480,
+            HTMLAttributes: {
+                class: "tiptap-video"
+            }
+        })
+    ];
+
+    const editor = useEditor({
+        extensions,
+        content: defaultValue || "",
+        editable: !readOnly,
+        onUpdate: ({ editor }) => {
+            const html = editor.getHTML();
+            onUpdate?.(html);
+        }
+    });
+
+    useImperativeHandle(ref, () => ({
+        getHTML: () => editor?.getHTML() || "",
+        getText: () => editor?.getText() || "",
+        focus: () => editor?.commands.focus(),
+        blur: () => editor?.commands.blur(),
+        getEditor: () => editor
+    }));
+
+    if (!editor) {
+        return null;
+    }
+
+    return (
+        <EditorContextProvider editor={editor}>
+            <EditorInner
+                showToolbar={showToolbar}
+                readOnly={!!readOnly}
+                className={className}
+                imageSourceContent={imageSourceContent}
+            />
+        </EditorContextProvider>
     );
 });
 

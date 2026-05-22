@@ -1,0 +1,44 @@
+@use "variables";
+
+.widget-rich-text {
+    @each $name, $font in variables.$fonts {
+        .font-family-#{$name} {
+            @include variables.font($font);
+        }
+    }
+    // @each $size in $font-sizes {
+    //     .ql-size-#{$size} {
+    //         font-size: $size;
+    //     }
+    // }
+
+    // @each $color in $colors {
+    //     .ql-color-#{"\\" + $color} {
+    //         color: $color;
+    //     }
+    //     .ql-bg-#{"\\" + $color} {
+    //         background-color: $color;
+    //     }
+    // }
+
+    mark {
+        color: inherit;
+        background-color: inherit;
+    }
+
+    .has-text-color {
+        color: attr(data-text-color type(<color>));
+    }
+
+    .has-text-highlight {
+        background-color: attr(data-text-highlight type(<color>));
+    }
+
+    .has-font-family {
+        font-family: attr(data-font-family raw-string);
+    }
+
+    .has-font-size {
+        font-size: attr(data-font-size px);
+    }
+}

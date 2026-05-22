@@ -1,19 +1,10 @@
-import { ReactElement } from "react";
-import RichTextPreviewSVG from "./assets/rich-text-preview-light.svg";
+import { ReactElement, createElement } from "react";
 import { RichTextPreviewProps } from "../typings/RichTextProps";
 
-export function preview(props: RichTextPreviewProps): ReactElement {
-    let doc = decodeURI(RichTextPreviewSVG);
-    doc = props.stringAttribute ? doc.replace("[No attribute selected]", `[${props.stringAttribute}]`) : doc;
+export function preview(_props: RichTextPreviewProps): ReactElement {
+    return createElement("div", { className: "widget-rich-text-preview" }, "Rich Text Editor");
+}
 
-    return (
-        <div className="widget-rich-text">
-            <img src={doc} alt="" />
-            {props.imageSource && (
-                <props.imageSourceContent.renderer caption="Place image selection widget here">
-                    <div />
-                </props.imageSourceContent.renderer>
-            )}
-        </div>
-    );
+export function getPreviewCss(): string {
+    return require("./ui/RichText.scss");
 }

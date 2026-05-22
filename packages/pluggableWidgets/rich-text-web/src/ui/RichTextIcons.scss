@@ -68,21 +68,6 @@ $icons: (
         }
     }
 
-    .ql-container {
-        .ql-resize-overlay {
-            .ql-resize-toolbar {
-                font-family: "RichTextIconFont" !important;
-                font-style: normal;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-
-                button {
-                    position: relative;
-                }
-            }
-        }
-    }
-
     .icons {
         font-family: "RichTextIconFont" !important;
         font-size: 16px;
@@ -93,62 +78,6 @@ $icons: (
         @each $name, $code in $icons {
             &.icon-#{$name}:before {
                 content: $code;
-            }
-        }
-
-        &.ql-color {
-            .ql-picker-label {
-                &:before {
-                    content: map.get($icons, Text-color);
-                }
-                svg {
-                    display: none;
-                }
-            }
-        }
-
-        &.ql-background {
-            .ql-picker-label {
-                &:before {
-                    content: map.get($icons, Text-background);
-                }
-                svg {
-                    display: none;
-                }
-            }
-        }
-
-        &.ql-direction {
-            &:before {
-                content: map.get($icons, Left-to-right);
-            }
-            svg {
-                display: none;
-            }
-
-            &.ql-active {
-                &:before {
-                    content: map.get($icons, Right-to-left);
-                }
-
-                svg {
-                    display: none;
-                }
-            }
-        }
-
-        &.ql-align.ql-picker {
-            .ql-picker-label,
-            .ql-picker-item {
-                &[data-value="center"]:before {
-                    content: map.get($icons, Text-align-center);
-                }
-                &[data-value="justify"]:before {
-                    content: map.get($icons, Text-align-justify);
-                }
-                svg {
-                    display: none;
-                }
             }
         }
     }

@@ -47,7 +47,8 @@ describe("Rich Text", () => {
             customFonts: [],
             enableDefaultUpload: true,
             formOrientation: "vertical",
-            linkValidation: true
+            linkValidation: true,
+            styleDataFormat: "inline"
         };
     });
 
