@@ -1,7 +1,8 @@
 import { AttributeMetaData, ListAttributeValue, SimpleFormatter } from "mendix";
 import { FilterCondition } from "mendix/filters";
+import { attribute, equals, literal, notEqual, and, or } from "mendix/filters/builders";
 import { action, comparer, makeObservable } from "mobx";
-import { inputStateFromCond } from "@mendix/filter-commons/condition-utils";
+import { inputStateFromCond, isAnd, isBinary, isOr } from "@mendix/filter-commons/condition-utils";
 import {
     FilterFunctionBinary,
     FilterFunctionGeneric,
@@ -10,12 +11,58 @@ import {
 } from "@mendix/filter-commons/typings/FilterFunctions";
 import { FilterData, InputData } from "@mendix/filter-commons/typings/settings";
 import { StringArgument } from "./Argument";
-import { BaseInputFilterStore } from "./BaseInputFilterStore";
+import { BaseInputFilterStore, EmptyConditionBuilder } from "./BaseInputFilterStore";
 import { baseNames } from "./fn-mappers";
 import { String_InputFilterInterface } from "../../typings/InputFilterInterface";
 
 type StrFns = FilterFunctionString | FilterFunctionGeneric | FilterFunctionNonValue | FilterFunctionBinary;
 type AttrMeta = AttributeMetaData<string> & { formatter?: SimpleFormatter<string> };
+
+const buildStringEmpty: EmptyConditionBuilder = (listAttribute, operation) => {
+    const attrExp = attribute(listAttribute.id);
+    if (operation === "empty") {
+        return or(equals(attrExp, literal(undefined)), equals(attrExp, literal("")));
+    }
+    return and(notEqual(attrExp, literal(undefined)), notEqual(attrExp, literal("")));
+};
+
+function isUndefinedLiteralEq(exp: FilterCondition, op: "=" | "!="): boolean {
+    return isBinary(exp) && exp.name === op && exp.arg2.type === "literal" && exp.arg2.valueType === "undefined";
+}
+
+function isEmptyStringLiteralEq(exp: FilterCondition, op: "=" | "!="): boolean {
+    if (!isBinary(exp) || exp.name !== op || exp.arg2.type !== "literal") {
+        return false;
+    }
+    // Mendix runtime emits lowercase "string"; the shared test mock emits "String".
+    // Accept both so detection works in tests AND in production.
+    const vt = exp.arg2.valueType as string;
+    return (vt === "string" || vt === "String") && exp.arg2.value === "";
+}
+
+// or(equals(_, undef), equals(_, ""))
+function isStringEmptyExp(cond: FilterCondition): boolean {
+    if (!isOr(cond) || cond.args.length !== 2) {
+        return false;
+    }
+    const [a, b] = cond.args;
+    return (
+        (isUndefinedLiteralEq(a, "=") && isEmptyStringLiteralEq(b, "=")) ||
+        (isUndefinedLiteralEq(b, "=") && isEmptyStringLiteralEq(a, "="))
+    );
+}
+
+// and(notEqual(_, undef), notEqual(_, ""))
+function isStringNotEmptyExp(cond: FilterCondition): boolean {
+    if (!isAnd(cond) || cond.args.length !== 2) {
+        return false;
+    }
+    const [a, b] = cond.args;
+    return (
+        (isUndefinedLiteralEq(a, "!=") && isEmptyStringLiteralEq(b, "!=")) ||
+        (isUndefinedLiteralEq(b, "!=") && isEmptyStringLiteralEq(a, "!="))
+    );
+}
 
 export class StringInputFilterStore
     extends BaseInputFilterStore<StringArgument, StrFns>
@@ -27,6 +74,7 @@ export class StringInputFilterStore
     constructor(attributes: AttrMeta[], initCond: FilterCondition | null) {
         const formatter = getFormatter<string>(attributes[0]);
         super(new StringArgument(formatter), new StringArgument(formatter), "equal", attributes);
+        this.buildEmpty = buildStringEmpty;
         makeObservable(this, {
             updateProps: action,
             fromJSON: action,
@@ -65,6 +113,19 @@ export class StringInputFilterStore
     }
 
     fromViewState(cond: FilterCondition): void {
+        // Compound empty/notEmpty must be detected BEFORE delegating to inputStateFromCond,
+        // otherwise the and(...) shape for notEmpty would fall into betweenToState.
+        if (isStringEmptyExp(cond)) {
+            this.setState(["empty"]);
+            this.isInitialized = true;
+            return;
+        }
+        if (isStringNotEmptyExp(cond)) {
+            this.setState(["notEmpty"]);
+            this.isInitialized = true;
+            return;
+        }
+
         const initState = inputStateFromCond(
             cond,
             (fn): StrFns => {

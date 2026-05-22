@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the "Empty" and "Not empty" filter operators returned the same results for rows whose text was entered, cleared, and saved again. Cleared text fields are now correctly matched by both operators.
+
 ## [3.10.0] - 2026-05-06
 
 ### Fixed

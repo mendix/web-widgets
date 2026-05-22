@@ -24,10 +24,21 @@ import { Argument } from "./Argument";
 type StateTuple<Fn, V> = [Fn] | [Fn, V] | [Fn, V, V];
 type Val<A extends Argument> = A["value"];
 
+export type EmptyConditionBuilder = (
+    listAttribute: AttributeMetaData,
+    operation: "empty" | "notEmpty"
+) => FilterCondition;
+
+const defaultBuildEmpty: EmptyConditionBuilder = (listAttribute, operation) => {
+    const fn = operation === "empty" ? equals : notEqual;
+    return fn(attribute(listAttribute.id), literal(undefined));
+};
+
 export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
     protected _attributes: AttributeMetaData[] = [];
     private _filterFunction: Fn;
     private _isFilterFunctionAdjustable: boolean = true;
+    protected buildEmpty: EmptyConditionBuilder = defaultBuildEmpty;
     arg1: A;
     arg2: A;
     isInitialized = false;
@@ -77,7 +88,9 @@ export class BaseInputFilterStore<A extends Argument, Fn extends AllFunctions> {
 
     get condition(): FilterCondition | undefined {
         const conditions = this._attributes
-            .map(attr => getFilterCondition(attr, this.arg1.value, this.arg2.value, this.filterFunction))
+            .map(attr =>
+                getFilterCondition(attr, this.arg1.value, this.arg2.value, this.filterFunction, this.buildEmpty)
+            )
             .filter((filter): filter is FilterCondition => filter !== undefined);
 
         return conditions?.length > 1 ? or(...conditions) : conditions?.[0];
@@ -122,7 +135,8 @@ function getFilterCondition<T extends string | Big | Date>(
     listAttribute: AttributeMetaData,
     value: T | undefined,
     valueR: T | undefined,
-    operation: AllFunctions
+    operation: AllFunctions,
+    buildEmpty: EmptyConditionBuilder
 ): FilterCondition | undefined {
     if (
         !listAttribute ||
@@ -131,6 +145,10 @@ function getFilterCondition<T extends string | Big | Date>(
         (operation === "between" && (!value || !valueR))
     ) {
         return undefined;
+    }
+
+    if (operation === "empty" || operation === "notEmpty") {
+        return buildEmpty(listAttribute, operation);
     }
 
     if (operation === "between") {
@@ -149,13 +167,8 @@ function getFilterCondition<T extends string | Big | Date>(
         equal: equals,
         notEqual,
         smaller: lessThan,
-        smallerEqual: lessThanOrEqual,
-        empty: equals,
-        notEmpty: notEqual
+        smallerEqual: lessThanOrEqual
     };
 
-    return filters[operation](
-        attribute(listAttribute.id),
-        literal(operation === "empty" || operation === "notEmpty" ? undefined : value)
-    );
+    return filters[operation](attribute(listAttribute.id), literal(value));
 }
