@@ -11,6 +11,9 @@
 #   2 = lint errors found (fed back to Claude as feedback; ignored by Copilot)
 
 # Parse file path - handles both Claude Code and Copilot input formats
+echo "###-###"
+env
+echo "###-###"
 FILE_PATH=$(cat | node -e "
   let d='';
   process.stdin.on('data',c=>d+=c);
