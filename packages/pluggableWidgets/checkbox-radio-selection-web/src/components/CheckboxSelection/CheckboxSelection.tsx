@@ -1,3 +1,4 @@
+import { If } from "@mendix/widget-plugin-component-kit/If";
 import classNames from "classnames";
 import { MouseEvent, ReactElement } from "react";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
@@ -59,18 +60,20 @@ export function CheckboxSelection({
                             "widget-checkbox-radio-selection-item-selected": isSelected
                         })}
                     >
-                        <input
-                            type="checkbox"
-                            id={checkboxId}
-                            name={name}
-                            value={optionId}
-                            checked={isSelected}
-                            disabled={isReadOnly}
-                            tabIndex={tabIndex}
-                            onChange={e => handleChange(optionId, e.target.checked)}
-                            aria-describedby={isSingleCheckbox && selector.validation ? errorId : undefined}
-                            aria-invalid={isSingleCheckbox && selector.validation ? true : undefined}
-                        />
+                        <If condition={!isReadOnly || readOnlyStyle !== "text"}>
+                            <input
+                                type="checkbox"
+                                id={checkboxId}
+                                name={name}
+                                value={optionId}
+                                checked={isSelected}
+                                disabled={isReadOnly}
+                                tabIndex={tabIndex}
+                                onChange={e => handleChange(optionId, e.target.checked)}
+                                aria-describedby={isSingleCheckbox && selector.validation ? errorId : undefined}
+                                aria-invalid={isSingleCheckbox && selector.validation ? true : undefined}
+                            />
+                        </If>
                         <CaptionContent
                             onClick={(e: MouseEvent<HTMLDivElement>) => {
                                 e.preventDefault();
