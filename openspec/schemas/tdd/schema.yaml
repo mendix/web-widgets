@@ -1,112 +1,106 @@
-name: tdd
+name: tdd-refactor
 version: 1
-description: Test-driven development workflow - proposal → tests → implementation → docs
+description: Test-driven development for refactoring and fixes - proposal → design → tasks
 artifacts:
     - id: proposal
       generates: proposal.md
-      description: Initial proposal outlining the bug or feature
+      description: Problem statement and change overview
       template: proposal.md
       instruction: |
-          Create the proposal document that establishes WHY this change is needed.
+          Create a focused proposal for the refactoring or fix.
 
-          For bugs, focus on:
-          - **Why**: What's broken? What's the observed vs. expected behavior?
-          - **What Changes**: What will be fixed? Be specific about behavior changes.
-          - **Impact**: Affected code, APIs, users, or systems.
-          - **Root Cause** (if known): Technical reason for the bug.
+          For bugs:
+          - **Why**: What's broken? Observed vs. expected behavior
+          - **Root Cause**: Technical reason for the bug (if known)
+          - **What Changes**: What will be fixed? Which files/components?
+          - **Impact**: Who/what is affected? Is this breaking?
 
-          For features, focus on:
-          - **Why**: What problem does this solve? Why now?
-          - **What Changes**: What new capability will exist?
-          - **Impact**: Affected code, APIs, dependencies, or systems.
+          For refactoring:
+          - **Why**: What problem does current code have? Tech debt, maintainability, performance?
+          - **What Changes**: What will be restructured? Be specific about scope
+          - **Impact**: Affected code, APIs, or behavior changes (should be minimal for pure refactoring)
 
-          Keep it concise (1 page max). This is test-first, so focus on
-          observable behavior that tests will verify.
+          Keep it concise (1 page max). This is about fixing or improving existing code,
+          not adding new features. If you're adding features, use spec-driven instead.
       requires: []
 
-    - id: tests
-      generates: tests.md
-      description: Test specifications written before implementation
-      template: tests.md
+    - id: design
+      generates: design.md
+      description: Test plan defining what needs to pass
+      template: design.md
       instruction: |
-          Define the tests that will verify the fix or feature BEFORE implementing.
+          Define the test cases that will verify the fix or refactoring.
 
-          Structure:
-          - **Test Cases**: List each test case with:
-            - Name/Description
-            - Setup/Given conditions
-            - Action/When trigger
-            - Expected/Then outcome
-            - Test type (unit/integration/e2e)
-            - Status (pending/failing/passing)
+          For bugs:
+          - Reproduction test (currently failing)
+          - Edge cases related to the bug
+          - Regression tests for related functionality
 
-          Write tests at appropriate levels:
-          - Unit tests for isolated logic
-          - Integration tests for component interactions
-          - E2E tests for user-facing behavior
+          For refactoring:
+          - Existing behavior preservation tests
+          - Tests for improved cases (if applicable)
+          - Performance/maintainability verification (if relevant)
 
-          Each test should be implementable and should FAIL initially.
-          Tests define the contract - implementation must make them pass.
+          Format:
+          ```
+          ## Test Cases
 
-          Use checkboxes to track test status:
-          - [ ] Test name - pending (not written yet)
-          - [x] Test name - written and status noted
+          ### Category Name
+
+          - Test name - Description (unit/integration/e2e)
+            - **Given**: Setup/preconditions
+            - **When**: Action/trigger
+            - **Then**: Expected outcome
+          ```
+
+          Write tests that will FAIL initially (for bugs) or verify existing behavior (for refactoring).
+          Tests define the contract - implementation must make them pass without breaking anything.
       requires:
           - proposal
 
-    - id: implementation
-      generates: implementation.md
-      description: Implementation plan and code changes
-      template: implementation.md
+    - id: tasks
+      generates: tasks.md
+      description: Implementation task breakdown
+      template: tasks.md
       instruction: |
-          Document the implementation approach and track code changes.
+          Break down the implementation into trackable TDD tasks.
 
-          Sections:
-          - **Approach**: High-level technical strategy
-          - **Changes**: File-by-file breakdown of modifications
-          - **Decisions**: Key technical choices and rationale
-          - **Test Status**: Track which tests pass/fail as you implement
+          **IMPORTANT: Follow the template below exactly.** Use checkbox format: `- [ ] X.Y Description`
 
-          Implementation follows TDD cycle:
-          1. Write failing test
-          2. Write minimal code to pass
-          3. Refactor while keeping tests green
-          4. Repeat
+          Group tasks by phase:
 
-          Implementation is DONE when all tests pass.
-          Do not add features beyond what tests require.
+          ## 1. Test Setup
+          - [ ] 1.1 Write failing test for main issue
+          - [ ] 1.2 Add edge case tests
+
+          ## 2. Implementation
+          - [ ] 2.1 Fix core issue (make main test pass)
+          - [ ] 2.2 Handle edge cases (make edge tests pass)
+
+          ## 3. Refactoring
+          - [ ] 3.1 Clean up implementation while keeping tests green
+          - [ ] 3.2 Extract common logic/improve structure
+
+          ## 4. Verification
+          - [ ] 4.1 All tests passing
+          - [ ] 4.2 No regressions (run full test suite)
+
+          Order tasks by TDD cycle: Red (failing test) → Green (make it pass) → Refactor (clean up).
+          Each task should be completable in one session.
       requires:
-          - tests
-
-    - id: docs
-      generates: docs.md
-      description: Documentation updates for the change
-      template: docs.md
-      instruction: |
-          Update relevant documentation after implementation is complete.
-
-          Include:
-          - **API Changes**: Updated signatures, parameters, return values
-          - **Behavior Changes**: How user-facing behavior differs
-          - **Migration**: If breaking, how to migrate existing code
-          - **Examples**: Updated code examples reflecting new behavior
-
-          Only document what changed - don't rewrite existing docs.
-          Mark as "No documentation changes" if none are needed.
-      requires:
-          - implementation
+          - design
 
 apply:
-    requires: [tests, implementation]
-    tracks: tests.md
+    requires: [design, tasks]
+    tracks: tasks.md
     instruction: |
         Follow TDD workflow:
-        1. Review implementation.md to understand the technical approach and strategy
-        2. Review tests.md to understand what needs to pass
-        3. Write failing tests first (mark status in tests.md)
-        4. Implement minimal code to make tests pass (following approach from implementation.md)
-        5. Refactor while keeping tests green
-        6. Update test status as tests pass
+        1. Review proposal.md - understand what's broken or needs refactoring
+        2. Review design.md - understand what tests need to pass
+        3. Work through tasks.md in order:
+           - Write failing tests first (Red)
+           - Implement minimal fix to pass tests (Green)
+           - Refactor while keeping tests green
+        4. Mark task checkboxes as you complete them
 
-        Mark test checkboxes as complete when tests are written and passing.
-        Pause if blocked or need clarification.
+        All tests must pass before marking complete. Pause if blocked or need clarification.
