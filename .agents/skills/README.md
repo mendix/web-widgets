@@ -5,7 +5,7 @@ This directory contains all Claude Code skills for the web-widgets repository.
 ## Structure
 
 ```
-.agent/skills/
+.agents/skills/
 ├── code-review/              # PR review skill for Mendix widget conventions
 ├── debug-widget/             # Debug Mendix pluggable widget runtime issues
 ├── openspec-apply-change/    # Implement tasks from OpenSpec change
@@ -38,4 +38,4 @@ Each skill is a directory containing:
 
 ## Migration History
 
-**2026-05-26**: Centralized all skills from `.claude/skills/`, `.pi/skills/`, and `.github/skills/` into `.agent/skills/` to establish a single source of truth.
+**2026-05-26**: Centralized all skills from `.claude/skills/`, `.pi/skills/`, and `.github/skills/` into `.agents/skills/` to establish a single source of truth.
