@@ -2,27 +2,34 @@
 
 <!--
 For bugs: What's broken? What's the observed vs. expected behavior?
-For features: What problem does this solve? Why now?
--->
+For refactoring: What problem does current code have? Tech debt, maintainability, performance?
 
-## What Changes
-
-<!--
-Be specific about what will be fixed or added.
-Mark breaking changes with **BREAKING**.
-Focus on observable behavior that tests will verify.
--->
-
-## Impact
-
-<!--
-Affected code, APIs, users, or systems.
-Who needs to know about this change?
+This is for FIXES and REFACTORING. For new features, use spec-driven schema instead.
 -->
 
 ## Root Cause
 
 <!--
-Optional: For bugs, explain the technical reason if known.
-This helps with the fix and prevents similar issues.
+For bugs: Technical reason for the bug (if known).
+For refactoring: What makes the current code problematic?
+-->
+
+## What Changes
+
+<!--
+Be specific about what will be fixed or refactored.
+- Which files/components are affected?
+- What code structure changes?
+- Any behavior changes? (Mark breaking changes with **BREAKING**)
+
+For refactoring: behavior changes should be minimal or zero.
+-->
+
+## Impact
+
+<!--
+Who/what is affected by this change?
+- Affected code, APIs, users, or systems
+- Breaking changes? Migration needed?
+- Test coverage needed?
 -->
