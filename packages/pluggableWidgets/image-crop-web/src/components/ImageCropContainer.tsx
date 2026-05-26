@@ -24,7 +24,7 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
                 pixelCrop: state.completedCrop,
                 zoom: state.zoom,
                 outputFormat: props.outputFormat,
-                outputQuality: Number(props.outputQuality ?? 0.92),
+                outputQuality: Number(props.outputQuality),
                 outputSize: props.outputSize,
                 cropShape: props.cropShape,
                 viewportWidth: props.boundaryWidth,
@@ -53,7 +53,7 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
         return <div className="widget-image-crop widget-image-crop--empty">No image</div>;
     }
 
-    const aspect = resolveAspectRatio(props.aspectRatio, props.customAspectWidth ?? 0, props.customAspectHeight ?? 0);
+    const aspect = resolveAspectRatio(props.aspectRatio, props.customAspectWidth, props.customAspectHeight);
     const caption = props.cropButtonCaption?.value ?? "Crop";
 
     return (
@@ -88,8 +88,8 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
                     image={state.imageRef.current}
                     pixelCrop={state.completedCrop}
                     zoom={state.zoom}
-                    width={props.previewWidth ?? 100}
-                    height={props.previewHeight ?? 100}
+                    width={props.previewWidth}
+                    height={props.previewHeight}
                     circle={props.cropShape === "circle"}
                 />
             ) : null}

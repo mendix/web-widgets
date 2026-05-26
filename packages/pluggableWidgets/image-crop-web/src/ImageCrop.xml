@@ -32,11 +32,11 @@
                         <enumerationValue key="custom">Custom</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="customAspectWidth" type="integer" defaultValue="1" required="false">
+                <property key="customAspectWidth" type="integer" defaultValue="1" required="true">
                     <caption>Custom aspect width</caption>
                     <description />
                 </property>
-                <property key="customAspectHeight" type="integer" defaultValue="1" required="false">
+                <property key="customAspectHeight" type="integer" defaultValue="1" required="true">
                     <caption>Custom aspect height</caption>
                     <description />
                 </property>
@@ -81,11 +81,11 @@
                     <caption>Show preview</caption>
                     <description />
                 </property>
-                <property key="previewWidth" type="integer" defaultValue="100" required="false">
+                <property key="previewWidth" type="integer" defaultValue="100" required="true">
                     <caption>Preview width (px)</caption>
                     <description />
                 </property>
-                <property key="previewHeight" type="integer" defaultValue="100" required="false">
+                <property key="previewHeight" type="integer" defaultValue="100" required="true">
                     <caption>Preview height (px)</caption>
                     <description />
                 </property>
@@ -99,7 +99,7 @@
                         <enumerationValue key="jpeg">JPEG</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="outputQuality" type="decimal" defaultValue="0.92" required="false">
+                <property key="outputQuality" type="decimal" defaultValue="0.92" required="true">
                     <caption>JPEG quality (0.0 - 1.0)</caption>
                     <description />
                 </property>
