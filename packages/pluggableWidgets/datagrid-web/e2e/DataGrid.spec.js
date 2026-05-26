@@ -20,20 +20,28 @@ test.describe("datagrid-web export to Excel", () => {
         // Read file and convert to JSON.
         const workbook = XLSX.readFile("./e2e/downloads/testFilename.xlsx");
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        const rawData = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+        const formattedData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
 
-        expect(jsonData).toHaveLength(50);
+        expect(rawData).toHaveLength(50);
 
-        expect(jsonData[0]).toEqual({
+        // Verify raw cell types — numbers must be t:"n", not t:"s"
+        expect(rawData[0]["Birth year"]).toBe(1983);
+        expect(typeof rawData[0]["Birth year"]).toBe("number");
+        expect(rawData[1]["Birth year"]).toBe(1970);
+        expect(typeof rawData[1]["Birth year"]).toBe("number");
+
+        // Verify formatted display values
+        expect(formattedData[0]).toEqual({
             "Birth date": "2/15/1983",
-            "Birth year": 1983,
+            "Birth year": "1983",
             "Color (enum)": "Black",
             "First name": "Loretta"
         });
 
-        expect(jsonData[1]).toEqual({
+        expect(formattedData[1]).toEqual({
             "Birth date": "9/30/1970",
-            "Birth year": 1970,
+            "Birth year": "1970",
             "Color (enum)": "Red",
             "First name": "Chad"
         });

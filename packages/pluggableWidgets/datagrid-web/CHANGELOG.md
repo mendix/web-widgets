@@ -12,6 +12,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- We fixed an issue where custom content columns ignored the export type setting, causing numbers and dates to always export as text in Excel.
+
+- We fixed an issue where exported date values included a hidden time component even when the format specified date-only parts.
+
+- We fixed an issue where boolean values were not exported as proper Excel boolean cells. Both attribute and custom content columns now export as native booleans (TRUE/FALSE) recognized by Excel.
+
+- We fixed an issue where numbers with more than 15 significant digits lost precision during Excel export. Such values are now exported as text to preserve all digits.
+
 - We fixed an issue where the vertical scrollbar disappeared after hiding a wide column while virtual scrolling was enabled.
 - We fixed an issue where only the first page loaded when the grid had enough columns to require horizontal scrolling.
 

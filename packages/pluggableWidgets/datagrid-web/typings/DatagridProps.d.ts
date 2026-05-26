@@ -3,8 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
+import { ActionValue, DynamicValue, EditableValue, ListActionValue, ListAttributeListValue, ListAttributeValue, ListExpressionValue, ListValue, ListWidgetValue, SelectionMultiValue, SelectionSingleValue } from "mendix";
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListAttributeListValue, ListExpressionValue, ListWidgetValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
 export type ShowContentAsEnum = "attribute" | "dynamicText" | "customContent";

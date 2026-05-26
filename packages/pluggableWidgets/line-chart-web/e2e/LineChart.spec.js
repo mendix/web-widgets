@@ -1,15 +1,14 @@
 import { test, expect } from "@mendix/run-e2e/fixtures";
-import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("line-chart-web", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
-        await waitForMendixApp(page);
     });
 
     test.describe("line style", () => {
         test("renders basic line chart and compares with a screenshot baseline", async ({ page }) => {
             const basicLineChartElement = await page.locator(".mx-name-containerBasic");
+            await basicLineChartElement.scrollIntoViewIfNeeded();
             await expect(basicLineChartElement).toBeVisible();
             await expect(
                 page.locator(".mx-name-containerBasic > .widget-chart > .mx-react-plotly-chart")
@@ -137,6 +136,9 @@ test.describe("line-chart-web", () => {
             const dimensionPixelsElement = await page.locator(".mx-name-containerDimensionPixels");
             await dimensionPixelsElement.scrollIntoViewIfNeeded();
             await expect(dimensionPixelsElement).toBeVisible();
+            await expect(
+                page.locator(".mx-name-containerDimensionPixels > .widget-chart > .mx-react-plotly-chart")
+            ).toBeVisible();
             await expect(dimensionPixelsElement).toHaveScreenshot(`lineChartDimensionPixels.png`);
         });
 
