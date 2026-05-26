@@ -58,7 +58,7 @@ jobs:
 
                       Read these files for full context and review guidelines:
                       - `AGENTS.md` — repo conventions, commands, and constraints
-                      - `.claude/skills/code-review/SKILL.md` — complete review checklist and heuristics
+                      - `.agent/skills/code-review/SKILL.md` — complete review checklist and heuristics
 
                       Follow the skill guidelines precisely. Focus only on changed files in the diff; ignore dist/, lockfiles, and generated files.
                   claude_args: >-
@@ -108,6 +108,6 @@ jobs:
 
                       Read these files for repo context and conventions:
                       - `AGENTS.md` — repo conventions, commands, and constraints
-                      - `.claude/skills/code-review/SKILL.md` — review checklist and heuristics
+                      - `.agent/skills/code-review/SKILL.md` — review checklist and heuristics
                   claude_args: >-
                       --model ${{ env.CLAUDE_MODEL }} --allowedTools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api:*),Bash(git log:*),Bash(git diff:*),Bash(ls:*),Bash(find:*),mcp__github_inline_comment__create_inline_comment,Read,Grep,Glob"
