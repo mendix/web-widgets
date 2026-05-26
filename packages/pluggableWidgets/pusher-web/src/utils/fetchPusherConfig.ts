@@ -10,14 +10,13 @@ interface KeyData {
  * Returns a PusherConfig on success, or null on error / invalid response.
  */
 export async function fetchPusherConfig(signal: AbortSignal): Promise<PusherConfig | null> {
-    const baseUrl = (window as any).mx?.remoteUrl || (window as any).mx?.appUrl || "";
-    const endpoint = `${baseUrl}rest/pusher/key`;
-    const csrfToken = (window as any).mx?.sessionData?.csrftoken || "";
-    const authEndpoint = `${baseUrl}rest/pusher/auth`;
+    const keyEndpoint = getMendixUrl("rest/pusher/key");
+    const authEndpoint = getMendixUrl("rest/pusher/auth");
+    const csrfToken = getCsrfToken();
 
     let response: Response;
     try {
-        response = await fetch(endpoint, {
+        response = await fetch(keyEndpoint, {
             method: "GET",
             credentials: "same-origin",
             headers: { "X-Csrf-Token": csrfToken },
@@ -50,4 +49,13 @@ export async function fetchPusherConfig(signal: AbortSignal): Promise<PusherConf
     }
 
     return { key: keyData.key, cluster: keyData.cluster, authEndpoint, csrfToken };
+}
+
+function getMendixUrl(path: string): string {
+    const baseUrl = (window as any).mx?.remoteUrl || (window as any).mx?.appUrl || window.location.origin;
+    return new URL(path, baseUrl).toString();
+}
+
+function getCsrfToken(): string {
+    return (window as any).mx?.sessionData?.csrftoken || "";
 }
