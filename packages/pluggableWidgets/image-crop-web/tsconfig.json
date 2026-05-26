@@ -7,7 +7,7 @@
         "module": "esnext",
         "target": "es6",
         "lib": ["esnext", "dom"],
-        "types": ["jest", "node"],
+        "types": ["jest", "node", "testing-library__jest-dom"],
         "moduleResolution": "node",
         "declaration": false,
         "noLib": false,
