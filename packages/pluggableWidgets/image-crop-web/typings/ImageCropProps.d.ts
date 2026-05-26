@@ -25,8 +25,8 @@ export interface ImageCropContainerProps {
     image: EditableImageValue<WebImage>;
     cropShape: CropShapeEnum;
     aspectRatio: AspectRatioEnum;
-    customAspectWidth?: number;
-    customAspectHeight?: number;
+    customAspectWidth: number;
+    customAspectHeight: number;
     boundaryWidth: number;
     boundaryHeight: number;
     resizableEnabled: boolean;
@@ -35,10 +35,10 @@ export interface ImageCropContainerProps {
     minZoom: Big;
     maxZoom: Big;
     showPreview: boolean;
-    previewWidth?: number;
-    previewHeight?: number;
+    previewWidth: number;
+    previewHeight: number;
     outputFormat: OutputFormatEnum;
-    outputQuality?: Big;
+    outputQuality: Big;
     outputSize: OutputSizeEnum;
     cropButtonCaption?: DynamicValue<string>;
     onCropAction?: ActionValue;
