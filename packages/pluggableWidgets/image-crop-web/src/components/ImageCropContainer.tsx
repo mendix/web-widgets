@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { ValueStatus } from "mendix";
-import { ReactElement, useCallback } from "react";
+import { ReactElement, useCallback, useEffect } from "react";
+import { type Crop, type PixelCrop } from "react-image-crop";
 import { CropArea } from "./CropArea";
 import { CropButton } from "./CropButton";
 import { PreviewPane } from "./PreviewPane";
@@ -12,6 +13,23 @@ import { cropImage, CropError } from "../utils/cropImage";
 
 export function ImageCropContainer(props: ImageCropContainerProps): ReactElement | null {
     const state = useImageCropState(Number(props.minZoom));
+
+    const { setZoom, setCrop, setCompletedCrop } = state;
+
+    const handleImageLoad = useCallback(
+        (percentCrop: Crop, pixelCrop: PixelCrop) => {
+            setZoom(Number(props.minZoom));
+            setCrop(percentCrop);
+            setCompletedCrop(pixelCrop);
+        },
+        [setZoom, setCrop, setCompletedCrop, props.minZoom]
+    );
+
+    const uri = props.image.status === ValueStatus.Available ? props.image.value?.uri : undefined;
+    useEffect(() => {
+        setCrop(undefined);
+        setCompletedCrop(undefined);
+    }, [uri, setCrop, setCompletedCrop]);
 
     const handleCrop = useCallback(async () => {
         const img = state.imageRef.current;
@@ -28,7 +46,8 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
                 outputSize: props.outputSize,
                 cropShape: props.cropShape,
                 viewportWidth: props.boundaryWidth,
-                viewportHeight: props.boundaryHeight
+                viewportHeight: props.boundaryHeight,
+                originalName: props.image.value.name
             });
             if (props.outputSize === "viewport") {
                 props.image.setThumbnailSize(props.boundaryWidth, props.boundaryHeight);
@@ -44,7 +63,19 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
                 throw err;
             }
         }
-    }, [state, props]);
+    }, [
+        state.completedCrop,
+        state.zoom,
+        state.imageRef,
+        props.image,
+        props.outputFormat,
+        props.outputQuality,
+        props.outputSize,
+        props.cropShape,
+        props.boundaryWidth,
+        props.boundaryHeight,
+        props.onCropAction
+    ]);
 
     if (props.image.status === ValueStatus.Loading) {
         return <div className="widget-image-crop widget-image-crop--loading" aria-busy="true" />;
@@ -68,6 +99,7 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
                 resizable={props.resizableEnabled}
                 boundaryWidth={props.boundaryWidth}
                 boundaryHeight={props.boundaryHeight}
+                onImageLoad={handleImageLoad}
                 zoom={state.zoom}
                 minZoom={Number(props.minZoom)}
                 maxZoom={Number(props.maxZoom)}

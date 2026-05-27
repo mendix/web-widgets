@@ -18,6 +18,7 @@ export interface CropImageOptions {
     cropShape: CropShapeEnum;
     viewportWidth: number;
     viewportHeight: number;
+    originalName?: string;
 }
 
 export async function cropImage(options: CropImageOptions): Promise<File> {
@@ -30,7 +31,8 @@ export async function cropImage(options: CropImageOptions): Promise<File> {
         outputSize,
         cropShape,
         viewportWidth,
-        viewportHeight
+        viewportHeight,
+        originalName
     } = options;
 
     if (!image.naturalWidth || !image.naturalHeight) {
@@ -95,5 +97,6 @@ export async function cropImage(options: CropImageOptions): Promise<File> {
         );
     }
 
-    return new File([blob], `crop-${Date.now()}.${ext}`, { type: mime });
+    const baseName = originalName ? originalName.replace(/\.[^.]+$/, "") : `crop-${Date.now()}`;
+    return new File([blob], `${baseName}.${ext}`, { type: mime });
 }
