@@ -1,7 +1,7 @@
+import { fireEvent, render, screen } from "@testing-library/react";
 import { ValueStatus } from "mendix";
-import { render, screen } from "@testing-library/react";
-import { ImageCrop } from "../ImageCrop";
 import type { ImageCropContainerProps } from "../../typings/ImageCropProps";
+import { ImageCrop } from "../ImageCrop";
 
 function makeImageProp(overrides: Partial<any> = {}): any {
     return {
@@ -66,11 +66,53 @@ describe("<ImageCrop>", () => {
         expect(btn).toBeDisabled();
     });
 
-    test("Crop button is disabled until a completedCrop exists", () => {
+    test("Crop button is enabled after image loads (initial crop auto-set)", () => {
         const props = makeProps();
         const { container } = render(<ImageCrop {...props} />);
+        const img = container.querySelector("img");
+        expect(img).not.toBeNull();
+        fireEvent.load(img!);
         const btn = container.querySelector("button.widget-image-crop__button");
         expect(btn).not.toBeNull();
-        expect(btn).toBeDisabled();
+        expect(btn).not.toBeDisabled();
+    });
+
+    test("before load, image is bounded by boundary as max-width/max-height ceiling", () => {
+        const props = makeProps({ boundaryWidth: 800, boundaryHeight: 600 });
+        const { container } = render(<ImageCrop {...props} />);
+        const img = container.querySelector("img") as HTMLImageElement | null;
+        expect(img).not.toBeNull();
+        expect(img!.style.maxWidth).toBe("800px");
+        expect(img!.style.maxHeight).toBe("600px");
+    });
+
+    test("after load, image gets fit-and-scaled pixel dims; canvas wraps via inline-block + ceiling", () => {
+        const props = makeProps({ boundaryWidth: 800, boundaryHeight: 600 });
+        const { container } = render(<ImageCrop {...props} />);
+        const img = container.querySelector("img") as HTMLImageElement;
+        Object.defineProperty(img, "naturalWidth", { value: 400, configurable: true });
+        Object.defineProperty(img, "naturalHeight", { value: 300, configurable: true });
+        fireEvent.load(img);
+        const canvas = container.querySelector(".widget-image-crop__canvas") as HTMLDivElement;
+        expect(img.style.width).toBe("800px");
+        expect(img.style.height).toBe("600px");
+        expect(canvas.style.maxWidth).toBe("800px");
+        expect(canvas.style.maxHeight).toBe("600px");
+    });
+
+    test("crop is cleared between image src change and next load (button disabled)", () => {
+        const props = makeProps({ image: makeImageProp({ value: { uri: "http://localhost/img1.png" } }) });
+        const { container, rerender } = render(<ImageCrop {...props} />);
+        const img1 = container.querySelector("img");
+        fireEvent.load(img1!);
+        expect(container.querySelector("button.widget-image-crop__button")).not.toBeDisabled();
+
+        const newProps = makeProps({ image: makeImageProp({ value: { uri: "http://localhost/img2.png" } }) });
+        rerender(<ImageCrop {...newProps} />);
+        expect(container.querySelector("button.widget-image-crop__button")).toBeDisabled();
+
+        const img2 = container.querySelector("img");
+        fireEvent.load(img2!);
+        expect(container.querySelector("button.widget-image-crop__button")).not.toBeDisabled();
     });
 });

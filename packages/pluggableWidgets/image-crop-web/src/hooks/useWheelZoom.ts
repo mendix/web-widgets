@@ -1,21 +1,20 @@
-import { WheelEvent, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { WheelZoomModeEnum } from "../../typings/ImageCropProps";
 
 interface UseWheelZoomArgs {
     mode: WheelZoomModeEnum;
-    zoom: number;
     minZoom: number;
     maxZoom: number;
-    setZoom: (z: number) => void;
+    setZoom: Dispatch<SetStateAction<number>>;
 }
 
 const STEP = 0.1;
 
-export function useWheelZoom(args: UseWheelZoomArgs): (e: WheelEvent) => void {
-    const { mode, zoom, minZoom, maxZoom, setZoom } = args;
+export function useWheelZoom(args: UseWheelZoomArgs): (e: globalThis.WheelEvent) => void {
+    const { mode, minZoom, maxZoom, setZoom } = args;
 
     return useCallback(
-        (e: WheelEvent) => {
+        (e: globalThis.WheelEvent) => {
             if (mode === "off") {
                 return;
             }
@@ -24,10 +23,11 @@ export function useWheelZoom(args: UseWheelZoomArgs): (e: WheelEvent) => void {
             }
             e.preventDefault();
             const direction = e.deltaY < 0 ? 1 : -1;
-            const next = zoom * (1 + STEP * direction);
-            const clamped = Math.min(maxZoom, Math.max(minZoom, Number(next.toFixed(4))));
-            setZoom(clamped);
+            setZoom(prev => {
+                const next = prev * (1 + STEP * direction);
+                return Math.min(maxZoom, Math.max(minZoom, Number(next.toFixed(4))));
+            });
         },
-        [mode, zoom, minZoom, maxZoom, setZoom]
+        [mode, minZoom, maxZoom, setZoom]
     );
 }
