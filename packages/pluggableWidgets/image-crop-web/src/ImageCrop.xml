@@ -8,13 +8,13 @@
             <propertyGroup caption="Source">
                 <property key="image" type="image" required="true" allowUpload="true">
                     <caption>Image attribute</caption>
-                    <description>Editable image attribute. The cropped image overwrites this attribute.</description>
+                    <description>The image to crop. The cropped result is saved back to it.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Crop area">
                 <property key="cropShape" type="enumeration" defaultValue="rect" required="true">
                     <caption>Crop shape</caption>
-                    <description>Geometry of the crop selection. Rectangle keeps straight edges; Circle masks the result with a round cutout (transparent corners on PNG, white corners on JPEG).</description>
+                    <description>Shape of the crop. Circle masks the corners.</description>
                     <enumerationValues>
                         <enumerationValue key="rect">Rectangle</enumerationValue>
                         <enumerationValue key="circle">Circle</enumerationValue>
@@ -22,7 +22,7 @@
                 </property>
                 <property key="aspectRatio" type="enumeration" defaultValue="free" required="true">
                     <caption>Aspect ratio</caption>
-                    <description>Locks the proportions of the crop selection while the user drags. Choose Free to let the user resize without constraint, a preset, or Custom to define your own ratio below.</description>
+                    <description>Locks the crop proportions. Free lets the user resize freely.</description>
                     <enumerationValues>
                         <enumerationValue key="free">Free</enumerationValue>
                         <enumerationValue key="square">1:1</enumerationValue>
@@ -34,33 +34,33 @@
                 </property>
                 <property key="customAspectWidth" type="integer" defaultValue="1" required="true">
                     <caption>Custom aspect width</caption>
-                    <description>Numerator of the custom ratio (e.g. 3 in a 3:2 crop). Only used when Aspect ratio is set to Custom.</description>
+                    <description>Width side of the ratio (e.g. 3 in 3:2). Used when Aspect ratio is Custom.</description>
                 </property>
                 <property key="customAspectHeight" type="integer" defaultValue="1" required="true">
                     <caption>Custom aspect height</caption>
-                    <description>Denominator of the custom ratio (e.g. 2 in a 3:2 crop). Only used when Aspect ratio is set to Custom.</description>
+                    <description>Height side of the ratio (e.g. 2 in 3:2). Used when Aspect ratio is Custom.</description>
                 </property>
-                <property key="boundaryWidth" type="integer" defaultValue="300" required="true">
-                    <caption>Canvas width (px)</caption>
-                    <description>On-screen width of the crop area in the page. The image is fit inside this box; it does not affect the resolution of the saved crop.</description>
+                <property key="boundaryWidth" type="integer" defaultValue="800" required="true">
+                    <caption>Canvas max width (px)</caption>
+                    <description>Maximum on-screen width of the crop area. The image scales down to fit; the canvas wraps the rendered image, so smaller crops produce a smaller canvas with no blank gaps. Does not change the saved image size.</description>
                 </property>
-                <property key="boundaryHeight" type="integer" defaultValue="300" required="true">
-                    <caption>Canvas height (px)</caption>
-                    <description>On-screen height of the crop area in the page. The image is fit inside this box; it does not affect the resolution of the saved crop.</description>
+                <property key="boundaryHeight" type="integer" defaultValue="800" required="true">
+                    <caption>Canvas max height (px)</caption>
+                    <description>Maximum on-screen height of the crop area. The image scales down to fit; the canvas wraps the rendered image, so smaller crops produce a smaller canvas with no blank gaps. Does not change the saved image size.</description>
                 </property>
-                <property key="resizableEnabled" type="boolean" defaultValue="true">
+                <property key="resizableEnabled" type="boolean" defaultValue="true" required="true">
                     <caption>Resizable handles</caption>
-                    <description>If on, the user can drag the corners of the selection to resize it. If off, the selection stays at its initial size and can only be moved.</description>
+                    <description>Let the user resize the selection by dragging its corners.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Zoom">
-                <property key="zoomEnabled" type="boolean" defaultValue="true">
+                <property key="zoomEnabled" type="boolean" defaultValue="true" required="true">
                     <caption>Enable zoom</caption>
-                    <description>If on, a zoom slider is shown below the crop area so the user can scale the image up or down. If off, the image is always shown at 1× (fit-to-canvas).</description>
+                    <description>Show a zoom slider below the crop area.</description>
                 </property>
                 <property key="wheelZoomMode" type="enumeration" defaultValue="onWithCtrl" required="true">
                     <caption>Mouse wheel zoom</caption>
-                    <description>Controls whether scrolling the mouse wheel over the image changes the zoom. "On (hold Ctrl)" is recommended so normal page scrolling still works.</description>
+                    <description>Whether the mouse wheel zooms the image. "On (hold Ctrl)" keeps page scroll working.</description>
                     <enumerationValues>
                         <enumerationValue key="off">Off</enumerationValue>
                         <enumerationValue key="on">On</enumerationValue>
@@ -69,31 +69,31 @@
                 </property>
                 <property key="minZoom" type="decimal" defaultValue="1" required="true">
                     <caption>Minimum zoom</caption>
-                    <description>Smallest zoom factor the user can reach. 1 means "fit-to-canvas" (no shrinking below the visible area). Values below 1 let the user zoom out so the image is smaller than the canvas; values above 1 force the image to start zoomed-in.</description>
+                    <description>Smallest zoom level. 1 = image fits the canvas. Below 1 lets the user zoom out further.</description>
                 </property>
                 <property key="maxZoom" type="decimal" defaultValue="4" required="true">
                     <caption>Maximum zoom</caption>
-                    <description>Largest zoom factor the user can reach. For example, 4 means the image can be magnified up to 4× its fit-to-canvas size, which is useful for cropping fine detail. Must be greater than Minimum zoom.</description>
+                    <description>Largest zoom level. 4 means up to 4× the canvas size. Must be greater than Minimum zoom.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Preview">
-                <property key="showPreview" type="boolean" defaultValue="false">
+                <property key="showPreview" type="boolean" defaultValue="false" required="true">
                     <caption>Show preview</caption>
-                    <description>If on, a small live thumbnail of the current crop selection is shown next to the canvas. Useful to confirm the framing before pressing the Crop button.</description>
+                    <description>Show a live thumbnail of the current crop next to the canvas.</description>
                 </property>
                 <property key="previewWidth" type="integer" defaultValue="100" required="true">
                     <caption>Preview width (px)</caption>
-                    <description>On-screen width of the live preview thumbnail. Has no effect on the saved image.</description>
+                    <description>Width of the preview thumbnail.</description>
                 </property>
                 <property key="previewHeight" type="integer" defaultValue="100" required="true">
                     <caption>Preview height (px)</caption>
-                    <description>On-screen height of the live preview thumbnail. Has no effect on the saved image.</description>
+                    <description>Height of the preview thumbnail.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Output">
                 <property key="outputFormat" type="enumeration" defaultValue="png" required="true">
                     <caption>Output format</caption>
-                    <description>File format of the saved crop. PNG preserves transparency (best for circle crops) but produces larger files; JPEG is smaller but has no transparency and applies lossy compression.</description>
+                    <description>File format. PNG keeps transparency; JPEG produces smaller files.</description>
                     <enumerationValues>
                         <enumerationValue key="png">PNG</enumerationValue>
                         <enumerationValue key="jpeg">JPEG</enumerationValue>
@@ -101,11 +101,11 @@
                 </property>
                 <property key="outputQuality" type="decimal" defaultValue="0.92" required="true">
                     <caption>JPEG quality (0.0 - 1.0)</caption>
-                    <description>Compression level for JPEG output. 1.0 keeps the most detail (largest file); 0.5 is roughly average web quality. Ignored when Output format is PNG.</description>
+                    <description>JPEG compression. Higher = sharper and larger. Ignored for PNG.</description>
                 </property>
                 <property key="outputSize" type="enumeration" defaultValue="original" required="true">
                     <caption>Output size</caption>
-                    <description>Resolution of the saved crop. "Original" preserves the pixels from the source image (sharpest, larger file). "Viewport" downscales the crop to the on-screen canvas size — useful for avatars and thumbnails.</description>
+                    <description>Resolution of the saved crop. Original is sharpest; Viewport matches the on-screen canvas size.</description>
                     <enumerationValues>
                         <enumerationValue key="viewport">Viewport (canvas dims)</enumerationValue>
                         <enumerationValue key="original">Original (source resolution)</enumerationValue>
@@ -115,14 +115,14 @@
             <propertyGroup caption="Action">
                 <property key="cropButtonCaption" type="textTemplate" required="false">
                     <caption>Crop button caption</caption>
-                    <description>Label shown on the button that commits the crop. Defaults to "Crop"; override for translation or custom wording (e.g. "Save avatar").</description>
+                    <description>Label on the Crop button.</description>
                     <translations>
                         <translation lang="en_US">Crop</translation>
                     </translations>
                 </property>
                 <property key="onCropAction" type="action" required="false">
                     <caption>On crop</caption>
-                    <description>Action executed after the cropped image is committed.</description>
+                    <description>Runs after the cropped image is saved.</description>
                 </property>
             </propertyGroup>
         </propertyGroup>
