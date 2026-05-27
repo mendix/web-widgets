@@ -21,5 +21,9 @@ export function resolveAspectRatio(
                 return customWidth / customHeight;
             }
             return undefined;
+        default: {
+            const _exhaustive: never = aspect;
+            return _exhaustive;
+        }
     }
 }
