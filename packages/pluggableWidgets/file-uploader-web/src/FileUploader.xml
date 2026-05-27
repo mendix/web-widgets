@@ -209,6 +209,14 @@
                     <translation lang="nl_NL">Verwijder dit bestand</translation>
                 </translations>
             </property>
+            <property key="retryButtonTextMessage" type="textTemplate">
+                <caption>Retry button</caption>
+                <description />
+                <translations>
+                    <translation lang="en_US">Retry upload</translation>
+                    <translation lang="nl_NL">Opnieuw proberen</translation>
+                </translations>
+            </property>
             <property key="removeSuccessMessage" type="textTemplate">
                 <caption>File removal success</caption>
                 <description />

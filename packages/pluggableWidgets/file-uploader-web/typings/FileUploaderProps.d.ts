@@ -76,6 +76,7 @@ export interface FileUploaderContainerProps {
     unavailableCreateActionMessage: DynamicValue<string>;
     downloadButtonTextMessage: DynamicValue<string>;
     removeButtonTextMessage: DynamicValue<string>;
+    retryButtonTextMessage: DynamicValue<string>;
     removeSuccessMessage: DynamicValue<string>;
     removeErrorMessage: DynamicValue<string>;
     objectCreationTimeout: number;
@@ -122,6 +123,7 @@ export interface FileUploaderPreviewProps {
     unavailableCreateActionMessage: string;
     downloadButtonTextMessage: string;
     removeButtonTextMessage: string;
+    retryButtonTextMessage: string;
     removeSuccessMessage: string;
     removeErrorMessage: string;
     objectCreationTimeout: number | null;

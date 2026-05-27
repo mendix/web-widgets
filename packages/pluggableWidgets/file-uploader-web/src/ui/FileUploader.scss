@@ -23,6 +23,7 @@ $file-view-icon-active: url(../assets/view-icon-active.svg);
 $file-remove-icon: url(../assets/remove-icon.svg);
 $file-remove-icon-hover: url(../assets/remove-icon-hover.svg);
 $file-remove-icon-active: url(../assets/remove-icon-active.svg);
+$file-retry-icon: url(../assets/retry-icon.svg);
 
 /*
 Place your custom CSS here
@@ -248,6 +249,32 @@ Place your custom CSS here
 
                         &.disabled {
                             display: none;
+                        }
+                    }
+
+                    .retry-button {
+                        width: 32px;
+                        text-decoration: none;
+                        border-color: transparent;
+                        background-color: transparent;
+
+                        &:hover:not(:disabled),
+                        &:focus:not(:disabled) {
+                            opacity: 0.75;
+                        }
+
+                        &:disabled {
+                            opacity: 0.4;
+                            cursor: not-allowed;
+                        }
+
+                        .retry-icon {
+                            display: inline-block;
+                            height: 24px;
+                            width: 24px;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            background-image: var(--file-retry-icon, $file-retry-icon);
                         }
                     }
 

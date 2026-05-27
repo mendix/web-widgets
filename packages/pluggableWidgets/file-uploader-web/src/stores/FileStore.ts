@@ -34,11 +34,11 @@ function getFileKey(): number {
 export class FileStore {
     fileStatus: FileStatus;
 
-    _file?: File = undefined;
-    _objectItem?: ObjectItem = undefined;
-    _mxObject?: MxObject = undefined;
-    _thumbnailUrl?: string = undefined;
-    _rootStore: FileUploaderStore;
+    private _file?: File = undefined;
+    private _objectItem?: ObjectItem = undefined;
+    private _mxObject?: MxObject = undefined;
+    private _thumbnailUrl?: string = undefined;
+    private _rootStore: FileUploaderStore;
 
     key: number;
 
@@ -51,17 +51,20 @@ export class FileStore {
         this._rootStore = rootStore;
         this.fileStatus = type;
 
-        makeObservable(this, {
+        makeObservable<this, "_mxObject" | "_thumbnailUrl">(this, {
             fileStatus: observable,
             _mxObject: observable,
             errorDescription: observable,
             _thumbnailUrl: observable,
             canRemove: computed,
+            canRetry: computed,
+            statusMessage: computed,
             imagePreviewUrl: computed,
             upload: action,
             fetchMxObject: action,
             markMissing: action,
             setQueued: action,
+            retry: action,
             dismiss: action
         });
     }
@@ -76,6 +79,27 @@ export class FileStore {
     setQueued(): void {
         this.errorDescription = undefined;
         this.fileStatus = "queued";
+    }
+
+    get canRetry(): boolean {
+        return this.fileStatus === "rejected" && !this._rootStore.isFileUploadLimitReached;
+    }
+
+    get statusMessage(): string | undefined {
+        if (this.fileStatus === "rejected") {
+            return this._rootStore.translations.get(
+                "uploadLimitReachedMessage",
+                this._rootStore.maxTotalFiles.toString()
+            );
+        }
+        return this.errorDescription;
+    }
+
+    retry(): void {
+        if (!this.canRetry) {
+            return;
+        }
+        this.setQueued();
     }
 
     dismiss(): void {
@@ -158,6 +182,10 @@ export class FileStore {
         return mimeTypes.lookup(this.title) || "application/octet-stream";
     }
 
+    get objectItemId(): string | undefined {
+        return this._objectItem?.id;
+    }
+
     get canRemove(): boolean {
         return (!this._rootStore.isReadOnly && this.fileStatus === "existingFile") || this.fileStatus === "done";
     }
@@ -198,7 +226,7 @@ export class FileStore {
     }
 
     async updateThumbnailUrl(): Promise<void> {
-        if (this._rootStore._uploadMode !== "images") {
+        if (this._rootStore.uploadMode !== "images") {
             return;
         }
 
@@ -218,7 +246,7 @@ export class FileStore {
     }
 
     get imagePreviewUrl(): string | undefined {
-        if (this._rootStore._uploadMode !== "images") {
+        if (this._rootStore.uploadMode !== "images") {
             return;
         }
 
@@ -243,13 +271,8 @@ export class FileStore {
         return new FileStore("queued", rootStore, file, undefined);
     }
 
-    static newRejectedFile(file: File, errorMessage: string, rootStore: FileUploaderStore): FileStore {
-        const store = new FileStore("rejected", rootStore, file, undefined);
-        runInAction(() => {
-            store.errorDescription = errorMessage;
-        });
-
-        return store;
+    static newRejectedFile(file: File, rootStore: FileUploaderStore): FileStore {
+        return new FileStore("rejected", rootStore, file, undefined);
     }
 
     static newFileWithValidationError(file: File, errorMessage: string, rootStore: FileUploaderStore): FileStore {

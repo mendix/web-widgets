@@ -36,7 +36,7 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
                 <Dropzone
                     onDrop={onDrop}
                     warningMessage={warningMessage}
-                    maxSize={rootStore._maxFileSize}
+                    maxSize={rootStore.maxFileSize}
                     acceptFileTypes={prepareAcceptForDropzone(rootStore.acceptedFileTypes)}
                     disabled={rootStore.isFileUploadLimitReached}
                 />

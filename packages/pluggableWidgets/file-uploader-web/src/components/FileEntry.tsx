@@ -36,7 +36,7 @@ export const FileEntryContainer = observer(({ store, actions }: FileEntryContain
             thumbnail={store.imagePreviewUrl}
             mimeType={store.mimeType}
             fileStatus={store.fileStatus}
-            errorMessage={store.errorDescription}
+            errorMessage={store.statusMessage}
             defaultAction={defaultListAction && store.canExecute(defaultListAction) ? onDefaultAction : undefined}
             actions={<ActionsBar actions={actions} store={store} />}
         />

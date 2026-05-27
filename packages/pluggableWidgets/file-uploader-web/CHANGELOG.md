@@ -12,13 +12,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where the dropzone turned grey without explanation when the file limit was reached. A message now appears below the dropzone stating "Maximum file count of X reached."
 - We fixed an issue where dropping more files than allowed rejected the entire batch. Only the excess files are now rejected; the rest upload normally.
-- We fixed an issue where files rejected due to the total file limit had no way to recover. They are now automatically queued for upload when capacity becomes available (e.g. after a file is removed or an upload fails).
+- We fixed an issue where files rejected due to the total file limit had no way to recover. They now show a retry button that becomes enabled when capacity is available.
 
 ### Added
 
 - We added a new "Maximum concurrent uploads" property to control how many files upload simultaneously. Files beyond this limit wait in a queue and upload automatically as slots free up.
 - We added a new "File limit reached" text property to customize the message shown when the upload limit is reached.
 - We added a new "Upload queued" text property to customize the message shown on files that are waiting to upload.
+- We added a new "Retry button" text property to customize the tooltip on the retry button shown on rejected files.
 
 ### Changed
 

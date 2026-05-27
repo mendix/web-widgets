@@ -52,6 +52,7 @@ function buildProps(overrides: Partial<FileUploaderContainerProps> = {}): FileUp
         ),
         downloadButtonTextMessage: dynamic("Download this file"),
         removeButtonTextMessage: dynamic("Remove this file"),
+        retryButtonTextMessage: dynamic("Retry upload"),
         removeSuccessMessage: dynamic("Removed successfully."),
         removeErrorMessage: dynamic("An error occurred while removing this file."),
         enableCustomButtons: false,
@@ -188,8 +189,8 @@ describe("FileUploaderStore.processDrop() errorMessage", () => {
 describe("FileStore.setQueued", () => {
     test("sets status to 'queued' and clears errorDescription", () => {
         const rootStore = buildStore();
-        const file = new FileStore("rejected", rootStore, makeFile("test.txt"));
-        file.errorDescription = "too many files";
+        const file = new FileStore("validationError", rootStore, makeFile("test.txt"));
+        file.errorDescription = "invalid format";
 
         file.setQueued();
 
@@ -270,12 +271,210 @@ describe("FileStore.newFile", () => {
 });
 
 describe("FileStore.newRejectedFile", () => {
-    test("creates file with 'rejected' status and errorDescription", () => {
+    test("creates file with 'rejected' status", () => {
         const rootStore = buildStore();
-        const file = FileStore.newRejectedFile(makeFile("test.txt"), "Too many files", rootStore);
+        const file = FileStore.newRejectedFile(makeFile("test.txt"), rootStore);
 
         expect(file.fileStatus).toBe("rejected");
-        expect(file.errorDescription).toBe("Too many files");
+    });
+
+    test("statusMessage derives limit-reached message from rootStore", () => {
+        const rootStore = buildStore({ maxFilesPerUpload: dynamic(new Big(3)) });
+        const file = FileStore.newRejectedFile(makeFile("test.txt"), rootStore);
+
+        expect(file.statusMessage).toContain("3");
+    });
+});
+
+// ─── FileStore.canRetry ───────────────────────────────────────────────────────
+
+describe("FileStore.canRetry", () => {
+    test("true when file is rejected and limit is not full", () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(3)),
+            maxFilesPerBatch: unavailableDynamic()
+        });
+        const file = FileStore.newRejectedFile(makeFile("x.txt"), store);
+        store.files.push(file);
+
+        expect(file.canRetry).toBe(true);
+    });
+
+    test("false when file is rejected but limit is full", () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerBatch: unavailableDynamic()
+        });
+        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
+
+        store.processDrop([makeFile("a.txt"), makeFile("b.txt"), makeFile("c.txt")], []);
+
+        const rejected = store.files.find(f => f.fileStatus === "rejected")!;
+        expect(rejected.canRetry).toBe(false);
+    });
+
+    test("false when file is not in rejected status", () => {
+        const store = buildStore();
+        const file = new FileStore("validationError", store, makeFile("x.txt"));
+        store.files.push(file);
+
+        expect(file.canRetry).toBe(false);
+    });
+});
+
+// ─── FileStore.canRetry — reactivity when limit changes ──────────────────────
+
+describe("FileStore.canRetry — reacts to freed slots", () => {
+    test("flips to true when an active file errors and frees a slot", async () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(1)),
+            maxFilesPerBatch: unavailableDynamic()
+        });
+        store.objectCreationHelper.request = jest.fn().mockRejectedValueOnce(new Error("fail"));
+
+        // 1 active, 1 rejected — limit full
+        store.processDrop([makeFile("a.txt"), makeFile("b.txt")], []);
+
+        const rejected = store.files.find(f => f.fileStatus === "rejected")!;
+        expect(rejected.canRetry).toBe(false);
+
+        // Wait for upload to fail — active file → uploadingError, slot freed
+        await Promise.resolve();
+        await Promise.resolve();
+
+        expect(store.files.find(f => f.fileStatus === "uploadingError")).toBeDefined();
+        expect(rejected.canRetry).toBe(true);
+    });
+
+    test("flips to true when an active file is removed and frees a slot", () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(1)),
+            maxFilesPerBatch: unavailableDynamic()
+        });
+        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
+
+        // 1 active (uploading), 1 rejected — limit full
+        store.processDrop([makeFile("a.txt"), makeFile("b.txt")], []);
+
+        const rejected = store.files.find(f => f.fileStatus === "rejected")!;
+        expect(rejected.canRetry).toBe(false);
+
+        // Simulate removal of the active file — slot freed
+        const active = store.files.find(f => f.fileStatus === "uploading")!;
+        active.fileStatus = "removedFile" as any;
+
+        expect(rejected.canRetry).toBe(true);
+    });
+
+    test("both rejected files get canRetry=true when one slot frees", async () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerBatch: unavailableDynamic()
+        });
+        store.objectCreationHelper.request = jest
+            .fn()
+            .mockRejectedValueOnce(new Error("fail"))
+            .mockReturnValue(new Promise(() => {}));
+
+        // 2 active, 2 rejected — limit full
+        store.processDrop([makeFile("a.txt"), makeFile("b.txt"), makeFile("c.txt"), makeFile("d.txt")], []);
+
+        const rejected = store.files.filter(f => f.fileStatus === "rejected");
+        expect(rejected).toHaveLength(2);
+        expect(rejected[0].canRetry).toBe(false);
+        expect(rejected[1].canRetry).toBe(false);
+
+        // Wait for first upload to fail — activeCount drops 2→1, limit no longer reached
+        await Promise.resolve();
+        await Promise.resolve();
+
+        expect(rejected[0].canRetry).toBe(true);
+        expect(rejected[1].canRetry).toBe(true);
+    });
+});
+
+// ─── FileStore.retry ─────────────────────────────────────────────────────────
+
+describe("FileStore.retry", () => {
+    test("transitions rejected file to queued", () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(3)),
+            maxFilesPerBatch: unavailableDynamic()
+        });
+        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
+
+        const file = FileStore.newRejectedFile(makeFile("x.txt"), store);
+        store.files.push(file);
+
+        file.retry();
+
+        expect(file.fileStatus).toBe("uploading");
+    });
+
+    test("does nothing when file is not in rejected status (validationError)", () => {
+        const store = buildStore();
+        store.objectCreationHelper.request = jest.fn();
+
+        const file = new FileStore("validationError", store, makeFile("x.txt"));
+        store.files.push(file);
+
+        file.retry();
+
+        expect(store.objectCreationHelper.request).not.toHaveBeenCalled();
+    });
+
+    test("does nothing when total limit is full (limit reached)", () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(1)),
+            maxFilesPerBatch: unavailableDynamic()
+        });
+        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
+
+        // Fill the limit with 1 active file, then add 1 rejected
+        store.processDrop([makeFile("a.txt"), makeFile("b.txt")], []);
+
+        const rejected = store.files.find(f => f.fileStatus === "rejected")!;
+        expect(rejected.canRetry).toBe(false);
+
+        rejected.retry();
+
+        expect(rejected.fileStatus).toBe("rejected");
+    });
+});
+
+// ─── FileUploaderStore.queuedCount ───────────────────────────────────────────
+
+describe("FileUploaderStore.queuedCount", () => {
+    test("returns 0 when no files are queued", () => {
+        const store = buildStore();
+
+        expect(store.queuedCount).toBe(0);
+    });
+
+    test("counts files with queued status", () => {
+        const store = buildStore();
+
+        store.files.push(
+            { fileStatus: "queued" } as any,
+            { fileStatus: "queued" } as any,
+            { fileStatus: "uploading" } as any,
+            { fileStatus: "existingFile" } as any
+        );
+
+        expect(store.queuedCount).toBe(2);
+    });
+
+    test("increases when processDrop adds queued files", () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(10)),
+            maxFilesPerBatch: dynamic(new Big(1))
+        });
+        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
+
+        store.processDrop([makeFile("a.txt"), makeFile("b.txt"), makeFile("c.txt")], []);
+
+        // 1 uploading, 2 still queued
+        expect(store.queuedCount).toBe(2);
     });
 });
 
@@ -304,6 +503,12 @@ describe("FileUploaderStore — renamed properties", () => {
         const store = buildStore({ maxFilesPerBatch: unavailableDynamic() });
 
         expect(store.maxConcurrentUploads).toBe(0);
+    });
+
+    test("maxFileSize returns bytes converted from MiB", () => {
+        const store = buildStore({ maxFileSize: 10 });
+
+        expect(store.maxFileSize).toBe(10 * 1024 * 1024);
     });
 });
 
@@ -416,6 +621,61 @@ describe("FileUploaderStore.processDrop — pure classifier", () => {
 
         expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(3);
         expect(store.files.filter(f => f.fileStatus === "queued")).toHaveLength(0);
+    });
+});
+
+// ─── Reaction 3: queuedCount rises → promoteQueuedFiles (fully reactive drain) ─
+
+describe("FileUploaderStore — Reaction 3: queue auto-drains when queued files arrive", () => {
+    test("files queued by processDrop start uploading without any manual drain call", () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(10)),
+            maxFilesPerBatch: dynamic(new Big(1))
+        });
+        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
+
+        // processDrop sets files to 'queued'; Reaction 3 must drain them automatically
+        store.processDrop([makeFile("a.txt"), makeFile("b.txt"), makeFile("c.txt")], []);
+
+        // With concurrent limit=1: exactly 1 uploading, 2 still queued
+        expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(1);
+        expect(store.files.filter(f => f.fileStatus === "queued")).toHaveLength(2);
+    });
+
+    test("manually setting a file to queued triggers upload automatically", () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(10)),
+            maxFilesPerBatch: dynamic(new Big(2))
+        });
+        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
+
+        const file = new FileStore("rejected", store, makeFile("x.txt"));
+        store.files.push(file);
+
+        // Manually queue the file — Reaction 3 should pick it up
+        file.setQueued();
+
+        expect(file.fileStatus).toBe("uploading");
+    });
+
+    test("rejected file does NOT auto-promote when a slot frees — manual retry required", () => {
+        const store = buildStore({
+            maxFilesPerUpload: dynamic(new Big(2)),
+            maxFilesPerBatch: unavailableDynamic()
+        });
+        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
+
+        // Fill to limit — 2 uploading, 1 rejected
+        store.processDrop([makeFile("a.txt"), makeFile("b.txt"), makeFile("c.txt")], []);
+
+        expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(2);
+        expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(1);
+
+        // Free a slot — rejected file must stay rejected (no auto-promote)
+        store.files[store.files.findIndex(f => f.fileStatus === "uploading")].fileStatus = "removedFile" as any;
+
+        expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(1);
+        expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(1);
     });
 });
 
@@ -550,105 +810,6 @@ describe("FileUploaderStore.sortedFiles", () => {
         const sorted = store.sortedFiles;
         expect(sorted).not.toBe(store.files);
         expect(store.files[0]).toBe(originalFirst);
-    });
-});
-
-// ─── FileUploaderStore.promoteRejectedFiles ───────────────────────────────────
-
-describe("FileUploaderStore.promoteRejectedFiles", () => {
-    test("promotes oldest 'rejected' file first (FIFO)", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(3)) });
-
-        // Files are unshifted (prepended), so highest index = oldest.
-        // newest at index 0, oldest at index 1
-        const newest = { fileStatus: "rejected", setQueued: jest.fn(), upload: jest.fn() } as any;
-        const oldest = { fileStatus: "rejected", setQueued: jest.fn(), upload: jest.fn() } as any;
-
-        store.files.push(newest, oldest, { fileStatus: "existingFile" } as any, { fileStatus: "existingFile" } as any);
-
-        store.promoteRejectedFiles();
-
-        expect(oldest.setQueued).toHaveBeenCalledTimes(1);
-        expect(newest.setQueued).not.toHaveBeenCalled();
-    });
-
-    test("promotes multiple rejected files when multiple slots open", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(4)) });
-
-        // 2 existing, 2 slots open
-        const newest = { fileStatus: "rejected", setQueued: jest.fn(), upload: jest.fn() } as any;
-        const middle = { fileStatus: "rejected", setQueued: jest.fn(), upload: jest.fn() } as any;
-        const oldest = { fileStatus: "rejected", setQueued: jest.fn(), upload: jest.fn() } as any;
-
-        store.files.push(
-            newest,
-            middle,
-            oldest,
-            { fileStatus: "existingFile" } as any,
-            { fileStatus: "existingFile" } as any
-        );
-
-        store.promoteRejectedFiles();
-
-        expect(oldest.setQueued).toHaveBeenCalledTimes(1);
-        expect(middle.setQueued).toHaveBeenCalledTimes(1);
-        expect(newest.setQueued).not.toHaveBeenCalled();
-    });
-
-    test("does nothing when at or above maxTotalFiles", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(2)) });
-
-        const rejected = { fileStatus: "rejected", setQueued: jest.fn(), upload: jest.fn() } as any;
-
-        store.files.push(rejected, { fileStatus: "existingFile" } as any, { fileStatus: "existingFile" } as any);
-
-        store.promoteRejectedFiles();
-
-        expect(rejected.setQueued).not.toHaveBeenCalled();
-    });
-
-    test("does nothing when no rejected files exist", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(3)) });
-
-        store.files.push({ fileStatus: "existingFile" } as any);
-
-        // Should not throw
-        expect(() => store.promoteRejectedFiles()).not.toThrow();
-    });
-
-    test("triggers when active file is removed from the array", () => {
-        const store = buildStore({ maxFilesPerUpload: dynamic(new Big(2)) });
-
-        const active = { fileStatus: "existingFile" } as any;
-        const rejected = { fileStatus: "rejected", setQueued: jest.fn(), upload: jest.fn() } as any;
-
-        store.files.push(rejected, active, { fileStatus: "existingFile" } as any);
-
-        store.files.splice(store.files.indexOf(active), 1);
-
-        expect(rejected.setQueued).toHaveBeenCalledTimes(1);
-    });
-
-    test("promoted rejected file actually starts uploading after setQueued", async () => {
-        const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(2)),
-            maxFilesPerBatch: unavailableDynamic()
-        });
-        const neverResolve = new Promise<never>(() => {});
-        store.objectCreationHelper.request = jest.fn().mockReturnValue(neverResolve);
-
-        // Drop 3 files: 2 upload, 1 rejected
-        store.processDrop([makeFile("a.txt"), makeFile("b.txt"), makeFile("c.txt")], []);
-
-        expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(2);
-        expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(1);
-
-        // Delete one uploading file's slot by marking it done
-        store.files[store.files.findIndex(f => f.fileStatus === "uploading")].fileStatus = "removedFile" as any;
-
-        // Reaction: activeCount drops → promoteRejectedFiles → setQueued → promoteQueuedFiles → upload
-        expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(2);
-        expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(0);
     });
 });
 
@@ -813,7 +974,7 @@ describe("FileUploaderStore.processDrop — error message mapping", () => {
         store.processDrop([makeFile("a.txt"), makeFile("b.txt")], []);
 
         const rejected = store.files.find(f => f.fileStatus === "rejected");
-        expect(rejected?.errorDescription).toContain("1");
+        expect(rejected?.statusMessage).toContain("1");
     });
 });
 
@@ -850,24 +1011,25 @@ describe("FileUploaderStore.updateProps", () => {
 // ─── FileUploaderStore.dispose ───────────────────────────────────────────────
 
 describe("FileUploaderStore.dispose", () => {
-    test("reactions stop firing after dispose", () => {
+    test("queue drain reaction stops firing after dispose", () => {
         const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(2)),
-            maxFilesPerBatch: unavailableDynamic()
+            maxFilesPerUpload: dynamic(new Big(10)),
+            maxFilesPerBatch: dynamic(new Big(1))
         });
         const neverResolve = new Promise<never>(() => {});
         store.objectCreationHelper.request = jest.fn().mockReturnValue(neverResolve);
 
-        store.processDrop([makeFile("a.txt"), makeFile("b.txt"), makeFile("c.txt")], []);
+        store.processDrop([makeFile("a.txt"), makeFile("b.txt")], []);
 
-        expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(1);
+        expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(1);
+        expect(store.files.filter(f => f.fileStatus === "queued")).toHaveLength(1);
 
         store.dispose();
 
-        // Free a slot — reaction should NOT fire after dispose
-        store.files[store.files.findIndex(f => f.fileStatus === "uploading")].fileStatus = "removedFile" as any;
+        // Freeing a concurrent slot after dispose should NOT start the queued file
+        store.files[store.files.findIndex(f => f.fileStatus === "uploading")].fileStatus = "done" as any;
 
-        expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(1);
+        expect(store.files.filter(f => f.fileStatus === "queued")).toHaveLength(1);
     });
 });
 
@@ -901,18 +1063,15 @@ describe("upload queue — end-to-end", () => {
         expect(store.files.filter(f => f.fileStatus === "queued")).toHaveLength(0);
     });
 
-    test("upload errors free active slots and promote oldest rejected file to uploading", async () => {
+    test("upload errors do NOT auto-promote rejected files — user must retry manually", async () => {
         const store = buildStore({
             maxFilesPerUpload: dynamic(new Big(2)),
             maxFilesPerBatch: unavailableDynamic()
         });
-        // First two requests fail, third hangs so we can assert the stable "uploading" state
-        const neverResolve = new Promise<never>(() => {});
         store.objectCreationHelper.request = jest
             .fn()
             .mockRejectedValueOnce(new Error("fail a"))
-            .mockRejectedValueOnce(new Error("fail b"))
-            .mockReturnValueOnce(neverResolve);
+            .mockRejectedValueOnce(new Error("fail b"));
 
         // Drop 3 files — 2 start uploading, 1 rejected (over maxTotalFiles)
         store.processDrop([makeFile("a.txt"), makeFile("b.txt"), makeFile("c.txt")], []);
@@ -924,9 +1083,9 @@ describe("upload queue — end-to-end", () => {
         await Promise.resolve();
         await Promise.resolve();
 
-        // Both errors free active count → rejected promotes to uploading (third request hangs)
+        // Errors free activeCount slots but rejected file must NOT auto-promote
         expect(store.files.filter(f => f.fileStatus === "uploadingError")).toHaveLength(2);
-        expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(1);
-        expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(0);
+        expect(store.files.filter(f => f.fileStatus === "rejected")).toHaveLength(1);
+        expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(0);
     });
 });
