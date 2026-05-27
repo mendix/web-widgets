@@ -1774,8 +1774,8 @@ importers:
         specifier: workspace:*
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
-        specifier: 11.8.0
-        version: 11.8.0(@jest/transform@29.7.0)(@jest/types@30.2.0)(@swc/core@1.13.5)(@types/babel__core@7.20.5)(@types/node@22.14.1)(eslint@9.39.3(jiti@2.6.1))(jest-util@30.2.0)(prettier@3.8.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.82.0(@babel/core@7.29.0)(@types/react@19.2.2)(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        specifier: 11.11.0
+        version: 11.11.0(patch_hash=4c1736da44bba5984fb39f604448845d42c0cdcb684e2211cefa84c89eadf1dd)(@jest/transform@30.3.0)(@jest/types@30.3.0)(@swc/core@1.13.5)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.0)(eslint@9.39.3(jiti@2.6.1))(jest-util@30.3.0)(picomatch@4.0.4)(prettier@3.8.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.82.0(@babel/core@7.29.0)(@types/react@19.2.2)(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
