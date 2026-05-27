@@ -1,6 +1,6 @@
 import { Big } from "big.js";
 import { DynamicValue, ObjectItem } from "mendix";
-import { action, computed, makeObservable, observable, reaction } from "mobx";
+import { action, comparer, computed, makeObservable, observable, reaction } from "mobx";
 import { FileRejection } from "react-dropzone";
 import { FileStore } from "./FileStore";
 import { TranslationsStore } from "./TranslationsStore";
@@ -28,12 +28,11 @@ export class FileUploaderStore {
     private _maxFileSize = 0;
     private _maxTotalFiles: DynamicValue<Big> | undefined;
     private _maxConcurrentUploads: DynamicValue<Big> | undefined;
-    private _disposePromoteQueuedReaction: (() => void) | undefined;
-    private _disposeQueuedCountReaction: (() => void) | undefined;
+    private _disposePromoteReaction: (() => void) | undefined;
 
     createActionFailed = false;
 
-    translations: TranslationsStore;
+    private translations: TranslationsStore;
 
     constructor(props: FileUploaderContainerProps, translations: TranslationsStore) {
         this._widgetName = props.name;
@@ -101,24 +100,14 @@ export class FileUploaderStore {
 
         this.updateProps(props);
 
-        // Reaction 1: uploading count drops → promote queued files to uploading
-        this._disposePromoteQueuedReaction = reaction(
-            () => this.uploadingCount,
-            (count, prevCount) => {
-                if (count < prevCount) {
+        this._disposePromoteReaction = reaction(
+            () => ({ uploading: this.uploadingCount, queued: this.queuedCount }),
+            ({ uploading, queued }, prev) => {
+                if (uploading < prev.uploading || queued > prev.queued) {
                     this.promoteQueuedFiles();
                 }
-            }
-        );
-
-        // Reaction 2: queued count rises → drain the queue automatically
-        this._disposeQueuedCountReaction = reaction(
-            () => this.queuedCount,
-            (count, prevCount) => {
-                if (count > prevCount) {
-                    this.promoteQueuedFiles();
-                }
-            }
+            },
+            { equals: comparer.structural }
         );
     }
 
@@ -242,8 +231,7 @@ export class FileUploaderStore {
     }
 
     dispose(): void {
-        this._disposePromoteQueuedReaction?.();
-        this._disposeQueuedCountReaction?.();
+        this._disposePromoteReaction?.();
     }
 
     processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
