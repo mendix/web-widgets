@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.0] - 2026-05-27
+
 ### Added
 
 - We added `Parent association` config to allow creating infinite level treenodes by using self reference association to itself. Fill this configuration with the association and Treenode will render as an infinite treenode.

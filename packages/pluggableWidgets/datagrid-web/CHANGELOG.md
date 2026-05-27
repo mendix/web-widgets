@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.0] - 2026-05-27
+
 ### Added
 
 - We added a "Custom row key" property in the Advanced section to provide stable row identifiers when using view entities, preventing scroll position loss during data refresh.
@@ -21,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - We fixed an issue where numbers with more than 15 significant digits lost precision during Excel export. Such values are now exported as text to preserve all digits.
 
 - We fixed an issue where the vertical scrollbar disappeared after hiding a wide column while virtual scrolling was enabled.
+
 - We fixed an issue where only the first page loaded when the grid had enough columns to require horizontal scrolling.
 
 ## [3.9.0] - 2026-03-23
