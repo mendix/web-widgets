@@ -17,8 +17,8 @@ describe("mendix/filters/builders mock", () => {
     test.each([
         [true, "boolean"],
         [false, "boolean"],
-        ["!", "String"],
-        ["", "String"],
+        ["!", "string"],
+        ["", "string"],
         [new Big(0), "Numeric"],
         [new Big(0.49), "Numeric"],
         [new Big(-1), "Numeric"],

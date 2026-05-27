@@ -86,6 +86,7 @@
             "typescript": ">5.8.0"
         },
         "patchedDependencies": {
+            "@mendix/pluggable-widgets-tools": "patches/@mendix__pluggable-widgets-tools.patch",
             "mime-types": "patches/mime-types.patch",
             "mobx-react-lite@4.0.7": "patches/mobx-react-lite@4.0.7.patch",
             "mobx@6.12.3": "patches/mobx@6.12.3.patch",

@@ -7,7 +7,7 @@ exports.literal = x => ({
         }
         switch (value.constructor.name) {
             case "String":
-                return "String";
+                return "string";
             case "Number":
             case "Big":
                 return "Numeric";
