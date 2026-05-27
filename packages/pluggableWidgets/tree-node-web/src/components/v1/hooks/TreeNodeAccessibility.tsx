@@ -1,6 +1,6 @@
 import { EventHandler, SyntheticEvent, useCallback, useMemo } from "react";
-import { TreeNodeState } from "../TreeNode";
 import { KeyboardHandlerHook, useKeyboardHandler } from "./useKeyboardHandler";
+import { TreeNodeState } from "../../common/TreeNodeState";
 
 export const enum FocusTargetChange {
     FIRST = "FIRST",

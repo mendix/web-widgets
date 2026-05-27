@@ -1,0 +1,168 @@
+import classNames from "classnames";
+import { ValueStatus } from "mendix";
+import { ReactElement, useCallback, useMemo, useState, KeyboardEvent, Fragment } from "react";
+import "./ui/TreeNodeV2.scss";
+import { renderTreeNodeHeaderIcon, TreeNodeHeaderIcon } from "../common/HeaderIcon";
+import { TreeNodeState } from "../common/TreeNodeState";
+import { onKeyDownHandler } from "./hooks/helpers";
+import { useIncrementalTreeData, TreeNodeV2DataItem } from "./hooks/useIncrementalTreeData";
+import { useInfiniteTreeNodes } from "./hooks/useInfiniteTreeNode";
+import { TreeNodeContainerProps } from "../../../typings/TreeNodeProps";
+
+function renderRecursiveNode(
+    node: TreeNodeV2DataItem,
+    renderHeaderIcon: TreeNodeHeaderIcon,
+    iconPlacement: TreeNodeContainerProps["showIcon"],
+    openNodeOn: TreeNodeContainerProps["openNodeOn"],
+    onNodeClick: (node: TreeNodeV2DataItem) => void,
+    children?: TreeNodeContainerProps["children"]
+): ReactElement {
+    const hasChildren = node.children.length > 0;
+    const isExpanded = node.treeNodeState === TreeNodeState.EXPANDED;
+    const isIconClickable = openNodeOn === "iconClick";
+    const isHeaderClickable = openNodeOn === "headerClick";
+    const onIconClick = isIconClickable ? () => onNodeClick(node) : undefined;
+    const onHeaderClick = isHeaderClickable ? () => onNodeClick(node) : undefined;
+
+    const onKeyDown = (event: KeyboardEvent<HTMLLIElement>): void => {
+        onKeyDownHandler<TreeNodeV2DataItem>(event, hasChildren, isExpanded, onNodeClick, node);
+    };
+
+    return (
+        <li
+            key={node.id}
+            className="widget-tree-node-branch"
+            role="treeitem"
+            tabIndex={0}
+            aria-expanded={hasChildren ? isExpanded : undefined}
+            onKeyDown={onKeyDown}
+        >
+            <span
+                className={classNames("widget-tree-node-branch-header", {
+                    "widget-tree-node-branch-header-reversed": iconPlacement === "left",
+                    "widget-tree-node-branch-header-clickable": hasChildren && isHeaderClickable
+                })}
+                id={`${node.id}TreeNodeBranchHeader`}
+                onClick={onHeaderClick}
+            >
+                <span className="widget-tree-node-branch-header-value">{node.title}</span>
+                {(hasChildren || node.treeNodeState === TreeNodeState.LOADING) && iconPlacement !== "no" && (
+                    <span
+                        className={classNames("widget-tree-node-branch-header-icon-container", {
+                            "widget-tree-node-branch-header-clickable": hasChildren && isIconClickable
+                        })}
+                        onClick={onIconClick}
+                    >
+                        {renderHeaderIcon(node.treeNodeState, iconPlacement)}
+                    </span>
+                )}
+            </span>
+            {hasChildren ? (
+                <div
+                    className={classNames("widget-tree-node-body", "widget-tree-node-v2-body", {
+                        "widget-tree-node-v2-body-collapsed": !isExpanded
+                    })}
+                    id={`${node.id}TreeNodeBranchBody`}
+                >
+                    <div>{children?.get(node.item)}</div>
+                    <ul role="group">
+                        {node.children.map(child => {
+                            return (
+                                <Fragment key={child.id}>
+                                    {renderRecursiveNode(
+                                        child,
+                                        renderHeaderIcon,
+                                        iconPlacement,
+                                        openNodeOn,
+                                        onNodeClick,
+                                        children
+                                    )}
+                                </Fragment>
+                            );
+                        })}
+                    </ul>
+                </div>
+            ) : null}
+        </li>
+    );
+}
+
+export function TreeNodeV2(props: TreeNodeContainerProps): ReactElement {
+    const { items, appendItems } = useInfiniteTreeNodes(props);
+    const [, forceRender] = useState(0);
+
+    const expandedIcon = props.expandedIcon?.status === ValueStatus.Available ? props.expandedIcon.value : undefined;
+    const collapsedIcon = props.collapsedIcon?.status === ValueStatus.Available ? props.collapsedIcon.value : undefined;
+    const showCustomIcon = Boolean(props.expandedIcon) || Boolean(props.collapsedIcon);
+    const iconPlacement = props.showIcon;
+    const animateIcon = props.animate && props.animateIcon;
+
+    const renderHeaderIcon = useMemo<TreeNodeHeaderIcon>(
+        () => (treeNodeState, placement) =>
+            renderTreeNodeHeaderIcon(treeNodeState, placement, {
+                animateIcon,
+                collapsedIcon,
+                expandedIcon,
+                showCustomIcon
+            }),
+        [animateIcon, collapsedIcon, expandedIcon, showCustomIcon]
+    );
+
+    const treeConfig = useMemo(
+        () => ({
+            headerCaption: props.headerCaption,
+            headerContent: props.headerContent,
+            headerType: props.headerType,
+            parentAssociation: props.parentAssociation,
+            startExpanded: props.startExpanded
+        }),
+        [props.headerCaption, props.headerContent, props.headerType, props.parentAssociation, props.startExpanded]
+    );
+
+    const treeData = useIncrementalTreeData(items, treeConfig);
+    const onNodeClick = useCallback(
+        (node: TreeNodeV2DataItem) => {
+            if (node.treeNodeState === TreeNodeState.EXPANDED) {
+                node.treeNodeState = TreeNodeState.COLLAPSED_WITH_CSS;
+                forceRender(version => version + 1);
+                return;
+            }
+
+            node.treeNodeState = TreeNodeState.EXPANDED;
+            appendItems(
+                node.item,
+                node.children.map(child => child.item)
+            );
+            forceRender(version => version + 1);
+        },
+        [appendItems]
+    );
+
+    if (treeData.length === 0) {
+        return (
+            <div className={classNames("widget-tree-node", "widget-tree-node-v2", props.class)} style={props.style}>
+                <div className="widget-tree-node-no-data">{props.noDataMessage?.value ?? "No data available"}</div>
+            </div>
+        );
+    }
+
+    return (
+        <ul
+            className={classNames("widget-tree-node", "widget-tree-node-v2", props.class)}
+            style={props.style}
+            data-focusindex={props.tabIndex || 0}
+            role="tree"
+        >
+            {treeData.map(node =>
+                renderRecursiveNode(
+                    node,
+                    renderHeaderIcon,
+                    iconPlacement,
+                    props.openNodeOn,
+                    onNodeClick,
+                    props.children
+                )
+            )}
+        </ul>
+    );
+}

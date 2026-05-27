@@ -4,10 +4,11 @@ import userEvent from "@testing-library/user-event";
 import { UserEvent } from "@testing-library/user-event/setup/setup";
 import { GUID } from "mendix";
 import { isValidElement, ReactElement, ReactNode } from "react";
-import { renderTreeNodeHeaderIcon } from "../HeaderIcon";
-import { TreeNode, TreeNodeProps, TreeNodeState } from "../TreeNode";
+import { renderTreeNodeHeaderIcon } from "../../common/HeaderIcon";
+import { TreeNodeState } from "../../common/TreeNodeState";
+import { TreeNode, TreeNodeProps } from "../TreeNode";
 
-jest.mock("../../assets/loading-circle.svg", () => "loading-logo.svg");
+jest.mock("../../../assets/loading-circle.svg", () => "loading-logo.svg");
 
 interface TreeNodeItem {
     id: GUID;

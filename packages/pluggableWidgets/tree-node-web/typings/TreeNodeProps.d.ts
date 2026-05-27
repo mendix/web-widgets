@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { DynamicValue, ListValue, ListExpressionValue, ListWidgetValue, WebIcon } from "mendix";
+import { DynamicValue, ListValue, ListExpressionValue, ListReferenceValue, ListWidgetValue, WebIcon } from "mendix";
 
 export type HeaderTypeEnum = "text" | "custom";
 
@@ -19,6 +19,7 @@ export interface TreeNodeContainerProps {
     tabIndex?: number;
     advancedMode: boolean;
     datasource: ListValue;
+    parentAssociation?: ListReferenceValue;
     headerType: HeaderTypeEnum;
     openNodeOn: OpenNodeOnEnum;
     headerContent?: ListWidgetValue;
@@ -31,6 +32,7 @@ export interface TreeNodeContainerProps {
     expandedIcon?: DynamicValue<WebIcon>;
     collapsedIcon?: DynamicValue<WebIcon>;
     animateIcon: boolean;
+    noDataMessage?: DynamicValue<string>;
 }
 
 export interface TreeNodePreviewProps {
@@ -46,6 +48,7 @@ export interface TreeNodePreviewProps {
     translate: (text: string) => string;
     advancedMode: boolean;
     datasource: {} | { caption: string } | { type: string } | null;
+    parentAssociation: string;
     headerType: HeaderTypeEnum;
     openNodeOn: OpenNodeOnEnum;
     headerContent: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
@@ -58,4 +61,5 @@ export interface TreeNodePreviewProps {
     expandedIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
     collapsedIcon: { type: "glyph"; iconClass: string; } | { type: "image"; imageUrl: string; iconUrl: string; } | { type: "icon"; iconClass: string; } | undefined;
     animateIcon: boolean;
+    noDataMessage: string;
 }

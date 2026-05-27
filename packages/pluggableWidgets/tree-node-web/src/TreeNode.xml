@@ -16,6 +16,13 @@
                     <caption>Data source</caption>
                     <description />
                 </property>
+                <property key="parentAssociation" type="association" dataSource="datasource" selectableObjects="datasource" required="false">
+                    <caption>Parent association</caption>
+                    <description>Select the self-referencing association that connects each item to its parent, enabling infinite depth hierarchies.</description>
+                    <associationTypes>
+                        <associationType name="Reference" />
+                    </associationTypes>
+                </property>
                 <property key="headerType" type="enumeration" defaultValue="text">
                     <caption>Header type</caption>
                     <description />
@@ -81,6 +88,16 @@
                 <property key="animateIcon" type="boolean" defaultValue="true">
                     <caption>Animate icon</caption>
                     <description>Animate the icon when the group is collapsing or expanding.</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Texts">
+                <property key="noDataMessage" type="textTemplate" required="false">
+                    <caption>No data message</caption>
+                    <description>Message to show when there are no items to display.</description>
+                    <translations>
+                        <translation lang="en_US">No data available</translation>
+                        <translation lang="nl_NL">Geen gegevens beschikbaar</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>
