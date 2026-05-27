@@ -1,6 +1,8 @@
+import { observer } from "mobx-react-lite";
 import { ReactElement, useCallback } from "react";
 import { IconInternal } from "@mendix/widget-plugin-component-kit/IconInternal";
 import { ActionButton, FileActionButton } from "./ActionButton";
+import { RetryButton } from "./RetryButton";
 import { FileUploaderContainerProps } from "../../typings/FileUploaderProps";
 import { FileStore } from "../stores/FileStore";
 import { useTranslationsStore } from "../utils/useTranslationsStore";
@@ -10,16 +12,16 @@ interface ButtonsBarProps {
     store: FileStore;
 }
 
-export const ActionsBar = ({ actions, store }: ButtonsBarProps): ReactElement | null => {
+export const ActionsBar = observer(function ActionsBar({ actions, store }: ButtonsBarProps): ReactElement | null {
     if (store.fileStatus === "validationError") {
         return <DismissActionsBar store={store} />;
     }
 
-    if (!actions) {
+    if (!actions || store.fileStatus === "rejected") {
         return <DefaultActionsBar store={store} />;
     }
 
-    if (actions && store.canExecuteActions) {
+    if (store.canExecuteActions) {
         return (
             <div className={"entry-details-actions"}>
                 {actions.map((a, i) => {
@@ -43,9 +45,9 @@ export const ActionsBar = ({ actions, store }: ButtonsBarProps): ReactElement | 
     }
 
     return null;
-};
+});
 
-function DefaultActionsBar(props: ButtonsBarProps): ReactElement {
+const DefaultActionsBar = observer(function DefaultActionsBar(props: ButtonsBarProps): ReactElement {
     const translations = useTranslationsStore();
 
     const onRemove = useCallback(() => {
@@ -55,6 +57,14 @@ function DefaultActionsBar(props: ButtonsBarProps): ReactElement {
     const onViewClick = useCallback(async () => {
         onDownloadClick(await props.store.getDownloadUrl());
     }, [props.store]);
+
+    if (props.store.fileStatus === "rejected") {
+        return (
+            <div className={"entry-details-actions"}>
+                <RetryButton store={props.store} />
+            </div>
+        );
+    }
 
     return (
         <div className={"entry-details-actions"}>
@@ -72,7 +82,7 @@ function DefaultActionsBar(props: ButtonsBarProps): ReactElement {
             />
         </div>
     );
-}
+});
 
 function DismissActionsBar({ store }: ButtonsBarProps): ReactElement {
     const translations = useTranslationsStore();

@@ -22,14 +22,14 @@ export class FileUploaderStore {
 
     acceptedFileTypes: FileCheckFormat[];
 
-    _widgetName: string;
-    _uploadMode: UploadModeEnum;
-    _maxFileSizeMiB = 0;
-    _maxFileSize = 0;
-    _maxTotalFiles: DynamicValue<Big> | undefined;
-    _maxConcurrentUploads: DynamicValue<Big> | undefined;
-    _disposePromoteRejectedReaction: (() => void) | undefined;
-    _disposePromoteQueuedReaction: (() => void) | undefined;
+    private _widgetName: string;
+    private _uploadMode: UploadModeEnum;
+    private _maxFileSizeMiB = 0;
+    private _maxFileSize = 0;
+    private _maxTotalFiles: DynamicValue<Big> | undefined;
+    private _maxConcurrentUploads: DynamicValue<Big> | undefined;
+    private _disposePromoteQueuedReaction: (() => void) | undefined;
+    private _disposeQueuedCountReaction: (() => void) | undefined;
 
     createActionFailed = false;
 
@@ -56,7 +56,7 @@ export class FileUploaderStore {
             },
             processMissing: (missingItem: ObjectItem) => {
                 const missingFile = this.files.find(f => {
-                    return f._objectItem?.id === missingItem.id;
+                    return f.objectItemId === missingItem.id;
                 });
 
                 if (!missingFile) {
@@ -75,19 +75,19 @@ export class FileUploaderStore {
 
         this.translations = translations;
 
-        makeObservable(this, {
+        makeObservable<this, "_maxTotalFiles" | "_maxConcurrentUploads">(this, {
             updateProps: action,
             processDrop: action,
             dismissFile: action,
             setMessage: action,
             setCreateActionFailed: action,
-            promoteRejectedFiles: action,
             promoteQueuedFiles: action,
             processExistingFileItem: action,
             files: observable,
             existingItemsLoaded: observable,
             createActionFailed: observable,
             allowedFormatsDescription: computed,
+            maxFileSize: computed,
             maxTotalFiles: computed,
             maxConcurrentUploads: computed,
             _maxTotalFiles: observable,
@@ -95,26 +95,27 @@ export class FileUploaderStore {
             isFileUploadLimitReached: computed,
             sortedFiles: computed,
             activeCount: computed,
-            uploadingCount: computed
+            uploadingCount: computed,
+            queuedCount: computed
         });
 
         this.updateProps(props);
 
-        // Reaction 1: active count drops → promote rejected files into queue
-        this._disposePromoteRejectedReaction = reaction(
-            () => this.activeCount,
-            (count, prevCount) => {
-                if (count < prevCount) {
-                    this.promoteRejectedFiles();
-                }
-            }
-        );
-
-        // Reaction 2: uploading count drops → promote queued files to uploading
+        // Reaction 1: uploading count drops → promote queued files to uploading
         this._disposePromoteQueuedReaction = reaction(
             () => this.uploadingCount,
             (count, prevCount) => {
                 if (count < prevCount) {
+                    this.promoteQueuedFiles();
+                }
+            }
+        );
+
+        // Reaction 2: queued count rises → drain the queue automatically
+        this._disposeQueuedCountReaction = reaction(
+            () => this.queuedCount,
+            (count, prevCount) => {
+                if (count > prevCount) {
                     this.promoteQueuedFiles();
                 }
             }
@@ -148,6 +149,14 @@ export class FileUploaderStore {
             .join(", ");
     }
 
+    get maxFileSize(): number {
+        return this._maxFileSize;
+    }
+
+    get uploadMode(): UploadModeEnum {
+        return this._uploadMode;
+    }
+
     get maxTotalFiles(): number {
         const expressionValue = this._maxTotalFiles?.value;
         if (expressionValue) {
@@ -177,6 +186,10 @@ export class FileUploaderStore {
 
     get uploadingCount(): number {
         return this.files.filter(f => f.fileStatus === "uploading").length;
+    }
+
+    get queuedCount(): number {
+        return this.files.filter(f => f.fileStatus === "queued").length;
     }
 
     get isFileUploadLimitReached(): boolean {
@@ -211,26 +224,6 @@ export class FileUploaderStore {
         }
     }
 
-    promoteRejectedFiles(): void {
-        if (this.maxTotalFiles === 0) {
-            return;
-        }
-
-        const slots = Math.max(0, this.maxTotalFiles - this.activeCount);
-        if (slots === 0) {
-            return;
-        }
-
-        // oldest first: files are unshifted (prepended), so last in array = oldest
-        const rejected = [...this.files].filter(f => f.fileStatus === "rejected").reverse();
-
-        for (let i = 0; i < Math.min(slots, rejected.length); i++) {
-            rejected[i].setQueued();
-        }
-
-        this.promoteQueuedFiles();
-    }
-
     promoteQueuedFiles(): void {
         const concurrentLimit = this.maxConcurrentUploads;
         const availableSlots =
@@ -249,8 +242,8 @@ export class FileUploaderStore {
     }
 
     dispose(): void {
-        this._disposePromoteRejectedReaction?.();
         this._disposePromoteQueuedReaction?.();
+        this._disposeQueuedCountReaction?.();
     }
 
     processDrop(acceptedFiles: File[], fileRejections: FileRejection[]): void {
@@ -297,19 +290,12 @@ export class FileUploaderStore {
         }
 
         for (const file of capacityExcess) {
-            const newFileStore = FileStore.newRejectedFile(
-                file,
-                this.translations.get("uploadLimitReachedMessage", this.maxTotalFiles.toString()),
-                this
-            );
-            this.files.unshift(newFileStore);
+            this.files.unshift(FileStore.newRejectedFile(file, this));
         }
 
         for (const file of capacityFiles) {
             const newFileStore = FileStore.newFile(file, this);
             this.files.unshift(newFileStore);
         }
-
-        this.promoteQueuedFiles();
     }
 }
