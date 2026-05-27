@@ -278,11 +278,11 @@ describe("FileStore.newRejectedFile", () => {
         expect(file.fileStatus).toBe("rejected");
     });
 
-    test("statusMessage derives limit-reached message from rootStore", () => {
+    test("maxTotalFiles delegates to rootStore", () => {
         const rootStore = buildStore({ maxFilesPerUpload: dynamic(new Big(3)) });
         const file = FileStore.newRejectedFile(makeFile("test.txt"), rootStore);
 
-        expect(file.statusMessage).toContain("3");
+        expect(file.maxTotalFiles).toBe(3);
     });
 });
 
@@ -964,7 +964,7 @@ describe("FileUploaderStore.processDrop — error message mapping", () => {
         expect(store.files[0].errorDescription).toContain("10");
     });
 
-    test("files over total cap get limit-reached message", () => {
+    test("files over total cap have maxTotalFiles matching the cap", () => {
         const store = buildStore({
             maxFilesPerUpload: dynamic(new Big(1)),
             maxFilesPerBatch: unavailableDynamic()
@@ -974,7 +974,7 @@ describe("FileUploaderStore.processDrop — error message mapping", () => {
         store.processDrop([makeFile("a.txt"), makeFile("b.txt")], []);
 
         const rejected = store.files.find(f => f.fileStatus === "rejected");
-        expect(rejected?.statusMessage).toContain("1");
+        expect(rejected?.maxTotalFiles).toBe(1);
     });
 });
 

@@ -36,7 +36,8 @@ export const FileEntryContainer = observer(({ store, actions }: FileEntryContain
             thumbnail={store.imagePreviewUrl}
             mimeType={store.mimeType}
             fileStatus={store.fileStatus}
-            errorMessage={store.statusMessage}
+            errorMessage={store.errorDescription}
+            maxTotalFiles={store.maxTotalFiles}
             defaultAction={defaultListAction && store.canExecute(defaultListAction) ? onDefaultAction : undefined}
             actions={<ActionsBar actions={actions} store={store} />}
         />
@@ -51,6 +52,7 @@ interface FileEntryProps {
 
     fileStatus: FileStatus;
     errorMessage?: string;
+    maxTotalFiles: number;
 
     defaultAction?: () => void;
 
@@ -115,7 +117,7 @@ function FileEntry(props: FileEntryProps): ReactElement {
                 <ProgressBar visible={props.fileStatus === "uploading"} indeterminate />
             </div>
             <div className={"entry-upload-info"}>
-                <UploadInfo status={props.fileStatus} error={props.errorMessage} />
+                <UploadInfo status={props.fileStatus} error={props.errorMessage} maxTotalFiles={props.maxTotalFiles} />
             </div>
         </div>
     );

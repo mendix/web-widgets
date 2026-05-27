@@ -5,9 +5,10 @@ import { useTranslationsStore } from "../utils/useTranslationsStore";
 type UploadInfoProps = {
     status: FileStatus;
     error?: string;
+    maxTotalFiles: number;
 };
 
-export function UploadInfo({ status, error }: UploadInfoProps): ReactElement {
+export function UploadInfo({ status, error, maxTotalFiles }: UploadInfoProps): ReactElement {
     const translations = useTranslationsStore();
     switch (status) {
         case "uploading":
@@ -16,8 +17,13 @@ export function UploadInfo({ status, error }: UploadInfoProps): ReactElement {
             return <span className={"upload-status success"}>{translations.get("uploadSuccessMessage")}</span>;
         case "uploadingError":
             return <span className={"upload-status error"}>{translations.get("uploadFailureGenericMessage")}</span>;
-        case "validationError":
         case "rejected":
+            return (
+                <span className={"upload-status error"}>
+                    {translations.get("uploadLimitReachedMessage", maxTotalFiles.toString())}
+                </span>
+            );
+        case "validationError":
             return <span className={"upload-status error"}>{error}</span>;
         case "removedFile":
             return <span className={"upload-status error"}>{translations.get("removeSuccessMessage")}</span>;

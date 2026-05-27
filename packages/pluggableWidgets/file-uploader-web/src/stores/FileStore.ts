@@ -58,7 +58,6 @@ export class FileStore {
             _thumbnailUrl: observable,
             canRemove: computed,
             canRetry: computed,
-            statusMessage: computed,
             imagePreviewUrl: computed,
             upload: action,
             fetchMxObject: action,
@@ -85,14 +84,8 @@ export class FileStore {
         return this.fileStatus === "rejected" && !this._rootStore.isFileUploadLimitReached;
     }
 
-    get statusMessage(): string | undefined {
-        if (this.fileStatus === "rejected") {
-            return this._rootStore.translations.get(
-                "uploadLimitReachedMessage",
-                this._rootStore.maxTotalFiles.toString()
-            );
-        }
-        return this.errorDescription;
+    get maxTotalFiles(): number {
+        return this._rootStore.maxTotalFiles;
     }
 
     retry(): void {
