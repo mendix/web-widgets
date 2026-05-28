@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed mark labels and tooltip values not preserving trailing zeros when decimal places are configured (e.g., `10` now displays as `10.00` and `9.2` as `9.20` when two decimal places are set).
+
 ## [3.0.2] - 2026-02-19
 
 ### Fixed
