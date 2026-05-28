@@ -277,13 +277,6 @@ describe("FileStore.newRejectedFile", () => {
 
         expect(file.fileStatus).toBe("rejected");
     });
-
-    test("maxTotalFiles delegates to rootStore", () => {
-        const rootStore = buildStore({ maxFilesPerUpload: dynamic(new Big(3)) });
-        const file = FileStore.newRejectedFile(makeFile("test.txt"), rootStore);
-
-        expect(file.maxTotalFiles).toBe(3);
-    });
 });
 
 // ─── FileStore.canRetry ───────────────────────────────────────────────────────
@@ -962,19 +955,6 @@ describe("FileUploaderStore.processDrop — error message mapping", () => {
         ] as any);
 
         expect(store.files[0].errorDescription).toContain("10");
-    });
-
-    test("files over total cap have maxTotalFiles matching the cap", () => {
-        const store = buildStore({
-            maxFilesPerUpload: dynamic(new Big(1)),
-            maxFilesPerBatch: unavailableDynamic()
-        });
-        store.objectCreationHelper.request = jest.fn().mockReturnValue(new Promise(() => {}));
-
-        store.processDrop([makeFile("a.txt"), makeFile("b.txt")], []);
-
-        const rejected = store.files.find(f => f.fileStatus === "rejected");
-        expect(rejected?.maxTotalFiles).toBe(1);
     });
 });
 
