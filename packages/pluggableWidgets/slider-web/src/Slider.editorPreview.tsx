@@ -11,11 +11,13 @@ export function getPreviewCss(): string {
 
 export function preview(props: SliderPreviewProps): ReactNode {
     const values = getPreviewValues(props);
+    const decimalPlaces = props.decimalPlaces ?? 2;
     const marks = createMarks({
         min: values.min,
         max: values.max,
         numberOfMarks: props.noOfMarkers ?? 2,
-        decimalPlaces: props.decimalPlaces ?? 2
+        decimalPlaces,
+        decimalSeparator: "."
     });
     const style = getStyleProp({
         orientation: props.orientation,

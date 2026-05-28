@@ -1,11 +1,13 @@
 import { MarkObj } from "@rc-component/slider/lib/Marks";
 import { ReactNode } from "react";
+import { formatNumber } from "./helpers";
 
 export type Marks = Record<string | number, ReactNode | MarkObj>;
 
 export interface CreateMarksParams {
     numberOfMarks: number;
     decimalPlaces: number;
+    decimalSeparator: string;
     min: number;
     max: number;
 }
@@ -20,12 +22,13 @@ export function createMarks(params: CreateMarksParams): Marks | undefined {
     }
 
     const marks: Marks = {};
-    const { numberOfMarks, decimalPlaces, min, max } = params;
+    const { numberOfMarks, decimalPlaces, decimalSeparator, min, max } = params;
     const interval = (max - min) / numberOfMarks;
 
     for (let i = 0; i <= numberOfMarks; i++) {
-        const value = parseFloat((min + i * interval).toFixed(decimalPlaces));
-        marks[value] = value.toString();
+        const rawValue = min + i * interval;
+        const key = parseFloat(rawValue.toFixed(decimalPlaces));
+        marks[key] = formatNumber(rawValue, decimalPlaces, decimalSeparator);
     }
 
     return marks;
