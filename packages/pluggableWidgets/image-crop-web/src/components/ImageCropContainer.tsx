@@ -33,7 +33,13 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
 
     const handleCrop = useCallback(async () => {
         const img = state.imageRef.current;
-        if (!img || !state.completedCrop || props.image.readOnly || props.image.status !== ValueStatus.Available) {
+        if (
+            !img ||
+            !state.completedCrop ||
+            props.image.readOnly ||
+            props.image.status !== ValueStatus.Available ||
+            !props.image.value
+        ) {
             return;
         }
         try {

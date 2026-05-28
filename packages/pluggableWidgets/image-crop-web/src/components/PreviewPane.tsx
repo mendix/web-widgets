@@ -11,7 +11,7 @@ interface PreviewPaneProps {
 }
 
 export function PreviewPane({ image, pixelCrop, zoom, width, height, circle }: PreviewPaneProps): ReactElement {
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
