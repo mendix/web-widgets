@@ -13,7 +13,7 @@ import { useTranslationsStore } from "../utils/useTranslationsStore";
 import "../ui/FileUploader.scss";
 
 export const FileUploaderRoot = observer((props: FileUploaderContainerProps): ReactElement => {
-    const rootStore = useRootStore(props);
+    const rootStore = useRootStore();
     const translations = useTranslationsStore();
 
     const onDrop = useCallback(

@@ -84,10 +84,6 @@ export class FileStore {
         return this.fileStatus === "rejected" && !this._rootStore.isFileUploadLimitReached;
     }
 
-    get maxTotalFiles(): number {
-        return this._rootStore.maxTotalFiles;
-    }
-
     retry(): void {
         if (!this.canRetry) {
             return;

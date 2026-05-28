@@ -1,15 +1,16 @@
 import { ReactElement } from "react";
 import { FileStatus } from "../stores/FileStore";
+import { useRootStore } from "../utils/useRootStore";
 import { useTranslationsStore } from "../utils/useTranslationsStore";
 
 type UploadInfoProps = {
     status: FileStatus;
     error?: string;
-    maxTotalFiles: number;
 };
 
-export function UploadInfo({ status, error, maxTotalFiles }: UploadInfoProps): ReactElement {
+export function UploadInfo({ status, error }: UploadInfoProps): ReactElement {
     const translations = useTranslationsStore();
+    const rootStore = useRootStore();
     switch (status) {
         case "uploading":
             return <span className={"upload-status"}>{translations.get("uploadInProgressMessage")}</span>;
@@ -20,7 +21,7 @@ export function UploadInfo({ status, error, maxTotalFiles }: UploadInfoProps): R
         case "rejected":
             return (
                 <span className={"upload-status error"}>
-                    {translations.get("uploadLimitReachedMessage", maxTotalFiles.toString())}
+                    {translations.get("uploadLimitReachedMessage", rootStore.maxTotalFiles.toString())}
                 </span>
             );
         case "validationError":
