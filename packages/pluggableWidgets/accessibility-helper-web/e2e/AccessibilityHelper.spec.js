@@ -58,6 +58,8 @@ test.describe("with single target", () => {
     test.describe("with multiple targets", () => {
         test("sets attributes when condition is true", async ({ page }) => {
             await page.click(".mx-name-actionButton2");
+            await waitForMendixApp(page);
+            await expect(page.locator(".mx-name-actionButton2")).not.toHaveAttribute("data-disabled", "true");
             await page.click(".mx-name-actionButton2");
             await waitForMendixApp(page);
             await page.click(".mx-name-radioButtons2 input:first-child");
@@ -89,6 +91,8 @@ test.describe("with single target", () => {
 
         test("updates target attributes using a NF", async ({ page }) => {
             await page.click(".mx-name-actionButton2");
+            await waitForMendixApp(page);
+            await expect(page.locator(".mx-name-actionButton2")).not.toHaveAttribute("data-disabled", "true");
             await page.click(".mx-name-actionButton2");
             await waitForMendixApp(page);
             await page.click(".mx-name-radioButtons2 input:first-child");
@@ -118,6 +122,8 @@ test.describe("with single target", () => {
             page
         }) => {
             await page.click(".mx-name-actionButton2");
+            await waitForMendixApp(page);
+            await expect(page.locator(".mx-name-actionButton2")).not.toHaveAttribute("data-disabled", "true");
             await page.click(".mx-name-actionButton2");
             await waitForMendixApp(page);
             await page.click(".mx-name-radioButtons2 input:first-child");
