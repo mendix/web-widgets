@@ -5,6 +5,7 @@ import {
     and,
     attribute,
     contains,
+    empty,
     endsWith,
     equals,
     greaterThan,
@@ -140,6 +141,25 @@ function getFilterCondition<T extends string | Big | Date>(
         );
     }
 
+    if (operation === "empty") {
+        if (listAttribute.type === "String") {
+            return or(equals(attribute(listAttribute.id), empty()), equals(attribute(listAttribute.id), literal("")));
+        } else {
+            return equals(attribute(listAttribute.id), empty());
+        }
+    }
+
+    if (operation === "notEmpty") {
+        if (listAttribute.type === "String") {
+            return and(
+                notEqual(attribute(listAttribute.id), empty()),
+                notEqual(attribute(listAttribute.id), literal(""))
+            );
+        } else {
+            return notEqual(attribute(listAttribute.id), empty());
+        }
+    }
+
     const filters = {
         contains,
         startsWith,
@@ -149,13 +169,8 @@ function getFilterCondition<T extends string | Big | Date>(
         equal: equals,
         notEqual,
         smaller: lessThan,
-        smallerEqual: lessThanOrEqual,
-        empty: equals,
-        notEmpty: notEqual
+        smallerEqual: lessThanOrEqual
     };
 
-    return filters[operation](
-        attribute(listAttribute.id),
-        literal(operation === "empty" || operation === "notEmpty" ? undefined : value)
-    );
+    return filters[operation](attribute(listAttribute.id), literal(value));
 }

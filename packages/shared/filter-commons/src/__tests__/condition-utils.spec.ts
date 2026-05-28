@@ -1,8 +1,18 @@
 jest.mock("mendix/filters/builders");
 
 import { AndCondition, FilterCondition } from "mendix/filters";
-import { equals, literal } from "mendix/filters/builders";
-import { reduceArray, reduceMap, restoreArray, restoreMap, tag } from "../condition-utils";
+import { and, attribute, equals, literal, notEqual, or } from "mendix/filters/builders";
+import {
+    isEmptyExp,
+    isEmptyStringExp,
+    isNotEmptyExp,
+    isNotEmptyStringExp,
+    reduceArray,
+    reduceMap,
+    restoreArray,
+    restoreMap,
+    tag
+} from "../condition-utils";
 
 describe("condition-utils", () => {
     describe("reduceMap", () => {
@@ -410,6 +420,126 @@ describe("condition-utils", () => {
             const restored = restoreArray(condition, metadata);
 
             expect(restored).toEqual(originalInput);
+        });
+    });
+
+    describe("isEmptyStringExp", () => {
+        it("identifies correct empty expression", () => {
+            const emptyStringExpression = or(
+                equals(attribute("testAttrId" as any), literal(undefined)),
+                equals(attribute("testAttrId" as any), literal(""))
+            );
+            expect(isEmptyStringExp(emptyStringExpression)).toBe(true);
+        });
+
+        it("ignores mismatching expressions", () => {
+            const mismatchedAttributes = or(
+                equals(attribute("testAttrId1" as any), literal(undefined)),
+                equals(attribute("testAttrId2" as any), literal(""))
+            );
+            expect(isEmptyStringExp(mismatchedAttributes)).toBe(false);
+
+            const mismatchedOrder = or(
+                equals(attribute("testAttrId" as any), literal("")),
+                equals(attribute("testAttrId" as any), literal(undefined))
+            );
+            expect(isEmptyStringExp(mismatchedOrder)).toBe(false);
+
+            const mismatchedNumberOffArgs = or(
+                equals(attribute("testAttrId" as any), literal("")),
+                equals(attribute("testAttrId" as any), literal(undefined)),
+                equals(attribute("testAttrId" as any), literal(undefined))
+            );
+            expect(isEmptyStringExp(mismatchedNumberOffArgs)).toBe(false);
+        });
+    });
+
+    describe("isNotEmptyStringExp", () => {
+        it("identifies correct not-empty expression", () => {
+            const notEmptyStringExpression = and(
+                notEqual(attribute("testAttrId" as any), literal(undefined)),
+                notEqual(attribute("testAttrId" as any), literal(""))
+            );
+            expect(isNotEmptyStringExp(notEmptyStringExpression)).toBe(true);
+        });
+
+        it("ignores mismatching expressions", () => {
+            const mismatchedAttributes = and(
+                notEqual(attribute("testAttrId1" as any), literal(undefined)),
+                notEqual(attribute("testAttrId2" as any), literal(""))
+            );
+            expect(isNotEmptyStringExp(mismatchedAttributes)).toBe(false);
+
+            const mismatchedOrder = and(
+                notEqual(attribute("testAttrId" as any), literal("")),
+                notEqual(attribute("testAttrId" as any), literal(undefined))
+            );
+            expect(isNotEmptyStringExp(mismatchedOrder)).toBe(false);
+
+            const mismatchedNumberOfArgs = and(
+                notEqual(attribute("testAttrId" as any), literal(undefined)),
+                notEqual(attribute("testAttrId" as any), literal("")),
+                notEqual(attribute("testAttrId" as any), literal(undefined))
+            );
+            expect(isNotEmptyStringExp(mismatchedNumberOfArgs)).toBe(false);
+        });
+
+        it("returns false for or-based expression (isEmptyStringExp shape)", () => {
+            const emptyStringExpression = or(
+                equals(attribute("testAttrId" as any), literal(undefined)),
+                equals(attribute("testAttrId" as any), literal(""))
+            );
+            expect(isNotEmptyStringExp(emptyStringExpression)).toBe(false);
+        });
+    });
+
+    describe("isEmptyExp", () => {
+        it("returns true for equals expression with undefined literal", () => {
+            const emptyExp = equals(attribute("testAttrId" as any), literal(undefined));
+            expect(isEmptyExp(emptyExp)).toBe(true);
+        });
+
+        it("returns false for non-binary expression", () => {
+            const orExp = or(
+                equals(attribute("testAttrId" as any), literal(undefined)),
+                equals(attribute("testAttrId" as any), literal(""))
+            );
+            expect(isEmptyExp(orExp)).toBe(false);
+        });
+
+        it("returns false for equals with non-undefined literal", () => {
+            const nonEmpty = equals(attribute("testAttrId" as any), literal("value"));
+            expect(isEmptyExp(nonEmpty)).toBe(false);
+        });
+
+        it("returns false for notEqual with undefined literal", () => {
+            const notEmptyExp = notEqual(attribute("testAttrId" as any), literal(undefined));
+            expect(isEmptyExp(notEmptyExp)).toBe(false);
+        });
+    });
+
+    describe("isNotEmptyExp", () => {
+        it("returns true for notEqual expression with undefined literal", () => {
+            const notEmptyExp = notEqual(attribute("testAttrId" as any), literal(undefined));
+            expect(isNotEmptyExp(notEmptyExp)).toBe(true);
+        });
+
+        it("returns false for non-binary expression", () => {
+            const andExp = and(
+                notEqual(attribute("testAttrId" as any), literal(undefined)),
+                notEqual(attribute("testAttrId" as any), literal(""))
+            );
+            expect(isNotEmptyExp(andExp)).toBe(false);
+        });
+
+        it("returns false for notEqual with non-undefined literal", () => {
+            const withValue = notEqual(attribute("testAttrId" as any), literal("value"));
+            expect(isNotEmptyExp(withValue)).toBe(false);
+        });
+
+        it("returns false for equals with undefined literal", () => {
+            const emptyExp = equals(attribute("testAttrId" as any), literal(undefined));
+            expect(isNotEmptyExp(emptyExp)).toBe(false);
         });
     });
 });

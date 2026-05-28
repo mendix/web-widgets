@@ -4,7 +4,8 @@ import {
     EqualsCondition,
     FilterCondition,
     LiteralExpression,
-    OrCondition
+    OrCondition,
+    ValueExpression
 } from "mendix/filters";
 import { and, literal, notEqual } from "mendix/filters/builders";
 
@@ -26,12 +27,62 @@ export function isOr(exp: FilterCondition): exp is OrCondition {
     return exp.type === "function" && exp.name === "or";
 }
 
+function isSameAttr(a: ValueExpression, b: ValueExpression): boolean {
+    return a.type === "attribute" && b.type === "attribute" && a.attributeId === b.attributeId;
+}
+
+function isUndefinedLiteral(a: ValueExpression): boolean {
+    return a.type === "literal" && a.valueType === "undefined";
+}
+
+function isEmptyStringLiteral(a: ValueExpression): boolean {
+    return a.type === "literal" && a.valueType === "string" && a.value === "";
+}
+
+export function isEmptyStringExp(exp: FilterCondition): boolean {
+    if (!isOr(exp)) {
+        return false;
+    }
+
+    if (exp.args.length !== 2) {
+        return false;
+    }
+
+    const [left, right] = exp.args;
+
+    if (!isBinary(left) || left.name !== "=" || !isBinary(right) || right.name !== "=") {
+        return false;
+    }
+
+    // identical attributes compared to undefined and empty string
+    return isSameAttr(left.arg1, right.arg1) && isUndefinedLiteral(left.arg2) && isEmptyStringLiteral(right.arg2);
+}
+
+export function isNotEmptyStringExp(exp: FilterCondition): boolean {
+    if (!isAnd(exp)) {
+        return false;
+    }
+
+    if (exp.args.length !== 2) {
+        return false;
+    }
+
+    const [left, right] = exp.args;
+
+    if (!isBinary(left) || left.name !== "!=" || !isBinary(right) || right.name !== "!=") {
+        return false;
+    }
+
+    // identical attributes compared to undefined and empty string
+    return isSameAttr(left.arg1, right.arg1) && isUndefinedLiteral(left.arg2) && isEmptyStringLiteral(right.arg2);
+}
+
 export function isEmptyExp(exp: FilterCondition): boolean {
-    return isBinary(exp) && exp.arg2.type === "literal" && exp.name === "=" && exp.arg2.valueType === "undefined";
+    return isBinary(exp) && exp.name === "=" && isUndefinedLiteral(exp.arg2);
 }
 
 export function isNotEmptyExp(exp: FilterCondition): boolean {
-    return isBinary(exp) && exp.arg2.type === "literal" && exp.name === "!=" && exp.arg2.valueType === "undefined";
+    return isBinary(exp) && exp.name === "!=" && isUndefinedLiteral(exp.arg2);
 }
 
 interface TagName {
@@ -178,7 +229,15 @@ export function inputStateFromCond<Fn, V>(
     cond: FilterCondition,
     fn: (func: FilterFunction | "between" | "empty" | "notEmpty") => Fn,
     val: (exp: LiteralExpression) => V
-): null | [Fn, V] | [Fn, V, V] {
+): null | [Fn] | [Fn, V] | [Fn, V, V] {
+    if (isEmptyStringExp(cond)) {
+        return [fn("empty")];
+    }
+
+    if (isNotEmptyStringExp(cond)) {
+        return [fn("notEmpty")];
+    }
+
     // Or - condition build for multiple attrs, get state from the first one.
     if (isOr(cond)) {
         return inputStateFromCond(cond.args[0], fn, val);
