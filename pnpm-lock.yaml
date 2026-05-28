@@ -1785,6 +1785,9 @@ importers:
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
       jest-canvas-mock:
         specifier: ^2.5.2
         version: 2.5.2
