@@ -19,7 +19,7 @@
     "marketplace": {
         "minimumMXVersion": "10.21.0",
         "appName": "Image Crop",
-        "appNumber": 0,
+        "appNumber": 1,
         "reactReady": true
     },
     "testProject": {
@@ -51,6 +51,7 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/rollup-web-widgets": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*",
         "jest-canvas-mock": "^2.5.2"
     }
 }

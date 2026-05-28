@@ -1,23 +1,28 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { Big } from "big.js";
 import { ValueStatus } from "mendix";
+import { actionValue } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropContainerProps } from "../../typings/ImageCropProps";
 import { ImageCrop } from "../ImageCrop";
 
-function makeImageProp(overrides: Partial<any> = {}): any {
+type ImageProp = ImageCropContainerProps["image"];
+type WebImage = NonNullable<ImageProp["value"]>;
+
+function makeImageProp(overrides: Partial<ImageProp> = {}): ImageProp {
     return {
         status: ValueStatus.Available,
-        value: { uri: "http://localhost/img.png" },
+        value: { uri: "http://localhost/img.png", name: "img.png" } as WebImage,
         readOnly: false,
         validation: undefined,
         setValidator: jest.fn(),
         setValue: jest.fn(),
         setThumbnailSize: jest.fn(),
         ...overrides
-    };
+    } as ImageProp;
 }
 
 function makeProps(overrides: Partial<ImageCropContainerProps> = {}): ImageCropContainerProps {
-    const base: any = {
+    return {
         name: "imageCrop",
         class: "",
         style: undefined,
@@ -32,18 +37,21 @@ function makeProps(overrides: Partial<ImageCropContainerProps> = {}): ImageCropC
         resizableEnabled: true,
         zoomEnabled: true,
         wheelZoomMode: "onWithCtrl",
-        minZoom: 1,
-        maxZoom: 4,
+        minZoom: new Big(1),
+        maxZoom: new Big(4),
         showPreview: false,
         previewWidth: 100,
         previewHeight: 100,
         outputFormat: "png",
-        outputQuality: 0.92,
+        outputQuality: new Big(0.92),
         outputSize: "original",
-        cropButtonCaption: { value: "Crop", status: ValueStatus.Available },
-        onCropAction: { canExecute: true, execute: jest.fn(), isExecuting: false }
+        cropButtonCaption: {
+            value: "Crop",
+            status: ValueStatus.Available
+        } as ImageCropContainerProps["cropButtonCaption"],
+        onCropAction: actionValue(),
+        ...overrides
     };
-    return { ...base, ...overrides } as ImageCropContainerProps;
 }
 
 describe("<ImageCrop>", () => {

@@ -1,15 +1,4 @@
-import classNames from "classnames";
-import {
-    ReactElement,
-    RefObject,
-    SyntheticEvent,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-    Dispatch,
-    SetStateAction
-} from "react";
+import { Dispatch, ReactElement, Ref, SetStateAction, SyntheticEvent, useCallback, useState } from "react";
 import {
     default as ReactCrop,
     centerCrop,
@@ -18,8 +7,8 @@ import {
     type Crop,
     type PixelCrop
 } from "react-image-crop";
+import { ZoomContainer } from "./ZoomContainer";
 import { WheelZoomModeEnum } from "../../typings/ImageCropProps";
-import { useWheelZoom } from "../hooks/useWheelZoom";
 
 interface CropAreaProps {
     src: string;
@@ -37,7 +26,7 @@ interface CropAreaProps {
     maxZoom: number;
     setZoom: Dispatch<SetStateAction<number>>;
     wheelZoomMode: WheelZoomModeEnum;
-    imageRef: RefObject<HTMLImageElement | null>;
+    imageRef: Ref<HTMLImageElement>;
 }
 
 function buildInitialCrop(
@@ -70,24 +59,8 @@ function fitToBoundary(
 export function CropArea(props: CropAreaProps): ReactElement {
     const [loadError, setLoadError] = useState(false);
     const [displaySize, setDisplaySize] = useState<{ width: number; height: number } | null>(null);
-    const containerRef = useRef<HTMLDivElement | null>(null);
-    const onWheel = useWheelZoom({
-        mode: props.wheelZoomMode,
-        minZoom: props.minZoom,
-        maxZoom: props.maxZoom,
-        setZoom: props.setZoom
-    });
 
-    useEffect(() => {
-        const el = containerRef.current;
-        if (!el) {
-            return;
-        }
-        el.addEventListener("wheel", onWheel, { passive: false });
-        return () => el.removeEventListener("wheel", onWheel);
-    }, [onWheel]);
-
-    const { aspect, onImageLoad, imageRef, boundaryWidth, boundaryHeight, src } = props;
+    const { aspect, onImageLoad, boundaryWidth, boundaryHeight, src } = props;
 
     const [prevSrc, setPrevSrc] = useState(src);
     if (prevSrc !== src) {
@@ -105,28 +78,23 @@ export function CropArea(props: CropAreaProps): ReactElement {
         [aspect, onImageLoad, boundaryWidth, boundaryHeight]
     );
 
-    const setImageRef = useCallback(
-        (img: HTMLImageElement | null) => {
-            imageRef.current = img;
-        },
-        [imageRef]
-    );
-
     if (loadError) {
         return (
             <div className="widget-image-crop__error">
-                Image source does not allow cropping. Upload locally or configure CORS.
+                Could not load this image. If it is a remote image, the server must allow cross-origin access.
             </div>
         );
     }
 
     return (
-        <div
-            ref={containerRef}
-            className={classNames("widget-image-crop__canvas", {
-                "widget-image-crop__canvas--circle": props.circular
-            })}
-            style={{ maxWidth: props.boundaryWidth, maxHeight: props.boundaryHeight }}
+        <ZoomContainer
+            mode={props.wheelZoomMode}
+            minZoom={props.minZoom}
+            maxZoom={props.maxZoom}
+            setZoom={props.setZoom}
+            boundaryWidth={props.boundaryWidth}
+            boundaryHeight={props.boundaryHeight}
+            circular={props.circular}
         >
             <ReactCrop
                 crop={props.crop}
@@ -135,11 +103,10 @@ export function CropArea(props: CropAreaProps): ReactElement {
                 aspect={props.aspect}
                 circularCrop={props.circular}
                 disabled={!props.resizable}
-                locked={!props.resizable}
                 keepSelection
             >
                 <img
-                    ref={setImageRef}
+                    ref={props.imageRef}
                     src={props.src}
                     alt=""
                     crossOrigin="anonymous"
@@ -152,9 +119,9 @@ export function CropArea(props: CropAreaProps): ReactElement {
                         transformOrigin: "center"
                     }}
                     onLoad={handleImageLoad}
-                    onError={(_e: SyntheticEvent<HTMLImageElement>) => setLoadError(true)}
+                    onError={() => setLoadError(true)}
                 />
             </ReactCrop>
-        </div>
+        </ZoomContainer>
     );
 }
