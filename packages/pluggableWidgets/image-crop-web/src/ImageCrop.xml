@@ -107,7 +107,7 @@
                     <caption>Output size</caption>
                     <description>Resolution of the saved crop. Original is sharpest; Viewport matches the on-screen canvas size.</description>
                     <enumerationValues>
-                        <enumerationValue key="viewport">Viewport (canvas dims)</enumerationValue>
+                        <enumerationValue key="viewport">Viewport (canvas dimensions)</enumerationValue>
                         <enumerationValue key="original">Original (source resolution)</enumerationValue>
                     </enumerationValues>
                 </property>
@@ -118,6 +118,7 @@
                     <description>Label on the Crop button.</description>
                     <translations>
                         <translation lang="en_US">Crop</translation>
+                        <translation lang="nl_NL">Bijsnijden</translation>
                     </translations>
                 </property>
                 <property key="onCropAction" type="action" required="false">

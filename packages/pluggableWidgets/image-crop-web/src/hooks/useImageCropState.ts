@@ -15,6 +15,6 @@ export function useImageCropState(initialZoom: number): ImageCropState {
     const [crop, setCrop] = useState<Crop | undefined>(undefined);
     const [completedCrop, setCompletedCrop] = useState<PixelCrop | undefined>(undefined);
     const [zoom, setZoom] = useState<number>(initialZoom);
-    const imageRef = useRef<HTMLImageElement | null>(null);
+    const imageRef = useRef<HTMLImageElement>(null);
     return { crop, setCrop, completedCrop, setCompletedCrop, zoom, setZoom, imageRef };
 }
