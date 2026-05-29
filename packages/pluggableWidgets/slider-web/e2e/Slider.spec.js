@@ -10,13 +10,13 @@ test.describe("Slider", () => {
             .locator(".mx-name-sliderContext .rc-slider-mark > span")
             .first()
             .textContent();
-        await expect(minimumValueText).toBe("0.000");
+        await expect(minimumValueText).toBe("0.0");
 
         const maximumValueText = await page
             .locator(".mx-name-sliderContext .rc-slider-mark > span")
             .nth(2)
             .textContent();
-        await expect(maximumValueText).toBe("20.000");
+        await expect(maximumValueText).toBe("20.0");
 
         const value = await page.inputValue(".mx-name-textBoxValue input");
         await expect(value).toContain("10");

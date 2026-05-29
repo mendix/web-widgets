@@ -4,7 +4,7 @@ import { ReactElement, useMemo, useRef } from "react";
 import { Slider as SliderComponent } from "./Slider";
 import { SliderContainerProps } from "../../typings/SliderProps";
 import { createHandleRender } from "../utils/createHandleRender";
-import { getDecimalSeparator, getSliderLabel } from "../utils/helpers";
+import { createValueFormatter, getSliderLabel } from "../utils/helpers";
 import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
 import { useMarks } from "../utils/useMarks";
 import { useNumber } from "../utils/useNumber";
@@ -31,9 +31,9 @@ interface InnerContainerProps extends SliderContainerProps {
 function InnerContainer(props: InnerContainerProps): ReactElement {
     const sliderRef = useRef<HTMLDivElement>(null);
 
-    const decimalSeparator = useMemo(
-        () => getDecimalSeparator(props.valueAttribute.formatter as NumberFormatter),
-        [props.valueAttribute.formatter]
+    const format = useMemo(
+        () => createValueFormatter(props.valueAttribute.formatter as NumberFormatter, props.decimalPlaces),
+        [props.valueAttribute.formatter, props.decimalPlaces]
     );
 
     const handleRender = useMemo(
@@ -44,25 +44,17 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
                       tooltipType: props.tooltipType,
                       tooltipAlwaysVisible: props.tooltipAlwaysVisible,
                       sliderRef,
-                      decimalPlaces: props.decimalPlaces,
-                      decimalSeparator
+                      format
                   })
                 : undefined,
-        [
-            props.showTooltip,
-            props.tooltip,
-            props.tooltipType,
-            props.tooltipAlwaysVisible,
-            props.decimalPlaces,
-            decimalSeparator
-        ]
+        [props.showTooltip, props.tooltip, props.tooltipType, props.tooltipAlwaysVisible, format]
     );
 
     const { onChange } = useOnChangeDebounced({ valueAttribute: props.valueAttribute, onChange: props.onChange });
     const marks = useMarks({
         noOfMarkers: props.noOfMarkers,
         decimalPlaces: props.decimalPlaces,
-        decimalSeparator,
+        format,
         min: props.min,
         max: props.max
     });

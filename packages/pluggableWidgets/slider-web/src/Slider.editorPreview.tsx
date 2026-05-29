@@ -17,7 +17,7 @@ export function preview(props: SliderPreviewProps): ReactNode {
         max: values.max,
         numberOfMarks: props.noOfMarkers ?? 2,
         decimalPlaces,
-        decimalSeparator: "."
+        format: (value: number) => value.toFixed(decimalPlaces)
     });
     const style = getStyleProp({
         orientation: props.orientation,

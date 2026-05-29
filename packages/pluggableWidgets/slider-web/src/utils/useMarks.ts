@@ -1,26 +1,27 @@
 import { useMemo } from "react";
+import { ValueFormatter } from "./helpers";
 import { createMarks } from "./marks";
 
 type UseMarksParams = {
     noOfMarkers: number;
     decimalPlaces: number;
-    decimalSeparator: string;
+    format: ValueFormatter;
     min?: number;
     max?: number;
 };
 
 export function useMarks(props: UseMarksParams): ReturnType<typeof createMarks> {
-    const { noOfMarkers, decimalPlaces, decimalSeparator, min = 0, max = 100 } = props;
+    const { noOfMarkers, decimalPlaces, format, min = 0, max = 100 } = props;
 
     return useMemo(
         () =>
             createMarks({
                 numberOfMarks: noOfMarkers,
                 decimalPlaces,
-                decimalSeparator,
+                format,
                 min,
                 max
             }),
-        [min, max, noOfMarkers, decimalPlaces, decimalSeparator]
+        [min, max, noOfMarkers, decimalPlaces, format]
     );
 }

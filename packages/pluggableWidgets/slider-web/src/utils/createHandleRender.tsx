@@ -2,7 +2,7 @@ import { SliderProps as RcSliderProps } from "@rc-component/slider";
 import RcTooltip from "@rc-component/tooltip";
 import { DynamicValue } from "mendix";
 import { RefObject } from "react";
-import { formatNumber } from "./helpers";
+import { ValueFormatter } from "./helpers";
 
 import "@rc-component/tooltip/assets/bootstrap.css";
 
@@ -11,8 +11,7 @@ type CreateHandleRenderProps = {
     tooltipType: "value" | "customText";
     tooltipAlwaysVisible: boolean;
     sliderRef: RefObject<HTMLDivElement | null>;
-    decimalPlaces: number;
-    decimalSeparator: string;
+    format: ValueFormatter;
 };
 
 export function createHandleRender({
@@ -20,8 +19,7 @@ export function createHandleRender({
     tooltipType,
     tooltipAlwaysVisible,
     sliderRef,
-    decimalPlaces,
-    decimalSeparator
+    format
 }: CreateHandleRenderProps): RcSliderProps["handleRender"] | undefined {
     const isCustomText = tooltipType === "customText";
 
@@ -34,7 +32,7 @@ export function createHandleRender({
                 getTooltipContainer={() => sliderRef.current ?? document.body}
                 defaultVisible
                 prefixCls="rc-slider-tooltip"
-                overlay={isCustomText ? overlay : formatNumber(restProps.value, decimalPlaces, decimalSeparator)}
+                overlay={isCustomText ? overlay : format(restProps.value)}
                 trigger={["hover", "click", "focus"]}
                 visible={tooltipAlwaysVisible || dragging}
                 placement="top"

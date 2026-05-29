@@ -13,6 +13,14 @@ const defaultRenderProps = {
 
 const mockNode = <div />;
 
+// Deterministic stand-in for createValueFormatter's output.
+const formatWith =
+    (decimalPlaces: number, decimalSeparator = ".") =>
+    (value: number): string => {
+        const fixed = value.toFixed(decimalPlaces);
+        return decimalSeparator === "." ? fixed : fixed.replace(".", decimalSeparator);
+    };
+
 function buildHandleRender(
     decimalPlaces: number,
     tooltipType: "value" | "customText" = "value",
@@ -23,8 +31,7 @@ function buildHandleRender(
         tooltipType,
         tooltipAlwaysVisible: true,
         sliderRef,
-        decimalPlaces,
-        decimalSeparator
+        format: formatWith(decimalPlaces, decimalSeparator)
     })!;
 }
 
@@ -66,8 +73,7 @@ describe("createHandleRender tooltip value formatting", () => {
             tooltipType: "customText",
             tooltipAlwaysVisible: true,
             sliderRef,
-            decimalPlaces: 2,
-            decimalSeparator: "."
+            format: formatWith(2)
         })!;
         const result = handleRender(mockNode, { ...defaultRenderProps, value: 10 } as any) as ReactElement<any>;
         expect(result.props.overlay.props.children).toBe("custom label");
