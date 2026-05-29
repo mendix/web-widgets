@@ -1,5 +1,5 @@
 import { test, expect } from "@mendix/run-e2e/fixtures";
-import { waitForWidget } from "@mendix/run-e2e/mendix-helpers";
+import { waitForWidget, waitFrames } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("Video Player", () => {
     test.beforeEach(async ({ page }) => {
@@ -130,7 +130,7 @@ test.describe("External video", () => {
                 : Promise.resolve()
         );
         // Wait two animation frames so the browser flushes layout and paints the poster frame.
-        await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
+        await waitFrames(page, 2);
         await expect(widget).toHaveScreenshot("videoPlayerExternalPoster.png");
     });
 
