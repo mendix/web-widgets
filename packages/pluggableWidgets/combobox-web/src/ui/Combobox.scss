@@ -18,7 +18,6 @@ $cb-skeleton-light: rgba(194, 194, 194, 0.2);
 $cb-skeleton-dark: #d2d2d2;
 
 .widget-combobox {
-    min-width: 0;
     flex-grow: 1;
     position: relative;
     transition: color 150ms ease 0s;
@@ -141,6 +140,7 @@ $cb-skeleton-dark: #d2d2d2;
 
     .widget-combobox-input-container {
         flex-grow: 1;
+        min-width: 15ch; // overrides Atlas .form-control 50px floor; prevents collapse in column flex containers
         transition: box-shadow 150ms ease 0s;
 
         &-disabled {

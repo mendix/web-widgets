@@ -174,6 +174,28 @@ test.describe("combobox-web", () => {
     });
 });
 
+// WC-3409: flex align-items center collapse fix
+test.describe("flex container layout (WC-3409)", () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto("/p/combobox-flex-layout");
+        await waitForMendixApp(page);
+    });
+
+    test("single-select combobox has visible width in flex align-items:center container", async ({ page }) => {
+        const comboBox = page.locator(".mx-name-comboBoxFlexSingle");
+        await expect(comboBox).toBeVisible({ timeout: 10000 });
+        const box = await comboBox.boundingBox();
+        expect(box.width).toBeGreaterThan(10);
+    });
+
+    test("multiselect combobox has visible width in flex align-items:center container", async ({ page }) => {
+        const comboBox = page.locator(".mx-name-comboBoxFlexMulti");
+        await expect(comboBox).toBeVisible({ timeout: 10000 });
+        const box = await comboBox.boundingBox();
+        expect(box.width).toBeGreaterThan(10);
+    });
+});
+
 function getOptions(combobox) {
     return combobox.locator(`[role=listbox] [role=option]`);
 }
