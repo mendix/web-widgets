@@ -129,6 +129,8 @@ test.describe("External video", () => {
                   })
                 : Promise.resolve()
         );
+        // Wait two animation frames so the browser flushes layout and paints the poster frame.
+        await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
         await expect(widget).toHaveScreenshot("videoPlayerExternalPoster.png");
     });
 
