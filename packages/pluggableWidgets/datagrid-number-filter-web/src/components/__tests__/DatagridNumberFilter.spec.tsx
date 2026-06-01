@@ -88,10 +88,10 @@ describe("Number Filter", () => {
                 render(<DatagridNumberFilter {...commonProps} onChange={action} valueAttribute={attribute} />);
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-                await user.type(screen.getByRole("textbox"), "10");
 
-                act(() => {
-                    jest.runOnlyPendingTimers();
+                await act(async () => {
+                    await user.type(screen.getByRole("textbox"), "10");
+                    jest.runAllTimers();
                 });
 
                 expect(action.execute).toHaveBeenCalledTimes(1);
@@ -107,10 +107,8 @@ describe("Number Filter", () => {
                 expect(input).toHaveValue("");
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-                await user.type(input, "42");
-
-                // Run timers for the debounced setValue
-                act(() => {
+                await act(async () => {
+                    await user.type(input, "42");
                     jest.runAllTimers();
                 });
 
@@ -161,11 +159,10 @@ describe("Number Filter", () => {
                     expect(input).toHaveValue("123");
 
                     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-                    // set input empty
-                    await user.clear(input);
-                    await user.type(input, "42");
 
-                    act(() => {
+                    await act(async () => {
+                        await user.clear(input);
+                        await user.type(input, "42");
                         jest.runAllTimers();
                     });
 
@@ -232,9 +229,9 @@ describe("Number Filter", () => {
                 expect(input).toHaveValue("");
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-                await user.type(input, "42");
 
-                act(() => {
+                await act(async () => {
+                    await user.type(input, "42");
                     jest.runAllTimers();
                 });
 
@@ -257,9 +254,9 @@ describe("Number Filter", () => {
                 expect(input).toHaveValue("");
 
                 const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-                await user.type(input, "42");
 
-                act(() => {
+                await act(async () => {
+                    await user.type(input, "42");
                     jest.runAllTimers();
                 });
 
