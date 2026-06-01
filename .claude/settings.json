@@ -1,4 +1,30 @@
 {
+    "permissions": {
+        "allow": [
+            "mcp__plugin_playwright_playwright__browser_navigate",
+            "mcp__plugin_playwright_playwright__browser_snapshot",
+            "mcp__plugin_playwright_playwright__browser_take_screenshot",
+            "mcp__plugin_playwright_playwright__browser_click",
+            "mcp__plugin_playwright_playwright__browser_wait_for",
+            "mcp__plugin_playwright_playwright__browser_close",
+            "mcp__plugin_playwright_playwright__browser_type",
+            "mcp__plugin_playwright_playwright__browser_fill_form",
+            "mcp__plugin_playwright_playwright__browser_press_key",
+            "mcp__plugin_playwright_playwright__browser_evaluate",
+            "Bash(bash automation/mxcli/mx-testproject.sh*)",
+            "Bash(bash automation/mxcli/setup.sh*)",
+            "Bash(automation/tools/mxcli -p * -c \"SHOW*\")",
+            "Bash(automation/tools/mxcli -p * -c \"DESCRIBE*\")",
+            "Bash(automation/tools/mxcli -p * -c \"SEARCH*\")",
+            "Bash(automation/tools/mxcli --version)",
+            "Bash(automation/tools/mxcli lint*)",
+            "Bash(automation/tools/mxcli report*)",
+            "Bash(automation/tools/mxcli callers*)",
+            "Bash(automation/tools/mxcli refs*)",
+            "Bash(automation/tools/mxcli diff*)",
+            "Bash(automation/tools/mxcli check*)"
+        ]
+    },
     "hooks": {
         "PostToolUse": [
             {
