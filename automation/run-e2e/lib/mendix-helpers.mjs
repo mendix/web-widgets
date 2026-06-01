@@ -41,6 +41,12 @@ export async function navigateToPage(page, path, timeout = 30_000) {
     await waitForMendixApp(page, timeout);
 }
 
+export async function waitFrames(page, n = 2) {
+    for (let i = 0; i < n; i++) {
+        await page.evaluate(() => new Promise(r => requestAnimationFrame(r)));
+    }
+}
+
 export async function checkAccessibility(page, selector, options = {}) {
     const AxeBuilder = (await import("@axe-core/playwright")).default;
     let builder = new AxeBuilder({ page }).withTags(options.tags || ["wcag21aa"]);

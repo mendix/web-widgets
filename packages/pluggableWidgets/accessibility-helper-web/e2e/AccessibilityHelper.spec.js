@@ -58,7 +58,6 @@ test.describe("with single target", () => {
     test.describe("with multiple targets", () => {
         test("sets attributes when condition is true", async ({ page }) => {
             await page.click(".mx-name-actionButton2");
-            await page.click(".mx-name-actionButton2");
             await waitForMendixApp(page);
             await page.click(".mx-name-radioButtons2 input:first-child");
             await page.click(".mx-name-radioButtons2 input:first-child");
@@ -89,7 +88,6 @@ test.describe("with single target", () => {
 
         test("updates target attributes using a NF", async ({ page }) => {
             await page.click(".mx-name-actionButton2");
-            await page.click(".mx-name-actionButton2");
             await waitForMendixApp(page);
             await page.click(".mx-name-radioButtons2 input:first-child");
             await page.click(".mx-name-radioButtons2 input:first-child");
@@ -117,7 +115,6 @@ test.describe("with single target", () => {
         test("sets target attributes even though target is conditionally shown after being hidden", async ({
             page
         }) => {
-            await page.click(".mx-name-actionButton2");
             await page.click(".mx-name-actionButton2");
             await waitForMendixApp(page);
             await page.click(".mx-name-radioButtons2 input:first-child");
