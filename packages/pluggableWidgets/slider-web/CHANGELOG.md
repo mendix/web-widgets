@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- We fixed mark labels and tooltip values not respecting the value attribute's number formatting. They now use the attribute's own formatter with the configured number of decimal places, so the decimal separator and thousands grouping follow the current locale and the attribute's settings (e.g., `10` displays as `10.00` and `9.2` as `9.20` with two decimal places, and grouping like `1,000,000` is preserved when enabled).
+- We fixed mark labels and tooltip values not respecting the decimal places and locale settings configured on the value attribute. Numbers now display with the correct decimal separator, digit grouping, and number of decimal places.
 
 ## [3.0.2] - 2026-02-19
 
