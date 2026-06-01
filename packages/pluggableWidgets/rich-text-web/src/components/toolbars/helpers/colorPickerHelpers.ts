@@ -10,6 +10,7 @@ export const colorPickerHelpers: ColorPickerHelpers = {
     getDefaultColor: (pickerType: ColorPickerCommand): string => {
         if (pickerType === "textHighlight") return "#ffff00";
         if (pickerType === "cellBackground" || pickerType === "tableBackground") return "#ffffff";
+        if (pickerType === "tableBorderColor") return "#000000";
         return "#000000";
     },
 
@@ -35,6 +36,28 @@ export const colorPickerHelpers: ColorPickerHelpers = {
                             tr.setNodeMarkup(pos, undefined, {
                                 ...node.attrs,
                                 backgroundColor: color
+                            });
+                            return true;
+                        })
+                        .run();
+                    break;
+                }
+            }
+        } else if (pickerType === "tableBorderColor") {
+            const { state } = editor;
+            const { $from } = state.selection;
+
+            for (let depth = $from.depth; depth > 0; depth--) {
+                const node = $from.node(depth);
+                if (node.type.name === "table") {
+                    const pos = $from.before(depth);
+                    editor
+                        .chain()
+                        .focus()
+                        .command(({ tr }) => {
+                            tr.setNodeMarkup(pos, undefined, {
+                                ...node.attrs,
+                                borderColor: color
                             });
                             return true;
                         })

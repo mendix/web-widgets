@@ -11,7 +11,7 @@
     border: 1px solid #d0d0d0;
     border-radius: 4px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    padding: 12px;
+    padding: var(--form-label-gutter, 8px);
     z-index: 1000;
     user-select: none;
 
@@ -19,7 +19,7 @@
         text-align: center;
         font-size: 13px;
         color: #333;
-        margin-bottom: 8px;
+        margin-top: var(--form-label-gutter, 8px);
         font-weight: 500;
         min-height: 18px;
     }
@@ -40,12 +40,12 @@
         transition: all 0.1s ease;
 
         &:hover {
-            border-color: #264ae5;
+            border-color: var(--brand-primary, #264ae5);
         }
 
         &.selected {
-            background-color: #264ae5;
-            border-color: #1a3bb3;
+            background-color: var(--brand-primary, #264ae5);
+            border-color: var(--color-primary-dark, #1b34a0);
         }
     }
 }

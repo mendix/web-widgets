@@ -31,6 +31,8 @@ import { TextColorClass } from "../extensions/TextColorClass";
 import { TextDirection } from "../extensions/TextDirection";
 import { TextHighlightClass } from "../extensions/TextHighlightClass";
 import { ConfirmDialog } from "./toolbars/components/ConfirmDialog";
+import { ToolbarGroupsConfig } from "./toolbars/ToolbarConfig";
+import { PresetEnum, ToolbarConfigEnum, AdvancedConfigType } from "../../typings/RichTextProps";
 
 export interface EditorProps {
     defaultValue?: string;
@@ -40,6 +42,10 @@ export interface EditorProps {
     showToolbar?: boolean;
     styleDataFormat?: "inline" | "class";
     imageSourceContent?: ReactNode;
+    preset?: PresetEnum;
+    toolbarConfig?: ToolbarConfigEnum;
+    toolbarGroups?: ToolbarGroupsConfig;
+    advancedConfig?: AdvancedConfigType[];
 }
 
 export interface EditorHandle {
@@ -55,9 +61,22 @@ interface EditorInnerProps {
     readOnly: boolean;
     className?: string;
     imageSourceContent?: ReactNode;
+    preset?: PresetEnum;
+    toolbarConfig?: ToolbarConfigEnum;
+    toolbarGroups?: ToolbarGroupsConfig;
+    advancedConfig?: AdvancedConfigType[];
 }
 
-function EditorInner({ showToolbar, readOnly, className, imageSourceContent }: EditorInnerProps): ReactElement {
+function EditorInner({
+    showToolbar,
+    readOnly,
+    className,
+    imageSourceContent,
+    preset,
+    toolbarConfig,
+    toolbarGroups,
+    advancedConfig
+}: EditorInnerProps): ReactElement {
     const { editor, codeViewState, codeViewDispatch } = useCurrentEditor();
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -80,7 +99,15 @@ function EditorInner({ showToolbar, readOnly, className, imageSourceContent }: E
     return (
         <>
             <div className="tiptap-wrapper">
-                {showToolbar && !readOnly && <Toolbar imageSourceContent={imageSourceContent} />}
+                {showToolbar && !readOnly && (
+                    <Toolbar
+                        imageSourceContent={imageSourceContent}
+                        preset={preset}
+                        toolbarConfig={toolbarConfig}
+                        toolbarGroups={toolbarGroups}
+                        advancedConfig={advancedConfig}
+                    />
+                )}
                 {codeViewState.isCodeView ? (
                     <textarea
                         ref={textareaRef}
@@ -117,7 +144,11 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         className,
         showToolbar = true,
         styleDataFormat = "inline",
-        imageSourceContent
+        imageSourceContent,
+        preset,
+        toolbarConfig,
+        toolbarGroups,
+        advancedConfig
     } = props;
 
     const extensions = [
@@ -212,6 +243,10 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
                 readOnly={!!readOnly}
                 className={className}
                 imageSourceContent={imageSourceContent}
+                preset={preset}
+                toolbarConfig={toolbarConfig}
+                toolbarGroups={toolbarGroups}
+                advancedConfig={advancedConfig}
             />
         </EditorContextProvider>
     );

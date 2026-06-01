@@ -1,7 +1,7 @@
-import { useFloating, offset, flip, shift } from "@floating-ui/react";
-import { ReactElement, useState, useRef, useEffect, FormEvent } from "react";
+import { ReactElement, useState, useRef, FormEvent } from "react";
 import { useCurrentEditor } from "../../EditorContext";
 import { VideoDialogProps } from "../helpers/toolbarTypes";
+import { useDropdown } from "../hooks/useDropdown";
 import "./Dialog.scss";
 
 export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): ReactElement {
@@ -11,25 +11,11 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
     const [height, setHeight] = useState("480");
     const dialogRef = useRef<HTMLDivElement>(null);
 
-    const { x, y, strategy, refs } = useFloating({
-        placement: "bottom-start",
-        strategy: "fixed",
-        middleware: [offset(4), flip(), shift({ padding: 8 })],
-        elements: {
-            reference: referenceElement
-        }
+    const { refs, floatingStyles } = useDropdown({
+        isOpen: true,
+        onClose,
+        referenceElement
     });
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent): void => {
-            if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
-                onClose();
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [onClose]);
 
     const handleSubmit = (e: FormEvent): void => {
         e.preventDefault();
@@ -50,15 +36,7 @@ export function VideoDialog({ onClose, referenceElement }: VideoDialogProps): Re
     };
 
     return (
-        <div
-            ref={refs.setFloating}
-            style={{
-                position: strategy,
-                top: y ?? 0,
-                left: x ?? 0,
-                zIndex: 1000
-            }}
-        >
+        <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 1000 }}>
             <div ref={dialogRef} className="toolbar-dialog">
                 <form onSubmit={handleSubmit}>
                     <h3>Insert YouTube Video</h3>

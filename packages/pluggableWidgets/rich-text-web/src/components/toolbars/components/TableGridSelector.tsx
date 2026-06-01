@@ -10,6 +10,7 @@ export function TableGridSelector({ editor, onClose }: TableGridSelectorProps): 
     const [isDragging, setIsDragging] = useState(false);
     const gridRef = useRef<HTMLDivElement>(null);
 
+    // Handle click outside to close
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent): void => {
             if (gridRef.current && !gridRef.current.contains(event.target as Node)) {
@@ -74,8 +75,8 @@ export function TableGridSelector({ editor, onClose }: TableGridSelectorProps): 
 
     return (
         <div ref={gridRef} className="table-grid-selector">
-            {displayText && <div className="table-grid-label">{displayText}</div>}
             <div className="table-grid">{renderGrid()}</div>
+            {displayText && <div className="table-grid-label">{displayText}</div>}
         </div>
     );
 }

@@ -1,10 +1,6 @@
 .tiptap-toolbar {
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid #ced0d3;
-    background-color: #f8f8f8;
-    border-radius: 4px 4px 0 0;
-
     border: unset;
     box-shadow: var(--shadow-small, 0 2px 4px 0) var(--shadow-color-border, #00000014);
 
@@ -13,6 +9,13 @@
         flex-wrap: wrap;
         gap: 4px;
         padding: 8px;
+        box-shadow: var(--shadow-small, 0 2px 4px 0) var(--shadow-color-border, #00000014);
+
+        &:empty {
+            height: 0;
+            padding: 0;
+            box-shadow: none;
+        }
 
         &.table-operations-row {
             max-height: 0;
@@ -110,15 +113,12 @@
     }
 
     button {
-        background: white;
-        border: 1px solid #d0d0d0;
-        border-radius: 3px;
-        padding: 6px 10px;
+        background: none;
+        border: none;
         cursor: pointer;
-        font-size: 14px;
-        font-weight: 500;
-        color: #333;
-        min-width: 32px;
+        height: 24px;
+        padding: 3px 5px;
+        width: 28px;
         transition: all 0.2s;
 
         &:hover:not(:disabled) {

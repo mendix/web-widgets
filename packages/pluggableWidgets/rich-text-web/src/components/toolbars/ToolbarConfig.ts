@@ -1,5 +1,7 @@
 import { Editor } from "@tiptap/react";
 import { createContext } from "react";
+import { createTableConfigurationSections, createCellConfigurationSections } from "./helpers/configurationHelpers";
+import { PresetEnum, ToolbarConfigEnum, CtItemTypeEnum, AdvancedConfigType } from "../../../typings/RichTextProps";
 
 export type ToolbarActionType =
     | "toggle"
@@ -10,9 +12,15 @@ export type ToolbarActionType =
     | "tableGrid"
     | "colorPicker"
     | "dialog"
-    | "codeView";
+    | "codeView"
+    | "configurationDropdown";
 
-export type ColorPickerCommand = "textColor" | "textHighlight" | "cellBackground" | "tableBackground";
+export type ColorPickerCommand =
+    | "textColor"
+    | "textHighlight"
+    | "cellBackground"
+    | "tableBackground"
+    | "tableBorderColor";
 
 export type DialogCommand = "insertImage" | "insertVideo" | "insertLink";
 
@@ -27,23 +35,37 @@ export interface ToolbarDropdownOption {
     attrs?: Record<string, any>;
 }
 
+export interface ConfigurationSection {
+    id: string;
+    label: string;
+    type: "colorPicker" | "dropdown";
+    getCurrentValue?: () => string | null;
+    onChange: (value: string) => void;
+    options?: Array<{ value: string; label: string }>;
+    defaultColor?: string;
+}
+
 export interface ToolbarButtonConfig {
     name: string;
     title: string;
     icon: string;
+    activeIcon?: string; // Icon to show when button is active
     action: ToolbarActionType;
     command?: string;
     isActive?: (editor: Editor) => boolean;
     canExecute?: (editor: Editor) => boolean;
-    customAction?: (editor: Editor) => void;
+    customAction?: (editor: Editor) => void | ConfigurationSection[];
     attrs?: Record<string, any>;
     dropdownOptions?: ToolbarDropdownOption[];
     getCurrentValue?: (editor: Editor) => string;
+    configurationSections?: ConfigurationSection[];
 }
 
 export interface ToolbarGroupConfig {
     name: string;
+    presetValue?: 1 | 2 | 3;
     buttons: ToolbarButtonConfig[];
+    parentName?: string;
     showWhen?: (editor: Editor | null) => boolean;
 }
 
@@ -63,6 +85,7 @@ export const ToolbarContext = createContext<ToolbarContextType>({
 export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     {
         name: "history",
+        presetValue: 2,
         buttons: [
             {
                 name: "undo",
@@ -84,6 +107,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     },
     {
         name: "fontStyle",
+        presetValue: 1,
         buttons: [
             {
                 name: "bold",
@@ -125,6 +149,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     },
     {
         name: "fontScript",
+        presetValue: 3,
         buttons: [
             {
                 name: "superscript",
@@ -148,6 +173,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     },
     {
         name: "list",
+        presetValue: 1,
         buttons: [
             {
                 name: "textFormat",
@@ -177,28 +203,37 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     },
     {
         name: "list",
+        presetValue: 1,
         buttons: [
             {
-                name: "listFormat",
-                title: "List Format",
+                name: "bulletList",
+                title: "Bullet List",
                 icon: "List-bullets",
-                action: "dropdown",
-                dropdownOptions: [
-                    { label: "Bullet List", value: "bulletList", command: "toggleBulletList" },
-                    { label: "Numbered List", value: "orderedList", command: "toggleOrderedList" },
-                    { label: "Task List", value: "taskList", command: "toggleTaskList" }
-                ],
-                getCurrentValue: editor => {
-                    if (editor.isActive("bulletList")) return "bulletList";
-                    if (editor.isActive("orderedList")) return "orderedList";
-                    if (editor.isActive("taskList")) return "taskList";
-                    return "";
-                }
+                action: "toggle",
+                command: "toggleBulletList",
+                isActive: editor => editor.isActive("bulletList")
+            },
+            {
+                name: "orderedList",
+                title: "Numbered List",
+                icon: "List-numbers",
+                action: "toggle",
+                command: "toggleOrderedList",
+                isActive: editor => editor.isActive("orderedList")
+            },
+            {
+                name: "taskList",
+                title: "Task List",
+                icon: "Check",
+                action: "toggle",
+                command: "toggleTaskList",
+                isActive: editor => editor.isActive("taskList")
             }
         ]
     },
     {
         name: "indent",
+        presetValue: 1,
         buttons: [
             {
                 name: "decreaseIndent",
@@ -218,45 +253,65 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
                 name: "textDirection",
                 title: "Text Direction",
                 icon: "Left-to-right",
-                action: "dropdown",
-                dropdownOptions: [
-                    { label: "Left to Right", value: "ltr", command: "setTextDirection", attrs: { direction: "ltr" } },
-                    { label: "Right to Left", value: "rtl", command: "setTextDirection", attrs: { direction: "rtl" } }
-                ],
-                getCurrentValue: editor => {
+                activeIcon: "Right-to-left",
+                action: "custom",
+                isActive: editor => {
                     const attrs = editor.getAttributes("paragraph");
-                    if (attrs.dir === "rtl") return "rtl";
-                    return "ltr";
+                    return attrs.dir === "rtl";
+                },
+                customAction: editor => {
+                    const attrs = editor.getAttributes("paragraph");
+                    const isRTL = attrs.dir === "rtl";
+                    (editor.chain().focus() as any).setTextDirection(isRTL ? "ltr" : "rtl").run();
                 }
             }
         ]
     },
     {
         name: "align",
+        presetValue: 2,
         buttons: [
             {
-                name: "textAlign",
-                title: "Text Alignment",
-                icon: "Align-left",
-                action: "dropdown",
-                dropdownOptions: [
-                    { label: "Left", value: "left", command: "setTextAlign", attrs: { textAlign: "left" } },
-                    { label: "Center", value: "center", command: "setTextAlign", attrs: { textAlign: "center" } },
-                    { label: "Right", value: "right", command: "setTextAlign", attrs: { textAlign: "right" } },
-                    { label: "Justify", value: "justify", command: "setTextAlign", attrs: { textAlign: "justify" } }
-                ],
-                getCurrentValue: editor => {
-                    if (editor.isActive({ textAlign: "left" })) return "left";
-                    if (editor.isActive({ textAlign: "center" })) return "center";
-                    if (editor.isActive({ textAlign: "right" })) return "right";
-                    if (editor.isActive({ textAlign: "justify" })) return "justify";
-                    return "left";
-                }
+                name: "alignLeft",
+                title: "Align Left",
+                icon: "Text-align-left",
+                action: "command",
+                command: "setTextAlign",
+                attrs: { textAlign: "left" },
+                isActive: editor => editor.isActive({ textAlign: "left" })
+            },
+            {
+                name: "alignCenter",
+                title: "Align Center",
+                icon: "Text-align-center",
+                action: "command",
+                command: "setTextAlign",
+                attrs: { textAlign: "center" },
+                isActive: editor => editor.isActive({ textAlign: "center" })
+            },
+            {
+                name: "alignRight",
+                title: "Align Right",
+                icon: "Text-align-right",
+                action: "command",
+                command: "setTextAlign",
+                attrs: { textAlign: "right" },
+                isActive: editor => editor.isActive({ textAlign: "right" })
+            },
+            {
+                name: "alignJustify",
+                title: "Align Justify",
+                icon: "Text-align-justify",
+                action: "command",
+                command: "setTextAlign",
+                attrs: { textAlign: "justify" },
+                isActive: editor => editor.isActive({ textAlign: "justify" })
             }
         ]
     },
     {
         name: "fontColor",
+        presetValue: 2,
         buttons: [
             {
                 name: "fontFamily",
@@ -347,6 +402,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     },
     {
         name: "embed",
+        presetValue: 1,
         buttons: [
             {
                 name: "insertLink",
@@ -373,6 +429,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     },
     {
         name: "header",
+        presetValue: 3,
         buttons: [
             {
                 name: "textFormat",
@@ -402,6 +459,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     },
     {
         name: "code",
+        presetValue: 2,
         buttons: [
             {
                 name: "blockquote",
@@ -432,6 +490,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     },
     {
         name: "remove",
+        presetValue: 1,
         buttons: [
             {
                 name: "clearFormatting",
@@ -444,6 +503,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     },
     {
         name: "view",
+        presetValue: 2,
         buttons: [
             {
                 name: "codeView",
@@ -455,6 +515,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
     },
     {
         name: "tableBetter",
+        presetValue: 2,
         buttons: [
             {
                 name: "insertTable",
@@ -469,6 +530,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
 export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
     {
         name: "table-operations",
+        parentName: "tableBetter",
         showWhen: editor => editor?.isActive("table") ?? false,
         buttons: [
             {
@@ -544,19 +606,160 @@ export const SECONDARY_TOOLBAR_GROUP: ToolbarGroupConfig[] = [
                 canExecute: editor => editor.can().splitCell()
             },
             {
-                name: "cellBackgroundColor",
-                title: "Cell Background Color",
-                icon: "Palette",
-                action: "colorPicker",
-                command: "cellBackground"
+                name: "tableConfiguration",
+                title: "Table Configuration",
+                icon: "Table",
+                action: "configurationDropdown",
+                customAction: (editor: Editor) => {
+                    // Configuration sections are created dynamically
+                    return createTableConfigurationSections(editor);
+                }
             },
             {
-                name: "tableBackgroundColor",
-                title: "Table Background Color",
-                icon: "Palette",
-                action: "colorPicker",
-                command: "tableBackground"
+                name: "cellConfiguration",
+                title: "Cell Configuration",
+                icon: "Cell",
+                action: "configurationDropdown",
+                customAction: (editor: Editor) => {
+                    // Configuration sections are created dynamically
+                    return createCellConfigurationSections(editor);
+                }
             }
         ]
     }
 ];
+
+// Toolbar group custom configuration interface
+export interface ToolbarGroupsConfig {
+    history?: boolean;
+    fontStyle?: boolean;
+    fontScript?: boolean;
+    list?: boolean;
+    indent?: boolean;
+    embed?: boolean;
+    align?: boolean;
+    code?: boolean;
+    fontColor?: boolean;
+    header?: boolean;
+    view?: boolean;
+    remove?: boolean;
+    tableBetter?: boolean;
+}
+
+// Mapping from CtItemType to button names
+const CT_ITEM_TO_BUTTON_MAP: Record<CtItemTypeEnum, string | null> = {
+    separator: null, // Special case
+    undo: "undo",
+    redo: "redo",
+    bold: "bold",
+    italic: "italic",
+    underline: "underline",
+    strike: "strike",
+    superScript: "superscript",
+    subScript: "subscript",
+    orderedList: "orderedList",
+    bulletList: "bulletList",
+    lowerAlphaList: null, // Not directly supported in TipTap
+    checkList: "taskList",
+    minIndent: "decreaseIndent",
+    plusIndent: "increaseIndent",
+    direction: "textDirection",
+    link: "insertLink",
+    image: "insertImage",
+    video: "insertVideo",
+    formula: null, // Not implemented in TipTap
+    blockquote: "blockquote",
+    code: "code",
+    codeBlock: "codeBlock",
+    viewCode: "codeView",
+    align: "textAlign", // Left align is part of dropdown
+    centerAlign: "textAlign", // Center align is part of dropdown
+    rightAlign: "textAlign", // Right align is part of dropdown
+    font: "fontFamily",
+    size: "fontSize",
+    color: "textColor",
+    background: "backgroundColor",
+    header: "textFormat",
+    fullscreen: null, // Not implemented
+    clean: "clearFormatting",
+    tableBetter: "insertTable"
+};
+
+// Find button config by name across all toolbar groups
+function findButtonByName(buttonName: string): ToolbarButtonConfig | null {
+    for (const group of TOOLBAR_GROUPS) {
+        const button = group.buttons.find(b => b.name === buttonName);
+        if (button) {
+            return button;
+        }
+    }
+    return null;
+}
+
+// Build advanced custom toolbar from CtItemType list
+export function buildAdvancedToolbar(advancedConfig: AdvancedConfigType[]): ToolbarGroupConfig[] {
+    const groups: ToolbarGroupConfig[] = [];
+    let currentGroup: ToolbarButtonConfig[] = [];
+
+    for (const item of advancedConfig) {
+        if (item.ctItemType === "separator") {
+            // Create a new group when separator is encountered
+            if (currentGroup.length > 0) {
+                groups.push({
+                    name: `custom-group-${groups.length}`,
+                    presetValue: 1,
+                    buttons: currentGroup
+                });
+                currentGroup = [];
+            }
+        } else {
+            // Map CtItemType to button name and find the button config
+            const buttonName = CT_ITEM_TO_BUTTON_MAP[item.ctItemType];
+            if (buttonName) {
+                const button = findButtonByName(buttonName);
+                if (button) {
+                    // Avoid duplicate buttons in the same group
+                    if (!currentGroup.find(b => b.name === button.name)) {
+                        currentGroup.push(button);
+                    }
+                }
+            }
+        }
+    }
+
+    // Add remaining buttons as final group
+    if (currentGroup.length > 0) {
+        groups.push({
+            name: `custom-group-${groups.length}`,
+            presetValue: 1,
+            buttons: currentGroup
+        });
+    }
+
+    return groups;
+}
+
+// Filter toolbar groups based on preset or custom configuration
+export function getFilteredToolbarGroups(
+    preset: PresetEnum,
+    toolbarConfig?: ToolbarConfigEnum,
+    customConfig?: ToolbarGroupsConfig,
+    advancedConfig?: AdvancedConfigType[]
+): ToolbarGroupConfig[] {
+    if (preset === "custom") {
+        // Advanced mode: build custom toolbar from advancedConfig list
+        if (toolbarConfig === "advanced" && advancedConfig && advancedConfig.length > 0) {
+            return buildAdvancedToolbar(advancedConfig);
+        }
+
+        // Basic mode: filter by individual boolean props
+        return TOOLBAR_GROUPS.filter(group => {
+            const key = group.name as keyof ToolbarGroupsConfig;
+            return customConfig?.[key] !== false;
+        });
+    }
+
+    // Filter by presetValue (groups without presetValue are always included)
+    const maxPresetValue = preset === "basic" ? 1 : preset === "standard" ? 2 : 3;
+    return TOOLBAR_GROUPS.filter(group => !group.presetValue || group.presetValue <= maxPresetValue);
+}
