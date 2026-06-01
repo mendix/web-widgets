@@ -1,10 +1,10 @@
-import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react";
 import Compact from "@uiw/react-color-compact";
-import { ReactElement, useState, useEffect, useRef, useContext } from "react";
+import { ReactElement, useState, useRef, useContext } from "react";
 import "./ColorPicker.scss";
 import { useCurrentEditor } from "../../EditorContext";
 import { colorPickerHelpers } from "../helpers/colorPickerHelpers";
 import { ColorPickerCommand, ToolbarButtonConfig, ToolbarContext, ToolbarContextType } from "../ToolbarConfig";
+import { useDropdown } from "../hooks/useDropdown";
 
 export interface ColorPickerProps {
     defaultColor?: string;
@@ -21,30 +21,11 @@ export function ColorPicker({
 }: ColorPickerProps): ReactElement {
     const [color, setColor] = useState(defaultColor);
 
-    const { x, y, strategy, refs } = useFloating({
-        placement: "bottom-start",
-        strategy: "fixed",
-        middleware: [offset(4), flip(), shift({ padding: 8 })],
-        whileElementsMounted: autoUpdate
+    const { refs, floatingStyles } = useDropdown({
+        isOpen: true,
+        onClose,
+        referenceElement
     });
-
-    // Set reference element
-    if (referenceElement && refs.reference.current !== referenceElement) {
-        refs.setReference(referenceElement);
-    }
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent): void => {
-            if (refs.floating.current && !refs.floating.current.contains(event.target as Node)) {
-                onClose();
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [onClose, refs.floating]);
 
     const handleColorChange = (newColor: { hex: string }): void => {
         setColor(newColor.hex);
@@ -52,15 +33,7 @@ export function ColorPicker({
     };
 
     return (
-        <div
-            ref={refs.setFloating}
-            className="color-picker-dropdown"
-            style={{
-                position: strategy,
-                top: y ?? 0,
-                left: x ?? 0
-            }}
-        >
+        <div ref={refs.setFloating} className="color-picker-dropdown" style={floatingStyles}>
             <Compact color={color} onChange={handleColorChange} />
         </div>
     );

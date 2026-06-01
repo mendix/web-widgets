@@ -1,24 +1,31 @@
-import { ReactElement, ReactNode, useState, useEffect } from "react";
+import { ReactElement, ReactNode, useState, useEffect, useMemo } from "react";
 import { useCurrentEditor } from "../EditorContext";
 import { CodeViewToolbarButton } from "./components/CodeView";
 import { ColorPickerToolbarButton } from "./components/ColorPicker";
+import { ConfigurationDropdown } from "./components/ConfigurationDropdown";
 import { DialogToolbarButton } from "./components/Dialog";
 import { TableGridToolbarButton } from "./components/TableGrid";
 import { ToolbarButton } from "./components/ToolbarButton";
 import {
-    TOOLBAR_GROUPS,
     SECONDARY_TOOLBAR_GROUP,
     ToolbarContext,
     DropdownCommand,
     ToolbarGroupConfig,
-    ToolbarButtonConfig
+    ToolbarButtonConfig,
+    getFilteredToolbarGroups,
+    ToolbarGroupsConfig
 } from "./ToolbarConfig";
+import { PresetEnum, ToolbarConfigEnum, AdvancedConfigType } from "../../../typings/RichTextProps";
 import "./Toolbar.scss";
 // eslint-disable-next-line import/order
 import { ToolbarDropdown } from "./components/ToolbarDropdown";
 
 interface ToolbarProps {
     imageSourceContent?: ReactNode;
+    preset?: PresetEnum;
+    toolbarConfig?: ToolbarConfigEnum;
+    toolbarGroups?: ToolbarGroupsConfig;
+    advancedConfig?: AdvancedConfigType[];
 }
 
 interface ToolbarGroupProps extends ToolbarProps {
@@ -50,6 +57,13 @@ function ToolbarButtonFactory(props: ToolbarButtonFactoryProps): ReactElement {
             return <CodeViewToolbarButton key={button.name} config={button} />;
         case "dropdown":
             return <ToolbarDropdown key={button.name} config={button} />;
+        case "configurationDropdown": {
+            // Create configuration sections dynamically using customAction
+            const result = button.customAction ? button.customAction(editor) : [];
+            const sections = Array.isArray(result) ? result : [];
+            const configButton = { ...button, configurationSections: sections };
+            return <ConfigurationDropdown key={button.name} config={configButton} />;
+        }
         default:
             return <ToolbarButton key={button.name} config={button} />;
     }
@@ -97,8 +111,23 @@ function ToolbarRow(props: ToolbarRowProps): ReactElement {
 }
 
 export default function Toolbar(props: ToolbarProps): ReactElement | null {
+    const { preset = "basic", toolbarConfig, toolbarGroups, advancedConfig, imageSourceContent } = props;
     const { editor } = useCurrentEditor();
     const [activeDropdown, setActiveDropdown] = useState<DropdownCommand | null>(null);
+
+    // Filter toolbar groups based on preset and custom configuration
+    const filteredGroups = useMemo(
+        () => getFilteredToolbarGroups(preset, toolbarConfig, toolbarGroups, advancedConfig),
+        [preset, toolbarConfig, toolbarGroups, advancedConfig]
+    );
+
+    const filteredSecondaryGroups = useMemo(
+        () =>
+            SECONDARY_TOOLBAR_GROUP.filter(group =>
+                filteredGroups.some(filteredGroup => filteredGroup.name === group.parentName)
+            ),
+        [filteredGroups]
+    );
 
     if (!editor) {
         return null;
@@ -115,8 +144,8 @@ export default function Toolbar(props: ToolbarProps): ReactElement | null {
     return (
         <ToolbarContext.Provider value={{ activeDropdown, handleDropdownToggle, handleDropdownClose }}>
             <div className="tiptap-toolbar">
-                <ToolbarRow toolbars={TOOLBAR_GROUPS} {...props} />
-                <ToolbarRow toolbars={SECONDARY_TOOLBAR_GROUP} {...props} />
+                <ToolbarRow toolbars={filteredGroups} imageSourceContent={imageSourceContent} />
+                <ToolbarRow toolbars={filteredSecondaryGroups} imageSourceContent={imageSourceContent} />
             </div>
         </ToolbarContext.Provider>
     );

@@ -37,6 +37,7 @@ $rte-brand-primary: #264ae5;
         border: 1px solid $rte-border-color-default;
         border-radius: 4px;
         overflow: hidden;
+        flex-direction: column;
     }
 
     &.form-control-static {

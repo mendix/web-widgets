@@ -17,9 +17,9 @@
             </propertyGroup>
             <propertyGroup caption="General">
                 <systemProperty key="Label" />
-                <property key="enableStatusBar" type="boolean" defaultValue="true">
+                <property key="enableStatusBar" type="boolean" defaultValue="false">
                     <caption>Enable status bar</caption>
-                    <description />
+                    <description>Show a status bar at the bottom of the editor displaying document metrics</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Toolbar">

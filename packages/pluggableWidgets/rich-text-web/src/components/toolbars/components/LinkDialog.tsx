@@ -1,7 +1,7 @@
-import { useFloating, offset, flip, shift } from "@floating-ui/react";
 import { ReactElement, useState, FormEvent, useRef, useEffect } from "react";
 import { useCurrentEditor } from "../../EditorContext";
 import { LinkDialogProps } from "../helpers/toolbarTypes";
+import { useDropdown } from "../hooks/useDropdown";
 import "./Dialog.scss";
 
 export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): ReactElement {
@@ -22,25 +22,11 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
     const urlInputRef = useRef<HTMLInputElement>(null);
     const dialogRef = useRef<HTMLDivElement>(null);
 
-    const { x, y, strategy, refs } = useFloating({
-        placement: "bottom-start",
-        strategy: "fixed",
-        middleware: [offset(4), flip(), shift({ padding: 8 })],
-        elements: {
-            reference: referenceElement
-        }
+    const { refs, floatingStyles } = useDropdown({
+        isOpen: true,
+        onClose,
+        referenceElement
     });
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent): void => {
-            if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
-                onClose();
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [onClose]);
 
     useEffect(() => {
         // Focus URL input when dialog opens
@@ -91,15 +77,7 @@ export function LinkDialog({ onClose, referenceElement }: LinkDialogProps): Reac
     };
 
     return (
-        <div
-            ref={refs.setFloating}
-            style={{
-                position: strategy,
-                top: y ?? 0,
-                left: x ?? 0,
-                zIndex: 1000
-            }}
-        >
+        <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 1000 }}>
             <div ref={dialogRef} className="toolbar-dialog">
                 <form onSubmit={handleSubmit}>
                     <h3>{existingLink.href ? "Edit Link" : "Insert Link"}</h3>
