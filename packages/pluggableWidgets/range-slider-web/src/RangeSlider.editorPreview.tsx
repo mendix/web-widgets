@@ -11,11 +11,13 @@ export function getPreviewCss(): string {
 
 export function preview(props: RangeSliderPreviewProps): ReactNode {
     const { min, max, step, value } = getPreviewValues(props);
+    const decimalPlaces = props.decimalPlaces ?? 0;
     const marks = createMarks({
         min,
         max,
         numberOfMarks: props.noOfMarkers ?? 1,
-        decimalPlaces: props.decimalPlaces ?? 0
+        decimalPlaces,
+        format: (v: number) => v.toFixed(decimalPlaces)
     });
 
     const style = getStyleProp({
