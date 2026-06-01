@@ -1,5 +1,7 @@
+import { NumberFormatter } from "mendix";
 import { ReactElement, useMemo, useRef } from "react";
 import { RangeSliderContainerProps } from "../../typings/RangeSliderProps";
+import { createValueFormatter } from "../utils/helpers";
 import { useNumber } from "../utils/useNumber";
 import { RangeSlider as RangeComponent } from "./RangeSlider";
 import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
@@ -41,9 +43,22 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
 
     const { onChange } = useOnChangeDebounced({ lowerBoundAttribute, upperBoundAttribute, onChange: props.onChange });
 
+    const formatLower = useMemo(
+        () => createValueFormatter(lowerBoundAttribute.formatter as NumberFormatter, props.decimalPlaces),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [lowerBoundAttribute.formatter, props.decimalPlaces]
+    );
+
+    const formatUpper = useMemo(
+        () => createValueFormatter(upperBoundAttribute.formatter as NumberFormatter, props.decimalPlaces),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [upperBoundAttribute.formatter, props.decimalPlaces]
+    );
+
     const marks = useMarks({
         noOfMarkers: props.noOfMarkers,
         decimalPlaces: props.decimalPlaces,
+        format: formatLower,
         min,
         max
     });
@@ -73,7 +88,10 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
             max={props.max}
             handleRender={(node, handleProps) => {
                 const isCustomText = tooltipTypeCheck[handleProps.index] === "customText";
-                const displayValue = isCustomText ? (tooltipValue[handleProps.index]?.value ?? "") : handleProps.value;
+                const fmt = handleProps.index === 0 ? formatLower : formatUpper;
+                const displayValue = isCustomText
+                    ? (tooltipValue[handleProps.index]?.value ?? "")
+                    : fmt(handleProps.value);
                 return (
                     <HandleTooltip
                         value={displayValue}
