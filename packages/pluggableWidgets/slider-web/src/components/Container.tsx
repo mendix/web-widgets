@@ -1,10 +1,10 @@
 import { NumberFormatter } from "mendix";
 import { ReactElement, useMemo, useRef } from "react";
-import { SliderContainerProps } from "../../typings/SliderProps";
-
+import { createValueFormatter } from "@mendix/widget-plugin-platform/utils/number-formatter";
 import { Slider as SliderComponent } from "./Slider";
+import { SliderContainerProps } from "../../typings/SliderProps";
 import { createHandleRender } from "../utils/createHandleRender";
-import { createValueFormatter, getSliderLabel } from "../utils/helpers";
+import { getSliderLabel } from "../utils/helpers";
 import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
 import { useMarks } from "../utils/useMarks";
 import { useNumber } from "../utils/useNumber";

@@ -1,14 +1,14 @@
 import { NumberFormatter } from "mendix";
 import { ReactElement, useMemo, useRef } from "react";
-import { RangeSliderContainerProps } from "../../typings/RangeSliderProps";
-import { createValueFormatter } from "../utils/helpers";
-import { useNumber } from "../utils/useNumber";
-import { RangeSlider as RangeComponent } from "./RangeSlider";
-import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
-import { useMarks } from "../utils/useMarks";
-import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
 import { useScheduleUpdateOnce } from "@mendix/widget-plugin-hooks/useScheduleUpdateOnce";
+import { createValueFormatter } from "@mendix/widget-plugin-platform/utils/number-formatter";
+import { RangeSlider as RangeComponent } from "./RangeSlider";
 import { HandleTooltip } from "./TooltipHandler";
+import { RangeSliderContainerProps } from "../../typings/RangeSliderProps";
+import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
+import { useMarks } from "../utils/useMarks";
+import { useNumber } from "../utils/useNumber";
+import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
 
 export function Container(props: RangeSliderContainerProps): ReactElement {
     const min = useNumber(minProp(props));

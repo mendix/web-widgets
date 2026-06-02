@@ -1,7 +1,6 @@
 import { useMemo } from "react";
-import { ValueFormatter } from "./helpers";
-import { createMarks } from "./marks";
-import type { ValueFormatter } from "./helpers";
+import type { ValueFormatter } from "@mendix/widget-plugin-platform/utils/number-formatter";
+import { createMarks } from "@mendix/widget-plugin-platform/utils/slider-marks";
 
 type UseMarksParams = {
     noOfMarkers: number;

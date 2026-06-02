@@ -2,7 +2,7 @@ import { SliderProps as RcSliderProps } from "@rc-component/slider";
 import RcTooltip from "@rc-component/tooltip";
 import { DynamicValue } from "mendix";
 import { RefObject } from "react";
-import { ValueFormatter } from "./helpers";
+import { type ValueFormatter } from "@mendix/widget-plugin-platform/utils/number-formatter";
 
 import "@rc-component/tooltip/assets/bootstrap.css";
 

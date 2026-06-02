@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
+import { createMarks } from "@mendix/widget-plugin-platform/utils/slider-marks";
 import { RangeSliderPreviewProps } from "../typings/RangeSliderProps";
 import { RangeSlider } from "./components/RangeSlider";
-import { createMarks } from "./utils/marks";
 import { getPreviewValues } from "./utils/getPreviewValues";
 import { getStyleProp, isVertical } from "./utils/prop-utils";
 

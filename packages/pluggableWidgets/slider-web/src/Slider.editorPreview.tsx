@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
+import { createMarks } from "@mendix/widget-plugin-platform/utils/slider-marks";
 import { Slider } from "./components/Slider";
 import { SliderPreviewProps } from "../typings/SliderProps";
 import { getPreviewValues } from "./utils/getPreviewValues";
-import { createMarks } from "./utils/marks";
 import { getStyleProp, isVertical } from "./utils/prop-utils";
 
 export function getPreviewCss(): string {
