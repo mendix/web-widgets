@@ -1,3 +1,4 @@
+import path from "path";
 import { test, expect } from "@mendix/run-e2e/fixtures";
 import { waitForWidget, waitFrames } from "@mendix/run-e2e/mendix-helpers";
 
@@ -111,25 +112,45 @@ test.describe("External video", () => {
     });
 
     test("renders a poster", async ({ page }) => {
+        // Intercept the external video URL and serve a local stub so the test
+        // doesn't depend on third-party CDN availability in CI.
+        await page.route("**/*.mp4", route =>
+            route.fulfill({
+                status: 200,
+                contentType: "video/mp4",
+                path: path.join(import.meta.dirname, "fixtures/stub.mp4")
+            })
+        );
+        // Reload so the intercepted route applies to the video element fetch.
+        await page.reload();
+
         const widget = page.locator(".widget-video-player");
         const videoLocator = page.locator(".widget-video-player video");
         await widget.scrollIntoViewIfNeeded();
         await expect(widget).toBeVisible();
         await expect(videoLocator).toHaveAttribute("poster", /.+/);
-        // Wait for poster image to decode in-page before screenshotting.
-        // page.evaluate with a separate Image() is unreliable — the promise can
-        // resolve before the <video> element itself has rendered the poster frame.
-        await videoLocator.evaluate(el =>
-            el.poster
-                ? new Promise(r => {
-                      const i = new Image();
-                      i.onload = i.onerror = r;
-                      i.src = el.poster;
-                      if (i.complete) r();
-                  })
-                : Promise.resolve()
-        );
-        // Wait two animation frames so the browser flushes layout and paints the poster frame.
+        // Wait for the video element to reach HAVE_METADATA (readyState >= 1).
+        // Until metadata loads, Chrome renders the <video> without its native chrome
+        // (controls bar, dark background) — producing a screenshot that doesn't match
+        // the baseline. Guard against a pre-existing error to avoid waiting forever
+        // when onerror already fired before we attach the listener.
+        await videoLocator.evaluate(el => {
+            if (el.readyState >= 1) {
+                return Promise.resolve();
+            }
+            if (el.error !== null) {
+                return Promise.reject(new Error("Video failed to load metadata before screenshot"));
+            }
+            return new Promise((resolve, reject) => {
+                el.addEventListener("loadedmetadata", resolve, { once: true });
+                el.addEventListener(
+                    "error",
+                    () => reject(new Error("Video failed to load metadata before screenshot")),
+                    { once: true }
+                );
+            });
+        });
+        // Flush layout and paint after metadata is ready.
         await waitFrames(page, 2);
         await expect(widget).toHaveScreenshot("videoPlayerExternalPoster.png");
     });
