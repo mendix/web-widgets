@@ -13,7 +13,6 @@ const defaultRenderProps = {
 
 const mockNode = <div />;
 
-// Deterministic stand-in for createValueFormatter's output.
 const formatWith =
     (decimalPlaces: number, decimalSeparator = ".") =>
     (value: number): string => {

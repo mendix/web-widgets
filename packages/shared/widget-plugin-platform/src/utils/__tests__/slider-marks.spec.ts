@@ -1,6 +1,5 @@
-import { createMarks } from "../marks";
+import { createMarks } from "../slider-marks";
 
-// Simple deterministic formatter standing in for createValueFormatter's output.
 const formatWith =
     (decimalPlaces: number, decimalSeparator = ".") =>
     (value: number): string => {
@@ -52,8 +51,6 @@ describe("createMarks", () => {
     });
 
     it("rounds mark keys to the configured decimal places so dots align with their labels", () => {
-        // 9 intervals over 0..20 yields repeating decimals (e.g. 6.6667). The key must be the
-        // rounded value (6.7) so rc-slider positions the dot where the label reads.
         const marks = createMarks({ numberOfMarks: 9, decimalPlaces: 1, format: formatWith(1), min: 0, max: 20 });
         expect(Object.keys(marks!)).toContain("6.7");
         expect(Object.keys(marks!)).not.toContain("6.666666666666667");

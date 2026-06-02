@@ -1,8 +1,8 @@
 import { NumberFormatter } from "mendix";
 import { ReactElement, useMemo, useRef } from "react";
+import { SliderContainerProps } from "../../typings/SliderProps";
 
 import { Slider as SliderComponent } from "./Slider";
-import { SliderContainerProps } from "../../typings/SliderProps";
 import { createHandleRender } from "../utils/createHandleRender";
 import { createValueFormatter, getSliderLabel } from "../utils/helpers";
 import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
@@ -33,6 +33,7 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
 
     const format = useMemo(
         () => createValueFormatter(props.valueAttribute.formatter as NumberFormatter, props.decimalPlaces),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [props.valueAttribute.formatter, props.decimalPlaces]
     );
 

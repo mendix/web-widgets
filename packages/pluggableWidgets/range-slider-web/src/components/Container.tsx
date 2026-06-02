@@ -43,22 +43,16 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
 
     const { onChange } = useOnChangeDebounced({ lowerBoundAttribute, upperBoundAttribute, onChange: props.onChange });
 
-    const formatLower = useMemo(
+    const format = useMemo(
         () => createValueFormatter(lowerBoundAttribute.formatter as NumberFormatter, props.decimalPlaces),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [lowerBoundAttribute.formatter, props.decimalPlaces]
     );
 
-    const formatUpper = useMemo(
-        () => createValueFormatter(upperBoundAttribute.formatter as NumberFormatter, props.decimalPlaces),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [upperBoundAttribute.formatter, props.decimalPlaces]
-    );
-
     const marks = useMarks({
         noOfMarkers: props.noOfMarkers,
         decimalPlaces: props.decimalPlaces,
-        format: formatLower,
+        format,
         min,
         max
     });
@@ -88,10 +82,9 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
             max={props.max}
             handleRender={(node, handleProps) => {
                 const isCustomText = tooltipTypeCheck[handleProps.index] === "customText";
-                const fmt = handleProps.index === 0 ? formatLower : formatUpper;
                 const displayValue = isCustomText
                     ? (tooltipValue[handleProps.index]?.value ?? "")
-                    : fmt(handleProps.value);
+                    : format(handleProps.value);
                 return (
                     <HandleTooltip
                         value={displayValue}

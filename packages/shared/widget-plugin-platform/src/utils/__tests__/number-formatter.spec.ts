@@ -1,6 +1,6 @@
 import { Big } from "big.js";
 import { NumberFormatter } from "mendix";
-import { createValueFormatter } from "../helpers";
+import { createValueFormatter } from "../number-formatter";
 
 function fakeNumberFormatter(
     config: { groupDigits: boolean; decimalPrecision?: number },

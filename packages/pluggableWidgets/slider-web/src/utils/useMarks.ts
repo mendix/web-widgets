@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { ValueFormatter } from "./helpers";
 import { createMarks } from "./marks";
+import type { ValueFormatter } from "./helpers";
 
 type UseMarksParams = {
     noOfMarkers: number;
