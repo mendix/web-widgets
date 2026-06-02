@@ -1,9 +1,9 @@
 {
     "include": ["./src", "./bin"],
     "compilerOptions": {
-        "lib": ["ES2021"],
+        "lib": ["ES2022"],
         "module": "CommonJS",
-        "target": "ES2021",
+        "target": "ES2022",
         "types": ["node"],
         "outDir": "./dist",
         "strict": true,
