@@ -6,7 +6,8 @@ You are helping the developer write or improve Playwright e2e specs for a Mendix
 
 - Specs live at: `packages/pluggableWidgets/<widget>/e2e/*.spec.js`
 - Playwright strict mode is ON
-- Full rules: `docs/requirements/e2e-test-guidelines.md`
+
+> `<widget>` throughout this document is the package folder name, e.g. `badge-web`, `datagrid-web`.
 
 ## Discovering selectors and navigation from the test project
 
@@ -14,7 +15,7 @@ Before writing selectors, look up the actual widget names and menu labels in the
 
 ```bash
 # Full overview: modules, pages, entities, navigation menu labels
-bash automation/mxcli/mx-testproject.sh inspect <widget>
+bash automation/mxcli/mx-testproject.sh inspect badge-web   # replace with actual widget name
 
 # Widget structure of a specific page (reveals .mx-name-* values)
 bash automation/mxcli/mx-testproject.sh exec <widget> "DESCRIBE PAGE <Module>.<PageName>"
@@ -23,7 +24,7 @@ bash automation/mxcli/mx-testproject.sh exec <widget> "DESCRIBE PAGE <Module>.<P
 bash automation/mxcli/mx-testproject.sh list-pages <widget>
 
 # Search for a widget name across all project strings
-bash automation/mxcli/mx-testproject.sh search <widget> "<keyword>"
+bash automation/mxcli/mx-testproject.sh search <widget> 'keyword'
 ```
 
 The `inspect` output includes `DESCRIBE NAVIGATION Responsive` at the end — use those exact strings in `page.getByRole("menuitem", { name: "..." })`.
@@ -41,16 +42,18 @@ Standard naming convention per widget:
 
 ```bash
 # Full CI run (Docker):
-pnpm --filter @mendix/<widget> run e2e
+pnpm --filter @mendix/badge-web run e2e   # replace with actual widget name
 
-# Skip re-downloading the test project:
+# Skip re-downloading the test project (useful when iterating locally):
 pnpm --filter @mendix/<widget> run e2e --no-setup-project
 
-# Skip re-downloading and rebuilding:
+# Skip re-downloading and rebuilding (fastest iteration; requires local test project files):
 pnpm --filter @mendix/<widget> run e2e --no-setup-project --no-update-project
 ```
 
 ⚠️ Pass flags directly — do NOT use `pnpm run e2e -- --no-setup-project`. The `--` separator causes yargs-parser to ignore the flags.
+
+> Use `--no-setup-project --no-update-project` when you have the test project files locally and want to commit them to the `testProjects` repository after confirming tests pass.
 
 ## Checklist
 

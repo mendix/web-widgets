@@ -84,7 +84,10 @@ case "$SUBCOMMAND" in
             | grep '^|' | grep -v '| Module ' | grep -v '^|---' \
             | grep -v '| System ' | grep -v '| Atlas_' \
             | awk -F'|' 'NR==1{gsub(/ /,"",$2); print $2}' || true)"
-        if [[ -n "$MODULE" ]]; then
+        if [[ -z "$MODULE" ]]; then
+            echo "Warning: could not auto-detect a non-System/non-Atlas module." >&2
+            echo "Run: bash automation/mxcli/mx-testproject.sh exec ${WIDGET} \"SHOW MODULES\"" >&2
+        else
             echo "=== Pages in ${MODULE} ==="
             run_mdl "SHOW PAGES IN ${MODULE}"
             echo ""
@@ -112,6 +115,7 @@ case "$SUBCOMMAND" in
             echo "Usage: exec <widget> \"<MDL statement>\"" >&2
             exit 1
         fi
+        echo "⚠️  Applying MDL directly — no diff preview. Use 'diff' subcommand first for mutating statements." >&2
         run_mdl "$MDL"
         ;;
     search)
