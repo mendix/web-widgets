@@ -12,11 +12,11 @@ test.describe("Range Slider", () => {
     });
 
     test("renders slider min value text", async ({ page }) => {
-        await expect(page.locator(".mx-name-rangeSlider1 .rc-slider-mark-text").first()).toHaveText("0");
+        await expect(page.locator(".mx-name-rangeSlider1 .rc-slider-mark-text").first()).toHaveText("0.0");
     });
 
     test("renders slider max value text", async ({ page }) => {
-        await expect(page.locator(".mx-name-rangeSlider1 .rc-slider-mark-text").nth(1)).toHaveText("100");
+        await expect(page.locator(".mx-name-rangeSlider1 .rc-slider-mark-text").nth(1)).toHaveText("100.0");
     });
 
     test("upper bound value is higher than lower bound value", async ({ page }) => {
