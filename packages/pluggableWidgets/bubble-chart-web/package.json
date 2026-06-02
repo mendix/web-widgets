@@ -29,6 +29,8 @@
         "build": "pluggable-widgets-tools build:ts",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
+        "e2e": "run-e2e ci",
+        "e2edev": "run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "release": "pluggable-widgets-tools release:web",
@@ -49,6 +51,7 @@
         "@mendix/eslint-config-web-widgets": "workspace:*",
         "@mendix/pluggable-widgets-tools": "*",
         "@mendix/prettier-config-web-widgets": "workspace:*",
+        "@mendix/run-e2e": "workspace:*",
         "@mendix/widget-plugin-platform": "workspace:*",
         "@mendix/widget-plugin-test-utils": "workspace:*"
     }
