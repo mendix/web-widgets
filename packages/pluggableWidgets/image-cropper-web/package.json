@@ -1,6 +1,6 @@
 {
-    "name": "@mendix/image-crop-web",
-    "widgetName": "ImageCrop",
+    "name": "@mendix/image-cropper-web",
+    "widgetName": "ImageCropper",
     "version": "1.0.0",
     "description": "Crop images bound to a Mendix image attribute",
     "copyright": "© Mendix Technology BV 2026. All rights reserved.",
@@ -11,20 +11,20 @@
     },
     "config": {},
     "mxpackage": {
-        "name": "ImageCrop",
+        "name": "ImageCropper",
         "type": "widget",
-        "mpkName": "com.mendix.widget.web.ImageCrop.mpk"
+        "mpkName": "com.mendix.widget.web.ImageCropper.mpk"
     },
     "packagePath": "com.mendix.widget.web",
     "marketplace": {
         "minimumMXVersion": "10.21.0",
-        "appName": "Image Crop",
+        "appName": "Image Cropper",
         "appNumber": 1,
         "reactReady": true
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "image-crop-web"
+        "branchName": "image-cropper"
     },
     "scripts": {
         "build": "pluggable-widgets-tools build:web",

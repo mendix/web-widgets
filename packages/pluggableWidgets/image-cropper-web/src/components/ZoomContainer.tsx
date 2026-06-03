@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { Dispatch, ReactElement, ReactNode, SetStateAction, useEffect, useRef } from "react";
-import { WheelZoomModeEnum } from "../../typings/ImageCropProps";
+import { WheelZoomModeEnum } from "../../typings/ImageCropperProps";
 import { useWheelZoom } from "../hooks/useWheelZoom";
 
 interface ZoomContainerProps {
@@ -35,8 +35,8 @@ export function ZoomContainer(props: ZoomContainerProps): ReactElement {
     return (
         <div
             ref={containerRef}
-            className={classNames("widget-image-crop__canvas", {
-                "widget-image-crop__canvas--circle": props.circular
+            className={classNames("widget-image-cropper__canvas", {
+                "widget-image-cropper__canvas--circle": props.circular
             })}
             style={{ maxWidth: props.boundaryWidth, maxHeight: props.boundaryHeight }}
         >

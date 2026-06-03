@@ -3,18 +3,18 @@ import {
     StructurePreviewProps,
     structurePreviewPalette
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import { ImageCropPreviewProps } from "../typings/ImageCropProps";
+import { ImageCropperPreviewProps } from "../typings/ImageCropperProps";
 import CropIconSvg from "./assets/crop-icon.svg";
 
-export function getProperties(values: ImageCropPreviewProps, defaultProperties: Properties): Properties {
-    const propsToHide: Array<keyof ImageCropPreviewProps> = [];
+export function getProperties(values: ImageCropperPreviewProps, defaultProperties: Properties): Properties {
+    const propsToHide: Array<keyof ImageCropperPreviewProps> = [];
 
     if (values.aspectRatio !== "custom") {
         propsToHide.push("customAspectWidth", "customAspectHeight");
     }
 
     if (!values.zoomEnabled) {
-        propsToHide.push("wheelZoomMode", "minZoom", "maxZoom");
+        propsToHide.push("showZoomSlider", "wheelZoomMode", "minZoom", "maxZoom");
     }
 
     if (!values.showPreview) {
@@ -29,7 +29,7 @@ export function getProperties(values: ImageCropPreviewProps, defaultProperties: 
     return defaultProperties;
 }
 
-export function getPreview(values: ImageCropPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+export function getPreview(values: ImageCropperPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const iconDocument = decodeURIComponent(CropIconSvg.replace("data:image/svg+xml,", ""));
 
@@ -63,7 +63,7 @@ export function getPreview(values: ImageCropPreviewProps, isDarkMode: boolean): 
                         children: [
                             {
                                 type: "Text",
-                                content: "Image Crop",
+                                content: "Image Cropper",
                                 bold: true,
                                 fontColor: palette.text.primary,
                                 fontSize: 10
@@ -82,12 +82,12 @@ export function getPreview(values: ImageCropPreviewProps, isDarkMode: boolean): 
     };
 }
 
-export function getCustomCaption(values: ImageCropPreviewProps): string {
+export function getCustomCaption(values: ImageCropperPreviewProps): string {
     const shape = values.cropShape === "circle" ? "Circle" : "Rectangle";
-    return `Image Crop (${shape})`;
+    return `Image Cropper (${shape})`;
 }
 
-function describeConfig(values: ImageCropPreviewProps): string {
+function describeConfig(values: ImageCropperPreviewProps): string {
     const parts: string[] = [];
     parts.push(values.cropShape === "circle" ? "Circle" : "Rectangle");
     parts.push(aspectLabel(values));
@@ -95,7 +95,7 @@ function describeConfig(values: ImageCropPreviewProps): string {
     return parts.join(" · ");
 }
 
-function aspectLabel(values: ImageCropPreviewProps): string {
+function aspectLabel(values: ImageCropperPreviewProps): string {
     switch (values.aspectRatio) {
         case "free":
             return "Free aspect";

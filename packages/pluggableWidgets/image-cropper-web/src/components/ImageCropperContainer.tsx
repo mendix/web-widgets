@@ -1,41 +1,32 @@
 import classNames from "classnames";
 import { ValueStatus } from "mendix";
-import { ReactElement, useCallback, useEffect } from "react";
+import { ReactElement, SetStateAction, useCallback, useEffect, useRef } from "react";
 import { type Crop, type PixelCrop } from "react-image-crop";
 import { CropArea } from "./CropArea";
-import { CropButton } from "./CropButton";
 import { PreviewPane } from "./PreviewPane";
 import { ZoomSlider } from "./ZoomSlider";
-import { ImageCropContainerProps } from "../../typings/ImageCropProps";
-import { useImageCropState } from "../hooks/useImageCropState";
+import { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
+import { useAutoApplyCrop } from "../hooks/useAutoApplyCrop";
+import { useImageCropperState } from "../hooks/useImageCropperState";
 import { resolveAspectRatio } from "../utils/aspectRatio";
 import { cropImage, CropError } from "../utils/cropImage";
 
-export function ImageCropContainer(props: ImageCropContainerProps): ReactElement | null {
-    const state = useImageCropState(Number(props.minZoom));
+export function ImageCropperContainer(props: ImageCropperContainerProps): ReactElement | null {
+    const state = useImageCropperState(Number(props.minZoom));
 
     const { setZoom, setCrop, setCompletedCrop } = state;
 
-    const handleImageLoad = useCallback(
-        (percentCrop: Crop, pixelCrop: PixelCrop) => {
-            setZoom(Number(props.minZoom));
-            setCrop(percentCrop);
-            setCompletedCrop(pixelCrop);
-        },
-        [setZoom, setCrop, setCompletedCrop, props.minZoom]
-    );
+    const completedCropRef = useRef<PixelCrop | undefined>(undefined);
+    completedCropRef.current = state.completedCrop;
+    const zoomRef = useRef(state.zoom);
+    zoomRef.current = state.zoom;
 
-    const uri = props.image.status === ValueStatus.Available ? props.image.value?.uri : undefined;
-    useEffect(() => {
-        setCrop(undefined);
-        setCompletedCrop(undefined);
-    }, [uri, setCrop, setCompletedCrop]);
-
-    const handleCrop = useCallback(async () => {
+    const applyCrop = useCallback(async () => {
         const img = state.imageRef.current;
+        const completedCrop = completedCropRef.current;
         if (
             !img ||
-            !state.completedCrop ||
+            !completedCrop ||
             props.image.readOnly ||
             props.image.status !== ValueStatus.Available ||
             !props.image.value
@@ -45,8 +36,8 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
         try {
             const file = await cropImage({
                 image: img,
-                pixelCrop: state.completedCrop,
-                zoom: state.zoom,
+                pixelCrop: completedCrop,
+                zoom: zoomRef.current,
                 outputFormat: props.outputFormat,
                 outputQuality: Number(props.outputQuality),
                 outputSize: props.outputSize,
@@ -64,14 +55,13 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
             }
         } catch (err) {
             if (err instanceof CropError) {
-                console.error("[image-crop-web]", err.message);
+                console.error("[image-cropper-web] CropError:", err.message);
             } else {
+                console.error("[image-cropper-web] unexpected error:", err);
                 throw err;
             }
         }
     }, [
-        state.completedCrop,
-        state.zoom,
         state.imageRef,
         props.image,
         props.outputFormat,
@@ -83,23 +73,59 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
         props.onCropAction
     ]);
 
+    const auto = useAutoApplyCrop(applyCrop);
+    const { armed } = auto;
+
+    const handleImageLoad = useCallback(
+        (percentCrop: Crop, pixelCrop: PixelCrop) => {
+            setZoom(Number(props.minZoom));
+            setCrop(percentCrop);
+            setCompletedCrop(pixelCrop);
+            armed();
+        },
+        [setZoom, setCrop, setCompletedCrop, props.minZoom, armed]
+    );
+
+    const uri = props.image.status === ValueStatus.Available ? props.image.value?.uri : undefined;
+    useEffect(() => {
+        setCrop(undefined);
+        setCompletedCrop(undefined);
+        armed();
+    }, [uri, setCrop, setCompletedCrop, armed]);
+
+    const handleCropComplete = useCallback(
+        (pixelCrop: PixelCrop) => {
+            completedCropRef.current = pixelCrop;
+            setCompletedCrop(pixelCrop);
+            auto.applyNow();
+        },
+        [setCompletedCrop, auto]
+    );
+
+    const handleZoomChange = useCallback(
+        (next: SetStateAction<number>) => {
+            setZoom(next);
+            auto.applyDebounced();
+        },
+        [setZoom, auto]
+    );
+
     if (props.image.status === ValueStatus.Loading) {
-        return <div className="widget-image-crop widget-image-crop--loading" aria-busy="true" />;
+        return <div className="widget-image-cropper widget-image-cropper--loading" aria-busy="true" />;
     }
     if (props.image.status !== ValueStatus.Available || !props.image.value) {
-        return <div className="widget-image-crop widget-image-crop--empty">No image</div>;
+        return <div className="widget-image-cropper widget-image-cropper--empty">No image</div>;
     }
 
     const aspect = resolveAspectRatio(props.aspectRatio, props.customAspectWidth, props.customAspectHeight);
-    const caption = props.cropButtonCaption?.value ?? "Crop";
 
     return (
-        <div className={classNames("widget-image-crop", props.class)} style={props.style}>
+        <div className={classNames("widget-image-cropper", props.class)} style={props.style}>
             <CropArea
                 src={props.image.value.uri}
                 crop={state.crop}
                 onCropChange={state.setCrop}
-                onCropComplete={state.setCompletedCrop}
+                onCropComplete={handleCropComplete}
                 aspect={aspect}
                 circular={props.cropShape === "circle"}
                 resizable={props.resizableEnabled}
@@ -109,16 +135,16 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
                 zoom={state.zoom}
                 minZoom={Number(props.minZoom)}
                 maxZoom={Number(props.maxZoom)}
-                setZoom={state.setZoom}
+                setZoom={handleZoomChange}
                 wheelZoomMode={props.wheelZoomMode}
                 imageRef={state.imageRef}
             />
-            {props.zoomEnabled ? (
+            {props.zoomEnabled && props.showZoomSlider ? (
                 <ZoomSlider
                     zoom={state.zoom}
                     minZoom={Number(props.minZoom)}
                     maxZoom={Number(props.maxZoom)}
-                    onChange={state.setZoom}
+                    onChange={handleZoomChange}
                 />
             ) : null}
             {props.showPreview ? (
@@ -131,11 +157,6 @@ export function ImageCropContainer(props: ImageCropContainerProps): ReactElement
                     circle={props.cropShape === "circle"}
                 />
             ) : null}
-            <CropButton
-                caption={caption}
-                disabled={props.image.readOnly || !state.completedCrop}
-                onClick={handleCrop}
-            />
         </div>
     );
 }

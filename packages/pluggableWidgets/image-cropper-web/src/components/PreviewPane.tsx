@@ -59,5 +59,5 @@ export function PreviewPane({ image, pixelCrop, zoom, width, height, circle }: P
         }
     }, [image, pixelCrop, zoom, width, height, circle]);
 
-    return <canvas ref={canvasRef} className="widget-image-crop__preview" width={width} height={height} />;
+    return <canvas ref={canvasRef} className="widget-image-cropper__preview" width={width} height={height} />;
 }

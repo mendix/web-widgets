@@ -1,4 +1,4 @@
-import { AspectRatioEnum } from "../../typings/ImageCropProps";
+import { AspectRatioEnum } from "../../typings/ImageCropperProps";
 
 export function resolveAspectRatio(
     aspect: AspectRatioEnum,

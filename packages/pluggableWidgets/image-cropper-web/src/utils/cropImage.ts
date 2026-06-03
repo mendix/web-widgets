@@ -1,5 +1,5 @@
 import type { PixelCrop } from "react-image-crop";
-import type { CropShapeEnum, OutputFormatEnum, OutputSizeEnum } from "../../typings/ImageCropProps";
+import type { CropShapeEnum, OutputFormatEnum, OutputSizeEnum } from "../../typings/ImageCropperProps";
 
 export class CropError extends Error {
     constructor(message: string) {

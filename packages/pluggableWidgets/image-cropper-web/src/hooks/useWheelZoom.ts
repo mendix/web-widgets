@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useCallback } from "react";
-import { WheelZoomModeEnum } from "../../typings/ImageCropProps";
+import { WheelZoomModeEnum } from "../../typings/ImageCropperProps";
 
 interface UseWheelZoomArgs {
     mode: WheelZoomModeEnum;

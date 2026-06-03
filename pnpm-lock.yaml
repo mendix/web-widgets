@@ -1758,7 +1758,7 @@ importers:
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
 
-  packages/pluggableWidgets/image-crop-web:
+  packages/pluggableWidgets/image-cropper-web:
     dependencies:
       classnames:
         specifier: ^2.5.1

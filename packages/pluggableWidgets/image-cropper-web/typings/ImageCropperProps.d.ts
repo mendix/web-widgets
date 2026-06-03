@@ -1,10 +1,10 @@
 /**
- * This file was generated from ImageCrop.xml
+ * This file was generated from ImageCropper.xml
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, EditableImageValue, WebImage } from "mendix";
+import { ActionValue, EditableImageValue, WebImage } from "mendix";
 import { Big } from "big.js";
 
 export type CropShapeEnum = "rect" | "circle";
@@ -17,7 +17,7 @@ export type OutputFormatEnum = "png" | "jpeg";
 
 export type OutputSizeEnum = "viewport" | "original";
 
-export interface ImageCropContainerProps {
+export interface ImageCropperContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
@@ -27,24 +27,24 @@ export interface ImageCropContainerProps {
     aspectRatio: AspectRatioEnum;
     customAspectWidth: number;
     customAspectHeight: number;
+    onCropAction?: ActionValue;
     boundaryWidth: number;
     boundaryHeight: number;
-    resizableEnabled: boolean;
-    zoomEnabled: boolean;
-    wheelZoomMode: WheelZoomModeEnum;
-    minZoom: Big;
-    maxZoom: Big;
     showPreview: boolean;
     previewWidth: number;
     previewHeight: number;
+    resizableEnabled: boolean;
+    zoomEnabled: boolean;
+    showZoomSlider: boolean;
+    wheelZoomMode: WheelZoomModeEnum;
+    minZoom: Big;
+    maxZoom: Big;
     outputFormat: OutputFormatEnum;
     outputQuality: Big;
     outputSize: OutputSizeEnum;
-    cropButtonCaption?: DynamicValue<string>;
-    onCropAction?: ActionValue;
 }
 
-export interface ImageCropPreviewProps {
+export interface ImageCropperPreviewProps {
     /**
      * @deprecated Deprecated since version 9.18.0. Please use class property instead.
      */
@@ -60,19 +60,19 @@ export interface ImageCropPreviewProps {
     aspectRatio: AspectRatioEnum;
     customAspectWidth: number | null;
     customAspectHeight: number | null;
+    onCropAction: {} | null;
     boundaryWidth: number | null;
     boundaryHeight: number | null;
-    resizableEnabled: boolean;
-    zoomEnabled: boolean;
-    wheelZoomMode: WheelZoomModeEnum;
-    minZoom: number | null;
-    maxZoom: number | null;
     showPreview: boolean;
     previewWidth: number | null;
     previewHeight: number | null;
+    resizableEnabled: boolean;
+    zoomEnabled: boolean;
+    showZoomSlider: boolean;
+    wheelZoomMode: WheelZoomModeEnum;
+    minZoom: number | null;
+    maxZoom: number | null;
     outputFormat: OutputFormatEnum;
     outputQuality: number | null;
     outputSize: OutputSizeEnum;
-    cropButtonCaption: string;
-    onCropAction: {} | null;
 }

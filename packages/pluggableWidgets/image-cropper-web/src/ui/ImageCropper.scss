@@ -1,11 +1,11 @@
 @import "react-image-crop/dist/ReactCrop.css";
 
-$image-crop-bg-color: #f5f7fa;
-$image-crop-border-color-default: #b0bec5;
-$image-crop-gray-light: #6c757d;
-$image-crop-icon: url(../assets/crop-icon.svg);
+$image-cropper-bg-color: #f5f7fa;
+$image-cropper-border-color-default: #b0bec5;
+$image-cropper-gray-light: #6c757d;
+$image-cropper-icon: url(../assets/crop-icon.svg);
 
-.widget-image-crop {
+.widget-image-cropper {
     display: inline-flex;
     flex-direction: column;
     gap: 8px;
@@ -60,7 +60,7 @@ $image-crop-icon: url(../assets/crop-icon.svg);
         display: flex;
         flex-direction: column;
 
-        .widget-image-crop__dropzone {
+        .widget-image-cropper__dropzone {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -69,22 +69,22 @@ $image-crop-icon: url(../assets/crop-icon.svg);
             height: 106px;
             padding: 12px 20px;
             border-radius: 5px;
-            border: 1.5px dashed var(--border-color-default, $image-crop-border-color-default);
-            background-color: var(--bg-color, $image-crop-bg-color);
+            border: 1.5px dashed var(--border-color-default, $image-cropper-border-color-default);
+            background-color: var(--bg-color, $image-cropper-bg-color);
         }
 
-        .widget-image-crop__icon {
+        .widget-image-cropper__icon {
             width: 42px;
             height: 33px;
-            background-image: var(--image-crop-icon, $image-crop-icon);
+            background-image: var(--image-cropper-icon, $image-cropper-icon);
             background-repeat: no-repeat;
             background-size: contain;
         }
 
-        .widget-image-crop__label {
+        .widget-image-cropper__label {
             margin: 0;
             font-size: 11px;
-            color: var(--gray-light, $image-crop-gray-light);
+            color: var(--gray-light, $image-cropper-gray-light);
         }
     }
 }
