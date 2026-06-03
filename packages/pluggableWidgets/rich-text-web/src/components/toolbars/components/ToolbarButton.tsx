@@ -35,14 +35,20 @@ export function ToolbarButton({ config }: BaseToolbarButtonProps): ReactElement 
             case "command":
                 if (config.command) {
                     if (config.attrs) {
-                        // Check if attrs has a single value to spread (e.g., setTextAlign("left"))
-                        const attrValues = Object.values(config.attrs);
-                        if (attrValues.length === 1 && typeof attrValues[0] === "string") {
-                            // Single string parameter commands (e.g., setTextAlign, setFontFamily)
-                            (editor.chain().focus() as any)[config.command](attrValues[0]).run();
-                        } else {
-                            // Object parameter commands (e.g., toggleHeading({ level: 1 }))
+                        // Special handling for setFontFamily with fontValue
+                        if (config.command === "setFontFamily" && config.attrs.fontValue) {
+                            // New format: pass object with both fontFamily and fontValue
                             (editor.chain().focus() as any)[config.command](config.attrs).run();
+                        } else {
+                            // Check if attrs has a single value to spread (e.g., setTextAlign("left"))
+                            const attrValues = Object.values(config.attrs);
+                            if (attrValues.length === 1 && typeof attrValues[0] === "string") {
+                                // Single string parameter commands (e.g., setTextAlign)
+                                (editor.chain().focus() as any)[config.command](attrValues[0]).run();
+                            } else {
+                                // Object parameter commands (e.g., toggleHeading({ level: 1 }))
+                                (editor.chain().focus() as any)[config.command](config.attrs).run();
+                            }
                         }
                     } else {
                         (editor.chain().focus() as any)[config.command]().run();

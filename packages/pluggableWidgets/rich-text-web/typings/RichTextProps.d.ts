@@ -37,7 +37,7 @@ export type StyleDataFormatEnum = "inline" | "class";
 
 export type ToolbarConfigEnum = "basic" | "advanced";
 
-export type CtItemTypeEnum = "separator" | "undo" | "redo" | "bold" | "italic" | "underline" | "strike" | "superScript" | "subScript" | "orderedList" | "bulletList" | "lowerAlphaList" | "checkList" | "minIndent" | "plusIndent" | "direction" | "link" | "image" | "video" | "formula" | "blockquote" | "code" | "codeBlock" | "viewCode" | "align" | "centerAlign" | "rightAlign" | "font" | "size" | "color" | "background" | "header" | "fullscreen" | "clean" | "tableBetter";
+export type CtItemTypeEnum = "separator" | "undo" | "redo" | "bold" | "italic" | "underline" | "strike" | "superScript" | "subScript" | "orderedList" | "bulletList" | "lowerAlphaList" | "checkList" | "minIndent" | "plusIndent" | "direction" | "link" | "image" | "video" | "formula" | "blockquote" | "code" | "codeBlock" | "viewCode" | "leftAlign" | "centerAlign" | "rightAlign" | "justifyAlign" | "font" | "size" | "color" | "background" | "header" | "fullscreen" | "clean" | "tableBetter";
 
 export interface AdvancedConfigType {
     ctItemType: CtItemTypeEnum;

@@ -1,8 +1,20 @@
+.widget-rich-text.toolbar-bottom {
+    .tiptap-wrapper {
+        flex-direction: column-reverse;
+    }
+}
+
 .tiptap-toolbar {
     display: flex;
     flex-direction: column;
     border: unset;
     box-shadow: var(--shadow-small, 0 2px 4px 0) var(--shadow-color-border, #00000014);
+
+    .tiptap-wrapper & {
+        .toolbar-bottom & {
+            box-shadow: 2px 0 4px 0 var(--shadow-color-border, #00000014);
+        }
+    }
 
     .toolbar-row {
         display: flex;
@@ -45,69 +57,63 @@
         }
     }
 
-    .toolbar-dropdown {
-        position: relative;
+    .toolbar-dropdown-button {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 10px;
+        min-width: 120px;
+        justify-content: space-between;
 
-        .toolbar-dropdown-button {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 6px 10px;
-            min-width: 120px;
-            justify-content: space-between;
-
-            .dropdown-label {
-                flex: 1;
-                text-align: left;
-                font-size: 13px;
-            }
-
-            .dropdown-arrow {
-                font-size: 12px;
-                transition: transform 0.2s;
-            }
+        .dropdown-label {
+            flex: 1;
+            text-align: left;
+            font-size: 13px;
         }
 
-        .toolbar-dropdown-menu {
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
+        .dropdown-arrow {
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+    }
+
+    .toolbar-dropdown-menu {
+        // Position is managed by Floating UI (via floatingStyles)
+        background: white;
+        border: 1px solid #d0d0d0;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        min-width: 160px;
+        z-index: 1000;
+        max-height: 300px;
+        overflow-y: auto;
+
+        .toolbar-dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 8px 12px;
+            text-align: left;
+            border: none;
             background: white;
-            border: 1px solid #d0d0d0;
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            min-width: 160px;
-            z-index: 1000;
-            max-height: 300px;
-            overflow-y: auto;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
 
-            .toolbar-dropdown-item {
-                display: block;
-                width: 100%;
-                padding: 8px 12px;
-                text-align: left;
-                border: none;
-                background: white;
-                font-size: 14px;
-                cursor: pointer;
-                transition: background-color 0.2s;
+            &:hover {
+                background-color: #f0f0f0;
+            }
 
-                &:hover {
-                    background-color: #f0f0f0;
-                }
+            &.is-active {
+                background-color: #264ae5;
+                color: white;
+            }
 
-                &.is-active {
-                    background-color: #264ae5;
-                    color: white;
-                }
+            &:first-child {
+                border-radius: 4px 4px 0 0;
+            }
 
-                &:first-child {
-                    border-radius: 4px 4px 0 0;
-                }
-
-                &:last-child {
-                    border-radius: 0 0 4px 4px;
-                }
+            &:last-child {
+                border-radius: 0 0 4px 4px;
             }
         }
     }

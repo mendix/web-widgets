@@ -14,7 +14,7 @@ export function TableGridToolbarButton({ config }: BaseToolbarButtonProps): Reac
     const isDropdownOpen = activeDropdown === dropdownType;
 
     return (
-        <div style={{ position: "relative" }}>
+        <>
             <button
                 ref={buttonRef}
                 onClick={() => handleDropdownToggle(dropdownType)}
@@ -23,7 +23,9 @@ export function TableGridToolbarButton({ config }: BaseToolbarButtonProps): Reac
             >
                 <span className={`icons icon-${config.icon}`} />
             </button>
-            {editor && isDropdownOpen && <TableGridSelector editor={editor} onClose={handleDropdownClose} />}
-        </div>
+            {editor && isDropdownOpen && (
+                <TableGridSelector editor={editor} onClose={handleDropdownClose} referenceElement={buttonRef.current} />
+            )}
+        </>
     );
 }

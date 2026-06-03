@@ -15,7 +15,7 @@ import {
     getFilteredToolbarGroups,
     ToolbarGroupsConfig
 } from "./ToolbarConfig";
-import { PresetEnum, ToolbarConfigEnum, AdvancedConfigType } from "../../../typings/RichTextProps";
+import { PresetEnum, ToolbarConfigEnum, AdvancedConfigType, CustomFontsType } from "../../../typings/RichTextProps";
 import "./Toolbar.scss";
 // eslint-disable-next-line import/order
 import { ToolbarDropdown } from "./components/ToolbarDropdown";
@@ -26,6 +26,7 @@ interface ToolbarProps {
     toolbarConfig?: ToolbarConfigEnum;
     toolbarGroups?: ToolbarGroupsConfig;
     advancedConfig?: AdvancedConfigType[];
+    customFonts?: CustomFontsType[];
 }
 
 interface ToolbarGroupProps extends ToolbarProps {
@@ -111,14 +112,14 @@ function ToolbarRow(props: ToolbarRowProps): ReactElement {
 }
 
 export default function Toolbar(props: ToolbarProps): ReactElement | null {
-    const { preset = "basic", toolbarConfig, toolbarGroups, advancedConfig, imageSourceContent } = props;
+    const { preset = "basic", toolbarConfig, toolbarGroups, advancedConfig, imageSourceContent, customFonts } = props;
     const { editor } = useCurrentEditor();
     const [activeDropdown, setActiveDropdown] = useState<DropdownCommand | null>(null);
 
     // Filter toolbar groups based on preset and custom configuration
     const filteredGroups = useMemo(
-        () => getFilteredToolbarGroups(preset, toolbarConfig, toolbarGroups, advancedConfig),
-        [preset, toolbarConfig, toolbarGroups, advancedConfig]
+        () => getFilteredToolbarGroups(preset, toolbarConfig, toolbarGroups, advancedConfig, customFonts),
+        [preset, toolbarConfig, toolbarGroups, advancedConfig, customFonts]
     );
 
     const filteredSecondaryGroups = useMemo(

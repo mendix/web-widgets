@@ -5,21 +5,23 @@
         .font-family-#{$name} {
             @include variables.font($font);
         }
-    }
-    // @each $size in $font-sizes {
-    //     .ql-size-#{$size} {
-    //         font-size: $size;
-    //     }
-    // }
 
-    // @each $color in $colors {
-    //     .ql-color-#{"\\" + $color} {
-    //         color: $color;
-    //     }
-    //     .ql-bg-#{"\\" + $color} {
-    //         background-color: $color;
-    //     }
-    // }
+        .tiptap-toolbar {
+            [data-value="#{$name}"] {
+                @include variables.font($font);
+            }
+        }
+    }
+
+    @for $i from 1 through 10 {
+        .indent-#{$i} {
+            padding-left: #{$i * 3}px;
+        }
+    }
+
+    p {
+        line-height: var(--line-height-base, 1);
+    }
 
     mark {
         color: inherit;
@@ -44,6 +46,22 @@
 
     .has-font-size {
         font-size: attr(data-font-size px);
+    }
+
+    .text-align-left {
+        text-align: left;
+    }
+
+    .text-align-center {
+        text-align: center;
+    }
+
+    .text-align-right {
+        text-align: right;
+    }
+
+    .text-align-justify {
+        text-align: justify;
     }
 
     .rich-text-status-bar {

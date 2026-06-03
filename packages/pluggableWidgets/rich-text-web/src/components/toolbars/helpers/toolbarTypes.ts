@@ -84,6 +84,7 @@ export interface ConfirmDialogProps {
 export interface TableGridSelectorProps {
     editor: Editor;
     onClose: () => void;
+    referenceElement: HTMLElement | null;
 }
 
 // ============================================================================
