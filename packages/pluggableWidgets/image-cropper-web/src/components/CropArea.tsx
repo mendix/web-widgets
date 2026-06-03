@@ -8,7 +8,7 @@ import {
     type PixelCrop
 } from "react-image-crop";
 import { ZoomContainer } from "./ZoomContainer";
-import { WheelZoomModeEnum } from "../../typings/ImageCropProps";
+import { WheelZoomModeEnum } from "../../typings/ImageCropperProps";
 
 interface CropAreaProps {
     src: string;
@@ -80,7 +80,7 @@ export function CropArea(props: CropAreaProps): ReactElement {
 
     if (loadError) {
         return (
-            <div className="widget-image-crop__error">
+            <div className="widget-image-cropper__error">
                 Could not load this image. If it is a remote image, the server must allow cross-origin access.
             </div>
         );

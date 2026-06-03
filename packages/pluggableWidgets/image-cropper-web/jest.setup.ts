@@ -1,5 +1,5 @@
 /**
- * Jest setup for image-crop-web tests.
+ * Jest setup for image-cropper tests.
  *
  * Problem: when `canvas` npm package is installed, jsdom uses node-canvas. Its `drawImage`
  * rejects jsdom HTMLImageElement objects. Also, the test's `captureDrawImageCalls` helper spies on

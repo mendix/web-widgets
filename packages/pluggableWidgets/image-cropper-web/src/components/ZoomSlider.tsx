@@ -9,8 +9,8 @@ interface ZoomSliderProps {
 
 export function ZoomSlider({ zoom, minZoom, maxZoom, onChange }: ZoomSliderProps): ReactElement {
     return (
-        <label className="widget-image-crop__zoom">
-            <span className="widget-image-crop__zoom-label">Zoom</span>
+        <label className="widget-image-cropper__zoom">
+            <span className="widget-image-cropper__zoom-label">Zoom</span>
             <input
                 type="range"
                 min={minZoom}

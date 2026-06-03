@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.web.imagecrop.ImageCrop" pluginWidget="true" needsEntityContext="true" offlineCapable="false" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
-    <name>Image Crop</name>
+<widget id="com.mendix.widget.web.imagecropper.ImageCropper" pluginWidget="true" needsEntityContext="true" offlineCapable="false" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Image Cropper</name>
     <description>Crop an image attribute</description>
-    <helpUrl>https://docs.mendix.com/appstore/widgets/image-crop</helpUrl>
+    <helpUrl>https://docs.mendix.com/appstore/widgets/image-cropper</helpUrl>
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="Source">
@@ -40,6 +40,16 @@
                     <caption>Custom aspect height</caption>
                     <description>Height side of the ratio (e.g. 2 in 3:2). Used when Aspect ratio is Custom.</description>
                 </property>
+            </propertyGroup>
+            <propertyGroup caption="Events">
+                <property key="onCropAction" type="action" required="false">
+                    <caption>On crop</caption>
+                    <description>Runs each time the crop is auto-applied to the image attribute.</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Dimensions">
+            <propertyGroup caption="Canvas">
                 <property key="boundaryWidth" type="integer" defaultValue="800" required="true">
                     <caption>Canvas max width (px)</caption>
                     <description>Maximum on-screen width of the crop area. The image scales down to fit; the canvas wraps the rendered image, so smaller crops produce a smaller canvas with no blank gaps. Does not change the saved image size.</description>
@@ -48,6 +58,24 @@
                     <caption>Canvas max height (px)</caption>
                     <description>Maximum on-screen height of the crop area. The image scales down to fit; the canvas wraps the rendered image, so smaller crops produce a smaller canvas with no blank gaps. Does not change the saved image size.</description>
                 </property>
+            </propertyGroup>
+            <propertyGroup caption="Preview">
+                <property key="showPreview" type="boolean" defaultValue="false" required="true">
+                    <caption>Show preview</caption>
+                    <description>Show a live thumbnail of the current crop next to the canvas.</description>
+                </property>
+                <property key="previewWidth" type="integer" defaultValue="100" required="true">
+                    <caption>Preview width (px)</caption>
+                    <description>Width of the preview thumbnail.</description>
+                </property>
+                <property key="previewHeight" type="integer" defaultValue="100" required="true">
+                    <caption>Preview height (px)</caption>
+                    <description>Height of the preview thumbnail.</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Behavior">
+            <propertyGroup caption="Interaction">
                 <property key="resizableEnabled" type="boolean" defaultValue="true" required="true">
                     <caption>Resizable handles</caption>
                     <description>Let the user resize the selection by dragging its corners.</description>
@@ -56,7 +84,11 @@
             <propertyGroup caption="Zoom">
                 <property key="zoomEnabled" type="boolean" defaultValue="true" required="true">
                     <caption>Enable zoom</caption>
-                    <description>Show a zoom slider below the crop area.</description>
+                    <description>Master switch for zooming. When off, the slider and mouse-wheel zoom are disabled and the image stays at 1×.</description>
+                </property>
+                <property key="showZoomSlider" type="boolean" defaultValue="true" required="true">
+                    <caption>Show zoom slider</caption>
+                    <description>Show the zoom slider below the crop area. Turn off to keep mouse-wheel zoom while hiding the slider.</description>
                 </property>
                 <property key="wheelZoomMode" type="enumeration" defaultValue="onWithCtrl" required="true">
                     <caption>Mouse wheel zoom</caption>
@@ -76,20 +108,8 @@
                     <description>Largest zoom level. 4 means up to 4× the canvas size. Must be greater than Minimum zoom.</description>
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Preview">
-                <property key="showPreview" type="boolean" defaultValue="false" required="true">
-                    <caption>Show preview</caption>
-                    <description>Show a live thumbnail of the current crop next to the canvas.</description>
-                </property>
-                <property key="previewWidth" type="integer" defaultValue="100" required="true">
-                    <caption>Preview width (px)</caption>
-                    <description>Width of the preview thumbnail.</description>
-                </property>
-                <property key="previewHeight" type="integer" defaultValue="100" required="true">
-                    <caption>Preview height (px)</caption>
-                    <description>Height of the preview thumbnail.</description>
-                </property>
-            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Output">
             <propertyGroup caption="Output">
                 <property key="outputFormat" type="enumeration" defaultValue="png" required="true">
                     <caption>Output format</caption>
@@ -110,20 +130,6 @@
                         <enumerationValue key="viewport">Viewport (canvas dimensions)</enumerationValue>
                         <enumerationValue key="original">Original (source resolution)</enumerationValue>
                     </enumerationValues>
-                </property>
-            </propertyGroup>
-            <propertyGroup caption="Action">
-                <property key="cropButtonCaption" type="textTemplate" required="false">
-                    <caption>Crop button caption</caption>
-                    <description>Label on the Crop button.</description>
-                    <translations>
-                        <translation lang="en_US">Crop</translation>
-                        <translation lang="nl_NL">Bijsnijden</translation>
-                    </translations>
-                </property>
-                <property key="onCropAction" type="action" required="false">
-                    <caption>On crop</caption>
-                    <description>Runs after the cropped image is saved.</description>
                 </property>
             </propertyGroup>
         </propertyGroup>
