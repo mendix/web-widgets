@@ -37,6 +37,14 @@
                     <caption>Infinite loop</caption>
                     <description />
                 </property>
+                <property key="slidesPerView" type="integer" defaultValue="1">
+                    <caption>Slides per view</caption>
+                    <description />
+                </property>
+                <property key="slidesPerGroup" type="integer" defaultValue="1">
+                    <caption>Slides per group</caption>
+                    <description />
+                </property>
                 <property key="animation" type="boolean" defaultValue="true">
                     <caption>Animation</caption>
                     <description />
