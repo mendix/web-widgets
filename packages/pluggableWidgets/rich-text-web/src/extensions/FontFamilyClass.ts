@@ -11,14 +11,49 @@ declare module "@tiptap/core" {
         fontFamilyClass: {
             /**
              * Set the font family
+             * @param options - String (legacy) or object with fontFamily and optional fontValue
              */
-            setFontFamily: (fontFamily: string) => ReturnType;
+            setFontFamily: (options: string | { fontFamily: string; fontValue?: string }) => ReturnType;
             /**
              * Unset the font family
              */
             unsetFontFamily: () => ReturnType;
         };
     }
+}
+
+/**
+ * Derive fontValue from fontFamily CSS value
+ *
+ * This function extracts a simple identifier from a CSS font-family value for use
+ * in dropdown matching. The derivation ensures consistent kebab-case formatting.
+ *
+ * Algorithm:
+ * 1. Extract the first font from comma-separated list
+ * 2. Remove quotes (single or double)
+ * 3. Convert to lowercase
+ * 4. Replace spaces with hyphens (kebab-case)
+ *
+ * Examples:
+ * - "arial, helvetica, sans-serif" → "arial"
+ * - "'Roboto', sans-serif" → "roboto"
+ * - "'Times New Roman', serif" → "times-new-roman"
+ *
+ * Backward Compatibility:
+ * This derivation is used as a fallback for legacy content that lacks the
+ * data-font-value attribute. New content stores fontValue explicitly.
+ *
+ * @param fontFamily - CSS font-family value
+ * @returns Font identifier suitable for dropdown value matching
+ */
+function deriveFontValue(fontFamily: string): string {
+    if (!fontFamily) return "";
+
+    // Extract first font from CSS value
+    const firstFont = fontFamily.split(",")[0].trim();
+
+    // Remove quotes and normalize to kebab-case
+    return firstFont.replace(/['"]/g, "").toLowerCase().replace(/\s+/g, "-");
 }
 
 export const FontFamilyClass = Extension.create<FontFamilyClassOptions>({
@@ -72,10 +107,56 @@ export const FontFamilyClass = Extension.create<FontFamilyClassOptions>({
                                             };
                                         }
                                     }
+                                },
+                                fontValue: {
+                                    default: null,
+                                    parseHTML: element => {
+                                        // Read from data-font-value attribute (new format)
+                                        return element.getAttribute("data-font-value") || null;
+                                    },
+                                    renderHTML: attributes => {
+                                        if (!attributes.fontValue) {
+                                            return {};
+                                        }
+                                        // Render as data-font-value for identification
+                                        return {
+                                            "data-font-value": attributes.fontValue
+                                        };
+                                    }
                                 }
                             }
                         }
                     ];
+                },
+
+                addCommands() {
+                    return {
+                        setFontFamily:
+                            (options: string | { fontFamily: string; fontValue?: string }) =>
+                            ({ commands }) => {
+                                let fontFamily: string;
+                                let fontValue: string;
+
+                                if (typeof options === "string") {
+                                    // Backward compatibility: string parameter (legacy code)
+                                    // Auto-derive fontValue from fontFamily CSS value
+                                    fontFamily = options;
+                                    fontValue = deriveFontValue(options);
+                                } else {
+                                    // New format: object parameter (toolbar dropdown uses this)
+                                    // fontValue can be explicit or auto-derived if missing
+                                    fontFamily = options.fontFamily;
+                                    fontValue = options.fontValue || deriveFontValue(options.fontFamily);
+                                }
+
+                                return commands.setMark("textStyle", { fontFamily, fontValue });
+                            },
+                        unsetFontFamily:
+                            () =>
+                            ({ commands }) => {
+                                return commands.unsetMark("textStyle");
+                            }
+                    };
                 }
             })
         ];

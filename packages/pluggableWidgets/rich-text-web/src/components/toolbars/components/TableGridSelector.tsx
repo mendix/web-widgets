@@ -1,28 +1,20 @@
-import { ReactElement, useState, useRef, useEffect } from "react";
+import { ReactElement, useState } from "react";
 import { TableGridSelectorProps, MAX_TABLE_ROWS, MAX_TABLE_COLS } from "../helpers/toolbarTypes";
+import { useDropdown } from "../hooks/useDropdown";
 import "./TableGridSelector.scss";
 
 const MAX_ROWS = MAX_TABLE_ROWS;
 const MAX_COLS = MAX_TABLE_COLS;
 
-export function TableGridSelector({ editor, onClose }: TableGridSelectorProps): ReactElement {
+export function TableGridSelector({ editor, onClose, referenceElement }: TableGridSelectorProps): ReactElement {
     const [hoveredCell, setHoveredCell] = useState({ row: 0, col: 0 });
     const [isDragging, setIsDragging] = useState(false);
-    const gridRef = useRef<HTMLDivElement>(null);
 
-    // Handle click outside to close
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent): void => {
-            if (gridRef.current && !gridRef.current.contains(event.target as Node)) {
-                onClose();
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [onClose]);
+    const { refs, floatingStyles } = useDropdown({
+        isOpen: true,
+        onClose,
+        referenceElement
+    });
 
     const handleCellHover = (row: number, col: number): void => {
         if (isDragging || true) {
@@ -74,7 +66,7 @@ export function TableGridSelector({ editor, onClose }: TableGridSelectorProps): 
     const displayText = hoveredCell.row > 0 && hoveredCell.col > 0 ? `${hoveredCell.row} × ${hoveredCell.col}` : "";
 
     return (
-        <div ref={gridRef} className="table-grid-selector">
+        <div ref={refs.setFloating} style={floatingStyles} className="table-grid-selector">
             <div className="table-grid">{renderGrid()}</div>
             {displayText && <div className="table-grid-label">{displayText}</div>}
         </div>

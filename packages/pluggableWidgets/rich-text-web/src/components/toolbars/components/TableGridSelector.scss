@@ -4,9 +4,7 @@
     --max-cols: 10;
     --max-rows: 10;
 
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
+    // Position is managed by Floating UI (via floatingStyles)
     background: white;
     border: 1px solid #d0d0d0;
     border-radius: 4px;

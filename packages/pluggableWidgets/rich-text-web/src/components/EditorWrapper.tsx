@@ -31,7 +31,10 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
         tableBetter,
         advancedConfig,
         enableStatusBar,
-        statusBarContent
+        statusBarContent,
+        customFonts,
+        toolbarLocation,
+        readOnlyStyle
     } = props;
     const editorRef = useRef<EditorHandle>(null);
     const [editorText, setEditorText] = useState<string>("");
@@ -76,7 +79,7 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
     })();
 
     return (
-        <div className={className}>
+        <div className={`${className} toolbar-${toolbarLocation}`}>
             {stringAttribute.status === "available" && (
                 <>
                     <Editor
@@ -105,6 +108,10 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
                             tableBetter
                         }}
                         advancedConfig={advancedConfig}
+                        customFonts={customFonts}
+                        toolbarLocation={
+                            stringAttribute.readOnly && readOnlyStyle !== "text" ? "hide" : toolbarLocation
+                        }
                     />
                     {enableStatusBar && (
                         <StatusBar

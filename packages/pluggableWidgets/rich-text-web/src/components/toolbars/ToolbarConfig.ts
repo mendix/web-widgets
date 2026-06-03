@@ -1,7 +1,14 @@
 import { Editor } from "@tiptap/react";
 import { createContext } from "react";
 import { createTableConfigurationSections, createCellConfigurationSections } from "./helpers/configurationHelpers";
-import { PresetEnum, ToolbarConfigEnum, CtItemTypeEnum, AdvancedConfigType } from "../../../typings/RichTextProps";
+import { AddCustomFontsToFontFamilyDropdown, FONT_LIST, FONT_SIZE_LIST } from "./helpers/fontHelpers";
+import {
+    PresetEnum,
+    ToolbarConfigEnum,
+    CtItemTypeEnum,
+    AdvancedConfigType,
+    CustomFontsType
+} from "../../../typings/RichTextProps";
 
 export type ToolbarActionType =
     | "toggle"
@@ -176,36 +183,6 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         presetValue: 1,
         buttons: [
             {
-                name: "textFormat",
-                title: "Text Format",
-                icon: "Arrow-down",
-                action: "dropdown",
-                dropdownOptions: [
-                    { label: "Paragraph", value: "paragraph", command: "setParagraph" },
-                    { label: "Heading 1", value: "h1", command: "toggleHeading", attrs: { level: 1 } },
-                    { label: "Heading 2", value: "h2", command: "toggleHeading", attrs: { level: 2 } },
-                    { label: "Heading 3", value: "h3", command: "toggleHeading", attrs: { level: 3 } },
-                    { label: "Heading 4", value: "h4", command: "toggleHeading", attrs: { level: 4 } },
-                    { label: "Heading 5", value: "h5", command: "toggleHeading", attrs: { level: 5 } },
-                    { label: "Heading 6", value: "h6", command: "toggleHeading", attrs: { level: 6 } }
-                ],
-                getCurrentValue: editor => {
-                    if (editor.isActive("heading", { level: 1 })) return "h1";
-                    if (editor.isActive("heading", { level: 2 })) return "h2";
-                    if (editor.isActive("heading", { level: 3 })) return "h3";
-                    if (editor.isActive("heading", { level: 4 })) return "h4";
-                    if (editor.isActive("heading", { level: 5 })) return "h5";
-                    if (editor.isActive("heading", { level: 6 })) return "h6";
-                    return "paragraph";
-                }
-            }
-        ]
-    },
-    {
-        name: "list",
-        presetValue: 1,
-        buttons: [
-            {
                 name: "bulletList",
                 title: "Bullet List",
                 icon: "List-bullets",
@@ -272,7 +249,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         presetValue: 2,
         buttons: [
             {
-                name: "alignLeft",
+                name: "leftAlign",
                 title: "Align Left",
                 icon: "Text-align-left",
                 action: "command",
@@ -281,7 +258,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
                 isActive: editor => editor.isActive({ textAlign: "left" })
             },
             {
-                name: "alignCenter",
+                name: "centerAlign",
                 title: "Align Center",
                 icon: "Text-align-center",
                 action: "command",
@@ -290,7 +267,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
                 isActive: editor => editor.isActive({ textAlign: "center" })
             },
             {
-                name: "alignRight",
+                name: "rightAlign",
                 title: "Align Right",
                 icon: "Text-align-right",
                 action: "command",
@@ -299,7 +276,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
                 isActive: editor => editor.isActive({ textAlign: "right" })
             },
             {
-                name: "alignJustify",
+                name: "justifyAlign",
                 title: "Align Justify",
                 icon: "Text-align-justify",
                 action: "command",
@@ -318,46 +295,31 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
                 title: "Font Family",
                 icon: "Text-font",
                 action: "dropdown",
-                dropdownOptions: [
-                    { label: "Default", value: "", command: "setFontFamily", attrs: { fontFamily: "" } },
-                    { label: "Arial", value: "Arial", command: "setFontFamily", attrs: { fontFamily: "Arial" } },
-                    {
-                        label: "Arial Black",
-                        value: "Arial Black",
-                        command: "setFontFamily",
-                        attrs: { fontFamily: "Arial Black" }
-                    },
-                    {
-                        label: "Comic Sans MS",
-                        value: "Comic Sans MS",
-                        command: "setFontFamily",
-                        attrs: { fontFamily: "Comic Sans MS" }
-                    },
-                    {
-                        label: "Courier New",
-                        value: "Courier New",
-                        command: "setFontFamily",
-                        attrs: { fontFamily: "Courier New" }
-                    },
-                    { label: "Georgia", value: "Georgia", command: "setFontFamily", attrs: { fontFamily: "Georgia" } },
-                    { label: "Impact", value: "Impact", command: "setFontFamily", attrs: { fontFamily: "Impact" } },
-                    {
-                        label: "Times New Roman",
-                        value: "Times New Roman",
-                        command: "setFontFamily",
-                        attrs: { fontFamily: "Times New Roman" }
-                    },
-                    {
-                        label: "Trebuchet MS",
-                        value: "Trebuchet MS",
-                        command: "setFontFamily",
-                        attrs: { fontFamily: "Trebuchet MS" }
-                    },
-                    { label: "Verdana", value: "Verdana", command: "setFontFamily", attrs: { fontFamily: "Verdana" } }
-                ],
+                dropdownOptions: FONT_LIST.map(font => ({
+                    label: font.description,
+                    value: font.value,
+                    command: "setFontFamily",
+                    attrs: {
+                        fontFamily: font.style,
+                        fontValue: font.value
+                    }
+                })),
                 getCurrentValue: editor => {
-                    const { fontFamily } = editor.getAttributes("textStyle");
-                    return fontFamily || "";
+                    const { fontValue, fontFamily } = editor.getAttributes("textStyle");
+
+                    // Use fontValue if available (new format)
+                    if (fontValue) {
+                        return fontValue;
+                    }
+
+                    // Fallback for legacy content without data-font-value
+                    if (fontFamily) {
+                        // Derive from fontFamily: "arial, helvetica, ..." → "arial"
+                        const firstFont = fontFamily.split(",")[0].trim();
+                        return firstFont.replace(/['"]/g, "").toLowerCase().replace(/\s+/g, "-");
+                    }
+
+                    return "";
                 }
             },
             {
@@ -365,23 +327,15 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
                 title: "Font Size",
                 icon: "Text-size",
                 action: "dropdown",
-                dropdownOptions: [
-                    { label: "10px", value: "10px", command: "setFontSize", attrs: { fontSize: "10px" } },
-                    { label: "12px", value: "12px", command: "setFontSize", attrs: { fontSize: "12px" } },
-                    { label: "14px", value: "14px", command: "setFontSize", attrs: { fontSize: "14px" } },
-                    { label: "16px", value: "16px", command: "setFontSize", attrs: { fontSize: "16px" } },
-                    { label: "18px", value: "18px", command: "setFontSize", attrs: { fontSize: "18px" } },
-                    { label: "20px", value: "20px", command: "setFontSize", attrs: { fontSize: "20px" } },
-                    { label: "24px", value: "24px", command: "setFontSize", attrs: { fontSize: "24px" } },
-                    { label: "28px", value: "28px", command: "setFontSize", attrs: { fontSize: "28px" } },
-                    { label: "32px", value: "32px", command: "setFontSize", attrs: { fontSize: "32px" } },
-                    { label: "36px", value: "36px", command: "setFontSize", attrs: { fontSize: "36px" } },
-                    { label: "48px", value: "48px", command: "setFontSize", attrs: { fontSize: "48px" } },
-                    { label: "64px", value: "64px", command: "setFontSize", attrs: { fontSize: "64px" } }
-                ],
+                dropdownOptions: FONT_SIZE_LIST.map(size => ({
+                    label: size,
+                    value: size,
+                    command: "setFontSize",
+                    attrs: { fontSize: size }
+                })),
                 getCurrentValue: editor => {
                     const { fontSize } = editor.getAttributes("textStyle");
-                    return fontSize || "16px";
+                    return fontSize || "14px";
                 }
             },
             {
@@ -672,14 +626,15 @@ const CT_ITEM_TO_BUTTON_MAP: Record<CtItemTypeEnum, string | null> = {
     code: "code",
     codeBlock: "codeBlock",
     viewCode: "codeView",
-    align: "textAlign", // Left align is part of dropdown
-    centerAlign: "textAlign", // Center align is part of dropdown
-    rightAlign: "textAlign", // Right align is part of dropdown
+    leftAlign: "leftAlign",
+    centerAlign: "centerAlign",
+    rightAlign: "rightAlign",
+    justifyAlign: "justifyAlign",
     font: "fontFamily",
     size: "fontSize",
     color: "textColor",
     background: "backgroundColor",
-    header: "textFormat",
+    header: "header",
     fullscreen: null, // Not implemented
     clean: "clearFormatting",
     tableBetter: "insertTable"
@@ -696,7 +651,12 @@ function findButtonByName(buttonName: string): ToolbarButtonConfig | null {
     return null;
 }
 
-// Build advanced custom toolbar from CtItemType list
+/**
+ * Build advanced custom toolbar from CtItemType list, optionally enhanced with custom fonts
+ * @param advancedConfig - Advanced toolbar configuration
+ * @param customFonts - Optional user-provided custom fonts to add to font family dropdown
+ * @returns Built and enhanced toolbar groups
+ */
 export function buildAdvancedToolbar(advancedConfig: AdvancedConfigType[]): ToolbarGroupConfig[] {
     const groups: ToolbarGroupConfig[] = [];
     let currentGroup: ToolbarButtonConfig[] = [];
@@ -739,27 +699,65 @@ export function buildAdvancedToolbar(advancedConfig: AdvancedConfigType[]): Tool
     return groups;
 }
 
-// Filter toolbar groups based on preset or custom configuration
+/**
+ * Enhances toolbar groups by merging custom fonts into the fontFamilySelect dropdown
+ * @param groups - Toolbar groups to enhance
+ * @param customFonts - User-provided custom fonts to add
+ * @returns Enhanced toolbar groups with merged and sorted fonts
+ */
+function enhancedToolbarGroups(groups: ToolbarGroupConfig[], customFonts?: CustomFontsType[]): ToolbarGroupConfig[] {
+    // Enhance with custom fonts if provided
+    if (!customFonts || customFonts.length === 0) {
+        return groups;
+    }
+    // Map over groups and enhance fontFamilySelect button
+    return groups.map(group => ({
+        ...group,
+        buttons: group.buttons.map(button => {
+            switch (button.name) {
+                case "fontFamily":
+                    return AddCustomFontsToFontFamilyDropdown(button, customFonts);
+                default:
+                    return button;
+            }
+        })
+    }));
+}
+
+/**
+ * Filter toolbar groups based on preset or custom configuration, and optionally enhance with custom fonts
+ * @param preset - Toolbar preset (basic, standard, full, custom)
+ * @param toolbarConfig - Toolbar configuration mode
+ * @param customConfig - Custom toolbar group configuration
+ * @param advancedConfig - Advanced toolbar configuration
+ * @param customFonts - Optional user-provided custom fonts to add to font family dropdown
+ * @returns Filtered and enhanced toolbar groups
+ */
 export function getFilteredToolbarGroups(
     preset: PresetEnum,
     toolbarConfig?: ToolbarConfigEnum,
     customConfig?: ToolbarGroupsConfig,
-    advancedConfig?: AdvancedConfigType[]
+    advancedConfig?: AdvancedConfigType[],
+    customFonts?: CustomFontsType[]
 ): ToolbarGroupConfig[] {
+    let filteredGroups: ToolbarGroupConfig[];
+
     if (preset === "custom") {
         // Advanced mode: build custom toolbar from advancedConfig list
         if (toolbarConfig === "advanced" && advancedConfig && advancedConfig.length > 0) {
-            return buildAdvancedToolbar(advancedConfig);
+            filteredGroups = buildAdvancedToolbar(advancedConfig);
+        } else {
+            // Basic mode: filter by individual boolean props
+            filteredGroups = TOOLBAR_GROUPS.filter(group => {
+                const key = group.name as keyof ToolbarGroupsConfig;
+                return customConfig?.[key] !== false;
+            });
         }
-
-        // Basic mode: filter by individual boolean props
-        return TOOLBAR_GROUPS.filter(group => {
-            const key = group.name as keyof ToolbarGroupsConfig;
-            return customConfig?.[key] !== false;
-        });
+    } else {
+        // Filter by presetValue (groups without presetValue are always included)
+        const maxPresetValue = preset === "basic" ? 1 : preset === "standard" ? 2 : 3;
+        filteredGroups = TOOLBAR_GROUPS.filter(group => !group.presetValue || group.presetValue <= maxPresetValue);
     }
 
-    // Filter by presetValue (groups without presetValue are always included)
-    const maxPresetValue = preset === "basic" ? 1 : preset === "standard" ? 2 : 3;
-    return TOOLBAR_GROUPS.filter(group => !group.presetValue || group.presetValue <= maxPresetValue);
+    return enhancedToolbarGroups(filteredGroups, customFonts);
 }
