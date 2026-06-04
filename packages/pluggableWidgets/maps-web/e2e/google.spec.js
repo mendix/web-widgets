@@ -2,6 +2,7 @@ import { test, expect } from "@mendix/run-e2e/fixtures";
 import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("Google Maps", () => {
+    test.skip(true, "Google Maps tests disabled - requires API keys");
     test.beforeEach(async ({ page }) => {
         await page.goto("/");
         await waitForMendixApp(page);

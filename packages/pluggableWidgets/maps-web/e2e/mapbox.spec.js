@@ -2,6 +2,7 @@ import { test, expect } from "@mendix/run-e2e/fixtures";
 import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("Mapbox Maps", () => {
+    test.skip(true, "Mapbox Maps tests disabled - requires Google Geocoding API key");
     test.describe("rendering", () => {
         test.beforeEach(async ({ page }) => {
             await page.goto("p/mapbox-static");
