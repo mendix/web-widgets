@@ -2,6 +2,7 @@ import { test, expect } from "@mendix/run-e2e/fixtures";
 import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 
 test.describe("Here Maps", () => {
+    test.skip(true, "HERE Maps tests disabled - requires API keys");
     test.describe("rendering", () => {
         test("renders basemap correctly", async ({ page }) => {
             await page.goto("p/here-static");
