@@ -45,6 +45,28 @@ jobs:
                   role-to-assume: ${{ secrets.AWS_BEDROCK_ROLE_ARN }}
                   aws-region: ${{ secrets.AWS_REGION }}
 
+            - name: Minimize older bot comments
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  COMMENTS=$(gh pr view ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --json comments \
+                    --jq '.comments[] | select(.author.login == "github-actions[bot]") | .id')
+
+                  if [ -z "$COMMENTS" ]; then
+                    echo "No bot comments to minimize"
+                    exit 0
+                  fi
+
+                  for NODE_ID in $COMMENTS; do
+                    echo "Minimizing comment: $NODE_ID"
+                    gh api graphql -f query='
+                      mutation($id: ID!) {
+                        minimizeComment(input: {subjectId: $id, classifier: OUTDATED}) {
+                          minimizedComment { isMinimized }
+                        }
+                      }' -f id="$NODE_ID" || echo "Failed to minimize $NODE_ID, continuing..."
+                  done
+
             - name: Run Claude Code Review
               uses: anthropics/claude-code-action@f4fb5c6cdccc1ee7af63692f5d08d56efaa64cc8 # v1.0.121
               with:
@@ -62,7 +84,7 @@ jobs:
 
                       Follow the skill guidelines precisely. Focus only on changed files in the diff; ignore dist/, lockfiles, and generated files.
                   claude_args: >-
-                      --model ${{ env.CLAUDE_MODEL }} --max-turns 15 --allowedTools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api:*),Bash(gh run:*),Bash(git log:*),Bash(git diff:*),Bash(ls:*),Bash(find:*),mcp__github_inline_comment__create_inline_comment,Read,Grep,Glob"
+                      --model ${{ env.CLAUDE_MODEL }} --max-turns 30 --allowedTools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api:*),Bash(gh run:*),Bash(git log:*),Bash(git diff:*),Bash(ls:*),Bash(find:*),mcp__github_inline_comment__create_inline_comment,Read,Grep,Glob"
 
     interactive:
         name: Claude Interactive
