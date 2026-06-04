@@ -90,10 +90,8 @@ export class PusherListener {
      */
     unsubscribe(): void {
         if (this.currentChannel && this.currentChannelName) {
-            // Unbind event handler before unsubscribing
-            if (this.currentEventName) {
-                this.currentChannel.unbind(this.currentEventName);
-            }
+            // Unbind all channel events
+            this.currentChannel.unbind();
             this.pusher?.unsubscribe(this.currentChannelName);
             this.currentChannel = null;
             this.currentChannelName = null;
@@ -108,6 +106,7 @@ export class PusherListener {
     destroy(): void {
         this.unsubscribe();
         if (this.pusher) {
+            this.pusher.connection.unbind();
             this.pusher.disconnect();
             this.pusher = null;
         }

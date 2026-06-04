@@ -41,7 +41,7 @@ export default function Pusher(props: PusherContainerProps): ReactElement {
             onEvent: handleEvent,
             onError: handleError
         };
-    }, [mxObjectInfo, handleEvent, handleError, notifyActionName]);
+    }, [mxObjectInfo, notifyActionName, handleEvent, handleError]);
 
     // Initialize Pusher listener
     usePusherSubscribe(subscription);
