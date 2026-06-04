@@ -1,6 +1,6 @@
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { DatePickerProps } from "react-datepicker";
 import { DateTimePickerContainerProps, TypeEnum } from "typings/DateTimePickerProps";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { MXSessionLocale } from "../../typings/global";
 import { DatePickerController } from "../helpers/DatePickerController";
 import { getLocale, pickerDateFormat, setupLocales } from "../utils/date-utils";
@@ -59,8 +59,6 @@ export function useSetupProps(
     };
 
     const disabled = dateAttribute.readOnly || false;
-
-    console.info("DatetimePicker formatter props", formatProps);
 
     return {
         // Static props
@@ -143,8 +141,8 @@ function formatPropsBuilder(
                 selected: startDate,
                 isClearable: true,
                 selectsRange: true,
-                startDate: startDate,
-                endDate: endDate
+                startDate,
+                endDate
             };
     }
 }

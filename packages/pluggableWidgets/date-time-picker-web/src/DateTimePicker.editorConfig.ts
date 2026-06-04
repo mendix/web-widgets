@@ -39,7 +39,7 @@ export function getPreview(values: DateTimePickerPreviewProps, isDarkMode: boole
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
     const structurePreviewChildren: StructurePreviewProps[] = [];
     // let dropdownPreviewChildren: StructurePreviewProps[] = [];
-    let readOnly = values.readOnly;
+    const readOnly = values.readOnly;
 
     if (structurePreviewChildren.length === 0) {
         structurePreviewChildren.push({

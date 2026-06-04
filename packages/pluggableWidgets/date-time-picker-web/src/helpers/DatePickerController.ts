@@ -61,27 +61,20 @@ export class DatePickerController {
     }
 
     handlePickerChange: DatePickerBackendProps["onChange"] = (value: Date | [Date | null, Date | null] | null) => {
-        console.info("Picker value changed", { value });
         if (this._selectsRange) {
             const [start, end] = value as [Date | null, Date | null];
             this._dates[0] = start ?? undefined;
             this._dates[1] = end ?? undefined;
 
-            if (start !== null) {
-                console.info("Executing onChange for range selection", { start, end });
-                this._onChange?.canExecute &&
-                    !this._onChange.isExecuting &&
-                    this._onChange.execute({ startDate: start, endDate: end ?? undefined });
+            if (start !== null && this._onChange?.canExecute && !this._onChange.isExecuting) {
+                this._onChange.execute({ startDate: start, endDate: end ?? undefined });
             }
-            return;
         } else {
             this._dates[0] = value as Date;
 
-            console.info("Executing onChange for single date selection", { value, onChange: this._onChange });
-            this._onChange?.canExecute &&
-                !this._onChange.isExecuting &&
+            if (this._onChange?.canExecute && !this._onChange.isExecuting) {
                 this._onChange.execute({ startDate: value as Date, endDate: undefined });
-            return;
+            }
         }
     };
 
