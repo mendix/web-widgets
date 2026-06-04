@@ -12,23 +12,14 @@ export const DateTimePickerContainer = observer(function DateTimePickerContainer
         onChange: props.onChange
     });
     const pickerProps = useSetupProps(props, controller);
-    const portalId = `datepicker_` + Math.random();
-
-    // still have to add validation for max and min time and validation message
-    console.info("unused props", {
-        name: props.name,
-        id: props.id,
-        validationType: props.validationType,
-        customValidation: props.customValidation,
-        validationMessage: props.validationMessage
-    });
+    const portalId = `datepicker_${props.id}`;
 
     const hasValidationMessage =
         props.validationMessage?.status === "available" && props.validationMessage.value.length > 0;
 
     return (
         <div className="widget-datetimepicker" data-focusindex={props.tabIndex}>
-            <ReactDatePicker {...pickerProps} ref={controller.pickerRef} />
+            <ReactDatePicker {...pickerProps} ref={controller.pickerRef} portalId={portalId} />
 
             <button
                 aria-controls={portalId}
