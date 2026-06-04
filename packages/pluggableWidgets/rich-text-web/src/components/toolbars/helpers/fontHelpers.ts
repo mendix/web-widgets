@@ -51,7 +51,7 @@ export function AddCustomFontsToFontFamilyDropdown(
         const value = font.fontName.toLowerCase().replace(/\s+/g, "-");
 
         return {
-            value: value,
+            value,
             label: font.fontName,
             attrs: {
                 fontFamily: font.fontStyle,

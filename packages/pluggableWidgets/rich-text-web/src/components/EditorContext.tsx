@@ -1,4 +1,5 @@
 import { Editor } from "@tiptap/react";
+import { html as beautifyHtml } from "js-beautify";
 import { createContext, useContext, useReducer, ReactNode, ReactElement, Dispatch } from "react";
 
 // Code view state
@@ -20,9 +21,18 @@ export type CodeViewAction =
 function codeViewReducer(state: CodeViewState, action: CodeViewAction): CodeViewState {
     switch (action.type) {
         case "ENTER_CODE_VIEW":
+            // Beautify HTML for better readability
+            const beautifiedHtml = beautifyHtml(action.html, {
+                indent_size: 2,
+                indent_char: " ",
+                max_preserve_newlines: 1,
+                preserve_newlines: true,
+                wrap_line_length: 0,
+                end_with_newline: false
+            });
             return {
                 isCodeView: true,
-                htmlCode: action.html,
+                htmlCode: beautifiedHtml,
                 showConfirm: false
             };
         case "EXIT_CODE_VIEW_REQUEST":

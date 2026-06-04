@@ -219,6 +219,42 @@ export function createCellConfigurationSections(editor: Editor): ConfigurationSe
             onChange: (width: string) => {
                 editor.chain().focus().setCellAttribute("borderWidth", width).run();
             }
+        },
+        {
+            id: "cellWidth",
+            label: "Column Width",
+            type: "numberInput",
+            min: 25,
+            max: 1000,
+            step: 1,
+            placeholder: "Auto",
+            unit: "px",
+            getCurrentValue: () => {
+                const attrs = getCellAttributes(editor);
+                const colwidth = attrs?.colwidth;
+
+                if (colwidth && Array.isArray(colwidth) && colwidth.length > 0) {
+                    return colwidth[0];
+                }
+
+                return null;
+            },
+            onChange: (value: string) => {
+                if (!value || value.trim() === "") {
+                    editor.chain().focus().setCellAttribute("colwidth", null).run();
+                    return;
+                }
+
+                const numValue = parseInt(value, 10);
+
+                if (isNaN(numValue)) {
+                    return;
+                }
+
+                const clampedValue = Math.max(25, Math.min(1000, numValue));
+
+                editor.chain().focus().setCellAttribute("colwidth", [clampedValue]).run();
+            }
         }
     ];
 }

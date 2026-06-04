@@ -45,11 +45,16 @@ export interface ToolbarDropdownOption {
 export interface ConfigurationSection {
     id: string;
     label: string;
-    type: "colorPicker" | "dropdown";
-    getCurrentValue?: () => string | null;
+    type: "colorPicker" | "dropdown" | "numberInput";
+    getCurrentValue?: () => string | number | null;
     onChange: (value: string) => void;
     options?: Array<{ value: string; label: string }>;
     defaultColor?: string;
+    min?: number;
+    max?: number;
+    step?: number;
+    placeholder?: string;
+    unit?: string;
 }
 
 export interface ToolbarButtonConfig {
@@ -201,7 +206,7 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
             {
                 name: "taskList",
                 title: "Task List",
-                icon: "Check",
+                icon: "List-checklist",
                 action: "toggle",
                 command: "toggleTaskList",
                 isActive: editor => editor.isActive("taskList")
@@ -439,6 +444,12 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
                 action: "toggle",
                 command: "toggleCodeBlock",
                 isActive: editor => editor.isActive("codeBlock")
+            },
+            {
+                name: "codeView",
+                title: "View/Edit Code",
+                icon: "View-edit-code",
+                action: "codeView"
             }
         ]
     },
@@ -456,18 +467,6 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
         ]
     },
     {
-        name: "view",
-        presetValue: 2,
-        buttons: [
-            {
-                name: "codeView",
-                title: "View/Edit Code",
-                icon: "View-edit-code",
-                action: "codeView"
-            }
-        ]
-    },
-    {
         name: "tableBetter",
         presetValue: 2,
         buttons: [
@@ -476,6 +475,20 @@ export const TOOLBAR_GROUPS: ToolbarGroupConfig[] = [
                 title: "Insert Table",
                 icon: "Table",
                 action: "tableGrid"
+            }
+        ]
+    },
+    {
+        name: "view",
+        presetValue: 2,
+        buttons: [
+            {
+                name: "fullscreen",
+                title: "Fullscreen",
+                icon: "Expand",
+                action: "command",
+                command: "toggleFullscreen",
+                isActive: () => document.querySelector(".widget-rich-text")?.classList.contains("fullscreen") || false
             }
         ]
     }
@@ -635,7 +648,7 @@ const CT_ITEM_TO_BUTTON_MAP: Record<CtItemTypeEnum, string | null> = {
     color: "textColor",
     background: "backgroundColor",
     header: "header",
-    fullscreen: null, // Not implemented
+    fullscreen: "fullscreen",
     clean: "clearFormatting",
     tableBetter: "insertTable"
 };

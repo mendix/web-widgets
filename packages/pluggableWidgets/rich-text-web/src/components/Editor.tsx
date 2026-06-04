@@ -11,11 +11,11 @@ import { TaskItem } from "@tiptap/extension-task-item";
 import { TaskList } from "@tiptap/extension-task-list";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Underline } from "@tiptap/extension-underline";
-import { Youtube } from "@tiptap/extension-youtube";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
-import { ChangeEvent, forwardRef, ReactElement, ReactNode, useImperativeHandle, useRef } from "react";
+import { forwardRef, ReactElement, ReactNode, useImperativeHandle } from "react";
 import { EditorContextProvider, useCurrentEditor } from "./EditorContext";
+import { HighlightedCodeEditor } from "./HighlightedCodeEditor";
 import { Toolbar } from "./toolbars";
 import {
     PresetEnum,
@@ -25,18 +25,19 @@ import {
     RichTextContainerProps
 } from "../../typings/RichTextProps";
 import { FontFamilyClass } from "../extensions/FontFamilyClass";
-
-// import { DynamicTableStyles } from "./DynamicTableStyles";
-// import { DynamicTextColorStyles } from "./DynamicTextColorStyles";
 import { FontSize } from "../extensions/FontSize";
+import { Fullscreen } from "../extensions/Fullscreen";
+import { GenericEmbed } from "../extensions/GenericEmbed";
 import { ImageResize } from "../extensions/ImageResize";
 import { Indent } from "../extensions/Indent";
+import { KeyboardNavigation } from "../extensions/KeyboardNavigation";
 import { TableBackgroundColor } from "../extensions/TableBackgroundColor";
 import { TableCellBackgroundColor } from "../extensions/TableCellBackgroundColor";
 import { TextAlign } from "../extensions/TextAlignClass";
 import { TextColorClass } from "../extensions/TextColorClass";
 import { TextDirection } from "../extensions/TextDirection";
 import { TextHighlightClass } from "../extensions/TextHighlightClass";
+import { YouTubeResize } from "../extensions/YouTubeResize";
 import { ConfirmDialog } from "./toolbars/components/ConfirmDialog";
 import { ToolbarGroupsConfig } from "./toolbars/ToolbarConfig";
 
@@ -89,7 +90,6 @@ function EditorInner({
     customFonts
 }: EditorInnerProps): ReactElement {
     const { editor, codeViewState, codeViewDispatch } = useCurrentEditor();
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleSaveCode = (): void => {
         if (!editor) return;
@@ -103,8 +103,8 @@ function EditorInner({
         codeViewDispatch({ type: "CANCEL_CODE_CHANGES" });
     };
 
-    const handleHtmlChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-        codeViewDispatch({ type: "UPDATE_HTML_CODE", html: e.target.value });
+    const handleHtmlChange = (value: string): void => {
+        codeViewDispatch({ type: "UPDATE_HTML_CODE", html: value });
     };
 
     return (
@@ -121,18 +121,14 @@ function EditorInner({
                     />
                 )}
                 {codeViewState.isCodeView ? (
-                    <textarea
-                        ref={textareaRef}
-                        className="code-editor"
+                    <HighlightedCodeEditor
                         value={codeViewState.htmlCode}
                         onChange={handleHtmlChange}
-                        spellCheck={false}
+                        readOnly={false}
                     />
                 ) : (
                     <EditorContent editor={editor} className={className} />
                 )}
-                {/* <DynamicTableStyles /> */}
-                {/* {styleDataFormat === "class" && <DynamicTextColorStyles />} */}
             </div>
             {codeViewState.showConfirm && (
                 <ConfirmDialog
@@ -200,10 +196,20 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
             indentStep: 1,
             styleDataFormat
         }),
+        KeyboardNavigation.configure({
+            wrapperSelector: ".tiptap-wrapper",
+            toolbarSelector: ".tiptap-toolbar",
+            statusBarSelector: ".rich-text-status-bar",
+            widgetSelector: ".widget-rich-text"
+        }),
         TextDirection.configure({
             types: ["paragraph", "heading"],
             directions: ["ltr", "rtl"],
             defaultDirection: "ltr"
+        }),
+        Fullscreen.configure({
+            widgetSelector: ".widget-rich-text",
+            fullscreenClass: "fullscreen"
         }),
         TextColorClass.configure({ types: ["textStyle"], styleDataFormat }),
         TextHighlightClass.configure({ multicolor: true, styleDataFormat }),
@@ -218,12 +224,18 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
                 class: "tiptap-image"
             }
         }),
-        Youtube.configure({
+        YouTubeResize.configure({
             inline: false,
             width: 640,
             height: 480,
             HTMLAttributes: {
                 class: "tiptap-video"
+            }
+        }),
+        GenericEmbed.configure({
+            inline: false,
+            HTMLAttributes: {
+                class: "tiptap-embed"
             }
         })
     ];

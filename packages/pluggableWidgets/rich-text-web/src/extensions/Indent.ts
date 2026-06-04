@@ -1,5 +1,5 @@
 import { Extension } from "@tiptap/core";
-import { AllSelection, TextSelection, Transaction } from "@tiptap/pm/state";
+import { AllSelection, Plugin, PluginKey, TextSelection, Transaction } from "@tiptap/pm/state";
 
 export interface IndentOptions {
     types: string[];
@@ -115,11 +115,45 @@ export const Indent = Extension.create<IndentOptions>({
         };
     },
 
-    addKeyboardShortcuts() {
-        return {
-            Tab: () => this.editor.commands.increaseIndent(),
-            "Shift-Tab": () => this.editor.commands.decreaseIndent()
-        };
+    addProseMirrorPlugins() {
+        const editor = this.editor;
+
+        return [
+            new Plugin({
+                key: new PluginKey("indentTabHandler"),
+                props: {
+                    handleKeyDown: (view, event) => {
+                        // Only handle Tab and Shift-Tab
+                        if (event.key !== "Tab") {
+                            return false;
+                        }
+
+                        // Only capture Tab if focus is INSIDE the editor content
+                        // This allows Tab to work naturally when focus is outside (e.g., on toolbar buttons)
+                        const editorDom = view.dom;
+                        const activeElement = document.activeElement;
+
+                        if (!editorDom.contains(activeElement)) {
+                            // Focus is outside editor - let Tab work naturally
+                            return false;
+                        }
+
+                        // Focus is inside editor - capture Tab for indentation
+                        // Prevent default Tab behavior (focus movement) to keep focus in editor
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        // Execute the appropriate indent command
+                        const result = event.shiftKey
+                            ? editor.commands.decreaseIndent()
+                            : editor.commands.increaseIndent();
+
+                        // Return true to indicate we handled the event
+                        return result;
+                    }
+                }
+            })
+        ];
     }
 });
 

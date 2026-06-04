@@ -8,11 +8,16 @@ import { useDropdown } from "../hooks/useDropdown";
 export interface ConfigurationSection {
     id: string;
     label: string;
-    type: "colorPicker" | "dropdown";
-    getCurrentValue?: () => string | null;
+    type: "colorPicker" | "dropdown" | "numberInput";
+    getCurrentValue?: () => string | number | null;
     onChange: (value: string) => void;
     options?: Array<{ value: string; label: string }>;
     defaultColor?: string;
+    min?: number;
+    max?: number;
+    step?: number;
+    placeholder?: string;
+    unit?: string;
 }
 
 export interface ConfigurationDropdownConfig {
@@ -22,6 +27,7 @@ export interface ConfigurationDropdownConfig {
 export function ConfigurationDropdown({ config }: BaseToolbarButtonProps): ReactElement {
     const { editor } = useCurrentEditor();
     const [isOpen, setIsOpen] = useState(false);
+    const [numberInputValues, setNumberInputValues] = useState<Record<string, string>>({});
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const { refs, floatingStyles } = useDropdown({
@@ -51,7 +57,7 @@ export function ConfigurationDropdown({ config }: BaseToolbarButtonProps): React
                                 <label className="configuration-label">{section.label}</label>
                                 {section.type === "colorPicker" && (
                                     <Compact
-                                        color={currentValue || section.defaultColor || "#000000"}
+                                        color={(currentValue as string) || section.defaultColor || "#000000"}
                                         onChange={(color: { hex: string }) => {
                                             section.onChange(color.hex);
                                         }}
@@ -60,7 +66,7 @@ export function ConfigurationDropdown({ config }: BaseToolbarButtonProps): React
                                 {section.type === "dropdown" && section.options && (
                                     <select
                                         className="configuration-select"
-                                        value={currentValue || ""}
+                                        value={(currentValue as string) || ""}
                                         onChange={e => section.onChange(e.target.value)}
                                     >
                                         {section.options.map(option => (
@@ -69,6 +75,53 @@ export function ConfigurationDropdown({ config }: BaseToolbarButtonProps): React
                                             </option>
                                         ))}
                                     </select>
+                                )}
+                                {section.type === "numberInput" && (
+                                    <div className="configuration-number-input">
+                                        <input
+                                            type="number"
+                                            className="configuration-input"
+                                            min={section.min}
+                                            max={section.max}
+                                            step={section.step || 1}
+                                            placeholder={section.placeholder || ""}
+                                            value={
+                                                numberInputValues[section.id] !== undefined
+                                                    ? numberInputValues[section.id]
+                                                    : (currentValue ?? "")
+                                            }
+                                            onChange={e => {
+                                                const value = e.target.value;
+                                                setNumberInputValues(prev => ({ ...prev, [section.id]: value }));
+                                                section.onChange(value);
+                                            }}
+                                            onBlur={() => {
+                                                setNumberInputValues(prev => {
+                                                    const next = { ...prev };
+                                                    delete next[section.id];
+                                                    return next;
+                                                });
+                                            }}
+                                        />
+                                        {section.unit && <span className="configuration-unit">{section.unit}</span>}
+                                        {currentValue !== null && currentValue !== "" && (
+                                            <button
+                                                type="button"
+                                                className="configuration-clear-button"
+                                                onClick={() => {
+                                                    setNumberInputValues(prev => {
+                                                        const next = { ...prev };
+                                                        delete next[section.id];
+                                                        return next;
+                                                    });
+                                                    section.onChange("");
+                                                }}
+                                                title="Clear (auto width)"
+                                            >
+                                                ×
+                                            </button>
+                                        )}
+                                    </div>
                                 )}
                             </div>
                         );
