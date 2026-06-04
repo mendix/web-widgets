@@ -106,30 +106,39 @@ test.describe("Error page", () => {
 });
 
 test.describe("External video", () => {
-    test.beforeEach(async ({ page }) => {
+    test("renders a poster", async ({ page }, testInfo) => {
+        // Register the route before navigation so the mp4 fetch is intercepted
+        // from the start. The beforeEach can't be used here because it runs
+        // before the test body, after which it's too late to register the route.
+        const stubPath = testInfo.file.replace("VideoPlayer.spec.js", "fixtures/stub.mp4");
+        await page.route("**/*.mp4", route =>
+            route.fulfill({
+                status: 200,
+                contentType: "video/mp4",
+                path: stubPath
+            })
+        );
         await page.goto("/p/external");
-    });
 
-    test("renders a poster", async ({ page }) => {
         const widget = page.locator(".widget-video-player");
         const videoLocator = page.locator(".widget-video-player video");
         await widget.scrollIntoViewIfNeeded();
         await expect(widget).toBeVisible();
         await expect(videoLocator).toHaveAttribute("poster", /.+/);
-        // Wait for poster image to decode in-page before screenshotting.
-        // page.evaluate with a separate Image() is unreliable — the promise can
-        // resolve before the <video> element itself has rendered the poster frame.
-        await videoLocator.evaluate(el =>
-            el.poster
-                ? new Promise(r => {
-                      const i = new Image();
-                      i.onload = i.onerror = r;
-                      i.src = el.poster;
-                      if (i.complete) r();
-                  })
-                : Promise.resolve()
+        // Poll for a terminal state: metadata loaded OR all sources failed (networkState 3).
+        // Polling avoids the race where loadedmetadata/error events fire on <source> before
+        // we can attach listeners on the <video> element inside evaluate().
+        await page.waitForFunction(
+            () => {
+                const el = document.querySelector(".widget-video-player video");
+                return (
+                    el !== null &&
+                    (el.readyState >= 1 || el.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || el.error !== null)
+                );
+            },
+            { timeout: 8000 }
         );
-        // Wait two animation frames so the browser flushes layout and paints the poster frame.
+        // Flush layout and paint after metadata is ready.
         await waitFrames(page, 2);
         await expect(widget).toHaveScreenshot("videoPlayerExternalPoster.png");
     });
