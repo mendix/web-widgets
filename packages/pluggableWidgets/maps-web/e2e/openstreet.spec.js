@@ -126,7 +126,7 @@ test.describe("OpenStreet Maps - No Google API", () => {
 
             // Check C
             await markerC.click();
-            await expect(page.getByText("Marker B")).toBeVisible();
+            await expect(page.getByText("Marker C")).toBeVisible();
             // TODO: Fix on click action - title should be updated in input
             await expect(page.getByLabel("Marker title")).toHaveValue("Unknown");
 
