@@ -6,6 +6,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.0] DataWidgets - 2026-05-27
+
+### [3.11.0] Datagrid
+
+#### Added
+
+- We added a "Custom row key" property in the Advanced section to provide stable row identifiers when using view entities, preventing scroll position loss during data refresh.
+
+#### Fixed
+
+- We fixed an issue where custom content columns ignored the export type setting, causing numbers and dates to always export as text in Excel.
+
+- We fixed an issue where exported date values included a hidden time component even when the format specified date-only parts.
+
+- We fixed an issue where boolean values were not exported as proper Excel boolean cells. Both attribute and custom content columns now export as native booleans (TRUE/FALSE) recognized by Excel.
+
+- We fixed an issue where numbers with more than 15 significant digits lost precision during Excel export. Such values are now exported as text to preserve all digits.
+
+- We fixed an issue where the vertical scrollbar disappeared after hiding a wide column while virtual scrolling was enabled.
+
+- We fixed an issue where only the first page loaded when the grid had enough columns to require horizontal scrolling.
+
+### [3.11.0] Gallery
+
+#### Added
+
+- We added a "Custom item key" property in the Advanced section to provide stable item identifiers when using view entities, preventing scroll position loss during data refresh.
+
+### [3.11.0] TreeNode
+
+#### Added
+
+- We added `Parent association` config to allow creating infinite level treenodes by using self reference association to itself. Fill this configuration with the association and Treenode will render as an infinite treenode.
+
 ## [3.10.0] DataWidgets - 2026-05-06
 
 ### Changed
