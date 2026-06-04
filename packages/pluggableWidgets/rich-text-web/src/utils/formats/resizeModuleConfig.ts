@@ -1,8 +1,8 @@
 import Quill from "quill";
 import QuillResize from "quill-resize-module";
 import { ACTION_DISPATCHER } from "../helpers";
-import MxResizeToolbar from "../modules/resizeToolbar";
 import MxResize from "../modules/resize";
+import MxResizeToolbar from "../modules/resizeToolbar";
 
 export const RESIZE_MODULE_CONFIG = {
     modules: ["DisplaySize", MxResizeToolbar, MxResize, "Keyboard"],

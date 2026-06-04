@@ -1,11 +1,10 @@
-import { ReactElement, useCallback, useState } from "react";
-import { type viewCodeConfigType } from "../../utils/formats";
-import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
-import CodeMirror, { ViewUpdate } from "@uiw/react-codemirror";
-import { html } from "@codemirror/lang-html";
-import { githubLight } from "@uiw/codemirror-theme-github";
-import { EditorView } from "codemirror";
+import hljs from "highlight.js";
 import beautify from "js-beautify";
+import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
+import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
+import "highlight.js/styles/github.css";
+import { DialogBody, DialogContent, DialogFooter, DialogHeader, FormControl } from "./DialogContent";
+import { type viewCodeConfigType } from "../../utils/formats";
 
 export interface ViewCodeDialogProps {
     currentCode?: string;
@@ -28,13 +27,27 @@ const BEAUTIFY_OPTIONS: beautify.HTMLBeautifyOptions = {
 
 export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement {
     const { onSubmit, onClose, currentCode, formOrientation } = props;
+    const codeRef = useRef<HTMLElement>(null);
     const [formState, setFormState] = useState({
         // temporarily change tab characters to em space to avoid beautify removing them
         src:
             beautify.html(currentCode?.replace(/\t/g, "&emsp;") ?? "", BEAUTIFY_OPTIONS)?.replace(/&emsp;/g, "\t") || ""
     });
-    const onCodeChange = useCallback((value: string, _viewUpdate: ViewUpdate) => {
-        setFormState({ ...formState, src: value });
+
+    useEffect(() => {
+        const codeElement = codeRef.current;
+        if (codeElement) {
+            hljs.highlightElement(codeElement);
+        }
+        return () => {
+            if (codeElement) {
+                delete codeElement.dataset.highlighted;
+            }
+        };
+    }, [formState]);
+
+    const onCodeChange = useCallback((value: string) => {
+        setFormState({ src: value });
     }, []);
 
     return (
@@ -45,15 +58,35 @@ export default function ViewCodeDialog(props: ViewCodeDialogProps): ReactElement
                     <label>Source Code</label>
                 </div>
                 <FormControl label="Code input" formOrientation={props.formOrientation} inputId="rich-text-code-input">
-                    <CodeMirror
-                        className="form-control mx-textarea-input mx-textarea-noresize code-input"
-                        value={formState.src}
-                        extensions={[EditorView.lineWrapping, html()]}
-                        onChange={onCodeChange}
-                        basicSetup
-                        theme={githubLight}
-                        maxHeight="70vh"
-                    />
+                    <ScrollSync>
+                        <div className="code-editor-container">
+                            <ScrollSyncPane>
+                                <textarea
+                                    spellCheck={false}
+                                    value={formState.src}
+                                    id="rich-text-code-input-buffer"
+                                    disabled
+                                    className="code-editor code-buffer"
+                                />
+                            </ScrollSyncPane>
+                            <ScrollSyncPane>
+                                <textarea
+                                    spellCheck={false}
+                                    value={formState.src}
+                                    onChange={e => onCodeChange(e.target.value)}
+                                    className="code-input code-editor"
+                                    id="rich-text-code-input"
+                                />
+                            </ScrollSyncPane>
+                            <ScrollSyncPane>
+                                <pre className="code-preview code-editor" aria-hidden="true">
+                                    <code ref={codeRef} className="language-html">
+                                        {formState.src}
+                                    </code>
+                                </pre>
+                            </ScrollSyncPane>
+                        </div>
+                    </ScrollSync>
                 </FormControl>
                 <DialogFooter onSubmit={() => onSubmit(formState)} onClose={onClose}></DialogFooter>
             </DialogBody>

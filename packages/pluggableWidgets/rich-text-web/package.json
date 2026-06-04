@@ -24,15 +24,15 @@
     },
     "testProject": {
         "githubUrl": "https://github.com/mendix/testProjects",
-        "branchName": "rich-text-v4-web"
+        "branchName": "rich-text-v4-web-v2"
     },
     "scripts": {
         "build": "cross-env MPKOUTPUT=RichText.mpk pluggable-widgets-tools build:web",
         "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "cross-env MPKOUTPUT=RichText.mpk pluggable-widgets-tools start:web",
-        "e2e": "run-e2e ci",
-        "e2edev": "run-e2e dev --with-preps",
+        "e2e": "MENDIX_VERSION=11.9.1 run-e2e ci",
+        "e2edev": "MENDIX_VERSION=11.9.1 run-e2e dev --with-preps",
         "format": "prettier --ignore-path ./node_modules/@mendix/prettier-config-web-widgets/global-prettierignore --write .",
         "lint": "eslint src/ package.json",
         "publish-marketplace": "rui-publish-marketplace",
@@ -43,21 +43,19 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
-        "@codemirror/lang-html": "^6.4.9",
-        "@codemirror/state": "^6.5.2",
         "@floating-ui/dom": "^1.7.4",
         "@floating-ui/react": "^0.26.27",
         "@melloware/coloris": "^0.25.0",
-        "@uiw/codemirror-theme-github": "^4.23.13",
-        "@uiw/react-codemirror": "^4.23.13",
         "classnames": "^2.5.1",
+        "highlight.js": "^11.11.1",
         "js-beautify": "^1.15.4",
         "katex": "^0.16.22",
         "linkifyjs": "^4.3.2",
         "lodash.merge": "^4.6.2",
         "parchment": "^3.0.0",
         "quill": "^2.0.3",
-        "quill-resize-module": "^2.0.4"
+        "quill-resize-module": "^2.0.4",
+        "react-scroll-sync": "^1.0.2"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
