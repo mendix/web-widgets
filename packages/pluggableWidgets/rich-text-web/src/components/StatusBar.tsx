@@ -62,7 +62,13 @@ export function StatusBar({ content, metricType }: StatusBarProps): ReactElement
     }, [metricType, metricValue]);
 
     return (
-        <div className="rich-text-status-bar">
+        <div
+            className="rich-text-status-bar"
+            tabIndex={0}
+            role="region"
+            aria-label="Editor status bar"
+            aria-live="polite"
+        >
             <span className="status-bar-text">{displayText}</span>
         </div>
     );

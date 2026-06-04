@@ -312,6 +312,82 @@ $rte-brand-primary: #264ae5;
                 }
             }
 
+            // Embed and YouTube video resize styles
+            .embed-wrapper,
+            .youtube-wrapper {
+                display: inline-block;
+                position: relative;
+                margin: 0.5em 0;
+                line-height: 0;
+
+                &.resizing {
+                    outline: 2px solid var(--purple, #6a00f5);
+                }
+
+                .embed-container,
+                .youtube-container {
+                    position: relative;
+                    display: inline-block;
+                    max-width: 100%;
+
+                    iframe {
+                        display: block;
+                        border-radius: 8px;
+                    }
+
+                    .resize-handles {
+                        display: none;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        pointer-events: none;
+
+                        .resize-handle {
+                            position: absolute;
+                            width: 12px;
+                            height: 12px;
+                            background: var(--purple, #6a00f5);
+                            border: 2px solid white;
+                            border-radius: 50%;
+                            pointer-events: auto;
+                            cursor: pointer;
+                            z-index: 10;
+
+                            &.nw {
+                                top: -6px;
+                                left: -6px;
+                                cursor: nw-resize;
+                            }
+
+                            &.ne {
+                                top: -6px;
+                                right: -6px;
+                                cursor: ne-resize;
+                            }
+
+                            &.sw {
+                                bottom: -6px;
+                                left: -6px;
+                                cursor: sw-resize;
+                            }
+
+                            &.se {
+                                bottom: -6px;
+                                right: -6px;
+                                cursor: se-resize;
+                            }
+                        }
+                    }
+
+                    &:hover .resize-handles,
+                    .resize-handles:hover {
+                        display: block;
+                    }
+                }
+            }
+
             iframe.tiptap-video {
                 max-width: 100%;
                 border-radius: 8px;
@@ -325,34 +401,57 @@ $rte-brand-primary: #264ae5;
         }
     }
 
+    .rich-text-status-bar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+        height: 24px;
+        padding: 0 12px;
+        border-top: 1px solid var(--border-color-default, #d7d7d7);
+        background-color: var(--background-color-secondary, #f8f8f8);
+        font-size: 12px;
+        color: var(--font-color-secondary, #606060);
+
+        .status-bar-text {
+            user-select: none;
+        }
+
+        &:focus {
+            outline: 2px solid var(--brand-primary, $rte-brand-primary);
+            outline-offset: 2px;
+        }
+    }
+
     &.fullscreen {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        width: 100vw;
-        height: 100vh;
         z-index: 104;
         background-color: white;
         overflow: auto;
         display: flex;
         flex-direction: column;
-        padding: 20px;
+        padding: var(--spacing-medium, 16px);
         box-sizing: border-box;
-        margin: 0;
+        margin: var(--spacing-medium, 16px) var(--closed-sidebar-width);
         border: none;
         max-width: none;
         max-height: none;
         transform: none;
         outline: none;
+        box-shadow: var(--shadow-medium);
 
-        min-width: 100vw;
-        min-height: 100vh;
+        .tiptap-wrapper {
+            width: 100%;
+            max-width: 100%;
+            flex: 1;
+        }
 
-        .flexcontainer {
-            width: 100% !important;
-            max-width: 100% !important;
+        .tiptap-editor {
+            flex: 1;
         }
     }
 
@@ -379,5 +478,13 @@ $rte-brand-primary: #264ae5;
             border-color: #0078d4;
             background: white;
         }
+    }
+}
+
+.mx-scrollcontainer-wrapper:has(.widget-rich-text.fullscreen) {
+    isolation: auto;
+
+    .mx-scrollcontainer-wrapper {
+        isolation: auto;
     }
 }

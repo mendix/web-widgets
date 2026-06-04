@@ -1,3 +1,8 @@
+$rte-border-color-default: #ced0d3 !default;
+$rte-gray-ligher: #f8f8f8 !default;
+$rte-brand-primary: #264ae5 !default;
+$rte-shadow-color: #00000014 !default;
+
 .widget-rich-text.toolbar-bottom {
     .tiptap-wrapper {
         flex-direction: column-reverse;
@@ -8,11 +13,11 @@
     display: flex;
     flex-direction: column;
     border: unset;
-    box-shadow: var(--shadow-small, 0 2px 4px 0) var(--shadow-color-border, #00000014);
+    box-shadow: var(--shadow-small, 0 2px 4px 0) var(--shadow-color-border, $rte-shadow-color);
 
     .tiptap-wrapper & {
         .toolbar-bottom & {
-            box-shadow: 2px 0 4px 0 var(--shadow-color-border, #00000014);
+            box-shadow: 2px 0 4px 0 var(--shadow-color-border, $rte-shadow-color);
         }
     }
 
@@ -21,7 +26,7 @@
         flex-wrap: wrap;
         gap: 4px;
         padding: 8px;
-        box-shadow: var(--shadow-small, 0 2px 4px 0) var(--shadow-color-border, #00000014);
+        box-shadow: var(--shadow-small, 0 2px 4px 0) var(--shadow-color-border, $rte-shadow-color);
 
         &:empty {
             height: 0;
@@ -59,9 +64,8 @@
 
     .toolbar-dropdown-button {
         display: flex;
-        align-items: center;
         gap: 4px;
-        padding: 6px 10px;
+        padding: 6px 6px 3px;
         min-width: 120px;
         justify-content: space-between;
 
@@ -75,14 +79,20 @@
             font-size: 12px;
             transition: transform 0.2s;
         }
+
+        &.fontSize {
+            + .toolbar-dropdown-menu {
+                min-width: 120px;
+            }
+        }
     }
 
     .toolbar-dropdown-menu {
         // Position is managed by Floating UI (via floatingStyles)
         background: white;
-        border: 1px solid #d0d0d0;
+        border: 1px solid var(--border-color-default, $rte-border-color-default);
         border-radius: 4px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 12px var(--shadow-color-border, $rte-shadow-color);
         min-width: 160px;
         z-index: 1000;
         max-height: 300px;
@@ -91,7 +101,7 @@
         .toolbar-dropdown-item {
             display: block;
             width: 100%;
-            padding: 8px 12px;
+            padding: 4px 6px;
             text-align: left;
             border: none;
             background: white;
@@ -100,11 +110,11 @@
             transition: background-color 0.2s;
 
             &:hover {
-                background-color: #f0f0f0;
+                background-color: var(--gray-lighter, $rte-gray-ligher);
             }
 
             &.is-active {
-                background-color: #264ae5;
+                background-color: var(--brand-primary, $rte-brand-primary);
                 color: white;
             }
 
@@ -128,18 +138,21 @@
         transition: all 0.2s;
 
         &:hover:not(:disabled) {
-            background-color: #e8e8e8;
-            border-color: #b0b0b0;
+            background-color: var(--gray-lighter, $rte-gray-ligher);
+            border-color: var(--border-color-default, $rte-border-color-default);
         }
 
         &:active:not(:disabled) {
-            background-color: #d8d8d8;
+            background-color: var(--gray-lighter, $rte-gray-ligher);
+        }
+
+        &:focus {
+            outline: 2px solid var(--brand-primary, $rte-brand-primary);
+            outline-offset: 2px;
         }
 
         &.is-active {
-            background-color: #264ae5;
-            color: white;
-            border-color: #1a3bb3;
+            color: var(--brand-primary, $rte-brand-primary);
         }
 
         &:disabled {
@@ -203,11 +216,11 @@
                 }
 
                 &:hover {
-                    background-color: #f0f0f0;
+                    background-color: var(--gray-lighter, $rte-gray-ligher);
                 }
 
                 &.is-active {
-                    background-color: #264ae5;
+                    background-color: var(--brand-primary, $rte-brand-primary);
                     color: white;
                 }
 

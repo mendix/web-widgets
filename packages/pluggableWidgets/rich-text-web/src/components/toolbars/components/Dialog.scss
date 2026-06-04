@@ -329,3 +329,113 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
 }
+
+// Video dialog enhancements
+.video-dialog {
+    min-width: 500px;
+
+    .dialog-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid #ddd;
+
+        button {
+            padding: 8px 16px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.2s;
+
+            &:hover {
+                background: #f5f5f5;
+                color: #333;
+            }
+
+            &.active {
+                border-bottom-color: #0078d4;
+                color: #0078d4;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .tab-content {
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-family: "Courier New", monospace;
+            font-size: 12px;
+            resize: vertical;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: #0078d4;
+            }
+        }
+    }
+
+    .detection-status {
+        padding: 8px 12px;
+        margin: 12px 0;
+        border-radius: 4px;
+        font-size: 13px;
+
+        &.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        &.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        small {
+            opacity: 0.8;
+            font-size: 11px;
+        }
+    }
+
+    .dialog-info {
+        padding: 8px 12px;
+        margin: 12px 0;
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+        border-radius: 4px;
+        font-size: 12px;
+
+        &.warning {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeeba;
+        }
+    }
+}
+
+// Generic embed wrapper styling
+.generic-embed-wrapper {
+    position: relative;
+    width: fit-content;
+
+    iframe {
+        display: block;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    &.ProseMirror-selectednode {
+        outline: 2px solid var(--brand-primary, #0078d4);
+        outline-offset: 2px;
+    }
+}

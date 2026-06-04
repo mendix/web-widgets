@@ -1,4 +1,4 @@
-import { ReactElement, useState, useEffect } from "react";
+import { ReactElement, useState, useEffect, KeyboardEvent } from "react";
 import { useCurrentEditor } from "../../EditorContext";
 import { BaseToolbarButtonProps } from "../helpers/toolbarTypes";
 
@@ -22,6 +22,25 @@ export function ToolbarButton({ config }: BaseToolbarButtonProps): ReactElement 
             editor.off("transaction", handleUpdate);
         };
     }, [editor]);
+
+    const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>): void => {
+        if (!editor) return;
+
+        // Handle Tab on last toolbar button - return focus to editor
+        if (event.key === "Tab" && !event.shiftKey) {
+            const toolbar = event.currentTarget.closest(".tiptap-toolbar");
+            if (toolbar) {
+                const buttons = Array.from(toolbar.querySelectorAll<HTMLButtonElement>("button:not([disabled])"));
+                const currentIndex = buttons.indexOf(event.currentTarget);
+                const isLastButton = currentIndex === buttons.length - 1;
+
+                if (isLastButton) {
+                    event.preventDefault();
+                    editor.view.focus();
+                }
+            }
+        }
+    };
 
     const handleClick = (): void => {
         if (!editor) return;
@@ -84,6 +103,7 @@ export function ToolbarButton({ config }: BaseToolbarButtonProps): ReactElement 
     return (
         <button
             onClick={handleClick}
+            onKeyDown={handleKeyDown}
             disabled={isDisabled}
             className={`${isActive ? "is-active" : ""} ${isIconClass ? "icon-button" : ""}`}
             title={config.title}
