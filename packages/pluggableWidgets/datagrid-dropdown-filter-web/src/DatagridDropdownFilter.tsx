@@ -5,8 +5,6 @@ import { AttrFilter } from "./components/AttrFilter";
 import { RefFilter } from "./components/RefFilter";
 
 function Container(props: DatagridDropdownFilterContainerProps): ReactElement {
-    console.info("DatagridDropdownFilter", props.refOptions);
-
     if (props.baseType === "attr") {
         return <AttrFilter {...props} />;
     }
