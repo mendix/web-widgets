@@ -4,13 +4,10 @@ import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-
 import { PusherContainerProps } from "../typings/PusherProps";
 import { usePusherSubscribe } from "./hooks/usePusherSubscribe";
 import "./ui/Pusher.scss";
-import { useMxObjectInfo } from "./utils/useMxObjectInfo";
+import { getChannelName } from "./utils/getChannelName";
 
 export default function Pusher(props: PusherContainerProps): ReactElement {
     const { class: className, objectSource, notifyActionName, notifyEventAction } = props;
-
-    // Extract object GUID and entity name from data source
-    const mxObjectInfo = useMxObjectInfo(objectSource as any); // TODO: fix typings when PWT updated.
 
     // Event callback - triggered when Pusher event is received
     const handleEvent = useCallback(
@@ -28,22 +25,23 @@ export default function Pusher(props: PusherContainerProps): ReactElement {
         console.error("[Pusher] Subscription error:", error.message);
     }, []);
 
+    // Build channel name based on the object
+    const channelName = getChannelName(objectSource as any); // TODO: fix typings when PWT updated.
+
     // Setup stable subscription config
     const subscription = useMemo(() => {
-        if (!mxObjectInfo) {
+        if (!channelName) {
             return undefined;
         }
 
         return {
-            entityName: mxObjectInfo.entityName,
-            guid: mxObjectInfo.guid,
+            channelName,
             eventName: notifyActionName,
             onEvent: handleEvent,
             onError: handleError
         };
-    }, [mxObjectInfo, notifyActionName, handleEvent, handleError]);
+    }, [channelName, notifyActionName, handleEvent, handleError]);
 
-    // Initialize Pusher listener
     usePusherSubscribe(subscription);
 
     return <div className={classnames("widget-pusher", className)} />;

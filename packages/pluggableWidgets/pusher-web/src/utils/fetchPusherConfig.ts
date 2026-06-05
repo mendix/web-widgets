@@ -37,7 +37,7 @@ export async function fetchPusherConfig(signal: AbortSignal): Promise<PusherConf
 
     let keyData: KeyData;
     try {
-        keyData = JSON.parse(await response.text()) as KeyData;
+        keyData = (await response.json()) as KeyData;
     } catch (error) {
         console.error("[fetchPusherConfig] Failed to parse response:", error);
         return null;

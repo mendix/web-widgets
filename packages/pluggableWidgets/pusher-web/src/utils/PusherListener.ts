@@ -8,30 +8,18 @@ export interface PusherConfig {
 }
 
 export interface SubscriptionConfig {
-    entityName: string;
-    guid: string;
+    channelName: string;
     eventName: string;
     onEvent: (data: unknown) => void;
     onError?: (error: Error) => void;
 }
 
 export class PusherListener {
-    private pusher: Pusher | null = null;
+    private pusher: Pusher;
     private currentChannel: Channel | null = null;
-    private currentChannelName: string | null = null;
-    private currentEventName: string | null = null;
+    private currentSubscription: SubscriptionConfig | null = null;
 
-    constructor(private config: PusherConfig) {}
-
-    /**
-     * Initialize Pusher connection
-     * Should be called once on widget mount
-     */
-    initialize(): void {
-        if (this.pusher) {
-            return; // Already initialized
-        }
-
+    constructor(private config: PusherConfig) {
         this.pusher = new Pusher(this.config.key, {
             cluster: this.config.cluster,
             authEndpoint: this.config.authEndpoint,
@@ -52,14 +40,8 @@ export class PusherListener {
      * Automatically unsubscribes from previous channel if different
      */
     subscribe(config: SubscriptionConfig): void {
-        if (!this.pusher) {
-            throw new Error("PusherListener not initialized. Call initialize() first.");
-        }
-
-        const channelName = this.buildChannelName(config.entityName, config.guid);
-
         // If already subscribed to same channel and event, do nothing
-        if (channelName === this.currentChannelName && config.eventName === this.currentEventName) {
+        if (config === this.currentSubscription) {
             return;
         }
 
@@ -67,9 +49,8 @@ export class PusherListener {
         this.unsubscribe();
 
         // Subscribe to new channel
-        this.currentChannelName = channelName;
-        this.currentEventName = config.eventName;
-        this.currentChannel = this.pusher.subscribe(channelName);
+        this.currentSubscription = config;
+        this.currentChannel = this.pusher.subscribe(config.channelName);
 
         // Bind event handler
         this.currentChannel.bind(config.eventName, config.onEvent);
@@ -89,13 +70,12 @@ export class PusherListener {
      * Unsubscribe from current channel
      */
     unsubscribe(): void {
-        if (this.currentChannel && this.currentChannelName) {
+        if (this.currentChannel && this.currentSubscription) {
             // Unbind all channel events
             this.currentChannel.unbind();
-            this.pusher?.unsubscribe(this.currentChannelName);
+            this.pusher.unsubscribe(this.currentSubscription.channelName);
             this.currentChannel = null;
-            this.currentChannelName = null;
-            this.currentEventName = null;
+            this.currentSubscription = null;
         }
     }
 
@@ -105,15 +85,8 @@ export class PusherListener {
      */
     destroy(): void {
         this.unsubscribe();
-        if (this.pusher) {
-            this.pusher.connection.unbind();
-            this.pusher.disconnect();
-            this.pusher = null;
-        }
-    }
-
-    private buildChannelName(entityName: string, guid: string): string {
-        return `private-${entityName}.${guid}`;
+        this.pusher.connection.unbind();
+        this.pusher.disconnect();
     }
 
     private handleConnectionError = (error: unknown): void => {

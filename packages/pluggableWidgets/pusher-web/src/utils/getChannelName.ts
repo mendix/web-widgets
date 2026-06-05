@@ -1,26 +1,16 @@
 import { DynamicValue, ObjectItem } from "mendix";
-import { useMemo } from "react";
 
-interface MxObjectInfo {
-    guid: string;
-    entityName: string;
-}
-
-export function useMxObjectInfo(objectSource: DynamicValue<ObjectItem>): MxObjectInfo | undefined {
+export function getChannelName(objectSource: DynamicValue<ObjectItem>): string | undefined {
     const object = (objectSource as any)?.value as ObjectItem | undefined;
 
     const guid = object?.id;
     const entityName = object ? extractEntityName(object) : undefined;
-    return useMemo(() => {
-        if (!guid || !entityName) {
-            return undefined;
-        }
 
-        return {
-            guid,
-            entityName
-        };
-    }, [guid, entityName]);
+    if (!guid || !entityName) {
+        return undefined;
+    }
+
+    return buildChannelName(entityName, guid);
 }
 
 function extractEntityName(object: ObjectItem): string {
@@ -29,4 +19,8 @@ function extractEntityName(object: ObjectItem): string {
         throw new Error("Unable to extract entity name. mxObject was not found.");
     }
     return mxObj.getEntity();
+}
+
+function buildChannelName(entityName: string, guid: string): string {
+    return `private-${entityName}.${guid}`;
 }
