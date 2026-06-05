@@ -83,12 +83,16 @@ export const ColorPicker = (props: ColorPickerProps): ReactElement => {
         [onColorChange, abortCompleteColorChange]
     );
 
-    const validateColor = (colorValue: string): void => {
-        const message = validateColorFormat(colorValue, format);
-        const validProps = validateProps(props);
-        const alertMessage = message ? invalidFormatMessage?.replaceAll(":colors:", message) : undefined;
-        setAlertMessage(validProps || alertMessage);
-    };
+    const validateColor = useCallback(
+        (colorValue: string): void => {
+            const message = validateColorFormat(colorValue, format);
+            const validProps = validateProps(props);
+            const alertMessage = message ? invalidFormatMessage?.replaceAll(":colors:", message) : undefined;
+            setAlertMessage(validProps || alertMessage);
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [format, invalidFormatMessage]
+    );
 
     const setColorPickerHidden = useCallback(
         (hide: boolean): void => {
