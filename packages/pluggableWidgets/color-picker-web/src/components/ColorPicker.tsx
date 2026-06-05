@@ -174,6 +174,24 @@ export const ColorPicker = (props: ColorPickerProps): ReactElement => {
             validateColor(color);
         }
     }, [color]);
+
+    useEffect(() => {
+        if (hidden) {
+            return undefined;
+        }
+
+        // react-color binds its mouseup cleanup to window in the bubble phase.
+        // A Mendix dialog calls stopPropagation on mouseup, preventing it from
+        // reaching window — leaving the picker stuck in drag mode.
+        // Re-dispatching in the capture phase ensures react-color always sees
+        // the release event regardless of dialog interference.
+        const releaseDrag = (): void => {
+            window.dispatchEvent(new MouseEvent("mouseup"));
+        };
+        document.addEventListener("mouseup", releaseDrag, true);
+        return () => document.removeEventListener("mouseup", releaseDrag, true);
+    }, [hidden]);
+
     return (
         <div
             className={classNames("widget-color-picker widget-color-picker-picker", {

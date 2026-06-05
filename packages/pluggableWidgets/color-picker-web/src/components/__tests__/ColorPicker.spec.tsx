@@ -40,6 +40,59 @@ describe("ColorPicker", () => {
         expect(colorPickerProps.onColorChange).toHaveBeenCalled();
     });
 
+    describe("stuck drag fix (popup mouseup re-dispatch)", () => {
+        it("attaches capture-phase mouseup listener on document when picker is visible", async () => {
+            const addSpy = jest.spyOn(document, "addEventListener");
+            const { getByRole } = renderColorPicker({ mode: "popover" });
+            await user.click(getByRole("button"));
+
+            expect(addSpy).toHaveBeenCalledWith("mouseup", expect.any(Function), true);
+            addSpy.mockRestore();
+        });
+
+        it("re-dispatches mouseup on window when document fires mouseup", async () => {
+            const { getByRole } = renderColorPicker({ mode: "popover" });
+            await user.click(getByRole("button"));
+
+            const windowDispatchSpy = jest.spyOn(window, "dispatchEvent");
+            document.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
+
+            expect(windowDispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ type: "mouseup" }));
+            windowDispatchSpy.mockRestore();
+        });
+
+        it("does not attach listener when picker is hidden", () => {
+            const addSpy = jest.spyOn(document, "addEventListener");
+            renderColorPicker({ mode: "popover" });
+
+            const mouseupCalls = addSpy.mock.calls.filter(
+                ([event, , capture]) => event === "mouseup" && capture === true
+            );
+            expect(mouseupCalls).toHaveLength(0);
+            addSpy.mockRestore();
+        });
+
+        it("removes capture listener when picker is hidden again", async () => {
+            const removeSpy = jest.spyOn(document, "removeEventListener");
+            const { getByRole } = renderColorPicker({ mode: "popover" });
+            const button = getByRole("button");
+
+            await user.click(button);
+            await user.click(button);
+
+            expect(removeSpy).toHaveBeenCalledWith("mouseup", expect.any(Function), true);
+            removeSpy.mockRestore();
+        });
+
+        it("attaches listener for inline mode (picker always visible)", () => {
+            const addSpy = jest.spyOn(document, "addEventListener");
+            renderColorPicker({ mode: "inline" });
+
+            expect(addSpy).toHaveBeenCalledWith("mouseup", expect.any(Function), true);
+            addSpy.mockRestore();
+        });
+    });
+
     describe("renders a picker of type", () => {
         it("sketch", async () => {
             const { container, getByRole } = renderColorPicker({ type: "sketch" });
