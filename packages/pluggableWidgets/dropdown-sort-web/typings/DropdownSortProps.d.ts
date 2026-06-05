@@ -3,9 +3,9 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
 import { AttributeMetaData, DynamicValue } from "mendix";
 import { Big } from "big.js";
+import { CSSProperties } from "react";
 
 export interface AttributesType {
     attribute: AttributeMetaData<Big | string | Date | boolean>;

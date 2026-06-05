@@ -3,8 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
+import { ActionValue, DynamicValue, ListActionValue, ListExpressionValue, ListValue, ListWidgetValue } from "mendix";
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ActionValue, DynamicValue, ListValue, ListActionValue, ListExpressionValue, ListWidgetValue } from "mendix";
 
 export type TagNameEnum = "div" | "span" | "p" | "ul" | "ol" | "li" | "a" | "img" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "__customTag__";
 

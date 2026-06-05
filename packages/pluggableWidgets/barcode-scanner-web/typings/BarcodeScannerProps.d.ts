@@ -3,8 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
 import { ActionValue, EditableValue } from "mendix";
+import { CSSProperties } from "react";
 
 export type BarcodeFormatEnum = "AZTEC" | "CODE_39" | "CODE_128" | "DATA_MATRIX" | "EAN_8" | "EAN_13" | "ITF" | "PDF_417" | "QR_CODE" | "RSS_14" | "UPC_A" | "UPC_E";
 

@@ -3,8 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
+import { ListActionValue, ListAttributeValue, ListExpressionValue, ListValue, SelectionSingleValue } from "mendix";
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, SelectionSingleValue } from "mendix";
 import { Big } from "big.js";
 
 export type SeriesSortOrderEnum = "asc" | "desc";

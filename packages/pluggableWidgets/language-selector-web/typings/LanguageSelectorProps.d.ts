@@ -3,8 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
+import { DynamicValue, ListExpressionValue, ListValue } from "mendix";
 import { CSSProperties } from "react";
-import { DynamicValue, ListValue, ListExpressionValue } from "mendix";
 
 export type PositionEnum = "left" | "right" | "top" | "bottom";
 

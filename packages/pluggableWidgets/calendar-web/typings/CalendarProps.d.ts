@@ -3,8 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
+import { ActionValue, DynamicValue, EditableValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListValue, Option } from "mendix";
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, EditableValue, ListValue, Option, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 
 export type TitleTypeEnum = "attribute" | "expression";
 

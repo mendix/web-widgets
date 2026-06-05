@@ -3,8 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
+import { DynamicValue, ListExpressionValue, ListReferenceValue, ListValue, ListWidgetValue, WebIcon } from "mendix";
 import { ComponentType, CSSProperties, ReactNode } from "react";
-import { DynamicValue, ListValue, ListExpressionValue, ListReferenceValue, ListWidgetValue, WebIcon } from "mendix";
 
 export type HeaderTypeEnum = "text" | "custom";
 
