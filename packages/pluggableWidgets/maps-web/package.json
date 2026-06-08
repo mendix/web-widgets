@@ -43,7 +43,10 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
+        "@mendix/widget-plugin-mobx-kit": "workspace:*",
         "@vis.gl/react-google-maps": "^0.8.3",
+        "brandi": "^5.0.0",
+        "brandi-react": "^5.0.0",
         "classnames": "^2.5.1",
         "deep-equal": "^2.2.3",
         "leaflet": "^1.9.4",
