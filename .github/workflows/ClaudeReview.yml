@@ -50,7 +50,7 @@ jobs:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                   COMMENTS=$(gh pr view ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --json comments \
-                    --jq '.comments[] | select(.author.login == "github-actions[bot]") | .id')
+                    --jq '.comments[] | select(.author.login == "github-actions") | .id')
 
                   if [ -z "$COMMENTS" ]; then
                     echo "No bot comments to minimize"
