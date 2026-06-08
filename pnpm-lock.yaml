@@ -1835,9 +1835,18 @@ importers:
 
   packages/pluggableWidgets/maps-web:
     dependencies:
+      '@mendix/widget-plugin-mobx-kit':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-mobx-kit
       '@vis.gl/react-google-maps':
         specifier: ^0.8.3
         version: 0.8.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      brandi:
+        specifier: ^5.0.0
+        version: 5.0.0
+      brandi-react:
+        specifier: ^5.0.0
+        version: 5.0.0(brandi@5.0.0)(react@18.3.1)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
