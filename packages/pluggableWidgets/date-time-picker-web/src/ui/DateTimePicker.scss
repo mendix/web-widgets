@@ -115,7 +115,7 @@
                 transition: all 0.4s allow-discrete;
 
                 &:popover-open {
-                    height: calc-size(auto, size);
+                    height: auto;
                     opacity: 1;
                 }
             }
