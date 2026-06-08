@@ -1,0 +1,13 @@
+diff --git a/bin/mx-scripts.js b/bin/mx-scripts.js
+index 708bf48f266b6f80d830a9a72388278a65695964..5a8ad6d0fcebac945cdd6d95bfc9c36e7a284051 100755
+--- a/bin/mx-scripts.js
++++ b/bin/mx-scripts.js
+@@ -8,7 +8,7 @@ const { red, blue, bold, whiteBright } = require("ansi-colors");
+ const semver = require("semver");
+ const { auditPluggableWidgetsTools } = require("../dist/commands/audit");
+ 
+-checkNodeVersion();
++// checkNodeVersion(); // Disabled via pnpm patch
+ (async () => {
+     try {
+         await checkMigration();
