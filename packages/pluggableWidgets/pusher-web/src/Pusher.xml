@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.pusher.Pusher" pluginWidget="true" offlineCapable="false" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Pusher</name>
+    <description>Listen to Notify server action and perform client side action</description>
+    <helpUrl>https://docs.mendix.com/appstore/widgets/pusher</helpUrl>
+    <properties>
+        <propertyGroup caption="General">
+            <property key="objectSource" type="datasource" isList="false">
+                <caption>Object to listen</caption>
+                <description />
+            </property>
+
+            <property key="notifyActionName" type="string" required="true" defaultValue="change">
+                <caption>Notify action name</caption>
+                <description>The name should match the with the 'Notify' parameter `ActionName`</description>
+            </property>
+
+            <property key="notifyEventAction" type="action" required="false">
+                <caption>Action</caption>
+                <description />
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>
