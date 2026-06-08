@@ -1887,6 +1887,9 @@ importers:
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
+      '@mendix/widget-plugin-test-utils':
+        specifier: workspace:*
+        version: link:../../shared/widget-plugin-test-utils
       '@types/deep-equal':
         specifier: ^1.0.1
         version: 1.0.4
