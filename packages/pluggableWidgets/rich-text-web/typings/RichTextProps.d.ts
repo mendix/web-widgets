@@ -3,8 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ComponentType, ReactNode } from "react";
 import { ActionValue, DynamicValue, EditableValue, ListValue } from "mendix";
+import { ComponentType, ReactNode } from "react";
 
 export type PresetEnum = "basic" | "standard" | "full" | "custom";
 

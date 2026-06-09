@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`AccordionGroup collapsible header doesn't render the icon when set to not visible 1`] = `
 <DocumentFragment>

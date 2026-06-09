@@ -3,8 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
 import { DynamicValue } from "mendix";
+import { CSSProperties } from "react";
 
 export type WidgetModeEnum = "basic" | "advanced";
 
