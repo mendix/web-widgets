@@ -11,8 +11,8 @@
             </property>
 
             <property key="notifyActionName" type="string" required="true" defaultValue="change">
-                <caption>Notify action name</caption>
-                <description>The name should match the with the 'Notify' parameter `ActionName`</description>
+                <caption>Action name</caption>
+                <description>The name should match the with the 'Notify' action parameter `ActionName`</description>
             </property>
 
             <property key="notifyEventAction" type="action" required="false">
