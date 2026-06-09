@@ -14,19 +14,19 @@ import { cropImage, CropError } from "../utils/cropImage";
 export function ImageCropperContainer(props: ImageCropperContainerProps): ReactElement | null {
     const state = useImageCropperState(Number(props.minZoom));
 
-    const { setZoom, setCrop, setCompletedCrop } = state;
+    const { setZoom, setLiveCrop, setCommittedCrop } = state;
 
-    const completedCropRef = useRef<PixelCrop | undefined>(undefined);
-    completedCropRef.current = state.completedCrop;
+    const committedCropRef = useRef<PixelCrop | undefined>(undefined);
+    committedCropRef.current = state.committedCrop;
     const zoomRef = useRef(state.zoom);
     zoomRef.current = state.zoom;
 
     const applyCrop = useCallback(async () => {
         const img = state.imageRef.current;
-        const completedCrop = completedCropRef.current;
+        const committedCrop = committedCropRef.current;
         if (
             !img ||
-            !completedCrop ||
+            !committedCrop ||
             props.image.readOnly ||
             props.image.status !== ValueStatus.Available ||
             !props.image.value
@@ -36,7 +36,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
         try {
             const file = await cropImage({
                 image: img,
-                pixelCrop: completedCrop,
+                pixelCrop: committedCrop,
                 zoom: zoomRef.current,
                 outputFormat: props.outputFormat,
                 outputQuality: Number(props.outputQuality),
@@ -79,27 +79,27 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
     const handleImageLoad = useCallback(
         (percentCrop: Crop, pixelCrop: PixelCrop) => {
             setZoom(Number(props.minZoom));
-            setCrop(percentCrop);
-            setCompletedCrop(pixelCrop);
+            setLiveCrop(percentCrop);
+            setCommittedCrop(pixelCrop);
             armed();
         },
-        [setZoom, setCrop, setCompletedCrop, props.minZoom, armed]
+        [setZoom, setLiveCrop, setCommittedCrop, props.minZoom, armed]
     );
 
     const uri = props.image.status === ValueStatus.Available ? props.image.value?.uri : undefined;
     useEffect(() => {
-        setCrop(undefined);
-        setCompletedCrop(undefined);
+        setLiveCrop(undefined);
+        setCommittedCrop(undefined);
         armed();
-    }, [uri, setCrop, setCompletedCrop, armed]);
+    }, [uri, setLiveCrop, setCommittedCrop, armed]);
 
     const handleCropComplete = useCallback(
         (pixelCrop: PixelCrop) => {
-            completedCropRef.current = pixelCrop;
-            setCompletedCrop(pixelCrop);
+            committedCropRef.current = pixelCrop;
+            setCommittedCrop(pixelCrop);
             auto.applyNow();
         },
-        [setCompletedCrop, auto]
+        [setCommittedCrop, auto]
     );
 
     const handleZoomChange = useCallback(
@@ -111,20 +111,35 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
     );
 
     if (props.image.status === ValueStatus.Loading) {
-        return <div className="widget-image-cropper widget-image-cropper--loading" aria-busy="true" />;
+        return (
+            <div
+                className={classNames("widget-image-cropper", "widget-image-cropper--loading", props.class)}
+                style={props.style}
+                tabIndex={props.tabIndex}
+                aria-busy="true"
+            />
+        );
     }
     if (props.image.status !== ValueStatus.Available || !props.image.value) {
-        return <div className="widget-image-cropper widget-image-cropper--empty">No image</div>;
+        return (
+            <div
+                className={classNames("widget-image-cropper", "widget-image-cropper--empty", props.class)}
+                style={props.style}
+                tabIndex={props.tabIndex}
+            >
+                No image
+            </div>
+        );
     }
 
     const aspect = resolveAspectRatio(props.aspectRatio, props.customAspectWidth, props.customAspectHeight);
 
     return (
-        <div className={classNames("widget-image-cropper", props.class)} style={props.style}>
+        <div className={classNames("widget-image-cropper", props.class)} style={props.style} tabIndex={props.tabIndex}>
             <CropArea
                 src={props.image.value.uri}
-                crop={state.crop}
-                onCropChange={state.setCrop}
+                crop={state.liveCrop}
+                onCropChange={state.setLiveCrop}
                 onCropComplete={handleCropComplete}
                 aspect={aspect}
                 circular={props.cropShape === "circle"}
@@ -136,7 +151,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 minZoom={Number(props.minZoom)}
                 maxZoom={Number(props.maxZoom)}
                 setZoom={handleZoomChange}
-                wheelZoomMode={props.wheelZoomMode}
+                wheelZoomMode={props.zoomEnabled ? props.wheelZoomMode : "off"}
                 imageRef={state.imageRef}
             />
             {props.zoomEnabled && props.showZoomSlider ? (
@@ -150,7 +165,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
             {props.showPreview ? (
                 <PreviewPane
                     image={state.imageRef.current}
-                    pixelCrop={state.completedCrop}
+                    pixelCrop={state.committedCrop}
                     zoom={state.zoom}
                     width={props.previewWidth}
                     height={props.previewHeight}

@@ -12,6 +12,7 @@ interface CapturedCropArea {
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
     onCropComplete: (pixelCrop: PixelCrop) => void;
     setZoom: (next: number) => void;
+    wheelZoomMode: string;
 }
 let captured: CapturedCropArea;
 
@@ -21,11 +22,13 @@ jest.mock("../components/CropArea", () => ({
         onImageLoad: CapturedCropArea["onImageLoad"];
         onCropComplete: CapturedCropArea["onCropComplete"];
         setZoom: CapturedCropArea["setZoom"];
+        wheelZoomMode: string;
     }) => {
         captured = {
             onImageLoad: props.onImageLoad,
             onCropComplete: props.onCropComplete,
-            setZoom: props.setZoom
+            setZoom: props.setZoom,
+            wheelZoomMode: props.wheelZoomMode
         };
         return (
             <img
@@ -214,5 +217,10 @@ describe("<ImageCropper>", () => {
     test("hides slider when zoom disabled entirely", () => {
         const { container } = render(<ImageCropper {...makeProps({ zoomEnabled: false, showZoomSlider: true })} />);
         expect(container.querySelector(".widget-image-cropper__zoom")).toBeNull();
+    });
+
+    test("passes wheelZoomMode=off to CropArea when zoomEnabled is false", () => {
+        render(<ImageCropper {...makeProps({ zoomEnabled: false, wheelZoomMode: "on" })} />);
+        expect(captured.wheelZoomMode).toBe("off");
     });
 });

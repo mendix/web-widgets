@@ -17,6 +17,7 @@ export function ZoomSlider({ zoom, minZoom, maxZoom, onChange }: ZoomSliderProps
                 max={maxZoom}
                 step={0.01}
                 value={zoom}
+                aria-label="Zoom"
                 onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(Number(e.target.value))}
             />
         </label>
