@@ -26,7 +26,7 @@ export default function Pusher(props: PusherContainerProps): ReactElement {
     }, []);
 
     // Build channel name based on the object
-    const channelName = getChannelName(objectSource as any); // TODO: fix typings when PWT updated.
+    const channelName = getChannelName(objectSource);
 
     // Setup stable subscription config
     const subscription = useMemo(() => {
