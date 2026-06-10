@@ -1,12 +1,18 @@
-import { ReactElement } from "react";
-import { MapContainer, Marker as MarkerComponent, Popup, TileLayer, useMap } from "react-leaflet";
 import classNames from "classnames";
+import {
+    DivIcon,
+    Icon as LeafletIcon,
+    latLngBounds,
+    Map as LeafletMapInstance,
+    Marker as LeafletMarker,
+    TileLayer
+} from "leaflet";
+import { ReactElement, useEffect, useRef } from "react";
 import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
-import { SharedProps } from "../../typings/shared";
 import { MapProviderEnum } from "../../typings/MapsProps";
-import { translateZoom } from "../utils/zoom";
-import { DivIcon, latLngBounds, Icon as LeafletIcon } from "leaflet";
+import { Marker, SharedProps } from "../../typings/shared";
 import { baseMapLayer } from "../utils/leaflet";
+import { translateZoom } from "../utils/zoom";
 
 export interface LeafletProps extends SharedProps {
     mapProvider: MapProviderEnum;
@@ -14,12 +20,11 @@ export interface LeafletProps extends SharedProps {
 }
 
 /**
- * There is an ongoing issue in `react-leaflet` that fails to properly set the icon urls in the
- * default marker implementation. Issue https://github.com/PaulLeCam/react-leaflet/issues/453
- * describes the problem and also proposes a few solutions. But all of them require a hackish method
- * to override `leaflet`'s implementation of the default Icon. Instead, we always set the
- * `Marker.icon` prop instead of relying on the default. So if a custom icon is set, we use that.
- * If not, we reuse a leaflet icon that's the same as the default implementation should be.
+ * Leaflet fails to properly resolve the icon urls of the default marker implementation when the
+ * library is bundled (the urls are derived from the stylesheet location at runtime). Instead of
+ * patching `Icon.Default`, we always set the `icon` option explicitly. So if a custom icon is set,
+ * we use that. If not, we reuse a leaflet icon that's the same as the default implementation
+ * should be.
  */
 const defaultMarkerIcon = new LeafletIcon({
     // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -32,26 +37,42 @@ const defaultMarkerIcon = new LeafletIcon({
     iconAnchor: [12, 41]
 });
 
-function SetBoundsComponent(props: Pick<LeafletProps, "autoZoom" | "currentLocation" | "locations">): null {
-    const map = useMap();
-    const { autoZoom, currentLocation, locations } = props;
+function createMarkerIcon(marker: Marker): DivIcon | LeafletIcon {
+    return marker.url
+        ? new DivIcon({
+              html: `<img src="${marker.url}" class="custom-leaflet-map-icon-marker-icon" alt="map marker" />`,
+              className: "custom-leaflet-map-icon-marker"
+          })
+        : defaultMarkerIcon;
+}
 
-    const bounds = latLngBounds(
-        locations
-            .concat(currentLocation ? [currentLocation] : [])
-            .filter(m => !!m)
-            .map(m => [m.latitude, m.longitude])
+function createPopupContent(marker: Marker): HTMLElement {
+    const content = document.createElement("span");
+    content.textContent = marker.title ?? "";
+    content.style.cursor = marker.onClick ? "pointer" : "none";
+    if (marker.onClick) {
+        content.addEventListener("click", marker.onClick);
+    }
+    return content;
+}
+
+function createLeafletMarker(marker: Marker): LeafletMarker {
+    const leafletMarker = new LeafletMarker(
+        { lat: marker.latitude, lng: marker.longitude },
+        {
+            icon: createMarkerIcon(marker),
+            interactive: !!marker.title || !!marker.onClick,
+            title: marker.title
+        }
     );
 
-    if (bounds.isValid()) {
-        if (autoZoom) {
-            map.flyToBounds(bounds, { padding: [0.5, 0.5], animate: false }).invalidateSize();
-        } else {
-            map.panTo(bounds.getCenter(), { animate: false });
-        }
+    if (marker.title) {
+        leafletMarker.bindPopup(createPopupContent(marker));
+    } else if (marker.onClick) {
+        leafletMarker.on("click", marker.onClick);
     }
 
-    return null;
+    return leafletMarker;
 }
 
 export function LeafletMap(props: LeafletProps): ReactElement {
@@ -71,55 +92,90 @@ export function LeafletMap(props: LeafletProps): ReactElement {
         optionDrag: dragging
     } = props;
 
+    const mapNodeRef = useRef<HTMLDivElement>(null);
+    const mapRef = useRef<LeafletMapInstance | undefined>(undefined);
+    const tileLayerRef = useRef<TileLayer | undefined>(undefined);
+    const markersRef = useRef<LeafletMarker[]>([]);
+
+    // Create the map instance once on mount. Like react-leaflet's MapContainer,
+    // these options are immutable for the lifetime of the component.
+    useEffect(() => {
+        if (!mapNodeRef.current) {
+            return;
+        }
+
+        const map = new LeafletMapInstance(mapNodeRef.current, {
+            attributionControl,
+            center,
+            dragging,
+            maxZoom: 18,
+            minZoom: 1,
+            scrollWheelZoom,
+            zoom: autoZoom ? translateZoom("city") : zoom,
+            zoomControl
+        });
+
+        mapRef.current = map;
+
+        return () => {
+            mapRef.current = undefined;
+            tileLayerRef.current = undefined;
+            markersRef.current = [];
+            map.remove();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // Keep the base tile layer in sync with the map provider and token.
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map) {
+            return;
+        }
+
+        const { url, ...options } = baseMapLayer(mapProvider, mapsToken);
+        const tileLayer = new TileLayer(url, options);
+
+        tileLayerRef.current?.remove();
+        tileLayerRef.current = tileLayer;
+        tileLayer.addTo(map);
+    }, [mapProvider, mapsToken]);
+
+    // Sync markers and viewport with the resolved locations.
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map) {
+            return;
+        }
+
+        const markers = locations.concat(currentLocation ? [currentLocation] : []).filter(m => !!m);
+
+        markersRef.current.forEach(marker => marker.remove());
+        markersRef.current = markers.map(marker => {
+            const leafletMarker = createLeafletMarker(marker);
+            leafletMarker.addTo(map);
+            return leafletMarker;
+        });
+
+        const bounds = latLngBounds(markers.map(m => [m.latitude, m.longitude]));
+
+        if (bounds.isValid()) {
+            if (autoZoom) {
+                map.flyToBounds(bounds, { padding: [0.5, 0.5], animate: false }).invalidateSize();
+            } else {
+                map.panTo(bounds.getCenter(), { animate: false });
+            }
+        }
+    }, [locations, currentLocation, autoZoom]);
+
     return (
         <div className={classNames("widget-maps", className)} style={{ ...style, ...getDimensions(props) }}>
             <div className="widget-leaflet-maps-wrapper">
-                <MapContainer
-                    attributionControl={attributionControl}
-                    center={center}
+                <div
                     className="widget-leaflet-maps"
-                    dragging={dragging}
-                    maxZoom={18}
-                    minZoom={1}
-                    scrollWheelZoom={scrollWheelZoom}
-                    zoom={autoZoom ? translateZoom("city") : zoom}
-                    zoomControl={zoomControl}
+                    ref={mapNodeRef}
                     style={{ top: 0, bottom: 0, left: 0, right: 0, position: "absolute", zIndex: 1 }}
-                >
-                    <TileLayer {...baseMapLayer(mapProvider, mapsToken)} />
-                    {locations
-                        .concat(currentLocation ? [currentLocation] : [])
-                        .filter(m => !!m)
-                        .map(marker => (
-                            <MarkerComponent
-                                icon={
-                                    marker.url
-                                        ? new DivIcon({
-                                              html: `<img src="${marker.url}" class="custom-leaflet-map-icon-marker-icon" alt="map marker" />`,
-                                              className: "custom-leaflet-map-icon-marker"
-                                          })
-                                        : defaultMarkerIcon
-                                }
-                                interactive={!!marker.title || !!marker.onClick}
-                                key={`marker_${marker.id ?? marker.latitude + "_" + marker.longitude}`}
-                                eventHandlers={!marker.title && marker.onClick ? { click: marker.onClick } : undefined}
-                                position={{ lat: marker.latitude, lng: marker.longitude }}
-                                title={marker.title}
-                            >
-                                {marker.title && (
-                                    <Popup>
-                                        <span
-                                            style={{ cursor: marker.onClick ? "pointer" : "none" }}
-                                            onClick={marker.onClick}
-                                        >
-                                            {marker.title}
-                                        </span>
-                                    </Popup>
-                                )}
-                            </MarkerComponent>
-                        ))}
-                    <SetBoundsComponent autoZoom={autoZoom} currentLocation={currentLocation} locations={locations} />
-                </MapContainer>
+                />
             </div>
         </div>
     );
