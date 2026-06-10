@@ -82,13 +82,14 @@ export function useSignaturePad(
 
     // Initialize signature pad
     useEffect(() => {
-        if (canvasRef.current) {
+        const localCanvas = canvasRef.current;
+        if (localCanvas) {
             // only instantiate when all data is loaded properly to avoid unnecessary re-instantiations
             const canInstantiateSignaturePad =
                 signaturePadRef.current === null &&
                 (imageSource?.status === "available" ? imageSource.value?.uri : imageSource.status === "unavailable");
             if (canInstantiateSignaturePad && !isSignatureInitialized.current) {
-                signaturePadRef.current = new SignaturePad(canvasRef.current, {
+                signaturePadRef.current = new SignaturePad(localCanvas, {
                     penColor,
                     ...signaturePadOptions
                 });
@@ -99,6 +100,12 @@ export function useSignaturePad(
                 isSignatureInitialized.current = true;
             }
         }
+        return () => {
+            if (localCanvas) {
+                signaturePadRef.current?.removeEventListener("endStroke", handleSignEnd);
+                signaturePadRef.current?.off();
+            }
+        };
     }, [handleSignEnd, penColor, readOnly, signaturePadOptions, imageSource, hasSignatureAttribute]);
 
     return { signaturePadRef, canvasRef, onResize };

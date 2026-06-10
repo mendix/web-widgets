@@ -1,7 +1,6 @@
 .widget-signature-preview {
     &-wrapper {
         overflow: hidden;
-        padding: 0 !important;
     }
 
     .alert {
@@ -19,5 +18,12 @@
             align-content: center;
             text-align: center;
         }
+    }
+
+    .form-control.disabled {
+        opacity: 1;
+        background-color: var(--form-input-bg-disabled);
+        cursor: not-allowed;
+        pointer-events: none;
     }
 }
