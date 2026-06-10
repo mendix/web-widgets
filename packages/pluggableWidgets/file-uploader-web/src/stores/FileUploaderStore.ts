@@ -78,7 +78,6 @@ export class FileUploaderStore {
             updateProps: action,
             processDrop: action,
             dismissFile: action,
-            setMessage: action,
             setCreateActionFailed: action,
             promoteQueuedFiles: action,
             processExistingFileItem: action,
@@ -203,14 +202,10 @@ export class FileUploaderStore {
 
     private dismissValidationErrors(): void {
         this.files = this.files.filter(f => f.fileStatus !== "validationError");
-        this.setMessage();
     }
 
     dismissFile(file: FileStore): void {
         this.files = this.files.filter(f => f !== file);
-        if (!this.files.some(f => f.fileStatus === "validationError")) {
-            this.setMessage();
-        }
     }
 
     promoteQueuedFiles(): void {
@@ -245,7 +240,6 @@ export class FileUploaderStore {
 
         this.setCreateActionFailed(false);
         this.dismissValidationErrors();
-        this.setMessage(fileRejections.length ? this.translations.get("dropzoneRejectedMessage") : undefined);
 
         const activeCount = this.activeCount;
         const remaining = this.maxTotalFiles > 0 ? Math.max(0, this.maxTotalFiles - activeCount) : acceptedFiles.length;

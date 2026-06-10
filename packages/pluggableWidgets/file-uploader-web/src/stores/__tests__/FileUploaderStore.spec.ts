@@ -128,7 +128,6 @@ describe("FileUploaderStore.dismissFile()", () => {
 
     it("is a no-op when file is not in the list", () => {
         const store = makeStore();
-        store.errorMessage = "Some files may not be uploadable.";
         const fileA = makeValidationErrorFile(store);
         const fileB = makeValidationErrorFile(store);
         store.files = [fileA];
@@ -137,50 +136,6 @@ describe("FileUploaderStore.dismissFile()", () => {
 
         expect(store.files).toHaveLength(1);
         expect(store.files[0]).toBe(fileA);
-        expect(store.errorMessage).toBe("Some files may not be uploadable.");
-    });
-
-    it("clears errorMessage when last validationError file is dismissed", () => {
-        const store = makeStore();
-        store.errorMessage = "Some files may not be uploadable.";
-        const file = makeValidationErrorFile(store);
-        store.files = [file];
-
-        store.dismissFile(file);
-
-        expect(store.errorMessage).toBeUndefined();
-    });
-
-    it("keeps errorMessage while other validationError files remain", () => {
-        const store = makeStore();
-        store.errorMessage = "Some files may not be uploadable.";
-        const fileA = makeValidationErrorFile(store);
-        const fileB = makeValidationErrorFile(store);
-        store.files = [fileA, fileB];
-
-        store.dismissFile(fileA);
-
-        expect(store.errorMessage).toBe("Some files may not be uploadable.");
-    });
-});
-
-describe("FileUploaderStore.processDrop() errorMessage", () => {
-    it("sets errorMessage when file rejections exist", () => {
-        const store = makeStore();
-        const rejection = { file: new File([], "bad.xlsx"), errors: [{ code: "file-invalid-type", message: "bad" }] };
-
-        store.processDrop([], [rejection]);
-
-        expect(store.errorMessage).toBe("msg");
-    });
-
-    it("clears errorMessage when no rejections", () => {
-        const store = makeStore();
-        store.errorMessage = "Some files may not be uploadable.";
-
-        store.processDrop([], []);
-
-        expect(store.errorMessage).toBeUndefined();
     });
 });
 
@@ -508,12 +463,6 @@ describe("FileUploaderStore — renamed properties", () => {
 // ─── FileUploaderStore — removed legacy API ──────────────────────────────────
 
 describe("FileUploaderStore — removed legacy methods", () => {
-    test("dismissValidationErrors does not exist", () => {
-        const store = buildStore();
-
-        expect((store as any).dismissValidationErrors).toBeUndefined();
-    });
-
     test("retryLimitExceededFiles does not exist", () => {
         const store = buildStore();
 

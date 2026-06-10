@@ -3,9 +3,9 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, ListActionValue, ListValue, WebIcon } from "mendix";
-import { Big } from "big.js";
 import { CSSProperties } from "react";
+import { ActionValue, DynamicValue, ListValue, ListActionValue, WebIcon } from "mendix";
+import { Big } from "big.js";
 
 export type UploadModeEnum = "files" | "images";
 

@@ -21,7 +21,7 @@ function makeRootStore(): { dismissFile: jest.Mock } {
 describe("FileStore.dismiss()", () => {
     it("calls dismissFile on root store with itself", () => {
         const rootStore = makeRootStore();
-        const store = FileStore.newFileWithError(new File([], "test.txt"), "bad format", rootStore as any);
+        const store = FileStore.newFileWithValidationError(new File([], "test.txt"), "bad format", rootStore as any);
         store.dismiss();
         expect(rootStore.dismissFile).toHaveBeenCalledTimes(1);
         expect(rootStore.dismissFile).toHaveBeenCalledWith(store);
