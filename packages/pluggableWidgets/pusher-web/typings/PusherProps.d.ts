@@ -3,15 +3,15 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
+import { ActionValue, DynamicValue, ObjectItem } from "mendix";
 import { CSSProperties } from "react";
-import { ActionValue, ListValue } from "mendix";
 
 export interface PusherContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    objectSource: ListValue;
+    objectSource: DynamicValue<ObjectItem>;
     notifyActionName: string;
     notifyEventAction?: ActionValue;
 }

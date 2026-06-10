@@ -1,7 +1,7 @@
 import { DynamicValue, ObjectItem } from "mendix";
 
 export function getChannelName(objectSource: DynamicValue<ObjectItem>): string | undefined {
-    const object = objectSource.value as ObjectItem | undefined;
+    const object = objectSource.value;
 
     if (!object) {
         return undefined;
