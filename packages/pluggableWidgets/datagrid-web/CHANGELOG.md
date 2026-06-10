@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where a Progress Bar widget placed as Custom Content inside a Data Grid would not display correctly due to a CSS class name conflict.
+
 ## [3.11.0] - 2026-05-27
 
 ### Added
