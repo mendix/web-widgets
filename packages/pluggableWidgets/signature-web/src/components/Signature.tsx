@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { ReactElement } from "react";
-import { useSignaturePad } from "src/utils/useSignaturePad";
 import { ValidationAlert } from "@mendix/widget-plugin-component-kit/Alert";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 import { Grid } from "./Grid";
 import { SizeContainer } from "./SizeContainer";
 import { SignatureContainerProps } from "../../typings/SignatureProps";
+import { useSignaturePad } from "../utils/useSignaturePad";
 import Utils from "../utils/Utils";
 
 export function SignatureComponent(props: SignatureContainerProps): ReactElement {
@@ -31,8 +31,11 @@ export function SignatureComponent(props: SignatureContainerProps): ReactElement
         <SizeContainer
             {...props}
             className={classNames("widget-signature", className)}
-            classNameInner="widget-signature-wrapper form-control mx-textarea-input mx-textarea"
+            classNameInner={classNames("widget-signature-wrapper", "form-control", "mx-textarea-input", "mx-textarea", {
+                disabled: readOnly
+            })}
             onResize={onResize}
+            readOnly={readOnly}
         >
             {validation && <ValidationAlert>{validation}</ValidationAlert>}
             <If condition={showGrid}>

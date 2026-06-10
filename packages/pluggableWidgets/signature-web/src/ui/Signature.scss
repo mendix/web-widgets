@@ -23,4 +23,11 @@
         bottom: 0;
         right: 0;
     }
+
+    .form-control.disabled {
+        opacity: 1;
+        background-color: var(--form-input-bg-disabled);
+        cursor: not-allowed;
+        pointer-events: none;
+    }
 }
