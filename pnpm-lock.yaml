@@ -1886,9 +1886,12 @@ importers:
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
-      react-leaflet:
-        specifier: ^4.2.1
-        version: 4.2.1(leaflet@1.9.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      mobx:
+        specifier: 6.12.3
+        version: 6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9)
+      mobx-react-lite:
+        specifier: 4.0.7
+        version: 4.0.7(patch_hash=47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a)(mobx@6.12.3(patch_hash=39c55279e8f75c9a322eba64dd22e1a398f621c64bbfc3632e55a97f46edfeb9))(react-dom@18.3.1(react@18.3.1))(react-native@0.82.0(@babel/core@7.29.0)(@types/react@19.2.2)(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@googlemaps/jest-mocks':
         specifier: ^2.10.0
@@ -1926,9 +1929,6 @@ importers:
       '@types/leaflet':
         specifier: ^1.9.3
         version: 1.9.21
-      '@types/react-leaflet':
-        specifier: ^2.8.3
-        version: 2.8.3
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -4814,13 +4814,6 @@ packages:
       react: '>=18.0.0 <19.0.0'
       react-dom: '>=18.0.0 <19.0.0'
 
-  '@react-leaflet/core@2.1.0':
-    resolution: {integrity: sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==}
-    peerDependencies:
-      leaflet: ^1.9.0
-      react: '>=18.0.0 <19.0.0'
-      react-dom: '>=18.0.0 <19.0.0'
-
   '@react-native/assets-registry@0.82.0':
     resolution: {integrity: sha512-SHRZxH+VHb6RwcHNskxyjso6o91Lq0DPgOpE5cDrppn1ziYhI723rjufFgh59RcpH441eci0/cXs/b0csXTtnw==}
     engines: {node: '>= 20.19.4'}
@@ -5517,9 +5510,6 @@ packages:
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
     peerDependencies:
       '@types/react': '>=18.2.36'
-
-  '@types/react-leaflet@2.8.3':
-    resolution: {integrity: sha512-MeBQnVQe6ikw8dkuZE4F96PvMdQeilZG6/ekk5XxhkSzU3lofedULn3UR/6G0uIHjbRazi4DA8LnLACX0bPhBg==}
 
   '@types/react-plotly.js@2.6.3':
     resolution: {integrity: sha512-HBQwyGuu/dGXDsWhnQrhH+xcJSsHvjkwfSRjP+YpOsCCWryIuXF78ZCBjpfgO3sCc0Jo8sYp4NOGtqT7Cn3epQ==}
@@ -10293,13 +10283,6 @@ packages:
   react-is@19.2.7:
     resolution: {integrity: sha512-kZFnouyVv7eP/Phmrlo9FK+zcAdriZJvzxXHF1Sl1P377WSGe2G/JxVolhTrB/jeV47lKImhNUsijjHAAbcl/A==}
 
-  react-leaflet@4.2.1:
-    resolution: {integrity: sha512-p9chkvhcKrWn/H/1FFeVSqLdReGwn2qmiobOQGO3BifX+/vV/39qhY8dGqbdcPh1e6jxh/QHriLXr7a4eLFK4Q==}
-    peerDependencies:
-      leaflet: ^1.9.0
-      react: '>=18.0.0 <19.0.0'
-      react-dom: '>=18.0.0 <19.0.0'
-
   react-lifecycles-compat@3.0.4:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
 
@@ -14180,12 +14163,6 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       react-is: 18.3.1
 
-  '@react-leaflet/core@2.1.0(leaflet@1.9.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      leaflet: 1.9.4
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-
   '@react-native/assets-registry@0.82.0': {}
 
   '@react-native/babel-plugin-codegen@0.77.3(@babel/preset-env@7.29.7(@babel/core@7.29.0))':
@@ -14893,11 +14870,6 @@ snapshots:
 
   '@types/react-dom@19.2.3(@types/react@19.2.2)':
     dependencies:
-      '@types/react': 19.2.2
-
-  '@types/react-leaflet@2.8.3':
-    dependencies:
-      '@types/leaflet': 1.9.21
       '@types/react': 19.2.2
 
   '@types/react-plotly.js@2.6.3':
@@ -21038,13 +21010,6 @@ snapshots:
   react-is@18.3.1: {}
 
   react-is@19.2.7: {}
-
-  react-leaflet@4.2.1(leaflet@1.9.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      '@react-leaflet/core': 2.1.0(leaflet@1.9.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      leaflet: 1.9.4
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
 
   react-lifecycles-compat@3.0.4: {}
 

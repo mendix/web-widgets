@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- We migrated the widget's internal state management to a MobX container architecture, in line with other data widgets.
+
+- We replaced the react-leaflet wrapper with a direct Leaflet integration, reducing dependencies while keeping the same map behavior.
+
 ## [4.1.0] - 2025-10-29
 
 ### Fixed

@@ -1,5 +1,9 @@
-import { TileLayerProps } from "react-leaflet";
+import { TileLayerOptions } from "leaflet";
 import { MapProviderEnum } from "../../typings/MapsProps";
+
+export interface BaseMapLayer extends TileLayerOptions {
+    url: string;
+}
 
 const customUrls = {
     openStreetMap: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -14,7 +18,7 @@ const mapAttr = {
     hereMapsAttr: "Map &copy; 1987-2020 <a href='https://developer.here.com'>HERE</a>"
 };
 
-export function baseMapLayer(mapProvider: MapProviderEnum, mapsToken?: string): TileLayerProps {
+export function baseMapLayer(mapProvider: MapProviderEnum, mapsToken?: string): BaseMapLayer {
     let url;
     let attribution;
     let apiKey = "";

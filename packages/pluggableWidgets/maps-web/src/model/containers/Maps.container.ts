@@ -3,6 +3,7 @@ import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { MapsContainerProps } from "../../../typings/MapsProps";
 import { MapsConfig } from "../configs/Maps.config";
+import { CurrentLocationService } from "../services/CurrentLocation.service";
 import { LocationResolverService } from "../services/LocationResolver.service";
 import { CORE_TOKENS as CORE, MAPS_TOKENS as MAPS } from "../tokens";
 
@@ -27,17 +28,20 @@ interface BindingGroup {
 const _01_coreBindings: BindingGroup = {
     inject() {
         injected(LocationResolverService, CORE.setupService, CORE.mainGate, CORE.geocodeFunction);
+        injected(CurrentLocationService, CORE.setupService, CORE.mainGate, CORE.getLocationFunction);
     },
     define(container) {
         container.bind(MAPS.locationResolver).toInstance(LocationResolverService).inSingletonScope();
+        container.bind(MAPS.currentLocation).toInstance(CurrentLocationService).inSingletonScope();
     },
     init(container, { mainGate, config }) {
         container.bind(CORE.mainGate).toConstant(mainGate);
         container.bind(CORE.config).toConstant(config);
     },
     postInit(container) {
-        // Initialize service to trigger setup
+        // Initialize services to trigger setup
         container.get(MAPS.locationResolver);
+        container.get(MAPS.currentLocation);
     }
 };
 

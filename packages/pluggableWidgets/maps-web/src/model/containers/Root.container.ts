@@ -1,6 +1,7 @@
-import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { Container } from "brandi";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
 import { convertAddressToLatLng } from "../../utils/geodecode";
+import { getCurrentUserLocation } from "../../utils/location";
 import { MapsSetupService } from "../services/MapsSetup.service";
 import { CORE_TOKENS as CORE } from "../tokens";
 
@@ -18,5 +19,8 @@ export class RootContainer extends Container {
 
         // Geocode function
         this.bind(CORE.geocodeFunction).toConstant(convertAddressToLatLng);
+
+        // Current location function
+        this.bind(CORE.getLocationFunction).toConstant(getCurrentUserLocation);
     }
 }
