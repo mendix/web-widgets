@@ -20,7 +20,7 @@
     },
     "moduleFolderNameInModeler": "pusher",
     "marketplace": {
-        "minimumMXVersion": "10.21.1.64969",
+        "minimumMXVersion": "11.11.0",
         "appName": "Pusher",
         "appNumber": 107957
     },
