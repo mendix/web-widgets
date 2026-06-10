@@ -195,7 +195,7 @@ Full requirements are in `docs/requirements/frontend-guidelines.md`. Flag only d
 | `packages/modules/*/src/**/*.{ts,tsx}`                         | Module-level logic and Mendix integration patterns                                 |
 | `automation/**/*.{ts,mjs,cjs}`                                 | Build/test automation scripts — no destructive ops, no hardcoded paths             |
 | `.github/workflows/*.yml`                                      | See workflow rules below                                                           |
-| `.claude/skills/**`                                            | See skill rules below                                                              |
+| `.agents/skills/**`                                            | See skill rules below                                                              |
 
 ### What to ignore
 
@@ -226,7 +226,7 @@ When a PR touches multiple packages, validate each changed package separately:
 - Every long-running job should have `timeout-minutes` set
 - Shared `concurrency` groups with `cancel-in-progress: true` will cancel in-flight jobs — use per-job concurrency for interactive workflows
 
-### Claude Code skills (`.claude/skills/**`)
+### Claude Code skills (`.agents/skills/**`)
 
 - Frontmatter (`name`, `description`) must be present and accurate
 - Instructions should be actionable and specific — vague guidance leads to inconsistent reviews
