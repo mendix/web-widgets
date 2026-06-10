@@ -36,7 +36,7 @@ function makeFakeProps(): FileUploaderContainerProps {
 function makeValidationErrorStore(): { store: FileStore; dismiss: jest.Mock } {
     const dismiss = jest.fn();
     const rootStore = { dismissFile: dismiss, _uploadMode: "files", isReadOnly: false } as any;
-    const store = FileStore.newFileWithError(new File([], "bad.txt"), "bad format", rootStore);
+    const store = FileStore.newFileWithValidationError(new File([], "bad.txt"), "bad format", rootStore);
     return { store, dismiss };
 }
 
