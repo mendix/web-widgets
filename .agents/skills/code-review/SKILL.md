@@ -133,55 +133,16 @@ const action = actionValue(); // jest.fn() — assert with .execute toHaveBeenCa
 
 ### E2E tests
 
-Files live in `e2e/*.spec.js` and run with Playwright (Chromium). Config inherits from `@mendix/run-e2e/playwright.config.cjs`.
-
-**Mandatory structure — every file must have this**
-
-```js
-import { test, expect } from "@playwright/test";
-
-test.afterEach("Cleanup session", async ({ page }) => {
-    await page.evaluate(() => window.mx.session.logout());
-});
-
-test.describe("WidgetName", () => {
-    test.beforeEach(async ({ page }) => {
-        await page.goto("/");
-        await page.waitForLoadState("networkidle");
-    });
-});
-```
-
-**Selectors — in order of preference**
-
-1. `.mx-name-*` — Mendix widget names (most stable): `page.locator(".mx-name-myWidget")`
-2. ARIA roles: `page.getByRole("button", { name: "Save" })`
-3. Widget CSS classes: `page.locator(".widget-badge-button-text")`
-4. Avoid brittle selectors: nth-child chains, deeply nested CSS, text-only locators
-
-**Assertions**
-
-```js
-await expect(page.locator(".mx-name-myWidget")).toBeVisible();
-await expect(page.locator(".badge")).toContainText("New");
-await expect(page.locator(".mx-name-myWidget")).toHaveScreenshot("myWidget-default.png");
-```
-
-**Accessibility scanning (use for new interactive widgets)**
-
-```js
-import AxeBuilder from "@axe-core/playwright";
-const results = await new AxeBuilder({ page }).analyze();
-expect(results.violations).toEqual([]);
-```
+Full rules, waiting strategies, locator patterns, and spec template are in `docs/requirements/e2e-test-guidelines.md`. Flag only deviations:
 
 **What to flag**
 
-- Missing `afterEach` session logout — will exceed Mendix's 5-session license limit in CI
-- `page.waitForTimeout()` / hardcoded `sleep` — replace with `waitForLoadState` or a Playwright locator assertion
+- Using raw `import { test } from "@playwright/test"` — must use `@mendix/run-e2e/fixtures` to get worker-scoped sessions and auto-logout
+- Manual `afterEach` session logout via `window.mx.session.logout()` — no longer needed; the fixture handles it
+- `page.waitForTimeout()` / hardcoded `sleep` — replace with a web-first locator assertion
+- `page.waitForLoadState("networkidle")` — replace with `waitForMendixApp(page)` from helpers, or prefer web-first assertions
 - Selectors that don't use `.mx-name-*` when a Mendix widget name is available
 - Screenshot baselines not committed — `toHaveScreenshot` requires a baseline PNG in the repo
-- Missing `page.waitForLoadState("networkidle")` in `beforeEach` — causes flaky tests
 - E2E file not following `WidgetName.spec.js` naming convention
 
 ### Security
@@ -225,7 +186,7 @@ Full requirements are in `docs/requirements/frontend-guidelines.md`. Flag only d
 | `packages/pluggableWidgets/*/*.xml`                            | Widget manifest: property keys (lowerCamelCase), unique ID, XML ↔ TS alignment     |
 | `packages/pluggableWidgets/*/**/*.scss`                        | Styling: BEM naming, Atlas UI classes, no `!important`, no inline styles           |
 | `packages/pluggableWidgets/*/src/**/__tests__/*.spec.{ts,tsx}` | Unit test coverage, builder usage, RTL patterns                                    |
-| `packages/pluggableWidgets/*/e2e/*.spec.js`                    | E2E structure, selectors, afterEach logout, no hardcoded waits                     |
+| `packages/pluggableWidgets/*/e2e/*.spec.js`                    | E2E structure, `@mendix/run-e2e/fixtures` import, selectors, no hardcoded waits    |
 | `packages/pluggableWidgets/*/package.json`                     | Version bumps happen in a separate PR — do not flag missing bumps                  |
 | `packages/pluggableWidgets/*/CHANGELOG.md`                     | Keep a Changelog entry present when runtime/XML/behavior changed                   |
 | `packages/pluggableWidgets/*/*.editorConfig.ts`                | Studio Pro design-time config aligns with XML properties                           |
