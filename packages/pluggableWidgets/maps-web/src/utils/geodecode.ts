@@ -1,8 +1,4 @@
-import { useMemo, useRef, useState } from "react";
-import { convertDynamicModeledMarker, convertStaticModeledMarker } from "./data";
-import deepEqual from "deep-equal";
 import { Marker, ModeledMarker } from "../../typings/shared";
-import { DynamicMarkersType, MarkersType } from "../../typings/MapsProps";
 
 declare const window: {
     mxGMLocationCache: {
@@ -77,51 +73,4 @@ async function geocodeQueued(address: string, mapToken: string): Promise<LatLng>
         latitude: decodedLocation.lat,
         longitude: decodedLocation.lng
     };
-}
-
-export function useLocationResolver(
-    staticMarkers: MarkersType[],
-    dynamicMarkers: DynamicMarkersType[],
-    googleApiKey?: string
-): [Marker[]] {
-    const [locations, setLocations] = useState<Marker[]>([]);
-    const requestedMarkers = useRef<ModeledMarker[]>([]);
-
-    const markers = useMemo(() => {
-        const markers: ModeledMarker[] = [];
-        markers.push(...staticMarkers.map(marker => convertStaticModeledMarker(marker)));
-        markers.push(
-            ...dynamicMarkers
-                .map(marker => convertDynamicModeledMarker(marker))
-                .reduce((prev, current) => [...prev, ...current], [])
-        );
-        return markers;
-    }, [staticMarkers, dynamicMarkers]);
-
-    if (!isIdenticalMarkers(requestedMarkers.current, markers)) {
-        requestedMarkers.current = markers;
-        convertAddressToLatLng(markers, googleApiKey)
-            .then(newLocations => {
-                if (requestedMarkers.current === markers) {
-                    setLocations(newLocations);
-                }
-            })
-            .catch(e => {
-                console.error(e);
-            });
-    }
-
-    return [locations];
-}
-
-function isIdenticalMarkers(previousMarkers: ModeledMarker[], newMarkers: ModeledMarker[]): boolean {
-    const previousProps = previousMarkers.map(({ ...marker }) => {
-        delete marker.action;
-        return marker;
-    });
-    const newProps = newMarkers.map(({ ...marker }) => {
-        delete marker.action;
-        return marker;
-    });
-    return deepEqual(previousProps, newProps, { strict: true });
 }
