@@ -140,7 +140,11 @@ Full rules, waiting strategies, locator patterns, and spec template are in `docs
 - Using raw `import { test } from "@playwright/test"` — must use `@mendix/run-e2e/fixtures` to get worker-scoped sessions and auto-logout
 - Manual `afterEach` session logout via `window.mx.session.logout()` — no longer needed; the fixture handles it
 - `page.waitForTimeout()` / hardcoded `sleep` — replace with a web-first locator assertion
-- `page.waitForLoadState("networkidle")` — replace with `waitForMendixApp(page)` from helpers, or prefer web-first assertions
+- `page.waitForLoadState("networkidle")` — replace with `waitForMendixApp(page)` from helpers, or prefer web-first assertions. Correct pattern:
+  ```js
+  test.beforeEach(async ({ page }) => {
+      await waitForMendixApp(page); // or: await expect(page.locator(".mx-name-...")).toBeVisible();
+  });
 - Selectors that don't use `.mx-name-*` when a Mendix widget name is available
 - Screenshot baselines not committed — `toHaveScreenshot` requires a baseline PNG in the repo
 - E2E file not following `WidgetName.spec.js` naming convention
