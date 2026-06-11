@@ -19,6 +19,7 @@ $cb-skeleton-dark: #d2d2d2;
 
 .widget-combobox {
     flex-grow: 1;
+    min-width: 0;
     position: relative;
     transition: color 150ms ease 0s;
     &-menu {
