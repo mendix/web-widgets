@@ -1,3 +1,4 @@
+import { FloatingNode, FloatingTree, useFloatingParentNodeId } from "@floating-ui/react";
 import classNames from "classnames";
 import { ActionValue } from "mendix";
 import { ReactElement, useCallback, useEffect, useState } from "react";
@@ -8,7 +9,7 @@ import { PopupTrigger } from "./PopupTrigger";
 import { PopupMenuContainerProps } from "../../typings/PopupMenuProps";
 import { usePopup } from "../hooks/usePopup";
 
-export function PopupMenu(props: PopupMenuContainerProps): ReactElement {
+function PopupMenuComponent(props: PopupMenuContainerProps): ReactElement {
     const [visibility, setVisibility] = useState(props.menuToggle);
     const open = visibility;
     const popup = usePopup({
@@ -16,7 +17,8 @@ export function PopupMenu(props: PopupMenuContainerProps): ReactElement {
         onOpenChange: setVisibility,
         placement: props.position,
         trigger: props.trigger,
-        clippingStrategy: props.clippingStrategy
+        clippingStrategy: props.clippingStrategy,
+        hoverCloseOn: props.hoverCloseOn
     });
 
     const handleOnClickItem = useCallback(
@@ -33,10 +35,28 @@ export function PopupMenu(props: PopupMenuContainerProps): ReactElement {
 
     return (
         <PopupContext.Provider value={popup}>
-            <div className={classNames("popupmenu", props.class)}>
-                <PopupTrigger>{props.menuTrigger}</PopupTrigger>
-                <Menu {...props} onItemClick={handleOnClickItem} />
-            </div>
+            <FloatingNode id={popup.nodeId}>
+                <div className={classNames("popupmenu", props.class)}>
+                    <PopupTrigger>{props.menuTrigger}</PopupTrigger>
+                    <Menu {...props} onItemClick={handleOnClickItem} />
+                </div>
+            </FloatingNode>
         </PopupContext.Provider>
     );
+}
+
+export function PopupMenu(props: PopupMenuContainerProps): ReactElement {
+    const parentId = useFloatingParentNodeId();
+
+    // If this is a root popup (no parent), wrap it in FloatingTree
+    if (parentId == null) {
+        return (
+            <FloatingTree>
+                <PopupMenuComponent {...props} />
+            </FloatingTree>
+        );
+    }
+
+    // If this is a nested popup, just render the component
+    return <PopupMenuComponent {...props} />;
 }

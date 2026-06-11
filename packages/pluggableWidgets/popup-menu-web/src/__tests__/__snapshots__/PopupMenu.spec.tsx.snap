@@ -6,7 +6,7 @@ exports[`Popup Menu renders popup menu 1`] = `
     class="popupmenu mx-popup-menu"
   >
     <div
-      aria-controls=":r0:"
+      aria-controls=":r1:"
       aria-expanded="true"
       aria-haspopup="dialog"
       aria-hidden="true"
@@ -34,7 +34,7 @@ exports[`Popup Menu renders popup menu 1`] = `
         class="popupmenu-menu"
         data-floating-ui-focusable=""
         data-overlay-content="true"
-        id=":r0:"
+        id=":r1:"
         role="dialog"
         style="position: absolute; left: 0px; top: 0px; transform: translate(0px, 0px);"
         tabindex="0"
