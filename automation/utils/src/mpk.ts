@@ -3,9 +3,7 @@ import { ModuleInfo } from "./package-info";
 import { exec, find } from "./shell";
 import { Version } from "./version";
 
-async function ensureMxBuildDockerImageExists(mendixVersion: Version): Promise<void> {
-    const version = mendixVersion.format(true);
-
+async function ensureMxBuildDockerImageExists(version: string): Promise<void> {
     const existingImages = (await exec(`docker image ls -q mxbuild:${version}`, { stdio: "pipe" })).stdout.trim();
     if (!existingImages) {
         console.log(`Creating new mxbuild:${version} docker image...`);
@@ -24,9 +22,9 @@ export async function createModuleMpkInDocker(
     mendixVersion: Version,
     excludeFilesRegExp: string
 ): Promise<void> {
-    const version = mendixVersion.format(true);
+    const version = mendixVersion.format(mendixVersion.build !== undefined);
     const versionMajor = mendixVersion.major;
-    await ensureMxBuildDockerImageExists(mendixVersion);
+    await ensureMxBuildDockerImageExists(version);
 
     console.log(`Creating module ${moduleName} using mxbuild:${version}...`);
     // Build testProject via mxbuild

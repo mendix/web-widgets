@@ -23,7 +23,9 @@ export async function cloneRepo({ remoteUrl, localFolder, branch }: CloneParams)
     const options = [getGHRepoAuthUrl(remoteUrl), branch ? `--branch=${branch}` : "", localFolder].filter(Boolean);
 
     await exec(`git clone ${options.join(" ")}`);
-    await setLocalGitUserInfo(localFolder);
+    if (process.env.CI) {
+        await setLocalGitUserInfo(localFolder);
+    }
 }
 export async function cloneRepoShallow({ remoteUrl, localFolder, branch }: CloneParams): Promise<void> {
     const options = [
@@ -35,7 +37,9 @@ export async function cloneRepoShallow({ remoteUrl, localFolder, branch }: Clone
     ].filter(Boolean);
 
     await exec(`git clone ${options.join(" ")}`);
-    await setLocalGitUserInfo(localFolder);
+    if (process.env.CI) {
+        await setLocalGitUserInfo(localFolder);
+    }
 }
 
 export async function setLocalGitUserInfo(workingDirectory?: string): Promise<void> {
