@@ -7,18 +7,7 @@ import "./ui/Pusher.scss";
 import { getChannelName } from "./utils/getChannelName";
 
 export default function Pusher(props: PusherContainerProps): ReactElement {
-    const { class: className, objectSource, notifyActionName, notifyEventAction } = props;
-
-    // Event callback - triggered when Pusher event is received
-    const handleEvent = useCallback(
-        (data: unknown) => {
-            console.debug("[Pusher] Event received:", data);
-
-            // Execute configured action
-            executeAction(notifyEventAction);
-        },
-        [notifyEventAction]
-    );
+    const { class: className, objectSource, eventHandlers } = props;
 
     // Error callback
     const handleError = useCallback((error: Error) => {
@@ -34,13 +23,28 @@ export default function Pusher(props: PusherContainerProps): ReactElement {
             return undefined;
         }
 
+        // Build event bindings from configured handlers
+        const eventBindings = eventHandlers
+            .filter(handler => handler.actionName && handler.action?.canExecute)
+            .map(handler => ({
+                eventName: handler.actionName,
+                onEvent: () => {
+                    console.debug(`[Pusher] Event received: ${handler.actionName}`);
+                    executeAction(handler.action);
+                }
+            }));
+
+        // If no valid handlers, return undefined (no subscription)
+        if (eventBindings.length === 0) {
+            return undefined;
+        }
+
         return {
             channelName,
-            eventName: notifyActionName,
-            onEvent: handleEvent,
+            eventBindings,
             onError: handleError
         };
-    }, [channelName, notifyActionName, handleEvent, handleError]);
+    }, [channelName, eventHandlers, handleError]);
 
     usePusherSubscribe(subscription);
 
