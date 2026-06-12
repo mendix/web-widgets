@@ -115,6 +115,23 @@
                 </actionVariables>
             </property>
         </propertyGroup>
+        <propertyGroup caption="Accessibility">
+            <propertyGroup caption="Accessibility">
+                <property key="ariaRequired" type="expression" defaultValue="false">
+                    <caption>Aria required</caption>
+                    <description />
+                    <returnType type="Boolean" />
+                </property>
+                <property key="ariaLabel" type="textTemplate" required="false">
+                    <caption>Aria label</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Signature canvas</translation>
+                        <translation lang="nl_NL">Handtekening canvas</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
         <propertyGroup caption="Advanced">
             <property key="showGrid" type="boolean" defaultValue="false">
                 <caption>Show background grid</caption>

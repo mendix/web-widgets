@@ -38,6 +38,8 @@ export interface SignatureContainerProps {
     maxHeight: number;
     overflowY: OverflowYEnum;
     onSignEndAction?: ActionValue<{ signatureImage: Option<string> }>;
+    ariaRequired: DynamicValue<boolean>;
+    ariaLabel?: DynamicValue<string>;
     showGrid: boolean;
     gridBorderColor: string;
     gridCellHeight: number;
@@ -71,6 +73,8 @@ export interface SignaturePreviewProps {
     maxHeight: number | null;
     overflowY: OverflowYEnum;
     onSignEndAction: {} | null;
+    ariaRequired: string;
+    ariaLabel: string;
     showGrid: boolean;
     gridBorderColor: string;
     gridCellHeight: number | null;
