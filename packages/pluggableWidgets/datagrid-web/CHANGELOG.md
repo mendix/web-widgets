@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We removed the 16px margin from both the Progress Bar and Pagination Bar inside Data Grid, fixing a visual regression caused by an unintended CSS class name match.
+
 ## [3.11.0] - 2026-05-27
 
 ### Added
