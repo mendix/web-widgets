@@ -4,13 +4,9 @@ import {
     rowLayout,
     structurePreviewPalette,
     StructurePreviewProps,
-    svgImage,
     text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { SignaturePreviewProps } from "../typings/SignatureProps";
-
-import SignaturePreviewDarkSVG from "./assets/Signature.icon.dark.svg";
-import SignaturePreviewSVG from "./assets/Signature.icon.svg";
 
 export function getProperties(
     values: SignaturePreviewProps,
@@ -39,18 +35,21 @@ export function getProperties(
     return defaultProperties;
 }
 
-export function getPreview(_values: SignaturePreviewProps, isDarkMode: boolean): StructurePreviewProps {
+export function getPreview(values: SignaturePreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
-    const normalSVG = isDarkMode ? SignaturePreviewDarkSVG : SignaturePreviewSVG;
-    const variant = normalSVG;
-    const doc = decodeURIComponent(variant.replace("data:image/svg+xml,", ""));
 
     return rowLayout({ columnSize: "grow", borders: true, backgroundColor: palette.background.containerFill })(
         container()(),
         rowLayout({ grow: 2, padding: 8 })(
-            svgImage({ width: 15, height: 15 })(doc),
-            text({ fontColor: palette.text.primary, grow: 10 })("Signature")
+            text({ fontColor: palette.text.primary, grow: 10 })(getCustomCaption(values))
         ),
         container()()
     );
+}
+
+export function getCustomCaption(values: SignaturePreviewProps, _platform = "desktop"): string {
+    const caption = values.imageSource
+        ? `[${values.imageSource?.type} - ${values.imageSource?.type === "static" ? values.imageSource.imageUrl : values.imageSource?.entity}] Signature`
+        : "[Configure Signature]";
+    return caption;
 }

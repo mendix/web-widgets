@@ -10,8 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - **Complete rewrite using Pluggable Widget API** - Migrated from Custom Widget (v1.x) to Pluggable Widget architecture
 - **Minimum Mendix version increased** - Now requires Mendix 11.8.0 or higher (previously 7.13.1)
-- **Widget ID changed** - From `com.mendix.widget.custom.signature.Signature` to `com.mendix.widget.web.signature.Signature`
 - **No backward compatibility** - Existing implementations using v1.x must be reconfigured
+- **Widget ID changed** - From `com.mendix.widget.custom.signature.Signature` to `com.mendix.widget.web.signature.Signature`
+- **Widget MPK renamed** - From `Signature.mpk` to `com.mendix.widget.web.Signature.mpk`. This allows the old and new versions to coexist during migration. The old `Signature.mpk` needs to be removed from your project's widget folder manually once migration is complete
+- **Widget category changed** - From `Add-ons` to `Input elements`.
 
 ### Added
 

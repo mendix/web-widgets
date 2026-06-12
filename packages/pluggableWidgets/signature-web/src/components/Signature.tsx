@@ -9,18 +9,18 @@ import { useSignaturePad } from "../utils/useSignaturePad";
 import Utils from "../utils/Utils";
 
 export function SignatureComponent(props: SignatureContainerProps): ReactElement {
-    const { class: className, imageSource, fileName, onSignEndAction } = props;
+    const { class: className, imageSource, fileName, onSignEndAction, ariaLabel, ariaRequired } = props;
     const { validation, readOnly } = imageSource;
     const showGrid = props.showGrid && !readOnly;
 
     const handleSignEnd = (imageDataUrl?: string): void => {
-        if (imageDataUrl) {
+        if (imageDataUrl && !readOnly) {
             const customFileName = fileName?.value || Utils.generateFileName("signature");
             imageSource.setValue(Utils.convertUrlToBlob(imageDataUrl, customFileName));
         }
 
         // Trigger microflow to update signature attribute
-        if (onSignEndAction && !onSignEndAction.isExecuting && onSignEndAction.canExecute) {
+        if (onSignEndAction && !onSignEndAction.isExecuting && onSignEndAction.canExecute && !readOnly) {
             onSignEndAction.execute({ signatureImage: imageDataUrl });
         }
     };
@@ -41,7 +41,14 @@ export function SignatureComponent(props: SignatureContainerProps): ReactElement
             <If condition={showGrid}>
                 <Grid {...props} />
             </If>
-            <canvas className="widget-signature-canvas" ref={canvasRef} />
+            <canvas
+                className="widget-signature-canvas"
+                ref={canvasRef}
+                aria-label={ariaLabel?.value}
+                aria-required={ariaRequired?.value === true ? "true" : undefined}
+            >
+                <p>{ariaLabel?.value}</p>
+            </canvas>
         </SizeContainer>
     );
 }
