@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed mark labels and tooltip values not respecting the decimal places and locale settings configured on the value attribute. Numbers now display with the correct decimal separator, digit grouping, and number of decimal places.
+
 ## [3.0.2] - 2026-02-19
 
 ### Fixed

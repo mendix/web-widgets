@@ -1,14 +1,14 @@
+import { NumberFormatter } from "mendix";
 import { ReactElement, useMemo, useRef } from "react";
+import { createValueFormatter } from "@mendix/widget-plugin-platform/utils/number-formatter";
+import { Slider as SliderComponent } from "./Slider";
 import { SliderContainerProps } from "../../typings/SliderProps";
-
 import { createHandleRender } from "../utils/createHandleRender";
+import { getSliderLabel } from "../utils/helpers";
 import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
 import { useMarks } from "../utils/useMarks";
 import { useNumber } from "../utils/useNumber";
-import { getSliderLabel } from "../utils/helpers";
 import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
-
-import { Slider as SliderComponent } from "./Slider";
 
 export function Container(props: SliderContainerProps): ReactElement {
     const min = useNumber(minProp(props));
@@ -30,19 +30,32 @@ interface InnerContainerProps extends SliderContainerProps {
 
 function InnerContainer(props: InnerContainerProps): ReactElement {
     const sliderRef = useRef<HTMLDivElement>(null);
-    const handleRender = props.showTooltip
-        ? createHandleRender({
-              tooltip: props.tooltip,
-              tooltipType: props.tooltipType,
-              tooltipAlwaysVisible: props.tooltipAlwaysVisible,
-              sliderRef
-          })
-        : undefined;
+
+    const format = useMemo(
+        () => createValueFormatter(props.valueAttribute.formatter as NumberFormatter, props.decimalPlaces),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [props.valueAttribute.formatter, props.decimalPlaces]
+    );
+
+    const handleRender = useMemo(
+        () =>
+            props.showTooltip
+                ? createHandleRender({
+                      tooltip: props.tooltip,
+                      tooltipType: props.tooltipType,
+                      tooltipAlwaysVisible: props.tooltipAlwaysVisible,
+                      sliderRef,
+                      format
+                  })
+                : undefined,
+        [props.showTooltip, props.tooltip, props.tooltipType, props.tooltipAlwaysVisible, format]
+    );
 
     const { onChange } = useOnChangeDebounced({ valueAttribute: props.valueAttribute, onChange: props.onChange });
     const marks = useMarks({
         noOfMarkers: props.noOfMarkers,
         decimalPlaces: props.decimalPlaces,
+        format,
         min: props.min,
         max: props.max
     });

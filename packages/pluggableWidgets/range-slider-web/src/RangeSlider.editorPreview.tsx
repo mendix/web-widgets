@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
+import { createMarks } from "@mendix/widget-plugin-platform/utils/slider-marks";
 import { RangeSliderPreviewProps } from "../typings/RangeSliderProps";
 import { RangeSlider } from "./components/RangeSlider";
-import { createMarks } from "./utils/marks";
 import { getPreviewValues } from "./utils/getPreviewValues";
 import { getStyleProp, isVertical } from "./utils/prop-utils";
 
@@ -11,11 +11,13 @@ export function getPreviewCss(): string {
 
 export function preview(props: RangeSliderPreviewProps): ReactNode {
     const { min, max, step, value } = getPreviewValues(props);
+    const decimalPlaces = props.decimalPlaces ?? 0;
     const marks = createMarks({
         min,
         max,
         numberOfMarks: props.noOfMarkers ?? 1,
-        decimalPlaces: props.decimalPlaces ?? 0
+        decimalPlaces,
+        format: (v: number) => v.toFixed(decimalPlaces)
     });
 
     const style = getStyleProp({

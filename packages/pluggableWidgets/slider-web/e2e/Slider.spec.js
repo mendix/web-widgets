@@ -6,19 +6,17 @@ test.describe("Slider", () => {
         await page.goto("/");
         await waitForMendixApp(page);
 
-        const minimumValue = await page.inputValue(".mx-name-textBoxMinimumValue input");
         const minimumValueText = await page
             .locator(".mx-name-sliderContext .rc-slider-mark > span")
             .first()
             .textContent();
-        await expect(minimumValueText).toBe(minimumValue);
+        await expect(minimumValueText).toBe("0.0");
 
-        const maximumValue = await page.inputValue(".mx-name-textBoxMaximumValue input");
         const maximumValueText = await page
             .locator(".mx-name-sliderContext .rc-slider-mark > span")
             .nth(2)
             .textContent();
-        await expect(maximumValueText).toBe(maximumValue);
+        await expect(maximumValueText).toBe("20.0");
 
         const value = await page.inputValue(".mx-name-textBoxValue input");
         await expect(value).toContain("10");
@@ -38,13 +36,13 @@ test.describe("Slider", () => {
             .locator(".mx-name-sliderNoContext .rc-slider-mark > span")
             .first()
             .textContent();
-        await expect(minimumValueText).toBe("0");
+        await expect(minimumValueText).toBe("0.0");
 
         const maximumValueText = await page
             .locator(".mx-name-sliderNoContext .rc-slider-mark > span")
             .nth(2)
             .textContent();
-        await expect(maximumValueText).toBe("100");
+        await expect(maximumValueText).toBe("100.0");
 
         const handleStyle = await page.locator(".mx-name-sliderNoContext .rc-slider-handle").getAttribute("style");
         await expect(handleStyle).toContain("left: 0%;");
@@ -173,7 +171,7 @@ test.describe("Slider", () => {
         await waitForMendixApp(page);
 
         await expect(page.locator(".mx-name-slider")).toBeVisible();
-        await expect(page.locator(".mx-name-slider .rc-slider-mark > span").nth(1)).toHaveText("140000");
+        await expect(page.locator(".mx-name-slider .rc-slider-mark > span").nth(1)).toHaveText("140000.0");
         await expect(page.locator(".mx-name-slider .rc-slider-mark > span").nth(1)).toHaveAttribute(
             "style",
             /left: 33.3333%;/

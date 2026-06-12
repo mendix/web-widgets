@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Mark labels and numeric tooltips now respect the configured `decimalPlaces` and the user's session locale (decimal separator and thousands grouping). Previously, marks and tooltips rendered raw numbers via `.toString()`, ignoring locale and decimal precision settings.
+
 ## [3.0.1] - 2026-02-10
 
 ### Added

@@ -1,12 +1,14 @@
+import { NumberFormatter } from "mendix";
 import { ReactElement, useMemo, useRef } from "react";
-import { RangeSliderContainerProps } from "../../typings/RangeSliderProps";
-import { useNumber } from "../utils/useNumber";
-import { RangeSlider as RangeComponent } from "./RangeSlider";
-import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
-import { useMarks } from "../utils/useMarks";
-import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
 import { useScheduleUpdateOnce } from "@mendix/widget-plugin-hooks/useScheduleUpdateOnce";
+import { createValueFormatter } from "@mendix/widget-plugin-platform/utils/number-formatter";
+import { RangeSlider as RangeComponent } from "./RangeSlider";
 import { HandleTooltip } from "./TooltipHandler";
+import { RangeSliderContainerProps } from "../../typings/RangeSliderProps";
+import { getStyleProp, isVertical, maxProp, minProp, stepProp } from "../utils/prop-utils";
+import { useMarks } from "../utils/useMarks";
+import { useNumber } from "../utils/useNumber";
+import { useOnChangeDebounced } from "../utils/useOnChangeDebounced";
 
 export function Container(props: RangeSliderContainerProps): ReactElement {
     const min = useNumber(minProp(props));
@@ -41,9 +43,16 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
 
     const { onChange } = useOnChangeDebounced({ lowerBoundAttribute, upperBoundAttribute, onChange: props.onChange });
 
+    const format = useMemo(
+        () => createValueFormatter(lowerBoundAttribute.formatter as NumberFormatter, props.decimalPlaces),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [lowerBoundAttribute.formatter, props.decimalPlaces]
+    );
+
     const marks = useMarks({
         noOfMarkers: props.noOfMarkers,
         decimalPlaces: props.decimalPlaces,
+        format,
         min,
         max
     });
@@ -73,7 +82,9 @@ function InnerContainer(props: InnerContainerProps): ReactElement {
             max={props.max}
             handleRender={(node, handleProps) => {
                 const isCustomText = tooltipTypeCheck[handleProps.index] === "customText";
-                const displayValue = isCustomText ? (tooltipValue[handleProps.index]?.value ?? "") : handleProps.value;
+                const displayValue = isCustomText
+                    ? (tooltipValue[handleProps.index]?.value ?? "")
+                    : format(handleProps.value);
                 return (
                     <HandleTooltip
                         value={displayValue}
