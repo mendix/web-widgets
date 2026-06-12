@@ -10,14 +10,21 @@
                 <description />
             </property>
 
-            <property key="notifyActionName" type="string" required="true" defaultValue="change">
-                <caption>Notify action name</caption>
-                <description>The name should match the with the 'Notify' parameter `ActionName`</description>
-            </property>
-
-            <property key="notifyEventAction" type="action" required="false">
-                <caption>Action</caption>
-                <description />
+            <property key="eventHandlers" type="object" isList="true" required="false">
+                <caption>Event Handlers</caption>
+                <description>Configure multiple event handlers for different Pusher events</description>
+                <properties>
+                    <propertyGroup caption="General">
+                        <property key="actionName" type="string" required="true">
+                            <caption>Action name</caption>
+                            <description>The name should match the 'Notify' action parameter `ActionName`</description>
+                        </property>
+                        <property key="action" type="action" required="false">
+                            <caption>Action</caption>
+                            <description>Client action to execute when this event is received</description>
+                        </property>
+                    </propertyGroup>
+                </properties>
             </property>
         </propertyGroup>
     </properties>
