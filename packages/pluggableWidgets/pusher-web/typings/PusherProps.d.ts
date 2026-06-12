@@ -6,14 +6,23 @@
 import { ActionValue, DynamicValue, ObjectItem } from "mendix";
 import { CSSProperties } from "react";
 
+export interface EventHandlersType {
+    actionName: string;
+    action?: ActionValue;
+}
+
+export interface EventHandlersPreviewType {
+    actionName: string;
+    action: {} | null;
+}
+
 export interface PusherContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
     objectSource: DynamicValue<ObjectItem>;
-    notifyActionName: string;
-    notifyEventAction?: ActionValue;
+    eventHandlers: EventHandlersType[];
 }
 
 export interface PusherPreviewProps {
@@ -28,6 +37,5 @@ export interface PusherPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     objectSource: {} | { caption: string } | { type: string } | null;
-    notifyActionName: string;
-    notifyEventAction: {} | null;
+    eventHandlers: EventHandlersPreviewType[];
 }
