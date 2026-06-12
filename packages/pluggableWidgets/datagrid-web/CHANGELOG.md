@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- We fixed an issue where "is empty" and "is not empty" string filters were not working correctly in some cases.
+
 - We fixed an issue where custom content columns ignored the export type setting, causing numbers and dates to always export as text in Excel.
 
 - We fixed an issue where exported date values included a hidden time component even when the format specified date-only parts.
