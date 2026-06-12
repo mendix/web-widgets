@@ -7,9 +7,11 @@ import { useZoomScale } from "../utils/useZoomScale";
 import BaseViewer from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
 import { If } from "@mendix/widget-plugin-component-kit/If";
+
+const origin = window.location.origin;
 const options = {
-    cMapUrl: "/widgets/com/mendix/shared/pdfjs/cmaps/",
-    standardFontDataUrl: "/widgets/com/mendix/shared/pdfjs/standard_fonts"
+    cMapUrl: `${origin}/widgets/com/mendix/shared/pdfjs/cmaps/`,
+    standardFontDataUrl: `${origin}/widgets/com/mendix/shared/pdfjs/standard_fonts/`
 };
 
 const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
