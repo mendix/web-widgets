@@ -4,6 +4,7 @@ import { If } from "@mendix/widget-plugin-component-kit/If";
 import { SignaturePreviewProps } from "../typings/SignatureProps";
 import { Grid } from "./components/Grid";
 import { SizeContainer } from "./components/SizeContainer";
+import { getCustomCaption } from "./Signature.editorConfig";
 
 export function preview(props: SignaturePreviewProps): ReactElement {
     const {
@@ -47,7 +48,7 @@ export function preview(props: SignaturePreviewProps): ReactElement {
                     gridCellWidth={gridCellWidth || 50}
                 />
             </If>
-            <div className="size-box-inner">{"Signature"}</div>
+            <div className="size-box-inner">{getCustomCaption(props)}</div>
         </SizeContainer>
     );
 }

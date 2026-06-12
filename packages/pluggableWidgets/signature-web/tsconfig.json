@@ -1,5 +1,6 @@
 {
     "include": ["./src", "./typings"],
+    "exclude": ["./src/assets/plugins"],
     "compilerOptions": {
         "baseUrl": "./",
         "noEmitOnError": true,
