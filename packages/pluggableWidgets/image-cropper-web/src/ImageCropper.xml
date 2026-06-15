@@ -2,6 +2,8 @@
 <widget id="com.mendix.widget.web.imagecropper.ImageCropper" pluginWidget="true" needsEntityContext="true" offlineCapable="false" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Image Cropper</name>
     <description>Crop an image attribute</description>
+    <studioProCategory>Images, videos &amp; files</studioProCategory>
+    <studioCategory>Images, Videos &amp; Files</studioCategory>
     <helpUrl>https://docs.mendix.com/appstore/widgets/image-cropper</helpUrl>
     <properties>
         <propertyGroup caption="General">
