@@ -1,9 +1,9 @@
-import { runModuleSteps, pushUpdates } from "@mendix/automation-utils/steps";
+import { runModuleSteps, pushUpdateToTestProject } from "@mendix/automation-utils/steps";
 
 async function main(): Promise<void> {
     await runModuleSteps({
         packagePath: process.cwd(),
-        steps: [pushUpdates]
+        steps: [pushUpdateToTestProject]
     });
 }
 
