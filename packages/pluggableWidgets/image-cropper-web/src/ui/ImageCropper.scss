@@ -42,8 +42,27 @@ $image-cropper-icon: url(../assets/crop-icon.svg);
         background: #fff;
     }
 
-    &__button {
-        align-self: flex-start;
+    &__toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+
+    &__tool {
+        min-width: 36px;
+        padding: 4px 8px;
+        line-height: 1;
+
+        &.active {
+            background-color: var(--brand-primary, #264ae5);
+            color: #fff;
+        }
+    }
+
+    &__reset {
+        margin-left: auto;
     }
 
     &__error,

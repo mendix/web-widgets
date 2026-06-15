@@ -3,9 +3,9 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
 import { ActionValue, EditableImageValue, WebImage } from "mendix";
 import { Big } from "big.js";
+import { CSSProperties } from "react";
 
 export type CropShapeEnum = "rect" | "circle";
 
@@ -34,6 +34,9 @@ export interface ImageCropperContainerProps {
     previewWidth: number;
     previewHeight: number;
     resizableEnabled: boolean;
+    enableRotation: boolean;
+    enableGrayscale: boolean;
+    showResetButton: boolean;
     zoomEnabled: boolean;
     showZoomSlider: boolean;
     wheelZoomMode: WheelZoomModeEnum;
@@ -67,6 +70,9 @@ export interface ImageCropperPreviewProps {
     previewWidth: number | null;
     previewHeight: number | null;
     resizableEnabled: boolean;
+    enableRotation: boolean;
+    enableGrayscale: boolean;
+    showResetButton: boolean;
     zoomEnabled: boolean;
     showZoomSlider: boolean;
     wheelZoomMode: WheelZoomModeEnum;

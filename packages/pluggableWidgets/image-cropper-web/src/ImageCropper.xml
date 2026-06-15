@@ -83,6 +83,20 @@
                     <description>Let the user resize the selection by dragging its corners.</description>
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Editing">
+                <property key="enableRotation" type="boolean" defaultValue="true" required="true">
+                    <caption>Enable rotation</caption>
+                    <description>Show rotate-left / rotate-right buttons. Rotation is baked into the saved image.</description>
+                </property>
+                <property key="enableGrayscale" type="boolean" defaultValue="false" required="true">
+                    <caption>Enable black &amp; white</caption>
+                    <description>Show a grayscale toggle. When on, the saved image is converted to black and white.</description>
+                </property>
+                <property key="showResetButton" type="boolean" defaultValue="true" required="true">
+                    <caption>Show reset button</caption>
+                    <description>Show a Reset button that restores the original image and clears zoom, rotation, and crop.</description>
+                </property>
+            </propertyGroup>
             <propertyGroup caption="Zoom">
                 <property key="zoomEnabled" type="boolean" defaultValue="true" required="true">
                     <caption>Enable zoom</caption>

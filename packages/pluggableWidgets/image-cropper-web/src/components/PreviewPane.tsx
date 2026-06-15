@@ -1,5 +1,6 @@
 import { ReactElement, useEffect, useRef } from "react";
 import type { PixelCrop } from "react-image-crop";
+import { normalizeRotation } from "../utils/cropMapping";
 
 interface PreviewPaneProps {
     image: HTMLImageElement | null;
@@ -8,9 +9,20 @@ interface PreviewPaneProps {
     width: number;
     height: number;
     circle: boolean;
+    rotation: number;
+    grayscale: boolean;
 }
 
-export function PreviewPane({ image, pixelCrop, zoom, width, height, circle }: PreviewPaneProps): ReactElement {
+export function PreviewPane({
+    image,
+    pixelCrop,
+    zoom,
+    width,
+    height,
+    circle,
+    rotation,
+    grayscale
+}: PreviewPaneProps): ReactElement {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -34,30 +46,36 @@ export function PreviewPane({ image, pixelCrop, zoom, width, height, circle }: P
             // Why: drawImage with a 0-sized source rect throws IndexSizeError in node-canvas / older Safari.
             return;
         }
-        if (circle) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.ellipse(width / 2, height / 2, width / 2, height / 2, 0, 0, Math.PI * 2);
-            ctx.clip();
-        }
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
         const z = zoom > 0 ? zoom : 1;
+        const rot = normalizeRotation(rotation);
+        if (grayscale) {
+            ctx.filter = "grayscale(1)";
+        }
+        ctx.save();
+        ctx.translate(width / 2, height / 2);
+        ctx.rotate((rot * Math.PI) / 180);
+        const drawW = rot === 90 || rot === 270 ? height : width;
+        const drawH = rot === 90 || rot === 270 ? width : height;
+        if (circle) {
+            ctx.beginPath();
+            ctx.ellipse(0, 0, drawW / 2, drawH / 2, 0, 0, Math.PI * 2);
+            ctx.clip();
+        }
         ctx.drawImage(
             image,
             (pixelCrop.x / z) * scaleX,
             (pixelCrop.y / z) * scaleY,
             (pixelCrop.width / z) * scaleX,
             (pixelCrop.height / z) * scaleY,
-            0,
-            0,
-            width,
-            height
+            -drawW / 2,
+            -drawH / 2,
+            drawW,
+            drawH
         );
-        if (circle) {
-            ctx.restore();
-        }
-    }, [image, pixelCrop, zoom, width, height, circle]);
+        ctx.restore();
+    }, [image, pixelCrop, zoom, width, height, circle, rotation, grayscale]);
 
     return <canvas ref={canvasRef} className="widget-image-cropper__preview" width={width} height={height} />;
 }
