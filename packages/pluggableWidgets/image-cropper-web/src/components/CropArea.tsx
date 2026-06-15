@@ -9,6 +9,7 @@ import {
 } from "react-image-crop";
 import { ZoomContainer } from "./ZoomContainer";
 import { WheelZoomModeEnum } from "../../typings/ImageCropperProps";
+import { safeImageUri } from "../utils/safeImageUri";
 
 interface CropAreaProps {
     src: string;
@@ -78,7 +79,9 @@ export function CropArea(props: CropAreaProps): ReactElement {
         [aspect, onImageLoad, boundaryWidth, boundaryHeight]
     );
 
-    if (loadError) {
+    const safeSrc = safeImageUri(props.src);
+
+    if (loadError || !safeSrc) {
         return (
             <div className="widget-image-cropper__error">
                 Could not load this image. If it is a remote image, the server must allow cross-origin access.
@@ -107,7 +110,7 @@ export function CropArea(props: CropAreaProps): ReactElement {
             >
                 <img
                     ref={props.imageRef}
-                    src={props.src}
+                    src={safeSrc}
                     alt=""
                     crossOrigin="anonymous"
                     style={{
