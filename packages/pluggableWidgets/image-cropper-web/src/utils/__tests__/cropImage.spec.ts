@@ -25,7 +25,9 @@ describe("cropImage", () => {
                 outputSize: "original",
                 cropShape: "rect",
                 viewportWidth: 300,
-                viewportHeight: 300
+                viewportHeight: 300,
+                rotation: 0,
+                grayscale: false
             })
         ).rejects.toBeInstanceOf(CropError);
     });
@@ -41,7 +43,9 @@ describe("cropImage", () => {
             outputSize: "original",
             cropShape: "rect",
             viewportWidth: 300,
-            viewportHeight: 300
+            viewportHeight: 300,
+            rotation: 0,
+            grayscale: false
         });
         expect(file.name.endsWith(".png")).toBe(true);
         expect(file.type).toBe("image/png");
@@ -58,7 +62,9 @@ describe("cropImage", () => {
             outputSize: "original",
             cropShape: "rect",
             viewportWidth: 300,
-            viewportHeight: 300
+            viewportHeight: 300,
+            rotation: 0,
+            grayscale: false
         });
         expect(file.name.endsWith(".jpg")).toBe(true);
         expect(file.type).toBe("image/jpeg");
@@ -76,7 +82,9 @@ describe("cropImage", () => {
                 outputSize: "viewport",
                 cropShape: "rect",
                 viewportWidth: 50,
-                viewportHeight: 40
+                viewportHeight: 40,
+                rotation: 0,
+                grayscale: false
             })
         );
         const ctx = calls[0].ctx as CanvasRenderingContext2D;
@@ -96,7 +104,9 @@ describe("cropImage", () => {
                 outputSize: "original",
                 cropShape: "rect",
                 viewportWidth: 300,
-                viewportHeight: 300
+                viewportHeight: 300,
+                rotation: 0,
+                grayscale: false
             })
         );
         const [, sx, sy, sw, sh] = calls[0];
@@ -117,7 +127,9 @@ describe("cropImage", () => {
             outputSize: "original",
             cropShape: "circle",
             viewportWidth: 300,
-            viewportHeight: 300
+            viewportHeight: 300,
+            rotation: 0,
+            grayscale: false
         });
         expect(file).toBeInstanceOf(File);
         expect(file.name.endsWith(".png")).toBe(true);
@@ -140,12 +152,55 @@ describe("cropImage", () => {
                     outputSize: "original",
                     cropShape: "rect",
                     viewportWidth: 300,
-                    viewportHeight: 300
+                    viewportHeight: 300,
+                    rotation: 0,
+                    grayscale: false
                 })
             ).rejects.toBeInstanceOf(CropError);
         } finally {
             HTMLCanvasElement.prototype.toBlob = originalToBlob;
         }
+    });
+
+    test("swaps canvas dimensions for 90° rotation (viewport output)", async () => {
+        const img = makeImg(1000, 800);
+        const spy = jest.spyOn(document, "createElement");
+        const file = await cropImage({
+            image: img,
+            pixelCrop: baseCrop,
+            zoom: 1,
+            outputFormat: "png",
+            outputQuality: 1,
+            outputSize: "viewport",
+            cropShape: "rect",
+            viewportWidth: 300,
+            viewportHeight: 200,
+            rotation: 90,
+            grayscale: false
+        });
+        const canvas = spy.mock.results.map(r => r.value).find(el => el?.tagName === "CANVAS") as HTMLCanvasElement;
+        expect(canvas.width).toBe(200); // swapped from 300x200
+        expect(canvas.height).toBe(300);
+        expect(file).toBeInstanceOf(File);
+        spy.mockRestore();
+    });
+
+    test("grayscale option produces a File without throwing under canvas mock", async () => {
+        const img = makeImg(1000, 800);
+        const file = await cropImage({
+            image: img,
+            pixelCrop: baseCrop,
+            zoom: 1,
+            outputFormat: "png",
+            outputQuality: 1,
+            outputSize: "original",
+            cropShape: "rect",
+            viewportWidth: 300,
+            viewportHeight: 300,
+            rotation: 0,
+            grayscale: true
+        });
+        expect(file).toBeInstanceOf(File);
     });
 });
 
