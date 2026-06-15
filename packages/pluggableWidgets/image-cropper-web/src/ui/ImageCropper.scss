@@ -86,5 +86,12 @@ $image-cropper-icon: url(../assets/crop-icon.svg);
             font-size: 11px;
             color: var(--gray-light, $image-cropper-gray-light);
         }
+
+        .widget-image-cropper__hint {
+            margin: 0;
+            font-size: 10px;
+            color: var(--gray-light, $image-cropper-gray-light);
+            opacity: 0.8;
+        }
     }
 }

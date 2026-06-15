@@ -37,26 +37,17 @@ export function getPreview(values: ImageCropperPreviewProps, isDarkMode: boolean
         type: "Container",
         borders: true,
         borderRadius: 4,
-        backgroundColor: palette.background.containerFill,
+        backgroundColor: palette.background.container,
         children: [
             {
                 type: "RowLayout",
                 columnSize: "grow",
-                padding: 12,
+                backgroundColor: palette.background.topbarStandard,
+                borders: true,
+                borderWidth: 1,
+                padding: 8,
                 children: [
-                    {
-                        type: "Container",
-                        grow: 0,
-                        padding: 4,
-                        children: [
-                            {
-                                type: "Image",
-                                document: iconDocument,
-                                width: 28,
-                                height: 22
-                            }
-                        ]
-                    },
+                    { type: "Image", document: iconDocument, width: 20, height: 16 },
                     {
                         type: "Container",
                         grow: 1,
@@ -77,6 +68,11 @@ export function getPreview(values: ImageCropperPreviewProps, isDarkMode: boolean
                         ]
                     }
                 ]
+            },
+            {
+                type: "Container",
+                padding: 12,
+                children: [{ type: "Image", property: values.image ?? undefined, width: 220, height: 140 }]
             }
         ]
     };

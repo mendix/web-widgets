@@ -8,6 +8,7 @@ export function preview(props: ImageCropperPreviewProps): ReactElement {
             <div className="widget-image-cropper__dropzone">
                 <div className="widget-image-cropper__icon" />
                 <p className="widget-image-cropper__label">Image Cropper</p>
+                <p className="widget-image-cropper__hint">Bind an image attribute to crop</p>
             </div>
         </div>
     );
