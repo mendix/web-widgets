@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- We fixed an issue where PDF standard fonts (e.g. ZapfDingbats) failed to load when the PDF.js worker was served from a cross-origin URL, causing glyphs such as checkmarks to render as blank rectangles.
+- We fixed an issue where checkmarks and other special characters in PDFs were not displayed correctly.
 
 ## [1.2.0] - 2025-10-29
 
