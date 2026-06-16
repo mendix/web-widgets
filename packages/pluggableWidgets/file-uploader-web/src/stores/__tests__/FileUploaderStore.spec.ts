@@ -344,7 +344,7 @@ describe("FileStore.canRetry — reacts to freed slots", () => {
 // ─── FileStore.retry ─────────────────────────────────────────────────────────
 
 describe("FileStore.retry", () => {
-    test("transitions rejected file to queued", () => {
+    test("transitions rejected file to uploading via queue reaction", () => {
         const store = buildStore({
             maxFilesPerUpload: dynamic(new Big(3)),
             maxFilesPerBatch: unavailableDynamic()
