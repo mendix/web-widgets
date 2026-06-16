@@ -91,6 +91,7 @@ export class FileUploaderStore {
             _maxTotalFiles: observable,
             _maxConcurrentUploads: observable,
             isFileUploadLimitReached: computed,
+            hasValidationErrors: computed,
             sortedFiles: computed,
             activeCount: computed,
             uploadingCount: computed,
@@ -188,10 +189,14 @@ export class FileUploaderStore {
         return this.activeCount >= this.maxTotalFiles;
     }
 
+    get hasValidationErrors(): boolean {
+        return this.files.some(f => f.fileStatus === "validationError");
+    }
+
     get sortedFiles(): FileStore[] {
         return [...this.files].sort((a, b) => {
-            const isErrorA = a.fileStatus === "validationError" ? 1 : 0;
-            const isErrorB = b.fileStatus === "validationError" ? 1 : 0;
+            const isErrorA = a.fileStatus === "validationError" || a.fileStatus === "rejected" ? 1 : 0;
+            const isErrorB = b.fileStatus === "validationError" || b.fileStatus === "rejected" ? 1 : 0;
             return isErrorA - isErrorB;
         });
     }
