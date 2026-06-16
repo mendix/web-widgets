@@ -42,7 +42,7 @@
     },
     "dependencies": {
         "@mendix/widget-plugin-component-kit": "workspace:*",
-        "dompurify": "^3.4.0"
+        "dompurify": "^3.4.8"
     },
     "devDependencies": {
         "@mendix/automation-utils": "workspace:*",
