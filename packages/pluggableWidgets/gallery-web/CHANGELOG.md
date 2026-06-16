@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where "Reset All Filters" and "Clear Selection" JavaScript actions did not work with the Gallery widget. Event listeners were not registered despite the required infrastructure being in place.
+
 ## [3.11.0] - 2026-05-27
 
 ### Added
