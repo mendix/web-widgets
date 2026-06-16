@@ -1,6 +1,7 @@
 ## 1. Implementation
 
-- [x] 1.1 Prepend `window.location.origin` to `cMapUrl` and `standardFontDataUrl` in `packages/pluggableWidgets/document-viewer-web/src/components/PDFViewer.tsx`
+- [x] 1.1 Prepend an absolute `origin` (`window.mx?.appUrl ?? window.location.origin`, trailing slash stripped) to `cMapUrl` and `standardFontDataUrl` in `packages/pluggableWidgets/document-viewer-web/src/components/PDFViewer.tsx`
+- [x] 1.2 Add `typings/global.d.ts` (`window.mx`) and `typings/modules.d.ts` (`*.css`)
 
 ## 2. Verification
 

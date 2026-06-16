@@ -18,17 +18,27 @@ The customer's W9 PDF draws a checkmark using the ZapfDingbats standard font (gl
 
 ## Decisions
 
-### Use `window.location.origin` to make resource URLs absolute
+### Use an absolute `origin` to make resource URLs absolute
 
-Prepend `window.location.origin` to both `cMapUrl` and `standardFontDataUrl` at module evaluation time.
+Compute a module-scope `origin` and prepend it to both `cMapUrl` and `standardFontDataUrl` at module evaluation time:
 
-**Rationale:** The worker needs absolute URLs. `window.location.origin` is always the Mendix app origin — correct for all deployment environments. Evaluated at module load (not per-render), so no React re-render cost.
+```ts
+const origin: string = (window.mx?.appUrl ?? window.location.origin).replace(/\/$/, "");
+```
+
+**Rationale:** The worker needs absolute URLs. `window.mx.appUrl` is the canonical Mendix application URL and is correct even when the app is served from a non-origin base path or behind a reverse proxy; `window.location.origin` is the fallback when `mx.appUrl` is unset (e.g. tests). The trailing-slash strip prevents `//` in the joined resource URLs. Evaluated at module load (not per-render), so no React re-render cost.
+
+**Alternative considered:** Use `window.location.origin` alone. Rejected — does not account for apps served under a base path that `mx.appUrl` encodes.
 
 **Alternative considered:** Move `options` inside the component and use `useMemo`. Rejected — no reactive dependencies, module-scope evaluation is simpler and equivalent.
 
 **Alternative considered:** Set `useWorkerFetch: false` to force main-thread font loading. Rejected — works around the symptom, not the cause; disabling worker fetch has broader performance implications.
 
+### Supporting typings
+
+`window.mx` is not in the widget's ambient types, and CSS imports (`react-pdf/dist/Page/*.css`) need a module declaration. Added `typings/global.d.ts` (declares `Window.mx?: { appUrl?: string }`) and `typings/modules.d.ts` (`declare module "*.css"`).
+
 ## Risks / Trade-offs
 
-- `window.location.origin` is not available in SSR/test environments. Tests currently stub this or don't exercise PDF rendering — no impact. If server-side rendering is ever added, this will need to be guarded.
-- If the Mendix app is served from a subpath (e.g. `/app/`), `origin` alone is correct — fonts live under `/widgets/`, not the subpath.
+- Neither `window.mx?.appUrl` nor `window.location.origin` is guaranteed in SSR. Tests don't exercise PDF rendering and `mx.appUrl` falls back to `location.origin` — no impact. If server-side rendering is ever added, this will need to be guarded.
+- If the Mendix app is served from a subpath (e.g. `/app/`), `mx.appUrl` already encodes it correctly; fonts resolve under the app's `/widgets/` path.

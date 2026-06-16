@@ -13,7 +13,7 @@ The Document Viewer SHALL correctly render PDF glyphs that depend on PDF standar
 #### Scenario: Font fetch uses absolute URL
 
 - **WHEN** PDF.js requests a standard font file from the worker thread
-- **THEN** the request URL SHALL be an absolute URL including the application origin (e.g. `https://example.com/widgets/.../FoxitDingbats.pfb`)
+- **THEN** the request URL SHALL be an absolute URL rooted at the Mendix application URL (`window.mx.appUrl`, falling back to `window.location.origin`, with any trailing slash stripped) — e.g. `https://example.com/widgets/.../FoxitDingbats.pfb`
 
 #### Scenario: PDFs without standard fonts are unaffected
 

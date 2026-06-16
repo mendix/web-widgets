@@ -4,7 +4,10 @@ PDFs containing glyphs from ZapfDingbats (a PDF standard font) — such as check
 
 ## What Changes
 
-- `standardFontDataUrl` and `cMapUrl` in `PDFViewer.tsx` are prefixed with `window.location.origin` to produce absolute URLs, allowing the worker to fetch font resources regardless of where it was loaded from.
+- `standardFontDataUrl` and `cMapUrl` in `PDFViewer.tsx` are prefixed with an absolute `origin` so the worker can fetch font resources regardless of where it was loaded from.
+- `origin` resolves to `window.mx.appUrl` (the Mendix app URL) when available, falling back to `window.location.origin`. A trailing slash is stripped to avoid double slashes in the resulting resource URLs.
+- A trailing slash is added to `standard_fonts/` so the font directory URL is well-formed.
+- Supporting typings added: `window.mx` declaration (`typings/global.d.ts`) and a CSS module declaration (`typings/modules.d.ts`).
 
 ## Capabilities
 
@@ -18,7 +21,10 @@ PDFs containing glyphs from ZapfDingbats (a PDF standard font) — such as check
 
 ## Impact
 
-- **File**: `packages/pluggableWidgets/document-viewer-web/src/components/PDFViewer.tsx`
+- **Files**:
+    - `packages/pluggableWidgets/document-viewer-web/src/components/PDFViewer.tsx`
+    - `packages/pluggableWidgets/document-viewer-web/typings/global.d.ts` (new — `window.mx` type)
+    - `packages/pluggableWidgets/document-viewer-web/typings/modules.d.ts` (new — `*.css` module type)
 - **Behavior**: ZapfDingbats and other standard font glyphs now render correctly when PDF.js worker is loaded from a cross-origin URL (e.g. unpkg CDN)
 - **No API or XML changes**
 - **No dependency version changes**
