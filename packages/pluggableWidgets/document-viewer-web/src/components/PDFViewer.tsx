@@ -8,7 +8,7 @@ import BaseViewer from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
 import { If } from "@mendix/widget-plugin-component-kit/If";
 
-const origin: string = (window as any).mx?.appUrl ?? window.location.origin;
+const origin: string = (window.mx?.appUrl ?? window.location.origin).replace(/\/$/, "");
 const options = {
     cMapUrl: `${origin}/widgets/com/mendix/shared/pdfjs/cmaps/`,
     standardFontDataUrl: `${origin}/widgets/com/mendix/shared/pdfjs/standard_fonts/`
