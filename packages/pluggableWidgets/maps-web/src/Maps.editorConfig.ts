@@ -1,50 +1,23 @@
-import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
+import { StructurePreviewProps } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 
 import { MapsPreviewProps } from "../typings/MapsProps";
 
 import GoogleMapsSVG from "./assets/GoogleMaps.svg";
+import HereMapsSVG from "./assets/HereMaps.svg";
 import MapboxSVG from "./assets/Mapbox.svg";
 import OpenStreetMapSVG from "./assets/OpenStreetMap.svg";
-import HereMapsSVG from "./assets/HereMaps.svg";
 
-export function getProperties(
-    values: MapsPreviewProps,
-    defaultProperties: Properties,
-    platform: "web" | "desktop"
-): Properties {
+export function getProperties(values: MapsPreviewProps, defaultProperties: Properties): Properties {
     const containsAddress =
         values.markers.some(marker => marker.locationType === "address") ||
         values.dynamicMarkers.some(marker => marker.locationType === "address");
 
-    if (platform === "desktop") {
-        if (values.apiKey) {
-            hidePropertyIn(defaultProperties, values, "apiKeyExp");
-        } else {
-            hidePropertyIn(defaultProperties, values, "apiKey");
-        }
-        if (values.geodecodeApiKey) {
-            hidePropertyIn(defaultProperties, values, "geodecodeApiKeyExp");
-        } else {
-            hidePropertyIn(defaultProperties, values, "geodecodeApiKey");
-        }
-
-        hidePropertyIn(defaultProperties, values, "advanced");
-    } else {
-        if (values.apiKeyExp) {
-            hidePropertyIn(defaultProperties, values, "apiKey");
-        } else {
-            hidePropertyIn(defaultProperties, values, "apiKeyExp");
-        }
-        if (values.geodecodeApiKeyExp) {
-            hidePropertyIn(defaultProperties, values, "geodecodeApiKey");
-        } else {
-            hidePropertyIn(defaultProperties, values, "geodecodeApiKeyExp");
-        }
-
-        if (!values.advanced) {
-            hidePropertyIn(defaultProperties, values, "mapProvider");
-        }
+    if (!values.apiKey) {
+        hidePropertyIn(defaultProperties, values, "apiKey");
+    }
+    if (!values.geodecodeApiKey) {
+        hidePropertyIn(defaultProperties, values, "geodecodeApiKey");
     }
 
     values.markers.forEach((f, index) => {
@@ -53,10 +26,6 @@ export function getProperties(
             hidePropertyIn(defaultProperties, values, "markers", index, "longitude");
         } else {
             hidePropertyIn(defaultProperties, values, "markers", index, "address");
-        }
-        if (platform === "web" && !values.advanced) {
-            hidePropertyIn(defaultProperties, values, "markers", index, "markerStyle");
-            hidePropertyIn(defaultProperties, values, "markers", index, "customMarker");
         }
         if (f.markerStyle === "default") {
             hidePropertyIn(defaultProperties, values, "markers", index, "customMarker");
@@ -69,10 +38,6 @@ export function getProperties(
             hidePropertyIn(defaultProperties, values, "dynamicMarkers", index, "longitude");
         } else {
             hidePropertyIn(defaultProperties, values, "dynamicMarkers", index, "address");
-        }
-        if (platform === "web" && !values.advanced) {
-            hidePropertyIn(defaultProperties, values, "dynamicMarkers", index, "markerStyleDynamic");
-            hidePropertyIn(defaultProperties, values, "dynamicMarkers", index, "customMarkerDynamic");
         }
         if (f.markerStyleDynamic === "default") {
             hidePropertyIn(defaultProperties, values, "dynamicMarkers", index, "customMarkerDynamic");
@@ -103,6 +68,23 @@ export function getProperties(
 
 export function check(values: MapsPreviewProps): Problem[] {
     const errors: Problem[] = [];
+
+    if (values.apiKey) {
+        errors.push({
+            property: "apiKey",
+            severity: "warning",
+            message: "Static API key is deprecated. Use the 'API Key' expression instead."
+        });
+    }
+
+    if (values.geodecodeApiKey) {
+        errors.push({
+            property: "geodecodeApiKey",
+            severity: "warning",
+            message: "Static Geo location API key is deprecated. Use the 'Geo location API key' expression instead."
+        });
+    }
+
     const containsAddress =
         values.markers.some(marker => marker.locationType === "address") ||
         values.dynamicMarkers.some(marker => marker.locationType === "address");
