@@ -8,12 +8,6 @@
     <properties>
         <!-- Data source -->
         <propertyGroup caption="General">
-            <propertyGroup caption="General">
-                <property key="advanced" type="boolean" defaultValue="false">
-                    <caption>Enable advanced options</caption>
-                    <description />
-                </property>
-            </propertyGroup>
             <propertyGroup caption="Markers">
                 <property key="markers" type="object" isList="true" required="false">
                     <caption>Marker</caption>
