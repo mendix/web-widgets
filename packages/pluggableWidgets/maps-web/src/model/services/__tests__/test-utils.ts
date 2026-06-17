@@ -12,6 +12,7 @@ export interface TestContainerOptions {
     props: MapsContainerProps;
     geocodeFunction?: GeocodeFunction;
     getLocationFunction?: GetLocationFunction;
+    skipSetup?: boolean;
 }
 
 /**
@@ -21,7 +22,7 @@ export interface TestContainerOptions {
 export function createTestContainer(
     options: TestContainerOptions
 ): [MapsContainer, LocationResolverService, GateProvider<MapsContainerProps>] {
-    const { props, geocodeFunction, getLocationFunction } = options;
+    const { props, geocodeFunction, getLocationFunction, skipSetup } = options;
 
     // Create root container
     const root = new RootContainer();
@@ -47,8 +48,9 @@ export function createTestContainer(
         mainGate: gateProvider.gate
     });
 
-    // Trigger setup lifecycle (in production this is done by useSetup hook)
-    container.get(CORE.setupService).setup();
+    if (!skipSetup) {
+        container.get(CORE.setupService).setup();
+    }
 
     // Get service (already initialized by postInit)
     const service = container.get(MAPS.locationResolver);

@@ -28,7 +28,7 @@ interface BindingGroup {
 const _01_coreBindings: BindingGroup = {
     inject() {
         injected(LocationResolverService, CORE.setupService, CORE.mainGate, CORE.geocodeFunction);
-        injected(CurrentLocationService, CORE.setupService, CORE.mainGate, CORE.getLocationFunction);
+        injected(CurrentLocationService, CORE.setupService, CORE.config, CORE.getLocationFunction);
     },
     define(container) {
         container.bind(MAPS.locationResolver).toInstance(LocationResolverService).inSingletonScope();
