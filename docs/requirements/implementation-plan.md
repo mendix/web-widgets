@@ -41,7 +41,7 @@ Import SCSS for styling and use Atlas UI classes.
 - export MX_PROJECT_PATH=/Volumes/[C] Windows11/Users/<your-username>/Documents/MyTestProject
 - export MX_PROJECT_PATH=/Users/<your-username>/Mendix/MyTestProject
 
-Run pnpm start (or npm start) to build and watch for changes.
+Run pnpm start to build and watch for changes.
 
 In Studio Pro, synchronize the app directory to load the widget.
 
@@ -69,7 +69,7 @@ Ensure XML descriptions and property captions are clear.
 Optionally, add an icon for the widget.
 
 10. Packaging and Sharing
-    Run npm run build to produce an MPK file.
+    Run pnpm turbo build to produce an MPK file.
 
 Test the MPK in a fresh Mendix project.
 

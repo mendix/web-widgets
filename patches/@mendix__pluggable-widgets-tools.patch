@@ -1,8 +1,8 @@
 diff --git a/bin/mx-scripts.js b/bin/mx-scripts.js
-index 708bf48f266b6f80d830a9a72388278a65695964..5a8ad6d0fcebac945cdd6d95bfc9c36e7a284051 100755
+index 708bf48f266b6f80d830a9a72388278a65695964..6187cbe0739454c92f72136595e16748372885e9 100755
 --- a/bin/mx-scripts.js
 +++ b/bin/mx-scripts.js
-@@ -8,7 +8,7 @@ const { red, blue, bold, whiteBright } = require("ansi-colors");
+@@ -8,10 +8,10 @@ const { red, blue, bold, whiteBright } = require("ansi-colors");
  const semver = require("semver");
  const { auditPluggableWidgetsTools } = require("../dist/commands/audit");
  
@@ -10,4 +10,8 @@ index 708bf48f266b6f80d830a9a72388278a65695964..5a8ad6d0fcebac945cdd6d95bfc9c36e
 +// checkNodeVersion(); // Disabled via pnpm patch
  (async () => {
      try {
-         await checkMigration();
+-        await checkMigration();
++        // await checkMigration(); // Disabled via pnpm patch
+     } catch (e) {
+         console.log(red("An error occurred while checking migration dependencies: ", e));
+     }

@@ -40,7 +40,7 @@ Live reload is used during development to quickly reflect changes.
 
 ## 4. Build and Bundle
 
-Using pnpm (or npm), developers:
+Using pnpm, developers:
 
 - Run `pnpm install` to install dependencies.
 - Set the `MX_PROJECT_PATH` to point to a Mendix test project.
