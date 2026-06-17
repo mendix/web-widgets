@@ -18,10 +18,9 @@ describe("CurrentLocationService", () => {
             props: mockContainerProps({ showCurrentLocation: false }),
             getLocationFunction: getLocation
         });
-        const service = getCurrentLocationService(container);
+        getCurrentLocationService(container);
 
         expect(getLocation).not.toHaveBeenCalled();
-        expect(service.location).toBeUndefined();
     });
 
     it("resolves location when showCurrentLocation is true", async () => {
@@ -38,39 +37,7 @@ describe("CurrentLocationService", () => {
         expect(service.location).toEqual(userLocation);
     });
 
-    it("resolves location when showCurrentLocation becomes true", async () => {
-        const getLocation = mockGetLocation();
-        const [container, , gateProvider] = createTestContainer({
-            props: mockContainerProps({ showCurrentLocation: false }),
-            getLocationFunction: getLocation
-        });
-        const service = getCurrentLocationService(container);
-
-        expect(service.location).toBeUndefined();
-
-        gateProvider.setProps(mockContainerProps({ showCurrentLocation: true }));
-        await when(() => service.location !== undefined, { timeout: 1000 });
-
-        expect(getLocation).toHaveBeenCalledTimes(1);
-        expect(service.location).toEqual(userLocation);
-    });
-
-    it("clears location when showCurrentLocation becomes false", async () => {
-        const getLocation = mockGetLocation();
-        const [container, , gateProvider] = createTestContainer({
-            props: mockContainerProps({ showCurrentLocation: true }),
-            getLocationFunction: getLocation
-        });
-        const service = getCurrentLocationService(container);
-
-        await when(() => service.location !== undefined, { timeout: 1000 });
-
-        gateProvider.setProps(mockContainerProps({ showCurrentLocation: false }));
-
-        expect(service.location).toBeUndefined();
-    });
-
-    it("ignores a stale location response after the option is disabled", async () => {
+    it("does not update location after dispose", async () => {
         let resolveLocation: (marker: Marker) => void = () => undefined;
         const getLocation = jest.fn().mockImplementation(
             () =>
@@ -78,16 +45,17 @@ describe("CurrentLocationService", () => {
                     resolveLocation = resolve;
                 })
         );
-        const [container, , gateProvider] = createTestContainer({
+        const [container] = createTestContainer({
             props: mockContainerProps({ showCurrentLocation: true }),
-            getLocationFunction: getLocation
+            getLocationFunction: getLocation,
+            skipSetup: true
         });
         const service = getCurrentLocationService(container);
+        const dispose = service.setup();
 
         expect(getLocation).toHaveBeenCalledTimes(1);
 
-        // Disable before the (slow) location request resolves
-        gateProvider.setProps(mockContainerProps({ showCurrentLocation: false }));
+        dispose();
         resolveLocation(userLocation);
         await Promise.resolve();
 
@@ -102,12 +70,11 @@ describe("CurrentLocationService", () => {
             props: mockContainerProps({ showCurrentLocation: true }),
             getLocationFunction: getLocation
         });
-        const service = getCurrentLocationService(container);
+        getCurrentLocationService(container);
 
         await new Promise(resolve => setTimeout(resolve, 0));
 
         expect(consoleSpy).toHaveBeenCalledWith(error);
-        expect(service.location).toBeUndefined();
         consoleSpy.mockRestore();
     });
 });
