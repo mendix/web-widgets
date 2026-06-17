@@ -5,6 +5,7 @@ export interface MapsConfig {
     id: string;
     name: string;
     apiKey?: string;
+    showCurrentLocation: boolean;
 }
 
 export function mapsConfig(props: MapsContainerProps): MapsConfig {
@@ -13,6 +14,7 @@ export function mapsConfig(props: MapsContainerProps): MapsConfig {
     return {
         id,
         name: props.name,
-        apiKey: props.apiKeyExp?.value ?? props.apiKey
+        apiKey: props.apiKeyExp?.value ?? props.apiKey,
+        showCurrentLocation: props.showCurrentLocation
     };
 }
