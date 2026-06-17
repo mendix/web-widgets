@@ -74,7 +74,6 @@ export interface MapsContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    advanced: boolean;
     markers: MarkersType[];
     dynamicMarkers: DynamicMarkersType[];
     apiKey: string;
@@ -110,7 +109,6 @@ export interface MapsPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    advanced: boolean;
     markers: MarkersPreviewType[];
     dynamicMarkers: DynamicMarkersPreviewType[];
     apiKey: string;

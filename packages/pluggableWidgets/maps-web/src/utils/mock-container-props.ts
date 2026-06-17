@@ -7,7 +7,6 @@ export function mockContainerProps(overrides?: Partial<MapsContainerProps>): Map
         class: "",
         style: {},
         tabIndex: 0,
-        advanced: false,
         apiKey: "",
         apiKeyExp: { value: "test-api-key" } as DynamicValue<string>,
         geodecodeApiKey: "",
