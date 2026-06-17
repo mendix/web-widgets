@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { MapSwitcher } from "./MapSwitcher";
-import { useCurrentLocation, useLocationResolver, useMainGate } from "../model/hooks/injection-hooks";
+import { useApiKey, useCurrentLocation, useLocationResolver, useMainGate } from "../model/hooks/injection-hooks";
 import { translateZoom } from "../utils/zoom";
 
 /**
@@ -12,6 +12,7 @@ export const MapsWidget = observer(function MapsWidget(): ReactElement {
     const { props } = useMainGate();
     const { locations } = useLocationResolver();
     const { location: currentLocation } = useCurrentLocation();
+    const apiKey = useApiKey();
 
     return (
         <MapSwitcher
@@ -23,7 +24,7 @@ export const MapsWidget = observer(function MapsWidget(): ReactElement {
             height={props.height}
             heightUnit={props.heightUnit}
             locations={locations}
-            mapsToken={props.apiKeyExp?.value ?? props.apiKey}
+            mapsToken={apiKey.get() ?? undefined}
             mapId={props.googleMapId}
             mapProvider={props.mapProvider}
             mapTypeControl={props.mapTypeControl}
