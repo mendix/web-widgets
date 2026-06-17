@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
+import { getDimensions } from "@mendix/widget-plugin-platform/utils/get-dimensions";
 import { MapSwitcher } from "./MapSwitcher";
 import { useApiKey, useCurrentLocation, useLocationResolver, useMainGate } from "../model/hooks/injection-hooks";
 import { translateZoom } from "../utils/zoom";
@@ -13,6 +14,10 @@ export const MapsWidget = observer(function MapsWidget(): ReactElement {
     const { locations } = useLocationResolver();
     const { location: currentLocation } = useCurrentLocation();
     const apiKey = useApiKey();
+
+    if (props.mapProvider !== "openStreet" && apiKey.get() === null) {
+        return <div className={`widget-maps ${props.class}`} style={{ ...props.style, ...getDimensions(props) }} />;
+    }
 
     return (
         <MapSwitcher
