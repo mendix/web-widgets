@@ -16,7 +16,6 @@ Although pluggable widgets are primarily client-side components, they operate wi
     - **objects/object:** Provided as a ListValue or ObjectValue.
     - **Simple types:** Passed as plain JS values.
     - **action:** Provided as an ActionValue with methods like `execute()`.
-- **Data Context:** Widgets may require a context object if placed within a Data View.
 - **Offline Capable:** XML can mark widgets as offline capable, meaning they are designed to work without a network connection.
 
 ## Data Flow: Reading and Updating Data

@@ -2,25 +2,6 @@
 
 Monorepo of official Mendix pluggable web widgets. pnpm workspaces + Turbo.
 
-## Commands
-
-- Install: `pnpm install`
-- Build all: `pnpm build`
-- Build one: `pnpm --filter @mendix/<name> run build`
-- Test one: cd into package dir, run `pnpm run test` (NOT from repo root)
-- Lint one: cd into package dir, run `pnpm run lint`
-- Changelog: `pnpm -w changelog`
-
-## Structure
-
-```
-packages/pluggableWidgets/*-web/  -> Widget packages (React + TS + SCSS)
-packages/modules/                 -> Mendix module packages
-packages/shared/                  -> Shared configs, plugins, utilities
-automation/                       -> Build/release automation
-docs/requirements/                -> Detailed technical requirements
-```
-
 ## Conventions
 
 - TypeScript strict, React functional components + hooks
@@ -29,7 +10,9 @@ docs/requirements/                -> Detailed technical requirements
 - Render loading/empty states until values are ready
 - SCSS for styling, prefer Atlas UI classes, BEM-like naming with widget prefix
 - Conventional commits enforced: `type(scope): description`
-- Semver + CHANGELOG.md per package for runtime/XML/behavior changes
+- Semver + CHANGELOG.md per package for changes
+- Changelogs for users: include only widget behavior, not implementation details
+- Changelogs added during development, version bumps only at release time
 - Jest + RTL for unit tests (src/\*_/**tests**/_.spec.ts)
 - Playwright for E2E (e2e/\*.spec.js)
 
@@ -39,7 +22,7 @@ docs/requirements/                -> Detailed technical requirements
 
 ## Development Setup
 
-- Node >=22, pnpm 10.x
+- Node >=24, pnpm 10.x
 - Set MX_PROJECT_PATH to Mendix project dir for live reload
 - Run `pnpm start` inside widget package for dev build
 
@@ -55,6 +38,7 @@ docs/requirements/                -> Detailed technical requirements
 Essential reading (consult for any widget work):
 
 - docs/repo-layout.md — To understand the repository
+- docs/widget-scripts.md - How to build/test/lint packages
 - docs/requirements/tech-stack.md — Full technology stack
 - docs/requirements/frontend-guidelines.md — CSS/SCSS/Atlas UI guidelines
 - docs/requirements/app-flow.md — Widget lifecycle and Studio Pro integration
