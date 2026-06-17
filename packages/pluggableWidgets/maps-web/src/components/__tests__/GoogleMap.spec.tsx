@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, RenderResult } from "@testing-library/react";
+import { act, render, RenderResult } from "@testing-library/react";
 import { GoogleMapContainer, GoogleMapsProps } from "../GoogleMap";
 import { initialize } from "@googlemaps/jest-mocks";
 
@@ -35,32 +35,36 @@ describe("Google maps", () => {
         jest.clearAllMocks();
     });
 
-    function renderGoogleMap(props: Partial<GoogleMapsProps> = {}): RenderResult {
-        return render(<GoogleMapContainer {...defaultProps} {...props} />);
+    async function renderGoogleMap(props: Partial<GoogleMapsProps> = {}): Promise<RenderResult> {
+        let result: RenderResult;
+        await act(async () => {
+            result = render(<GoogleMapContainer {...defaultProps} {...props} />);
+        });
+        return result!;
     }
 
-    it("renders a map with right structure", () => {
-        const { asFragment } = renderGoogleMap({ heightUnit: "percentageOfWidth", widthUnit: "pixels" });
+    it("renders a map with right structure", async () => {
+        const { asFragment } = await renderGoogleMap({ heightUnit: "percentageOfWidth", widthUnit: "pixels" });
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it("renders a map with pixels renders structure correctly", () => {
-        const { asFragment } = renderGoogleMap({ heightUnit: "pixels", widthUnit: "pixels" });
+    it("renders a map with pixels renders structure correctly", async () => {
+        const { asFragment } = await renderGoogleMap({ heightUnit: "pixels", widthUnit: "pixels" });
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it("renders a map with percentage of width and height units renders the structure correctly", () => {
-        const { asFragment } = renderGoogleMap({ heightUnit: "percentageOfWidth", widthUnit: "percentage" });
+    it("renders a map with percentage of width and height units renders the structure correctly", async () => {
+        const { asFragment } = await renderGoogleMap({ heightUnit: "percentageOfWidth", widthUnit: "percentage" });
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it("renders a map with percentage of parent units renders the structure correctly", () => {
-        const { asFragment } = renderGoogleMap({ heightUnit: "percentageOfParent", widthUnit: "percentage" });
+    it("renders a map with percentage of parent units renders the structure correctly", async () => {
+        const { asFragment } = await renderGoogleMap({ heightUnit: "percentageOfParent", widthUnit: "percentage" });
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it("renders a map with markers", () => {
-        const { asFragment } = renderGoogleMap({
+    it("renders a map with markers", async () => {
+        const { asFragment } = await renderGoogleMap({
             locations: [
                 {
                     title: "Mendix HQ",
@@ -79,8 +83,8 @@ describe("Google maps", () => {
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it("renders a map with current location", () => {
-        const { asFragment } = renderGoogleMap({
+    it("renders a map with current location", async () => {
+        const { asFragment } = await renderGoogleMap({
             showCurrentLocation: true,
             currentLocation: {
                 latitude: 51.906688,
