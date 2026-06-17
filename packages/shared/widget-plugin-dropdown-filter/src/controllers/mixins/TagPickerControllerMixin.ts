@@ -1,6 +1,7 @@
-import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { useCombobox, UseComboboxProps, useMultipleSelection, UseMultipleSelectionProps } from "downshift";
 import { action, autorun, computed, makeObservable, observable } from "mobx";
+import { ChangeEvent } from "react";
+import { disposeBatch } from "@mendix/widget-plugin-mobx-kit/disposeBatch";
 import { SearchStore } from "../../stores/SearchStore";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { GConstructor } from "../../typings/type-utils";
@@ -43,6 +44,7 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
                 selectedOptions: computed,
                 handleBlur: action,
                 handleClear: action,
+                handleChange: action,
                 isEmpty: computed,
                 options: computed
             });
@@ -106,6 +108,11 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
             this.filterStore.clear();
         };
 
+        handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+            this.setTouched(true);
+            this.setInputValue(event.target.value);
+        };
+
         useComboboxProps = (): UseComboboxProps<OptionWithState> => {
             const props: UseComboboxProps<OptionWithState> = {
                 items: this.options,
@@ -113,15 +120,14 @@ export function TagPickerControllerMixin<TBase extends BaseController>(Base: TBa
                 itemToString: item => item?.caption ?? "",
                 inputValue: this.inputValue,
                 defaultHighlightedIndex: this.selectedIndex,
-                onInputValueChange: changes => {
-                    // Blur is handled by handleBlur;
+                onStateChange: changes => {
                     if (changes.type === useCombobox.stateChangeTypes.InputBlur) {
+                        // Blur is handled by handleBlur;
                         return;
                     }
-                    if (changes.type === useCombobox.stateChangeTypes.InputChange) {
-                        this.setTouched(true);
+                    if (changes.type === useCombobox.stateChangeTypes.InputKeyDownEscape) {
+                        this.handleClear();
                     }
-                    this.setInputValue(changes.inputValue);
                 },
                 onSelectedItemChange: ({ selectedItem, type }) => {
                     if (

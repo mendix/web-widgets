@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useCombobox, UseComboboxProps } from "downshift";
 import { observer } from "mobx-react-lite";
-import { CSSProperties, FocusEventHandler, UIEventHandler, useRef } from "react";
+import { ChangeEventHandler, CSSProperties, FocusEventHandler, UIEventHandler, useRef } from "react";
 import { OptionWithState } from "../../typings/OptionWithState";
 import { ClearButton } from "../base/ClearButton";
 import { OptionsWrapper } from "../base/OptionsWrapper";
@@ -20,6 +20,7 @@ interface ComboboxProps {
     onClear: () => void;
     onBlur: FocusEventHandler<HTMLInputElement>;
     onFocus: FocusEventHandler<HTMLInputElement>;
+    onChange: ChangeEventHandler<HTMLInputElement>;
     onMenuScroll?: UIEventHandler<HTMLUListElement>;
 }
 
@@ -48,6 +49,7 @@ export const Combobox = observer(function Combobox(props: ComboboxProps) {
                     ref: inputRef,
                     onBlur: props.onBlur,
                     onFocus: props.onFocus,
+                    onChange: props.onChange,
                     placeholder: props.empty ? (isOpen ? props.inputPlaceholder : props.emptyCaption) : undefined
                 })}
             />
