@@ -1,5 +1,5 @@
 import { token } from "brandi";
-import { DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
+import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { MapsConfig } from "./configs/Maps.config";
 import { CurrentLocationService } from "./services/CurrentLocation.service";
 import { LocationResolverService } from "./services/LocationResolver.service";
@@ -21,6 +21,8 @@ const label = (name: string): string => `Maps[${name}]`;
 export const CORE_TOKENS = {
     mainGate: token<DerivedPropsGate<MapsContainerProps>>(label("mainGate")),
     config: token<MapsConfig>(label("config")),
+    apiKey: token<ComputedAtom<string | null>>(label("apiKey")),
+    geodecodeApiKey: token<ComputedAtom<string | null>>(label("geodecodeApiKey")),
     setupService: token<MapsSetupService>(label("setupService")),
     geocodeFunction: token<GeocodeFunction>(label("geocodeFunction")),
     getLocationFunction: token<GetLocationFunction>(label("getLocationFunction"))
