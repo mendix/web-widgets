@@ -5,7 +5,7 @@ import { bumpPackageJson, bumpXml, getNextVersion } from "../src/bump-version";
 import { exec } from "../src/shell";
 import { gh } from "../src/github";
 import { printGithubAuthHelp } from "../src/cli-utils";
-import { printPkgInformation, selectPackageV2 } from "../src/prepare-release-helpers";
+import { printPkgInformation, selectPackageV2, ensureMainBranch } from "../src/prepare-release-helpers";
 
 async function main(): Promise<void> {
     try {
@@ -21,6 +21,9 @@ async function main(): Promise<void> {
             printGithubAuthHelp((error as Error).message);
             process.exit(1);
         }
+
+        // Check git branch: must be on main and in sync with origin/main
+        await ensureMainBranch();
 
         // Step 1: Initialize Jira client
         let jira: Jira | undefined;
