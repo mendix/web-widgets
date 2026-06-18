@@ -4,6 +4,7 @@ import { MapsConfig } from "./configs/Maps.config";
 import { CurrentLocationService } from "./services/CurrentLocation.service";
 import { LocationResolverService } from "./services/LocationResolver.service";
 import { MapsSetupService } from "./services/MapsSetup.service";
+import { LeafletMapViewModel } from "./viewmodels/LeafletMap.viewModel";
 import { MapsContainerProps } from "../../typings/MapsProps";
 import { Marker, ModeledMarker } from "../../typings/shared";
 
@@ -31,5 +32,6 @@ export const CORE_TOKENS = {
 /** Maps-specific tokens. */
 export const MAPS_TOKENS = {
     locationResolver: token<LocationResolverService>(label("locationResolver")),
-    currentLocation: token<CurrentLocationService>(label("currentLocation"))
+    currentLocation: token<CurrentLocationService>(label("currentLocation")),
+    leafletMapVM: token<LeafletMapViewModel>(label("leafletMapVM"))
 };

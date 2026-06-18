@@ -5,7 +5,10 @@ import { mockContainerProps } from "../../../utils/mock-container-props";
 import { apiKeyAtom } from "../apiKey.atom";
 
 describe("apiKeyAtom", () => {
-    function setup(props: Partial<MapsContainerProps> = {}) {
+    function setup(props: Partial<MapsContainerProps> = {}): {
+        atom: ReturnType<typeof apiKeyAtom>;
+        provider: GateProvider<MapsContainerProps>;
+    } {
         const provider = new GateProvider<MapsContainerProps>(mockContainerProps(props));
         const atom = apiKeyAtom(provider.gate);
         return { atom, provider };

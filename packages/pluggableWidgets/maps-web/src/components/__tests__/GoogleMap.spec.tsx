@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
+import { initialize } from "@googlemaps/jest-mocks";
 import { act, render, RenderResult } from "@testing-library/react";
 import { GoogleMapContainer, GoogleMapsProps } from "../GoogleMap";
-import { initialize } from "@googlemaps/jest-mocks";
 
 describe("Google maps", () => {
     const defaultProps: GoogleMapsProps = {

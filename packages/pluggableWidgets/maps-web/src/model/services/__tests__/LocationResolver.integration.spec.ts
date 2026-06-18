@@ -1,9 +1,9 @@
-import { when, configure } from "mobx";
 import { ValueStatus } from "mendix";
+import { when, configure } from "mobx";
 import { dynamic } from "@mendix/widget-plugin-test-utils";
-import { mockContainerProps } from "../../../utils/mock-container-props";
-import { MarkersType } from "../../../../typings/MapsProps";
 import { createTestContainer, createMockGeocodeFunction, waitForLocations } from "./test-utils";
+import { MarkersType } from "../../../../typings/MapsProps";
+import { mockContainerProps } from "../../../utils/mock-container-props";
 
 // Configure MobX for testing
 configure({ enforceActions: "never" });

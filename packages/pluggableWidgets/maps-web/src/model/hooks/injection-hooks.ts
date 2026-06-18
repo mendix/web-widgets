@@ -7,3 +7,4 @@ export const [useApiKey] = createInjectionHooks(CORE.apiKey);
 
 export const [useLocationResolver] = createInjectionHooks(MAPS.locationResolver);
 export const [useCurrentLocation] = createInjectionHooks(MAPS.currentLocation);
+export const [useLeafletMapVM] = createInjectionHooks(MAPS.leafletMapVM);

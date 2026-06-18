@@ -5,7 +5,10 @@ import { mockContainerProps } from "../../../utils/mock-container-props";
 import { geodecodeApiKeyAtom } from "../geodecodeApiKey.atom";
 
 describe("geodecodeApiKeyAtom", () => {
-    function setup(props: Partial<MapsContainerProps> = {}) {
+    function setup(props: Partial<MapsContainerProps> = {}): {
+        atom: ReturnType<typeof geodecodeApiKeyAtom>;
+        provider: GateProvider<MapsContainerProps>;
+    } {
         const provider = new GateProvider<MapsContainerProps>(mockContainerProps(props));
         const atom = geodecodeApiKeyAtom(provider.gate);
         return { atom, provider };

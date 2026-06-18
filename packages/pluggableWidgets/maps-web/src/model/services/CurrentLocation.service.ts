@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from "mobx";
 import { SetupComponent, SetupComponentHost } from "@mendix/widget-plugin-mobx-kit/main";
-import { MapsConfig } from "../configs/Maps.config";
 import { Marker } from "../../../typings/shared";
+import { MapsConfig } from "../configs/Maps.config";
 import { GetLocationFunction } from "../tokens";
 
 export class CurrentLocationService implements SetupComponent {
