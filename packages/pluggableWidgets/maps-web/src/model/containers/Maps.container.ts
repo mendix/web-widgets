@@ -32,7 +32,7 @@ const _01_coreBindings: BindingGroup = {
     inject() {
         injected(LocationResolverService, CORE.setupService, CORE.mainGate, CORE.geocodeFunction, CORE.geodecodeApiKey);
         injected(CurrentLocationService, CORE.setupService, CORE.config, CORE.getLocationFunction);
-        injected(LeafletMapViewModel, CORE.mainGate, MAPS.locationResolver, MAPS.currentLocation);
+        injected(LeafletMapViewModel, CORE.mainGate, MAPS.locationResolver, MAPS.currentLocation, CORE.apiKey);
     },
     define(container) {
         container.bind(MAPS.locationResolver).toInstance(LocationResolverService).inSingletonScope();
