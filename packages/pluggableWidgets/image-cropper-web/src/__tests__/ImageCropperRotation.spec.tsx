@@ -45,6 +45,7 @@ jest.mock("../components/CropArea", () => ({
 interface CapturedRotateOptions {
     rotation: number;
     outputFormat: string;
+    grayscale: boolean;
 }
 const rotateImageOptions: CapturedRotateOptions[] = [];
 jest.mock("../utils/rotateImage", () => ({
@@ -157,6 +158,22 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
         expect(rotateImageOptions.length).toBeGreaterThan(0);
         expect(rotateImageOptions[rotateImageOptions.length - 1].rotation).toBe(90);
         expect(image.setValue).toHaveBeenCalledWith(expect.any(File));
+    });
+
+    test("black & white on then rotate bakes grayscale into the rotated file", async () => {
+        render(<ImageCropper {...makeProps()} />);
+        act(() => {
+            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+        });
+        act(() => {
+            fireEvent.click(screen.getByLabelText("Black and white"));
+        });
+        await act(async () => {
+            fireEvent.click(screen.getByLabelText("Rotate right"));
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        expect(rotateImageOptions[rotateImageOptions.length - 1].grayscale).toBe(true);
     });
 
     test("rotate-left calls rotateImage with rotation=-90", async () => {

@@ -7,11 +7,12 @@ export interface RotateImageOptions {
     rotation: number; // delta degrees; snapped to 90° multiples
     outputFormat: OutputFormatEnum;
     outputQuality: number;
+    grayscale: boolean;
     originalName?: string;
 }
 
 export async function rotateImage(options: RotateImageOptions): Promise<File> {
-    const { image, rotation, outputFormat, outputQuality, originalName } = options;
+    const { image, rotation, outputFormat, outputQuality, grayscale, originalName } = options;
     const nw = image.naturalWidth;
     const nh = image.naturalHeight;
     if (!nw || !nh) {
@@ -30,6 +31,11 @@ export async function rotateImage(options: RotateImageOptions): Promise<File> {
     if (outputFormat === "jpeg") {
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    if (grayscale) {
+        // Bake B&W here too: rotate replaces the staged file, so without this a
+        // grayscale-then-rotate-then-Save would persist a color image.
+        ctx.filter = "grayscale(1)";
     }
     ctx.save();
     ctx.translate(canvas.width / 2, canvas.height / 2);

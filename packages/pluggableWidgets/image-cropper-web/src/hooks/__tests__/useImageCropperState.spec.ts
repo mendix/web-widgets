@@ -2,20 +2,17 @@ import { renderHook, act } from "@testing-library/react";
 import { useImageCropperState } from "../useImageCropperState";
 
 describe("useImageCropperState", () => {
-    test("initializes zoom from arg, rotation 0, grayscale false", () => {
+    test("initializes zoom from arg, grayscale false", () => {
         const { result } = renderHook(() => useImageCropperState(1));
         expect(result.current.zoom).toBe(1);
-        expect(result.current.rotation).toBe(0);
         expect(result.current.grayscale).toBe(false);
     });
 
-    test("setRotation and setGrayscale update state", () => {
+    test("setGrayscale updates state", () => {
         const { result } = renderHook(() => useImageCropperState(1));
         act(() => {
-            result.current.setRotation(90);
             result.current.setGrayscale(true);
         });
-        expect(result.current.rotation).toBe(90);
         expect(result.current.grayscale).toBe(true);
     });
 });

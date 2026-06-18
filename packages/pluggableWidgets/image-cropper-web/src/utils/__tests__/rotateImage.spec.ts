@@ -13,6 +13,7 @@ function makeImg(naturalW: number, naturalH: number): HTMLImageElement {
 const baseOpts: Omit<RotateImageOptions, "image" | "rotation"> = {
     outputFormat: "png",
     outputQuality: 1,
+    grayscale: false,
     originalName: "photo.png"
 };
 
@@ -78,6 +79,22 @@ describe("rotateImage", () => {
         });
         expect(file.name.endsWith(".jpg")).toBe(true);
         expect(file.type).toBe("image/jpeg");
+    });
+
+    test("applies grayscale filter to the canvas when grayscale is true", async () => {
+        const img = makeImg(1000, 800);
+        const calls = await captureDrawImageCalls(() =>
+            rotateImage({ ...baseOpts, image: img, rotation: 90, grayscale: true })
+        );
+        expect(calls[0].ctx.filter).toBe("grayscale(1)");
+    });
+
+    test("leaves the canvas filter unset when grayscale is false", async () => {
+        const img = makeImg(1000, 800);
+        const calls = await captureDrawImageCalls(() =>
+            rotateImage({ ...baseOpts, image: img, rotation: 90, grayscale: false })
+        );
+        expect(calls[0].ctx.filter === "none" || calls[0].ctx.filter === "").toBe(true);
     });
 
     test("rejects with CropError when toBlob returns null (tainted canvas)", async () => {
