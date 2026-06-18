@@ -1,10 +1,9 @@
-import { latLngBounds, Map as LeafletMapInstance, Marker as LeafletMarker, TileLayer } from "leaflet";
+import { latLngBounds, Map as LeafletMapInstance, Marker as LeafletMarker, TileLayer, TileLayerOptions } from "leaflet";
 import { reaction } from "mobx";
 import { ComputedAtom, DerivedPropsGate } from "@mendix/widget-plugin-mobx-kit/main";
 import { MapProviderEnum, MapsContainerProps } from "../../../typings/MapsProps";
 import { Marker } from "../../../typings/shared";
 import { createLeafletMarker } from "../../utils/leaflet-markers";
-import { getTileLayerConfig } from "../../utils/tile-layer";
 import { translateZoom } from "../../utils/zoom";
 import { CurrentLocationService } from "../services/CurrentLocation.service";
 import { LocationResolverService } from "../services/LocationResolver.service";
@@ -50,7 +49,7 @@ export class LeafletMapViewModel {
 
         this.map = map;
 
-        const { url, options } = getTileLayerConfig(mapProvider, this.apiKeyAtom.get());
+        const { url, options } = this.getTileLayerConfig(mapProvider);
         this.tileLayer = new TileLayer(url, options);
         this.tileLayer.addTo(map);
 
@@ -71,6 +70,45 @@ export class LeafletMapViewModel {
         this.tileLayer = undefined;
         this.map?.remove();
         this.map = undefined;
+    }
+
+    private getTileLayerConfig(mapProvider: MapProviderEnum): { url: string; options: TileLayerOptions } {
+        const apiKey = this.apiKeyAtom.get();
+
+        if (mapProvider === "mapBox") {
+            const token = apiKey ? `?access_token=${apiKey}` : "";
+            return {
+                url: `https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}${token}`,
+                options: {
+                    attribution:
+                        "Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>",
+                    id: "mapbox/streets-v11",
+                    tileSize: 512,
+                    zoomOffset: -1
+                }
+            };
+        }
+
+        if (mapProvider === "hereMaps") {
+            let token = "";
+            if (apiKey) {
+                if (apiKey.indexOf(",") > 0) {
+                    const [appId, appCode] = apiKey.split(",");
+                    token = `?app_id=${appId}&app_code=${appCode}`;
+                } else {
+                    token = `?apiKey=${apiKey}`;
+                }
+            }
+            return {
+                url: `https://2.base.maps.cit.api.here.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8${token}`,
+                options: { attribution: "Map &copy; 1987-2020 <a href='https://developer.here.com'>HERE</a>" }
+            };
+        }
+
+        return {
+            url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
+            options: { attribution: "&copy; <a href='https://osm.org/copyright'>OpenStreetMap</a> contributors" }
+        };
     }
 
     private syncMarkers(locations: Marker[], currentLocation: Marker | undefined, autoZoom: boolean): void {
