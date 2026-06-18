@@ -3,7 +3,7 @@ import { Fragment, MouseEvent, ReactElement } from "react";
 import { CaptionContent } from "../helpers/utils";
 export function ClearButton({ size = 14 }): ReactElement {
     return (
-        <span className="widget-combobox-icon-container">
+        <span className="widget-combobox-icon-container" aria-hidden="true">
             <svg width={size} height={size} viewBox="0 0 32 32" className="widget-combobox-clear-button-icon">
                 <path
                     stroke="currentColor"
@@ -19,7 +19,7 @@ export function ClearButton({ size = 14 }): ReactElement {
 
 export function DownArrow({ isOpen }: { isOpen?: boolean }): ReactElement {
     return (
-        <span className="widget-combobox-icon-container">
+        <span className="widget-combobox-icon-container" aria-hidden="true">
             <svg
                 className={classNames("widget-combobox-down-arrow-icon", "mx-icon-lined", "mx-icon-chevron-down", {
                     active: isOpen

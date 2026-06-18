@@ -37,6 +37,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         class="widget-combobox-clear-button"
       >
         <span
+          aria-hidden="true"
           class="widget-combobox-icon-container"
         >
           <svg
@@ -59,6 +60,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         class="widget-combobox-down-arrow"
       >
         <span
+          aria-hidden="true"
           class="widget-combobox-icon-container"
         >
           <svg
@@ -77,35 +79,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
       style="visibility: hidden; position: fixed;"
-    >
-      <div
-        class="widget-combobox-menu-header widget-combobox-item"
-        tabindex="0"
-      >
-        <span
-          class="widget-combobox-menu-header-select-all-button widget-combobox-icon-container"
-        >
-          <input
-            checked=""
-            class="three-state-checkbox"
-            id="comboBox1-select-all-button"
-            type="checkbox"
-          />
-        </span>
-        <label
-          class="widget-combobox-caption-text"
-          for="comboBox1-select-all-button"
-        >
-          Select All
-        </label>
-      </div>
-      <ul
-        aria-labelledby="comboBox1-label"
-        class="widget-combobox-menu-list"
-        id="downshift-0-menu"
-        role="listbox"
-      />
-    </div>
+    />
   </div>
 </div>
 `;
@@ -147,6 +121,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
         class="widget-combobox-clear-button"
       >
         <span
+          aria-hidden="true"
           class="widget-combobox-icon-container"
         >
           <svg
@@ -169,6 +144,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
         class="widget-combobox-down-arrow"
       >
         <span
+          aria-hidden="true"
           class="widget-combobox-icon-container"
         >
           <svg
@@ -187,35 +163,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
       style="visibility: visible; position: fixed; width: 0px; top: 0px; left: 0px;"
-    >
-      <div
-        class="widget-combobox-menu-header widget-combobox-item"
-        tabindex="0"
-      >
-        <span
-          class="widget-combobox-menu-header-select-all-button widget-combobox-icon-container"
-        >
-          <input
-            checked=""
-            class="three-state-checkbox"
-            id="comboBox1-select-all-button"
-            type="checkbox"
-          />
-        </span>
-        <label
-          class="widget-combobox-caption-text"
-          for="comboBox1-select-all-button"
-        >
-          Select All
-        </label>
-      </div>
-      <ul
-        aria-labelledby="comboBox1-label"
-        class="widget-combobox-menu-list"
-        id="downshift-0-menu"
-        role="listbox"
-      />
-    </div>
+    />
   </div>
 </div>
 `;
@@ -257,6 +205,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
         class="widget-combobox-clear-button"
       >
         <span
+          aria-hidden="true"
           class="widget-combobox-icon-container"
         >
           <svg
@@ -279,6 +228,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
         class="widget-combobox-down-arrow"
       >
         <span
+          aria-hidden="true"
           class="widget-combobox-icon-container"
         >
           <svg
@@ -297,35 +247,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
       style="visibility: hidden; position: fixed;"
-    >
-      <div
-        class="widget-combobox-menu-header widget-combobox-item"
-        tabindex="0"
-      >
-        <span
-          class="widget-combobox-menu-header-select-all-button widget-combobox-icon-container"
-        >
-          <input
-            checked=""
-            class="three-state-checkbox"
-            id="comboBox1-select-all-button"
-            type="checkbox"
-          />
-        </span>
-        <label
-          class="widget-combobox-caption-text"
-          for="comboBox1-select-all-button"
-        >
-          Select All
-        </label>
-      </div>
-      <ul
-        aria-labelledby="comboBox1-label"
-        class="widget-combobox-menu-list"
-        id="downshift-0-menu"
-        role="listbox"
-      />
-    </div>
+    />
   </div>
 </div>
 `;

@@ -171,6 +171,23 @@ test.describe("combobox-web", () => {
             // check if filtered
             await expect(getOptions(comboBox)).toHaveText(["Antartica", "Australia"]);
         });
+
+        test("menu list not in DOM when closed, present when opened", async ({ page }) => {
+            const comboBox = page.locator(".mx-name-comboBox1");
+            await expect(comboBox).toBeVisible({ timeout: 10000 });
+
+            // Verify menu list is not in DOM when closed
+            const menuListClosed = comboBox.locator(".widget-combobox-menu-list");
+            await expect(menuListClosed).not.toBeVisible();
+
+            // Open the combobox
+            await comboBox.click();
+
+            // Verify menu list is now in DOM and visible
+            const menuListOpen = comboBox.locator(".widget-combobox-menu-list");
+            await expect(menuListOpen).toBeVisible();
+            await expect(getOptions(comboBox).first()).toBeVisible();
+        });
     });
 });
 
