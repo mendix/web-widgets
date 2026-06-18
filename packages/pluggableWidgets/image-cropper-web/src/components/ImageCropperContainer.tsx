@@ -18,7 +18,7 @@ import { rotateImage } from "../utils/rotateImage";
 export function ImageCropperContainer(props: ImageCropperContainerProps): ReactElement | null {
     const state = useImageCropperState(Number(props.minZoom));
 
-    const { setZoom, setLiveCrop, setCommittedCrop, setRotation, setGrayscale } = state;
+    const { setZoom, setLiveCrop, setCommittedCrop, setGrayscale } = state;
 
     const committedCropRef = useRef<PixelCrop | undefined>(undefined);
     committedCropRef.current = state.committedCrop;
@@ -145,9 +145,9 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                     rotation: deltaDeg,
                     outputFormat: props.outputFormat,
                     outputQuality: Number(props.outputQuality),
+                    grayscale: grayscaleRef.current,
                     originalName: props.image.value.name
                 });
-                setRotation(0);
                 setLiveCrop(undefined);
                 setCommittedCrop(undefined);
                 committedCropRef.current = undefined;
@@ -165,16 +165,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 }
             }
         },
-        [
-            state.imageRef,
-            props.image,
-            props.outputFormat,
-            props.outputQuality,
-            setRotation,
-            setLiveCrop,
-            setCommittedCrop,
-            armed
-        ]
+        [state.imageRef, props.image, props.outputFormat, props.outputQuality, setLiveCrop, setCommittedCrop, armed]
     );
 
     const handleToggleGrayscale = useCallback(() => {
@@ -184,7 +175,6 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
 
     const handleReset = useCallback(() => {
         setZoom(Number(props.minZoom));
-        setRotation(0);
         setGrayscale(false);
         setLiveCrop(undefined);
         setCommittedCrop(undefined);
@@ -194,17 +184,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
             markInternalRef.current();
             props.image.setValue(file);
         }
-    }, [
-        setZoom,
-        props.minZoom,
-        props.image,
-        setRotation,
-        setGrayscale,
-        setLiveCrop,
-        setCommittedCrop,
-        armed,
-        original
-    ]);
+    }, [setZoom, props.minZoom, props.image, setGrayscale, setLiveCrop, setCommittedCrop, armed, original]);
 
     if (props.image.status === ValueStatus.Loading) {
         return (
