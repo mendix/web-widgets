@@ -28,7 +28,7 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
         warningMessage = translations.get("uploadLimitReachedMessage", rootStore.maxTotalFiles.toString());
     } else if (rootStore.createActionFailed) {
         warningMessage = translations.get("unavailableCreateActionMessage");
-    } else if (rootStore.hasValidationErrors) {
+    } else if (rootStore.files.some(f => f.fileStatus === "validationError")) {
         warningMessage = translations.get("dropzoneRejectedMessage");
     }
 
