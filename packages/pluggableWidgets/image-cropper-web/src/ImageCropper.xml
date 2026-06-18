@@ -89,7 +89,7 @@
                     <description>Show rotate-left / rotate-right buttons. Rotation is baked into the saved image.</description>
                 </property>
                 <property key="enableGrayscale" type="boolean" defaultValue="false" required="true">
-                    <caption>Enable black &amp; white</caption>
+                    <caption>Enable black and white</caption>
                     <description>Show a grayscale toggle. When on, the saved image is converted to black and white.</description>
                 </property>
                 <property key="showResetButton" type="boolean" defaultValue="true" required="true">
