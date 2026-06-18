@@ -19,7 +19,6 @@ function baseProps(overrides: Partial<CropAreaProps> = {}): CropAreaProps {
         maxZoom: 4,
         setZoom: jest.fn(),
         wheelZoomMode: "off" as const,
-        rotation: 90,
         grayscale: true,
         imageRef: createRef<HTMLImageElement>(),
         ...overrides
@@ -27,11 +26,11 @@ function baseProps(overrides: Partial<CropAreaProps> = {}): CropAreaProps {
 }
 
 describe("<CropArea>", () => {
-    test("applies rotation transform and grayscale filter to the image", () => {
+    test("applies zoom scale and grayscale filter to the image (no CSS rotation)", () => {
         const { container } = render(<CropArea {...baseProps()} />);
         const img = container.querySelector("img")!;
-        expect(img.style.transform).toContain("rotate(90deg)");
         expect(img.style.transform).toContain("scale(1)");
+        expect(img.style.transform).not.toContain("rotate(");
         expect(img.style.filter).toContain("grayscale(1)");
     });
 

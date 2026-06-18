@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from "@testing-library/react";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import { useOriginalImage } from "../useOriginalImage";
 
 describe("useOriginalImage", () => {
@@ -25,5 +25,35 @@ describe("useOriginalImage", () => {
         global.fetch = jest.fn() as jest.Mock;
         renderHook(() => useOriginalImage(undefined, undefined));
         expect(global.fetch).not.toHaveBeenCalled();
+    });
+
+    test("markInternalChange skips recapture on next uri change and preserves original File", async () => {
+        const blob1 = new Blob(["original"], { type: "image/png" });
+        const blob2 = new Blob(["baked"], { type: "image/png" });
+        const fetchMock = jest.fn().mockResolvedValueOnce({ ok: true, blob: () => Promise.resolve(blob1) });
+        global.fetch = fetchMock as jest.Mock;
+
+        const { result, rerender } = renderHook(({ uri }) => useOriginalImage(uri, "img.png"), {
+            initialProps: { uri: "http://localhost/original.png" }
+        });
+        await waitFor(() => expect(result.current.canRestore).toBe(true));
+        const originalFile = result.current.getOriginal();
+        expect(originalFile).toBeInstanceOf(File);
+
+        // Simulate an internal bake: mark then change uri
+        fetchMock.mockResolvedValueOnce({ ok: true, blob: () => Promise.resolve(blob2) });
+        act(() => {
+            result.current.markInternalChange();
+        });
+        rerender({ uri: "http://localhost/baked.png" });
+
+        // fetch must NOT have been called a second time
+        await waitFor(() => {
+            // give the effect a tick to potentially run
+        });
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        // original File is preserved
+        expect(result.current.getOriginal()).toBe(originalFile);
+        expect(result.current.canRestore).toBe(true);
     });
 });

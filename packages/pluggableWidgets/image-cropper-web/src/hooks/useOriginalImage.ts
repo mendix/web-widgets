@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface OriginalImage {
     getOriginal: () => File | undefined;
     canRestore: boolean;
+    markInternalChange: () => void;
 }
 
 // Capture the original image bytes on first load so Reset can restore them
@@ -12,9 +13,22 @@ export function useOriginalImage(uri: string | undefined, name: string | undefin
     const fileRef = useRef<File | undefined>(undefined);
     const [canRestore, setCanRestore] = useState(false);
     const capturedUri = useRef<string | undefined>(undefined);
+    const internalChange = useRef(false);
+
+    // Stable setter: called by the container before every internal setValue so
+    // the next uri change is skipped without recapturing our own baked output.
+    const markInternalChange = useCallback(() => {
+        internalChange.current = true;
+    }, []);
 
     useEffect(() => {
         if (!uri || capturedUri.current === uri) {
+            return;
+        }
+        // Our own bake produced this new uri — adopt it, keep the original, skip fetch.
+        if (internalChange.current) {
+            capturedUri.current = uri;
+            internalChange.current = false;
             return;
         }
         capturedUri.current = uri;
@@ -47,6 +61,7 @@ export function useOriginalImage(uri: string | undefined, name: string | undefin
 
     return {
         getOriginal: () => fileRef.current,
-        canRestore
+        canRestore,
+        markInternalChange
     };
 }

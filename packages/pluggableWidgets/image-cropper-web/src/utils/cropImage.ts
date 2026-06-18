@@ -1,5 +1,4 @@
 import type { PixelCrop } from "react-image-crop";
-import { normalizeRotation, rotatedCanvasSize } from "./cropMapping";
 import type { CropShapeEnum, OutputFormatEnum, OutputSizeEnum } from "../../typings/ImageCropperProps";
 
 export class CropError extends Error {
@@ -19,7 +18,6 @@ export interface CropImageOptions {
     cropShape: CropShapeEnum;
     viewportWidth: number;
     viewportHeight: number;
-    rotation: number; // degrees; snapped to 90° multiples
     grayscale: boolean;
     originalName?: string;
 }
@@ -35,7 +33,6 @@ export async function cropImage(options: CropImageOptions): Promise<File> {
         cropShape,
         viewportWidth,
         viewportHeight,
-        rotation,
         grayscale,
         originalName
     } = options;
@@ -53,18 +50,12 @@ export async function cropImage(options: CropImageOptions): Promise<File> {
     const sw = (pixelCrop.width / z) * scaleX;
     const sh = (pixelCrop.height / z) * scaleY;
 
-    const rot = normalizeRotation(rotation);
-
-    // Unrotated destination size (existing behavior).
-    const baseW = outputSize === "viewport" ? viewportWidth : sw;
-    const baseH = outputSize === "viewport" ? viewportHeight : sh;
-
-    // After rotation the visible canvas swaps for quarter turns.
-    const dest = rotatedCanvasSize(Math.max(1, Math.round(baseW)), Math.max(1, Math.round(baseH)), rot);
+    const destW = Math.max(1, Math.round(outputSize === "viewport" ? viewportWidth : sw));
+    const destH = Math.max(1, Math.round(outputSize === "viewport" ? viewportHeight : sh));
 
     const canvas = document.createElement("canvas");
-    canvas.width = dest.width;
-    canvas.height = dest.height;
+    canvas.width = destW;
+    canvas.height = destH;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) {
@@ -73,30 +64,20 @@ export async function cropImage(options: CropImageOptions): Promise<File> {
 
     if (outputFormat === "jpeg") {
         ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, destW, destH);
     }
 
     if (grayscale) {
-        // Inert under jest-canvas-mock (no throw); applied by evergreen browsers.
         ctx.filter = "grayscale(1)";
     }
 
-    // Rotate around the canvas center, then draw the cropped source rect centered.
-    ctx.save();
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.rotate((rot * Math.PI) / 180);
-    // When rotated 90/270 the drawn box uses the pre-swap width/height.
-    const drawW = rot === 90 || rot === 270 ? canvas.height : canvas.width;
-    const drawH = rot === 90 || rot === 270 ? canvas.width : canvas.height;
-
     if (cropShape === "circle") {
         ctx.beginPath();
-        ctx.ellipse(0, 0, drawW / 2, drawH / 2, 0, 0, Math.PI * 2);
+        ctx.ellipse(destW / 2, destH / 2, destW / 2, destH / 2, 0, 0, Math.PI * 2);
         ctx.clip();
     }
 
-    ctx.drawImage(image, sx, sy, sw, sh, -drawW / 2, -drawH / 2, drawW, drawH);
-    ctx.restore();
+    ctx.drawImage(image, sx, sy, sw, sh, 0, 0, destW, destH);
 
     const mime = outputFormat === "jpeg" ? "image/jpeg" : "image/png";
     const ext = outputFormat === "jpeg" ? "jpg" : "png";

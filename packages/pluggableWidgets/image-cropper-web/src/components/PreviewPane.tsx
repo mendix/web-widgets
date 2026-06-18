@@ -1,6 +1,5 @@
 import { ReactElement, useEffect, useRef } from "react";
 import type { PixelCrop } from "react-image-crop";
-import { normalizeRotation } from "../utils/cropMapping";
 
 interface PreviewPaneProps {
     image: HTMLImageElement | null;
@@ -9,7 +8,6 @@ interface PreviewPaneProps {
     width: number;
     height: number;
     circle: boolean;
-    rotation: number;
     grayscale: boolean;
 }
 
@@ -20,7 +18,6 @@ export function PreviewPane({
     width,
     height,
     circle,
-    rotation,
     grayscale
 }: PreviewPaneProps): ReactElement {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -49,18 +46,12 @@ export function PreviewPane({
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
         const z = zoom > 0 ? zoom : 1;
-        const rot = normalizeRotation(rotation);
         if (grayscale) {
             ctx.filter = "grayscale(1)";
         }
-        ctx.save();
-        ctx.translate(width / 2, height / 2);
-        ctx.rotate((rot * Math.PI) / 180);
-        const drawW = rot === 90 || rot === 270 ? height : width;
-        const drawH = rot === 90 || rot === 270 ? width : height;
         if (circle) {
             ctx.beginPath();
-            ctx.ellipse(0, 0, drawW / 2, drawH / 2, 0, 0, Math.PI * 2);
+            ctx.ellipse(width / 2, height / 2, width / 2, height / 2, 0, 0, Math.PI * 2);
             ctx.clip();
         }
         ctx.drawImage(
@@ -69,13 +60,12 @@ export function PreviewPane({
             (pixelCrop.y / z) * scaleY,
             (pixelCrop.width / z) * scaleX,
             (pixelCrop.height / z) * scaleY,
-            -drawW / 2,
-            -drawH / 2,
-            drawW,
-            drawH
+            0,
+            0,
+            width,
+            height
         );
-        ctx.restore();
-    }, [image, pixelCrop, zoom, width, height, circle, rotation, grayscale]);
+    }, [image, pixelCrop, zoom, width, height, circle, grayscale]);
 
     return <canvas ref={canvasRef} className="widget-image-cropper__preview" width={width} height={height} />;
 }

@@ -10,9 +10,10 @@ import { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 import { useAutoApplyCrop } from "../hooks/useAutoApplyCrop";
 import { useImageCropperState } from "../hooks/useImageCropperState";
 import { useOriginalImage } from "../hooks/useOriginalImage";
+import { usePreviewSrc } from "../hooks/usePreviewSrc";
 import { resolveAspectRatio } from "../utils/aspectRatio";
 import { cropImage, CropError } from "../utils/cropImage";
-import { normalizeRotation } from "../utils/cropMapping";
+import { rotateImage } from "../utils/rotateImage";
 
 export function ImageCropperContainer(props: ImageCropperContainerProps): ReactElement | null {
     const state = useImageCropperState(Number(props.minZoom));
@@ -23,8 +24,6 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
     committedCropRef.current = state.committedCrop;
     const zoomRef = useRef(state.zoom);
     zoomRef.current = state.zoom;
-    const rotationRef = useRef(state.rotation);
-    rotationRef.current = state.rotation;
     const grayscaleRef = useRef(state.grayscale);
     grayscaleRef.current = state.grayscale;
 
@@ -51,13 +50,13 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 cropShape: props.cropShape,
                 viewportWidth: props.boundaryWidth,
                 viewportHeight: props.boundaryHeight,
-                rotation: rotationRef.current,
                 grayscale: grayscaleRef.current,
                 originalName: props.image.value.name
             });
             if (props.outputSize === "viewport") {
                 props.image.setThumbnailSize(props.boundaryWidth, props.boundaryHeight);
             }
+            markInternalRef.current();
             props.image.setValue(file);
             if (props.onCropAction?.canExecute) {
                 props.onCropAction.execute();
@@ -100,6 +99,17 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
         uri,
         props.image.status === ValueStatus.Available ? props.image.value?.name : undefined
     );
+
+    // Ref mirror so applyCrop's stable identity is untouched (same reason zoomRef exists).
+    const markInternalRef = useRef(original.markInternalChange);
+    markInternalRef.current = original.markInternalChange;
+
+    // Live preview for baked rotations: setValue defers the commit, so show a local
+    // blob URL until the bound uri catches up on Save.
+    const { previewSrc, showPreview } = usePreviewSrc(uri);
+    const showPreviewRef = useRef(showPreview);
+    showPreviewRef.current = showPreview;
+
     useEffect(() => {
         setLiveCrop(undefined);
         setCommittedCrop(undefined);
@@ -124,11 +134,47 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
     );
 
     const handleRotate = useCallback(
-        (deltaDeg: number) => {
-            setRotation(prev => normalizeRotation(prev + deltaDeg));
-            auto.applyDebounced();
+        async (deltaDeg: number) => {
+            const img = state.imageRef.current;
+            if (!img || props.image.readOnly || props.image.status !== ValueStatus.Available || !props.image.value) {
+                return;
+            }
+            try {
+                const file = await rotateImage({
+                    image: img,
+                    rotation: deltaDeg,
+                    outputFormat: props.outputFormat,
+                    outputQuality: Number(props.outputQuality),
+                    originalName: props.image.value.name
+                });
+                setRotation(0);
+                setLiveCrop(undefined);
+                setCommittedCrop(undefined);
+                committedCropRef.current = undefined;
+                armed();
+                // Show the rotated pixels immediately; CropArea reloads from this blob and
+                // rebuilds a fresh crop against the swapped dimensions on its onLoad.
+                showPreviewRef.current(file);
+                markInternalRef.current();
+                props.image.setValue(file);
+            } catch (err) {
+                if (err instanceof CropError) {
+                    console.error("[image-cropper-web] CropError:", err.message);
+                } else {
+                    throw err;
+                }
+            }
         },
-        [setRotation, auto]
+        [
+            state.imageRef,
+            props.image,
+            props.outputFormat,
+            props.outputQuality,
+            setRotation,
+            setLiveCrop,
+            setCommittedCrop,
+            armed
+        ]
     );
 
     const handleToggleGrayscale = useCallback(() => {
@@ -145,6 +191,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
         armed(); // do not auto-apply the reset itself
         const file = original.getOriginal();
         if (file && !props.image.readOnly && props.image.status === ValueStatus.Available) {
+            markInternalRef.current();
             props.image.setValue(file);
         }
     }, [
@@ -186,7 +233,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
     return (
         <div className={classNames("widget-image-cropper", props.class)} style={props.style} tabIndex={props.tabIndex}>
             <CropArea
-                src={props.image.value.uri}
+                src={previewSrc ?? props.image.value.uri}
                 crop={state.liveCrop}
                 onCropChange={state.setLiveCrop}
                 onCropComplete={handleCropComplete}
@@ -201,7 +248,6 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 maxZoom={Number(props.maxZoom)}
                 setZoom={handleZoomChange}
                 wheelZoomMode={props.zoomEnabled ? props.wheelZoomMode : "off"}
-                rotation={state.rotation}
                 grayscale={state.grayscale}
                 imageRef={state.imageRef}
             />
@@ -232,7 +278,6 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                     width={props.previewWidth}
                     height={props.previewHeight}
                     circle={props.cropShape === "circle"}
-                    rotation={state.rotation}
                     grayscale={state.grayscale}
                 />
             ) : null}

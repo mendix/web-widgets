@@ -27,7 +27,6 @@ export interface CropAreaProps {
     maxZoom: number;
     setZoom: Dispatch<SetStateAction<number>>;
     wheelZoomMode: WheelZoomModeEnum;
-    rotation: number;
     grayscale: boolean;
     imageRef: Ref<HTMLImageElement>;
 }
@@ -120,7 +119,7 @@ export function CropArea(props: CropAreaProps): ReactElement {
                         height: displaySize?.height,
                         maxWidth: displaySize ? undefined : props.boundaryWidth,
                         maxHeight: displaySize ? undefined : props.boundaryHeight,
-                        transform: `scale(${props.zoom}) rotate(${props.rotation}deg)`,
+                        transform: `scale(${props.zoom})`,
                         transformOrigin: "center",
                         filter: props.grayscale ? "grayscale(1)" : undefined
                     }}
