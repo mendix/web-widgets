@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.1] DataWidgets - 2026-06-18
+
+### [3.11.1] Datagrid
+
+#### Fixed
+
+- We fixed an issue where a Progress Bar widget placed as Custom Content inside a Data Grid would not display correctly due to a CSS class name conflict.
+
+- We fixed an issue where "is empty" and "is not empty" string filters were not working correctly in some cases.
+
 ## [3.11.0] DataWidgets - 2026-05-27
 
 ### [3.11.0] Datagrid
