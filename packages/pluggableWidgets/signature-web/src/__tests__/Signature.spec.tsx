@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { ReactElement } from "react";
 import { SignatureContainerProps } from "../../typings/SignatureProps";
+import { dynamic } from "@mendix/widget-plugin-test-utils";
 import Signature from "../Signature";
 
 const mockSignatureComponent = jest.fn((_props: unknown) => <div data-testid="signature-component" />);
@@ -36,7 +37,8 @@ describe("Signature", () => {
         gridBorderColor: "#cccccc",
         gridCellHeight: 20,
         gridCellWidth: 20,
-        gridBorderWidth: 1
+        gridBorderWidth: 1,
+        ariaRequired: dynamic<boolean>(false)
     };
 
     beforeEach(() => {
