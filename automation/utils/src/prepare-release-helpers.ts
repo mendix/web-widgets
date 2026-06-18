@@ -165,16 +165,86 @@ export async function selectPackageV2(): Promise<WidgetPkg | ModulePkg> {
 }
 
 const PADDING = 60;
+// eslint-disable-next-line no-control-regex
+const ANSI_RE = /\x1B\[[0-9;]*m/g;
+const visibleLen = (s: string): number => s.replace(ANSI_RE, "").length;
+
+function wrapLine(line: string, maxLen: number): string[] {
+    if (maxLen <= 0) return [line];
+    const result: string[] = [];
+    let remaining = line;
+    while (remaining.length > maxLen) {
+        result.push(remaining.slice(0, maxLen));
+        remaining = remaining.slice(maxLen);
+    }
+    result.push(remaining);
+    return result;
+}
+
+function printSectionBox(type: string, logs: string[], treePrefix: string, boxWidth: number): void {
+    const headerInner = `─ ${type} `;
+    const topDashes = "─".repeat(Math.max(0, boxWidth - 2 - headerInner.length));
+    console.log(`${treePrefix}${chalk.dim(`┌${headerInner}${topDashes}┐`)}`);
+    const contentWidth = boxWidth - 4; // subtract "│ " left and " │" right
+    for (const log of logs) {
+        for (const wrappedLine of wrapLine(log, contentWidth)) {
+            console.log(`${treePrefix}${chalk.dim("│")} ${wrappedLine.padEnd(contentWidth)} ${chalk.dim("│")}`);
+        }
+    }
+    console.log(`${treePrefix}${chalk.dim(`└${"─".repeat(Math.max(0, boxWidth - 2))}┘`)}`);
+}
+
+function printUnreleasedChangelog(
+    changelog: WidgetChangelogFileWrapper | ModuleChangelogFileWrapper,
+    treePrefix: string
+): void {
+    const unreleased = changelog.changelog.content[0];
+    const subcomponents = "subcomponents" in unreleased ? unreleased.subcomponents : [];
+
+    const termWidth = process.stdout.columns || 100;
+    const boxWidth = Math.max(20, termWidth - visibleLen(treePrefix));
+
+    for (const section of unreleased.sections) {
+        if (section.logs.length === 0) continue;
+        printSectionBox(
+            section.type,
+            section.logs.map(l => `- ${l}`),
+            treePrefix,
+            boxWidth
+        );
+    }
+
+    for (const sub of subcomponents) {
+        const label = "version" in sub ? `${sub.name} [${sub.version.format()}]` : sub.name;
+        console.log(`${treePrefix}${chalk.yellow(label)}`);
+        for (const section of sub.sections) {
+            if (section.logs.length === 0) continue;
+            printSectionBox(
+                section.type,
+                section.logs.map(l => `- ${l}`),
+                `${treePrefix}  `,
+                Math.max(20, boxWidth - 2)
+            );
+        }
+    }
+}
+
 export function printPkgInformation(pkg: WidgetPkg | ModulePkg): void {
     console.log(
         `${shortName(pkg.info.name).padEnd(PADDING + 3, " ")} ${chalk.bold(pkg.info.version.format())} ${pkg.changelog.hasUnreleasedLogs() ? "🆕" : " "}`
     );
+    if (pkg.changelog.hasUnreleasedLogs()) {
+        printUnreleasedChangelog(pkg.changelog, "  ");
+    }
     if (pkg.widgets.length) {
         pkg.widgets.forEach((widget, i) => {
             const isLast = i === pkg.widgets.length - 1;
             console.log(
                 `${isLast ? "└" : "├"}─ ${shortName(widget.info.name).padEnd(PADDING, " ")} ${chalk.dim(widget.info.version.format())} ${widget.changelog.hasUnreleasedLogs() ? "🆕" : ""}`
             );
+            if (widget.changelog.hasUnreleasedLogs()) {
+                printUnreleasedChangelog(widget.changelog, isLast ? "   " : "│  ");
+            }
         });
     }
 }
