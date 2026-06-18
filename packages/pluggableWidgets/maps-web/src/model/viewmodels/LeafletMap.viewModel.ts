@@ -13,6 +13,7 @@ export class LeafletMapViewModel {
     private map: LeafletMapInstance | undefined = undefined;
     private tileLayer: TileLayer | undefined = undefined;
     private leafletMarkers: LeafletMarker[] = [];
+    private disposeReaction: (() => void) | undefined = undefined;
 
     constructor(
         private readonly gate: DerivedPropsGate<MapsContainerProps>,
@@ -25,7 +26,7 @@ export class LeafletMapViewModel {
         return this.gate.props.mapProvider;
     }
 
-    setupMap(node: HTMLDivElement): () => void {
+    setupMap(node: HTMLDivElement): void {
         const {
             attributionControl,
             optionDrag: dragging,
@@ -53,7 +54,7 @@ export class LeafletMapViewModel {
         this.tileLayer = new TileLayer(url, options);
         this.tileLayer.addTo(map);
 
-        const dispose = reaction(
+        this.disposeReaction = reaction(
             () => ({
                 locations: this.locationResolver.locations,
                 currentLocation: this.currentLocationService.location
@@ -61,14 +62,15 @@ export class LeafletMapViewModel {
             ({ locations, currentLocation }) => this.syncMarkers(locations, currentLocation, autoZoom),
             { fireImmediately: true }
         );
+    }
 
-        return () => {
-            dispose();
-            this.leafletMarkers = [];
-            this.tileLayer = undefined;
-            this.map = undefined;
-            map.remove();
-        };
+    disposeMap(): void {
+        this.disposeReaction?.();
+        this.disposeReaction = undefined;
+        this.leafletMarkers = [];
+        this.tileLayer = undefined;
+        this.map?.remove();
+        this.map = undefined;
     }
 
     private syncMarkers(locations: Marker[], currentLocation: Marker | undefined, autoZoom: boolean): void {
