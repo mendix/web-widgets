@@ -99,6 +99,7 @@ export function preview(props: CalendarPreviewProps): ReactElement {
         <div className={classnames("widget-events-preview", "widget-calendar", className)} style={wrapperStyle}>
             <Calendar
                 components={{ toolbar }}
+                // @ts-expect-error - year view is custom, not in react-big-calendar's View type
                 defaultView={defaultView}
                 events={events}
                 localizer={localizer}

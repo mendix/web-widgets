@@ -3,7 +3,32 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { CalendarEvent } from "./typings";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { addDays, addWeeks, differenceInCalendarDays, format, getDay, parse, startOfWeek } from "date-fns";
+import {
+    addDays,
+    addMonths,
+    addWeeks,
+    addYears,
+    differenceInCalendarDays,
+    endOfDay,
+    endOfMonth,
+    endOfYear,
+    format,
+    getDay,
+    getDaysInMonth,
+    getMonth,
+    getYear,
+    isAfter,
+    isBefore,
+    isSameDay,
+    isSameMonth,
+    isSameYear,
+    parse,
+    setDate,
+    startOfDay,
+    startOfMonth,
+    startOfWeek,
+    startOfYear
+} from "date-fns";
 import type { MXLocaleDates, MXLocaleNumbers, MXLocalePatterns, MXSessionData } from "../../typings/global";
 
 // Utility to lighten hex colors. Accepts #RGB or #RRGGBB.
@@ -30,7 +55,32 @@ function lightenColor(color: string, amount = 0.2): string {
     return color;
 }
 
-export { format, parse, startOfWeek, getDay, addDays, addWeeks, differenceInCalendarDays };
+export {
+    addDays,
+    addMonths,
+    addWeeks,
+    addYears,
+    differenceInCalendarDays,
+    endOfDay,
+    endOfMonth,
+    endOfYear,
+    format,
+    getDay,
+    getDaysInMonth,
+    getMonth,
+    getYear,
+    isAfter,
+    isBefore,
+    isSameDay,
+    isSameMonth,
+    isSameYear,
+    parse,
+    setDate,
+    startOfDay,
+    startOfMonth,
+    startOfWeek,
+    startOfYear
+};
 
 export const DnDCalendar = withDragAndDrop(Calendar<CalendarEvent>);
 

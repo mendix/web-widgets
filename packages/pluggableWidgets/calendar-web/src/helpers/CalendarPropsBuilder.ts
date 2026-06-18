@@ -5,10 +5,11 @@ import { createConfigurableToolbar, CustomToolbar, ResolvedToolbarItem } from ".
 import { eventPropGetter, getTextValue } from "../utils/calendar-utils";
 import { CalendarEvent, DragAndDropCalendarProps } from "../utils/typings";
 import { CustomWeekController } from "./CustomWeekController";
+import { YearViewController } from "./YearViewController";
 
 export class CalendarPropsBuilder {
     private visibleDays: Set<number>;
-    private defaultView: "month" | "week" | "work_week" | "day" | "agenda";
+    private defaultView: "month" | "week" | "work_week" | "day" | "agenda" | "year";
     private isCustomView: boolean;
     private events: CalendarEvent[];
     private minTime: Date;
@@ -62,7 +63,7 @@ export class CalendarPropsBuilder {
         // Ensure defaultView is actually enabled in views, otherwise pick the first enabled view
         const enabledViews = Object.entries(views)
             .filter(([_, enabled]) => enabled !== false)
-            .map(([view]) => view as "day" | "week" | "work_week" | "month" | "agenda");
+            .map(([view]) => view as "day" | "week" | "work_week" | "month" | "agenda" | "year");
         const safeDefaultView = enabledViews.includes(this.defaultView) ? this.defaultView : enabledViews[0];
 
         return {
@@ -71,6 +72,7 @@ export class CalendarPropsBuilder {
             components: {
                 toolbar
             },
+            // @ts-expect-error - year view is custom, not in react-big-calendar's View type
             defaultView: safeDefaultView,
             messages: this.buildMessages(workWeekCaption),
             events: this.events,
@@ -81,7 +83,6 @@ export class CalendarPropsBuilder {
             allDayAccessor: (event: CalendarEvent) => event.allDay,
             endAccessor: (event: CalendarEvent) => event.end,
             eventPropGetter,
-            // @ts-expect-error – navigatable prop not yet in typings but exists in runtime component
             navigatable: true,
             startAccessor: (event: CalendarEvent) => event.start,
             titleAccessor: (event: CalendarEvent) => event.title,
@@ -314,7 +315,7 @@ export class CalendarPropsBuilder {
             const itemViews = new Set(
                 (this.toolbarItems ?? [])
                     .map(i => i.itemType)
-                    .filter(t => ["day", "week", "work_week", "month", "agenda"].includes(t))
+                    .filter(t => ["day", "week", "work_week", "month", "agenda", "year"].includes(t))
             );
             const hasAny = itemViews.size > 0;
             return {
@@ -325,10 +326,18 @@ export class CalendarPropsBuilder {
                         ? CustomWeekController.getComponent(this.visibleDays, this.props.topBarDateFormat?.value)
                         : false,
                 month: hasAny ? itemViews.has("month") : true,
-                agenda: hasAny ? itemViews.has("agenda") : false
+                agenda: hasAny ? itemViews.has("agenda") : false,
+                // @ts-expect-error - year view is custom, not in react-big-calendar's ViewsProps type
+                year: hasAny && itemViews.has("year") ? YearViewController.getComponent() : false
             };
         } else {
-            return { day: true, week: true, month: true };
+            return {
+                day: true,
+                week: true,
+                month: true,
+                // @ts-expect-error - year view is custom, not in react-big-calendar's ViewsProps type
+                year: YearViewController.getComponent()
+            };
         }
     }
 

@@ -3,18 +3,18 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, DynamicValue, EditableValue, ListActionValue, ListAttributeValue, ListExpressionValue, ListValue, Option } from "mendix";
 import { CSSProperties } from "react";
+import { ActionValue, DynamicValue, EditableValue, ListValue, Option, ListActionValue, ListAttributeValue, ListExpressionValue } from "mendix";
 
 export type TitleTypeEnum = "attribute" | "expression";
 
 export type ViewEnum = "standard" | "custom";
 
-export type DefaultViewStandardEnum = "day" | "week" | "month";
+export type DefaultViewStandardEnum = "day" | "week" | "month" | "year";
 
-export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda";
+export type DefaultViewCustomEnum = "day" | "week" | "month" | "work_week" | "agenda" | "year";
 
-export type ItemTypeEnum = "day" | "month" | "agenda" | "week" | "work_week" | "title" | "previous" | "next" | "today";
+export type ItemTypeEnum = "day" | "month" | "agenda" | "week" | "work_week" | "year" | "title" | "previous" | "next" | "today";
 
 export type PositionEnum = "left" | "center" | "right";
 
