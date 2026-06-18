@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.11.1] - 2026-06-18
+
 ### Fixed
 
-- We removed the 16px margin from both the Progress Bar and Pagination Bar inside Data Grid, fixing a visual regression caused by an unintended CSS class name match.
+- We fixed an issue where a Progress Bar widget placed as Custom Content inside a Data Grid would not display correctly due to a CSS class name conflict.
+
+- We fixed an issue where "is empty" and "is not empty" string filters were not working correctly in some cases.
 
 ## [3.11.0] - 2026-05-27
 
@@ -17,8 +21,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - We added a "Custom row key" property in the Advanced section to provide stable row identifiers when using view entities, preventing scroll position loss during data refresh.
 
 ### Fixed
-
-- We fixed an issue where "is empty" and "is not empty" string filters were not working correctly in some cases.
 
 - We fixed an issue where custom content columns ignored the export type setting, causing numbers and dates to always export as text in Excel.
 
