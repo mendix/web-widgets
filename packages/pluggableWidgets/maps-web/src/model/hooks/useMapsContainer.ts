@@ -1,7 +1,7 @@
-import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
-import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { Container } from "brandi";
 import { useEffect } from "react";
+import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
+import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { MapsContainerProps } from "../../../typings/MapsProps";
 import { createMapsContainer } from "../containers/createMapsContainer";
 import { CORE_TOKENS as CORE } from "../tokens";
