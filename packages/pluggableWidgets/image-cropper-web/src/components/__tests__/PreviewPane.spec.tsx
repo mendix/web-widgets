@@ -13,7 +13,7 @@ function makeImage(): HTMLImageElement {
 const crop: PixelCrop = { unit: "px", x: 10, y: 10, width: 100, height: 80 };
 
 describe("<PreviewPane>", () => {
-    test("renders without throwing when rotated and grayscale (canvas mock)", () => {
+    test("renders without throwing when grayscale (canvas mock)", () => {
         const { container } = render(
             <PreviewPane
                 image={makeImage()}
@@ -22,7 +22,6 @@ describe("<PreviewPane>", () => {
                 width={100}
                 height={100}
                 circle={false}
-                rotation={90}
                 grayscale
             />
         );

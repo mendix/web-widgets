@@ -6,15 +6,7 @@ import type { Crop, PixelCrop } from "react-image-crop";
 import { actionValue } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 
-// Minimal shape of the cropImage options we assert on (avoids importing from the mocked module).
-interface CapturedCropOptions {
-    rotation: number;
-    grayscale: boolean;
-}
-
-// Integration test: proves the rotation/grayscale state set via the toolbar buttons
-// actually reaches cropImage when a crop is applied — the end-to-end ref plumbing,
-// not just "the button fired a callback". We mock cropImage to capture its options.
+// Integration test: proves the rotate/grayscale actions reach the right util with the right args.
 
 interface CapturedCropArea {
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
@@ -50,6 +42,21 @@ jest.mock("../components/CropArea", () => ({
     }
 }));
 
+interface CapturedRotateOptions {
+    rotation: number;
+    outputFormat: string;
+}
+const rotateImageOptions: CapturedRotateOptions[] = [];
+jest.mock("../utils/rotateImage", () => ({
+    rotateImage: jest.fn((options: CapturedRotateOptions) => {
+        rotateImageOptions.push(options);
+        return Promise.resolve(new File(["x"], "rotate.png", { type: "image/png" }));
+    })
+}));
+
+interface CapturedCropOptions {
+    grayscale: boolean;
+}
 const cropImageOptions: CapturedCropOptions[] = [];
 jest.mock("../utils/cropImage", () => ({
     CropError: class CropError extends Error {},
@@ -123,8 +130,12 @@ async function flushApply(): Promise<void> {
 describe("<ImageCropper> rotation/grayscale integration", () => {
     beforeEach(() => {
         jest.useFakeTimers();
+        rotateImageOptions.length = 0;
         cropImageOptions.length = 0;
         global.fetch = jest.fn().mockRejectedValue(new Error("no-net")) as jest.Mock;
+        // jsdom lacks blob URL APIs used by the live-preview hook.
+        (URL as unknown as { createObjectURL: () => string }).createObjectURL = () => "blob:test";
+        (URL as unknown as { revokeObjectURL: () => void }).revokeObjectURL = () => undefined;
     });
     afterEach(() => {
         jest.runOnlyPendingTimers();
@@ -132,22 +143,52 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
         jest.clearAllMocks();
     });
 
-    test("rotate-right then crop-complete passes rotation=90 to cropImage", async () => {
+    test("rotate-right calls rotateImage with rotation=90 and writes the result via setValue", async () => {
+        const image = makeImageProp();
+        render(<ImageCropper {...makeProps({ image })} />);
+        act(() => {
+            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+        });
+        await act(async () => {
+            fireEvent.click(screen.getByLabelText("Rotate right"));
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        expect(rotateImageOptions.length).toBeGreaterThan(0);
+        expect(rotateImageOptions[rotateImageOptions.length - 1].rotation).toBe(90);
+        expect(image.setValue).toHaveBeenCalledWith(expect.any(File));
+    });
+
+    test("rotate-left calls rotateImage with rotation=-90", async () => {
         render(<ImageCropper {...makeProps()} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
-        // Click rotate-right: sets rotation state to 90, which the next render writes into rotationRef.
-        act(() => {
-            fireEvent.click(screen.getByLabelText("Rotate right"));
+        await act(async () => {
+            fireEvent.click(screen.getByLabelText("Rotate left"));
+            await Promise.resolve();
+            await Promise.resolve();
         });
-        // A user crop release applies immediately, reading the now-current rotationRef.
+        expect(rotateImageOptions[rotateImageOptions.length - 1].rotation).toBe(-90);
+    });
+
+    test("subsequent crop-complete after rotate calls cropImage without a rotation field", async () => {
+        render(<ImageCropper {...makeProps()} />);
+        act(() => {
+            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+        });
+        await act(async () => {
+            fireEvent.click(screen.getByLabelText("Rotate right"));
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        cropImageOptions.length = 0;
         act(() => {
             captured.onCropComplete(PIXEL_CROP);
         });
         await flushApply();
         expect(cropImageOptions.length).toBeGreaterThan(0);
-        expect(cropImageOptions[cropImageOptions.length - 1].rotation).toBe(90);
+        expect(cropImageOptions[cropImageOptions.length - 1]).not.toHaveProperty("rotation");
     });
 
     test("black & white toggle then crop-complete passes grayscale=true to cropImage", async () => {
