@@ -48,7 +48,7 @@ export function CustomToolbar({ label, localizer, onNavigate, onView, view, view
 }
 
 export type ResolvedToolbarItem = {
-    itemType: "previous" | "today" | "next" | "title" | "month" | "week" | "work_week" | "day" | "agenda";
+    itemType: "previous" | "today" | "next" | "title" | "month" | "week" | "work_week" | "day" | "agenda" | "year";
     position: "left" | "center" | "right";
     caption?: string;
     renderMode: "button" | "link";
@@ -149,13 +149,16 @@ export function createConfigurableToolbar(items: ResolvedToolbarItem[]): (props:
                 case "week":
                 case "work_week":
                 case "day":
-                case "agenda": {
-                    const name = item.itemType as View;
+                case "agenda":
+                case "year": {
+                    const name = item.itemType as View | "year";
                     // Provide default caption from localizer messages if not specified
-                    const caption = item.caption || localizer.messages[name];
+                    // For year view, use custom caption or fallback to "Year"
+                    const caption = item.caption || (name === "year" ? "Year" : localizer.messages[name as View]);
                     return renderButton(
                         name,
                         caption as unknown as ReactElement,
+                        // @ts-expect-error - year view is custom, onView accepts it at runtime
                         () => onView(name),
                         view === name,
                         item.renderMode,

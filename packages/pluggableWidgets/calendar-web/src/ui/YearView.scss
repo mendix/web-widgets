@@ -1,0 +1,175 @@
+@use "sass:color";
+
+// Local fallback variables consistent with Calendar.scss
+$brand-primary: #0595db !default;
+$brand-default: #dddddd !default;
+$brand-primary-lighter: color.mix($brand-primary, white, 20%) !default;
+$color-default-lighter: color.mix($brand-default, white, 20%) !default;
+$border-color-default: #d7d7d7 !default;
+$focus-outline: 2px solid #264ae5 !default;
+$focus-outline-offset: 2px !default;
+$gray-light: #999 !default;
+
+.widget-calendar-year-view {
+    width: 100%;
+    height: 100%;
+    padding: var(--spacing-medium, 10px);
+
+    // Grid layout: 4 columns for months (3x4 grid)
+    .year-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--spacing-medium, 10px);
+
+        // Responsive breakpoints for smaller screens
+        @media screen and (max-width: 768px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media screen and (max-width: 480px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    // Individual month card
+    .year-month-card {
+        background-color: white;
+        border: 1px solid var(--border-color-default, $border-color-default);
+        border-radius: 4px;
+        padding: var(--spacing-medium, 10px);
+        transition: all 0.2s ease;
+
+        &:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        &:focus-within {
+            outline: var(--focus-outline, $focus-outline);
+            outline-offset: var(--focus-outline-offset, $focus-outline-offset);
+        }
+    }
+
+    // Month header (title)
+    .year-month-header {
+        font-size: var(--font-size-default, 14px);
+        font-weight: 600;
+        color: #000;
+        margin: 0 0 8px 0;
+        text-align: center;
+    }
+
+    // Month content area (weekday headers + day grid)
+    .year-month-content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    // Weekday headers row
+    .year-weekday-headers {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+        margin-bottom: 2px;
+    }
+
+    .year-weekday-header {
+        font-size: 10px;
+        font-weight: 600;
+        color: #666;
+        text-align: center;
+        padding: 2px;
+    }
+
+    // Days grid
+    .year-days-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+    }
+
+    // Day cell styling
+    .year-day-cell {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 2px;
+        font-size: 11px;
+        text-align: center;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        min-height: 24px;
+        aspect-ratio: 1;
+
+        &:hover {
+            background-color: var(--color-default-lighter, $color-default-lighter);
+        }
+
+        &:focus-visible {
+            outline: var(--focus-outline, $focus-outline);
+            outline-offset: var(--focus-outline-offset, $focus-outline-offset);
+            z-index: 1;
+        }
+
+        // Current month days
+        &.year-day-cell-current-month {
+            color: #000;
+
+            // Today highlight
+            &.year-day-cell-today {
+                background-color: var(--color-primary-lighter, $brand-primary-lighter);
+                color: var(--brand-primary, $brand-primary);
+                font-weight: 600;
+            }
+
+            // Day with events
+            &.year-day-cell-has-event {
+                font-weight: 500;
+            }
+        }
+
+        // Leading/trailing days from other months
+        &.year-day-cell-other-month {
+            color: $gray-light;
+            opacity: 0.5;
+
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+    }
+
+    // Day number
+    .year-day-number {
+        line-height: 1;
+    }
+
+    // Event dot indicator
+    .year-event-dot {
+        position: absolute;
+        bottom: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: var(--brand-primary, $brand-primary);
+    }
+
+    // For days with today + event
+    .year-day-cell-today.year-day-cell-has-event {
+        .year-event-dot {
+            background-color: var(--brand-primary, $brand-primary);
+        }
+    }
+
+    // For other month days with events
+    .year-day-cell-other-month.year-day-cell-has-event {
+        .year-event-dot {
+            opacity: 0.5;
+        }
+    }
+}
