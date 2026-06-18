@@ -1018,3 +1018,33 @@ describe("upload queue — end-to-end", () => {
         expect(store.files.filter(f => f.fileStatus === "uploading")).toHaveLength(0);
     });
 });
+
+describe("FileUploaderStore.hasValidationErrors", () => {
+    test("returns true when validationError files exist", () => {
+        const store = buildStore();
+        store.processDrop([], [{ file: makeFile("bad.exe"), errors: [{ code: "file-invalid-type", message: "bad" }] }]);
+        expect(store.hasValidationErrors).toBe(true);
+    });
+
+    test("returns false after all validationError files are dismissed", () => {
+        const store = buildStore();
+        store.processDrop([], [{ file: makeFile("bad.exe"), errors: [{ code: "file-invalid-type", message: "bad" }] }]);
+        const errorFile = store.files.find(f => f.fileStatus === "validationError")!;
+        store.dismissFile(errorFile);
+        expect(store.hasValidationErrors).toBe(false);
+    });
+
+    test("remains true when one validationError file dismissed but others remain", () => {
+        const store = buildStore();
+        store.processDrop(
+            [],
+            [
+                { file: makeFile("a.exe"), errors: [{ code: "file-invalid-type", message: "bad" }] },
+                { file: makeFile("b.exe"), errors: [{ code: "file-invalid-type", message: "bad" }] }
+            ]
+        );
+        const firstError = store.files.find(f => f.fileStatus === "validationError")!;
+        store.dismissFile(firstError);
+        expect(store.hasValidationErrors).toBe(true);
+    });
+});
