@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.3.0] - 2026-06-18
+
 ### Fixed
 
 - We fixed an issue where the "Close on" option for the Hover trigger was not working. The menu will now correctly stay open until you click outside when "Click outside" is selected, or close when you hover away when "Hover leave" is selected.
+
 - We fixed an issue where nested popup menus (a popup menu inside another popup menu's content) would close unexpectedly when hovering between parent and child menus.
 
 ## [4.2.0] - 2026-05-04
