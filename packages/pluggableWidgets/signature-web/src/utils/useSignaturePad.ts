@@ -100,12 +100,6 @@ export function useSignaturePad(
                 isSignatureInitialized.current = true;
             }
         }
-        return () => {
-            if (localCanvas) {
-                signaturePadRef.current?.removeEventListener("endStroke", handleSignEnd);
-                signaturePadRef.current?.off();
-            }
-        };
     }, [handleSignEnd, penColor, readOnly, signaturePadOptions, imageSource, hasSignatureAttribute]);
 
     return { signaturePadRef, canvasRef, onResize };
