@@ -3,7 +3,6 @@
 $image-cropper-bg-color: #f5f7fa;
 $image-cropper-border-color-default: #b0bec5;
 $image-cropper-gray-light: #6c757d;
-$image-cropper-icon: url(../assets/crop-icon.svg);
 
 .widget-image-cropper {
     display: inline-flex;
@@ -78,39 +77,40 @@ $image-cropper-icon: url(../assets/crop-icon.svg);
     &--preview {
         display: flex;
         flex-direction: column;
+        gap: 4px;
+        align-items: stretch;
+    }
 
-        .widget-image-cropper__dropzone {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            height: 106px;
-            padding: 12px 20px;
-            border-radius: 5px;
-            border: 1.5px dashed var(--border-color-default, $image-cropper-border-color-default);
-            background-color: var(--bg-color, $image-cropper-bg-color);
-        }
+    &__preview-label {
+        margin: 0;
+        font-size: 12px;
+        color: var(--gray, #555);
+    }
 
-        .widget-image-cropper__icon {
-            width: 42px;
-            height: 33px;
-            background-image: var(--image-cropper-icon, $image-cropper-icon);
-            background-repeat: no-repeat;
-            background-size: contain;
-        }
+    &__preview-box {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 12px;
+        border: 1px solid var(--border-color-default, $image-cropper-border-color-default);
+        border-radius: 4px;
+        background-color: var(--bg-color, $image-cropper-bg-color);
+    }
 
-        .widget-image-cropper__label {
-            margin: 0;
-            font-size: 11px;
-            color: var(--gray-light, $image-cropper-gray-light);
-        }
+    // Real CropArea rendered for the static-image preview — display only, no interaction.
+    &__preview-canvas {
+        pointer-events: none;
+    }
 
-        .widget-image-cropper__hint {
-            margin: 0;
-            font-size: 10px;
-            color: var(--gray-light, $image-cropper-gray-light);
-            opacity: 0.8;
-        }
+    &__preview-glyph {
+        display: block;
+        width: 56px;
+        height: auto;
+    }
+
+    &__preview-caption {
+        margin: 0;
+        font-size: 11px;
+        color: var(--gray-light, $image-cropper-gray-light);
     }
 }
