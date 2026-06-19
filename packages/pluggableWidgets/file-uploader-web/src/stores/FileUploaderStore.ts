@@ -91,7 +91,6 @@ export class FileUploaderStore {
             _maxTotalFiles: observable,
             _maxConcurrentUploads: observable,
             isFileUploadLimitReached: computed,
-            hasValidationErrors: computed,
             sortedFiles: computed,
             activeCount: computed,
             uploadingCount: computed,
@@ -187,10 +186,6 @@ export class FileUploaderStore {
         }
 
         return this.activeCount >= this.maxTotalFiles;
-    }
-
-    get hasValidationErrors(): boolean {
-        return this.files.some(f => f.fileStatus === "validationError");
     }
 
     get sortedFiles(): FileStore[] {
