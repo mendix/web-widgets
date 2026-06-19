@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.7] - 2026-06-19
+
 ### Fixed
 
 - We fixed an issue where the color picker would enter a stuck drag mode when placed inside a popup page, causing the color to keep changing on mouse move without holding the mouse button.
