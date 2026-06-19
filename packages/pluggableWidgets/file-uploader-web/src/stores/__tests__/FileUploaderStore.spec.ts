@@ -1019,22 +1019,22 @@ describe("upload queue — end-to-end", () => {
     });
 });
 
-describe("FileUploaderStore.hasValidationErrors", () => {
-    test("returns true when validationError files exist", () => {
+describe("FileUploaderStore validationError files tracking", () => {
+    test("has validationError files after rejected drop", () => {
         const store = buildStore();
         store.processDrop([], [{ file: makeFile("bad.exe"), errors: [{ code: "file-invalid-type", message: "bad" }] }]);
-        expect(store.hasValidationErrors).toBe(true);
+        expect(store.files.some(f => f.fileStatus === "validationError")).toBe(true);
     });
 
-    test("returns false after all validationError files are dismissed", () => {
+    test("no validationError files after all are dismissed", () => {
         const store = buildStore();
         store.processDrop([], [{ file: makeFile("bad.exe"), errors: [{ code: "file-invalid-type", message: "bad" }] }]);
         const errorFile = store.files.find(f => f.fileStatus === "validationError")!;
         store.dismissFile(errorFile);
-        expect(store.hasValidationErrors).toBe(false);
+        expect(store.files.some(f => f.fileStatus === "validationError")).toBe(false);
     });
 
-    test("remains true when one validationError file dismissed but others remain", () => {
+    test("validationError files remain when one dismissed but others exist", () => {
         const store = buildStore();
         store.processDrop(
             [],
@@ -1045,6 +1045,6 @@ describe("FileUploaderStore.hasValidationErrors", () => {
         );
         const firstError = store.files.find(f => f.fileStatus === "validationError")!;
         store.dismissFile(firstError);
-        expect(store.hasValidationErrors).toBe(true);
+        expect(store.files.some(f => f.fileStatus === "validationError")).toBe(true);
     });
 });

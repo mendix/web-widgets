@@ -16,7 +16,7 @@ interface DropzoneProps {
 
 export const Dropzone = observer(
     ({ warningMessage, onDrop, maxSize, acceptFileTypes, disabled }: DropzoneProps): ReactElement => {
-        const { getRootProps, getInputProps, isDragAccept, isDragReject } = useDropzone({
+        const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
             onDrop,
             maxSize: maxSize || undefined,
             accept: acceptFileTypes,
@@ -24,7 +24,12 @@ export const Dropzone = observer(
         });
 
         const translations = useTranslationsStore();
-        const [type, msg] = getMessage(translations, isDragAccept, isDragReject);
+        const [type, msg] = getMessage(
+            translations,
+            isDragActive && isDragAccept,
+            isDragActive && isDragReject,
+            warningMessage
+        );
 
         return (
             <Fragment>
@@ -32,7 +37,7 @@ export const Dropzone = observer(
                     className={classNames("dropzone", {
                         active: type === "active",
                         disabled,
-                        warning: !!warningMessage || type === "warning"
+                        warning: type === "warning"
                     })}
                     {...getRootProps()}
                 >
@@ -52,13 +57,17 @@ type MessageType = "active" | "warning" | "idle";
 function getMessage(
     translations: TranslationsStore,
     isDragAccept: boolean,
-    isDragReject: boolean
+    isDragReject: boolean,
+    warningMessage?: string
 ): [MessageType, string] {
     if (isDragAccept) {
         return ["active", translations.get("dropzoneAcceptedMessage")];
     }
     if (isDragReject) {
         return ["warning", translations.get("dropzoneRejectedMessage")];
+    }
+    if (warningMessage) {
+        return ["warning", warningMessage];
     }
 
     return ["idle", translations.get("dropzoneIdleMessage")];
