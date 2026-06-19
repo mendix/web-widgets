@@ -7,8 +7,8 @@ import {
 } from "./changelog-parser";
 import { listPackages, PackageListing } from "./monorepo";
 import chalk from "chalk";
-
 import { prompt } from "enquirer";
+import { exec } from "./shell";
 
 type WidgetPkg = {
     type: "widget";
@@ -123,6 +123,107 @@ function createPackagesTree(map: PackagesFullInfoMap, list: PackagesFullInfoList
     return tree;
 }
 
+async function getCurrentBranch(): Promise<string> {
+    const { stdout } = await exec("git rev-parse --abbrev-ref HEAD", { stdio: "pipe" });
+    return stdout.trim();
+}
+
+async function getRemoteSyncCounts(): Promise<{ behind: number; ahead: number }> {
+    const [{ stdout: behindStr }, { stdout: aheadStr }] = await Promise.all([
+        exec("git rev-list HEAD..origin/main --count", { stdio: "pipe" }),
+        exec("git rev-list origin/main..HEAD --count", { stdio: "pipe" })
+    ]);
+    return {
+        behind: parseInt(behindStr.trim(), 10),
+        ahead: parseInt(aheadStr.trim(), 10)
+    };
+}
+
+async function switchToMain(): Promise<void> {
+    const { confirmSwitch } = await prompt<{ confirmSwitch: boolean }>({
+        type: "confirm",
+        name: "confirmSwitch",
+        message: `❓ Switch to ${chalk.blue("main")} branch?`,
+        initial: true
+    });
+
+    if (!confirmSwitch) {
+        console.log(chalk.red("❌ Release preparation must start from the main branch"));
+        process.exit(1);
+    }
+
+    await exec("git checkout main", { stdio: "pipe" });
+    console.log(chalk.green("✅ Switched to main"));
+}
+
+async function fastForwardMain(): Promise<void> {
+    const { confirmFastForward } = await prompt<{ confirmFastForward: boolean }>({
+        type: "confirm",
+        name: "confirmFastForward",
+        message: `❓ Fast-forward ${chalk.blue("main")} to ${chalk.blue("origin/main")}?`,
+        initial: true
+    });
+
+    if (!confirmFastForward) {
+        console.log(chalk.yellow("⚠️  Continuing with an outdated main branch"));
+        return;
+    }
+
+    await exec("git merge --ff-only origin/main", { stdio: "pipe" });
+    console.log(chalk.green("✅ main fast-forwarded to origin/main"));
+}
+
+export async function ensureMainBranch(): Promise<void> {
+    const branch = await getCurrentBranch();
+
+    if (branch !== "main") {
+        console.log(chalk.yellow(`⚠️  Current branch is ${chalk.blue(branch)}, expected ${chalk.blue("main")}`));
+        await switchToMain();
+    }
+
+    console.log(chalk.blue("🔄 Fetching origin/main..."));
+    await exec("git fetch origin main", { stdio: "pipe" });
+
+    const { behind, ahead } = await getRemoteSyncCounts();
+
+    if (behind === 0 && ahead === 0) {
+        console.log(chalk.green("✅ main is up to date with origin/main"));
+        return;
+    }
+
+    if (behind > 0 && ahead === 0) {
+        console.log(chalk.yellow(`⚠️  main is ${behind} commit(s) behind origin/main`));
+        await fastForwardMain();
+        return;
+    }
+
+    if (ahead > 0 && behind === 0) {
+        console.log(
+            chalk.yellow(`⚠️  main is ${ahead} commit(s) ahead of origin/main (unpushed local commits detected)`)
+        );
+        console.log(chalk.yellow("   Proceeding, but consider pushing or resetting before releasing."));
+        return;
+    }
+
+    // Truly diverged: both sides have unique commits
+    console.log(chalk.red(`❌ main has diverged from origin/main: ${ahead} ahead, ${behind} behind`));
+    console.log(chalk.red("   You may need to reset or rebase before creating a release."));
+
+    const { continueAnyway } = await prompt<{ continueAnyway: boolean }>({
+        type: "confirm",
+        name: "continueAnyway",
+        message: "❓ Continue anyway? (not recommended)",
+        initial: false
+    });
+
+    if (!continueAnyway) {
+        console.log(chalk.red("❌ Release preparation canceled"));
+        process.exit(1);
+    }
+
+    console.log(chalk.yellow("⚠️  Continuing with a diverged main branch"));
+}
+
 export async function selectPackageV2(): Promise<WidgetPkg | ModulePkg> {
     const pkgs = await listPackages(['"*"', '"!web-widgets"']);
     const pkgsList = await loadPackagesFullInfo(pkgs);
@@ -165,16 +266,86 @@ export async function selectPackageV2(): Promise<WidgetPkg | ModulePkg> {
 }
 
 const PADDING = 60;
+// eslint-disable-next-line no-control-regex
+const ANSI_RE = /\x1B\[[0-9;]*m/g;
+const visibleLen = (s: string): number => s.replace(ANSI_RE, "").length;
+
+function wrapLine(line: string, maxLen: number): string[] {
+    if (maxLen <= 0) return [line];
+    const result: string[] = [];
+    let remaining = line;
+    while (remaining.length > maxLen) {
+        result.push(remaining.slice(0, maxLen));
+        remaining = remaining.slice(maxLen);
+    }
+    result.push(remaining);
+    return result;
+}
+
+function printSectionBox(type: string, logs: string[], treePrefix: string, boxWidth: number): void {
+    const headerInner = `─ ${type} `;
+    const topDashes = "─".repeat(Math.max(0, boxWidth - 2 - headerInner.length));
+    console.log(`${treePrefix}${chalk.dim(`┌${headerInner}${topDashes}┐`)}`);
+    const contentWidth = boxWidth - 4; // subtract "│ " left and " │" right
+    for (const log of logs) {
+        for (const wrappedLine of wrapLine(log, contentWidth)) {
+            console.log(`${treePrefix}${chalk.dim("│")} ${wrappedLine.padEnd(contentWidth)} ${chalk.dim("│")}`);
+        }
+    }
+    console.log(`${treePrefix}${chalk.dim(`└${"─".repeat(Math.max(0, boxWidth - 2))}┘`)}`);
+}
+
+function printUnreleasedChangelog(
+    changelog: WidgetChangelogFileWrapper | ModuleChangelogFileWrapper,
+    treePrefix: string
+): void {
+    const unreleased = changelog.changelog.content[0];
+    const subcomponents = "subcomponents" in unreleased ? unreleased.subcomponents : [];
+
+    const termWidth = process.stdout.columns || 100;
+    const boxWidth = Math.max(20, termWidth - visibleLen(treePrefix));
+
+    for (const section of unreleased.sections) {
+        if (section.logs.length === 0) continue;
+        printSectionBox(
+            section.type,
+            section.logs.map(l => `- ${l}`),
+            treePrefix,
+            boxWidth
+        );
+    }
+
+    for (const sub of subcomponents) {
+        const label = "version" in sub ? `${sub.name} [${sub.version.format()}]` : sub.name;
+        console.log(`${treePrefix}${chalk.yellow(label)}`);
+        for (const section of sub.sections) {
+            if (section.logs.length === 0) continue;
+            printSectionBox(
+                section.type,
+                section.logs.map(l => `- ${l}`),
+                `${treePrefix}  `,
+                Math.max(20, boxWidth - 2)
+            );
+        }
+    }
+}
+
 export function printPkgInformation(pkg: WidgetPkg | ModulePkg): void {
     console.log(
         `${shortName(pkg.info.name).padEnd(PADDING + 3, " ")} ${chalk.bold(pkg.info.version.format())} ${pkg.changelog.hasUnreleasedLogs() ? "🆕" : " "}`
     );
+    if (pkg.changelog.hasUnreleasedLogs()) {
+        printUnreleasedChangelog(pkg.changelog, "  ");
+    }
     if (pkg.widgets.length) {
         pkg.widgets.forEach((widget, i) => {
             const isLast = i === pkg.widgets.length - 1;
             console.log(
                 `${isLast ? "└" : "├"}─ ${shortName(widget.info.name).padEnd(PADDING, " ")} ${chalk.dim(widget.info.version.format())} ${widget.changelog.hasUnreleasedLogs() ? "🆕" : ""}`
             );
+            if (widget.changelog.hasUnreleasedLogs()) {
+                printUnreleasedChangelog(widget.changelog, isLast ? "   " : "│  ");
+            }
         });
     }
 }
