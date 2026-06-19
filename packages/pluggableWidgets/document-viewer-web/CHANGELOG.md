@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We changed the internal structure of the widget
 
+### Fixed
+
+- We fixed an issue where checkmarks and other special characters in PDFs were not displayed correctly.
+
 ## [1.2.0] - 2025-10-29
 
 ### Added

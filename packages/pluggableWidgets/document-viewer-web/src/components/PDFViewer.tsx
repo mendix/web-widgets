@@ -1,15 +1,17 @@
 import { ChangeEvent, FormEvent, Fragment, KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import { If } from "@mendix/widget-plugin-component-kit/If";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { downloadFile } from "../utils/helpers";
-import { useZoomScale } from "../utils/useZoomScale";
 import BaseViewer from "./BaseViewer";
 import { DocRendererElement, DocumentRendererProps, DocumentStatus } from "./documentRenderer";
-import { If } from "@mendix/widget-plugin-component-kit/If";
+import { downloadFile } from "../utils/helpers";
+import { useZoomScale } from "../utils/useZoomScale";
+
+const origin: string = (window.mx?.appUrl ?? window.location.origin).replace(/\/$/, "");
 const options = {
-    cMapUrl: "/widgets/com/mendix/shared/pdfjs/cmaps/",
-    standardFontDataUrl: "/widgets/com/mendix/shared/pdfjs/standard_fonts"
+    cMapUrl: `${origin}/widgets/com/mendix/shared/pdfjs/cmaps/`,
+    standardFontDataUrl: `${origin}/widgets/com/mendix/shared/pdfjs/standard_fonts/`
 };
 
 const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
