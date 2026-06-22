@@ -113,6 +113,27 @@ function countSignificantDigits(value: Big): number {
     return stripped.length || 1;
 }
 
+function getAttributeDefaultFormat(props: ColumnsType): string | undefined {
+    const formatter = props.attribute?.formatter;
+    if (!formatter) {
+        return undefined;
+    }
+
+    if (formatter.type === "datetime") {
+        const cfg = formatter.config;
+        return cfg.type === "custom" ? cfg.pattern.replace(/M/g, "m") : undefined;
+    }
+
+    if (formatter.type === "number") {
+        const cfg = formatter.config;
+        const decimals = cfg.decimalPrecision ?? 0;
+        const base = cfg.groupDigits ? "#,##0" : "0";
+        return decimals > 0 ? `${base}.${"0".repeat(decimals)}` : base;
+    }
+
+    return undefined;
+}
+
 const readers: ReadersByType = {
     attribute(item, props) {
         const data = props.attribute?.get(item);
@@ -122,11 +143,14 @@ const readers: ReadersByType = {
         }
 
         const value = data.value;
-        const format = getCellFormat({
-            exportType: props.exportType,
-            exportDateFormat: props.exportDateFormat,
-            exportNumberFormat: props.exportNumberFormat
-        });
+        const format =
+            props.exportType === "default"
+                ? getAttributeDefaultFormat(props)
+                : getCellFormat({
+                      exportType: props.exportType,
+                      exportDateFormat: props.exportDateFormat,
+                      exportNumberFormat: props.exportNumberFormat
+                  });
 
         if (value instanceof Date) {
             const dateValue = format && hasTimeComponent(format) ? value : stripTime(value);
