@@ -57,13 +57,19 @@ export function getProperties(values: DatagridPreviewProps, defaultProperties: P
         if (column.minWidth !== "manual") {
             hidePropertyIn(defaultProperties, values, "columns", index, "minWidthLimit");
         }
-        // Hide exportNumberFormat if exportType is not 'number'
-        if (column.exportType !== "number") {
-            hidePropertyIn(defaultProperties, values, "columns", index, "exportNumberFormat" as any);
-        }
-        // Hide exportDateFormat if exportType is not 'date'
-        if (column.exportType !== "date") {
-            hidePropertyIn(defaultProperties, values, "columns", index, "exportDateFormat" as any);
+        if (column.showContentAs === "dynamicText") {
+            hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
+                "exportType",
+                "exportNumberFormat",
+                "exportDateFormat"
+            ] as any);
+        } else {
+            if (column.exportType !== "number") {
+                hidePropertyIn(defaultProperties, values, "columns", index, "exportNumberFormat" as any);
+            }
+            if (column.exportType !== "date") {
+                hidePropertyIn(defaultProperties, values, "columns", index, "exportDateFormat" as any);
+            }
         }
     });
 
