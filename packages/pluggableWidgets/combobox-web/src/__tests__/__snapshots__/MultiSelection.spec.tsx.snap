@@ -79,7 +79,15 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
       style="visibility: hidden; position: fixed;"
-    />
+    >
+      <ul
+        aria-hidden="true"
+        aria-labelledby="comboBox1-label"
+        class="widget-combobox-menu-list"
+        id="downshift-0-menu"
+        role="listbox"
+      />
+    </div>
   </div>
 </div>
 `;
@@ -163,7 +171,15 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
       style="visibility: visible; position: fixed; width: 0px; top: 0px; left: 0px;"
-    />
+    >
+      <ul
+        aria-hidden="true"
+        aria-labelledby="comboBox1-label"
+        class="widget-combobox-menu-list"
+        id="downshift-0-menu"
+        role="listbox"
+      />
+    </div>
   </div>
 </div>
 `;
@@ -247,7 +263,15 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
       style="visibility: hidden; position: fixed;"
-    />
+    >
+      <ul
+        aria-hidden="true"
+        aria-labelledby="comboBox1-label"
+        class="widget-combobox-menu-list"
+        id="downshift-0-menu"
+        role="listbox"
+      />
+    </div>
   </div>
 </div>
 `;

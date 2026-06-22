@@ -82,18 +82,17 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                     {menuHeaderContent}
                 </div>
             )}
-            {isOpen && (
-                <ul
-                    className={classNames("widget-combobox-menu-list", {
-                        "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0,
-                        "widget-combobox-menu-lazy-scroll": lazyLoading && !isEmpty
-                    })}
-                    {...menuProps}
-                >
-                    {isEmpty && !isLoading ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children}
-                    {loader}
-                </ul>
-            )}
+            <ul
+                className={classNames("widget-combobox-menu-list", {
+                    "widget-combobox-menu-highlighted": (highlightedIndex ?? -1) >= 0,
+                    "widget-combobox-menu-lazy-scroll": lazyLoading && !isEmpty
+                })}
+                aria-hidden={!isOpen || undefined}
+                {...menuProps}
+            >
+                {isOpen && (isEmpty && !isLoading ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children)}
+                {isOpen && loader}
+            </ul>
             {isOpen && menuFooterContent && (
                 <div tabIndex={0} className="widget-combobox-menu-footer" onMouseDown={PreventMenuCloseEventHandler}>
                     {menuFooterContent}
