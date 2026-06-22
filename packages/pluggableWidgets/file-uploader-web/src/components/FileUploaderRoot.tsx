@@ -24,8 +24,9 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
     );
 
     let warningMessage: string | undefined;
+    let statusMessage: string | undefined;
     if (rootStore.isFileUploadLimitReached) {
-        warningMessage = translations.get("uploadLimitReachedMessage", rootStore.maxTotalFiles.toString());
+        statusMessage = translations.get("uploadLimitReachedMessage", rootStore.maxTotalFiles.toString());
     } else if (rootStore.createActionFailed) {
         warningMessage = translations.get("unavailableCreateActionMessage");
     } else if (rootStore.files.some(f => f.fileStatus === "validationError")) {
@@ -38,6 +39,7 @@ export const FileUploaderRoot = observer((props: FileUploaderContainerProps): Re
                 <Dropzone
                     onDrop={onDrop}
                     warningMessage={warningMessage}
+                    statusMessage={statusMessage}
                     maxSize={rootStore.maxFileSize}
                     acceptFileTypes={prepareAcceptForDropzone(rootStore.acceptedFileTypes)}
                     disabled={rootStore.isFileUploadLimitReached}
