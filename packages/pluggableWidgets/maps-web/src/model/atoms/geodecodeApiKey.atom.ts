@@ -6,7 +6,10 @@ export function geodecodeApiKeyAtom(gate: DerivedPropsGate<MapsContainerProps>):
     let cached: string | null = null;
     return computed(() => {
         if (cached !== null) return cached;
-        const value = (gate.props.geodecodeApiKeyExp?.value ?? gate.props.geodecodeApiKey) || null;
+        const value =
+            gate.props.geodecodeApiKeyExp !== undefined
+                ? gate.props.geodecodeApiKeyExp.value || null
+                : gate.props.geodecodeApiKey || null;
         if (value) cached = value;
         return value;
     });

@@ -6,7 +6,8 @@ export function apiKeyAtom(gate: DerivedPropsGate<MapsContainerProps>): Computed
     let cached: string | null = null;
     return computed(() => {
         if (cached !== null) return cached;
-        const value = (gate.props.apiKeyExp?.value ?? gate.props.apiKey) || null;
+        const value =
+            gate.props.apiKeyExp !== undefined ? gate.props.apiKeyExp.value || null : gate.props.apiKey || null;
         if (value) cached = value;
         return value;
     });
