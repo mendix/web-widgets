@@ -113,7 +113,6 @@ export function CropArea(props: CropAreaProps): ReactElement {
                     ref={props.imageRef}
                     src={safeSrc}
                     alt=""
-                    crossOrigin="anonymous"
                     style={{
                         width: displaySize?.width,
                         height: displaySize?.height,

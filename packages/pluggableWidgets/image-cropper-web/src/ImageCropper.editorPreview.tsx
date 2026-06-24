@@ -1,12 +1,12 @@
-import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import classNames from "classnames";
 import { ReactElement, createRef, useState } from "react";
 import { type Crop } from "react-image-crop";
+import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { ImageCropperPreviewProps } from "../typings/ImageCropperProps";
+import CropperPlaceholderIcon from "./assets/cropper-placeholder.svg";
 import { CropArea } from "./components/CropArea";
 import { resolveAspectRatio } from "./utils/aspectRatio";
 import { describeConfig } from "./utils/describeConfig";
-import CropperPlaceholderIcon from "./assets/cropper-placeholder.png";
 
 declare function require(name: string): string;
 
@@ -59,7 +59,13 @@ function StaticCropPreview(props: { imageUrl: string; values: ImageCropperPrevie
 }
 
 export function preview(props: ImageCropperPreviewProps): ReactElement {
+    // Narrow on the object (not a derived boolean) so TS keeps .imageUrl / .entity typed.
     const staticImage = props.image?.type === "static" ? props.image : undefined;
+    const dynamicEntity = props.image?.type === "dynamic" ? props.image.entity : undefined;
+
+    // Dynamic bindings carry only the entity name — no design-time pixels — so they still show the
+    // placeholder, but the caption must reflect that an attribute IS bound (not "nothing selected").
+    const caption = staticImage ? describeConfig(props) : dynamicEntity || "[No image selected yet]";
 
     return (
         <div
@@ -74,9 +80,7 @@ export function preview(props: ImageCropperPreviewProps): ReactElement {
                     <img className="widget-image-cropper__preview-glyph" src={CropperPlaceholderIcon} alt="" />
                 )}
             </div>
-            <p className="widget-image-cropper__preview-caption">
-                {staticImage ? describeConfig(props) : "[No image selected yet]"}
-            </p>
+            <p className="widget-image-cropper__preview-caption">{caption}</p>
         </div>
     );
 }

@@ -81,11 +81,12 @@ describe("ImageCropper design mode (preview)", () => {
         expect(getByText("[No image selected yet]")).toBeInTheDocument();
     });
 
-    test("treats a dynamic image as not previewable (glyph + empty caption)", () => {
+    test("shows the bound entity for a dynamic image (placeholder glyph, not previewable)", () => {
         const props = makePreviewProps({ image: { type: "dynamic", entity: "MyModule.Photo" } });
-        const { container, getByText } = render(preview(props));
+        const { container, getByText, queryByText } = render(preview(props));
         expect(container.querySelector(".widget-image-cropper__preview-glyph")).not.toBeNull();
-        expect(getByText("[No image selected yet]")).toBeInTheDocument();
+        expect(getByText("MyModule.Photo")).toBeInTheDocument();
+        expect(queryByText("[No image selected yet]")).toBeNull();
     });
 
     test("renders the real image and config caption for a static image", () => {
