@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue with Data Widgets not working in Dojo client in some cases.
+
 ## [3.11.1] DataWidgets - 2026-06-18
 
 ### [3.11.1] Datagrid
