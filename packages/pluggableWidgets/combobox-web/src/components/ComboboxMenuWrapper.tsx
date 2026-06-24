@@ -90,7 +90,8 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                 aria-hidden={!isOpen || undefined}
                 {...menuProps}
             >
-                {isOpen && (isEmpty && !isLoading ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children)}
+                {isOpen &&
+                    (isEmpty && !isLoading ? <NoOptionsPlaceholder>{noOptionsText}</NoOptionsPlaceholder> : children)}
                 {isOpen && loader}
             </ul>
             {isOpen && menuFooterContent && (
