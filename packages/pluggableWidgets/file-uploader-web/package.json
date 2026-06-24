@@ -28,6 +28,7 @@
     "scripts": {
         "add-nf-defaults": "node nf-defaults.mjs add",
         "build": "pluggable-widgets-tools build:web",
+        "create-gh-release": "rui-create-gh-release",
         "create-translation": "rui-create-translation",
         "dev": "pluggable-widgets-tools start:web",
         "e2e": "echo \"Skipping this e2e test\"",
