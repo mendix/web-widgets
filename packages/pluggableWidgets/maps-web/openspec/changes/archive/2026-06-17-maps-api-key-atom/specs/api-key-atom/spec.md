@@ -6,18 +6,26 @@ The Maps container SHALL provide a `ComputedAtom<string | null>` that reactively
 
 #### Scenario: Expression value takes priority
 
-- **WHEN** `apiKeyExp.value` is a non-empty string
+- **WHEN** `apiKeyExp` is configured (not undefined)
+- **AND** `apiKeyExp.value` is a non-empty string
 - **THEN** the atom returns that value
+
+#### Scenario: Returns null while expression is loading
+
+- **WHEN** `apiKeyExp` is configured (not undefined)
+- **AND** `apiKeyExp.value` is undefined (still loading)
+- **THEN** the atom returns `null`
 
 #### Scenario: Falls back to static apiKey
 
-- **WHEN** `apiKeyExp.value` is undefined or empty
+- **WHEN** `apiKeyExp` is undefined (not configured)
 - **AND** `apiKey` is a non-empty string
 - **THEN** the atom returns the static `apiKey` value
 
 #### Scenario: Returns null when no key available
 
-- **WHEN** both `apiKeyExp.value` and `apiKey` are empty or undefined
+- **WHEN** `apiKeyExp` is undefined
+- **AND** `apiKey` is empty or undefined
 - **THEN** the atom returns `null`
 
 ### Requirement: API key cached once resolved
@@ -45,18 +53,26 @@ The Maps container SHALL provide a `ComputedAtom<string | null>` that reactively
 
 #### Scenario: Expression value takes priority
 
-- **WHEN** `geodecodeApiKeyExp.value` is a non-empty string
+- **WHEN** `geodecodeApiKeyExp` is configured (not undefined)
+- **AND** `geodecodeApiKeyExp.value` is a non-empty string
 - **THEN** the atom returns that value
+
+#### Scenario: Returns null while expression is loading
+
+- **WHEN** `geodecodeApiKeyExp` is configured (not undefined)
+- **AND** `geodecodeApiKeyExp.value` is undefined (still loading)
+- **THEN** the atom returns `null`
 
 #### Scenario: Falls back to static geodecodeApiKey
 
-- **WHEN** `geodecodeApiKeyExp.value` is undefined or empty
+- **WHEN** `geodecodeApiKeyExp` is undefined (not configured)
 - **AND** `geodecodeApiKey` is a non-empty string
 - **THEN** the atom returns the static `geodecodeApiKey` value
 
 #### Scenario: Returns null when no key available
 
-- **WHEN** both `geodecodeApiKeyExp.value` and `geodecodeApiKey` are empty or undefined
+- **WHEN** `geodecodeApiKeyExp` is undefined
+- **AND** `geodecodeApiKey` is empty or undefined
 - **THEN** the atom returns `null`
 
 ### Requirement: Geodecode API key cached once resolved
