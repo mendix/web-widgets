@@ -9,8 +9,10 @@ import { GalleryRoot as Root } from "./GalleryRoot";
 import { GalleryTopBar as TopBar } from "./GalleryTopBar";
 import { GalleryTopBarControls as TopBarControls } from "./GalleryTopBarControls";
 import { RefreshStatus } from "./RefreshStatus";
+import { useGalleryJSActions } from "../helpers/useGalleryJSActions";
 
 export function GalleryWidget(): ReactElement {
+    useGalleryJSActions();
     return (
         <Root>
             <TopBar>
