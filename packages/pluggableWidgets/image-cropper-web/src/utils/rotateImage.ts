@@ -33,8 +33,9 @@ export async function rotateImage(options: RotateImageOptions): Promise<File> {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
     if (grayscale) {
-        // Bake B&W here too: rotate replaces the staged file, so without this a
-        // grayscale-then-rotate-then-Save would persist a color image.
+        // Bake B&W for the COMMITTED file only. handleFlip keeps a separate color
+        // working image so toggling grayscale off stays reversible; this baked file
+        // is what gets persisted via setValue while the toggle is on.
         ctx.filter = "grayscale(1)";
     }
     ctx.save();

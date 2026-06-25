@@ -34,7 +34,7 @@ export interface ImageCropperContainerProps {
     previewWidth: number;
     previewHeight: number;
     resizableEnabled: boolean;
-    enableRotation: boolean;
+    enableFlip: boolean;
     enableGrayscale: boolean;
     showResetButton: boolean;
     zoomEnabled: boolean;
@@ -70,7 +70,7 @@ export interface ImageCropperPreviewProps {
     previewWidth: number | null;
     previewHeight: number | null;
     resizableEnabled: boolean;
-    enableRotation: boolean;
+    enableFlip: boolean;
     enableGrayscale: boolean;
     showResetButton: boolean;
     zoomEnabled: boolean;

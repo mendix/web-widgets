@@ -72,7 +72,6 @@ export function preview(props: ImageCropperPreviewProps): ReactElement {
             className={classNames(props.class, "widget-image-cropper", "widget-image-cropper--preview")}
             style={parseStyle(props.style)}
         >
-            <p className="widget-image-cropper__preview-label">Image cropper</p>
             <div className="widget-image-cropper__preview-box">
                 {staticImage ? (
                     <StaticCropPreview imageUrl={staticImage.imageUrl} values={props} />

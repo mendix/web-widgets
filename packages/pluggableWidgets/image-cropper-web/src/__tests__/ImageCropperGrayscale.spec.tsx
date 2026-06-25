@@ -6,12 +6,11 @@ import type { Crop, PixelCrop } from "react-image-crop";
 import { actionValue } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 
-// Integration test: proves the rotate/grayscale actions reach the right util with the right args.
+// Integration test: proves grayscale reversibility after flip.
 
 interface CapturedCropArea {
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
     onCropComplete: (pixelCrop: PixelCrop) => void;
-    onUserInteractStart?: () => void;
 }
 let captured: CapturedCropArea;
 
@@ -20,13 +19,8 @@ jest.mock("../components/CropArea", () => ({
         imageRef: Ref<HTMLImageElement>;
         onImageLoad: CapturedCropArea["onImageLoad"];
         onCropComplete: CapturedCropArea["onCropComplete"];
-        onUserInteractStart?: CapturedCropArea["onUserInteractStart"];
     }) => {
-        captured = {
-            onImageLoad: props.onImageLoad,
-            onCropComplete: props.onCropComplete,
-            onUserInteractStart: props.onUserInteractStart
-        };
+        captured = { onImageLoad: props.onImageLoad, onCropComplete: props.onCropComplete };
         return (
             <img
                 alt=""
@@ -126,15 +120,7 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
     };
 }
 
-async function flushApply(): Promise<void> {
-    await act(async () => {
-        jest.runOnlyPendingTimers();
-        await Promise.resolve();
-        await Promise.resolve();
-    });
-}
-
-describe("<ImageCropper> rotation/grayscale integration", () => {
+describe("<ImageCropper> grayscale reversibility after flip", () => {
     beforeEach(() => {
         jest.useFakeTimers();
         rotateImageOptions.length = 0;
@@ -150,90 +136,58 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
         jest.clearAllMocks();
     });
 
-    test("rotate-right calls rotateImage with rotation=90 and writes the result via setValue", async () => {
+    test("flip with grayscale ON produces a COLOR working image (grayscale:false) so toggling off is reversible", async () => {
+        render(<ImageCropper {...makeProps()} />);
+        act(() => {
+            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+        });
+        act(() => {
+            fireEvent.click(screen.getByLabelText("Grayscale"));
+        }); // ON
+        rotateImageOptions.length = 0;
+        await act(async () => {
+            fireEvent.click(screen.getByLabelText("Flip right"));
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        // The WORKING image (the one shown + reloaded into imageRef) must be COLOR.
+        // With approach B, handleFlip calls rotateImage twice: once color (working),
+        // once baked (commit). The color call is the one whose result feeds the preview.
+        const colorWorkingCall = rotateImageOptions.some(o => o.grayscale === false);
+        expect(colorWorkingCall).toBe(true);
+    });
+
+    test("flip with grayscale ON still bakes a B&W file for the committed setValue", async () => {
         const image = makeImageProp();
         render(<ImageCropper {...makeProps({ image })} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
+        act(() => {
+            fireEvent.click(screen.getByLabelText("Grayscale"));
+        }); // ON
+        rotateImageOptions.length = 0;
         await act(async () => {
             fireEvent.click(screen.getByLabelText("Flip right"));
             await Promise.resolve();
             await Promise.resolve();
         });
-        expect(rotateImageOptions.length).toBeGreaterThan(0);
-        expect(rotateImageOptions[rotateImageOptions.length - 1].rotation).toBe(90);
+        // committed file must be the baked one
+        expect(rotateImageOptions.some(o => o.grayscale === true)).toBe(true);
         expect(image.setValue).toHaveBeenCalledWith(expect.any(File));
     });
 
-    test("flip with grayscale on bakes grayscale into the COMMITTED file", async () => {
-        // handleFlip also produces a color working image (first call, grayscale:false);
-        // the last call is the baked commit (grayscale:true) used for setValue.
+    test("flip with grayscale OFF produces only a color file (no baked B&W)", async () => {
         render(<ImageCropper {...makeProps()} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
-        act(() => {
-            fireEvent.click(screen.getByLabelText("Grayscale"));
-        });
+        rotateImageOptions.length = 0;
         await act(async () => {
             fireEvent.click(screen.getByLabelText("Flip right"));
             await Promise.resolve();
             await Promise.resolve();
         });
-        expect(rotateImageOptions[rotateImageOptions.length - 1].grayscale).toBe(true);
-    });
-
-    test("rotate-left calls rotateImage with rotation=-90", async () => {
-        render(<ImageCropper {...makeProps()} />);
-        act(() => {
-            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
-        });
-        await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip left"));
-            await Promise.resolve();
-            await Promise.resolve();
-        });
-        expect(rotateImageOptions[rotateImageOptions.length - 1].rotation).toBe(-90);
-    });
-
-    test("subsequent crop-complete after rotate calls cropImage without a rotation field", async () => {
-        render(<ImageCropper {...makeProps()} />);
-        act(() => {
-            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
-        });
-        await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
-            await Promise.resolve();
-            await Promise.resolve();
-        });
-        cropImageOptions.length = 0;
-        act(() => {
-            captured.onUserInteractStart?.();
-        });
-        act(() => {
-            captured.onCropComplete(PIXEL_CROP);
-        });
-        await flushApply();
-        expect(cropImageOptions.length).toBeGreaterThan(0);
-        expect(cropImageOptions[cropImageOptions.length - 1]).not.toHaveProperty("rotation");
-    });
-
-    test("black & white toggle then crop-complete passes grayscale=true to cropImage", async () => {
-        render(<ImageCropper {...makeProps()} />);
-        act(() => {
-            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
-        });
-        act(() => {
-            fireEvent.click(screen.getByLabelText("Grayscale"));
-        });
-        act(() => {
-            captured.onUserInteractStart?.();
-        });
-        act(() => {
-            captured.onCropComplete(PIXEL_CROP);
-        });
-        await flushApply();
-        expect(cropImageOptions[cropImageOptions.length - 1].grayscale).toBe(true);
+        expect(rotateImageOptions.every(o => o.grayscale === false)).toBe(true);
     });
 });

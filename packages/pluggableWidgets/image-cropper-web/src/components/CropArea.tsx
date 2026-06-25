@@ -16,6 +16,7 @@ export interface CropAreaProps {
     crop: Crop | undefined;
     onCropChange: (crop: Crop) => void;
     onCropComplete: (pixelCrop: PixelCrop) => void;
+    onUserInteractStart?: () => void;
     aspect: number | undefined;
     circular: boolean;
     resizable: boolean;
@@ -104,6 +105,7 @@ export function CropArea(props: CropAreaProps): ReactElement {
                 crop={props.crop}
                 onChange={(_pixel, percent) => props.onCropChange(percent)}
                 onComplete={pixel => props.onCropComplete(pixel)}
+                onDragStart={() => props.onUserInteractStart?.()}
                 aspect={props.aspect}
                 circularCrop={props.circular}
                 disabled={!props.resizable}
