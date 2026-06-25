@@ -11,6 +11,7 @@ import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps
 interface CapturedCropArea {
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
     onCropComplete: (pixelCrop: PixelCrop) => void;
+    onUserInteractStart?: () => void;
     setZoom: (next: number) => void;
     wheelZoomMode: string;
 }
@@ -21,12 +22,14 @@ jest.mock("../components/CropArea", () => ({
         imageRef: Ref<HTMLImageElement>;
         onImageLoad: CapturedCropArea["onImageLoad"];
         onCropComplete: CapturedCropArea["onCropComplete"];
+        onUserInteractStart?: CapturedCropArea["onUserInteractStart"];
         setZoom: CapturedCropArea["setZoom"];
         wheelZoomMode: string;
     }) => {
         captured = {
             onImageLoad: props.onImageLoad,
             onCropComplete: props.onCropComplete,
+            onUserInteractStart: props.onUserInteractStart,
             setZoom: props.setZoom,
             wheelZoomMode: props.wheelZoomMode
         };
@@ -97,7 +100,7 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         outputFormat: "png",
         outputQuality: new Big(0.92),
         outputSize: "original",
-        enableRotation: true,
+        enableFlip: true,
         enableGrayscale: false,
         showResetButton: true,
         onCropAction: actionValue(),
@@ -152,6 +155,7 @@ describe("<ImageCropper>", () => {
         render(<ImageCropper {...makeProps({ image })} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captured.onUserInteractStart?.();
             captured.onCropComplete(PIXEL_CROP);
         });
         await flushApply();
@@ -164,6 +168,7 @@ describe("<ImageCropper>", () => {
         render(<ImageCropper {...makeProps({ image })} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captured.onUserInteractStart?.();
             captured.onCropComplete(PIXEL_CROP);
         });
         await flushApply();
@@ -189,6 +194,7 @@ describe("<ImageCropper>", () => {
         render(<ImageCropper {...makeProps({ image, onCropAction: action })} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captured.onUserInteractStart?.();
             captured.onCropComplete(PIXEL_CROP);
         });
         await flushApply();

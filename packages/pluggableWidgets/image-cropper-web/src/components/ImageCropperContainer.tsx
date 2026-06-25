@@ -5,7 +5,6 @@ import { type Crop, type PixelCrop } from "react-image-crop";
 import { CropArea } from "./CropArea";
 import { CropToolbar } from "./CropToolbar";
 import { PreviewPane } from "./PreviewPane";
-import { ZoomSlider } from "./ZoomSlider";
 import { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 import { useAutoApplyCrop } from "../hooks/useAutoApplyCrop";
 import { useImageCropperState } from "../hooks/useImageCropperState";
@@ -26,6 +25,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
     zoomRef.current = state.zoom;
     const grayscaleRef = useRef(state.grayscale);
     grayscaleRef.current = state.grayscale;
+    const userDraggedRef = useRef(false);
 
     const applyCrop = useCallback(async () => {
         const img = state.imageRef.current;
@@ -120,7 +120,10 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
         (pixelCrop: PixelCrop) => {
             committedCropRef.current = pixelCrop;
             setCommittedCrop(pixelCrop);
-            auto.applyNow();
+            if (userDraggedRef.current) {
+                userDraggedRef.current = false;
+                auto.applyNow();
+            }
         },
         [setCommittedCrop, auto]
     );
@@ -133,30 +136,44 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
         [setZoom, auto]
     );
 
-    const handleRotate = useCallback(
+    const handleFlip = useCallback(
         async (deltaDeg: number) => {
             const img = state.imageRef.current;
             if (!img || props.image.readOnly || props.image.status !== ValueStatus.Available || !props.image.value) {
                 return;
             }
             try {
-                const file = await rotateImage({
+                // Working image is ALWAYS color so toggling grayscale OFF stays reversible.
+                const working = await rotateImage({
                     image: img,
                     rotation: deltaDeg,
                     outputFormat: props.outputFormat,
                     outputQuality: Number(props.outputQuality),
-                    grayscale: grayscaleRef.current,
+                    grayscale: false,
                     originalName: props.image.value.name
                 });
+                // Commit a baked B&W file only while the toggle is ON, so a flip-then-Save
+                // with no further crop still persists grayscale.
+                const committed = grayscaleRef.current
+                    ? await rotateImage({
+                          image: img,
+                          rotation: deltaDeg,
+                          outputFormat: props.outputFormat,
+                          outputQuality: Number(props.outputQuality),
+                          grayscale: true,
+                          originalName: props.image.value.name
+                      })
+                    : working;
                 setLiveCrop(undefined);
                 setCommittedCrop(undefined);
                 committedCropRef.current = undefined;
                 armed();
-                // Show the rotated pixels immediately; CropArea reloads from this blob and
-                // rebuilds a fresh crop against the swapped dimensions on its onLoad.
-                showPreviewRef.current(file);
+                // Show COLOR working pixels; CropArea reloads from this blob and rebuilds
+                // a fresh crop against the swapped dimensions on its onLoad.
+                // The CSS grayscale filter from state.grayscale still renders gray on screen.
+                showPreviewRef.current(working);
                 markInternalRef.current();
-                props.image.setValue(file);
+                props.image.setValue(committed);
             } catch (err) {
                 if (err instanceof CropError) {
                     console.error("[image-cropper-web] CropError:", err.message);
@@ -217,6 +234,9 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 crop={state.liveCrop}
                 onCropChange={state.setLiveCrop}
                 onCropComplete={handleCropComplete}
+                onUserInteractStart={() => {
+                    userDraggedRef.current = true;
+                }}
                 aspect={aspect}
                 circular={props.cropShape === "circle"}
                 resizable={props.resizableEnabled}
@@ -231,22 +251,19 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 grayscale={state.grayscale}
                 imageRef={state.imageRef}
             />
-            {props.zoomEnabled && props.showZoomSlider ? (
-                <ZoomSlider
-                    zoom={state.zoom}
-                    minZoom={Number(props.minZoom)}
-                    maxZoom={Number(props.maxZoom)}
-                    onChange={handleZoomChange}
-                />
-            ) : null}
             <CropToolbar
-                showRotation={props.enableRotation}
+                showFlip={props.enableFlip}
                 showGrayscale={props.enableGrayscale}
+                showZoom={props.zoomEnabled && props.showZoomSlider}
                 showReset={props.showResetButton}
                 grayscale={state.grayscale}
                 canReset={original.canRestore}
-                onRotateLeft={() => handleRotate(-90)}
-                onRotateRight={() => handleRotate(90)}
+                zoom={state.zoom}
+                minZoom={Number(props.minZoom)}
+                maxZoom={Number(props.maxZoom)}
+                onZoomChange={handleZoomChange}
+                onFlipLeft={() => handleFlip(-90)}
+                onFlipRight={() => handleFlip(90)}
                 onToggleGrayscale={handleToggleGrayscale}
                 onReset={handleReset}
             />

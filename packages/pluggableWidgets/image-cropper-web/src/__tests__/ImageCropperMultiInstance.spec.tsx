@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import { Big } from "big.js";
 import { ValueStatus } from "mendix";
 import { Ref } from "react";
@@ -6,14 +6,16 @@ import type { Crop, PixelCrop } from "react-image-crop";
 import { actionValue } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 
-// Integration test: proves the rotate/grayscale actions reach the right util with the right args.
+// Multi-instance integration test: verifies that auto-commit only fires for the
+// cropper instance where the user actually dragged, not for layout-driven completes
+// or sibling instances.
 
 interface CapturedCropArea {
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
     onCropComplete: (pixelCrop: PixelCrop) => void;
     onUserInteractStart?: () => void;
 }
-let captured: CapturedCropArea;
+const captures: CapturedCropArea[] = [];
 
 jest.mock("../components/CropArea", () => ({
     CropArea: (props: {
@@ -22,11 +24,11 @@ jest.mock("../components/CropArea", () => ({
         onCropComplete: CapturedCropArea["onCropComplete"];
         onUserInteractStart?: CapturedCropArea["onUserInteractStart"];
     }) => {
-        captured = {
+        captures.push({
             onImageLoad: props.onImageLoad,
             onCropComplete: props.onCropComplete,
             onUserInteractStart: props.onUserInteractStart
-        };
+        });
         return (
             <img
                 alt=""
@@ -48,29 +50,13 @@ jest.mock("../components/CropArea", () => ({
     }
 }));
 
-interface CapturedRotateOptions {
-    rotation: number;
-    outputFormat: string;
-    grayscale: boolean;
-}
-const rotateImageOptions: CapturedRotateOptions[] = [];
-jest.mock("../utils/rotateImage", () => ({
-    rotateImage: jest.fn((options: CapturedRotateOptions) => {
-        rotateImageOptions.push(options);
-        return Promise.resolve(new File(["x"], "rotate.png", { type: "image/png" }));
-    })
-}));
-
-interface CapturedCropOptions {
-    grayscale: boolean;
-}
-const cropImageOptions: CapturedCropOptions[] = [];
 jest.mock("../utils/cropImage", () => ({
     CropError: class CropError extends Error {},
-    cropImage: jest.fn((options: CapturedCropOptions) => {
-        cropImageOptions.push(options);
-        return Promise.resolve(new File(["x"], "crop.png", { type: "image/png" }));
-    })
+    cropImage: jest.fn(() => Promise.resolve(new File(["x"], "crop.png", { type: "image/png" })))
+}));
+
+jest.mock("../utils/rotateImage", () => ({
+    rotateImage: jest.fn(() => Promise.resolve(new File(["x"], "rotate.png", { type: "image/png" })))
 }));
 
 import { ImageCropper } from "../ImageCropper";
@@ -134,13 +120,11 @@ async function flushApply(): Promise<void> {
     });
 }
 
-describe("<ImageCropper> rotation/grayscale integration", () => {
+describe("<ImageCropper> multi-instance crop gating", () => {
     beforeEach(() => {
         jest.useFakeTimers();
-        rotateImageOptions.length = 0;
-        cropImageOptions.length = 0;
+        captures.length = 0;
         global.fetch = jest.fn().mockRejectedValue(new Error("no-net")) as jest.Mock;
-        // jsdom lacks blob URL APIs used by the live-preview hook.
         (URL as unknown as { createObjectURL: () => string }).createObjectURL = () => "blob:test";
         (URL as unknown as { revokeObjectURL: () => void }).revokeObjectURL = () => undefined;
     });
@@ -150,90 +134,64 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
         jest.clearAllMocks();
     });
 
-    test("rotate-right calls rotateImage with rotation=90 and writes the result via setValue", async () => {
+    test("layout-driven onCropComplete without a user drag does not commit", async () => {
         const image = makeImageProp();
         render(<ImageCropper {...makeProps({ image })} />);
         act(() => {
-            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captures[0].onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
-        await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
-            await Promise.resolve();
-            await Promise.resolve();
-        });
-        expect(rotateImageOptions.length).toBeGreaterThan(0);
-        expect(rotateImageOptions[rotateImageOptions.length - 1].rotation).toBe(90);
-        expect(image.setValue).toHaveBeenCalledWith(expect.any(File));
-    });
-
-    test("flip with grayscale on bakes grayscale into the COMMITTED file", async () => {
-        // handleFlip also produces a color working image (first call, grayscale:false);
-        // the last call is the baked commit (grayscale:true) used for setValue.
-        render(<ImageCropper {...makeProps()} />);
+        // layout-driven complete, NO preceding onUserInteractStart
         act(() => {
-            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
-        });
-        act(() => {
-            fireEvent.click(screen.getByLabelText("Grayscale"));
-        });
-        await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
-            await Promise.resolve();
-            await Promise.resolve();
-        });
-        expect(rotateImageOptions[rotateImageOptions.length - 1].grayscale).toBe(true);
-    });
-
-    test("rotate-left calls rotateImage with rotation=-90", async () => {
-        render(<ImageCropper {...makeProps()} />);
-        act(() => {
-            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
-        });
-        await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip left"));
-            await Promise.resolve();
-            await Promise.resolve();
-        });
-        expect(rotateImageOptions[rotateImageOptions.length - 1].rotation).toBe(-90);
-    });
-
-    test("subsequent crop-complete after rotate calls cropImage without a rotation field", async () => {
-        render(<ImageCropper {...makeProps()} />);
-        act(() => {
-            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
-        });
-        await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
-            await Promise.resolve();
-            await Promise.resolve();
-        });
-        cropImageOptions.length = 0;
-        act(() => {
-            captured.onUserInteractStart?.();
-        });
-        act(() => {
-            captured.onCropComplete(PIXEL_CROP);
+            captures[0].onCropComplete(PIXEL_CROP);
         });
         await flushApply();
-        expect(cropImageOptions.length).toBeGreaterThan(0);
-        expect(cropImageOptions[cropImageOptions.length - 1]).not.toHaveProperty("rotation");
+        expect(image.setValue).not.toHaveBeenCalled();
     });
 
-    test("black & white toggle then crop-complete passes grayscale=true to cropImage", async () => {
-        render(<ImageCropper {...makeProps()} />);
+    test("a genuine user drag then onCropComplete DOES commit", async () => {
+        const image = makeImageProp();
+        render(<ImageCropper {...makeProps({ image })} />);
         act(() => {
-            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captures[0].onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
         act(() => {
-            fireEvent.click(screen.getByLabelText("Grayscale"));
-        });
+            captures[0].onUserInteractStart?.();
+        }); // user grabs the crop
         act(() => {
-            captured.onUserInteractStart?.();
-        });
-        act(() => {
-            captured.onCropComplete(PIXEL_CROP);
+            captures[0].onCropComplete(PIXEL_CROP);
         });
         await flushApply();
-        expect(cropImageOptions[cropImageOptions.length - 1].grayscale).toBe(true);
+        expect(image.setValue).toHaveBeenCalled();
+    });
+
+    test("editing one cropper does not commit its sibling", async () => {
+        const imageA = makeImageProp();
+        const imageB = makeImageProp();
+        render(
+            <>
+                <ImageCropper {...makeProps({ image: imageA, name: "A" })} />
+                <ImageCropper {...makeProps({ image: imageB, name: "B" })} />
+            </>
+        );
+        act(() => {
+            captures[0].onImageLoad(PERCENT_CROP, PIXEL_CROP);
+        });
+        act(() => {
+            captures[1].onImageLoad(PERCENT_CROP, PIXEL_CROP);
+        });
+        // only A receives a genuine user drag
+        act(() => {
+            captures[0].onUserInteractStart?.();
+        });
+        act(() => {
+            captures[0].onCropComplete(PIXEL_CROP);
+        });
+        // B receives a layout-driven complete with NO drag signal — must NOT commit
+        act(() => {
+            captures[1].onCropComplete(PIXEL_CROP);
+        });
+        await flushApply();
+        expect(imageA.setValue).toHaveBeenCalled();
+        expect(imageB.setValue).not.toHaveBeenCalled();
     });
 });

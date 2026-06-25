@@ -84,17 +84,17 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Editing">
-                <property key="enableRotation" type="boolean" defaultValue="true" required="true">
-                    <caption>Enable rotation</caption>
-                    <description>Show rotate-left / rotate-right buttons. Rotation is baked into the saved image.</description>
+                <property key="enableFlip" type="boolean" defaultValue="true" required="true">
+                    <caption>Enable flip</caption>
+                    <description>Show flip-left / flip-right buttons. The flip is baked into the saved image.</description>
                 </property>
                 <property key="enableGrayscale" type="boolean" defaultValue="false" required="true">
-                    <caption>Enable black and white</caption>
-                    <description>Show a grayscale toggle. When on, the saved image is converted to black and white.</description>
+                    <caption>Enable grayscale</caption>
+                    <description>Show a grayscale toggle. When on, the saved image is converted to grayscale (black and white).</description>
                 </property>
                 <property key="showResetButton" type="boolean" defaultValue="true" required="true">
                     <caption>Show reset button</caption>
-                    <description>Show a Reset button that restores the original image and clears zoom, rotation, and crop.</description>
+                    <description>Show a Reset button that restores the original image and clears zoom, flip, and crop.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Zoom">
