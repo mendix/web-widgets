@@ -2,7 +2,11 @@ import { If } from "@mendix/widget-plugin-component-kit/If";
 import { observer } from "mobx-react-lite";
 import { ReactElement } from "react";
 import { SelectionCounter } from "../features/selection-counter/SelectionCounter";
-import { useSelectionCounterViewModel } from "../features/selection-counter/injection-hooks";
+import { SelectionStatus } from "../features/selection-counter/SelectionStatus";
+import {
+    useSelectionCounterViewModel,
+    useSelectionStatusViewModel
+} from "../features/selection-counter/injection-hooks";
 import { useCustomPagination, usePaginationConfig, usePaginationVM, useTexts } from "../model/hooks/injection-hooks";
 import { Pagination } from "./Pagination";
 
@@ -11,6 +15,7 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
     const paging = usePaginationVM();
     const { loadMoreButtonCaption } = useTexts();
     const selectionCounterVM = useSelectionCounterViewModel();
+    const selectionStatusVM = useSelectionStatusViewModel();
     const customPagination = useCustomPagination();
 
     const showFooter =
@@ -25,6 +30,7 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
 
     return (
         <div className="widget-datagrid-footer table-footer">
+            <SelectionStatus viewModel={selectionStatusVM} />
             <div className="widget-datagrid-paging-bottom">
                 <div className="widget-datagrid-pb-start">
                     <If condition={selectionCounterVM.isBottomCounterVisible}>

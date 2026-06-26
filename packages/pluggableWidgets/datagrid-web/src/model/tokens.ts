@@ -81,7 +81,10 @@ export const CORE_TOKENS = {
         selectedCounterTextsStore: token<{
             clearSelectionButtonLabel: string;
             selectedCountText: string;
-        }>("@store:selectedCounterTextsStore")
+        }>("@store:selectedCounterTextsStore"),
+        selectionStatusStore: token<{
+            selectionStatus: string;
+        }>("@store:selectionStatusStore")
     },
 
     setupService: token<DatagridSetupService>("DatagridSetupService"),
@@ -132,6 +135,7 @@ export const DG_TOKENS = {
 
     selectionCounterCfg: token<{ position: "top" | "bottom" | "off" }>("SelectionCounterConfig"),
     selectionCounterVM: token<SelectionCounterViewModel>("SelectionCounterViewModel"),
+    selectionStatusVM: token<{ selectionStatus: string; isVisible: boolean }>("SelectionStatusViewModel"),
 
     selectionGate: token<DerivedPropsGate<SelectionDynamicProps>>("@gate:GateForSelectionHelper"),
     selectionHelper: token<SelectionHelperService>("@service:SelectionHelperService"),

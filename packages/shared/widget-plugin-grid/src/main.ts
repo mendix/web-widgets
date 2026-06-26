@@ -12,3 +12,13 @@ export { SelectAllService } from "./select-all/SelectAll.service";
 export * from "./selection/context";
 export { createSelectionHelper } from "./selection/createSelectionHelper";
 export { SelectActionsProvider } from "./selection/SelectActionsProvider.service";
+export {
+    selectedCountMultiAtom,
+    isAllItemsSelected,
+    isAllItemsSelectedAtom,
+    isCurrentPageSelected,
+    isCurrentPageSelectedAtom,
+    selectionCounterTextsStore,
+    selectionStatusStore
+} from "./core/models/selection.model";
+export type { ObservableSelectionStatus } from "./core/models/selection.model";

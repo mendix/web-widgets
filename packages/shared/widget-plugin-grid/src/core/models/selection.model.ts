@@ -105,3 +105,35 @@ export function selectionCounterTextsStore(
         }
     });
 }
+
+/**
+ * Observable that returns selection status text.
+ * When all items are selected, returns allSelectedText ("All X rows selected.").
+ * Otherwise, returns selectedCountText ("Y items selected").
+ *
+ * This ensures screen reader announcements match visual text in SelectAllBar.
+ * @injectable
+ */
+export interface ObservableSelectionStatus {
+    selectionStatus: string;
+}
+
+export function selectionStatusStore(
+    gate: DerivedPropsGate<{
+        allSelectedText?: DynamicValue<string>;
+    }>,
+    selectedCount: ComputedAtom<number>,
+    selectedTexts: { selectedCountText: string },
+    isAllItemsSelected: ComputedAtom<boolean>
+): ObservableSelectionStatus {
+    return observable({
+        get selectionStatus() {
+            if (isAllItemsSelected.get()) {
+                const str = gate.props.allSelectedText?.value ?? "All %d rows selected.";
+                const count = selectedCount.get();
+                return str.replace("%d", `${count}`);
+            }
+            return selectedTexts.selectedCountText;
+        }
+    });
+}
