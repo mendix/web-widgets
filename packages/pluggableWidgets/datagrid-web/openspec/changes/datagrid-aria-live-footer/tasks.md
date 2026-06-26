@@ -1,52 +1,52 @@
 ## 1. Extract Selection Model to Shared Package
 
-- [ ] 1.1 Create `packages/shared/widget-plugin-grid/src/core/models/selection.model.ts` with factory functions
-- [ ] 1.2 Extract `selectedCount` computed atom factory from `select-all.model.ts`
-- [ ] 1.3 Extract `isAllItemsSelected` computed atom factory from `select-all.model.ts`
-- [ ] 1.4 Extract `isCurrentPageSelected` computed atom factory from `select-all.model.ts`
-- [ ] 1.5 Extract `selectionStatus` text logic (handles allSelectedText vs selectedCountText)
-- [ ] 1.6 Export new model factories from `widget-plugin-grid` main entry point
+- [x] 1.1 Create `packages/shared/widget-plugin-grid/src/core/models/selection.model.ts` with factory functions
+- [x] 1.2 Extract `selectedCount` computed atom factory from `select-all.model.ts`
+- [x] 1.3 Extract `isAllItemsSelected` computed atom factory from `select-all.model.ts`
+- [x] 1.4 Extract `isCurrentPageSelected` computed atom factory from `select-all.model.ts`
+- [x] 1.5 Extract `selectionStatus` text logic (handles allSelectedText vs selectedCountText)
+- [x] 1.6 Export new model factories from `widget-plugin-grid` main entry point
 - [ ] 1.7 Update `select-all.model.ts` to use shared selection model factories
 - [ ] 1.8 Run unit tests for select-all module to verify refactoring
 
 ## 2. Create SelectionStatus Component
 
-- [ ] 2.1 Create `packages/pluggableWidgets/datagrid-web/src/features/selection-counter/SelectionStatus.tsx` component
-- [ ] 2.2 Implement status region with `role="status"` attribute
-- [ ] 2.3 Add visually-hidden CSS class (sr-only) to status region
-- [ ] 2.4 Use MobX observer to react to selection status changes
-- [ ] 2.5 Render selection status text using shared selectionStatus logic (handles allSelectedText vs selectedCountText)
+- [x] 2.1 Create `packages/pluggableWidgets/datagrid-web/src/features/selection-counter/SelectionStatus.tsx` component
+- [x] 2.2 Implement status region with `role="status"` attribute
+- [x] 2.3 Add visually-hidden CSS class (sr-only) to status region
+- [x] 2.4 Use MobX observer to react to selection status changes
+- [x] 2.5 Render selection status text using shared selectionStatus logic (handles allSelectedText vs selectedCountText)
 - [ ] 2.6 Add unit tests for SelectionStatus component
 
 ## 3. Set Up Dependency Injection for Status Component
 
-- [ ] 3.1 Add token for SelectionStatus component in `src/model/tokens.ts` (DG_TOKENS.selectionStatusVM)
-- [ ] 3.2 Create injection hook `useSelectionStatusViewModel` in `src/features/selection-counter/injection-hooks.ts`
-- [ ] 3.3 Bind SelectionStatus ViewModel in container setup
-- [ ] 3.4 Wire up selectionStatus observable (with allSelectedText logic) from shared selection model
+- [x] 3.1 Add token for SelectionStatus component in `src/model/tokens.ts` (DG_TOKENS.selectionStatusVM)
+- [x] 3.2 Create injection hook `useSelectionStatusViewModel` in `src/features/selection-counter/injection-hooks.ts`
+- [x] 3.3 Bind SelectionStatus ViewModel in container setup
+- [x] 3.4 Wire up selectionStatus observable (with allSelectedText logic) from shared selection model
 
 ## 4. Integrate Status Region into WidgetFooter
 
-- [ ] 4.1 Import SelectionStatus component in `src/components/WidgetFooter.tsx`
-- [ ] 4.2 Add SelectionStatus component render outside conditional footer visibility logic
-- [ ] 4.3 Ensure status region renders when selection is enabled (selectionType !== "None")
+- [x] 4.1 Import SelectionStatus component in `src/components/WidgetFooter.tsx`
+- [x] 4.2 Add SelectionStatus component render outside conditional footer visibility logic
+- [x] 4.3 Ensure status region renders when selection is enabled (selectionType !== "None")
 - [ ] 4.4 Verify status region is hidden when selection is disabled
 
 ## 5. Add aria-label and Verify Keyboard Accessibility
 
 ### Select-All Checkbox (Header)
 
-- [ ] 5.1 Locate select-all checkbox in `src/components/CheckboxColumnHeader.tsx`
-- [ ] 5.2 Add static `aria-label="Select all rows"` attribute to checkbox input
+- [x] 5.1 Locate select-all checkbox in `src/components/CheckboxColumnHeader.tsx`
+- [x] 5.2 Add static `aria-label="Select all rows"` attribute to checkbox input
 - [ ] 5.3 Verify checkbox is keyboard accessible (Tab to focus, Space/Enter to toggle)
 - [ ] 5.4 Ensure checkbox has visible focus indicator
 - [ ] 5.5 Update CheckboxColumnHeader tests to verify aria-label presence
 
 ### SelectAllBar Buttons
 
-- [ ] 5.6 Locate SelectAllBar buttons in `src/features/select-all/SelectAllBar.tsx`
-- [ ] 5.7 Verify "Select all rows" button is a native `<button>` element (already done)
-- [ ] 5.8 Verify "Clear selection" button is a native `<button>` element (already done)
+- [x] 5.6 Locate SelectAllBar buttons in `src/features/select-all/SelectAllBar.tsx`
+- [x] 5.7 Verify "Select all rows" button is a native `<button>` element (already done)
+- [x] 5.8 Verify "Clear selection" button is a native `<button>` element (already done)
 - [ ] 5.9 Test keyboard navigation: Tab reaches both buttons
 - [ ] 5.10 Test Space/Enter keys activate both buttons
 - [ ] 5.11 Verify both buttons have visible focus indicators
