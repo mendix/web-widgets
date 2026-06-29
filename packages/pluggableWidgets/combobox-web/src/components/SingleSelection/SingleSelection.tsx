@@ -60,6 +60,7 @@ export function SingleSelection({
     const inputLabel = getInputLabel(options.inputId);
     const errorId = getValidationErrorId(options.inputId);
     const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
+    const labelText = inputLabel?.textContent?.trim() || "";
     const onInputKeyDown = useMemo<KeyboardEventHandler<HTMLInputElement> | undefined>(() => {
         if (!selector.clearable) {
             return undefined;
@@ -107,9 +108,19 @@ export function SingleSelection({
                         tabIndex={tabIndex}
                         {...inputProps}
                         placeholder=" "
-                        aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
+                        aria-label={
+                            !isOpen && selectedItem && hasLabel
+                                ? `${labelText}, ${selector.caption.get(selectedItem)}`
+                                : !isOpen && selectedItem
+                                  ? selector.caption.get(selectedItem)
+                                  : !hasLabel
+                                    ? options.ariaLabel
+                                    : undefined
+                        }
+                        aria-labelledby={hasLabel && isOpen ? inputProps["aria-labelledby"] : undefined}
                         aria-describedby={selector.validation ? errorId : undefined}
                         aria-invalid={selector.validation ? true : undefined}
+                        aria-busy={selector.options.isLoading || undefined}
                     />
                     <InputPlaceholder
                         isEmpty={!selector.currentId || !selector.caption.render(selectedItem, "label")}

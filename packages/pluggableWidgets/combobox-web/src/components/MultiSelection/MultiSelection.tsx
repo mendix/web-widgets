@@ -40,6 +40,7 @@ export function MultiSelection({
     const inputLabel = getInputLabel(options.inputId);
     const errorId = getValidationErrorId(options.inputId);
     const hasLabel = useMemo(() => Boolean(inputLabel), [inputLabel]);
+    const labelText = inputLabel?.textContent?.trim() || "";
     const inputProps = getInputProps({
         ...getDropdownProps(
             {
@@ -140,9 +141,19 @@ export function MultiSelection({
                         tabIndex={tabIndex}
                         placeholder=" "
                         {...inputProps}
-                        aria-labelledby={hasLabel ? inputProps["aria-labelledby"] : undefined}
+                        aria-label={
+                            !isOpen && selectedItems.length > 0 && hasLabel
+                                ? `${labelText}, ${selectedItems.map(id => selector.caption.get(id)).join(", ")}`
+                                : !isOpen && selectedItems.length > 0
+                                  ? selectedItems.map(id => selector.caption.get(id)).join(", ")
+                                  : !hasLabel
+                                    ? options.ariaLabel
+                                    : undefined
+                        }
+                        aria-labelledby={hasLabel && isOpen ? inputProps["aria-labelledby"] : undefined}
                         aria-describedby={selector.validation ? errorId : undefined}
                         aria-invalid={selector.validation ? true : undefined}
+                        aria-busy={selector.options.isLoading || undefined}
                     />
                     <InputPlaceholder isEmpty={selectedItems.length <= 0}>{memoizedselectedCaptions}</InputPlaceholder>
                 </div>
