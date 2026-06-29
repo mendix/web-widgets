@@ -1,7 +1,10 @@
 import { hidePropertiesIn, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     StructurePreviewProps,
-    structurePreviewPalette
+    structurePreviewPalette,
+    rowLayout,
+    container,
+    text
 } from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { ImageCropperPreviewProps } from "../typings/ImageCropperProps";
 import { describeConfig } from "./utils/describeConfig";
@@ -32,42 +35,13 @@ export function getProperties(values: ImageCropperPreviewProps, defaultPropertie
 export function getPreview(values: ImageCropperPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
 
-    return {
-        type: "Container",
-        borders: true,
-        borderRadius: 4,
-        backgroundColor: palette.background.container,
-        children: [
-            {
-                type: "RowLayout",
-                columnSize: "grow",
-                backgroundColor: palette.background.topbarStandard,
-                borders: true,
-                borderWidth: 1,
-                padding: 8,
-                children: [
-                    {
-                        type: "Text",
-                        content: "Image cropper",
-                        fontColor: palette.text.primary,
-                        fontSize: 10
-                    }
-                ]
-            },
-            {
-                type: "Container",
-                padding: 8,
-                children: [
-                    {
-                        type: "Text",
-                        content: values.image ? describeConfig(values) : "[No attribute selected]",
-                        fontColor: palette.text.secondary,
-                        fontSize: 9
-                    }
-                ]
-            }
-        ]
-    };
+    const previewCaption = values.image ? `[${describeConfig(values)}] Image Cropper` : "[Configure Image Cropper]";
+
+    return rowLayout({ columnSize: "grow", borders: true, backgroundColor: palette.background.containerFill })(
+        container()(),
+        rowLayout({ grow: 2, padding: 8 })(text({ fontColor: palette.text.primary, grow: 10 })(previewCaption)),
+        container()()
+    );
 }
 
 export function getCustomCaption(values: ImageCropperPreviewProps): string {
