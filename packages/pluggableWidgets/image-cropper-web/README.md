@@ -1,4 +1,4 @@
-# Image Crop
+# Image Cropper
 
 Crops images bound to a Mendix image attribute. The cropped result is written back to the same attribute.
 

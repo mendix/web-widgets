@@ -10,6 +10,8 @@ interface ImageCropperState {
     setCommittedCrop: Dispatch<SetStateAction<PixelCrop | undefined>>;
     zoom: number;
     setZoom: Dispatch<SetStateAction<number>>;
+    grayscale: boolean;
+    setGrayscale: Dispatch<SetStateAction<boolean>>;
     imageRef: RefObject<HTMLImageElement | null>;
 }
 
@@ -17,6 +19,17 @@ export function useImageCropperState(initialZoom: number): ImageCropperState {
     const [liveCrop, setLiveCrop] = useState<Crop | undefined>(undefined);
     const [committedCrop, setCommittedCrop] = useState<PixelCrop | undefined>(undefined);
     const [zoom, setZoom] = useState<number>(initialZoom);
+    const [grayscale, setGrayscale] = useState<boolean>(false);
     const imageRef = useRef<HTMLImageElement>(null);
-    return { liveCrop, setLiveCrop, committedCrop, setCommittedCrop, zoom, setZoom, imageRef };
+    return {
+        liveCrop,
+        setLiveCrop,
+        committedCrop,
+        setCommittedCrop,
+        zoom,
+        setZoom,
+        grayscale,
+        setGrayscale,
+        imageRef
+    };
 }

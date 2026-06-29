@@ -25,7 +25,8 @@ describe("cropImage", () => {
                 outputSize: "original",
                 cropShape: "rect",
                 viewportWidth: 300,
-                viewportHeight: 300
+                viewportHeight: 300,
+                grayscale: false
             })
         ).rejects.toBeInstanceOf(CropError);
     });
@@ -41,7 +42,8 @@ describe("cropImage", () => {
             outputSize: "original",
             cropShape: "rect",
             viewportWidth: 300,
-            viewportHeight: 300
+            viewportHeight: 300,
+            grayscale: false
         });
         expect(file.name.endsWith(".png")).toBe(true);
         expect(file.type).toBe("image/png");
@@ -58,7 +60,8 @@ describe("cropImage", () => {
             outputSize: "original",
             cropShape: "rect",
             viewportWidth: 300,
-            viewportHeight: 300
+            viewportHeight: 300,
+            grayscale: false
         });
         expect(file.name.endsWith(".jpg")).toBe(true);
         expect(file.type).toBe("image/jpeg");
@@ -76,12 +79,35 @@ describe("cropImage", () => {
                 outputSize: "viewport",
                 cropShape: "rect",
                 viewportWidth: 50,
-                viewportHeight: 40
+                viewportHeight: 40,
+                grayscale: false
             })
         );
         const ctx = calls[0].ctx as CanvasRenderingContext2D;
         expect(ctx.canvas.width).toBe(50);
         expect(ctx.canvas.height).toBe(40);
+    });
+
+    test("drawImage dest starts at top-left (no center-translate)", async () => {
+        const img = makeImg(1000, 800);
+        const calls = await captureDrawImageCalls(() =>
+            cropImage({
+                image: img,
+                pixelCrop: baseCrop,
+                zoom: 1,
+                outputFormat: "png",
+                outputQuality: 1,
+                outputSize: "original",
+                cropShape: "rect",
+                viewportWidth: 300,
+                viewportHeight: 300,
+                grayscale: false
+            })
+        );
+        // dest top-left must be (0, 0) — no rotation translate
+        const [, , , , , dx, dy] = calls[0];
+        expect(dx).toBe(0);
+        expect(dy).toBe(0);
     });
 
     test("divides source rect by zoom factor when zoom > 1", async () => {
@@ -96,7 +122,8 @@ describe("cropImage", () => {
                 outputSize: "original",
                 cropShape: "rect",
                 viewportWidth: 300,
-                viewportHeight: 300
+                viewportHeight: 300,
+                grayscale: false
             })
         );
         const [, sx, sy, sw, sh] = calls[0];
@@ -117,7 +144,8 @@ describe("cropImage", () => {
             outputSize: "original",
             cropShape: "circle",
             viewportWidth: 300,
-            viewportHeight: 300
+            viewportHeight: 300,
+            grayscale: false
         });
         expect(file).toBeInstanceOf(File);
         expect(file.name.endsWith(".png")).toBe(true);
@@ -140,12 +168,30 @@ describe("cropImage", () => {
                     outputSize: "original",
                     cropShape: "rect",
                     viewportWidth: 300,
-                    viewportHeight: 300
+                    viewportHeight: 300,
+                    grayscale: false
                 })
             ).rejects.toBeInstanceOf(CropError);
         } finally {
             HTMLCanvasElement.prototype.toBlob = originalToBlob;
         }
+    });
+
+    test("grayscale option produces a File without throwing under canvas mock", async () => {
+        const img = makeImg(1000, 800);
+        const file = await cropImage({
+            image: img,
+            pixelCrop: baseCrop,
+            zoom: 1,
+            outputFormat: "png",
+            outputQuality: 1,
+            outputSize: "original",
+            cropShape: "rect",
+            viewportWidth: 300,
+            viewportHeight: 300,
+            grayscale: true
+        });
+        expect(file).toBeInstanceOf(File);
     });
 });
 

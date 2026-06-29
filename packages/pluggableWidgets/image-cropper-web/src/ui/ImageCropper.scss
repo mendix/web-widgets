@@ -3,10 +3,15 @@
 $image-cropper-bg-color: #f5f7fa;
 $image-cropper-border-color-default: #b0bec5;
 $image-cropper-gray-light: #6c757d;
-$image-cropper-icon: url(../assets/crop-icon.svg);
 
 .widget-image-cropper {
-    display: inline-flex;
+    // Block-level (not inline-flex) so sibling widgets — e.g. a Save button in the
+    // same List View row — stack BELOW the cropper instead of flowing to its right.
+    // fit-content keeps the box sized to the image so the toolbar still matches the
+    // image width rather than stretching across the whole container.
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
     flex-direction: column;
     gap: 8px;
 
@@ -30,6 +35,8 @@ $image-cropper-icon: url(../assets/crop-icon.svg);
         display: flex;
         align-items: center;
         gap: 8px;
+        flex: 1; // absorb the row's free space so the toolbar spans the preview width
+        font-weight: normal;
 
         input[type="range"] {
             flex: 1;
@@ -42,8 +49,48 @@ $image-cropper-icon: url(../assets/crop-icon.svg);
         background: #fff;
     }
 
-    &__button {
-        align-self: flex-start;
+    &__toolbar {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    &__tool {
+        min-width: 36px;
+        padding: 4px 8px;
+        line-height: 1;
+
+        &.active {
+            background-color: var(--brand-primary, #264ae5);
+            color: #fff;
+        }
+    }
+
+    // Icon-only buttons (flip left/right). Atlas .btn owns the vertical box
+    // (line-height + padding-y + border) → height auto-matches Grayscale/Reset;
+    // we do NOT touch it (Atlas sizes win — frontend-guidelines). We only neutralise
+    // the text-button min-width and equalise horizontal padding to the .btn vertical
+    // padding so the box is square WITHOUT an aspect-ratio (which copied the fat
+    // width axis and inflated the height to 48px).
+    &__tool--icon {
+        min-width: 0;
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    // Atlas's `.btn img` rule styles this icon for the "icon + text" case:
+    //   height: calc(var(--font-size-default) + 4px); margin-right: 4px;
+    //   vertical-align: text-top;
+    // Our flip buttons are icon-ONLY, so that right margin pushed the icon
+    // off-centre (widening the box) and text-top shoved it up. We KEEP Atlas's
+    // icon height (convention: Atlas sizes win) and only neutralise the two
+    // text-affordance properties — which centres the icon and tightens the box.
+    // `.btn &` raises specificity above Atlas's `.btn img` so these win.
+    .btn &__tool-icon {
+        margin-right: 0;
+        vertical-align: middle;
     }
 
     &__error,
@@ -59,32 +106,37 @@ $image-cropper-icon: url(../assets/crop-icon.svg);
     &--preview {
         display: flex;
         flex-direction: column;
+        gap: 4px;
+        align-items: stretch;
+        // Editor preview fills the available width; overrides the base fit-content
+        // (which keeps the RUNTIME widget sized to the image so siblings stack below).
+        width: 100%;
+    }
 
-        .widget-image-cropper__dropzone {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            height: 106px;
-            padding: 12px 20px;
-            border-radius: 5px;
-            border: 1.5px dashed var(--border-color-default, $image-cropper-border-color-default);
-            background-color: var(--bg-color, $image-cropper-bg-color);
-        }
+    &__preview-box {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 12px;
+        border: 1px solid var(--border-color-default, $image-cropper-border-color-default);
+        border-radius: 4px;
+        background-color: var(--bg-color, $image-cropper-bg-color);
+    }
 
-        .widget-image-cropper__icon {
-            width: 42px;
-            height: 33px;
-            background-image: var(--image-cropper-icon, $image-cropper-icon);
-            background-repeat: no-repeat;
-            background-size: contain;
-        }
+    // Real CropArea rendered for the static-image preview — display only, no interaction.
+    &__preview-canvas {
+        pointer-events: none;
+    }
 
-        .widget-image-cropper__label {
-            margin: 0;
-            font-size: 11px;
-            color: var(--gray-light, $image-cropper-gray-light);
-        }
+    &__preview-glyph {
+        display: block;
+        width: 56px;
+        height: auto;
+    }
+
+    &__preview-caption {
+        margin: 0;
+        font-size: 11px;
+        color: var(--gray-light, $image-cropper-gray-light);
     }
 }

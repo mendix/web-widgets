@@ -2,6 +2,8 @@
 <widget id="com.mendix.widget.web.imagecropper.ImageCropper" pluginWidget="true" needsEntityContext="true" offlineCapable="false" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Image Cropper</name>
     <description>Crop an image attribute</description>
+    <studioProCategory>Images, videos &amp; files</studioProCategory>
+    <studioCategory>Images, Videos &amp; Files</studioCategory>
     <helpUrl>https://docs.mendix.com/appstore/widgets/image-cropper</helpUrl>
     <properties>
         <propertyGroup caption="General">
@@ -79,6 +81,20 @@
                 <property key="resizableEnabled" type="boolean" defaultValue="true" required="true">
                     <caption>Resizable handles</caption>
                     <description>Let the user resize the selection by dragging its corners.</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Buttons">
+                <property key="enableFlip" type="boolean" defaultValue="true" required="true">
+                    <caption>Enable rotation</caption>
+                    <description>Show flip-left / flip-right buttons. The flip is baked into the saved image.</description>
+                </property>
+                <property key="enableGrayscale" type="boolean" defaultValue="false" required="true">
+                    <caption>Enable grayscale</caption>
+                    <description>Show a grayscale toggle. When on, the saved image is converted to grayscale (black and white).</description>
+                </property>
+                <property key="showResetButton" type="boolean" defaultValue="true" required="true">
+                    <caption>Show reset</caption>
+                    <description>Show a Reset button that restores the original image and clears zoom, flip, and crop.</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Zoom">

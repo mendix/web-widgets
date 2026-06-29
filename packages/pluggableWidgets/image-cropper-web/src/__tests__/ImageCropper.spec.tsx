@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { Big } from "big.js";
 import { ValueStatus } from "mendix";
 import { Ref } from "react";
@@ -11,6 +11,7 @@ import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps
 interface CapturedCropArea {
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
     onCropComplete: (pixelCrop: PixelCrop) => void;
+    onUserInteractStart?: () => void;
     setZoom: (next: number) => void;
     wheelZoomMode: string;
 }
@@ -21,12 +22,14 @@ jest.mock("../components/CropArea", () => ({
         imageRef: Ref<HTMLImageElement>;
         onImageLoad: CapturedCropArea["onImageLoad"];
         onCropComplete: CapturedCropArea["onCropComplete"];
+        onUserInteractStart?: CapturedCropArea["onUserInteractStart"];
         setZoom: CapturedCropArea["setZoom"];
         wheelZoomMode: string;
     }) => {
         captured = {
             onImageLoad: props.onImageLoad,
             onCropComplete: props.onCropComplete,
+            onUserInteractStart: props.onUserInteractStart,
             setZoom: props.setZoom,
             wheelZoomMode: props.wheelZoomMode
         };
@@ -97,6 +100,9 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         outputFormat: "png",
         outputQuality: new Big(0.92),
         outputSize: "original",
+        enableFlip: true,
+        enableGrayscale: false,
+        showResetButton: true,
         onCropAction: actionValue(),
         ...overrides
     };
@@ -114,6 +120,7 @@ async function flushApply(): Promise<void> {
 describe("<ImageCropper>", () => {
     beforeEach(() => {
         jest.useFakeTimers();
+        global.fetch = jest.fn().mockRejectedValue(new Error("no-net")) as jest.Mock;
     });
     afterEach(() => {
         jest.runOnlyPendingTimers();
@@ -148,6 +155,7 @@ describe("<ImageCropper>", () => {
         render(<ImageCropper {...makeProps({ image })} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captured.onUserInteractStart?.();
             captured.onCropComplete(PIXEL_CROP);
         });
         await flushApply();
@@ -160,6 +168,7 @@ describe("<ImageCropper>", () => {
         render(<ImageCropper {...makeProps({ image })} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captured.onUserInteractStart?.();
             captured.onCropComplete(PIXEL_CROP);
         });
         await flushApply();
@@ -185,6 +194,7 @@ describe("<ImageCropper>", () => {
         render(<ImageCropper {...makeProps({ image, onCropAction: action })} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+            captured.onUserInteractStart?.();
             captured.onCropComplete(PIXEL_CROP);
         });
         await flushApply();
@@ -222,5 +232,30 @@ describe("<ImageCropper>", () => {
     test("passes wheelZoomMode=off to CropArea when zoomEnabled is false", () => {
         render(<ImageCropper {...makeProps({ zoomEnabled: false, wheelZoomMode: "on" })} />);
         expect(captured.wheelZoomMode).toBe("off");
+    });
+
+    test("reset restores the captured original via setValue", async () => {
+        const blob = new Blob(["x"], { type: "image/png" });
+        global.fetch = jest.fn().mockResolvedValue({ ok: true, blob: () => Promise.resolve(blob) }) as jest.Mock;
+        const image = makeImageProp();
+        render(<ImageCropper {...makeProps({ image, showResetButton: true })} />);
+        await act(async () => {
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        (image.setValue as jest.Mock).mockClear();
+        fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+        await flushApply();
+        expect((image.setValue as jest.Mock).mock.calls[0]?.[0]).toBeInstanceOf(File);
+    });
+
+    test("reset button disabled when original capture failed", async () => {
+        global.fetch = jest.fn().mockRejectedValue(new Error("CORS")) as jest.Mock;
+        render(<ImageCropper {...makeProps({ showResetButton: true })} />);
+        await act(async () => {
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        expect(screen.getByRole("button", { name: "Reset" })).toBeDisabled();
     });
 });

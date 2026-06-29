@@ -18,6 +18,7 @@ export interface CropImageOptions {
     cropShape: CropShapeEnum;
     viewportWidth: number;
     viewportHeight: number;
+    grayscale: boolean;
     originalName?: string;
 }
 
@@ -32,6 +33,7 @@ export async function cropImage(options: CropImageOptions): Promise<File> {
         cropShape,
         viewportWidth,
         viewportHeight,
+        grayscale,
         originalName
     } = options;
 
@@ -48,12 +50,12 @@ export async function cropImage(options: CropImageOptions): Promise<File> {
     const sw = (pixelCrop.width / z) * scaleX;
     const sh = (pixelCrop.height / z) * scaleY;
 
-    const destW = outputSize === "viewport" ? viewportWidth : sw;
-    const destH = outputSize === "viewport" ? viewportHeight : sh;
+    const destW = Math.max(1, Math.round(outputSize === "viewport" ? viewportWidth : sw));
+    const destH = Math.max(1, Math.round(outputSize === "viewport" ? viewportHeight : sh));
 
     const canvas = document.createElement("canvas");
-    canvas.width = Math.max(1, Math.round(destW));
-    canvas.height = Math.max(1, Math.round(destH));
+    canvas.width = destW;
+    canvas.height = destH;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) {
@@ -62,22 +64,20 @@ export async function cropImage(options: CropImageOptions): Promise<File> {
 
     if (outputFormat === "jpeg") {
         ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, destW, destH);
+    }
+
+    if (grayscale) {
+        ctx.filter = "grayscale(1)";
     }
 
     if (cropShape === "circle") {
-        ctx.save();
         ctx.beginPath();
-        ctx.ellipse(canvas.width / 2, canvas.height / 2, canvas.width / 2, canvas.height / 2, 0, 0, Math.PI * 2);
-        ctx.closePath();
+        ctx.ellipse(destW / 2, destH / 2, destW / 2, destH / 2, 0, 0, Math.PI * 2);
         ctx.clip();
     }
 
-    ctx.drawImage(image, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
-
-    if (cropShape === "circle") {
-        ctx.restore();
-    }
+    ctx.drawImage(image, sx, sy, sw, sh, 0, 0, destW, destH);
 
     const mime = outputFormat === "jpeg" ? "image/jpeg" : "image/png";
     const ext = outputFormat === "jpeg" ? "jpg" : "png";

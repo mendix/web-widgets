@@ -9,12 +9,14 @@ import {
 } from "react-image-crop";
 import { ZoomContainer } from "./ZoomContainer";
 import { WheelZoomModeEnum } from "../../typings/ImageCropperProps";
+import { safeImageUri } from "../utils/safeImageUri";
 
-interface CropAreaProps {
+export interface CropAreaProps {
     src: string;
     crop: Crop | undefined;
     onCropChange: (crop: Crop) => void;
     onCropComplete: (pixelCrop: PixelCrop) => void;
+    onUserInteractStart?: () => void;
     aspect: number | undefined;
     circular: boolean;
     resizable: boolean;
@@ -26,6 +28,7 @@ interface CropAreaProps {
     maxZoom: number;
     setZoom: Dispatch<SetStateAction<number>>;
     wheelZoomMode: WheelZoomModeEnum;
+    grayscale: boolean;
     imageRef: Ref<HTMLImageElement>;
 }
 
@@ -78,7 +81,9 @@ export function CropArea(props: CropAreaProps): ReactElement {
         [aspect, onImageLoad, boundaryWidth, boundaryHeight]
     );
 
-    if (loadError) {
+    const safeSrc = safeImageUri(props.src);
+
+    if (loadError || !safeSrc) {
         return (
             <div className="widget-image-cropper__error">
                 Could not load this image. If it is a remote image, the server must allow cross-origin access.
@@ -100,6 +105,7 @@ export function CropArea(props: CropAreaProps): ReactElement {
                 crop={props.crop}
                 onChange={(_pixel, percent) => props.onCropChange(percent)}
                 onComplete={pixel => props.onCropComplete(pixel)}
+                onDragStart={() => props.onUserInteractStart?.()}
                 aspect={props.aspect}
                 circularCrop={props.circular}
                 disabled={!props.resizable}
@@ -107,16 +113,16 @@ export function CropArea(props: CropAreaProps): ReactElement {
             >
                 <img
                     ref={props.imageRef}
-                    src={props.src}
+                    src={safeSrc}
                     alt=""
-                    crossOrigin="anonymous"
                     style={{
                         width: displaySize?.width,
                         height: displaySize?.height,
                         maxWidth: displaySize ? undefined : props.boundaryWidth,
                         maxHeight: displaySize ? undefined : props.boundaryHeight,
                         transform: `scale(${props.zoom})`,
-                        transformOrigin: "center"
+                        transformOrigin: "center",
+                        filter: props.grayscale ? "grayscale(1)" : undefined
                     }}
                     onLoad={handleImageLoad}
                     onError={() => setLoadError(true)}
