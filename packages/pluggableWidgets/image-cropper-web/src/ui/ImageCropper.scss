@@ -36,6 +36,7 @@ $image-cropper-gray-light: #6c757d;
         align-items: center;
         gap: 8px;
         flex: 1; // absorb the row's free space so the toolbar spans the preview width
+        font-weight: normal;
 
         input[type="range"] {
             flex: 1;
