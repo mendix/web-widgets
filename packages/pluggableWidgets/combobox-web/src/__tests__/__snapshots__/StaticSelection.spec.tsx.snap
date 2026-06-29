@@ -43,6 +43,7 @@ exports[`Combo box (Static values) renders combobox widget 1`] = `
         tabindex="0"
       >
         <span
+          aria-hidden="true"
           class="widget-combobox-icon-container"
         >
           <svg
@@ -65,6 +66,7 @@ exports[`Combo box (Static values) renders combobox widget 1`] = `
         class="widget-combobox-down-arrow"
       >
         <span
+          aria-hidden="true"
           class="widget-combobox-icon-container"
         >
           <svg
@@ -85,6 +87,7 @@ exports[`Combo box (Static values) renders combobox widget 1`] = `
       style="visibility: hidden; position: fixed;"
     >
       <ul
+        aria-hidden="true"
         aria-labelledby="comboBox1-label"
         class="widget-combobox-menu-list"
         id="downshift-0-menu"

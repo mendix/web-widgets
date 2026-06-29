@@ -184,4 +184,128 @@ describe("Combo box (Association)", () => {
             });
         });
     });
+
+    describe("accessibility", () => {
+        it("hides down arrow icon from assistive technologies", () => {
+            const component = render(<Combobox {...defaultProps} />);
+            const iconWrapper = component.container.querySelector(
+                ".widget-combobox-down-arrow .widget-combobox-icon-container"
+            );
+            expect(iconWrapper).toHaveAttribute("aria-hidden", "true");
+        });
+
+        it("hides clear button icon from assistive technologies but keeps button accessible", async () => {
+            const component = render(<Combobox {...defaultProps} />);
+
+            // Select an item to make clear button appear
+            const toggleButton = await getToggleButton(component);
+            fireEvent.click(toggleButton);
+            const option1 = await component.findByText("obj_222");
+            fireEvent.click(option1);
+            component.rerender(<Combobox {...defaultProps} />);
+
+            const clearButton = component.container.querySelector(
+                "button.widget-combobox-clear-button"
+            ) as HTMLButtonElement;
+            expect(clearButton).toBeInTheDocument();
+            expect(clearButton).toHaveAttribute("aria-label", "Clear selection");
+
+            const iconWrapper = clearButton.querySelector(".widget-combobox-icon-container");
+            expect(iconWrapper).toHaveAttribute("aria-hidden", "true");
+        });
+
+        it("hides menu list from assistive technologies when closed", () => {
+            const component = render(<Combobox {...defaultProps} />);
+            const menuList = component.container.querySelector(".widget-combobox-menu-list");
+            expect(menuList).toBeInTheDocument();
+            expect(menuList).toHaveAttribute("aria-hidden", "true");
+        });
+
+        it("renders menu list when open with items", async () => {
+            const component = render(<Combobox {...defaultProps} />);
+            const toggleButton = await getToggleButton(component);
+            fireEvent.click(toggleButton);
+
+            await waitFor(() => {
+                const menuList = component.container.querySelector(".widget-combobox-menu-list");
+                expect(menuList).toBeInTheDocument();
+                expect(menuList).not.toHaveAttribute("aria-hidden");
+                expect(component.getAllByRole("option")).toHaveLength(4);
+            });
+        });
+
+        it("renders menu list when open but empty with NoOptionsPlaceholder", async () => {
+            const emptyProps = {
+                ...defaultProps,
+                optionsSourceAssociationDataSource: list([])
+            };
+            const component = render(<Combobox {...emptyProps} />);
+            const toggleButton = await getToggleButton(component);
+            fireEvent.click(toggleButton);
+
+            await waitFor(() => {
+                const menuList = component.container.querySelector(".widget-combobox-menu-list");
+                expect(menuList).toBeInTheDocument();
+                expect(menuList).not.toHaveAttribute("aria-hidden");
+                const placeholder = component.container.querySelector(".widget-combobox-no-options");
+                expect(placeholder).toBeInTheDocument();
+            });
+        });
+
+        it("spinner loader does not have aria-hidden", async () => {
+            const loadingProps = {
+                ...defaultProps,
+                lazyLoading: true,
+                loadingType: "spinner" as const,
+                optionsSourceAssociationDataSource: {
+                    ...defaultProps.optionsSourceAssociationDataSource,
+                    hasMoreItems: true,
+                    limit: 0,
+                    setLimit: jest.fn()
+                } as ListValue
+            };
+            const component = render(<Combobox {...loadingProps} />);
+            const input = await getInput(component);
+            fireEvent.click(input);
+
+            await waitFor(() => {
+                const spinner = component.container.querySelector(".widget-combobox-spinner");
+                if (spinner) {
+                    expect(spinner).not.toHaveAttribute("aria-hidden", "true");
+                }
+            });
+        });
+
+        it("sets aria-invalid and aria-describedby when validation fails", async () => {
+            const validationMessage = "This field is required";
+            const propsWithValidation = {
+                ...defaultProps,
+                attributeAssociation: new ReferenceValueBuilder()
+                    .withValue(obj("111"))
+                    .withValidation(validationMessage)
+                    .build()
+            };
+            const component = render(<Combobox {...propsWithValidation} />);
+            const input = await getInput(component);
+
+            expect(input).toHaveAttribute("aria-invalid", "true");
+            expect(input).toHaveAttribute("aria-describedby", "comboBox1-validation-message");
+
+            const errorElement = component.container.querySelector("#comboBox1-validation-message");
+            expect(errorElement).toBeInTheDocument();
+            expect(errorElement).toHaveTextContent(validationMessage);
+        });
+
+        it("removes aria-invalid when validation passes", async () => {
+            const propsWithoutValidation = {
+                ...defaultProps,
+                attributeAssociation: new ReferenceValueBuilder().withValue(obj("111")).build()
+            };
+            const component = render(<Combobox {...propsWithoutValidation} />);
+            const input = await getInput(component);
+
+            expect(input).not.toHaveAttribute("aria-invalid");
+            expect(input).not.toHaveAttribute("aria-describedby");
+        });
+    });
 });
