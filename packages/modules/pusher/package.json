@@ -1,0 +1,47 @@
+{
+    "name": "@mendix/pusher",
+    "moduleName": "Pusher module",
+    "version": "4.0.0",
+    "description": "Pusher module containing the Pusher widget and helper flows for real-time communication.",
+    "copyright": "© Mendix Technology BV 2026. All rights reserved.",
+    "license": "Apache-2.0",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mendix/web-widgets.git"
+    },
+    "mxpackage": {
+        "type": "module",
+        "name": "Pusher",
+        "mpkName": "Pusher.mpk",
+        "dependencies": [
+            "@mendix/pusher-web"
+        ]
+    },
+    "moduleFolderNameInModeler": "pusher",
+    "marketplace": {
+        "minimumMXVersion": "11.11.0",
+        "appName": "Pusher",
+        "appNumber": 107957
+    },
+    "testProject": {
+        "githubUrl": "https://github.com/mendix/testProjects",
+        "branchName": "pusher-web"
+    },
+    "scripts": {
+        "build:module": "ts-node --project scripts/tsconfig.json scripts/build.ts",
+        "create-gh-release": "rui-create-gh-release",
+        "publish-marketplace": "rui-publish-marketplace",
+        "push-update": "ts-node --project scripts/tsconfig.json scripts/push-update.ts",
+        "release:module": "ts-node --project scripts/tsconfig.json scripts/release.ts",
+        "update-changelog": "rui-update-changelog-module",
+        "verify": "rui-verify-package-format"
+    },
+    "dependencies": {
+        "@mendix/pusher-web": "workspace:*"
+    },
+    "devDependencies": {
+        "@mendix/automation-utils": "workspace:*",
+        "@mendix/prettier-config-web-widgets": "workspace:*"
+    }
+}

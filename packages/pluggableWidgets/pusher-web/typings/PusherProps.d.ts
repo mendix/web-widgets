@@ -3,17 +3,26 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
+import { ActionValue, DynamicValue, ObjectItem } from "mendix";
 import { CSSProperties } from "react";
-import { ActionValue, ListValue } from "mendix";
+
+export interface EventHandlersType {
+    actionName: string;
+    action?: ActionValue;
+}
+
+export interface EventHandlersPreviewType {
+    actionName: string;
+    action: {} | null;
+}
 
 export interface PusherContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    objectSource: ListValue;
-    notifyActionName: string;
-    notifyEventAction?: ActionValue;
+    objectSource: DynamicValue<ObjectItem>;
+    eventHandlers: EventHandlersType[];
 }
 
 export interface PusherPreviewProps {
@@ -28,6 +37,5 @@ export interface PusherPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     objectSource: {} | { caption: string } | { type: string } | null;
-    notifyActionName: string;
-    notifyEventAction: {} | null;
+    eventHandlers: EventHandlersPreviewType[];
 }
