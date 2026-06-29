@@ -14,6 +14,17 @@
                         <attributeType name="String" />
                     </attributeTypes>
                 </property>
+                <property key="enableDelta" type="boolean" defaultValue="false">
+                    <caption>Enable delta</caption>
+                    <description>Persist the raw Quill Delta as JSON into a separate string attribute.</description>
+                </property>
+                <property key="deltaAttribute" type="attribute" required="false">
+                    <caption>Delta attribute</caption>
+                    <description>The attribute used to persist the raw Quill Delta JSON. Use an unlimited string data type.</description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
             </propertyGroup>
             <propertyGroup caption="General">
                 <systemProperty key="Label" />

@@ -12,6 +12,7 @@ describe("Rich Text", () => {
             name: "RichText",
             id: "RichText1",
             stringAttribute: new EditableValueBuilder<string>().withValue(richTextDefaultValue).build(),
+            enableDelta: false,
             preset: "basic",
             toolbarLocation: "bottom",
             widthUnit: "percentage",

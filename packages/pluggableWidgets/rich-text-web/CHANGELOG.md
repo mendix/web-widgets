@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- We added an optional Delta persistence setting that stores raw Quill Delta JSON in a separate string attribute while keeping the existing HTML value attribute unchanged.
+
 ## [4.12.0] - 2026-04-22
 
 ### Added

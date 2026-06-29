@@ -55,6 +55,8 @@ export interface RichTextContainerProps {
     tabIndex?: number;
     id: string;
     stringAttribute: EditableValue<string>;
+    enableDelta: boolean;
+    deltaAttribute?: EditableValue<string>;
     enableStatusBar: boolean;
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;
@@ -105,6 +107,8 @@ export interface RichTextPreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     stringAttribute: string;
+    enableDelta: boolean;
+    deltaAttribute: string;
     enableStatusBar: boolean;
     preset: PresetEnum;
     toolbarLocation: ToolbarLocationEnum;

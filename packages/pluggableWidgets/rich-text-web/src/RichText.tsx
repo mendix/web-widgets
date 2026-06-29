@@ -7,7 +7,7 @@ import "./ui/RichText.scss";
 import { constructWrapperStyle } from "./utils/helpers";
 
 export default function RichText(props: RichTextContainerProps): ReactElement {
-    const { stringAttribute, readOnlyStyle } = props;
+    const { stringAttribute, readOnlyStyle, enableDelta, deltaAttribute } = props;
 
     const wrapperStyle = constructWrapperStyle(props);
     const [isIncubator, setIsIncubator] = useState(true);
@@ -57,6 +57,7 @@ export default function RichText(props: RichTextContainerProps): ReactElement {
                 />
             )}
             <ValidationAlert>{stringAttribute.validation}</ValidationAlert>
+            {enableDelta && deltaAttribute ? <ValidationAlert>{deltaAttribute.validation}</ValidationAlert> : null}
         </Fragment>
     );
 }

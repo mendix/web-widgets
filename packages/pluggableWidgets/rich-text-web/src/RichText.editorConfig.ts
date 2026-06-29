@@ -1,4 +1,4 @@
-import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
+import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 import {
     container,
     dropzone,
@@ -8,6 +8,7 @@ import {
 import { RichTextPreviewProps } from "typings/RichTextProps";
 import RichTextPreviewSVGDark from "./assets/rich-text-preview-dark.svg";
 import RichTextPreviewSVGLight from "./assets/rich-text-preview-light.svg";
+import { checkDeltaPersistenceConfiguration } from "./utils/deltaEditorConfig";
 
 const toolbarGroupKeys: Array<keyof RichTextPreviewProps> = [
     "history",
@@ -71,7 +72,14 @@ export function getProperties(values: RichTextPreviewProps, defaultProperties: P
     if (values.enableStatusBar === false) {
         hidePropertyIn(defaultProperties, values, "statusBarContent");
     }
+    if (!values.enableDelta) {
+        hidePropertyIn(defaultProperties, values, "deltaAttribute");
+    }
     return defaultProperties;
+}
+
+export function check(values: RichTextPreviewProps): Problem[] {
+    return checkDeltaPersistenceConfiguration(values);
 }
 
 export function getPreview(props: RichTextPreviewProps, isDarkMode: boolean): StructurePreviewProps {

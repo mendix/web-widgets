@@ -10,7 +10,7 @@ type UseActionEventsReturnValue = {
 
 interface useActionEventsProps extends Pick<
     RichTextContainerProps,
-    "onFocus" | "onBlur" | "onChange" | "onChangeType"
+    "onFocus" | "onBlur" | "onChange" | "onChangeType" | "enableDelta"
 > {
     quill?: Quill | null;
 }
@@ -25,6 +25,14 @@ function isInternalTarget(
     );
 }
 
+function getChangeSnapshot(quill: Quill | null | undefined, enableDelta: boolean): string {
+    if (!quill) {
+        return "";
+    }
+
+    return enableDelta ? JSON.stringify(quill.getContents()) : quill.getText();
+}
+
 export function useActionEvents(props: useActionEventsProps): UseActionEventsReturnValue {
     const editorValueRef = useRef<string>("");
     return useMemo(() => {
@@ -33,7 +41,7 @@ export function useActionEvents(props: useActionEventsProps): UseActionEventsRet
                 const { relatedTarget, currentTarget } = e;
                 if (!isInternalTarget(currentTarget, relatedTarget)) {
                     executeAction(props.onFocus);
-                    editorValueRef.current = props.quill?.getText() || "";
+                    editorValueRef.current = getChangeSnapshot(props.quill, props.enableDelta);
                 }
             },
             onBlur: (e: FocusEvent): void => {
@@ -42,11 +50,10 @@ export function useActionEvents(props: useActionEventsProps): UseActionEventsRet
                     executeAction(props.onBlur);
                     if (props.onChangeType === "onLeave") {
                         if (props.quill) {
-                            // validate if the text really changed
-                            const currentText = props.quill.getText();
-                            if (currentText !== editorValueRef.current) {
+                            const currentSnapshot = getChangeSnapshot(props.quill, props.enableDelta);
+                            if (currentSnapshot !== editorValueRef.current) {
                                 executeAction(props.onChange);
-                                editorValueRef.current = currentText;
+                                editorValueRef.current = currentSnapshot;
                             }
                         } else {
                             executeAction(props.onChange);
@@ -55,5 +62,5 @@ export function useActionEvents(props: useActionEventsProps): UseActionEventsRet
                 }
             }
         };
-    }, [props.onFocus, props.quill, props.onBlur, props.onChangeType, props.onChange]);
+    }, [props.onFocus, props.quill, props.onBlur, props.onChangeType, props.onChange, props.enableDelta]);
 }

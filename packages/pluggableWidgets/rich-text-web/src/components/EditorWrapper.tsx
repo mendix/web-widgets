@@ -9,6 +9,7 @@ import { CSSProperties, ReactElement, useCallback, useContext, useEffect, useRef
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { EditorContext, EditorProvider } from "../store/EditorProvider";
 import { useActionEvents } from "../store/useActionEvents";
+import { EditorPersistenceSnapshot, getEditorPersistenceSnapshot } from "../utils/deltaPersistence";
 import MendixTheme from "../utils/themes/mxTheme";
 import { MxQuillModulesOptions } from "../utils/MxQuill";
 import { createPreset } from "./CustomToolbars/presets";
@@ -16,18 +17,20 @@ import Editor from "./Editor";
 import { StickySentinel } from "./StickySentinel";
 import Toolbar from "./Toolbar";
 
-export interface EditorWrapperProps extends RichTextContainerProps {
+export type EditorWrapperProps = RichTextContainerProps & {
     editorHeight?: string | number;
     editorWidth?: string | number;
     style?: CSSProperties;
     className?: string;
     toolbarOptions?: Array<string | string[] | { [k: string]: any }>;
-}
+};
 
 function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     const {
         id,
         stringAttribute,
+        enableDelta,
+        deltaAttribute,
         style,
         className,
         preset,
@@ -53,19 +56,36 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     const globalState = useContext(EditorContext);
     const isFirstLoad = useRef<boolean>(false);
     const quillRef = useRef<Quill>(null);
-    const actionEvents = useActionEvents({ onBlur, onFocus, onChange, onChangeType, quill: quillRef?.current });
+    const actionEvents = useActionEvents({
+        onBlur,
+        onFocus,
+        onChange,
+        onChangeType,
+        enableDelta,
+        quill: quillRef?.current
+    });
     const toolbarRef = useRef<HTMLDivElement>(null);
     const [wordCount, setWordCount] = useState(0);
 
     const { isFullscreen } = globalState;
 
     const [setAttributeValueDebounce] = useDebounceWithStatus(
-        (string?: string) => {
-            if (stringAttribute.value !== string) {
-                stringAttribute.setValue(string);
-                if (onChangeType === "onDataChange") {
-                    executeAction(onChange);
-                }
+        ({ html, deltaJson }: EditorPersistenceSnapshot) => {
+            const htmlChanged = stringAttribute.value !== html;
+            const shouldPersistDelta =
+                enableDelta && deltaAttribute && !deltaAttribute.readOnly && deltaJson !== undefined;
+            const deltaChanged = Boolean(shouldPersistDelta && deltaAttribute.value !== deltaJson);
+
+            if (htmlChanged) {
+                stringAttribute.setValue(html);
+            }
+
+            if (deltaChanged && deltaJson !== undefined) {
+                deltaAttribute?.setValue(deltaJson);
+            }
+
+            if ((htmlChanged || deltaChanged) && onChangeType === "onDataChange") {
+                executeAction(onChange);
             }
         },
         200,
@@ -116,12 +136,18 @@ function EditorWrapperInner(props: EditorWrapperProps): ReactElement {
     }, [quillRef.current]);
 
     const onTextChange = useCallback(() => {
-        const semanticHTML = quillRef.current?.getSemanticHTML() || "";
-        if (stringAttribute.value !== semanticHTML) {
-            setAttributeValueDebounce(semanticHTML);
+        // HTML remains the source of truth for loading editor content. Delta is a parallel representation.
+        const snapshot = getEditorPersistenceSnapshot(quillRef.current, enableDelta);
+        const htmlChanged = stringAttribute.value !== snapshot.html;
+        const canPersistDelta = enableDelta && deltaAttribute && !deltaAttribute.readOnly;
+        const deltaChanged =
+            canPersistDelta && snapshot.deltaJson !== undefined && deltaAttribute.value !== snapshot.deltaJson;
+
+        if (htmlChanged || deltaChanged) {
+            setAttributeValueDebounce(snapshot);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [quillRef.current, stringAttribute, calculateCounts]);
+    }, [quillRef.current, stringAttribute, deltaAttribute, enableDelta, calculateCounts]);
 
     const toolbarId = `widget_${id.replaceAll(".", "_")}_toolbar`;
     const shouldHideToolbar = (stringAttribute.readOnly && readOnlyStyle !== "text") || toolbarLocation === "hide";
