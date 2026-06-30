@@ -1,6 +1,7 @@
 import deepEqual from "deep-equal";
 import { action, computed, makeObservable, observable, reaction } from "mobx";
 import {
+    ComputedAtom,
     DerivedPropsGate,
     disposeBatch,
     SetupComponent,
@@ -11,10 +12,6 @@ import { Marker, ModeledMarker } from "../../../typings/shared";
 import { convertDynamicModeledMarker, convertStaticModeledMarker } from "../../utils/data";
 import { GeocodeFunction } from "../tokens";
 
-/**
- * Service responsible for resolving marker locations.
- * Handles geocoding of addresses and caching results.
- */
 export class LocationResolverService implements SetupComponent {
     locations: Marker[] = [];
     private geocodeVersion = 0;
@@ -22,21 +19,17 @@ export class LocationResolverService implements SetupComponent {
     constructor(
         host: SetupComponentHost,
         private readonly mainGate: DerivedPropsGate<MapsContainerProps>,
-        private readonly geocode: GeocodeFunction
+        private readonly geocode: GeocodeFunction,
+        private readonly geodecodeApiKeyAtom: ComputedAtom<string | null>
     ) {
         makeObservable(this, {
             locations: observable.ref,
             markers: computed,
-            apiKey: computed,
             updateLocations: action
         });
         host.add(this);
     }
 
-    /**
-     * Computed property that combines static and dynamic markers.
-     * Returns modeled markers ready for geocoding.
-     */
     get markers(): ModeledMarker[] {
         const props = this.mainGate.props;
 
@@ -44,14 +37,6 @@ export class LocationResolverService implements SetupComponent {
         const dynamicMarkers = props.dynamicMarkers.map(marker => convertDynamicModeledMarker(marker)).flat();
 
         return [...staticMarkers, ...dynamicMarkers];
-    }
-
-    /**
-     * Computed property for geocoding API key.
-     * Prefers expression value over static configuration.
-     */
-    get apiKey(): string | undefined {
-        return this.mainGate.props.geodecodeApiKeyExp?.value ?? this.mainGate.props.geodecodeApiKey;
     }
 
     /**
@@ -73,7 +58,7 @@ export class LocationResolverService implements SetupComponent {
                 currentMarkers => {
                     const version = ++this.geocodeVersion;
 
-                    this.geocode(currentMarkers, this.apiKey)
+                    this.geocode(currentMarkers, this.geodecodeApiKeyAtom.get() ?? undefined)
                         .then(resolvedLocations => {
                             // Only update if this is still the latest request
                             if (this.geocodeVersion === version) {
