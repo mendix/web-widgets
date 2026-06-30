@@ -1,7 +1,4 @@
 import type { Editor as TipTapEditor } from "@tiptap/core";
-// import { Color } from "@tiptap/extension-color";
-// import { Highlight } from "@tiptap/extension-highlight";
-// import { ListItem } from "@tiptap/extension-list-item";
 import { Link } from "@tiptap/extension-link";
 import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
@@ -13,17 +10,12 @@ import { TextStyle } from "@tiptap/extension-text-style";
 import { Underline } from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
-import { forwardRef, ReactElement, ReactNode, useImperativeHandle } from "react";
+import { forwardRef, ReactElement, useImperativeHandle } from "react";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import { EditorContextProvider, useCurrentEditor } from "./EditorContext";
 import { HighlightedCodeEditor } from "./HighlightedCodeEditor";
 import { Toolbar } from "./toolbars";
-import {
-    PresetEnum,
-    ToolbarConfigEnum,
-    AdvancedConfigType,
-    CustomFontsType,
-    RichTextContainerProps
-} from "../../typings/RichTextProps";
+import { RichTextContainerProps } from "../../typings/RichTextProps";
 import { FontFamilyClass } from "../extensions/FontFamilyClass";
 import { FontSize } from "../extensions/FontSize";
 import { Fullscreen } from "../extensions/Fullscreen";
@@ -50,6 +42,11 @@ export interface EditorProps extends Pick<
     | "toolbarLocation"
     | "advancedConfig"
     | "customFonts"
+    | "onFocus"
+    | "onBlur"
+    | "onLoad"
+    | "onChangeType"
+    | "onChange"
 > {
     defaultValue?: string;
     onUpdate?: (html: string) => void;
@@ -66,16 +63,14 @@ export interface EditorHandle {
     getEditor: () => TipTapEditor | null;
 }
 
-interface EditorInnerProps {
+interface EditorInnerProps extends Pick<
+    RichTextContainerProps,
+    "imageSourceContent" | "preset" | "toolbarConfig" | "advancedConfig" | "customFonts"
+> {
     showToolbar: boolean;
     readOnly: boolean;
     className?: string;
-    imageSourceContent?: ReactNode;
-    preset?: PresetEnum;
-    toolbarConfig?: ToolbarConfigEnum;
     toolbarGroups?: ToolbarGroupsConfig;
-    advancedConfig?: AdvancedConfigType[];
-    customFonts?: CustomFontsType[];
 }
 
 function EditorInner({
@@ -151,13 +146,8 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         readOnly,
         className,
         styleDataFormat = "inline",
-        imageSourceContent,
-        preset,
-        toolbarConfig,
-        toolbarGroups,
         toolbarLocation,
-        advancedConfig,
-        customFonts
+        ...others
     } = props;
 
     const extensions = [
@@ -247,6 +237,18 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
         onUpdate: ({ editor }) => {
             const html = editor.getHTML();
             onUpdate?.(html);
+        },
+        onFocus: () => {
+            executeAction(props.onFocus);
+        },
+        onBlur: () => {
+            executeAction(props.onBlur);
+            if (props.onChangeType === "onLeave") {
+                executeAction(props.onChange);
+            }
+        },
+        onCreate: () => {
+            executeAction(props.onLoad);
         }
     });
 
@@ -266,17 +268,7 @@ const Editor = forwardRef<EditorHandle, EditorProps>((props, ref) => {
 
     return (
         <EditorContextProvider editor={editor}>
-            <EditorInner
-                showToolbar={!shouldHideToolbar}
-                readOnly={!!readOnly}
-                className={className}
-                imageSourceContent={imageSourceContent}
-                preset={preset}
-                toolbarConfig={toolbarConfig}
-                toolbarGroups={toolbarGroups}
-                advancedConfig={advancedConfig}
-                customFonts={customFonts}
-            />
+            <EditorInner showToolbar={!shouldHideToolbar} readOnly={!!readOnly} className={className} {...others} />
         </EditorContextProvider>
     );
 });

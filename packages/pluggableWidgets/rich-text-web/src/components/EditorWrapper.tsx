@@ -1,6 +1,7 @@
 import { ReactElement, useRef, useState, useEffect } from "react";
 import { RichTextContainerProps } from "typings/RichTextProps";
 import { useDebounceWithStatus } from "@mendix/widget-plugin-hooks/useDebounceWithStatus";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
 import Editor, { EditorHandle } from "./Editor";
 import { StatusBar, StatusBarMetricType } from "./StatusBar";
 
@@ -34,7 +35,12 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
         statusBarContent,
         customFonts,
         toolbarLocation,
-        readOnlyStyle
+        readOnlyStyle,
+        onFocus,
+        onBlur,
+        onLoad,
+        onChangeType,
+        onChange
     } = props;
     const editorRef = useRef<EditorHandle>(null);
     const [editorText, setEditorText] = useState<string>("");
@@ -43,6 +49,10 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
         (html?: string) => {
             if (stringAttribute.value !== html) {
                 stringAttribute.setValue(html);
+
+                if (onChangeType === "onDataChange") {
+                    executeAction(onChange);
+                }
             }
         },
         200,
@@ -79,13 +89,12 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
     })();
 
     return (
-        <div className={`${className} toolbar-${toolbarLocation}`}>
+        <div className={`${className} toolbar-${toolbarLocation} testing-editor-wrapper`}>
             {stringAttribute.status === "available" && (
                 <>
                     <Editor
                         ref={editorRef}
                         defaultValue={stringAttribute.value}
-                        onUpdate={handleUpdate}
                         readOnly={stringAttribute.readOnly}
                         className="tiptap-editor"
                         styleDataFormat={styleDataFormat}
@@ -112,6 +121,12 @@ function EditorWrapper(props: EditorWrapperProps): ReactElement {
                         toolbarLocation={
                             stringAttribute.readOnly && readOnlyStyle !== "text" ? "hide" : toolbarLocation
                         }
+                        onUpdate={handleUpdate}
+                        onFocus={onFocus}
+                        onBlur={onBlur}
+                        onLoad={onLoad}
+                        onChange={onChange}
+                        onChangeType={onChangeType}
                     />
                     {enableStatusBar && (
                         <StatusBar
