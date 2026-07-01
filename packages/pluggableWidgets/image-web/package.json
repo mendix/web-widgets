@@ -54,6 +54,7 @@
         "@mendix/prettier-config-web-widgets": "workspace:*",
         "@mendix/rollup-web-widgets": "workspace:*",
         "@mendix/run-e2e": "workspace:*",
-        "@mendix/widget-plugin-platform": "workspace:*"
+        "@mendix/widget-plugin-platform": "workspace:*",
+        "@mendix/widget-plugin-test-utils": "workspace:*"
     }
 }
