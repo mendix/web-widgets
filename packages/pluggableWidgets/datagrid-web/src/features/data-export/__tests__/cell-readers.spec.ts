@@ -126,6 +126,36 @@ describe("cell-readers", () => {
             expect(cell.z).toBe("0");
         });
 
+        it("mirrors the grid when number formatter config omits decimalPrecision (grouped)", () => {
+            // Real Mendix Decimal attributes only expose `groupDigits` at runtime.
+            const attr = listAttribute(() => new Big("1234.56")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: true } };
+            const col = column("Amount", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(1234.56);
+            expect(cell.z).toBe("#,##0.########");
+        });
+
+        it("mirrors the grid when number formatter config omits decimalPrecision (ungrouped)", () => {
+            const attr = listAttribute(() => new Big("0.5")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: false } };
+            const col = column("Amount", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(0.5);
+            // `#` suppresses trailing zeros, so Excel renders exactly what the grid shows.
+            expect(cell.z).toBe("0.########");
+        });
+
         it("exports date attribute with format as date cell", () => {
             const testDate = new Date("2024-06-15T10:30:00Z");
             const col = column("Created", c => {
