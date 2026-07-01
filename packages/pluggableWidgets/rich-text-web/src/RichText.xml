@@ -17,9 +17,9 @@
             </propertyGroup>
             <propertyGroup caption="General">
                 <systemProperty key="Label" />
-                <property key="enableStatusBar" type="boolean" defaultValue="true">
+                <property key="enableStatusBar" type="boolean" defaultValue="false">
                     <caption>Enable status bar</caption>
-                    <description />
+                    <description>Show a status bar at the bottom of the editor displaying document metrics</description>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Toolbar">
@@ -220,6 +220,14 @@
                         <enumerationValue key="characterCountHtml">Character count (including HTML)</enumerationValue>
                     </enumerationValues>
                 </property>
+                <property key="styleDataFormat" type="enumeration" defaultValue="inline">
+                    <caption>Style data format</caption>
+                    <description>Choose how to render styling attribute in HTML</description>
+                    <enumerationValues>
+                        <enumerationValue key="inline">inline</enumerationValue>
+                        <enumerationValue key="class">class</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Custom toolbar">
@@ -317,9 +325,10 @@
                                 <enumerationValue key="code">Code</enumerationValue>
                                 <enumerationValue key="codeBlock">Code Block</enumerationValue>
                                 <enumerationValue key="viewCode">View Code</enumerationValue>
-                                <enumerationValue key="align">Left Align</enumerationValue>
+                                <enumerationValue key="leftAlign">Left Align</enumerationValue>
                                 <enumerationValue key="centerAlign">Center Align</enumerationValue>
                                 <enumerationValue key="rightAlign">Right Align</enumerationValue>
+                                <enumerationValue key="justifyAlign">Justify Align</enumerationValue>
                                 <enumerationValue key="font">Font Type</enumerationValue>
                                 <enumerationValue key="size">Font Size</enumerationValue>
                                 <enumerationValue key="color">Color</enumerationValue>

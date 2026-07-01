@@ -1,0 +1,66 @@
+@use "variables";
+
+.widget-rich-text {
+    @each $name, $font in variables.$fonts {
+        .font-family-#{$name} {
+            @include variables.font($font);
+        }
+
+        .tiptap-toolbar {
+            [data-value="#{$name}"] {
+                @include variables.font($font);
+            }
+        }
+    }
+
+    @for $i from 1 through 10 {
+        .indent-#{$i} {
+            padding-left: #{$i * 3}px;
+        }
+    }
+
+    p {
+        line-height: var(--line-height-base, 1);
+    }
+
+    mark {
+        color: inherit;
+        background-color: inherit;
+    }
+
+    .has-text-color {
+        color: attr(data-text-color type(<color>));
+    }
+
+    .has-text-highlight {
+        background-color: attr(data-text-highlight type(<color>));
+    }
+
+    .has-background-color {
+        background-color: attr(data-background-color type(<color>));
+    }
+
+    .has-font-family {
+        font-family: attr(data-font-family raw-string);
+    }
+
+    .has-font-size {
+        font-size: attr(data-font-size px);
+    }
+
+    .text-align-left {
+        text-align: left;
+    }
+
+    .text-align-center {
+        text-align: center;
+    }
+
+    .text-align-right {
+        text-align: right;
+    }
+
+    .text-align-justify {
+        text-align: justify;
+    }
+}

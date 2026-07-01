@@ -1,0 +1,49 @@
+.table-grid-selector {
+    --cell-size: 10px;
+    --grid-gap: 2px;
+    --max-cols: 10;
+    --max-rows: 10;
+
+    // Position is managed by Floating UI (via floatingStyles)
+    background: white;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: var(--form-label-gutter, 8px);
+    z-index: 1000;
+    user-select: none;
+
+    .table-grid-label {
+        text-align: center;
+        font-size: 13px;
+        color: #333;
+        margin-top: var(--form-label-gutter, 8px);
+        font-weight: 500;
+        min-height: 18px;
+    }
+
+    .table-grid {
+        display: grid;
+        grid-template-columns: repeat(var(--max-cols), var(--cell-size));
+        grid-template-rows: repeat(var(--max-rows), var(--cell-size));
+        gap: var(--grid-gap);
+        cursor: pointer;
+    }
+
+    .table-grid-cell {
+        width: var(--cell-size);
+        height: var(--cell-size);
+        border: 1px solid #d0d0d0;
+        background-color: white;
+        transition: all 0.1s ease;
+
+        &:hover {
+            border-color: var(--brand-primary, #264ae5);
+        }
+
+        &.selected {
+            background-color: var(--brand-primary, #264ae5);
+            border-color: var(--color-primary-dark, #1b34a0);
+        }
+    }
+}
