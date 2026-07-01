@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the Image widget would briefly render in an empty or broken state while the image data was still loading. The widget now waits until the image is ready before displaying it.
+
 ## [1.5.1] - 2025-10-29
 
 ### Fixed
