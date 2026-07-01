@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - We fixed an issue where validation errors could not be dismissed and persisted after uploading a valid file.
 
-- We fixed an issue where the dropzone turned grey without explanation when the file limit was reached. A message now appears below the dropzone stating "Maximum file count of X reached."
+- We fixed an issue where the dropzone turned grey without explanation when the file limit was reached. A message now appears on the dropzone stating "Maximum file count of X reached."
 
 - We fixed an issue where dropping more files than allowed rejected the entire batch. Only the excess files are now rejected; the rest upload normally.
 
@@ -30,7 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- The "Maximum number of files" property is now optional. Leaving it empty or setting it to 0 means unlimited files are allowed. The default behavior is now unlimited (no cap).
+- The "Maximum number of files" property is now optional. Leaving it empty or setting it to 0 means unlimited files are allowed. The default remains 10.
 
 - Files now upload in a queue rather than being marked as errors when too many are dropped at once. Queued files show a "Waiting..." state while they wait for a concurrent slot.
 
