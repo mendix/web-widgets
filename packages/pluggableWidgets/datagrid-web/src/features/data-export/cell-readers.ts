@@ -126,9 +126,16 @@ function getAttributeDefaultFormat(props: ColumnsType): string | undefined {
 
     if (formatter.type === "number") {
         const cfg = formatter.config;
-        const decimals = cfg.decimalPrecision ?? 0;
         const base = cfg.groupDigits ? "#,##0" : "0";
-        return decimals > 0 ? `${base}.${"0".repeat(decimals)}` : base;
+        // Mendix Decimal attributes do not expose a fixed `decimalPrecision` on the
+        // formatter config at runtime (only `groupDigits`). Honour it when present,
+        // otherwise mirror the grid: show up to 8 fractional digits (the Mendix DB
+        // maximum) with trailing zeros suppressed via `#`, so 1234.56 stays 1234.56
+        // and integers stay integers — instead of collapsing to a whole number.
+        if (cfg.decimalPrecision != null) {
+            return cfg.decimalPrecision > 0 ? `${base}.${"0".repeat(cfg.decimalPrecision)}` : base;
+        }
+        return `${base}.########`;
     }
 
     return undefined;
