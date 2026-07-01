@@ -1,60 +1,9 @@
 import { ValueStatus } from "mendix";
 import { FunctionComponent, useCallback } from "react";
 import { ImageContainerProps } from "../typings/ImageProps";
-import { Image as ImageComponent, ImageType } from "./components/Image/Image";
+import { Image as ImageComponent } from "./components/Image/Image";
 import { constructStyleObject } from "./utils/helpers";
-
-function getImageProps({
-    datasource,
-    imageIcon,
-    imageObject,
-    imageUrl,
-    defaultImageDynamic
-}: ImageContainerProps): ImageType {
-    const fallback: ImageType = {
-        type: "image",
-        image: undefined
-    };
-    switch (datasource) {
-        case "image": {
-            if (imageObject?.status === ValueStatus.Available) {
-                return {
-                    type: "image",
-                    image: imageObject.value.uri
-                };
-            } else if (
-                imageObject?.status === ValueStatus.Unavailable &&
-                defaultImageDynamic?.status === ValueStatus.Available
-            ) {
-                return {
-                    type: "image",
-                    image: defaultImageDynamic.value.uri
-                };
-            }
-            return {
-                type: "image",
-                image: undefined
-            };
-        }
-        case "imageUrl":
-            return {
-                type: "image",
-                image: imageUrl?.status === ValueStatus.Available ? imageUrl.value : undefined
-            };
-        case "icon": {
-            if (imageIcon?.status === ValueStatus.Available && imageIcon.value) {
-                const icon = imageIcon.value;
-                return {
-                    type: icon.type,
-                    image: icon.type === "image" ? icon.iconUrl : icon.iconClass
-                };
-            }
-            return fallback;
-        }
-        default:
-            return fallback;
-    }
-}
+import { getImageProps } from "./utils/getImageProps";
 
 export const Image: FunctionComponent<ImageContainerProps> = props => {
     const onClick = useCallback(() => props.onClick?.execute(), [props.onClick]);
@@ -65,7 +14,7 @@ export const Image: FunctionComponent<ImageContainerProps> = props => {
 
     const imageStyle = { ...props.style, ...styleObject };
 
-    return (
+    return image ? (
         <ImageComponent
             class={props.class}
             style={imageStyle}
@@ -85,5 +34,5 @@ export const Image: FunctionComponent<ImageContainerProps> = props => {
             renderAsBackground={props.datasource !== "icon" && props.isBackgroundImage}
             backgroundImageContent={props.children}
         />
-    );
+    ) : null;
 };
