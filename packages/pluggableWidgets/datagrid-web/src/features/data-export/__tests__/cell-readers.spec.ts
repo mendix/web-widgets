@@ -68,6 +68,94 @@ describe("cell-readers", () => {
             expect(cell.v).toBe(false);
         });
 
+        it("uses attribute number formatter when exportType is default", () => {
+            const attr = listAttribute(() => new Big("1234.56")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: true, decimalPrecision: 2 } };
+            const col = column("Amount", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(1234.56);
+            expect(cell.z).toBe("#,##0.00");
+        });
+
+        it("uses attribute date formatter when exportType is default", () => {
+            const testDate = new Date("2024-06-15T10:30:00Z");
+            const attr = listAttribute(() => testDate) as any;
+            attr.formatter = { type: "datetime", config: { type: "custom", pattern: "dd/MM/yyyy" } };
+            const col = column("Created", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(new Date(Date.UTC(2024, 5, 15)));
+            expect(cell.z).toBe("dd/mm/yyyy");
+        });
+
+        it("returns no format for default datetime with non-custom config", () => {
+            const testDate = new Date("2024-06-15T10:30:00Z");
+            const attr = listAttribute(() => testDate) as any;
+            attr.formatter = { type: "datetime", config: { type: "date" } };
+            const col = column("Created", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("d");
+            expect(cell.v).toEqual(new Date(Date.UTC(2024, 5, 15)));
+            expect(cell.z).toBe("dd-mm-yyyy");
+        });
+
+        it("uses attribute number formatter without decimals", () => {
+            const attr = listAttribute(() => new Big("42")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: false, decimalPrecision: 0 } };
+            const col = column("Count", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(42);
+            expect(cell.z).toBe("0");
+        });
+
+        it("mirrors the grid when number formatter config omits decimalPrecision (grouped)", () => {
+            // Real Mendix Decimal attributes only expose `groupDigits` at runtime.
+            const attr = listAttribute(() => new Big("1234.56")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: true } };
+            const col = column("Amount", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(1234.56);
+            expect(cell.z).toBe("#,##0.########");
+        });
+
+        it("mirrors the grid when number formatter config omits decimalPrecision (ungrouped)", () => {
+            const attr = listAttribute(() => new Big("0.5")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: false } };
+            const col = column("Amount", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(0.5);
+            // `#` suppresses trailing zeros, so Excel renders exactly what the grid shows.
+            expect(cell.z).toBe("0.########");
+        });
+
         it("exports date attribute with format as date cell", () => {
             const testDate = new Date("2024-06-15T10:30:00Z");
             const col = column("Created", c => {
