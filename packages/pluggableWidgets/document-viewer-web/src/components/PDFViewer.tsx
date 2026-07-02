@@ -181,7 +181,7 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
         setCurrentPage
     );
 
-    const highlightRects = usePDFHighlightPositions(pdfDoc, currentPage, zoomLevel, matches, currentMatchIndex);
+    const highlightRects = usePDFHighlightPositions(pdfDoc, currentPage, zoomLevel, matches);
 
     const searchMatchLabel = debouncedQuery.trim()
         ? isSearching
@@ -321,10 +321,12 @@ const PDFViewer: DocRendererElement = (props: DocumentRendererProps) => {
                 >
                     <div className="widget-document-viewer-highlight-layer">
                         <Page pageNumber={currentPage} scale={zoomLevel} />
-                        {highlightRects.map((rect, i) => (
+                        {highlightRects.map(rect => (
                             <div
-                                key={i}
-                                className={`widget-document-viewer-highlight${rect.isCurrent ? " current" : ""}`}
+                                key={rect.globalMatchIndex}
+                                className={`widget-document-viewer-highlight${
+                                    rect.globalMatchIndex === currentMatchIndex ? " current" : ""
+                                }`}
                                 style={{
                                     left: rect.x,
                                     top: rect.y,
