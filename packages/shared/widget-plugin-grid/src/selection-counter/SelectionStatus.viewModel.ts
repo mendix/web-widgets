@@ -1,4 +1,3 @@
-import { ComputedAtom } from "@mendix/widget-plugin-mobx-kit/main";
 import { makeAutoObservable } from "mobx";
 
 /**

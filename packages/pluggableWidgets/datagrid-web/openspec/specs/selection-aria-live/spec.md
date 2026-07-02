@@ -1,6 +1,6 @@
 ## ADDED Requirements
 
-### Requirement: Status region announces selection count changes
+### Requirement: [WCAG 4.1.3] Status region announces selection count changes
 
 The DataGrid widget SHALL include a status region (using `role="status"` or `aria-live="polite"`) in the footer that announces the current selection count to screen reader users whenever the selection state changes.
 
@@ -24,7 +24,7 @@ The DataGrid widget SHALL include a status region (using `role="status"` or `ari
 - **WHEN** user clears all selected rows via the "Clear selection" button
 - **THEN** screen reader announces "0 items selected"
 
-### Requirement: Aria-live region always present when selection enabled
+### Requirement: [WCAG 4.1.3] Aria-live region always present when selection enabled
 
 The aria-live region SHALL be rendered in the DOM whenever the selection feature is enabled, regardless of the visual selection counter's visibility setting.
 
@@ -43,7 +43,7 @@ The aria-live region SHALL be rendered in the DOM whenever the selection feature
 - **WHEN** selection is disabled (`selectionType` is "None")
 - **THEN** aria-live region is not rendered
 
-### Requirement: Announcement text uses selection status logic
+### Requirement: [WCAG 4.1.3] Announcement text uses selection status logic
 
 The status region SHALL use the same text logic as the select-all bar, distinguishing between partial selection and all-items-selected states.
 
@@ -72,7 +72,7 @@ The status region SHALL use the same text logic as the select-all bar, distingui
 - **WHEN** SelectAllBar shows "All 100 rows selected."
 - **THEN** status region announces the same text "All 100 rows selected."
 
-### Requirement: Status region uses polite priority
+### Requirement: [WCAG 4.1.3] Status region uses polite priority
 
 The status region SHALL use `role="status"` (which implies `aria-live="polite"` and `aria-atomic="true"`) to avoid interrupting screen reader announcements.
 
@@ -86,7 +86,7 @@ The status region SHALL use `role="status"` (which implies `aria-live="polite"` 
 - **WHEN** selection count changes from "2 items selected" to "3 items selected"
 - **THEN** screen reader announces the complete new text "3 items selected" (not just "3")
 
-### Requirement: Status region is visually hidden
+### Requirement: [WCAG 4.1.3] Status region is visually hidden
 
 The status region SHALL be visually hidden using appropriate CSS techniques while remaining accessible to screen readers (e.g., `sr-only` class or similar).
 
@@ -100,7 +100,7 @@ The status region SHALL be visually hidden using appropriate CSS techniques whil
 - **WHEN** the status region is rendered
 - **THEN** it does not take up visual space or affect the footer layout
 
-### Requirement: Status message provides context without focus change
+### Requirement: [WCAG 4.1.3] Status message provides context without focus change
 
 The selection count announcement SHALL qualify as a WCAG 4.1.3 status message by providing information without causing a change of context or receiving focus.
 
