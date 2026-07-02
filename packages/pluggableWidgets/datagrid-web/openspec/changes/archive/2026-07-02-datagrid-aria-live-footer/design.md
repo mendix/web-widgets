@@ -9,6 +9,7 @@ The DataGrid uses a dependency injection system (brandi) with tokens defined in 
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Add status region (`role="status"`) that announces selection count changes to screen readers per WCAG 4.1.3
 - Place the status region in the footer, separate from the visual counter, so announcements work even when the counter is hidden
 - Add `aria-label` to the select-all checkbox in the header to provide context to screen reader users
@@ -16,6 +17,7 @@ The DataGrid uses a dependency injection system (brandi) with tokens defined in 
 - Ensure announcements are concise, atomic (complete messages), and don't spam screen readers
 
 **Non-Goals:**
+
 - Modifying the existing visual selection counter UI or checkbox appearance
 - Adding aria-live announcements for other grid events (sorting, filtering, pagination)
 - Changing the selection behavior or API
@@ -30,6 +32,7 @@ The DataGrid uses a dependency injection system (brandi) with tokens defined in 
 **Why:** The aria-live region must always be present in the DOM when selection is enabled, even if the visual counter is hidden. Screen readers ignore DOM mutations to aria-live regions that are added/removed dynamically. By placing it in the footer unconditionally, we ensure announcements work regardless of the `selectionCounterPosition` prop.
 
 **Alternatives considered:**
+
 - Render inside `SelectionCounter` component → rejected because the counter is conditionally rendered based on position (top/bottom/off)
 - Render in widget root → rejected because it would be far from the visual counter semantically, and the footer already controls selection-related UI
 
@@ -40,12 +43,14 @@ The DataGrid uses a dependency injection system (brandi) with tokens defined in 
 **Why:** The select-all module already computes these values in `select-all.model.ts`, but they are tightly coupled to the select-all feature. The status region needs the same selection state AND the same text logic without depending on select-all (which is optional). Extracting to a shared model allows both features to reuse the same logic.
 
 **Critical:** The status region must use the same text logic as `selectAllTextsStore.selectionStatus`, which returns:
+
 - `allSelectedText` when `isAllItemsSelected` is true ("All 100 rows selected.")
 - `selectedCountText` otherwise ("50 items selected")
 
 Without this, the status region would announce "100 items selected" when the visual SelectAllBar shows "All 100 rows selected", causing a mismatch.
 
 **Alternatives considered:**
+
 - Duplicate logic in selection-counter feature → rejected to avoid divergence and maintenance burden
 - Make aria-live depend on select-all → rejected because select-all is an optional feature
 - Only use `selectedCountText` → rejected, misses "all items selected" case
@@ -55,11 +60,13 @@ Without this, the status region would announce "100 items selected" when the vis
 **Decision:** Use `role="status"` rather than explicit `aria-live="polite"`.
 
 **Why:** Per WCAG 4.1.3 (Status Messages), selection count changes qualify as status messages (providing information on action results without causing a change of context). The `role="status"` is semantically correct and implicitly provides `aria-live="polite"` and `aria-atomic="true"`, ensuring:
+
 - Screen readers announce the entire message ("3 items selected") not just the number
 - Announcements are polite (non-interrupting)
 - The semantic role conveys intent more clearly than just aria-live
 
 **Alternatives considered:**
+
 - `aria-live="polite"` alone → less semantic, requires explicit `aria-atomic="true"`
 - `role="alert"` → rejected, reserved for urgent warnings/errors per WCAG guidance
 
@@ -74,12 +81,14 @@ Without this, the status region would announce "100 items selected" when the vis
 **Decision:** The status region must read from `selectionStatus` (which handles the "all items selected" case), not directly from `selectedCountText`.
 
 **Why:** This prevents the mismatch bug found in code review: if the status region only reads `selectedCountText`, it would announce "100 items selected" even when `isAllItemsSelected` is true and the visual SelectAllBar shows "All 100 rows selected." The `selectionStatus` logic correctly returns:
+
 - `allSelectedText` when all items across pages are selected
 - `selectedCountText` otherwise (partial selection)
 
 **Implementation:** Extract the `selectionStatus` computed property from `selectAllTextsStore` into the shared selection model so both the SelectAllBar and the status region use the same logic.
 
 **Alternatives considered:**
+
 - Read only `selectedCountText` → rejected, causes announcement/visual mismatch
 - Duplicate the logic in status component → rejected, violates DRY and risks divergence
 
@@ -90,6 +99,7 @@ Without this, the status region would announce "100 items selected" when the vis
 **Why:** The checkbox already conveys its checked state through the native `checked` attribute, which screen readers announce automatically. The aria-label only needs to identify the purpose of the checkbox. Adding dynamic text (e.g., "Deselect all rows") would be redundant since screen readers already say "checked" or "not checked."
 
 **Alternatives considered:**
+
 - Dynamic aria-label that changes between "Select all" and "Deselect all" → rejected as redundant with native checkbox state
 - Make the text configurable via widget XML property → deferred for now (can add later if localization is needed)
 
@@ -98,11 +108,13 @@ Without this, the status region would announce "100 items selected" when the vis
 **Decision:** Verify that all selection controls are fully keyboard accessible with proper focus management and keyboard interaction patterns.
 
 **Why:** Per WCAG 2.1.1 (Keyboard), all functionality must be operable through keyboard. There are three selection controls that must be keyboard accessible:
+
 1. **Select-all checkbox** (header) - selects current page rows
 2. **"Select all rows" button** (SelectAllBar) - selects across all pages
 3. **"Clear selection" button** (SelectAllBar) - clears all selections
 
 **Requirements for checkbox:**
+
 - Checkbox is in the tab order (not `tabindex="-1"` unless part of roving tabindex pattern)
 - Space key toggles the checkbox state
 - Enter key also works for activation (browser default)
@@ -110,6 +122,7 @@ Without this, the status region would announce "100 items selected" when the vis
 - Works with grid keyboard navigation (if applicable)
 
 **Requirements for SelectAllBar buttons:**
+
 - Buttons are native `<button>` elements (inherently keyboard accessible)
 - Both are in the tab order
 - Enter/Space keys activate the buttons (browser default)
@@ -117,9 +130,46 @@ Without this, the status region would announce "100 items selected" when the vis
 - No `disabled` attribute unless functionally disabled
 
 **Verification:**
+
 - Manual keyboard testing (Tab through all controls, Space/Enter to activate)
 - E2E tests covering keyboard interaction with checkbox and buttons
 - Verify tab order: checkbox → other grid controls → SelectAllBar buttons
+
+### 8. Use aria-disabled instead of native disabled on SelectAllBar button
+
+**Decision:** Use `aria-disabled="true"` with a click guard instead of the native `disabled` attribute during async "select all pages" operation.
+
+**Why:** The native `disabled` attribute causes the browser to remove focus from the button (per HTML spec). Since the button label changes from "Select all" to "Clear selection" after the async operation completes, the user needs focus to remain on the button to hear the label change via `aria-live`. Using `aria-disabled` keeps the button in the tab order and retains focus while preventing re-activation.
+
+**Alternatives considered:**
+
+- Native `disabled` → rejected, causes focus loss (browser blurs disabled elements)
+- Remove button and re-render → rejected, same focus loss issue
+
+### 9. Add aria-live="assertive" to SelectAllBar button
+
+**Decision:** Add `aria-live="assertive"` directly on the button element so screen readers announce the label change when it transitions between "Select all" and "Clear selection".
+
+**Why:** VoiceOver (and most screen readers) only announce an element's accessible name when focus arrives on it. Changing the text of a focused button doesn't trigger a re-read. The `aria-live="assertive"` forces announcement of the new label immediately.
+
+**Alternatives considered:**
+
+- Rely on status region alone → rejected, the status region announces count but not the button's action change
+- Move focus away and back → rejected, hacky and causes flicker
+- `aria-live="polite"` → rejected, the label change is a direct result of user action and should be announced immediately
+
+### 10. Return focus to logical element when SelectAllBar disappears
+
+**Decision:** When "Clear selection" removes the SelectAllBar from the DOM, return focus to the select-all checkbox (if present) or the grid's active cell (roving tabindex element with `tabindex="0"`).
+
+**Why:** Per WAI-ARIA APG guidance, when a focused element is removed from the DOM, focus should return to a logical trigger rather than falling to `document.body`. The select-all checkbox is the logical trigger for grids with checkboxes. For grids without checkboxes (row-click selection), the active cell in the roving tabindex pattern is the best target.
+
+**Implementation:** Shared utility `src/utils/focus-return.ts` with `returnFocusToGrid()` that searches for checkbox first, falls back to active cell. Used by both the SelectAllBar and the footer SelectionCounter.
+
+**Alternatives considered:**
+
+- Focus the first focusable element → rejected, not semantically meaningful
+- Focus the grid container → rejected, doesn't integrate with roving tabindex pattern
 
 ## Risks / Trade-offs
 
@@ -134,10 +184,11 @@ Without this, the status region would announce "100 items selected" when the vis
 
 **[Trade-off: Duplication of selection count text]**
 The status region duplicates the text shown in the visual counter. This is necessary because:
+
 - The visual counter may be hidden (`position: "off"`)
 - Screen readers need the count in a status region, not just visually rendered text
 - WCAG 4.1.3 requires status messages to be programmatically determinable through role or properties
-→ Acceptable trade-off for accessibility compliance
+  → Acceptable trade-off for accessibility compliance
 
 **[Trade-off: Extracting selection model adds indirection]**
 Moving selection logic to `widget-plugin-grid` adds a layer of abstraction. However, this is consistent with the existing pattern (select-all feature is already in `widget-plugin-grid`), and the logic is now reusable across multiple features.

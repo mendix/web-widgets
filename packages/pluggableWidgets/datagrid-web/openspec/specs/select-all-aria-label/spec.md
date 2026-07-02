@@ -1,6 +1,6 @@
 ## ADDED Requirements
 
-### Requirement: Select-all checkbox has descriptive aria-label
+### Requirement: [WCAG 4.1.2] Select-all checkbox has descriptive aria-label
 
 The DataGrid widget SHALL include an `aria-label` attribute on the select-all checkbox in the table header that describes its purpose to screen reader users.
 
@@ -19,7 +19,7 @@ The DataGrid widget SHALL include an `aria-label` attribute on the select-all ch
 - **WHEN** all rows are selected and the checkbox is checked
 - **THEN** screen reader announces the checkbox as checked with the aria-label
 
-### Requirement: Aria-label text is configurable
+### Requirement: [i18n] Aria-label text is configurable
 
 The aria-label text for the select-all checkbox SHALL be configurable via widget properties to support internationalization.
 
@@ -33,7 +33,7 @@ The aria-label text for the select-all checkbox SHALL be configurable via widget
 - **WHEN** widget property `selectAllAriaLabel` is not configured
 - **THEN** the select-all checkbox uses default text "Select all rows" as aria-label
 
-### Requirement: Aria-label updates with select-all state
+### Requirement: [WCAG 4.1.2] Aria-label updates with select-all state
 
 The aria-label SHALL reflect whether the action will select or deselect all rows.
 
@@ -47,7 +47,7 @@ The aria-label SHALL reflect whether the action will select or deselect all rows
 - **WHEN** all rows on current page are selected
 - **THEN** aria-label could indicate deselection (e.g., "Deselect all rows") or remain generic
 
-### Requirement: Select-all checkbox is keyboard accessible
+### Requirement: [WCAG 2.1.1] Select-all checkbox is keyboard accessible
 
 The select-all checkbox SHALL be fully operable via keyboard per WCAG 2.1.1 (Keyboard).
 
@@ -71,7 +71,7 @@ The select-all checkbox SHALL be fully operable via keyboard per WCAG 2.1.1 (Key
 - **WHEN** DataGrid has keyboard navigation enabled (arrow keys, etc.)
 - **THEN** select-all checkbox integrates correctly with focus management (not trapped or skipped)
 
-### Requirement: SelectAllBar buttons are keyboard accessible
+### Requirement: [WCAG 2.1.1] SelectAllBar buttons are keyboard accessible
 
 The "Select all rows" and "Clear selection" buttons in the SelectAllBar SHALL be fully operable via keyboard per WCAG 2.1.1 (Keyboard).
 
@@ -99,3 +99,69 @@ The "Select all rows" and "Clear selection" buttons in the SelectAllBar SHALL be
 
 - **WHEN** user tabs through the DataGrid
 - **THEN** tab order flows logically: header checkbox → grid controls → SelectAllBar buttons
+
+### Requirement: [WCAG 4.1.3] SelectAllBar button announces label change via aria-live
+
+The "Select all" / "Clear selection" button in the SelectAllBar SHALL have `aria-live="assertive"` so screen readers announce the label change when it transitions between states.
+
+#### Scenario: Button label change announced after selecting all
+
+- **WHEN** user clicks "Select all" and the button label changes to "Clear selection"
+- **THEN** screen reader announces the new label "Clear selection" without requiring re-focus
+
+#### Scenario: Button has aria-live attribute
+
+- **WHEN** the SelectAllBar button is rendered
+- **THEN** it has `aria-live="assertive"` attribute
+
+### Requirement: [WAI-ARIA APG] Focus returns to logical element when SelectAllBar disappears
+
+When the "Clear selection" button is activated and the SelectAllBar is removed from the DOM, focus SHALL return to a logical trigger element per WAI-ARIA APG focus management guidance.
+
+#### Scenario: Clear selection returns focus to select-all checkbox (checkbox grid)
+
+- **WHEN** grid has a select-all checkbox column and user clicks "Clear selection" in the SelectAllBar
+- **THEN** focus returns to the select-all checkbox in the header
+
+#### Scenario: Clear selection returns focus to active cell (no-checkbox grid)
+
+- **WHEN** grid uses row-click selection without checkboxes and user clicks "Clear selection" in the SelectAllBar
+- **THEN** focus returns to the grid's active cell (element with `tabindex="0"` managed by roving tabindex)
+
+#### Scenario: Footer clear selection returns focus to checkbox
+
+- **WHEN** grid has a select-all checkbox and user clicks "Clear selection" in the footer counter
+- **THEN** focus returns to the select-all checkbox in the header
+
+#### Scenario: Footer clear selection returns focus to active cell (no-checkbox grid)
+
+- **WHEN** grid uses row-click selection without checkboxes and user clicks "Clear selection" in the footer
+- **THEN** focus returns to the grid's active cell
+
+#### Scenario: Focus does not fall to body after clear
+
+- **WHEN** user clears selection from any "Clear selection" button
+- **THEN** focus does not fall to the document body
+
+### Requirement: [WCAG 2.4.7] SelectAllBar button uses aria-disabled instead of disabled
+
+The SelectAllBar button SHALL use `aria-disabled="true"` instead of the native `disabled` attribute during the pending "select all pages" operation, to prevent the browser from removing focus.
+
+#### Scenario: Button remains focusable during async operation
+
+- **WHEN** "Select all" is clicked and the async operation is in progress
+- **THEN** the button has `aria-disabled="true"` and focus remains on the button
+
+#### Scenario: Click is ignored when aria-disabled
+
+- **WHEN** button has `aria-disabled="true"` and user clicks it
+- **THEN** the click handler returns early without triggering another action
+
+### Requirement: [WCAG 2.4.7] SelectAllBar buttons have visible focus indicators
+
+The SelectAllBar buttons SHALL have visible `:focus-visible` outline matching the standard datagrid focus style (`1px solid var(--brand-primary)`).
+
+#### Scenario: Button shows focus outline on keyboard focus
+
+- **WHEN** user tabs to the SelectAllBar button
+- **THEN** a `1px solid` brand-primary outline is visible around the button

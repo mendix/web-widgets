@@ -41,14 +41,11 @@ export interface ObservableSelectAllTexts {
 /** @injectable */
 export function selectAllTextsStore(
     gate: DerivedPropsGate<{
-        allSelectedText?: DynamicValue<string>;
         selectAllTemplate?: DynamicValue<string>;
         selectAllText?: DynamicValue<string>;
     }>,
-    selectedCount: ComputedAtom<number>,
-    selectedTexts: { selectedCountText: string },
     totalCount: ComputedAtom<number>,
-    isAllItemsSelected: ComputedAtom<boolean>
+    selectionStatus: { selectionStatus: string }
 ): ObservableSelectAllTexts {
     return observable({
         get selectAllLabel() {
@@ -59,13 +56,7 @@ export function selectAllTextsStore(
             return selectAllText;
         },
         get selectionStatus() {
-            if (isAllItemsSelected.get()) return this.allSelectedText;
-            return selectedTexts.selectedCountText;
-        },
-        get allSelectedText() {
-            const str = gate.props.allSelectedText?.value ?? "All %d rows selected.";
-            const count = selectedCount.get();
-            return str.replace("%d", `${count}`);
+            return selectionStatus.selectionStatus;
         }
     });
 }

@@ -19,6 +19,7 @@ export const WidgetFooter = observer(function WidgetFooter(): ReactElement | nul
     const customPagination = useCustomPagination();
 
     const showFooter =
+        selectionStatusVM.isVisible ||
         selectionCounterVM.isBottomCounterVisible ||
         paging.paginationVisible ||
         paging.loadMoreVisible ||
