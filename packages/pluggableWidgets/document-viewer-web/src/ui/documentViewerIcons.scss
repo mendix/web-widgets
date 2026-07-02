@@ -46,18 +46,3 @@ div.widget-document-viewer {
         }
     }
 }
-// Search toggle button — pressed state via aria-pressed so Atlas hover/focus work normally
-//     .widget-document-viewer-search-toggle {
-//         &[aria-pressed="true"] {
-//             background-color: var(--brand-primary, #264ae5);
-//             color: #fff;
-//             border-radius: var(--border-radius-default);
-
-//             &:hover,
-//             &:focus-visible {
-//                 background-color: var(--brand-primary-dark, #1a36c4);
-//                 color: #fff;
-//             }
-//         }
-//     }
-// }
