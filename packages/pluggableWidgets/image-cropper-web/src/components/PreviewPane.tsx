@@ -1,10 +1,12 @@
 import { ReactElement, useEffect, useRef } from "react";
 import type { PixelCrop } from "react-image-crop";
+import { computeSourceRect, type ZoomAnchor } from "../utils/cropImage";
 
 interface PreviewPaneProps {
     image: HTMLImageElement | null;
     pixelCrop: PixelCrop | undefined;
     zoom: number;
+    zoomAnchor?: ZoomAnchor;
     width: number;
     height: number;
     circle: boolean;
@@ -15,6 +17,7 @@ export function PreviewPane({
     image,
     pixelCrop,
     zoom,
+    zoomAnchor,
     width,
     height,
     circle,
@@ -43,9 +46,6 @@ export function PreviewPane({
             // Why: drawImage with a 0-sized source rect throws IndexSizeError in node-canvas / older Safari.
             return;
         }
-        const scaleX = image.naturalWidth / image.width;
-        const scaleY = image.naturalHeight / image.height;
-        const z = zoom > 0 ? zoom : 1;
         if (grayscale) {
             ctx.filter = "grayscale(1)";
         }
@@ -54,18 +54,9 @@ export function PreviewPane({
             ctx.ellipse(width / 2, height / 2, width / 2, height / 2, 0, 0, Math.PI * 2);
             ctx.clip();
         }
-        ctx.drawImage(
-            image,
-            (pixelCrop.x / z) * scaleX,
-            (pixelCrop.y / z) * scaleY,
-            (pixelCrop.width / z) * scaleX,
-            (pixelCrop.height / z) * scaleY,
-            0,
-            0,
-            width,
-            height
-        );
-    }, [image, pixelCrop, zoom, width, height, circle, grayscale]);
+        const { sx, sy, sw, sh } = computeSourceRect(pixelCrop, image, zoom, zoomAnchor);
+        ctx.drawImage(image, sx, sy, sw, sh, 0, 0, width, height);
+    }, [image, pixelCrop, zoom, zoomAnchor, width, height, circle, grayscale]);
 
     return <canvas ref={canvasRef} className="widget-image-cropper__preview" width={width} height={height} />;
 }

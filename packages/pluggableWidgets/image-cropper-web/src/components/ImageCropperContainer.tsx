@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { ValueStatus } from "mendix";
-import { ReactElement, SetStateAction, useCallback, useEffect, useRef } from "react";
+import { ReactElement, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 import { type Crop, type PixelCrop } from "react-image-crop";
 import { CropArea } from "./CropArea";
 import { CropToolbar } from "./CropToolbar";
@@ -11,7 +11,7 @@ import { useImageCropperState } from "../hooks/useImageCropperState";
 import { useOriginalImage } from "../hooks/useOriginalImage";
 import { usePreviewSrc } from "../hooks/usePreviewSrc";
 import { resolveAspectRatio } from "../utils/aspectRatio";
-import { cropImage, CropError } from "../utils/cropImage";
+import { cropImage, CropError, CENTER_ANCHOR, type ZoomAnchor } from "../utils/cropImage";
 import { buildInitialCrop } from "../utils/initialCrop";
 import { rotateImage } from "../utils/rotateImage";
 
@@ -27,6 +27,16 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
     const grayscaleRef = useRef(state.grayscale);
     grayscaleRef.current = state.grayscale;
     const userDraggedRef = useRef(false);
+    // Live crop mirror so handleZoomChange (stable identity) can read the box's current center.
+    const liveCropRef = useRef<Crop | undefined>(undefined);
+    liveCropRef.current = state.liveCrop;
+
+    // Fixed point of the zoom, captured from the box center when zoom changes and frozen while the
+    // box moves/draws (so the image stays stable). State drives CropArea's transformOrigin; the ref
+    // mirror lets applyCrop's stable closure read it for the matching export math.
+    const [zoomAnchor, setZoomAnchor] = useState<ZoomAnchor>(CENTER_ANCHOR);
+    const zoomAnchorRef = useRef(zoomAnchor);
+    zoomAnchorRef.current = zoomAnchor;
 
     const applyCrop = useCallback(async () => {
         const img = state.imageRef.current;
@@ -45,6 +55,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 image: img,
                 pixelCrop: committedCrop,
                 zoom: zoomRef.current,
+                zoomAnchor: zoomAnchorRef.current,
                 outputFormat: props.outputFormat,
                 outputQuality: Number(props.outputQuality),
                 outputSize: props.outputSize,
@@ -88,6 +99,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
     const handleImageLoad = useCallback(
         (percentCrop: Crop, pixelCrop: PixelCrop) => {
             setZoom(Number(props.minZoom));
+            setZoomAnchor(CENTER_ANCHOR);
             setLiveCrop(percentCrop);
             setCommittedCrop(pixelCrop);
             armed();
@@ -131,6 +143,12 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
 
     const handleZoomChange = useCallback(
         (next: SetStateAction<number>) => {
+            // Freeze the zoom anchor at the current box center. Recomputing it only here (not while
+            // the box moves) keeps the image stable during drags/draws but still zooms into the box.
+            const live = liveCropRef.current;
+            if (live && live.unit === "%") {
+                setZoomAnchor({ x: (live.x + live.width / 2) / 100, y: (live.y + live.height / 2) / 100 });
+            }
             setZoom(next);
             auto.applyDebounced();
         },
@@ -193,6 +211,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
 
     const handleReset = useCallback(() => {
         setZoom(Number(props.minZoom));
+        setZoomAnchor(CENTER_ANCHOR);
         setGrayscale(false);
         armed(); // do not auto-apply the reset itself
         const file = original.getOriginal();
@@ -276,6 +295,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 minZoom={Number(props.minZoom)}
                 maxZoom={Number(props.maxZoom)}
                 setZoom={handleZoomChange}
+                zoomAnchor={zoomAnchor}
                 wheelZoomMode={props.zoomEnabled ? props.wheelZoomMode : "off"}
                 grayscale={state.grayscale}
                 imageRef={state.imageRef}
@@ -301,6 +321,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                     image={state.imageRef.current}
                     pixelCrop={state.committedCrop}
                     zoom={state.zoom}
+                    zoomAnchor={zoomAnchor}
                     width={props.previewWidth}
                     height={props.previewHeight}
                     circle={props.cropShape === "circle"}
