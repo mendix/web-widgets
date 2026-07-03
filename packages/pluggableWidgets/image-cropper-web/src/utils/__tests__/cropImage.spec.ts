@@ -110,13 +110,15 @@ describe("cropImage", () => {
         expect(dy).toBe(0);
     });
 
-    test("divides source rect by zoom factor when zoom > 1", async () => {
+    test("zoom shrinks source rect by 1/z around the anchor (anchor == box center)", async () => {
         const img = makeImg(1000, 800, 1000, 800);
         const calls = await captureDrawImageCalls(() =>
             cropImage({
                 image: img,
                 pixelCrop: { unit: "px", x: 100, y: 100, width: 200, height: 200 },
                 zoom: 2,
+                // box center (200,200) as fractions of the displayed image
+                zoomAnchor: { x: 0.2, y: 0.25 },
                 outputFormat: "png",
                 outputQuality: 1,
                 outputSize: "original",
@@ -127,10 +129,66 @@ describe("cropImage", () => {
             })
         );
         const [, sx, sy, sw, sh] = calls[0];
-        expect(sx).toBe(50);
-        expect(sy).toBe(50);
+        // anchor == box center (200,200); at z=2 the window is 100x100, centered on (200,200):
+        // sx = 200 - 100/2 = 150.
         expect(sw).toBe(100);
         expect(sh).toBe(100);
+        expect(sx).toBe(150);
+        expect(sy).toBe(150);
+        expect(sx + sw / 2).toBe(200);
+        expect(sy + sh / 2).toBe(200);
+    });
+
+    test("keeps a frozen off-center anchor fixed while the box sits elsewhere", async () => {
+        const img = makeImg(1000, 800, 1000, 800);
+        const calls = await captureDrawImageCalls(() =>
+            cropImage({
+                image: img,
+                // box is NOT centered on the anchor — simulates moving the box after zooming
+                pixelCrop: { unit: "px", x: 100, y: 100, width: 200, height: 200 },
+                zoom: 2,
+                // anchor frozen at natural point ox=0.5*1000=500, oy=0.4*800=320
+                zoomAnchor: { x: 0.5, y: 0.4 },
+                outputFormat: "png",
+                outputQuality: 1,
+                outputSize: "original",
+                cropShape: "rect",
+                viewportWidth: 300,
+                viewportHeight: 300,
+                grayscale: false
+            })
+        );
+        const [, sx, sy, sw, sh] = calls[0];
+        // sx = ox + (cropX - ox)/z = 500 + (100 - 500)/2 = 300; sy = 320 + (100 - 320)/2 = 210.
+        expect(sw).toBe(100);
+        expect(sh).toBe(100);
+        expect(sx).toBe(300);
+        expect(sy).toBe(210);
+    });
+
+    test("clamps the source rect into the image when zoomed out (z < 1)", async () => {
+        const img = makeImg(1000, 800, 1000, 800);
+        const calls = await captureDrawImageCalls(() =>
+            cropImage({
+                image: img,
+                // small box near the top-left corner, zoomed out so the read window exceeds it
+                pixelCrop: { unit: "px", x: 20, y: 20, width: 100, height: 100 },
+                zoom: 0.5,
+                outputFormat: "png",
+                outputQuality: 1,
+                outputSize: "original",
+                cropShape: "rect",
+                viewportWidth: 300,
+                viewportHeight: 300,
+                grayscale: false
+            })
+        );
+        const [, sx, sy, sw, sh] = calls[0];
+        // z=0.5 → window 200x200; centered on (70,70) would give sx=-30, clamped to 0.
+        expect(sw).toBe(200);
+        expect(sh).toBe(200);
+        expect(sx).toBe(0);
+        expect(sy).toBe(0);
     });
 
     test("returns a valid File when cropShape is circle", async () => {

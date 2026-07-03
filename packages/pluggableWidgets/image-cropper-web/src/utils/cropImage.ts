@@ -8,10 +8,64 @@ export class CropError extends Error {
     }
 }
 
+export interface SourceRect {
+    sx: number;
+    sy: number;
+    sw: number;
+    sh: number;
+}
+
+// Fixed point of the CSS zoom, as fractions (0..1) of the displayed image. The center of the
+// initial cropbox is {x: 0.5, y: 0.5}. Owned by the container so display and export share it.
+export interface ZoomAnchor {
+    x: number;
+    y: number;
+}
+
+// Default anchor (image center) for callers that predate frozen anchors / have none yet.
+export const CENTER_ANCHOR: ZoomAnchor = { x: 0.5, y: 0.5 };
+
+/**
+ * Maps the crop box (in the displayed image's unscaled layout px) to a source rectangle on the
+ * natural image. Zoom is a CSS `transform: scale(z)` anchored on `anchor` (a fixed point that
+ * stays put on screen while scaling), so the visible region shrinks by 1/z about that point.
+ * Shared by cropImage (export) and PreviewPane so exported pixels match the on-screen framing.
+ * Result is clamped to the image. When anchor == the crop-box center this reduces to the plain
+ * "zoom into the box" mapping.
+ */
+export function computeSourceRect(
+    pixelCrop: PixelCrop,
+    image: HTMLImageElement,
+    zoom: number,
+    anchor: ZoomAnchor = CENTER_ANCHOR
+): SourceRect {
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    const z = zoom > 0 ? zoom : 1;
+
+    const sw = (pixelCrop.width / z) * scaleX;
+    const sh = (pixelCrop.height / z) * scaleY;
+
+    // Anchor in natural px (anchor is a fraction of the displayed image; * width * scaleX == * natural).
+    const ox = anchor.x * image.naturalWidth;
+    const oy = anchor.y * image.naturalHeight;
+    // Invert screen = O + z·(layout − O): the layout point under the crop box top-left is
+    // O + (cropTopLeft − O)/z. Collapses to (center − sw/2) when the anchor is the box center.
+    let sx = ox + (pixelCrop.x * scaleX - ox) / z;
+    let sy = oy + (pixelCrop.y * scaleY - oy) / z;
+
+    // Keep the read window inside the image (guards zoom-out, z<1, from reading off-canvas).
+    sx = Math.max(0, Math.min(sx, image.naturalWidth - sw));
+    sy = Math.max(0, Math.min(sy, image.naturalHeight - sh));
+
+    return { sx, sy, sw, sh };
+}
+
 export interface CropImageOptions {
     image: HTMLImageElement;
     pixelCrop: PixelCrop;
     zoom: number;
+    zoomAnchor?: ZoomAnchor;
     outputFormat: OutputFormatEnum;
     outputQuality: number;
     outputSize: OutputSizeEnum;
@@ -27,6 +81,7 @@ export async function cropImage(options: CropImageOptions): Promise<File> {
         image,
         pixelCrop,
         zoom,
+        zoomAnchor,
         outputFormat,
         outputQuality,
         outputSize,
@@ -41,14 +96,7 @@ export async function cropImage(options: CropImageOptions): Promise<File> {
         throw new CropError("Image not loaded.");
     }
 
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
-    const z = zoom > 0 ? zoom : 1;
-
-    const sx = (pixelCrop.x / z) * scaleX;
-    const sy = (pixelCrop.y / z) * scaleY;
-    const sw = (pixelCrop.width / z) * scaleX;
-    const sh = (pixelCrop.height / z) * scaleY;
+    const { sx, sy, sw, sh } = computeSourceRect(pixelCrop, image, zoom, zoomAnchor);
 
     const destW = Math.max(1, Math.round(outputSize === "viewport" ? viewportWidth : sw));
     const destH = Math.max(1, Math.round(outputSize === "viewport" ? viewportHeight : sh));

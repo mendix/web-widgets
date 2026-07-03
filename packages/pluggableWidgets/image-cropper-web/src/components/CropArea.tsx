@@ -1,15 +1,10 @@
 import { Dispatch, ReactElement, Ref, SetStateAction, SyntheticEvent, useCallback, useState } from "react";
-import {
-    default as ReactCrop,
-    centerCrop,
-    convertToPixelCrop,
-    makeAspectCrop,
-    type Crop,
-    type PixelCrop
-} from "react-image-crop";
+import { default as ReactCrop, type Crop, type PixelCrop } from "react-image-crop";
 import { ZoomContainer } from "./ZoomContainer";
 import { WheelZoomModeEnum } from "../../typings/ImageCropperProps";
+import { CENTER_ANCHOR, type ZoomAnchor } from "../utils/cropImage";
 import { isStrayCrop, MIN_CROP_PX } from "../utils/cropGuard";
+import { buildInitialCrop } from "../utils/initialCrop";
 import { safeImageUri } from "../utils/safeImageUri";
 
 export interface CropAreaProps {
@@ -25,29 +20,16 @@ export interface CropAreaProps {
     boundaryHeight: number;
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
     zoom: number;
+    // Fixed point of the zoom, as fractions (0..1) of the displayed image. Owned by the container
+    // and only re-derived when zoom changes, so moving/drawing the box never pans the image.
+    // Optional: static callers (editor preview) omit it and default to the image center.
+    zoomAnchor?: ZoomAnchor;
     minZoom: number;
     maxZoom: number;
     setZoom: Dispatch<SetStateAction<number>>;
     wheelZoomMode: WheelZoomModeEnum;
     grayscale: boolean;
     imageRef: Ref<HTMLImageElement>;
-}
-
-function buildInitialCrop(
-    img: HTMLImageElement,
-    aspect: number | undefined
-): { percentCrop: Crop; pixelCrop: PixelCrop } {
-    const { naturalWidth, naturalHeight, width, height } = img;
-    const safeAspect = aspect ?? naturalWidth / naturalHeight;
-    const percentCrop = centerCrop(
-        makeAspectCrop({ unit: "%", width: 80 }, safeAspect, naturalWidth, naturalHeight),
-        naturalWidth,
-        naturalHeight
-    );
-    return {
-        percentCrop,
-        pixelCrop: convertToPixelCrop(percentCrop, width, height)
-    };
 }
 
 function fitToBoundary(
@@ -60,18 +42,12 @@ function fitToBoundary(
         return { width: boundaryWidth, height: boundaryHeight };
     }
     const scale = Math.min(boundaryWidth / naturalWidth, boundaryHeight / naturalHeight);
-    return {
-        width: Math.round(naturalWidth * scale),
-        height: Math.round(naturalHeight * scale)
-    };
+    return { width: Math.round(naturalWidth * scale), height: Math.round(naturalHeight * scale) };
 }
 
 export function CropArea(props: CropAreaProps): ReactElement {
     const [loadError, setLoadError] = useState(false);
-    const [displaySize, setDisplaySize] = useState<{
-        width: number;
-        height: number;
-    } | null>(null);
+    const [displaySize, setDisplaySize] = useState<{ width: number; height: number } | null>(null);
 
     const { aspect, onImageLoad, boundaryWidth, boundaryHeight, src } = props;
 
@@ -115,6 +91,13 @@ export function CropArea(props: CropAreaProps): ReactElement {
         [displaySize, onCropComplete]
     );
 
+    // Zoom is anchored on props.zoomAnchor (fractions of the displayed image), owned by the
+    // container and updated ONLY when the zoom value changes. transformOrigin is the one point
+    // scale() keeps fixed on screen, so a frozen anchor keeps the image stable while the box
+    // moves/draws; the same anchor drives the export math so saved pixels match the screen.
+    const anchor = props.zoomAnchor ?? CENTER_ANCHOR;
+    const transformOrigin = `${anchor.x * 100}% ${anchor.y * 100}%`;
+
     const safeSrc = safeImageUri(props.src);
 
     if (loadError || !safeSrc) {
@@ -156,7 +139,7 @@ export function CropArea(props: CropAreaProps): ReactElement {
                         maxWidth: displaySize ? undefined : props.boundaryWidth,
                         maxHeight: displaySize ? undefined : props.boundaryHeight,
                         transform: `scale(${props.zoom})`,
-                        transformOrigin: "center",
+                        transformOrigin,
                         filter: props.grayscale ? "grayscale(1)" : undefined
                     }}
                     onLoad={handleImageLoad}
