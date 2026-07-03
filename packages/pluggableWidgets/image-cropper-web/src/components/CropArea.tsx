@@ -9,6 +9,7 @@ import {
 } from "react-image-crop";
 import { ZoomContainer } from "./ZoomContainer";
 import { WheelZoomModeEnum } from "../../typings/ImageCropperProps";
+import { isStrayCrop, MIN_CROP_PX } from "../utils/cropGuard";
 import { safeImageUri } from "../utils/safeImageUri";
 
 export interface CropAreaProps {
@@ -43,7 +44,10 @@ function buildInitialCrop(
         naturalWidth,
         naturalHeight
     );
-    return { percentCrop, pixelCrop: convertToPixelCrop(percentCrop, width, height) };
+    return {
+        percentCrop,
+        pixelCrop: convertToPixelCrop(percentCrop, width, height)
+    };
 }
 
 function fitToBoundary(
@@ -56,12 +60,18 @@ function fitToBoundary(
         return { width: boundaryWidth, height: boundaryHeight };
     }
     const scale = Math.min(boundaryWidth / naturalWidth, boundaryHeight / naturalHeight);
-    return { width: Math.round(naturalWidth * scale), height: Math.round(naturalHeight * scale) };
+    return {
+        width: Math.round(naturalWidth * scale),
+        height: Math.round(naturalHeight * scale)
+    };
 }
 
 export function CropArea(props: CropAreaProps): ReactElement {
     const [loadError, setLoadError] = useState(false);
-    const [displaySize, setDisplaySize] = useState<{ width: number; height: number } | null>(null);
+    const [displaySize, setDisplaySize] = useState<{
+        width: number;
+        height: number;
+    } | null>(null);
 
     const { aspect, onImageLoad, boundaryWidth, boundaryHeight, src } = props;
 
@@ -79,6 +89,30 @@ export function CropArea(props: CropAreaProps): ReactElement {
             onImageLoad(percentCrop, pixelCrop);
         },
         [aspect, onImageLoad, boundaryWidth, boundaryHeight]
+    );
+
+    const { onCropChange, onCropComplete } = props;
+
+    // Ignore a stray click (a ~0-size crop from mousedown+mouseup with no drag) so the existing
+    // box survives — see isStrayCrop. Real drags clear the floor (also enforced by minWidth/minHeight).
+    const handleChange = useCallback(
+        (pixel: PixelCrop, percent: Crop) => {
+            if (isStrayCrop(pixel, displaySize)) {
+                return;
+            }
+            onCropChange(percent);
+        },
+        [displaySize, onCropChange]
+    );
+
+    const handleComplete = useCallback(
+        (pixel: PixelCrop) => {
+            if (isStrayCrop(pixel, displaySize)) {
+                return;
+            }
+            onCropComplete(pixel);
+        },
+        [displaySize, onCropComplete]
     );
 
     const safeSrc = safeImageUri(props.src);
@@ -103,13 +137,14 @@ export function CropArea(props: CropAreaProps): ReactElement {
         >
             <ReactCrop
                 crop={props.crop}
-                onChange={(_pixel, percent) => props.onCropChange(percent)}
-                onComplete={pixel => props.onCropComplete(pixel)}
+                onChange={(pixel, percent) => handleChange(pixel, percent)}
+                onComplete={pixel => handleComplete(pixel)}
                 onDragStart={() => props.onUserInteractStart?.()}
                 aspect={props.aspect}
                 circularCrop={props.circular}
                 disabled={!props.resizable}
-                keepSelection
+                minWidth={MIN_CROP_PX}
+                minHeight={MIN_CROP_PX}
             >
                 <img
                     ref={props.imageRef}
