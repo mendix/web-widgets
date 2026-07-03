@@ -6,7 +6,7 @@ import type { Crop, PixelCrop } from "react-image-crop";
 import { actionValue } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 
-// Integration test: proves grayscale reversibility after flip.
+// Integration test: proves grayscale reversibility after rotate.
 
 interface CapturedCropArea {
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
@@ -101,7 +101,7 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         boundaryWidth: 300,
         boundaryHeight: 300,
         resizableEnabled: true,
-        enableFlip: true,
+        enableRotation: true,
         enableGrayscale: true,
         showResetButton: true,
         zoomEnabled: true,
@@ -120,7 +120,7 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
     };
 }
 
-describe("<ImageCropper> grayscale reversibility after flip", () => {
+describe("<ImageCropper> grayscale reversibility after rotate", () => {
     beforeEach(() => {
         jest.useFakeTimers();
         rotateImageOptions.length = 0;
@@ -136,7 +136,7 @@ describe("<ImageCropper> grayscale reversibility after flip", () => {
         jest.clearAllMocks();
     });
 
-    test("flip with grayscale ON produces a COLOR working image (grayscale:false) so toggling off is reversible", async () => {
+    test("rotate with grayscale ON produces a COLOR working image (grayscale:false) so toggling off is reversible", async () => {
         render(<ImageCropper {...makeProps()} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
@@ -146,18 +146,18 @@ describe("<ImageCropper> grayscale reversibility after flip", () => {
         }); // ON
         rotateImageOptions.length = 0;
         await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
+            fireEvent.click(screen.getByLabelText("Rotate right"));
             await Promise.resolve();
             await Promise.resolve();
         });
         // The WORKING image (the one shown + reloaded into imageRef) must be COLOR.
-        // With approach B, handleFlip calls rotateImage twice: once color (working),
+        // With approach B, handleRotate calls rotateImage twice: once color (working),
         // once baked (commit). The color call is the one whose result feeds the preview.
         const colorWorkingCall = rotateImageOptions.some(o => o.grayscale === false);
         expect(colorWorkingCall).toBe(true);
     });
 
-    test("flip with grayscale ON still bakes a B&W file for the committed setValue", async () => {
+    test("rotate with grayscale ON still bakes a B&W file for the committed setValue", async () => {
         const image = makeImageProp();
         render(<ImageCropper {...makeProps({ image })} />);
         act(() => {
@@ -168,7 +168,7 @@ describe("<ImageCropper> grayscale reversibility after flip", () => {
         }); // ON
         rotateImageOptions.length = 0;
         await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
+            fireEvent.click(screen.getByLabelText("Rotate right"));
             await Promise.resolve();
             await Promise.resolve();
         });
@@ -177,14 +177,14 @@ describe("<ImageCropper> grayscale reversibility after flip", () => {
         expect(image.setValue).toHaveBeenCalledWith(expect.any(File));
     });
 
-    test("flip with grayscale OFF produces only a color file (no baked B&W)", async () => {
+    test("rotate with grayscale OFF produces only a color file (no baked B&W)", async () => {
         render(<ImageCropper {...makeProps()} />);
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
         rotateImageOptions.length = 0;
         await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
+            fireEvent.click(screen.getByLabelText("Rotate right"));
             await Promise.resolve();
             await Promise.resolve();
         });

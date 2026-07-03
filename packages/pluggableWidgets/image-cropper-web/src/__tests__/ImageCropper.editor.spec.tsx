@@ -24,7 +24,7 @@ function makePreviewProps(overrides: Partial<ImageCropperPreviewProps> = {}): Im
         previewWidth: null,
         previewHeight: null,
         resizableEnabled: true,
-        enableFlip: true,
+        enableRotation: true,
         enableGrayscale: true,
         showResetButton: true,
         zoomEnabled: true,

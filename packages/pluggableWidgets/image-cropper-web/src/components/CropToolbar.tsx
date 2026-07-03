@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { ReactElement } from "react";
 import { ZoomSlider } from "./ZoomSlider";
-import FlipLeftIcon from "../assets/flip-left.svg";
-import FlipRightIcon from "../assets/flip-right.svg";
+import RotateLeftIcon from "../assets/rotate-left.svg";
+import RotateRightIcon from "../assets/rotate-right.svg";
 
 interface CropToolbarProps {
-    showFlip: boolean;
+    showRotation: boolean;
     showGrayscale: boolean;
     showZoom: boolean;
     showReset: boolean;
@@ -14,38 +14,38 @@ interface CropToolbarProps {
     zoom: number;
     minZoom: number;
     maxZoom: number;
-    onFlipLeft: () => void;
-    onFlipRight: () => void;
+    onRotateLeft: () => void;
+    onRotateRight: () => void;
     onToggleGrayscale: () => void;
     onZoomChange: (zoom: number) => void;
     onReset: () => void;
 }
 
 export function CropToolbar(props: CropToolbarProps): ReactElement | null {
-    if (!props.showFlip && !props.showGrayscale && !props.showZoom && !props.showReset) {
+    if (!props.showRotation && !props.showGrayscale && !props.showZoom && !props.showReset) {
         return null;
     }
     return (
         <div className="widget-image-cropper__toolbar">
-            {props.showFlip && (
+            {props.showRotation && (
                 <>
                     <button
                         type="button"
                         className="btn btn-default widget-image-cropper__tool widget-image-cropper__tool--icon"
-                        aria-label="Flip left"
-                        title="Flip left"
-                        onClick={props.onFlipLeft}
+                        aria-label="Rotate left"
+                        title="Rotate left"
+                        onClick={props.onRotateLeft}
                     >
-                        <img src={FlipLeftIcon} alt="" className="widget-image-cropper__tool-icon" />
+                        <img src={RotateLeftIcon} alt="" className="widget-image-cropper__tool-icon" />
                     </button>
                     <button
                         type="button"
                         className="btn btn-default widget-image-cropper__tool widget-image-cropper__tool--icon"
-                        aria-label="Flip right"
-                        title="Flip right"
-                        onClick={props.onFlipRight}
+                        aria-label="Rotate right"
+                        title="Rotate right"
+                        onClick={props.onRotateRight}
                     >
-                        <img src={FlipRightIcon} alt="" className="widget-image-cropper__tool-icon" />
+                        <img src={RotateRightIcon} alt="" className="widget-image-cropper__tool-icon" />
                     </button>
                 </>
             )}

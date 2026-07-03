@@ -93,7 +93,7 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         boundaryWidth: 300,
         boundaryHeight: 300,
         resizableEnabled: true,
-        enableFlip: true,
+        enableRotation: true,
         enableGrayscale: true,
         showResetButton: true,
         zoomEnabled: true,
