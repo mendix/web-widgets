@@ -12,6 +12,7 @@ import { useOriginalImage } from "../hooks/useOriginalImage";
 import { usePreviewSrc } from "../hooks/usePreviewSrc";
 import { resolveAspectRatio } from "../utils/aspectRatio";
 import { cropImage, CropError } from "../utils/cropImage";
+import { buildInitialCrop } from "../utils/initialCrop";
 import { rotateImage } from "../utils/rotateImage";
 
 export function ImageCropperContainer(props: ImageCropperContainerProps): ReactElement | null {
@@ -193,15 +194,43 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
     const handleReset = useCallback(() => {
         setZoom(Number(props.minZoom));
         setGrayscale(false);
-        setLiveCrop(undefined);
-        setCommittedCrop(undefined);
         armed(); // do not auto-apply the reset itself
         const file = original.getOriginal();
         if (file && !props.image.readOnly && props.image.status === ValueStatus.Available) {
+            // Mirror handleFlip: setValue defers the commit, so drive the live preview with the
+            // original bytes too — otherwise a stale rotated/flipped blob keeps rendering after Reset.
+            showPreviewRef.current(file);
             markInternalRef.current();
             props.image.setValue(file);
         }
-    }, [setZoom, props.minZoom, props.image, setGrayscale, setLiveCrop, setCommittedCrop, armed, original]);
+        // Re-seed the default cropbox to its initial state. If restoring original bytes changed
+        // the uri (e.g. after a rotation), CropArea's onLoad re-seeds again against the correct
+        // dimensions; when no edit occurred the uri is unchanged and onLoad won't refire, so this
+        // direct re-seed is what puts the box back.
+        const img = state.imageRef.current;
+        if (img && img.naturalWidth) {
+            const aspect = resolveAspectRatio(props.aspectRatio, props.customAspectWidth, props.customAspectHeight);
+            const { percentCrop, pixelCrop } = buildInitialCrop(img, aspect);
+            setLiveCrop(percentCrop);
+            setCommittedCrop(pixelCrop);
+        } else {
+            setLiveCrop(undefined);
+            setCommittedCrop(undefined);
+        }
+    }, [
+        setZoom,
+        props.minZoom,
+        props.image,
+        props.aspectRatio,
+        props.customAspectWidth,
+        props.customAspectHeight,
+        setGrayscale,
+        setLiveCrop,
+        setCommittedCrop,
+        armed,
+        original,
+        state.imageRef
+    ]);
 
     if (props.image.status === ValueStatus.Loading) {
         return (

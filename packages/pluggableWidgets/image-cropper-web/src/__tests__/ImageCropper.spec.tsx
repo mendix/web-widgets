@@ -14,6 +14,7 @@ interface CapturedCropArea {
     onUserInteractStart?: () => void;
     setZoom: (next: number) => void;
     wheelZoomMode: string;
+    crop: Crop | undefined;
 }
 let captured: CapturedCropArea;
 
@@ -25,13 +26,15 @@ jest.mock("../components/CropArea", () => ({
         onUserInteractStart?: CapturedCropArea["onUserInteractStart"];
         setZoom: CapturedCropArea["setZoom"];
         wheelZoomMode: string;
+        crop: Crop | undefined;
     }) => {
         captured = {
             onImageLoad: props.onImageLoad,
             onCropComplete: props.onCropComplete,
             onUserInteractStart: props.onUserInteractStart,
             setZoom: props.setZoom,
-            wheelZoomMode: props.wheelZoomMode
+            wheelZoomMode: props.wheelZoomMode,
+            crop: props.crop
         };
         return (
             <img
@@ -121,6 +124,9 @@ describe("<ImageCropper>", () => {
     beforeEach(() => {
         jest.useFakeTimers();
         global.fetch = jest.fn().mockRejectedValue(new Error("no-net")) as jest.Mock;
+        // jsdom lacks blob URL APIs used by the live-preview hook (Reset drives it too).
+        (URL as unknown as { createObjectURL: () => string }).createObjectURL = () => "blob:test";
+        (URL as unknown as { revokeObjectURL: () => void }).revokeObjectURL = () => undefined;
     });
     afterEach(() => {
         jest.runOnlyPendingTimers();
@@ -247,6 +253,29 @@ describe("<ImageCropper>", () => {
         fireEvent.click(screen.getByRole("button", { name: "Reset" }));
         await flushApply();
         expect((image.setValue as jest.Mock).mock.calls[0]?.[0]).toBeInstanceOf(File);
+    });
+
+    test("reset re-seeds the default cropbox instead of clearing it", async () => {
+        const blob = new Blob(["x"], { type: "image/png" });
+        global.fetch = jest.fn().mockResolvedValue({ ok: true, blob: () => Promise.resolve(blob) }) as jest.Mock;
+        const image = makeImageProp();
+        render(<ImageCropper {...makeProps({ image, showResetButton: true })} />);
+        await act(async () => {
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        // Seed then move the box off its default so we can prove reset restores the default.
+        act(() => {
+            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+        });
+        fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+        await flushApply();
+        // Box is re-seeded (not undefined) to the default 80%-centered percent crop.
+        expect(captured.crop).toBeDefined();
+        expect(captured.crop!.unit).toBe("%");
+        expect(captured.crop!.width).toBeCloseTo(80, 5);
+        // centered horizontally: x = (100 - 80) / 2 = 10
+        expect(captured.crop!.x).toBeCloseTo(10, 5);
     });
 
     test("reset button disabled when original capture failed", async () => {
