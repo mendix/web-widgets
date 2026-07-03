@@ -41,7 +41,6 @@ function compareChangelogContent(change: ChangelogChange): boolean {
         const releasedVersionsMatch = compareReleasedVersions(oldReleased, newReleased);
 
         if (!releasedVersionsMatch) {
-            console.error(`  ❌ Released versions have been modified!`);
             return false;
         }
 
@@ -58,12 +57,34 @@ function compareChangelogContent(change: ChangelogChange): boolean {
     return true;
 }
 
-function compareReleasedVersions(oldReleased: any[], newReleased: any[]): boolean {
-    return JSON.stringify(oldReleased) === JSON.stringify(newReleased);
+function formatVersion(entry: any): string {
+    const v = entry.version;
+    if (!v) {
+        return entry.type ?? "unknown";
+    }
+    return typeof v.format === "function" ? v.format() : String(v);
 }
 
-async function getChangedFiles(headSha: string, mergedTreeSha: string): Promise<string[]> {
-    const result = await exec(`git diff --name-only ${headSha} ${mergedTreeSha}`, { stdio: "pipe" });
+function compareReleasedVersions(oldReleased: any[], newReleased: any[]): boolean {
+    const newByKey = new Map(newReleased.map(e => [formatVersion(e), JSON.stringify(e)]));
+
+    let allMatch = true;
+    for (const oldEntry of oldReleased) {
+        const key = formatVersion(oldEntry);
+        const newStr = newByKey.get(key);
+        if (newStr === undefined) {
+            console.error(`  ❌ Released version [${key}] was removed.`);
+            allMatch = false;
+        } else if (newStr !== JSON.stringify(oldEntry)) {
+            console.error(`  ❌ Released version [${key}] was modified.`);
+            allMatch = false;
+        }
+    }
+    return allMatch;
+}
+
+async function getChangedFiles(baseSha: string, mergedTreeSha: string): Promise<string[]> {
+    const result = await exec(`git diff --name-only ${baseSha} ${mergedTreeSha}`, { stdio: "pipe" });
     return result.stdout.trim().split("\n").filter(Boolean);
 }
 
@@ -139,10 +160,9 @@ async function main(): Promise<void> {
     }
     console.log(`Merged tree SHA: ${mergedTreeSha}`);
 
-    // Diff HEAD against the merged tree: only files where both sides had changes
-    // (requiring a 3-way merge) will appear here. Files exclusively changed in
-    // the PR branch or exclusively in BASE are not included.
-    const mergeChangedFiles = await getChangedFiles(head, mergedTreeSha);
+    // Diff BASE against the merged tree: all files modified by the merge relative
+    // to main, including files only changed in the PR branch.
+    const mergeChangedFiles = await getChangedFiles(base, mergedTreeSha);
     console.log(`\nFound ${mergeChangedFiles.length} file(s) modified by the merge`);
 
     const changelogFiles = mergeChangedFiles.filter(file => file.endsWith("CHANGELOG.md"));
