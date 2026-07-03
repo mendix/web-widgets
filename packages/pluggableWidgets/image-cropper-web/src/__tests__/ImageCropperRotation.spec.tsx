@@ -12,6 +12,7 @@ interface CapturedCropArea {
     onImageLoad: (percentCrop: Crop, pixelCrop: PixelCrop) => void;
     onCropComplete: (pixelCrop: PixelCrop) => void;
     onUserInteractStart?: () => void;
+    src: string;
 }
 let captured: CapturedCropArea;
 
@@ -21,11 +22,13 @@ jest.mock("../components/CropArea", () => ({
         onImageLoad: CapturedCropArea["onImageLoad"];
         onCropComplete: CapturedCropArea["onCropComplete"];
         onUserInteractStart?: CapturedCropArea["onUserInteractStart"];
+        src: string;
     }) => {
         captured = {
             onImageLoad: props.onImageLoad,
             onCropComplete: props.onCropComplete,
-            onUserInteractStart: props.onUserInteractStart
+            onUserInteractStart: props.onUserInteractStart,
+            src: props.src
         };
         return (
             <img
@@ -140,8 +143,10 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
         rotateImageOptions.length = 0;
         cropImageOptions.length = 0;
         global.fetch = jest.fn().mockRejectedValue(new Error("no-net")) as jest.Mock;
-        // jsdom lacks blob URL APIs used by the live-preview hook.
-        (URL as unknown as { createObjectURL: () => string }).createObjectURL = () => "blob:test";
+        // jsdom lacks blob URL APIs used by the live-preview hook. Return a distinct URL per
+        // File so a rotated-blob preview is distinguishable from an original-blob preview.
+        let blobSeq = 0;
+        (URL as unknown as { createObjectURL: () => string }).createObjectURL = () => `blob:test-${blobSeq++}`;
         (URL as unknown as { revokeObjectURL: () => void }).revokeObjectURL = () => undefined;
     });
     afterEach(() => {
@@ -217,6 +222,37 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
         await flushApply();
         expect(cropImageOptions.length).toBeGreaterThan(0);
         expect(cropImageOptions[cropImageOptions.length - 1]).not.toHaveProperty("rotation");
+    });
+
+    test("reset after a flip reverts the displayed image away from the rotated preview", async () => {
+        // Original must be capturable for Reset to restore it.
+        const blob = new Blob(["orig"], { type: "image/png" });
+        global.fetch = jest.fn().mockResolvedValue({ ok: true, blob: () => Promise.resolve(blob) }) as jest.Mock;
+        const image = makeImageProp();
+        render(<ImageCropper {...makeProps({ image })} />);
+        await act(async () => {
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        act(() => {
+            captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
+        });
+        // Flip → live preview switches to the rotated blob.
+        await act(async () => {
+            fireEvent.click(screen.getByLabelText("Flip right"));
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        const rotatedSrc = captured.src;
+        expect(rotatedSrc).toMatch(/^blob:/); // sanity: we are showing the rotated blob
+
+        // Reset should stop showing the rotated preview (revert to original bytes / bound uri).
+        await act(async () => {
+            fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+            await Promise.resolve();
+            await Promise.resolve();
+        });
+        expect(captured.src).not.toBe(rotatedSrc);
     });
 
     test("black & white toggle then crop-complete passes grayscale=true to cropImage", async () => {
