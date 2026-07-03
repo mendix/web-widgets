@@ -110,7 +110,7 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         boundaryWidth: 300,
         boundaryHeight: 300,
         resizableEnabled: true,
-        enableFlip: true,
+        enableRotation: true,
         enableGrayscale: true,
         showResetButton: true,
         zoomEnabled: true,
@@ -162,7 +162,7 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
         await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
+            fireEvent.click(screen.getByLabelText("Rotate right"));
             await Promise.resolve();
             await Promise.resolve();
         });
@@ -171,8 +171,8 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
         expect(image.setValue).toHaveBeenCalledWith(expect.any(File));
     });
 
-    test("flip with grayscale on bakes grayscale into the COMMITTED file", async () => {
-        // handleFlip also produces a color working image (first call, grayscale:false);
+    test("rotate with grayscale on bakes grayscale into the COMMITTED file", async () => {
+        // handleRotate also produces a color working image (first call, grayscale:false);
         // the last call is the baked commit (grayscale:true) used for setValue.
         render(<ImageCropper {...makeProps()} />);
         act(() => {
@@ -182,7 +182,7 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
             fireEvent.click(screen.getByLabelText("Grayscale"));
         });
         await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
+            fireEvent.click(screen.getByLabelText("Rotate right"));
             await Promise.resolve();
             await Promise.resolve();
         });
@@ -195,7 +195,7 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
         await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip left"));
+            fireEvent.click(screen.getByLabelText("Rotate left"));
             await Promise.resolve();
             await Promise.resolve();
         });
@@ -208,7 +208,7 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
         await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
+            fireEvent.click(screen.getByLabelText("Rotate right"));
             await Promise.resolve();
             await Promise.resolve();
         });
@@ -224,7 +224,7 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
         expect(cropImageOptions[cropImageOptions.length - 1]).not.toHaveProperty("rotation");
     });
 
-    test("reset after a flip reverts the displayed image away from the rotated preview", async () => {
+    test("reset after a rotate reverts the displayed image away from the rotated preview", async () => {
         // Original must be capturable for Reset to restore it.
         const blob = new Blob(["orig"], { type: "image/png" });
         global.fetch = jest.fn().mockResolvedValue({ ok: true, blob: () => Promise.resolve(blob) }) as jest.Mock;
@@ -237,9 +237,9 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
-        // Flip → live preview switches to the rotated blob.
+        // Rotate → live preview switches to the rotated blob.
         await act(async () => {
-            fireEvent.click(screen.getByLabelText("Flip right"));
+            fireEvent.click(screen.getByLabelText("Rotate right"));
             await Promise.resolve();
             await Promise.resolve();
         });

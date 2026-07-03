@@ -44,6 +44,12 @@ $image-cropper-gray-light: #6c757d;
         }
     }
 
+    // The "Zoom" text sits in a <span>; Atlas styles labels bold, so set the weight on the
+    // span itself (class specificity) to render it regular like the other toolbar labels.
+    &__zoom-label {
+        font-weight: normal;
+    }
+
     &__preview {
         border: 1px solid #ddd;
         background: #fff;
@@ -68,7 +74,7 @@ $image-cropper-gray-light: #6c757d;
         }
     }
 
-    // Icon-only buttons (flip left/right). Atlas .btn owns the vertical box
+    // Icon-only buttons (rotate left/right). Atlas .btn owns the vertical box
     // (line-height + padding-y + border) → height auto-matches Grayscale/Reset;
     // we do NOT touch it (Atlas sizes win — frontend-guidelines). We only neutralise
     // the text-button min-width and equalise horizontal padding to the .btn vertical
@@ -83,7 +89,7 @@ $image-cropper-gray-light: #6c757d;
     // Atlas's `.btn img` rule styles this icon for the "icon + text" case:
     //   height: calc(var(--font-size-default) + 4px); margin-right: 4px;
     //   vertical-align: text-top;
-    // Our flip buttons are icon-ONLY, so that right margin pushed the icon
+    // Our rotate buttons are icon-ONLY, so that right margin pushed the icon
     // off-centre (widening the box) and text-top shoved it up. We KEEP Atlas's
     // icon height (convention: Atlas sizes win) and only neutralise the two
     // text-affordance properties — which centres the icon and tightens the box.

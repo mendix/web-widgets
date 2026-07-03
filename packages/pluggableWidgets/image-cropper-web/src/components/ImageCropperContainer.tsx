@@ -155,7 +155,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
         [setZoom, auto]
     );
 
-    const handleFlip = useCallback(
+    const handleRotate = useCallback(
         async (deltaDeg: number) => {
             const img = state.imageRef.current;
             if (!img || props.image.readOnly || props.image.status !== ValueStatus.Available || !props.image.value) {
@@ -171,7 +171,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                     grayscale: false,
                     originalName: props.image.value.name
                 });
-                // Commit a baked B&W file only while the toggle is ON, so a flip-then-Save
+                // Commit a baked B&W file only while the toggle is ON, so a rotate-then-Save
                 // with no further crop still persists grayscale.
                 const committed = grayscaleRef.current
                     ? await rotateImage({
@@ -216,8 +216,8 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
         armed(); // do not auto-apply the reset itself
         const file = original.getOriginal();
         if (file && !props.image.readOnly && props.image.status === ValueStatus.Available) {
-            // Mirror handleFlip: setValue defers the commit, so drive the live preview with the
-            // original bytes too — otherwise a stale rotated/flipped blob keeps rendering after Reset.
+            // Mirror handleRotate: setValue defers the commit, so drive the live preview with the
+            // original bytes too — otherwise a stale rotated blob keeps rendering after Reset.
             showPreviewRef.current(file);
             markInternalRef.current();
             props.image.setValue(file);
@@ -301,7 +301,7 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 imageRef={state.imageRef}
             />
             <CropToolbar
-                showFlip={props.enableFlip}
+                showRotation={props.enableRotation}
                 showGrayscale={props.enableGrayscale}
                 showZoom={props.zoomEnabled && props.showZoomSlider}
                 showReset={props.showResetButton}
@@ -311,8 +311,8 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 minZoom={Number(props.minZoom)}
                 maxZoom={Number(props.maxZoom)}
                 onZoomChange={handleZoomChange}
-                onFlipLeft={() => handleFlip(-90)}
-                onFlipRight={() => handleFlip(90)}
+                onRotateLeft={() => handleRotate(-90)}
+                onRotateRight={() => handleRotate(90)}
                 onToggleGrayscale={handleToggleGrayscale}
                 onReset={handleReset}
             />

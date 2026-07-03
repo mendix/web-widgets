@@ -103,7 +103,7 @@ function makeProps(overrides: Partial<ImageCropperContainerProps> = {}): ImageCr
         outputFormat: "png",
         outputQuality: new Big(0.92),
         outputSize: "original",
-        enableFlip: true,
+        enableRotation: true,
         enableGrayscale: false,
         showResetButton: true,
         onCropAction: actionValue(),
