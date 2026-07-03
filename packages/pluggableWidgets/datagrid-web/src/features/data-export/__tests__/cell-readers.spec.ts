@@ -127,7 +127,8 @@ describe("cell-readers", () => {
         });
 
         it("mirrors the grid when number formatter config omits decimalPrecision (grouped)", () => {
-            // Real Mendix Decimal attributes only expose `groupDigits` at runtime.
+            // Real Mendix Decimal attributes only expose `groupDigits` at runtime, so the
+            // decimal count is derived from the value itself.
             const attr = listAttribute(() => new Big("1234.56")) as any;
             attr.formatter = { type: "number", config: { groupDigits: true } };
             const col = column("Amount", c => {
@@ -138,7 +139,7 @@ describe("cell-readers", () => {
             const cell = readSingleCell(col);
             expect(cell.t).toBe("n");
             expect(cell.v).toBe(1234.56);
-            expect(cell.z).toBe("#,##0.########");
+            expect(cell.z).toBe("#,##0.00");
         });
 
         it("mirrors the grid when number formatter config omits decimalPrecision (ungrouped)", () => {
@@ -152,8 +153,22 @@ describe("cell-readers", () => {
             const cell = readSingleCell(col);
             expect(cell.t).toBe("n");
             expect(cell.v).toBe(0.5);
-            // `#` suppresses trailing zeros, so Excel renders exactly what the grid shows.
-            expect(cell.z).toBe("0.########");
+            expect(cell.z).toBe("0.0");
+        });
+
+        it("uses no fractional format for a whole-number value (no trailing dot)", () => {
+            // Regression: a static `0.########` mask renders 1983 as "1983." in Excel.
+            const attr = listAttribute(() => new Big("1983")) as any;
+            attr.formatter = { type: "number", config: { groupDigits: false } };
+            const col = column("Birth year", c => {
+                c.showContentAs = "attribute";
+                c.attribute = attr;
+                c.exportType = "default";
+            });
+            const cell = readSingleCell(col);
+            expect(cell.t).toBe("n");
+            expect(cell.v).toBe(1983);
+            expect(cell.z).toBe("0");
         });
 
         it("exports date attribute with format as date cell", () => {

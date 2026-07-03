@@ -16,8 +16,8 @@ The `editorConfig.ts` visibility logic only conditionally hid `exportNumberForma
 
 Package: `packages/pluggableWidgets/datagrid-web`
 
-- `src/features/data-export/cell-readers.ts` — New `getAttributeDefaultFormat(props)` function reads `props.attribute.formatter` and derives an Excel format string:
-    - `formatter.type === "number"` → builds format from `groupDigits`; when `decimalPrecision` is present it is honoured, otherwise the format mirrors the grid as `{base}.########` (up to 8 fractional digits, trailing zeros suppressed by `#`), so `1234.56` exports as `1234.56` and integers stay integers
+- `src/features/data-export/cell-readers.ts` — New `getAttributeDefaultFormat(props, value)` function reads `props.attribute.formatter` and derives an Excel format string:
+    - `formatter.type === "number"` → builds format from `groupDigits`; when `decimalPrecision` is present it is honoured, otherwise the fractional-digit count is taken from the value itself (`{base}.{0×n}`), so `1234.56` exports as `1234.56` and whole numbers export without a trailing dot
     - `formatter.type === "datetime"` with `config.type === "custom"` → converts Mendix pattern to Excel format (M→m replacement)
     - Otherwise returns `undefined` (falls through to existing locale default for dates)
     - Attribute reader now branches: `exportType === "default"` → `getAttributeDefaultFormat()`, else → existing `getCellFormat()`.

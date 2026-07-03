@@ -113,7 +113,13 @@ function countSignificantDigits(value: Big): number {
     return stripped.length || 1;
 }
 
-function getAttributeDefaultFormat(props: ColumnsType): string | undefined {
+function countDecimalPlaces(value: Big): number {
+    const fixed = value.toFixed();
+    const dot = fixed.indexOf(".");
+    return dot === -1 ? 0 : fixed.length - dot - 1;
+}
+
+function getAttributeDefaultFormat(props: ColumnsType, value: unknown): string | undefined {
     const formatter = props.attribute?.formatter;
     if (!formatter) {
         return undefined;
@@ -129,13 +135,12 @@ function getAttributeDefaultFormat(props: ColumnsType): string | undefined {
         const base = cfg.groupDigits ? "#,##0" : "0";
         // Mendix Decimal attributes do not expose a fixed `decimalPrecision` on the
         // formatter config at runtime (only `groupDigits`). Honour it when present,
-        // otherwise mirror the grid: show up to 8 fractional digits (the Mendix DB
-        // maximum) with trailing zeros suppressed via `#`, so 1234.56 stays 1234.56
-        // and integers stay integers — instead of collapsing to a whole number.
-        if (cfg.decimalPrecision != null) {
-            return cfg.decimalPrecision > 0 ? `${base}.${"0".repeat(cfg.decimalPrecision)}` : base;
-        }
-        return `${base}.########`;
+        // otherwise mirror the grid by taking the decimal count from the value itself.
+        // A per-value count (rather than a `0.########` mask) is required because a
+        // static fractional mask emits a trailing dot for whole numbers (1983 -> "1983.").
+        const decimals =
+            cfg.decimalPrecision != null ? cfg.decimalPrecision : value instanceof Big ? countDecimalPlaces(value) : 0;
+        return decimals > 0 ? `${base}.${"0".repeat(decimals)}` : base;
     }
 
     return undefined;
@@ -152,7 +157,7 @@ const readers: ReadersByType = {
         const value = data.value;
         const format =
             props.exportType === "default"
-                ? getAttributeDefaultFormat(props)
+                ? getAttributeDefaultFormat(props, value)
                 : getCellFormat({
                       exportType: props.exportType,
                       exportDateFormat: props.exportDateFormat,
