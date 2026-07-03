@@ -3,9 +3,9 @@
 ### Reproduction Tests
 
 - Attribute number with default export type mirrors the grid - (unit)
-    - **Given**: Attribute column with `exportType = "default"`, attribute has `formatter = { type: "number", config: { groupDigits: true } }` (Mendix Decimal attributes only expose `groupDigits` at runtime, not a fixed `decimalPrecision`)
+    - **Given**: Attribute column with `exportType = "default"`, value `1234.56`, attribute has `formatter = { type: "number", config: { groupDigits: true } }` (Mendix Decimal attributes only expose `groupDigits` at runtime, not a fixed `decimalPrecision`)
     - **When**: Export reads the cell
-    - **Then**: Cell is `{ t: "n", v: 1234.56, z: "#,##0.########" }` — `#` suppresses trailing zeros so Excel renders exactly what the grid shows (`1234.56` stays `1234.56`, `0.5` stays `0.5`, integers stay integers)
+    - **Then**: Cell is `{ t: "n", v: 1234.56, z: "#,##0.00" }` — the fractional-digit count is taken from the value itself so Excel renders exactly what the grid shows
 
 - Attribute date with default export type uses custom pattern - (unit)
     - **Given**: Attribute column with `exportType = "default"`, attribute has `formatter = { type: "datetime", config: { type: "custom", pattern: "dd/MM/yyyy" } }`
@@ -25,9 +25,14 @@
     - **Then**: Cell has `z: "0"` (no grouping, no decimals) — an explicit `decimalPrecision` takes priority over the grid-mirroring fallback
 
 - Attribute number without grouping mirrors the grid - (unit)
-    - **Given**: Attribute column with `exportType = "default"`, attribute has `formatter = { type: "number", config: { groupDigits: false } }` (no `decimalPrecision`)
+    - **Given**: Attribute column with `exportType = "default"`, value `0.5`, attribute has `formatter = { type: "number", config: { groupDigits: false } }` (no `decimalPrecision`)
     - **When**: Export reads the cell
-    - **Then**: Cell has `z: "0.########"` (no grouping, up to 8 fractional digits with trailing zeros suppressed)
+    - **Then**: Cell has `z: "0.0"` (no grouping, one fractional digit derived from the value)
+
+- Attribute whole-number value produces no fractional format - (unit)
+    - **Given**: Attribute column with `exportType = "default"`, value `1983`, attribute has `formatter = { type: "number", config: { groupDigits: false } }`
+    - **When**: Export reads the cell
+    - **Then**: Cell has `z: "0"` — no fractional section, so Excel does not render a trailing dot (`"1983"`, not `"1983."`)
 
 - Attribute with formatter lacking type field - (unit)
     - **Given**: Attribute column with `exportType = "default"`, attribute has basic formatter (no `type` property, e.g., default mock)
@@ -53,7 +58,7 @@
 
 ## Notes
 
-- Mendix Decimal attributes do **not** expose a fixed `decimalPrecision` on the formatter config at runtime — only `groupDigits` is present (verified against the live client). The number-default format therefore mirrors the grid using `{base}.########` (8 = the Mendix DB fractional-digit maximum) with `#` suppressing trailing zeros, rather than deriving a fixed precision. The `decimalPrecision` branch is retained for the case where a future runtime does supply it.
+- Mendix Decimal attributes do **not** expose a fixed `decimalPrecision` on the formatter config at runtime — only `groupDigits` is present (verified against the live client). The number-default format therefore mirrors the grid by counting the fractional digits of the value itself and building `{base}.{0×n}`. A static `{base}.########` mask cannot be used because the literal `.` in the mask is always emitted, so whole numbers would render with a trailing dot (`1983` → `"1983."`). The `decimalPrecision` branch is retained for the case where a future runtime does supply it.
 - The `M → m` conversion is needed because Mendix uses Java-style date patterns (M = month) while Excel uses `m` for month.
 - `getAttributeDefaultFormat` returns `undefined` for string, boolean, and enum attributes — these fall through to existing logic (displayValue for strings, native boolean cells).
 - The `editorConfig` change is Studio Pro-only (design time) — no runtime test needed.
