@@ -1,10 +1,10 @@
 diff --git a/bin/mx-scripts.js b/bin/mx-scripts.js
-index 708bf48f266b6f80d830a9a72388278a65695964..6187cbe0739454c92f72136595e16748372885e9 100755
+index 569815681e83b7858681548abda14505691ab81b..39fa0f47a063e8628f64d09dbe2372e198c4b7bc 100755
 --- a/bin/mx-scripts.js
 +++ b/bin/mx-scripts.js
-@@ -8,10 +8,10 @@ const { red, blue, bold, whiteBright } = require("ansi-colors");
- const semver = require("semver");
- const { auditPluggableWidgetsTools } = require("../dist/commands/audit");
+@@ -10,10 +10,10 @@ const { auditPluggableWidgetsTools } = require("../dist/commands/audit.js");
+ const { prettierConfigPath } = require("../dist/utils/formatting.js");
+ const { toolsRoot, widgetRoot } = require("../dist/widget/paths.js");
  
 -checkNodeVersion();
 +// checkNodeVersion(); // Disabled via pnpm patch
@@ -16,10 +16,10 @@ index 708bf48f266b6f80d830a9a72388278a65695964..6187cbe0739454c92f72136595e16748
          console.log(red("An error occurred while checking migration dependencies: ", e));
      }
 diff --git a/configs/rollup.config.mjs b/configs/rollup.config.mjs
-index 4998ce2d2bedd449b0fdaa400368df116e1d4f46..d8e70107c4cde83908324b69b1031ad9c8db12f9 100644
+index 346d6ee995322825d87eaa10e5aa924ca456a7cf..38924ca4d2056d62f87dc6066677d82f97a29d67 100644
 --- a/configs/rollup.config.mjs
 +++ b/configs/rollup.config.mjs
-@@ -128,7 +128,7 @@ export default async args => {
+@@ -119,7 +119,7 @@ export default async args => {
                      extensions,
                      transpile: production,
                      babelConfig: {
@@ -28,7 +28,7 @@ index 4998ce2d2bedd449b0fdaa400368df116e1d4f46..d8e70107c4cde83908324b69b1031ad9
                          allowAllFormats: true
                      },
                      external: outputFormat === "es" ? [] : webExternal,
-@@ -166,7 +166,7 @@ export default async args => {
+@@ -157,7 +157,7 @@ export default async args => {
                      sourceMaps: !production,
                      extensions,
                      transpile: production,
