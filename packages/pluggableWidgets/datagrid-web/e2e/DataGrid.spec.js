@@ -1,16 +1,16 @@
 import AxeBuilder from "@axe-core/playwright";
-import { waitForMendixApp } from "@mendix/run-e2e/mendix-helpers";
 import { expect, test } from "@mendix/run-e2e/fixtures";
 import path from "path";
 import * as XLSX from "xlsx";
+import { DataGridPage } from "./pages/DataGridPage";
 
 test.describe("datagrid-web export to Excel", () => {
     test("check if export to Excel generates correct output", async ({ page }) => {
         const downloadedFilename = path.join("./e2e/downloads/", "testFilename.xlsx");
 
-        await page.goto("/p/export-excel");
-        await waitForMendixApp(page);
-        await page.locator(".mx-name-dataGridExportExcel").waitFor({ state: "visible", timeout: 15000 });
+        const grid = new DataGridPage(page, "dataGridExportExcel");
+        await grid.open("/p/export-excel");
+        await grid.root.waitFor({ state: "visible", timeout: 15000 });
         // Start waiting for download before clicking.
         const downloadPromise = page.waitForEvent("download");
         await page.locator(".mx-name-exportButton").click({ force: true });
@@ -50,66 +50,54 @@ test.describe("datagrid-web export to Excel", () => {
 
 test.describe("capabilities: sorting", () => {
     test("applies the default sort order from the data source option", async ({ page }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1)).toHaveText("First Name");
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg")).toHaveAttribute(
-            "data-icon",
-            "arrows-alt-v"
-        );
+        const grid = new DataGridPage(page);
+        await grid.open("/");
+        await expect(grid.columnHeader(1)).toHaveText("First Name");
+        await expect(grid.sortIcon(1)).toHaveAttribute("data-icon", "arrows-alt-v");
         await expect(page.getByRole("gridcell", { name: "12" }).first()).toHaveText("12");
     });
 
     test("changes order of data to ASC when clicking sort option", async ({ page }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1)).toHaveText("First Name");
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg")).toHaveAttribute(
-            "data-icon",
-            "arrows-alt-v"
-        );
-        await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg")).toHaveAttribute(
-            "data-icon",
-            "long-arrow-alt-up"
-        );
+        const grid = new DataGridPage(page);
+        await grid.open("/");
+        await expect(grid.columnHeader(1)).toHaveText("First Name");
+        await expect(grid.sortIcon(1)).toHaveAttribute("data-icon", "arrows-alt-v");
+        await grid.sortByColumn(1);
+        await expect(grid.sortIcon(1)).toHaveAttribute("data-icon", "long-arrow-alt-up");
         await expect(page.getByRole("gridcell", { name: "10" }).first()).toHaveText("10");
     });
 
     test("changes order of data to DESC when clicking sort option", async ({ page }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1)).toHaveText("First Name");
-        await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
-        await page.locator(".mx-name-datagrid1 .column-header").nth(1).click();
-        await expect(page.locator(".mx-name-datagrid1 .column-header").nth(1).locator("svg")).toHaveAttribute(
-            "data-icon",
-            "long-arrow-alt-down"
-        );
+        const grid = new DataGridPage(page);
+        await grid.open("/");
+        await expect(grid.columnHeader(1)).toHaveText("First Name");
+        await grid.sortByColumn(1);
+        await grid.sortByColumn(1);
+        await expect(grid.sortIcon(1)).toHaveAttribute("data-icon", "long-arrow-alt-down");
         await expect(page.getByRole("gridcell", { name: "12" }).first()).toHaveText("12");
     });
 });
 
 test.describe("capabilities: hiding", () => {
     test("hides a selected column", async ({ page }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
-        await expect(page.locator(".mx-name-datagrid1 .column-header").first()).toHaveText("Age");
-        await page.locator(".mx-name-datagrid1 .column-selector-button").click();
-        await page.locator(".column-selectors > li").first().click();
-        await expect(page.locator(".mx-name-datagrid1 .column-header").first()).toHaveText("First Name");
+        const grid = new DataGridPage(page);
+        await grid.open("/");
+        await expect(grid.columnHeaders.first()).toHaveText("Age");
+        await grid.openColumnSelector();
+        await grid.columnSelectorItems.first().click();
+        await expect(grid.columnHeaders.first()).toHaveText("First Name");
     });
 
     test("hide column saved on configuration attribute capability", async ({ page }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
+        const grid = new DataGridPage(page, "datagrid5");
+        await grid.open("/");
 
         // hide first column
-        await page.locator(".mx-name-datagrid5 .column-selector-button").click();
-        await page.locator(".column-selectors > li").first().click();
+        await grid.openColumnSelector();
+        await grid.columnSelectorItems.first().click();
 
         // check if it is really hidden
-        await expect(page.locator(".mx-name-datagrid5 .column-header").first()).toHaveText("Last Name");
+        await expect(grid.columnHeaders.first()).toHaveText("Last Name");
 
         // check config saved to the attribute and visible in the text area
         const textArea = page.locator(".mx-name-textArea1 textarea");
@@ -130,51 +118,51 @@ test.describe("capabilities: hiding", () => {
         });
     });
     test("hide column by default enabled", async ({ page }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
-        await expect(page.locator(".mx-name-datagrid6 .column-header").first()).toHaveText("First Name");
-        await page.locator(".mx-name-datagrid6 .column-selector-button").click();
-        await page.locator(".column-selectors > li").first().click();
-        await expect(page.locator(".mx-name-datagrid6 .column-header").first()).toHaveText("Id");
+        const grid = new DataGridPage(page, "datagrid6");
+        await grid.open("/");
+        await expect(grid.columnHeaders.first()).toHaveText("First Name");
+        await grid.openColumnSelector();
+        await grid.columnSelectorItems.first().click();
+        await expect(grid.columnHeaders.first()).toHaveText("Id");
     });
 
     test("do not allow to hide last visible column", async ({ page }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
-        await expect(page.locator(".mx-name-datagrid1 .column-header").first()).toBeVisible();
-        await page.locator(".mx-name-datagrid1 .column-selector-button").click();
-        await expect(page.locator(".column-selectors input:checked")).toHaveCount(4);
-        await page.locator(".column-selectors > li").nth(3).click();
-        await page.locator(".column-selectors > li").nth(2).click();
-        await page.locator(".column-selectors > li").nth(1).click();
-        await expect(page.locator(".column-selectors input:checked")).toHaveCount(1);
-        await page.locator(".column-selectors > li").nth(0).click({ force: true });
-        await expect(page.locator(".column-selectors input:checked")).toHaveCount(1);
+        const grid = new DataGridPage(page);
+        await grid.open("/");
+        await expect(grid.columnHeaders.first()).toBeVisible();
+        await grid.openColumnSelector();
+        await expect(grid.checkedColumns).toHaveCount(4);
+        await grid.columnSelectorItem(3).click();
+        await grid.columnSelectorItem(2).click();
+        await grid.columnSelectorItem(1).click();
+        await expect(grid.checkedColumns).toHaveCount(1);
+        await grid.columnSelectorItem(0).click({ force: true });
+        await expect(grid.checkedColumns).toHaveCount(1);
         // Trigger Enter keypress
-        await page.locator(".column-selectors > li").nth(0).press("Enter");
-        await expect(page.locator(".column-selectors input:checked")).toHaveCount(1);
+        await grid.columnSelectorItem(0).press("Enter");
+        await expect(grid.checkedColumns).toHaveCount(1);
         // Trigger Space keypress
-        await page.locator(".column-selectors > li").nth(0).press("Space");
-        await expect(page.locator(".column-selectors input:checked")).toHaveCount(1);
+        await grid.columnSelectorItem(0).press("Space");
+        await expect(grid.checkedColumns).toHaveCount(1);
     });
 });
 
 test.describe("capabilities: onClick action", () => {
     test("check the context", async ({ page }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
-        await expect(page.locator(".mx-name-datagrid1 .td").first()).toHaveText("12");
-        await page.locator(".mx-name-datagrid1 .td").first().click();
+        const grid = new DataGridPage(page);
+        await grid.open("/");
+        await expect(grid.cells.first()).toHaveText("12");
+        await grid.cells.first().click();
         await expect(page.locator(".mx-name-AgeTextBox input")).toHaveValue("12");
     });
 });
 
 test.describe("manual column width", () => {
     test("compares with a screenshot baseline and checks the column width is with correct size", async ({ page }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
-        await page.locator(".mx-name-datagrid7").scrollIntoViewIfNeeded();
-        await expect(page.locator(".mx-name-datagrid7")).toHaveScreenshot(`dataGridColumnContent.png`);
+        const grid = new DataGridPage(page, "datagrid7");
+        await grid.open("/");
+        await grid.root.scrollIntoViewIfNeeded();
+        await expect(grid.root).toHaveScreenshot(`dataGridColumnContent.png`);
     });
 });
 
@@ -182,27 +170,27 @@ test.describe("visual testing:", () => {
     test("compares with a screenshot baseline and checks if all datagrid and filter elements are rendered as expected", async ({
         page
     }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
-        await expect(page.locator(".mx-name-datagrid1")).toBeVisible();
-        await expect(page.locator(".mx-name-datagrid1")).toHaveScreenshot(`datagrid.png`);
+        const grid = new DataGridPage(page);
+        await grid.open("/");
+        await expect(grid.root).toBeVisible();
+        await expect(grid.root).toHaveScreenshot(`datagrid.png`);
     });
 
     test("compares with a screenshot baseline and checks datagrid using virtual scrolling are rendered as expected", async ({
         page
     }) => {
-        await page.goto("/p/virtual-scrolling");
-        await waitForMendixApp(page);
-        await expect(page.locator(".mx-name-dataGrid21")).toBeVisible();
-        await page.locator(".mx-name-dataGrid21 .mx-name-textFilter1 .filter-selector-content .btn").click();
+        const grid = new DataGridPage(page, "dataGrid21");
+        await grid.open("/p/virtual-scrolling");
+        await expect(grid.root).toBeVisible();
+        await grid.root.locator(".mx-name-textFilter1 .filter-selector-content .btn").click();
         await expect(page.locator(".mx-page")).toHaveScreenshot(`datagrid-virtual-scrolling.png`);
     });
 });
 
 test.describe("a11y testing:", () => {
     test("checks accessibility violations", async ({ page }) => {
-        await page.goto("/");
-        await waitForMendixApp(page);
+        const grid = new DataGridPage(page);
+        await grid.open("/");
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag21aa"])
             .exclude(".mx-name-navigationTree3")
