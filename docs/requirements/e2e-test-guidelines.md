@@ -67,6 +67,63 @@ page.locator(".mx-name-myForm").getByRole("button", { name: "Save" });
 page.locator(".mx-name-myWidget").getByLabel("Start date");
 ```
 
+## Page Object Model
+
+For widgets with more than a handful of specs — or any spec that repeats the same locators/actions — encapsulate the widget's locators and interactions in a Page Object instead of scattering raw selectors across tests. This keeps specs reading as behavior and gives one place to update when the DOM changes.
+
+**Where it lives:** widget-local, at `e2e/pages/<Widget>Page.js`. Keep it per-widget — do not add shared POMs to `@mendix/run-e2e` (widgets are isolated; see repo-layout). Reference: `packages/pluggableWidgets/datagrid-web/e2e/pages/DataGridPage.js`.
+
+**Conventions:**
+
+- **Scope to one widget instance by `mx-name`.** The constructor takes `(page, name)` and builds a `root` locator (`.mx-name-<name>`); default the `name` to the most common instance. All locators derive from `root` so tests never hard-code `.mx-name-*` strings.
+- **`open(path)` wraps `page.goto(path)` only.** The custom fixture already auto-waits for the app (see Imports & Setup) — do **not** add `waitForMendixApp` inside the POM.
+- **Expose locators as getters/methods; keep assertions in the spec.** The POM returns locators (e.g. `get rows()`, `columnCells(n)`); the test does the `expect(...)`. This preserves auto-retrying web-first assertions and keeps the POM assertion-free.
+- **Actions are verbs** (`sortByColumn(n)`, `openColumnSelector()`); **locators are nouns** (`columnHeaders`, `cells`). Prefer `.mx-name-*` and role/label composition inside the POM, following Locator Patterns above.
+
+```javascript
+// e2e/pages/MyWidgetPage.js
+export class MyWidgetPage {
+    constructor(page, name = "myWidget1") {
+        this.page = page;
+        this.root = page.locator(`.mx-name-${name}`);
+    }
+
+    // fixture auto-waits after goto — no waitForMendixApp here
+    async open(path = "/") {
+        await this.page.goto(path);
+    }
+
+    get rows() {
+        return this.root.locator('[role="row"]');
+    }
+
+    async submit() {
+        await this.root.getByRole("button", { name: "Save" }).click();
+    }
+}
+```
+
+```javascript
+// e2e/MyWidget.spec.js
+import { test, expect } from "@mendix/run-e2e/fixtures";
+import { MyWidgetPage } from "./pages/MyWidgetPage";
+
+test.describe("MyWidget", () => {
+    /** @type {MyWidgetPage} */
+    let widget;
+
+    test.beforeEach(async ({ page }) => {
+        widget = new MyWidgetPage(page);
+        await widget.open("/");
+    });
+
+    test("submits the form @smoke", async () => {
+        await widget.submit();
+        await expect(widget.rows).toHaveCount(3); // assertion stays in the spec
+    });
+});
+```
+
 ## Screenshot Testing
 
 - No per-test `{ threshold: N }` or `{ maxDiffPixels: N }` overrides — use global config (`threshold: 0.1`)
@@ -84,6 +141,8 @@ playwright/prefer-web-first-assertions: warn
 ```
 
 ## Spec File Template
+
+Minimal template for a small widget. For widgets with many specs or repeated locators, use a Page Object instead (see Page Object Model above).
 
 ```javascript
 import { test, expect } from "@mendix/run-e2e/fixtures";
