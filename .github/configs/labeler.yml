@@ -46,8 +46,6 @@ html-element-web:
     - packages/*/html-element-web/**/*
 image-web:
     - packages/*/image-web/**/*
-language-selector-web:
-    - packages/*/language-selector-web/**/*
 maps-web:
     - packages/*/maps-web/**/*
 popup-menu-web:
