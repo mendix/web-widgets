@@ -35,9 +35,9 @@ test.describe("datagrid-web filtering single select", () => {
         ]);
     });
 
-    test("filter rows that have No in Pets column", async ({ page }) => {
+    test("filter rows that have No in Pets column", async () => {
         await grid.dropdownFilter(2).click();
-        await page.getByRole("option", { name: "No", exact: true }).click();
+        await grid.option("No").click();
         await expect(grid.columnCells(3).first()).toHaveText("No");
         const columnTexts = await grid.columnCells(3).allTextContents();
         columnTexts.forEach(text => expect(text).toBe("No"));
