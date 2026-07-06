@@ -24,6 +24,23 @@
         }
     }
 
+    .widget-charts-playground-code-editor {
+        overflow: auto;
+
+        .widget-charts-playground-code-editor-error {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            color: #c00;
+            background: #fdecea;
+            border-bottom: 1px solid #f5c6cb;
+            font-size: 12px;
+            font-family: monospace;
+            padding: 4px 8px;
+            white-space: pre-wrap;
+        }
+    }
+
     .widget-sidebar {
         .sidebar-content-header {
             .header-content {
