@@ -60,7 +60,7 @@ export class DataGridPage {
 
     /** All gridcells in the nth column (1-based, matches `:nth-child`). */
     columnCells(n) {
-        return this.page.locator(`[role="gridcell"]:nth-child(${n})`);
+        return this.root.locator(`[role="gridcell"]:nth-child(${n})`);
     }
 
     // --- Column selector (hide/show) ---------------------------------------
@@ -69,8 +69,10 @@ export class DataGridPage {
         await this.root.locator(".column-selector-button").click();
     }
 
+    // The column-selector popover is rendered inline inside the grid root
+    // (Floating UI without a portal), so scope its items to `this.root`.
     get columnSelectorItems() {
-        return this.page.locator(".column-selectors > li");
+        return this.root.locator(".column-selectors > li");
     }
 
     columnSelectorItem(n) {
@@ -78,7 +80,7 @@ export class DataGridPage {
     }
 
     get checkedColumns() {
-        return this.page.locator(".column-selectors input:checked");
+        return this.root.locator(".column-selectors input:checked");
     }
 
     // --- Filters -----------------------------------------------------------

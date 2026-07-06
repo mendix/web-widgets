@@ -13,6 +13,7 @@ test.describe("datagrid-web export to Excel", () => {
         await grid.root.waitFor({ state: "visible", timeout: 15000 });
         // Start waiting for download before clicking.
         const downloadPromise = page.waitForEvent("download");
+        // Export button lives outside the grid widget boundary, so it stays a page-level selector.
         await page.locator(".mx-name-exportButton").click({ force: true });
         const download = await downloadPromise;
         // Wait for the download process to complete and save the downloaded file.

@@ -10,7 +10,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await grid.open("/p/filtering-multi");
     });
 
-    test("filter rows where enum attribute equal to one of selected values", async ({ page }) => {
+    test("filter rows where enum attribute equal to one of selected values", async () => {
         await expect(grid.rows).toHaveCount(11);
         await expect(grid.columnCells(2).first()).toHaveText("Black");
         await expect(grid.columnCells(2).last()).toHaveText("Blue");
@@ -19,7 +19,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(grid.rows).toHaveCount(6);
         await grid.option("Blush").click({ delay: 20 });
         await expect(grid.rows).toHaveCount(8);
-        await page.getByRole("columnheader", { name: "Color (enum)" }).getByRole("combobox").click({ delay: 20 });
+        await grid.headerCombobox("Color (enum)").click({ delay: 20 });
         await expect(grid.columnCells(2)).toContainText(["Pink", "Pink", "Pink", "Blush", "Blush", "Pink", "Pink"]);
     });
 
@@ -45,7 +45,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(grid.columnCells(3)).toHaveText(expectedColumnText);
     });
 
-    test("filter rows where Reference equal to one of selected objects", async ({ page }) => {
+    test("filter rows where Reference equal to one of selected objects", async () => {
         await expect(grid.rows).toHaveCount(11);
         await expect(grid.columnCells(4).first()).toHaveText("W.R. Berkley Corporation");
         await expect(grid.columnCells(4).last()).toHaveText("PETsMART Inc");
@@ -54,7 +54,7 @@ test.describe("datagrid-web filtering multi select", () => {
         await expect(grid.rows).toHaveCount(2);
         await grid.option("ALLETE, Inc.").click({ delay: 20 });
         await expect(grid.rows).toHaveCount(6);
-        await page.getByRole("columnheader", { name: "Company" }).getByRole("combobox").click({ delay: 20 });
+        await grid.headerCombobox("Company").click({ delay: 20 });
         await expect(grid.columnCells(4)).toContainText([
             "ALLETE, Inc.",
             "FMC Corp",

@@ -6,7 +6,7 @@ test.describe("datagrid-web filtering empty strings", () => {
     let grid;
 
     test.beforeEach(async ({ page }) => {
-        grid = new DataGridPage(page, "dataGrid21");
+        grid = new DataGridPage(page, "dataGrid2_1");
         await grid.open("/p/filtering-empty-string");
     });
 
