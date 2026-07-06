@@ -441,7 +441,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 11.11.0
-        version: 11.11.0(patch_hash=036a1e3d1a57e7418725babb71e5eef5220ae90fc481ad7e04fa7e8901b25801)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@swc/core@1.15.41)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.4(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.8.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        version: 11.11.0(patch_hash=036a1e3d1a57e7418725babb71e5eef5220ae90fc481ad7e04fa7e8901b25801)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@swc/core@1.15.41)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.4(jiti@2.6.1))(jest-util@30.4.1)(picomatch@4.0.4)(prettier@3.8.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -762,6 +762,12 @@ importers:
       '@mendix/widget-plugin-platform':
         specifier: workspace:*
         version: link:../../shared/widget-plugin-platform
+      highlight.js:
+        specifier: ^11.11.1
+        version: 11.11.1
+      react-simple-code-editor:
+        specifier: ^0.14.1
+        version: 0.14.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@mendix/automation-utils':
         specifier: workspace:*
@@ -1677,7 +1683,7 @@ importers:
         version: link:../../shared/eslint-config-web-widgets
       '@mendix/pluggable-widgets-tools':
         specifier: 11.11.0
-        version: 11.11.0(patch_hash=036a1e3d1a57e7418725babb71e5eef5220ae90fc481ad7e04fa7e8901b25801)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@swc/core@1.15.41)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.4(jiti@2.6.1))(jest-util@30.4.1)(picomatch@4.0.4)(prettier@3.8.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
+        version: 11.11.0(patch_hash=036a1e3d1a57e7418725babb71e5eef5220ae90fc481ad7e04fa7e8901b25801)(@jest/transform@30.3.0)(@jest/types@30.4.1)(@swc/core@1.15.41)(@types/babel__core@7.20.5)(@types/node@24.12.4)(canvas@3.2.3)(eslint@9.39.4(jiti@2.6.1))(jest-util@30.4.1)(prettier@3.8.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tslib@2.8.1)
       '@mendix/prettier-config-web-widgets':
         specifier: workspace:*
         version: link:../../shared/prettier-config-web-widgets
@@ -7510,6 +7516,10 @@ packages:
   hermes-parser@0.25.1:
     resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
 
+  highlight.js@11.11.1:
+    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
+    engines: {node: '>=12.0.0'}
+
   hono@4.12.25:
     resolution: {integrity: sha512-2NFaIyNVgJmBs/ecmtGzlmluTFs5cHEWGTdu0t1HBwYzoGXOL5nUQBRMXsXWla5i4KkG//QMzVP88m1+I3fdAQ==}
     engines: {node: '>=16.9.0'}
@@ -9595,6 +9605,12 @@ packages:
   react-refresh@0.14.2:
     resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
     engines: {node: '>=0.10.0'}
+
+  react-simple-code-editor@0.14.1:
+    resolution: {integrity: sha512-BR5DtNRy+AswWJECyA17qhUDvrrCZ6zXOCfkQY5zSmb96BVUbpVAv03WpcjcwtCwiLbIANx3gebHOcXYn1EHow==}
+    peerDependencies:
+      react: '>=18.0.0 <19.0.0'
+      react-dom: '>=18.0.0 <19.0.0'
 
   react-test-renderer@19.2.7:
     resolution: {integrity: sha512-U4TyPDJ9MsC8rFimXuJum8w40aPc9kbOZYO8Pc2/4A884i8hwJsMNA/JNyuOc/f2/37wHvk7HjpVl1V4re7Dig==}
@@ -16301,6 +16317,8 @@ snapshots:
     dependencies:
       hermes-estree: 0.25.1
 
+  highlight.js@11.11.1: {}
+
   hono@4.12.25: {}
 
   hosted-git-info@9.0.3:
@@ -18968,6 +18986,11 @@ snapshots:
       react: 18.3.1
 
   react-refresh@0.14.2: {}
+
+  react-simple-code-editor@0.14.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   react-test-renderer@19.2.7(react@18.3.1):
     dependencies:
