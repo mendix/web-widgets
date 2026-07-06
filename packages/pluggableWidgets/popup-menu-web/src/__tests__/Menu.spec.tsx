@@ -1,10 +1,10 @@
 import { fireEvent, render, RenderResult } from "@testing-library/react";
 import { ValueStatus } from "mendix";
 import { createElement } from "react";
+import { actionValue, dynamic } from "@mendix/widget-plugin-test-utils";
 import { MenuWithContext as Menu } from "./MenuWithContext";
 import { BasicItemsType, CustomItemsType } from "../../typings/PopupMenuProps";
 import { MenuProps } from "../components/Menu";
-import { actionValue, dynamicValue } from "../utils/attrValue";
 
 import "@testing-library/jest-dom";
 
@@ -20,7 +20,7 @@ describe("Menu", () => {
     const createPopupMenu = (props: MenuProps): RenderResult => render(<Menu {...props} />);
     const basicItemProps: BasicItemsType = {
         itemType: "item",
-        caption: dynamicValue("Caption"),
+        caption: dynamic.available("Caption"),
         styleClass: "defaultStyle"
     };
     const customItemProps: CustomItemsType = { content: createElement("div", null, null) };
@@ -38,7 +38,7 @@ describe("Menu", () => {
         position: "bottom",
         basicItems: [
             basicItemProps,
-            { itemType: "divider", caption: dynamicValue("Caption"), styleClass: "defaultStyle" }
+            { itemType: "divider", caption: dynamic.available("Caption"), styleClass: "defaultStyle" }
         ],
         customItems: [customItemProps],
         onItemClick: jest.fn(),
@@ -84,7 +84,7 @@ describe("Menu", () => {
                 ...defaultProps,
                 basicItems: [
                     basicItem,
-                    { itemType: "divider", caption: dynamicValue("Caption"), styleClass: "defaultStyle" }
+                    { itemType: "divider", caption: dynamic.available("Caption"), styleClass: "defaultStyle" }
                 ]
             });
             const { container } = popupMenu;

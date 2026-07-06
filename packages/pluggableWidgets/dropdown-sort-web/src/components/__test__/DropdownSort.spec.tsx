@@ -1,8 +1,8 @@
-import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/react/context";
-import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
-import { attrId, dynamicValue, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { fireEvent, render } from "@testing-library/react";
 import { ReactElement } from "react";
+import { getGlobalSortContext, SortAPI } from "@mendix/widget-plugin-sorting/react/context";
+import { SortStoreHost } from "@mendix/widget-plugin-sorting/stores/SortStoreHost";
+import { attrId, dynamic, ListAttributeValueBuilder } from "@mendix/widget-plugin-test-utils";
 import { AttributesType, DropdownSortContainerProps } from "../../../typings/DropdownSortProps";
 import { DropdownSort } from "../../DropdownSort";
 
@@ -21,11 +21,11 @@ const createAPI = (observer: SortStoreHost): SortAPI => ({
 const mockAttributes = (): AttributesType[] => [
     {
         attribute: new ListAttributeValueBuilder().withId(attrId("1")).withType("String").withSortable(true).build(),
-        caption: dynamicValue<string>("Option 1")
+        caption: dynamic.available("Option 1")
     },
     {
         attribute: new ListAttributeValueBuilder().withId(attrId("2")).withType("Decimal").withSortable(true).build(),
-        caption: dynamicValue<string>("Option 2")
+        caption: dynamic.available("Option 2")
     }
 ];
 

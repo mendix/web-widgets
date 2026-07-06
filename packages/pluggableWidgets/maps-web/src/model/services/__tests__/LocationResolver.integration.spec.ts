@@ -41,13 +41,13 @@ describe("LocationResolverService - Integration Tests", () => {
                     geodecodeApiKey: "test-key",
                     markers: [
                         {
-                            latitude: dynamic("40.7128"),
-                            longitude: dynamic("-74.0060"),
-                            title: dynamic("NYC")
+                            latitude: dynamic.available("40.7128"),
+                            longitude: dynamic.available("-74.0060"),
+                            title: dynamic.available("NYC")
                         } as MarkersType,
                         {
-                            address: dynamic("Boston, MA"),
-                            title: dynamic("Boston")
+                            address: dynamic.available("Boston, MA"),
+                            title: dynamic.available("Boston")
                         } as MarkersType
                     ]
                 }),
@@ -78,7 +78,7 @@ describe("LocationResolverService - Integration Tests", () => {
                 geodecodeApiKey: "test-key",
                 markers: [
                     {
-                        address: dynamic("New York, NY")
+                        address: dynamic.available("New York, NY")
                     } as MarkersType
                 ]
             });
@@ -114,9 +114,9 @@ describe("LocationResolverService - Integration Tests", () => {
                 props: mockContainerProps({
                     geodecodeApiKey: "test-key",
                     markers: [
-                        { address: dynamic("NYC"), title: dynamic("A") } as MarkersType,
-                        { address: dynamic("NYC"), title: dynamic("B") } as MarkersType,
-                        { address: dynamic("NYC"), title: dynamic("C") } as MarkersType
+                        { address: dynamic.available("NYC"), title: dynamic.available("A") } as MarkersType,
+                        { address: dynamic.available("NYC"), title: dynamic.available("B") } as MarkersType,
+                        { address: dynamic.available("NYC"), title: dynamic.available("C") } as MarkersType
                     ]
                 }),
                 geocodeFunction: mockGeocode
@@ -139,7 +139,7 @@ describe("LocationResolverService - Integration Tests", () => {
                     geodecodeApiKey: "test-key",
                     markers: [
                         {
-                            address: dynamic("Invalid Address")
+                            address: dynamic.available("Invalid Address")
                         } as MarkersType
                     ]
                 }),
@@ -170,9 +170,9 @@ describe("LocationResolverService - Integration Tests", () => {
                 props: mockContainerProps({
                     geodecodeApiKey: "test-key",
                     markers: [
-                        { address: dynamic("NYC") } as MarkersType,
-                        { address: dynamic("Invalid") } as MarkersType,
-                        { address: dynamic("Boston") } as MarkersType
+                        { address: dynamic.available("NYC") } as MarkersType,
+                        { address: dynamic.available("Invalid") } as MarkersType,
+                        { address: dynamic.available("Boston") } as MarkersType
                     ]
                 }),
                 geocodeFunction: mockGeocode
@@ -197,9 +197,9 @@ describe("LocationResolverService - Integration Tests", () => {
                 props: mockContainerProps({
                     markers: [
                         {
-                            latitude: dynamic("40"),
-                            longitude: dynamic("-74"),
-                            title: dynamic("Static")
+                            latitude: dynamic.available("40"),
+                            longitude: dynamic.available("-74"),
+                            title: dynamic.available("Static")
                         } as MarkersType
                     ],
                     dynamicMarkers: [
@@ -279,8 +279,8 @@ describe("LocationResolverService - Integration Tests", () => {
                 props: mockContainerProps({
                     markers: [
                         {
-                            latitude: dynamic("40"),
-                            longitude: dynamic("-74"),
+                            latitude: dynamic.available("40"),
+                            longitude: dynamic.available("-74"),
                             onClick: {
                                 execute: mockAction
                             }
