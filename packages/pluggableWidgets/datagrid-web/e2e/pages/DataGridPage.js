@@ -90,23 +90,23 @@ export class DataGridPage {
         return this.page.locator(`.mx-name-drop_downFilter${n}[role="combobox"]`);
     }
 
-    /** An option in an open listbox, matched by visible text. */
+    /** An option in an open listbox, matched by exact accessible name. */
     option(label) {
-        return this.page.locator(`[role="option"]:has-text("${label}")`);
+        return this.page.getByRole("option", { name: label, exact: true });
     }
 
     /** Column-header-scoped filter controls (used by header-embedded filters). */
     headerCombobox(name) {
-        return this.page.getByRole("columnheader", { name }).getByRole("combobox");
+        return this.root.getByRole("columnheader", { name }).getByRole("combobox");
     }
 
     headerTextbox(name) {
-        return this.page.getByRole("columnheader", { name }).getByRole("textbox");
+        return this.root.getByRole("columnheader", { name }).getByRole("textbox");
     }
 
     /** The `.filter-container` inside the nth column header (1-based). */
     headerFilterContainer(n) {
-        return this.page.locator(`[role="columnheader"]:nth-child(${n})`).locator(".filter-container");
+        return this.root.locator(`[role="columnheader"]:nth-child(${n})`).locator(".filter-container");
     }
 
     headerFilterButton(n) {
