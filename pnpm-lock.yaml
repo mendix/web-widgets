@@ -36,9 +36,9 @@ patchedDependencies:
   '@mendix/pluggable-widgets-tools':
     hash: 036a1e3d1a57e7418725babb71e5eef5220ae90fc481ad7e04fa7e8901b25801
     path: patches/@mendix__pluggable-widgets-tools.patch
-  mime-types:
+  mime-types@2.1.35:
     hash: f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb
-    path: patches/mime-types.patch
+    path: patches/mime-types@2.1.35.patch
   mobx-react-lite@4.0.7:
     hash: 47fd2d1b5c35554ddd4fa32fcaa928a16fda9f82dca0ff68bcdc1f7c3e5f9d1a
     path: patches/mobx-react-lite@4.0.7.patch
@@ -14653,7 +14653,7 @@ snapshots:
 
   accepts@2.0.0:
     dependencies:
-      mime-types: 3.0.2(patch_hash=f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb)
+      mime-types: 3.0.2
       negotiator: 1.0.0
 
   acorn-globals@7.0.1:
@@ -16438,7 +16438,7 @@ snapshots:
       fresh: 2.0.0
       http-errors: 2.0.1
       merge-descriptors: 2.0.0
-      mime-types: 3.0.2(patch_hash=f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb)
+      mime-types: 3.0.2
       on-finished: 2.4.1
       once: 1.4.0
       parseurl: 1.3.3
@@ -18835,7 +18835,7 @@ snapshots:
       metro-symbolicate: 0.84.4
       metro-transform-plugins: 0.84.4
       metro-transform-worker: 0.84.4
-      mime-types: 3.0.2(patch_hash=f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb)
+      mime-types: 3.0.2
       nullthrows: 1.1.1
       serialize-error: 2.1.0
       source-map: 0.5.7
@@ -18860,7 +18860,7 @@ snapshots:
     dependencies:
       mime-db: 1.52.0
 
-  mime-types@3.0.2(patch_hash=f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb):
+  mime-types@3.0.2:
     dependencies:
       mime-db: 1.54.0
 
@@ -20520,7 +20520,7 @@ snapshots:
       etag: 1.8.1
       fresh: 2.0.0
       http-errors: 2.0.1
-      mime-types: 3.0.2(patch_hash=f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb)
+      mime-types: 3.0.2
       ms: 2.1.3
       on-finished: 2.4.1
       range-parser: 1.2.1
@@ -21191,7 +21191,7 @@ snapshots:
     dependencies:
       content-type: 2.0.0
       media-typer: 1.1.0
-      mime-types: 3.0.2(patch_hash=f54449b9273bc9e74fb67a14fcd001639d788d038b7eb0b5f43c10dff2b1adfb)
+      mime-types: 3.0.2
 
   type@2.7.3: {}
 
