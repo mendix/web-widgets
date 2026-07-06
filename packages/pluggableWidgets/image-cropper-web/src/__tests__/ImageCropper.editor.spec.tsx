@@ -50,17 +50,12 @@ function collectText(node: any): string[] {
 }
 
 describe("ImageCropper structure mode (getPreview)", () => {
-    test("shows the widget title", () => {
+    test("shows the configure placeholder when nothing is bound", () => {
         const texts = collectText(getPreview(makePreviewProps(), false));
-        expect(texts).toContain("Image cropper");
+        expect(texts).toContain("[Configure Image Cropper]");
     });
 
-    test("shows placeholder body when no image is bound", () => {
-        const texts = collectText(getPreview(makePreviewProps({ image: null }), false));
-        expect(texts).toContain("[No attribute selected]");
-    });
-
-    test("shows config summary in body when an image is bound", () => {
+    test("shows config summary caption when an image is bound", () => {
         const props = makePreviewProps({
             image: { type: "dynamic", entity: "MyModule.Photo" },
             cropShape: "circle",
@@ -69,8 +64,8 @@ describe("ImageCropper structure mode (getPreview)", () => {
             outputSize: "viewport"
         });
         const texts = collectText(getPreview(props, false));
-        expect(texts).toContain("Circle · 1:1 · JPEG · Viewport");
-        expect(texts).not.toContain("[No attribute selected]");
+        expect(texts).toContain("[Circle · 1:1 · JPEG · Viewport] Image Cropper");
+        expect(texts).not.toContain("[Configure Image Cropper]");
     });
 });
 
