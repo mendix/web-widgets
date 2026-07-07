@@ -34,17 +34,20 @@ export function useV2EditorController(context: PlaygroundDataV2): ComposedEditor
     const [key, setKey] = useState<ConfigKey>("layout");
     const keyBox = useState(() => observable.box<ConfigKey>(key))[0];
 
-    const onViewSelectChange = (value: string): void => {
-        let newKey: ConfigKey;
-        if (value === "layout" || value === "config") {
-            newKey = value;
-        } else {
-            const n = parseInt(value, 10);
-            newKey = isNaN(n) ? "layout" : n;
-        }
-        setKey(newKey);
-        runInAction(() => keyBox.set(newKey));
-    };
+    const onViewSelectChange = useCallback(
+        (value: string): void => {
+            let newKey: ConfigKey;
+            if (value === "layout" || value === "config") {
+                newKey = value;
+            } else {
+                const n = parseInt(value, 10);
+                newKey = isNaN(n) ? "layout" : n;
+            }
+            setKey(newKey);
+            runInAction(() => keyBox.set(newKey));
+        },
+        [keyBox]
+    );
 
     const store = context.store;
 
