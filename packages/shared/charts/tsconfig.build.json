@@ -6,8 +6,7 @@
         "outDir": "./dist",
         "rootDir": "./src",
         "jsx": "react-jsx",
-        "jsxFactory": "",
-        "types": ["jest"]
+        "jsxFactory": ""
     },
     "references": [{ "path": "./rollup/tsconfig.json" }]
 }
