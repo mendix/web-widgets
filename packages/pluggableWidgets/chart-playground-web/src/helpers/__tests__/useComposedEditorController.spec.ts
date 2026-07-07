@@ -1,7 +1,4 @@
-jest.mock("plotly.js-dist-min", () => ({}));
-jest.mock("react-plotly.js", () => jest.fn(() => null));
-jest.mock("react-plotly.js/factory", () => jest.fn(() => jest.fn(() => null)));
-
+import "./stubObjectURL";
 import { act, renderHook } from "@testing-library/react";
 import { EditorStore, PlaygroundDataV1 } from "@mendix/shared-charts/main";
 import { useComposedEditorController } from "../useComposedEditorController";
@@ -32,5 +29,15 @@ describe("useComposedEditorController", () => {
         // The value shown to the user must remain exactly what they typed,
         // not get replaced by the store's reformatted echo of that same edit.
         expect(result.current.value).toBe('{"a":1,"b":2}');
+    });
+
+    it("keeps onViewSelectChange identity stable across re-renders", () => {
+        const data = setupData();
+        const { result, rerender } = renderHook(() => useComposedEditorController(data));
+        const first = result.current.onViewSelectChange;
+
+        rerender();
+
+        expect(result.current.onViewSelectChange).toBe(first);
     });
 });

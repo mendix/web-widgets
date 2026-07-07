@@ -35,14 +35,14 @@ function getModelerCode(data: PlaygroundDataV1, key: ConfigKey): Partial<Data> |
 export function useComposedEditorController(data: PlaygroundDataV1): ComposedEditorProps {
     const [key, setKey] = useState<ConfigKey>("layout");
 
-    const onViewSelectChange = (value: string): void => {
+    const onViewSelectChange = useCallback((value: string): void => {
         if (value === "layout" || value === "config") {
             setKey(value);
         } else {
             const n = parseInt(value, 10);
             setKey(isNaN(n) ? "layout" : n);
         }
-    };
+    }, []);
 
     const options: SelectOption[] = useMemo(() => {
         return [
