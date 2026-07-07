@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { dynamic, ListValueBuilder } from "@mendix/widget-plugin-test-utils";
 
-import MxCalendar from "../Calendar";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
+import MxCalendar from "../Calendar";
 import { CalendarPropsBuilder } from "../helpers/CalendarPropsBuilder";
 
 // Mock react-big-calendar to avoid View.title issues
