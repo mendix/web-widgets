@@ -1,5 +1,4 @@
-import { computed } from "mobx";
-import { CSSProperties, Ref, RefCallback, useEffect } from "react";
+import { Ref, RefCallback, useEffect } from "react";
 import { CustomChartControllerHost } from "src/controllers/CustomChartControllerHost";
 import { mergeRefs } from "src/utils/mergeRefs";
 import { PlaygroundData } from "@mendix/shared-charts/main";
@@ -9,30 +8,7 @@ import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { CustomChartContainerProps } from "../../typings/CustomChartProps";
 import { ControllerProps } from "../controllers/typings";
 
-// TODO: replace with get-dimensions from widget-plugin-platform
-function getContainerStyle(
-    width: number,
-    widthUnit: CustomChartContainerProps["widthUnit"],
-    height: number,
-    heightUnit: CustomChartContainerProps["heightUnit"]
-): CSSProperties {
-    const style: CSSProperties = {
-        width: widthUnit === "percentage" ? `${width}%` : `${width}px`
-    };
-
-    if (heightUnit === "percentageOfWidth") {
-        style.paddingBottom = widthUnit === "percentage" ? `${height}%` : `${width / 2}px`;
-    } else if (heightUnit === "pixels") {
-        style.height = `${height}px`;
-    } else if (heightUnit === "percentageOfParent") {
-        style.height = `${height}%`;
-    }
-
-    return style;
-}
-
 interface UseCustomChartReturn {
-    containerStyle: CSSProperties;
     playgroundData: PlaygroundData;
     ref: Ref<HTMLDivElement> | RefCallback<HTMLDivElement> | undefined;
 }
@@ -42,6 +18,7 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
 
     const {
         store,
+        adapter,
         chartViewModel,
         resizeCtrl: resizeController
     } = useSetup(() => new CustomChartControllerHost(gateProvider.gate));
@@ -50,19 +27,15 @@ export function useCustomChart(props: CustomChartContainerProps): UseCustomChart
         gateProvider.setProps(props);
     });
 
-    const containerStyle = getContainerStyle(props.width, props.widthUnit, props.height, props.heightUnit);
-    const playgroundData = computed(
-        (): PlaygroundData => ({
-            type: "editor.data.v2",
-            store,
-            plotData: store.data,
-            layoutOptions: {},
-            configOptions: {}
-        })
-    ).get();
+    const playgroundData: PlaygroundData = {
+        type: "editor.data.v2",
+        store,
+        plotData: store.data,
+        layoutOptions: adapter.layout,
+        configOptions: adapter.config
+    };
 
     return {
-        containerStyle,
         playgroundData,
         ref: mergeRefs<HTMLDivElement>(resizeController.setTarget, chartViewModel.setChart)
     };
