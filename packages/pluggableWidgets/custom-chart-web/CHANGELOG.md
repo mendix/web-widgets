@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- We fixed an issue where the "Modeler Layout" and "Modeler Configuration" panels in the chart playground were empty.
+
 ## [6.3.0] - 2026-02-17
 
 ### Breaking changes
