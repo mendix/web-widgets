@@ -1,10 +1,10 @@
 import { ObjectItem } from "mendix";
 import { DateLocalizer, Formats, ViewsProps } from "react-big-calendar";
+import { CustomWeekController } from "./CustomWeekController";
 import { CalendarContainerProps } from "../../typings/CalendarProps";
 import { createConfigurableToolbar, CustomToolbar, ResolvedToolbarItem } from "../components/Toolbar";
 import { eventPropGetter, getTextValue } from "../utils/calendar-utils";
 import { CalendarEvent, DragAndDropCalendarProps } from "../utils/typings";
-import { CustomWeekController } from "./CustomWeekController";
 
 export class CalendarPropsBuilder {
     private visibleDays: Set<number>;
