@@ -1,10 +1,4 @@
 import {
-    DropZoneProps,
-    RowLayoutProps,
-    structurePreviewPalette,
-    StructurePreviewProps
-} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
-import {
     hidePropertiesIn,
     hidePropertyIn,
     moveProperty,
@@ -12,10 +6,15 @@ import {
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
-
+import {
+    DropZoneProps,
+    RowLayoutProps,
+    structurePreviewPalette,
+    StructurePreviewProps
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { DatasourceEnum, ImagePreviewProps } from "../typings/ImageProps";
-import StructurePreviewImageSvg from "./assets/placeholder.svg";
 import StructurePreviewImageSvgDark from "./assets/placeholder-dark.svg";
+import StructurePreviewImageSvg from "./assets/placeholder.svg";
 
 type ImageViewPreviewPropsKey = keyof ImagePreviewProps;
 
@@ -202,6 +201,13 @@ export function getPreview(
         }
         if (values.heightUnit === "pixels" && values.height) {
             height = values.height;
+        } else if (values.heightUnit === "auto") {
+            // Mirror the min/max height constraints applied at runtime in constructStyleObject
+            if (values.maxHeightUnit === "pixels" && values.maxHeight) {
+                height = values.maxHeight;
+            } else if (values.minHeightUnit === "pixels" && values.minHeight) {
+                height = values.minHeight;
+            }
         }
         if (width || height) {
             return [width, height, previewImage];
