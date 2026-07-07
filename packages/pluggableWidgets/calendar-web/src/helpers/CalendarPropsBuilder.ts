@@ -225,6 +225,34 @@ export class CalendarPropsBuilder {
                     loc.format(date, monthHeaderPattern, culture);
             }
 
+            // Per-column headers — distinct from the toolbar title above.
+            // RBC renders the "07 Tue" day-column headers via `dayFormat` (week/day time-grid,
+            // TimeGridHeader.js) and the month weekday headers via `weekdayFormat` (Month.js).
+            // These are separate from dayHeaderFormat/monthHeaderFormat (the toolbar title), so we
+            // must set them explicitly or RBC's date-fns defaults ("dd eee") always win.
+            if (monthHeaderPattern) {
+                formats.weekdayFormat = (date: Date, culture: string, loc: DateLocalizer) =>
+                    loc.format(date, monthHeaderPattern, culture);
+            }
+
+            // RBC exposes a single global `dayFormat` shared by the day AND week column headers, so
+            // when a day item and a week item each carry a different "Header day format" we can only
+            // honor one. Precedence matches `chosenTimeGutter` below (week → day → work_week) for
+            // consistency across the shared-key formats. weekHeaderPattern already folds in
+            // week/work_week; dayHeaderPattern is the "day" item.
+            const columnDayPattern: string | undefined = weekHeaderPattern || dayHeaderPattern;
+            if (weekHeaderPattern && dayHeaderPattern && weekHeaderPattern !== dayHeaderPattern) {
+                console.warn(
+                    `[Calendar] Both week and day "Header day format" are set to different patterns ` +
+                        `("${weekHeaderPattern}" vs "${dayHeaderPattern}"). react-big-calendar shares a single ` +
+                        `column-header format, so "${columnDayPattern}" will be used for both views.`
+                );
+            }
+            if (columnDayPattern) {
+                formats.dayFormat = (date: Date, culture: string, loc: DateLocalizer) =>
+                    loc.format(date, columnDayPattern, culture);
+            }
+
             const agendaHeaderPattern = getPattern(byType.get("agenda")?.customViewHeaderDayFormat);
             if (agendaHeaderPattern) {
                 formats.agendaHeaderFormat = (range: { start: Date; end: Date }, culture: string, loc: DateLocalizer) =>
