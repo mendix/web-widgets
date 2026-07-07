@@ -256,3 +256,79 @@ describe("CalendarPropsBuilder validation", () => {
         expect(result.timeslots).toBe(2);
     });
 });
+
+describe("CalendarPropsBuilder column header formats", () => {
+    const buildFormats = (toolbarItems: CalendarContainerProps["toolbarItems"]): any => {
+        const localizer = {
+            format: jest.fn((_date: Date, pattern: string) => pattern),
+            parse: jest.fn(),
+            startOfWeek: jest.fn(),
+            getDay: jest.fn(),
+            messages: {}
+        } as any;
+        const builder = new CalendarPropsBuilder({ ...customViewProps, toolbarItems });
+        return { formats: builder.build(localizer, "en").formats, localizer };
+    };
+
+    const toolbarItem = (
+        itemType: string,
+        overrides: Partial<CalendarContainerProps["toolbarItems"][number]> = {}
+    ): CalendarContainerProps["toolbarItems"][number] =>
+        ({
+            itemType,
+            position: "left",
+            renderMode: "button",
+            buttonStyle: "default",
+            ...overrides
+        }) as any;
+
+    it("wires 'Header day format' on a day item into RBC dayFormat (the column header)", () => {
+        const { formats, localizer } = buildFormats([
+            toolbarItem("day", { customViewHeaderDayFormat: dynamic("EE dd-MM") })
+        ]);
+
+        expect(typeof formats.dayFormat).toBe("function");
+        formats.dayFormat(new Date("2025-04-28T12:00:00Z"), "en", localizer);
+        expect(localizer.format).toHaveBeenCalledWith(expect.any(Date), "EE dd-MM", "en");
+    });
+
+    it("wires 'Header day format' on a month item into RBC weekdayFormat", () => {
+        const { formats, localizer } = buildFormats([
+            toolbarItem("month", { customViewHeaderDayFormat: dynamic("EEEE") })
+        ]);
+
+        expect(typeof formats.weekdayFormat).toBe("function");
+        formats.weekdayFormat(new Date("2025-04-28T12:00:00Z"), "en", localizer);
+        expect(localizer.format).toHaveBeenCalledWith(expect.any(Date), "EEEE", "en");
+    });
+
+    it("prefers the week pattern for the shared dayFormat when day and week both set it", () => {
+        const warn = jest.spyOn(console, "warn").mockImplementation(() => undefined);
+        const { formats, localizer } = buildFormats([
+            toolbarItem("day", { customViewHeaderDayFormat: dynamic("dd") }),
+            toolbarItem("week", { customViewHeaderDayFormat: dynamic("EE dd-MM") })
+        ]);
+
+        formats.dayFormat(new Date("2025-04-28T12:00:00Z"), "en", localizer);
+        expect(localizer.format).toHaveBeenCalledWith(expect.any(Date), "EE dd-MM", "en");
+        expect(warn).toHaveBeenCalledWith(expect.stringContaining("shares a single"));
+        warn.mockRestore();
+    });
+
+    it("leaves dayFormat/weekdayFormat unset when no header format is configured (RBC defaults preserved)", () => {
+        const { formats } = buildFormats([toolbarItem("day"), toolbarItem("month")]);
+
+        expect(formats.dayFormat).toBeUndefined();
+        expect(formats.weekdayFormat).toBeUndefined();
+    });
+
+    it("wires 'Time gutter format' on a day item into RBC timeGutterFormat", () => {
+        const { formats, localizer } = buildFormats([
+            toolbarItem("day", { customViewGutterTimeFormat: dynamic("HH:mm") })
+        ]);
+
+        expect(typeof formats.timeGutterFormat).toBe("function");
+        formats.timeGutterFormat(new Date("2025-04-28T14:00:00Z"), "en", localizer);
+        expect(localizer.format).toHaveBeenCalledWith(expect.any(Date), "HH:mm", "en");
+    });
+});
