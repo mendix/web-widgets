@@ -2649,9 +2649,6 @@ importers:
 
   packages/shared/charts:
     dependencies:
-      '@types/jest':
-        specifier: ^30.0.0
-        version: 30.0.0
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -2704,6 +2701,9 @@ importers:
       '@rollup/plugin-terser':
         specifier: ^0.4.4
         version: 0.4.4(rollup@4.62.0)
+      '@types/jest':
+        specifier: ^30.0.0
+        version: 30.0.0
       '@types/plotly.js-dist-min':
         specifier: ^2.3.4
         version: 2.3.4
