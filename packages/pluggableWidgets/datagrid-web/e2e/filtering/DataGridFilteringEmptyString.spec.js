@@ -7,7 +7,7 @@ test.describe("datagrid-web filtering empty strings", () => {
 
     test.beforeEach(async ({ page }) => {
         grid = new DataGridPage(page, "dataGrid2_1");
-        await grid.open("/p/filtering-empty-string");
+        await page.goto("/p/filtering-empty-string");
     });
 
     test("filter rows by Empty and Not empty", async () => {

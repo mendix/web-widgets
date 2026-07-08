@@ -2,11 +2,10 @@
  * Page Object Model for the datagrid-web widget E2E tests.
  *
  * A `DataGridPage` wraps a single Data Grid instance (identified by its
- * Mendix `mx-name`) and exposes the locators and actions the specs need,
- * so tests read as behavior rather than raw selectors.
- *
- * Navigation relies on the custom fixture, which auto-waits for the Mendix
- * app to be ready after every `page.goto()` — no manual `waitForMendixApp`.
+ * Mendix `mx-name`) and exposes locators and actions scoped to that widget's
+ * DOM subtree. Navigation (`page.goto`) and page-level selectors (e.g.
+ * drop-down filter widgets that are siblings of the grid, not children) stay
+ * in the spec's `beforeEach` / test body — this class has no `this.page`.
  */
 export class DataGridPage {
     /**
@@ -14,14 +13,7 @@ export class DataGridPage {
      * @param {string} [name="datagrid1"] the grid's mx-name (without the `.mx-name-` prefix)
      */
     constructor(page, name = "datagrid1") {
-        this.page = page;
-        this.name = name;
         this.root = page.locator(`.mx-name-${name}`);
-    }
-
-    /** Navigate to a page; the fixture auto-waits for Mendix readiness. */
-    async open(path = "/") {
-        await this.page.goto(path);
     }
 
     // --- Columns & headers -------------------------------------------------
@@ -84,16 +76,6 @@ export class DataGridPage {
     }
 
     // --- Filters -----------------------------------------------------------
-
-    /** A named drop-down filter widget rendered as a combobox. */
-    dropdownFilter(n) {
-        return this.page.locator(`.mx-name-drop_downFilter${n}[role="combobox"]`);
-    }
-
-    /** An option in an open listbox, matched by exact accessible name. */
-    option(label) {
-        return this.page.getByRole("option", { name: label, exact: true });
-    }
 
     /** Column-header-scoped filter controls (used by header-embedded filters). */
     headerCombobox(name) {

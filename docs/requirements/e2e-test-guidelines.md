@@ -75,8 +75,9 @@ For widgets with more than a handful of specs — or any spec that repeats the s
 
 **Conventions:**
 
-- **Scope to one widget instance by `mx-name`.** The constructor takes `(page, name)` and builds a `root` locator (`.mx-name-<name>`); default the `name` to the most common instance. All locators derive from `root` so tests never hard-code `.mx-name-*` strings.
-- **`open(path)` wraps `page.goto(path)` only.** The custom fixture already auto-waits for the app (see Imports & Setup) — do **not** add `waitForMendixApp` inside the POM.
+- **Scope to one widget instance by `mx-name`.** The constructor takes `(page, name)` and builds a `root` locator (`.mx-name-<name>`); default the `name` to the most common instance. All locators derive from `root` — the POM stores no reference to `page`.
+- **Navigation stays in `beforeEach`, not the POM.** Call `page.goto(path)` directly in the spec's `beforeEach`. The custom fixture auto-waits for the app after every `goto` — do **not** add `waitForMendixApp` (see Imports & Setup).
+- **Page-level selectors stay in the spec.** When a widget renders outside the grid's DOM subtree (e.g. a sibling filter widget), use `page.locator(...)` inline in the test. Do not add a `this.page` property to the POM to accommodate these — it breaks instance isolation.
 - **Expose locators as getters/methods; keep assertions in the spec.** The POM returns locators (e.g. `get rows()`, `columnCells(n)`); the test does the `expect(...)`. This preserves auto-retrying web-first assertions and keeps the POM assertion-free.
 - **Actions are verbs** (`sortByColumn(n)`, `openColumnSelector()`); **locators are nouns** (`columnHeaders`, `cells`). Prefer `.mx-name-*` and role/label composition inside the POM, following Locator Patterns above.
 
@@ -84,13 +85,8 @@ For widgets with more than a handful of specs — or any spec that repeats the s
 // e2e/pages/MyWidgetPage.js
 export class MyWidgetPage {
     constructor(page, name = "myWidget1") {
-        this.page = page;
+        // page is used only to build root; not stored — keeps POM dom-subtree-scoped.
         this.root = page.locator(`.mx-name-${name}`);
-    }
-
-    // fixture auto-waits after goto — no waitForMendixApp here
-    async open(path = "/") {
-        await this.page.goto(path);
     }
 
     get rows() {
@@ -112,9 +108,10 @@ test.describe("MyWidget", () => {
     /** @type {MyWidgetPage} */
     let widget;
 
+    // Navigation and page-level setup belong here, not in the POM.
     test.beforeEach(async ({ page }) => {
         widget = new MyWidgetPage(page);
-        await widget.open("/");
+        await page.goto("/"); // fixture auto-waits for Mendix readiness
     });
 
     test("submits the form @smoke", async () => {

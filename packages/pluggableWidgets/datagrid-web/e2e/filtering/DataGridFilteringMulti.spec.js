@@ -7,23 +7,24 @@ test.describe("datagrid-web filtering multi select", () => {
 
     test.beforeEach(async ({ page }) => {
         grid = new DataGridPage(page, "dataGrid21");
-        await grid.open("/p/filtering-multi");
+        await page.goto("/p/filtering-multi");
     });
 
-    test("filter rows where enum attribute equal to one of selected values", async () => {
+    test("filter rows where enum attribute equal to one of selected values", async ({ page }) => {
         await expect(grid.rows).toHaveCount(11);
         await expect(grid.columnCells(2).first()).toHaveText("Black");
         await expect(grid.columnCells(2).last()).toHaveText("Blue");
-        await grid.dropdownFilter(1).click();
-        await grid.option("Pink").click({ delay: 20 });
+        // drop_downFilter widgets are siblings of the grid, not children — page-scoped selector is required.
+        await page.locator('.mx-name-drop_downFilter1[role="combobox"]').click();
+        await page.getByRole("option", { name: "Pink", exact: true }).click({ delay: 20 });
         await expect(grid.rows).toHaveCount(6);
-        await grid.option("Blush").click({ delay: 20 });
+        await page.getByRole("option", { name: "Blush", exact: true }).click({ delay: 20 });
         await expect(grid.rows).toHaveCount(8);
         await grid.headerCombobox("Color (enum)").click({ delay: 20 });
         await expect(grid.columnCells(2)).toContainText(["Pink", "Pink", "Pink", "Blush", "Blush", "Pink", "Pink"]);
     });
 
-    test("filter rows where ReferenceSet contains at least one of selected objects", async () => {
+    test("filter rows where ReferenceSet contains at least one of selected objects", async ({ page }) => {
         const expectedColumnText = [
             "EconomistArmed forces officerTraderHealth service manager",
             "EconomistArmed forces officerTrader",
@@ -36,23 +37,25 @@ test.describe("datagrid-web filtering multi select", () => {
             "Environmental scientistPublic librarianMaterials specialist"
         ];
         await expect(grid.columnCells(3).first()).toHaveText(expectedColumnText[0]);
-        await grid.dropdownFilter(3).click();
-        await grid.option("Economist").click({ delay: 20 });
+        // drop_downFilter widgets are siblings of the grid, not children — page-scoped selector is required.
+        await page.locator('.mx-name-drop_downFilter3[role="combobox"]').click();
+        await page.getByRole("option", { name: "Economist", exact: true }).click({ delay: 20 });
         await expect(grid.rows).toHaveCount(6);
-        await grid.option("Public librarian").click({ delay: 20 });
+        await page.getByRole("option", { name: "Public librarian", exact: true }).click({ delay: 20 });
         await expect(grid.rows).toHaveCount(10);
-        await grid.dropdownFilter(3).click({ delay: 20 });
+        await page.locator('.mx-name-drop_downFilter3[role="combobox"]').click({ delay: 20 });
         await expect(grid.columnCells(3)).toHaveText(expectedColumnText);
     });
 
-    test("filter rows where Reference equal to one of selected objects", async () => {
+    test("filter rows where Reference equal to one of selected objects", async ({ page }) => {
         await expect(grid.rows).toHaveCount(11);
         await expect(grid.columnCells(4).first()).toHaveText("W.R. Berkley Corporation");
         await expect(grid.columnCells(4).last()).toHaveText("PETsMART Inc");
-        await grid.dropdownFilter(4).click({ delay: 20 });
-        await grid.option("FMC Corp").click({ delay: 20 });
+        // drop_downFilter widgets are siblings of the grid, not children — page-scoped selector is required.
+        await page.locator('.mx-name-drop_downFilter4[role="combobox"]').click({ delay: 20 });
+        await page.getByRole("option", { name: "FMC Corp", exact: true }).click({ delay: 20 });
         await expect(grid.rows).toHaveCount(2);
-        await grid.option("ALLETE, Inc.").click({ delay: 20 });
+        await page.getByRole("option", { name: "ALLETE, Inc.", exact: true }).click({ delay: 20 });
         await expect(grid.rows).toHaveCount(6);
         await grid.headerCombobox("Company").click({ delay: 20 });
         await expect(grid.columnCells(4)).toContainText([

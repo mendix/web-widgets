@@ -4,7 +4,7 @@ import { DataGridPage } from "../pages/DataGridPage";
 test("datagrid-web filtering integration", async ({ page }) => {
     const grid = new DataGridPage(page, "dataGrid21");
 
-    await grid.open("/p/filtering-integration");
+    await page.goto("/p/filtering-integration");
 
     await expect(grid.rows).toHaveCount(51);
 
@@ -18,16 +18,17 @@ test("datagrid-web filtering integration", async ({ page }) => {
     await grid.headerTextbox("Birth year").fill("1995");
     await expect(grid.rows).toHaveCount(9);
 
+    // option() is page-scoped: the listbox is rendered by a sibling filter widget, not inside the grid root.
     await grid.headerCombobox("Color (enum)").click();
-    await grid.option("Black").click({ delay: 1 });
+    await page.getByRole("option", { name: "Black", exact: true }).click({ delay: 1 });
     await expect(grid.rows).toHaveCount(4);
 
     await grid.headerCombobox("Roles (ref set)").click();
-    await grid.option("Careers adviser").click({ delay: 1 });
+    await page.getByRole("option", { name: "Careers adviser", exact: true }).click({ delay: 1 });
     await expect(grid.rows).toHaveCount(3);
 
     await grid.headerCombobox("Company").click();
-    await grid.option("Sierra Health Services Inc").click({ delay: 20 });
+    await page.getByRole("option", { name: "Sierra Health Services Inc", exact: true }).click({ delay: 20 });
     await expect(grid.rows).toHaveCount(2);
 
     const row = grid.rows.nth(1);
