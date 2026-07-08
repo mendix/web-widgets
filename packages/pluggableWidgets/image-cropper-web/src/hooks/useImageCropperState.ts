@@ -3,7 +3,7 @@ import type { Crop, PixelCrop } from "react-image-crop";
 
 interface ImageCropperState {
     // liveCrop: % units, updated per pointer move (onChange) — survives container resize.
-    // committedCrop: px units, set on release (onComplete) — consumed by cropImage/PreviewPane.
+    // committedCrop: px units, set on release (onComplete) — consumed by cropImage.
     liveCrop: Crop | undefined;
     setLiveCrop: Dispatch<SetStateAction<Crop | undefined>>;
     committedCrop: PixelCrop | undefined;

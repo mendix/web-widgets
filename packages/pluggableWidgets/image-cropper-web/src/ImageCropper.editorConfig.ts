@@ -20,10 +20,6 @@ export function getProperties(values: ImageCropperPreviewProps, defaultPropertie
         propsToHide.push("showZoomSlider", "wheelZoomMode", "minZoom", "maxZoom");
     }
 
-    if (!values.showPreview) {
-        propsToHide.push("previewWidth", "previewHeight");
-    }
-
     if (values.outputFormat !== "jpeg") {
         propsToHide.push("outputQuality");
     }

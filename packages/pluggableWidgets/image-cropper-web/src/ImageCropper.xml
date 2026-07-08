@@ -61,20 +61,6 @@
                     <description>Maximum on-screen height of the crop area. The image scales down to fit; the canvas wraps the rendered image, so smaller crops produce a smaller canvas with no blank gaps. Does not change the saved image size.</description>
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Preview">
-                <property key="showPreview" type="boolean" defaultValue="false" required="true">
-                    <caption>Show preview</caption>
-                    <description>Show a live thumbnail of the current crop next to the canvas.</description>
-                </property>
-                <property key="previewWidth" type="integer" defaultValue="100" required="true">
-                    <caption>Preview width (px)</caption>
-                    <description>Width of the preview thumbnail.</description>
-                </property>
-                <property key="previewHeight" type="integer" defaultValue="100" required="true">
-                    <caption>Preview height (px)</caption>
-                    <description>Height of the preview thumbnail.</description>
-                </property>
-            </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Behavior">
             <propertyGroup caption="Interaction">

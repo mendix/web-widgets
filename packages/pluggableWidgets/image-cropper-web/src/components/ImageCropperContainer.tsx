@@ -4,7 +4,6 @@ import { ReactElement, SetStateAction, useCallback, useEffect, useRef, useState 
 import { type Crop, type PixelCrop } from "react-image-crop";
 import { CropArea } from "./CropArea";
 import { CropToolbar } from "./CropToolbar";
-import { PreviewPane } from "./PreviewPane";
 import { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 import { useAutoApplyCrop } from "../hooks/useAutoApplyCrop";
 import { useImageCropperState } from "../hooks/useImageCropperState";
@@ -316,18 +315,6 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 onToggleGrayscale={handleToggleGrayscale}
                 onReset={handleReset}
             />
-            {props.showPreview ? (
-                <PreviewPane
-                    image={state.imageRef.current}
-                    pixelCrop={state.committedCrop}
-                    zoom={state.zoom}
-                    zoomAnchor={zoomAnchor}
-                    width={props.previewWidth}
-                    height={props.previewHeight}
-                    circle={props.cropShape === "circle"}
-                    grayscale={state.grayscale}
-                />
-            ) : null}
         </div>
     );
 }
