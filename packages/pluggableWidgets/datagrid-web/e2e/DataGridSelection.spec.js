@@ -6,7 +6,7 @@ test.describe("datagrid-web selection", async () => {
     test("applies checkbox single selection checkbox", async ({ page }) => {
         const grid = new DataGridPage(page, "dgSingleSelectionCheckbox");
 
-        await grid.open("/p/single-selection");
+        await page.goto("/p/single-selection");
         await expect(grid.root).toBeVisible();
         await grid.root.locator("input").first().click();
         await expect(page).toHaveScreenshot(`datagridSingleSelectionCheckbox.png`);
@@ -15,7 +15,7 @@ test.describe("datagrid-web selection", async () => {
     test("applies checkbox single selection row click", async ({ page }) => {
         const grid = new DataGridPage(page, "dgSingleSelectionRowClick");
 
-        await grid.open("/p/single-selection");
+        await page.goto("/p/single-selection");
         await expect(grid.root).toBeVisible();
         await grid.cells.first().click({ modifiers: ["Shift"] });
         await expect(page).toHaveScreenshot(`datagridSingleSelectionRowClick.png`);
@@ -24,7 +24,7 @@ test.describe("datagrid-web selection", async () => {
     test("applies checkbox multi selection checkbox", async ({ page }) => {
         const grid = new DataGridPage(page, "dgMultiSelectionCheckbox");
 
-        await grid.open("/p/multi-selection");
+        await page.goto("/p/multi-selection");
         await expect(grid.root).toBeVisible();
         await grid.root.locator("input").first().click();
         await grid.root.locator("input").nth(1).click();
@@ -34,7 +34,7 @@ test.describe("datagrid-web selection", async () => {
     test("applies checkbox multi selection row click", async ({ page }) => {
         const grid = new DataGridPage(page, "dgMultiSelectionRowClick");
 
-        await grid.open("/p/multi-selection");
+        await page.goto("/p/multi-selection");
         await expect(grid.root).toBeVisible();
         await grid.cells.first().click({ force: true });
         await grid.cells.nth(4).click({ modifiers: ["Shift"] });
@@ -43,7 +43,7 @@ test.describe("datagrid-web selection", async () => {
 
     test("checks single selection accessibility with sr-only text", async ({ page }) => {
         const grid = new DataGridPage(page, "dgSingleSelectionCheckbox");
-        await grid.open("/p/single-selection");
+        await page.goto("/p/single-selection");
 
         await grid.root.waitFor();
 
@@ -73,7 +73,7 @@ test.describe("datagrid-web selection", async () => {
 
     test("checks accessibility violations", async ({ page }) => {
         const grid = new DataGridPage(page, "dgMultiSelectionCheckbox");
-        await grid.open("/p/multi-selection");
+        await page.goto("/p/multi-selection");
 
         await grid.root.waitFor();
         const accessibilityScanResults = await new AxeBuilder({ page })

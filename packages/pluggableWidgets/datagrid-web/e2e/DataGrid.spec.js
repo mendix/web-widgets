@@ -9,7 +9,7 @@ test.describe("datagrid-web export to Excel", () => {
         const downloadedFilename = path.join("./e2e/downloads/", "testFilename.xlsx");
 
         const grid = new DataGridPage(page, "dataGridExportExcel");
-        await grid.open("/p/export-excel");
+        await page.goto("/p/export-excel");
         await grid.root.waitFor({ state: "visible", timeout: 15000 });
         // Start waiting for download before clicking.
         const downloadPromise = page.waitForEvent("download");
@@ -52,7 +52,7 @@ test.describe("datagrid-web export to Excel", () => {
 test.describe("capabilities: sorting", () => {
     test("applies the default sort order from the data source option", async ({ page }) => {
         const grid = new DataGridPage(page);
-        await grid.open("/");
+        await page.goto("/");
         await expect(grid.columnHeader(1)).toHaveText("First Name");
         await expect(grid.sortIcon(1)).toHaveAttribute("data-icon", "arrows-alt-v");
         await expect(page.getByRole("gridcell", { name: "12" }).first()).toHaveText("12");
@@ -60,7 +60,7 @@ test.describe("capabilities: sorting", () => {
 
     test("changes order of data to ASC when clicking sort option", async ({ page }) => {
         const grid = new DataGridPage(page);
-        await grid.open("/");
+        await page.goto("/");
         await expect(grid.columnHeader(1)).toHaveText("First Name");
         await expect(grid.sortIcon(1)).toHaveAttribute("data-icon", "arrows-alt-v");
         await grid.sortByColumn(1);
@@ -70,7 +70,7 @@ test.describe("capabilities: sorting", () => {
 
     test("changes order of data to DESC when clicking sort option", async ({ page }) => {
         const grid = new DataGridPage(page);
-        await grid.open("/");
+        await page.goto("/");
         await expect(grid.columnHeader(1)).toHaveText("First Name");
         await grid.sortByColumn(1);
         await grid.sortByColumn(1);
@@ -82,7 +82,7 @@ test.describe("capabilities: sorting", () => {
 test.describe("capabilities: hiding", () => {
     test("hides a selected column", async ({ page }) => {
         const grid = new DataGridPage(page);
-        await grid.open("/");
+        await page.goto("/");
         await expect(grid.columnHeaders.first()).toHaveText("Age");
         await grid.openColumnSelector();
         await grid.columnSelectorItems.first().click();
@@ -91,7 +91,7 @@ test.describe("capabilities: hiding", () => {
 
     test("hide column saved on configuration attribute capability", async ({ page }) => {
         const grid = new DataGridPage(page, "datagrid5");
-        await grid.open("/");
+        await page.goto("/");
 
         // hide first column
         await grid.openColumnSelector();
@@ -120,7 +120,7 @@ test.describe("capabilities: hiding", () => {
     });
     test("hide column by default enabled", async ({ page }) => {
         const grid = new DataGridPage(page, "datagrid6");
-        await grid.open("/");
+        await page.goto("/");
         await expect(grid.columnHeaders.first()).toHaveText("First Name");
         await grid.openColumnSelector();
         await grid.columnSelectorItems.first().click();
@@ -129,7 +129,7 @@ test.describe("capabilities: hiding", () => {
 
     test("do not allow to hide last visible column", async ({ page }) => {
         const grid = new DataGridPage(page);
-        await grid.open("/");
+        await page.goto("/");
         await expect(grid.columnHeaders.first()).toBeVisible();
         await grid.openColumnSelector();
         await expect(grid.checkedColumns).toHaveCount(4);
@@ -151,7 +151,7 @@ test.describe("capabilities: hiding", () => {
 test.describe("capabilities: onClick action", () => {
     test("check the context", async ({ page }) => {
         const grid = new DataGridPage(page);
-        await grid.open("/");
+        await page.goto("/");
         await expect(grid.cells.first()).toHaveText("12");
         await grid.cells.first().click();
         await expect(page.locator(".mx-name-AgeTextBox input")).toHaveValue("12");
@@ -161,7 +161,7 @@ test.describe("capabilities: onClick action", () => {
 test.describe("manual column width", () => {
     test("compares with a screenshot baseline and checks the column width is with correct size", async ({ page }) => {
         const grid = new DataGridPage(page, "datagrid7");
-        await grid.open("/");
+        await page.goto("/");
         await grid.root.scrollIntoViewIfNeeded();
         await expect(grid.root).toHaveScreenshot(`dataGridColumnContent.png`);
     });
@@ -172,7 +172,7 @@ test.describe("visual testing:", () => {
         page
     }) => {
         const grid = new DataGridPage(page);
-        await grid.open("/");
+        await page.goto("/");
         await expect(grid.root).toBeVisible();
         await expect(grid.root).toHaveScreenshot(`datagrid.png`);
     });
@@ -181,7 +181,7 @@ test.describe("visual testing:", () => {
         page
     }) => {
         const grid = new DataGridPage(page, "dataGrid21");
-        await grid.open("/p/virtual-scrolling");
+        await page.goto("/p/virtual-scrolling");
         await expect(grid.root).toBeVisible();
         await grid.root.locator(".mx-name-textFilter1 .filter-selector-content .btn").click();
         await expect(page.locator(".mx-page")).toHaveScreenshot(`datagrid-virtual-scrolling.png`);
@@ -191,7 +191,7 @@ test.describe("visual testing:", () => {
 test.describe("a11y testing:", () => {
     test("checks accessibility violations", async ({ page }) => {
         const grid = new DataGridPage(page);
-        await grid.open("/");
+        await page.goto("/");
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag21aa"])
             .exclude(".mx-name-navigationTree3")
