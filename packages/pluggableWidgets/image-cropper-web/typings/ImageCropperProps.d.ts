@@ -30,9 +30,6 @@ export interface ImageCropperContainerProps {
     onCropAction?: ActionValue;
     boundaryWidth: number;
     boundaryHeight: number;
-    showPreview: boolean;
-    previewWidth: number;
-    previewHeight: number;
     resizableEnabled: boolean;
     enableRotation: boolean;
     enableGrayscale: boolean;
@@ -66,9 +63,6 @@ export interface ImageCropperPreviewProps {
     onCropAction: {} | null;
     boundaryWidth: number | null;
     boundaryHeight: number | null;
-    showPreview: boolean;
-    previewWidth: number | null;
-    previewHeight: number | null;
     resizableEnabled: boolean;
     enableRotation: boolean;
     enableGrayscale: boolean;

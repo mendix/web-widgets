@@ -192,21 +192,6 @@ image and clears zoom, rotation, and grayscale, re-seeding the default crop box.
 - **THEN** zoom SHALL return to `minZoom`, grayscale SHALL turn off, the original image bytes SHALL be written back, and the default 80%-centered crop box SHALL be re-seeded
 - **AND** the reset itself SHALL NOT trigger an auto-apply write of a crop
 
-### Requirement: Live preview pane
-
-When `showPreview` is true, the widget SHALL render a live thumbnail of the current crop next to
-the crop area at the configured `previewWidth` × `previewHeight`.
-
-#### Scenario: Preview reflects current crop
-
-- **WHEN** `showPreview` is `true`
-- **THEN** a thumbnail SHALL be shown reflecting the current crop, zoom, grayscale, and crop shape (circular mask when `cropShape` is `circle`)
-
-#### Scenario: Preview hidden
-
-- **WHEN** `showPreview` is `false`
-- **THEN** no preview thumbnail SHALL be rendered
-
 ### Requirement: Output encoding
 
 The widget SHALL encode the saved image according to `outputFormat`, `outputQuality`, and

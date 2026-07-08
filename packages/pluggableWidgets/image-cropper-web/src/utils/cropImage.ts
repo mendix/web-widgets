@@ -29,7 +29,7 @@ export const CENTER_ANCHOR: ZoomAnchor = { x: 0.5, y: 0.5 };
  * Maps the crop box (in the displayed image's unscaled layout px) to a source rectangle on the
  * natural image. Zoom is a CSS `transform: scale(z)` anchored on `anchor` (a fixed point that
  * stays put on screen while scaling), so the visible region shrinks by 1/z about that point.
- * Shared by cropImage (export) and PreviewPane so exported pixels match the on-screen framing.
+ * Used by cropImage (export) so exported pixels match the on-screen framing.
  * Result is clamped to the image. When anchor == the crop-box center this reduces to the plain
  * "zoom into the box" mapping.
  */
