@@ -47,6 +47,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
+        "@floating-ui/react": "^0.26.27",
         "classnames": "^2.5.1",
         "downshift": "^7.6.2",
         "match-sorter": "^8.1.0"

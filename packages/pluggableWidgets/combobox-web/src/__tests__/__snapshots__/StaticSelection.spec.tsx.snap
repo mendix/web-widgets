@@ -82,7 +82,7 @@ exports[`Combo box (Static values) renders combobox widget 1`] = `
     </div>
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
-      style="visibility: hidden; position: fixed;"
+      style="position: fixed; left: 0px; top: 0px; visibility: hidden; transform: translate(0px, 0px);"
     >
       <ul
         aria-labelledby="comboBox1-label"

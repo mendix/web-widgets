@@ -1,11 +1,12 @@
 import classNames from "classnames";
 import { UseComboboxPropGetters } from "downshift/typings";
-import { MouseEvent, PropsWithChildren, ReactElement, ReactNode } from "react";
-import { useMenuStyle } from "../hooks/useMenuStyle";
+import { CSSProperties, MouseEvent, PropsWithChildren, ReactElement, ReactNode, Ref } from "react";
 import { NoOptionsPlaceholder } from "./Placeholder";
 
 interface ComboboxMenuWrapperProps extends PropsWithChildren, Partial<UseComboboxPropGetters<string>> {
     alwaysOpen?: boolean;
+    floatingRef?: Ref<HTMLDivElement>;
+    floatingStyles?: CSSProperties;
     highlightedIndex?: number | null;
     isEmpty: boolean;
     isLoading: boolean;
@@ -32,6 +33,8 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
     const {
         alwaysOpen,
         children,
+        floatingRef,
+        floatingStyles,
         getMenuProps,
         highlightedIndex,
         isEmpty,
@@ -46,11 +49,9 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
         onScroll
     } = props;
 
-    const [ref, style] = useMenuStyle<HTMLDivElement>(isOpen);
-
     return (
         <div
-            ref={ref}
+            ref={floatingRef}
             className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
             style={
                 alwaysOpen
@@ -59,7 +60,7 @@ export function ComboboxMenuWrapper(props: ComboboxMenuWrapperProps): ReactEleme
                           visibility: "visible",
                           position: "relative"
                       }
-                    : style
+                    : floatingStyles
             }
             data-overlay-content={isOpen || undefined}
         >
