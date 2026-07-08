@@ -1,12 +1,12 @@
 import { Ref, RefCallback, useEffect } from "react";
-import { CustomChartControllerHost } from "src/controllers/CustomChartControllerHost";
-import { mergeRefs } from "src/utils/mergeRefs";
 import { PlaygroundData } from "@mendix/shared-charts/main";
 import { GateProvider } from "@mendix/widget-plugin-mobx-kit/GateProvider";
 import { useConst } from "@mendix/widget-plugin-mobx-kit/react/useConst";
 import { useSetup } from "@mendix/widget-plugin-mobx-kit/react/useSetup";
 import { CustomChartContainerProps } from "../../typings/CustomChartProps";
+import { CustomChartControllerHost } from "../controllers/CustomChartControllerHost";
 import { ControllerProps } from "../controllers/typings";
+import { mergeRefs } from "../utils/mergeRefs";
 
 interface UseCustomChartReturn {
     playgroundData: PlaygroundData;

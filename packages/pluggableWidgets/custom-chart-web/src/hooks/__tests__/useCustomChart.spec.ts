@@ -1,3 +1,4 @@
+import "./stubObjectURL";
 import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import { observer } from "mobx-react-lite";
 import { createElement, ReactElement } from "react";
