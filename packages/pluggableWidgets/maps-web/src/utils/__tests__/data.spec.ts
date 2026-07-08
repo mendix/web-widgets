@@ -8,12 +8,12 @@ describe("data.ts - Marker Conversion Functions", () => {
         it("should convert marker with all fields present", () => {
             const mockAction = jest.fn();
             const marker: MarkersType = {
-                address: dynamic("123 Main St"),
-                latitude: dynamic("40.7128"),
-                longitude: dynamic("-74.0060"),
-                title: dynamic("New York"),
+                address: dynamic.available("123 Main St"),
+                latitude: dynamic.available("40.7128"),
+                longitude: dynamic.available("-74.0060"),
+                title: dynamic.available("New York"),
                 onClick: { canExecute: true, isExecuting: false, execute: mockAction },
-                customMarker: dynamic({ uri: "marker.png" } as any),
+                customMarker: dynamic.available({ uri: "marker.png" } as any),
                 locationType: "latlng",
                 markerStyle: "image"
             };
@@ -56,8 +56,8 @@ describe("data.ts - Marker Conversion Functions", () => {
 
         it("should parse numbers with comma as decimal separator", () => {
             const marker: MarkersType = {
-                latitude: dynamic("40,7128"),
-                longitude: dynamic("-74,0060"),
+                latitude: dynamic.available("40,7128"),
+                longitude: dynamic.available("-74,0060"),
                 locationType: "latlng",
                 markerStyle: "default"
             };
@@ -70,8 +70,8 @@ describe("data.ts - Marker Conversion Functions", () => {
 
         it("should parse numbers with period as decimal separator", () => {
             const marker: MarkersType = {
-                latitude: dynamic("40.7128"),
-                longitude: dynamic("-74.0060"),
+                latitude: dynamic.available("40.7128"),
+                longitude: dynamic.available("-74.0060"),
                 locationType: "latlng",
                 markerStyle: "default"
             };
@@ -84,9 +84,9 @@ describe("data.ts - Marker Conversion Functions", () => {
 
         it("should handle empty customMarker image", () => {
             const marker: MarkersType = {
-                latitude: dynamic("40"),
-                longitude: dynamic("-74"),
-                customMarker: dynamic(undefined as any),
+                latitude: dynamic.available("40"),
+                longitude: dynamic.available("-74"),
+                customMarker: dynamic.unavailable(),
                 locationType: "latlng",
                 markerStyle: "image"
             };
@@ -382,7 +382,7 @@ describe("data.ts - Marker Conversion Functions", () => {
                     locationType: "latlng",
                     latitude: listAttribute(() => "40" as any),
                     longitude: listAttribute(() => "-74" as any),
-                    customMarkerDynamic: dynamic({ uri: "custom-marker.png" } as any),
+                    customMarkerDynamic: dynamic.available({ uri: "custom-marker.png" } as any),
                     markerStyleDynamic: "image"
                 };
 

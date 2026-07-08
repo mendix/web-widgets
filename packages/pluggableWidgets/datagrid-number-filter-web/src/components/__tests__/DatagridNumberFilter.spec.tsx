@@ -12,7 +12,6 @@ import { ObservableFilterHost } from "@mendix/widget-plugin-filtering/typings/Ob
 import {
     actionValue,
     dynamic,
-    dynamicValue,
     EditableValueBuilder,
     ListAttributeValueBuilder
 } from "@mendix/widget-plugin-test-utils";
@@ -126,20 +125,20 @@ describe("Number Filter", () => {
 
             describe("with defaultValue", () => {
                 it("initializes with defaultValue", () => {
-                    render(<DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />);
+                    render(<DatagridNumberFilter {...commonProps} defaultValue={dynamic.available(new Big(100))} />);
                     expect(screen.getByRole("textbox")).toHaveValue("100");
                 });
 
                 it("do not sync value and defaultValue when defaultValue changes from undefined to number", () => {
                     const { rerender } = render(<DatagridNumberFilter {...commonProps} defaultValue={undefined} />);
                     expect(screen.getByRole("textbox")).toHaveValue("");
-                    rerender(<DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />);
+                    rerender(<DatagridNumberFilter {...commonProps} defaultValue={dynamic.available(new Big(100))} />);
                     expect(screen.getByRole("textbox")).toHaveValue("");
                 });
 
                 it("do not sync value and defaultValue when defaultValue changes from number to undefined", async () => {
                     const { rerender } = render(
-                        <DatagridNumberFilter {...commonProps} defaultValue={dynamicValue<Big>(new Big(100))} />
+                        <DatagridNumberFilter {...commonProps} defaultValue={dynamic.available(new Big(100))} />
                     );
                     expect(screen.getByRole("textbox")).toHaveValue("100");
                     rerender(<DatagridNumberFilter {...commonProps} defaultValue={undefined} />);
@@ -150,7 +149,7 @@ describe("Number Filter", () => {
 
                 it("clears value when external reset all event is triggered", async () => {
                     const attribute = new EditableValueBuilder<Big>().build();
-                    const value = dynamic<Big>(Big(123));
+                    const value = dynamic.available(Big(123));
                     const { getByRole } = render(
                         <DatagridNumberFilter {...commonProps} valueAttribute={attribute} defaultValue={value} />
                     );

@@ -1,9 +1,9 @@
 import { render, RenderResult } from "@testing-library/react";
 import { ValueStatus } from "mendix";
 import { createElement } from "react";
+import { dynamic } from "@mendix/widget-plugin-test-utils";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps } from "../../typings/PopupMenuProps";
 import { PopupMenu } from "../components/PopupMenu";
-import { dynamicValue } from "../utils/attrValue";
 
 import "@testing-library/jest-dom";
 
@@ -13,7 +13,7 @@ describe("Popup Menu", () => {
     const createPopupMenu = (props: PopupMenuContainerProps): RenderResult => render(<PopupMenu {...props} />);
     const basicItemProps: BasicItemsType = {
         itemType: "item",
-        caption: dynamicValue("Caption"),
+        caption: dynamic.available("Caption"),
         styleClass: "defaultStyle"
     };
     const customItemProps: CustomItemsType = { content: createElement("div", null, null) };
@@ -31,7 +31,7 @@ describe("Popup Menu", () => {
         clickCloseOn: "onClickAnywhere",
         basicItems: [
             basicItemProps,
-            { itemType: "divider", caption: dynamicValue("Caption"), styleClass: "defaultStyle" }
+            { itemType: "divider", caption: dynamic.available("Caption"), styleClass: "defaultStyle" }
         ],
         customItems: [customItemProps],
         clippingStrategy: "absolute"

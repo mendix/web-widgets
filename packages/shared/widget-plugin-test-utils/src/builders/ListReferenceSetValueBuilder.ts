@@ -11,7 +11,7 @@ export class ListReferenceSetValueBuilder {
             type: "ReferenceSet",
             id: `listRefSet_${nanoid()}` as any,
             filterable: true,
-            get: jest.fn((_: ObjectItem) => dynamic(objArray(1)))
+            get: jest.fn((_: ObjectItem) => dynamic.available(objArray(1)))
         };
     }
 

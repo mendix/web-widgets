@@ -68,7 +68,7 @@ describe("The TimeSeries widget", () => {
     });
 
     it("sets the line color on the data series based on the lineColor value", () => {
-        renderTimeSeries([{ lineColor: dynamic("red") }, { lineColor: undefined }]);
+        renderTimeSeries([{ lineColor: dynamic.available("red") }, { lineColor: undefined }]);
 
         const mockCalls = (ChartWidget as jest.Mock).mock.calls;
         const lastCallProps = mockCalls[mockCalls.length - 1][0];
@@ -77,7 +77,7 @@ describe("The TimeSeries widget", () => {
     });
 
     it("sets the marker color on the data series based on the markerColor value", () => {
-        renderTimeSeries([{ markerColor: undefined }, { markerColor: dynamic("blue") }]);
+        renderTimeSeries([{ markerColor: undefined }, { markerColor: dynamic.available("blue") }]);
 
         const mockCalls = (ChartWidget as jest.Mock).mock.calls;
         const lastCallProps = mockCalls[mockCalls.length - 1][0];
@@ -100,7 +100,7 @@ describe("The TimeSeries widget", () => {
     });
 
     it("sets the area fill color on the data series based on fillColor", () => {
-        renderTimeSeries([{ fillColor: dynamic("red") }]);
+        renderTimeSeries([{ fillColor: dynamic.available("red") }]);
 
         const mockCalls = (ChartWidget as jest.Mock).mock.calls;
         const lastCallProps = mockCalls[mockCalls.length - 1][0];

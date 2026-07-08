@@ -40,7 +40,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => new Big("1234.56"));
                 c.exportType = "number";
-                c.exportNumberFormat = dynamic("#,##0.00");
+                c.exportNumberFormat = dynamic.available("#,##0.00");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("n");
@@ -74,7 +74,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => testDate);
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
@@ -164,7 +164,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "1234.56");
                 c.exportType = "number";
-                c.exportNumberFormat = dynamic("#,##0.00");
+                c.exportNumberFormat = dynamic.available("#,##0.00");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("n");
@@ -221,7 +221,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "2024-06-15T00:00:00.000Z");
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
@@ -246,7 +246,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "not-a-date");
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
@@ -258,7 +258,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "");
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
@@ -351,7 +351,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => new Big("9999999999999999999"));
                 c.exportType = "number";
-                c.exportNumberFormat = dynamic("0");
+                c.exportNumberFormat = dynamic.available("0");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("s");
@@ -376,7 +376,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => testDate);
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("dd-mmm-yyyy");
+                c.exportDateFormat = dynamic.available("dd-mmm-yyyy");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
@@ -390,7 +390,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "attribute";
                 c.attribute = listAttribute(() => testDate);
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd hh:mm:ss");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd hh:mm:ss");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
@@ -402,7 +402,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "2024-06-15T10:30:00Z");
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("dd-mmm-yyyy");
+                c.exportDateFormat = dynamic.available("dd-mmm-yyyy");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");
@@ -414,7 +414,7 @@ describe("cell-readers", () => {
                 c.showContentAs = "customContent";
                 c.exportValue = listExpression(() => "2024-06-15T10:30:00Z");
                 c.exportType = "date";
-                c.exportDateFormat = dynamic("yyyy-mm-dd hh:mm:ss");
+                c.exportDateFormat = dynamic.available("yyyy-mm-dd hh:mm:ss");
             });
             const cell = readSingleCell(col);
             expect(cell.t).toBe("d");

@@ -30,8 +30,8 @@ describe("LocationResolverService - Reactivity Tests", () => {
                 props: mockContainerProps({
                     markers: [
                         {
-                            latitude: dynamic("40.7128"),
-                            longitude: dynamic("-74.0060")
+                            latitude: dynamic.available("40.7128"),
+                            longitude: dynamic.available("-74.0060")
                         } as MarkersType
                     ]
                 }),
@@ -45,9 +45,9 @@ describe("LocationResolverService - Reactivity Tests", () => {
             gateProvider.setProps(
                 mockContainerProps({
                     markers: [
-                        { latitude: dynamic("40"), longitude: dynamic("-74") } as MarkersType,
-                        { latitude: dynamic("41"), longitude: dynamic("-75") } as MarkersType,
-                        { latitude: dynamic("42"), longitude: dynamic("-76") } as MarkersType
+                        { latitude: dynamic.available("40"), longitude: dynamic.available("-74") } as MarkersType,
+                        { latitude: dynamic.available("41"), longitude: dynamic.available("-75") } as MarkersType,
+                        { latitude: dynamic.available("42"), longitude: dynamic.available("-76") } as MarkersType
                     ]
                 })
             );
@@ -63,8 +63,8 @@ describe("LocationResolverService - Reactivity Tests", () => {
                 props: mockContainerProps({
                     markers: [
                         {
-                            latitude: dynamic("40"),
-                            longitude: dynamic("-74")
+                            latitude: dynamic.available("40"),
+                            longitude: dynamic.available("-74")
                         } as MarkersType
                     ]
                 }),
@@ -94,8 +94,8 @@ describe("LocationResolverService - Reactivity Tests", () => {
                 props: mockContainerProps({
                     markers: [
                         {
-                            latitude: dynamic("40"),
-                            longitude: dynamic("-74")
+                            latitude: dynamic.available("40"),
+                            longitude: dynamic.available("-74")
                         } as MarkersType
                     ]
                 }),
@@ -117,8 +117,8 @@ describe("LocationResolverService - Reactivity Tests", () => {
             gateProvider.setProps(
                 mockContainerProps({
                     markers: [
-                        { latitude: dynamic("40"), longitude: dynamic("-74") } as MarkersType,
-                        { latitude: dynamic("41"), longitude: dynamic("-75") } as MarkersType
+                        { latitude: dynamic.available("40"), longitude: dynamic.available("-74") } as MarkersType,
+                        { latitude: dynamic.available("41"), longitude: dynamic.available("-75") } as MarkersType
                     ]
                 })
             );
@@ -136,9 +136,9 @@ describe("LocationResolverService - Reactivity Tests", () => {
 
             const markers = [
                 {
-                    latitude: dynamic("40"),
-                    longitude: dynamic("-74"),
-                    title: dynamic("Test")
+                    latitude: dynamic.available("40"),
+                    longitude: dynamic.available("-74"),
+                    title: dynamic.available("Test")
                 } as MarkersType
             ];
 
@@ -175,8 +175,8 @@ describe("LocationResolverService - Reactivity Tests", () => {
                     mockContainerProps({
                         markers: [
                             {
-                                latitude: dynamic(`${40 + i}`),
-                                longitude: dynamic("-74")
+                                latitude: dynamic.available(`${40 + i}`),
+                                longitude: dynamic.available("-74")
                             } as MarkersType
                         ]
                     })
