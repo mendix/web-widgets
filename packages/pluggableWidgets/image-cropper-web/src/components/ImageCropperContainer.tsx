@@ -267,7 +267,26 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 style={props.style}
                 tabIndex={props.tabIndex}
             >
-                No image
+                <svg
+                    className="widget-image-cropper__empty-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                    focusable="false"
+                >
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+                    <line
+                        x1="12"
+                        y1="7.5"
+                        x2="12"
+                        y2="13"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                    />
+                    <circle cx="12" cy="16.25" r="0.9" fill="currentColor" />
+                </svg>
+                <span className="widget-image-cropper__empty-text">No uploaded image to crop</span>
             </div>
         );
     }
