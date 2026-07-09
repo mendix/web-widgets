@@ -309,6 +309,14 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                 zoom={state.zoom}
                 minZoom={Number(props.minZoom)}
                 maxZoom={Number(props.maxZoom)}
+                rotateLeftLabel={props.rotateLeftLabel?.value ?? "Rotate left"}
+                rotateRightLabel={props.rotateRightLabel?.value ?? "Rotate right"}
+                grayscaleCaption={props.grayscaleCaption?.value ?? "Grayscale"}
+                grayscaleAriaLabel={props.grayscaleAriaLabel?.value ?? "Grayscale"}
+                resetCaption={props.resetCaption?.value ?? "Reset"}
+                resetAriaLabel={props.resetAriaLabel?.value ?? "Reset crop"}
+                zoomCaption={props.zoomCaption?.value ?? "Zoom"}
+                zoomAriaLabel={props.zoomAriaLabel?.value ?? "Zoom"}
                 onZoomChange={handleZoomChange}
                 onRotateLeft={() => handleRotate(-90)}
                 onRotateRight={() => handleRotate(90)}

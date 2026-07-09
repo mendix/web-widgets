@@ -20,6 +20,22 @@ export function getProperties(values: ImageCropperPreviewProps, defaultPropertie
         propsToHide.push("showZoomSlider", "wheelZoomMode", "minZoom", "maxZoom");
     }
 
+    if (!values.enableRotation) {
+        propsToHide.push("rotateLeftLabel", "rotateRightLabel");
+    }
+
+    if (!values.enableGrayscale) {
+        propsToHide.push("grayscaleCaption", "grayscaleAriaLabel");
+    }
+
+    if (!values.showResetButton) {
+        propsToHide.push("resetCaption", "resetAriaLabel");
+    }
+
+    if (!values.zoomEnabled || !values.showZoomSlider) {
+        propsToHide.push("zoomCaption", "zoomAriaLabel");
+    }
+
     if (values.outputFormat !== "jpeg") {
         propsToHide.push("outputQuality");
     }

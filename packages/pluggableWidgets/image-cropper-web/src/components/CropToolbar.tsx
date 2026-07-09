@@ -14,6 +14,14 @@ interface CropToolbarProps {
     zoom: number;
     minZoom: number;
     maxZoom: number;
+    rotateLeftLabel: string;
+    rotateRightLabel: string;
+    grayscaleCaption: string;
+    grayscaleAriaLabel: string;
+    resetCaption: string;
+    resetAriaLabel: string;
+    zoomCaption: string;
+    zoomAriaLabel: string;
     onRotateLeft: () => void;
     onRotateRight: () => void;
     onToggleGrayscale: () => void;
@@ -32,8 +40,8 @@ export function CropToolbar(props: CropToolbarProps): ReactElement | null {
                     <button
                         type="button"
                         className="btn btn-default widget-image-cropper__tool widget-image-cropper__tool--icon"
-                        aria-label="Rotate left"
-                        title="Rotate left"
+                        aria-label={props.rotateLeftLabel}
+                        title={props.rotateLeftLabel}
                         onClick={props.onRotateLeft}
                     >
                         <img src={RotateLeftIcon} alt="" className="widget-image-cropper__tool-icon" />
@@ -41,8 +49,8 @@ export function CropToolbar(props: CropToolbarProps): ReactElement | null {
                     <button
                         type="button"
                         className="btn btn-default widget-image-cropper__tool widget-image-cropper__tool--icon"
-                        aria-label="Rotate right"
-                        title="Rotate right"
+                        aria-label={props.rotateRightLabel}
+                        title={props.rotateRightLabel}
                         onClick={props.onRotateRight}
                     >
                         <img src={RotateRightIcon} alt="" className="widget-image-cropper__tool-icon" />
@@ -55,12 +63,12 @@ export function CropToolbar(props: CropToolbarProps): ReactElement | null {
                     className={classNames("btn btn-default widget-image-cropper__tool", {
                         active: props.grayscale
                     })}
-                    aria-label="Grayscale"
-                    title="Grayscale"
+                    aria-label={props.grayscaleAriaLabel}
+                    title={props.grayscaleCaption}
                     aria-pressed={props.grayscale}
                     onClick={props.onToggleGrayscale}
                 >
-                    Grayscale
+                    {props.grayscaleCaption}
                 </button>
             )}
             {props.showZoom && (
@@ -68,6 +76,8 @@ export function CropToolbar(props: CropToolbarProps): ReactElement | null {
                     zoom={props.zoom}
                     minZoom={props.minZoom}
                     maxZoom={props.maxZoom}
+                    label={props.zoomCaption}
+                    ariaLabel={props.zoomAriaLabel}
                     onChange={props.onZoomChange}
                 />
             )}
@@ -75,12 +85,12 @@ export function CropToolbar(props: CropToolbarProps): ReactElement | null {
                 <button
                     type="button"
                     className="btn btn-default widget-image-cropper__reset"
-                    aria-label="Reset crop"
-                    title="Reset"
+                    aria-label={props.resetAriaLabel}
+                    title={props.resetCaption}
                     onClick={props.onReset}
                     disabled={!props.canReset}
                 >
-                    Reset
+                    {props.resetCaption}
                 </button>
             )}
         </div>
