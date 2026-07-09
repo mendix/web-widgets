@@ -111,6 +111,76 @@
                 </property>
             </propertyGroup>
         </propertyGroup>
+        <propertyGroup caption="Accessibility">
+            <propertyGroup caption="Toolbar captions">
+                <property key="grayscaleCaption" type="textTemplate" required="false">
+                    <caption>Grayscale caption</caption>
+                    <description>Visible text and tooltip for the grayscale toggle.</description>
+                    <translations>
+                        <translation lang="en_US">Grayscale</translation>
+                        <translation lang="nl_NL">Grijstinten</translation>
+                    </translations>
+                </property>
+                <property key="resetCaption" type="textTemplate" required="false">
+                    <caption>Reset caption</caption>
+                    <description>Visible text and tooltip for the reset button.</description>
+                    <translations>
+                        <translation lang="en_US">Reset</translation>
+                        <translation lang="nl_NL">Herstellen</translation>
+                    </translations>
+                </property>
+                <property key="zoomCaption" type="textTemplate" required="false">
+                    <caption>Zoom caption</caption>
+                    <description>Visible label for the zoom slider.</description>
+                    <translations>
+                        <translation lang="en_US">Zoom</translation>
+                        <translation lang="nl_NL">Zoomen</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Aria labels">
+                <property key="rotateLeftLabel" type="textTemplate" required="false">
+                    <caption>Rotate left</caption>
+                    <description>Accessible name and tooltip for the rotate-left button.</description>
+                    <translations>
+                        <translation lang="en_US">Rotate left</translation>
+                        <translation lang="nl_NL">Naar links draaien</translation>
+                    </translations>
+                </property>
+                <property key="rotateRightLabel" type="textTemplate" required="false">
+                    <caption>Rotate right</caption>
+                    <description>Accessible name and tooltip for the rotate-right button.</description>
+                    <translations>
+                        <translation lang="en_US">Rotate right</translation>
+                        <translation lang="nl_NL">Naar rechts draaien</translation>
+                    </translations>
+                </property>
+                <property key="grayscaleAriaLabel" type="textTemplate" required="false">
+                    <caption>Grayscale aria label</caption>
+                    <description>Accessible name for the grayscale toggle (announced by screen readers).</description>
+                    <translations>
+                        <translation lang="en_US">Grayscale</translation>
+                        <translation lang="nl_NL">Grijstinten</translation>
+                    </translations>
+                </property>
+                <property key="resetAriaLabel" type="textTemplate" required="false">
+                    <caption>Reset aria label</caption>
+                    <description>Accessible name for the reset button (announced by screen readers).</description>
+                    <translations>
+                        <translation lang="en_US">Reset crop</translation>
+                        <translation lang="nl_NL">Uitsnede herstellen</translation>
+                    </translations>
+                </property>
+                <property key="zoomAriaLabel" type="textTemplate" required="false">
+                    <caption>Zoom aria label</caption>
+                    <description>Accessible name for the zoom slider (announced by screen readers).</description>
+                    <translations>
+                        <translation lang="en_US">Zoom</translation>
+                        <translation lang="nl_NL">Zoomen</translation>
+                    </translations>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
         <propertyGroup caption="Output">
             <propertyGroup caption="Output">
                 <property key="outputFormat" type="enumeration" defaultValue="png" required="true">

@@ -13,6 +13,14 @@ function props(overrides = {}): ComponentProps<typeof CropToolbar> {
         zoom: 1,
         minZoom: 1,
         maxZoom: 4,
+        rotateLeftLabel: "Rotate left",
+        rotateRightLabel: "Rotate right",
+        grayscaleCaption: "Grayscale",
+        grayscaleAriaLabel: "Grayscale",
+        resetCaption: "Reset",
+        resetAriaLabel: "Reset crop",
+        zoomCaption: "Zoom",
+        zoomAriaLabel: "Zoom",
         onRotateLeft: jest.fn(),
         onRotateRight: jest.fn(),
         onToggleGrayscale: jest.fn(),
@@ -54,6 +62,25 @@ describe("<CropToolbar>", () => {
     test("hides zoom slider when showZoom is false", () => {
         render(<CropToolbar {...props({ showZoom: false })} />);
         expect(screen.queryByLabelText("Zoom")).toBeNull();
+    });
+
+    test("renders custom labels and keeps caption independent from aria-label", () => {
+        render(
+            <CropToolbar
+                {...props({
+                    resetCaption: "Undo",
+                    resetAriaLabel: "Undo all crop changes",
+                    grayscaleCaption: "B&W",
+                    grayscaleAriaLabel: "Black and white toggle"
+                })}
+            />
+        );
+        // aria-label drives the accessible name; caption is the visible text/title.
+        const resetBtn = screen.getByRole("button", { name: "Undo all crop changes" });
+        expect(resetBtn).toHaveTextContent("Undo");
+        expect(resetBtn).toHaveAttribute("title", "Undo");
+        const grayscaleBtn = screen.getByRole("button", { name: "Black and white toggle" });
+        expect(grayscaleBtn).toHaveTextContent("B&W");
     });
 
     test("every toolbar button exposes a native title tooltip", () => {

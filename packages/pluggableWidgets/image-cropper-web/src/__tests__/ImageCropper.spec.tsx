@@ -3,7 +3,7 @@ import { Big } from "big.js";
 import { ValueStatus } from "mendix";
 import { Ref } from "react";
 import type { Crop, PixelCrop } from "react-image-crop";
-import { actionValue } from "@mendix/widget-plugin-test-utils";
+import { actionValue, dynamic } from "@mendix/widget-plugin-test-utils";
 import type { ImageCropperContainerProps } from "../../typings/ImageCropperProps";
 
 // Capture the container's callbacks via a mocked CropArea. Real ReactCrop only fires
@@ -283,5 +283,22 @@ describe("<ImageCropper>", () => {
             await Promise.resolve();
         });
         expect(screen.getByRole("button", { name: "Reset crop" })).toBeDisabled();
+    });
+
+    test("configured accessibility labels flow through to the toolbar", () => {
+        render(
+            <ImageCropper
+                {...makeProps({
+                    enableRotation: true,
+                    showResetButton: true,
+                    resetCaption: dynamic("Herstellen"),
+                    resetAriaLabel: dynamic("Uitsnede herstellen"),
+                    rotateLeftLabel: dynamic("Naar links draaien")
+                })}
+            />
+        );
+        expect(screen.getByLabelText("Naar links draaien")).toBeInTheDocument();
+        const resetBtn = screen.getByRole("button", { name: "Uitsnede herstellen" });
+        expect(resetBtn).toHaveTextContent("Herstellen");
     });
 });

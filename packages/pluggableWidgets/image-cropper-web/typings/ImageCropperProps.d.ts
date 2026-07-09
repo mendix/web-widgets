@@ -3,7 +3,7 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, EditableImageValue, WebImage } from "mendix";
+import { ActionValue, DynamicValue, EditableImageValue, WebImage } from "mendix";
 import { Big } from "big.js";
 import { CSSProperties } from "react";
 
@@ -39,6 +39,14 @@ export interface ImageCropperContainerProps {
     wheelZoomMode: WheelZoomModeEnum;
     minZoom: Big;
     maxZoom: Big;
+    grayscaleCaption?: DynamicValue<string>;
+    resetCaption?: DynamicValue<string>;
+    zoomCaption?: DynamicValue<string>;
+    rotateLeftLabel?: DynamicValue<string>;
+    rotateRightLabel?: DynamicValue<string>;
+    grayscaleAriaLabel?: DynamicValue<string>;
+    resetAriaLabel?: DynamicValue<string>;
+    zoomAriaLabel?: DynamicValue<string>;
     outputFormat: OutputFormatEnum;
     outputQuality: Big;
     outputSize: OutputSizeEnum;
@@ -72,6 +80,14 @@ export interface ImageCropperPreviewProps {
     wheelZoomMode: WheelZoomModeEnum;
     minZoom: number | null;
     maxZoom: number | null;
+    grayscaleCaption: string;
+    resetCaption: string;
+    zoomCaption: string;
+    rotateLeftLabel: string;
+    rotateRightLabel: string;
+    grayscaleAriaLabel: string;
+    resetAriaLabel: string;
+    zoomAriaLabel: string;
     outputFormat: OutputFormatEnum;
     outputQuality: number | null;
     outputSize: OutputSizeEnum;
