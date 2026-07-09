@@ -25,6 +25,8 @@ export async function downloadCode(
         // Process overlay images for QR codes
         if (config.type === "qrcode") {
             await processQRImages(clonedSvg);
+        } else if (config.type === "datamatrix") {
+            fileNamePrefix = config.gs1Mode ? "datamatrix_gs1" : "datamatrix";
         } else {
             fileNamePrefix = `${config.type}_${config.format}`;
         }
