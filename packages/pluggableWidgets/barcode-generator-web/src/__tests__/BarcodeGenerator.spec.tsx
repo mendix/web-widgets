@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom";
+import * as bwip from "@bwip-js/browser";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Big } from "big.js";
@@ -32,6 +33,19 @@ jest.mock("qrcode.react", () => ({
 jest.mock("../utils/download-code", () => ({
     downloadCode: jest.fn()
 }));
+
+// Mock bwip-js (ESM-only, not resolvable in jest without transform)
+jest.mock(
+    "@bwip-js/browser",
+    () => ({
+        drawingSVG: jest.fn(() => ({})),
+        datamatrix: jest.fn(() => "<svg data-testid='datamatrix'></svg>"),
+        datamatrixrectangular: jest.fn(() => "<svg data-testid='datamatrix-rect'></svg>"),
+        gs1datamatrix: jest.fn(() => "<svg data-testid='gs1datamatrix'></svg>"),
+        gs1datamatrixrectangular: jest.fn(() => "<svg data-testid='gs1datamatrix-rect'></svg>")
+    }),
+    { virtual: true }
+);
 
 import {
     BarcodeGeneratorContainerProps,
@@ -71,6 +85,9 @@ const createBarcodeProps = (
     codeMargin: 4,
     qrSize: 128,
     qrMargin: 2,
+    dmGs1Mode: false,
+    dmShape: "square",
+    dmSize: 128,
     qrTitle: dynamic.available(""),
     qrLevel: "L",
     qrOverlay: false,
@@ -1036,6 +1053,69 @@ describe("BarcodeGenerator", () => {
                 })
             );
             expect(screen.getByText("Export")).toBeInTheDocument();
+        });
+    });
+
+    describe("Data Matrix", () => {
+        beforeEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it("renders a plain Data Matrix using the datamatrix encoder", () => {
+            const props = createBarcodeProps({
+                codeFormat: "DataMatrix" as CodeFormatEnum,
+                codeValue: dynamic.available("ABC-12345")
+            });
+
+            render(<BarcodeGenerator {...props} />);
+
+            expect(bwip.datamatrix).toHaveBeenCalledWith(
+                expect.objectContaining({ bcid: "datamatrix", text: "ABC-12345" }),
+                expect.anything()
+            );
+            expect(bwip.gs1datamatrix).not.toHaveBeenCalled();
+        });
+
+        it("uses the gs1datamatrix encoder in GS1 mode", () => {
+            const props = createBarcodeProps({
+                codeFormat: "DataMatrix" as CodeFormatEnum,
+                dmGs1Mode: true,
+                codeValue: dynamic.available("(01)09501101020917(17)261231(10)ABC123")
+            });
+
+            render(<BarcodeGenerator {...props} />);
+
+            expect(bwip.gs1datamatrix).toHaveBeenCalledWith(
+                expect.objectContaining({ bcid: "gs1datamatrix", parse: true }),
+                expect.anything()
+            );
+            expect(bwip.datamatrix).not.toHaveBeenCalled();
+        });
+
+        it("uses the rectangular encoder for the rectangle shape", () => {
+            const props = createBarcodeProps({
+                codeFormat: "DataMatrix" as CodeFormatEnum,
+                dmShape: "rectangle",
+                codeValue: dynamic.available("RECT")
+            });
+
+            render(<BarcodeGenerator {...props} />);
+
+            expect(bwip.datamatrixrectangular).toHaveBeenCalled();
+        });
+
+        it("shows the error alert when GS1 syntax is malformed and log level is not None", () => {
+            const props = createBarcodeProps({
+                codeFormat: "DataMatrix" as CodeFormatEnum,
+                dmGs1Mode: true,
+                logLevel: "Debug",
+                codeValue: dynamic.available("not-a-valid-ai")
+            });
+
+            render(<BarcodeGenerator {...props} />);
+
+            expect(screen.getByText(/Unable to generate Data Matrix/)).toBeInTheDocument();
+            expect(bwip.gs1datamatrix).not.toHaveBeenCalled();
         });
     });
 });
