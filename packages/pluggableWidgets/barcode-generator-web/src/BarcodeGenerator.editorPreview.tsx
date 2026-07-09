@@ -4,6 +4,7 @@ import { parseStyle } from "@mendix/widget-plugin-platform/preview/parse-style";
 import { BarcodeGeneratorPreviewProps } from "../typings/BarcodeGeneratorProps";
 import { DownloadIcon } from "./components/icons/DownloadIcon";
 import { BarcodePreview } from "./components/preview/BarcodePreview";
+import { DataMatrixPreview } from "./components/preview/DataMatrixPreview";
 import { QRCodePreview } from "./components/preview/QRCodePreview";
 
 const defaultDownloadCaption = "Download";
@@ -23,6 +24,7 @@ function PreviewDownloadButton(props: BarcodeGeneratorPreviewProps): ReactElemen
 export function preview(props: BarcodeGeneratorPreviewProps): ReactElement {
     const styles = parseStyle(props.style);
     const isQrCode = props.codeFormat === "QRCode";
+    const isDataMatrix = props.codeFormat === "DataMatrix";
     const downloadButton = <PreviewDownloadButton {...props} />;
 
     return (
@@ -34,6 +36,8 @@ export function preview(props: BarcodeGeneratorPreviewProps): ReactElement {
         >
             {isQrCode ? (
                 <QRCodePreview {...props} downloadButton={downloadButton} />
+            ) : isDataMatrix ? (
+                <DataMatrixPreview {...props} downloadButton={downloadButton} />
             ) : (
                 <BarcodePreview {...props} downloadButton={downloadButton} />
             )}
