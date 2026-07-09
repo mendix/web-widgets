@@ -553,6 +553,9 @@ importers:
 
   packages/pluggableWidgets/barcode-generator-web:
     dependencies:
+      '@bwip-js/browser':
+        specifier: ^4.11.2
+        version: 4.11.2
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -3941,6 +3944,9 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+
+  '@bwip-js/browser@4.11.2':
+    resolution: {integrity: sha512-+6wZZY218c0Q6e9xjpESAs851ezWp8pZp2vS7WSjwX0GBOeGoT04NbvgHWPvtg4NIWXEIxoOgSBPnhmkFXhyNg==}
 
   '@choojs/findup@0.2.1':
     resolution: {integrity: sha512-YstAqNb0MCN8PjdLCDfRsBcGVRN41f3vgLvaI0IrIcBp4AqILRSS0DeWNGkicC+f/zRIPJLc+9RURVSepwvfBw==}
@@ -11959,6 +11965,8 @@ snapshots:
       '@babel/helper-validator-identifier': 7.29.7
 
   '@bcoe/v8-coverage@0.2.3': {}
+
+  '@bwip-js/browser@4.11.2': {}
 
   '@choojs/findup@0.2.1':
     dependencies:

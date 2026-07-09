@@ -43,6 +43,7 @@
         "verify": "rui-verify-package-format"
     },
     "dependencies": {
+        "@bwip-js/browser": "^4.11.2",
         "classnames": "^2.5.1",
         "jsbarcode": "^3.12.1",
         "qrcode.react": "^4.2.0"
