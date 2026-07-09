@@ -245,7 +245,7 @@ describe("<ImageCropper> rotation/grayscale integration", () => {
 
         // Reset should stop showing the rotated preview (revert to original bytes / bound uri).
         await act(async () => {
-            fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+            fireEvent.click(screen.getByRole("button", { name: "Reset crop" }));
             await Promise.resolve();
             await Promise.resolve();
         });
