@@ -4,16 +4,17 @@ import { useMemo } from "react";
 export function useFloatingMenu(open: boolean): ReturnType<typeof useFloating> {
     const middleware = useMemo(
         () => [
-            size({
-                apply({ rects, elements }) {
-                    Object.assign(elements.floating.style, {
-                        width: `${rects.reference.width}px`
-                    });
-                }
-            }),
             flip({
                 crossAxis: false,
                 fallbackStrategy: "bestFit"
+            }),
+            size({
+                apply({ rects, elements, availableHeight }) {
+                    Object.assign(elements.floating.style, {
+                        width: `${rects.reference.width}px`,
+                        maxHeight: `${availableHeight}px`
+                    });
+                }
             })
         ],
         []

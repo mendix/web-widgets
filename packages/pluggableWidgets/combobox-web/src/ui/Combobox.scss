@@ -24,7 +24,9 @@ $cb-skeleton-dark: #d2d2d2;
     transition: color 150ms ease 0s;
     &-menu {
         position: absolute;
-        display: inline;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
         border-radius: var(--dropdown-border-radius, $cb-menu-border-radius);
         margin: var(--spacing-smaller, $cb-spacing) 0 var(--spacing-smaller, $cb-spacing) 0;
         width: 100%;
@@ -39,6 +41,7 @@ $cb-skeleton-dark: #d2d2d2;
             padding: 0;
             margin-bottom: 0;
             max-height: 320px;
+            min-height: 0;
             overflow-y: auto;
             &:last-child {
                 margin-bottom: var(--dropdown-outer-padding, $cb-menu-outer-padding);
