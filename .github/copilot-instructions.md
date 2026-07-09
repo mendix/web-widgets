@@ -7,7 +7,6 @@ Use this guide to review both code and workflow. Focus on Mendix pluggable widge
 - **Monorepo** with packages under `packages/`:
     - `packages/pluggableWidgets/*-web`
     - `packages/modules/*`
-    - `packages/customWidgets/*`
     - `packages/shared/*` (configs, plugins)
 - **Stack**: TypeScript, React, SCSS, Rollup via `@mendix/pluggable-widgets-tools`, Jest/RTL, ESLint/Prettier.
 - **Commands** (root): `pnpm lint`, `pnpm test`, `pnpm build`, `pnpm -w changelog`, `pnpm -w version`.
