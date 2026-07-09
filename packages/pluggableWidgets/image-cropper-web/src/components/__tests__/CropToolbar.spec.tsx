@@ -28,7 +28,7 @@ describe("<CropToolbar>", () => {
         render(<CropToolbar {...p} />);
         fireEvent.click(screen.getByLabelText("Rotate left"));
         fireEvent.click(screen.getByLabelText("Rotate right"));
-        fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+        fireEvent.click(screen.getByRole("button", { name: "Reset crop" }));
         expect(p.onRotateLeft).toHaveBeenCalledTimes(1);
         expect(p.onRotateRight).toHaveBeenCalledTimes(1);
         expect(p.onReset).toHaveBeenCalledTimes(1);
@@ -43,12 +43,12 @@ describe("<CropToolbar>", () => {
         render(<CropToolbar {...props({ showRotation: false, showGrayscale: false, showReset: false })} />);
         expect(screen.queryByLabelText("Rotate left")).toBeNull();
         expect(screen.queryByLabelText("Grayscale")).toBeNull();
-        expect(screen.queryByRole("button", { name: "Reset" })).toBeNull();
+        expect(screen.queryByRole("button", { name: "Reset crop" })).toBeNull();
     });
 
     test("reset button disabled when canReset is false", () => {
         render(<CropToolbar {...props({ canReset: false })} />);
-        expect(screen.getByRole("button", { name: "Reset" })).toBeDisabled();
+        expect(screen.getByRole("button", { name: "Reset crop" })).toBeDisabled();
     });
 
     test("hides zoom slider when showZoom is false", () => {
@@ -61,6 +61,6 @@ describe("<CropToolbar>", () => {
         expect(screen.getByRole("button", { name: "Rotate left" })).toHaveAttribute("title", "Rotate left");
         expect(screen.getByRole("button", { name: "Rotate right" })).toHaveAttribute("title", "Rotate right");
         expect(screen.getByRole("button", { name: "Grayscale" })).toHaveAttribute("title", "Grayscale");
-        expect(screen.getByRole("button", { name: "Reset" })).toHaveAttribute("title", "Reset");
+        expect(screen.getByRole("button", { name: "Reset crop" })).toHaveAttribute("title", "Reset");
     });
 });

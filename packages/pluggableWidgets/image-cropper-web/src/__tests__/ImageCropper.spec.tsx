@@ -247,7 +247,7 @@ describe("<ImageCropper>", () => {
             await Promise.resolve();
         });
         (image.setValue as jest.Mock).mockClear();
-        fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+        fireEvent.click(screen.getByRole("button", { name: "Reset crop" }));
         await flushApply();
         expect((image.setValue as jest.Mock).mock.calls[0]?.[0]).toBeInstanceOf(File);
     });
@@ -265,7 +265,7 @@ describe("<ImageCropper>", () => {
         act(() => {
             captured.onImageLoad(PERCENT_CROP, PIXEL_CROP);
         });
-        fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+        fireEvent.click(screen.getByRole("button", { name: "Reset crop" }));
         await flushApply();
         // Box is re-seeded (not undefined) to the default 80%-centered percent crop.
         expect(captured.crop).toBeDefined();
@@ -282,6 +282,6 @@ describe("<ImageCropper>", () => {
             await Promise.resolve();
             await Promise.resolve();
         });
-        expect(screen.getByRole("button", { name: "Reset" })).toBeDisabled();
+        expect(screen.getByRole("button", { name: "Reset crop" })).toBeDisabled();
     });
 });

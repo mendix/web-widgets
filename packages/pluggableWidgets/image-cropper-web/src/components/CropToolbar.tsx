@@ -75,6 +75,7 @@ export function CropToolbar(props: CropToolbarProps): ReactElement | null {
                 <button
                     type="button"
                     className="btn btn-default widget-image-cropper__reset"
+                    aria-label="Reset crop"
                     title="Reset"
                     onClick={props.onReset}
                     disabled={!props.canReset}
