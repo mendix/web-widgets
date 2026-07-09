@@ -55,7 +55,15 @@ export interface QRCodeTypeConfig extends CodeBaseTypeConfig {
     };
 }
 
-export type BarcodeConfig = BarcodeTypeConfig | QRCodeTypeConfig;
+/** Configuration for Data Matrix rendering */
+export interface DataMatrixTypeConfig extends CodeBaseTypeConfig {
+    type: "datamatrix";
+    size: number;
+    gs1Mode: boolean;
+    shape: "square" | "rectangle";
+}
+
+export type BarcodeConfig = BarcodeTypeConfig | QRCodeTypeConfig | DataMatrixTypeConfig;
 
 export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeConfig {
     const codeValue = props.codeValue?.value ?? "";
@@ -76,6 +84,16 @@ export function barcodeConfig(props: BarcodeGeneratorContainerProps): BarcodeCon
         logLevel: props.logLevel,
         downloadButton: downloadButtonConfig
     };
+
+    if (format === "DataMatrix") {
+        return {
+            type: "datamatrix",
+            ...baseConfig,
+            size: props.dmSize ?? 128,
+            gs1Mode: props.dmGs1Mode ?? false,
+            shape: props.dmShape ?? "square"
+        };
+    }
 
     if (format === "QRCode") {
         return {
