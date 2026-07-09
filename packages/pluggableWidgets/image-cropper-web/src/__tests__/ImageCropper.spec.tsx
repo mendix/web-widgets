@@ -140,7 +140,7 @@ describe("<ImageCropper>", () => {
     test("renders empty state when image has no value", () => {
         const props = makeProps({ image: makeImageProp({ value: undefined }) });
         render(<ImageCropper {...props} />);
-        expect(screen.getByText("No image")).toBeInTheDocument();
+        expect(screen.getByText("No uploaded image to crop")).toBeInTheDocument();
     });
 
     test("does NOT auto-apply on initial image load (no data mutation without user intent)", async () => {

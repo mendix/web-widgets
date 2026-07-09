@@ -94,10 +94,30 @@ $image-cropper-gray-light: #6c757d;
         vertical-align: middle;
     }
 
-    &__error,
-    &--empty {
+    &__error {
         padding: 8px;
         color: #b00;
+    }
+
+    // Informational empty state — no image bound yet. Uses Atlas's semantic
+    // "info" color (not the error red) so it reads as guidance, not a failure.
+    &--empty {
+        display: flex;
+        flex-direction: row; // override the base column so icon + text share one line
+        align-items: center;
+        gap: 8px;
+        padding: 12px;
+        color: var(--brand-info, #0086d9);
+    }
+
+    &__empty-icon {
+        flex: 0 0 auto;
+        width: 1.5em; // scales with the text via font-size / em
+        height: 1.5em;
+    }
+
+    &__empty-text {
+        line-height: 1.2;
     }
 
     &--loading {
