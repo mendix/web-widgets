@@ -8,9 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- We fixed an issue where the combobox menu jumped around and flickered between opening above and below the input.
+
 - We fixed an issue where the combobox collapsed to 1px width when placed inside a flex row container with `align-items: center`.
 
 - We fixed an issue where the widget crashed when using the "On filter input change" action with the new string behavior enabled.
+
+### Changed
+
+- The combobox menu now keeps a stable position and, when there is not enough space, shrinks and scrolls instead of overflowing the viewport.
 
 ## [2.8.1] - 2026-04-30
 
