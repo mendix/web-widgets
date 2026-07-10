@@ -76,7 +76,7 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
     </div>
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
-      style="visibility: hidden; position: fixed;"
+      style="--this-is-mocked-from-unit-tests: true;"
     >
       <div
         class="widget-combobox-menu-header widget-combobox-item"
@@ -186,7 +186,7 @@ exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / 
     </div>
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
-      style="visibility: visible; position: fixed; width: 0px; top: 0px; left: 0px;"
+      style="--this-is-mocked-from-unit-tests: true;"
     >
       <div
         class="widget-combobox-menu-header widget-combobox-item"
@@ -296,7 +296,7 @@ exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1
     </div>
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
-      style="visibility: hidden; position: fixed;"
+      style="--this-is-mocked-from-unit-tests: true;"
     >
       <div
         class="widget-combobox-menu-header widget-combobox-item"

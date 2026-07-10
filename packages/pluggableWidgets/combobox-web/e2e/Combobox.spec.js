@@ -172,6 +172,71 @@ test.describe("combobox-web", () => {
             await expect(getOptions(comboBox)).toHaveText(["Antartica", "Australia"]);
         });
     });
+
+    test.describe("menu positioning (floating-ui)", () => {
+        // Regression for WC-3406: the menu used to flip between above/below the input
+        // and jump when its content height changed. It must now settle in one place and,
+        // when space is tight, shrink + scroll within the viewport instead of overflowing.
+
+        test("menu does not jump (top stays stable) while open", async ({ page }) => {
+            const comboBox = page.locator(".mx-name-comboBox2");
+            await expect(comboBox).toBeVisible({ timeout: 10000 });
+
+            await comboBox.click();
+            const menu = page.locator(".mx-name-comboBox2 .widget-combobox-menu").first();
+            await expect(menu).toBeVisible();
+
+            // Let floating-ui position it, then sample the top across several frames.
+            const readTop = () => menu.evaluate(el => el.getBoundingClientRect().top);
+            const first = await readTop();
+            const samples = [];
+            for (let i = 0; i < 5; i++) {
+                await page.waitForTimeout(60);
+                samples.push(await readTop());
+            }
+
+            // No oscillation: every later sample equals the first (sub-pixel tolerance).
+            for (const top of samples) {
+                expect(Math.abs(top - first)).toBeLessThanOrEqual(1);
+            }
+        });
+
+        test("menu shrinks and stays within the viewport when space is tight", async ({ page }) => {
+            const comboBox = page.locator(".mx-name-comboBox2");
+            await expect(comboBox).toBeVisible({ timeout: 10000 });
+
+            // Shrink the viewport so there is little room below the input, forcing the
+            // size() middleware to cap the menu height.
+            await page.setViewportSize({ width: 1024, height: 360 });
+
+            await comboBox.click();
+            const menu = page.locator(".mx-name-comboBox2 .widget-combobox-menu").first();
+            await expect(menu).toBeVisible();
+
+            const box = await menu.boundingBox();
+            const viewport = page.viewportSize();
+
+            // Menu bottom stays on screen (respecting the 8px viewport padding).
+            expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
+            // Menu height is capped below the 320px default because space is limited.
+            expect(box.height).toBeLessThan(320);
+        });
+
+        test("menu width matches the input width", async ({ page }) => {
+            const comboBox = page.locator(".mx-name-comboBox2");
+            await expect(comboBox).toBeVisible({ timeout: 10000 });
+
+            const inputContainer = comboBox.locator(".widget-combobox-input-container").first();
+            await comboBox.click();
+            const menu = page.locator(".mx-name-comboBox2 .widget-combobox-menu").first();
+            await expect(menu).toBeVisible();
+
+            const inputBox = await inputContainer.boundingBox();
+            const menuBox = await menu.boundingBox();
+
+            expect(Math.abs(menuBox.width - inputBox.width)).toBeLessThanOrEqual(1);
+        });
+    });
 });
 
 function getOptions(combobox) {
