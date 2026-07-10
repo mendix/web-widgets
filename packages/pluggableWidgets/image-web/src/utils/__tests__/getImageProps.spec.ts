@@ -81,7 +81,15 @@ describe("getImageProps", () => {
             expect(getImageProps(input)).toEqual({ type: "image", image: "https://example.com/image.jpg" });
         });
 
-        it("returns undefined image when imageUrl is loading", () => {
+        it("returns stale URL when imageUrl is loading with a cached value", () => {
+            const input: GetImagePropsInput = {
+                datasource: "imageUrl",
+                imageUrl: dynamic.loading("https://example.com/image.jpg")
+            };
+            expect(getImageProps(input)).toEqual({ type: "image", image: "https://example.com/image.jpg" });
+        });
+
+        it("returns undefined image when imageUrl is loading with no cached value", () => {
             const input: GetImagePropsInput = {
                 datasource: "imageUrl",
                 imageUrl: dynamic.loading<string>()
