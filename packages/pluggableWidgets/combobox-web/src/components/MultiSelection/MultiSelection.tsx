@@ -4,6 +4,7 @@ import { ClearButton } from "../../assets/icons";
 import { MultiSelector, SelectionBaseProps } from "../../helpers/types";
 import { getInputLabel, getSelectedCaptionsPlaceholder, getValidationErrorId } from "../../helpers/utils";
 import { useDownshiftMultiSelectProps } from "../../hooks/useDownshiftMultiSelectProps";
+import { useFloatingMenu } from "../../hooks/useFloatingMenu";
 import { useLazyLoading } from "../../hooks/useLazyLoading";
 import { ComboboxWrapper } from "../ComboboxWrapper";
 import { InputPlaceholder } from "../Placeholder";
@@ -35,6 +36,7 @@ export function MultiSelection({
         setSelectedItems,
         toggleSelectedItem
     } = useDownshiftMultiSelectProps(selector, options, inputRef, a11yConfig.a11yStatusMessage);
+    const { refs, floatingStyles } = useFloatingMenu(isOpen);
     const isSelectedItemsBoxStyle = selector.selectedItemsStyle === "boxes";
     const isOptionsSelected = selector.isOptionsSelected();
     const inputLabel = getInputLabel(options.inputId);
@@ -90,6 +92,7 @@ export function MultiSelection({
     return (
         <Fragment>
             <ComboboxWrapper
+                ref={refs.setReference}
                 isOpen={isOpen}
                 readOnly={selector.readOnly}
                 readOnlyStyle={options.readOnlyStyle}
@@ -201,6 +204,8 @@ export function MultiSelection({
                 isLoading={selector.options.isLoading}
                 lazyLoading={lazyLoading}
                 onScroll={onScroll}
+                floatingRef={refs.setFloating}
+                floatingStyles={floatingStyles}
             />
         </Fragment>
     );
