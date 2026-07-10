@@ -25,6 +25,7 @@ export class PusherListener {
     private eventHandlersMap: Map<string, () => void> = new Map();
     private globalCallback: ((eventName: string, data: unknown) => void) | null = null;
     private onError?: (error: Error) => void;
+    private destroyed = false;
 
     constructor(private config: PusherConfig) {
         this.pusher = new Pusher(this.config.key, {
@@ -47,6 +48,9 @@ export class PusherListener {
      * Only resubscribes when channel name changes, not when handlers change
      */
     subscribe(config: SubscriptionConfig): void {
+        if (this.destroyed) {
+            return;
+        }
         // Only resubscribe if channel name changes
         if (config.channelName !== this.currentChannelName) {
             this.unsubscribe();
@@ -64,12 +68,13 @@ export class PusherListener {
 
             // Bind error handler
             this.currentChannel.bind("pusher:subscription_error", (error: unknown) => {
-                console.error(error);
-                const errorMsg =
-                    error === 515
-                        ? "Authentication failed. Please verify Pusher configuration constants."
-                        : `Subscription error: ${String(error)}`;
-                this.onError?.(new Error(errorMsg));
+                if (isAuthError(error)) {
+                    // 403 from auth endpoint — object not yet known to server, silent in happy flow
+                    console.debug("[PusherListener] Channel auth returned 403, skipping subscription.");
+                    return;
+                }
+                console.error("[PusherListener] Subscription error:", error);
+                this.onError?.(new Error(`Subscription error: ${String(error)}`));
             });
         }
 
@@ -87,16 +92,16 @@ export class PusherListener {
      * Unsubscribe from current channel
      */
     unsubscribe(): void {
-        if (this.currentChannel && this.currentChannelName) {
-            // Unbind all channel events (both global and specific)
-            this.currentChannel.unbind_all();
-            this.pusher.unsubscribe(this.currentChannelName);
-            this.currentChannel = null;
-            this.currentChannelName = null;
-            this.globalCallback = null;
-            this.eventHandlersMap.clear();
-            this.onError = undefined;
+        if (this.destroyed || !this.currentChannel || !this.currentChannelName) {
+            return;
         }
+        this.currentChannel.unbind_all();
+        this.pusher.unsubscribe(this.currentChannelName);
+        this.currentChannel = null;
+        this.currentChannelName = null;
+        this.globalCallback = null;
+        this.eventHandlersMap.clear();
+        this.onError = undefined;
     }
 
     /**
@@ -104,6 +109,10 @@ export class PusherListener {
      * Should be called on widget unmount
      */
     destroy(): void {
+        if (this.destroyed) {
+            return;
+        }
+        this.destroyed = true;
         this.unsubscribe();
         this.pusher.connection.unbind();
         this.pusher.disconnect();
@@ -116,4 +125,8 @@ export class PusherListener {
     private handleStateChange = (states: { previous: string; current: string }): void => {
         console.debug(`[PusherListener] State changed: ${states.previous} → ${states.current}`);
     };
+}
+
+function isAuthError(error: unknown): boolean {
+    return typeof error === "object" && error !== null && (error as { status?: number }).status === 403;
 }
