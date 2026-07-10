@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom";
+jest.mock("../hooks/useFloatingMenu");
 import { fireEvent, render, RenderResult, waitFor } from "@testing-library/react";
 import { resetIdCounter } from "downshift";
 import { ListValue } from "mendix";
@@ -93,6 +94,16 @@ describe("Combo box (Association)", () => {
         defaultProps.attributeAssociation = new ReferenceSetValueBuilder().isUnavailable().build();
         const { container } = render(<Combobox {...defaultProps} />);
         expect(container.getElementsByClassName("widget-combobox-placeholder")).toHaveLength(1);
+    });
+    it("positions the open menu via floating-ui (applies floatingStyles to the menu)", async () => {
+        const component = render(<Combobox {...defaultProps} />);
+        const input = await getInput(component);
+        fireEvent.click(input);
+        await waitFor(() => {
+            expect(component.getAllByRole("option")).toHaveLength(4);
+        });
+        const menu = component.container.querySelector(".widget-combobox-menu") as HTMLElement;
+        expect(menu.style.getPropertyValue("--this-is-mocked-from-unit-tests")).toEqual("true");
     });
     it("toggles combobox menu on: input CLICK(focus) / BLUR", async () => {
         const component = render(<Combobox {...defaultProps} />);
