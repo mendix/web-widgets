@@ -32,6 +32,7 @@ function makePreviewProps(overrides: Partial<ImageCropperPreviewProps> = {}): Im
         grayscaleCaption: "Grayscale",
         resetCaption: "Reset",
         zoomCaption: "Zoom",
+        noImageCaption: "No uploaded image to crop",
         rotateLeftLabel: "Rotate left",
         rotateRightLabel: "Rotate right",
         grayscaleAriaLabel: "Grayscale",

@@ -286,7 +286,9 @@ export function ImageCropperContainer(props: ImageCropperContainerProps): ReactE
                     />
                     <circle cx="12" cy="16.25" r="0.9" fill="currentColor" />
                 </svg>
-                <span className="widget-image-cropper__empty-text">No uploaded image to crop</span>
+                <span className="widget-image-cropper__empty-text">
+                    {props.noImageCaption?.value ?? "No uploaded image to crop"}
+                </span>
             </div>
         );
     }

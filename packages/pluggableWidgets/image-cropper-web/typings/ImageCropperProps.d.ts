@@ -42,6 +42,7 @@ export interface ImageCropperContainerProps {
     grayscaleCaption?: DynamicValue<string>;
     resetCaption?: DynamicValue<string>;
     zoomCaption?: DynamicValue<string>;
+    noImageCaption?: DynamicValue<string>;
     rotateLeftLabel?: DynamicValue<string>;
     rotateRightLabel?: DynamicValue<string>;
     grayscaleAriaLabel?: DynamicValue<string>;
@@ -83,6 +84,7 @@ export interface ImageCropperPreviewProps {
     grayscaleCaption: string;
     resetCaption: string;
     zoomCaption: string;
+    noImageCaption: string;
     rotateLeftLabel: string;
     rotateRightLabel: string;
     grayscaleAriaLabel: string;
