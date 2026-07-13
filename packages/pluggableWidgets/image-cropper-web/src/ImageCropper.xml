@@ -137,6 +137,14 @@
                         <translation lang="nl_NL">Zoomen</translation>
                     </translations>
                 </property>
+                <property key="noImageCaption" type="textTemplate" required="false">
+                    <caption>No image message</caption>
+                    <description>Shown when no image is bound to the image attribute.</description>
+                    <translations>
+                        <translation lang="en_US">No uploaded image to crop</translation>
+                        <translation lang="nl_NL">Geen geüploade afbeelding om bij te snijden</translation>
+                    </translations>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Aria labels">
                 <property key="rotateLeftLabel" type="textTemplate" required="false">
@@ -156,7 +164,7 @@
                     </translations>
                 </property>
                 <property key="grayscaleAriaLabel" type="textTemplate" required="false">
-                    <caption>Grayscale aria label</caption>
+                    <caption>Grayscale</caption>
                     <description>Accessible name for the grayscale toggle (announced by screen readers).</description>
                     <translations>
                         <translation lang="en_US">Grayscale</translation>
@@ -164,7 +172,7 @@
                     </translations>
                 </property>
                 <property key="resetAriaLabel" type="textTemplate" required="false">
-                    <caption>Reset aria label</caption>
+                    <caption>Reset</caption>
                     <description>Accessible name for the reset button (announced by screen readers).</description>
                     <translations>
                         <translation lang="en_US">Reset crop</translation>
@@ -172,7 +180,7 @@
                     </translations>
                 </property>
                 <property key="zoomAriaLabel" type="textTemplate" required="false">
-                    <caption>Zoom aria label</caption>
+                    <caption>Zoom</caption>
                     <description>Accessible name for the zoom slider (announced by screen readers).</description>
                     <translations>
                         <translation lang="en_US">Zoom</translation>
