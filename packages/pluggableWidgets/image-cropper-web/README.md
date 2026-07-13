@@ -1,5 +1,1 @@
-# Image Cropper
-
-Crops images bound to a Mendix image attribute. The cropped result is written back to the same attribute.
-
-See the [Mendix Marketplace listing](https://marketplace.mendix.com/) for usage docs.
+Please see [Image Cropper](https://docs.mendix.com/appstore/widgets/image-cropper) in the Mendix documentation for details.
