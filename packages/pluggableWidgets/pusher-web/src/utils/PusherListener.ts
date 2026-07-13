@@ -38,9 +38,7 @@ export class PusherListener {
             }
         });
 
-        // Setup connection event handlers
         this.pusher.connection.bind("error", this.handleConnectionError);
-        this.pusher.connection.bind("state_change", this.handleStateChange);
     }
 
     /**
@@ -69,8 +67,6 @@ export class PusherListener {
             // Bind error handler
             this.currentChannel.bind("pusher:subscription_error", (error: unknown) => {
                 if (isAuthError(error)) {
-                    // 403 from auth endpoint — object not yet known to server, silent in happy flow
-                    console.debug("[PusherListener] Channel auth returned 403, skipping subscription.");
                     return;
                 }
                 console.error("[PusherListener] Subscription error:", error);
@@ -120,10 +116,6 @@ export class PusherListener {
 
     private handleConnectionError = (error: unknown): void => {
         console.error("[PusherListener] Connection error:", error);
-    };
-
-    private handleStateChange = (states: { previous: string; current: string }): void => {
-        console.debug(`[PusherListener] State changed: ${states.previous} → ${states.current}`);
     };
 }
 
